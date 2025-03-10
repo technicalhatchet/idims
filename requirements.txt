@@ -1,0 +1,66 @@
+# FastAPI and ASGI server
+fastapi==0.103.1
+uvicorn[standard]==0.23.2
+gunicorn==21.2.0
+
+# Database
+sqlalchemy==2.0.20
+psycopg2-binary==2.9.7
+alembic==1.12.0
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Environment variables
+pydantic==2.3.0
+python-dotenv==1.0.0
+
+# Background processing
+celery==5.3.4
+redis==5.0.0
+flower==2.0.1
+
+# HTTP and API utilities
+requests==2.31.0
+httpx==0.24.1
+aiohttp==3.8.5
+
+# Datetime handling
+python-dateutil==2.8.2
+
+# Logging
+structlog==23.1.0
+
+# AWS SDK (for S3, SES, etc.)
+boto3==1.28.40
+
+# Email services
+sendgrid==6.10.0
+
+# SMS services
+twilio==8.5.0
+
+# Image processing
+pillow==10.0.0
+
+# PDF generation
+reportlab==4.0.4
+
+# Excel file handling
+openpyxl==3.1.2
+xlsxwriter==3.1.2
+
+# Testing
+pytest==7.4.2
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+
+# Linting and formatting
+black==23.7.0
+flake8==6.1.0
+isort==5.12.0
+
+# Development tools
+ipython==8.15.0
