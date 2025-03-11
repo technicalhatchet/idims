@@ -30,6 +30,10 @@ export default function StatusBadge({ status, size = "medium" }) {
         return { bg: 'bg-green-100', text: 'text-green-800', label: 'Accepted' };
       case 'rejected':
         return { bg: 'bg-red-100', text: 'text-red-800', label: 'Rejected' };
+      case 'active':
+        return { bg: 'bg-green-100', text: 'text-green-800', label: 'Active' };
+      case 'inactive':
+        return { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Inactive' };
       default:
         return { bg: 'bg-gray-100', text: 'text-gray-800', label: status || 'Unknown' };
     }

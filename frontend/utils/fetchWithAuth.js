@@ -98,7 +98,9 @@ export async function handleApiResponse(response) {
   }
 }
 
-// Higher-level fetch API that combines fetchWithAuth and handleApiResponse
+/**
+ * Higher-level fetch API that combines fetchWithAuth and handleApiResponse
+ */
 export async function apiClient(endpoint, options = {}, retries = 3) {
   const response = await fetchWithAuth(endpoint, options, retries);
   return handleApiResponse(response);

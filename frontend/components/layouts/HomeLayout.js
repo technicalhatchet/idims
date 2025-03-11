@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function HomeLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
