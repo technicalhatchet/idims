@@ -1,56 +1,43 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from app.config import settings
-import logging
 from contextlib import contextmanager
-from sqlalchemy.pool import QueuePool
 
-logger = logging.getLogger(__name__)
+from app.config import settings
 
-# Create SQLAlchemy engine with optimized connection pooling
+# Create SQLAlchemy engine
+SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
+
+# Connection pool settings
 engine = create_engine(
-    settings.DATABASE_URL,
-    **settings.get_database_connection_args(),
-    poolclass=QueuePool,
+    SQLALCHEMY_DATABASE_URL,
+    pool_pre_ping=True,
+    pool_size=settings.DB_POOL_SIZE,
+    max_overflow=settings.DB_MAX_OVERFLOW,
+    pool_recycle=settings.DB_POOL_RECYCLE,
+    pool_timeout=settings.DB_POOL_TIMEOUT,
+    echo=settings.DB_ECHO_QUERIES,
 )
 
-# Create SessionLocal class
+# Session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Base class for models
 Base = declarative_base()
 
-# Database dependency
+# Dependency for getting DB session
 def get_db():
-    """Get database session"""
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
+# Context manager for DB operations outside of API requests
 @contextmanager
 def get_db_context():
-    """Context manager for database sessions"""
     db = SessionLocal()
     try:
         yield db
-        db.commit()
-    except Exception:
-        db.rollback()
-        raise
     finally:
         db.close()
-
-# For background tasks that need DB access
-def get_db_session():
-    """Get a database session for background tasks"""
-    db = SessionLocal()
-    try:
-        return db
-    except Exception as e:
-        logger.error(f"Error getting DB session: {str(e)}")
-        if db:
-            db.close()
-        raise

@@ -21,7 +21,8 @@ from app.core.auth import AuthHandler
 from app.core.logger import setup_logging
 from app.routers import (
     auth, clients, work_orders, scheduling, invoices, payments,
-    inventory, quotes, technicians, notifications, reports,
+    #inventory,
+    quotes, technicians, notifications, reports,
     media, mobile, admin, chat
 )
 from app.core.middleware import (
@@ -59,7 +60,7 @@ app = FastAPI(
         {"name": "Scheduling", "description": "Operations for scheduling"},
         {"name": "Invoices", "description": "Operations with invoices"},
         {"name": "Payments", "description": "Operations with payments"},
-        {"name": "Inventory", "description": "Operations with inventory"},
+        #{"name": "Inventory", "description": "Operations with inventory"},
         {"name": "Quotes", "description": "Operations with quotes"},
         {"name": "Technicians", "description": "Operations with technicians"},
         {"name": "Notifications", "description": "Operations with notifications"},
@@ -157,7 +158,7 @@ app.include_router(work_orders.router, prefix="/api", tags=["Work Orders"])
 app.include_router(scheduling.router, prefix="/api", tags=["Scheduling"])
 app.include_router(invoices.router, prefix="/api", tags=["Invoices"])
 app.include_router(payments.router, prefix="/api", tags=["Payments"])
-app.include_router(inventory.router, prefix="/api", tags=["Inventory"])
+#app.include_router(inventory.router, prefix="/api", tags=["Inventory"])
 app.include_router(quotes.router, prefix="/api", tags=["Quotes"])
 app.include_router(technicians.router, prefix="/api", tags=["Technicians"])
 app.include_router(notifications.router, prefix="/api", tags=["Notifications"])

@@ -1,5 +1,6 @@
 import os
-from pydantic import BaseSettings, validator
+from pydantic_settings import BaseSettings
+from pydantic import validator
 from typing import List, Dict, Any, Optional, Set
 from functools import lru_cache
 import json
@@ -18,11 +19,13 @@ class Settings(BaseSettings):
     WORKERS: int = int(os.getenv("WORKERS", "1"))
     
     # Database settings
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost/servicebusiness")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:iutk604/@localhost/servicebusiness")
     DB_POOL_SIZE: int = int(os.getenv("DB_POOL_SIZE", "20"))
     DB_MAX_OVERFLOW: int = int(os.getenv("DB_MAX_OVERFLOW", "10"))
     DB_POOL_TIMEOUT: int = int(os.getenv("DB_POOL_TIMEOUT", "30"))
-    
+    DB_POOL_RECYCLE: int = int(os.getenv("DB_POOL_RECYCLE", "300"))
+    DB_ECHO_QUERIES: bool = os.getenv("DB_ECHO_QUERIES", "False").lower() == "true"
+
     # CORS settings
     CORS_ORIGINS: List[str] = []
     

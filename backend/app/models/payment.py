@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, ForeignKey, DateTime, Float, Text, Enum
+from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime, Float, Text, Enum
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -66,9 +66,9 @@ class PaymentMethod(Base):
     token = Column(String(255), nullable=True)  # Token from payment processor
     last_four = Column(String(4), nullable=True)  # Last 4 digits of card/account
     expiry_date = Column(String(7), nullable=True)  # Format: MM/YYYY
-    is_default = Column(bool, default=False)
+    is_default = Column(Boolean, default=False)
     nickname = Column(String(50), nullable=True)
-    metadata = Column(JSONB, nullable=True)
+    metadata_json = Column(JSONB, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     

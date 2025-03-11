@@ -1,0 +1,76 @@
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { 
+  getFinancialReport, 
+  getOperationsReport, 
+  getClientReport,
+  getTechnicianReport,
+  getInventoryReport,
+  getSavedReports,
+  getSavedReport,
+  generateCustomReport,
+  downloadReport,
+  scheduleReport,
+  getScheduledReports,
+  updateScheduledReport,
+  deleteScheduledReport
+} from '@/services/api/reportsApi';
+
+/**
+ * Hook for financial report
+ */
+export function useFinancialReport(params = {}, options = {}) {
+  const { startDate, endDate, reportType, format } = params;
+  
+  return useQuery(
+    ['financialReport', startDate?.toISOString(), endDate?.toISOString(), reportType, format],
+    () => getFinancialReport(params),
+    {
+      enabled: !!startDate && !!endDate,
+      ...options,
+    }
+  );
+}
+
+/**
+ * Hook for operations report
+ */
+export function useOperationsReport(params = {}, options = {}) {
+  const { startDate, endDate, reportType, format } = params;
+  
+  return useQuery(
+    ['operationsReport', startDate?.toISOString(), endDate?.toISOString(), reportType, format],
+    () => getOperationsReport(params),
+    {
+      enabled: !!startDate && !!endDate,
+      ...options,
+    }
+  );
+}
+
+/**
+ * Hook for client report
+ */
+export function useClientReport(clientId, params = {}, options = {}) {
+  const { startDate, endDate, format } = params;
+  
+  return useQuery(
+    ['clientReport', clientId, startDate?.toISOString(), endDate?.toISOString(), format],
+    () => getClientReport(clientId, params),
+    {
+      enabled: !!clientId && !!startDate && !!endDate,
+      ...options,
+    }
+  );
+}
+
+/**
+ * Hook for technician report
+ */
+export function useTechnicianReport(technicianId, params = {}, options = {}) {
+  const { startDate, endDate, format } = params;
+  
+  return useQuery(
+    ['technicianReport', technicianId, startDate?.toISOString(), endDate?.toISOString(), format],
+    () => getTechnicianReport(technicianId, params),
+    {
+      enabled: !!technic

@@ -26,7 +26,7 @@ class Invoice(Base):
     balance = Column(Float, nullable=False, default=0)
     notes = Column(Text, nullable=True)
     terms = Column(Text, nullable=True)
-    metadata = Column(JSONB, nullable=True)
+    metadata_json = Column(JSONB, nullable=True)
     payment_instructions = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
@@ -77,7 +77,7 @@ class InvoiceItem(Base):
     total = Column(Float, nullable=False, default=0)
     work_order_service_id = Column(UUID(as_uuid=True), ForeignKey("work_order_services.id"), nullable=True)
     work_order_item_id = Column(UUID(as_uuid=True), ForeignKey("work_order_items.id"), nullable=True)
-    metadata = Column(JSONB, nullable=True)
+    metadata_json = Column(JSONB, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     
     # Relationships
