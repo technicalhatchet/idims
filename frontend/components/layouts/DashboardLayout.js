@@ -7,37 +7,37 @@ import {
   FaUsers, FaWrench, FaCog, FaBars, FaTimes, FaSignOutAlt, FaMoon, FaSun
 } from 'react-icons/fa';
 
-import NotificationsDropdown from '@/components/notifications/NotificationsDropdown';
-import UserDropdown from '@/components/user/UserDropdown';
-import { useTheme } from '@/context/ThemeContext';
-import ErrorBoundary from '@/context/ErrorBoundary';
+import NotificationsDropdown from '../notifications/NotificationsDropdown';
+import UserDropdown from '../user/UserDropdown';
+import { useTheme } from '../../context/ThemeContext';
+import ErrorBoundary from '../../context/ErrorBoundary';
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const { theme, toggleTheme } = useTheme();
-  
+
   useEffect(() => {
     // Close sidebar on route change on mobile
     const handleRouteChange = () => {
       setSidebarOpen(false);
     };
-    
+
     router.events.on('routeChangeComplete', handleRouteChange);
-    
+
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router]);
-  
+
   // Handle auth redirects
   useEffect(() => {
     if (!isLoading && !user) {
       router.push('/api/auth/login');
     }
   }, [user, isLoading, router]);
-  
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -45,14 +45,14 @@ export default function DashboardLayout({ children }) {
       </div>
     );
   }
-  
+
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <h1 className="text-2xl font-bold text-red-600 mb-4">Authentication Error</h1>
           <p className="text-gray-700 dark:text-gray-300 mb-4">{error.message}</p>
-          <button 
+          <button
             onClick={() => router.push('/api/auth/login')}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
@@ -62,11 +62,11 @@ export default function DashboardLayout({ children }) {
       </div>
     );
   }
-  
+
   if (!user) {
     return null; // Will redirect via useEffect
   }
-  
+
   // Get navigation items based on user role
   const getNavItems = () => {
     const items = [
@@ -113,16 +113,16 @@ export default function DashboardLayout({ children }) {
         roles: ['admin', 'manager', 'technician', 'client'],
       },
     ];
-    
+
     // Get user role from Auth0 metadata
     const userRole = user['https://servicebusiness.com/roles']?.[0] || 'client';
-    
+
     // Filter items by role
     return items.filter(item => item.roles.includes(userRole));
   };
-  
+
   const navItems = getNavItems();
-  
+
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
       {/* Sidebar */}
@@ -149,7 +149,7 @@ export default function DashboardLayout({ children }) {
             <FaTimes />
           </button>
         </div>
-        
+
         {/* Sidebar Navigation */}
         <nav className="flex-1 px-2 py-4 space-y-1">
           {navItems.map((item) => (
@@ -167,7 +167,7 @@ export default function DashboardLayout({ children }) {
             </Link>
           ))}
         </nav>
-        
+
         {/* Sidebar Footer */}
         <div className="border-t dark:border-gray-700 p-4">
           <Link
@@ -179,7 +179,7 @@ export default function DashboardLayout({ children }) {
           </Link>
         </div>
       </div>
-      
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:ml-64">
         {/* Topbar */}
@@ -192,7 +192,7 @@ export default function DashboardLayout({ children }) {
             >
               <FaBars />
             </button>
-            
+
             <div className="flex items-center space-x-4">
               <button
                 onClick={toggleTheme}
@@ -205,13 +205,29 @@ export default function DashboardLayout({ children }) {
                   <FaMoon className="text-gray-500" />
                 )}
               </button>
-              
+
               <ErrorBoundary>
-                <NotificationsDropdown />
+                {/* Add a placeholder when component is not available */}
+                {typeof NotificationsDropdown === 'function' ? (
+                  <NotificationsDropdown />
+                ) : (
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
+                  </div>
+                )}
               </ErrorBoundary>
-              
+
               <ErrorBoundary>
-                <UserDropdown user={user} />
+                {/* Add a placeholder when component is not available */}
+                {typeof UserDropdown === 'function' ? (
+                  <UserDropdown user={user} />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+                    <span className="text-gray-600 text-sm font-bold">
+                      {user?.name?.charAt(0) || 'U'}
+                    </span>
+                  </div>
+                )}
               </ErrorBoundary>
             </div>
           </div>

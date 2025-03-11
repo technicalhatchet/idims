@@ -253,3 +253,131 @@ redis.exceptions.ConnectionError: Error connecting to localhost:6379. Multiple e
 2025-03-11 11:45:23 - app.core.middleware - INFO - Response 0b8b1bf1-1030-4437-8b12-6c2f85ec5530: GET / completed in 4.1000s with status 500
 2025-03-11 13:07:09 - root - INFO - Redis client initialized
 2025-03-11 13:07:09 - app.background.worker - INFO - Setting up background tasks with Celery
+2025-03-11 13:52:34 - root - INFO - Application shutting down
+2025-03-11 13:52:34 - root - INFO - Redis connection closed
+2025-03-11 14:00:03 - root - INFO - Redis client initialized
+2025-03-11 14:00:03 - app.background.worker - INFO - Setting up background tasks with Celery
+2025-03-11 14:40:57 - app.core.middleware - INFO - Request aa6c4cd3-7a32-4aae-9ca1-9c23b33e1249: GET / from 164.92.150.238 - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
+2025-03-11 14:41:01 - app.core.middleware - ERROR - Unhandled exception: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-11 14:41:01 - app.core.middleware - ERROR - Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 93, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 118, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 101, in dispatch
+    return await call_next(request)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 142, in dispatch
+    current = await self.redis_client.get(rate_key)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\client.py", line 545, in execute_command
+    conn = self.connection or await pool.get_connection(command_name, **options)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 1105, in get_connection
+    await connection.connect()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 251, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+
+2025-03-11 14:41:01 - app.core.middleware - INFO - Response aa6c4cd3-7a32-4aae-9ca1-9c23b33e1249: GET / completed in 4.1040s with status 500
+2025-03-11 14:41:02 - app.core.middleware - INFO - Request a6a3a146-34a8-45ca-8c09-1dbf977dd8ec: GET /login from 164.92.150.238 - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
+2025-03-11 14:41:06 - app.core.middleware - ERROR - Unhandled exception: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-11 14:41:06 - app.core.middleware - ERROR - Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 93, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 118, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 101, in dispatch
+    return await call_next(request)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 142, in dispatch
+    current = await self.redis_client.get(rate_key)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\client.py", line 545, in execute_command
+    conn = self.connection or await pool.get_connection(command_name, **options)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 1105, in get_connection
+    await connection.connect()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 251, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+
+2025-03-11 14:41:06 - app.core.middleware - INFO - Response a6a3a146-34a8-45ca-8c09-1dbf977dd8ec: GET /login completed in 4.1055s with status 500
+2025-03-11 14:48:31 - root - INFO - Application shutting down
+2025-03-11 14:48:31 - root - INFO - Redis connection closed
+2025-03-11 14:48:41 - root - INFO - Redis client initialized
+2025-03-11 14:48:41 - app.background.worker - INFO - Setting up background tasks with Celery
+2025-03-11 14:59:29 - app.core.middleware - INFO - Request 6fc13316-1acc-4dc0-8e83-5a760c993e9c: GET / from 147.185.132.112 - Expanse, a Palo Alto Networks company, searches across the global IPv4 space multiple times per day to identify customers&#39; presences on the Internet. If you would like to be excluded from our scans, please send IP addresses/domains to: scaninfo@paloaltonetworks.com
+2025-03-11 14:59:33 - app.core.middleware - ERROR - Unhandled exception: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-11 14:59:33 - app.core.middleware - ERROR - Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 93, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 118, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 101, in dispatch
+    return await call_next(request)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 142, in dispatch
+    current = await self.redis_client.get(rate_key)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\client.py", line 545, in execute_command
+    conn = self.connection or await pool.get_connection(command_name, **options)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 1105, in get_connection
+    await connection.connect()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 251, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+
+2025-03-11 14:59:33 - app.core.middleware - INFO - Response 6fc13316-1acc-4dc0-8e83-5a760c993e9c: GET / completed in 4.0973s with status 500

@@ -1,12 +1,12 @@
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { ThemeProvider } from '@/context/ThemeContext';
-import { NotificationProvider } from '@/context/NotificationContext';
-import { SidebarProvider } from '@/context/SidebarContext';
-import ErrorBoundary from '@/context/ErrorBoundary';
+import { ThemeProvider } from '../context/ThemeContext';
+import { NotificationProvider } from '../context/NotificationContext';
+import { SidebarProvider } from '../context/SidebarContext';
+import ErrorBoundary from '../context/ErrorBoundary';
 
-import '@/styles/globals.css';
+import '../styles/globals.css';
 
 // Create a client
 const queryClient = new QueryClient({
