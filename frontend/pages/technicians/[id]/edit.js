@@ -2,12 +2,12 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import TechnicianForm from '@/components/technicians/TechnicianForm';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import ErrorAlert from '../../components/ui/ErrorAlert';
 import { useTechnician } from '@/hooks/useTechnicians';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 function EditTechnician() {
   const router = useRouter();
@@ -71,6 +71,12 @@ EditTechnician.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default EditTechnician;

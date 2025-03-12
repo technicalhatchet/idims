@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { apiClient } from '@/utils/fetchWithAuth';
 import { format } from 'date-fns';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import ErrorAlert from '../../components/ui/ErrorAlert';
 
 export default function WorkOrderForm({ initialData, isEdit = false }) {
   const router = useRouter();

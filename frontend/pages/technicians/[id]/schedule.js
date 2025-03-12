@@ -3,7 +3,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import TechnicianWorkload from '@/components/technicians/TechnicianWorkload';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import ErrorAlert from '@/components/ui/ErrorAlert';
@@ -116,7 +116,13 @@ TechnicianSchedulePage.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default TechnicianSchedulePage;, 
     isLoading,
@@ -255,6 +261,12 @@ TechnicianDetail.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default TechnicianDetail;

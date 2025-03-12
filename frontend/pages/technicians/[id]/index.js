@@ -5,14 +5,14 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaEdit, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import TechnicianDetails from '@/components/technicians/TechnicianDetails';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import ErrorAlert from '../../components/ui/ErrorAlert';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import { useTechnician, useTechnicianMutations } from '@/hooks/useTechnicians';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 function TechnicianDetail() {
   const router = useRouter();
@@ -75,6 +75,12 @@ EditTechnician.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default EditTechnician;

@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
-import ReportForm from '@/components/reports/ReportForm';
-import ErrorAlert from '@/components/ui/ErrorAlert';
-import { useGenerateCustomReport } from '@/hooks/useReports';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
+import ReportForm from '../../components/reports/ReportForm';
+import ErrorAlert from '../../components/ui/ErrorAlert';
+import { useGenerateCustomReport } from '../../hooks/useReports';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 function NewReport() {
   const [error, setError] = useState(null);
@@ -66,6 +66,12 @@ NewReport.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default NewReport;

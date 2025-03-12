@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import ErrorAlert from '../../components/ui/ErrorAlert';
 import ReportViewer from '@/components/reports/ReportViewer';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
-import { useSavedReport, useDownloadReport } from '@/hooks/useReports';
+import { useSavedReport, useDownloadReport } from '../../hooks/useReports';
 
 function ReportDetails() {
   const router = useRouter();
@@ -155,6 +155,12 @@ ReportDetails.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default ReportDetails;

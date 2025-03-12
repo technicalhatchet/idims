@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import WorkOrderForm from '@/components/work-orders/WorkOrderForm';
 import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 
@@ -31,6 +31,12 @@ NewWorkOrder.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default NewWorkOrder;

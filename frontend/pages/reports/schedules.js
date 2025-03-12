@@ -3,9 +3,9 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FaPlus } from 'react-icons/fa';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import ErrorAlert from '../../components/ui/ErrorAlert';
 import ScheduledReportsList from '@/components/reports/ScheduledReportsList';
 import ScheduleReportForm from '@/components/reports/ScheduleReportForm';
 import Modal from '@/components/ui/Modal';
@@ -15,8 +15,8 @@ import {
   useScheduleReport, 
   useUpdateScheduledReport, 
   useDeleteScheduledReport 
-} from '@/hooks/useReports';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
+} from '../../hooks/useReports';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 function ScheduledReports() {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -205,6 +205,12 @@ ScheduledReports.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default ScheduledReports;
