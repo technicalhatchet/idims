@@ -1,12 +1,10 @@
+// frontend/pages/_app.js
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from '../context/ThemeContext';
 import { NotificationProvider } from '../context/NotificationContext';
 import { SidebarProvider } from '../context/SidebarContext';
 import ErrorBoundary from '../context/ErrorBoundary';
-
-import '../styles/globals.css';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -34,7 +32,6 @@ export default function App({ Component, pageProps }) {
               </NotificationProvider>
             </SidebarProvider>
           </ThemeProvider>
-          {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
       </UserProvider>
     </ErrorBoundary>

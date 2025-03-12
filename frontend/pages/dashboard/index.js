@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaChartLine, FaClipboardList, FaCalendarAlt, FaFileInvoiceDollar, FaUsers, FaCog } from 'react-icons/fa';
 
-import DashboardLayout from '@/components/layouts/DashboardLayout';
-import StatsOverview from '@/components/dashboard/StatsOverview';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
-import { apiClient } from '@/utils/fetchWithAuth';
+// Updated imports with correct paths
+import DashboardLayout from '../../components/layouts/DashboardLayout';
+import StatsOverview from '../../components/dashboard/StatsOverview';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../components/ui/ErrorAlert';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+import { apiClient } from '../../utils/fetchWithAuth';
 
 function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
@@ -245,6 +246,12 @@ Dashboard.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default Dashboard;

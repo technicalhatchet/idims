@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import { FaFilter, FaPlus, FaCalendarAlt } from 'react-icons/fa';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
-import Pagination from '@/components/ui/Pagination';
-import ReportsTable from '@/components/reports/ReportsTable';
-import ReportFilters from '@/components/reports/ReportFilters';
-import Modal from '@/components/ui/Modal';
-import Button from '@/components/ui/Button';
-import { useSavedReports, useDownloadReport } from '@/hooks/useReports';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../components/ui/ErrorAlert';
+import Pagination from '../../components/ui/Pagination';
+import ReportsTable from '../../components/reports/ReportsTable';
+import ReportFilters from '../../components/reports/ReportFilters';
+import Modal from '../../components/ui/Modal';
+import Button from '../../components/ui/Button';
+import { useSavedReports, useDownloadReport } from '../../hooks/useReports';
 import { useRouter } from 'next/router';
 
 function Reports() {
@@ -214,6 +214,12 @@ Reports.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default Reports;

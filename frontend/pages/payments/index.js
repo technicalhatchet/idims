@@ -3,16 +3,16 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { FaPlus, FaFilter } from 'react-icons/fa';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import PaymentsTable from '@/components/payments/PaymentsTable';
 import Pagination from '@/components/ui/Pagination';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import ErrorAlert from '../../components/ui/ErrorAlert';
 import RefundForm from '@/components/payments/RefundForm';
 import { usePayments, usePaymentMutations } from '@/hooks/usePayments';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 function Payments() {
   const [page, setPage] = useState(1);
@@ -178,6 +178,12 @@ Payments.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    return {
+      props: {}
+    };
+  }
+});
 
 export default Payments;
