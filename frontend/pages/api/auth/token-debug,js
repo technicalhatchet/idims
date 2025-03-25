@@ -1,0 +1,54 @@
+// pages/api/auth/token-debug.js
+import { getSession } from '@auth0/nextjs-auth0';
+
+export default async function handler(req, res) {
+  try {
+    console.log('Token endpoint called');
+    const session = await getSession(req, res);
+    
+    console.log('Session data:', {
+      hasSession: !!session,
+      hasAccessToken: !!session?.accessToken,
+      accessTokenLength: session?.accessToken?.length,
+      user: session?.user ? {
+        email: session.user.email,
+        sub: session.user.sub
+      } : null
+    });
+    
+    if (!session) {
+      console.log('No session found');
+      return res.status(401).json({ 
+        error: 'Not authenticated',
+        message: 'No session found'
+      });
+    }
+
+    if (!session.accessToken) {
+      console.log('No access token in session');
+      return res.status(401).json({ 
+        error: 'No access token',
+        message: 'Session exists but no access token found'
+      });
+    }
+
+    console.log('Returning token successfully');
+    
+    // Return the access token and relevant session information
+    return res.json({
+      accessToken: session.accessToken,
+      expiresAt: session.accessTokenExpiresAt,
+      user: {
+        email: session.user?.email,
+        role: session.user?.role
+      }
+    });
+  } catch (error) {
+    console.error('Token endpoint error:', error);
+    return res.status(error.status || 500).json({
+      error: 'Internal server error',
+      message: error.message,
+      code: error.code
+    });
+  }
+}

@@ -1,0 +1,850 @@
+2025-03-17 00:00:14 - app.core.middleware - INFO - Request fd158004-84ac-4edc-9802-c374989d52ff started: OPTIONS /api/notifications
+2025-03-17 00:00:14 - app.core.middleware - WARNING - Request fd158004-84ac-4edc-9802-c374989d52ff No Authorization header found
+2025-03-17 00:00:14 - app.core.middleware - INFO - Request 70b5a20f-ba9d-42d2-9548-c9c0d8dafcc8 started: OPTIONS /api/notifications
+2025-03-17 00:00:14 - app.core.middleware - WARNING - Request 70b5a20f-ba9d-42d2-9548-c9c0d8dafcc8 No Authorization header found
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response fd158004-84ac-4edc-9802-c374989d52ff: OPTIONS /api/notifications completed in 0.0050s with status 200
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response fd158004-84ac-4edc-9802-c374989d52ff headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response 70b5a20f-ba9d-42d2-9548-c9c0d8dafcc8: OPTIONS /api/notifications completed in 0.0040s with status 200
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response 70b5a20f-ba9d-42d2-9548-c9c0d8dafcc8 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:00:14 - app.core.middleware - INFO - Request 6e6e1f32-8628-4459-a4f4-239a5ec5c782 started: GET /api/notifications
+2025-03-17 00:00:14 - app.core.middleware - INFO - Request 6e6e1f32-8628-4459-a4f4-239a5ec5c782 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response 6e6e1f32-8628-4459-a4f4-239a5ec5c782: GET /api/notifications completed in 0.0050s with status 422
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response 6e6e1f32-8628-4459-a4f4-239a5ec5c782 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:00:14 - app.core.middleware - INFO - Request 60845ff6-27fe-4f6e-aaa9-c2a130e17a7c started: GET /api/notifications
+2025-03-17 00:00:14 - app.core.middleware - INFO - Request 60845ff6-27fe-4f6e-aaa9-c2a130e17a7c Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response 60845ff6-27fe-4f6e-aaa9-c2a130e17a7c: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:00:14 - app.core.middleware - INFO - Response 60845ff6-27fe-4f6e-aaa9-c2a130e17a7c headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:00:17 - app.core.middleware - INFO - Request 8fcc6795-5a6e-4d4b-8d8c-be82d6d86fa1 started: OPTIONS /api/dashboard/stats
+2025-03-17 00:00:17 - app.core.middleware - WARNING - Request 8fcc6795-5a6e-4d4b-8d8c-be82d6d86fa1 No Authorization header found
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 8fcc6795-5a6e-4d4b-8d8c-be82d6d86fa1: OPTIONS /api/dashboard/stats completed in 0.0025s with status 200
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 8fcc6795-5a6e-4d4b-8d8c-be82d6d86fa1 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:00:17 - app.core.middleware - INFO - Request 529d1f63-45b0-4631-9d95-fcc48dd7a79d started: OPTIONS /api/dashboard/stats
+2025-03-17 00:00:17 - app.core.middleware - WARNING - Request 529d1f63-45b0-4631-9d95-fcc48dd7a79d No Authorization header found
+2025-03-17 00:00:17 - app.core.middleware - INFO - Request 30d23be9-d5ab-4d69-80cd-d60c9f282317 started: GET /api/dashboard/stats
+2025-03-17 00:00:17 - app.core.middleware - INFO - Request 30d23be9-d5ab-4d69-80cd-d60c9f282317 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 529d1f63-45b0-4631-9d95-fcc48dd7a79d: OPTIONS /api/dashboard/stats completed in 0.0035s with status 200
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 529d1f63-45b0-4631-9d95-fcc48dd7a79d headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 30d23be9-d5ab-4d69-80cd-d60c9f282317: GET /api/dashboard/stats completed in 0.0060s with status 422
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 30d23be9-d5ab-4d69-80cd-d60c9f282317 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:00:17 - app.core.middleware - INFO - Request 27003fda-f962-4f36-982a-455c63422805 started: GET /api/dashboard/stats
+2025-03-17 00:00:17 - app.core.middleware - INFO - Request 27003fda-f962-4f36-982a-455c63422805 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 27003fda-f962-4f36-982a-455c63422805: GET /api/dashboard/stats completed in 0.0035s with status 422
+2025-03-17 00:00:17 - app.core.middleware - INFO - Response 27003fda-f962-4f36-982a-455c63422805 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request 3e5fb14c-18ed-464f-ac79-a3620be7ee83 started: GET /api/dashboard/stats
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request 3e5fb14c-18ed-464f-ac79-a3620be7ee83 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request b9041bc9-0bf6-4f3d-ac80-9eef4f3b7d2f started: GET /api/notifications
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request b9041bc9-0bf6-4f3d-ac80-9eef4f3b7d2f Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response 3e5fb14c-18ed-464f-ac79-a3620be7ee83: GET /api/dashboard/stats completed in 0.0060s with status 422
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response 3e5fb14c-18ed-464f-ac79-a3620be7ee83 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response b9041bc9-0bf6-4f3d-ac80-9eef4f3b7d2f: GET /api/notifications completed in 0.0060s with status 422
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response b9041bc9-0bf6-4f3d-ac80-9eef4f3b7d2f headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request 8b76974c-2d36-4522-bcb6-24a183a50406 started: GET /api/dashboard/stats
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request 8b76974c-2d36-4522-bcb6-24a183a50406 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request 643ee16a-90b6-457d-bc1f-89d5e1378990 started: GET /api/notifications
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request 643ee16a-90b6-457d-bc1f-89d5e1378990 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response 8b76974c-2d36-4522-bcb6-24a183a50406: GET /api/dashboard/stats completed in 0.0050s with status 422
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response 8b76974c-2d36-4522-bcb6-24a183a50406 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response 643ee16a-90b6-457d-bc1f-89d5e1378990: GET /api/notifications completed in 0.0055s with status 422
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response 643ee16a-90b6-457d-bc1f-89d5e1378990 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request f70e2e30-eb75-47d7-9dd3-04f0f99f4421 started: GET /api/dashboard/stats
+2025-03-17 00:02:25 - app.core.middleware - INFO - Request f70e2e30-eb75-47d7-9dd3-04f0f99f4421 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response f70e2e30-eb75-47d7-9dd3-04f0f99f4421: GET /api/dashboard/stats completed in 0.0035s with status 422
+2025-03-17 00:02:25 - app.core.middleware - INFO - Response f70e2e30-eb75-47d7-9dd3-04f0f99f4421 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:03:25 - app.core.middleware - INFO - Request c064185c-2674-4af7-9d42-0ebdf8104584 started: GET /api/notifications
+2025-03-17 00:03:25 - app.core.middleware - INFO - Request c064185c-2674-4af7-9d42-0ebdf8104584 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:03:25 - app.core.middleware - INFO - Response c064185c-2674-4af7-9d42-0ebdf8104584: GET /api/notifications completed in 0.0045s with status 422
+2025-03-17 00:03:25 - app.core.middleware - INFO - Response c064185c-2674-4af7-9d42-0ebdf8104584 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:04:25 - app.core.middleware - INFO - Request 3235b09b-8cf9-4900-b358-a0f91ee17ee2 started: GET /api/notifications
+2025-03-17 00:04:25 - app.core.middleware - INFO - Request 3235b09b-8cf9-4900-b358-a0f91ee17ee2 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:04:25 - app.core.middleware - INFO - Response 3235b09b-8cf9-4900-b358-a0f91ee17ee2: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:04:25 - app.core.middleware - INFO - Response 3235b09b-8cf9-4900-b358-a0f91ee17ee2 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:05:25 - app.core.middleware - INFO - Request 7e967390-f17b-43b3-8d8b-a072ec889973 started: GET /api/notifications
+2025-03-17 00:05:25 - app.core.middleware - INFO - Request 7e967390-f17b-43b3-8d8b-a072ec889973 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:05:25 - app.core.middleware - INFO - Response 7e967390-f17b-43b3-8d8b-a072ec889973: GET /api/notifications completed in 0.0040s with status 422
+2025-03-17 00:05:25 - app.core.middleware - INFO - Response 7e967390-f17b-43b3-8d8b-a072ec889973 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:06:25 - app.core.middleware - INFO - Request 35b06962-95a3-43ec-a7c5-531b679081c2 started: GET /api/notifications
+2025-03-17 00:06:25 - app.core.middleware - INFO - Request 35b06962-95a3-43ec-a7c5-531b679081c2 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:06:25 - app.core.middleware - INFO - Response 35b06962-95a3-43ec-a7c5-531b679081c2: GET /api/notifications completed in 0.0035s with status 422
+2025-03-17 00:06:25 - app.core.middleware - INFO - Response 35b06962-95a3-43ec-a7c5-531b679081c2 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:07:25 - app.core.middleware - INFO - Request 62e734a0-f49f-4829-a24c-ec3e84ac70de started: GET /api/notifications
+2025-03-17 00:07:25 - app.core.middleware - INFO - Request 62e734a0-f49f-4829-a24c-ec3e84ac70de Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:07:25 - app.core.middleware - INFO - Response 62e734a0-f49f-4829-a24c-ec3e84ac70de: GET /api/notifications completed in 0.0060s with status 422
+2025-03-17 00:07:25 - app.core.middleware - INFO - Response 62e734a0-f49f-4829-a24c-ec3e84ac70de headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:08:25 - app.core.middleware - INFO - Request 42b68ccd-e57b-40b2-95e8-4b59bc6e404e started: GET /api/notifications
+2025-03-17 00:08:25 - app.core.middleware - INFO - Request 42b68ccd-e57b-40b2-95e8-4b59bc6e404e Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:08:25 - app.core.middleware - INFO - Response 42b68ccd-e57b-40b2-95e8-4b59bc6e404e: GET /api/notifications completed in 0.0035s with status 422
+2025-03-17 00:08:25 - app.core.middleware - INFO - Response 42b68ccd-e57b-40b2-95e8-4b59bc6e404e headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:09:25 - app.core.middleware - INFO - Request 49dbff6d-ba9f-4afe-ad27-13d16dddd294 started: GET /api/notifications
+2025-03-17 00:09:25 - app.core.middleware - INFO - Request 49dbff6d-ba9f-4afe-ad27-13d16dddd294 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:09:25 - app.core.middleware - INFO - Response 49dbff6d-ba9f-4afe-ad27-13d16dddd294: GET /api/notifications completed in 0.0035s with status 422
+2025-03-17 00:09:25 - app.core.middleware - INFO - Response 49dbff6d-ba9f-4afe-ad27-13d16dddd294 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:09:35 - app.core.middleware - INFO - Request 18e8db83-21fa-4f09-b058-bb21e17e262a started: GET /api/notifications
+2025-03-17 00:09:35 - app.core.middleware - INFO - Request 18e8db83-21fa-4f09-b058-bb21e17e262a Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:09:35 - app.core.middleware - INFO - Response 18e8db83-21fa-4f09-b058-bb21e17e262a: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:09:35 - app.core.middleware - INFO - Response 18e8db83-21fa-4f09-b058-bb21e17e262a headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:10:36 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request fc5564b1-0c35-453c-8220-15ad2b412938 started: OPTIONS /api/dashboard/stats
+2025-03-17 00:12:48 - app.core.middleware - WARNING - Request fc5564b1-0c35-453c-8220-15ad2b412938 No Authorization header found
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response fc5564b1-0c35-453c-8220-15ad2b412938: OPTIONS /api/dashboard/stats completed in 0.0020s with status 200
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response fc5564b1-0c35-453c-8220-15ad2b412938 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request dba9076c-e189-4c4d-bced-0d8885c32cab started: OPTIONS /api/notifications
+2025-03-17 00:12:48 - app.core.middleware - WARNING - Request dba9076c-e189-4c4d-bced-0d8885c32cab No Authorization header found
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 4fd978b6-e2c9-46b6-bf30-e33ec4863f6d started: OPTIONS /api/dashboard/stats
+2025-03-17 00:12:48 - app.core.middleware - WARNING - Request 4fd978b6-e2c9-46b6-bf30-e33ec4863f6d No Authorization header found
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response dba9076c-e189-4c4d-bced-0d8885c32cab: OPTIONS /api/notifications completed in 0.0030s with status 200
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response dba9076c-e189-4c4d-bced-0d8885c32cab headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 4fd978b6-e2c9-46b6-bf30-e33ec4863f6d: OPTIONS /api/dashboard/stats completed in 0.0030s with status 200
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 4fd978b6-e2c9-46b6-bf30-e33ec4863f6d headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 91330639-6ae9-4a4f-8315-5cd8a77c83b5 started: OPTIONS /api/dashboard/stats
+2025-03-17 00:12:48 - app.core.middleware - WARNING - Request 91330639-6ae9-4a4f-8315-5cd8a77c83b5 No Authorization header found
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 91330639-6ae9-4a4f-8315-5cd8a77c83b5: OPTIONS /api/dashboard/stats completed in 0.0020s with status 200
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 91330639-6ae9-4a4f-8315-5cd8a77c83b5 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 977a7ce0-014f-4929-9289-0a4445536832 started: OPTIONS /api/notifications
+2025-03-17 00:12:48 - app.core.middleware - WARNING - Request 977a7ce0-014f-4929-9289-0a4445536832 No Authorization header found
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 977a7ce0-014f-4929-9289-0a4445536832: OPTIONS /api/notifications completed in 0.0020s with status 200
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 977a7ce0-014f-4929-9289-0a4445536832 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 3e9cd993-aefc-4a2f-b761-335051a7c9ef started: GET /api/dashboard/stats
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 3e9cd993-aefc-4a2f-b761-335051a7c9ef Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request b43ee72a-8363-443e-969a-ef91bfc5baf9 started: GET /api/notifications
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request b43ee72a-8363-443e-969a-ef91bfc5baf9 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 3e9cd993-aefc-4a2f-b761-335051a7c9ef: GET /api/dashboard/stats completed in 0.0065s with status 422
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 3e9cd993-aefc-4a2f-b761-335051a7c9ef headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response b43ee72a-8363-443e-969a-ef91bfc5baf9: GET /api/notifications completed in 0.0065s with status 422
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response b43ee72a-8363-443e-969a-ef91bfc5baf9 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request f1d679dd-91c6-44c0-9c11-8583adb4ed4e started: GET /api/dashboard/stats
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request f1d679dd-91c6-44c0-9c11-8583adb4ed4e Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 0e881c15-89e7-496f-994f-b82f109171f1 started: GET /api/notifications
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 0e881c15-89e7-496f-994f-b82f109171f1 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response f1d679dd-91c6-44c0-9c11-8583adb4ed4e: GET /api/dashboard/stats completed in 0.0060s with status 422
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response f1d679dd-91c6-44c0-9c11-8583adb4ed4e headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 0e881c15-89e7-496f-994f-b82f109171f1: GET /api/notifications completed in 0.0060s with status 422
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 0e881c15-89e7-496f-994f-b82f109171f1 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 914d91a5-bea6-45e4-9214-1a7bfe5068d5 started: GET /api/dashboard/stats
+2025-03-17 00:12:48 - app.core.middleware - INFO - Request 914d91a5-bea6-45e4-9214-1a7bfe5068d5 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 914d91a5-bea6-45e4-9214-1a7bfe5068d5: GET /api/dashboard/stats completed in 0.0025s with status 422
+2025-03-17 00:12:48 - app.core.middleware - INFO - Response 914d91a5-bea6-45e4-9214-1a7bfe5068d5 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:13:48 - app.core.middleware - INFO - Request 7a1aec51-1b30-4f83-98da-018ee6195632 started: GET /api/notifications
+2025-03-17 00:13:48 - app.core.middleware - INFO - Request 7a1aec51-1b30-4f83-98da-018ee6195632 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:13:48 - app.core.middleware - INFO - Response 7a1aec51-1b30-4f83-98da-018ee6195632: GET /api/notifications completed in 0.0035s with status 422
+2025-03-17 00:13:48 - app.core.middleware - INFO - Response 7a1aec51-1b30-4f83-98da-018ee6195632 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:14:48 - app.core.middleware - INFO - Request 5fa1a592-ce37-42b2-bc16-eb2cd231ac28 started: GET /api/notifications
+2025-03-17 00:14:48 - app.core.middleware - INFO - Request 5fa1a592-ce37-42b2-bc16-eb2cd231ac28 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:14:48 - app.core.middleware - INFO - Response 5fa1a592-ce37-42b2-bc16-eb2cd231ac28: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:14:48 - app.core.middleware - INFO - Response 5fa1a592-ce37-42b2-bc16-eb2cd231ac28 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:15:48 - app.core.middleware - INFO - Request 1efe4c20-d1c4-4ad4-a1b0-9c9ea46c7945 started: GET /api/notifications
+2025-03-17 00:15:48 - app.core.middleware - INFO - Request 1efe4c20-d1c4-4ad4-a1b0-9c9ea46c7945 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:15:48 - app.core.middleware - INFO - Response 1efe4c20-d1c4-4ad4-a1b0-9c9ea46c7945: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:15:48 - app.core.middleware - INFO - Response 1efe4c20-d1c4-4ad4-a1b0-9c9ea46c7945 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:16:48 - app.core.middleware - INFO - Request 343f0d87-aca1-46c6-81f2-c40b1ed31259 started: GET /api/notifications
+2025-03-17 00:16:48 - app.core.middleware - INFO - Request 343f0d87-aca1-46c6-81f2-c40b1ed31259 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:16:48 - app.core.middleware - INFO - Response 343f0d87-aca1-46c6-81f2-c40b1ed31259: GET /api/notifications completed in 0.0040s with status 422
+2025-03-17 00:16:48 - app.core.middleware - INFO - Response 343f0d87-aca1-46c6-81f2-c40b1ed31259 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:17:43 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:17:55 - app.core.middleware - INFO - Request c9387857-064d-4c19-88d7-75fb595b84cc started: GET /api/notifications
+2025-03-17 00:17:55 - app.core.middleware - INFO - Request c9387857-064d-4c19-88d7-75fb595b84cc Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:17:55 - app.core.middleware - INFO - Response c9387857-064d-4c19-88d7-75fb595b84cc: GET /api/notifications completed in 0.0050s with status 422
+2025-03-17 00:17:55 - app.core.middleware - INFO - Response c9387857-064d-4c19-88d7-75fb595b84cc headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:18:00 - app.core.middleware - INFO - Request 3862f771-f0bb-4a1d-b622-68bf9f86c65d started: GET /api/notifications
+2025-03-17 00:18:00 - app.core.middleware - INFO - Request 3862f771-f0bb-4a1d-b622-68bf9f86c65d Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:18:00 - app.core.middleware - INFO - Response 3862f771-f0bb-4a1d-b622-68bf9f86c65d: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:18:00 - app.core.middleware - INFO - Response 3862f771-f0bb-4a1d-b622-68bf9f86c65d headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:18:00 - app.core.middleware - INFO - Request bf387876-e0e6-451b-b576-9555c68a84fb started: GET /api/notifications
+2025-03-17 00:18:00 - app.core.middleware - INFO - Request bf387876-e0e6-451b-b576-9555c68a84fb Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:18:00 - app.core.middleware - INFO - Response bf387876-e0e6-451b-b576-9555c68a84fb: GET /api/notifications completed in 0.0040s with status 422
+2025-03-17 00:18:00 - app.core.middleware - INFO - Response bf387876-e0e6-451b-b576-9555c68a84fb headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:18:06 - app.core.middleware - INFO - Request d69a3712-a901-417b-b125-fc642d0e6fe0 started: POST /api/auth/auth0-callback
+2025-03-17 00:18:06 - app.core.middleware - WARNING - Request d69a3712-a901-417b-b125-fc642d0e6fe0 No Authorization header found
+2025-03-17 00:18:06 - app.core.middleware - INFO - Response d69a3712-a901-417b-b125-fc642d0e6fe0: POST /api/auth/auth0-callback completed in 0.0035s with status 422
+2025-03-17 00:18:06 - app.core.middleware - INFO - Response d69a3712-a901-417b-b125-fc642d0e6fe0 headers: {'content-length': '2648', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains'}
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 791e79a1-d474-4310-8aac-8dc773df2a34 started: GET /api/dashboard/stats
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 791e79a1-d474-4310-8aac-8dc773df2a34 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 791e79a1-d474-4310-8aac-8dc773df2a34: GET /api/dashboard/stats completed in 0.0030s with status 422
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 791e79a1-d474-4310-8aac-8dc773df2a34 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 71134837-0f88-4a4e-9132-c5cb1e5dc599 started: GET /api/notifications
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 71134837-0f88-4a4e-9132-c5cb1e5dc599 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 71134837-0f88-4a4e-9132-c5cb1e5dc599: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 71134837-0f88-4a4e-9132-c5cb1e5dc599 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 6126b804-0df5-4768-8fea-9451c7ce1651 started: GET /api/dashboard/stats
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 6126b804-0df5-4768-8fea-9451c7ce1651 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 6126b804-0df5-4768-8fea-9451c7ce1651: GET /api/dashboard/stats completed in 0.0040s with status 422
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 6126b804-0df5-4768-8fea-9451c7ce1651 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 3dfa063f-f03b-4d17-9633-1345cf8ba150 started: GET /api/notifications
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 3dfa063f-f03b-4d17-9633-1345cf8ba150 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 3dfa063f-f03b-4d17-9633-1345cf8ba150: GET /api/notifications completed in 0.0035s with status 422
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 3dfa063f-f03b-4d17-9633-1345cf8ba150 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 0078f23e-a06f-4e72-943c-327cb1adece2 started: GET /api/dashboard/stats
+2025-03-17 00:18:07 - app.core.middleware - INFO - Request 0078f23e-a06f-4e72-943c-327cb1adece2 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 0078f23e-a06f-4e72-943c-327cb1adece2: GET /api/dashboard/stats completed in 0.0035s with status 422
+2025-03-17 00:18:07 - app.core.middleware - INFO - Response 0078f23e-a06f-4e72-943c-327cb1adece2 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:19:07 - app.core.middleware - INFO - Request a38303aa-9c41-4e1e-8651-62fc62996020 started: GET /api/notifications
+2025-03-17 00:19:07 - app.core.middleware - INFO - Request a38303aa-9c41-4e1e-8651-62fc62996020 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:19:07 - app.core.middleware - INFO - Response a38303aa-9c41-4e1e-8651-62fc62996020: GET /api/notifications completed in 0.0040s with status 422
+2025-03-17 00:19:07 - app.core.middleware - INFO - Response a38303aa-9c41-4e1e-8651-62fc62996020 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:20:07 - app.core.middleware - INFO - Request 28e4e740-d299-4e1b-939b-14a3ba1a22c0 started: GET /api/notifications
+2025-03-17 00:20:07 - app.core.middleware - INFO - Request 28e4e740-d299-4e1b-939b-14a3ba1a22c0 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:20:07 - app.core.middleware - INFO - Response 28e4e740-d299-4e1b-939b-14a3ba1a22c0: GET /api/notifications completed in 0.0055s with status 422
+2025-03-17 00:20:07 - app.core.middleware - INFO - Response 28e4e740-d299-4e1b-939b-14a3ba1a22c0 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:20:53 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:21:07 - app.core.middleware - INFO - Request 8318f034-a7b0-4115-b0b6-75679fadaf3d started: GET /api/notifications
+2025-03-17 00:21:07 - app.core.middleware - INFO - Request 8318f034-a7b0-4115-b0b6-75679fadaf3d Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:21:07 - app.core.middleware - INFO - Response 8318f034-a7b0-4115-b0b6-75679fadaf3d: GET /api/notifications completed in 0.0060s with status 422
+2025-03-17 00:21:07 - app.core.middleware - INFO - Response 8318f034-a7b0-4115-b0b6-75679fadaf3d headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:22:09 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:22:09 - app.core.middleware - INFO - Request 718f4402-60b1-47c8-86be-647440eadeb3 started: GET /api/notifications
+2025-03-17 00:22:09 - app.core.middleware - INFO - Request 718f4402-60b1-47c8-86be-647440eadeb3 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:22:09 - app.core.middleware - INFO - Response 718f4402-60b1-47c8-86be-647440eadeb3: GET /api/notifications completed in 0.0040s with status 422
+2025-03-17 00:22:09 - app.core.middleware - INFO - Response 718f4402-60b1-47c8-86be-647440eadeb3 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:22:29 - app.core.middleware - INFO - Request da1948f8-4169-4fa9-bd1e-47f183770262 started: GET /api/dashboard/stats
+2025-03-17 00:22:29 - app.core.middleware - INFO - Request da1948f8-4169-4fa9-bd1e-47f183770262 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:22:29 - app.core.middleware - INFO - Response da1948f8-4169-4fa9-bd1e-47f183770262: GET /api/dashboard/stats completed in 0.0040s with status 422
+2025-03-17 00:22:29 - app.core.middleware - INFO - Response da1948f8-4169-4fa9-bd1e-47f183770262 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:22:29 - app.core.middleware - INFO - Request 153513ff-d56b-4db4-a1ce-0bd0d4069bc1 started: GET /api/notifications
+2025-03-17 00:22:29 - app.core.middleware - INFO - Request 153513ff-d56b-4db4-a1ce-0bd0d4069bc1 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:22:29 - app.core.middleware - INFO - Response 153513ff-d56b-4db4-a1ce-0bd0d4069bc1: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:22:29 - app.core.middleware - INFO - Response 153513ff-d56b-4db4-a1ce-0bd0d4069bc1 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:22:29 - app.core.middleware - INFO - Request 824fac8c-ad4b-455e-b9c0-2a039ed916ef started: GET /api/dashboard/stats
+2025-03-17 00:22:29 - app.core.middleware - INFO - Request 824fac8c-ad4b-455e-b9c0-2a039ed916ef Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:22:29 - app.core.middleware - INFO - Response 824fac8c-ad4b-455e-b9c0-2a039ed916ef: GET /api/dashboard/stats completed in 0.0035s with status 422
+2025-03-17 00:22:29 - app.core.middleware - INFO - Response 824fac8c-ad4b-455e-b9c0-2a039ed916ef headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:23:29 - app.core.middleware - INFO - Request c26d91fa-6af8-4fc8-9142-1146cd530e6e started: OPTIONS /api/notifications
+2025-03-17 00:23:29 - app.core.middleware - WARNING - Request c26d91fa-6af8-4fc8-9142-1146cd530e6e No Authorization header found
+2025-03-17 00:23:29 - app.core.middleware - INFO - Response c26d91fa-6af8-4fc8-9142-1146cd530e6e: OPTIONS /api/notifications completed in 0.0015s with status 200
+2025-03-17 00:23:29 - app.core.middleware - INFO - Response c26d91fa-6af8-4fc8-9142-1146cd530e6e headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:23:29 - app.core.middleware - INFO - Request 22cb3c5a-a3a1-421a-ab94-114696392c7d started: GET /api/notifications
+2025-03-17 00:23:29 - app.core.middleware - INFO - Request 22cb3c5a-a3a1-421a-ab94-114696392c7d Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:23:29 - app.core.middleware - INFO - Response 22cb3c5a-a3a1-421a-ab94-114696392c7d: GET /api/notifications completed in 0.0029s with status 422
+2025-03-17 00:23:29 - app.core.middleware - INFO - Response 22cb3c5a-a3a1-421a-ab94-114696392c7d headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:23:38 - app.core.middleware - INFO - Request 6c106d40-d8f7-4542-afe8-b74c759e178b started: GET /api/notifications
+2025-03-17 00:23:38 - app.core.middleware - INFO - Request 6c106d40-d8f7-4542-afe8-b74c759e178b Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:23:38 - app.core.middleware - INFO - Response 6c106d40-d8f7-4542-afe8-b74c759e178b: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:23:38 - app.core.middleware - INFO - Response 6c106d40-d8f7-4542-afe8-b74c759e178b headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:23:38 - app.core.middleware - INFO - Request a086732f-3d61-4c76-a439-b2cfed54522b started: GET /api/notifications
+2025-03-17 00:23:38 - app.core.middleware - INFO - Request a086732f-3d61-4c76-a439-b2cfed54522b Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:23:38 - app.core.middleware - INFO - Response a086732f-3d61-4c76-a439-b2cfed54522b: GET /api/notifications completed in 0.0025s with status 422
+2025-03-17 00:23:38 - app.core.middleware - INFO - Response a086732f-3d61-4c76-a439-b2cfed54522b headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:23:51 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:24:08 - app.core.middleware - INFO - Request 3b02f00c-3ae1-4688-b9b6-7834e5856073 started: POST /api/auth/auth0-callback
+2025-03-17 00:24:08 - app.core.middleware - WARNING - Request 3b02f00c-3ae1-4688-b9b6-7834e5856073 No Authorization header found
+2025-03-17 00:24:08 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 00:24:08 - app.core.auth - INFO - Starting token verification
+2025-03-17 00:24:08 - app.core.auth - INFO - Token header (unverified): {'alg': 'RS256', 'typ': 'JWT', 'kid': '5gfeNlZrrf28-aaST4wlm'}
+2025-03-17 00:24:38 - app.core.auth - ERROR - Failed to fetch JWKS: HTTPSConnectionPool(host='none', port=443): Max retries exceeded with url: /.well-known/jwks.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001C2C3AE57C0>, 'Connection to none timed out. (connect timeout=10)'))
+2025-03-17 00:24:38 - app.core.auth - ERROR - Failed to get RSA key: Failed to fetch JWKS
+2025-03-17 00:24:38 - app.core.auth - ERROR - No matching RSA key found for token
+2025-03-17 00:24:38 - app.core.auth - ERROR - Token verification error: No matching key found
+2025-03-17 00:24:38 - app.routers.auth - ERROR - Authentication error: Failed to process token: No matching key found
+2025-03-17 00:24:38 - app.core.middleware - INFO - Response 3b02f00c-3ae1-4688-b9b6-7834e5856073: POST /api/auth/auth0-callback completed in 30.1261s with status 401
+2025-03-17 00:24:38 - app.core.middleware - INFO - Response 3b02f00c-3ae1-4688-b9b6-7834e5856073 headers: {'content-length': '89', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request c227f0b0-6132-4496-ae67-695b441efda5 started: OPTIONS /api/dashboard/stats
+2025-03-17 00:24:39 - app.core.middleware - WARNING - Request c227f0b0-6132-4496-ae67-695b441efda5 No Authorization header found
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response c227f0b0-6132-4496-ae67-695b441efda5: OPTIONS /api/dashboard/stats completed in 0.0020s with status 200
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response c227f0b0-6132-4496-ae67-695b441efda5 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 13b9da0f-777f-45da-b3f6-1a91cf325ff7 started: GET /api/notifications
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 13b9da0f-777f-45da-b3f6-1a91cf325ff7 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request e6de30d7-fee2-41fc-b1d2-250531d75db2 started: OPTIONS /api/dashboard/stats
+2025-03-17 00:24:39 - app.core.middleware - WARNING - Request e6de30d7-fee2-41fc-b1d2-250531d75db2 No Authorization header found
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response e6de30d7-fee2-41fc-b1d2-250531d75db2: OPTIONS /api/dashboard/stats completed in 0.0025s with status 200
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response e6de30d7-fee2-41fc-b1d2-250531d75db2 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 13b9da0f-777f-45da-b3f6-1a91cf325ff7: GET /api/notifications completed in 0.0065s with status 422
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 13b9da0f-777f-45da-b3f6-1a91cf325ff7 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request c289644f-7f39-4d7d-957c-c4039d2a27a1 started: OPTIONS /api/dashboard/stats
+2025-03-17 00:24:39 - app.core.middleware - WARNING - Request c289644f-7f39-4d7d-957c-c4039d2a27a1 No Authorization header found
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response c289644f-7f39-4d7d-957c-c4039d2a27a1: OPTIONS /api/dashboard/stats completed in 0.0020s with status 200
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response c289644f-7f39-4d7d-957c-c4039d2a27a1 headers: {'vary': 'Origin', 'access-control-allow-methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'access-control-max-age': '600', 'access-control-allow-credentials': 'true', 'access-control-allow-origin': 'http://localhost:3000', 'access-control-allow-headers': 'authorization,content-type,x-csrf-token', 'content-length': '2', 'content-type': 'text/plain; charset=utf-8'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request af4a92f8-0b7d-4eba-82d6-86159cbb00bd started: GET /api/dashboard/stats
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request af4a92f8-0b7d-4eba-82d6-86159cbb00bd Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response af4a92f8-0b7d-4eba-82d6-86159cbb00bd: GET /api/dashboard/stats completed in 0.0030s with status 422
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response af4a92f8-0b7d-4eba-82d6-86159cbb00bd headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 337b9e93-8fa2-480d-8435-2691509c0406 started: GET /api/notifications
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 337b9e93-8fa2-480d-8435-2691509c0406 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 337b9e93-8fa2-480d-8435-2691509c0406: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 337b9e93-8fa2-480d-8435-2691509c0406 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 094234b5-4f35-499e-96b9-6d8751799e04 started: GET /api/dashboard/stats
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 094234b5-4f35-499e-96b9-6d8751799e04 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 094234b5-4f35-499e-96b9-6d8751799e04: GET /api/dashboard/stats completed in 0.0025s with status 422
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 094234b5-4f35-499e-96b9-6d8751799e04 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 48ff6a67-8d3a-452a-a766-caa301cde1cb started: GET /api/dashboard/stats
+2025-03-17 00:24:39 - app.core.middleware - INFO - Request 48ff6a67-8d3a-452a-a766-caa301cde1cb Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 48ff6a67-8d3a-452a-a766-caa301cde1cb: GET /api/dashboard/stats completed in 0.0025s with status 422
+2025-03-17 00:24:39 - app.core.middleware - INFO - Response 48ff6a67-8d3a-452a-a766-caa301cde1cb headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:25:39 - app.core.middleware - INFO - Request 67366b9d-f96c-45b9-8abe-3bb0320f41cf started: GET /api/notifications
+2025-03-17 00:25:39 - app.core.middleware - INFO - Request 67366b9d-f96c-45b9-8abe-3bb0320f41cf Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:25:39 - app.core.middleware - INFO - Response 67366b9d-f96c-45b9-8abe-3bb0320f41cf: GET /api/notifications completed in 0.0030s with status 422
+2025-03-17 00:25:39 - app.core.middleware - INFO - Response 67366b9d-f96c-45b9-8abe-3bb0320f41cf headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:27:28 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:29:32 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:29:55 - app.core.middleware - INFO - Request c7bb3f32-10b9-429c-af85-74aef5f26bee started: POST /api/auth/auth0-callback
+2025-03-17 00:29:55 - app.core.middleware - WARNING - Request c7bb3f32-10b9-429c-af85-74aef5f26bee No Authorization header found
+2025-03-17 00:29:55 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 00:29:55 - app.core.auth - INFO - Starting token verification
+2025-03-17 00:29:55 - app.core.auth - INFO - Token header (unverified): {'alg': 'RS256', 'typ': 'JWT', 'kid': '5gfeNlZrrf28-aaST4wlm'}
+2025-03-17 00:29:55 - app.core.auth - INFO - Fetching JWKS from https://None/.well-known/jwks.json
+2025-03-17 00:30:58 - app.core.auth - ERROR - Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 00:30:58 - app.core.auth - ERROR - Token verification error: Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 00:30:58 - app.routers.auth - ERROR - Authentication error: Failed to process token: Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 00:30:58 - app.core.middleware - INFO - Response c7bb3f32-10b9-429c-af85-74aef5f26bee: POST /api/auth/auth0-callback completed in 63.1984s with status 401
+2025-03-17 00:30:58 - app.core.middleware - INFO - Response c7bb3f32-10b9-429c-af85-74aef5f26bee headers: {'content-length': '210', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains'}
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 5f32b301-3c21-49e0-ac5b-79e7a791963c started: GET /api/dashboard/stats
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 5f32b301-3c21-49e0-ac5b-79e7a791963c Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 90664e23-9ff5-4be5-a422-3d2c9a9d19aa started: GET /api/notifications
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 90664e23-9ff5-4be5-a422-3d2c9a9d19aa Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 5f32b301-3c21-49e0-ac5b-79e7a791963c: GET /api/dashboard/stats completed in 0.0055s with status 422
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 5f32b301-3c21-49e0-ac5b-79e7a791963c headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 90664e23-9ff5-4be5-a422-3d2c9a9d19aa: GET /api/notifications completed in 0.0055s with status 422
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 90664e23-9ff5-4be5-a422-3d2c9a9d19aa headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 1a2711c6-a1bc-4d67-aac0-0fa6705a3a08 started: GET /api/dashboard/stats
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 1a2711c6-a1bc-4d67-aac0-0fa6705a3a08 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 0aa3bb55-5809-4690-a616-fea398950402 started: GET /api/notifications
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request 0aa3bb55-5809-4690-a616-fea398950402 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 1a2711c6-a1bc-4d67-aac0-0fa6705a3a08: GET /api/dashboard/stats completed in 0.0055s with status 422
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 1a2711c6-a1bc-4d67-aac0-0fa6705a3a08 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 0aa3bb55-5809-4690-a616-fea398950402: GET /api/notifications completed in 0.0060s with status 422
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response 0aa3bb55-5809-4690-a616-fea398950402 headers: {'content-length': '141', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request dccb6cad-2d1a-4712-8749-48242f4b67a7 started: GET /api/dashboard/stats
+2025-03-17 00:31:00 - app.core.middleware - INFO - Request dccb6cad-2d1a-4712-8749-48242f4b67a7 Authorization header present: Bearer [TOKEN MASKED]
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response dccb6cad-2d1a-4712-8749-48242f4b67a7: GET /api/dashboard/stats completed in 0.0025s with status 422
+2025-03-17 00:31:00 - app.core.middleware - INFO - Response dccb6cad-2d1a-4712-8749-48242f4b67a7 headers: {'content-length': '270', 'content-type': 'application/json', 'x-content-type-options': 'nosniff', 'x-frame-options': 'DENY', 'x-xss-protection': '1; mode=block', 'strict-transport-security': 'max-age=31536000; includeSubDomains', 'access-control-allow-credentials': 'true', 'access-control-expose-headers': '*', 'access-control-allow-origin': 'http://localhost:3000', 'vary': 'Origin'}
+2025-03-17 00:32:46 - app.core.middleware - WARNING - Redis client not provided. Rate limiting will be disabled.
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 567bb221-2785-4d7b-90e9-cb840891f170 started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 8ab9040e-18f1-4c2a-85fd-aad2079d9d43 started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 567bb221-2785-4d7b-90e9-cb840891f170 completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0035s
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 8ab9040e-18f1-4c2a-85fd-aad2079d9d43 completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0030s
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 645fed2d-a08b-4ace-a4d5-8598d4e40793 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 645fed2d-a08b-4ace-a4d5-8598d4e40793 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0045s
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 2a125cf8-b388-45a1-b03f-e508a92de009 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 00:39:05 - app.core.middleware - INFO - Request 2a125cf8-b388-45a1-b03f-e508a92de009 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 48f3d67e-df51-4b7b-a6de-7c5164eb3540 started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 48f3d67e-df51-4b7b-a6de-7c5164eb3540 completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0025s
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 640359c9-fc6f-4ff5-8059-288f5c4b3929 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 24165fcc-10dd-4116-bb23-37a1cc9061d2 started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 24165fcc-10dd-4116-bb23-37a1cc9061d2 completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0025s
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 640359c9-fc6f-4ff5-8059-288f5c4b3929 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0050s
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 1fa3454a-3cc2-4a12-ae2d-8dd5303afaae started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 00:39:12 - app.core.middleware - INFO - Request 1fa3454a-3cc2-4a12-ae2d-8dd5303afaae completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0030s
+2025-03-17 00:40:05 - app.core.middleware - INFO - Request 096359d3-023a-4cc6-a7ed-9e48ed982b18 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 00:40:05 - app.core.middleware - INFO - Request 096359d3-023a-4cc6-a7ed-9e48ed982b18 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request ccbedcd9-80e8-4ab1-914b-86e5e32f11e9 started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request db9dded0-5d8a-4397-a2b9-103fdca23bf4 started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request ccbedcd9-80e8-4ab1-914b-86e5e32f11e9 completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0040s
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request db9dded0-5d8a-4397-a2b9-103fdca23bf4 completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0040s
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request 280c6ef7-9d14-470b-98a9-e485056ac989 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request 280c6ef7-9d14-470b-98a9-e485056ac989 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request 025a7284-ee6e-4f0c-99f6-9d2bab94a46e started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:11:24 - app.core.middleware - INFO - Request 025a7284-ee6e-4f0c-99f6-9d2bab94a46e completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 11:11:33 - app.core.middleware - INFO - Request b0d256a7-1563-49a2-87fc-990cb44b69f9 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 11:11:33 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 11:11:33 - app.core.auth - INFO - Starting token verification
+2025-03-17 11:11:33 - app.core.auth - INFO - Fetching JWKS from https://None/.well-known/jwks.json
+2025-03-17 11:12:36 - app.core.auth - ERROR - Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:12:36 - app.core.auth - ERROR - Failed to get RSA key: Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:12:36 - app.core.auth - ERROR - Token verification failed: No valid key found for token
+2025-03-17 11:12:36 - app.routers.auth - ERROR - Authentication error: No valid key found for token
+2025-03-17 11:12:36 - app.core.middleware - INFO - Request b0d256a7-1563-49a2-87fc-990cb44b69f9 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 401 - Time: 63.1847s
+2025-03-17 11:12:37 - app.core.middleware - INFO - Request 422b88f4-7706-4173-b449-ff0d78745d7b started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 11:12:37 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 11:12:37 - app.core.auth - INFO - Starting token verification
+2025-03-17 11:12:37 - app.core.auth - INFO - Fetching JWKS from https://None/.well-known/jwks.json
+2025-03-17 11:13:40 - app.core.auth - ERROR - Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:13:40 - app.core.auth - ERROR - Failed to get RSA key: Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:13:40 - app.core.auth - ERROR - Token verification failed: No valid key found for token
+2025-03-17 11:13:40 - app.routers.auth - ERROR - Authentication error: No valid key found for token
+2025-03-17 11:13:40 - app.core.middleware - INFO - Request 422b88f4-7706-4173-b449-ff0d78745d7b completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 401 - Time: 63.0939s
+2025-03-17 11:13:42 - app.core.middleware - INFO - Request 6ed0ae0c-b305-4cdd-ac25-fd1fcb307f4d started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 11:13:42 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 11:13:42 - app.core.auth - INFO - Starting token verification
+2025-03-17 11:13:42 - app.core.auth - INFO - Fetching JWKS from https://None/.well-known/jwks.json
+2025-03-17 11:14:46 - app.core.auth - ERROR - Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:14:46 - app.core.auth - ERROR - Failed to get RSA key: Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:14:46 - app.core.auth - ERROR - Token verification failed: No valid key found for token
+2025-03-17 11:14:46 - app.routers.auth - ERROR - Authentication error: No valid key found for token
+2025-03-17 11:14:46 - app.core.middleware - INFO - Request 6ed0ae0c-b305-4cdd-ac25-fd1fcb307f4d completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 401 - Time: 63.1095s
+2025-03-17 11:14:49 - app.core.middleware - INFO - Request b69b6861-f7e6-4cbb-9360-9435be7f1b8c started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 11:14:49 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 11:14:49 - app.core.auth - INFO - Starting token verification
+2025-03-17 11:14:49 - app.core.auth - INFO - Fetching JWKS from https://None/.well-known/jwks.json
+2025-03-17 11:15:52 - app.core.auth - ERROR - Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:15:52 - app.core.auth - ERROR - Failed to get RSA key: Failed to fetch JWKS: Cannot connect to host none:443 ssl:default [Connect call failed ('fde8:832f:d2c8:5d89:4600:49ff:fe65:d4a6', 443, 0, 0)]
+2025-03-17 11:15:52 - app.core.auth - ERROR - Token verification failed: No valid key found for token
+2025-03-17 11:15:52 - app.routers.auth - ERROR - Authentication error: No valid key found for token
+2025-03-17 11:15:52 - app.core.middleware - INFO - Request b69b6861-f7e6-4cbb-9360-9435be7f1b8c completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 401 - Time: 63.1406s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 77d36bda-7ae2-4307-b6ca-c3e69022e487 started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 03e05874-dcfa-49dd-b68e-78915634de10 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request e61c17d1-b4da-4adc-91b1-6852b3b2d219 started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 77d36bda-7ae2-4307-b6ca-c3e69022e487 completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0050s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request e61c17d1-b4da-4adc-91b1-6852b3b2d219 completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0050s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 4bbe7332-a2f0-4a71-b32c-32be39942f03 started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 03e05874-dcfa-49dd-b68e-78915634de10 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0080s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 4bbe7332-a2f0-4a71-b32c-32be39942f03 completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0030s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 98418532-b1d8-487f-bfd5-3dfa6bd5b453 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 98418532-b1d8-487f-bfd5-3dfa6bd5b453 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0030s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request c0622951-af99-4971-bb43-91af104114ef started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request c0622951-af99-4971-bb43-91af104114ef completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0020s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request d0e11e0b-d114-4c75-a1b4-8fcd7a049c80 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request d0e11e0b-d114-4c75-a1b4-8fcd7a049c80 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 1d01e3e3-1a5d-4b3e-a04b-7bdcd6ef840c started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 11:15:53 - app.core.middleware - INFO - Request 1d01e3e3-1a5d-4b3e-a04b-7bdcd6ef840c completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 11:16:53 - app.core.middleware - INFO - Request f86bad15-7d40-478e-bf1f-1d8894387df3 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:16:53 - app.core.middleware - INFO - Request f86bad15-7d40-478e-bf1f-1d8894387df3 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 11:17:54 - app.core.middleware - INFO - Request 36160311-8730-43bd-a1a5-bfffdb2bd828 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:17:54 - app.core.middleware - INFO - Request 36160311-8730-43bd-a1a5-bfffdb2bd828 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 11:18:53 - app.core.middleware - INFO - Request 4a797d1d-80f8-4f33-ac9a-18d3483e479e started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:18:53 - app.core.middleware - INFO - Request 4a797d1d-80f8-4f33-ac9a-18d3483e479e completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 11:19:54 - app.core.middleware - INFO - Request c2e2f74e-0063-475a-b0fb-ed26f225807b started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:19:54 - app.core.middleware - INFO - Request c2e2f74e-0063-475a-b0fb-ed26f225807b completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 11:21:09 - app.core.middleware - INFO - Request 34f13342-00b6-499d-a578-7f4e53f1e9c7 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:21:09 - app.core.middleware - INFO - Request 34f13342-00b6-499d-a578-7f4e53f1e9c7 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0045s
+2025-03-17 11:22:08 - app.core.middleware - INFO - Request e7b5123d-3a77-4ef5-afcf-26ad23c06a15 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 11:22:08 - app.core.middleware - INFO - Request e7b5123d-3a77-4ef5-afcf-26ad23c06a15 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 15:04:42 - root - INFO - Redis client initialized successfully
+2025-03-17 15:04:42 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:07:26 - root - INFO - Redis client initialized successfully
+2025-03-17 15:07:26 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:07:35 - root - INFO - Redis client initialized successfully
+2025-03-17 15:07:35 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:09:11 - root - INFO - Redis client initialized successfully
+2025-03-17 15:09:11 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:09:20 - root - INFO - Redis client initialized successfully
+2025-03-17 15:09:20 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:09:48 - root - INFO - Redis client initialized successfully
+2025-03-17 15:09:48 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:10:58 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request fcb5a7a9-5677-4485-871c-f8ef9bb3725f started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:10:58 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:10:58 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 2a55744b-a4a6-4851-a0b3-cea615869604 started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 72bc097a-4d52-450f-ae7e-eed3fb333747 started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request fcb5a7a9-5677-4485-871c-f8ef9bb3725f completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0060s
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 2a55744b-a4a6-4851-a0b3-cea615869604 completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0045s
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 72bc097a-4d52-450f-ae7e-eed3fb333747 completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0045s
+2025-03-17 15:10:58 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 798ee0ee-0ec6-4d89-a401-67ef8c5288c5 started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:10:58 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 315d9eb9-cb1c-4064-965a-cb09acc7ecfb started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 798ee0ee-0ec6-4d89-a401-67ef8c5288c5 completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0040s
+2025-03-17 15:10:58 - app.core.middleware - INFO - Request 315d9eb9-cb1c-4064-965a-cb09acc7ecfb completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0030s
+2025-03-17 15:11:03 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:11:03 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:11:03 - app.core.middleware - INFO - Request 9e7ab5ee-7c2f-4583-a460-150efa156344 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:11:03 - app.core.middleware - INFO - Request 74f4faa7-3611-43fa-8e73-49a9f2675876 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:11:03 - app.core.middleware - INFO - Request 9e7ab5ee-7c2f-4583-a460-150efa156344 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0075s
+2025-03-17 15:11:03 - app.core.middleware - INFO - Request 74f4faa7-3611-43fa-8e73-49a9f2675876 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0075s
+2025-03-17 15:11:04 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:11:04 - app.core.middleware - INFO - Request 09056290-fbf1-4c55-8053-68c352079c15 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:11:04 - app.core.middleware - INFO - Request 09056290-fbf1-4c55-8053-68c352079c15 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 15:11:14 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:11:14 - app.core.middleware - INFO - Request 24ea5c05-e942-44b8-928f-8c414f80e706 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 15:11:14 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 15:11:14 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 15:11:14 - app.core.auth - INFO - Starting token verification
+2025-03-17 15:11:14 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 15:11:14 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 15:11:14 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 15:11:14 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 15:11:14 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 15:11:14 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 15:11:14 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 15:11:14 - app.routers.auth - INFO - Assigned role: admin
+2025-03-17 15:11:14 - app.routers.auth - ERROR - Auth0 callback error: Could not determine join condition between parent/child tables on relationship User.client - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+2025-03-17 15:11:14 - app.core.middleware - INFO - Request 24ea5c05-e942-44b8-928f-8c414f80e706 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.3498s
+2025-03-17 15:11:19 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:11:19 - app.core.middleware - INFO - Request 5c8fd424-2d40-4ba0-a6a2-cbd211e4d3b0 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:11:19 - app.core.middleware - INFO - Request 5c8fd424-2d40-4ba0-a6a2-cbd211e4d3b0 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0031s
+2025-03-17 15:11:19 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:11:19 - app.core.middleware - INFO - Request 6688c9c5-4483-4940-bb3a-e2dd33d4ce9a started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:11:19 - app.core.middleware - INFO - Request 6688c9c5-4483-4940-bb3a-e2dd33d4ce9a completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 15:11:23 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:11:23 - app.core.middleware - INFO - Request cc620ae6-0108-4fbb-b5ad-b5a15f7da075 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:11:23 - app.core.middleware - INFO - Request cc620ae6-0108-4fbb-b5ad-b5a15f7da075 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 15:12:19 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:12:19 - app.core.middleware - INFO - Request b5a67474-86fc-4ed8-97ad-c33161fb96dd started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:12:19 - app.core.middleware - INFO - Request b5a67474-86fc-4ed8-97ad-c33161fb96dd completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 15:13:19 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:13:19 - app.core.middleware - INFO - Request dfd55f3a-ed96-4365-9a29-06b0aa7852be started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:13:19 - app.core.middleware - INFO - Request dfd55f3a-ed96-4365-9a29-06b0aa7852be completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 15:14:19 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:14:19 - app.core.middleware - INFO - Request 0233b544-5b31-4ee3-829f-16c2d7355cac started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:14:19 - app.core.middleware - INFO - Request 0233b544-5b31-4ee3-829f-16c2d7355cac completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 15:22:59 - root - INFO - Redis client initialized successfully
+2025-03-17 15:22:59 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:23:17 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:23:17 - app.core.middleware - INFO - Request 9cb01740-93e7-4fb9-9068-19cd7f0e03ca started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:23:17 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:23:17 - app.core.middleware - INFO - Request 14a37c67-740b-4d61-8667-3f876291bc0e started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:23:17 - app.core.middleware - INFO - Request 9cb01740-93e7-4fb9-9068-19cd7f0e03ca completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0065s
+2025-03-17 15:23:17 - app.core.middleware - INFO - Request 14a37c67-740b-4d61-8667-3f876291bc0e completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0055s
+2025-03-17 15:23:21 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:23:21 - app.core.middleware - INFO - Request dfff6c81-b48c-4cc6-9cbe-ccd6712d392a started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:23:21 - app.core.middleware - INFO - Request dfff6c81-b48c-4cc6-9cbe-ccd6712d392a completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 15:23:21 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:23:21 - app.core.middleware - INFO - Request d9d2897e-e027-4515-8c6f-8e807c41c251 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:23:21 - app.core.middleware - INFO - Request d9d2897e-e027-4515-8c6f-8e807c41c251 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0020s
+2025-03-17 15:23:25 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:23:25 - app.core.middleware - INFO - Request fd79e155-4512-4739-97bd-c7959e1c822e started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:23:25 - app.core.middleware - INFO - Request fd79e155-4512-4739-97bd-c7959e1c822e completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 15:24:17 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:24:17 - app.core.middleware - INFO - Request 65ef4083-99c2-4c36-b993-84aa72f1bb1a started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:24:17 - app.core.middleware - INFO - Request 65ef4083-99c2-4c36-b993-84aa72f1bb1a completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 15:25:17 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:25:17 - app.core.middleware - INFO - Request 83740395-0ecd-4cdc-b212-05393c0b30bf started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:25:17 - app.core.middleware - INFO - Request 83740395-0ecd-4cdc-b212-05393c0b30bf completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 15:26:17 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:26:17 - app.core.middleware - INFO - Request fbbc8e19-e17c-4ca2-b5fe-cd743ab2f737 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:26:17 - app.core.middleware - INFO - Request fbbc8e19-e17c-4ca2-b5fe-cd743ab2f737 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 15:27:17 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:27:17 - app.core.middleware - INFO - Request 5ac9bff1-0dac-4965-a589-19215973fca9 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:27:17 - app.core.middleware - INFO - Request 5ac9bff1-0dac-4965-a589-19215973fca9 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 15:28:17 - root - INFO - Redis client initialized successfully
+2025-03-17 15:28:17 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:28:40 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:28:40 - app.core.middleware - INFO - Request 1dbe6772-61c5-458a-b48b-a301dac8bdc0 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:28:40 - app.core.middleware - INFO - Request 1dbe6772-61c5-458a-b48b-a301dac8bdc0 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 15:28:46 - root - INFO - Redis client initialized successfully
+2025-03-17 15:28:46 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 15:29:12 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:29:12 - app.core.middleware - INFO - Request 5f3cd755-a5a4-4063-9049-faa04654924a started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:29:12 - app.core.middleware - INFO - Request 5f3cd755-a5a4-4063-9049-faa04654924a completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 15:29:22 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:29:22 - app.core.middleware - INFO - Request 96a29925-a6c7-4029-b318-34a0a0629a39 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 15:29:22 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 15:29:22 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 15:29:22 - app.core.auth - INFO - Starting token verification
+2025-03-17 15:29:22 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 15:29:22 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 15:29:22 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 15:29:22 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 15:29:22 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 15:29:22 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 15:29:22 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 15:29:22 - app.routers.auth - INFO - Assigned role: client
+2025-03-17 15:29:22 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'Document' failed to locate a name ('Document'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 15:29:22 - app.core.middleware - INFO - Request 96a29925-a6c7-4029-b318-34a0a0629a39 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.3478s
+2025-03-17 15:29:27 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:29:27 - app.core.middleware - INFO - Request d92f56d8-5724-498c-85e3-950907b30a84 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:29:27 - app.core.middleware - INFO - Request d92f56d8-5724-498c-85e3-950907b30a84 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 15:29:27 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:29:27 - app.core.middleware - INFO - Request beca3483-35c2-4202-9e0f-33849918451e started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 15:29:27 - app.core.middleware - INFO - Request beca3483-35c2-4202-9e0f-33849918451e completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 15:29:31 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 15:29:31 - app.core.middleware - INFO - Request d296eddd-8f2e-4857-b64a-5ef64941305c started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 15:29:31 - app.core.middleware - INFO - Request d296eddd-8f2e-4857-b64a-5ef64941305c completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0020s
+2025-03-17 22:54:05 - root - INFO - Redis client initialized successfully
+2025-03-17 22:54:05 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 22:54:38 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:54:38 - app.core.middleware - INFO - Request 6655ae93-dddb-43ec-8574-933ef91dfff5 started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:54:38 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:54:38 - app.core.middleware - INFO - Request d9a9d7f4-f2b7-47e5-8eda-2d5473a97f24 started: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:54:38 - app.core.middleware - INFO - Request 6655ae93-dddb-43ec-8574-933ef91dfff5 completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0035s
+2025-03-17 22:54:38 - app.core.middleware - INFO - Request d9a9d7f4-f2b7-47e5-8eda-2d5473a97f24 completed: OPTIONS http://localhost:8000/api/notifications?page=1&limit=20 - Status: 200 - Time: 0.0030s
+2025-03-17 22:54:53 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:54:53 - app.core.middleware - INFO - Request 5e62d0b2-2d57-4d34-8c19-3382182a4d57 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 22:54:53 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 22:54:53 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 22:54:53 - app.core.auth - INFO - Starting token verification
+2025-03-17 22:54:53 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 22:54:53 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 22:54:53 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 22:54:53 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 22:54:53 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 22:54:53 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 22:54:53 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 22:54:53 - app.routers.auth - INFO - Assigned role: client
+2025-03-17 22:54:53 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'Document' failed to locate a name ('Document'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 22:54:53 - app.core.middleware - INFO - Request 5e62d0b2-2d57-4d34-8c19-3382182a4d57 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.3650s
+2025-03-17 22:54:58 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:54:58 - app.core.middleware - INFO - Request 030da240-cfbf-47f7-8284-8b2c6b75558c started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 22:54:58 - app.core.middleware - INFO - Request 030da240-cfbf-47f7-8284-8b2c6b75558c completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0015s
+2025-03-17 22:54:59 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:54:59 - app.core.middleware - INFO - Request 0a0d0e3b-5b14-42cb-974d-0ccdb1f7572a started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:54:59 - app.core.middleware - INFO - Request 0a0d0e3b-5b14-42cb-974d-0ccdb1f7572a completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 22:54:59 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:54:59 - app.core.middleware - INFO - Request 69230b95-58ba-4a12-b1e2-67255bf3de2e started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 22:54:59 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:54:59 - app.core.middleware - INFO - Request 74a12cb7-d34d-4929-b072-9116bd4bfe3a started: OPTIONS http://localhost:8000/api/dashboard/stats
+2025-03-17 22:54:59 - app.core.middleware - INFO - Request 69230b95-58ba-4a12-b1e2-67255bf3de2e completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0035s
+2025-03-17 22:54:59 - app.core.middleware - INFO - Request 74a12cb7-d34d-4929-b072-9116bd4bfe3a completed: OPTIONS http://localhost:8000/api/dashboard/stats - Status: 200 - Time: 0.0025s
+2025-03-17 22:55:02 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:55:02 - app.core.middleware - INFO - Request 5a7b6fa9-5b24-44d0-bf88-0f5738d4e9f4 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 22:55:02 - app.core.middleware - INFO - Request 5a7b6fa9-5b24-44d0-bf88-0f5738d4e9f4 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0020s
+2025-03-17 22:55:03 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:55:03 - app.core.middleware - INFO - Request 4294b429-f2c5-480e-b904-4669076d6340 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:55:03 - app.core.middleware - INFO - Request 4294b429-f2c5-480e-b904-4669076d6340 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 22:55:07 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:55:07 - app.core.middleware - INFO - Request dad08a23-09e4-4daf-819c-2dc858a293e0 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 22:55:07 - app.core.middleware - INFO - Request dad08a23-09e4-4daf-819c-2dc858a293e0 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 22:55:11 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:55:11 - app.core.middleware - INFO - Request 7883f9ee-43a5-4a3d-ae2e-91f448bdf3fb started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 22:55:11 - app.core.middleware - INFO - Request 7883f9ee-43a5-4a3d-ae2e-91f448bdf3fb completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0030s
+2025-03-17 22:55:59 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:55:59 - app.core.middleware - INFO - Request 25e69d69-bc72-46d4-926f-af69cf6629cb started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:55:59 - app.core.middleware - INFO - Request 25e69d69-bc72-46d4-926f-af69cf6629cb completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 22:56:49 - root - INFO - Redis client initialized successfully
+2025-03-17 22:56:49 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 22:56:59 - app.core.middleware - ERROR - Rate limiting error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-17 22:56:59 - app.core.middleware - INFO - Request 083da3f4-abed-4d22-b091-5a322f9ba4f8 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:56:59 - app.core.middleware - INFO - Request 083da3f4-abed-4d22-b091-5a322f9ba4f8 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 22:57:01 - root - INFO - Redis client initialized successfully
+2025-03-17 22:57:01 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 22:57:14 - root - INFO - Redis client initialized successfully
+2025-03-17 22:57:14 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 22:57:48 - root - INFO - Redis client initialized successfully
+2025-03-17 22:57:48 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 22:57:55 - app.core.middleware - INFO - Request 580cacff-9dff-4261-8b74-f32282d48b13 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:57:55 - app.core.middleware - INFO - Request 580cacff-9dff-4261-8b74-f32282d48b13 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 22:57:56 - app.core.middleware - INFO - Request 7e36cc27-1d07-49bf-b10e-b003d03ead75 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:57:56 - app.core.middleware - INFO - Request 7e36cc27-1d07-49bf-b10e-b003d03ead75 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 22:58:08 - app.core.middleware - INFO - Request 0ec07431-a474-448e-b815-178acdfbf325 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 22:58:08 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 22:58:08 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 22:58:08 - app.core.auth - INFO - Starting token verification
+2025-03-17 22:58:08 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 22:58:08 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 22:58:08 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 22:58:08 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 22:58:08 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 22:58:08 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 22:58:08 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 22:58:08 - app.routers.auth - INFO - Assigned role: client
+2025-03-17 22:58:08 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'Document' failed to locate a name ('Document'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 22:58:08 - app.core.middleware - INFO - Request 0ec07431-a474-448e-b815-178acdfbf325 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.4815s
+2025-03-17 22:58:09 - app.core.middleware - INFO - Request 83c97e25-47e4-4a43-a182-01696fd91be0 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 22:58:09 - app.core.middleware - INFO - Request 83c97e25-47e4-4a43-a182-01696fd91be0 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0030s
+2025-03-17 22:58:09 - app.core.middleware - INFO - Request dc0fe797-d714-4b21-ad01-04647889dd73 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:58:09 - app.core.middleware - INFO - Request dc0fe797-d714-4b21-ad01-04647889dd73 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 22:58:09 - app.core.middleware - INFO - Request 07af9a40-093c-4982-a68a-e5450fec45f0 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 22:58:09 - app.core.middleware - INFO - Request 07af9a40-093c-4982-a68a-e5450fec45f0 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 22:59:10 - app.core.middleware - INFO - Request 54f14243-3315-4379-b938-7b3c43970385 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 22:59:10 - app.core.middleware - INFO - Request 54f14243-3315-4379-b938-7b3c43970385 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 23:00:10 - app.core.middleware - INFO - Request c998ffbe-0799-42a0-afce-f1b339295872 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:00:10 - app.core.middleware - INFO - Request c998ffbe-0799-42a0-afce-f1b339295872 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 23:01:10 - app.core.middleware - INFO - Request 4e8a6f2d-c935-4abd-83d9-5f324e0ca634 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:01:10 - app.core.middleware - INFO - Request 4e8a6f2d-c935-4abd-83d9-5f324e0ca634 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 23:02:10 - app.core.middleware - INFO - Request cc12b1de-fe0f-45a3-8c7a-ed622cbdf015 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:02:10 - app.core.middleware - INFO - Request cc12b1de-fe0f-45a3-8c7a-ed622cbdf015 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 23:02:58 - root - INFO - Redis client initialized successfully
+2025-03-17 23:02:58 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:03:07 - root - INFO - Redis client initialized successfully
+2025-03-17 23:03:07 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:03:18 - root - INFO - Redis client initialized successfully
+2025-03-17 23:03:18 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:03:39 - app.core.middleware - INFO - Request da6da58b-2696-4f3c-b807-75003be76e15 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:03:39 - app.core.middleware - INFO - Request da6da58b-2696-4f3c-b807-75003be76e15 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 23:03:45 - app.core.middleware - INFO - Request 6798e900-d8ca-44d9-bd69-9583ae99824d started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:03:45 - app.core.middleware - INFO - Request 6798e900-d8ca-44d9-bd69-9583ae99824d completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:03:45 - app.core.middleware - INFO - Request 27751bee-2ce3-473c-8787-a721835883c5 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:03:45 - app.core.middleware - INFO - Request 27751bee-2ce3-473c-8787-a721835883c5 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 23:03:58 - app.core.middleware - INFO - Request 748b3fb0-db67-48af-9d07-71847113a801 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 23:03:58 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 23:03:58 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 23:03:58 - app.core.auth - INFO - Starting token verification
+2025-03-17 23:03:58 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 23:03:59 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 23:03:59 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 23:03:59 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 23:03:59 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 23:03:59 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 23:03:59 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 23:03:59 - app.routers.auth - INFO - Assigned role: admin
+2025-03-17 23:03:59 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'Document' failed to locate a name ('Document'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 23:03:59 - app.core.middleware - INFO - Request 748b3fb0-db67-48af-9d07-71847113a801 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.4725s
+2025-03-17 23:04:00 - app.core.middleware - INFO - Request 676d8b08-04f0-4724-bb18-51113fb45559 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:04:00 - app.core.middleware - INFO - Request 676d8b08-04f0-4724-bb18-51113fb45559 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:04:00 - app.core.middleware - INFO - Request e2dac657-7efc-4cdb-ae6e-4d856f185990 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:04:00 - app.core.middleware - INFO - Request e2dac657-7efc-4cdb-ae6e-4d856f185990 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:04:00 - app.core.middleware - INFO - Request 64f2e804-88eb-4a2a-b548-8210d202e9d8 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:04:00 - app.core.middleware - INFO - Request 64f2e804-88eb-4a2a-b548-8210d202e9d8 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:05:00 - app.core.middleware - INFO - Request 68938a94-aa0b-42f4-abf4-f3b17d9fdcd2 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:05:00 - app.core.middleware - INFO - Request 68938a94-aa0b-42f4-abf4-f3b17d9fdcd2 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:05:18 - root - INFO - Redis client initialized successfully
+2025-03-17 23:05:18 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:05:29 - root - INFO - Redis client initialized successfully
+2025-03-17 23:05:29 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request 31c84caa-f7b2-45e4-a763-d34efe5999ea started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request 31c84caa-f7b2-45e4-a763-d34efe5999ea completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0035s
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request ea393f3c-d294-4a01-892e-9a4c479a2e0c started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request de451426-6d52-40d8-becc-4b367e93b481 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request ea393f3c-d294-4a01-892e-9a4c479a2e0c completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request de451426-6d52-40d8-becc-4b367e93b481 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0040s
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request a138292f-8b42-45ef-81f2-86770aa0402f started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request bb927c16-d53c-45dc-b3cd-e1e5a8008a25 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request a138292f-8b42-45ef-81f2-86770aa0402f completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 23:05:37 - app.core.middleware - INFO - Request bb927c16-d53c-45dc-b3cd-e1e5a8008a25 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0040s
+2025-03-17 23:06:23 - root - INFO - Redis client initialized successfully
+2025-03-17 23:06:23 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request c2a24da1-acb1-43fd-b42b-cc682569a6f6 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request d180f259-4697-4ccc-9dda-27a5e8a1680a started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request c2a24da1-acb1-43fd-b42b-cc682569a6f6 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0055s
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request d180f259-4697-4ccc-9dda-27a5e8a1680a completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0050s
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request 8989740d-c508-4a31-8992-2f5d1f14ade3 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request 132d0908-ec79-4e94-9df1-e55aff157e32 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request 8989740d-c508-4a31-8992-2f5d1f14ade3 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0040s
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request 132d0908-ec79-4e94-9df1-e55aff157e32 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request e574b46f-e730-4bfe-b194-b5b753a0075b started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:06:30 - app.core.middleware - INFO - Request e574b46f-e730-4bfe-b194-b5b753a0075b completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0020s
+2025-03-17 23:06:33 - app.core.middleware - INFO - Request 4c83c659-b3c2-4313-9f3e-56c8be59e640 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:06:33 - app.core.middleware - INFO - Request 4c83c659-b3c2-4313-9f3e-56c8be59e640 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 23:06:41 - app.core.middleware - INFO - Request 38dcd89d-c729-4d9f-9447-1cce172932f4 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 23:06:41 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 23:06:41 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 23:06:41 - app.core.auth - INFO - Starting token verification
+2025-03-17 23:06:41 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 23:06:41 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 23:06:41 - app.routers.auth - INFO - Token verified for subject: auth0|67d4e72248b94d853d213653
+2025-03-17 23:06:41 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 23:06:41 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 23:06:41 - app.routers.auth - INFO - Retrieved user info for: chester@chettechpro.com
+2025-03-17 23:06:41 - app.routers.auth - INFO - Processing user: chester@chettechpro.com (auth0|67d4e72248b94d853d213653)
+2025-03-17 23:06:41 - app.routers.auth - INFO - Assigned role: admin
+2025-03-17 23:06:41 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'Document' failed to locate a name ('Document'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 23:06:41 - app.core.middleware - INFO - Request 38dcd89d-c729-4d9f-9447-1cce172932f4 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.3415s
+2025-03-17 23:06:42 - app.core.middleware - INFO - Request 689377e0-8bf8-46d2-b1ce-b6dc2ea65b84 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:06:42 - app.core.middleware - INFO - Request 689377e0-8bf8-46d2-b1ce-b6dc2ea65b84 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:06:42 - app.core.middleware - INFO - Request 786c7a42-0245-4acc-a059-da94ef7576f6 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:06:42 - app.core.middleware - INFO - Request 786c7a42-0245-4acc-a059-da94ef7576f6 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:06:42 - app.core.middleware - INFO - Request 8465bc04-b88b-4205-82d0-dedf24153ee6 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:06:42 - app.core.middleware - INFO - Request 8465bc04-b88b-4205-82d0-dedf24153ee6 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:07:42 - app.core.middleware - INFO - Request e7218755-1207-4425-89ef-28ba83d17a4f started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:07:42 - app.core.middleware - INFO - Request e7218755-1207-4425-89ef-28ba83d17a4f completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:08:33 - root - INFO - Redis client initialized successfully
+2025-03-17 23:08:33 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:08:44 - root - INFO - Redis client initialized successfully
+2025-03-17 23:08:44 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:08:44 - app.core.middleware - INFO - Request 5ab9953c-79ce-4f9b-a55b-dbd5d717c26a started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:08:44 - app.core.middleware - INFO - Request 5ab9953c-79ce-4f9b-a55b-dbd5d717c26a completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request f3c9a545-1dbc-4c75-ab26-6373f0bdb0a7 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request f3c9a545-1dbc-4c75-ab26-6373f0bdb0a7 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0030s
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 2357cef1-cd7d-4b43-99b4-3f876cad3acd started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 2357cef1-cd7d-4b43-99b4-3f876cad3acd completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 90b494cd-1aac-4b7f-9253-12ed22d7ae72 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 90b494cd-1aac-4b7f-9253-12ed22d7ae72 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0020s
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 7adab40b-38d8-4bfc-b4f6-aefb197d1780 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 7adab40b-38d8-4bfc-b4f6-aefb197d1780 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 8ab1b2fa-be8c-4121-ba2a-1d55def07a72 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:09:10 - app.core.middleware - INFO - Request 8ab1b2fa-be8c-4121-ba2a-1d55def07a72 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 23:09:22 - app.core.middleware - INFO - Request 4687d744-938d-4aae-98fe-d3842ba836b1 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:09:22 - app.core.middleware - INFO - Request 4687d744-938d-4aae-98fe-d3842ba836b1 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 23:09:29 - app.core.middleware - INFO - Request 90c0f51c-1596-42be-b9d9-5c5966a27a22 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 23:09:29 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 23:09:29 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 23:09:29 - app.core.auth - INFO - Starting token verification
+2025-03-17 23:09:29 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 23:09:29 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 23:09:29 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 23:09:29 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 23:09:29 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 23:09:29 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 23:09:29 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 23:09:29 - app.routers.auth - INFO - Assigned role: admin
+2025-03-17 23:09:29 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'Document' failed to locate a name ('Document'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 23:09:29 - app.core.middleware - INFO - Request 90c0f51c-1596-42be-b9d9-5c5966a27a22 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.4525s
+2025-03-17 23:09:30 - app.core.middleware - INFO - Request 1c0fd86e-b808-439a-97f3-1797e9fd1bd7 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:09:30 - app.core.middleware - INFO - Request 1c0fd86e-b808-439a-97f3-1797e9fd1bd7 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:09:30 - app.core.middleware - INFO - Request 314163d2-c35e-43ed-97bb-893a69f36cbd started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:09:30 - app.core.middleware - INFO - Request 314163d2-c35e-43ed-97bb-893a69f36cbd completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0025s
+2025-03-17 23:09:30 - app.core.middleware - INFO - Request e2ab76ed-505f-4e1c-a1a3-f5cde21d99ab started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:09:30 - app.core.middleware - INFO - Request e2ab76ed-505f-4e1c-a1a3-f5cde21d99ab completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0020s
+2025-03-17 23:10:30 - app.core.middleware - INFO - Request 53718935-2c67-42fd-bf9f-e1c2a196bf36 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:10:30 - app.core.middleware - INFO - Request 53718935-2c67-42fd-bf9f-e1c2a196bf36 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:15:45 - root - INFO - Redis client initialized successfully
+2025-03-17 23:15:45 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request 15d0dd7b-fcfc-46d3-87b6-b7f925b71d70 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request 4002190e-8b7a-4526-b7f6-f554b03f722b started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request 15d0dd7b-fcfc-46d3-87b6-b7f925b71d70 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0050s
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request 4002190e-8b7a-4526-b7f6-f554b03f722b completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0051s
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request e8f154cd-9a7f-4244-ac88-ebfd8dc4c284 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request 32e29c58-a1f3-46df-8af9-ca43d5f2cb06 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request e8f154cd-9a7f-4244-ac88-ebfd8dc4c284 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0055s
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request 32e29c58-a1f3-46df-8af9-ca43d5f2cb06 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0050s
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request a99369cb-53bf-4ea6-833d-c51554f3620c started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:15:52 - app.core.middleware - INFO - Request a99369cb-53bf-4ea6-833d-c51554f3620c completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:15:55 - app.core.middleware - INFO - Request 7da918f2-5454-4197-bdb6-39b9b99fb41f started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:15:55 - app.core.middleware - INFO - Request 7da918f2-5454-4197-bdb6-39b9b99fb41f completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:16:09 - app.core.middleware - INFO - Request 5014bd5b-c7e2-4122-a990-1c766e0543db started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 23:16:09 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 23:16:09 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 23:16:09 - app.core.auth - INFO - Starting token verification
+2025-03-17 23:16:09 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 23:16:09 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 23:16:09 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 23:16:09 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 23:16:09 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 23:16:09 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 23:16:09 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 23:16:09 - app.routers.auth - INFO - Assigned role: admin
+2025-03-17 23:16:09 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'AuditLog' failed to locate a name ('AuditLog'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 23:16:09 - app.core.middleware - INFO - Request 5014bd5b-c7e2-4122-a990-1c766e0543db completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.3330s
+2025-03-17 23:16:10 - app.core.middleware - INFO - Request 1c712365-ece9-4d18-a49c-51099d7fab5a started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:16:10 - app.core.middleware - INFO - Request 1c712365-ece9-4d18-a49c-51099d7fab5a completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0030s
+2025-03-17 23:16:10 - app.core.middleware - INFO - Request 52cc3351-3e9e-4c7b-b372-056096d2216f started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:16:10 - app.core.middleware - INFO - Request 52cc3351-3e9e-4c7b-b372-056096d2216f completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:16:10 - app.core.middleware - INFO - Request 7a553e8c-b28e-491d-897b-9d3e36798ca2 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:16:10 - app.core.middleware - INFO - Request 7a553e8c-b28e-491d-897b-9d3e36798ca2 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:17:01 - app.core.middleware - INFO - Request 2306432e-f835-4cb5-864b-b791a1f13f2e started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:17:01 - app.core.middleware - INFO - Request 2306432e-f835-4cb5-864b-b791a1f13f2e completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0030s
+2025-03-17 23:17:01 - app.core.middleware - INFO - Request 964cc4be-882f-48b5-8d7d-80856a22fcda started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:17:01 - app.core.middleware - INFO - Request 964cc4be-882f-48b5-8d7d-80856a22fcda completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0020s
+2025-03-17 23:18:29 - root - INFO - Redis client initialized successfully
+2025-03-17 23:18:29 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:18:32 - root - INFO - Redis client initialized successfully
+2025-03-17 23:18:32 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:19:20 - app.core.middleware - INFO - Request 9fd1237b-64a6-4091-a8b0-526f61cd8b17 started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 23:19:20 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 23:19:20 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 23:19:20 - app.core.auth - INFO - Starting token verification
+2025-03-17 23:19:20 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 23:19:20 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 23:19:20 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 23:19:20 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 23:19:21 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 23:19:21 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 23:19:21 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 23:19:21 - app.routers.auth - INFO - Assigned role: admin
+2025-03-17 23:19:21 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'AuditLog' failed to locate a name ('AuditLog'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 23:19:21 - app.core.middleware - INFO - Request 9fd1237b-64a6-4091-a8b0-526f61cd8b17 completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.4685s
+2025-03-17 23:19:22 - app.core.middleware - INFO - Request d667efa5-e2fc-41c7-a35d-bf9760a3428c started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:19:22 - app.core.middleware - INFO - Request 61a6c467-85b4-4c92-875e-73b1611928dc started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:19:22 - app.core.middleware - INFO - Request d667efa5-e2fc-41c7-a35d-bf9760a3428c completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0045s
+2025-03-17 23:19:22 - app.core.middleware - INFO - Request 61a6c467-85b4-4c92-875e-73b1611928dc completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 23:19:22 - app.core.middleware - INFO - Request b3aead70-833d-4068-a949-5c47e2027fef started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:19:22 - app.core.middleware - INFO - Request b3aead70-833d-4068-a949-5c47e2027fef completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:20:21 - app.core.middleware - INFO - Request f911c390-c0a7-4127-ab24-5a5103380a10 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:20:21 - app.core.middleware - INFO - Request f911c390-c0a7-4127-ab24-5a5103380a10 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 23:21:57 - root - INFO - Redis client initialized successfully
+2025-03-17 23:21:57 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 20f96865-f47a-408a-a830-948dd6a9031a started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 20f96865-f47a-408a-a830-948dd6a9031a completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0035s
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request f0aba23d-0bf4-43c2-a284-8f5768e2e39f started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 489755f3-f56b-485f-b4be-95bb74fd8a26 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request f0aba23d-0bf4-43c2-a284-8f5768e2e39f completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0045s
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 489755f3-f56b-485f-b4be-95bb74fd8a26 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0035s
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 15cfd4f4-4ecc-4cf9-9157-da0bb6152cda started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 7139e3d4-d195-4ba9-8c9b-0d65de59dfcd started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 15cfd4f4-4ecc-4cf9-9157-da0bb6152cda completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 23:22:03 - app.core.middleware - INFO - Request 7139e3d4-d195-4ba9-8c9b-0d65de59dfcd completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0035s
+2025-03-17 23:22:26 - app.core.middleware - INFO - Request 7353b1d7-d21d-4233-96f4-e0374dd655ec started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:22:26 - app.core.middleware - INFO - Request 7353b1d7-d21d-4233-96f4-e0374dd655ec completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0035s
+2025-03-17 23:22:37 - root - INFO - Redis client initialized successfully
+2025-03-17 23:22:37 - root - INFO - Auth0 configuration loaded - Domain: dev-fqp1z1l3km7uj2gq.us.auth0.com, Audience: https://idimsapi
+2025-03-17 23:22:51 - app.core.middleware - INFO - Request 337be7e6-9c53-4fc2-bf0e-39ea573407ba started: POST http://localhost:8000/api/auth/auth0-callback
+2025-03-17 23:22:51 - app.routers.auth - INFO - Auth0 callback received with scope: openid profile email
+2025-03-17 23:22:51 - app.routers.auth - INFO - Received Auth0 callback
+2025-03-17 23:22:51 - app.core.auth - INFO - Starting token verification
+2025-03-17 23:22:51 - app.core.auth - INFO - Fetching JWKS from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/.well-known/jwks.json
+2025-03-17 23:22:51 - app.core.auth - INFO - JWKS fetched and cached successfully
+2025-03-17 23:22:51 - app.routers.auth - INFO - Token verified for subject: google-oauth2|110674600011943435167
+2025-03-17 23:22:51 - app.core.auth - INFO - Fetching user info from https://dev-fqp1z1l3km7uj2gq.us.auth0.com/userinfo
+2025-03-17 23:22:51 - app.core.auth - INFO - User info fetched successfully
+2025-03-17 23:22:51 - app.routers.auth - INFO - Retrieved user info for: technicalhatchet@gmail.com
+2025-03-17 23:22:51 - app.routers.auth - INFO - Processing user: technicalhatchet@gmail.com (google-oauth2|110674600011943435167)
+2025-03-17 23:22:51 - app.routers.auth - INFO - Assigned role: admin
+2025-03-17 23:22:51 - app.routers.auth - ERROR - Auth0 callback error: When initializing mapper Mapper[User(users)], expression 'Document' failed to locate a name ('Document'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-03-17 23:22:51 - app.core.middleware - INFO - Request 337be7e6-9c53-4fc2-bf0e-39ea573407ba completed: POST http://localhost:8000/api/auth/auth0-callback - Status: 500 - Time: 0.3545s
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request 553f631a-ff96-48a0-a720-d04cea91ab05 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request 553f631a-ff96-48a0-a720-d04cea91ab05 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0025s
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request fafe8dbd-0d30-4396-9bbe-1d4633555554 started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request 6e953574-7658-4985-85f5-ee009e759874 started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request fafe8dbd-0d30-4396-9bbe-1d4633555554 completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0040s
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request 6e953574-7658-4985-85f5-ee009e759874 completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0035s
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request b4579201-6f75-4bae-9620-d4240f48db4f started: GET http://localhost:8000/api/notifications?page=1&limit=20
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request 9aa92d77-18ee-46b5-9fdf-fc1c8cfe5cad started: GET http://localhost:8000/api/dashboard/stats
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request b4579201-6f75-4bae-9620-d4240f48db4f completed: GET http://localhost:8000/api/notifications?page=1&limit=20 - Status: 422 - Time: 0.0045s
+2025-03-17 23:22:53 - app.core.middleware - INFO - Request 9aa92d77-18ee-46b5-9fdf-fc1c8cfe5cad completed: GET http://localhost:8000/api/dashboard/stats - Status: 422 - Time: 0.0035s
