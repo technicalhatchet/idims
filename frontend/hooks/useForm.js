@@ -28,19 +28,16 @@ export function useForm(initialValues = {}, onSubmit, validate) {
   
   // Handle input change
   const handleChange = useCallback((e) => {
-    const { name, value, type, checked } = e.target;
-    const fieldValue = type === 'checkbox' ? checked : value;
-    
+    const { name, value } = e.target;
     setValues(prev => ({
       ...prev,
-      [name]: fieldValue
+      [name]: value
     }));
-    
-    // Clear error on change
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
-        [name]: undefined
+        [name]: ''
       }));
     }
   }, [errors]);

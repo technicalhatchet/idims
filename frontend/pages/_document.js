@@ -6,10 +6,10 @@ export default function Document() {
       <Head>
         <meta charSet="utf-8" />
         <meta name="description" content="Service Business Management Portal - Streamline your service business operations" />
-        <meta name="theme-color" content="#ffffff" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="theme-color" content="#000000" />
         <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         
         {/* Add any preconnect links if needed */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

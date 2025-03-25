@@ -10,19 +10,18 @@ import {
   getSkills,
   getTechnicianAvailability,
   updateTechnicianAvailability
-} from '@/services/api/techniciansApi';
+} from '../services/api/techniciansApi';
 
 /**
  * Hook for technicians list with pagination and filtering
  */
-export function useTechnicians(params = {}, options = {}) {
+export function useTechnicians(params = {}) {
   return useQuery(
     ['technicians', params],
     () => getTechnicians(params),
     {
       keepPreviousData: true,
-      staleTime: 10000, // 10 seconds
-      ...options,
+      staleTime: 5 * 60 * 1000 // 5 minutes
     }
   );
 }
@@ -30,13 +29,13 @@ export function useTechnicians(params = {}, options = {}) {
 /**
  * Hook for single technician by ID
  */
-export function useTechnician(id, options = {}) {
+export function useTechnician(id) {
   return useQuery(
     ['technician', id],
     () => getTechnician(id),
     {
       enabled: !!id,
-      ...options,
+      staleTime: 5 * 60 * 1000 // 5 minutes
     }
   );
 }
@@ -58,13 +57,13 @@ export function useTechnicianWorkload(id, startDate, endDate, options = {}) {
 /**
  * Hook for technician performance metrics
  */
-export function useTechnicianPerformance(id, period = 'month', options = {}) {
+export function useTechnicianPerformance(id, period = 'month') {
   return useQuery(
-    ['technicianPerformance', id, period],
+    ['technician-performance', id, period],
     () => getTechnicianPerformance(id, period),
     {
       enabled: !!id,
-      ...options,
+      staleTime: 15 * 60 * 1000 // 15 minutes
     }
   );
 }
@@ -103,33 +102,33 @@ export function useTechnicianAvailability(id, startDate, endDate, options = {}) 
 export function useTechnicianMutations() {
   const queryClient = useQueryClient();
   
-  // Create technician
-  const createMutation = useMutation(createTechnician, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries('technicians');
-      return data;
-    },
-  });
-  
-  // Update technician
-  const updateMutation = useMutation(
-    ({ id, data }) => updateTechnician(id, data),
+  const createTechnicianMutation = useMutation(
+    (technicianData) => createTechnician(technicianData),
     {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(['technician', data.id]);
+      onSuccess: () => {
         queryClient.invalidateQueries('technicians');
-        return data;
       },
     }
   );
   
-  // Delete technician
-  const deleteMutation = useMutation(deleteTechnician, {
-    onSuccess: (_, id) => {
-      queryClient.invalidateQueries(['technician', id]);
-      queryClient.invalidateQueries('technicians');
-    },
-  });
+  const updateTechnicianMutation = useMutation(
+    ({ id, data }) => updateTechnician(id, data),
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(['technician', variables.id]);
+        queryClient.invalidateQueries('technicians');
+      },
+    }
+  );
+  
+  const deleteTechnicianMutation = useMutation(
+    (id) => deleteTechnician(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('technicians');
+      },
+    }
+  );
   
   // Update technician availability
   const updateAvailabilityMutation = useMutation(
@@ -144,19 +143,31 @@ export function useTechnicianMutations() {
   );
   
   return {
-    createTechnician: createMutation.mutateAsync,
-    updateTechnician: updateMutation.mutateAsync,
-    deleteTechnician: deleteMutation.mutateAsync,
+    createTechnician: createTechnicianMutation.mutateAsync,
+    updateTechnician: updateTechnicianMutation.mutateAsync,
+    deleteTechnician: deleteTechnicianMutation.mutateAsync,
     updateTechnicianAvailability: updateAvailabilityMutation.mutateAsync,
     isLoading: 
-      createMutation.isLoading || 
-      updateMutation.isLoading || 
-      deleteMutation.isLoading || 
+      createTechnicianMutation.isLoading || 
+      updateTechnicianMutation.isLoading || 
+      deleteTechnicianMutation.isLoading || 
       updateAvailabilityMutation.isLoading,
     error:
-      createMutation.error ||
-      updateMutation.error ||
-      deleteMutation.error ||
+      createTechnicianMutation.error ||
+      updateTechnicianMutation.error ||
+      deleteTechnicianMutation.error ||
       updateAvailabilityMutation.error,
   };
+}
+
+// Hook for fetching technician schedule/workload
+export function useTechnicianSchedule(id, startDate, endDate) {
+  return useQuery(
+    ['technician-schedule', id, startDate?.toISOString(), endDate?.toISOString()],
+    () => getTechnicianWorkload(id, startDate, endDate),
+    {
+      enabled: !!id && !!startDate && !!endDate,
+      staleTime: 5 * 60 * 1000 // 5 minutes
+    }
+  );
 }

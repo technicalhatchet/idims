@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timedelta, date
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.models.work_order import WorkOrder
 from app.models.technician import Technician
 from app.core.exceptions import NotFoundException, ValidationException, ConflictException
@@ -19,7 +19,16 @@ from app.schemas.scheduling import (
 )
 
 router = APIRouter()
-auth_handler = AuthHandler()
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_manager_or_admin_dependency():
+    """Lazy-loaded dependency for manager or admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_manager_or_admin()
 
 @router.get("/schedule", response_model=ScheduleResponse)
 async def get_schedule(
@@ -28,7 +37,7 @@ async def get_schedule(
     technician_id: Optional[uuid.UUID] = Query(None, description="Filter by technician ID"),
     client_id: Optional[uuid.UUID] = Query(None, description="Filter by client ID"),
     view_type: str = Query("day", description="View type (day, week, month, list)"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -125,7 +134,7 @@ async def get_schedule(
 @router.post("/schedule", response_model=AppointmentResponse)
 async def schedule_appointment(
     appointment_data: ScheduleRequest = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -241,7 +250,7 @@ async def get_available_slots(
     date: date = Query(..., description="Date to check for available slots"),
     technician_id: Optional[uuid.UUID] = Query(None, description="Technician ID to check availability for"),
     duration_minutes: int = Query(60, description="Duration of the appointment in minutes"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -339,7 +348,7 @@ async def get_technician_availability(
     technician_id: uuid.UUID = Query(..., description="Technician ID to check availability for"),
     start_date: date = Query(..., description="Start date of the range"),
     end_date: date = Query(..., description="End date of the range"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -416,7 +425,7 @@ async def get_technician_availability(
 async def update_technician_availability(
     technician_id: uuid.UUID = Path(..., description="Technician ID to update availability for"),
     availability: TechnicianAvailability = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """

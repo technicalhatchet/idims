@@ -6,14 +6,26 @@ from datetime import datetime
 import json
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.config import settings
+from app.models.chat import ChatMessage, ChatSession
+from app.schemas.chat import (
+    ChatMessageCreate, ChatMessageResponse,
+    ChatSessionCreate, ChatSessionResponse,
+    ChatSessionListResponse
+)
+from app.services.chat_service import ChatService
+from app.core.exceptions import NotFoundException, ValidationException
 
 router = APIRouter()
-auth_handler = AuthHandler()
 
 # In a real app, this would be stored in a database or Redis
 active_connections: Dict[str, Set[WebSocket]] = {}
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
 
 @router.websocket("/chat/ws/{user_id}")
 async def chat_websocket(
@@ -115,7 +127,7 @@ async def get_chat_history(
     conversation_id: str = Path(..., description="ID of the conversation"),
     limit: int = Query(50, ge=1, le=100, description="Maximum number of messages to return"),
     before: Optional[str] = Query(None, description="ISO timestamp to get messages before"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -141,7 +153,7 @@ async def get_chat_history(
 
 @router.get("/chat/conversations")
 async def list_conversations(
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -172,7 +184,7 @@ async def list_conversations(
 @router.post("/chat/send")
 async def send_message(
     message: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -194,7 +206,7 @@ async def send_message(
 @router.post("/chat/mark-read")
 async def mark_messages_read(
     data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -210,7 +222,7 @@ async def mark_messages_read(
 
 @router.get("/chat/unread-count")
 async def get_unread_count(
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -219,3 +231,52 @@ async def get_unread_count(
     # In a real app, you would calculate this from the database
     
     return {"unread_count": 0}
+
+@router.get("/chat/rooms", response_model=ChatSessionListResponse)
+async def list_chat_rooms(
+    page: int = Query(1, ge=1, description="Page number"),
+    limit: int = Query(20, ge=1, le=100, description="Items per page"),
+    current_user: User = Depends(get_current_user_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of the method
+    pass
+
+@router.post("/chat/rooms", response_model=ChatSessionResponse, status_code=status.HTTP_201_CREATED)
+async def create_chat_room(
+    room: ChatSessionCreate = Body(...),
+    current_user: User = Depends(get_current_user_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of the method
+    pass
+
+@router.get("/chat/rooms/{room_id}", response_model=ChatSessionResponse)
+async def get_chat_room(
+    room_id: uuid.UUID = Path(..., description="The ID of the chat room"),
+    current_user: User = Depends(get_current_user_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of the method
+    pass
+
+@router.get("/chat/rooms/{room_id}/messages", response_model=List[ChatMessageResponse])
+async def get_chat_messages(
+    room_id: uuid.UUID = Path(..., description="The ID of the chat room"),
+    page: int = Query(1, ge=1, description="Page number"),
+    limit: int = Query(50, ge=1, le=100, description="Messages per page"),
+    current_user: User = Depends(get_current_user_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of the method
+    pass
+
+@router.post("/chat/rooms/{room_id}/messages", response_model=ChatMessageResponse, status_code=status.HTTP_201_CREATED)
+async def create_chat_message(
+    room_id: uuid.UUID = Path(..., description="The ID of the chat room"),
+    message: ChatMessageCreate = Body(...),
+    current_user: User = Depends(get_current_user_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of the method
+    pass

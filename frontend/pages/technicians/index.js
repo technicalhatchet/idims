@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
-import { FaPlus, FaFilter } from 'react-icons/fa';
+import { FaPlus, FaSearch, FaFilter } from 'react-icons/fa';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
-import TechniciansTable from '@/components/technicians/TechniciansTable';
-import Pagination from '@/components/ui/Pagination';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
-import { useTechnicians } from '@/hooks/useTechnicians';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
+import TechniciansTable from '../../components/technicians/TechniciansTable';
+import Pagination from '../../components/ui/Pagination';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../components/ui/ErrorAlert';
+import { useTechnicians } from '../../hooks/useTechnicians';
+import { withPageAuthRequired } from '../../utils/auth0-helpers';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 function Technicians() {
   const [page, setPage] = useState(1);

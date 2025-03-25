@@ -12,6 +12,7 @@ import tempfile
 from app.models.invoice import Invoice, InvoiceItem
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderService, WorkOrderItem
+from app.models.quote import Quote
 from app.schemas.invoice import InvoiceCreate, InvoiceUpdate, InvoiceSend
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 from app.services.notification_service import NotificationService

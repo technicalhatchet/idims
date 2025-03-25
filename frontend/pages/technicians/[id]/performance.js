@@ -1,94 +1,100 @@
 // src/pages/technicians/[id]/performance.js
 import { useState } from 'react';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import DashboardLayout from '../../components/layouts/DashboardLayout';
-import TechnicianPerformance from '@/components/technicians/TechnicianPerformance';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '../../components/ui/ErrorAlert';
-import { useTechnician, useTechnicianPerformance } from '@/hooks/useTechnicians';
+import DashboardLayout from '../../../components/layouts/DashboardLayout';
+import TechnicianPerformance from '../../../components/technicians/TechnicianPerformance';
+import LoadingSpinner from '../../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../../components/ui/ErrorAlert';
+import { useTechnician, useTechnicianPerformance } from '../../../hooks/useTechnicians';
+import { useAuthRedirect } from '../../../hooks/useAuthRedirect';
+import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 
 function TechnicianPerformancePage() {
   const router = useRouter();
   const { id } = router.query;
   const [period, setPeriod] = useState('month');
   
-  // Fetch technician details
-  const { 
-    data: technician, 
-    isLoading: isLoadingTechnician,
-    error: technicianError
+  useAuthRedirect();
+  
+  const {
+    data: technician,
+    isLoading,
+    error,
+    refetch
   } = useTechnician(id);
-
-  // Fetch performance data
-  const { 
-    data: performance, 
+  
+  const {
+    data: performance,
     isLoading: isLoadingPerformance,
     error: performanceError,
-    refetch
+    refetch: refetchPerformance
   } = useTechnicianPerformance(id, period);
-
-  const handlePeriodChange = (e) => {
-    setPeriod(e.target.value);
+  
+  const handlePeriodChange = (newPeriod) => {
+    setPeriod(newPeriod);
   };
-
-  if (isLoadingTechnician) {
+  
+  if (isLoading) {
     return (
       <div className="px-4 py-6">
         <LoadingSpinner />
       </div>
     );
   }
-
-  if (technicianError) {
+  
+  if (error) {
     return (
       <div className="px-4 py-6">
         <ErrorAlert 
           message="Failed to load technician details" 
+          onRetry={refetch}
         />
       </div>
     );
   }
-
+  
   return (
     <>
       <Head>
-        <title>{`${technician?.user?.first_name} ${technician?.user?.last_name} Performance | Service Business Management`}</title>
+        <title>{`${technician?.user?.first_name} ${technician?.user?.last_name} | Performance | Service Business Management`}</title>
       </Head>
-
+      
       <div className="px-4 py-6">
-        {/* Header */}
-        <div className="mb-6">
-          <Link href={`/technicians/${id}`} className="text-blue-600 hover:text-blue-800">
-            ← Back to Technician
-          </Link>
-          <div className="flex items-center justify-between mt-4">
-            <h1 className="text-2xl font-bold">
+        <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
+          <div>
+            <div className="flex items-center">
+              <Link href={`/technicians/${id}`} className="text-blue-600 hover:text-blue-800 mr-2">
+                <span className="text-sm">←</span> Back to Details
+              </Link>
+            </div>
+            <h1 className="text-2xl font-bold mt-2">
               {technician?.user?.first_name} {technician?.user?.last_name} - Performance
             </h1>
-            
-            <div>
-              <select
-                value={period}
-                onChange={handlePeriodChange}
-                className="form-select rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              >
-                <option value="week">Weekly</option>
-                <option value="month">Monthly</option>
-                <option value="quarter">Quarterly</option>
-                <option value="year">Yearly</option>
-              </select>
-            </div>
+          </div>
+          
+          <div className="mt-4 md:mt-0">
+            <select
+              value={period}
+              onChange={(e) => handlePeriodChange(e.target.value)}
+              className="form-select rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            >
+              <option value="week">Weekly</option>
+              <option value="month">Monthly</option>
+              <option value="quarter">Quarterly</option>
+              <option value="year">Yearly</option>
+            </select>
           </div>
         </div>
         
         {performanceError ? (
           <ErrorAlert 
             message="Failed to load performance data" 
-            onRetry={refetch}
+            onRetry={refetchPerformance}
           />
+        ) : isLoadingPerformance ? (
+          <LoadingSpinner />
         ) : (
           <TechnicianPerformance 
             performance={performance} 

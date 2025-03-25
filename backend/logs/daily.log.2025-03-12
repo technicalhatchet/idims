@@ -1,0 +1,54 @@
+2025-03-12 00:13:48 - root - INFO - Redis client initialized
+2025-03-12 00:13:48 - app.background.worker - INFO - Setting up background tasks with Celery
+2025-03-12 00:22:12 - root - INFO - Redis client initialized
+2025-03-12 00:22:12 - app.background.worker - INFO - Setting up background tasks with Celery
+2025-03-12 00:23:03 - root - INFO - Application shutting down
+2025-03-12 00:23:03 - root - INFO - Redis connection closed
+2025-03-12 00:23:42 - root - INFO - Redis client initialized
+2025-03-12 00:23:42 - app.background.worker - INFO - Setting up background tasks with Celery
+2025-03-12 00:27:05 - root - INFO - Application shutting down
+2025-03-12 00:27:05 - root - INFO - Redis connection closed
+2025-03-12 22:21:51 - root - INFO - Redis client initialized
+2025-03-12 22:21:51 - app.background.worker - INFO - Setting up background tasks with Celery
+2025-03-12 22:34:43 - app.core.middleware - INFO - Request 0f31bf17-114a-4f96-89a7-0a05b5725d69: HEAD / from 60.191.125.35 - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+2025-03-12 22:34:47 - app.core.middleware - ERROR - Unhandled exception: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-03-12 22:34:47 - app.core.middleware - ERROR - Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 93, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\anyio\streams\memory.py", line 118, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 101, in dispatch
+    return await call_next(request)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\starlette\middleware\base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "C:\Users\chee3\IdeaProjects\idims\backend\app\core\middleware.py", line 142, in dispatch
+    current = await self.redis_client.get(rate_key)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\client.py", line 545, in execute_command
+    conn = self.connection or await pool.get_connection(command_name, **options)
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 1105, in get_connection
+    await connection.connect()
+  File "C:\Users\chee3\IdeaProjects\idims\venv\lib\site-packages\redis\asyncio\connection.py", line 251, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+
+2025-03-12 22:34:47 - app.core.middleware - INFO - Response 0f31bf17-114a-4f96-89a7-0a05b5725d69: HEAD / completed in 4.1120s with status 500
+2025-03-12 22:47:33 - root - INFO - Application shutting down
+2025-03-12 22:47:33 - root - INFO - Redis connection closed

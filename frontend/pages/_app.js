@@ -1,10 +1,9 @@
-// frontend/pages/_app.js
+import '../styles/globals.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from '../context/ThemeContext';
-import { NotificationProvider } from '../context/NotificationContext';
-import { SidebarProvider } from '../context/SidebarContext';
-import ErrorBoundary from '../context/ErrorBoundary';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -12,28 +11,29 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: 1,
-      staleTime: 30000, // 30 seconds
     },
   },
 });
 
-export default function App({ Component, pageProps }) {
-  // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout || ((page) => page);
-
+function MyApp({ Component, pageProps }) {
+  const { user } = pageProps;
+  
   return (
-    <ErrorBoundary>
-      <UserProvider>
+    <UserProvider>
+      <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <SidebarProvider>
-              <NotificationProvider>
-                {getLayout(<Component {...pageProps} />)}
-              </NotificationProvider>
-            </SidebarProvider>
-          </ThemeProvider>
+          {/* Layout is provided by Component.getLayout if defined or falls back to default */}
+          {Component.getLayout ? (
+            Component.getLayout(<Component {...pageProps} />)
+          ) : (
+            <Component {...pageProps} />
+          )}
+          <Toaster position="top-right" />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
-      </UserProvider>
-    </ErrorBoundary>
+      </ThemeProvider>
+    </UserProvider>
   );
 }
+
+export default MyApp;

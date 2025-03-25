@@ -8,6 +8,9 @@ from app.models.notification import Notification, NotificationTemplate
 from app.schemas.notification import NotificationCreate
 from app.core.exceptions import BadRequestException
 from app.services.cache_service import cache_service
+from app.models.user import User
+from app.models.quote import Quote
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -283,74 +286,124 @@ class NotificationService:
     @staticmethod
     async def create_notification(
         db: Session,
-        notification: NotificationCreate,
-        send_immediately: bool = True
+        user_id: uuid.UUID,
+        title: str,
+        message: str,
+        notification_type: str,
+        reference_id: Optional[uuid.UUID] = None,
+        priority: str = "normal"
     ) -> Notification:
-        """Create a notification and optionally send it immediately"""
-        if not notification.user_id:
-            raise BadRequestException("User ID is required for notification")
-        
-        # Create notification record
-        db_notification = Notification(
-            user_id=notification.user_id,
-            template_id=notification.template_id,
-            title=notification.title,
-            content=notification.content,
-            type=notification.type,
-            status="pending",
-            related_id=notification.related_id,
-            related_type=notification.related_type,
+        """
+        Create a new notification.
+        """
+        notification = Notification(
+            user_id=user_id,
+            title=title,
+            message=message,
+            notification_type=notification_type,
+            reference_id=reference_id,
+            priority=priority,
+            is_read=False
         )
         
-        db.add(db_notification)
+        db.add(notification)
         db.commit()
-        db.refresh(db_notification)
+        db.refresh(notification)
         
-        # Send notification if requested
-        if send_immediately:
-            success = await NotificationService.send_notification(db_notification)
-            
-            if success:
-                db_notification.status = "sent"
-                db_notification.sent_at = datetime.utcnow()
-                db.commit()
-        
-        return db_notification
-    
+        return notification
+
     @staticmethod
-    async def send_notification(notification: Notification) -> bool:
-        """Send a notification based on its type with enhanced error handling"""
-        if not notification or not notification.user_id:
-            return False
+    async def create_quote_notification(
+        db: Session,
+        quote_id: uuid.UUID,
+        action: str,
+        message: str,
+        created_by: uuid.UUID
+    ) -> List[Notification]:
+        """
+        Create notifications for quote-related actions.
+        """
+        notifications = []
         
-        try:
-            # Get user information (in a real implementation, you'd fetch from DB)
-            user_email = "user@example.com"  # Replace with actual user email
-            user_phone = "+12345678901"      # Replace with actual user phone
-            
-            if notification.type == "email":
-                return await NotificationService.send_email(
-                    user_email,
-                    notification.title,
-                    notification.content
-                )
-            elif notification.type == "sms":
-                return await NotificationService.send_sms(
-                    user_phone,
-                    notification.content
-                )
-            elif notification.type == "push":
-                return await NotificationService.send_push_notification(
-                    notification.user_id,
-                    notification.title,
-                    notification.content
-                )
-            elif notification.type == "in_app":
-                # In-app notifications don't need to be sent externally
-                return True
-            else:
-                logger.error(f"Unsupported notification type: {notification.type}")
-                return False
-        except Exception as e:
-            logger.error(f"Error sending notification: {str(e)}")
-            return False
+        # Get relevant users (client, manager, admin)
+        quote = db.query(Quote).filter(Quote.id == quote_id).first()
+        if not quote:
+            return notifications
+        
+        # Notify client
+        client = db.query(User).filter(User.id == quote.client_id).first()
+        if client:
+            notification = await NotificationService.create_notification(
+                db=db,
+                user_id=client.id,
+                title=f"Quote #{quote_id} Update",
+                message=message,
+                notification_type="quote",
+                reference_id=quote_id,
+                priority="normal"
+            )
+            notifications.append(notification)
+        
+        # Notify managers and admins
+        managers = db.query(User).filter(
+            User.role.in_(["manager", "admin"])
+        ).all()
+        
+        for manager in managers:
+            notification = await NotificationService.create_notification(
+                db=db,
+                user_id=manager.id,
+                title=f"Quote #{quote_id} Update",
+                message=message,
+                notification_type="quote",
+                reference_id=quote_id,
+                priority="normal"
+            )
+            notifications.append(notification)
+        
+        return notifications
+
+    @staticmethod
+    async def mark_notification_read(
+        db: Session,
+        notification_id: uuid.UUID,
+        user_id: uuid.UUID
+    ) -> Notification:
+        """
+        Mark a notification as read.
+        """
+        notification = db.query(Notification).filter(
+            Notification.id == notification_id,
+            Notification.user_id == user_id
+        ).first()
+        
+        if not notification:
+            raise NotFoundException(f"Notification with ID {notification_id} not found")
+        
+        notification.is_read = True
+        notification.read_at = datetime.utcnow()
+        
+        db.commit()
+        db.refresh(notification)
+        
+        return notification
+
+    @staticmethod
+    async def get_user_notifications(
+        db: Session,
+        user_id: uuid.UUID,
+        skip: int = 0,
+        limit: int = 50,
+        unread_only: bool = False
+    ) -> List[Notification]:
+        """
+        Get notifications for a user.
+        """
+        query = db.query(Notification).filter(Notification.user_id == user_id)
+        
+        if unread_only:
+            query = query.filter(Notification.is_read == False)
+        
+        notifications = query.order_by(Notification.created_at.desc()).offset(skip).limit(limit).all()
+        
+        return notifications

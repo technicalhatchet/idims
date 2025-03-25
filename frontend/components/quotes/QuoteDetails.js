@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import StatusBadge from '@/components/ui/StatusBadge';
+import StatusBadge from '../ui/StatusBadge';
 
 export default function QuoteDetails({ quote }) {
   if (!quote) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { SelectInput, TextInput, Button } from '@/components/ui/FormElements';
+import { SelectInput, TextInput, Button } from '../ui/FormElements';
 
 export default function FilterDrawer({ isOpen, onClose, filters, onFilterChange }) {
   const [localFilters, setLocalFilters] = useState(filters || {});
@@ -45,17 +45,17 @@ export default function FilterDrawer({ isOpen, onClose, filters, onFilterChange 
           aria-labelledby="filter-heading"
         >
           <div className="relative w-screen max-w-md">
-            <div className="h-full flex flex-col bg-white shadow-xl overflow-y-auto">
+            <div className="h-full flex flex-col bg-white dark:bg-gray-800 shadow-xl overflow-y-auto">
               {/* Header */}
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between">
-                  <h2 id="filter-heading" className="text-lg font-medium text-gray-900">
+                  <h2 id="filter-heading" className="text-lg font-medium text-gray-900 dark:text-white">
                     Filters
                   </h2>
                   <button
                     type="button"
                     onClick={onClose}
-                    className="text-gray-400 hover:text-gray-500"
+                    className="text-gray-400 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-200"
                     aria-label="Close filters"
                   >
                     <FaTimes />
@@ -64,7 +64,7 @@ export default function FilterDrawer({ isOpen, onClose, filters, onFilterChange 
               </div>
               
               {/* Filter content */}
-              <div className="flex-1 p-6 space-y-6">
+              <div className="flex-1 p-6 space-y-6 bg-white dark:bg-gray-800">
                 <div className="space-y-4">
                   <SelectInput
                     label="Status"
@@ -115,7 +115,7 @@ export default function FilterDrawer({ isOpen, onClose, filters, onFilterChange 
               </div>
               
               {/* Buttons */}
-              <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200">
+              <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
                 <div className="flex justify-end space-x-3">
                   <Button
                     variant="outline"

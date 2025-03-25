@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useForm } from '@/hooks/useForm';
-import { SelectInput, TextInput, Button } from '@/components/ui/FormElements';
+import { useForm } from '../../hooks/useForm';
+import { SelectInput, TextInput, Button } from '../ui/FormElements';
 import { FaSave, FaTimes, FaExchangeAlt } from 'react-icons/fa';
 
 export default function QuoteConvertForm({ quote, onCancel, onSubmit, isSubmitting }) {

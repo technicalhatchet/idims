@@ -1,12 +1,12 @@
-import { useForm } from '@/hooks/useForm';
-import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '@/components/ui/FormElements';
+import { useForm } from '../../hooks/useForm';
+import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '../ui/FormElements';
 import { FaSave, FaTimes } from 'react-icons/fa';
-import { useWorkOrderMutations } from '@/hooks/useWorkOrders';
+import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { apiClient } from '@/utils/fetchWithAuth';
+import { apiClient } from '../../utils/api-client';
 import { format } from 'date-fns';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 
 export default function WorkOrderForm({ initialData, isEdit = false }) {
@@ -167,7 +167,7 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
   }
   
   return (
-    <form onSubmit={form.handleSubmit} className="space-y-6">
+    <form onSubmit={form.handleSubmit} className="space-y-6 text-gray-900 dark:text-gray-100">
       {/* Client and basic info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SelectInput

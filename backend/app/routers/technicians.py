@@ -5,16 +5,25 @@ import uuid
 from datetime import datetime, date
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.models.technician import Technician
 from app.schemas.technician import (
-    TechnicianCreate, TechnicianUpdate, TechnicianResponse, TechnicianListResponse
+    TechnicianCreate, TechnicianUpdate, TechnicianResponse, TechnicianListResponse, TechnicianAvailability
 )
 from app.services.technician_service import TechnicianService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 
 router = APIRouter()
-auth_handler = AuthHandler()
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_manager_or_admin_dependency():
+    """Lazy-loaded dependency for manager or admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_manager_or_admin()
 
 @router.get("/technicians", response_model=TechnicianListResponse)
 async def list_technicians(
@@ -22,8 +31,8 @@ async def list_technicians(
     status: Optional[str] = Query(None, description="Filter by status"),
     skill: Optional[str] = Query(None, description="Filter by skill"),
     page: int = Query(1, ge=1, description="Page number"),
-    limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    limit: int = Query(20, ge=1, le=100, description="Items per page"),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -52,7 +61,7 @@ async def list_technicians(
 @router.post("/technicians", response_model=TechnicianResponse, status_code=status.HTTP_201_CREATED)
 async def create_technician(
     technician_data: TechnicianCreate,
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -74,7 +83,7 @@ async def create_technician(
 @router.get("/technicians/{technician_id}", response_model=TechnicianResponse)
 async def get_technician(
     technician_id: uuid.UUID = Path(..., description="The ID of the technician to retrieve"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -110,7 +119,7 @@ async def get_technician(
 async def update_technician(
     technician_id: uuid.UUID = Path(..., description="The ID of the technician to update"),
     technician_data: TechnicianUpdate = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -159,7 +168,7 @@ async def update_technician(
 @router.delete("/technicians/{technician_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_technician(
     technician_id: uuid.UUID = Path(..., description="The ID of the technician to delete"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -184,7 +193,7 @@ async def get_technician_workload(
     technician_id: uuid.UUID = Path(..., description="The ID of the technician"),
     start_date: date = Query(..., description="Start date for workload period"),
     end_date: date = Query(..., description="End date for workload period"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -227,7 +236,7 @@ async def get_technician_workload(
 async def get_technician_performance(
     technician_id: uuid.UUID = Path(..., description="The ID of the technician"),
     period: str = Query("month", description="Period for performance metrics (week, month, quarter, year)"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -249,7 +258,7 @@ async def get_technician_performance(
 
 @router.get("/technicians/skills", response_model=List[str])
 async def get_all_skills(
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """

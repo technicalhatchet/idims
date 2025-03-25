@@ -1,83 +1,104 @@
-import { apiClient } from '@/utils/fetchWithAuth';
+import { apiClient } from '../../utils/api-client';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 /**
  * Get technicians with pagination and filters
  */
-export async function getTechnicians(params = {}) {
-  const { page = 1, limit = 10, search, status, skill } = params;
-  
-  // Build query string
-  const queryParams = new URLSearchParams();
-  queryParams.append('page', page);
-  queryParams.append('limit', limit);
-  
-  if (search) queryParams.append('search', search);
-  if (status) queryParams.append('status', status);
-  if (skill) queryParams.append('skill', skill);
-  
-  return apiClient(`${API_URL}/api/technicians?${queryParams.toString()}`);
-}
+export const getTechnicians = async (params = {}) => {
+  try {
+    const response = await apiClient.get('/technicians', { params });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching technicians:', error);
+    throw error;
+  }
+};
 
 /**
  * Get a specific technician by ID
  */
-export async function getTechnician(id) {
-  return apiClient(`${API_URL}/api/technicians/${id}`);
-}
+export const getTechnician = async (id) => {
+  try {
+    const response = await apiClient.get(`/technicians/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching technician ${id}:`, error);
+    throw error;
+  }
+};
 
 /**
  * Create a new technician
  */
-export async function createTechnician(technicianData) {
-  return apiClient(`${API_URL}/api/technicians`, {
-    method: 'POST',
-    body: JSON.stringify(technicianData),
-  });
-}
+export const createTechnician = async (technicianData) => {
+  try {
+    const response = await apiClient.post('/technicians', technicianData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating technician:', error);
+    throw error;
+  }
+};
 
 /**
  * Update an existing technician
  */
-export async function updateTechnician(id, technicianData) {
-  return apiClient(`${API_URL}/api/technicians/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(technicianData),
-  });
-}
+export const updateTechnician = async (id, technicianData) => {
+  try {
+    const response = await apiClient.put(`/technicians/${id}`, technicianData);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating technician ${id}:`, error);
+    throw error;
+  }
+};
 
 /**
  * Delete a technician
  */
-export async function deleteTechnician(id) {
-  const response = await apiClient(`${API_URL}/api/technicians/${id}`, {
-    method: 'DELETE',
-  });
-  
-  return response === null; // 204 No Content
-}
+export const deleteTechnician = async (id) => {
+  try {
+    const response = await apiClient.delete(`/technicians/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error deleting technician ${id}:`, error);
+    throw error;
+  }
+};
 
 /**
  * Get technician workload for a period
  */
-export async function getTechnicianWorkload(id, startDate, endDate) {
-  const queryParams = new URLSearchParams();
-  queryParams.append('start_date', startDate.toISOString());
-  queryParams.append('end_date', endDate.toISOString());
-  
-  return apiClient(`${API_URL}/api/technicians/${id}/workload?${queryParams.toString()}`);
-}
+export const getTechnicianWorkload = async (id, startDate, endDate) => {
+  try {
+    const response = await apiClient.get(`/technicians/${id}/schedule`, { 
+      params: { 
+        start_date: startDate instanceof Date ? startDate.toISOString() : startDate,
+        end_date: endDate instanceof Date ? endDate.toISOString() : endDate
+      } 
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching technician ${id} schedule:`, error);
+    throw error;
+  }
+};
 
 /**
  * Get technician performance metrics
  */
-export async function getTechnicianPerformance(id, period = 'month') {
-  const queryParams = new URLSearchParams();
-  queryParams.append('period', period);
-  
-  return apiClient(`${API_URL}/api/technicians/${id}/performance?${queryParams.toString()}`);
-}
+export const getTechnicianPerformance = async (id, period = 'month') => {
+  try {
+    const response = await apiClient.get(`/technicians/${id}/performance`, { 
+      params: { period } 
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching technician ${id} performance:`, error);
+    throw error;
+  }
+};
 
 /**
  * Get all available skills
@@ -89,20 +110,30 @@ export async function getSkills() {
 /**
  * Get technician availability for scheduling
  */
-export async function getTechnicianAvailability(id, startDate, endDate) {
-  const queryParams = new URLSearchParams();
-  queryParams.append('start_date', startDate.toISOString());
-  queryParams.append('end_date', endDate.toISOString());
-  
-  return apiClient(`${API_URL}/api/technicians/${id}/availability?${queryParams.toString()}`);
-}
+export const getTechnicianAvailability = async (id, startDate, endDate) => {
+  try {
+    const response = await apiClient.get(`/technicians/${id}/availability`, {
+      params: {
+        start_date: startDate instanceof Date ? startDate.toISOString() : startDate,
+        end_date: endDate instanceof Date ? endDate.toISOString() : endDate
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching technician ${id} availability:`, error);
+    throw error;
+  }
+};
 
 /**
  * Update technician availability
  */
-export async function updateTechnicianAvailability(id, availabilityData) {
-  return apiClient(`${API_URL}/api/technicians/${id}/availability`, {
-    method: 'PUT',
-    body: JSON.stringify(availabilityData),
-  });
-}
+export const updateTechnicianAvailability = async (id, availabilityData) => {
+  try {
+    const response = await apiClient.put(`/technicians/${id}/availability`, availabilityData);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating technician ${id} availability:`, error);
+    throw error;
+  }
+};

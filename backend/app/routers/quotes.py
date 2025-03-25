@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, date
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.models.quote import Quote, QuoteItem
 from app.models.client import Client
 from app.schemas.quote import (
@@ -13,9 +13,19 @@ from app.schemas.quote import (
     QuoteStatusUpdate, QuoteSend, ConvertQuoteRequest
 )
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
+from app.services.quote_service import QuoteService
 
 router = APIRouter()
-auth_handler = AuthHandler()
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_manager_or_admin_dependency():
+    """Lazy-loaded dependency for manager or admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_manager_or_admin()
 
 @router.get("/quotes", response_model=QuoteListResponse)
 async def list_quotes(
@@ -25,7 +35,7 @@ async def list_quotes(
     end_date: Optional[date] = Query(None, description="Filter by creation date (end)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -80,7 +90,7 @@ async def list_quotes(
 @router.post("/quotes", response_model=QuoteResponse, status_code=status.HTTP_201_CREATED)
 async def create_quote(
     quote: QuoteCreate,
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -172,7 +182,7 @@ async def create_quote(
 @router.get("/quotes/{quote_id}", response_model=QuoteResponse)
 async def get_quote(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote to retrieve"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -207,7 +217,7 @@ async def get_quote(
 async def update_quote(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote to update"),
     quote_data: QuoteUpdate = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -256,7 +266,7 @@ async def update_quote(
 @router.delete("/quotes/{quote_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_quote(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote to delete"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -302,7 +312,7 @@ async def delete_quote(
 async def update_quote_status(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote"),
     status_update: QuoteStatusUpdate = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -386,7 +396,7 @@ async def send_quote(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote to send"),
     send_data: QuoteSend = Body(...),
     background_tasks: BackgroundTasks = None,
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -454,7 +464,7 @@ async def send_quote(
 async def convert_quote(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote to convert"),
     convert_request: ConvertQuoteRequest = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """

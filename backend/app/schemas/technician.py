@@ -2,6 +2,7 @@ from pydantic import BaseModel, validator, Field
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from uuid import UUID
+from pydantic import ConfigDict
 
 class TechnicianBase(BaseModel):
     """Base schema for Technician data"""
@@ -95,25 +96,21 @@ class TechnicianUpdate(BaseModel):
         return v
 
 class TechnicianResponse(TechnicianBase):
-    """Schema for technician response"""
+    """Technician response schema"""
     id: UUID
-    user_id: UUID
-    user: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
-    
-    class Config:
-        orm_mode = True
+    created_by: UUID
+    updated_by: Optional[UUID] = None
+    model_config = ConfigDict(from_attributes=True)
 
 class TechnicianListResponse(BaseModel):
-    """Schema for paginated list of technicians"""
-    total: int
+    """Technician list response schema"""
     items: List[TechnicianResponse]
+    total: int
     page: int
     pages: int
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TechnicianPerformanceMetric(BaseModel):
     """Schema for technician performance metric"""
@@ -142,3 +139,14 @@ class TechnicianWorkload(BaseModel):
     jobs_by_day: Dict[str, int]
     utilization_rate: float  # Percentage of available hours used
     jobs: List[Dict[str, Any]]  # Simplified list of jobs
+
+class TechnicianAvailability(BaseModel):
+    """Schema for technician availability"""
+    technician_id: UUID
+    technician_name: str
+    date: datetime
+    is_available: bool
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    reason: Optional[str] = None
+    model_config = ConfigDict(from_attributes=True)

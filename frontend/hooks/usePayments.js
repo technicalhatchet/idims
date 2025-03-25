@@ -10,7 +10,7 @@ import {
   createPaymentIntent,
   processPayment,
   getPaymentStats
-} from '@/services/api/paymentsApi';
+} from '../services/api/paymentsApi';
 
 /**
  * Hook for payments list with pagination and filtering

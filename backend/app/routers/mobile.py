@@ -5,18 +5,35 @@ import uuid
 from datetime import datetime
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.config import settings
 from app.core.exceptions import NotFoundException, ValidationException
+from app.models.work_order import WorkOrder
+from app.models.technician import Technician
+from app.schemas.mobile import (
+    MobileWorkOrderResponse, MobileTechnicianResponse,
+    MobileStatusUpdate, MobileLocationUpdate
+)
+from app.services.work_order_service import WorkOrderService
+from app.services.technician_service import TechnicianService
 
 router = APIRouter()
-auth_handler = AuthHandler()
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_technician_dependency():
+    """Lazy-loaded dependency for technician"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_technician()
 
 @router.get("/mobile/sync")
 async def sync_data(
     last_sync: Optional[datetime] = Query(None, description="Timestamp of last successful sync"),
     entities: Optional[List[str]] = Query(None, description="Entity types to sync"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -78,7 +95,7 @@ async def sync_data(
 @router.post("/mobile/register-device")
 async def register_device(
     device_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -111,7 +128,7 @@ async def register_device(
 @router.delete("/mobile/unregister-device/{device_id}")
 async def unregister_device(
     device_id: str = Path(..., description="Unique device identifier"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -128,7 +145,7 @@ async def unregister_device(
 async def get_mobile_config(
     app_version: str = Query(..., description="Current app version"),
     platform: str = Query(..., description="Device platform (ios, android)"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_technician_dependency),
 ):
     """
     Get mobile app configuration.
@@ -178,7 +195,7 @@ async def get_mobile_config(
 @router.post("/mobile/report-issue")
 async def report_issue(
     issue_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -204,3 +221,41 @@ async def report_issue(
         "ticket_id": str(uuid.uuid4()),
         "message": "Issue reported successfully"
     }
+
+@router.get("/mobile/work-orders", response_model=List[MobileWorkOrderResponse])
+async def get_mobile_work_orders(
+    status: Optional[str] = Query(None, description="Filter by work order status"),
+    current_user: User = Depends(get_technician_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of get_mobile_work_orders method
+    pass
+
+@router.get("/mobile/work-orders/{work_order_id}", response_model=MobileWorkOrderResponse)
+async def get_mobile_work_order(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    current_user: User = Depends(get_technician_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of get_mobile_work_order method
+    pass
+
+@router.put("/mobile/work-orders/{work_order_id}/status", response_model=MobileWorkOrderResponse)
+async def update_mobile_work_order_status(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    status_update: MobileStatusUpdate = Body(...),
+    current_user: User = Depends(get_technician_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of update_mobile_work_order_status method
+    pass
+
+@router.put("/mobile/work-orders/{work_order_id}/location", response_model=MobileWorkOrderResponse)
+async def update_mobile_work_order_location(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    location_update: MobileLocationUpdate = Body(...),
+    current_user: User = Depends(get_technician_dependency),
+    db: Session = Depends(get_db)
+):
+    # Implementation of update_mobile_work_order_location method
+    pass

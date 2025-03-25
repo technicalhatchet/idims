@@ -18,7 +18,7 @@ export const TextInput = forwardRef(({
       {label && (
         <label 
           htmlFor={inputId} 
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -30,7 +30,7 @@ export const TextInput = forwardRef(({
           id={inputId}
           type={type}
           className={`form-input w-full rounded-md shadow-sm ${
-            error ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
+            error ? 'border-red-300 focus:border-red-500 focus:ring-red-500 dark:border-red-700 dark:focus:border-red-600 dark:focus:ring-red-600' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:focus:border-blue-600 dark:focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           }`}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? `${inputId}-error` : helpText ? `${inputId}-description` : undefined}
@@ -39,12 +39,12 @@ export const TextInput = forwardRef(({
         />
       </div>
       {helpText && !error && (
-        <p className="mt-1 text-sm text-gray-500" id={`${inputId}-description`}>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400" id={`${inputId}-description`}>
           {helpText}
         </p>
       )}
       {error && (
-        <p className="mt-1 text-sm text-red-600" id={`${inputId}-error`} role="alert">
+        <p className="mt-1 text-sm text-red-600 dark:text-red-500" id={`${inputId}-error`} role="alert">
           {error}
         </p>
       )}
@@ -73,7 +73,7 @@ export const SelectInput = forwardRef(({
       {label && (
         <label 
           htmlFor={selectId} 
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -84,7 +84,7 @@ export const SelectInput = forwardRef(({
           ref={ref}
           id={selectId}
           className={`form-select w-full rounded-md shadow-sm ${
-            error ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
+            error ? 'border-red-300 focus:border-red-500 focus:ring-red-500 dark:border-red-700 dark:focus:border-red-600 dark:focus:ring-red-600' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:focus:border-blue-600 dark:focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           }`}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? `${selectId}-error` : helpText ? `${selectId}-description` : undefined}
@@ -100,12 +100,12 @@ export const SelectInput = forwardRef(({
         </select>
       </div>
       {helpText && !error && (
-        <p className="mt-1 text-sm text-gray-500" id={`${selectId}-description`}>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400" id={`${selectId}-description`}>
           {helpText}
         </p>
       )}
       {error && (
-        <p className="mt-1 text-sm text-red-600" id={`${selectId}-error`} role="alert">
+        <p className="mt-1 text-sm text-red-600 dark:text-red-500" id={`${selectId}-error`} role="alert">
           {error}
         </p>
       )}
@@ -133,7 +133,7 @@ export const TextareaInput = forwardRef(({
       {label && (
         <label 
           htmlFor={textareaId} 
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -145,7 +145,7 @@ export const TextareaInput = forwardRef(({
           id={textareaId}
           rows={rows}
           className={`form-textarea w-full rounded-md shadow-sm ${
-            error ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
+            error ? 'border-red-300 focus:border-red-500 focus:ring-red-500 dark:border-red-700 dark:focus:border-red-600 dark:focus:ring-red-600' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:focus:border-blue-600 dark:focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           }`}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? `${textareaId}-error` : helpText ? `${textareaId}-description` : undefined}
@@ -154,12 +154,12 @@ export const TextareaInput = forwardRef(({
         />
       </div>
       {helpText && !error && (
-        <p className="mt-1 text-sm text-gray-500" id={`${textareaId}-description`}>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400" id={`${textareaId}-description`}>
           {helpText}
         </p>
       )}
       {error && (
-        <p className="mt-1 text-sm text-red-600" id={`${textareaId}-error`} role="alert">
+        <p className="mt-1 text-sm text-red-600 dark:text-red-500" id={`${textareaId}-error`} role="alert">
           {error}
         </p>
       )}
@@ -197,17 +197,17 @@ export const Checkbox = forwardRef(({
       </div>
       <div className="ml-3 text-sm">
         {label && (
-          <label htmlFor={checkboxId} className="font-medium text-gray-700">
+          <label htmlFor={checkboxId} className="font-medium text-gray-700 dark:text-gray-300">
             {label}
           </label>
         )}
         {helpText && !error && (
-          <p className="text-gray-500" id={`${checkboxId}-description`}>
+          <p className="text-gray-500 dark:text-gray-400" id={`${checkboxId}-description`}>
             {helpText}
           </p>
         )}
         {error && (
-          <p className="text-red-600" id={`${checkboxId}-error`} role="alert">
+          <p className="text-red-600 dark:text-red-500" id={`${checkboxId}-error`} role="alert">
             {error}
           </p>
         )}
@@ -233,12 +233,12 @@ export function Button({
   const baseClasses = "inline-flex items-center justify-center font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors";
   
   const variantClasses = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-    secondary: "bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500",
-    danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
-    success: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
-    warning: "bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500",
-    outline: "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500",
+    primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 dark:bg-blue-700 dark:hover:bg-blue-800",
+    secondary: "bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 dark:bg-gray-700 dark:hover:bg-gray-800",
+    danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 dark:bg-red-700 dark:hover:bg-red-800",
+    success: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 dark:bg-green-700 dark:hover:bg-green-800",
+    warning: "bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500 dark:bg-yellow-700 dark:hover:bg-yellow-800",
+    outline: "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600",
   };
   
   const sizeClasses = {
@@ -273,3 +273,68 @@ export function Button({
     </button>
   );
 }
+
+export const Input = ({ label, error, ...props }) => (
+  <div className="mb-4">
+    {label && (
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        {label}
+      </label>
+    )}
+    <input
+      className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+        error
+          ? 'border-red-500 focus:ring-red-500'
+          : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white'
+      }`}
+      {...props}
+    />
+    {error && (
+      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
+    )}
+  </div>
+);
+
+export const Select = ({ label, error, children, ...props }) => (
+  <div className="mb-4">
+    {label && (
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        {label}
+      </label>
+    )}
+    <select
+      className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+        error
+          ? 'border-red-500 focus:ring-red-500'
+          : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white'
+      }`}
+      {...props}
+    >
+      {children}
+    </select>
+    {error && (
+      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
+    )}
+  </div>
+);
+
+export const TextArea = ({ label, error, ...props }) => (
+  <div className="mb-4">
+    {label && (
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        {label}
+      </label>
+    )}
+    <textarea
+      className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+        error
+          ? 'border-red-500 focus:ring-red-500'
+          : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white'
+      }`}
+      {...props}
+    />
+    {error && (
+      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
+    )}
+  </div>
+);

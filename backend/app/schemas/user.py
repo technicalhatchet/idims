@@ -1,99 +1,148 @@
-from pydantic import BaseModel, EmailStr, validator, Field
+from pydantic import BaseModel, EmailStr, ConfigDict, Field
 from typing import Optional, Dict, List, Any
 from datetime import datetime
 from uuid import UUID
 
 class UserBase(BaseModel):
-    """Base schema for User data"""
+    """Base user schema"""
+    model_config = ConfigDict(from_attributes=True)
+
     email: EmailStr
-    first_name: str
-    last_name: str
-    role: Optional[str] = "client"
-    phone: Optional[str] = None
+    first_name: str = Field(..., min_length=1, max_length=100)
+    last_name: str = Field(..., min_length=1, max_length=100)
+    phone: Optional[str] = Field(None, max_length=20)
+    role: str = Field(..., pattern="^(admin|manager|technician|client)$")
+    is_active: bool = True
     avatar_url: Optional[str] = None
-    
-    @validator('role')
-    def validate_role(cls, v):
-        allowed_roles = ["admin", "manager", "technician", "client"]
-        if v not in allowed_roles:
-            raise ValueError(f"Role must be one of {allowed_roles}")
-        return v
+    company: Optional[str] = None
+    preferences: Dict[str, Any] = {}
 
 class UserCreate(UserBase):
     """Schema for creating a new user"""
-    password: Optional[str] = None
-    auth_id: Optional[str] = None
-    email_verified: Optional[bool] = False
-    is_active: Optional[bool] = True
-    preferences: Optional[Dict[str, Any]] = None
-    
-    @validator('password')
-    def password_required_if_no_auth_id(cls, v, values):
-        if not values.get('auth_id') and not v:
-            raise ValueError("Password is required if no auth_id is provided")
-        return v
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "email": "user@example.com",
+                "first_name": "John",
+                "last_name": "Doe",
+                "phone": "+1234567890",
+                "role": "client",
+                "preferences": {"theme": "light"}
+            }
+        }
+    )
 
 class UserUpdate(BaseModel):
     """Schema for updating a user"""
-    email: Optional[EmailStr] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    role: Optional[str] = None
-    phone: Optional[str] = None
-    avatar_url: Optional[str] = None
-    is_active: Optional[bool] = None
-    email_verified: Optional[bool] = None
-    preferences: Optional[Dict[str, Any]] = None
-    
-    @validator('role')
-    def validate_role(cls, v):
-        if v is not None:
-            allowed_roles = ["admin", "manager", "technician", "client"]
-            if v not in allowed_roles:
-                raise ValueError(f"Role must be one of {allowed_roles}")
-        return v
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "first_name": "John",
+                "last_name": "Doe",
+                "phone": "+1234567890",
+                "is_active": True,
+                "preferences": {"theme": "dark"}
+            }
+        }
+    )
 
-class UserPasswordUpdate(BaseModel):
-    """Schema for updating user password"""
-    current_password: str
-    new_password: str = Field(..., min_length=8)
-    
-    @validator('new_password')
-    def validate_password(cls, v):
-        if len(v) < 8:
-            raise ValueError("Password must be at least 8 characters")
-        return v
+    first_name: Optional[str] = Field(None, min_length=1, max_length=100)
+    last_name: Optional[str] = Field(None, min_length=1, max_length=100)
+    phone: Optional[str] = Field(None, max_length=20)
+    is_active: Optional[bool] = None
+    avatar_url: Optional[str] = None
+    company: Optional[str] = None
+    preferences: Optional[Dict[str, Any]] = None
 
 class UserResponse(UserBase):
     """Schema for user response"""
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": "123e4567-e89b-12d3-a456-426614174000",
+                "email": "user@example.com",
+                "first_name": "John",
+                "last_name": "Doe",
+                "role": "client",
+                "is_active": True,
+                "created_at": "2023-01-01T00:00:00Z",
+                "updated_at": "2023-01-01T00:00:00Z"
+            }
+        }
+    )
+
     id: UUID
-    is_active: bool
-    email_verified: bool
-    last_login: Optional[datetime] = None
+    auth_id: Optional[str] = None
+    email_verified: bool = False
+    permissions: List[str] = []
     created_at: datetime
     updated_at: datetime
-    
-    class Config:
-        orm_mode = True
-
-class UserListResponse(BaseModel):
-    """Schema for paginated list of users"""
-    total: int
-    items: List[UserResponse]
-    page: int
-    pages: int
-    
-    class Config:
-        orm_mode = True
+    last_login: Optional[datetime] = None
 
 class UserLogin(BaseModel):
     """Schema for user login"""
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "email": "user@example.com",
+                "password": "strongpassword123"
+            }
+        }
+    )
+
     email: EmailStr
-    password: str
+    password: str = Field(..., min_length=8)
 
 class Token(BaseModel):
     """Schema for authentication token"""
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1...",
+                "token_type": "bearer",
+                "expires_in": 3600,
+                "user": {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "email": "user@example.com",
+                    "role": "client"
+                }
+            }
+        }
+    )
+
     access_token: str
-    token_type: str = "bearer"
+    token_type: str
     expires_in: int
     user: UserResponse
+
+class UserListResponse(BaseModel):
+    """Schema for paginated user list response"""
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "items": [
+                    {
+                        "id": "123e4567-e89b-12d3-a456-426614174000",
+                        "email": "user@example.com",
+                        "first_name": "John",
+                        "last_name": "Doe",
+                        "role": "client",
+                        "is_active": True,
+                        "created_at": "2023-01-01T00:00:00Z",
+                        "updated_at": "2023-01-01T00:00:00Z"
+                    }
+                ],
+                "total": 100,
+                "page": 1,
+                "pages": 10
+            }
+        }
+    )
+
+    items: List[UserResponse]
+    total: int
+    page: int
+    pages: int

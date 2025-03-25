@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { getNotifications, markNotificationAsRead, markAllNotificationsAsRead } from '@/services/api/notificationsApi';
+import { useNotificationsApi } from '@/utils/notificationsApi';
 
 export function useNotifications(params = {}) {
   const queryClient = useQueryClient();
+  const { getNotifications, markNotificationAsRead, markAllNotificationsAsRead } = useNotificationsApi();
   
   // Get notifications
   const { data, isLoading, error, refetch } = useQuery(

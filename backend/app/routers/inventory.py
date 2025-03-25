@@ -5,21 +5,34 @@ import uuid
 from datetime import datetime
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.models.inventory import InventoryItem, Vendor
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
+from app.schemas.inventory import (
+    InventoryItemCreate, InventoryItemUpdate, InventoryItemResponse,
+    InventoryItemListResponse, InventoryAdjustment
+)
+from app.services.inventory_service import InventoryService
 
 router = APIRouter()
-auth_handler = AuthHandler()
 
-@router.get("/inventory", response_model=Dict[str, Any])
-async def list_inventory_items(
-    search: Optional[str] = Query(None, description="Search by name or SKU"),
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_manager_or_admin_dependency():
+    """Lazy-loaded dependency for manager or admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_manager_or_admin()
+
+@router.get("/inventory", response_model=InventoryItemListResponse)
+async def list_inventory(
     category: Optional[str] = Query(None, description="Filter by category"),
-    in_stock: Optional[bool] = Query(None, description="Filter by in stock status"),
+    search: Optional[str] = Query(None, description="Search term for item name or description"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -48,12 +61,6 @@ async def list_inventory_items(
     if category:
         query = query.filter(InventoryItem.category == category)
     
-    if in_stock is not None:
-        if in_stock:
-            query = query.filter(InventoryItem.quantity_in_stock > 0)
-        else:
-            query = query.filter(InventoryItem.quantity_in_stock <= 0)
-    
     # Get total count
     total = query.count()
     
@@ -67,10 +74,10 @@ async def list_inventory_items(
         "pages": (total + limit - 1) // limit
     }
 
-@router.post("/inventory", status_code=status.HTTP_201_CREATED)
+@router.post("/inventory", response_model=InventoryItemResponse, status_code=status.HTTP_201_CREATED)
 async def create_inventory_item(
-    item_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    item: InventoryItemCreate = Body(...),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -79,25 +86,25 @@ async def create_inventory_item(
     """
     try:
         # Check if SKU already exists
-        if "sku" in item_data and item_data["sku"]:
-            existing = db.query(InventoryItem).filter(InventoryItem.sku == item_data["sku"]).first()
+        if "sku" in item and item["sku"]:
+            existing = db.query(InventoryItem).filter(InventoryItem.sku == item["sku"]).first()
             if existing:
-                raise ConflictException(f"Item with SKU {item_data['sku']} already exists")
+                raise ConflictException(f"Item with SKU {item['sku']} already exists")
         
         # Create new item
         new_item = InventoryItem(
-            name=item_data["name"],
-            sku=item_data.get("sku"),
-            description=item_data.get("description"),
-            category=item_data.get("category"),
-            unit_price=item_data.get("unit_price", 0.0),
-            cost_price=item_data.get("cost_price"),
-            quantity_in_stock=item_data.get("quantity_in_stock", 0.0),
-            reorder_level=item_data.get("reorder_level"),
-            location=item_data.get("location"),
-            is_active=item_data.get("is_active", True),
-            vendor_id=item_data.get("vendor_id"),
-            meta_data=item_data.get("meta_data")
+            name=item["name"],
+            sku=item.get("sku"),
+            description=item.get("description"),
+            category=item.get("category"),
+            unit_price=item.get("unit_price", 0.0),
+            cost_price=item.get("cost_price"),
+            quantity_in_stock=item.get("quantity_in_stock", 0.0),
+            reorder_level=item.get("reorder_level"),
+            location=item.get("location"),
+            is_active=item.get("is_active", True),
+            vendor_id=item.get("vendor_id"),
+            meta_data=item.get("meta_data")
         )
         
         db.add(new_item)
@@ -115,10 +122,10 @@ async def create_inventory_item(
             detail=f"Error creating inventory item: {str(e)}"
         )
 
-@router.get("/inventory/{item_id}")
+@router.get("/inventory/{item_id}", response_model=InventoryItemResponse)
 async def get_inventory_item(
-    item_id: uuid.UUID = Path(..., description="The ID of the inventory item"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    item_id: uuid.UUID = Path(..., description="The ID of the inventory item to retrieve"),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -141,11 +148,11 @@ async def get_inventory_item(
     
     return item
 
-@router.put("/inventory/{item_id}")
+@router.put("/inventory/{item_id}", response_model=InventoryItemResponse)
 async def update_inventory_item(
-    item_id: uuid.UUID = Path(..., description="The ID of the inventory item"),
-    item_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    item_id: uuid.UUID = Path(..., description="The ID of the inventory item to update"),
+    item_update: InventoryItemUpdate = Body(...),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -159,16 +166,16 @@ async def update_inventory_item(
             raise NotFoundException(f"Inventory item with ID {item_id} not found")
         
         # Check SKU uniqueness if changing
-        if "sku" in item_data and item_data["sku"] != item.sku:
+        if "sku" in item_update and item_update["sku"] != item.sku:
             existing = db.query(InventoryItem).filter(
-                InventoryItem.sku == item_data["sku"],
+                InventoryItem.sku == item_update["sku"],
                 InventoryItem.id != item_id
             ).first()
             if existing:
-                raise ConflictException(f"Item with SKU {item_data['sku']} already exists")
+                raise ConflictException(f"Item with SKU {item_update['sku']} already exists")
         
         # Update fields
-        for key, value in item_data.items():
+        for key, value in item_update.items():
             if hasattr(item, key):
                 setattr(item, key, value)
         
@@ -192,8 +199,8 @@ async def update_inventory_item(
 
 @router.delete("/inventory/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_inventory_item(
-    item_id: uuid.UUID = Path(..., description="The ID of the inventory item"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    item_id: uuid.UUID = Path(..., description="The ID of the inventory item to delete"),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -229,7 +236,7 @@ async def delete_inventory_item(
 async def adjust_inventory_stock(
     item_id: uuid.UUID = Path(..., description="The ID of the inventory item"),
     adjustment: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -285,7 +292,7 @@ async def list_vendors(
     is_active: Optional[bool] = Query(None, description="Filter by active status"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -324,7 +331,7 @@ async def list_vendors(
 @router.post("/vendors", status_code=status.HTTP_201_CREATED)
 async def create_vendor(
     vendor_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -360,7 +367,7 @@ async def create_vendor(
 @router.get("/vendors/{vendor_id}")
 async def get_vendor(
     vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -381,7 +388,7 @@ async def get_vendor(
 async def update_vendor(
     vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
     vendor_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -418,7 +425,7 @@ async def update_vendor(
 @router.delete("/vendors/{vendor_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_vendor(
     vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """

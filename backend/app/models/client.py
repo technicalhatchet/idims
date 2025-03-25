@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
 
-from app.db.database import Base
+from app.db.base import Base
 
 class Client(Base):
     """Client model for storing client information"""
@@ -38,6 +38,7 @@ class Client(Base):
     creator = relationship("User", foreign_keys=[created_by])
     work_orders = relationship("WorkOrder", back_populates="client", cascade="all, delete-orphan")
     invoices = relationship("Invoice", back_populates="client")
+    documents = relationship("Document", back_populates="client")
     
     def __repr__(self):
         return f"<Client {self.id}: {self.company_name or f'{self.first_name} {self.last_name}'}>"

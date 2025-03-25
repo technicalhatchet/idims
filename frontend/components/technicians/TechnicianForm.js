@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useForm } from '@/hooks/useForm';
-import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '@/components/ui/FormElements';
+import { useForm } from '../../hooks/useForm';
+import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '../ui/FormElements';
 import { FaSave, FaTimes, FaPlus, FaMinus } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import { useSkills } from '@/hooks/useTechnicians';
-import { apiClient } from '@/utils/fetchWithAuth';
+import { useSkills } from '../../hooks/useTechnicians';
+import { apiClient } from '../../utils/api-client';
 
 export default function TechnicianForm({ initialData, isEdit = false }) {
   const router = useRouter();
@@ -525,90 +525,35 @@ export default function TechnicianForm({ initialData, isEdit = false }) {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-gray-500">Notes</h3>
-              <p className="mt-1 text-sm text-gray-900 whitespace-pre-line">{technician.notes}</p>
-            </div>
-          )}
-        </div>
-      </div>
-      
-      <div className="bg-white shadow rounded-lg overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
-          <h2 className="text-lg font-medium text-gray-900">Availability</h2>
-        </div>
-        
-        <div className="px-6 py-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
-            <div>
-              <h3 className="text-sm font-medium text-gray-500">Working Days</h3>
-              <div className="mt-2 flex flex-wrap">
-                {technician.availability?.workDays?.map((day, index) => (
-                  <span key={index} className="bg-green-100 text-green-800 text-xs font-medium mr-2 mb-2 px-2.5 py-0.5 rounded capitalize">
-                    {day}
-                  </span>
-                ))}
+              <h3 className="text-sm font-medium text-red-800">Error</h3>
+              <div className="mt-2 text-sm text-red-700">
+                <p>{form.errors._form}</p>
               </div>
-            </div>
-            
-            <div>
-              <h3 className="text-sm font-medium text-gray-500">Working Hours</h3>
-              <p className="mt-1 text-sm text-gray-900">
-                {technician.availability?.workHours 
-                  ? `${technician.availability.workHours.start} - ${technician.availability.workHours.end}`
-                  : 'Default working hours'
-                }
-              </p>
             </div>
           </div>
-          
-          {technician.availability?.exceptions?.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Exceptions</h3>
-              <div className="border rounded-md overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date
-                      </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Available
-                      </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Working Hours
-                      </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Notes
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {technician.availability.exceptions.map((exception, index) => (
-                      <tr key={index}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {exception.date}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {exception.available ? 'Yes' : 'No'}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {exception.working_hours
-                            ? `${exception.working_hours.start} - ${exception.working_hours.end}`
-                            : '-'
-                          }
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {exception.notes || '-'}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
         </div>
+      )}
+      
+      {/* Form actions */}
+      <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.back()}
+          icon={<FaTimes />}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          variant="primary"
+          isLoading={form.isSubmitting || isSubmitting}
+          disabled={form.isSubmitting || isSubmitting}
+          icon={<FaSave />}
+        >
+          {isEdit ? 'Update Technician' : 'Create Technician'}
+        </Button>
       </div>
-    </div>
+    </form>
   );
 }

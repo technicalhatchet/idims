@@ -1,30 +1,27 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
-import TechnicianForm from '@/components/technicians/TechnicianForm';
-import { useAuthRedirect } from '@/hooks/useAuthRedirect';
+import TechnicianForm from '../../components/technicians/TechnicianForm';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+import { withPageAuthRequired } from '../../utils/auth0-helpers';
 
 function NewTechnician() {
-  // Only allow admins and managers to create technicians
+  // Check authorization (only managers and admins)
   useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
 
   return (
     <>
       <Head>
-        <title>New Technician | Service Business Management</title>
+        <title>Add New Technician | Service Business Management</title>
       </Head>
 
       <div className="px-4 py-6">
         <div className="mb-6">
-          <Link href="/technicians" className="text-blue-600 hover:text-blue-800">
-            ← Back to Technicians
-          </Link>
-          <h1 className="text-2xl font-bold mt-4">Create New Technician</h1>
+          <h1 className="text-2xl font-bold">Add New Technician</h1>
         </div>
-
+        
         <div className="bg-white shadow rounded-lg p-6">
-          <TechnicianForm />
+          <TechnicianForm isEdit={false} />
         </div>
       </div>
     </>

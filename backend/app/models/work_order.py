@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
 
-from app.db.database import Base
+from app.db.base import Base
 
 class WorkOrder(Base):
     """Work order model for storing service job information"""
@@ -41,6 +41,8 @@ class WorkOrder(Base):
     notes = relationship("WorkOrderNote", back_populates="work_order", cascade="all, delete-orphan")
     status_history = relationship("WorkOrderStatusHistory", back_populates="work_order", cascade="all, delete-orphan")
     invoices = relationship("Invoice", back_populates="work_order")
+    documents = relationship("Document", back_populates="work_order")
+    quote = relationship("Quote", back_populates="work_order")
     
     def __repr__(self):
         return f"<WorkOrder {self.order_number}: {self.title}>"
@@ -67,7 +69,7 @@ class WorkOrder(Base):
 
 class WorkOrderService(Base):
     """Work order service model for services provided in a work order"""
-    __tablename__ = "work_order_services"
+    __tablename__ = "work_order_service"
     
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"), nullable=False)
@@ -99,7 +101,7 @@ class WorkOrderItem(Base):
     
     # Relationships
     work_order = relationship("WorkOrder", back_populates="items")
-    inventory_item = relationship("InventoryItem")
+    #inventory_item = relationship("InventoryItem")
     
     @property
     def total(self):

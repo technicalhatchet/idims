@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaEdit, FaEye, FaCalendarAlt, FaChartBar } from 'react-icons/fa';
-import StatusBadge from '@/components/ui/StatusBadge';
+import StatusBadge from '../ui/StatusBadge';
 
 export default function TechniciansTable({ technicians }) {
   if (!technicians || technicians.length === 0) {

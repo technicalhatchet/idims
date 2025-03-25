@@ -5,22 +5,27 @@ import uuid
 from datetime import datetime, timedelta
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
-from app.models.user import User
+from app.core.auth import get_auth_handler, User
+from app.models.user import User as UserModel
 from app.models.settings import Settings, SystemLog
-from app.core.exceptions import NotFoundException, ValidationException
+from app.core.exceptions import NotFoundException, ValidationException, ConflictException
+from app.schemas.user import UserCreate, UserUpdate, UserResponse, UserListResponse
+from app.services.admin_service import AdminService
 
 router = APIRouter()
-auth_handler = AuthHandler()
 
-@router.get("/admin/users")
+async def get_admin_dependency():
+    """Lazy-loaded dependency for admin user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_admin()
+
+@router.get("/admin/users", response_model=UserListResponse)
 async def list_users(
-    search: Optional[str] = Query(None, description="Search by name or email"),
-    role: Optional[str] = Query(None, description="Filter by role"),
-    is_active: Optional[bool] = Query(None, description="Filter by active status"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    search: Optional[str] = Query(None, description="Search term for user name or email"),
+    role: Optional[str] = Query(None, description="Filter by user role"),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -30,28 +35,25 @@ async def list_users(
     skip = (page - 1) * limit
     
     # Build query
-    query = db.query(User)
+    query = db.query(UserModel)
     
     # Apply filters
     if search:
         search_term = f"%{search}%"
         query = query.filter(
-            (User.first_name.ilike(search_term)) |
-            (User.last_name.ilike(search_term)) |
-            (User.email.ilike(search_term))
+            (UserModel.first_name.ilike(search_term)) |
+            (UserModel.last_name.ilike(search_term)) |
+            (UserModel.email.ilike(search_term))
         )
     
     if role:
-        query = query.filter(User.role == role)
-    
-    if is_active is not None:
-        query = query.filter(User.is_active == is_active)
+        query = query.filter(UserModel.role == role)
     
     # Get total count
     total = query.count()
     
     # Apply pagination
-    users = query.order_by(User.created_at.desc()).offset(skip).limit(limit).all()
+    users = query.order_by(UserModel.created_at.desc()).offset(skip).limit(limit).all()
     
     return {
         "total": total,
@@ -60,17 +62,17 @@ async def list_users(
         "pages": (total + limit - 1) // limit
     }
 
-@router.get("/admin/users/{user_id}")
+@router.get("/admin/users/{user_id}", response_model=UserResponse)
 async def get_user(
-    user_id: uuid.UUID = Path(..., description="ID of the user to retrieve"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    user_id: uuid.UUID = Path(..., description="The ID of the user"),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
     Get detailed information about a user.
     Only admins can access this endpoint.
     """
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
     
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {user_id} not found")
@@ -80,25 +82,25 @@ async def get_user(
     
     return user
 
-@router.put("/admin/users/{user_id}")
+@router.put("/admin/users/{user_id}", response_model=UserResponse)
 async def update_user(
-    user_id: uuid.UUID = Path(..., description="ID of the user to update"),
-    user_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.verify_admin),
+    user_id: uuid.UUID = Path(..., description="The ID of the user"),
+    user_update: UserUpdate = Body(...),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
     Update a user's information.
     Only admins can access this endpoint.
     """
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
     
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {user_id} not found")
     
     # Prevent modifying admin status if it's the last admin
-    if user.role == "admin" and user_data.get("role") != "admin":
-        admin_count = db.query(User).filter(User.role == "admin", User.is_active == True).count()
+    if user.role == "admin" and user_update.role != "admin":
+        admin_count = db.query(UserModel).filter(UserModel.role == "admin", UserModel.is_active == True).count()
         if admin_count <= 1:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -106,7 +108,7 @@ async def update_user(
             )
     
     # Update user fields
-    for key, value in user_data.items():
+    for key, value in user_update.dict(exclude_unset=True).items():
         if hasattr(user, key) and key not in ["id", "created_at"]:
             setattr(user, key, value)
     
@@ -117,17 +119,31 @@ async def update_user(
     
     return user
 
+@router.post("/admin/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+async def create_user(
+    user: UserCreate = Body(...),
+    current_user: User = Depends(get_admin_dependency),
+    db: Session = Depends(get_db)
+):
+    """
+    Create a new user.
+    Only admins can access this endpoint.
+    """
+    # Implementation of creating a new user
+    # This is a placeholder and should be replaced with the actual implementation
+    raise NotImplementedError("User creation endpoint not implemented")
+
 @router.post("/admin/users/{user_id}/reset-password")
 async def reset_user_password(
     user_id: uuid.UUID = Path(..., description="ID of the user"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
     Reset a user's password.
     Only admins can access this endpoint.
     """
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
     
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {user_id} not found")
@@ -152,10 +168,10 @@ async def reset_user_password(
         "temp_password": temp_password  # Only for demonstration - in a real app, don't return passwords
     }
 
-@router.delete("/admin/users/{user_id}")
+@router.delete("/admin/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(
-    user_id: uuid.UUID = Path(..., description="ID of the user to delete"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    user_id: uuid.UUID = Path(..., description="The ID of the user"),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -169,14 +185,14 @@ async def delete_user(
             detail="You cannot delete your own account"
         )
     
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
     
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {user_id} not found")
     
     # Prevent deleting the last admin
     if user.role == "admin":
-        admin_count = db.query(User).filter(User.role == "admin", User.is_active == True).count()
+        admin_count = db.query(UserModel).filter(UserModel.role == "admin", UserModel.is_active == True).count()
         if admin_count <= 1:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -196,7 +212,7 @@ async def get_system_logs(
     start_date: Optional[datetime] = Query(None, description="Filter from this date"),
     end_date: Optional[datetime] = Query(None, description="Filter until this date"),
     limit: int = Query(100, ge=1, le=1000, description="Maximum number of logs to return"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -226,7 +242,7 @@ async def get_system_logs(
 @router.get("/admin/settings")
 async def get_settings(
     keys: Optional[List[str]] = Query(None, description="Specific settings keys to retrieve"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -249,7 +265,7 @@ async def get_settings(
 async def update_setting(
     setting_key: str = Path(..., description="Key of the setting to update"),
     setting_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -287,7 +303,7 @@ async def update_setting(
 
 @router.get("/admin/system-health")
 async def check_system_health(
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -387,7 +403,7 @@ async def check_system_health(
 @router.post("/admin/run-maintenance")
 async def run_maintenance(
     maintenance_type: str = Query(..., description="Type of maintenance to run"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """

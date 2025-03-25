@@ -20,8 +20,20 @@ export default function UserDropdown({ user }) {
     };
   }, []);
   
-  // Get user role from Auth0 metadata
-  const userRole = user['https://servicebusiness.com/roles']?.[0] || 'client';
+  // Hardcode specific users as admin by their user ID
+  // This is a temporary solution until Auth0 roles are properly set up
+  const hardcodedAdmins = [
+    'google-oauth2|110674600011943435167' // Rhett Nysko's Google ID
+  ];
+  
+  // Get user role from Auth0 metadata or use hardcoded admin list
+  const userRole = 
+    user['https://servicebusiness.com/roles']?.[0] || 
+    user['https://idimsapi/roles']?.[0] ||
+    user['https://idimsapi/app_metadata']?.roles?.[0] ||
+    user.app_metadata?.roles?.[0] ||
+    user.roles?.[0] ||
+    (hardcodedAdmins.includes(user.sub) ? 'admin' : 'client');
   
   // Format role for display (capitalize first letter)
   const formattedRole = userRole.charAt(0).toUpperCase() + userRole.slice(1);

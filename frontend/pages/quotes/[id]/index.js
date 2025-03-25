@@ -1,96 +1,100 @@
 // src/pages/quotes/[id]/index.js
 import { useState } from 'react';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FaEdit, FaExchangeAlt, FaEnvelope } from 'react-icons/fa';
-import DashboardLayout from '../../components/layouts/DashboardLayout';
-import QuoteDetails from '@/components/quotes/QuoteDetails';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import ErrorAlert from '../../components/ui/ErrorAlert';
-import { useQuote } from '@/hooks/useQuotes';
-import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+import { FaEdit, FaFileInvoiceDollar, FaTrash, FaDownload } from 'react-icons/fa';
+import DashboardLayout from '../../../components/layouts/DashboardLayout';
+import QuoteDetails from '../../../components/quotes/QuoteDetails';
+import LoadingSpinner from '../../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../../components/ui/ErrorAlert';
+import Modal from '../../../components/ui/Modal';
+import { Button } from '../../../components/ui/FormElements';
+import { useQuote } from '../../../hooks/useQuotes';
+import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 
 function QuoteDetail() {
   const router = useRouter();
   const { id } = router.query;
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  
+  const { quote, isLoading, isError, error, deleteQuote } = useQuote(id);
 
-  // Check authorization (only managers and admins)
-  useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
+  const handleDelete = async () => {
+    try {
+      await deleteQuote();
+      router.push('/quotes');
+    } catch (err) {
+      console.error('Failed to delete quote:', err);
+    }
+  };
 
-  // Fetch quote details
-  const {
-    data: quote,
-    isLoading,
-    error,
-    refetch
-  } = useQuote(id);
-
-  if (isLoading) {
-    return (
-      <div className="px-4 py-6">
-        <LoadingSpinner />
-      </div>
-    );
+  if (isLoading || !id) {
+    return <LoadingSpinner />;
   }
 
-  if (error) {
-    return (
-      <div className="px-4 py-6">
-        <ErrorAlert
-          message="Failed to load quote details"
-          onRetry={refetch}
-        />
-      </div>
-    );
+  if (isError) {
+    return <ErrorAlert message={error?.message || 'Failed to load quote'} />;
   }
 
   return (
     <>
       <Head>
-        <title>{`Quote ${quote.quote_number} | Service Business Management`}</title>
+        <title>{`Quote #${quote?.quoteNumber || id} | Service Business Management`}</title>
       </Head>
 
       <div className="px-4 py-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold mr-3">
-                Quote: {quote.quote_number}
-              </h1>
-            </div>
-            <p className="text-gray-500 mt-1">Total: ${quote.total.toFixed(2)}</p>
+            <Link href="/quotes" className="text-blue-600 hover:text-blue-800">
+              ← Back to Quotes
+            </Link>
+            <h1 className="text-2xl font-bold mt-2">
+              Quote #{quote?.quoteNumber || id}
+            </h1>
           </div>
-
-          <div className="mt-4 md:mt-0 flex space-x-2">
-            <Link
-              href={`/quotes/${id}/edit`}
-              className="btn-outline flex items-center"
-            >
-              <FaEdit className="mr-2" />
-              Edit
+          
+          <div className="mt-4 sm:mt-0 flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => window.print()}>
+              <FaDownload className="mr-2" /> Print/PDF
+            </Button>
+            
+            <Link href={`/quotes/${id}/edit`} passHref>
+              <Button as="a" variant="outline">
+                <FaEdit className="mr-2" /> Edit
+              </Button>
             </Link>
-            <Link
-              href={`/quotes/${id}/convert`}
-              className="btn-primary flex items-center"
-            >
-              <FaExchangeAlt className="mr-2" />
-              Convert
+            
+            <Link href={`/quotes/${id}/convert`} passHref>
+              <Button as="a" variant="primary">
+                <FaFileInvoiceDollar className="mr-2" /> Convert to Job
+              </Button>
             </Link>
-            <button
-              className="btn-outline flex items-center"
-            >
-              <FaEnvelope className="mr-2" />
-              Send to Client
-            </button>
+            
+            <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
+              <FaTrash className="mr-2" /> Delete
+            </Button>
           </div>
         </div>
-
-        {/* Quote Details */}
+        
         <QuoteDetails quote={quote} />
       </div>
+      
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title="Delete Quote"
+      >
+        <p className="mb-4">Are you sure you want to delete this quote? This action cannot be undone.</p>
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete Quote
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }
@@ -99,12 +103,4 @@ QuoteDetail.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(ctx) {
-    return {
-      props: {}
-    };
-  }
-});
-
-export default QuoteDetail;
+export default withPageAuthRequired(QuoteDetail);

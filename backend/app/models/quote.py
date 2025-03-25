@@ -31,7 +31,7 @@ class Quote(Base):
     # Relationships
     client = relationship("Client")
     items = relationship("QuoteItem", back_populates="quote", cascade="all, delete-orphan")
-    work_orders = relationship("WorkOrder", back_populates="quote")
+    work_order = relationship("WorkOrder", back_populates="quote", uselist=False)
     
     def __repr__(self):
         return f"<Quote {self.quote_number}: ${self.total:.2f}>"

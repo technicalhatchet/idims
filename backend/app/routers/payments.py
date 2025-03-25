@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, date, timedelta
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.models.payment import Payment
 from app.models.invoice import Invoice
 from app.models.client import Client
@@ -21,7 +21,16 @@ from app.core.exceptions import NotFoundException, ValidationException, Conflict
 from app.services.payment_service import PaymentService
 
 router = APIRouter()
-auth_handler = AuthHandler()
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_manager_or_admin_dependency():
+    """Lazy-loaded dependency for manager or admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_manager_or_admin()
 
 @router.get("/payments", response_model=PaymentListResponse)
 async def list_payments(
@@ -33,7 +42,7 @@ async def list_payments(
     end_date: Optional[date] = Query(None, description="Filter by payment date (end)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -75,7 +84,7 @@ async def list_payments(
 @router.post("/payments", response_model=PaymentResponse, status_code=status.HTTP_201_CREATED)
 async def create_payment(
     payment_data: PaymentCreate,
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -99,7 +108,7 @@ async def create_payment(
 @router.get("/payments/{payment_id}", response_model=PaymentResponse)
 async def get_payment(
     payment_id: uuid.UUID = Path(..., description="The ID of the payment to retrieve"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -136,7 +145,7 @@ async def get_payment(
 async def refund_payment(
     payment_id: uuid.UUID = Path(..., description="The ID of the payment to refund"),
     refund_data: RefundRequest = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -189,7 +198,7 @@ async def process_stripe_webhook(
 @router.get("/clients/{client_id}/payment-methods", response_model=List[PaymentMethodResponse])
 async def get_client_payment_methods(
     client_id: uuid.UUID = Path(..., description="The ID of the client"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -219,7 +228,7 @@ async def get_client_payment_methods(
 async def create_client_payment_method(
     client_id: uuid.UUID = Path(..., description="The ID of the client"),
     payment_method: PaymentMethodCreate = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -253,7 +262,7 @@ async def create_client_payment_method(
 async def delete_client_payment_method(
     client_id: uuid.UUID = Path(..., description="The ID of the client"),
     payment_method_id: uuid.UUID = Path(..., description="The ID of the payment method to delete"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """

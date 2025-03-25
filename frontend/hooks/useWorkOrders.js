@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { 
   getWorkOrders, 
@@ -7,36 +7,44 @@ import {
   updateWorkOrder, 
   deleteWorkOrder,
   updateWorkOrderStatus,
-  assignWorkOrder
-} from '@/services/api/workOrdersApi';
+  assignWorkOrder,
+  getWorkOrderTimeline
+} from '../services/api/workOrdersApi';
 
 /**
  * Hook for work orders list with pagination and filtering
  */
 export function useWorkOrders(params = {}, options = {}) {
-  return useQuery(
-    ['workOrders', params],
-    () => getWorkOrders(params),
-    {
-      keepPreviousData: true,
-      staleTime: 10000, // 10 seconds
-      ...options,
-    }
-  );
+  return useQuery({
+    queryKey: ['workOrders', params],
+    queryFn: () => getWorkOrders(params),
+    staleTime: 10000, // 10 seconds
+    ...options,
+  });
 }
 
 /**
  * Hook for single work order by ID
  */
 export function useWorkOrder(id, options = {}) {
-  return useQuery(
-    ['workOrder', id],
-    () => getWorkOrder(id),
-    {
-      enabled: !!id,
-      ...options,
-    }
-  );
+  return useQuery({
+    queryKey: ['workOrder', id],
+    queryFn: () => getWorkOrder(id),
+    enabled: !!id,
+    ...options,
+  });
+}
+
+/**
+ * Hook for work order timeline
+ */
+export function useWorkOrderTimeline(id, options = {}) {
+  return useQuery({
+    queryKey: ['workOrderTimeline', id],
+    queryFn: () => getWorkOrderTimeline(id),
+    enabled: !!id,
+    ...options,
+  });
 }
 
 /**
@@ -46,69 +54,65 @@ export function useWorkOrderMutations() {
   const queryClient = useQueryClient();
   
   // Create work order
-  const createMutation = useMutation(createWorkOrder, {
+  const createMutation = useMutation({
+    mutationFn: createWorkOrder,
     onSuccess: (data) => {
-      queryClient.invalidateQueries('workOrders');
+      queryClient.invalidateQueries({ queryKey: ['workOrders'] });
       return data;
     },
   });
   
   // Update work order
-  const updateMutation = useMutation(
-    ({ id, data }) => updateWorkOrder(id, data),
-    {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(['workOrder', data.id]);
-        queryClient.invalidateQueries('workOrders');
-        return data;
-      },
-    }
-  );
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }) => updateWorkOrder(id, data),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['workOrder', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['workOrders'] });
+      return data;
+    },
+  });
   
   // Delete work order
-  const deleteMutation = useMutation(deleteWorkOrder, {
+  const deleteMutation = useMutation({
+    mutationFn: deleteWorkOrder,
     onSuccess: (_, id) => {
-      queryClient.invalidateQueries(['workOrder', id]);
-      queryClient.invalidateQueries('workOrders');
+      queryClient.invalidateQueries({ queryKey: ['workOrder', id] });
+      queryClient.invalidateQueries({ queryKey: ['workOrders'] });
     },
   });
   
   // Update work order status
-  const updateStatusMutation = useMutation(
-    ({ id, status, notes }) => updateWorkOrderStatus(id, status, notes),
-    {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(['workOrder', data.id]);
-        queryClient.invalidateQueries('workOrders');
-        return data;
-      },
-    }
-  );
+  const updateStatusMutation = useMutation({
+    mutationFn: ({ id, status, notes }) => updateWorkOrderStatus(id, status, notes),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['workOrder', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['workOrders'] });
+      return data;
+    },
+  });
   
-  // Assign work order to technician
-  const assignMutation = useMutation(
-    ({ id, technicianId }) => assignWorkOrder(id, technicianId),
-    {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(['workOrder', data.id]);
-        queryClient.invalidateQueries('workOrders');
-        return data;
-      },
-    }
-  );
+  // Assign technician
+  const assignMutation = useMutation({
+    mutationFn: ({ id, technicianId }) => assignWorkOrder(id, technicianId),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['workOrder', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['workOrders'] });
+      return data;
+    },
+  });
   
   return {
     createWorkOrder: createMutation.mutateAsync,
     updateWorkOrder: updateMutation.mutateAsync,
     deleteWorkOrder: deleteMutation.mutateAsync,
     updateWorkOrderStatus: updateStatusMutation.mutateAsync,
-    assignWorkOrder: assignMutation.mutateAsync,
+    assignTechnician: assignMutation.mutateAsync,
     isLoading: 
-      createMutation.isLoading || 
-      updateMutation.isLoading || 
-      deleteMutation.isLoading || 
-      updateStatusMutation.isLoading ||
-      assignMutation.isLoading,
+      createMutation.isPending || 
+      updateMutation.isPending || 
+      deleteMutation.isPending || 
+      updateStatusMutation.isPending ||
+      assignMutation.isPending,
     error:
       createMutation.error ||
       updateMutation.error ||

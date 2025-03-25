@@ -2,6 +2,7 @@ from pydantic import BaseModel, validator, Field
 from typing import Optional, Dict, List, Any, Union
 from datetime import datetime, date, timedelta
 from uuid import UUID
+from pydantic import ConfigDict
 
 class QuoteItemBase(BaseModel):
     """Base schema for quote item"""
@@ -33,9 +34,7 @@ class QuoteItemResponse(QuoteItemBase):
     total: float
     quote_id: UUID
     created_at: datetime
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class QuoteBase(BaseModel):
     """Base schema for Quote data"""
@@ -91,32 +90,26 @@ class QuoteUpdate(BaseModel):
         return v
 
 class QuoteResponse(QuoteBase):
-    """Schema for quote response"""
+    """Quote response schema"""
     id: UUID
-    quote_number: str
-    status: str
     created_at: datetime
     updated_at: datetime
-    subtotal: float
-    tax: float
-    discount: float
-    total: float
-    created_by: Optional[UUID] = None
-    items: List[QuoteItemResponse]
-    client: Optional[Dict[str, Any]] = None
-    
-    class Config:
-        orm_mode = True
+    created_by: UUID
+    updated_by: Optional[UUID] = None
+    model_config = ConfigDict(from_attributes=True)
 
 class QuoteListResponse(BaseModel):
-    """Schema for paginated list of quotes"""
-    total: int
+    """Quote list response schema"""
     items: List[QuoteResponse]
+    total: int
     page: int
     pages: int
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
+class QuoteDetailResponse(QuoteResponse):
+    """Quote detail response schema"""
+    items: List[QuoteItemResponse]
+    model_config = ConfigDict(from_attributes=True)
 
 class QuoteStatusUpdate(BaseModel):
     """Schema for updating quote status"""

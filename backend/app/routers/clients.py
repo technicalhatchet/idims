@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.models.client import Client
 from app.schemas.client import (
     ClientCreate, ClientUpdate, ClientResponse, ClientListResponse
@@ -14,7 +14,21 @@ from app.services.client_service import ClientService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 
 router = APIRouter()
-auth_handler = AuthHandler()
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_manager_or_admin_dependency():
+    """Lazy-loaded dependency for manager or admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_manager_or_admin()
+
+async def get_admin_dependency():
+    """Lazy-loaded dependency for admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_admin()
 
 @router.get("/clients", response_model=ClientListResponse)
 async def list_clients(
@@ -22,7 +36,7 @@ async def list_clients(
     status: Optional[str] = Query(None, description="Filter by status"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -50,7 +64,7 @@ async def list_clients(
 @router.post("/clients", response_model=ClientResponse, status_code=status.HTTP_201_CREATED)
 async def create_client(
     client: ClientCreate,
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -67,7 +81,7 @@ async def create_client(
 @router.get("/clients/{client_id}", response_model=ClientResponse)
 async def get_client(
     client_id: uuid.UUID = Path(..., description="The ID of the client to retrieve"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -92,7 +106,7 @@ async def get_client(
 async def update_client(
     client_id: uuid.UUID,
     client_update: ClientUpdate,
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -120,7 +134,7 @@ async def update_client(
 @router.delete("/clients/{client_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_client(
     client_id: uuid.UUID,
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: User = Depends(get_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -138,7 +152,7 @@ async def delete_client(
 @router.get("/clients/{client_id}/service-history", response_model=List)
 async def get_client_service_history(
     client_id: uuid.UUID,
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """

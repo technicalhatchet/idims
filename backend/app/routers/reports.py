@@ -7,12 +7,21 @@ import os
 from datetime import datetime, date, timedelta
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, User
 from app.services.report_service import ReportService
 from app.core.exceptions import NotFoundException, ValidationException
 
 router = APIRouter()
-auth_handler = AuthHandler()
+
+async def get_current_user_dependency():
+    """Lazy-loaded dependency for current user"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.get_current_user()
+
+async def get_manager_or_admin_dependency():
+    """Lazy-loaded dependency for manager or admin"""
+    auth_handler = get_auth_handler()
+    return await auth_handler.verify_manager_or_admin()
 
 @router.get("/reports/financial")
 async def generate_financial_report(
@@ -20,7 +29,7 @@ async def generate_financial_report(
     end_date: date = Query(..., description="End date for the report period"),
     report_type: str = Query("summary", description="Report type: summary or detailed"),
     format: str = Query("json", description="Response format: json or csv"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -65,7 +74,7 @@ async def generate_operations_report(
     end_date: date = Query(..., description="End date for the report period"),
     report_type: str = Query("summary", description="Report type: summary or detailed"),
     format: str = Query("json", description="Response format: json or csv"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -103,7 +112,7 @@ async def generate_client_report(
     start_date: date = Query(..., description="Start date for the report period"),
     end_date: date = Query(..., description="End date for the report period"),
     format: str = Query("json", description="Response format: json or csv"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: User = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -151,7 +160,7 @@ async def generate_technician_report(
     technician_id: uuid.UUID = Path(..., description="Technician ID to generate report for"),
     start_date: date = Query(..., description="Start date for the report period"),
     end_date: date = Query(..., description="End date for the report period"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -178,7 +187,7 @@ async def generate_technician_report(
 
 @router.get("/reports/inventory")
 async def generate_inventory_report(
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -202,7 +211,7 @@ async def generate_inventory_report(
 @router.get("/reports/saved")
 async def list_saved_reports(
     report_type: Optional[str] = Query(None, description="Filter by report type"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -224,7 +233,7 @@ async def get_saved_report_file(
     report_type: str = Path(..., description="Report type: daily, weekly, monthly, custom"),
     report_id: str = Path(..., description="Report ID (usually a date)"),
     file_name: str = Path(..., description="File name to retrieve"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: User = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """

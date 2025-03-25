@@ -2,6 +2,7 @@ from pydantic import BaseModel, validator, Field
 from typing import Optional, Dict, List, Any, Union
 from datetime import datetime, date
 from uuid import UUID
+from pydantic import ConfigDict
 
 class InvoiceItemBase(BaseModel):
     """Base schema for invoice item"""
@@ -33,9 +34,7 @@ class InvoiceItemResponse(InvoiceItemBase):
     total: float
     invoice_id: UUID
     created_at: datetime
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class InvoiceBase(BaseModel):
     """Base schema for invoice data"""
@@ -103,31 +102,26 @@ class InvoiceUpdate(BaseModel):
         return v
 
 class InvoiceResponse(InvoiceBase):
-    """Schema for invoice response"""
+    """Invoice response schema"""
     id: UUID
-    invoice_number: str
-    status: str
-    amount_paid: float
-    balance: float
     created_at: datetime
     updated_at: datetime
-    created_by: Optional[UUID] = None
-    items: List[InvoiceItemResponse]
-    client: Optional[Dict[str, Any]] = None
-    work_order: Optional[Dict[str, Any]] = None
-    
-    class Config:
-        orm_mode = True
+    created_by: UUID
+    updated_by: Optional[UUID] = None
+    model_config = ConfigDict(from_attributes=True)
 
 class InvoiceListResponse(BaseModel):
-    """Schema for paginated list of invoices"""
-    total: int
+    """Invoice list response schema"""
     items: List[InvoiceResponse]
+    total: int
     page: int
     pages: int
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
+class InvoiceDetailResponse(InvoiceResponse):
+    """Invoice detail response schema"""
+    items: List[InvoiceItemResponse]
+    model_config = ConfigDict(from_attributes=True)
 
 class InvoiceStatusUpdate(BaseModel):
     """Schema for updating invoice status"""

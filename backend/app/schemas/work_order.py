@@ -2,6 +2,7 @@ from pydantic import BaseModel, validator, Field
 from typing import Optional, Dict, List, Any, Union
 from datetime import datetime
 from uuid import UUID
+from pydantic import ConfigDict
 
 class ServiceLocationSchema(BaseModel):
     """Schema for service location"""
@@ -95,47 +96,38 @@ class WorkOrderServiceResponse(WorkOrderServiceSchema):
     id: UUID
     name: str
     total: float
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class WorkOrderItemResponse(WorkOrderItemSchema):
     """Schema for work order item response"""
     id: UUID
-    name: str
     total: float
-    
-    class Config:
-        orm_mode = True
+    work_order_id: UUID
+    created_at: datetime
+    model_config = ConfigDict(from_attributes=True)
 
 class WorkOrderResponse(WorkOrderBase):
-    """Schema for work order response"""
+    """Work order response schema"""
     id: UUID
-    order_number: str
-    status: str
-    actual_start: Optional[datetime] = None
-    actual_end: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
     created_by: UUID
     updated_by: Optional[UUID] = None
-    services: Optional[List[WorkOrderServiceResponse]] = None
-    items: Optional[List[WorkOrderItemResponse]] = None
-    client: Optional[Dict[str, Any]] = None
-    technician: Optional[Dict[str, Any]] = None
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class WorkOrderListResponse(BaseModel):
-    """Schema for paginated list of work orders"""
-    total: int
+    """Work order list response schema"""
     items: List[WorkOrderResponse]
+    total: int
     page: int
     pages: int
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
+class WorkOrderDetailResponse(WorkOrderResponse):
+    """Work order detail response schema"""
+    items: List[WorkOrderItemResponse]
+    services: List[WorkOrderServiceResponse]
+    model_config = ConfigDict(from_attributes=True)
 
 class WorkOrderStatusUpdate(BaseModel):
     """Schema for updating work order status"""

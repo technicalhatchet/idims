@@ -1,7 +1,7 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
+import { withPageAuthRequired } from '../../utils/auth0-helpers';
 import Head from 'next/head';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
-import PaymentForm from '@/components/payments/PaymentForm';
+import PaymentForm from '../../components/payments/PaymentForm';
 import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 
 function NewPayment() {
@@ -39,4 +39,4 @@ export const getServerSideProps = withPageAuthRequired({
   }
 });
 
-export default NewPayment;
+export default withPageAuthRequired(NewPayment);

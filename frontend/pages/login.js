@@ -4,7 +4,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { FaSignInAlt } from 'react-icons/fa';
-import HomeLayout from '@/components/layouts/HomeLayout';
+import HomeLayout from '../components/layouts/HomeLayout';
 
 export default function Login() {
   const router = useRouter();
