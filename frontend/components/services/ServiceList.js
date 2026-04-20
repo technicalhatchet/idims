@@ -10,7 +10,7 @@ import {
   Modal,
   Alert
 } from '../../components/ui';
-import apiClient from '../../utils/apiClient';
+import apiClient from '../../utils/api-client';
 
 const ServiceList = () => {
   const router = useRouter();
