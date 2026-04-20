@@ -1,17 +1,21 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from contextlib import contextmanager
+import os
 
 from app.config import settings
 from app.db.base import Base
 from app.models import *  # Import all models
 
+# Get DATABASE_URL - Railway injects this as an env var directly
+database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
+
 # Create SQLAlchemy engine
 engine = create_engine(
-    settings.DATABASE_URL,
+    database_url,
     pool_pre_ping=True,
-    pool_size=20,
-    max_overflow=10,
+    pool_size=5,
+    max_overflow=5,
     pool_timeout=30,
     pool_recycle=300,
     echo=settings.DEBUG
