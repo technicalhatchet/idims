@@ -1,0 +1,36 @@
+# Environment files - NEVER commit these
+.env
+.env.local
+.env.production
+.env.development
+backend/.env
+frontend/.env.local
+frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Misc
+*.zip
+*.log
+logs/
+idims.db
+fix_fk.sql
