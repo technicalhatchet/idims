@@ -1,5 +1,5 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
-import apiClient from '../utils/api-client';
+import { apiClient } from '../utils/api-client';
 
 export function useApi() {
   const { user, error, isLoading } = useUser();

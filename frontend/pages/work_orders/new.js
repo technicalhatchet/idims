@@ -1,12 +1,25 @@
 import { getSession } from '@auth0/nextjs-auth0';
+import { useEffect } from 'react';
 import Head from 'next/head';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import WorkOrderForm from '../../components/work_orders/WorkOrderForm';
 import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+import { useTheme } from '../../context/ThemeContext';
 
 function NewWorkOrder() {
   // Only allow admins and managers to create work orders
   useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
+  const { theme } = useTheme();
+  
+  // Ensure dark mode applies correctly on page load
+  useEffect(() => {
+    // Apply the theme from context to the document
+    if (theme.mode === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme.mode]);
 
   return (
     <>

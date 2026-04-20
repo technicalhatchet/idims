@@ -3,29 +3,26 @@ from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime, timedelta
+import os
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler, User
+from app.core.auth import AuthUser
 from app.models.user import User as UserModel
 from app.models.settings import Settings, SystemLog
 from app.core.exceptions import NotFoundException, ValidationException, ConflictException
 from app.schemas.user import UserCreate, UserUpdate, UserResponse, UserListResponse
 from app.services.admin_service import AdminService
+from app.core.dependencies import get_admin_user
 
 router = APIRouter()
 
-async def get_admin_dependency():
-    """Lazy-loaded dependency for admin user"""
-    auth_handler = get_auth_handler()
-    return await auth_handler.verify_admin()
-
-@router.get("/admin/users", response_model=UserListResponse)
+@router.get("/users", response_model=UserListResponse)
 async def list_users(
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
     search: Optional[str] = Query(None, description="Search term for user name or email"),
     role: Optional[str] = Query(None, description="Filter by user role"),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -57,15 +54,15 @@ async def list_users(
     
     return {
         "total": total,
-        "users": users,
+        "items": users,
         "page": page,
         "pages": (total + limit - 1) // limit
     }
 
-@router.get("/admin/users/{user_id}", response_model=UserResponse)
+@router.get("/users/{user_id}", response_model=UserResponse)
 async def get_user(
     user_id: uuid.UUID = Path(..., description="The ID of the user"),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -82,11 +79,11 @@ async def get_user(
     
     return user
 
-@router.put("/admin/users/{user_id}", response_model=UserResponse)
+@router.put("/users/{user_id}", response_model=UserResponse)
 async def update_user(
     user_id: uuid.UUID = Path(..., description="The ID of the user"),
     user_update: UserUpdate = Body(...),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -119,10 +116,10 @@ async def update_user(
     
     return user
 
-@router.post("/admin/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def create_user(
     user: UserCreate = Body(...),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -133,10 +130,10 @@ async def create_user(
     # This is a placeholder and should be replaced with the actual implementation
     raise NotImplementedError("User creation endpoint not implemented")
 
-@router.post("/admin/users/{user_id}/reset-password")
+@router.post("/users/{user_id}/reset-password")
 async def reset_user_password(
     user_id: uuid.UUID = Path(..., description="ID of the user"),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -168,10 +165,10 @@ async def reset_user_password(
         "temp_password": temp_password  # Only for demonstration - in a real app, don't return passwords
     }
 
-@router.delete("/admin/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(
     user_id: uuid.UUID = Path(..., description="The ID of the user"),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -205,14 +202,14 @@ async def delete_user(
     
     return {"success": True, "message": "User deactivated successfully"}
 
-@router.get("/admin/system-logs")
+@router.get("/system-logs")
 async def get_system_logs(
     log_type: Optional[str] = Query(None, description="Filter by log type"),
     severity: Optional[str] = Query(None, description="Filter by severity (info, warning, error, critical)"),
     start_date: Optional[datetime] = Query(None, description="Filter from this date"),
     end_date: Optional[datetime] = Query(None, description="Filter until this date"),
     limit: int = Query(100, ge=1, le=1000, description="Maximum number of logs to return"),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -239,10 +236,10 @@ async def get_system_logs(
     
     return {"logs": logs}
 
-@router.get("/admin/settings")
+@router.get("/settings")
 async def get_settings(
     keys: Optional[List[str]] = Query(None, description="Specific settings keys to retrieve"),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -261,11 +258,11 @@ async def get_settings(
     
     return settings_dict
 
-@router.put("/admin/settings/{setting_key}")
+@router.put("/settings/{setting_key}")
 async def update_setting(
     setting_key: str = Path(..., description="Key of the setting to update"),
     setting_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -301,9 +298,9 @@ async def update_setting(
     
     return setting
 
-@router.get("/admin/system-health")
+@router.get("/system-health")
 async def check_system_health(
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -351,38 +348,19 @@ async def check_system_health(
     # Check storage
     storage_path = settings.LOCAL_STORAGE_PATH
     try:
-        import os
-        if os.path.exists(storage_path) and os.access(storage_path, os.W_OK):
-            # Check disk space
-            import shutil
-            total, used, free = shutil.disk_usage(storage_path)
-            percent_used = used / total * 100
-            
-            storage_status = "healthy"
-            message = f"Storage accessible, {free / (1024**3):.2f} GB free"
-            
-            if percent_used > 90:
-                storage_status = "warning"
-                message += " (disk almost full)"
-                if health_status["status"] == "healthy":
-                    health_status["status"] = "warning"
-            
-            health_status["components"]["storage"] = {
-                "status": storage_status,
-                "message": message,
-                "details": {
-                    "total_gb": total / (1024**3),
-                    "used_gb": used / (1024**3),
-                    "free_gb": free / (1024**3),
-                    "percent_used": percent_used
-                }
-            }
-        else:
-            health_status["components"]["storage"] = {
-                "status": "unhealthy",
-                "message": "Storage directory not accessible"
-            }
-            health_status["status"] = "degraded"
+        if not os.path.exists(storage_path):
+            os.makedirs(storage_path)
+        
+        # Try to write a test file
+        test_file = os.path.join(storage_path, ".test")
+        with open(test_file, "w") as f:
+            f.write("test")
+        os.remove(test_file)
+        
+        health_status["components"]["storage"] = {
+            "status": "healthy",
+            "message": "Storage is writable"
+        }
     except Exception as e:
         health_status["components"]["storage"] = {
             "status": "unhealthy",
@@ -390,20 +368,12 @@ async def check_system_health(
         }
         health_status["status"] = "degraded"
     
-    # Log this health check
-    SystemLog.log_event(
-        db=db,
-        event_type="system_health_check",
-        details=health_status,
-        severity=health_status["status"]
-    )
-    
     return health_status
 
-@router.post("/admin/run-maintenance")
+@router.post("/run-maintenance")
 async def run_maintenance(
     maintenance_type: str = Query(..., description="Type of maintenance to run"),
-    current_user: User = Depends(get_admin_dependency),
+    current_user: AuthUser = Depends(get_admin_user),
     db: Session = Depends(get_db)
 ):
     """

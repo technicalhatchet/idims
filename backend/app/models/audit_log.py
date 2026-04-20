@@ -1,9 +1,11 @@
 from datetime import datetime
 from typing import Optional
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Enum, JSON, Text
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 import enum
+import uuid
 
 class AuditAction(str, enum.Enum):
     """Audit log action types"""
@@ -37,8 +39,8 @@ class AuditLog(Base):
     """Audit log model for tracking user actions"""
     __tablename__ = "audit_logs"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     action = Column(Enum(AuditAction), nullable=False)
     entity_type = Column(Enum(AuditEntity), nullable=False)
     entity_id = Column(String(255), nullable=True)  # ID of the affected entity
@@ -67,7 +69,7 @@ class AuditLog(Base):
         }
 
     @classmethod
-    def log_action(cls, db, user_id: int, action: AuditAction, entity_type: AuditEntity, 
+    def log_action(cls, db, user_id: uuid.UUID, action: AuditAction, entity_type: AuditEntity, 
                   entity_id: Optional[str] = None, details: Optional[str] = None,
                   ip_address: Optional[str] = None, user_agent: Optional[str] = None,
                   audit_metadata: Optional[dict] = None) -> 'AuditLog':

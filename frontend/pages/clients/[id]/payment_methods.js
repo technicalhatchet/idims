@@ -13,7 +13,7 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import Modal from '../../../components/ui/Modal'; 
 import Button from '../../../components/ui/Button'; 
 import { useClientPaymentMethods, usePaymentMutations } from '../../../hooks/usePayments'; 
-import { useClient } from '../../../services/api/clientsApi'; 
+import { useClient } from '../../../hooks/useClients'; 
 import { useAuthRedirect } from '../../../hooks/useAuthRedirect';  
 
 function ClientPaymentMethods() { 

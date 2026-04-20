@@ -6,7 +6,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { withPageAuthRequired, getStaticPropsWithFallback } from '../../utils/auth0-helpers';
-import { apiClient, ErrorTypes } from '../../utils/api-client';
+import apiClient, { ErrorTypes } from '../../utils/api-client';
 
 function Dashboard() {
   const { user, isLoading, error } = useUser();

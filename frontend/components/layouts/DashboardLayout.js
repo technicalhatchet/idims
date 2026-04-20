@@ -6,23 +6,30 @@ import {
   FaTachometerAlt, FaClipboardList, FaCalendarAlt, FaFileInvoiceDollar, 
   FaUsers, FaWrench, FaCog, FaBars, FaTimes, FaSignOutAlt, FaMoon, FaSun
 } from 'react-icons/fa';
+import Head from 'next/head';
 
 import NotificationsDropdown from '../notifications/NotificationsDropdown';
 import UserDropdown from '../user/UserDropdown';
 import { useTheme } from '../../context/ThemeContext';
 import ErrorBoundary from '../../context/ErrorBoundary';
+import { getUserRole } from '../../utils/auth0-helpers';
+
+
+// Configure which components to load dynamically
+const displayNotifications = true;
+const displayThemeToggle = true;
 
 export default function DashboardLayout({ children }) {
   // Call hooks in the same order on every render
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const { theme, toggleTheme } = useTheme();
   
   // First useEffect - client side detection
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
   
   // Second useEffect - router events
@@ -53,22 +60,23 @@ export default function DashboardLayout({ children }) {
       console.log('User roles property:', user['https://idimsapi/roles']);
       console.log('User app_metadata:', user['https://idimsapi/app_metadata']);
       
-      // Check all possible places where roles might be stored
-      const possibleRoles = [
-        user.role,
-        user.roles,
-        user['https://idimsapi/roles']?.[0],
-        user['https://idimsapi/app_metadata']?.role,
-        user['https://idimsapi/app_metadata']?.roles?.[0],
-        user['https://example.com/roles']?.[0],
-        user['roles']?.[0],
-        user['app_metadata']?.role,
-      ];
-      
-      console.log('Possible roles found:', possibleRoles.filter(r => r));
-      console.log('Role used by application:', user['https://idimsapi/roles']?.[0] || 'client');
+      // Check role using the shared function
+      const detectedRole = getUserRole(user);
+      console.log('Role detected by getUserRole():', detectedRole);
     }
   }, [user]);
+
+  // Ensure dark mode applies correctly on page load and after navigation
+  useEffect(() => {
+    if (mounted) {
+      // Apply the theme from context to the document
+      if (theme.mode === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  }, [theme.mode, mounted, router.asPath]);
 
   if (isLoading) {
     return (
@@ -146,72 +154,24 @@ export default function DashboardLayout({ children }) {
       },
     ];
 
-    // Hardcode specific users as admin by their user ID
-    // This is a temporary solution until Auth0 roles are properly set up
-    const hardcodedAdmins = [
-      'google-oauth2|110674600011943435167' // Rhett Nysko's Google ID
-    ];
-    
     // Debug output to help understand the structure
     console.log('Full user object:', user);
     console.log('Idimsapi app_metadata:', user['https://idimsapi/app_metadata']);
     
-    // Get user role with multiple fallbacks - prioritize admin role detection
-    let userRole = null;
-    let roleSource = null;
-    
-    // First check - explicit role in the auth0 namespace
-    if (user['https://idimsapi/roles']?.[0]) {
-      userRole = user['https://idimsapi/roles'][0];
-      roleSource = 'idimsapi/roles';
-    }
-    // Second - check app_metadata that we see in logs
-    else if (user['https://idimsapi/app_metadata']?.roles?.[0]) {
-      userRole = user['https://idimsapi/app_metadata'].roles[0];
-      roleSource = 'idimsapi/app_metadata.roles';
-    }
-    // Third - check standard locations
-    else if (user.app_metadata?.roles?.[0]) {
-      userRole = user.app_metadata.roles[0];
-      roleSource = 'app_metadata.roles';
-    }
-    else if (user.roles?.[0]) {
-      userRole = user.roles[0];
-      roleSource = 'roles';
-    }
-    // Fourth - check if user ID is in hardcoded admin list
-    else if (hardcodedAdmins.includes(user.sub)) {
-      userRole = 'admin';
-      roleSource = 'hardcoded admin list';
-    }
-    // Fallback to client role if nothing else works
-    else {
-      userRole = 'client';
-      roleSource = 'default fallback';
-    }
-    
-    // Always standardize role to lowercase for consistency
-    if (userRole) {
-      userRole = userRole.toLowerCase();
-      
-      // Fix common role naming inconsistencies
-      if (userRole === 'clients') {
-        userRole = 'client';
-      } else if (userRole === 'admins') {
-        userRole = 'admin';
-      } else if (userRole === 'managers') {
-        userRole = 'manager';
-      } else if (userRole === 'technicians') {
-        userRole = 'technician';
-      }
-    }
+    // Get user role using the shared getUserRole function
+    const userRole = getUserRole(user);
     
     // Log detailed role detection information
     console.log('Role detection - original value:', userRole);
-    console.log('Role detection - source:', roleSource);
+    console.log('Role detection - source:', userRole === 'admin' ? 'idimsapi/app_metadata.roles' : 'function');
     console.log('Navigation filtered by role:', userRole);
-    console.log('User ID match?', hardcodedAdmins.includes(user.sub));
+    console.log('User ID match?', user.sub === 'google-oauth2|110674600011943435167');
 
+    // Admins have access to everything
+    if (userRole === 'admin') {
+      return items;
+    }
+    
     // Filter items by role - with fallback to show all items if no role matches
     const filteredItems = items.filter(item => item.roles.includes(userRole));
     return filteredItems.length > 0 ? filteredItems : items;
@@ -220,8 +180,8 @@ export default function DashboardLayout({ children }) {
   const navItems = getNavItems();
   
   // Use these variables for conditional rendering based on client state
-  const displayThemeToggle = isClient;
-  const displayNotifications = isClient && typeof NotificationsDropdown === 'function';
+  const displayThemeToggle = mounted;
+  const displayNotifications = mounted && typeof NotificationsDropdown === 'function';
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">

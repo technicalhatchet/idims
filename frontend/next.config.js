@@ -7,7 +7,16 @@ const nextConfig = {
   staticPageGenerationTimeout: 1000,
   
   images: {
-    domains: ['via.placeholder.com', 's.gravatar.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 's.gravatar.com',
+      },
+    ],
   },
   
   experimental: {

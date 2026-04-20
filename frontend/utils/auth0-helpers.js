@@ -72,6 +72,68 @@ export const getUserRole = (user) => {
 };
 
 /**
+ * Server-side helper function to get a user's role from session data
+ * This is used in getServerSideProps functions where hooks can't be used
+ */
+export const getUserRoleFromSession = (user) => {
+  if (!user) return null;
+  
+  let userRole = null;
+  
+  // Check all possible places where roles might be stored
+  if (user['https://idimsapi/roles']?.[0]) {
+    userRole = user['https://idimsapi/roles'][0];
+  }
+  else if (user['https://idimsapi/app_metadata']?.roles?.[0]) {
+    userRole = user['https://idimsapi/app_metadata'].roles[0];
+  }
+  else if (user.app_metadata?.roles?.[0]) {
+    userRole = user.app_metadata.roles[0];
+  }
+  else if (user.roles?.[0]) {
+    userRole = user.roles[0];
+  }
+  else if (user.role) {
+    userRole = user.role;
+  }
+  else if (user.app_metadata?.role) {
+    userRole = user.app_metadata.role;
+  }
+  
+  // Check namespaced claims as a last resort
+  if (!userRole) {
+    const rolesClaim = Object.keys(user).find(key => 
+      key.includes('/roles') || 
+      key.includes('/role') || 
+      key === 'roles' ||
+      key === 'role'
+    );
+    
+    if (rolesClaim && user[rolesClaim]) {
+      const roles = user[rolesClaim];
+      // Handle both string and array formats
+      userRole = Array.isArray(roles) ? roles[0] : roles;
+    }
+  }
+  
+  // Check for hard-coded user ID for admin access
+  if (!userRole && user.sub === 'google-oauth2|110674600011943435167') {
+    userRole = 'admin';
+  }
+  
+  // Standardize role to lowercase for consistency
+  if (userRole) {
+    userRole = userRole.toLowerCase();
+  } else {
+    userRole = 'client'; // Default to client role
+  }
+  
+  // Log server-side role detection
+  console.log('Server-side role detection:', userRole);
+  return userRole;
+};
+
+/**
  * Custom hook to get user role information
  */
 export const useUserRole = () => {

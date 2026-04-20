@@ -1,83 +1,105 @@
+import React from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-export default function Pagination({ currentPage, totalPages, onPageChange }) {
-  const maxVisiblePages = 5;
+const Pagination = ({ 
+  totalItems, 
+  itemsPerPage, 
+  currentPage, 
+  onPageChange,
+  className = '' 
+}) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
   
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    // Always show first page
+    pages.push(1);
+    
+    // Add current page and pages around it
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+      if (!pages.includes(i)) {
+        pages.push(i);
+      }
+    }
+    
+    // Always show last page if more than 1 page
+    if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+    
+    // Sort and add ellipses where needed
+    const sortedPages = [...new Set(pages)].sort((a, b) => a - b);
+    const pagesWithEllipses = [];
+    
+    for (let i = 0; i < sortedPages.length; i++) {
+      pagesWithEllipses.push(sortedPages[i]);
+      
+      // Add ellipsis if there's a gap
+      if (i < sortedPages.length - 1 && sortedPages[i + 1] - sortedPages[i] > 1) {
+        pagesWithEllipses.push('...');
+      }
+    }
+    
+    return pagesWithEllipses;
+  };
+
   if (totalPages <= 1) return null;
-  
-  // Calculate range of visible page numbers
-  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-  
-  // Adjust start page if end page is maxed out
-  startPage = Math.max(1, endPage - maxVisiblePages + 1);
-  
-  // Create array of pages to display
-  const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-  
+
   return (
-    <div className="flex items-center justify-center mt-4">
-      <nav className="flex items-center">
+    <div className={`flex justify-center mt-4 ${className}`}>
+      <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+        {/* Previous button */}
         <button
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
-          className="px-2 py-1 mr-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Previous page"
+          className={`relative inline-flex items-center px-2 py-2 rounded-l-md border 
+            ${currentPage === 1 
+              ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed' 
+              : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            } text-sm font-medium dark:border-gray-700`}
         >
+          <span className="sr-only">Previous</span>
           <FaChevronLeft />
         </button>
         
-        {startPage > 1 && (
-          <>
+        {/* Page numbers */}
+        {getPageNumbers().map((page, index) => (
+          page === '...' ? (
+            <span key={`ellipsis-${index}`} className="relative inline-flex items-center px-4 py-2 border bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 dark:border-gray-700">
+              ...
+            </span>
+          ) : (
             <button
-              onClick={() => onPageChange(1)}
-              className="px-3 py-1 mx-1 rounded-md hover:bg-gray-100"
-              aria-label="Page 1"
+              key={page}
+              onClick={() => onPageChange(page)}
+              className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                currentPage === page
+                  ? 'z-10 bg-gray-50 dark:bg-gray-900 border-gray-500 text-gray-600 dark:text-gray-300'
+                  : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
             >
-              1
+              {page}
             </button>
-            {startPage > 2 && <span className="mx-1">...</span>}
-          </>
-        )}
-        
-        {pages.map(page => (
-          <button
-            key={page}
-            onClick={() => onPageChange(page)}
-            className={`px-3 py-1 mx-1 rounded-md ${
-              currentPage === page
-                ? 'bg-blue-600 text-white'
-                : 'hover:bg-gray-100'
-            }`}
-            aria-label={`Page ${page}`}
-            aria-current={currentPage === page ? 'page' : undefined}
-          >
-            {page}
-          </button>
+          )
         ))}
         
-        {endPage < totalPages && (
-          <>
-            {endPage < totalPages - 1 && <span className="mx-1">...</span>}
-            <button
-              onClick={() => onPageChange(totalPages)}
-              className="px-3 py-1 mx-1 rounded-md hover:bg-gray-100"
-              aria-label={`Page ${totalPages}`}
-            >
-              {totalPages}
-            </button>
-          </>
-        )}
-        
+        {/* Next button */}
         <button
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages}
-          className="px-2 py-1 ml-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Next page"
+          className={`relative inline-flex items-center px-2 py-2 rounded-r-md border 
+            ${currentPage === totalPages 
+              ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed' 
+              : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            } text-sm font-medium dark:border-gray-700`}
         >
+          <span className="sr-only">Next</span>
           <FaChevronRight />
         </button>
       </nav>
     </div>
   );
-}
+};
+
+export default Pagination;

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 // Default theme object with detailed settings
 const defaultTheme = {
-  mode: 'light',
+  mode: 'dark',
   colors: {
     primary: '#4F46E5',
     secondary: '#10B981',

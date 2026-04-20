@@ -1,4 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useRouter } from 'next/router';
+import { apiClient } from '../utils/api-client';
 import { 
   getQuotes, 
   getQuote, 
@@ -11,7 +13,6 @@ import {
   downloadQuote,
   calculateQuote
 } from '../services/api/quotesApi';
-import apiClient from '../utils/api-client';
 
 /**
  * Hook for quotes list with pagination and filtering

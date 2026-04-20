@@ -25,6 +25,24 @@ function WorkOrders() {
     refetch
   } = useWorkOrders({ page, limit, ...filters });
 
+  // Debug logs
+  console.log('Work Orders page - attempting to fetch data');
+  console.log('Filters:', filters);
+  
+  useEffect(() => {
+    if (data) {
+      console.log('Work Orders data loaded successfully:', data);
+    }
+    if (error) {
+      console.error('Work Orders fetch error:', error);
+      console.error('Error details:', {
+        message: error.message,
+        name: error.name,
+        stack: error.stack
+      });
+    }
+  }, [data, error]);
+
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
     setPage(1); // Reset to first page when filters change
@@ -46,8 +64,7 @@ function WorkOrders() {
           <div className="flex space-x-2">
             <button
               onClick={handleFilterToggle}
-              className="btn-outline flex items-center dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
-              aria-label="Filter work orders"
+              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 flex items-center dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
             >
               <FaFilter className="mr-2" />
               Filters

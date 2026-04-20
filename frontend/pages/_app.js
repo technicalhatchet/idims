@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/fullcalendar.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { ThemeProvider } from '../context/ThemeContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query, Path as FastAPIPath, status, Body
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any
 import uuid
@@ -7,9 +7,11 @@ import os
 import shutil
 from pathlib import Path
 from datetime import datetime
+import aiofiles
+from pathlib import Path as FilePath
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler, User
+from app.core.auth import get_auth_handler, AuthUser
 from app.config import settings
 from app.core.exceptions import NotFoundException, ValidationException, ConflictException
 from app.models.media import Media, MediaType
@@ -18,6 +20,7 @@ from app.schemas.media import (
     MediaListResponse, MediaUploadResponse
 )
 from app.services.media_service import MediaService
+from app.core.dependencies import get_current_user, get_admin_or_manager_user
 
 router = APIRouter()
 
@@ -42,7 +45,7 @@ async def list_media(
     reference_id: Optional[uuid.UUID] = Query(None, description="Filter by reference ID"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -72,7 +75,7 @@ async def create_media(
     media_type: MediaType = Form(...),
     reference_id: Optional[uuid.UUID] = Form(None),
     description: Optional[str] = Form(None),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -102,7 +105,7 @@ async def create_media(
 @router.get("/media/{media_id}", response_model=MediaResponse)
 async def get_media(
     media_id: uuid.UUID = FastAPIPath(..., description="The ID of the media to retrieve"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -122,7 +125,7 @@ async def get_media(
 async def update_media(
     media_id: uuid.UUID = FastAPIPath(..., description="The ID of the media to update"),
     media_data: MediaUpdate = Body(...),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -143,7 +146,7 @@ async def update_media(
 @router.delete("/media/{media_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_media(
     media_id: uuid.UUID = FastAPIPath(..., description="The ID of the media to delete"),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -164,7 +167,7 @@ async def delete_media(
 @router.get("/media/{media_id}/download")
 async def download_media(
     media_id: uuid.UUID = FastAPIPath(..., description="The ID of the media to download"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """

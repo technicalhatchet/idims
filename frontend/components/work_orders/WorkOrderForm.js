@@ -1,35 +1,169 @@
 import { useForm } from '../../hooks/useForm';
 import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '../ui/FormElements';
-import { FaSave, FaTimes } from 'react-icons/fa';
+import { FaSave, FaTimes, FaTrash } from 'react-icons/fa';
 import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
+import { getTechnicians } from '../../services/api/techniciansApi';
+import { getAppointmentPreviewSlots } from '../../services/api/schedulingApi';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { apiClient } from '../../utils/api-client';
 import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
+import * as yup from 'yup';
 
-export default function WorkOrderForm({ initialData, isEdit = false }) {
+// Constants for equipment types
+const EQUIPMENT_TYPES = [
+  { value: '', label: 'Select Equipment Type' },
+  { value: 'appliance', label: 'Appliance' },
+  { value: 'tv', label: 'TV' }
+];
+
+// New constants for SKU selection
+const SKU_EQUIPMENT_CATEGORIES = [
+  { value: '', label: 'Select Main Category...' },
+  { value: 'TV', label: 'TV' },
+  { value: 'Appliance', label: 'Appliance' },
+  { value: 'Network', label: 'Network' },
+  // Add 'Other' if necessary, based on how 'other' equipment_type SKUs should be handled
+];
+
+const EQUIPMENT_CATEGORY_MAP = {
+  TV: ['tv'],
+  Appliance: ['washer', 'dryer', 'stacked_laundry', 'aio_laundry', 'refrigerator', 'dishwasher', 'range', 'wall_oven', 'other'], // Assuming 'other' equipment type maps to Appliance category
+  Network: ['network'],
+};
+
+const SERVICE_TYPE_GROUP_LABELS = {
+  diagnostic: 'Diagnostics',
+  repair: 'Repairs',
+  installation: 'Installations',
+  custom: 'Custom Services',
+  remote: 'Remote Services',
+  additional_time: 'Additional Time',
+  // Add other service_types if they need to be grouped and displayed
+};
+
+const SERVICE_TYPE_ORDER_MAP = {
+  diagnostic: 1,
+  repair: 2,
+  installation: 3,
+  custom: 4,
+  remote: 5,
+  additional_time: 6,
+  // Define order for other types if they are included
+};
+
+// Equipment subtypes
+const EQUIPMENT_SUBTYPES = {
+  appliance: [
+    { value: '', label: 'Select Appliance Type' },
+    { value: 'refrigerator', label: 'Refrigerator' },
+    { value: 'dishwasher', label: 'Dishwasher' },
+    { value: 'washing_machine', label: 'Washing Machine' },
+    { value: 'dryer', label: 'Dryer' },
+    { value: 'oven', label: 'Oven' },
+    { value: 'microwave', label: 'Microwave' },
+    { value: 'cooktop', label: 'Cooktop' },
+    { value: 'range_hood', label: 'Range Hood' },
+    { value: 'other', label: 'Other' }
+  ],
+  tv: [
+    { value: '', label: 'Select TV Size' },
+    { value: 'under_32', label: 'Under 32"' },
+    { value: '32_to_43', label: '32" to 43"' },
+    { value: '44_to_55', label: '44" to 55"' },
+    { value: '56_to_65', label: '56" to 65"' },
+    { value: '66_to_75', label: '66" to 75"' },
+    { value: 'over_75', label: 'Over 75"' }
+  ]
+};
+
+// Common manufacturers
+const MANUFACTURERS = [
+  { value: '', label: 'Select Manufacturer' },
+  { value: 'Samsung', label: 'Samsung' },
+  { value: 'LG', label: 'LG' },
+  { value: 'Sony', label: 'Sony' },
+  { value: 'Whirlpool', label: 'Whirlpool' },
+  { value: 'GE', label: 'GE' },
+  { value: 'Frigidaire', label: 'Frigidaire' },
+  { value: 'Maytag', label: 'Maytag' },
+  { value: 'KitchenAid', label: 'KitchenAid' },
+  { value: 'Bosch', label: 'Bosch' },
+  { value: 'Kenmore', label: 'Kenmore' },
+  { value: 'Electrolux', label: 'Electrolux' },
+  { value: 'Haier', label: 'Haier' },
+  { value: 'TCL', label: 'TCL' },
+  { value: 'Hisense', label: 'Hisense' },
+  { value: 'Vizio', label: 'Vizio' },
+  { value: 'Other', label: 'Other' }
+];
+
+/** Technician list items use `user.first_name` / `user.last_name`; API does not send `name` or `full_name` on JSON. */
+function formatTechnicianSelectLabel(t) {
+  if (!t) return '';
+  if (t.name) return t.name;
+  if (t.user?.first_name || t.user?.last_name) {
+    return [t.user.first_name, t.user.last_name].filter(Boolean).join(' ').trim();
+  }
+  if (t.first_name || t.last_name) {
+    return [t.first_name, t.last_name].filter(Boolean).join(' ').trim();
+  }
+  if (t.employee_id) return `Technician (${t.employee_id})`;
+  if (t.user?.email) return t.user.email;
+  return String(t.id);
+}
+
+export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuccess }) {
   const router = useRouter();
   const [clients, setClients] = useState([]);
-  const [technicians, setTechnicians] = useState([]);
-  const [services, setServices] = useState([]);
+  const [allServicesRaw, setAllServicesRaw] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { createWorkOrder, updateWorkOrder, isLoading: isMutating } = useWorkOrderMutations();
+  const [clientData, setClientData] = useState({}); // Store detailed client data for address auto-population
+  const [success, setSuccess] = useState(false);
+  const { createWorkOrder, createWorkOrderWithInitialAppointment, updateWorkOrder, isLoading: isMutating } = useWorkOrderMutations();
+
+  /** Optional: create first appointment in the same transaction as the work order (new WOs only). */
+  const [scheduleFirstVisit, setScheduleFirstVisit] = useState(false);
+  const [firstVisitStart, setFirstVisitStart] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    d.setHours(9, 0, 0, 0);
+    return format(d, "yyyy-MM-dd'T'HH:mm");
+  });
+  const [firstVisitTechnicianId, setFirstVisitTechnicianId] = useState('');
+  const [techniciansList, setTechniciansList] = useState([]);
+  const [previewSlots, setPreviewSlots] = useState(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState(null);
+  
+  // New state for SKU selection
+  const [selectedSkuEquipmentCategory, setSelectedSkuEquipmentCategory] = useState('');
+  const [filteredSkusForDropdown, setFilteredSkusForDropdown] = useState([]);
   
   // Initialize form with default values or provided data
   const defaultValues = {
     client_id: '',
-    title: '',
     description: '',
     priority: 'medium',
-    scheduled_start: '',
-    scheduled_end: '',
-    assigned_technician_id: '',
+    status: 'pending',
+    work_type: 'service_call',
     service_location: { address: '' },
-    services: [],
-    is_recurring: false
+    equipment_make: '',
+    equipment_model: '',
+    equipment_serial: '',
+    equipment_version: '',
+    equipment_type: '',
+    equipment_subtype: '',
+    is_wall_mounted: false,
+    equipment_notes: '',
+    service_items: [],
+    is_recurring: false,
+    invoice_subtotal: 0,
+    invoice_tax: 0,
+    invoice_total: 0,
   };
   
   // Format date for form input
@@ -45,15 +179,38 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
     
     return {
       client_id: initialData.client_id || '',
-      title: initialData.title || '',
       description: initialData.description || '',
       priority: initialData.priority || 'medium',
-      scheduled_start: formatDateForInput(initialData.scheduled_start),
-      scheduled_end: formatDateForInput(initialData.scheduled_end),
-      assigned_technician_id: initialData.assigned_technician_id || '',
+      status: initialData.status || 'pending',
+      work_type: initialData.work_type || 'service_call',
       service_location: initialData.service_location || { address: '' },
-      services: initialData.services || [],
-      is_recurring: initialData.is_recurring || false
+      equipment_make: initialData.equipment_make || '',
+      equipment_model: initialData.equipment_model || '',
+      equipment_serial: initialData.equipment_serial || '',
+      equipment_version: initialData.equipment_version || '',
+      equipment_type: initialData.equipment_type || '',
+      equipment_subtype: initialData.equipment_subtype || '',
+      is_wall_mounted: initialData.is_wall_mounted || false,
+      equipment_notes: initialData.equipment_notes || '',
+      service_items: (initialData.service_items || []).map((si) => {
+        const qty = Number(si.quantity ?? 1);
+        const unit = Number(si.unit_price ?? si.price ?? 0);
+        const total =
+          si.total_price != null && si.total_price !== ''
+            ? Number(si.total_price)
+            : qty * unit;
+        return {
+          ...si,
+          name: si.name || si.service_name || 'Service',
+          quantity: qty,
+          unit_price: unit,
+          total_price: total,
+        };
+      }),
+      is_recurring: initialData.is_recurring || false,
+      invoice_subtotal: Number(initialData.invoice_subtotal ?? 0),
+      invoice_tax: Number(initialData.invoice_tax ?? 0),
+      invoice_total: Number(initialData.invoice_total ?? 0),
     };
   };
   
@@ -61,21 +218,31 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
   const validate = (values) => {
     const errors = {};
     
+    // Only validate client_id if it's empty string, null, or undefined
     if (!values.client_id) {
       errors.client_id = 'Client is required';
     }
     
-    if (!values.title) {
-      errors.title = 'Title is required';
+    // Only validate work_type and status if they're required fields
+    // These may not be in the form if they're handled elsewhere
+    if (values.hasOwnProperty('work_type') && !values.work_type) {
+      errors.work_type = 'Work Type is required';
     }
     
-    if (!values.scheduled_start) {
-      errors.scheduled_start = 'Start time is required';
+    if (values.hasOwnProperty('status') && !values.status) {
+      errors.status = 'Status is required';
     }
     
-    if (values.scheduled_start && values.scheduled_end && 
-        new Date(values.scheduled_end) <= new Date(values.scheduled_start)) {
-      errors.scheduled_end = 'End time must be after start time';
+    if (!values.priority) {
+      errors.priority = 'Priority is required';
+    }
+    
+    if (!values.service_location?.address) {
+      errors.service_location = { address: 'Service location is required' };
+    }
+    
+    if (!values.description) {
+      errors.description = 'Description is required';
     }
     
     return errors;
@@ -83,76 +250,606 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
   
   // Form submission handler
   const handleSubmit = async (values) => {
+    // Make a copy of values to modify
     const formattedValues = {
       ...values,
-      service_location: values.service_location || { address: '' }
+      service_location: values.service_location || { address: '' },
+      service_items: values.service_items.map(item => ({
+        service_id: item.service_id,
+        quantity: item.quantity,
+        unit_price: item.unit_price,
+      }))
     };
+
+    // Format equipment fields - ensure empty strings are sent as null
+    if (formattedValues.equipment_make === '') formattedValues.equipment_make = null;
+    if (formattedValues.equipment_model === '') formattedValues.equipment_model = null;
+    if (formattedValues.equipment_serial === '') formattedValues.equipment_serial = null;
+    if (formattedValues.equipment_version === '') formattedValues.equipment_version = null;
+    if (formattedValues.equipment_type === '') formattedValues.equipment_type = null;
+    if (formattedValues.equipment_subtype === '') formattedValues.equipment_subtype = null;
+    if (formattedValues.equipment_notes === '') formattedValues.equipment_notes = null;
+    
+    // Debug the values being sent
+    console.log('Submitting work order with values:', formattedValues);
     
     try {
       if (isEdit && initialData?.id) {
+        // Update the work order
         await updateWorkOrder({
           id: initialData.id,
           data: formattedValues
         });
         
-        router.push(`/work-orders/${initialData.id}`);
+        // Show success message
+        setSuccess(true);
+        
+        // Delay for 2 seconds so the user sees the success message
+        setTimeout(() => {
+          // Redirect to work order details page (with underscore in path)
+          router.push(`/work_orders/${initialData.id}`);
+        }, 2000);
       } else {
-        const newWorkOrder = await createWorkOrder(formattedValues);
-        router.push(`/work-orders/${newWorkOrder.id}`);
+        // Create a new work order
+        try {
+          let newWorkOrder;
+
+          if (scheduleFirstVisit) {
+            if (!firstVisitStart) {
+              setError('Choose a date and time for the first visit.');
+              return;
+            }
+            const woBase = {
+              client_id: formattedValues.client_id,
+              description: formattedValues.description,
+              priority: formattedValues.priority,
+              service_location: formattedValues.service_location,
+              equipment_make: formattedValues.equipment_make,
+              equipment_model: formattedValues.equipment_model,
+              equipment_serial: formattedValues.equipment_serial,
+              equipment_version: formattedValues.equipment_version,
+              equipment_type: formattedValues.equipment_type,
+              equipment_subtype: formattedValues.equipment_subtype,
+              is_wall_mounted: formattedValues.is_wall_mounted,
+              equipment_notes: formattedValues.equipment_notes,
+              is_recurring: formattedValues.is_recurring,
+            };
+            const initialAppointment = {
+              appointment_type: 'diagnostic',
+              scheduled_start: new Date(firstVisitStart).toISOString(),
+            };
+            if (firstVisitTechnicianId) {
+              initialAppointment.assigned_technician_id = firstVisitTechnicianId;
+            }
+            const serviceIds = (values.service_items || []).map((i) => i.service_id).filter(Boolean);
+            if (serviceIds.length > 0) {
+              initialAppointment.service_ids = serviceIds;
+            }
+            const result = await createWorkOrderWithInitialAppointment({
+              ...woBase,
+              initial_appointment: initialAppointment,
+            });
+            newWorkOrder = result.work_order;
+            console.log('Create work order + initial appointment response:', result);
+          } else {
+            newWorkOrder = await createWorkOrder(formattedValues);
+            console.log('Create work order response:', newWorkOrder);
+          }
+
+          // Show success message
+          setSuccess(true);
+          
+          // First check if the response is a direct work order object with ID (from the fixed hook)
+          if (newWorkOrder && newWorkOrder.id) {
+            console.log('New work order created with ID:', newWorkOrder.id);
+            
+            // Delay for 2 seconds so the user sees the success message
+            setTimeout(() => {
+              // Navigate to the new work order (using underscore not hyphen)
+              router.push(`/work_orders/${newWorkOrder.id}`);
+            }, 2000);
+          }
+          // Fallback: check if we have a paginated response
+          else if (newWorkOrder && newWorkOrder.items && newWorkOrder.items.length > 0) {
+            // Use the first work order in the items array
+            const createdWorkOrder = newWorkOrder.items[0];
+            console.log('Created work order from items array:', createdWorkOrder);
+            
+            if (createdWorkOrder.id) {
+              console.log('New work order created with ID (from items):', createdWorkOrder.id);
+              
+              // Delay for 2 seconds so the user sees the success message
+              setTimeout(() => {
+                // Navigate to the new work order (using underscore not hyphen)
+                router.push(`/work_orders/${createdWorkOrder.id}`);
+              }, 2000);
+            } else {
+              console.error('Error: Work order created but no ID found in the first item', createdWorkOrder);
+              setSuccess(false);
+              setError('Failed to retrieve the new work order ID. Please check the work orders list.');
+            }
+          } else {
+            console.error('Error: New work order created but unexpected response format', newWorkOrder);
+            setSuccess(false);
+            setError('Work order was created but an error occurred. Please check the work orders list.');
+          }
+        } catch (error) {
+          console.error('Error creating work order:', error);
+          setSuccess(false);
+          
+          // Extract validation error details if available
+          let errorMessage = 'Failed to create work order';
+          
+          if (error.message) {
+            // Check for specific database constraint error
+            if (error.message.includes('null value in column "previous_status"') || 
+                error.message.includes('violates not-null constraint')) {
+              errorMessage = 'There is a database constraint issue. Please contact your system administrator to fix the work_order_status_history table configuration.';
+              console.error('Database constraint error in work_order_status_history table: previous_status cannot be null');
+              
+              // Log more detailed information for debugging
+              console.error('Technical details: The work_order_status_history table has a not-null constraint on the previous_status column, but the API is trying to set it to null for new work orders.');
+              
+              // Use the workaround function to handle this specific error
+              setTimeout(() => handleDatabaseConstraintError(), 2000);
+            }
+            // Check for other validation errors
+            else if (error.message.includes('validation error')) {
+              // Extract specific validation error from the message
+              errorMessage = 'Validation error: ';
+              
+              if (error.message.includes('client_id')) {
+                errorMessage += 'Client is required. ';
+              }
+              if (error.message.includes('priority')) {
+                errorMessage += 'Priority is invalid. ';
+              }
+              if (error.message.includes('status')) {
+                errorMessage += 'Status is invalid. ';
+              }
+              if (error.message.includes('equipment_make')) {
+                errorMessage += 'Equipment make is invalid. ';
+              }
+              if (error.message.includes('equipment_model')) {
+                errorMessage += 'Equipment model is invalid. ';
+              }
+              if (error.message.includes('equipment_serial')) {
+                errorMessage += 'Equipment serial number is invalid. ';
+              }
+              if (error.message.includes('equipment_version')) {
+                errorMessage += 'Equipment version is invalid. ';
+              }
+              if (error.message.includes('actual_start')) {
+                errorMessage += 'Actual start date is invalid. ';
+              }
+              if (error.message.includes('actual_end')) {
+                errorMessage += 'Actual end date is invalid. ';
+              }
+              if (error.message.includes('assigned_technician_id')) {
+                errorMessage += 'Assigned technician is invalid. ';
+              }
+              
+              // If no specific fields were identified, use the original message
+              if (errorMessage === 'Validation error: ') {
+                errorMessage += error.message;
+              }
+            } else {
+              errorMessage += ': ' + error.message;
+            }
+          }
+          
+          setError(errorMessage);
+          // Don't throw the error again
+        }
       }
     } catch (error) {
       console.error('Error saving work order:', error);
-      throw error;
+      setSuccess(false);
+      
+      // Extract validation error details if available
+      let errorMessage = 'Error saving work order';
+      
+      if (error.message) {
+        // Check for specific database constraint error
+        if (error.message.includes('null value in column "previous_status"') || 
+            error.message.includes('violates not-null constraint')) {
+          errorMessage = 'There is a database constraint issue. Please contact your system administrator to fix the work_order_status_history table configuration.';
+          console.error('Database constraint error in work_order_status_history table: previous_status cannot be null');
+          
+          // Log more detailed information for debugging
+          console.error('Technical details: The work_order_status_history table has a not-null constraint on the previous_status column, but the API is trying to set it to null.');
+          
+          // Use the workaround function to handle this specific error
+          setTimeout(() => handleDatabaseConstraintError(), 2000);
+        }
+        // Check for other validation errors
+        else if (error.message.includes('validation error')) {
+          // Extract specific validation error from the message
+          errorMessage = 'Validation error: ';
+          
+          if (error.message.includes('scheduled_end')) {
+            errorMessage += 'End date is invalid. ';
+          }
+          if (error.message.includes('scheduled_start')) {
+            errorMessage += 'Start date is invalid. ';
+          }
+          if (error.message.includes('client_id')) {
+            errorMessage += 'Client is required. ';
+          }
+          if (error.message.includes('priority')) {
+            errorMessage += 'Priority is invalid. ';
+          }
+          if (error.message.includes('status')) {
+            errorMessage += 'Status is invalid. ';
+          }
+          if (error.message.includes('actual_start')) {
+            errorMessage += 'Actual start date is invalid. ';
+          }
+          if (error.message.includes('actual_end')) {
+            errorMessage += 'Actual end date is invalid. ';
+          }
+          if (error.message.includes('assigned_technician_id')) {
+            errorMessage += 'Assigned technician is invalid. ';
+          }
+          
+          // If no specific fields were identified, use the original message
+          if (errorMessage === 'Validation error: ') {
+            errorMessage += error.message;
+          }
+        } else {
+          errorMessage += ': ' + error.message;
+        }
+      }
+      
+      setError(errorMessage);
+      // Don't throw the error again
     }
   };
   
-  const form = useForm(getInitialValues(), handleSubmit, validate);
+  // Get form utilities
+  const { 
+    values, 
+    errors, 
+    touched, 
+    isSubmitting, 
+    handleChange, 
+    handleBlur, 
+    handleSubmit: submitForm, 
+    resetForm, 
+    setFormValues,
+    setErrors
+  } = useForm(getInitialValues(), handleSubmit, validate);
+
+  // Add a custom setFieldValue function since it's missing from useForm
+  const setFieldValue = useCallback((field, value) => {
+    const newValues = { ...values };
+    
+    // Handle nested fields using dot notation
+    if (field.includes('.')) {
+      const parts = field.split('.');
+      let current = newValues;
+      
+      for (let i = 0; i < parts.length - 1; i++) {
+        if (!current[parts[i]]) {
+          current[parts[i]] = {};
+        }
+        current = current[parts[i]];
+      }
+      
+      current[parts[parts.length - 1]] = value;
+    } else {
+      newValues[field] = value;
+    }
+    
+    setFormValues(newValues);
+  }, [values, setFormValues]);
   
-  // Load reference data
+  // Add this near the top of the component, with other state variables
+  const clientIdProcessedRef = useRef(false);
+  
+  // Add function to handle database constraint error by redirecting to work orders list
+  const handleDatabaseConstraintError = () => {
+    console.log('Applying workaround for database constraint error...');
+    setError('Redirecting to work orders list as a workaround...');
+    
+    // After a short delay, redirect to the work orders list
+    setTimeout(() => {
+      router.push('/work_orders');
+    }, 1500);
+  };
+  
+  // Handle client selection change
+  const handleClientChange = async (e) => {
+    const clientId = e.target.value;
+    console.log('[DEBUG] Client selection changed to:', clientId);
+    
+    // Create a copy of the current values to update
+    const updatedValues = {
+      ...values,
+      client_id: clientId
+    };
+    
+    // Directly update form values instead of using handleChange
+    setFormValues(updatedValues);
+    
+    // Clear error for this field if it exists
+    if (errors.client_id) {
+      setErrors({
+        ...errors,
+        client_id: undefined
+      });
+    }
+    
+    // Handle blur manually since we're bypassing handleChange
+    // This marks the field as touched for validation
+    handleBlur({ target: { name: 'client_id' }});
+    
+    if (clientId) {
+      try {
+        console.log('[DEBUG] Fetching client details for ID:', clientId);
+        const client = await apiClient(`clients/${clientId}`);
+        console.log('[DEBUG] Received client data:', client);
+        setClientData(client);
+        
+        // Auto-populate service location with client's address
+        if (client && client.address) {
+          const addressStr = [
+            client.address.street1,
+            client.address.street2,
+            client.address.city,
+            client.address.state,
+            client.address.zip,
+            client.address.country
+          ].filter(Boolean).join(', ');
+          
+          console.log('[DEBUG] Setting service location to:', addressStr);
+          
+          // Update values with both client ID and service location
+          setFormValues({
+            ...updatedValues,
+            service_location: {
+              ...updatedValues.service_location,
+              address: addressStr
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching client details:', error);
+        // Keep the client ID even if we couldn't fetch details
+        console.log('[DEBUG] Keeping client ID after fetch error:', clientId);
+      }
+    } else {
+      // Clear client data when selecting the empty option
+      console.log('[DEBUG] Clearing client data - empty selection');
+      setClientData({});
+      setFormValues({
+        ...updatedValues,
+        service_location: { address: '' }
+      });
+    }
+  };
+
   useEffect(() => {
+    if (!scheduleFirstVisit || isEdit) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await getTechnicians({ limit: 100 });
+        const items = res?.items ?? res;
+        if (!cancelled && Array.isArray(items)) {
+          setTechniciansList(items);
+        }
+      } catch (e) {
+        console.error('WorkOrderForm: failed to load technicians for scheduling', e);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [scheduleFirstVisit, isEdit]);
+
+  useEffect(() => {
+    if (!scheduleFirstVisit) {
+      setPreviewSlots(null);
+      setPreviewError(null);
+    }
+  }, [scheduleFirstVisit]);
+  
+  // Component initialization - load reference data
+  useEffect(() => {
+    // Load clients, services, and populate form if editing
     const loadReferenceData = async () => {
       setIsLoading(true);
       setError(null);
       
       try {
-        const [clientsData, techniciansData, servicesData] = await Promise.all([
-          apiClient('/api/clients?limit=100'),
-          apiClient('/api/technicians?limit=100'),
-          apiClient('/api/services?limit=100')
-        ]);
+        // Fetch clients - needed for client selector
+        console.log('[DEBUG] Fetching clients from API...');
+        const clientsResponse = await apiClient('clients');
+        console.log('[DEBUG] Clients API response:', clientsResponse);
         
-        setClients(
-          clientsData?.items?.map(client => ({
+        if (clientsResponse && clientsResponse.items && Array.isArray(clientsResponse.items)) {
+          // Handle paginated response format for clients
+          const clientOptions = clientsResponse.items.map(client => ({
+          value: client.id,
+            label: `${client.first_name} ${client.last_name} (${client.email || 'No Email'})`
+          }));
+          setClients(clientOptions);
+        } else if (clientsResponse && Array.isArray(clientsResponse)) {
+          // Handle non-paginated response format for clients
+          const clientOptions = clientsResponse.map(client => ({
             value: client.id,
-            label: client.company_name || `${client.first_name} ${client.last_name}`
-          })) || []
-        );
+            label: `${client.first_name} ${client.last_name} (${client.email || 'No Email'})`
+          }));
+          setClients(clientOptions);
+        } else {
+          console.warn('[DEBUG] Clients response is empty or not in expected format:', clientsResponse);
+          setClients([]);
+        }
         
-        setTechnicians(
-          techniciansData?.items?.map(tech => ({
-            value: tech.id,
-            label: `${tech.user?.first_name} ${tech.user?.last_name}`
-          })) || []
-        );
+        // Fetch services - these are the SKUs
+        try {
+          const allSkusResponse = await apiClient('services'); // Assuming this endpoint returns all SKUs
+          console.log('[DEBUG] All SKUs API response:', allSkusResponse);
+          
+          let rawSkus = [];
+          if (allSkusResponse && allSkusResponse.items && Array.isArray(allSkusResponse.items)) {
+            rawSkus = allSkusResponse.items;
+          } else if (allSkusResponse && Array.isArray(allSkusResponse)) {
+            rawSkus = allSkusResponse;
+          } else {
+            console.warn('[DEBUG] SKUs response is empty or not in expected format:', allSkusResponse);
+          }
+          // Store the raw SKU data. Ensure it includes id, name, base_price, equipment_type, service_type (or category)
+          // Example: item might have { id, name, base_price, equipment_type: { value: 'tv' }, service_type: { value: 'diagnostic' } }
+          // Or equipment_type: 'tv', service_type: 'diagnostic' directly
+          // The mapping below assumes equipment_type and service_type are strings or have a .value property
+          setAllServicesRaw(rawSkus.map(sku => ({
+            ...sku,
+            id: sku.id, // ensure id is present
+            name: sku.name,
+            base_price: sku.base_price || 0,
+            // Adjust access to equipment_type and service_type based on actual API response structure
+            // Convert to lowercase to match mapping keys
+            equipment_type: (typeof sku.equipment_type === 'string' ? sku.equipment_type : sku.equipment_type?.value)?.toLowerCase(),
+            service_type: (typeof sku.service_type === 'string' ? sku.service_type : sku.service_type?.value)?.toLowerCase(),
+          })));
+          console.log('[DEBUG] Processed raw SKUs count:', rawSkus.length);
+
+        } catch (servicesError) { // Renamed error variable to avoid conflict
+          console.error('[DEBUG] Error fetching SKUs:', servicesError);
+          setAllServicesRaw([]); // Set to empty array on error
+        }
         
-        setServices(
-          servicesData?.items?.map(service => ({
-            value: service.id,
-            label: service.name,
-            description: service.description,
-            price: service.base_price
-          })) || []
-        );
+        // If in edit mode and we have an initial client ID, load the client details
+        if (isEdit && initialData?.client_id) {
+          try {
+            const client = await apiClient(`clients/${initialData.client_id}`);
+            setClientData(client);
+          } catch (error) {
+            console.error('Error loading client details:', error);
+          }
+        }
+        
+        setIsLoading(false);
       } catch (error) {
         console.error('Error loading reference data:', error);
-        setError('Failed to load form data. Please try again.');
-      } finally {
+        setError('Failed to load required data. Please try refreshing the page.');
         setIsLoading(false);
       }
     };
     
     loadReferenceData();
-  }, []);
+  }, [isEdit, initialData?.client_id]);
+  
+  // Handle SKU Equipment Category Change
+  const handleSkuEquipmentCategoryChange = (e) => {
+    const categoryKey = e.target.value;
+    setSelectedSkuEquipmentCategory(categoryKey);
+    setFieldValue('selected_sku_id', ''); // Clear selected SKU when category changes
+
+    if (categoryKey === '') {
+      setFilteredSkusForDropdown([]);
+      return;
+    }
+
+    const targetEquipmentTypes = EQUIPMENT_CATEGORY_MAP[categoryKey] || [];
+    const filtered = allServicesRaw.filter(sku => 
+      targetEquipmentTypes.includes(sku.equipment_type)
+    );
+
+    // Group by service_type (e.g., diagnostic, repair)
+    const groupedSkus = filtered.reduce((acc, sku) => {
+      const groupKey = sku.service_type || 'other'; // Fallback for SKUs without a service_type
+      if (!acc[groupKey]) {
+        acc[groupKey] = [];
+      }
+      acc[groupKey].push({ 
+        value: sku.id, 
+        label: `${sku.name} ($${(sku.base_price || 0).toFixed(2)})`,
+        // Store entire sku object for easy addition to service_items
+        skuData: sku 
+      });
+      return acc;
+    }, {});
+
+    // Sort groups and SKUs within groups
+    const sortedAndFormattedSkus = Object.entries(groupedSkus)
+      .sort(([groupAKey], [groupBKey]) => {
+        return (SERVICE_TYPE_ORDER_MAP[groupAKey] || 99) - (SERVICE_TYPE_ORDER_MAP[groupBKey] || 99);
+      })
+      .flatMap(([groupKey, skusInGroup]) => {
+        const groupLabel = SERVICE_TYPE_GROUP_LABELS[groupKey] || groupKey.charAt(0).toUpperCase() + groupKey.slice(1);
+        // Add a non-selectable group header option
+        // Note: SelectInput might need specific props for optgroup like functionality
+        // This is a common pattern: an option with a special value and disabled.
+        return [
+          { value: `header-${groupKey}`, label: groupLabel, disabled: true, isHeader: true }, 
+          ...skusInGroup.sort((a, b) => a.label.localeCompare(b.label))
+        ];
+      });
+    
+    setFilteredSkusForDropdown(sortedAndFormattedSkus);
+  };
+
+  // Handle SKU Selection Change (for the second dropdown)
+  const handleSkuSelectionChange = (e) => {
+    const selectedSkuId = e.target.value;
+    if (!selectedSkuId || selectedSkuId.startsWith('header-')) {
+      // setFieldValue('selected_sku_id', ''); // This field might not be needed if directly adding to items
+      return;
+    }
+    
+    const selectedSkuOpt = filteredSkusForDropdown.find(opt => opt.value === selectedSkuId);
+    if (selectedSkuOpt && selectedSkuOpt.skuData) {
+      const skuData = selectedSkuOpt.skuData;
+      // Add to service_items
+      // Check if service already exists, if so, maybe increment quantity (for future enhancement)
+      const existingItemIndex = values.service_items.findIndex(item => item.service_id === skuData.id);
+
+      if (existingItemIndex > -1) {
+        // Optionally, alert user or increment quantity. For now, let's just prevent duplicates.
+        alert("This service is already added. You can adjust quantity later.");
+        return;
+      }
+      
+      const newServiceItem = {
+        service_id: skuData.id,
+        name: skuData.name,
+        quantity: 1, // Default quantity
+        unit_price: skuData.base_price || 0,
+        total_price: (skuData.base_price || 0) * 1, // quantity * unit_price
+        // any other relevant sku data to store with the item
+      };
+      
+      setFieldValue('service_items', [...values.service_items, newServiceItem]);
+      // Optionally, clear the SKU dropdowns after adding
+      // setSelectedSkuEquipmentCategory('');
+      // setFilteredSkusForDropdown([]);
+      // setFieldValue('selected_sku_id', ''); // Clear the dropdown value
+    }
+  };
+
+  // Remove a service item from the list
+  const removeServiceItem = (serviceIdToRemove) => {
+    setFieldValue('service_items', values.service_items.filter(item => item.service_id !== serviceIdToRemove));
+  };
+
+  // Calculate totals whenever service_items change
+  useEffect(() => {
+    let subtotal = 0;
+    values.service_items.forEach(item => {
+      subtotal += (item.unit_price || 0) * (item.quantity || 0);
+    });
+    // Basic tax calculation (e.g. 0% for now, can be configurable)
+    const taxRate = 0.00; 
+    const tax = subtotal * taxRate;
+    const total = subtotal + tax;
+
+    setFieldValue('invoice_subtotal', subtotal);
+    setFieldValue('invoice_tax', tax);
+    setFieldValue('invoice_total', total);
+  }, [values.service_items]);
   
   if (isLoading) {
     return (
@@ -167,77 +864,188 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
   }
   
   return (
-    <form onSubmit={form.handleSubmit} className="space-y-6 text-gray-900 dark:text-gray-100">
+    <form onSubmit={submitForm} className="space-y-6 text-gray-900 dark:text-gray-100">
+      {/* Success message */}
+      {success && (
+        <div className="rounded-md bg-green-50 p-4 mb-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3 flex-grow">
+              <h3 className="text-sm font-medium text-green-800">Work order {isEdit ? "updated" : "created"} successfully!</h3>
+              <div className="mt-2 text-sm text-green-700">
+                <p>Your changes have been saved. Redirecting to details page...</p>
+              </div>
+            </div>
+            <div className="flex-shrink-0 self-center">
+              <button
+                type="button"
+                className="bg-green-50 rounded-md inline-flex text-green-400 hover:text-green-500 focus:outline-none"
+                onClick={() => setSuccess(false)}
+              >
+                <span className="sr-only">Dismiss</span>
+                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Client and basic info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SelectInput
           label="Client"
           name="client_id"
-          value={form.values.client_id}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.client_id && form.errors.client_id}
+          value={values.client_id || ''}
+          onChange={handleClientChange}
+          onBlur={handleBlur}
+          error={touched.client_id && errors.client_id && !values.client_id ? errors.client_id : undefined}
           options={clients}
+          emptyOption="Select Client..."
           required
-        />
-        
-        <TextInput
-          label="Title"
-          name="title"
-          value={form.values.title}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.title && form.errors.title}
-          required
-          placeholder="Brief description of the job"
+          helpText={clients.length === 0 ? "No clients available. Please add clients first." : undefined}
         />
       </div>
       
-      {/* Scheduling */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Equipment Information */}
+      <div className="mb-6">
+        <h3 className="text-lg font-medium mb-3">Equipment Details</h3>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <SelectInput
+            label="Equipment Type"
+            id="equipment_type"
+            name="equipment_type"
+            value={values.equipment_type}
+            onChange={(e) => {
+              // Use the standard handleChange first 
+              handleChange(e);
+              
+              // Then handle the consequences
+              const newType = e.target.value;
+              
+              // Reset subtype when type changes
+              if (values.equipment_subtype) {
+                setFieldValue('equipment_subtype', '');
+              }
+              
+              // Reset wall mounted when changing away from TV
+              if (newType !== 'tv' && values.is_wall_mounted) {
+                setFieldValue('is_wall_mounted', false);
+              }
+            }}
+            onBlur={handleBlur}
+            error={touched.equipment_type && errors.equipment_type}
+            options={EQUIPMENT_TYPES}
+            required={!values.equipment_type}
+          />
+          
+          {values.equipment_type && (
+            <SelectInput
+              label={values.equipment_type === 'appliance' ? "Appliance Type" : "TV Size"}
+              id="equipment_subtype"
+              name="equipment_subtype"
+              value={values.equipment_subtype}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.equipment_subtype && errors.equipment_subtype}
+              options={EQUIPMENT_SUBTYPES[values.equipment_type] || []}
+              required={!values.equipment_subtype}
+            />
+          )}
+          
+          <SelectInput
+            label="Manufacturer"
+            id="equipment_make"
+            name="equipment_make"
+            value={values.equipment_make}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.equipment_make && errors.equipment_make}
+            options={MANUFACTURERS}
+            required={!values.equipment_make}
+          />
+          
         <TextInput
-          label="Start Time"
-          name="scheduled_start"
-          type="datetime-local"
-          value={form.values.scheduled_start}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.scheduled_start && form.errors.scheduled_start}
-          required
+            label="Model Number"
+            id="equipment_model"
+            name="equipment_model"
+            value={values.equipment_model}
+            onChange={(e) => setFieldValue('equipment_model', e.target.value.toUpperCase())}
+            onBlur={handleBlur}
+            error={touched.equipment_model && errors.equipment_model}
+            placeholder="Model number/name"
+            required={!values.equipment_model}
         />
         
         <TextInput
-          label="End Time"
-          name="scheduled_end"
-          type="datetime-local"
-          value={form.values.scheduled_end}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.scheduled_end && form.errors.scheduled_end}
-          helpText="Optional if duration is unknown"
-        />
+            label="Serial Number"
+            id="equipment_serial"
+            name="equipment_serial"
+            value={values.equipment_serial}
+            onChange={(e) => setFieldValue('equipment_serial', e.target.value.toUpperCase())}
+            onBlur={handleBlur}
+            error={touched.equipment_serial && errors.equipment_serial}
+            placeholder="Serial number"
+          />
+          
+          <TextInput
+            label="Version/Revision"
+            id="equipment_version"
+            name="equipment_version"
+            value={values.equipment_version}
+            onChange={(e) => setFieldValue('equipment_version', e.target.value.toUpperCase())}
+            onBlur={handleBlur}
+            error={touched.equipment_version && errors.equipment_version}
+            placeholder="Version or revision"
+          />
+          
+          {values.equipment_type === 'tv' && (
+            <div className="col-span-2">
+              <Checkbox
+                label="TV is Wall Mounted"
+                name="is_wall_mounted"
+                checked={values.is_wall_mounted}
+                onChange={handleChange}
+              />
+            </div>
+          )}
       </div>
       
-      {/* Technician and priority */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <SelectInput
-          label="Assigned Technician"
-          name="assigned_technician_id"
-          value={form.values.assigned_technician_id}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.assigned_technician_id && form.errors.assigned_technician_id}
-          options={technicians}
-          emptyOption="Select Technician..."
-        />
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Equipment Notes
+          </label>
+          <textarea
+            id="equipment_notes"
+            name="equipment_notes"
+            value={values.equipment_notes}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className="w-full h-28 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            placeholder="Enter notes about the equipment here..."
+          />
+        </div>
         
+        <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900 rounded text-sm">
+          <p className="text-blue-800 dark:text-blue-200">
+            <strong>Note:</strong> If any equipment information is unavailable, leave the field blank and it will display as "N/A" in reports.
+          </p>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SelectInput
           label="Priority"
           name="priority"
-          value={form.values.priority}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.priority && form.errors.priority}
+          value={values.priority}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.priority && errors.priority}
           options={[
             { value: 'low', label: 'Low' },
             { value: 'medium', label: 'Medium' },
@@ -245,49 +1053,296 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
             { value: 'urgent', label: 'Urgent' }
           ]}
         />
+        
+        {/* Empty div to maintain grid layout */}
+        <div></div>
       </div>
       
       {/* Location */}
+      <div className="relative">
       <TextInput
         label="Service Location"
         name="service_location.address"
-        value={form.values.service_location?.address || ''}
+          value={values.service_location?.address || ''}
         onChange={(e) => {
-          form.setFormValues({
-            service_location: {
-              ...form.values.service_location,
+            setFieldValue('service_location', {
+              ...values.service_location,
               address: e.target.value
-            }
           });
         }}
-        onBlur={form.handleBlur}
-        error={form.touched['service_location.address'] && form.errors['service_location.address']}
+          onBlur={handleBlur}
+          error={touched['service_location.address'] && errors['service_location.address']}
         placeholder="Full address where service will be performed"
       />
+        {values.client_id && clientData && clientData.address && (
+          <button
+            type="button"
+            className="absolute right-2 top-8 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            onClick={() => {
+              const addressStr = [
+                clientData.address.street1,
+                clientData.address.street2,
+                clientData.address.city,
+                clientData.address.state,
+                clientData.address.zip,
+                clientData.address.country
+              ].filter(Boolean).join(', ');
+              
+              setFieldValue('service_location', {
+                ...values.service_location,
+                address: addressStr
+              });
+            }}
+          >
+            Use Client Address
+          </button>
+        )}
+      </div>
       
       {/* Description */}
       <TextareaInput
         label="Description"
         name="description"
-        value={form.values.description}
-        onChange={form.handleChange}
-        onBlur={form.handleBlur}
-        error={form.touched.description && form.errors.description}
+        value={values.description}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={touched.description && errors.description}
         rows={4}
         placeholder="Detailed description of the problem and requirements"
+        required
       />
+      
+      {/* --- SKU / Service Items Selection --- */}
+      <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 mb-4">
+          Services / SKUs
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+          <SelectInput
+            label="Service Category"
+            name="sku_equipment_category"
+            value={selectedSkuEquipmentCategory}
+            onChange={handleSkuEquipmentCategoryChange}
+            options={SKU_EQUIPMENT_CATEGORIES}
+          />
+          <SelectInput
+            label="Select Service/SKU"
+            name="selected_sku_id"
+            value={values.selected_sku_id || ''}
+            onChange={handleSkuSelectionChange}
+            onBlur={handleBlur}
+            options={filteredSkusForDropdown.length > 0 ? [{value: '', label: 'Select Service...'}, ...filteredSkusForDropdown] : [{value: '', label: 'Select category first'}]}
+            disabled={!selectedSkuEquipmentCategory || filteredSkusForDropdown.length === 0}
+          />
+        </div>
+
+        {/* Display Selected Service Items (Evolving Invoice) */}
+        {values.service_items && values.service_items.length > 0 && (
+          <div className="mt-6">
+            <h4 className="text-md font-medium text-gray-800 dark:text-gray-200 mb-2">Selected Services:</h4>
+            <div className="space-y-2">
+              {values.service_items.map((item, index) => (
+                <div key={item.service_id || index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                  <div>
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">{item.name}</span>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Qty: {item.quantity} @ ${Number(item.unit_price ?? 0).toFixed(2)} each
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-4 font-semibold text-gray-800 dark:text-gray-100">
+                      ${Number(item.total_price ?? 0).toFixed(2)}
+                    </span>
+                    <Button 
+                      variant="danger" 
+                      onClick={() => removeServiceItem(item.service_id)}
+                      size="sm"
+                      icon={<FaTrash />}
+                      aria-label="Remove service"
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Invoice Totals */}
+            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex justify-end mb-1">
+                <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Subtotal:</span>
+                <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">${Number(values.invoice_subtotal ?? 0).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-end mb-1">
+                <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Tax:</span>
+                <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">${Number(values.invoice_tax ?? 0).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-end">
+                <span className="text-md font-medium text-gray-700 dark:text-gray-200 mr-2">Total:</span>
+                <span className="text-md font-bold text-gray-900 dark:text-gray-50">${Number(values.invoice_total ?? 0).toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      {/* --- End SKU / Service Items Selection --- */}
+
+      {!isEdit && (
+        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 mb-1">
+            First visit (optional)
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Book the first trip together with the work order—one save, nothing left half-created.
+          </p>
+          <Checkbox
+            label="Schedule first visit now"
+            name="schedule_first_visit_ui"
+            checked={scheduleFirstVisit}
+            onChange={(e) => setScheduleFirstVisit(e.target.checked)}
+          />
+          {scheduleFirstVisit && (
+            <>
+            <div className="mt-4 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50/80 dark:bg-gray-800/40 p-4 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Start time
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={firstVisitStart}
+                    onChange={(e) => setFirstVisitStart(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  />
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    Used to pick the calendar day for previews below.
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Technician (optional)
+                  </label>
+                  <select
+                    value={firstVisitTechnicianId}
+                    onChange={(e) => setFirstVisitTechnicianId(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  >
+                    <option value="">Anyone available</option>
+                    {techniciansList.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {formatTechnicianSelectLabel(t)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                  Preview openings (read-only)
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                  No work order is created until you submit the form. Visit length follows services you added above when possible; otherwise defaults to 60 minutes.
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="small"
+                  isLoading={previewLoading}
+                  disabled={!firstVisitStart}
+                  onClick={async () => {
+                    if (!firstVisitStart) return;
+                    const day = firstVisitStart.slice(0, 10);
+                    const serviceIds = (values.service_items || [])
+                      .map((i) => i.service_id)
+                      .filter(Boolean);
+                    setPreviewLoading(true);
+                    setPreviewError(null);
+                    try {
+                      const data = await getAppointmentPreviewSlots({
+                        date: day,
+                        technicianId: firstVisitTechnicianId || undefined,
+                        serviceIds: serviceIds.length ? serviceIds : undefined,
+                      });
+                      setPreviewSlots(data);
+                    } catch (e) {
+                      setPreviewSlots(null);
+                      setPreviewError(e?.message || 'Could not load openings');
+                    } finally {
+                      setPreviewLoading(false);
+                    }
+                  }}
+                >
+                  Show openings for this day
+                </Button>
+                {previewError && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400" role="alert">
+                    {previewError}
+                  </p>
+                )}
+                {previewSlots && (
+                  <div
+                    className="mt-3 rounded-md border border-gray-200 dark:border-gray-600 p-3 bg-white dark:bg-gray-900/50"
+                    aria-live="polite"
+                  >
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                      {previewSlots.duration_minutes} min visits · {previewSlots.business_hours?.start}–{previewSlots.business_hours?.end} ·{' '}
+                      <span className="font-medium text-gray-800 dark:text-gray-200">
+                        {(previewSlots.slots || []).length} opening{(previewSlots.slots || []).length === 1 ? '' : 's'}
+                      </span>
+                    </p>
+                    <div className="max-h-48 overflow-y-auto space-y-1 pr-1">
+                      {(previewSlots.slots || []).length === 0 && (
+                        <p className="text-sm text-gray-500 dark:text-gray-400 py-2">
+                          Nothing open that day with these filters. Try another day or clear the technician.
+                        </p>
+                      )}
+                      {(previewSlots.slots || []).slice(0, 40).map((slot, idx) => (
+                        <button
+                          key={`${slot.start_time}-${idx}`}
+                          type="button"
+                          className="w-full text-left text-sm px-3 py-2 rounded-md border border-transparent hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-gray-700 dark:hover:border-gray-500 transition-colors"
+                          onClick={() => {
+                            const d = new Date(slot.start_time);
+                            if (!Number.isNaN(d.getTime())) {
+                              setFirstVisitStart(format(d, "yyyy-MM-dd'T'HH:mm"));
+                            }
+                            if (slot.technician_id) {
+                              setFirstVisitTechnicianId(slot.technician_id);
+                            }
+                          }}
+                        >
+                          <span className="font-medium text-gray-800 dark:text-gray-100">{slot.technician_name}</span>
+                          <span className="text-gray-600 dark:text-gray-300">
+                            {' '}
+                            · {new Date(slot.start_time).toLocaleString()} – {new Date(slot.end_time).toLocaleTimeString()}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    {(previewSlots.slots || []).length > 40 && (
+                      <p className="text-xs text-gray-500 mt-2">Showing first 40. Filter by technician to narrow results.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            </>
+          )}
+        </div>
+      )}
       
       {/* Recurring job option */}
       <Checkbox
         label="This is a recurring job"
         name="is_recurring"
-        checked={form.values.is_recurring}
-        onChange={form.handleChange}
+        checked={values.is_recurring}
+        onChange={handleChange}
         helpText="Check if this work order should repeat on a schedule"
       />
       
       {/* Form-level error */}
-      {form.errors._form && (
+      {(errors._form || error) && (
         <div className="rounded-md bg-red-50 p-4">
           <div className="flex">
             <div className="flex-shrink-0">
@@ -295,11 +1350,46 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
               </svg>
             </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">Form submission error</h3>
+            <div className="ml-3 flex-grow">
+              <h3 className="text-sm font-medium text-red-800">There was a problem with your submission</h3>
               <div className="mt-2 text-sm text-red-700">
-                <p>{form.errors._form}</p>
+                <p>{errors._form || error}</p>
               </div>
+              {error && error.includes('validation error') && (
+                <div className="mt-3">
+                  <p className="text-xs text-red-600">Please check the form fields above and try again.</p>
+                </div>
+              )}
+              {error && error.includes('database constraint issue') && (
+                <div className="mt-2 flex space-x-2">
+                  <button
+                    type="button"
+                    className="rounded-md px-3 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700"
+                    onClick={() => router.push('/work_orders')}
+                  >
+                    View Work Orders
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded-md px-3 py-2 text-sm font-medium border border-red-300 text-red-700 bg-white hover:bg-red-50"
+                    onClick={() => window.location.reload()}
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="flex-shrink-0 self-center">
+              <button
+                type="button"
+                className="bg-red-50 rounded-md inline-flex text-red-400 hover:text-red-500 focus:outline-none"
+                onClick={() => setError(null)}
+              >
+                <span className="sr-only">Dismiss</span>
+                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -318,8 +1408,8 @@ export default function WorkOrderForm({ initialData, isEdit = false }) {
         <Button
           type="submit"
           variant="primary"
-          isLoading={form.isSubmitting || isMutating}
-          disabled={form.isSubmitting || isMutating}
+          isLoading={isSubmitting || isMutating}
+          disabled={isSubmitting || isMutating}
           icon={<FaSave />}
         >
           {isEdit ? 'Update' : 'Create'} Work Order

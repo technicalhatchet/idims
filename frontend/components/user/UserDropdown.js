@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { FaUserCircle, FaCog, FaSignOutAlt, FaChevronDown } from 'react-icons/fa';
+import { getUserRole } from '../../utils/auth0-helpers';
 
 export default function UserDropdown({ user }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,20 +21,8 @@ export default function UserDropdown({ user }) {
     };
   }, []);
   
-  // Hardcode specific users as admin by their user ID
-  // This is a temporary solution until Auth0 roles are properly set up
-  const hardcodedAdmins = [
-    'google-oauth2|110674600011943435167' // Rhett Nysko's Google ID
-  ];
-  
-  // Get user role from Auth0 metadata or use hardcoded admin list
-  const userRole = 
-    user['https://servicebusiness.com/roles']?.[0] || 
-    user['https://idimsapi/roles']?.[0] ||
-    user['https://idimsapi/app_metadata']?.roles?.[0] ||
-    user.app_metadata?.roles?.[0] ||
-    user.roles?.[0] ||
-    (hardcodedAdmins.includes(user.sub) ? 'admin' : 'client');
+  // Get user role using the shared function
+  const userRole = getUserRole(user);
   
   // Format role for display (capitalize first letter)
   const formattedRole = userRole.charAt(0).toUpperCase() + userRole.slice(1);

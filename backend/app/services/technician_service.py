@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func, and_, or_, not_
 from typing import Optional, Dict, List, Any, Union
@@ -27,7 +27,8 @@ class TechnicianService:
         limit: int = 100
     ) -> Dict[str, Any]:
         """Get technicians with filtering and pagination"""
-        query = db.query(Technician)
+        # Use joinedload to eagerly load the user relationship
+        query = db.query(Technician).options(joinedload(Technician.user))
         
         # Apply filters
         if search:
@@ -66,7 +67,8 @@ class TechnicianService:
     @staticmethod
     async def get_technician(db: Session, technician_id: uuid.UUID) -> Technician:
         """Get a specific technician by ID"""
-        technician = db.query(Technician).filter(Technician.id == technician_id).first()
+        # Use joinedload to eagerly load the user relationship
+        technician = db.query(Technician).options(joinedload(Technician.user)).filter(Technician.id == technician_id).first()
         
         if not technician:
             raise NotFoundException(f"Technician with ID {technician_id} not found")
@@ -79,9 +81,16 @@ class TechnicianService:
         # Check if a user account needs to be created or already exists
         user_id = technician_data.user_id
         
-        if not user_id:
-            if not technician_data.user_email:
-                raise ValidationException("Either user_id or user_email must be provided")
+        # Debug logging for request validation
+        logger.info(f"Creating technician with data: {technician_data}")
+        logger.info(f"user_id: {user_id}, user_email: {technician_data.user_email}")
+        logger.info(f"user_first_name: {technician_data.user_first_name}")
+        logger.info(f"user_last_name: {technician_data.user_last_name}")
+        
+        # Fix validation issue - ensure user_email is properly checked
+        # We're getting a validation error despite having user_email in the request
+        if not user_id and technician_data.user_email:
+            logger.info(f"Using provided user_email: {technician_data.user_email}")
             
             # Check if user already exists with provided email
             existing_user = db.query(User).filter(User.email == technician_data.user_email).first()
@@ -94,23 +103,31 @@ class TechnicianService:
                 
                 # Use existing user
                 user_id = existing_user.id
+                logger.info(f"Found existing user with email {technician_data.user_email}, ID: {user_id}")
                 
                 # Update role if necessary
-                if existing_user.role != "technician":
-                    existing_user.role = "technician"
+                if "technician" not in existing_user.roles:
+                    existing_user.roles.append("technician")
+                    logger.info(f"Updated user roles to include technician: {existing_user.roles}")
             else:
                 # Create new user with technician role
+                logger.info(f"Creating new user with email {technician_data.user_email}")
                 new_user = User(
                     email=technician_data.user_email,
                     first_name=technician_data.user_first_name or "",
                     last_name=technician_data.user_last_name or "",
-                    role="technician",
+                    roles=["technician"],
                     is_active=True
                 )
                 
                 db.add(new_user)
                 db.flush()  # Get the ID
                 user_id = new_user.id
+                logger.info(f"Created new user with ID: {user_id}")
+        elif not user_id and not technician_data.user_email:
+            # No user_id or user_email provided
+            logger.error("Validation failed: Neither user_id nor user_email was provided")
+            raise ValidationException("Either user_id or user_email must be provided")
         
         try:
             # Check if employee_id is unique if provided
@@ -207,15 +224,21 @@ class TechnicianService:
             if work_orders > 0:
                 raise ConflictException(f"Cannot delete technician with {work_orders} active work orders")
             
-            # Optional: Update user role if this is the only technician record for the user
+            # Optional: Update user roles if this is the only technician record for the user
             user = db.query(User).filter(User.id == technician.user_id).first()
-            if user and user.role == "technician":
+            if user and "technician" in user.roles:
                 # Check if user has other roles in the system
                 # In a real system, you might check for other role mappings
                 
-                # For now, we'll just leave the user role as is, or could set to a default
-                # user.role = "client"  # Default role
-                pass
+                # Remove the technician role from the user's roles
+                logger.info(f"Updating user roles: {user.roles}")
+                if len(user.roles) > 1:
+                    # User has other roles, just remove the technician role
+                    user.roles = [role for role in user.roles if role != "technician"]
+                    logger.info(f"Updated user roles to: {user.roles}")
+                
+                # We keep at least one role for the user, so no need to set a default
+                db.flush()
             
             # Delete the technician
             db.delete(technician)

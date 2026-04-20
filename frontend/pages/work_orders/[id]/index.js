@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar } from 'react-icons/fa';
 import DashboardLayout from '../../../components/layouts/DashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -13,17 +14,86 @@ import Button from '../../../components/ui/Button';
 import Modal from '../../../components/ui/Modal';
 import { useWorkOrder, useWorkOrderMutations } from '../../../hooks/useWorkOrders';
 import { apiClient } from '../../../utils/api-client';
+import { useTheme } from '../../../context/ThemeContext';
+import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
+import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
+import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
+
+// Tabs for the detail page
+const TABS = {
+  DETAILS: 'details',
+  APPOINTMENTS: 'appointments',
+  NOTES: 'notes',
+  MODEL: 'model',
+  CLIENT: 'client',
+  INVOICES: 'invoices'
+};
 
 function WorkOrderDetail() {
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useUser();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [newStatus, setNewStatus] = useState('');
   const [statusNotes, setStatusNotes] = useState('');
+  const [activeTab, setActiveTab] = useState(TABS.DETAILS);
+  const [statusModalError, setStatusModalError] = useState(null);
+  const [paymentAmount, setPaymentAmount] = useState('');
+  const [isApplyingPayment, setIsApplyingPayment] = useState(false);
+  const { theme } = useTheme();
   
+  // Ensure dark mode applies correctly on page load
+  useEffect(() => {
+    // Apply the theme from context to the document
+    if (theme.mode === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme.mode]);
+
   // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+  
+  // Handle payment success/cancel URLs
+  useEffect(() => {
+    const { payment } = router.query;
+    
+    if (payment === 'success') {
+      // Show success message and refresh work order data
+      alert('Payment successful! Your work order has been updated.');
+      refetch(); // Refresh the work order data
+      
+      // Remove the payment parameter from URL
+      router.replace(`/work-orders/${id}`, undefined, { shallow: true });
+    } else if (payment === 'cancelled') {
+      // Show cancellation message
+      alert('Payment was cancelled. You can try again anytime.');
+      
+      // Remove the payment parameter from URL
+      router.replace(`/work-orders/${id}`, undefined, { shallow: true });
+    }
+  }, [router.query, router, id, refetch]);
+  
+    // Debug logs to check the work order data structure
+  console.log('Work order data received:', workOrder);
+  if (workOrder) {
+    console.log('Services billing status:', workOrder.services?.map(s => ({ name: s.name, billing_status: s.billing_status, price: s.price })));
+    console.log('Client data:', {
+      client_name: workOrder.client_name,
+      client: workOrder.client,
+      client_object: typeof workOrder.client === 'object' ? workOrder.client : 'Not an object'
+    });
+    console.log('Technician data full:', workOrder.technician);
+    console.log('Technician data fields:', {
+      technician_name: workOrder.technician_name,
+      technician_id: workOrder.technician_id,
+      assigned_technician_id: workOrder.assigned_technician_id,
+      technician: workOrder.technician
+    });
+
+  }
   
   // Work order mutations
   const { 
@@ -46,15 +116,59 @@ function WorkOrderDetail() {
   // Handle status update
   const handleStatusUpdate = async () => {
     try {
+      if (!workOrder?.id) {
+        console.error('Work order ID is not available');
+        return;
+      }
+      
       await updateWorkOrderStatus({
-        id,
+        id: workOrder.id,
         status: newStatus,
         notes: statusNotes
       });
       setShowStatusModal(false);
+      refetch(); // Refresh the work order data
     } catch (error) {
       console.error('Error updating status:', error);
       // Error is shown by the mutation hook
+    }
+  };
+
+  // Handle payment collection
+  const handleApplyPayment = async () => {
+    if (!paymentAmount || parseFloat(paymentAmount) <= 0) {
+      alert('Please enter a valid payment amount');
+      return;
+    }
+
+    setIsApplyingPayment(true);
+    try {
+      const response = await fetch(`/api/work-orders/${id}/admin-override`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          action: 'apply_payment',
+          payment_amount: parseFloat(paymentAmount)
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to apply payment');
+      }
+
+      // Clear the payment amount and refresh the work order
+      setPaymentAmount('');
+      refetch();
+      alert('Payment applied successfully!');
+    } catch (error) {
+      console.error('Error applying payment:', error);
+      alert('Failed to apply payment: ' + error.message);
+    } finally {
+      setIsApplyingPayment(false);
     }
   };
   
@@ -88,286 +202,822 @@ function WorkOrderDetail() {
         <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
           <div>
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold mr-3">Work Order: {workOrder.order_number}</h1>
+              <h1 className="text-2xl font-bold mr-3 text-gray-900 dark:text-white">Work Order: {workOrder.order_number}</h1>
               <StatusBadge status={workOrder.status} />
             </div>
-            <p className="text-gray-500 mt-1">Created on {format(new Date(workOrder.created_at), 'MMMM d, yyyy')}</p>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">Created on {format(new Date(workOrder.created_at), 'MMMM d, yyyy')}</p>
           </div>
           
-          <div className="mt-4 md:mt-0 flex space-x-2">
-            <div className="relative inline-block text-left">
-              <Button
-                variant="outline"
-                onClick={() => setShowStatusModal(true)}
-              >
-                Update Status
-              </Button>
-            </div>
-            
-            <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center">
+          <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
+            <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center" title="Edit work order">
               <FaEdit className="mr-2" />
               Edit
             </Link>
-            
+            <button onClick={() => window.print()} className="btn-white flex items-center" title="Print work order">
+              <FaPrint className="mr-2" />
+              Print
+            </button>
             <div className="relative">
-              <button
-                onClick={() => setShowDeleteModal(true)}
-                className="btn-danger flex items-center"
+              <button 
+                onClick={() => setShowStatusModal(true)} 
+                className="btn-secondary flex items-center"
+                title="Update status"
               >
-                Delete
+                Update Status
               </button>
             </div>
           </div>
         </div>
         
-        {/* Work Order Detail Card */}
-        <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
-          <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
-            <h2 className="text-lg font-medium text-gray-900">Work Order Details</h2>
-          </div>
-          
-          <div className="px-6 py-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Client</h3>
-                <p className="mt-1 text-sm text-gray-900">{workOrder.client?.company_name || 
-                  `${workOrder.client?.first_name} ${workOrder.client?.last_name}`}</p>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Title</h3>
-                <p className="mt-1 text-sm text-gray-900">{workOrder.title}</p>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Scheduled Time</h3>
-                <p className="mt-1 text-sm text-gray-900">
-                  {workOrder.scheduled_start ? 
-                    format(new Date(workOrder.scheduled_start), 'MMM d, yyyy h:mm a') : 
-                    'Not scheduled'}
-                  {workOrder.scheduled_end && 
-                    ` - ${format(new Date(workOrder.scheduled_end), 'h:mm a')}`}
-                </p>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Technician</h3>
-                <p className="mt-1 text-sm text-gray-900">{workOrder.technician?.name || 'Unassigned'}</p>
-              </div>
-              			<div>
-                <h3 className="text-sm font-medium text-gray-500">Priority</h3>
-                <p className="mt-1 text-sm text-gray-900 capitalize">{workOrder.priority}</p>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Service Location</h3>
-                <p className="mt-1 text-sm text-gray-900">{workOrder.service_location?.address || 'No location specified'}</p>
-              </div>
-              
-              <div className="md:col-span-2">
-                <h3 className="text-sm font-medium text-gray-500">Description</h3>
-                <p className="mt-1 text-sm text-gray-900 whitespace-pre-line">{workOrder.description || 'No description provided'}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Services and Items */}
-        {(workOrder.services?.length > 0 || workOrder.items?.length > 0) && (
-          <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
-            <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
-              <h2 className="text-lg font-medium text-gray-900">Services & Items</h2>
-            </div>
+        {/* Tabs Navigation */}
+        <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
+          <nav className="-mb-px flex space-x-8 overflow-x-auto">
+            <button
+              onClick={() => setActiveTab(TABS.DETAILS)}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md ${
+                activeTab === TABS.DETAILS
+                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              <FaClipboardList className="inline-block mr-2" />
+              Details
+            </button>
             
-            <div className="px-6 py-5">
-              {workOrder.services?.length > 0 && (
+            <button
+              onClick={() => setActiveTab(TABS.APPOINTMENTS)}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md ${
+                activeTab === TABS.APPOINTMENTS
+                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              <FaCalendarAlt className="inline-block mr-2" />
+              Appointments
+            </button>
+            
+            <button
+              onClick={() => setActiveTab(TABS.NOTES)}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md ${
+                activeTab === TABS.NOTES
+                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              <FaClipboardList className="inline-block mr-2" />
+              Notes
+            </button>
+            
+            <button
+              onClick={() => setActiveTab(TABS.MODEL)}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md ${
+                activeTab === TABS.MODEL
+                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              <FaToolbox className="inline-block mr-2" />
+              Model
+            </button>
+            
+            <button
+              onClick={() => setActiveTab(TABS.CLIENT)}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md ${
+                activeTab === TABS.CLIENT
+                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              <FaUserAlt className="inline-block mr-2" />
+              Client
+            </button>
+            
+            <button
+              onClick={() => setActiveTab(TABS.INVOICES)}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md ${
+                activeTab === TABS.INVOICES
+                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              <FaFileInvoiceDollar className="inline-block mr-2" />
+              Invoices
+            </button>
+          </nav>
+        </div>
+        
+        {/* Tab Content */}
+        <div>
+          {/* Details Tab */}
+          {activeTab === TABS.DETAILS && (
+            <>
+              {/* Work Order Detail Card */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+                <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-white">Work Order Details</h2>
+                </div>
+                
+                <div className="px-6 py-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Client</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {workOrder.client?.company_name || workOrder.client_name || 
+                        `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim() || 
+                        'No client assigned'}
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Title</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.title}</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Scheduled Time</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white flex items-center">
+                        {workOrder.scheduled_start ? (
+                          <>
+                            <span className="mr-2 inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                            {format(new Date(workOrder.scheduled_start), 'MMM d, yyyy h:mm a')}
+                            {workOrder.scheduled_end && 
+                              ` - ${format(new Date(workOrder.scheduled_end), 'h:mm a')}`}
+                          </>
+                        ) : (
+                          <>
+                            <span className="mr-2 inline-block w-2 h-2 rounded-full bg-gray-400"></span>
+                            Not scheduled
+                          </>
+                        )}
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Priority</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">{workOrder.priority}</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Location</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.service_location?.address || 'No location specified'}</p>
+                    </div>
+                    
+                    <div className="md:col-span-2">
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Description</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white whitespace-pre-line">{workOrder.description || 'No description provided'}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Schedule Information */}
+              {workOrder.scheduled_start && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">Services</h3>
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {workOrder.services.map((service) => (
-                          <tr key={service.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{service.name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{service.quantity}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${service.price.toFixed(2)}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${(service.quantity * service.price).toFixed(2)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Schedule Information</h3>
+                  <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                    <div className="px-6 py-4">
+                      <div className="mb-4">
+                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-1">
+                          <span className="font-medium mr-2">Primary Schedule:</span>
+                          <span>
+                            {new Date(workOrder.scheduled_start).toLocaleDateString()} {new Date(workOrder.scheduled_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            {workOrder.scheduled_end && (
+                              <span> - {new Date(workOrder.scheduled_end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            )}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                          This is the overall scheduled time period for this work order.
+                        </p>
+                        
+                        {/* Show a button to view all appointments if they exist */}
+                        {workOrder.appointments && workOrder.appointments.length > 0 && (
+                          <div>
+                            <button
+                              type="button"
+                              onClick={() => setActiveTab(TABS.APPOINTMENTS)}
+                              className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300 flex items-center"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              View All {workOrder.appointments.length} Appointment{workOrder.appointments.length !== 1 ? 's' : ''}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                        
+                      {/* Display Individual Appointments Summary */}
+                      {workOrder.appointments && workOrder.appointments.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Related Appointments</h4>
+                          <div className="space-y-2 max-h-60 overflow-y-auto">
+                            {workOrder.appointments.map((appointment, index) => (
+                              <div 
+                                key={index}
+                                className="p-2 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-650 cursor-pointer"
+                                onClick={() => setActiveTab(TABS.APPOINTMENTS)}
+                              >
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                                      {appointment.appointment_type.charAt(0).toUpperCase() + appointment.appointment_type.slice(1)}
+                                    </div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                                      {new Date(appointment.scheduled_start).toLocaleDateString()} {new Date(appointment.scheduled_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                      {appointment.scheduled_end && (
+                                        <span> - {new Date(appointment.scheduled_end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <span className={`inline-block px-2 py-1 text-xs rounded-full ${
+                                      appointment.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                                      appointment.status === 'canceled' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+                                      appointment.status === 'reschedule' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' :
+                                      'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                    }`}>
+                                      {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                                    </span>
+                                  </div>
+                                </div>
+                                {appointment.assigned_technician_id && (
+                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    Technician: {appointment.technician_name || "Unassigned"}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
               
-              {workOrder.items?.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">Items</h3>
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {workOrder.items.map((item) => (
-                          <tr key={item.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.quantity}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.price.toFixed(2)}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${(item.quantity * item.price).toFixed(2)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+              {/* Services and Items */}
+              {(workOrder.services?.length > 0 || workOrder.parts?.length > 0) && (
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Services & Items</h2>
+                  </div>
+                  
+                  <div className="px-6 py-5">
+                    {/* Services */}
+                    {workOrder.services?.length > 0 && (
+                      <div className="mb-6">
+                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Services</h3>
+                        <div className="overflow-x-auto">
+                          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
+                              <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Service</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantity</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Unit Price</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Line Total</th>
+                              </tr>
+                            </thead>
+                            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                              {workOrder.services.map((service) => (
+                                <tr key={service.id}>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{service.name || 'Unknown Service'}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{service.quantity}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${service.unit_price ? service.unit_price.toFixed(2) : 'N/A'}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${service.price ? service.price.toFixed(2) : 'N/A'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Parts */}
+                    {workOrder.parts?.length > 0 && (
+                      <div>
+                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Parts</h3>
+                        <div className="overflow-x-auto">
+                          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
+                              <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Part Number</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cost</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Price</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Vendor</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                              {workOrder.parts.map((part) => (
+                                <tr key={part.id}>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{part.number}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{part.description}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${part.cost ? part.cost.toFixed(2) : 'N/A'}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${part.price ? part.price.toFixed(2) : 'N/A'}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{part.vendor || 'N/A'}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                      part.status === 'installed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                                      part.status === 'received' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                                      part.status === 'ordered' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+                                      'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+                                    }`}>
+                                      {part.status}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        )}
-        
-        {/* Activity Timeline */}
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
-            <h2 className="text-lg font-medium text-gray-900">Activity Timeline</h2>
-          </div>
+            </>
+          )}
           
-          <div className="px-6 py-5">
-            {workOrder.timeline?.length > 0 ? (
-              <ol className="relative border-l border-gray-200 ml-3">
-                {workOrder.timeline.map((activity) => (
-                  <li key={activity.id} className="mb-10 ml-6">
-                    <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white">
-                      {/* Icon based on activity type */}
-                      <svg className="w-3 h-3 text-blue-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path>
-                      </svg>
-                    </span>
-                    <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900">
-                      {activity.title}
-                      {activity.is_important && (
-                        <span className="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3">
-                          Important
-                        </span>
-                      )}
-                    </h3>
-                    <time className="block mb-2 text-sm font-normal leading-none text-gray-400">
-                      {format(new Date(activity.timestamp), 'MMM d, yyyy h:mm a')}
-                    </time>
-                    <p className="mb-4 text-base font-normal text-gray-500">{activity.description}</p>
-                    {activity.user && (
-                      <p className="text-sm text-gray-400">By: {activity.user.name}</p>
+          {/* Appointments Tab */}
+          {activeTab === TABS.APPOINTMENTS && (
+            <>
+              <AppointmentScheduler 
+                workOrderId={id} 
+                workOrderAddress={workOrder.service_location?.address}
+                key={`appointments-${id}`}
+                onAppointmentChange={() => {
+                  console.log("Appointment changed, refreshing work order data");
+                  refetch(); // Refresh the work order details to get updated schedule
+                }}
+              />
+            </>
+          )}
+          
+          {/* Notes Tab */}
+          {activeTab === TABS.NOTES && (
+            <div className="p-6">
+              <WorkOrderNotes workOrderId={workOrder.id} />
+            </div>
+          )}
+          
+          {/* Model Tab */}
+          {activeTab === TABS.MODEL && (
+            <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                <h2 className="text-lg font-medium text-gray-900 dark:text-white">Equipment Details</h2>
+              </div>
+              <div className="px-6 py-5">
+                <EquipmentDetails workOrderId={workOrder.id} workOrder={workOrder} onUpdate={refetch} />
+              </div>
+            </div>
+          )}
+          
+          {/* Client Tab */}
+          {activeTab === TABS.CLIENT && (
+            <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                <h2 className="text-lg font-medium text-gray-900 dark:text-white">Client Information</h2>
+              </div>
+              <div className="px-6 py-5">
+                {workOrder.client_user ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {`${workOrder.client_user.first_name || ''} ${workOrder.client_user.last_name || ''}`.trim() || 'N/A'}
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {workOrder.client?.company_name || 'N/A'}
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {workOrder.client_user.email || 'N/A'}
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {workOrder.client_user.phone || 'N/A'}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                    No client information available.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+          
+          {/* Invoices Tab */}
+          {activeTab === TABS.INVOICES && (
+            <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
+              </div>
+              <div className="px-6 py-5">
+                {(workOrder?.services?.length > 0 || workOrder?.parts?.length > 0) ? (
+                  <div className="space-y-6">
+                    {/* Services Section */}
+                    {workOrder?.services?.length > 0 && (
+                      <div>
+                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Services</h3>
+                        <div className="overflow-x-auto">
+                          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
+                              <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Service</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantity</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Unit Price</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                              {workOrder.services.map((item, index) => {
+                                const isBillable = item.billing_status === 'billable' || item.billing_status === 'paid';
+                                const isPaid = item.billing_status === 'paid';
+                                const isWaived = item.billing_status === 'waived';
+                                
+                                return (
+                                  <tr key={item.service_id || item.id || index} className={isBillable && !isPaid ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                      {item.name || 'N/A'} 
+                                      {isPaid && <span className="ml-2">✓</span>}
+                                      {isBillable && !isPaid && <span className="ml-2">💰</span>}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
+                                      {item.quantity || 1}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
+                                      ${item.unit_price ? item.unit_price.toFixed(2) : '0.00'}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-100 text-right">
+                                      ${item.price ? item.price.toFixed(2) : '0.00'}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                        isPaid ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                                        isBillable ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+                                        isWaived ? 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200' :
+                                        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                      }`}>
+                                        {isPaid ? 'Paid' : isBillable ? 'Due Today' : isWaived ? 'Waived' : 'Not Billable'}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     )}
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="text-gray-500 text-center py-4">No activity recorded yet.</p>
-            )}
-          </div>
+
+                    {/* Parts Section */}
+                    {workOrder?.parts?.length > 0 && (
+                      <div>
+                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Parts</h3>
+                        <div className="overflow-x-auto">
+                          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
+                              <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Part Number</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Price</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                              {workOrder.parts.map((part, index) => {
+                                const isBillable = ['completed', 'phone_payment', 'up_front'].includes(part.status);
+                                const isPaid = part.status === 'phone_payment' || part.status === 'up_front';
+                                
+                                return (
+                                  <tr key={part.id || index} className={isBillable && !isPaid ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                                      {part.number}
+                                      {isPaid && <span className="ml-2">✓</span>}
+                                      {isBillable && !isPaid && <span className="ml-2">💰</span>}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                      {part.description}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-100 text-right">
+                                      ${part.price ? part.price.toFixed(2) : '0.00'}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                        isPaid ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                                        isBillable ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+                                        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                                      }`}>
+                                        {isPaid ? 'Paid' : isBillable ? 'Due Today' : 'Not Billable'}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Diagnostic Discount Line */}
+                    {workOrder?.diagnostic_discount_applied && workOrder?.diagnostic_discount_amount > 0 && (
+                      <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center">
+                            <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Diagnostic Discount Applied</span>
+                            <span className="ml-2">✓</span>
+                          </div>
+                          <span className="text-sm font-bold text-blue-800 dark:text-blue-200">
+                            -${workOrder.diagnostic_discount_amount.toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Invoice Totals */}
+                    <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <div className="flex justify-end mb-1">
+                        <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Amount Previously Paid:</span>
+                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                          ${(workOrder.amount_previously_paid || 0).toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="flex justify-end mb-1">
+                        <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Due Today:</span>
+                        <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">
+                          ${(() => {
+                            const billableServicesTotal = (workOrder.services || [])
+                              .filter(service => service.billing_status === 'billable' || service.billing_status === 'paid')
+                              .reduce((sum, service) => sum + (service.price || 0), 0);
+                            
+                            const billablePartsTotal = (workOrder.parts || [])
+                              .filter(part => ['completed', 'phone_payment', 'up_front'].includes(part.status))
+                              .reduce((sum, part) => sum + (part.price || 0), 0);
+                            
+                            const billableTotal = billableServicesTotal + billablePartsTotal;
+                            const previouslyPaid = workOrder.amount_previously_paid || 0;
+                            const dueToday = billableTotal - previouslyPaid;
+                            
+                            return dueToday > 0 ? dueToday.toFixed(2) : '0.00';
+                          })()}
+                        </span>
+                      </div>
+                      <div className="flex justify-end pt-2 border-t border-gray-200 dark:border-gray-600">
+                        <span className="text-md font-medium text-gray-700 dark:text-gray-200 mr-2">Total Work Order:</span>
+                        <span className="text-md font-bold text-gray-900 dark:text-gray-50">
+                          ${(workOrder.invoice_total || 0).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Payment Button */}
+                    {(() => {
+                      const billableServicesTotal = (workOrder.services || [])
+                        .filter(service => service.billing_status === 'billable')
+                        .reduce((sum, service) => sum + (service.price || 0), 0);
+                      
+                      const billablePartsTotal = (workOrder.parts || [])
+                        .filter(part => ['completed', 'phone_payment', 'up_front'].includes(part.status))
+                        .reduce((sum, part) => sum + (part.price || 0), 0);
+                      
+                      const billableTotal = billableServicesTotal + billablePartsTotal;
+                      const previouslyPaid = workOrder.amount_previously_paid || 0;
+                      const dueToday = billableTotal - previouslyPaid;
+                      
+                      if (dueToday > 0) {
+                        return (
+                          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div className="flex justify-center">
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    // Get client information
+                                    const clientEmail = workOrder.client?.email || workOrder.client_user?.email;
+                                    const clientName = workOrder.client_name || `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim();
+
+                                    if (!clientEmail) {
+                                      alert('Client email is required for payment processing');
+                                      return;
+                                    }
+
+                                    // Create checkout session
+                                    const response = await apiClient('stripe/create-checkout-session', {
+                                      method: 'POST',
+                                      body: JSON.stringify({
+                                        work_order_id: workOrder.id,
+                                        client_email: clientEmail,
+                                        client_name: clientName,
+                                        success_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=success`,
+                                        cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=cancelled`,
+                                        metadata: {
+                                          work_order_number: workOrder.order_number || workOrder.id.slice(0, 8)
+                                        }
+                                      })
+                                    });
+
+                                    if (response.url) {
+                                      // Redirect to Stripe Checkout
+                                      window.location.href = response.url;
+                                    } else {
+                                      alert('Failed to create payment session');
+                                    }
+
+                                  } catch (error) {
+                                    console.error('Payment error:', error);
+                                    alert('Failed to process payment: ' + (error.message || 'Unknown error'));
+                                  }
+                                }}
+                                className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium text-lg shadow-lg hover:shadow-xl"
+                              >
+                                <div className="flex items-center space-x-3">
+                                  <span className="text-xl">💳</span>
+                                  <span>Pay ${dueToday.toFixed(2)}</span>
+                                </div>
+                              </button>
+                            </div>
+                            <div className="text-center mt-2">
+                              <span className="text-xs text-gray-500 dark:text-gray-400">
+                                Secure payment powered by Stripe
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
+
+                    {/* Admin Controls */}
+                    {user?.roles?.includes('admin') && (
+                      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Admin Controls</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Service Billing Status</label>
+                            <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                              <option value="">Select service...</option>
+                              {workOrder.services?.map(service => (
+                                <option key={service.id} value={service.id}>
+                                  {service.name} - {service.billing_status}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">New Billing Status</label>
+                            <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                              <option value="not_billable">Not Billable</option>
+                              <option value="billable">Billable</option>
+                              <option value="paid">Paid</option>
+                              <option value="waived">Waived</option>
+                            </select>
+                          </div>
+                          <div>
+                            <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
+                              Update Service Status
+                            </button>
+                          </div>
+                          <div>
+                            <button className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                              Waive Diagnostic Fee
+                            </button>
+                          </div>
+                        </div>
+                        <div className="mt-4">
+                          <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Apply Payment</label>
+                          <div className="flex gap-2">
+                            <input
+                              type="number"
+                              step="0.01"
+                              placeholder="Amount"
+                              value={paymentAmount}
+                              onChange={(e) => setPaymentAmount(e.target.value)}
+                              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                            />
+                            <button 
+                              onClick={handleApplyPayment}
+                              disabled={isApplyingPayment || !paymentAmount}
+                              className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
+                            >
+                              {isApplyingPayment ? 'Applying...' : 'Apply Payment'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                    No billable services or items have been added to this work order yet.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
         
-        {/* Delete confirmation modal */}
-        <Modal
-          isOpen={showDeleteModal}
-          onClose={() => setShowDeleteModal(false)}
-          title="Delete Work Order"
-        >
-          <div className="p-6">
-            <div className="flex items-center mb-4 text-red-600">
-              <FaExclamationTriangle className="text-xl mr-2" />
-              <h3 className="text-lg font-medium">Are you sure you want to delete this work order?</h3>
-            </div>
-            <p className="mb-6 text-gray-500">
-              This action cannot be undone. This will permanently delete the work order
-              <strong> {workOrder.order_number}</strong> and all associated data.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <Button
-                variant="outline"
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="danger"
-                onClick={handleDelete}
-                isLoading={isMutating}
-                disabled={isMutating}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        </Modal>
-        
-        {/* Status update modal */}
+        {/* Status Update Modal */}
         <Modal
           isOpen={showStatusModal}
           onClose={() => setShowStatusModal(false)}
           title="Update Work Order Status"
         >
-          <div className="p-6 space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                New Status
-              </label>
+          <div className="p-4">
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Status</label>
               <select
-                className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={newStatus}
                 onChange={(e) => setNewStatus(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 dark:text-white"
               >
-                <option value="">Select a status</option>
+                <option value="">Select new status</option>
                 <option value="pending">Pending</option>
                 <option value="scheduled">Scheduled</option>
                 <option value="in_progress">In Progress</option>
                 <option value="on_hold">On Hold</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
+                <option value="parts_on_order">Parts on Order</option>
+                <option value="reschedule">Reschedule</option>
+                <option value="need_to_contact">Need to Contact</option>
+                <option value="redo">Redo</option>
               </select>
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Notes
-              </label>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Notes</label>
               <textarea
-                className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={statusNotes}
                 onChange={(e) => setStatusNotes(e.target.value)}
-                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 dark:text-white"
+                rows={4}
                 placeholder="Add notes about this status change"
               />
             </div>
             
-            <div className="flex justify-end space-x-3 pt-2">
-              <Button
-                variant="outline"
+            <div className="flex justify-end space-x-2">
+              <button
+                type="button"
                 onClick={() => setShowStatusModal(false)}
+                className="btn-secondary"
               >
                 Cancel
-              </Button>
-              <Button
-                variant="primary"
+              </button>
+              <button
+                type="button"
                 onClick={handleStatusUpdate}
-                isLoading={isMutating}
-                disabled={isMutating || !newStatus}
+                className="btn-primary"
+                disabled={!newStatus || isMutating}
               >
-                Update Status
-              </Button>
+                {isMutating ? 'Updating...' : 'Update Status'}
+              </button>
+            </div>
+          </div>
+        </Modal>
+        
+        {/* Delete Modal */}
+        <Modal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          title="Delete Work Order"
+        >
+          <div className="p-4">
+            <p className="mb-4 text-gray-700 dark:text-gray-300">
+              Are you sure you want to delete this work order? This action cannot be undone.
+            </p>
+            
+            <div className="flex justify-end space-x-2">
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                className="btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="btn-danger"
+                disabled={isMutating}
+              >
+                {isMutating ? 'Deleting...' : 'Delete Work Order'}
+              </button>
             </div>
           </div>
         </Modal>
@@ -380,13 +1030,9 @@ WorkOrderDetail.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-// Server-side authentication check
 export async function getServerSideProps(context) {
-  // Get the ID from the URL
-  const { id } = context.params;
-  
-  // Check authentication
   const session = await getSession(context.req, context.res);
+  
   if (!session) {
     return {
       redirect: {
@@ -396,11 +1042,8 @@ export async function getServerSideProps(context) {
     };
   }
   
-  // Return the ID as a prop so it's available during initial render
   return {
-    props: {
-      id,
-    },
+    props: {},
   };
 }
 

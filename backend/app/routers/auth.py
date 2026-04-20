@@ -24,11 +24,13 @@ def get_auth_dependency():
 
 def get_current_user_dependency():
     """Lazy-loaded dependency for current user"""
-    return get_auth_handler().get_current_user
+    from app.core.dependencies import get_current_user
+    return get_current_user
 
 def get_admin_dependency():
     """Lazy-loaded dependency for admin verification"""
-    return get_auth_handler().verify_admin
+    from app.core.dependencies import get_admin_user
+    return get_admin_user
 
 @router.post("/auth/login", response_model=Token)
 async def login(
@@ -145,6 +147,7 @@ class Auth0CallbackRequest(BaseModel):
     expires_in: int
     token_type: str
     state: str = None
+    user_profile: Optional[Dict[str, Any]] = None  # Add field for user profile
 
 @router.post("/auth/auth0-callback", response_model=Dict[str, Any])
 async def auth0_callback(
@@ -165,24 +168,48 @@ async def auth0_callback(
         token_data = await auth_handler.verify_token(request.access_token)
         logger.info(f"Token verified for subject: {token_data.sub}")
         
-        # Get user info from Auth0
-        user_info = await auth_handler.get_auth0_user_info(request.access_token)
-        logger.info(f"Retrieved user info for: {user_info.get('email')}")
+        # Get user info - prefer the user_profile sent from Auth0 action if available
+        user_profile = request.user_profile
+        if not user_profile:
+            # Fall back to getting user info from Auth0 directly
+            logger.info("No user_profile in request, fetching from Auth0")
+            user_info = await auth_handler.get_auth0_user_info(request.access_token)
+            logger.info(f"Retrieved user info for: {user_info.get('email')}")
+        else:
+            logger.info(f"Using user_profile from request: {user_profile.get('email')}")
+            user_info = user_profile
         
         # Extract user data
-        auth_id = user_info.get("sub")
+        auth_id = user_info.get("auth_id") or user_info.get("sub")
         email = user_info.get("email")
         email_verified = user_info.get("email_verified", False)
-        name = user_info.get("name", "").split()
-        first_name = name[0] if name else user_info.get("given_name", "User")
-        last_name = name[1] if len(name) > 1 else user_info.get("family_name", "")
+
+        # Get name information - prioritize full components if available
+        given_name = user_info.get("given_name")
+        family_name = user_info.get("family_name")
+        full_name = user_info.get("name")
+        
+        # If we have full name but not components, split it
+        if full_name and (not given_name or not family_name):
+            name_parts = full_name.split()
+            if not given_name and len(name_parts) > 0:
+                given_name = name_parts[0]
+            if not family_name and len(name_parts) > 1:
+                family_name = ' '.join(name_parts[1:])
+        
+        # Final fallbacks
+        first_name = given_name or "User"
+        last_name = family_name or ""
+        
+        # Get profile picture
+        picture = user_info.get("picture")
         
         if not auth_id:
             raise ValidationError("No auth_id (sub) found in user info")
         if not email:
             raise ValidationError("No email found in user info")
         
-        logger.info(f"Processing user: {email} ({auth_id})")
+        logger.info(f"Processing user: {email} ({auth_id}), name: {first_name} {last_name}")
         
         # Get Auth0 metadata
         app_metadata = user_info.get("https://servicebusiness.com/app_metadata", {})
@@ -235,7 +262,7 @@ async def auth0_callback(
                     role=assigned_role,
                     is_active=True,
                     email_verified=email_verified,
-                    avatar_url=user_info.get("picture"),
+                    avatar_url=picture,
                     phone=user_metadata.get("phone"),
                     company=app_metadata.get("company"),
                     preferences=user_metadata.get("preferences", {"theme": "light", "notifications": True}),
@@ -251,7 +278,7 @@ async def auth0_callback(
             # Update existing user
             user.email = email
             user.email_verified = email_verified
-            user.avatar_url = user_info.get("picture")
+            user.avatar_url = picture
             user.last_login = datetime.utcnow()
             user.role = assigned_role  # Update role from Auth0
             user.first_name = first_name
@@ -372,6 +399,86 @@ async def get_current_user_info(
     Get current user information.
     """
     return current_user
+
+@router.get("/auth/debug-token")
+async def debug_token(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """
+    Debug endpoint to inspect the Auth0 token data.
+    Shows the full token payload and user info from Auth0.
+    """
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return {"error": "No valid Authorization header found"}
+    
+    token = auth_header.replace("Bearer ", "")
+    
+    try:
+        # Get the auth handler
+        auth_handler = get_auth_handler()
+        
+        # Verify the token and get token data
+        token_data = await auth_handler.verify_token(token)
+        
+        # Get user info from Auth0
+        try:
+            user_info = await auth_handler.get_auth0_user_info(token)
+        except Exception as e:
+            user_info = {"error": f"Failed to get user info: {str(e)}"}
+        
+        # Check if user exists in database
+        user = None
+        if token_data.sub:
+            user = db.query(User).filter(User.auth_id == token_data.sub).first()
+            if not user and token_data.email:
+                user = db.query(User).filter(User.email == token_data.email).first()
+                
+        # Extract roles from user info
+        roles = []
+        if user_info and isinstance(user_info, dict):
+            # Try to get roles from app_metadata
+            app_metadata = user_info.get("https://idimsapi/app_metadata", {})
+            if app_metadata and isinstance(app_metadata, dict) and 'roles' in app_metadata:
+                roles = app_metadata.get('roles', [])
+            # Try other sources for roles
+            elif 'roles' in user_info:
+                roles = user_info.get('roles', [])
+                
+        # Get token payload for inspection
+        payload = {}
+        if hasattr(token_data, 'raw_payload'):
+            payload = token_data.raw_payload or {}
+            
+        # Create a result with detailed information
+        result = {
+            "token_data": {
+                "sub": token_data.sub,
+                "email": token_data.email,
+                "name": token_data.name,
+                "given_name": token_data.given_name,
+                "family_name": token_data.family_name,
+                "nickname": token_data.nickname,
+                "picture": token_data.picture,
+                "roles": token_data.roles,
+                "exp": token_data.exp,
+                "raw_payload": payload,
+                "extracted_roles": roles
+            },
+            "auth0_user_info": user_info,
+            "db_user": user.to_dict() if user else None,
+            "auth_handler_info": {
+                "domain": auth_handler.domain,
+                "audience": auth_handler.audience,
+                "issuer": auth_handler.issuer
+            }
+        }
+        
+        return result
+    except Exception as e:
+        logger.error(f"Error debugging token: {str(e)}")
+        return {"error": str(e)}
 
 @router.post("/auth/set-role/{user_id}")
 async def set_user_role(

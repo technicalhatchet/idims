@@ -11,7 +11,7 @@ class UserBase(BaseModel):
     first_name: str = Field(..., min_length=1, max_length=100)
     last_name: str = Field(..., min_length=1, max_length=100)
     phone: Optional[str] = Field(None, max_length=20)
-    role: str = Field(..., pattern="^(admin|manager|technician|client)$")
+    roles: List[str] = Field(default_factory=list)
     is_active: bool = True
     avatar_url: Optional[str] = None
     company: Optional[str] = None
@@ -65,6 +65,7 @@ class UserResponse(UserBase):
                 "email": "user@example.com",
                 "first_name": "John",
                 "last_name": "Doe",
+                "roles": ["client"],
                 "role": "client",
                 "is_active": True,
                 "created_at": "2023-01-01T00:00:00Z",
@@ -80,6 +81,11 @@ class UserResponse(UserBase):
     created_at: datetime
     updated_at: datetime
     last_login: Optional[datetime] = None
+
+    @property
+    def role(self) -> str:
+        """Get the primary role from the roles array"""
+        return self.roles[0] if self.roles else "client"
 
 class UserLogin(BaseModel):
     """Schema for user login"""

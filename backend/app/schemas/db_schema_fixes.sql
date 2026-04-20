@@ -341,3 +341,49 @@ BEGIN
     REFRESH MATERIALIZED VIEW monthly_revenue;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Create appointment status enum
+CREATE TYPE public.appointment_status_enum AS ENUM (
+    'scheduled',
+    'reschedule',
+    'completed',
+    'canceled'
+);
+
+-- Create work order appointments table
+CREATE TABLE IF NOT EXISTS public.work_order_appointments (
+    id UUID PRIMARY KEY,
+    work_order_id UUID NOT NULL REFERENCES public.work_orders(id) ON DELETE CASCADE,
+    appointment_type VARCHAR(50) NOT NULL,
+    status appointment_status_enum NOT NULL DEFAULT 'scheduled',
+    scheduled_start TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    scheduled_end TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    actual_start TIMESTAMP WITHOUT TIME ZONE,
+    actual_end TIMESTAMP WITHOUT TIME ZONE,
+    assigned_technician_id UUID REFERENCES public.technicians(id) ON DELETE SET NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    created_by UUID NOT NULL REFERENCES public.users(id),
+    updated_by UUID REFERENCES public.users(id)
+);
+
+-- Create indexes for performance
+CREATE INDEX IF NOT EXISTS idx_work_order_appointments_work_order_id ON public.work_order_appointments (work_order_id);
+CREATE INDEX IF NOT EXISTS idx_work_order_appointments_technician_id ON public.work_order_appointments (assigned_technician_id);
+CREATE INDEX IF NOT EXISTS idx_work_order_appointments_status ON public.work_order_appointments (status);
+CREATE INDEX IF NOT EXISTS idx_work_order_appointments_scheduled_start ON public.work_order_appointments (scheduled_start);
+
+-- Function to update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_work_order_appointment_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Update trigger for appointments
+CREATE TRIGGER update_work_order_appointment_updated_at_trigger
+BEFORE UPDATE ON public.work_order_appointments
+FOR EACH ROW
+EXECUTE FUNCTION update_work_order_appointment_updated_at();

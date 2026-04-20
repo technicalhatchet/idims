@@ -5,14 +5,15 @@ import uuid
 from datetime import datetime
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler, User
-from app.models.inventory import InventoryItem, Vendor
+from app.core.auth import get_auth_handler, AuthUser
+from app.models.inventory import InventoryItem, Vendor, InventoryCategory
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 from app.schemas.inventory import (
     InventoryItemCreate, InventoryItemUpdate, InventoryItemResponse,
-    InventoryItemListResponse, InventoryAdjustment
+    InventoryItemListResponse, InventoryAdjustment, InventoryCategoryCreate, InventoryCategoryResponse
 )
 from app.services.inventory_service import InventoryService
+from app.core.dependencies import get_current_user, get_admin_or_manager_user
 
 router = APIRouter()
 
@@ -32,14 +33,14 @@ async def list_inventory(
     search: Optional[str] = Query(None, description="Search term for item name or description"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
     List inventory items with filtering and pagination.
     """
     # Only staff can access inventory
-    if current_user.role not in ["admin", "manager", "technician"]:
+    if not any(role in ["admin", "manager", "technician"] for role in current_user.roles):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to view inventory"
@@ -77,7 +78,7 @@ async def list_inventory(
 @router.post("/inventory", response_model=InventoryItemResponse, status_code=status.HTTP_201_CREATED)
 async def create_inventory_item(
     item: InventoryItemCreate = Body(...),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -125,14 +126,14 @@ async def create_inventory_item(
 @router.get("/inventory/{item_id}", response_model=InventoryItemResponse)
 async def get_inventory_item(
     item_id: uuid.UUID = Path(..., description="The ID of the inventory item to retrieve"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
     Get a specific inventory item by ID.
     """
     # Only staff can access inventory
-    if current_user.role not in ["admin", "manager", "technician"]:
+    if not any(role in ["admin", "manager", "technician"] for role in current_user.roles):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to view inventory"
@@ -152,7 +153,7 @@ async def get_inventory_item(
 async def update_inventory_item(
     item_id: uuid.UUID = Path(..., description="The ID of the inventory item to update"),
     item_update: InventoryItemUpdate = Body(...),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -200,7 +201,7 @@ async def update_inventory_item(
 @router.delete("/inventory/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_inventory_item(
     item_id: uuid.UUID = Path(..., description="The ID of the inventory item to delete"),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -236,7 +237,7 @@ async def delete_inventory_item(
 async def adjust_inventory_stock(
     item_id: uuid.UUID = Path(..., description="The ID of the inventory item"),
     adjustment: Dict[str, Any] = Body(...),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -292,7 +293,7 @@ async def list_vendors(
     is_active: Optional[bool] = Query(None, description="Filter by active status"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -331,7 +332,7 @@ async def list_vendors(
 @router.post("/vendors", status_code=status.HTTP_201_CREATED)
 async def create_vendor(
     vendor_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -367,7 +368,7 @@ async def create_vendor(
 @router.get("/vendors/{vendor_id}")
 async def get_vendor(
     vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -388,7 +389,7 @@ async def get_vendor(
 async def update_vendor(
     vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
     vendor_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -425,7 +426,7 @@ async def update_vendor(
 @router.delete("/vendors/{vendor_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_vendor(
     vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """

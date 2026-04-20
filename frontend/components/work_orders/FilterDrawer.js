@@ -75,7 +75,11 @@ export default function FilterDrawer({ isOpen, onClose, filters, onFilterChange 
                       { value: 'pending', label: 'Pending' },
                       { value: 'scheduled', label: 'Scheduled' },
                       { value: 'in_progress', label: 'In Progress' },
+                      { value: 'parts_on_order', label: 'Part(s) On Order' },
+                      { value: 'reschedule', label: 'Reschedule' },
+                      { value: 'need_to_contact', label: 'Need to Contact' },
                       { value: 'on_hold', label: 'On Hold' },
+                      { value: 'redo', label: 'REDO' },
                       { value: 'completed', label: 'Completed' },
                       { value: 'cancelled', label: 'Cancelled' }
                     ]}

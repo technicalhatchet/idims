@@ -28,6 +28,7 @@ class Technician(Base):
     # Relationships
     user = relationship("User", back_populates="technician")
     work_orders = relationship("WorkOrder", back_populates="technician", foreign_keys="[WorkOrder.assigned_technician_id]")
+    technician_skills = relationship("TechnicianSkill", back_populates="technician", cascade="all, delete-orphan", lazy="joined")
     
     def __repr__(self):
         return f"<Technician {self.id}: {self.user.full_name if self.user else 'Unknown'}>"

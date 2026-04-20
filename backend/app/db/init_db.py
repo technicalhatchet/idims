@@ -36,11 +36,11 @@ def setup_initial_data():
             logger.info("Creating admin user")
             admin_user = User(
                 id=uuid.uuid4(),
+                auth_id="auth0|admin",  # This would be provided by Auth0 in production
                 email="admin@example.com",
                 first_name="Admin",
                 last_name="User",
-                hashed_password=hash_password("adminpassword"),  # Should read from env
-                role="admin",
+                roles=["admin"],
                 is_active=True,
                 email_verified=True
             )
@@ -69,11 +69,11 @@ def setup_initial_data():
             # Create a demo technician
             demo_tech_user = User(
                 id=uuid.uuid4(),
+                auth_id="auth0|tech",  # This would be provided by Auth0 in production
                 email="tech@example.com",
                 first_name="Demo",
                 last_name="Technician",
-                hashed_password=hash_password("techpassword"),  # Should read from env
-                role="technician",
+                roles=["technician"],
                 is_active=True,
                 email_verified=True
             )

@@ -1,18 +1,20 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Path, status, BackgroundTasks, Body
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime, date
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler, User
+from app.core.auth import get_auth_handler, AuthUser
 from app.models.invoice import Invoice
+from app.models.client import Client
 from app.schemas.invoice import (
     InvoiceCreate, InvoiceUpdate, InvoiceResponse, InvoiceListResponse,
-    InvoiceStatusUpdate, InvoiceSend
+    InvoiceStatusUpdate, InvoiceSend, InvoiceItemCreate, InvoiceItemResponse
 )
 from app.services.invoice_service import InvoiceService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
+from app.core.dependencies import get_current_user, get_admin_or_manager_user
 
 router = APIRouter()
 
@@ -35,7 +37,7 @@ async def list_invoices(
     end_date: Optional[date] = Query(None, description="Filter by issue date (end)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -45,8 +47,7 @@ async def list_invoices(
     skip = (page - 1) * limit
     
     # Handle client permissions
-    if current_user.role == "client":
-        from app.models.client import Client
+    if "client" in current_user.roles:
         client = db.query(Client).filter(Client.user_id == current_user.id).first()
         if not client:
             raise NotFoundException("Client profile not found")
@@ -74,7 +75,7 @@ async def list_invoices(
 @router.post("/invoices", response_model=InvoiceResponse, status_code=status.HTTP_201_CREATED)
 async def create_invoice(
     invoice: InvoiceCreate,
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -96,7 +97,7 @@ async def create_invoice(
 @router.get("/invoices/{invoice_id}", response_model=InvoiceResponse)
 async def get_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to retrieve"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -107,8 +108,7 @@ async def get_invoice(
         invoice = await InvoiceService.get_invoice(db, invoice_id)
         
         # Handle client permissions
-        if current_user.role == "client":
-            from app.models.client import Client
+        if "client" in current_user.roles:
             client = db.query(Client).filter(Client.user_id == current_user.id).first()
             if not client or client.id != invoice.client_id:
                 raise HTTPException(
@@ -129,7 +129,7 @@ async def get_invoice(
 async def update_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to update"),
     invoice_update: InvoiceUpdate = Body(...),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -153,7 +153,7 @@ async def update_invoice(
 @router.delete("/invoices/{invoice_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to delete"),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -177,7 +177,7 @@ async def delete_invoice(
 async def update_invoice_status(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice"),
     status_update: InvoiceStatusUpdate = Body(...),
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -207,7 +207,7 @@ async def send_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to send"),
     send_data: InvoiceSend = Body(...),
     background_tasks: BackgroundTasks = None,
-    current_user: User = Depends(get_manager_or_admin_dependency),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -238,7 +238,7 @@ async def send_invoice(
 async def download_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to download"),
     format: str = Query("pdf", description="Format to download (pdf, csv)"),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -250,8 +250,7 @@ async def download_invoice(
         invoice = await InvoiceService.get_invoice(db, invoice_id)
         
         # Handle client permissions
-        if current_user.role == "client":
-            from app.models.client import Client
+        if "client" in current_user.roles:
             client = db.query(Client).filter(Client.user_id == current_user.id).first()
             if not client or client.id != invoice.client_id:
                 raise HTTPException(

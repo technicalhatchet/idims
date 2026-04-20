@@ -144,7 +144,7 @@ export default function QuoteForm({ initialData, isEdit = false }) {
       setIsLoadingClients(true);
       
       try {
-        const data = await apiClient('/api/clients?limit=100');
+        const data = await apiClient('clients?limit=100');
         
         setClients(data?.items?.map(client => ({
           value: client.id,
@@ -166,7 +166,7 @@ export default function QuoteForm({ initialData, isEdit = false }) {
       setIsLoadingServices(true);
       
       try {
-        const data = await apiClient('/api/services?limit=100');
+        const data = await apiClient('services?limit=100');
         
         setServices(data?.items?.map(service => ({
           value: service.id,

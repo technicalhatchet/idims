@@ -11,9 +11,22 @@ from dotenv import load_dotenv
 logger = logging.getLogger(__name__)
 
 # Load .env file explicitly
-env_path = Path(__file__).parent.parent.parent / '.env'
+env_path = Path(__file__).parent.parent / '.env'
 logger.info(f"Loading .env file from: {env_path.absolute()}")
-load_dotenv(env_path)
+
+# --- DEBUG --- #
+print(f"--- DEBUG PRINT: Calculated .env path: {env_path.absolute()}")
+print(f"--- DEBUG PRINT: Does .env file exist at path? {env_path.is_file()}")
+
+# Load .env file and check return value
+dotenv_loaded = load_dotenv(env_path)
+print(f"--- DEBUG PRINT: load_dotenv returned: {dotenv_loaded}")
+
+# Log the value immediately after loading .env
+maps_key_from_env = os.getenv("MAPS_API_KEY")
+# Use print instead of logger for early startup debug
+print(f"--- DEBUG PRINT: Value of MAPS_API_KEY from os.getenv after load_dotenv: '{maps_key_from_env}' ---")
+# --- END DEBUG --- #
 
 # Ensure environment variables are loaded
 os.environ.setdefault("AUTH0_DOMAIN", "dev-fqp1z1l3km7uj2gq.us.auth0.com")
@@ -101,13 +114,19 @@ class Settings(BaseModel):
     VERSION: str = "1.0.0"
     DESCRIPTION: str = "Integrated Document and Invoice Management System"
     
+    # Maps API settings
+    MAPS_API_KEY: Optional[str] = Field(default=os.getenv("MAPS_API_KEY", ""))
+    MAPS_PROVIDER: str = "google"  # google, mapbox, here, etc.
+    MAPS_CACHE_TTL: int = 86400  # 24 hours in seconds
+    
     # Security settings
     PASSWORD_HASH_ALGORITHM: str = "bcrypt"
     PASSWORD_SALT_ROUNDS: int = 12
     
     # Payment settings
-    STRIPE_API_KEY: Optional[str] = None
-    STRIPE_WEBHOOK_SECRET: Optional[str] = None
+    STRIPE_API_KEY: Optional[str] = Field(default=os.getenv("STRIPE_API_KEY", ""))
+    STRIPE_WEBHOOK_SECRET: Optional[str] = Field(default=os.getenv("STRIPE_WEBHOOK_SECRET", ""))
+    STRIPE_PUBLISHABLE_KEY: Optional[str] = Field(default=os.getenv("STRIPE_PUBLISHABLE_KEY", ""))
     PAYPAL_CLIENT_ID: Optional[str] = None
     PAYPAL_CLIENT_SECRET: Optional[str] = None
     
@@ -169,6 +188,28 @@ class Settings(BaseModel):
     FEATURE_AUDIT: bool = True
     FEATURE_BACKUP: bool = True
     
+    # Email provider settings
+    EMAIL_PROVIDER: str = "zoho"  # sendgrid, mailgun, ses, zoho
+    SENDGRID_API_KEY: str = ""
+    MAILGUN_API_KEY: str = ""
+    MAILGUN_DOMAIN: str = ""
+    
+    # Company/Site Information for emails
+    SITE_NAME: str = "Quantum Repairs"
+    CONTACT_EMAIL: str = "support@chettechpro.com"
+    LOGO_URL: str = "https://imgur.com/a/ou9RtjZ"
+    DEFAULT_FROM_EMAIL: str = "chester@chettechpro.com"
+    
+    # URL settings
+    FRONTEND_URL: str = "http://localhost:3000"
+    BACKEND_URL: str = "http://localhost:8000"
+    
+    # SMS provider settings
+    SMS_PROVIDER: str = "twilio"  # twilio, nexmo, none
+    TWILIO_ACCOUNT_SID: str = ""
+    TWILIO_AUTH_TOKEN: str = ""
+    TWILIO_PHONE_NUMBER: str = ""
+    
     @validator("AUTH0_ISSUER", pre=True)
     def set_auth0_issuer(cls, v: Optional[str], values: Dict[str, Any]) -> str:
         """Set Auth0 issuer URL if not provided"""
@@ -184,12 +225,12 @@ class Settings(BaseModel):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        logger.info("Initializing Settings")
-        logger.info(f"Current working directory: {os.getcwd()}")
-        logger.info(f"AUTH0_DOMAIN from env: {os.getenv('AUTH0_DOMAIN')}")
-        logger.info(f"AUTH0_DOMAIN from settings: {self.AUTH0_DOMAIN}")
-        logger.info(f"AUTH0_API_AUDIENCE from env: {os.getenv('AUTH0_API_AUDIENCE')}")
-        logger.info(f"AUTH0_API_AUDIENCE from settings: {self.AUTH0_API_AUDIENCE}")
+        print("Initializing Settings")
+        print(f"Current working directory: {os.getcwd()}")
+        print(f"AUTH0_DOMAIN from env: {os.getenv('AUTH0_DOMAIN')}")
+        print(f"AUTH0_DOMAIN from settings: {self.AUTH0_DOMAIN}")
+        print(f"AUTH0_API_AUDIENCE from env: {os.getenv('AUTH0_API_AUDIENCE')}")
+        print(f"AUTH0_API_AUDIENCE from settings: {self.AUTH0_API_AUDIENCE}")
 
 @lru_cache()
 def get_settings():

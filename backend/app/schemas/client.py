@@ -101,7 +101,7 @@ class ClientResponse(ClientBase):
     id: UUID
     created_at: datetime
     updated_at: datetime
-    created_by: UUID
+    created_by: Optional[UUID] = None
     updated_by: Optional[UUID] = None
     model_config = ConfigDict(from_attributes=True)
 

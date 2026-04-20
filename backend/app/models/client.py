@@ -37,8 +37,8 @@ class Client(Base):
     user = relationship("User", foreign_keys=[user_id], back_populates="client")
     creator = relationship("User", foreign_keys=[created_by])
     work_orders = relationship("WorkOrder", back_populates="client", cascade="all, delete-orphan")
-    invoices = relationship("Invoice", back_populates="client")
-    documents = relationship("Document", back_populates="client")
+    invoices = relationship("Invoice", back_populates="client", cascade="all, delete-orphan")
+    documents = relationship("Document", back_populates="client", cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<Client {self.id}: {self.company_name or f'{self.first_name} {self.last_name}'}>"

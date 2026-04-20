@@ -1,142 +1,107 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { apiClient } from '../utils/api-client';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
-
-/**
- * Fetch clients with pagination and filters
- */
-async function fetchClients(params = {}) {
-  const { 
-    page = 1, 
-    limit = 10, 
-    search,
-    sort_by,
-    sort_order
-  } = params;
-
-  // Build query string
-  const queryParams = new URLSearchParams();
-  queryParams.append('page', page);
-  queryParams.append('limit', limit);
-  
-  if (search) queryParams.append('search', search);
-  if (sort_by) queryParams.append('sort_by', sort_by);
-  if (sort_order) queryParams.append('sort_order', sort_order);
-  
-  return apiClient(`${API_URL}/api/clients?${queryParams.toString()}`);
-}
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { 
+  getClient, 
+  getClients, 
+  createClient, 
+  updateClient, 
+  deleteClient,
+  getClientPaymentMethods,
+  sendRegistrationEmail
+} from '../services/api/clientsApi';
 
 /**
- * Fetch a single client by ID
- */
-async function fetchClient(id) {
-  return apiClient(`${API_URL}/api/clients/${id}`);
-}
-
-/**
- * Create a new client
- */
-async function createClient(clientData) {
-  return apiClient(`${API_URL}/api/clients`, {
-    method: 'POST',
-    body: JSON.stringify(clientData),
-  });
-}
-
-/**
- * Update an existing client
- */
-async function updateClient(id, clientData) {
-  return apiClient(`${API_URL}/api/clients/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(clientData),
-  });
-}
-
-/**
- * Delete a client
- */
-async function deleteClient(id) {
-  return apiClient(`${API_URL}/api/clients/${id}`, {
-    method: 'DELETE',
-  });
-}
-
-/**
- * Hook for fetching clients list with pagination and filters
+ * Hook for clients list with pagination and filtering
  */
 export function useClients(params = {}, options = {}) {
-  return useQuery(
-    ['clients', params],
-    () => fetchClients(params),
-    {
-      keepPreviousData: true,
-      staleTime: 30000, // 30 seconds
-      ...options,
-    }
-  );
+  return useQuery({
+    queryKey: ['clients', params],
+    queryFn: () => getClients(params),
+    keepPreviousData: true,
+    staleTime: 10000, // 10 seconds
+    ...options,
+  });
 }
 
 /**
- * Hook for fetching a single client
+ * Hook for a single client by ID
  */
 export function useClient(id, options = {}) {
-  return useQuery(
-    ['client', id],
-    () => fetchClient(id),
-    {
-      enabled: !!id,
-      ...options,
-    }
-  );
+  return useQuery({
+    queryKey: ['client', id],
+    queryFn: () => getClient(id),
+    enabled: !!id,
+    ...options,
+  });
 }
 
 /**
- * Hooks for client mutations with cache updates
+ * Hook for client payment methods
+ */
+export function useClientPaymentMethods(clientId, options = {}) {
+  return useQuery({
+    queryKey: ['clientPaymentMethods', clientId],
+    queryFn: () => getClientPaymentMethods(clientId),
+    enabled: !!clientId,
+    ...options,
+  });
+}
+
+/**
+ * Hook for client mutations (create, update, delete)
  */
 export function useClientMutations() {
   const queryClient = useQueryClient();
   
   // Create client
-  const createMutation = useMutation(createClient, {
+  const createMutation = useMutation({
+    mutationFn: (data) => createClient(data),
     onSuccess: (data) => {
-      queryClient.invalidateQueries('clients');
+      queryClient.invalidateQueries({ queryKey: ['clients'] });
+      if (data && data.id) {
+        queryClient.invalidateQueries({ queryKey: ['client', data.id] });
+      }
       return data;
     },
   });
   
   // Update client
-  const updateMutation = useMutation(
-    ({ id, data }) => updateClient(id, data),
-    {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(['client', data.id]);
-        queryClient.invalidateQueries('clients');
-        return data;
-      },
-    }
-  );
+  const updateMutation = useMutation({
+    mutationFn: ({ id, ...data }) => updateClient(id, data),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['client', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['clients'] });
+      return data;
+    },
+  });
   
   // Delete client
-  const deleteMutation = useMutation(deleteClient, {
+  const deleteMutation = useMutation({
+    mutationFn: (id) => deleteClient(id),
     onSuccess: (_, id) => {
-      queryClient.invalidateQueries(['client', id]);
-      queryClient.invalidateQueries('clients');
+      queryClient.invalidateQueries({ queryKey: ['client', id] });
+      queryClient.invalidateQueries({ queryKey: ['clients'] });
     },
+  });
+  
+  // Send registration email
+  const emailMutation = useMutation({
+    mutationFn: (params) => sendRegistrationEmail(params),
   });
   
   return {
     createClient: createMutation.mutateAsync,
     updateClient: updateMutation.mutateAsync,
     deleteClient: deleteMutation.mutateAsync,
+    sendRegistrationEmail: emailMutation.mutateAsync,
     isLoading: 
-      createMutation.isLoading || 
-      updateMutation.isLoading || 
-      deleteMutation.isLoading,
+      createMutation.isPending || 
+      updateMutation.isPending || 
+      deleteMutation.isPending ||
+      emailMutation.isPending,
     error:
       createMutation.error ||
       updateMutation.error ||
-      deleteMutation.error,
+      deleteMutation.error ||
+      emailMutation.error,
   };
 } 

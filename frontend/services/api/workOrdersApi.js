@@ -1,9 +1,10 @@
-import apiClient from '../../utils/api-client';
+import { apiClient } from '../../utils/api-client';
 
 /**
  * Get work orders with pagination and filters
  */
 export async function getWorkOrders(params = {}) {
+  console.log('getWorkOrders API function called with params:', params);
   const { page = 1, limit = 10, status, client_id, technician_id, start_date, end_date } = params;
   
   // Build query string
@@ -17,7 +18,16 @@ export async function getWorkOrders(params = {}) {
   if (start_date) queryParams.append('start_date', start_date);
   if (end_date) queryParams.append('end_date', end_date);
   
-  return apiClient(`work-orders?${queryParams.toString()}`);
+  try {
+    const url = `work-orders?${queryParams.toString()}`;
+    console.log('Calling apiClient with URL:', url);
+    const result = await apiClient(url);
+    console.log('getWorkOrders API call successful:', result);
+    return result;
+  } catch (error) {
+    console.error('getWorkOrders API call failed:', error);
+    throw error;
+  }
 }
 
 /**
@@ -31,10 +41,31 @@ export async function getWorkOrder(id) {
  * Create a new work order
  */
 export async function createWorkOrder(workOrderData) {
-  return apiClient('work-orders', {
+  console.log('Creating work order with data:', workOrderData);
+  try {
+    const response = await apiClient('work-orders', {
+      method: 'POST',
+      body: JSON.stringify(workOrderData)
+    });
+    console.log('Work order created successfully:', response);
+    // Make sure we return the full response with ID
+    return response;
+  } catch (error) {
+    console.error('Work order creation failed:', error);
+    throw error;
+  }
+}
+
+/**
+ * Create work order + first appointment in one atomic API call (same DB transaction).
+ * Body matches WorkOrderWithInitialAppointmentCreate (work order fields + initial_appointment).
+ */
+export async function createWorkOrderWithInitialAppointment(payload) {
+  const response = await apiClient('work-orders/with-initial-appointment', {
     method: 'POST',
-    body: JSON.stringify(workOrderData),
+    body: JSON.stringify(payload),
   });
+  return response;
 }
 
 /**
@@ -43,7 +74,7 @@ export async function createWorkOrder(workOrderData) {
 export async function updateWorkOrder(id, workOrderData) {
   return apiClient(`work-orders/${id}`, {
     method: 'PUT',
-    body: JSON.stringify(workOrderData),
+    body: JSON.stringify(workOrderData)
   });
 }
 
@@ -52,17 +83,20 @@ export async function updateWorkOrder(id, workOrderData) {
  */
 export async function deleteWorkOrder(id) {
   return apiClient(`work-orders/${id}`, {
-    method: 'DELETE',
+    method: 'DELETE'
   });
 }
 
 /**
  * Update work order status
  */
-export async function updateWorkOrderStatus(id, status, notes) {
+export async function updateWorkOrderStatus({ id, status, notes }) {
+  console.log('updateWorkOrderStatus called with:', { id, status, notes });
+  
+  // Let the apiClient handle the URL construction correctly
   return apiClient(`work-orders/${id}/status`, {
     method: 'PUT',
-    body: JSON.stringify({ status, notes }),
+    body: JSON.stringify({ status, notes })
   });
 }
 
@@ -72,7 +106,7 @@ export async function updateWorkOrderStatus(id, status, notes) {
 export async function assignWorkOrder(id, technicianId) {
   return apiClient(`work-orders/${id}/assign`, {
     method: 'POST',
-    body: JSON.stringify({ technician_id: technicianId }),
+    body: JSON.stringify({ technician_id: technicianId })
   });
 }
 

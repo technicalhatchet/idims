@@ -17,5 +17,9 @@ export const auth0Config = {
   authorizationParams: {
     scope: 'openid profile email',
     audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE
-  }
+  },
+  errorPath: '/api/auth/error',
+  loginPath: '/api/auth/login',
+  callbackPath: '/api/auth/callback',
+  logoutPath: '/api/auth/logout'
 }; 

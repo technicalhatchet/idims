@@ -37,11 +37,11 @@ export default function Header({ user, isLoading, darkMode, toggleTheme }) {
             <Link href="/" className="flex items-center">
               <img
                 className="h-8 w-auto"
-                src="/logo.svg"
+                src="/icon-500x500.png"
                 alt="Service Business"
               />
               <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">
-                Service Biz
+                Quantum Repair
               </span>
             </Link>
           </div>

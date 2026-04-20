@@ -1,32 +1,21 @@
-// Mock token endpoint for development
-export default async function handler(req, res) {
-  try {
-    // Check if the user is authenticated based on the cookie
-    const authCookie = req.cookies['auth0.is.authenticated'];
-    
-    if (!authCookie || authCookie !== 'true') {
-      res.status(401).json({ 
-        error: 'Not authenticated',
-        message: 'No session found'
-      });
-      return;
-    }
+import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
-    // Return mock access token and session information
-    res.json({
-      accessToken: 'mock-access-token-for-development',
-      expiresAt: new Date(Date.now() + 7200000).toISOString(), // 2 hours from now
-      user: {
-        email: 'dev@example.com',
-        role: 'admin'
-      }
+export default withApiAuthRequired(async function handler(req, res) {
+  try {
+    // Check if this is a request to refresh the token
+    const shouldRefresh = req.query.refresh === 'true' || req.method === 'POST';
+    
+    // Get the token, potentially refreshing it
+    const { accessToken } = await getAccessToken(req, res, {
+      refresh: shouldRefresh, // Only force refresh when explicitly requested
+      scopes: ['openid', 'profile', 'email']
     });
+    
+    res.status(200).json({ accessToken });
   } catch (error) {
-    console.error('Token endpoint error:', error);
+    console.error('Error getting access token:', error);
     res.status(error.status || 500).json({
-      error: 'Internal server error',
-      message: error.message,
-      code: error.code
+      error: error.message,
     });
   }
-} 
+}); 

@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler, User
+from app.core.auth import get_auth_handler, AuthUser
 from app.config import settings
 from app.core.exceptions import NotFoundException, ValidationException
 from app.models.work_order import WorkOrder
@@ -16,6 +16,8 @@ from app.schemas.mobile import (
 )
 from app.services.work_order_service import WorkOrderService
 from app.services.technician_service import TechnicianService
+from app.core.dependencies import get_current_user, get_technician_user
+from app.schemas.work_order import WorkOrderUpdate
 
 router = APIRouter()
 
@@ -33,7 +35,7 @@ async def get_technician_dependency():
 async def sync_data(
     last_sync: Optional[datetime] = Query(None, description="Timestamp of last successful sync"),
     entities: Optional[List[str]] = Query(None, description="Entity types to sync"),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -44,9 +46,9 @@ async def sync_data(
     
     # Default entities to sync if not specified
     if not entities:
-        if current_user.role == "technician":
+        if "technician" in current_user.roles:
             entities = ["work_orders", "clients", "inventory"]
-        elif current_user.role == "client":
+        elif "client" in current_user.roles:
             entities = ["work_orders", "invoices", "payments"]
         else:
             entities = ["work_orders", "clients", "invoices", "payments", "inventory"]
@@ -95,7 +97,7 @@ async def sync_data(
 @router.post("/mobile/register-device")
 async def register_device(
     device_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -128,7 +130,7 @@ async def register_device(
 @router.delete("/mobile/unregister-device/{device_id}")
 async def unregister_device(
     device_id: str = Path(..., description="Unique device identifier"),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -145,7 +147,7 @@ async def unregister_device(
 async def get_mobile_config(
     app_version: str = Query(..., description="Current app version"),
     platform: str = Query(..., description="Device platform (ios, android)"),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
 ):
     """
     Get mobile app configuration.
@@ -176,14 +178,14 @@ async def get_mobile_config(
     }
     
     # Add role-specific configuration
-    if current_user.role == "technician":
+    if "technician" in current_user.roles:
         config["technician_features"] = {
             "offline_mode": True,
             "signature_capture": True,
             "photo_upload": True,
             "navigation": True
         }
-    elif current_user.role == "client":
+    elif "client" in current_user.roles:
         config["client_features"] = {
             "payment_methods": True,
             "document_download": True,
@@ -195,7 +197,7 @@ async def get_mobile_config(
 @router.post("/mobile/report-issue")
 async def report_issue(
     issue_data: Dict[str, Any] = Body(...),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     """
@@ -225,7 +227,7 @@ async def report_issue(
 @router.get("/mobile/work-orders", response_model=List[MobileWorkOrderResponse])
 async def get_mobile_work_orders(
     status: Optional[str] = Query(None, description="Filter by work order status"),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     # Implementation of get_mobile_work_orders method
@@ -234,7 +236,7 @@ async def get_mobile_work_orders(
 @router.get("/mobile/work-orders/{work_order_id}", response_model=MobileWorkOrderResponse)
 async def get_mobile_work_order(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     # Implementation of get_mobile_work_order method
@@ -244,7 +246,7 @@ async def get_mobile_work_order(
 async def update_mobile_work_order_status(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     status_update: MobileStatusUpdate = Body(...),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     # Implementation of update_mobile_work_order_status method
@@ -254,7 +256,7 @@ async def update_mobile_work_order_status(
 async def update_mobile_work_order_location(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     location_update: MobileLocationUpdate = Body(...),
-    current_user: User = Depends(get_technician_dependency),
+    current_user: AuthUser = Depends(get_technician_dependency),
     db: Session = Depends(get_db)
 ):
     # Implementation of update_mobile_work_order_location method

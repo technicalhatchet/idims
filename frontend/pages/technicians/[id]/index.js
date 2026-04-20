@@ -1,5 +1,6 @@
 // src/pages/technicians/[id]/index.js
 import { useState } from 'react';
+import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,40 +9,50 @@ import DashboardLayout from '../../../components/layouts/DashboardLayout';
 import TechnicianDetails from '../../../components/technicians/TechnicianDetails';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
-import Modal from '../../../components/ui/Modal';
-import { Button } from '../../../components/ui/FormElements';
+import DeleteModal from '../../../components/ui/DeleteModal';
 import { useTechnician, useTechnicianMutations } from '../../../hooks/useTechnicians';
 import { useAuthRedirect } from '../../../hooks/useAuthRedirect';
-import { withPageAuthRequired } from '../../../utils/auth0-helpers';
+import React from 'react';
 
 function TechnicianDetail() {
   const router = useRouter();
   const { id } = router.query;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   
-  // Check authorization (only managers and admins)
-  useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
-
-  // Fetch technician details
-  const { 
-    data: technician, 
+  useAuthRedirect();
+  
+  const {
+    data: technician,
     isLoading,
     error,
     refetch
   } = useTechnician(id);
 
-  // Delete technician mutation
-  const { deleteTechnician, isLoading: isDeleting } = useTechnicianMutations();
-
+  // Add debug logging to see the technician data
+  React.useEffect(() => {
+    if (technician) {
+      console.log('[TECHNICIAN PAGE] Technician data received:', technician);
+      console.log('[TECHNICIAN PAGE] User data exists:', !!technician.user);
+      if (technician.user) {
+        console.log('[TECHNICIAN PAGE] User data:', technician.user);
+      } else {
+        console.warn('[TECHNICIAN PAGE] Missing user data for technician:', technician.employee_id);
+      }
+    }
+  }, [technician]);
+  
+  const mutations = useTechnicianMutations();
+  
   const handleDelete = async () => {
     try {
-      await deleteTechnician(id);
+      console.log('Deleting technician with ID:', id);
+      await mutations.delete(id);
       router.push('/technicians');
     } catch (error) {
-      console.error('Error deleting technician:', error);
+      console.error('Failed to delete technician:', error);
     }
   };
-
+  
   if (isLoading) {
     return (
       <div className="px-4 py-6">
@@ -49,7 +60,7 @@ function TechnicianDetail() {
       </div>
     );
   }
-
+  
   if (error) {
     return (
       <div className="px-4 py-6">
@@ -61,112 +72,94 @@ function TechnicianDetail() {
     );
   }
 
+  if (!technician) {
+    return (
+      <div className="px-4 py-6">
+        <ErrorAlert 
+          message="Technician not found" 
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
+
+  // Handle missing user data but still show technician details
+  const hasUserData = !!technician.user;
+
   return (
     <>
       <Head>
-        <title>{`${technician?.user?.first_name} ${technician?.user?.last_name} | Technician | Service Business Management`}</title>
+        <title>{hasUserData 
+          ? `${technician.user.first_name} ${technician.user.last_name} | Service Business Management`
+          : `Technician ${technician.employee_id} | Service Business Management`
+        }</title>
       </Head>
 
       <div className="px-4 py-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold">
-                {technician?.user?.first_name} {technician?.user?.last_name}
-              </h1>
-            </div>
-            <p className="text-gray-500 mt-1">Technician ID: {technician?.employee_id}</p>
+            <h1 className="text-2xl font-bold mb-2">Technician Details</h1>
+            <p className="text-gray-600">
+              {hasUserData
+                ? `${technician.user.first_name} ${technician.user.last_name}`
+                : `${technician.employee_id} (User data unavailable)`
+              }
+            </p>
           </div>
-          
-          <div className="mt-4 md:mt-0 flex space-x-2">
-            <Link 
-              href={`/technicians/${id}/schedule`}
-              className="btn-outline flex items-center"
+          <div className="flex space-x-2 mt-4 sm:mt-0">
+            <Link
+              href={`/technicians/${id}/edit`}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             >
-              View Schedule
-            </Link>
-            <Link 
-              href={`/technicians/${id}/performance`}
-              className="btn-outline flex items-center"
-            >
-              View Performance
-            </Link>
-            <Link 
-              href={`/technicians/${id}/edit`} 
-              className="btn-primary flex items-center"
-            >
-              <FaEdit className="mr-2" />
-              Edit
+              Edit Technician
             </Link>
             <button
               onClick={() => setShowDeleteModal(true)}
-              className="btn-danger flex items-center"
+              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
             >
-              <FaUserTimes className="mr-2" />
-              Delete
+              Delete Technician
             </button>
           </div>
         </div>
-        
-        {/* Technician Details */}
+
         <TechnicianDetails technician={technician} />
-        
-        {/* Delete Confirmation Modal */}
-        <Modal
+
+        <DeleteModal
           isOpen={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDelete}
           title="Delete Technician"
-          actions={
-            <>
-              <Button
-                variant="outline"
-                onClick={() => setShowDeleteModal(false)}
-                className="mr-3"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="danger"
-                onClick={handleDelete}
-                isLoading={isDeleting}
-                disabled={isDeleting}
-              >
-                Delete
-              </Button>
-            </>
-          }
-        >
-          <div className="flex items-start">
-            <div className="mr-3 flex-shrink-0">
-              <FaExclamationTriangle className="h-6 w-6 text-red-600" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">
-                Are you sure you want to delete this technician? 
-                <strong> {technician?.user?.first_name} {technician?.user?.last_name}</strong>
-              </p>
-              <p className="text-sm text-red-600 mt-2">
-                This action cannot be undone. All associated data will be permanently removed.
-              </p>
-            </div>
-          </div>
-        </Modal>
+          message="Are you sure you want to delete this technician? This action cannot be undone."
+        />
       </div>
     </>
   );
 }
 
-TechnicianDetail.getLayout = function getLayout(page) {
-  return <DashboardLayout>{page}</DashboardLayout>;
-};
-
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(ctx) {
+// Add server-side props with auth
+export async function getServerSideProps(context) {
+  // Check authentication
+  const session = await getSession(context.req, context.res);
+  if (!session) {
     return {
-      props: {}
+      redirect: {
+        destination: '/api/auth/login',
+        permanent: false,
+      },
     };
   }
-});
+  
+  // Return empty props as data fetching happens on the client
+  return {
+    props: {},
+  };
+}
 
-export default TechnicianDetail;
+// Export the component with layout
+export default function TechnicianDetailWithLayout(props) {
+  return (
+    <DashboardLayout>
+      <TechnicianDetail {...props} />
+    </DashboardLayout>
+  );
+}

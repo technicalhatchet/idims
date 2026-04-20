@@ -1,5 +1,5 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { withPageAuthRequired } from '../utils/auth0-helpers';
+import { withPageAuthRequired, getUserRole } from '../utils/auth0-helpers';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -7,12 +7,6 @@ function DebugUserPage() {
   const { user, error, isLoading } = useUser();
   const [possibleRoles, setPossibleRoles] = useState([]);
   const [effectiveRole, setEffectiveRole] = useState('');
-  
-  // Hardcode specific users as admin by their user ID
-  // This is a temporary solution until Auth0 roles are properly set up
-  const hardcodedAdmins = [
-    'google-oauth2|110674600011943435167' // Rhett Nysko's Google ID
-  ];
   
   useEffect(() => {
     if (user) {
@@ -30,19 +24,13 @@ function DebugUserPage() {
         { name: 'user["https://example.com/roles"][0]', value: user['https://example.com/roles']?.[0] },
         { name: 'user["roles"][0]', value: user['roles']?.[0] },
         { name: 'user["app_metadata"].role', value: user['app_metadata']?.role },
-        { name: 'Hardcoded admin by user ID', value: hardcodedAdmins.includes(user.sub) ? 'admin' : null },
+        { name: 'getUserRole() function result', value: getUserRole(user) },
       ];
       
       setPossibleRoles(roles.filter(r => r.value));
       
-      // Get effective role used across the application
-      const effectiveRole = 
-        user['https://servicebusiness.com/roles']?.[0] || 
-        user['https://idimsapi/roles']?.[0] ||
-        user['https://idimsapi/app_metadata']?.roles?.[0] ||
-        user.app_metadata?.roles?.[0] ||
-        user.roles?.[0] ||
-        (hardcodedAdmins.includes(user.sub) ? 'admin' : 'client');
+      // Get effective role using the shared function
+      const effectiveRole = getUserRole(user);
       
       setEffectiveRole(effectiveRole);
     }

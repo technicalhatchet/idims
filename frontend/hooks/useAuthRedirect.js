@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
+import { getUserRole } from '../utils/auth0-helpers';
 
 /**
  * Hook to handle authentication redirection
@@ -28,72 +29,36 @@ export function useAuthRedirect({
     
     // If roles are specified, check role-based access
     if (allowedRoles.length > 0) {
-      // Get user role with multiple fallbacks - using the same pattern as DashboardLayout
-      let userRole = null;
-      
-      // Check all possible places where roles might be stored
-      if (user['https://idimsapi/roles']?.[0]) {
-        userRole = user['https://idimsapi/roles'][0];
-      }
-      else if (user['https://idimsapi/app_metadata']?.roles?.[0]) {
-        userRole = user['https://idimsapi/app_metadata'].roles[0];
-      }
-      else if (user.app_metadata?.roles?.[0]) {
-        userRole = user.app_metadata.roles[0];
-      }
-      else if (user.roles?.[0]) {
-        userRole = user.roles[0];
-      }
-      else if (user.role) {
-        userRole = user.role;
-      }
-      
-      // Standardize role to lowercase for consistency
-      if (userRole) {
-        userRole = userRole.toLowerCase();
-      }
+      // Use the shared getUserRole function from auth0-helpers.js
+      const userRole = getUserRole(user);
       
       // Debug the role detection
       console.log('useAuthRedirect - User role detected:', userRole);
       console.log('useAuthRedirect - Allowed roles:', allowedRoles);
       
       // Check if the user's role is in the allowed roles
-      if (!userRole || !allowedRoles.includes(userRole)) {
+      // Always allow 'admin' role regardless of what's in allowedRoles
+      const isAdmin = userRole === 'admin';
+      const isAllowed = allowedRoles.includes(userRole) || isAdmin;
+      
+      if (!isAllowed) {
         console.log('useAuthRedirect - Access denied, redirecting to unauthorized');
         router.push('/unauthorized');
       }
     }
   }, [user, isLoading, router, redirectTo, allowedRoles]);
   
-  // Get userRole for the return value
-  let detectedRole = null;
-  if (user) {
-    if (user['https://idimsapi/roles']?.[0]) {
-      detectedRole = user['https://idimsapi/roles'][0];
-    }
-    else if (user['https://idimsapi/app_metadata']?.roles?.[0]) {
-      detectedRole = user['https://idimsapi/app_metadata'].roles[0];
-    }
-    else if (user.app_metadata?.roles?.[0]) {
-      detectedRole = user.app_metadata.roles[0];
-    }
-    else if (user.roles?.[0]) {
-      detectedRole = user.roles[0];
-    }
-    else if (user.role) {
-      detectedRole = user.role;
-    }
-    
-    if (detectedRole) {
-      detectedRole = detectedRole.toLowerCase();
-    }
-  }
+  // Get userRole using the shared function
+  const userRole = user ? getUserRole(user) : null;
+  
+  // Admin is allowed everywhere
+  const isAdmin = userRole === 'admin';
   
   return { 
     user, 
     isLoading, 
     error, 
     isAuthorized: !!user && (!allowedRoles.length || 
-      (detectedRole && allowedRoles.includes(detectedRole)))
+      isAdmin || (userRole && allowedRoles.includes(userRole)))
   };
 }

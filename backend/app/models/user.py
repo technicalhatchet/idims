@@ -17,7 +17,7 @@ class User(Base):
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     phone = Column(String(20), nullable=True)
-    role = Column(String(50), nullable=False, default="client")
+    roles = Column(JSON, nullable=False, default=list)
     is_active = Column(Boolean, default=True)
     email_verified = Column(Boolean, default=False)
     avatar_url = Column(String(255), nullable=True)
@@ -43,22 +43,22 @@ class User(Base):
     @property
     def is_admin(self) -> bool:
         """Check if user has admin role"""
-        return self.role == "admin"
+        return "admin" in (self.roles or [])
 
     @property
     def is_manager(self) -> bool:
         """Check if user has manager role"""
-        return self.role == "manager"
+        return "manager" in (self.roles or [])
 
     @property
     def is_technician(self) -> bool:
         """Check if user has technician role"""
-        return self.role == "technician"
+        return "technician" in (self.roles or [])
 
     @property
     def is_client(self) -> bool:
         """Check if user has client role"""
-        return self.role == "client"
+        return "client" in (self.roles or [])
 
     def has_permission(self, permission: str) -> bool:
         """Check if user has specific permission"""
@@ -78,7 +78,7 @@ class User(Base):
             "last_name": self.last_name,
             "full_name": self.full_name,
             "phone": self.phone,
-            "role": self.role,
+            "roles": self.roles,
             "is_active": self.is_active,
             "email_verified": self.email_verified,
             "avatar_url": self.avatar_url,

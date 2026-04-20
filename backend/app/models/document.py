@@ -1,9 +1,11 @@
 from datetime import datetime
 from typing import Optional, List
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Enum, JSON, Boolean
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 import enum
+import uuid
 
 class DocumentType(str, enum.Enum):
     """Document types for categorization"""
@@ -20,7 +22,7 @@ class Document(Base):
     """Document model for storing file metadata and relationships"""
     __tablename__ = "documents"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
     description = Column(String(1000))
     file_path = Column(String(512), nullable=False)
@@ -35,14 +37,14 @@ class Document(Base):
     doc_metadata = Column(JSON)  # For additional metadata like tags, categories, etc.
     
     # Relationships
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     user = relationship("User", back_populates="documents")
     
     # Optional relationships (depending on document type)
-    work_order_id = Column(Integer, ForeignKey("work_orders.id"))
+    work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"))
     work_order = relationship("WorkOrder", back_populates="documents")
     
-    client_id = Column(Integer, ForeignKey("clients.id"))
+    client_id = Column(UUID(as_uuid=True), ForeignKey("clients.id"))
     client = relationship("Client", back_populates="documents")
     
     # Timestamps

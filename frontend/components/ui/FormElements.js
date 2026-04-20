@@ -57,16 +57,33 @@ TextInput.displayName = 'TextInput';
 // Select component
 export const SelectInput = forwardRef(({ 
   label, 
-  options = [], 
   error, 
   id, 
   className = '',
   required = false,
   helpText,
-  emptyOption = 'Select...',
+  options = [],
+  emptyOption = null,
+  isLoading = false,
+  loadingError = null,
+  value,
   ...props 
 }, ref) => {
   const selectId = id || `select-${label?.toLowerCase().replace(/\s+/g, '-')}`;
+  
+  // Create a copy of options to avoid mutating the original array
+  const displayOptions = [...options];
+  
+  // Always include empty option at the beginning if provided
+  if (emptyOption) {
+    // Make sure we don't add duplicate empty options if already present
+    if (!displayOptions.some(opt => opt.value === '')) {
+      displayOptions.unshift({ value: '', label: emptyOption });
+    }
+  }
+
+  // Ensure value is a string
+  const normalizedValue = value === undefined || value === null ? '' : String(value);
   
   return (
     <div className={className}>
@@ -79,7 +96,7 @@ export const SelectInput = forwardRef(({
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
-      <div className="mt-1">
+      <div className="relative mt-1">
         <select
           ref={ref}
           id={selectId}
@@ -89,19 +106,33 @@ export const SelectInput = forwardRef(({
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? `${selectId}-error` : helpText ? `${selectId}-description` : undefined}
           required={required}
+          disabled={isLoading}
+          value={normalizedValue}
           {...props}
         >
-          {emptyOption && <option value="">{emptyOption}</option>}
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
+          {displayOptions.map((option) => (
+            <option key={option.value} value={option.value} className="dark:bg-gray-700 dark:text-white">
               {option.label}
             </option>
           ))}
         </select>
+        {isLoading && (
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+            <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+        )}
       </div>
-      {helpText && !error && (
+      {helpText && !error && !loadingError && (
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400" id={`${selectId}-description`}>
           {helpText}
+        </p>
+      )}
+      {loadingError && (
+        <p className="mt-1 text-sm text-red-600 dark:text-red-500" id={`${selectId}-error-loading`} role="alert">
+          {loadingError}
         </p>
       )}
       {error && (
@@ -338,3 +369,21 @@ export const TextArea = ({ label, error, ...props }) => (
     )}
   </div>
 );
+
+export function CheckboxInput({ label, checked, onChange, disabled = false, className = '', id = Math.random().toString(36).substring(7) }) {
+  return (
+    <div className={`flex items-center ${className}`}>
+      <input
+        id={id}
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:border-gray-600 dark:bg-gray-700"
+      />
+      <label htmlFor={id} className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+        {label}
+      </label>
+    </div>
+  );
+}

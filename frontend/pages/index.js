@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Service Business Management | Home</title>
+        <title>Quantum SBM | Home</title>
       </Head>
 
       {/* Hero Section */}

@@ -91,6 +91,7 @@ class DashboardService:
                 Technician.status == "active"
             ).scalar() or 0
             
+            # Return a plain dictionary with all stats
             return {
                 "work_orders": {
                     "total": total_work_orders,
