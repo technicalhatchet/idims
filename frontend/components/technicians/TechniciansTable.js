@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaEdit, FaEye, FaCalendarAlt, FaChartBar } from 'react-icons/fa';
-import StatusBadge from '@/components/ui/StatusBadge';
+import StatusBadge from '../ui/StatusBadge';
 
 export default function TechniciansTable({ technicians }) {
   if (!technicians || technicians.length === 0) {
     return (
-      <div className="text-center py-4 text-gray-500">
+      <div className="text-center py-4 text-gray-500 dark:text-gray-400">
         No technicians found.
       </div>
     );
@@ -14,19 +14,19 @@ export default function TechniciansTable({ technicians }) {
   
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead className="bg-gray-50 dark:bg-gray-800">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Name
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Employee ID
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Skills
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Status
             </th>
             <th scope="col" className="relative px-6 py-3">
@@ -34,26 +34,26 @@ export default function TechniciansTable({ technicians }) {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
           {technicians.map((technician) => (
-            <tr key={technician.id} className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+            <tr key={technician.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400">
                 <Link href={`/technicians/${technician.id}`}>
                   {technician.user?.first_name} {technician.user?.last_name}
                 </Link>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                 {technician.employee_id || 'N/A'}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-500">
+              <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                 <div className="flex flex-wrap">
                   {technician.skills?.slice(0, 3).map((skill, index) => (
-                    <span key={index} className="bg-blue-100 text-blue-800 text-xs font-medium mr-1 mb-1 px-2 py-0.5 rounded">
+                    <span key={index} className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-medium mr-1 mb-1 px-2 py-0.5 rounded">
                       {skill}
                     </span>
                   ))}
                   {technician.skills?.length > 3 && (
-                    <span className="bg-gray-100 text-gray-800 text-xs font-medium ml-1 px-2 py-0.5 rounded">
+                    <span className="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 text-xs font-medium ml-1 px-2 py-0.5 rounded">
                       +{technician.skills.length - 3} more
                     </span>
                   )}

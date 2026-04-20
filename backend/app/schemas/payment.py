@@ -2,6 +2,7 @@ from pydantic import BaseModel, validator, Field
 from typing import Optional, Dict, List, Any, Union
 from datetime import datetime
 from uuid import UUID
+from pydantic import ConfigDict
 
 class PaymentBase(BaseModel):
     """Base schema for Payment data"""
@@ -72,31 +73,26 @@ class PaymentUpdate(BaseModel):
         return v
 
 class PaymentResponse(PaymentBase):
-    """Schema for payment response"""
+    """Response schema for payment"""
     id: UUID
-    payment_number: str
-    status: str
-    transaction_id: Optional[str] = None
-    processor_response: Optional[Dict[str, Any]] = None
     created_at: datetime
     updated_at: datetime
-    created_by: Optional[UUID] = None
-    invoice_number: Optional[str] = None
-    client_id: Optional[UUID] = None
-    client_name: Optional[str] = None
-    
-    class Config:
-        orm_mode = True
+    created_by: UUID
+    updated_by: Optional[UUID] = None
+    model_config = ConfigDict(from_attributes=True)
 
 class PaymentListResponse(BaseModel):
-    """Schema for paginated list of payments"""
-    total: int
+    """Payment list response schema"""
     items: List[PaymentResponse]
+    total: int
     page: int
     pages: int
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
+class PaymentDetailResponse(PaymentResponse):
+    """Payment detail response schema"""
+    invoice: Optional[Dict[str, Any]] = None
+    model_config = ConfigDict(from_attributes=True)
 
 class RefundRequest(BaseModel):
     """Schema for payment refund request"""
@@ -151,8 +147,7 @@ class PaymentMethodResponse(PaymentMethodBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class PaymentIntentCreate(BaseModel):
     """Schema for creating a payment intent with Stripe"""

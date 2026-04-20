@@ -65,6 +65,47 @@
   @apply bg-gray-900 text-white;
 }
 
+/* Dark mode select dropdown fix */
+.dark select {
+  color-scheme: dark;
+  appearance: none;
+  background-color: #1f2937; /* gray-800 */
+  border-color: #4b5563; /* gray-600 */
+}
+
+/* Force dark background for select options in all browsers */
+.dark select option {
+  background-color: #374151 !important; /* dark gray-700 */
+  color: #f9fafb !important; /* gray-50 */
+}
+
+/* Safari and Chrome specific fixes */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .dark select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+  .dark select {
+    background-color: #374151; /* dark gray-700 */
+    color: #f9fafb; /* gray-50 */
+  }
+}
+
+/* Microsoft Edge and IE specific fixes */
+@supports (-ms-ime-align:auto) {
+  .dark select {
+    background-color: #374151; /* dark gray-700 */
+    color: #f9fafb; /* gray-50 */
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .btn-primary, .btn-secondary, .btn-danger, .btn-success, .btn-outline {

@@ -9,9 +9,10 @@ from pathlib import Path
 from datetime import datetime
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import AuthHandler, AuthUser
 from app.config import settings
 from app.core.exceptions import NotFoundException, ValidationException
+from app.models.document import Document, Media
 
 router = APIRouter()
 auth_handler = AuthHandler()
@@ -28,7 +29,7 @@ async def upload_file(
     related_id: Optional[str] = Form(None, description="ID of related entity"),
     description: Optional[str] = Form(None, description="Description of the file"),
     is_public: bool = Form(False, description="If true, file is publicly accessible"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: AuthUser = Depends(auth_handler.get_current_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -95,7 +96,7 @@ async def upload_file(
 @router.get("/media/{file_id}")
 async def get_file(
     file_id: str = Path(..., description="ID of the file to retrieve"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: AuthUser = Depends(auth_handler.get_current_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -131,7 +132,7 @@ async def get_file(
 async def list_entity_files(
     entity_type: str = Path(..., description="Type of entity: work_order, client, invoice, etc."),
     entity_id: str = Path(..., description="ID of the entity"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: AuthUser = Depends(auth_handler.get_current_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -160,7 +161,7 @@ async def list_entity_files(
 @router.delete("/media/{file_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_file(
     file_id: str = Path(..., description="ID of the file to delete"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: AuthUser = Depends(auth_handler.verify_manager_or_admin),
     db: Session = Depends(get_db)
 ):
     """

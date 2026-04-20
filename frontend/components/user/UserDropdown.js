@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { FaUserCircle, FaCog, FaSignOutAlt, FaChevronDown } from 'react-icons/fa';
+import { getUserRole } from '../../utils/auth0-helpers';
 
 export default function UserDropdown({ user }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +21,8 @@ export default function UserDropdown({ user }) {
     };
   }, []);
   
-  // Get user role from Auth0 metadata
-  const userRole = user['https://servicebusiness.com/roles']?.[0] || 'client';
+  // Get user role using the shared function
+  const userRole = getUserRole(user);
   
   // Format role for display (capitalize first letter)
   const formattedRole = userRole.charAt(0).toUpperCase() + userRole.slice(1);

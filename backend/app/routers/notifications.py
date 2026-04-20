@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Path, Body, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Path, Body, status, Response
 from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime
+import logging
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, User
+from app.core.auth import get_auth_handler, AuthUser
+from app.routers.auth import get_current_user_dependency, get_admin_dependency
 from app.models.notification import Notification, NotificationTemplate
 from app.schemas.notification import (
     NotificationResponse, NotificationListResponse, NotificationUpdate,
@@ -15,7 +17,7 @@ from app.services.notification_service import NotificationService
 from app.core.exceptions import NotFoundException, ValidationException
 
 router = APIRouter()
-auth_handler = AuthHandler()
+logger = logging.getLogger(__name__)
 
 @router.get("/notifications", response_model=NotificationListResponse)
 async def list_notifications(
@@ -23,12 +25,15 @@ async def list_notifications(
     type: Optional[str] = Query(None, description="Filter by notification type"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: AuthUser = Depends(get_current_user_dependency()),
     db: Session = Depends(get_db)
 ):
     """
     List notifications for the current user with filtering and pagination.
     """
+    logger.info(f"Listing notifications for user {current_user.id}")
+    logger.debug(f"Query params: is_read={is_read}, type={type}, page={page}, limit={limit}")
+    
     skip = (page - 1) * limit
     
     try:
@@ -44,9 +49,11 @@ async def list_notifications(
         
         # Get total count
         total = query.count()
+        logger.debug(f"Total notifications found: {total}")
         
         # Apply pagination and order by created_at descending (newest first)
         notifications = query.order_by(Notification.created_at.desc()).offset(skip).limit(limit).all()
+        logger.info(f"Retrieved {len(notifications)} notifications")
         
         return {
             "total": total,
@@ -55,6 +62,7 @@ async def list_notifications(
             "pages": (total + limit - 1) // limit
         }
     except Exception as e:
+        logger.error(f"Error in list_notifications: {str(e)}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error retrieving notifications: {str(e)}"
@@ -62,13 +70,12 @@ async def list_notifications(
 
 @router.get("/notifications/{notification_id}", response_model=NotificationResponse)
 async def get_notification(
-    notification_id: uuid.UUID = Path(..., description="The ID of the notification to retrieve"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    notification_id: str,
+    current_user: AuthUser = Depends(get_current_user_dependency()),
     db: Session = Depends(get_db)
 ):
     """
-    Get a specific notification by ID.
-    Users can only access their own notifications.
+    Get a specific notification.
     """
     try:
         notification = db.query(Notification).filter(
@@ -77,27 +84,27 @@ async def get_notification(
         ).first()
         
         if not notification:
-            raise NotFoundException(f"Notification with ID {notification_id} not found")
+            raise NotFoundException(f"Notification {notification_id} not found")
         
         return notification
+        
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
+        logger.error(f"Error getting notification: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error retrieving notification: {str(e)}"
+            detail="Error getting notification"
         )
 
-@router.put("/notifications/{notification_id}", response_model=NotificationResponse)
-async def update_notification(
-    notification_id: uuid.UUID = Path(..., description="The ID of the notification to update"),
-    notification_update: NotificationUpdate = Body(...),
-    current_user: User = Depends(auth_handler.get_current_user),
+@router.put("/notifications/{notification_id}/read", response_model=NotificationResponse)
+async def mark_notification_read(
+    notification_id: str,
+    current_user: AuthUser = Depends(get_current_user_dependency()),
     db: Session = Depends(get_db)
 ):
     """
-    Update a notification, primarily to mark it as read.
-    Users can only update their own notifications.
+    Mark a notification as read.
     """
     try:
         notification = db.query(Notification).filter(
@@ -106,68 +113,70 @@ async def update_notification(
         ).first()
         
         if not notification:
-            raise NotFoundException(f"Notification with ID {notification_id} not found")
+            raise NotFoundException(f"Notification {notification_id} not found")
         
-        # Update fields
-        update_data = notification_update.dict(exclude_unset=True)
-        
-        for key, value in update_data.items():
-            setattr(notification, key, value)
-        
-        # If marking as read, update read_at timestamp
-        if notification_update.is_read and not notification.is_read:
-            notification.read_at = datetime.utcnow()
+        notification.is_read = True
+        notification.read_at = datetime.utcnow()
         
         db.commit()
         db.refresh(notification)
         
         return notification
+        
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
+        logger.error(f"Error marking notification as read: {str(e)}")
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating notification: {str(e)}"
+            detail="Error marking notification as read"
         )
 
-@router.put("/notifications/mark-all-read", status_code=status.HTTP_200_OK)
+@router.put("/notifications/read-all", response_model=Dict[str, Any])
 async def mark_all_notifications_read(
-    current_user: User = Depends(auth_handler.get_current_user),
+    current_user: AuthUser = Depends(get_current_user_dependency()),
     db: Session = Depends(get_db)
 ):
     """
-    Mark all notifications for the current user as read.
+    Mark all notifications as read.
     """
     try:
-        # Update all unread notifications for the user
-        db.query(Notification).filter(
+        # Get all unread notifications for the user
+        unread_notifications = db.query(Notification).filter(
             Notification.user_id == current_user.id,
             Notification.is_read == False
-        ).update({
-            "is_read": True,
-            "read_at": datetime.utcnow()
-        })
+        ).all()
+        
+        # Update them
+        now = datetime.utcnow()
+        count = 0
+        
+        for notification in unread_notifications:
+            notification.is_read = True
+            notification.read_at = now
+            count += 1
         
         db.commit()
         
-        return {"message": "All notifications marked as read"}
+        return {"success": True, "message": f"Marked {count} notifications as read"}
+        
     except Exception as e:
+        logger.error(f"Error marking all notifications as read: {str(e)}")
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error marking notifications as read: {str(e)}"
+            detail="Error marking all notifications as read"
         )
 
 @router.delete("/notifications/{notification_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_notification(
-    notification_id: uuid.UUID = Path(..., description="The ID of the notification to delete"),
-    current_user: User = Depends(auth_handler.get_current_user),
+    notification_id: str,
+    current_user: AuthUser = Depends(get_current_user_dependency()),
     db: Session = Depends(get_db)
 ):
     """
     Delete a notification.
-    Users can only delete their own notifications.
     """
     try:
         notification = db.query(Notification).filter(
@@ -176,25 +185,27 @@ async def delete_notification(
         ).first()
         
         if not notification:
-            raise NotFoundException(f"Notification with ID {notification_id} not found")
+            raise NotFoundException(f"Notification {notification_id} not found")
         
         db.delete(notification)
         db.commit()
         
-        return None
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+        
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
+        logger.error(f"Error deleting notification: {str(e)}")
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error deleting notification: {str(e)}"
+            detail="Error deleting notification"
         )
 
 @router.get("/notification-templates", response_model=List[NotificationTemplateResponse])
 async def list_notification_templates(
     type: Optional[str] = Query(None, description="Filter by notification type"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: AuthUser = Depends(get_admin_dependency()),
     db: Session = Depends(get_db)
 ):
     """
@@ -219,7 +230,7 @@ async def list_notification_templates(
 @router.post("/notification-templates", response_model=NotificationTemplateResponse, status_code=status.HTTP_201_CREATED)
 async def create_notification_template(
     template_data: NotificationTemplateCreate = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: AuthUser = Depends(get_admin_dependency()),
     db: Session = Depends(get_db)
 ):
     """
@@ -251,7 +262,7 @@ async def create_notification_template(
 @router.get("/notification-templates/{template_id}", response_model=NotificationTemplateResponse)
 async def get_notification_template(
     template_id: uuid.UUID = Path(..., description="The ID of the template to retrieve"),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: AuthUser = Depends(get_admin_dependency()),
     db: Session = Depends(get_db)
 ):
     """
@@ -277,7 +288,7 @@ async def get_notification_template(
 async def update_notification_template(
     template_id: uuid.UUID = Path(..., description="The ID of the template to update"),
     template_data: NotificationTemplateUpdate = Body(...),
-    current_user: User = Depends(auth_handler.verify_manager_or_admin),
+    current_user: AuthUser = Depends(get_admin_dependency()),
     db: Session = Depends(get_db)
 ):
     """
@@ -314,7 +325,7 @@ async def update_notification_template(
 @router.delete("/notification-templates/{template_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_notification_template(
     template_id: uuid.UUID = Path(..., description="The ID of the template to delete"),
-    current_user: User = Depends(auth_handler.verify_admin),
+    current_user: AuthUser = Depends(get_admin_dependency()),
     db: Session = Depends(get_db)
 ):
     """

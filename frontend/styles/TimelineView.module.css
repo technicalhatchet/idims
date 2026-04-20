@@ -1,0 +1,394 @@
+.timelineContainer {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 250px);
+  min-height: 2200px;
+  width: 99%;
+  margin-bottom: 20px;
+}
+
+/* Make sure the calendar shows the full height */
+.timelineContainer :global(.fc) {
+  height: 100% !important;
+  min-height: 900px !important;
+}
+
+/* Force the scroller to show all content */
+.timelineContainer :global(.fc-scroller) {
+  overflow: hidden !important;
+  height: auto !important;
+}
+
+/* Remove the overrides causing double scrollbars */
+.timelineContainer :global(.fc-scroller-liquid-absolute) {
+  position: absolute !important; /* Let FullCalendar handle positioning */
+  overflow: hidden !important;
+}
+
+/* Remove height constraints on slots */
+.timelineContainer :global(.fc-timegrid-slots),
+.timelineContainer :global(.fc-timegrid-body) {
+  min-height: auto !important;
+}
+
+/* Dark mode support */
+:global(.dark) .timelineContainer {
+  background-color: #1f2937; /* dark:bg-gray-800 */
+}
+
+/* Event block styling */
+.eventBlock {
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.25rem;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.eventHeader {
+  margin-bottom: 0.1rem;
+}
+
+.eventTitle {
+  font-weight: 600;
+  font-size: 0.68rem;
+  line-height: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventTime {
+  font-size: 0.65rem;
+  line-height: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 0.1rem;
+}
+
+.basicInfo {
+  margin: 0.1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.detailsSection {
+  margin-top: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.eventLocation {
+  font-size: 0.65rem;
+  line-height: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.8;
+}
+
+.technicianName, .clientName {
+  font-size: 0.65rem;
+  line-height: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  display: inline-block;
+  margin-right: 0.2rem;
+  font-size: 0.7rem;
+}
+
+.eventStatus {
+  font-size: 0.62rem;
+  line-height: 0.9rem;
+  text-transform: capitalize;
+  margin-top: auto;
+  font-weight: 500;
+}
+
+/* Add these global styles to target FullCalendar elements */
+.timelineContainer :global(.fc-timegrid-slot-label) {
+  font-weight: 500;
+}
+
+/* Fix dark mode text colors */
+:global(.dark) .timelineContainer :global(.fc-timegrid-axis-cushion),
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot-label-cushion),
+:global(.dark) .timelineContainer :global(.fc-col-header-cell-cushion) {
+  color: #f3f4f6 !important; /* dark:text-gray-100 */
+}
+
+/* Fix dark mode background colors */
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot),
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot-lane),
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot-minor),
+:global(.dark) .timelineContainer :global(.fc-col-header-cell) {
+  background-color: #1f2937 !important; /* dark:bg-gray-800 */
+}
+
+/* Fix dark mode border colors */
+:global(.dark) .timelineContainer :global(.fc-timegrid-divider),
+:global(.dark) .timelineContainer :global(.fc-theme-standard .fc-scrollgrid),
+:global(.dark) .timelineContainer :global(.fc-theme-standard td),
+:global(.dark) .timelineContainer :global(.fc-theme-standard th),
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot-lane) {
+  border-color: #4b5563 !important; /* dark:border-gray-600 */
+}
+
+/* Make events stand out more */
+.timelineContainer :global(.fc-event) {
+  border-width: 1px;
+  border-radius: 0.25rem;
+  margin: 1px 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  min-height: 30px;
+}
+
+/* Buttons styling */
+:global(.dark) .timelineContainer :global(.fc-button-primary) {
+  background-color: #374151 !important; /* dark:bg-gray-700 */
+  border-color: #4b5563 !important; /* dark:border-gray-600 */
+  color: #f3f4f6 !important; /* dark:text-gray-100 */
+}
+
+:global(.dark) .timelineContainer :global(.fc-button-primary:hover) {
+  background-color: #4b5563 !important; /* dark:bg-gray-600 */
+}
+
+/* Make time slots taller */
+.timelineContainer :global(.fc-timegrid-slot) {
+  height: 36px !important; /* Taller time slots for 15-minute segments */
+}
+
+/* Highlight hour boundaries more prominently */
+.timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="00:00"]) {
+  border-top: 2px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="00:00"]) {
+  border-top: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Style for quarter-hour lines (lighter) */
+.timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="15:00"]),
+.timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="45:00"]) {
+  border-top: 1px dashed rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Special styling for half-hour lines (orange) */
+.timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="30:00"]) {
+  border-top: 1px dashed #f97316 !important; /* orange-500 */
+}
+
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="15:00"]),
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="45:00"]) {
+  border-top: 1px dashed rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Dark mode styling for half-hour lines */
+:global(.dark) .timelineContainer :global(.fc-timegrid-slot.fc-timegrid-slot-lane[data-time$="30:00"]) {
+  border-top: 1px dashed #f97316 !important; /* orange-500 */
+}
+
+/* Fix all header cells including corner cells */
+.timelineContainer :global(.fc-col-header tr th),
+.timelineContainer :global(.fc-col-header tr th:first-child),
+.timelineContainer :global(.fc-col-header tr th:last-child),
+.timelineContainer :global(.fc-timegrid-axis),
+.timelineContainer :global(.fc-timegrid-axis-frame),
+.timelineContainer :global(.fc-timegrid-axis-cushion),
+.timelineContainer :global(.fc-scrollgrid-shrink-cushion),
+.timelineContainer :global(.fc-scrollgrid-sync-inner) {
+  background-color: #f3f4f6 !important;
+}
+
+:global(.dark) .timelineContainer :global(.fc-col-header tr th),
+:global(.dark) .timelineContainer :global(.fc-col-header tr th:first-child),
+:global(.dark) .timelineContainer :global(.fc-col-header tr th:last-child),
+:global(.dark) .timelineContainer :global(.fc-timegrid-axis),
+:global(.dark) .timelineContainer :global(.fc-timegrid-axis-frame),
+:global(.dark) .timelineContainer :global(.fc-timegrid-axis-cushion),
+:global(.dark) .timelineContainer :global(.fc-scrollgrid-shrink-cushion),
+:global(.dark) .timelineContainer :global(.fc-scrollgrid-sync-inner) {
+  background-color: #1f2937 !important; /* dark:bg-gray-800 */
+}
+
+/* More styling for consistent header backgrounds */
+.timelineContainer :global(.fc-col-header),
+.timelineContainer :global(.fc-col-header-cell) {
+  background-color: #f3f4f6 !important;
+}
+
+:global(.dark) .timelineContainer :global(.fc-col-header),
+:global(.dark) .timelineContainer :global(.fc-col-header-cell) {
+  background-color: #1f2937 !important;
+}
+
+/* Make sure top border is consistent */
+.timelineContainer :global(.fc-scrollgrid-section-header),
+.timelineContainer :global(.fc-scrollgrid-section) {
+  background-color: #f3f4f6 !important;
+}
+
+:global(.dark) .timelineContainer :global(.fc-scrollgrid-section-header),
+:global(.dark) .timelineContainer :global(.fc-scrollgrid-section) {
+  background-color: #1f2937 !important;
+}
+
+.appointmentType {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  font-style: italic;
+}
+
+.appointmentBadge {
+  font-size: 0.6rem;
+  background-color: rgba(79, 70, 229, 0.3);
+  color: white;
+  padding: 0.05rem 0.2rem;
+  border-radius: 0.2rem;
+  display: inline-block;
+  margin-top: 0.1rem;
+  font-weight: 500;
+}
+
+.workOrderBadge {
+  font-size: 0.6rem;
+  background-color: rgba(236, 72, 153, 0.3); /* Pink color */
+  color: white;
+  padding: 0.05rem 0.2rem;
+  border-radius: 0.2rem;
+  display: inline-block;
+  margin-top: 0.1rem;
+  font-weight: 500;
+}
+
+.eventMicro {
+  font-size: 0.62rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Make the events more visible in smaller slots */
+.timelineContainer :global(.fc-event) {
+  min-height: 22px;
+  overflow: hidden;
+}
+
+.appointmentTypeBadge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  background-color: rgba(79, 70, 229, 0.3); /* indigo background */
+  color: white;
+  padding: 0.05rem 0.2rem;
+  border-radius: 0.2rem;
+  display: inline-block;
+  margin-bottom: 0.1rem;
+  text-transform: capitalize;
+}
+
+.clientPhone {
+  font-size: 0.65rem;
+  line-height: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tooltip styles */
+.eventTooltip {
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-width: 350px;
+  width: 300px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+:global(.dark) .eventTooltip {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.tooltipBlock {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tooltipHeader {
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+:global(.dark) .tooltipHeader {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tooltipTitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.tooltipTime {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tooltipSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-bottom: 0.25rem;
+  color: #4b5563;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.25rem;
+}
+
+:global(.dark) .sectionTitle {
+  color: #d1d5db;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.description {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  white-space: pre-wrap;
+  margin-top: 0.25rem;
+}

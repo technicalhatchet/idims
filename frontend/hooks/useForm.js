@@ -29,18 +29,35 @@ export function useForm(initialValues = {}, onSubmit, validate) {
   // Handle input change
   const handleChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
-    const fieldValue = type === 'checkbox' ? checked : value;
     
-    setValues(prev => ({
-      ...prev,
-      [name]: fieldValue
-    }));
+    // Handle checkbox inputs
+    if (type === 'checkbox') {
+      setValues(prev => ({
+        ...prev,
+        [name]: checked
+      }));
+    } 
+    // Handle select inputs
+    else if (type === 'select-one') {
+      console.log(`[useForm] Select change: ${name} = ${value}`);
+      setValues(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    } 
+    // Handle all other inputs
+    else {
+      setValues(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
     
-    // Clear error on change
+    // Clear error when user makes a change
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
-        [name]: undefined
+        [name]: ''
       }));
     }
   }, [errors]);

@@ -1,27 +1,34 @@
 // src/pages/quotes/new.js
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
+import { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import QuoteForm from '../../components/quotes/QuoteForm';
-import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+import { withPageAuthRequired } from '../../utils/auth0-helpers';
 
 function NewQuote() {
-  // Check authorization (only managers and admins)
-  useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
-
+  const router = useRouter();
+  const { clientId } = router.query;
+  
   return (
     <>
       <Head>
-        <title>New Quote | Service Business Management</title>
+        <title>Create New Quote | Service Business Management</title>
       </Head>
 
       <div className="px-4 py-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">Create New Quote</h1>
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Link href="/quotes" className="text-blue-600 hover:text-blue-800">
+              ← Back to Quotes
+            </Link>
+            <h1 className="text-2xl font-bold mt-2">Create New Quote</h1>
+          </div>
         </div>
-
+        
         <div className="bg-white shadow rounded-lg p-6">
-          <QuoteForm />
+          <QuoteForm clientId={clientId} />
         </div>
       </div>
     </>
@@ -32,13 +39,5 @@ NewQuote.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(ctx) {
-    return {
-      props: {}
-    };
-  }
-});
-
-export default NewQuote;
+export default withPageAuthRequired(NewQuote);
 

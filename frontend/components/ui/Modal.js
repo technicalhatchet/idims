@@ -37,17 +37,17 @@ export default function Modal({
         </span>
 
         {/* Modal panel */}
-        <div className={`inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full ${sizeClasses[size]}`}>
+        <div className={`inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full ${sizeClasses[size]}`}>
           {/* Header */}
           {title && (
-            <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 sm:px-6 flex justify-between items-center">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+            <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-gray-200 dark:border-gray-700 sm:px-6 flex justify-between items-center">
+              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
                 {title}
               </h3>
               {!preventClose && (
                 <button
                   type="button"
-                  className="text-gray-400 hover:text-gray-500"
+                  className="text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
                   onClick={onClose}
                   ref={cancelButtonRef}
                   aria-label="Close"
@@ -59,13 +59,13 @@ export default function Modal({
           )}
 
           {/* Content */}
-          <div className="bg-white px-4 py-5 sm:p-6">
+          <div className="bg-white dark:bg-gray-800 px-4 py-5 sm:p-6 text-gray-900 dark:text-gray-200">
             {children}
           </div>
 
           {/* Actions */}
           {actions && (
-            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
               {actions}
             </div>
           )}

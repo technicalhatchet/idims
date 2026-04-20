@@ -1,35 +1,38 @@
 import { useState, useEffect } from 'react';
-import { useForm } from '@/hooks/useForm';
-import { TextInput, SelectInput, TextareaInput, Button } from '@/components/ui/FormElements';
-import { FaSave, FaTimes, FaCreditCard, FaMoneyBill, FaCheck } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import { apiClient } from '@/utils/fetchWithAuth';
+import { useForm } from '../../hooks/useForm';
+import { useClients } from '../../hooks/useClients';
+import { usePaymentMutations } from '../../hooks/usePayments';
+import { TextInput, SelectInput, TextareaInput, Button } from '../ui/FormElements';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import ErrorAlert from '../ui/ErrorAlert';
 
-export default function PaymentForm({ invoice = null, onComplete }) {
+export default function PaymentForm({ invoiceId = null, clientId = null }) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [clients, setClients] = useState([]);
-  const [invoices, setInvoices] = useState([]);
-  const [isLoadingClients, setIsLoadingClients] = useState(false);
-  const [isLoadingInvoices, setIsLoadingInvoices] = useState(false);
-  const [selectedClient, setSelectedClient] = useState(invoice?.client_id || '');
+  const [isProcessing, setIsProcessing] = useState(false);
   
+  // Fetch clients for the dropdown
+  const { data: clientsData, isLoading: isLoadingClients, error: clientsError } = useClients();
+  
+  // Get payment mutations
+  const { createPayment, isLoading: isMutationLoading } = usePaymentMutations();
+
   // Initialize form with default values
   const initialValues = {
-    invoice_id: invoice?.id || '',
-    amount: invoice?.balance?.toString() || '',
-    payment_method: 'credit_card',
+    client_id: clientId || '',
+    invoice_id: invoiceId || '',
+    amount: '',
+    payment_method: '',
     reference_number: '',
-    notes: '',
-    status: 'success'
+    notes: ''
   };
   
   // Form validation
   const validate = (values) => {
     const errors = {};
     
-    if (!values.invoice_id) {
-      errors.invoice_id = 'Invoice is required';
+    if (!values.client_id) {
+      errors.client_id = 'Client is required';
     }
     
     if (!values.amount) {
@@ -38,179 +41,126 @@ export default function PaymentForm({ invoice = null, onComplete }) {
       errors.amount = 'Amount must be a positive number';
     }
     
+    if (!values.payment_method) {
+      errors.payment_method = 'Payment method is required';
+    }
+    
     return errors;
   };
   
   // Form submission handler
   const handleSubmit = async (values) => {
-    setIsSubmitting(true);
+    setIsProcessing(true);
     
     try {
-      const paymentData = {
-        ...values,
-        amount: parseFloat(values.amount)
-      };
-      
-      const response = await apiClient('/api/payments', {
-        method: 'POST',
-        body: JSON.stringify(paymentData),
+      const result = await createPayment({
+        client_id: values.client_id,
+        invoice_id: values.invoice_id || null,
+        amount: parseFloat(values.amount),
+        payment_method: values.payment_method,
+        reference_number: values.reference_number,
+        notes: values.notes
       });
       
-      if (onComplete) {
-        onComplete(response);
-      } else {
-        router.push(`/payments/${response.id}`);
-      }
+      // Redirect to the payment details page
+      router.push(`/payments/${result.id}`);
     } catch (error) {
       console.error('Error creating payment:', error);
-      // Set form error
       form.setErrors({
-        _form: error.message || 'Failed to create payment. Please try again.'
+        _form: error.message || 'Failed to process payment. Please try again.'
       });
-    } finally {
-      setIsSubmitting(false);
+      setIsProcessing(false);
     }
   };
   
   const form = useForm(initialValues, handleSubmit, validate);
   
-  // Load clients for dropdown
+  // Set client and invoice if provided in props
   useEffect(() => {
-    const loadClients = async () => {
-      setIsLoadingClients(true);
-      
-      try {
-        const data = await apiClient('/api/clients?limit=100');
-        
-        setClients(data?.items?.map(client => ({
-          value: client.id,
-          label: client.company_name || `${client.first_name} ${client.last_name}`
-        })) || []);
-      } catch (error) {
-        console.error('Error loading clients:', error);
-      } finally {
-        setIsLoadingClients(false);
-      }
-    };
-    
-    loadClients();
-  }, []);
-  
-  // Load invoices for selected client
-  useEffect(() => {
-    const loadInvoices = async () => {
-      if (!selectedClient) {
-        setInvoices([]);
-        return;
-      }
-      
-      setIsLoadingInvoices(true);
-      
-      try {
-        // Get open invoices for selected client
-        const data = await apiClient(`/api/invoices?client_id=${selectedClient}&status=sent,overdue&limit=100`);
-        
-        setInvoices(data?.items?.map(invoice => ({
-          value: invoice.id,
-          label: `${invoice.invoice_number} ($${invoice.balance.toFixed(2)} due)`
-        })) || []);
-      } catch (error) {
-        console.error('Error loading invoices:', error);
-      } finally {
-        setIsLoadingInvoices(false);
-      }
-    };
-    
-    loadInvoices();
-  }, [selectedClient]);
-  
-  // Set invoice amount when invoice selection changes
-  const handleInvoiceChange = async (e) => {
-    const invoiceId = e.target.value;
-    form.handleChange(e);
-    
-    if (!invoiceId) {
-      form.setFormValues({ amount: '' });
-      return;
+    if (clientId) {
+      form.setFormValues({ client_id: clientId });
     }
-    
-    try {
-      const invoice = await apiClient(`/api/invoices/${invoiceId}`);
-      form.setFormValues({ amount: invoice.balance.toString() });
-    } catch (error) {
-      console.error('Error loading invoice details:', error);
+    if (invoiceId) {
+      form.setFormValues({ invoice_id: invoiceId });
     }
-  };
+  }, [clientId, invoiceId]);
+  
+  if (isLoadingClients) {
+    return <LoadingSpinner />;
+  }
+  
+  if (clientsError) {
+    return <ErrorAlert message="Failed to load clients" />;
+  }
+  
+  const paymentMethods = [
+    { value: 'credit_card', label: 'Credit Card' },
+    { value: 'bank_transfer', label: 'Bank Transfer' },
+    { value: 'cash', label: 'Cash' },
+    { value: 'check', label: 'Check' },
+    { value: 'paypal', label: 'PayPal' },
+    { value: 'other', label: 'Other' }
+  ];
+  
+  const clientOptions = clientsData?.items?.map(client => ({
+    value: client.id,
+    label: client.company_name || `${client.first_name} ${client.last_name}`
+  })) || [];
   
   return (
     <form onSubmit={form.handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {!invoice && (
-          <SelectInput
-            label="Client"
-            name="client_id"
-            value={selectedClient}
-            onChange={(e) => {
-              setSelectedClient(e.target.value);
-              form.setFormValues({ invoice_id: '' });
-            }}
-            onBlur={form.handleBlur}
-            error={form.touched.client_id && form.errors.client_id}
-            options={clients}
-            isLoading={isLoadingClients}
-            emptyOption="Select Client..."
-            required
-          />
-        )}
-        
-        <SelectInput
-          label="Invoice"
-          name="invoice_id"
-          value={form.values.invoice_id}
-          onChange={handleInvoiceChange}
-          onBlur={form.handleBlur}
-          error={form.touched.invoice_id && form.errors.invoice_id}
-          options={invoices}
-          isLoading={isLoadingInvoices}
-          emptyOption="Select Invoice..."
-          required
-          disabled={!!invoice}
-        />
-      </div>
+      {/* Client selection */}
+      <SelectInput
+        label="Client"
+        name="client_id"
+        options={clientOptions}
+        value={form.values.client_id}
+        onChange={form.handleChange}
+        onBlur={form.handleBlur}
+        error={form.touched.client_id && form.errors.client_id}
+        required
+        disabled={!!clientId}
+      />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <TextInput
-          label="Amount"
-          name="amount"
-          type="number"
-          step="0.01"
-          min="0.01"
-          value={form.values.amount}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.amount && form.errors.amount}
-          required
-        />
-        
-        <SelectInput
-          label="Payment Method"
-          name="payment_method"
-          value={form.values.payment_method}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          error={form.touched.payment_method && form.errors.payment_method}
-          options={[
-            { value: 'credit_card', label: 'Credit Card' },
-            { value: 'cash', label: 'Cash' },
-            { value: 'check', label: 'Check' },
-            { value: 'bank_transfer', label: 'Bank Transfer' },
-            { value: 'paypal', label: 'PayPal' },
-            { value: 'other', label: 'Other' }
-          ]}
-          required
-        />
-      </div>
+      {/* Invoice ID (optional) */}
+      <TextInput
+        label="Invoice ID (optional)"
+        name="invoice_id"
+        value={form.values.invoice_id}
+        onChange={form.handleChange}
+        onBlur={form.handleBlur}
+        error={form.touched.invoice_id && form.errors.invoice_id}
+        disabled={!!invoiceId}
+        helpText="Leave blank if this is not associated with an invoice"
+      />
       
+      {/* Amount */}
+      <TextInput
+        label="Amount"
+        name="amount"
+        type="number"
+        step="0.01"
+        min="0.01"
+        value={form.values.amount}
+        onChange={form.handleChange}
+        onBlur={form.handleBlur}
+        error={form.touched.amount && form.errors.amount}
+        required
+      />
+      
+      {/* Payment Method */}
+      <SelectInput
+        label="Payment Method"
+        name="payment_method"
+        options={paymentMethods}
+        value={form.values.payment_method}
+        onChange={form.handleChange}
+        onBlur={form.handleBlur}
+        error={form.touched.payment_method && form.errors.payment_method}
+        required
+      />
+      
+      {/* Reference Number */}
       <TextInput
         label="Reference Number"
         name="reference_number"
@@ -218,9 +168,10 @@ export default function PaymentForm({ invoice = null, onComplete }) {
         onChange={form.handleChange}
         onBlur={form.handleBlur}
         error={form.touched.reference_number && form.errors.reference_number}
-        placeholder="Transaction ID, check number, etc."
+        helpText="Reference number for this payment (e.g., check number, transaction ID)"
       />
       
+      {/* Notes */}
       <TextareaInput
         label="Notes"
         name="notes"
@@ -230,20 +181,6 @@ export default function PaymentForm({ invoice = null, onComplete }) {
         onBlur={form.handleBlur}
         error={form.touched.notes && form.errors.notes}
         placeholder="Additional notes about this payment"
-      />
-      
-      <SelectInput
-        label="Status"
-        name="status"
-        value={form.values.status}
-        onChange={form.handleChange}
-        onBlur={form.handleBlur}
-        error={form.touched.status && form.errors.status}
-        options={[
-          { value: 'success', label: 'Success' },
-          { value: 'pending', label: 'Pending' }
-        ]}
-        required
       />
       
       {/* Form-level error */}
@@ -256,7 +193,7 @@ export default function PaymentForm({ invoice = null, onComplete }) {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">Payment error</h3>
+              <h3 className="text-sm font-medium text-red-800">Error</h3>
               <div className="mt-2 text-sm text-red-700">
                 <p>{form.errors._form}</p>
               </div>
@@ -271,16 +208,14 @@ export default function PaymentForm({ invoice = null, onComplete }) {
           type="button"
           variant="outline"
           onClick={() => router.back()}
-          icon={<FaTimes />}
         >
           Cancel
         </Button>
         <Button
           type="submit"
           variant="primary"
-          isLoading={form.isSubmitting || isSubmitting}
-          disabled={form.isSubmitting || isSubmitting}
-          icon={<FaSave />}
+          isLoading={form.isSubmitting || isProcessing || isMutationLoading}
+          disabled={form.isSubmitting || isProcessing || isMutationLoading}
         >
           Process Payment
         </Button>

@@ -1,0 +1,59 @@
+/* FullCalendar customizations */
+.fc-timeline-slot-cushion {
+  font-weight: 500;
+}
+
+.fc-timeline-slot {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .fc-timeline-slot {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fc-resource-timeline-divider {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .fc-resource-timeline-divider {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.fc-timeline-event {
+  border-radius: 0.25rem;
+}
+
+.fc .fc-resource-timeline-divider {
+  cursor: col-resize;
+  width: 3px;
+}
+
+.fc .fc-timeline-event-harness {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+/* Dark mode calendar styles */
+.dark .fc-theme-standard .fc-scrollgrid,
+.dark .fc-theme-standard td,
+.dark .fc-theme-standard th {
+  border-color: #374151; /* dark:border-gray-700 */
+}
+
+.dark .fc-col-header-cell-cushion,
+.dark .fc-timeline-slot-cushion,
+.dark .fc-daygrid-day-number,
+.dark .fc-list-day-text,
+.dark .fc-list-day-side-text {
+  color: #f9fafb; /* dark:text-gray-50 */
+}
+
+.dark .fc-button-primary {
+  background-color: #1f2937; /* dark:bg-gray-800 */
+  border-color: #374151; /* dark:border-gray-700 */
+  color: #f9fafb; /* dark:text-gray-50 */
+}
+
+.dark .fc-button-primary:hover {
+  background-color: #374151; /* dark:bg-gray-700 */
+} 

@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { useForm } from '@/hooks/useForm';
-import { TextInput, TextareaInput, Button } from '@/components/ui/FormElements';
-import { FaSave, FaTimes } from 'react-icons/fa';
+import { useForm } from '../../hooks/useForm';
+import { TextInput, TextareaInput, Button } from '../../components/ui/FormElements';
 
 export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }) {
+  const [isFullRefund, setIsFullRefund] = useState(true);
+  
   // Initialize form with default values
   const initialValues = {
-    amount: payment?.amount?.toString() || '0',
+    amount: payment?.amount || 0,
     reason: ''
   };
   
@@ -19,7 +20,11 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
     } else if (isNaN(parseFloat(values.amount)) || parseFloat(values.amount) <= 0) {
       errors.amount = 'Amount must be a positive number';
     } else if (parseFloat(values.amount) > payment.amount) {
-      errors.amount = `Amount cannot exceed the payment amount of ${payment.amount.toFixed(2)}`;
+      errors.amount = 'Refund amount cannot exceed the payment amount';
+    }
+    
+    if (!values.reason) {
+      errors.reason = 'Reason is required';
     }
     
     return errors;
@@ -28,10 +33,7 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
   // Form submission handler
   const handleSubmit = async (values) => {
     try {
-      await onSubmit({
-        amount: parseFloat(values.amount),
-        reason: values.reason
-      });
+      await onSubmit(values);
     } catch (error) {
       console.error('Error processing refund:', error);
       // Set form error
@@ -43,15 +45,43 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
   
   const form = useForm(initialValues, handleSubmit, validate);
   
+  const handleFullRefundToggle = (e) => {
+    const fullRefund = e.target.checked;
+    setIsFullRefund(fullRefund);
+    
+    if (fullRefund) {
+      form.setFieldValue('amount', payment.amount);
+    }
+  };
+  
   return (
-    <form onSubmit={form.handleSubmit} className="space-y-6">
-      <div>
-        <p className="text-sm text-gray-700 mb-4">
-          You are about to refund payment: <strong>{payment.payment_number}</strong>
-        </p>
-        <p className="text-sm text-gray-700 mb-4">
-          Original payment amount: <strong>${payment.amount.toFixed(2)}</strong>
-        </p>
+    <form onSubmit={form.handleSubmit} className="space-y-6 p-6">
+      <div className="bg-gray-50 p-4 rounded-md mb-4">
+        <div className="font-medium mb-2">Payment Information</div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <span className="text-sm text-gray-500 block">Payment #:</span>
+            <span className="text-sm">{payment.payment_number}</span>
+          </div>
+          <div>
+            <span className="text-sm text-gray-500 block">Original Amount:</span>
+            <span className="text-sm font-medium">${payment.amount.toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex items-center">
+        <input
+          id="full-refund"
+          name="full-refund"
+          type="checkbox"
+          checked={isFullRefund}
+          onChange={handleFullRefundToggle}
+          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+        />
+        <label htmlFor="full-refund" className="ml-2 block text-sm text-gray-900">
+          Full refund (${payment.amount.toFixed(2)})
+        </label>
       </div>
       
       <TextInput
@@ -65,6 +95,7 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
         onChange={form.handleChange}
         onBlur={form.handleBlur}
         error={form.touched.amount && form.errors.amount}
+        disabled={isFullRefund}
         required
       />
       
@@ -76,7 +107,8 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
         onChange={form.handleChange}
         onBlur={form.handleBlur}
         error={form.touched.reason && form.errors.reason}
-        placeholder="Describe the reason for this refund"
+        placeholder="Please provide a reason for this refund"
+        required
       />
       
       {/* Form-level error */}
@@ -89,7 +121,7 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">Refund error</h3>
+              <h3 className="text-sm font-medium text-red-800">Error</h3>
               <div className="mt-2 text-sm text-red-700">
                 <p>{form.errors._form}</p>
               </div>
@@ -99,12 +131,11 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
       )}
       
       {/* Form actions */}
-      <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+      <div className="flex justify-end space-x-3">
         <Button
           type="button"
           variant="outline"
           onClick={onCancel}
-          icon={<FaTimes />}
         >
           Cancel
         </Button>
@@ -113,7 +144,6 @@ export default function RefundForm({ payment, onCancel, onSubmit, isSubmitting }
           variant="danger"
           isLoading={form.isSubmitting || isSubmitting}
           disabled={form.isSubmitting || isSubmitting}
-          icon={<FaSave />}
         >
           Process Refund
         </Button>

@@ -1,103 +1,118 @@
-import { apiClient } from '@/utils/fetchWithAuth';
+import { apiClient } from '../../utils/api-client';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
-
-/**
- * Get schedule data for a date range
- */
-export async function getSchedule(
-  startDate, 
-  endDate, 
-  technicianId = null, 
-  clientId = null, 
-  viewType = 'day'
-) {
-  const queryParams = new URLSearchParams();
-  
-  // Required parameters
-  queryParams.append('start_date', startDate.toISOString());
-  queryParams.append('end_date', endDate.toISOString());
-  queryParams.append('view_type', viewType);
-  
-  // Optional filters
-  if (technicianId) queryParams.append('technician_id', technicianId);
-  if (clientId) queryParams.append('client_id', clientId);
-  
-  return apiClient(`${API_URL}/api/schedule?${queryParams.toString()}`);
+function toDateParam(value) {
+  if (!value) return null;
+  if (value instanceof Date) {
+    return value.toISOString().split('T')[0];
+  }
+  if (typeof value === 'string' && value.includes('T')) {
+    return value.split('T')[0];
+  }
+  return String(value);
 }
 
 /**
- * Schedule an appointment
+ * GET /api/scheduling/schedule — calendar / list view data for a date range.
+ *
+ * @param {Date|string} startDate
+ * @param {Date|string} endDate
+ * @param {string} [technicianId]
+ * @param {string} [clientId]
+ * @param {string} [viewType] — day | week | month | list
+ */
+export async function getSchedule(
+  startDate,
+  endDate,
+  technicianId,
+  clientId,
+  viewType = 'day'
+) {
+  if (!startDate || !endDate) {
+    throw new Error('getSchedule requires startDate and endDate');
+  }
+  const params = new URLSearchParams();
+  params.append('start_date', toDateParam(startDate));
+  params.append('end_date', toDateParam(endDate));
+  params.append('view_type', viewType || 'day');
+  if (technicianId) params.append('technician_id', technicianId);
+  if (clientId) params.append('client_id', clientId);
+  return apiClient(`scheduling/schedule?${params.toString()}`);
+}
+
+/**
+ * POST /api/scheduling/schedule — assign times / technician on a work order.
+ *
+ * @param {string} workOrderId — UUID
+ * @param {string|Date} startTime — ISO datetime
+ * @param {string|Date} endTime — ISO datetime
+ * @param {string} [technicianId]
+ * @param {string} [notes]
  */
 export async function scheduleAppointment(
-  workOrderId, 
-  startTime, 
-  endTime, 
-  technicianId = null, 
-  notes = null
+  workOrderId,
+  startTime,
+  endTime,
+  technicianId,
+  notes
 ) {
-  return apiClient(`${API_URL}/api/schedule`, {
+  const start =
+    startTime instanceof Date ? startTime.toISOString() : startTime;
+  const end = endTime instanceof Date ? endTime.toISOString() : endTime;
+  return apiClient('scheduling/schedule', {
     method: 'POST',
     body: JSON.stringify({
       work_order_id: workOrderId,
-      start_time: startTime instanceof Date ? startTime.toISOString() : startTime,
-      end_time: endTime instanceof Date ? endTime.toISOString() : endTime,
-      technician_id: technicianId,
-      notes: notes
+      start_time: start,
+      end_time: end,
+      technician_id: technicianId || null,
+      notes: notes || null,
     }),
   });
 }
 
 /**
- * Get available appointment slots for a date
+ * GET /api/scheduling/schedule/available-slots
+ *
+ * @param {Date|string} date — day to search (YYYY-MM-DD or Date)
+ * @param {string} [technicianId]
+ * @param {number} [durationMinutes]
  */
-export async function getAvailableSlots(
-  date, 
-  technicianId = null, 
-  durationMinutes = 60
-) {
-  const queryParams = new URLSearchParams();
-  
-  // Required parameters
-  queryParams.append('date', date.toISOString());
-  queryParams.append('duration_minutes', durationMinutes);
-  
-  // Optional filters
-  if (technicianId) queryParams.append('technician_id', technicianId);
-  
-  return apiClient(`${API_URL}/api/schedule/available-slots?${queryParams.toString()}`);
+export async function getAvailableSlots(date, technicianId, durationMinutes = 60) {
+  if (!date) {
+    throw new Error('getAvailableSlots requires date');
+  }
+  const params = new URLSearchParams();
+  params.append('date', toDateParam(date));
+  params.append('duration_minutes', String(durationMinutes ?? 60));
+  if (technicianId) params.append('technician_id', technicianId);
+  return apiClient(`scheduling/schedule/available-slots?${params.toString()}`);
 }
 
 /**
- * Check technician availability
+ * Preview bookable slots without creating a work order.
+ * Uses GET /api/scheduling/appointment-preview-slots (conflicts from WorkOrderAppointment rows).
+ *
+ * @param {Object} opts
+ * @param {string} opts.date - YYYY-MM-DD
+ * @param {string} [opts.technicianId]
+ * @param {number} [opts.durationMinutes]
+ * @param {string[]} [opts.serviceIds] - if set, duration = sum of service duration_minutes
  */
-export async function getTechnicianScheduleAvailability(
-  technicianId, 
-  startDate, 
-  endDate
-) {
-  const queryParams = new URLSearchParams();
-  queryParams.append('start_date', startDate.toISOString());
-  queryParams.append('end_date', endDate.toISOString());
-  
-  return apiClient(`${API_URL}/api/technicians/${technicianId}/availability?${queryParams.toString()}`);
-}
-
-/**
- * Get conflicts for a time slot
- */
-export async function getScheduleConflicts(
-  startTime, 
-  endTime, 
-  technicianId = null,
-  excludeWorkOrderId = null
-) {
-  const queryParams = new URLSearchParams();
-  queryParams.append('start_time', startTime.toISOString());
-  queryParams.append('end_time', endTime.toISOString());
-  
-  if (technicianId) queryParams.append('technician_id', technicianId);
-  if (excludeWorkOrderId) queryParams.append('exclude_work_order_id', excludeWorkOrderId);
-  
-  return apiClient(`${API_URL}/api/schedule/conflicts?${queryParams.toString()}`);
+export async function getAppointmentPreviewSlots(opts = {}) {
+  const { date, technicianId, durationMinutes, serviceIds } = opts;
+  if (!date) {
+    throw new Error('date is required (YYYY-MM-DD)');
+  }
+  const params = new URLSearchParams();
+  params.append('date', date);
+  if (technicianId) {
+    params.append('technician_id', technicianId);
+  }
+  if (durationMinutes != null && durationMinutes !== '') {
+    params.append('duration_minutes', String(durationMinutes));
+  }
+  if (serviceIds && serviceIds.length > 0) {
+    serviceIds.forEach((id) => params.append('service_ids', id));
+  }
+  return apiClient(`scheduling/appointment-preview-slots?${params.toString()}`);
 }

@@ -1,7 +1,10 @@
-from pydantic import BaseModel, validator, Field
-from typing import List, Dict, Any, Optional
+from pydantic import BaseModel, validator, Field, computed_field
+from typing import List, Dict, Any, Optional, Union
 from datetime import datetime
 from uuid import UUID
+from pydantic import ConfigDict
+import uuid
+from app.schemas.user import UserResponse  # Add this import for user relationship
 
 class TechnicianBase(BaseModel):
     """Base schema for Technician data"""
@@ -16,13 +19,30 @@ class TechnicianBase(BaseModel):
     service_radius: Optional[float] = None
     location: Optional[Dict[str, Any]] = None
 
-class TechnicianCreate(TechnicianBase):
+class TechnicianCreate(BaseModel):
     """Schema for creating a new technician"""
-    user_id: Optional[UUID] = None
+    user_id: Optional[uuid.UUID] = None
     user_email: Optional[str] = None
     user_first_name: Optional[str] = None
     user_last_name: Optional[str] = None
-    
+    employee_id: Optional[str] = None
+    skills: List[str] = []
+    certifications: Dict[str, Any] = {}
+    hourly_rate: Optional[float] = None
+    availability: Optional[Dict[str, Any]] = None
+    max_daily_jobs: Optional[int] = None
+    notes: Optional[str] = None
+    status: Optional[str] = "active"
+    service_radius: Optional[float] = None
+    location: Optional[Dict[str, Any]] = None
+
+    @validator('user_email')
+    def validate_user_email(cls, v, values):
+        """Validate that either user_id or user_email is provided"""
+        if not values.get('user_id') and not v:
+            raise ValueError("Either user_id or user_email must be provided")
+        return v
+
     @validator('status')
     def validate_status(cls, v):
         allowed_statuses = ["active", "inactive", "on_leave"]
@@ -46,13 +66,6 @@ class TechnicianCreate(TechnicianBase):
     def validate_service_radius(cls, v):
         if v is not None and v <= 0:
             raise ValueError("Service radius must be greater than zero")
-        return v
-    
-    @validator('user_id', 'user_email')
-    def validate_user_info(cls, v, values):
-        # Either user_id or (user_email + names) must be provided
-        if not values.get('user_id') and not values.get('user_email'):
-            raise ValueError("Either user_id or user_email must be provided")
         return v
 
 class TechnicianUpdate(BaseModel):
@@ -95,25 +108,50 @@ class TechnicianUpdate(BaseModel):
         return v
 
 class TechnicianResponse(TechnicianBase):
-    """Schema for technician response"""
+    """Technician response schema"""
     id: UUID
-    user_id: UUID
-    user: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
+    created_by: Optional[UUID] = None
+    updated_by: Optional[UUID] = None
+    user: Optional['UserResponse'] = None  # Include user data in the response
+    model_config = ConfigDict(from_attributes=True)
+
+    @computed_field
+    @property
+    def name(self) -> str:
+        """Display name for UIs (ORM `Technician.name` is not serialized by default)."""
+        if self.user:
+            parts = [self.user.first_name or "", self.user.last_name or ""]
+            label = " ".join(p for p in parts if p).strip()
+            if label:
+                return label
+            return str(self.user.email) if self.user.email else "Unknown"
+        return "Unknown"
     
-    class Config:
-        orm_mode = True
+    @validator('certifications')
+    def convert_certifications_to_dict(cls, v):
+        """Convert empty lists or None to empty dictionary for certifications field"""
+        if v is None or (isinstance(v, list) and len(v) == 0):
+            return {}
+        return v
 
 class TechnicianListResponse(BaseModel):
-    """Schema for paginated list of technicians"""
-    total: int
+    """Technician list response schema"""
     items: List[TechnicianResponse]
+    total: int
     page: int
     pages: int
+    model_config = ConfigDict(from_attributes=True)
     
-    class Config:
-        orm_mode = True
+    @validator('items')
+    def validate_technician_items(cls, v):
+        """Ensure certifications are dictionaries in all technician items"""
+        for item in v:
+            if hasattr(item, 'certifications'):
+                if item.certifications is None or (isinstance(item.certifications, list) and len(item.certifications) == 0):
+                    item.certifications = {}
+        return v
 
 class TechnicianPerformanceMetric(BaseModel):
     """Schema for technician performance metric"""
@@ -142,3 +180,14 @@ class TechnicianWorkload(BaseModel):
     jobs_by_day: Dict[str, int]
     utilization_rate: float  # Percentage of available hours used
     jobs: List[Dict[str, Any]]  # Simplified list of jobs
+
+class TechnicianAvailability(BaseModel):
+    """Schema for technician availability"""
+    technician_id: UUID
+    technician_name: str
+    date: datetime
+    is_available: bool
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    reason: Optional[str] = None
+    model_config = ConfigDict(from_attributes=True)

@@ -6,18 +6,33 @@ import {
   FaTachometerAlt, FaClipboardList, FaCalendarAlt, FaFileInvoiceDollar, 
   FaUsers, FaWrench, FaCog, FaBars, FaTimes, FaSignOutAlt, FaMoon, FaSun
 } from 'react-icons/fa';
+import Head from 'next/head';
 
 import NotificationsDropdown from '../notifications/NotificationsDropdown';
 import UserDropdown from '../user/UserDropdown';
 import { useTheme } from '../../context/ThemeContext';
 import ErrorBoundary from '../../context/ErrorBoundary';
+import { getUserRole } from '../../utils/auth0-helpers';
+
+
+// Configure which components to load dynamically
+const displayNotifications = true;
+const displayThemeToggle = true;
 
 export default function DashboardLayout({ children }) {
+  // Call hooks in the same order on every render
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const { theme, toggleTheme } = useTheme();
-
+  
+  // First useEffect - client side detection
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  // Second useEffect - router events
   useEffect(() => {
     // Close sidebar on route change on mobile
     const handleRouteChange = () => {
@@ -31,12 +46,37 @@ export default function DashboardLayout({ children }) {
     };
   }, [router]);
 
-  // Handle auth redirects
+  // Third useEffect - auth redirects
   useEffect(() => {
     if (!isLoading && !user) {
       router.push('/api/auth/login');
     }
   }, [user, isLoading, router]);
+
+  // Fourth useEffect - debug user info
+  useEffect(() => {
+    if (user) {
+      console.log('AUTH USER OBJECT:', user);
+      console.log('User roles property:', user['https://idimsapi/roles']);
+      console.log('User app_metadata:', user['https://idimsapi/app_metadata']);
+      
+      // Check role using the shared function
+      const detectedRole = getUserRole(user);
+      console.log('Role detected by getUserRole():', detectedRole);
+    }
+  }, [user]);
+
+  // Ensure dark mode applies correctly on page load and after navigation
+  useEffect(() => {
+    if (mounted) {
+      // Apply the theme from context to the document
+      if (theme.mode === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  }, [theme.mode, mounted, router.asPath]);
 
   if (isLoading) {
     return (
@@ -49,22 +89,22 @@ export default function DashboardLayout({ children }) {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Authentication Error</h1>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">{error.message}</p>
-          <button
-            onClick={() => router.push('/api/auth/login')}
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Authentication Error</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">{error.message}</p>
+          <Link 
+            href="/api/auth/login"
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Try Again
-          </button>
+          </Link>
         </div>
       </div>
     );
   }
 
   if (!user) {
-    return null; // Will redirect via useEffect
+    return null;
   }
 
   // Get navigation items based on user role
@@ -78,8 +118,8 @@ export default function DashboardLayout({ children }) {
       },
       {
         name: 'Work Orders',
-        href: '/work-orders',
-        icon: <FaClipboardList className="mr-3" />,
+        href: '/work_orders',
+        icon: <FaClipboardList className="mr-3 h-5 w-5" />,
         roles: ['admin', 'manager', 'technician', 'client'],
       },
       {
@@ -114,17 +154,37 @@ export default function DashboardLayout({ children }) {
       },
     ];
 
-    // Get user role from Auth0 metadata
-    const userRole = user['https://servicebusiness.com/roles']?.[0] || 'client';
+    // Debug output to help understand the structure
+    console.log('Full user object:', user);
+    console.log('Idimsapi app_metadata:', user['https://idimsapi/app_metadata']);
+    
+    // Get user role using the shared getUserRole function
+    const userRole = getUserRole(user);
+    
+    // Log detailed role detection information
+    console.log('Role detection - original value:', userRole);
+    console.log('Role detection - source:', userRole === 'admin' ? 'idimsapi/app_metadata.roles' : 'function');
+    console.log('Navigation filtered by role:', userRole);
+    console.log('User ID match?', user.sub === 'google-oauth2|110674600011943435167');
 
-    // Filter items by role
-    return items.filter(item => item.roles.includes(userRole));
+    // Admins have access to everything
+    if (userRole === 'admin') {
+      return items;
+    }
+    
+    // Filter items by role - with fallback to show all items if no role matches
+    const filteredItems = items.filter(item => item.roles.includes(userRole));
+    return filteredItems.length > 0 ? filteredItems : items;
   };
 
   const navItems = getNavItems();
+  
+  // Use these variables for conditional rendering based on client state
+  const displayThemeToggle = mounted;
+  const displayNotifications = mounted && typeof NotificationsDropdown === 'function';
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       {/* Sidebar */}
       <div
         className={`fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-800 shadow-lg transform ${
@@ -135,11 +195,11 @@ export default function DashboardLayout({ children }) {
         <div className="flex items-center justify-between px-4 py-3 border-b dark:border-gray-700">
           <Link href="/dashboard" className="flex items-center">
             <img
-              src="/logo.svg"
+              src="/icon-500x500.png"
               alt="Service Business Logo"
               className="h-8 w-auto"
             />
-            <span className="ml-2 text-xl font-semibold text-gray-800 dark:text-white">Service Biz</span>
+            <span className="ml-2 text-xl font-semibold text-gray-800 dark:text-white">IDIMS</span>
           </Link>
           <button
             className="md:hidden text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
@@ -194,21 +254,23 @@ export default function DashboardLayout({ children }) {
             </button>
 
             <div className="flex items-center space-x-4">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {theme === 'dark' ? (
-                  <FaSun className="text-yellow-400" />
-                ) : (
-                  <FaMoon className="text-gray-500" />
-                )}
-              </button>
+              {displayThemeToggle && (
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+                  aria-label={theme.mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {theme.mode === 'dark' ? (
+                    <FaSun className="text-yellow-400" />
+                  ) : (
+                    <FaMoon className="text-gray-500" />
+                  )}
+                </button>
+              )}
 
               <ErrorBoundary>
                 {/* Add a placeholder when component is not available */}
-                {typeof NotificationsDropdown === 'function' ? (
+                {displayNotifications ? (
                   <NotificationsDropdown />
                 ) : (
                   <div className="w-8 h-8 flex items-center justify-center">

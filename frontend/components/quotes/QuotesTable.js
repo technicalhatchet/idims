@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
-import StatusBadge from '@/components/ui/StatusBadge';
+import StatusBadge from '../ui/StatusBadge';
 import { FaEye, FaEdit, FaExchangeAlt } from 'react-icons/fa';
 
 export default function QuotesTable({ quotes }) {

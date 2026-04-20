@@ -20,8 +20,8 @@ class Invoice(Base):
     due_date = Column(DateTime, nullable=False)
     subtotal = Column(Float, nullable=False, default=0)
     tax = Column(Float, nullable=False, default=0)
-    discount = Column(Float, nullable=False, default=0)
-    total = Column(Float, nullable=False, default=0)
+    discount_amount = Column(Float, nullable=False, default=0)
+    total_amount = Column(Float, nullable=False, default=0)
     amount_paid = Column(Float, nullable=False, default=0)
     balance = Column(Float, nullable=False, default=0)
     notes = Column(Text, nullable=True)
@@ -40,21 +40,31 @@ class Invoice(Base):
     creator = relationship("User", foreign_keys=[created_by])
     
     def __repr__(self):
-        return f"<Invoice {self.invoice_number}: ${self.total:.2f}>"
+        return f"<Invoice {self.invoice_number}: ${self.total_amount:.2f}>"
     
     @property
     def is_paid(self):
         """Check if invoice is fully paid"""
-        return self.amount_paid >= self.total
+        return self.amount_paid >= self.total_amount
     
     @property
     def is_overdue(self):
         """Check if invoice is overdue"""
         return self.due_date < datetime.utcnow() and not self.is_paid
     
+    @property
+    def total(self):
+        """For backward compatibility, return total_amount"""
+        return self.total_amount
+    
+    @total.setter
+    def total(self, value):
+        """For backward compatibility, set total_amount"""
+        self.total_amount = value
+    
     def update_balance(self):
         """Update the invoice balance"""
-        self.balance = self.total - self.amount_paid
+        self.balance = self.total_amount - self.amount_paid
         if self.balance <= 0:
             self.status = "paid"
         elif self.amount_paid > 0:
@@ -75,7 +85,7 @@ class InvoiceItem(Base):
     tax_rate = Column(Float, nullable=False, default=0)
     discount = Column(Float, nullable=False, default=0)
     total = Column(Float, nullable=False, default=0)
-    work_order_service_id = Column(UUID(as_uuid=True), ForeignKey("work_order_services.id"), nullable=True)
+    work_order_service_id = Column(UUID(as_uuid=True), ForeignKey("work_order_service.id"), nullable=True)
     work_order_item_id = Column(UUID(as_uuid=True), ForeignKey("work_order_items.id"), nullable=True)
     metadata_json = Column(JSONB, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

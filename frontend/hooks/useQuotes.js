@@ -1,4 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useRouter } from 'next/router';
+import { apiClient } from '../utils/api-client';
 import { 
   getQuotes, 
   getQuote, 
@@ -10,7 +12,7 @@ import {
   convertQuote,
   downloadQuote,
   calculateQuote
-} from '@/services/api/quotesApi';
+} from '../services/api/quotesApi';
 
 /**
  * Hook for quotes list with pagination and filtering
@@ -168,5 +170,72 @@ export function useQuoteMutations() {
       sendMutation.error ||
       convertMutation.error ||
       downloadMutation.error,
+  };
+}
+
+/**
+ * Alternative hook for direct API operations
+ */
+export function useQuotesDirectApi() {
+  const queryClient = useQueryClient();
+
+  const { data: quotes, isLoading, error } = useQuery(
+    'quotes',
+    async () => {
+      const response = await apiClient('/quotes');
+      return response;
+    }
+  );
+
+  const createQuoteMutation = useMutation(
+    async (quoteData) => {
+      const response = await apiClient('/quotes', {
+        method: 'POST',
+        body: JSON.stringify(quoteData)
+      });
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('quotes');
+      }
+    }
+  );
+
+  const updateQuoteMutation = useMutation(
+    async ({ id, data }) => {
+      const response = await apiClient(`/quotes/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data)
+      });
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('quotes');
+      }
+    }
+  );
+
+  const deleteQuoteMutation = useMutation(
+    async (id) => {
+      await apiClient(`/quotes/${id}`, {
+        method: 'DELETE'
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('quotes');
+      }
+    }
+  );
+
+  return {
+    quotes,
+    isLoading,
+    error,
+    createQuote: createQuoteMutation.mutateAsync,
+    updateQuote: updateQuoteMutation.mutateAsync,
+    deleteQuote: deleteQuoteMutation.mutateAsync
   };
 }

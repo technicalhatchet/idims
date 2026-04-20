@@ -107,3 +107,12 @@ class AvailabilityResponse(BaseModel):
     availability: Dict[str, Any]
     appointments: List[Dict[str, Any]]
     date_range: Dict[str, str]
+
+
+class AppointmentPreviewResponse(BaseModel):
+    """Preview openings for booking without a work order (uses real appointment records for conflicts)."""
+    date: str
+    duration_minutes: int
+    business_hours: Dict[str, str]
+    slot_interval_minutes: int
+    slots: List[AppointmentSlot]

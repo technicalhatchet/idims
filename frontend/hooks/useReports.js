@@ -1,135 +1,105 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { 
-  getFinancialReport, 
-  getOperationsReport, 
-  getClientReport,
-  getTechnicianReport,
-  getInventoryReport,
-  getSavedReports,
-  getSavedReport,
-  generateCustomReport,
-  downloadReport,
-  scheduleReport,
-  getScheduledReports,
-  updateScheduledReport,
-  deleteScheduledReport
-} from '@/services/api/reportsApi';
+import { apiClient } from '../utils/api-client';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 /**
- * Hook for financial report
+ * Fetch reports with optional type filter
  */
-export function useFinancialReport(params = {}, options = {}) {
-  const { startDate, endDate, reportType, format } = params;
+async function fetchReports(reportType) {
+  const url = reportType 
+    ? `${API_URL}/api/reports?type=${reportType}` 
+    : `${API_URL}/api/reports`;
   
-  return useQuery(
-    ['financialReport', startDate?.toISOString(), endDate?.toISOString(), reportType, format],
-    () => getFinancialReport(params),
-    {
-      enabled: !!startDate && !!endDate,
-      ...options,
-    }
-  );
+  return apiClient(url);
 }
 
 /**
- * Hook for operations report
+ * Fetch a single report by ID
  */
-export function useOperationsReport(params = {}, options = {}) {
-  const { startDate, endDate, reportType, format } = params;
+async function fetchReport(id) {
+  return apiClient(`${API_URL}/api/reports/${id}`);
+}
+
+/**
+ * Generate a new report
+ */
+async function generateReport(reportData) {
+  return apiClient(`${API_URL}/api/reports`, {
+    method: 'POST',
+    body: JSON.stringify(reportData),
+  });
+}
+
+/**
+ * Download a report in the specified format
+ */
+async function downloadReport({ reportId, format = 'pdf' }) {
+  const response = await fetch(`${API_URL}/api/reports/${reportId}/download?format=${format}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
   
-  return useQuery(
-    ['operationsReport', startDate?.toISOString(), endDate?.toISOString(), reportType, format],
-    () => getOperationsReport(params),
-    {
-      enabled: !!startDate && !!endDate,
-      ...options,
-    }
-  );
-}
-
-/**
- * Hook for client report
- */
-export function useClientReport(clientId, params = {}, options = {}) {
-  const { startDate, endDate, format } = params;
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to download report');
+  }
   
-  return useQuery(
-    ['clientReport', clientId, startDate?.toISOString(), endDate?.toISOString(), format],
-    () => getClientReport(clientId, params),
-    {
-      enabled: !!clientId && !!startDate && !!endDate,
-      ...options,
-    }
-  );
-}
-
-/**
- * Hook for technician report
- */
-export function useTechnicianReport(technicianId, params = {}, options = {}) {
-  const { startDate, endDate, format } = params;
+  // Handle the file download
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.download = `report-${reportId}.${format}`;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
   
+  return { success: true };
+}
+
+/**
+ * Hook for fetching saved reports
+ */
+export function useSavedReports(reportType, options = {}) {
   return useQuery(
-    ['technicianReport', technicianId, startDate?.toISOString(), endDate?.toISOString(), format],
-    () => getTechnicianReport(technicianId, params),
+    ['reports', reportType],
+    () => fetchReports(reportType),
     {
-      enabled: !!technicianId && !!startDate && !!endDate,
+      staleTime: 60000, // 1 minute
       ...options,
     }
   );
 }
 
 /**
- * Hook for inventory report
+ * Hook for fetching a single report
  */
-export function useInventoryReport(params = {}, options = {}) {
-  const { startDate, endDate, category, reportType, format } = params;
-  
+export function useReport(id, options = {}) {
   return useQuery(
-    ['inventoryReport', startDate?.toISOString(), endDate?.toISOString(), category, reportType, format],
-    () => getInventoryReport(params),
+    ['report', id],
+    () => fetchReport(id),
     {
-      enabled: !!startDate && !!endDate,
+      enabled: !!id,
       ...options,
     }
   );
 }
 
 /**
- * Hook for saved reports list
+ * Hook for generating a new report
  */
-export function useSavedReports(reportType = null, options = {}) {
-  return useQuery(
-    ['savedReports', reportType],
-    () => getSavedReports(reportType),
-    options
-  );
-}
-
-/**
- * Hook for a specific saved report
- */
-export function useSavedReport(reportType, reportId, fileName, options = {}) {
-  return useQuery(
-    ['savedReport', reportType, reportId, fileName],
-    () => getSavedReport(reportType, reportId, fileName),
-    {
-      enabled: !!reportType && !!reportId && !!fileName,
-      ...options,
-    }
-  );
-}
-
-/**
- * Hook for generating custom reports
- */
-export function useGenerateCustomReport() {
+export function useGenerateReport() {
   const queryClient = useQueryClient();
   
-  return useMutation(generateCustomReport, {
-    onSuccess: () => {
-      // Invalidate saved reports query to refresh the list
-      queryClient.invalidateQueries('savedReports');
+  return useMutation(generateReport, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('reports');
+      return data;
     },
   });
 }
@@ -138,7 +108,7 @@ export function useGenerateCustomReport() {
  * Hook for downloading a report
  */
 export function useDownloadReport() {
-  return useMutation(({ reportId, format }) => downloadReport(reportId, format));
+  return useMutation(downloadReport);
 }
 
 /**
@@ -146,33 +116,26 @@ export function useDownloadReport() {
  */
 export function useScheduledReports(options = {}) {
   return useQuery(
-    ['scheduledReports'],
-    () => getScheduledReports(),
-    options
+    'scheduledReports',
+    () => apiClient(`${API_URL}/api/reports/schedules`),
+    {
+      staleTime: 300000, // 5 minutes
+      ...options,
+    }
   );
 }
 
 /**
- * Hook for scheduling a report
+ * Hook for creating a scheduled report
  */
-export function useScheduleReport() {
-  const queryClient = useQueryClient();
-  
-  return useMutation(scheduleReport, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('scheduledReports');
-    },
-  });
-}
-
-/**
- * Hook for updating a scheduled report
- */
-export function useUpdateScheduledReport() {
+export function useCreateScheduledReport() {
   const queryClient = useQueryClient();
   
   return useMutation(
-    ({ scheduleId, scheduleConfig }) => updateScheduledReport(scheduleId, scheduleConfig),
+    (scheduleData) => apiClient(`${API_URL}/api/reports/schedules`, {
+      method: 'POST',
+      body: JSON.stringify(scheduleData),
+    }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('scheduledReports');
@@ -187,9 +150,14 @@ export function useUpdateScheduledReport() {
 export function useDeleteScheduledReport() {
   const queryClient = useQueryClient();
   
-  return useMutation(deleteScheduledReport, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('scheduledReports');
-    },
-  });
+  return useMutation(
+    (scheduleId) => apiClient(`${API_URL}/api/reports/schedules/${scheduleId}`, {
+      method: 'DELETE',
+    }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('scheduledReports');
+      },
+    }
+  );
 }

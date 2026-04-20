@@ -1,75 +1,81 @@
 import { useEffect } from 'react';
-import Link from 'next/link';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Link from 'next/link';
+import { FaLock, FaArrowLeft } from 'react-icons/fa';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { FaLock, FaHome, FaSignOutAlt } from 'react-icons/fa';
+import { getUserRole } from '../utils/auth0-helpers';
 
-export default function Unauthorized() {
+export default function UnauthorizedPage() {
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
+  const { returnTo } = router.query;
   
-  // Get role from Auth0 user metadata
-  const userRole = user ? (user['https://servicebusiness.com/roles']?.[0] || 'client') : null;
+  // If user is not logged in, redirect to login
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/api/auth/login');
+    }
+  }, [user, isLoading, router]);
+  
+  // Get user role if available
+  const role = user ? getUserRole(user) : null;
   
   return (
     <>
       <Head>
-        <title>Unauthorized Access | Service Business Management</title>
+        <title>Access Denied | Service Business Management</title>
       </Head>
       
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-          <div className="bg-red-600 p-4 flex justify-center">
-            <div className="rounded-full bg-white p-3">
-              <FaLock className="h-8 w-8 text-red-600" />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div>
+            <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-red-100">
+              <FaLock className="h-12 w-12 text-red-600" aria-hidden="true" />
             </div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Access Denied
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              You don't have permission to access this resource.
+            </p>
+            {role && (
+              <p className="mt-1 text-center text-sm text-gray-500">
+                Your current role is: <span className="font-medium">{role}</span>
+              </p>
+            )}
           </div>
           
-          <div className="p-6 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Unauthorized Access
-            </h1>
-            
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              You don't have permission to access this page.
-              {userRole && (
-                <span> Your current role is <strong>{userRole}</strong>.</span>
-              )}
-            </p>
-            
-            <div className="space-y-3">
-              {user && (
-                <Link
-                  href="/dashboard"
-                  className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full"
-                >
-                  <FaHome className="mr-2" />
-                  Go to Dashboard
-                </Link>
-              )}
-              
-              <Link
-                href="/"
-                className="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors w-full"
+          <div className="flex flex-col space-y-4">
+            {returnTo ? (
+              <Link 
+                href={returnTo}
+                className="flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                <FaHome className="mr-2" />
-                Go to Home Page
+                <FaArrowLeft className="mr-2" />
+                Go Back
               </Link>
-              
-              {user && (
-                <Link
-                  href="/api/auth/logout"
-                  className="flex items-center justify-center px-4 py-2 border border-red-300 dark:border-red-700 text-red-600 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-red-900 transition-colors w-full"
-                >
-                  <FaSignOutAlt className="mr-2" />
-                  Sign Out
-                </Link>
-              )}
-            </div>
+            ) : (
+              <Link 
+                href="/dashboard"
+                className="flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <FaArrowLeft className="mr-2" />
+                Go to Dashboard
+              </Link>
+            )}
             
-            <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
-              If you believe this is an error, please contact support.
+            <Link 
+              href="/api/auth/logout"
+              className="flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Sign Out
+            </Link>
+          </div>
+          
+          <div className="text-center text-xs text-gray-500 mt-8">
+            <p>
+              If you believe this is an error, please contact your system administrator.
             </p>
           </div>
         </div>

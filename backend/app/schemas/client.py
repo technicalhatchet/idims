@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr, Field, validator
 from typing import Optional, Dict, List, Any, Union
 from datetime import datetime
 from uuid import UUID
+from pydantic import ConfigDict
 
 class AddressSchema(BaseModel):
     """Schema for address data"""
@@ -12,8 +13,8 @@ class AddressSchema(BaseModel):
     zip: str
     country: Optional[str] = "USA"
     
-    class Config:
-        schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "street1": "123 Main St",
                 "street2": "Apt 4B",
@@ -23,9 +24,21 @@ class AddressSchema(BaseModel):
                 "country": "USA"
             }
         }
+    )
 
 class ClientBase(BaseModel):
-    """Base schema for Client data"""
+    """Base schema for client data"""
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "name": "John Doe",
+                "email": "john@example.com",
+                "phone": "+1234567890",
+                "address": "123 Main St",
+                "company": "ACME Corp"
+            }
+        }
+    )
     company_name: Optional[str] = None
     first_name: str
     last_name: str
@@ -84,21 +97,18 @@ class ClientUpdate(BaseModel):
         return v
 
 class ClientResponse(ClientBase):
-    """Schema for client response"""
+    """Client response schema"""
     id: UUID
-    user_id: Optional[UUID] = None
     created_at: datetime
     updated_at: datetime
-    
-    class Config:
-        orm_mode = True
+    created_by: Optional[UUID] = None
+    updated_by: Optional[UUID] = None
+    model_config = ConfigDict(from_attributes=True)
 
 class ClientListResponse(BaseModel):
-    """Schema for paginated list of clients"""
-    total: int
+    """Client list response schema"""
     items: List[ClientResponse]
+    total: int
     page: int
     pages: int
-    
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

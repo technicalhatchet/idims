@@ -31,7 +31,8 @@ class SchedulingService:
         query = db.query(WorkOrder).filter(
             (WorkOrder.scheduled_start >= start_date) & 
             (WorkOrder.scheduled_start <= end_date) &
-            (WorkOrder.status.in_(["pending", "scheduled", "in_progress"]))
+            (WorkOrder.status.in_(["pending", "scheduled", "in_progress", "completed", 
+                                "parts_on_order", "reschedule", "need_to_contact", "redo"]))
         )
         
         # Apply filters

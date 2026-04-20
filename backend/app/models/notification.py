@@ -1,10 +1,10 @@
-from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime, Text, Enum
+from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, DateTime, Text, Enum, JSON
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
 
-from app.db.database import Base
+from app.db.base import Base
 
 class Notification(Base):
     """Notification model for storing user notifications"""

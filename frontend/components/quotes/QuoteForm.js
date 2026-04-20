@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useForm } from '@/hooks/useForm';
-import { TextInput, SelectInput, TextareaInput, Button } from '@/components/ui/FormElements';
+import { useForm } from '../../hooks/useForm';
+import { TextInput, SelectInput, TextareaInput, Button } from '../ui/FormElements';
 import { FaSave, FaTimes, FaPlus, FaMinus, FaCalculator } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import { apiClient } from '@/utils/fetchWithAuth';
-import { useQuoteCalculator } from '@/hooks/useQuotes';
+import { apiClient } from '../../utils/api-client';
+import { useQuoteCalculator } from '../../hooks/useQuotes';
 
 export default function QuoteForm({ initialData, isEdit = false }) {
   const router = useRouter();
@@ -144,7 +144,7 @@ export default function QuoteForm({ initialData, isEdit = false }) {
       setIsLoadingClients(true);
       
       try {
-        const data = await apiClient('/api/clients?limit=100');
+        const data = await apiClient('clients?limit=100');
         
         setClients(data?.items?.map(client => ({
           value: client.id,
@@ -166,7 +166,7 @@ export default function QuoteForm({ initialData, isEdit = false }) {
       setIsLoadingServices(true);
       
       try {
-        const data = await apiClient('/api/services?limit=100');
+        const data = await apiClient('services?limit=100');
         
         setServices(data?.items?.map(service => ({
           value: service.id,

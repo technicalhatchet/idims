@@ -1,121 +1,111 @@
 import { useState, useEffect } from 'react';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { FaChartLine, FaClipboardList, FaCalendarAlt, FaFileInvoiceDollar, FaUsers, FaCog } from 'react-icons/fa';
-
-// Updated imports with correct paths
+import { FaUser, FaFileAlt, FaTools, FaMoneyBillWave } from 'react-icons/fa';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
-import StatsOverview from '../../components/dashboard/StatsOverview';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
-import { useAuthRedirect } from '../../hooks/useAuthRedirect';
-import { apiClient } from '../../utils/fetchWithAuth';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { withPageAuthRequired, getStaticPropsWithFallback } from '../../utils/auth0-helpers';
+import apiClient, { ErrorTypes } from '../../utils/api-client';
 
 function Dashboard() {
+  const { user, isLoading, error } = useUser();
   const [dashboardData, setDashboardData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const router = useRouter();
-  
-  // Use auth redirect hook for protection
-  const { user } = useAuthRedirect();
-  
-  // Fetch dashboard data
+  const [dataLoading, setDataLoading] = useState(true);
+  const [dataError, setDataError] = useState(null);
+  const [usingMockData, setUsingMockData] = useState(false);
+  const [errorType, setErrorType] = useState(null);
+
   useEffect(() => {
+    // Fetch dashboard data
     const fetchDashboardData = async () => {
-      setIsLoading(true);
-      setError(null);
-      
       try {
-        // Fetch dashboard stats
-        const data = await apiClient('/api/dashboard/stats');
+        setDataLoading(true);
+        let data;
+        
+        // First try to fetch from the real backend
+        try {
+          console.log('Attempting to fetch data from backend API...');
+          // Use our apiClient utility to handle auth token and error handling
+          data = await apiClient.get('dashboard/stats');
+          console.log('Successfully fetched backend data:', data);
+          setUsingMockData(false);
+          setErrorType(null);
+        } catch (backendError) {
+          // Determine the type of error
+          const errorType = backendError.type || ErrorTypes.UNKNOWN;
+          setErrorType(errorType);
+          
+          // Log appropriate error message based on type
+          switch(errorType) {
+            case ErrorTypes.CORS:
+              console.warn('CORS error detected - backend may be running but CORS is not configured properly');
+              break;
+            case ErrorTypes.NETWORK:
+              console.warn('Network error - backend may not be running');
+              break;
+            case ErrorTypes.AUTH:
+              console.warn('Authentication error - you may not be properly authenticated');
+              break;
+            default:
+              console.error('Backend API error, falling back to mock data:', backendError);
+              // Show the error details in the console for debugging
+              console.debug('Error details:', {
+                message: backendError.message,
+                status: backendError.status,
+                details: backendError.details,
+                type: backendError.type,
+                stack: backendError.stack
+              });
+          }
+          
+          // If backend fails, fall back to mock API
+          console.log('Falling back to Next.js API route...');
+          const response = await fetch('/api/dashboard');
+          if (!response.ok) throw new Error('Failed to fetch dashboard data');
+          data = await response.json();
+          console.log('Successfully fetched mock data:', data);
+          setUsingMockData(true);
+        }
+        
         setDashboardData(data);
+        setDataError(null);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
-        setError('Failed to load dashboard data. Please try again.');
+        setDataError(err.message || 'Unknown error occurred');
+        setErrorType(err.type || ErrorTypes.UNKNOWN);
       } finally {
-        setIsLoading(false);
+        setDataLoading(false);
       }
     };
-    
+
     if (user) {
       fetchDashboardData();
     }
   }, [user]);
-  
-  const quickActions = [
-    {
-      title: 'New Work Order',
-      href: '/work-orders/new',
-      icon: <FaClipboardList className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
-      color: 'bg-blue-100 dark:bg-blue-900',
-      roles: ['admin', 'manager', 'technician']
-    },
-    {
-      title: 'Schedule Job',
-      href: '/schedule',
-      icon: <FaCalendarAlt className="h-6 w-6 text-green-600 dark:text-green-400" />,
-      color: 'bg-green-100 dark:bg-green-900',
-      roles: ['admin', 'manager', 'technician']
-    },
-    {
-      title: 'Create Invoice',
-      href: '/invoices/new',
-      icon: <FaFileInvoiceDollar className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />,
-      color: 'bg-indigo-100 dark:bg-indigo-900',
-      roles: ['admin', 'manager']
-    },
-    {
-      title: 'Add Client',
-      href: '/clients/new',
-      icon: <FaUsers className="h-6 w-6 text-purple-600 dark:text-purple-400" />,
-      color: 'bg-purple-100 dark:bg-purple-900',
-      roles: ['admin', 'manager']
-    },
-    {
-      title: 'Reports',
-      href: '/reports',
-      icon: <FaChartLine className="h-6 w-6 text-red-600 dark:text-red-400" />,
-      color: 'bg-red-100 dark:bg-red-900',
-      roles: ['admin', 'manager']
-    },
-    {
-      title: 'Settings',
-      href: '/settings',
-      icon: <FaCog className="h-6 w-6 text-gray-600 dark:text-gray-400" />,
-      color: 'bg-gray-100 dark:bg-gray-700',
-      roles: ['admin', 'manager', 'technician', 'client']
-    }
-  ];
-  
-  // Filter quick actions based on user role
-  const filteredActions = user 
-    ? quickActions.filter(action => {
-        const userRole = user['https://servicebusiness.com/roles']?.[0] || 'client';
-        return action.roles.includes(userRole);
-      })
-    : [];
-  
+
   if (isLoading) {
-    return (
-      <div className="px-4 py-6">
-        <LoadingSpinner size="large" />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return (
-      <div className="px-4 py-6">
-        <ErrorAlert 
-          message={error} 
-          onRetry={() => router.reload()}
-        />
-      </div>
-    );
+    return <ErrorAlert message={error.message} />;
   }
+
+  const getErrorMessage = () => {
+    switch(errorType) {
+      case ErrorTypes.CORS:
+        return 'Unable to connect to API due to CORS restrictions. Check if the backend is properly configured.';
+      case ErrorTypes.NETWORK:
+        return 'Unable to connect to API. The server might be offline or unreachable.';
+      case ErrorTypes.AUTH:
+        return 'Authentication error. You may not have permission to access this data.';
+      case ErrorTypes.SERVER:
+        return 'The server encountered an error while processing your request.';
+      default:
+        return dataError || 'An unknown error occurred while fetching data.';
+    }
+  };
 
   return (
     <>
@@ -123,119 +113,134 @@ function Dashboard() {
         <title>Dashboard | Service Business Management</title>
       </Head>
 
-      <div className="px-4 py-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
-            Welcome back, {user?.name || 'User'}
-          </p>
-        </div>
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
         
-        {/* Stats Overview */}
-        {dashboardData && (
-          <StatsOverview stats={dashboardData.stats} />
-        )}
-        
-        {/* Quick Actions */}
-        <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {filteredActions.map((action) => (
-              <Link
-                key={action.title}
-                href={action.href}
-                className="flex items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              >
-                <div className={`p-3 rounded-lg ${action.color} mr-4`}>
-                  {action.icon}
+        {dataLoading ? (
+          <LoadingSpinner />
+        ) : dataError ? (
+          <ErrorAlert message={getErrorMessage()} />
+        ) : (
+          <>
+            {usingMockData && (
+              <div className="mb-4 p-3 bg-yellow-50 border border-yellow-300 rounded-md text-yellow-800">
+                ⚠️ Using mock data - {errorType ? getErrorMessage() : 'Backend connection failed. Check console for details.'}
+              </div>
+            )}
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              {/* Simple Stats Cards */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                <div className="flex items-center">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg mr-4">
+                    <FaUser className="text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Active Clients</h3>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {usingMockData
+                        ? dashboardData?.clientCount || 0
+                        : dashboardData?.clients?.active || 0}
+                    </p>
+                  </div>
                 </div>
-                <span className="font-medium">{action.title}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-        
-        {/* Recent Activity */}
-        {dashboardData?.recentActivity && (
-          <div className="mt-8">
-            <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-              <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                {dashboardData.recentActivity.map((activity) => (
-                  <li key={activity.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">{activity.description}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{activity.timestamp}</p>
-                      </div>
-                      {activity.link && (
-                        <Link href={activity.link.href} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                          {activity.link.text}
-                        </Link>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                <Link href="/activity" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                  View all activity
-                </Link>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                <div className="flex items-center">
+                  <div className="p-3 bg-green-100 dark:bg-green-900 rounded-lg mr-4">
+                    <FaFileAlt className="text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Open Quotes</h3>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{dashboardData?.openQuotesCount || 0}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                <div className="flex items-center">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900 rounded-lg mr-4">
+                    <FaTools className="text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Work Orders</h3>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {usingMockData
+                        ? dashboardData?.workOrdersCount || 0
+                        : dashboardData?.work_orders?.pending || 0}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                <div className="flex items-center">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg mr-4">
+                    <FaMoneyBillWave className="text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Revenue (MTD)</h3>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">$
+                      {usingMockData
+                        ? dashboardData?.revenueMonth?.toLocaleString() || 0
+                        : dashboardData?.revenue?.this_month?.toLocaleString() || 0}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        
-        {/* Today's Schedule (for technicians and managers) */}
-        {user && ['admin', 'manager', 'technician'].includes(user['https://servicebusiness.com/roles']?.[0]) && dashboardData?.todaysSchedule && (
-          <div className="mt-8">
-            <h2 className="text-lg font-semibold mb-4">Today's Schedule</h2>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-              {dashboardData.todaysSchedule.length === 0 ? (
-                <div className="p-6 text-center text-gray-500 dark:text-gray-400">
-                  <p>No appointments scheduled for today.</p>
-                </div>
-              ) : (
-                <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {dashboardData.todaysSchedule.map((appointment) => (
-                    <li key={appointment.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="flex justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900 dark:text-white">
-                            {appointment.time} - {appointment.client}
-                          </p>
-                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                            {appointment.title}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            {appointment.address}
-                          </p>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            appointment.status === 'scheduled' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-                            appointment.status === 'in_progress' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
-                            appointment.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Work Orders</h2>
+                <div className="divide-y dark:divide-gray-700">
+                  {(dashboardData?.recentWorkOrders || []).length > 0 ? (
+                    dashboardData.recentWorkOrders.map((order) => (
+                      <div key={order.id} className="py-3">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <h3 className="font-medium text-gray-900 dark:text-white">{order.title}</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{order.client}</p>
+                          </div>
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${
+                            order.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                            order.status === 'in_progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                            'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
                           }`}>
-                            {appointment.status.replace('_', ' ')}
+                            {order.status}
                           </span>
-                          <Link href={`/work-orders/${appointment.id}`} className="text-blue-600 dark:text-blue-400 text-sm hover:underline">
-                            View
-                          </Link>
                         </div>
                       </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                <Link href="/schedule" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                  View full schedule
-                </Link>
+                    ))
+                  ) : (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-4">No recent work orders</p>
+                  )}
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Upcoming Appointments</h2>
+                <div className="divide-y dark:divide-gray-700">
+                  {(dashboardData?.upcomingAppointments || []).length > 0 ? (
+                    dashboardData.upcomingAppointments.map((appointment) => (
+                      <div key={appointment.id} className="py-3">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <h3 className="font-medium text-gray-900 dark:text-white">{appointment.title}</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{appointment.date}, {appointment.time}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{appointment.client}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-4">No upcoming appointments</p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </>
@@ -246,12 +251,7 @@ Dashboard.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(ctx) {
-    return {
-      props: {}
-    };
-  }
-});
+// Add getStaticProps to avoid build errors
+export const getStaticProps = getStaticPropsWithFallback;
 
-export default Dashboard;
+export default withPageAuthRequired(Dashboard);

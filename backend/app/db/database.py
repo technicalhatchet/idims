@@ -1,31 +1,29 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from contextlib import contextmanager
 
 from app.config import settings
+from app.db.base import Base
+from app.models import *  # Import all models
 
 # Create SQLAlchemy engine
-SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
-
-# Connection pool settings
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
+    settings.DATABASE_URL,
     pool_pre_ping=True,
-    pool_size=settings.DB_POOL_SIZE,
-    max_overflow=settings.DB_MAX_OVERFLOW,
-    pool_recycle=settings.DB_POOL_RECYCLE,
-    pool_timeout=settings.DB_POOL_TIMEOUT,
-    echo=settings.DB_ECHO_QUERIES,
+    pool_size=20,
+    max_overflow=10,
+    pool_timeout=30,
+    pool_recycle=300,
+    echo=settings.DEBUG
 )
 
-# Session factory
+# Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base class for models
-Base = declarative_base()
+# Create all tables
+Base.metadata.create_all(bind=engine)
 
-# Dependency for getting DB session
+# Dependency to get database session
 def get_db():
     db = SessionLocal()
     try:

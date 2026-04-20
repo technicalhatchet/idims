@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useForm } from '@/hooks/useForm';
-import { TextInput, SelectInput, Button } from '@/components/ui/FormElements';
+import { useForm } from '../../hooks/useForm';
+import { TextInput, SelectInput, Button } from '../ui/FormElements';
 import { FaSave, FaTimes, FaCreditCard, FaUniversity } from 'react-icons/fa';
 
 export default function PaymentMethodForm({ onCancel, onSubmit, isSubmitting }) {

@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 from typing import Optional, Dict, List, Any
 from datetime import datetime
@@ -26,7 +26,8 @@ class ClientService:
         limit: int = 100
     ) -> Dict[str, Any]:
         """Get clients with filtering and pagination"""
-        query = db.query(Client)
+        # Use joinedload to eagerly load the user relationship
+        query = db.query(Client).options(joinedload(Client.user))
         
         # Apply filters
         if search:
@@ -58,7 +59,8 @@ class ClientService:
     @staticmethod
     async def get_client(db: Session, client_id: uuid.UUID) -> Client:
         """Get a specific client by ID"""
-        client = db.query(Client).filter(Client.id == client_id).first()
+        # Use joinedload to eagerly load the user relationship
+        client = db.query(Client).options(joinedload(Client.user)).filter(Client.id == client_id).first()
         
         if not client:
             raise NotFoundException(f"Client with ID {client_id} not found")
@@ -79,10 +81,11 @@ class ClientService:
             try:
                 # Create user with client role
                 user = User(
+                    auth_id=f"client|{uuid.uuid4()}",  # Generate a placeholder auth_id
                     email=client_data.email,
                     first_name=client_data.first_name,
                     last_name=client_data.last_name,
-                    role="client",
+                    roles=["client"],
                     is_active=True
                 )
                 db.add(user)

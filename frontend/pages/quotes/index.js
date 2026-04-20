@@ -1,39 +1,39 @@
 // src/pages/quotes/index.js
 import { useState } from 'react';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
-import { FaPlus, FaFilter } from 'react-icons/fa';
+import { FaPlus, FaFilter, FaSearch } from 'react-icons/fa';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
-import QuotesTable from '../..//components/quotes/QuotesTable';
-import Pagination from '../..//components/ui/Pagination';
-import LoadingSpinner from '../..//components/ui/LoadingSpinner';
-import ErrorAlert from '../..//components/ui/ErrorAlert';
-import { useQuotes } from '../..//hooks/useQuotes';
-import { useAuthRedirect } from '../..//hooks/useAuthRedirect';
+import QuotesTable from '../../components/quotes/QuotesTable';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../components/ui/ErrorAlert';
+import Pagination from '../../components/ui/Pagination';
+import { useQuotes } from '../../hooks/useQuotes';
+import { withPageAuthRequired } from '../../utils/auth0-helpers';
 
 function Quotes() {
   const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({});
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const limit = 10;
+  
+  const { 
+    quotes, 
+    isLoading, 
+    isError, 
+    error, 
+    totalPages, 
+    refetch 
+  } = useQuotes({ page, limit, searchTerm, ...filters });
 
-  // Check authorization (only managers and admins)
-  useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
-
-  // Fetch quotes with pagination and filters
-  const {
-    data,
-    isLoading,
-    error,
-    refetch
-  } = useQuotes({ page, limit, ...filters });
-
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1); // Reset to first page when filters change
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchInput = e.target.elements.search.value;
+    setSearchTerm(searchInput);
+    setPage(1); // Reset to first page when searching
   };
-
+  
   const handleFilterToggle = () => {
     setIsFilterOpen(!isFilterOpen);
   };
@@ -45,39 +45,52 @@ function Quotes() {
       </Head>
 
       <div className="px-4 py-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-          <h1 className="text-2xl font-bold mb-4 sm:mb-0">Quotes</h1>
-          <div className="flex space-x-2">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+          <h1 className="text-2xl font-bold mb-4 md:mb-0">Quotes</h1>
+          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+            <form onSubmit={handleSearch} className="flex">
+              <input
+                type="text"
+                name="search"
+                placeholder="Search quotes..."
+                className="border rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={searchTerm}
+              />
+              <button
+                type="submit"
+                className="bg-gray-200 text-gray-700 rounded-r px-4 py-2 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <FaSearch />
+              </button>
+            </form>
             <button
               onClick={handleFilterToggle}
-              className="btn-outline flex items-center"
+              className="bg-gray-200 text-gray-700 px-4 py-2 rounded flex items-center justify-center hover:bg-gray-300"
               aria-label="Filter quotes"
             >
               <FaFilter className="mr-2" />
               Filters
             </button>
-            <Link href="/quotes/new" className="btn-primary flex items-center">
-              <FaPlus className="mr-2" />
-              New Quote
+            <Link
+              href="/quotes/new"
+              className="bg-blue-600 text-white px-4 py-2 rounded flex items-center justify-center hover:bg-blue-700 transition duration-150"
+            >
+              <FaPlus className="mr-2" /> New Quote
             </Link>
           </div>
         </div>
 
         {isLoading ? (
           <LoadingSpinner />
-        ) : error ? (
-          <ErrorAlert
-            message="Failed to load quotes"
-            onRetry={refetch}
-          />
+        ) : isError ? (
+          <ErrorAlert message={error?.message || 'Failed to load quotes'} />
         ) : (
           <>
-            <QuotesTable quotes={data?.items || []} />
-
+            <QuotesTable quotes={quotes} />
             <div className="mt-6">
               <Pagination
                 currentPage={page}
-                totalPages={Math.ceil((data?.total || 0) / limit)}
+                totalPages={totalPages}
                 onPageChange={setPage}
               />
             </div>
@@ -126,12 +139,4 @@ Quotes.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(ctx) {
-    return {
-      props: {}
-    };
-  }
-});
-
-export default Quotes;
+export default withPageAuthRequired(Quotes);
