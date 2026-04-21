@@ -129,6 +129,12 @@ export default function DashboardLayout({ children }) {
         roles: ['admin', 'manager', 'technician'],
       },
       {
+        name: 'Availability',
+        href: '/schedule/availability',
+        icon: <FaCalendarAlt className="mr-3" />,
+        roles: ['admin', 'manager'],
+      },
+      {
         name: 'Invoices',
         href: '/invoices',
         icon: <FaFileInvoiceDollar className="mr-3" />,
