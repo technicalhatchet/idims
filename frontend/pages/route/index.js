@@ -252,6 +252,12 @@ function TodaysRoute() {
         // Sort by scheduled_start
         appts.sort((a, b) => new Date(a.start || a.scheduled_start) - new Date(b.start || b.scheduled_start));
         setAppointments(appts);
+
+       
+        if (appointments.length > 0) {
+          console.log('First appointment:', JSON.stringify(appointments[0], null, 2));
+        }
+        
       } catch (err) {
         console.error('Error fetching appointments:', err);
         setError('Failed to load appointments.');
