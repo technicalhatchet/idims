@@ -32,14 +32,18 @@ function formatDateForInput(date) {
 }
 
 function SchedulePage() {
-  const [viewType, setViewType] = useState('day');
-  const [displayMode, setDisplayMode] = useState('list'); // 'list' or 'timeline'
+  const [viewType, setViewType] = useState('week');
+  const [displayMode, setDisplayMode] = useState('timeline'); // 'list' or 'timeline'
   
   // Initialize dates to the start and end of the current day
   const getInitialDates = () => {
-    const todayStart = new Date();
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const todayStart = new Date(today);
+    todayStart.setDate(today.getDate() - dayOfWeek);
     todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date();
+    const todayEnd = new Date(todayStart);
+    todayEnd.setDate(todayStart.getDate() + 6);
     todayEnd.setHours(23, 59, 59, 999);
     return { initialStartDate: todayStart, initialEndDate: todayEnd };
   };
