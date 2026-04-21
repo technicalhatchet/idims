@@ -8,3 +8,4 @@ export { default as Alert } from './ErrorAlert';
 export { default as DeleteModal } from './DeleteModal';
 export { default as StatusBadge } from './StatusBadge';
 export { default as Tabs } from './Tabs';
+export { default as Select } from './FormElements';
