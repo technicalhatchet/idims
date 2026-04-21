@@ -37,7 +37,9 @@ function WorkOrderDetail() {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [newStatus, setNewStatus] = useState('');
   const [statusNotes, setStatusNotes] = useState('');
-  const [activeTab, setActiveTab] = useState(TABS.DETAILS);
+  const [activeTab, setActiveTab] = useState(
+    router.query.tab === 'appointments' ? TABS.APPOINTMENTS : TABS.DETAILS
+  );
   const [statusModalError, setStatusModalError] = useState(null);
   const [paymentAmount, setPaymentAmount] = useState('');
   const [isApplyingPayment, setIsApplyingPayment] = useState(false);

@@ -344,7 +344,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
             // Delay for 2 seconds so the user sees the success message
             setTimeout(() => {
               // Navigate to the new work order (using underscore not hyphen)
-              router.push(`/work_orders/${newWorkOrder.id}`);
+              router.push(`/work_orders/${newWorkOrder.id}?tab=appointments`);
             }, 2000);
           }
           // Fallback: check if we have a paginated response
