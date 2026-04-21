@@ -69,7 +69,7 @@ app = FastAPI(
     title=settings.APP_NAME,
     description="API for service business management",
     version=settings.API_VERSION,
-    redirect_slashes=False,
+    #redirect_slashes=False,
     docs_url="/api/docs" if settings.ENVIRONMENT != "production" else None,
     redoc_url="/api/redoc" if settings.ENVIRONMENT != "production" else None,
     openapi_tags=[
