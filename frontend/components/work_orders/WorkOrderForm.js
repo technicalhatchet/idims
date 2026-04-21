@@ -292,47 +292,8 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
         try {
           let newWorkOrder;
 
-          if (scheduleFirstVisit) {
-            if (!firstVisitStart) {
-              setError('Choose a date and time for the first visit.');
-              return;
-            }
-            const woBase = {
-              client_id: formattedValues.client_id,
-              description: formattedValues.description,
-              priority: formattedValues.priority,
-              service_location: formattedValues.service_location,
-              equipment_make: formattedValues.equipment_make,
-              equipment_model: formattedValues.equipment_model,
-              equipment_serial: formattedValues.equipment_serial,
-              equipment_version: formattedValues.equipment_version,
-              equipment_type: formattedValues.equipment_type,
-              equipment_subtype: formattedValues.equipment_subtype,
-              is_wall_mounted: formattedValues.is_wall_mounted,
-              equipment_notes: formattedValues.equipment_notes,
-              is_recurring: formattedValues.is_recurring,
-            };
-            const initialAppointment = {
-              appointment_type: 'diagnostic',
-              scheduled_start: new Date(firstVisitStart).toISOString(),
-            };
-            if (firstVisitTechnicianId) {
-              initialAppointment.assigned_technician_id = firstVisitTechnicianId;
-            }
-            const serviceIds = (values.service_items || []).map((i) => i.service_id).filter(Boolean);
-            if (serviceIds.length > 0) {
-              initialAppointment.service_ids = serviceIds;
-            }
-            const result = await createWorkOrderWithInitialAppointment({
-              ...woBase,
-              initial_appointment: initialAppointment,
-            });
-            newWorkOrder = result.work_order;
-            console.log('Create work order + initial appointment response:', result);
-          } else {
-            newWorkOrder = await createWorkOrder(formattedValues);
-            console.log('Create work order response:', newWorkOrder);
-          }
+          newWorkOrder = await createWorkOrder(formattedValues);
+        
 
           // Show success message
           setSuccess(true);
