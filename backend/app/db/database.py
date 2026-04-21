@@ -14,10 +14,18 @@ database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
 engine = create_engine(
     database_url,
     pool_pre_ping=True,
-    pool_size=5,
-    max_overflow=5,
+    pool_size=3,
+    max_overflow=2,
     pool_timeout=30,
-    pool_recycle=300,
+    pool_recycle=60,
+    pool_reset_on_return='commit',
+    connect_args={
+        'keepalives': 1,
+        'keepalives_idle': 30,
+        'keepalives_interval': 10,
+        'keepalives_count': 5,
+        'connect_timeout': 10,
+    },
     echo=settings.DEBUG
 )
 
