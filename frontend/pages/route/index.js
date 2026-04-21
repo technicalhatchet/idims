@@ -312,13 +312,37 @@ function TodaysRoute() {
             </Link>
           </div>
 
-          {/* Date picker */}
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white mb-2"
-          />
+          {/* Date navigation */}
+          <div className="flex items-center justify-between mb-2">
+            <button
+              onClick={() => {
+                const d = new Date(date + 'T12:00:00');
+                d.setDate(d.getDate() - 1);
+                setDate(format(d, 'yyyy-MM-dd'));
+              }}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 active:bg-gray-200"
+            >
+              ‹
+            </button>
+
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="text-center font-semibold text-gray-900 dark:text-white bg-transparent border-none text-sm cursor-pointer"
+            />
+
+            <button
+              onClick={() => {
+                const d = new Date(date + 'T12:00:00');
+                d.setDate(d.getDate() + 1);
+                setDate(format(d, 'yyyy-MM-dd'));
+              }}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 active:bg-gray-200"
+            >
+              ›
+            </button>
+          </div>
 
           {/* Technician selector (admin/manager) */}
           {!isTechnician && (
