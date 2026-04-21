@@ -26,14 +26,16 @@ function getStatusStyle(status) {
 function AppointmentCard({ appointment, onStatusChange }) {
   const [expanded, setExpanded] = useState(false);
   const [updating, setUpdating] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState(appointment.status?.value || appointment.status || 'scheduled');
+  const [currentStatus, setCurrentStatus] = useState(
+    typeof appointment.status === 'string' ? appointment.status : appointment.status?.value || 'scheduled'
+  );
 
-  const address = appointment.service_location?.address || appointment.location || '';
+  const address = appointment.location || appointment.service_location?.address || '';
   const phone = appointment.client_phone || appointment.client?.phone || '';
   const clientName = appointment.client_name || appointment.client?.name || 'Client';
   const workOrderId = appointment.work_order_id;
-  const startTime = appointment.scheduled_start ? new Date(appointment.scheduled_start) : null;
-  const endTime = appointment.scheduled_end ? new Date(appointment.scheduled_end) : null;
+  const startTime = appointment.start ? new Date(appointment.start) : null;
+  const endTime = appointment.end ? new Date(appointment.end) : null;
 
   const handleStatusChange = async (newStatus) => {
     setUpdating(true);
@@ -257,7 +259,7 @@ function TodaysRoute() {
         if (appointments.length > 0) {
           console.log('First appointment:', JSON.stringify(appointments[0], null, 2));
         }
-        
+
       } catch (err) {
         console.error('Error fetching appointments:', err);
         setError('Failed to load appointments.');
