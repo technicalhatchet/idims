@@ -116,6 +116,7 @@ app.add_middleware(
         "http://localhost:5173",  # Vite default port
         "http://127.0.0.1:5173",
         f"https://{settings.AUTH0_DOMAIN}",
+        "https://v0-idims.vercel.app",
         # Add production domains if needed
     ],
     allow_credentials=True,
