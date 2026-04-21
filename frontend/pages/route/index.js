@@ -188,7 +188,14 @@ function AppointmentCard({ appointment, onStatusChange }) {
 }
 
 function TodaysRoute() {
-  const { user } = useUser();
+  const { user, isLoading: authLoading } = useUser();
+
+  // Add this at the top of the component, before other logic
+  useEffect(() => {
+    if (!authLoading && !user) {
+      window.location.href = '/api/auth/login';
+    }
+  }, [user, authLoading]);
   const [technicians, setTechnicians] = useState([]);
   const [selectedTechId, setSelectedTechId] = useState('');
   const [appointments, setAppointments] = useState([]);
@@ -362,14 +369,6 @@ function TodaysRoute() {
       </div>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context.req, context.res);
-  if (!session) {
-    return { redirect: { destination: '/api/auth/login', permanent: false } };
-  }
-  return { props: {} };
 }
 
 export default function TodaysRouteWithLayout(props) {
