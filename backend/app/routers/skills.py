@@ -58,7 +58,8 @@ async def get_manager_or_admin_dependency(request: Request = None):
     
     return await auth_handler.verify_manager_or_admin(token)
 
-@router.get("/", response_model=SkillListResponse)
+@router.get("", response_model=SkillListResponse)
+@router.get("/", response_model=SkillListResponse, include_in_schema=False)
 async def get_skills(
     request: Request,
     search: Optional[str] = None,

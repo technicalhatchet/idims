@@ -61,7 +61,8 @@ async def get_manager_or_admin_dependency(request: Request = None):
     
     return await auth_handler.verify_manager_or_admin(token)
 
-@router.get("/", response_model=TechnicianListResponse)
+@router.get("", response_model=TechnicianListResponse)
+@router.get("/", response_model=TechnicianListResponse, include_in_schema=False)
 async def list_technicians(
     search: Optional[str] = Query(None, description="Search term for technician name or skills"),
     status: Optional[str] = Query(None, description="Filter by status"),

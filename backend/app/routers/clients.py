@@ -91,7 +91,8 @@ async def get_admin_dependency(request: Request = None):
     
     return await auth_handler.verify_admin(token)
 
-@router.get("/", response_model=ClientListResponse)
+@router.get("", response_model=ClientListResponse)
+@router.get("/", response_model=ClientListResponse, include_in_schema=False)
 async def list_clients(
     search: Optional[str] = Query(None, description="Search term for client name or email"),
     status: Optional[str] = Query(None, description="Filter by status"),
