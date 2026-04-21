@@ -1384,7 +1384,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                       isMulti
                       options={servicesForSelectedCategory.map(service => ({ 
                         value: service.id, 
-                        label: `${service.name} (${service.sku_code || 'N/A'}) - ${service.duration_minutes || 0} min` 
+                        label: `${service.name}${service.sku_code ? ` (${service.sku_code})` : ''} - 
+                        ${service.duration_minutes || 0} min - $${(service.base_price || 0).toFixed(2)}`
                       }))}
                       value={servicesForSelectedCategory
                         .filter(service => formData.service_ids.includes(service.id))

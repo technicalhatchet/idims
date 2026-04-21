@@ -2,15 +2,13 @@ import { useForm } from '../../hooks/useForm';
 import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '../ui/FormElements';
 import { FaSave, FaTimes, FaTrash } from 'react-icons/fa';
 import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
-import { getTechnicians } from '../../services/api/techniciansApi';
-import { getAppointmentPreviewSlots } from '../../services/api/schedulingApi';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { apiClient } from '../../utils/api-client';
 import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
-import * as yup from 'yup';
+
 
 // Constants for equipment types
 const EQUIPMENT_TYPES = [
@@ -125,7 +123,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
   const [success, setSuccess] = useState(false);
   const { createWorkOrder, createWorkOrderWithInitialAppointment, updateWorkOrder, isLoading: isMutating } = useWorkOrderMutations();
 
-  /** Optional: create first appointment in the same transaction as the work order (new WOs only). */
+  /** Optional: create first appointment in the same transaction as the work order (new WOs only). 
   const [scheduleFirstVisit, setScheduleFirstVisit] = useState(false);
   const [firstVisitStart, setFirstVisitStart] = useState(() => {
     const d = new Date();
@@ -137,7 +135,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
   const [techniciansList, setTechniciansList] = useState([]);
   const [previewSlots, setPreviewSlots] = useState(null);
   const [previewLoading, setPreviewLoading] = useState(false);
-  const [previewError, setPreviewError] = useState(null);
+  const [previewError, setPreviewError] = useState(null);*/
   
   // New state for SKU selection
   const [selectedSkuEquipmentCategory, setSelectedSkuEquipmentCategory] = useState('');
@@ -629,31 +627,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
     }
   };
 
-  useEffect(() => {
-    if (!scheduleFirstVisit || isEdit) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await getTechnicians({ limit: 100 });
-        const items = res?.items ?? res;
-        if (!cancelled && Array.isArray(items)) {
-          setTechniciansList(items);
-        }
-      } catch (e) {
-        console.error('WorkOrderForm: failed to load technicians for scheduling', e);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [scheduleFirstVisit, isEdit]);
 
-  useEffect(() => {
-    if (!scheduleFirstVisit) {
-      setPreviewSlots(null);
-      setPreviewError(null);
-    }
-  }, [scheduleFirstVisit]);
   
   // Component initialization - load reference data
   useEffect(() => {
@@ -766,7 +740,8 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
       }
       acc[groupKey].push({ 
         value: sku.id, 
-        label: `${sku.name} ($${(sku.base_price || 0).toFixed(2)})`,
+        label: `${sku.name}${sku.sku_code ? ` (${sku.sku_code})` : ''} - 
+        ${sku.duration_minutes || 0} min - $${(sku.base_price || 0).toFixed(2)}`,
         // Store entire sku object for easy addition to service_items
         skuData: sku 
       });
@@ -1186,151 +1161,6 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
       </div>
       {/* --- End SKU / Service Items Selection --- */}
 
-      {!isEdit && (
-        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 mb-1">
-            First visit (optional)
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            Book the first trip together with the work order—one save, nothing left half-created.
-          </p>
-          <Checkbox
-            label="Schedule first visit now"
-            name="schedule_first_visit_ui"
-            checked={scheduleFirstVisit}
-            onChange={(e) => setScheduleFirstVisit(e.target.checked)}
-          />
-          {scheduleFirstVisit && (
-            <>
-            <div className="mt-4 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50/80 dark:bg-gray-800/40 p-4 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Start time
-                  </label>
-                  <input
-                    type="datetime-local"
-                    value={firstVisitStart}
-                    onChange={(e) => setFirstVisitStart(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                  />
-                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    Used to pick the calendar day for previews below.
-                  </p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Technician (optional)
-                  </label>
-                  <select
-                    value={firstVisitTechnicianId}
-                    onChange={(e) => setFirstVisitTechnicianId(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                  >
-                    <option value="">Anyone available</option>
-                    {techniciansList.map((t) => (
-                      <option key={t.id} value={t.id}>
-                        {formatTechnicianSelectLabel(t)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-                <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
-                  Preview openings (read-only)
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                  No work order is created until you submit the form. Visit length follows services you added above when possible; otherwise defaults to 60 minutes.
-                </p>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="small"
-                  isLoading={previewLoading}
-                  disabled={!firstVisitStart}
-                  onClick={async () => {
-                    if (!firstVisitStart) return;
-                    const day = firstVisitStart.slice(0, 10);
-                    const serviceIds = (values.service_items || [])
-                      .map((i) => i.service_id)
-                      .filter(Boolean);
-                    setPreviewLoading(true);
-                    setPreviewError(null);
-                    try {
-                      const data = await getAppointmentPreviewSlots({
-                        date: day,
-                        technicianId: firstVisitTechnicianId || undefined,
-                        serviceIds: serviceIds.length ? serviceIds : undefined,
-                      });
-                      setPreviewSlots(data);
-                    } catch (e) {
-                      setPreviewSlots(null);
-                      setPreviewError(e?.message || 'Could not load openings');
-                    } finally {
-                      setPreviewLoading(false);
-                    }
-                  }}
-                >
-                  Show openings for this day
-                </Button>
-                {previewError && (
-                  <p className="mt-2 text-sm text-red-600 dark:text-red-400" role="alert">
-                    {previewError}
-                  </p>
-                )}
-                {previewSlots && (
-                  <div
-                    className="mt-3 rounded-md border border-gray-200 dark:border-gray-600 p-3 bg-white dark:bg-gray-900/50"
-                    aria-live="polite"
-                  >
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
-                      {previewSlots.duration_minutes} min visits · {previewSlots.business_hours?.start}–{previewSlots.business_hours?.end} ·{' '}
-                      <span className="font-medium text-gray-800 dark:text-gray-200">
-                        {(previewSlots.slots || []).length} opening{(previewSlots.slots || []).length === 1 ? '' : 's'}
-                      </span>
-                    </p>
-                    <div className="max-h-48 overflow-y-auto space-y-1 pr-1">
-                      {(previewSlots.slots || []).length === 0 && (
-                        <p className="text-sm text-gray-500 dark:text-gray-400 py-2">
-                          Nothing open that day with these filters. Try another day or clear the technician.
-                        </p>
-                      )}
-                      {(previewSlots.slots || []).slice(0, 40).map((slot, idx) => (
-                        <button
-                          key={`${slot.start_time}-${idx}`}
-                          type="button"
-                          className="w-full text-left text-sm px-3 py-2 rounded-md border border-transparent hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-gray-700 dark:hover:border-gray-500 transition-colors"
-                          onClick={() => {
-                            const d = new Date(slot.start_time);
-                            if (!Number.isNaN(d.getTime())) {
-                              setFirstVisitStart(format(d, "yyyy-MM-dd'T'HH:mm"));
-                            }
-                            if (slot.technician_id) {
-                              setFirstVisitTechnicianId(slot.technician_id);
-                            }
-                          }}
-                        >
-                          <span className="font-medium text-gray-800 dark:text-gray-100">{slot.technician_name}</span>
-                          <span className="text-gray-600 dark:text-gray-300">
-                            {' '}
-                            · {new Date(slot.start_time).toLocaleString()} – {new Date(slot.end_time).toLocaleTimeString()}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                    {(previewSlots.slots || []).length > 40 && (
-                      <p className="text-xs text-gray-500 mt-2">Showing first 40. Filter by technician to narrow results.</p>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-            </>
-          )}
-        </div>
-      )}
       
       {/* Recurring job option */}
       <Checkbox
