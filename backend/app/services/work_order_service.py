@@ -655,7 +655,8 @@ class WorkOrderService:
             # Calculate scheduled_end based on services or default to 1 hour
             # scheduled_end is not expected in WorkOrderAppointmentCreate schema, so we calculate it here.
             estimated_duration_minutes = 60 # Default to 1 hour
-            if appointment_data.service_ids:
+            billable_statuses = ['completed', 'phone_payment']
+            if appointment_data.service_ids and appointment_data.status in billable_statuses:
                 total_service_duration = 0
                 for service_id in appointment_data.service_ids:
                     service = self.db.query(Service).filter(Service.id == service_id).first()
@@ -708,7 +709,7 @@ class WorkOrderService:
                     )
 
             # Logic for Invoice and InvoiceItems
-            if appointment_data.service_ids:
+            if appointment_data.service_ids and getattr(appointment_data, 'status', None) in ['completed', 'phone_payment']:
                 logger.info(f"Processing {len(appointment_data.service_ids)} service_ids for invoicing: {appointment_data.service_ids}")
                 # Ensure invoice exists or create it
                 invoice = self.db.query(Invoice).filter(Invoice.work_order_id == db_appointment.work_order_id).first()
@@ -939,7 +940,7 @@ class WorkOrderService:
                     self.db.execute(stmt_insert_assoc)
         
             # --- Invoice Update Logic for service_ids changes ---
-            if services_changed: # Only update invoice items if services actually changed
+            if services_changed and appointment_data.status in ['completed', 'phone_payment']: # Only update invoice items if services actually changed
                 invoice = self.db.query(Invoice).filter(Invoice.work_order_id == appointment.work_order_id).first()
                 if not invoice:
                     # If no invoice, and services are being added, create one.
