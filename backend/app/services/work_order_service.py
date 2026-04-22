@@ -655,7 +655,7 @@ class WorkOrderService:
             # Calculate scheduled_end based on services or default to 1 hour
             # scheduled_end is not expected in WorkOrderAppointmentCreate schema, so we calculate it here.
             estimated_duration_minutes = 60 # Default to 1 hour
-            if appointment_data.service_ids
+            if appointment_data.service_ids:
                 total_service_duration = 0
                 for service_id in appointment_data.service_ids:
                     service = self.db.query(Service).filter(Service.id == service_id).first()
