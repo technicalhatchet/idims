@@ -9,7 +9,7 @@ export default function Document() {
         <meta name="theme-color" content="#000000" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icons/qrbgicon-192x192.png" />
         
         {/* Add any preconnect links if needed */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
