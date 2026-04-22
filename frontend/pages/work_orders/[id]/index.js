@@ -57,6 +57,26 @@ function WorkOrderDetail() {
 
   // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+
+  // Compute services from appointments (single source of truth)
+  const allServices = workOrder?.appointments
+    ? workOrder.appointments.flatMap(appt =>
+        (appt.services || []).map(svc => ({
+          ...svc,
+          appointment_id: appt.id,
+          appointment_status: appt.status,
+          // Map billing status based on appointment status
+          billing_status:
+            appt.status === 'completed' || appt.status === 'phone_payment'
+              ? (svc.billing_status || 'billable')
+              : 'not_billable',
+          // Provide price fields from service definition if not present
+          unit_price: svc.unit_price || svc.base_price || 0,
+          price: svc.price || svc.base_price || 0,
+          quantity: svc.quantity || 1,
+        }))
+      )
+    : (workOrder?.services || []);
   
   // Handle payment success/cancel URLs
   useEffect(() => {
@@ -460,7 +480,7 @@ function WorkOrderDetail() {
               )}
               
               {/* Services and Items */}
-              {(workOrder.services?.length > 0 || workOrder.parts?.length > 0) && (
+              {(allServices?.length > 0 || workOrder.parts?.length > 0) && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
                   <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                     <h2 className="text-lg font-medium text-gray-900 dark:text-white">Services & Items</h2>
@@ -468,7 +488,7 @@ function WorkOrderDetail() {
                   
                   <div className="px-6 py-5">
                     {/* Services */}
-                    {workOrder.services?.length > 0 && (
+                    {allServices?.length > 0 && (
                       <div className="mb-6">
                         <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Services</h3>
                         <div className="overflow-x-auto">
@@ -482,12 +502,12 @@ function WorkOrderDetail() {
                               </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                              {workOrder.services.map((service) => (
-                                <tr key={service.id}>
+                              {allServices.map((service, index) => (
+                                <tr key={service.id || index}>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{service.name || 'Unknown Service'}</td>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{service.quantity}</td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${service.unit_price ? service.unit_price.toFixed(2) : 'N/A'}</td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${service.price ? service.price.toFixed(2) : 'N/A'}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${service.unit_price ? Number(service.unit_price).toFixed(2) : 'N/A'}</td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${service.price ? Number(service.price).toFixed(2) : 'N/A'}</td>
                                 </tr>
                               ))}
                             </tbody>
@@ -630,10 +650,10 @@ function WorkOrderDetail() {
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
               </div>
               <div className="px-6 py-5">
-                {(workOrder?.services?.length > 0 || workOrder?.parts?.length > 0) ? (
+                {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
                   <div className="space-y-6">
                     {/* Services Section */}
-                    {workOrder?.services?.length > 0 && (
+                    {allServices?.length > 0 && (
                       <div>
                         <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Services</h3>
                         <div className="overflow-x-auto">
@@ -648,7 +668,7 @@ function WorkOrderDetail() {
                               </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                              {workOrder.services.map((item, index) => {
+                              {allServices.map((item, index) => {
                                 const isBillable = item.billing_status === 'billable' || item.billing_status === 'paid';
                                 const isPaid = item.billing_status === 'paid';
                                 const isWaived = item.billing_status === 'waived';
@@ -765,7 +785,7 @@ function WorkOrderDetail() {
                         <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Due Today:</span>
                         <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">
                           ${(() => {
-                            const billableServicesTotal = (workOrder.services || [])
+                            const billableServicesTotal = (allServices || [])
                               .filter(service => service.billing_status === 'billable' || service.billing_status === 'paid')
                               .reduce((sum, service) => sum + (service.price || 0), 0);
                             
@@ -791,9 +811,9 @@ function WorkOrderDetail() {
 
                     {/* Payment Button */}
                     {(() => {
-                      const billableServicesTotal = (workOrder.services || [])
-                        .filter(service => service.billing_status === 'billable')
-                        .reduce((sum, service) => sum + (service.price || 0), 0);
+                      const billableServicesTotal = (allServices || [])
+                      .filter(service => service.billing_status === 'billable')
+                      .reduce((sum, service) => sum + (service.price || 0), 0);
                       
                       const billablePartsTotal = (workOrder.parts || [])
                         .filter(part => ['completed', 'phone_payment', 'up_front'].includes(part.status))
@@ -874,7 +894,7 @@ function WorkOrderDetail() {
                             <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Service Billing Status</label>
                             <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
                               <option value="">Select service...</option>
-                              {workOrder.services?.map(service => (
+                              {allServices?.map(service => (
                                 <option key={service.id} value={service.id}>
                                   {service.name} - {service.billing_status}
                                 </option>
