@@ -932,12 +932,27 @@ class WorkOrderService:
             for service_id in new_service_ids:
                 service = self.db.query(Service).filter(Service.id == service_id).first()
                 if service:
-                    # Add to association table
                     stmt_insert_assoc = appointment_services_association.insert().values(
                         appointment_id=appointment.id,
                         service_id=service.id
                     )
                     self.db.execute(stmt_insert_assoc)
+
+            # --- Clean up WorkOrderService records for removed SKUs ---
+            removed_service_ids = original_service_ids - new_service_ids
+            for removed_id in removed_service_ids:
+                old_wos = self.db.query(WorkOrderServiceModel).filter(
+                    WorkOrderServiceModel.work_order_id == appointment.work_order_id,
+                    WorkOrderServiceModel.service_id == removed_id,
+                    WorkOrderServiceModel.billing_status == 'not_billable'
+                ).first()
+                if old_wos:
+                    self.db.query(InvoiceItem).filter(
+                        InvoiceItem.work_order_service_id == old_wos.id
+                    ).delete()
+                    self.db.delete(old_wos)
+                    logger.info(f"Deleted WorkOrderService {old_wos.id} for removed service {removed_id}")
+            self.db.flush()
         
             # --- Invoice Update Logic for service_ids changes ---
             if services_changed and appointment_data.status in ['completed', 'phone_payment']: # Only update invoice items if services actually changed
