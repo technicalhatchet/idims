@@ -652,6 +652,7 @@ class WorkOrderService:
             if not work_order:
                 raise NotFoundException(f"Work order with ID {appointment_data.work_order_id} not found.")
 
+
             # Calculate scheduled_end based on services or default to 1 hour
             # scheduled_end is not expected in WorkOrderAppointmentCreate schema, so we calculate it here.
             estimated_duration_minutes = 60 # Default to 1 hour
@@ -708,7 +709,7 @@ class WorkOrderService:
                     )
 
             # Logic for Invoice and InvoiceItems
-            if appointment_data.service_ids
+            if appointment_data.service_ids:
                 logger.info(f"Processing {len(appointment_data.service_ids)} service_ids for invoicing: {appointment_data.service_ids}")
                 # Ensure invoice exists or create it
                 invoice = self.db.query(Invoice).filter(Invoice.work_order_id == db_appointment.work_order_id).first()
