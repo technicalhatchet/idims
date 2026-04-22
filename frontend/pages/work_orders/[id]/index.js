@@ -58,25 +58,8 @@ function WorkOrderDetail() {
   // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
 
-  // Compute services from appointments (single source of truth)
-  const allServices = workOrder?.appointments
-    ? workOrder.appointments.flatMap(appt =>
-        (appt.services || []).map(svc => ({
-          ...svc,
-          appointment_id: appt.id,
-          appointment_status: appt.status,
-          // Map billing status based on appointment status
-          billing_status:
-            appt.status === 'completed' || appt.status === 'phone_payment'
-              ? (svc.billing_status || 'billable')
-              : 'not_billable',
-          // Provide price fields from service definition if not present
-          unit_price: svc.unit_price || svc.base_price || 0,
-          price: svc.price || svc.base_price || 0,
-          quantity: svc.quantity || 1,
-        }))
-      )
-    : (workOrder?.services || []);
+  // Services come directly from the work order
+  const allServices = workOrder?.services || [];
   
   // Handle payment success/cancel URLs
   useEffect(() => {
