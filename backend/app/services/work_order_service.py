@@ -656,7 +656,7 @@ class WorkOrderService:
             # scheduled_end is not expected in WorkOrderAppointmentCreate schema, so we calculate it here.
             estimated_duration_minutes = 60 # Default to 1 hour
             billable_statuses = ['completed', 'phone_payment']
-            if appointment_data.service_ids and appointment_data.status in billable_statuses:
+            if appointment_data.service_ids and getattr(appointment_data, 'status', None) in billable_statuses:
                 total_service_duration = 0
                 for service_id in appointment_data.service_ids:
                     service = self.db.query(Service).filter(Service.id == service_id).first()
