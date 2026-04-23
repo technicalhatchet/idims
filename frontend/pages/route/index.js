@@ -271,7 +271,7 @@ function TodaysRoute() {
       setIsLoading(true);
       setError(null);
       try {
-        let url = `scheduling/schedule?start_date=${date}&end_date=${date}&view_type=day`;
+        let url = `scheduling/schedule/combined?start_date=${date}&end_date=${date}&view_type=day`;
         if (selectedTechId) url += `&technician_id=${selectedTechId}`;
         const res = await apiClient(url);
         const appts = res?.appointments || [];
