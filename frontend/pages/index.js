@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import HomeLayout from '../components/layouts/HomeLayout';
-import { FaChartLine, FaCalendarAlt, FaFileInvoiceDollar, FaMobileAlt, FaUsers, FaChartBar } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   const { user } = useUser();
@@ -10,123 +10,189 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Quantum SBM | Home</title>
+        <title>Quantum Repair | Appliance Repair Toledo</title>
       </Head>
 
-      {/* Hero Section */}
-      <section className="bg-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 mb-8 md:mb-0">
+      {/* HERO */}
+      <section className="relative bg-[#0B0F1A] text-white overflow-hidden">
+
+        {/* Background Glow */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute w-[600px] h-[600px] bg-cyan-500/10 blur-[120px] top-[-100px] left-[-100px]" />
+          <div className="absolute w-[600px] h-[600px] bg-orange-500/10 blur-[120px] bottom-[-100px] right-[-100px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+
+          {/* LEFT */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Streamline Your Service Business Operations
+              Fast, Reliable{" "}
+              <span className="text-cyan-400 drop-shadow-[0_0_10px_rgba(0,255,255,0.8)]">
+                Appliance Repair
+              </span>{" "}
+              in Toledo
             </h1>
-            <p className="mt-4 text-xl text-blue-100">
-              All-in-one platform for managing work orders, invoices, scheduling, and customer relationships.
+
+            <p className="mt-4 text-gray-300 text-lg">
+              Same-day service. Honest diagnostics. No surprises.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+
+            <div className="mt-8 flex flex-wrap gap-4">
+
+              {/* BOOK BUTTON */}
+              <Link href="/book">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-cyan-400 text-black px-6 py-3 rounded-lg font-semibold shadow-lg shadow-cyan-400/30"
+                >
+                  Book Service Now
+                </motion.button>
+              </Link>
+
+              {/* CALL BUTTON */}
+              <a href="tel:4190000000">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="border border-white/30 px-6 py-3 rounded-lg hover:bg-white/10"
+                >
+                  Call Now
+                </motion.button>
+              </a>
+
+            </div>
+
+            {/* AUTH BUTTONS */}
+            <div className="mt-6 flex gap-4 text-sm">
               {user ? (
-                <Link href="/dashboard" className="px-6 py-3 bg-white text-blue-600 font-medium rounded-md shadow hover:bg-gray-100 transition-colors">
-                  Go to Dashboard
+                <Link href="/dashboard" className="text-cyan-400 hover:underline">
+                  Dashboard →
                 </Link>
               ) : (
-                <Link href="/api/auth/login" className="px-6 py-3 bg-white text-blue-600 font-medium rounded-md shadow hover:bg-gray-100 transition-colors">
-                  Get Started
+                <Link href="/api/auth/login" className="text-gray-400 hover:text-white">
+                  Login
                 </Link>
               )}
-              <Link href="/about" className="px-6 py-3 border border-white text-white font-medium rounded-md hover:bg-blue-700 transition-colors">
-                Learn More
-              </Link>
             </div>
-          </div>
-          <div className="md:w-1/2 flex justify-center">
-            <div className="rounded-lg shadow-xl w-full max-w-md bg-white p-4">
-              <div className="h-64 flex items-center justify-center bg-gray-100 rounded">
-                <span className="text-gray-400">Dashboard Preview</span>
-              </div>
+
+            {/* TRUST */}
+            <div className="mt-6 text-sm text-gray-400">
+              ⭐ 4.9 Rated • Licensed & Insured • Same-Day Availability
             </div>
+          </motion.div>
+
+          {/* RIGHT VISUAL */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="relative bg-white/5 rounded-2xl h-[320px] flex items-center justify-center overflow-hidden border border-white/10"
+          >
+            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-orange-500/10 blur-2xl" />
+            <span className="text-gray-500 z-10">[Technician Image]</span>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section className="bg-[#0B0F1A] text-white py-20 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl font-bold">Appliance Repair Services</h2>
+          <p className="text-gray-400 mt-2">
+            We fix all major household appliances quickly and professionally.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+
+            {[
+              {
+                title: "Refrigerator Repair",
+                desc: "Not cooling? Leaking? Ice maker broken?"
+              },
+              {
+                title: "Washer & Dryer",
+                desc: "Won’t drain, spin, or heat?"
+              },
+              {
+                title: "Oven & Range",
+                desc: "Not heating or cooking unevenly?"
+              },
+              {
+                title: "Dishwasher",
+                desc: "Not cleaning or draining?"
+              }
+            ].map((service, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-cyan-400/50"
+              >
+                <h3 className="text-lg font-semibold text-cyan-400">
+                  {service.title}
+                </h3>
+                <p className="text-gray-400 mt-2">{service.desc}</p>
+                <Link href="/book" className="mt-4 inline-block text-orange-400">
+                  Book Now →
+                </Link>
+              </motion.div>
+            ))}
+
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-12 md:py-20 bg-white dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Everything You Need to Run Your Service Business
-            </h2>
-            <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">
-              Our comprehensive platform helps you manage every aspect of your service business.
-            </p>
-          </div>
+      {/* PRICING */}
+      <section className="bg-[#0B0F1A] text-center py-20 text-white">
+        <h2 className="text-3xl font-bold">Simple, Honest Pricing</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <div className="rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-4">
-                <FaChartLine className="text-blue-600 dark:text-blue-400 text-xl" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Work Order Management
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Create, track, and manage work orders from creation to completion. Assign technicians and track progress in real-time.
-              </p>
-            </div>
+        <p className="text-4xl text-orange-400 mt-6 font-bold">
+          $89 Diagnostic
+        </p>
 
-            {/* Feature 2 */}
-            <div className="rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
-                <FaCalendarAlt className="text-green-600 dark:text-green-400 text-xl" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Smart Scheduling
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Efficiently schedule jobs with our intuitive calendar interface. Prevent conflicts and optimize technician routes.
-              </p>
-            </div>
+        <p className="text-gray-400 mt-2">
+          Waived if you proceed with the repair
+        </p>
 
-            {/* Feature 3 */}
-            <div className="rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mb-4">
-                <FaFileInvoiceDollar className="text-indigo-600 dark:text-indigo-400 text-xl" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Invoicing & Payments
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Generate professional invoices automatically from work orders. Accept online payments and track payment status.
-              </p>
-            </div>
-          </div>
+        <div className="mt-6 text-gray-300">
+          ✔ No hidden fees <br />
+          ✔ Upfront pricing <br />
+          ✔ Warranty included
         </div>
+
+        <Link href="/book">
+          <button className="mt-6 bg-cyan-400 text-black px-6 py-3 rounded-lg font-semibold shadow-lg shadow-cyan-400/30">
+            Schedule Appointment
+          </button>
+        </Link>
       </section>
-      
-      {/* CTA Section */}
-      <section className="py-12 md:py-20 bg-blue-600">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white">
-            Ready to Transform Your Service Business?
-          </h2>
-          <p className="mt-4 text-xl text-blue-100">
-            Join thousands of service businesses using our platform to streamline operations and increase profitability.
-          </p>
-          <div className="mt-8">
-            <Link href="/api/auth/login" className="px-8 py-4 bg-white text-blue-600 font-medium rounded-md text-lg shadow hover:bg-gray-100 transition-colors">
-              Start Your Free Trial
-            </Link>
-          </div>
-          <p className="mt-4 text-blue-200 text-sm">
-            No credit card required. 14-day free trial.
-          </p>
+
+      {/* FINAL CTA */}
+      <section className="bg-[#0B0F1A] py-20 text-center text-white">
+        <h2 className="text-3xl font-bold">
+          Get Your Appliance Fixed Today
+        </h2>
+
+        <div className="mt-6 flex justify-center gap-4">
+          <Link href="/book">
+            <button className="bg-cyan-400 text-black px-6 py-3 rounded-lg">
+              Book Now
+            </button>
+          </Link>
+
+          <a href="tel:4190000000">
+            <button className="border px-6 py-3 rounded-lg">
+              Call Now
+            </button>
+          </a>
         </div>
       </section>
     </>
   );
 }
 
-// Use the home layout for this page
 Home.getLayout = function getLayout(page) {
   return <HomeLayout>{page}</HomeLayout>;
 };
