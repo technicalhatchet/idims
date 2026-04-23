@@ -1343,7 +1343,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                 </div>
                 */}
 
-                <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                  <div>
                   <label htmlFor="service_category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Service Category *
                   </label>
@@ -1366,9 +1367,9 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                     ))}
                   </select>
                   {formErrors.service_category && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.service_category}</p>}
-                </div>
+                  </div>
                 
-                <div>
+                  <div>
                   <label htmlFor="service_ids" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Services/SKUs {formData.service_ids.length > 0 ? `(${formData.service_ids.length} selected)` : ''}
                   </label>
@@ -1451,6 +1452,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                     />
                   )}
                   {formErrors.service_ids && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.service_ids}</p>}
+                  </div>
                 </div>
                 
                 {/* Date Picker */}
