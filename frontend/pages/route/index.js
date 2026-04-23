@@ -26,12 +26,28 @@ function getStatusStyle(status) {
 function AppointmentCard({ appointment, onStatusChange }) {
   const [expanded, setExpanded] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [phone, setPhone] = useState(appointment.client_phone || '');
   const [currentStatus, setCurrentStatus] = useState(
     typeof appointment.status === 'string' ? appointment.status : appointment.status?.value || 'scheduled'
   );
 
+  // Fetch phone when expanded
+  useEffect(() => {
+    if (!expanded || phone) return;
+    const fetchPhone = async () => {
+      try {
+        const res = await apiClient(`work-orders/${appointment.work_order_id}`);
+        const p = res?.client_user?.phone || res?.client?.phone || '';
+        setPhone(p);
+      } catch (err) {
+        console.error('Error fetching phone:', err);
+      }
+    };
+    fetchPhone();
+  }, [expanded]);
+
   const address = appointment.location || appointment.service_location?.address || '';
-  const phone = appointment.client_phone || appointment.client?.phone || '';
+  //const phone = appointment.client_phone || appointment.client?.phone || '';
   const clientName = appointment.client_name || appointment.client?.name || 'Client';
   const workOrderId = appointment.work_order_id;
   const startTime = appointment.start ? new Date(appointment.start) : null;
@@ -40,7 +56,15 @@ function AppointmentCard({ appointment, onStatusChange }) {
   const handleStatusChange = async (newStatus) => {
     setUpdating(true);
     try {
-      await apiClient(`work-orders/appointments/${appointment.id}`, {
+      // The scheduling API returns work_order_id as id
+      // We need to fetch the actual appointment ID first
+      const apptRes = await apiClient(`work-orders/${appointment.work_order_id}/appointments`);
+      const appointments = apptRes?.items || [];
+      const actualAppt = appointments[0]; // Get first/primary appointment
+      
+      if (!actualAppt) throw new Error('No appointment found');
+      
+      await apiClient(`work-orders/appointments/${actualAppt.id}`, {
         method: 'PUT',
         body: JSON.stringify({ status: newStatus }),
       });
