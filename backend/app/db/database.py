@@ -14,11 +14,11 @@ database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
 engine = create_engine(
     database_url,
     pool_pre_ping=True,
-    pool_size=3,
-    max_overflow=2,
-    pool_timeout=30,
-    pool_recycle=60,
-    pool_reset_on_return='commit',
+    pool_size=2,
+    max_overflow=1,
+    pool_timeout=10,
+    pool_recycle=300,
+    pool_reset_on_return='rollback',
     connect_args={
         'keepalives': 1,
         'keepalives_idle': 30,
