@@ -38,7 +38,9 @@ function WorkOrderDetail() {
   const [newStatus, setNewStatus] = useState('');
   const [statusNotes, setStatusNotes] = useState('');
   const [activeTab, setActiveTab] = useState(
-    router.query.tab === 'appointments' ? TABS.APPOINTMENTS : TABS.DETAILS
+    router.query.tab === 'appointments' ? TABS.APPOINTMENTS :
+    router.query.tab === 'details' ? TABS.DETAILS :
+    TABS.DETAILS
   );
   const [statusModalError, setStatusModalError] = useState(null);
   const [paymentAmount, setPaymentAmount] = useState('');
@@ -666,7 +668,7 @@ function WorkOrderDetail() {
                           {clientWorkOrders.map(wo => (
                             <tr key={wo.id} className="hover:bg-gray-50 dark:hover:bg-gray-750">
                               <td className="px-4 py-3 whitespace-nowrap">
-                                <Link href={`/work_orders/${wo.id}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium text-sm">
+                                <Link href={`/work_orders/${wo.id}?tab=details`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium text-sm">
                                   {wo.order_number}
                                 </Link>
                               </td>
