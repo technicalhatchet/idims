@@ -104,6 +104,13 @@ function WorkOrderDetail() {
 
   }
   
+  // Sync tab from URL query param (router.query is empty on first render)
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (router.query.tab === 'appointments') setActiveTab(TABS.APPOINTMENTS);
+    else if (router.query.tab === 'details') setActiveTab(TABS.DETAILS);
+  }, [router.isReady, router.query.tab]);
+
   // Fetch client's other work orders when Client tab is active
   useEffect(() => {
     if (activeTab === TABS.CLIENT && workOrder?.client_id && clientWorkOrders.length === 0) {
