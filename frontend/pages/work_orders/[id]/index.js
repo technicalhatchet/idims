@@ -43,6 +43,8 @@ function WorkOrderDetail() {
   const [statusModalError, setStatusModalError] = useState(null);
   const [paymentAmount, setPaymentAmount] = useState('');
   const [isApplyingPayment, setIsApplyingPayment] = useState(false);
+  const [clientWorkOrders, setClientWorkOrders] = useState([]);
+  const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
   const { theme } = useTheme();
   
   // Ensure dark mode applies correctly on page load
@@ -100,6 +102,21 @@ function WorkOrderDetail() {
 
   }
   
+  // Fetch client's other work orders when Client tab is active
+  useEffect(() => {
+    if (activeTab === TABS.CLIENT && workOrder?.client_id && clientWorkOrders.length === 0) {
+      setClientWorkOrdersLoading(true);
+      apiClient(`work-orders?client_id=${workOrder.client_id}&limit=50`)
+        .then(res => {
+          const items = res?.items || [];
+          // Exclude the current work order
+          setClientWorkOrders(items.filter(wo => wo.id !== workOrder.id));
+        })
+        .catch(err => console.error('Error fetching client work orders:', err))
+        .finally(() => setClientWorkOrdersLoading(false));
+    }
+  }, [activeTab, workOrder?.client_id]);
+
   // Work order mutations
   const { 
     deleteWorkOrder, 
@@ -582,46 +599,93 @@ function WorkOrderDetail() {
           
           {/* Client Tab */}
           {activeTab === TABS.CLIENT && (
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
-              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                <h2 className="text-lg font-medium text-gray-900 dark:text-white">Client Information</h2>
+            <div className="space-y-6">
+              {/* Client Info Card */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-white">Client Information</h2>
+                </div>
+                <div className="px-6 py-5">
+                  {workOrder.client_user ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h3>
+                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          {`${workOrder.client_user.first_name || ''} ${workOrder.client_user.last_name || ''}`.trim() || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
+                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          {workOrder.client?.company_name || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
+                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          {workOrder.client_user.email || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
+                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          {workOrder.client_user.phone || workOrder.client?.phone || 'N/A'}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                      No client information available.
+                    </p>
+                  )}
+                </div>
               </div>
-              <div className="px-6 py-5">
-                {workOrder.client_user ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                        {`${workOrder.client_user.first_name || ''} ${workOrder.client_user.last_name || ''}`.trim() || 'N/A'}
-                      </p>
+
+              {/* Client's Other Work Orders */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-white">Other Work Orders</h2>
+                </div>
+                <div className="px-6 py-5">
+                  {clientWorkOrdersLoading ? (
+                    <div className="flex justify-center py-6"><LoadingSpinner /></div>
+                  ) : clientWorkOrders.length === 0 ? (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-6">No other work orders for this client.</p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead className="bg-gray-50 dark:bg-gray-700">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Order #</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                          {clientWorkOrders.map(wo => (
+                            <tr key={wo.id} className="hover:bg-gray-50 dark:hover:bg-gray-750">
+                              <td className="px-4 py-3 whitespace-nowrap">
+                                <Link href={`/work_orders/${wo.id}`} className="text-blue-600 dark:text-blue-400 hover:underline font-medium text-sm">
+                                  {wo.order_number}
+                                </Link>
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 max-w-xs truncate">
+                                {wo.description || 'No description'}
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap">
+                                <StatusBadge status={wo.status} />
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                {wo.created_at ? format(new Date(wo.created_at), 'MMM d, yyyy') : 'N/A'}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                    
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                        {workOrder.client?.company_name || 'N/A'}
-                      </p>
-                    </div>
-                    
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                        {workOrder.client_user.email || 'N/A'}
-                      </p>
-                    </div>
-                    
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                        {workOrder.client_user.phone || 'N/A'}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                    No client information available.
-                  </p>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           )}
