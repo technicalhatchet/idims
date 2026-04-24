@@ -300,6 +300,9 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     }
   };
 
+  // Default technician name to auto-select
+  const DEFAULT_TECHNICIAN_NAME = 'Chee Clocksin';
+
   // Fetch technicians for assignment
   const fetchTechnicians = async () => {
     try {
@@ -309,11 +312,23 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       
       if (response && response.items && Array.isArray(response.items)) {
         console.log(`Found ${response.items.length} technicians`);
-        // Log the first technician to check structure
-        if (response.items.length > 0) {
-          console.log("First technician data structure:", response.items[0]);
-        }
         setTechnicians(response.items);
+
+        // Auto-select default technician if none is selected
+        setFormData(prev => {
+          if (prev.assigned_technician_id) return prev; // already set, don't override
+          const defaultTech = response.items.find(t => {
+            const name = t.user
+              ? `${t.user.first_name || ''} ${t.user.last_name || ''}`.trim()
+              : `${t.first_name || ''} ${t.last_name || ''}`.trim();
+            return name === DEFAULT_TECHNICIAN_NAME;
+          });
+          if (defaultTech) {
+            console.log('Auto-selecting default technician:', defaultTech.id);
+            return { ...prev, assigned_technician_id: defaultTech.id };
+          }
+          return prev;
+        });
       } else {
         console.error("Invalid technicians data format:", response);
         setTechnicians([]);

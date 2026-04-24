@@ -1,202 +1,182 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaPhone } from 'react-icons/fa';
+import { HiOutlinePhone } from 'react-icons/hi';
 
-export default function Header({ user, isLoading, darkMode, toggleTheme }) {
+export default function Header({ user, isLoading }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
-  
-  // Close menu on route change
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const handleRouteChange = () => {
       setMenuOpen(false);
     };
-    
     router.events.on('routeChangeComplete', handleRouteChange);
-    
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router]);
-  
-  // Nav links
+
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
     { href: '/services', label: 'Services' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/about', label: 'About' },
+    { href: '/service-area', label: 'Service Area' },
     { href: '/contact', label: 'Contact' },
   ];
-  
+
   return (
-    <header className="bg-white dark:bg-gray-800 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-[#0B0F1A]/95 backdrop-blur-md shadow-lg shadow-black/20' : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="flex items-center">
-              <img
-                className="h-8 w-auto"
-                src="/icon-500x500.png"
-                alt="Service Business"
-              />
-              <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">
-                Quantum Repair
-              </span>
-            </Link>
-          </div>
-          
-          {/* Desktop nav */}
-          <nav className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="relative w-10 h-10">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-orange-500 rounded-full opacity-20 group-hover:opacity-40 transition blur-sm" />
+              <svg viewBox="0 0 40 40" className="w-10 h-10 relative">
+                <circle cx="20" cy="20" r="4" fill="url(#atomGrad)" />
+                <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#orbitGrad)" strokeWidth="1.5" transform="rotate(-30 20 20)" />
+                <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#orbitGrad)" strokeWidth="1.5" transform="rotate(30 20 20)" />
+                <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#orbitGrad)" strokeWidth="1.5" transform="rotate(90 20 20)" />
+                <circle cx="8" cy="14" r="2" fill="#22d3ee" />
+                <circle cx="32" cy="14" r="2" fill="#f97316" />
+                <circle cx="20" cy="34" r="2" fill="#22d3ee" />
+                <defs>
+                  <linearGradient id="atomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#22d3ee" />
+                    <stop offset="100%" stopColor="#f97316" />
+                  </linearGradient>
+                  <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#22d3ee" />
+                    <stop offset="50%" stopColor="#f97316" />
+                    <stop offset="100%" stopColor="#22d3ee" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <span className="text-xl font-bold text-white tracking-tight">
+              QUANTUM<br />
+              <span className="text-orange-500">REPAIR</span>
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`text-sm font-medium transition-colors ${
                   router.pathname === link.href
-                    ? 'text-blue-600 dark:text-blue-400'
-                    : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400'
+                    ? 'text-white'
+                    : 'text-gray-400 hover:text-white'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          
-          {/* Right side actions */}
-          <div className="flex items-center">
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 ml-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
-              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {darkMode ? (
-                <FaSun className="h-5 w-5 text-yellow-400" />
-              ) : (
-                <FaMoon className="h-5 w-5" />
-              )}
-            </button>
-            
-            {/* Auth buttons */}
-            <div className="hidden md:ml-6 md:flex md:items-center">
-              {isLoading ? (
-                <div className="h-5 w-5 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
-              ) : user ? (
-                <div className="flex items-center space-x-4">
-                  <Link
-                    href="/dashboard"
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    href="/api/auth/logout"
-                    className="text-sm text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
-                  >
-                    Sign Out
-                  </Link>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-4">
-                  <Link
-                    href="/api/auth/login"
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700"
-                  >
-                    Sign In
-                  </Link>
-                </div>
-              )}
-            </div>
-            
-            {/* Mobile menu button */}
-            <div className="flex items-center md:hidden">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
-                aria-expanded={menuOpen}
+
+          {/* Right Side Actions */}
+          <div className="hidden lg:flex items-center gap-6">
+            {isLoading ? (
+              <div className="h-5 w-5 border-t-2 border-cyan-400 rounded-full animate-spin" />
+            ) : user ? (
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
               >
-                {menuOpen ? (
-                  <FaTimes className="block h-6 w-6" />
-                ) : (
-                  <FaBars className="block h-6 w-6" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Mobile menu */}
-      <div className={`md:hidden ${menuOpen ? 'block' : 'hidden'}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                router.pathname === link.href
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-          
-          {/* Auth links for mobile */}
-          {isLoading ? (
-            <div className="flex justify-center py-2">
-              <div className="h-5 w-5 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
-            </div>
-          ) : user ? (
-            <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex items-center px-5">
-                <div className="flex-shrink-0">
-                  {user.picture ? (
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src={user.picture}
-                      alt={user.name || 'User profile'}
-                    />
-                  ) : (
-                    <div className="h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
-                      {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                    </div>
-                  )}
-                </div>
-                <div className="ml-3">
-                  <div className="text-base font-medium text-gray-800 dark:text-white">{user.name}</div>
-                  <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{user.email}</div>
-                </div>
-              </div>
-              <div className="mt-3 px-2 space-y-1">
-                <Link
-                  href="/dashboard"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  href="/api/auth/logout"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
-                >
-                  Sign Out
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
+                <FaUser className="w-4 h-4" />
+                Dashboard
+              </Link>
+            ) : (
               <Link
                 href="/api/auth/login"
-                className="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 mx-2"
+                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
               >
-                Sign In
+                <FaUser className="w-4 h-4" />
+                Login
+              </Link>
+            )}
+            <Link
+              href="/book"
+              className="relative group px-6 py-2.5 rounded-lg font-semibold text-sm overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600 transition-all group-hover:from-orange-400 group-hover:to-orange-500" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-orange-400 to-orange-500 blur-lg" />
+              <span className="relative text-white flex items-center gap-2">
+                Book Now
+              </span>
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${
+          menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-6 py-4 bg-[#0B0F1A]/95 backdrop-blur-md border-t border-white/5">
+          <nav className="flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`py-2 text-sm font-medium transition-colors ${
+                  router.pathname === link.href
+                    ? 'text-white'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+              {user ? (
+                <Link href="/dashboard" className="text-gray-400 hover:text-white text-sm">
+                  Dashboard
+                </Link>
+              ) : (
+                <Link href="/api/auth/login" className="text-gray-400 hover:text-white text-sm">
+                  Login
+                </Link>
+              )}
+              <Link
+                href="/book"
+                className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center py-3 rounded-lg font-semibold text-sm"
+              >
+                Book Now
               </Link>
             </div>
-          )}
+          </nav>
         </div>
       </div>
     </header>
   );
-} 
+}
