@@ -1,6 +1,6 @@
 import { useForm } from '../../hooks/useForm';
 import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '../ui/FormElements';
-import { FaSave, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaSave, FaTimes, FaTrash, FaUserPlus } from 'react-icons/fa';
 import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef, useCallback } from 'react';
@@ -8,6 +8,7 @@ import { apiClient } from '../../utils/api-client';
 import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
+import Select from 'react-select';
 
 
 // Constants for equipment types
@@ -140,6 +141,12 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
   // New state for SKU selection
   const [selectedSkuEquipmentCategory, setSelectedSkuEquipmentCategory] = useState('');
   const [filteredSkusForDropdown, setFilteredSkusForDropdown] = useState([]);
+
+  // New client inline form state
+  const [showNewClientForm, setShowNewClientForm] = useState(false);
+  const [newClientData, setNewClientData] = useState({ first_name: '', last_name: '', email: '', phone: '' });
+  const [newClientSaving, setNewClientSaving] = useState(false);
+  const [newClientError, setNewClientError] = useState(null);
   
   // Initialize form with default values or provided data
   const defaultValues = {
@@ -787,6 +794,41 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
     setFieldValue('invoice_total', total);
   }, [values.service_items]);
   
+  // Save new client and auto-select
+  const handleSaveNewClient = async () => {
+    if (!newClientData.first_name || !newClientData.last_name) {
+      setNewClientError('First and last name are required.');
+      return;
+    }
+    setNewClientSaving(true);
+    setNewClientError(null);
+    try {
+      const created = await apiClient('clients', {
+        method: 'POST',
+        body: JSON.stringify(newClientData)
+      });
+      // Add to clients list and auto-select
+      const newOption = {
+        value: created.id,
+        label: `${created.first_name} ${created.last_name} (${created.email || 'No Email'})`
+      };
+      setClients(prev => [...prev, newOption]);
+      setFormValues({ ...values, client_id: created.id });
+      setClientData(created);
+      // Auto-populate address if available
+      if (created.address) {
+        const addressStr = [created.address.street1, created.address.street2, created.address.city, created.address.state, created.address.zip].filter(Boolean).join(', ');
+        setFormValues(prev => ({ ...prev, client_id: created.id, service_location: { address: addressStr } }));
+      }
+      setShowNewClientForm(false);
+      setNewClientData({ first_name: '', last_name: '', email: '', phone: '' });
+    } catch (err) {
+      setNewClientError(err.message || 'Failed to create client.');
+    } finally {
+      setNewClientSaving(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="py-8 flex justify-center">
@@ -834,18 +876,105 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
       
       {/* Client and basic info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <SelectInput
-          label="Client"
-          name="client_id"
-          value={values.client_id || ''}
-          onChange={handleClientChange}
-          onBlur={handleBlur}
-          error={touched.client_id && errors.client_id && !values.client_id ? errors.client_id : undefined}
-          options={clients}
-          emptyOption="Select Client..."
-          required
-          helpText={clients.length === 0 ? "No clients available. Please add clients first." : undefined}
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Client <span className="text-red-500">*</span>
+          </label>
+          <Select
+            options={[
+              { value: '__new__', label: '+ Add New Client', isSpecial: true },
+              ...clients
+            ]}
+            value={clients.find(c => c.value === values.client_id) || null}
+            onChange={(selected) => {
+              if (selected?.value === '__new__') {
+                setShowNewClientForm(true);
+              } else {
+                setShowNewClientForm(false);
+                handleClientChange({ target: { value: selected?.value || '' } });
+              }
+            }}
+            placeholder="Search or select client..."
+            isClearable
+            styles={{
+              control: (base, state) => ({
+                ...base,
+                backgroundColor: 'var(--color-bg-input, #1f2937)',
+                borderColor: state.isFocused ? '#3b82f6' : '#4b5563',
+                boxShadow: state.isFocused ? '0 0 0 1px #3b82f6' : 'none',
+                borderRadius: '0.375rem',
+                minHeight: '38px',
+              }),
+              menu: (base) => ({ ...base, backgroundColor: '#1f2937', zIndex: 50 }),
+              option: (base, state) => ({
+                ...base,
+                backgroundColor: state.isSelected ? '#3b82f6' : state.isFocused ? '#374151' : 'transparent',
+                color: state.data?.isSpecial ? '#34d399' : state.isSelected ? 'white' : '#d1d5db',
+                fontWeight: state.data?.isSpecial ? '600' : 'normal',
+              }),
+              singleValue: (base) => ({ ...base, color: '#e5e7eb' }),
+              input: (base) => ({ ...base, color: '#e5e7eb' }),
+              placeholder: (base) => ({ ...base, color: '#9ca3af' }),
+              indicatorSeparator: () => ({ display: 'none' }),
+            }}
+          />
+          {touched.client_id && !values.client_id && (
+            <p className="mt-1 text-sm text-red-600">Client is required</p>
+          )}
+
+          {/* Inline new client form */}
+          {showNewClientForm && (
+            <div className="mt-3 p-4 border border-green-300 dark:border-green-700 rounded-md bg-green-50 dark:bg-green-900/20">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-sm font-medium text-green-800 dark:text-green-300 flex items-center">
+                  <FaUserPlus className="mr-2" /> New Client
+                </h4>
+                <button type="button" onClick={() => setShowNewClientForm(false)} className="text-gray-400 hover:text-gray-600">
+                  <FaTimes />
+                </button>
+              </div>
+              {newClientError && <p className="text-sm text-red-600 mb-2">{newClientError}</p>}
+              <div className="grid grid-cols-2 gap-2 mb-2">
+                <input
+                  type="text"
+                  placeholder="First Name *"
+                  value={newClientData.first_name}
+                  onChange={e => setNewClientData(p => ({ ...p, first_name: e.target.value }))}
+                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name *"
+                  value={newClientData.last_name}
+                  onChange={e => setNewClientData(p => ({ ...p, last_name: e.target.value }))}
+                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={newClientData.email}
+                  onChange={e => setNewClientData(p => ({ ...p, email: e.target.value }))}
+                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone"
+                  value={newClientData.phone}
+                  onChange={e => setNewClientData(p => ({ ...p, phone: e.target.value }))}
+                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleSaveNewClient}
+                disabled={newClientSaving}
+                className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium disabled:opacity-50"
+              >
+                {newClientSaving ? 'Saving...' : 'Save & Select Client'}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       
       {/* Equipment Information */}
