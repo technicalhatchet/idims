@@ -597,22 +597,30 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     }
         
     // Create end time 1 hour after start time (will be auto-adjusted by services later)
-    const endTime = addMinutes(startTime, 60); 
+    const endTime = addMinutes(startTime, 60);
+
+    // Find default technician from already-loaded list
+    const defaultTech = technicians.find(t => {
+      const name = t.user
+        ? `${t.user.first_name || ''} ${t.user.last_name || ''}`.trim()
+        : `${t.first_name || ''} ${t.last_name || ''}`.trim();
+      return name === DEFAULT_TECHNICIAN_NAME;
+    });
     
     setFormData({
-      ...initialFormData, // Spread initialFormData first
+      ...initialFormData,
       work_order_id: workOrderId,
-      appointment_type: 'diagnostic', // Keep default or remove if services define type
+      appointment_type: 'diagnostic',
       status: 'scheduled',
       scheduled_start: formatDateTimeForInput(startTime),
       scheduled_end: formatDateTimeForInput(endTime),
-      assigned_technician_id: '',
+      assigned_technician_id: defaultTech ? defaultTech.id : '',
       notes: '',
-      service_ids: [], // Initialize service_ids
+      service_ids: [],
       time_window: null
     });
     
-    setSelectedServiceCategory(''); // Reset service category
+    setSelectedServiceCategory('');
     setFormErrors({});
     setCurrentAppointment(null);
     setShowForm(true);
