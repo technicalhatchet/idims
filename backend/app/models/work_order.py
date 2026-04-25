@@ -48,6 +48,7 @@ class WorkOrder(Base):
     equipment_subtype = Column(String(50), nullable=True)  # 'refrigerator', 'washing_machine', 'under_50', etc.
     is_wall_mounted = Column(Boolean, default=False)
     equipment_notes = Column(Text, nullable=True)
+    symptoms = Column(JSONB, nullable=True)  # List of reported symptoms
     
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

@@ -51,6 +51,7 @@ class WorkOrderBase(BaseModel):
     equipment_subtype: Optional[str] = None  # 'refrigerator', 'washing_machine', 'under_50', etc.
     is_wall_mounted: Optional[bool] = False
     equipment_notes: Optional[str] = None
+    symptoms: Optional[List[str]] = None
     
     # Removed scheduled_start, scheduled_end, estimated_duration, and assigned_technician_id
     # These will be handled through appointments
