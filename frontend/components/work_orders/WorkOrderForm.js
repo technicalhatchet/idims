@@ -1102,11 +1102,11 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
           </div>
         )}
         
-        <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900 rounded text-sm">
+        {/* <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900 rounded text-sm">
           <p className="text-blue-800 dark:text-blue-200">
             <strong>Note:</strong> If any equipment information is unavailable, leave the field blank and it will display as "N/A" in reports.
           </p>
-        </div>
+        </div> */}
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
