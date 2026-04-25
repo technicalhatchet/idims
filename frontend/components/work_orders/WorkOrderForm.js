@@ -1068,33 +1068,39 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
             error={touched.equipment_version && errors.equipment_version}
             placeholder="Version or revision"
           />
-          
-          {values.equipment_type === 'tv' && (
-            <div className="col-span-2">
-              <Checkbox
-                label="TV is Wall Mounted"
-                name="is_wall_mounted"
-                checked={values.is_wall_mounted}
-                onChange={handleChange}
-              />
-            </div>
-          )}
-      </div>
-      
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Equipment Notes
-          </label>
-          <textarea
-            id="equipment_notes"
-            name="equipment_notes"
-            value={values.equipment_notes}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="w-full h-28 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            placeholder="Enter notes about the equipment here..."
-          />
-        </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Equipment Notes
+            </label>
+            <textarea
+              id="equipment_notes"
+              name="equipment_notes"
+              value={values.equipment_notes}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              rows={2}
+              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none overflow-y-auto"
+              placeholder="Equipment notes..."
+              style={{ minHeight: '2.5rem', maxHeight: '8rem', overflowY: 'auto' }}
+              onInput={e => {
+                e.target.style.height = 'auto';
+                e.target.style.height = Math.min(e.target.scrollHeight, 128) + 'px';
+              }}
+            />
+          </div>
+        </div>{/* end grid */}
+
+        {values.equipment_type === 'tv' && (
+          <div className="mt-2">
+            <Checkbox
+              label="TV is Wall Mounted"
+              name="is_wall_mounted"
+              checked={values.is_wall_mounted}
+              onChange={handleChange}
+            />
+          </div>
+        )}
         
         <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900 rounded text-sm">
           <p className="text-blue-800 dark:text-blue-200">
