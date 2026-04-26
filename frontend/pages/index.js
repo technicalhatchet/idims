@@ -17,11 +17,6 @@ export default function Home() {
       icon: "/applianceicons/neon/neonfridge.png"
     },
     {
-      title: "Washer & Dryer Repair",
-      desc: "Won't drain, spin, or heat? We fix all common and complex laundry issues.",
-      icon: "/applianceicons/neon/neonwasher.png"
-    },
-    {
       title: "Oven & Range Repair",
       desc: "Not heating or cooking unevenly? We repair igniters, elements, and control boards.",
       icon: "/applianceicons/neon/neonrange.png"
@@ -30,8 +25,25 @@ export default function Home() {
       title: "Dishwasher Repair",
       desc: "Dishes still dirty? Water not draining? We'll get it running like new again.",
       icon: "/applianceicons/neon/neondishwasher.png"
-    }
+    },
+    {
+      title: "TV Repair",
+      desc: "No picture? Lines on screen? Won't turn on? We diagnose and repair all major TV brands.",
+      icon: "/applianceicons/neon/neonorangecurvedtv.png"
+    },
+    {
+      title: "Washer & Dryer Repair",
+      desc: "Won't drain, spin, or heat? We fix all common and complex laundry issues.",
+      icon: "/applianceicons/neon/neonwasher.png"
+    },
   ];
+
+  const fadeUp = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 },
+    viewport: { once: true }
+  };
 
   return (
     <>
@@ -160,14 +172,16 @@ export default function Home() {
 
               {/* Main Image Container */}
               <div className="relative z-10 flex items-center justify-center min-h-[400px] lg:min-h-[500px]">
-                <div className="relative w-[300px] h-[350px] lg:w-[380px] lg:h-[450px] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-                  <Image
-                    src="/images/aitechimg.png"
-                    alt="Expert Technician"
-                    fill
-                    className="object-cover object-center"
-                    priority
-                  />
+                <div className="relative w-[300px] h-[350px] lg:w-[380px] lg:h-[450px] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10">
+                  {/* Placeholder for technician image */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-cyan-500/20 to-orange-500/20 flex items-center justify-center">
+                        <span className="text-4xl">🔧</span>
+                      </div>
+                      <p className="text-gray-500 text-sm">Technician Image</p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Expert Technicians Badge */}
@@ -208,58 +222,59 @@ export default function Home() {
               Our Services
             </span>
             <h2 className="mt-3 text-3xl lg:text-4xl font-bold text-white">
-              Appliance Repair Services
+              Appliance & TV Repair Services
             </h2>
             <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-              We diagnose and repair all major household appliances quickly and professionally.
+              We diagnose and repair all major household appliances and TVs quickly and professionally — fridges, ovens, dishwashers, washers, dryers, and more.
             </p>
           </motion.div>
 
           {/* Service Cards Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {services.map((service, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                {...fadeUp}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                whileHover={{ y: -8, transition: { type: 'spring', stiffness: 120, damping: 20, mass: 1.2 } }}
                 className="group relative"
               >
                 <div className="relative p-6 rounded-2xl bg-[#0D1117] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 h-full">
                   {/* Hover Glow */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-cyan-500/5 to-orange-500/5" />
-                  
-                  {/* Icon */}
-                  <div className="relative mb-4 w-16 h-16">
-                    <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-xl group-hover:bg-cyan-500/20 transition-colors" />
-                    <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center overflow-hidden">
-                      <Image
-                        src={service.icon}
-                        alt={service.title}
-                        width={40}
-                        height={40}
-                        className="object-contain"
-                      />
+
+                  {/* Icon + Content */}
+                  <div className="relative">
+                    {/* Icon + Title same line */}
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="relative flex-shrink-0 w-20 h-20">
+                        <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-xl group-hover:bg-cyan-500/20 transition-colors" />
+                        <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center overflow-hidden">
+                          <Image
+                            src={service.icon}
+                            alt={service.title}
+                            width={52}
+                            height={52}
+                            className="object-contain"
+                          />
+                        </div>
+                      </div>
+                      <h3 className="relative text-lg font-semibold text-white">
+                        {service.title}
+                      </h3>
                     </div>
+                    {/* Description below */}
+                    <p className="relative text-gray-400 text-sm leading-relaxed mb-4">
+                      {service.desc}
+                    </p>
+                    <Link
+                      href="/book"
+                      className="relative inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
+                    >
+                      Book Now
+                      <FaArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
-
-                  {/* Content */}
-                  <h3 className="relative text-lg font-semibold text-white mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="relative text-gray-400 text-sm leading-relaxed mb-4">
-                    {service.desc}
-                  </p>
-
-                  {/* Book Now Link */}
-                  <Link
-                    href="/book"
-                    className="relative inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
-                  >
-                    Book Now
-                    <FaArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
                 </div>
               </motion.div>
             ))}
@@ -289,8 +304,6 @@ export default function Home() {
                 
                 <p className="relative text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 drop-shadow-[0_0_30px_rgba(249,115,22,0.4)]">
                   $89
-
-                  -+
                 </p>
                 <p className="relative mt-2 text-xl text-white font-semibold">
                   Diagnostic Fee
