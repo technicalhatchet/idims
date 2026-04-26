@@ -1538,66 +1538,65 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                 
                 {/* Hide the exact time fields if using time window */}
                 {!formData.time_window && (
-                  <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-gray-700 dark:text-gray-300 mb-2">Start Time</label>
-                        <input
-                          type="time"
-                          name="scheduled_start_time"
-                          value={formData.scheduled_start ? formData.scheduled_start.split('T')[1] : ''}
-                          onFocus={() => console.log('[Start Time Input] formData.scheduled_start onFocus:', formData.scheduled_start)}
-                          onChange={(e) => {
-                            const date = formData.scheduled_start ? formData.scheduled_start.split('T')[0] : '';
-                            const newStartDateTime = `${date}T${e.target.value}`;
-                            console.log(`Setting new start time: ${newStartDateTime}`);
-                            setFormData({
-                              ...formData,
-                              scheduled_start: newStartDateTime
-                            });
-                          }}
-                          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-gray-700 dark:text-gray-300 mb-2">End Time</label>
-                        <input
-                          type="time"
-                          name="scheduled_end_time"
-                          value={formData.scheduled_end ? formData.scheduled_end.split('T')[1] : ''}
-                          onFocus={() => console.log('[End Time Input] formData.scheduled_end onFocus:', formData.scheduled_end)}
-                          onChange={(e) => {
-                            const date = formData.scheduled_end ? formData.scheduled_end.split('T')[0] : formData.scheduled_start ? formData.scheduled_start.split('T')[0] : '';
-                            const newEndDateTime = `${date}T${e.target.value}`;
-                            console.log(`Setting new end time: ${newEndDateTime}`);
-                            setFormData({
-                              ...formData,
-                              scheduled_end: newEndDateTime
-                            });
-                          }}
-                          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                          required
-                        />
-                      </div>
-                    </div>
-                    {/* Notes field when NOT using time window */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Notes
-                      </label>
-                      <textarea
-                        id="notes"
-                        name="notes"
-                        value={formData.notes}
-                        onChange={handleInputChange}
-                        rows={3}
-                        className="mt-1 block w-full rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                        placeholder="Add notes about this appointment..."
+                      <label className="block text-gray-700 dark:text-gray-300 mb-2">Start Time</label>
+                      <input
+                        type="time"
+                        name="scheduled_start_time"
+                        value={formData.scheduled_start ? formData.scheduled_start.split('T')[1] : ''}
+                        onFocus={() => console.log('[Start Time Input] formData.scheduled_start onFocus:', formData.scheduled_start)}
+                        onChange={(e) => {
+                          const date = formData.scheduled_start ? formData.scheduled_start.split('T')[0] : '';
+                          const newStartDateTime = `${date}T${e.target.value}`;
+                          console.log(`Setting new start time: ${newStartDateTime}`);
+                          setFormData({
+                            ...formData,
+                            scheduled_start: newStartDateTime
+                          });
+                        }}
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                        required
                       />
                     </div>
-                  </>
+                    <div>
+                      <label className="block text-gray-700 dark:text-gray-300 mb-2">End Time</label>
+                      <input
+                        type="time"
+                        name="scheduled_end_time"
+                        value={formData.scheduled_end ? formData.scheduled_end.split('T')[1] : ''}
+                        onFocus={() => console.log('[End Time Input] formData.scheduled_end onFocus:', formData.scheduled_end)}
+                        onChange={(e) => {
+                          const date = formData.scheduled_end ? formData.scheduled_end.split('T')[0] : formData.scheduled_start ? formData.scheduled_start.split('T')[0] : '';
+                          const newEndDateTime = `${date}T${e.target.value}`;
+                          console.log(`Setting new end time: ${newEndDateTime}`);
+                          setFormData({
+                            ...formData,
+                            scheduled_end: newEndDateTime
+                          });
+                        }}
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                        required
+                      />
+                    </div>
+                  </div>
                 )}
+
+                {/* Notes - always visible */}
+                <div>
+                  <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Notes
+                  </label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    value={formData.notes}
+                    onChange={handleInputChange}
+                    rows={3}
+                    className="mt-1 block w-full rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                    placeholder="Add notes about this appointment..."
+                  />
+                </div>
                 
                 {/* Display calculated times and travel info if a time window is selected */}
                 {formData.time_window && formData.scheduled_start && (
@@ -1745,9 +1744,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                           {formatDateTime(appointment.scheduled_start)} - {formatTime(appointment.scheduled_end)}
                         </div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">
-                          <span className="font-medium">{getAppointmentTypeLabel(appointment.appointment_type)}</span>
                           {appointment.services?.length > 0 && (
-                            <span className="ml-1 text-cyan-500 dark:text-cyan-400">• {appointment.services.map(s => s.name).join(', ')}</span>
+                            <span className="text-cyan-500 dark:text-cyan-400">{appointment.services.map(s => s.name).join(', ')}</span>
                           )}
                           {appointment.notes && <span className="ml-1">• {appointment.notes}</span>}
                         </div>
