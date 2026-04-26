@@ -326,8 +326,18 @@ export default function AppointmentsTab({ workOrderId, onUpdate }) {
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {appointments.map((appointment) => (
                   <tr key={appointment.id} className="hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150">
-                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white capitalize">
-                      {appointment.appointment_type}
+                    <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">
+                      <div className="capitalize">{appointment.appointment_type}</div>
+                      {appointment.services?.length > 0 && (
+                        <div className="text-xs text-cyan-500 dark:text-cyan-400 font-normal mt-0.5">
+                          {appointment.services.map(s => s.name).join(', ')}
+                        </div>
+                      )}
+                      {appointment.notes && (
+                        <div className="text-xs text-gray-400 italic mt-0.5 max-w-xs truncate">
+                          {appointment.notes}
+                        </div>
+                      )}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {format(new Date(appointment.scheduled_start), 'MMM d, yyyy h:mm a')} - 

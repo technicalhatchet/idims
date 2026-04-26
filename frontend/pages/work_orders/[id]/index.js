@@ -454,6 +454,11 @@ function WorkOrderDetail() {
                                   <div>
                                     <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
                                       {appointment.appointment_type.charAt(0).toUpperCase() + appointment.appointment_type.slice(1)}
+                                      {appointment.services?.length > 0 && (
+                                        <span className="ml-2 text-xs text-cyan-500 dark:text-cyan-400 font-normal">
+                                          — {appointment.services.map(s => s.name).join(', ')}
+                                        </span>
+                                      )}
                                     </div>
                                     <div className="text-xs text-gray-600 dark:text-gray-400">
                                       {new Date(appointment.scheduled_start).toLocaleDateString()} {new Date(appointment.scheduled_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -461,6 +466,11 @@ function WorkOrderDetail() {
                                         <span> - {new Date(appointment.scheduled_end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                       )}
                                     </div>
+                                    {appointment.notes && (
+                                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 italic">
+                                        {appointment.notes}
+                                      </div>
+                                    )}
                                   </div>
                                   <div>
                                     <span className={`inline-block px-2 py-1 text-xs rounded-full ${
