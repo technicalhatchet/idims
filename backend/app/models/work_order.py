@@ -322,6 +322,7 @@ class WorkOrderAppointment(Base):
     travel_distance_after = Column(Integer, nullable=True)   # Distance in meters to next location
     is_forced_schedule = Column(Boolean, default=False)  # Flag for admin-forced scheduling
     time_window = Column(String(50), nullable=True) # Added time_window field for 'morning'/'afternoon'
+    notes = Column(Text, nullable=True)  # Notes for this appointment
     
     # Relationships
     work_order = relationship("WorkOrder", back_populates="appointments")
