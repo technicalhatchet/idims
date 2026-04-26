@@ -231,7 +231,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4, transition: { duration: 0.2, ease: 'easeOut' } }}
+                whileHover={{ y: -8, transition: { type: 'spring', stiffness: 120, damping: 20, mass: 1.2 } }}
                 className="group relative"
               >
                 <div className="relative p-6 rounded-2xl bg-[#0D1117] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 h-full">
