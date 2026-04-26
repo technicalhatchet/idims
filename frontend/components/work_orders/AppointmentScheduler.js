@@ -1339,8 +1339,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Appointment Type - Replaced by Service Category and Services/SKUs */}
-                {/* 
+                {/* Appointment Type */}
                 <div>
                   <label htmlFor="appointment_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Appointment Type *
@@ -1365,7 +1364,6 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.appointment_type}</p>
                   )}
                 </div>
-                */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                   <div>
