@@ -38,6 +38,13 @@ export default function Home() {
     },
   ];
 
+  const fadeUp = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 },
+    viewport: { once: true }
+  };
+
   return (
     <>
       <Head>
@@ -227,10 +234,8 @@ export default function Home() {
             {services.map((service, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                {...fadeUp}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
                 whileHover={{ y: -8, transition: { type: 'spring', stiffness: 120, damping: 20, mass: 1.2 } }}
                 className="group relative"
               >
