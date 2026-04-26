@@ -215,15 +215,15 @@ export default function Home() {
               Our Services
             </span>
             <h2 className="mt-3 text-3xl lg:text-4xl font-bold text-white">
-              Appliance Repair Services
+              Appliance & TV Repair Services
             </h2>
             <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-              We diagnose and repair all major household appliances quickly and professionally.
+              We diagnose and repair all major household appliances and TVs quickly and professionally — fridges, ovens, dishwashers, washers, dryers, and more.
             </p>
           </motion.div>
 
           {/* Service Cards Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {services.map((service, i) => (
               <motion.div
                 key={i}
