@@ -45,34 +45,12 @@ export default function Header({ user, isLoading }) {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative w-10 h-10">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-orange-500 rounded-full opacity-20 group-hover:opacity-40 transition blur-sm" />
-              <svg viewBox="0 0 40 40" className="w-10 h-10 relative">
-                <circle cx="20" cy="20" r="4" fill="url(#atomGrad)" />
-                <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#orbitGrad)" strokeWidth="1.5" transform="rotate(-30 20 20)" />
-                <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#orbitGrad)" strokeWidth="1.5" transform="rotate(30 20 20)" />
-                <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#orbitGrad)" strokeWidth="1.5" transform="rotate(90 20 20)" />
-                <circle cx="8" cy="14" r="2" fill="#22d3ee" />
-                <circle cx="32" cy="14" r="2" fill="#f97316" />
-                <circle cx="20" cy="34" r="2" fill="#22d3ee" />
-                <defs>
-                  <linearGradient id="atomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#22d3ee" />
-                    <stop offset="100%" stopColor="#f97316" />
-                  </linearGradient>
-                  <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#22d3ee" />
-                    <stop offset="50%" stopColor="#f97316" />
-                    <stop offset="100%" stopColor="#22d3ee" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <span className="text-xl font-bold text-white tracking-tight">
-              QUANTUM<br />
-              <span className="text-orange-500">REPAIR</span>
-            </span>
+          <Link href="/" className="flex items-center group">
+            <img
+              src="/arpano.png"
+              alt="Atomic Repair"
+              className="h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
