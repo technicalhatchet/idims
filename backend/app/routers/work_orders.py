@@ -496,6 +496,25 @@ async def get_work_order(
                     if user:
                         appointment_dict["technician_name"] = f"{user.first_name} {user.last_name}"
             
+            # Add services from the eagerly loaded relationship
+            appointment_dict["services"] = [
+                {
+                    "id": str(svc.id),
+                    "name": svc.name,
+                    "sku_code": svc.sku_code,
+                    "duration_minutes": svc.duration_minutes,
+                    "base_price": float(svc.base_price) if svc.base_price else None,
+                }
+                for svc in (appointment.services or [])
+            ]
+            
+            # Convert UUID and datetime for JSON serialization
+            for key, value in appointment_dict.items():
+                if isinstance(value, uuid.UUID):
+                    appointment_dict[key] = str(value)
+                elif isinstance(value, datetime):
+                    appointment_dict[key] = value.isoformat()
+            
             # Convert UUID objects to strings for JSON serialization
             for key, value in appointment_dict.items():
                 if isinstance(value, uuid.UUID):
@@ -1011,27 +1030,50 @@ async def list_work_order_appointments(
             status=status_filter
         )
         
-        # Enrich appointments with technician names
+        # Enrich appointments - build clean dicts to avoid SQLAlchemy relationship serialization issues
         enriched_items = []
         for appointment in result["items"]:
-            # Convert to dict to easily manipulate
-            appointment_dict = appointment.__dict__.copy()
-            
-            # Remove SQLAlchemy internal state
-            if "_sa_instance_state" in appointment_dict:
-                appointment_dict.pop("_sa_instance_state")
-            
-            # Add technician name if assigned
+            appointment_dict = {
+                "id": str(appointment.id),
+                "work_order_id": str(appointment.work_order_id),
+                "appointment_type": appointment.appointment_type,
+                "status": appointment.status.value if hasattr(appointment.status, 'value') else appointment.status,
+                "scheduled_start": appointment.scheduled_start.isoformat() if appointment.scheduled_start else None,
+                "scheduled_end": appointment.scheduled_end.isoformat() if appointment.scheduled_end else None,
+                "actual_start": appointment.actual_start.isoformat() if appointment.actual_start else None,
+                "actual_end": appointment.actual_end.isoformat() if appointment.actual_end else None,
+                "assigned_technician_id": str(appointment.assigned_technician_id) if appointment.assigned_technician_id else None,
+                "notes": appointment.notes,
+                "travel_time_before": appointment.travel_time_before,
+                "travel_time_after": appointment.travel_time_after,
+                "travel_distance_before": appointment.travel_distance_before,
+                "travel_distance_after": appointment.travel_distance_after,
+                "is_forced_schedule": appointment.is_forced_schedule,
+                "time_window": appointment.time_window,
+                "created_at": appointment.created_at.isoformat() if appointment.created_at else None,
+                "updated_at": appointment.updated_at.isoformat() if appointment.updated_at else None,
+                "created_by": str(appointment.created_by) if appointment.created_by else None,
+                "updated_by": str(appointment.updated_by) if appointment.updated_by else None,
+                "service_ids": [str(svc.id) for svc in (appointment.services or [])],
+                "services": [
+                    {
+                        "id": str(svc.id),
+                        "name": svc.name,
+                        "sku_code": svc.sku_code,
+                        "duration_minutes": svc.duration_minutes,
+                        "base_price": float(svc.base_price) if svc.base_price else None,
+                    }
+                    for svc in (appointment.services or [])
+                ],
+            }
             if appointment.assigned_technician_id:
                 technician = db.query(Technician).filter(Technician.id == appointment.assigned_technician_id).first()
                 if technician and technician.user_id:
                     user = db.query(UserModel).filter(UserModel.id == technician.user_id).first()
                     if user:
                         appointment_dict["technician_name"] = f"{user.first_name} {user.last_name}"
-            
             enriched_items.append(appointment_dict)
         
-        # Replace original items with enriched items
         result["items"] = enriched_items
         
         return result
