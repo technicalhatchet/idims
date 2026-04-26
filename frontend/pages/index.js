@@ -226,45 +226,45 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -6, transition: { type: 'spring', stiffness: 300, damping: 15 } }}
+                whileHover={{ y: -4, transition: { duration: 0.2, ease: 'easeOut' } }}
                 className="group relative"
               >
                 <div className="relative p-6 rounded-2xl bg-[#0D1117] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 h-full">
                   {/* Hover Glow */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-cyan-500/5 to-orange-500/5" />
 
-                  {/* Icon + Title Row */}
-                  <div className="relative flex items-center gap-4 mb-3">
-                    <div className="relative flex-shrink-0 w-14 h-14">
-                      <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-xl group-hover:bg-cyan-500/20 transition-colors" />
-                      <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center overflow-hidden">
-                        <Image
-                          src={service.icon}
-                          alt={service.title}
-                          width={36}
-                          height={36}
-                          className="object-contain"
-                        />
+                  {/* Icon + Content */}
+                  <div className="relative">
+                    {/* Icon + Title same line */}
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="relative flex-shrink-0 w-20 h-20">
+                        <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-xl group-hover:bg-cyan-500/20 transition-colors" />
+                        <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center overflow-hidden">
+                          <Image
+                            src={service.icon}
+                            alt={service.title}
+                            width={52}
+                            height={52}
+                            className="object-contain"
+                          />
+                        </div>
                       </div>
+                      <h3 className="relative text-lg font-semibold text-white">
+                        {service.title}
+                      </h3>
                     </div>
-                    <h3 className="relative text-base font-semibold text-white leading-tight">
-                      {service.title}
-                    </h3>
+                    {/* Description below */}
+                    <p className="relative text-gray-400 text-sm leading-relaxed mb-4">
+                      {service.desc}
+                    </p>
+                    <Link
+                      href="/book"
+                      className="relative inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
+                    >
+                      Book Now
+                      <FaArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
-
-                  {/* Description */}
-                  <p className="relative text-gray-400 text-sm leading-relaxed mb-4">
-                    {service.desc}
-                  </p>
-
-                  {/* Book Now Link */}
-                  <Link
-                    href="/book"
-                    className="relative inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
-                  >
-                    Book Now
-                    <FaArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
                 </div>
               </motion.div>
             ))}
