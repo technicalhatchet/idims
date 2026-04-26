@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Quantum Repair | Fast, Reliable Appliance Repair in Toledo</title>
+        <title>Atomic Repair | Fast, Reliable Appliance Repair in Toledo</title>
         <meta name="description" content="Same-day appliance repair service in Toledo. Honest diagnostics, no surprises. Licensed & insured technicians." />
       </Head>
 

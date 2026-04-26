@@ -14,9 +14,9 @@ database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
 engine = create_engine(
     database_url,
     pool_pre_ping=True,
-    pool_size=2,
-    max_overflow=1,
-    pool_timeout=10,
+    pool_size=5,
+    max_overflow=5,
+    pool_timeout=30,
     pool_recycle=300,
     pool_reset_on_return='rollback',
     connect_args={
@@ -40,6 +40,9 @@ def get_db():
     db = SessionLocal()
     try:
         yield db
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
 
@@ -49,5 +52,9 @@ def get_db_context():
     db = SessionLocal()
     try:
         yield db
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
