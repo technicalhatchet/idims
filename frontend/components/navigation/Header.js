@@ -49,7 +49,8 @@ export default function Header({ user, isLoading }) {
             <img
               src="/arpano.png"
               alt="Atomic Repair"
-              className="h-20 w-auto object-contain"
+              className="w-auto object-contain"
+              style={{ height: '72px' }}
             />
           </Link>
 
