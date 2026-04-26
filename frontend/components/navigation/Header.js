@@ -49,7 +49,7 @@ export default function Header({ user, isLoading }) {
             <img
               src="/arpano.png"
               alt="Atomic Repair"
-              className="h-12 w-auto object-contain"
+              className="h-20 w-auto object-contain"
             />
           </Link>
 
