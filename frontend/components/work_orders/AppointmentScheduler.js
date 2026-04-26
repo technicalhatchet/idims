@@ -290,6 +290,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       }
       
       console.log("Final appointments data:", appointmentsData);
+      console.log("First appointment services:", appointmentsData[0]?.services);
       setAppointments(appointmentsData);
     } catch (err) {
       console.error('Error fetching appointments:', err);
@@ -1745,6 +1746,9 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                         </div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">
                           <span className="font-medium">{getAppointmentTypeLabel(appointment.appointment_type)}</span>
+                          {appointment.services?.length > 0 && (
+                            <span className="ml-1 text-cyan-500 dark:text-cyan-400">• {appointment.services.map(s => s.name).join(', ')}</span>
+                          )}
                           {appointment.notes && <span className="ml-1">• {appointment.notes}</span>}
                         </div>
                         {/* Add travel time info in compact mode */}
