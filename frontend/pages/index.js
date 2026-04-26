@@ -172,16 +172,14 @@ export default function Home() {
 
               {/* Main Image Container */}
               <div className="relative z-10 flex items-center justify-center min-h-[400px] lg:min-h-[500px]">
-                <div className="relative w-[300px] h-[350px] lg:w-[380px] lg:h-[450px] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10">
-                  {/* Placeholder for technician image */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-cyan-500/20 to-orange-500/20 flex items-center justify-center">
-                        <span className="text-4xl">🔧</span>
-                      </div>
-                      <p className="text-gray-500 text-sm">Technician Image</p>
-                    </div>
-                  </div>
+              <div className="relative w-[300px] h-[350px] lg:w-[380px] lg:h-[450px] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+                  <Image
+                    src="/images/aitechimg.png"
+                    alt="Expert Technician"
+                    fill
+                    className="object-cover object-center"
+                    priority
+                  />
                 </div>
 
                 {/* Expert Technicians Badge */}
