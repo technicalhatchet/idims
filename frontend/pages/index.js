@@ -71,7 +71,8 @@ export default function Home() {
               className="relative z-10"
             >
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/20 border border-cyan-500/30 mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-6"
+                   style={{ boxShadow: '0 0 12px rgba(249,115,22,0.25)' }}>
                 <HiLightningBolt className="w-4 h-4 text-cyan-400" />
                 <span className="text-cyan-400 text-sm font-medium">Same-Day Service Available</span>
               </div>
