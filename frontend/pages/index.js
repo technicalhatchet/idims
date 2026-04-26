@@ -182,13 +182,17 @@ export default function Home() {
                   />
                 </div>
 
-                {/* Expert Technicians Badge */}
+                {/* Expert Technicians Badge - diagonal offset below-right of image */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  className="absolute right-0 top-1/4 lg:right-[-20px]"
+                  className="absolute bottom-[-20px] right-[-10px] lg:bottom-[-30px] lg:right-[-40px]"
                 >
+                  {/* Connecting dot on image corner */}
+                  <div className="absolute top-[-18px] left-[10px] w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                  {/* Diagonal line */}
+                  <div className="absolute top-[-16px] left-[14px] w-[28px] h-[1px] bg-gradient-to-r from-cyan-400/80 to-cyan-400/20 rotate-[35deg] origin-left" />
                   <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-[#0B0F1A]/90 backdrop-blur-md border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20">
                       <FaCheckCircle className="w-4 h-4 text-cyan-400" />
