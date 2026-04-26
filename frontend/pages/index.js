@@ -17,11 +17,6 @@ export default function Home() {
       icon: "/applianceicons/neon/neonfridge.png"
     },
     {
-      title: "Washer & Dryer Repair",
-      desc: "Won't drain, spin, or heat? We fix all common and complex laundry issues.",
-      icon: "/applianceicons/neon/neonwasher.png"
-    },
-    {
       title: "Oven & Range Repair",
       desc: "Not heating or cooking unevenly? We repair igniters, elements, and control boards.",
       icon: "/applianceicons/neon/neonrange.png"
@@ -30,7 +25,17 @@ export default function Home() {
       title: "Dishwasher Repair",
       desc: "Dishes still dirty? Water not draining? We'll get it running like new again.",
       icon: "/applianceicons/neon/neondishwasher.png"
-    }
+    },
+    {
+      title: "TV Repair",
+      desc: "No picture? Lines on screen? Won't turn on? We diagnose and repair all major TV brands.",
+      icon: "/applianceicons/neon/neonorangecurvedtv.png"
+    },
+    {
+      title: "Washer & Dryer Repair",
+      desc: "Won't drain, spin, or heat? We fix all common and complex laundry issues.",
+      icon: "/applianceicons/neon/neonwasher.png"
+    },
   ];
 
   return (

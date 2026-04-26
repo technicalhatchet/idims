@@ -11,28 +11,12 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="relative w-8 h-8">
-                <svg viewBox="0 0 40 40" className="w-8 h-8">
-                  <circle cx="20" cy="20" r="4" fill="url(#footerAtomGrad)" />
-                  <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#footerOrbitGrad)" strokeWidth="1.5" transform="rotate(-30 20 20)" />
-                  <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#footerOrbitGrad)" strokeWidth="1.5" transform="rotate(30 20 20)" />
-                  <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="url(#footerOrbitGrad)" strokeWidth="1.5" transform="rotate(90 20 20)" />
-                  <defs>
-                    <linearGradient id="footerAtomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#22d3ee" />
-                      <stop offset="100%" stopColor="#f97316" />
-                    </linearGradient>
-                    <linearGradient id="footerOrbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#22d3ee" />
-                      <stop offset="50%" stopColor="#f97316" />
-                      <stop offset="100%" stopColor="#22d3ee" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <span className="text-lg font-bold text-white">
-                QUANTUM <span className="text-orange-500">REPAIR</span>
-              </span>
+              <img
+                src="/arpano.png"
+                alt="Atomic Repair"
+                className="w-auto object-contain"
+                style={{ height: '48px' }}
+              />
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed">
               Fast, reliable appliance repair in Toledo. Same-day service, honest diagnostics, no surprises.
