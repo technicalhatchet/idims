@@ -591,8 +591,10 @@ class WorkOrderService:
         # Verify work order exists
         work_order = await WorkOrderService.get_work_order(db, work_order_id)
         
-        # Query appointments
-        query = db.query(WorkOrderAppointment).filter(WorkOrderAppointment.work_order_id == work_order_id)
+        # Query appointments with services eagerly loaded
+        query = db.query(WorkOrderAppointment).options(
+            selectinload(WorkOrderAppointment.services)
+        ).filter(WorkOrderAppointment.work_order_id == work_order_id)
         
         # Apply status filter if provided
         if status:
