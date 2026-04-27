@@ -172,6 +172,57 @@ html, body {
   text-shadow: 0 0 8px rgba(0,255,255,0.8);
 }
 
+.text-glow-orange {
+  text-shadow: 0 0 8px rgba(255,138,0,0.8);
+}
+
+/* ===== GRADIENT TEXT ===== */
+.text-gradient {
+  background: linear-gradient(90deg, #00E5FF, #FF8A00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(90deg, #22d3ee, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-orange {
+  background: linear-gradient(90deg, #f97316, #ea580c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== GLOW UTILITIES ===== */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+}
+
+.glow-orange {
+  box-shadow: 0 0 20px rgba(255, 138, 0, 0.5);
+}
+
+.glow-cyan-lg {
+  box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
+}
+
+.glow-orange-lg {
+  box-shadow: 0 0 40px rgba(255, 138, 0, 0.4);
+}
+
+/* ===== LINE CLAMP ===== */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* ===== INPUTS ===== */
 input, textarea {
   transition: all 0.2s ease;
