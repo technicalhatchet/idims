@@ -4,6 +4,10 @@ import { motion } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
 
 export default function ServiceCard({ service, index }) {
+  const detailHref = service.slug 
+    ? `/services/${service.slug}` 
+    : (service.href || '/book');
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -45,7 +49,7 @@ export default function ServiceCard({ service, index }) {
 
         {/* Learn More Link */}
         <Link
-          href={service.href || '/book'}
+          href={detailHref}
           className="relative inline-flex items-center gap-2 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
         >
           Learn More

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,8 +18,9 @@ const APPLIANCES = [
   { id: 'oven', name: 'Oven', icon: '/applianceicons/neon/neonrange.png' },
   { id: 'dishwasher', name: 'Dishwasher', icon: '/applianceicons/neon/neondishwasher.png' },
   { id: 'microwave', name: 'Microwave', icon: '/applianceicons/neon/neonmicrowave.png' },
+  { id: 'freezer', name: 'Freezer', icon: '/applianceicons/neon/neonchestfreezer.png' },
   { id: 'tv', name: 'TV', icon: '/applianceicons/neon/neonorangecurvedtv.png' },
-  { id: 'other', name: 'Other', icon: '/applianceicons/neon/neonchestfreezer.png', allowCustom: true },
+  { id: 'other', name: 'Other', icon: '/applianceicons/wrenches.png', allowCustom: true },
 ];
 
 const ISSUES = [
@@ -46,6 +48,7 @@ const STEPS = [
 ];
 
 export default function BookService() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [formData, setFormData] = useState({
@@ -60,6 +63,18 @@ export default function BookService() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { appliance } = router.query;
+      if (appliance) {
+        const validAppliance = APPLIANCES.find(a => a.id === appliance);
+        if (validAppliance) {
+          setFormData(prev => ({ ...prev, appliance }));
+        }
+      }
+    }
+  }, [router.isReady, router.query]);
 
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));

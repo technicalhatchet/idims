@@ -11,63 +11,64 @@ import ServiceCard from '../components/services/ServiceCard';
 import FeatureBadge from '../components/services/FeatureBadge';
 import ProcessStep from '../components/services/ProcessStep';
 import CTASection from '../components/services/CTASection';
+import { useState } from 'react';
 
 const SERVICES = [
   {
     id: 'refrigerator',
+    slug: 'refrigerator-repair',
     title: 'REFRIGERATOR REPAIR',
     description: 'Not cooling, leaking, ice maker issues, and more.',
-    icon: '/applianceicons/neon/neonfridge.png',
-    href: '/book?appliance=refrigerator'
+    icon: '/applianceicons/neon/neonfridge.png'
   },
   {
     id: 'washer',
+    slug: 'washer-repair',
     title: 'WASHER REPAIR',
     description: "Won't spin, not draining, noisy or not starting.",
-    icon: '/applianceicons/neon/neonwasher.png',
-    href: '/book?appliance=washer'
+    icon: '/applianceicons/neon/neonwasher.png'
   },
   {
     id: 'dryer',
+    slug: 'dryer-repair',
     title: 'DRYER REPAIR',
     description: "Not heating, takes too long, won't start.",
-    icon: '/applianceicons/neon/neondryer.png',
-    href: '/book?appliance=dryer'
+    icon: '/applianceicons/neon/neondryer.png'
   },
   {
     id: 'oven',
+    slug: 'oven-repair',
     title: 'OVEN & RANGE REPAIR',
     description: 'Not heating, temperature issues, or not working.',
-    icon: '/applianceicons/neon/neonrange.png',
-    href: '/book?appliance=oven'
+    icon: '/applianceicons/neon/neonrange.png'
   },
   {
     id: 'dishwasher',
+    slug: 'dishwasher-repair',
     title: 'DISHWASHER REPAIR',
     description: 'Not cleaning, leaking, not draining properly.',
-    icon: '/applianceicons/neon/neondishwasher.png',
-    href: '/book?appliance=dishwasher'
+    icon: '/applianceicons/neon/neondishwasher.png'
   },
   {
     id: 'microwave',
+    slug: 'microwave-repair',
     title: 'MICROWAVE REPAIR',
     description: 'Not heating, turntable issues, or not powering on.',
-    icon: '/applianceicons/neon/neonmicrowave.png',
-    href: '/book?appliance=microwave'
+    icon: '/applianceicons/neon/neonmicrowave.png'
   },
   {
     id: 'freezer',
+    slug: 'freezer-repair',
     title: 'FREEZER REPAIR',
     description: 'Not freezing, frost buildup, or unusual noises.',
-    icon: '/applianceicons/neon/neonchestfreezer.png',
-    href: '/book?appliance=other&custom=Freezer'
+    icon: '/applianceicons/neon/neonchestfreezer.png'
   },
   {
     id: 'tv',
+    slug: 'tv-repair',
     title: 'TV REPAIR',
     description: 'No picture, sound issues, or connectivity problems.',
-    icon: '/applianceicons/neon/neonorangecurvedtv.png',
-    href: '/book?appliance=tv'
+    icon: '/applianceicons/neon/neonorangecurvedtv.png'
   },
 ];
 
@@ -102,10 +103,14 @@ const PROCESS_STEPS = [
 ];
 
 export default function Services() {
+  const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const icons = SERVICES.map(service => service.icon);
+
   return (
     <>
       <Head>
-        <title>Our Services | Quantum Repair</title>
+        <title>Our Services | Atomic Repair</title>
         <meta name="description" content="Expert appliance repair services in Toledo. Refrigerator, washer, dryer, oven, dishwasher, microwave, freezer, and TV repair." />
       </Head>
 
@@ -192,29 +197,31 @@ export default function Services() {
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/30 blur-[100px]" />
 
               {/* Image Container */}
-              <div className="relative z-10 flex items-center justify-center">
-                <div className="relative w-full max-w-lg h-[350px] lg:h-[450px]">
+              <div className="relative w-full h-[1024px] lg:h-[1024px]">
+                {!imgError && (
                   <Image
                     src="/images/appliances-hero.png"
                     alt="Appliances we repair"
                     fill
                     className="object-contain"
                     priority
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
+                    onLoad={() => setImgLoaded(true)}
+                    onError={() => setImgError(true)}
                   />
-                  {/* Fallback if no image */}
+                )}
+
+                {/* Only show fallback if image failed or hasn't loaded yet */}
+                {(imgError || !imgLoaded) && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="grid grid-cols-3 gap-4">
-                      {['/applianceicons/neon/neonfridge.png', '/applianceicons/neon/neonwasher.png', '/applianceicons/neon/neonrange.png'].map((icon, i) => (
+                      {[...icons].map((icon, i) => (
                         <div key={i} className="w-20 h-20 relative">
                           <Image src={icon} alt="" fill className="object-contain" />
                         </div>
                       ))}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </motion.div>
           </div>
