@@ -1308,6 +1308,7 @@ async def update_work_order_appointment(
                 detail="Admin, manager, or technician role required"
             )
         # Create an instance of the WorkOrderService and update the appointment
+        logger.info(f"DEBUG update_appointment: raw update data = {appointment_update.model_dump(exclude_unset=True)}")
         work_order_service = WorkOrderService(db)
         result = await work_order_service.update_work_order_appointment(
             appointment_id=appointment_id,
