@@ -463,12 +463,15 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   const handleServiceCategoryChange = (e) => {
     const newCategory = e.target.value;
     setSelectedServiceCategory(newCategory);
-    if (!newCategory) { // If category is cleared by user
+    if (!newCategory) {
       console.log('[handleServiceCategoryChange] Category cleared by user, clearing service_ids.');
       setFormData(prev => ({ ...prev, service_ids: [] }));
+    } else {
+      // Auto-set appointment_type from service category
+      const validTypes = ['diagnostic', 'repair', 'follow-up', 'inspection', 'maintenance'];
+      const mappedType = validTypes.includes(newCategory.toLowerCase()) ? newCategory.toLowerCase() : formData.appointment_type;
+      setFormData(prev => ({ ...prev, service_ids: [], appointment_type: mappedType }));
     }
-    // If a new category is selected, service_ids are not cleared here.
-    // The child Select component for services will update based on new servicesForSelectedCategory
   };
 
   const handleServiceChange = (selectedOptions) => {
@@ -1345,30 +1348,15 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Appointment Type */}
+                {/* Appointment Type - auto-set from service category */}
                 <div>
-                  <label htmlFor="appointment_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Appointment Type *
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Appointment Type
                   </label>
-                  <select
-                    id="appointment_type"
-                    name="appointment_type"
-                    value={formData.appointment_type}
-                    onChange={handleInputChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white ${
-                      formErrors.appointment_type ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''
-                    }`}
-                    required
-                  >
-                    {appointmentTypes.map(type => (
-                      <option key={type.value} value={type.value}>
-                        {type.label}
-                      </option>
-                    ))}
-                  </select>
-                  {formErrors.appointment_type && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.appointment_type}</p>
-                  )}
+                  <div className="mt-1 px-3 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm text-gray-800 dark:text-gray-200 capitalize">
+                    {formData.appointment_type || 'Select a service category above'}
+                  </div>
+                  <input type="hidden" name="appointment_type" value={formData.appointment_type} />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
