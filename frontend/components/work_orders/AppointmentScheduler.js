@@ -935,11 +935,13 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     try {
       // Ensure the data being submitted is up-to-date from state
       // (The state should have been updated when the window was selected)
+      console.log("[AppointmentScheduler] appointment_type at submit time:", formData.appointment_type);
       console.log("[AppointmentScheduler] Submitting final appointment form data (check scheduled_start/end):", formData);
       
       // Prepare appointment data
       const appointmentData = {
         ...formData,
+        appointment_type: formData.appointment_type, // explicitly include to avoid stale closure issues
         work_order_id: workOrderId,
         travel_time_before: formData.travel_time_before ? parseInt(formData.travel_time_before) : null,
         travel_time_after: formData.travel_time_after ? parseInt(formData.travel_time_after) : null,
