@@ -60,6 +60,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   const [viewMode, setViewMode] = useState('list'); // 'list', 'calendar', 'auto', or 'window'
   const [successMessage, setSuccessMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [displayEtaWindow, setDisplayEtaWindow] = useState(null);
   const [updatingStatus, setUpdatingStatus] = useState(null); // Track which appointment is being updated
@@ -759,7 +760,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       return false;
     }
     
-    setIsSubmitting(true);
+    setIsCalculating(true);
     
     try {
       // Get the selected date part only (YYYY-MM-DD) and create a date object at noon
@@ -820,7 +821,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       if (!slot) {
         // Use passed windowName in error message
         setError(`No available slots found in the ${windowName} time window. Please select a different time window or date.`);
-        setIsSubmitting(false);
+        setIsCalculating(false);
         return false;
       }
       
@@ -856,12 +857,12 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
         travel_distance_before: slot.travelDistanceBefore
       }));
       
-      setIsSubmitting(false);
+      setIsCalculating(false);
       return true;
     } catch (error) {
       console.error("Error calculating appointment time:", error);
       setError(`Error calculating appointment time: ${error.message}`);
-      setIsSubmitting(false);
+      setIsCalculating(false);
       return false;
     }
   };
