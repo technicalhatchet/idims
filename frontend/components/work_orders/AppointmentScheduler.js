@@ -467,10 +467,10 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       console.log('[handleServiceCategoryChange] Category cleared by user, clearing service_ids.');
       setFormData(prev => ({ ...prev, service_ids: [] }));
     } else {
-      // Auto-set appointment_type from service category
+      // Auto-set appointment_type from service category, but don't clear service_ids here
       const validTypes = ['diagnostic', 'repair', 'follow-up', 'inspection', 'maintenance'];
       const mappedType = validTypes.includes(newCategory.toLowerCase()) ? newCategory.toLowerCase() : formData.appointment_type;
-      setFormData(prev => ({ ...prev, service_ids: [], appointment_type: mappedType }));
+      setFormData(prev => ({ ...prev, appointment_type: mappedType }));
     }
   };
 
