@@ -73,6 +73,12 @@ export default function Header({ user, isLoading }) {
 
           {/* Right Side Actions */}
           <div className="hidden lg:flex items-center gap-6">
+            <Link
+              href="/cxdashboard"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
+            >
+              Client Portal
+            </Link>
             {isLoading ? (
               <div className="h-5 w-5 border-t-2 border-cyan-400 rounded-full animate-spin" />
             ) : user ? (
@@ -137,6 +143,9 @@ export default function Header({ user, isLoading }) {
               </Link>
             ))}
             <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+              <Link href="/cxdashboard" className="text-cyan-400 hover:text-cyan-300 text-sm font-medium">
+                Client Portal
+              </Link>
               {user ? (
                 <Link href="/dashboard" className="text-gray-400 hover:text-white text-sm">
                   Dashboard
