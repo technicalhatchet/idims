@@ -736,6 +736,218 @@ export default function IconTest() {
           </section>
         </div>
 
+        {/* ——— ELITE UI SYSTEM ——— */}
+        <div className="elite-ui-lab mt-16 pt-16 border-t border-white/15 relative">
+          {/* Ambient background glows */}
+          <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[radial-gradient(circle,rgba(0,212,255,0.12),transparent_70%)]" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[radial-gradient(circle,rgba(255,122,0,0.1),transparent_70%)]" />
+          </div>
+
+          <h2 className="text-2xl font-bold mb-2 text-white">Elite UI System</h2>
+          <p className="text-gray-400 mb-10 max-w-3xl">
+            Depth, motion hierarchy, sensory feedback. Glass cards, glow utilities, sweep effects, ambient pulse — all scoped to this page only.
+          </p>
+
+          {/* Glass Cards with Hover Lift */}
+          <section className="mb-16">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Glass Cards + Hover Lift</h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { icon: (
+                  <>
+                    <rect x="6" y="2" width="12" height="20" rx="2" />
+                    <line x1="6" y1="10" x2="18" y2="10" />
+                    <line x1="10" y1="5" x2="10" y2="8" />
+                  </>
+                ), title: 'Refrigerator Repair', desc: 'Not cooling? Leaking? We fix it fast.' },
+                { icon: (
+                  <>
+                    <rect x="4" y="2" width="16" height="20" rx="2" />
+                    <circle cx="12" cy="13" r="5" />
+                    <circle cx="12" cy="13" r="2" />
+                  </>
+                ), title: 'Washer Repair', desc: 'Drain issues, spin problems, we handle it.' },
+                { icon: (
+                  <>
+                    <rect x="4" y="2" width="16" height="20" rx="2" />
+                    <rect x="6" y="10" width="12" height="9" rx="1" />
+                    <line x1="7" y1="6" x2="7" y2="6" />
+                    <line x1="10" y1="6" x2="10" y2="6" />
+                  </>
+                ), title: 'Oven Repair', desc: 'Not heating? Uneven cooking? Fixed.' },
+              ].map(({ icon, title, desc }, i) => (
+                <div
+                  key={i}
+                  className="elite-glass-card elite-hover-lift elite-glow-sweep rounded-2xl p-6 relative overflow-hidden"
+                >
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 opacity-0 elite-gradient-overlay transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-transparent blur-xl" />
+                  </div>
+
+                  {/* Icon wrapper */}
+                  <div className="elite-icon-wrap w-14 h-14 rounded-xl flex items-center justify-center mb-4 relative z-10">
+                    <svg viewBox="0 0 24 24" className="w-8 h-8 elite-icon-stroke" aria-hidden>
+                      {icon}
+                    </svg>
+                  </div>
+
+                  <h4 className="text-white text-lg font-semibold mb-1 relative z-10">{title}</h4>
+                  <p className="text-gray-400 text-sm relative z-10">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Button System */}
+          <section className="mb-16">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Button System</h3>
+            <div className="flex flex-wrap gap-6 items-center">
+              <button className="elite-btn-blue px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300">
+                Book Service
+              </button>
+              <button className="elite-btn-orange px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300">
+                Confirm Appointment
+              </button>
+              <button className="elite-btn-outline px-6 py-3 rounded-xl font-semibold transition-all duration-300">
+                Learn More
+              </button>
+              <button className="elite-btn-ghost px-6 py-3 rounded-xl font-semibold transition-all duration-300">
+                Cancel
+              </button>
+            </div>
+          </section>
+
+          {/* Icon Wrapper System */}
+          <section className="mb-16">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Icon Wrapper System</h3>
+            <p className="text-gray-500 text-sm mb-6">Background + border + hover glow — icons feel tangible.</p>
+            <div className="flex flex-wrap gap-4">
+              {[
+                (<><rect x="6" y="2" width="12" height="20" rx="2" /><line x1="6" y1="10" x2="18" y2="10" /></>),
+                (<><rect x="4" y="2" width="16" height="20" rx="2" /><circle cx="12" cy="13" r="5" /></>),
+                (<><rect x="4" y="2" width="16" height="20" rx="2" /><rect x="6" y="10" width="12" height="9" rx="1" /></>),
+                (<><rect x="5" y="3" width="14" height="18" rx="2" /><line x1="7" y1="7" x2="17" y2="7" /></>),
+                (<><rect x="2" y="4" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="18" x2="12" y2="21" /></>),
+                (<><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></>),
+              ].map((icon, i) => (
+                <div key={i} className="elite-icon-wrap-standalone p-4 rounded-xl transition-all duration-300">
+                  <svg viewBox="0 0 24 24" className="w-7 h-7 elite-icon-stroke" aria-hidden>
+                    {icon}
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Step Indicator */}
+          <section className="mb-16">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Step Indicator</h3>
+            <div className="flex items-center gap-4">
+              {[1, 2, 3, 4, 5].map((step, i) => (
+                <div
+                  key={i}
+                  className={`
+                    w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium
+                    transition-all duration-300
+                    ${i === 1
+                      ? 'elite-step-active text-white'
+                      : i < 1
+                        ? 'elite-step-done text-cyan-300'
+                        : 'elite-step-pending text-gray-500'
+                    }
+                  `}
+                >
+                  {i < 1 ? (
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 elite-icon-stroke">
+                      <polyline points="9 12 12 15 16 9" />
+                    </svg>
+                  ) : (
+                    step
+                  )}
+                </div>
+              ))}
+            </div>
+            <p className="text-gray-500 text-xs mt-4">Step 2 is active, step 1 completed, rest pending.</p>
+          </section>
+
+          {/* Ambient Pulse */}
+          <section className="mb-16">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Ambient Pulse</h3>
+            <p className="text-gray-500 text-sm mb-6">Subtle animation draws the eye — use sparingly on hero elements.</p>
+            <div className="flex flex-wrap gap-8 items-center">
+              <div className="elite-ambient-pulse-blue w-20 h-20 rounded-2xl flex items-center justify-center">
+                <svg viewBox="0 0 24 24" className="w-10 h-10 elite-icon-stroke" aria-hidden>
+                  <rect x="6" y="2" width="12" height="20" rx="2" />
+                  <line x1="6" y1="10" x2="18" y2="10" />
+                </svg>
+              </div>
+              <div className="elite-ambient-pulse-orange w-20 h-20 rounded-2xl flex items-center justify-center">
+                <svg viewBox="0 0 24 24" className="w-10 h-10 elite-icon-stroke-orange" aria-hidden>
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+            </div>
+          </section>
+
+          {/* Glow Sweep Effect */}
+          <section className="mb-16">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Glow Sweep Effect</h3>
+            <p className="text-gray-500 text-sm mb-6">Hover to see the sweep — premium micro-interaction.</p>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="elite-glass-card elite-glow-sweep rounded-2xl p-8 relative overflow-hidden">
+                <h4 className="text-white font-semibold mb-2">Hover this card</h4>
+                <p className="text-gray-400 text-sm">Watch the light sweep across on hover.</p>
+              </div>
+              <button className="elite-btn-blue elite-glow-sweep-btn px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 relative overflow-hidden">
+                Hover this button
+              </button>
+            </div>
+          </section>
+
+          {/* Text Glow */}
+          <section className="mb-16">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Text Glow</h3>
+            <div className="flex flex-wrap gap-8 items-baseline">
+              <span className="text-3xl font-bold elite-text-neon-blue">Quantum</span>
+              <span className="text-3xl font-bold elite-text-neon-orange">Repair</span>
+              <span className="text-xl font-semibold elite-text-neon-blue">$89</span>
+              <span className="text-sm elite-text-neon-orange uppercase tracking-widest">Priority</span>
+            </div>
+          </section>
+
+          {/* Full Card Example */}
+          <section className="mb-8">
+            <h3 className="text-lg font-semibold text-cyan-300 mb-6">Full Premium Card</h3>
+            <div className="max-w-md">
+              <div className="elite-glass-card elite-hover-lift elite-glow-sweep rounded-2xl p-8 relative overflow-hidden">
+                {/* Ambient glow */}
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
+
+                {/* Icon */}
+                <div className="elite-icon-wrap w-16 h-16 rounded-xl flex items-center justify-center mb-5 relative z-10">
+                  <svg viewBox="0 0 24 24" className="w-9 h-9 elite-icon-stroke" aria-hidden>
+                    <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z" />
+                    <polyline points="9 12 11 14 15 10" />
+                  </svg>
+                </div>
+
+                {/* Content */}
+                <h4 className="text-xl font-bold text-white mb-2 relative z-10">90-Day Warranty</h4>
+                <p className="text-gray-400 text-sm mb-6 relative z-10 leading-relaxed">
+                  Every repair backed by our guarantee. If it breaks again within 90 days, we fix it free.
+                </p>
+
+                {/* CTA */}
+                <button className="elite-btn-blue px-5 py-2.5 rounded-lg font-medium text-white text-sm transition-all duration-300 relative z-10">
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+
       </div>
 
       <style jsx>{`
@@ -895,6 +1107,259 @@ export default function IconTest() {
           filter: drop-shadow(0 0 6px rgba(0, 212, 255, 1))
             drop-shadow(0 0 16px rgba(0, 212, 255, 0.9))
             drop-shadow(0 0 32px rgba(0, 212, 255, 0.7));
+        }
+
+        /* ============================================
+           ELITE UI SYSTEM — scoped to .elite-ui-lab
+           ============================================ */
+
+        .elite-ui-lab {
+          --elite-blue: #00d4ff;
+          --elite-blue-soft: rgba(0, 212, 255, 0.35);
+          --elite-orange: #ff7a00;
+          --elite-orange-soft: rgba(255, 122, 0, 0.35);
+        }
+
+        /* --- Glass Card --- */
+        .elite-ui-lab .elite-glass-card {
+          background: rgba(10, 20, 40, 0.6);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(0, 212, 255, 0.15);
+          transition: all 0.35s ease;
+        }
+
+        .elite-ui-lab .elite-glass-card:hover {
+          border-color: rgba(0, 212, 255, 0.35);
+          box-shadow:
+            0 0 5px var(--elite-blue),
+            0 0 15px var(--elite-blue-soft),
+            0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .elite-ui-lab .elite-glass-card:hover .elite-gradient-overlay {
+          opacity: 1;
+        }
+
+        /* --- Hover Lift --- */
+        .elite-ui-lab .elite-hover-lift {
+          transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .elite-ui-lab .elite-hover-lift:hover {
+          transform: translateY(-6px) scale(1.02);
+        }
+
+        /* --- Icon Stroke (base) --- */
+        .elite-ui-lab .elite-icon-stroke {
+          stroke: var(--elite-blue);
+          stroke-width: 2.25;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+
+        .elite-ui-lab .elite-icon-stroke-orange {
+          stroke: var(--elite-orange);
+          stroke-width: 2.25;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+
+        /* --- Icon Wrapper (inside cards) --- */
+        .elite-ui-lab .elite-icon-wrap {
+          background: rgba(0, 212, 255, 0.1);
+          border: 1px solid rgba(0, 212, 255, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .elite-ui-lab .elite-glass-card:hover .elite-icon-wrap {
+          background: rgba(0, 212, 255, 0.18);
+          box-shadow:
+            0 0 8px var(--elite-blue),
+            0 0 20px var(--elite-blue-soft);
+        }
+
+        /* --- Icon Wrapper Standalone --- */
+        .elite-ui-lab .elite-icon-wrap-standalone {
+          background: rgba(0, 212, 255, 0.1);
+          border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .elite-ui-lab .elite-icon-wrap-standalone:hover {
+          background: rgba(0, 212, 255, 0.2);
+          box-shadow:
+            0 0 5px var(--elite-blue),
+            0 0 15px var(--elite-blue-soft),
+            0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        /* --- Buttons --- */
+        .elite-ui-lab .elite-btn-blue {
+          background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        }
+
+        .elite-ui-lab .elite-btn-blue:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 25px rgba(0, 212, 255, 0.6);
+        }
+
+        .elite-ui-lab .elite-btn-blue:active {
+          transform: scale(0.95);
+        }
+
+        .elite-ui-lab .elite-btn-orange {
+          background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+        }
+
+        .elite-ui-lab .elite-btn-orange:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 25px rgba(255, 122, 0, 0.6);
+        }
+
+        .elite-ui-lab .elite-btn-orange:active {
+          transform: scale(0.95);
+        }
+
+        .elite-ui-lab .elite-btn-outline {
+          background: transparent;
+          border: 1px solid rgba(0, 212, 255, 0.4);
+          color: var(--elite-blue);
+        }
+
+        .elite-ui-lab .elite-btn-outline:hover {
+          background: rgba(0, 212, 255, 0.1);
+          border-color: var(--elite-blue);
+          box-shadow: 0 0 15px var(--elite-blue-soft);
+        }
+
+        .elite-ui-lab .elite-btn-ghost {
+          background: transparent;
+          color: #9ca3af;
+        }
+
+        .elite-ui-lab .elite-btn-ghost:hover {
+          color: #e5e7eb;
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- Step Indicator --- */
+        .elite-ui-lab .elite-step-active {
+          background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+          box-shadow:
+            0 0 5px var(--elite-blue),
+            0 0 15px var(--elite-blue-soft),
+            0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .elite-ui-lab .elite-step-done {
+          background: rgba(0, 212, 255, 0.15);
+          border: 1px solid rgba(0, 212, 255, 0.4);
+        }
+
+        .elite-ui-lab .elite-step-pending {
+          background: rgba(55, 65, 81, 0.5);
+          border: 1px solid rgba(75, 85, 99, 0.5);
+        }
+
+        /* --- Ambient Pulse --- */
+        @keyframes elite-pulse-blue {
+          0%, 100% {
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+          }
+          50% {
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.6);
+          }
+        }
+
+        @keyframes elite-pulse-orange {
+          0%, 100% {
+            box-shadow: 0 0 10px rgba(255, 122, 0, 0.2);
+          }
+          50% {
+            box-shadow: 0 0 25px rgba(255, 122, 0, 0.6);
+          }
+        }
+
+        .elite-ui-lab .elite-ambient-pulse-blue {
+          background: rgba(0, 212, 255, 0.1);
+          border: 1px solid rgba(0, 212, 255, 0.25);
+          animation: elite-pulse-blue 3s infinite ease-in-out;
+        }
+
+        .elite-ui-lab .elite-ambient-pulse-orange {
+          background: rgba(255, 122, 0, 0.1);
+          border: 1px solid rgba(255, 122, 0, 0.25);
+          animation: elite-pulse-orange 3s infinite ease-in-out;
+        }
+
+        /* --- Glow Sweep (cards) --- */
+        .elite-ui-lab .elite-glow-sweep::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(0, 212, 255, 0.4) 50%,
+            transparent 100%
+          );
+          opacity: 0;
+          transform: translateX(-100%);
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+        }
+
+        .elite-ui-lab .elite-glow-sweep:hover::after {
+          opacity: 1;
+          animation: elite-sweep 0.8s ease-out;
+        }
+
+        @keyframes elite-sweep {
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(100%);
+          }
+        }
+
+        /* --- Glow Sweep (buttons) --- */
+        .elite-ui-lab .elite-glow-sweep-btn::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            transparent 100%
+          );
+          opacity: 0;
+          transform: translateX(-100%);
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+        }
+
+        .elite-ui-lab .elite-glow-sweep-btn:hover::after {
+          opacity: 1;
+          animation: elite-sweep 0.6s ease-out;
+        }
+
+        /* --- Text Glow --- */
+        .elite-ui-lab .elite-text-neon-blue {
+          color: var(--elite-blue);
+          text-shadow:
+            0 0 6px var(--elite-blue),
+            0 0 12px var(--elite-blue-soft);
+        }
+
+        .elite-ui-lab .elite-text-neon-orange {
+          color: var(--elite-orange);
+          text-shadow:
+            0 0 6px var(--elite-orange),
+            0 0 12px var(--elite-orange-soft);
         }
       `}</style>
     </>
