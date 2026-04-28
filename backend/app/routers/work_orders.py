@@ -1329,26 +1329,27 @@ async def update_work_order_appointment(
                 work_order_id = appointment.work_order_id
                 logging.info(f"DEBUG: Found appointment for work order {work_order_id}")
                 
-                # Get services specifically linked to this appointment
-                # This ensures only services for this specific appointment are updated
-                appointment_id = appointment.id
-                logging.info(f"DEBUG: Appointment ID is: {appointment_id}")
+                # Get services specifically linked to this appointment via the many-to-many association
+                from app.models.work_order import appointment_services_association
+                from app.models.service import Service
                 
-                # Get services specifically linked to this appointment (any billing status)
-                services = db.query(WorkOrderServiceModel).filter(
-                    WorkOrderServiceModel.appointment_id == appointment_id
-                ).all()
+                # Get service IDs linked to this appointment
+                linked_service_ids = db.execute(
+                    appointment_services_association.select().where(
+                        appointment_services_association.c.appointment_id == appointment_id
+                    )
+                ).fetchall()
+                linked_service_ids = [row.service_id for row in linked_service_ids]
                 
-                # If no services are linked to this appointment yet, get all unlinked services for this work order
-                # This handles the transition period where services aren't linked to appointments yet
-                if len(services) == 0:
-                    logging.info(f"DEBUG: No services linked to appointment {appointment_id}, getting all unlinked services for work order {work_order_id}")
+                # Get WorkOrderService records for only those services on this work order
+                services = []
+                if linked_service_ids:
                     services = db.query(WorkOrderServiceModel).filter(
                         WorkOrderServiceModel.work_order_id == work_order_id,
-                        WorkOrderServiceModel.appointment_id.is_(None)  # Only get services not yet linked to any appointment
+                        WorkOrderServiceModel.service_id.in_(linked_service_ids)
                     ).all()
                 
-                logging.info(f"DEBUG: Found {len(services)} services to update for appointment {appointment_id}")
+                logging.info(f"DEBUG: Found {len(services)} services linked to appointment {appointment_id}")
                 
                 # Get the work order
                 work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()

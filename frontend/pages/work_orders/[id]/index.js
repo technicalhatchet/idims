@@ -790,7 +790,7 @@ function WorkOrderDetail() {
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                               {workOrder.parts.map((part, index) => {
-                                const isBillable = ['completed', 'phone_payment', 'up_front'].includes(part.status);
+                                const isBillable = ['installed', 'completed', 'phone_payment', 'up_front'].includes(part.status);
                                 const isPaid = part.status === 'phone_payment' || part.status === 'up_front';
                                 
                                 return (
@@ -856,7 +856,7 @@ function WorkOrderDetail() {
                               .reduce((sum, service) => sum + (service.price || 0), 0);
                             
                             const billablePartsTotal = (workOrder.parts || [])
-                              .filter(part => ['completed', 'phone_payment', 'up_front'].includes(part.status))
+                              .filter(part => ['installed', 'completed', 'phone_payment', 'up_front'].includes(part.status))
                               .reduce((sum, part) => sum + (part.price || 0), 0);
                             
                             const billableTotal = billableServicesTotal + billablePartsTotal;
@@ -882,7 +882,7 @@ function WorkOrderDetail() {
                       .reduce((sum, service) => sum + (service.price || 0), 0);
                       
                       const billablePartsTotal = (workOrder.parts || [])
-                        .filter(part => ['completed', 'phone_payment', 'up_front'].includes(part.status))
+                        .filter(part => ['installed', 'completed', 'phone_payment', 'up_front'].includes(part.status))
                         .reduce((sum, part) => sum + (part.price || 0), 0);
                       
                       const billableTotal = billableServicesTotal + billablePartsTotal;
