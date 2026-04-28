@@ -125,6 +125,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
 
   useEffect(() => {
     if (workOrder) {
+      console.log('[EquipmentDetails] Syncing from workOrder:', workOrder.equipment_type, workOrder.equipment_subtype, workOrder.equipment_make);
       setEquipmentType(workOrder.equipment_type || '');
       setEquipmentSubtype(workOrder.equipment_subtype || '');
       setManufacturer(workOrder.equipment_make || '');
