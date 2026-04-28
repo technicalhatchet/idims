@@ -275,6 +275,9 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
       
       // Reset form
       resetPartForm();
+      
+      // Notify parent to refetch so invoices tab stays in sync
+      if (onUpdate) onUpdate();
     } catch (err) {
       console.error('Error saving part:', err);
       setError('Failed to save part. Please try again.');
@@ -356,6 +359,9 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
       const updatedParts = [...parts];
       updatedParts[partIndex] = response;
       setParts(updatedParts);
+      
+      // Notify parent to refetch work order so invoices tab reflects new status
+      if (onUpdate) onUpdate();
       
       // Show success indicator briefly
       setSuccessMessage(`Part status updated to ${PART_STATUSES.find(s => s.value === newStatus)?.label}`);
