@@ -119,11 +119,21 @@ class WorkOrder(Base):
                 elif hasattr(item, 'service') and item.service and item.service.service_type == 'repair':
                     repair_price += item_price
         
-        # Calculate subtotal from parts (only billable parts)
+        # Calculate subtotal from parts
         parts_subtotal = Decimal('0.00')
         for part in self.parts:
-            if hasattr(part, 'price') and part.price is not None and part.status in ['completed', 'phone_payment', 'up_front']:
-                parts_subtotal += Decimal(str(part.price))
+            if hasattr(part, 'price') and part.price is not None:
+                price = Decimal(str(part.price))
+                upfront = Decimal(str(part.amount_upfront_collected or 0))
+                if part.status == 'phone_payment':
+                    # Already paid in full - counts toward total but not due today
+                    parts_subtotal += price
+                elif part.status == 'upfront_50':
+                    # 50% collected, 50% still owed - count full price in total
+                    parts_subtotal += price
+                elif part.status == 'installed':
+                    # Full price or remaining balance due
+                    parts_subtotal += price
         
         # Apply diagnostic discount if both diagnostic and repair services exist
         discount_amount = Decimal('0.00')
@@ -368,9 +378,10 @@ class WorkOrderPart(Base):
     cost = Column(Float, nullable=False, default=0.0)
     price = Column(Float, nullable=False, default=0.0)
     vendor = Column(String(50), nullable=True)  # 'Tribles', 'ShopJimmy', 'Encompass', 'Sears', 'Amazon', 'PartsSelect', 'Other'
-    status = Column(String(50), nullable=False, default="needed")  # 'needed', 'ordered', 'received', 'installed', 'not_installed', 'completed', 'phone_payment', 'up_front'
+    status = Column(String(50), nullable=False, default="needed")  # 'needed', 'ordered', 'received', 'upfront_50', 'phone_payment', 'installed', 'not_installed'
     tracking_number = Column(String(100), nullable=True)
     notes = Column(Text, nullable=True)
+    amount_upfront_collected = Column(Numeric(10, 2), nullable=False, default=0.00)
     
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

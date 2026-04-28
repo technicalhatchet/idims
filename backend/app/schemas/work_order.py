@@ -433,9 +433,11 @@ class WorkOrderPartBase(BaseModel):
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
     
+    amount_upfront_collected: float = 0.00
+
     @validator('status')
     def validate_status(cls, v):
-        allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed"]
+        allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment"]
         if v not in allowed_statuses:
             raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -462,11 +464,12 @@ class WorkOrderPartUpdate(BaseModel):
     status: Optional[str] = None
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
+    amount_upfront_collected: Optional[float] = None
     
     @validator('status')
     def validate_status(cls, v):
         if v is not None:
-            allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "completed", "phone_payment", "up_front"]
+            allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment"]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -485,6 +488,7 @@ class WorkOrderPartResponse(WorkOrderPartBase):
     """Schema for responding with a work order part"""
     id: UUID
     work_order_id: UUID
+    amount_upfront_collected: float = 0.00
     created_at: datetime
     updated_at: datetime
     created_by: Optional[UUID] = None

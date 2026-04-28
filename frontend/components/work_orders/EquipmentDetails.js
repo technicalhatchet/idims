@@ -62,7 +62,9 @@ const MANUFACTURERS = [
 const PART_STATUSES = [
   { value: 'needed', label: 'Needed', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' },
   { value: 'ordered', label: 'Ordered', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
-  { value: 'received', label: 'Received', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
+  { value: 'received', label: 'Received', color: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200' },
+  { value: 'upfront_50', label: '50% Upfront', color: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' },
+  { value: 'phone_payment', label: 'Phone Payment', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
   { value: 'installed', label: 'Installed', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' },
   { value: 'not_installed', label: 'Not Installed', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }
 ];
@@ -244,7 +246,13 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
         status: currentPart.status,
         vendor: currentPart.vendor === '' ? null : currentPart.vendor,
         tracking_number: currentPart.tracking_number || '',
-        notes: currentPart.notes || ''
+        notes: currentPart.notes || '',
+        // Auto-set amount_upfront_collected based on status
+        amount_upfront_collected: currentPart.status === 'phone_payment'
+          ? parseFloat(currentPart.price)  // full price collected
+          : currentPart.status === 'upfront_50'
+          ? parseFloat(currentPart.price) * 0.5  // half collected
+          : parseFloat(currentPart.amount_upfront_collected || 0)  // manual or zero
       };
       
       if (editingPartIndex !== null) {
@@ -347,11 +355,22 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
   const updatePartStatus = async (partIndex, newStatus) => {
     try {
       const part = parts[partIndex];
+      const price = parseFloat(part.price || 0);
+      
+      // Auto-calculate amount_upfront_collected when changing status
+      const amountUpfront = newStatus === 'phone_payment'
+        ? price  // full price collected
+        : newStatus === 'upfront_50'
+        ? price * 0.5  // half collected
+        : newStatus === 'installed' || newStatus === 'needed' || newStatus === 'ordered' || newStatus === 'received'
+        ? 0  // reset on earlier statuses
+        : parseFloat(part.amount_upfront_collected || 0);  // keep existing
       
       const response = await apiClient(`work-orders/parts/${part.id}`, {
         method: 'PUT',
         body: JSON.stringify({
-          status: newStatus
+          status: newStatus,
+          amount_upfront_collected: amountUpfront
         })
       });
       

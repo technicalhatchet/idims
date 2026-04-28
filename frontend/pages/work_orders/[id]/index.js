@@ -48,7 +48,6 @@ function WorkOrderDetail() {
   const [clientWorkOrders, setClientWorkOrders] = useState([]);
   const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
   const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(false);
-  const [partUpfrontPercent, setPartUpfrontPercent] = useState(null); // null = full, 50 = half upfront
   const { theme } = useTheme();
   
   // Ensure dark mode applies correctly on page load
@@ -792,8 +791,15 @@ function WorkOrderDetail() {
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                               {workOrder.parts.map((part, index) => {
-                                const isBillable = ['installed', 'completed', 'phone_payment', 'up_front'].includes(part.status);
-                                const isPaid = part.status === 'phone_payment' || part.status === 'up_front';
+                                const isPhonePayment = part.status === 'phone_payment';
+                                const isUpfront50 = part.status === 'upfront_50';
+                                const isInstalled = part.status === 'installed';
+                                const upfrontCollected = parseFloat(part.amount_upfront_collected || 0);
+                                const price = parseFloat(part.price || 0);
+                                const remainingDue = isInstalled ? price - upfrontCollected : isUpfront50 ? price * 0.5 : isPhonePayment ? 0 : null;
+                                const isBillable = isPhonePayment || isUpfront50 || isInstalled;
+                                const isPaid = isPhonePayment;
+                                const isPartial = isUpfront50 || (isInstalled && upfrontCollected > 0);
                                 
                                 return (
                                   <tr key={part.id || index} className={isBillable && !isPaid ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}>
@@ -806,15 +812,24 @@ function WorkOrderDetail() {
                                       {part.description}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-100 text-right">
-                                      ${part.price ? part.price.toFixed(2) : '0.00'}
+                                      ${price.toFixed(2)}
+                                      {isPartial && upfrontCollected > 0 && (
+                                        <div className="text-xs text-gray-400">{upfrontCollected.toFixed(2)} collected</div>
+                                      )}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
                                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                                         isPaid ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                                        isUpfront50 ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' :
+                                        isInstalled && upfrontCollected > 0 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                                         isBillable ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                                         'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                                       }`}>
-                                        {isPaid ? 'Paid' : isBillable ? 'Due Today' : 'Not Billable'}
+                                        {isPaid ? 'Paid in Full' :
+                                         isUpfront50 ? `50% Due (${(price * 0.5).toFixed(2)})` :
+                                         isInstalled && upfrontCollected > 0 ? `Balance Due (${remainingDue.toFixed(2)})` :
+                                         isInstalled ? 'Due Today' :
+                                         'Not Billable'}
                                       </span>
                                     </td>
                                   </tr>
@@ -853,41 +868,32 @@ function WorkOrderDetail() {
                       );
                     })()}
 
-                    {/* Parts 50% Upfront Option */}
-                    {workOrder?.parts?.some(p => ['installed', 'completed'].includes(p.status)) && (
-                      <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-700/40 rounded-lg border border-gray-200 dark:border-gray-600">
-                        <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={partUpfrontPercent === 50}
-                            onChange={e => setPartUpfrontPercent(e.target.checked ? 50 : null)}
-                            className="rounded"
-                          />
-                          Collect 50% upfront on parts
-                        </label>
-                      </div>
-                    )}
-
                     {/* Invoice Totals */}
                     {(() => {
                       // Total Work Order = ALL services + ALL billable parts - diagnostic discount
                       const allServicesTotal = (allServices || []).reduce((sum, s) => sum + (s.price || 0), 0);
                       const allBillablePartsTotal = (workOrder.parts || [])
-                        .filter(p => ['installed', 'completed', 'phone_payment', 'up_front'].includes(p.status))
-                        .reduce((sum, p) => sum + (p.price || 0), 0);
+                        .filter(p => ['upfront_50', 'phone_payment', 'installed'].includes(p.status))
+                        .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
                       const diagDiscount = workOrder?.diagnostic_discount_applied && workOrder?.diagnostic_discount_amount > 0
                         ? (halfDiagnosticDiscount ? workOrder.diagnostic_discount_amount * 0.5 : workOrder.diagnostic_discount_amount)
                         : 0;
                       const totalWorkOrder = allServicesTotal + allBillablePartsTotal - diagDiscount;
 
-                      // Due Today = billable services + billable parts (applying 50% if selected) - previously paid
+                      // Due Today = billable services + (parts due now based on status/upfront) - previously paid
                       const billableServicesTotal = (allServices || [])
                         .filter(s => s.billing_status === 'billable' || s.billing_status === 'paid')
                         .reduce((sum, s) => sum + (s.price || 0), 0);
                       const billablePartsRaw = (workOrder.parts || [])
-                        .filter(p => ['installed', 'completed', 'phone_payment', 'up_front'].includes(p.status))
-                        .reduce((sum, p) => sum + (p.price || 0), 0);
-                      const billablePartsTotal = partUpfrontPercent === 50 ? billablePartsRaw * 0.5 : billablePartsRaw;
+                        .reduce((sum, p) => {
+                          const price = parseFloat(p.price || 0);
+                          const upfront = parseFloat(p.amount_upfront_collected || 0);
+                          if (p.status === 'phone_payment') return sum; // already paid
+                          if (p.status === 'upfront_50') return sum + (price * 0.5); // 50% due now
+                          if (p.status === 'installed') return sum + (price - upfront); // remaining after upfront
+                          return sum;
+                        }, 0);
+                      const billablePartsTotal = billablePartsRaw;
                       const previouslyPaid = workOrder.amount_previously_paid || 0;
                       const dueToday = Math.max(0, billableServicesTotal + billablePartsTotal - previouslyPaid);
 
