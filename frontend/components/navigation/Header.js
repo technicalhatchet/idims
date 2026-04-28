@@ -39,7 +39,7 @@ export default function Header({ user, isLoading }) {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#0B0F1A]/95 backdrop-blur-md shadow-lg shadow-black/20' : 'bg-transparent'
+        scrolled ? 'bg-[#000208]/95 backdrop-blur-md shadow-lg shadow-black/20' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6">
@@ -100,11 +100,21 @@ export default function Header({ user, isLoading }) {
             )}
             <Link
               href="/book"
-              className="relative group px-6 py-2.5 rounded-lg font-semibold text-sm overflow-hidden"
+              className="book-btn-header relative group px-5 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all duration-300"
+              style={{
+                background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)',
+              }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600 transition-all group-hover:from-orange-400 group-hover:to-orange-500" />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-orange-400 to-orange-500 blur-lg" />
-              <span className="relative text-white flex items-center gap-2">
+              {/* Cyan Calendar Icon with breathing glow */}
+              <span className="calendar-icon-breathe relative flex items-center justify-center">
+                <svg viewBox="0 0 24 24" className="w-5 h-5" style={{ stroke: '#00B8D4', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                  <rect x="3" y="5" width="18" height="16" rx="2"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                  <line x1="8" y1="3" x2="8" y2="7"/>
+                  <line x1="16" y1="3" x2="16" y2="7"/>
+                </svg>
+              </span>
+              <span className="relative text-white">
                 Book Now
               </span>
             </Link>
@@ -127,7 +137,7 @@ export default function Header({ user, isLoading }) {
           menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-6 py-4 bg-[#0B0F1A]/95 backdrop-blur-md border-t border-white/5">
+        <div className="px-6 py-4 bg-[#000208]/95 backdrop-blur-md border-t border-white/5">
           <nav className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
@@ -157,8 +167,17 @@ export default function Header({ user, isLoading }) {
               )}
               <Link
                 href="/book"
-                className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center py-3 rounded-lg font-semibold text-sm"
+                className="book-btn-header flex items-center justify-center gap-2 text-white text-center py-3 rounded-lg font-semibold text-sm"
+                style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
               >
+                <span className="calendar-icon-breathe">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" style={{ stroke: '#00B8D4', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                    <rect x="3" y="5" width="18" height="16" rx="2"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                    <line x1="8" y1="3" x2="8" y2="7"/>
+                    <line x1="16" y1="3" x2="16" y2="7"/>
+                  </svg>
+                </span>
                 Book Now
               </Link>
             </div>

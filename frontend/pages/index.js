@@ -52,10 +52,19 @@ export default function Home() {
         <meta name="description" content="Same-day appliance repair service in Toledo. Honest diagnostics, no surprises. Licensed & insured technicians." />
       </Head>
 
-      {/* Background Gradients */}
-      <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute w-[800px] h-[800px] bg-cyan-500/15 blur-[180px] top-[-200px] left-[-200px]" />
-        <div className="absolute w-[600px] h-[600px] bg-orange-500/10 blur-[150px] bottom-[-100px] right-[-100px]" />
+      {/* Background Glow Blobs - Atomic Theme */}
+      <div 
+        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
+        style={{ backgroundColor: '#000208' }}
+      >
+        <div 
+          className="absolute w-[700px] h-[700px] blur-[180px] top-[-100px] left-[-200px]"
+          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
+        />
+        <div 
+          className="absolute w-[500px] h-[500px] blur-[150px] bottom-[20%] right-[-100px]"
+          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
+        />
       </div>
 
       {/* HERO SECTION */}
@@ -100,8 +109,8 @@ export default function Home() {
                     whileTap={{ scale: 0.98 }}
                     className="group relative px-8 py-4 rounded-lg font-semibold text-white overflow-hidden"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600" />
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-orange-400 to-orange-500" />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }} />
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%)' }} />
                     <span className="relative flex items-center gap-2">
                       Book Service Now
                       <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -193,7 +202,7 @@ export default function Home() {
                   <div className="absolute top-[-18px] left-[10px] w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
                   {/* Diagonal line */}
                   <div className="absolute top-[-16px] left-[14px] w-[28px] h-[1px] bg-gradient-to-r from-cyan-400/80 to-cyan-400/20 rotate-[35deg] origin-left" />
-                  <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-[#0B0F1A]/90 backdrop-blur-md border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+                  <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-[#000208]/90 backdrop-blur-md border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20">
                       <FaCheckCircle className="w-4 h-4 text-cyan-400" />
                     </div>
@@ -301,7 +310,7 @@ export default function Home() {
             </h2>
 
             <div className="mt-10 inline-block">
-              <div className="relative p-8 lg:p-12 rounded-3xl bg-gradient-to-br from-[#0D1117] to-[#0B0F1A] border border-white/10">
+              <div className="relative p-8 lg:p-12 rounded-3xl bg-gradient-to-br from-[#000811] to-[#000208] border border-white/10">
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 to-orange-500/5" />
                 
                 <p className="relative text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 drop-shadow-[0_0_30px_rgba(249,115,22,0.4)]">
@@ -365,7 +374,8 @@ export default function Home() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="group px-8 py-4 rounded-lg font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)]"
+                  className="group px-8 py-4 rounded-lg font-semibold text-white transition-all shadow-[0_0_30px_rgba(251,146,60,0.3)] hover:shadow-[0_0_40px_rgba(251,146,60,0.5)]"
+                  style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
                 >
                   <span className="flex items-center gap-2">
                     Book Now

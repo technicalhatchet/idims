@@ -130,10 +130,28 @@
   border: 1px solid rgba(255,255,255,0.1);
 }
 
+/* ===== ATOMIC THEME COLORS ===== */
+:root {
+  --atomic-bg: #000208;
+  --atomic-card-bg: #000811;
+  --atomic-card-border: #1A2A3A;
+  --atomic-card-border-hover: #22384D;
+  --atomic-text-primary: #EAF6FF;
+  --atomic-text-secondary: #9FB3C8;
+  --atomic-text-muted: #6B7C8F;
+  --atomic-cyan: #00E5FF;
+  --atomic-cyan-soft: rgba(0, 229, 255, 0.25);
+  --atomic-blue: #0A84FF;
+  --atomic-orange: #FF7A1A;
+  --atomic-orange-bright: #FF9A3D;
+  --atomic-orange-soft: rgba(255, 122, 26, 0.25);
+  --atomic-teal: #00C2B8;
+}
+
 /* ===== BASE ===== */
 html, body {
-  background-color: #0B0F1A;
-  color: white;
+  background-color: var(--atomic-bg);
+  color: var(--atomic-text-primary);
   scroll-behavior: smooth;
 }
 
@@ -142,11 +160,14 @@ html, body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0F1A;
+  background: var(--atomic-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0,255,255,0.3);
+  background: rgba(0, 229, 255, 0.3);
   border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.5);
 }
 
 /* ===== GLASS EFFECT ===== */
@@ -200,19 +221,37 @@ html, body {
 
 /* ===== GLOW UTILITIES ===== */
 .glow-cyan {
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 20px var(--atomic-cyan-soft);
 }
 
 .glow-orange {
-  box-shadow: 0 0 20px rgba(255, 138, 0, 0.5);
+  box-shadow: 0 0 20px var(--atomic-orange-soft);
 }
 
 .glow-cyan-lg {
-  box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
+  box-shadow: 
+    0 0 5px var(--atomic-cyan),
+    0 0 15px var(--atomic-cyan-soft),
+    0 0 30px rgba(0, 212, 255, 0.2);
 }
 
 .glow-orange-lg {
-  box-shadow: 0 0 40px rgba(255, 138, 0, 0.4);
+  box-shadow: 
+    0 0 5px var(--atomic-orange),
+    0 0 15px var(--atomic-orange-soft),
+    0 0 30px rgba(255, 122, 0, 0.2);
+}
+
+/* ===== ATOMIC GLASS CARD ===== */
+.atomic-card {
+  background-color: var(--atomic-card-bg);
+  border: 1px solid var(--atomic-card-border);
+  transition: all 0.3s ease;
+}
+
+.atomic-card:hover {
+  border-color: var(--atomic-cyan);
+  box-shadow: 0 0 20px var(--atomic-cyan-soft);
 }
 
 /* ===== LINE CLAMP ===== */
@@ -232,4 +271,119 @@ input:focus, textarea:focus {
   outline: none;
   border-color: rgba(0,255,255,0.6);
   box-shadow: 0 0 0 2px rgba(0,255,255,0.2);
+}
+
+/* ===== BOOK BUTTON - HEADER ===== */
+@keyframes ambient-pulse-ring {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(251, 146, 60, 0.4), 0 0 20px rgba(251, 146, 60, 0.2);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+    box-shadow: 0 0 18px rgba(251, 146, 60, 0.6), 0 0 30px rgba(251, 146, 60, 0.3);
+  }
+}
+
+.book-btn-header {
+  position: relative;
+}
+
+.book-btn-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  animation: ambient-pulse-ring 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.book-btn-header:hover::before {
+  animation: none;
+  opacity: 1;
+  box-shadow: 0 0 25px rgba(251, 146, 60, 0.7), 0 0 40px rgba(251, 146, 60, 0.4);
+}
+
+.book-btn-header:hover {
+  transform: scale(1.05);
+}
+
+.book-btn-header:active {
+  transform: scale(0.95);
+}
+
+/* ===== LOGO GLOW ===== */
+@keyframes logo-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}
+
+.logo-glow::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  background: radial-gradient(ellipse at center, rgba(0, 184, 212, 0.4) 0%, rgba(255, 146, 60, 0.3) 50%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(15px);
+  animation: logo-pulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== CALENDAR ICON BREATHING GLOW ===== */
+@keyframes breathe-cyan {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(0, 184, 212, 0.7)) drop-shadow(0 0 8px rgba(0, 184, 212, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(0, 184, 212, 1)) drop-shadow(0 0 16px rgba(0, 184, 212, 0.7)) drop-shadow(0 0 24px rgba(0, 184, 212, 0.4));
+  }
+}
+
+.calendar-icon-breathe {
+  animation: breathe-cyan 2.5s ease-in-out infinite;
+  transition: filter 0.2s ease;
+}
+
+/* Static subtle glow on button hover (~20% breath) */
+.book-btn-header:hover .calendar-icon-breathe {
+  animation: none;
+  filter: drop-shadow(0 0 5px rgba(0, 184, 212, 0.75)) drop-shadow(0 0 10px rgba(0, 184, 212, 0.45));
+}
+
+/* ===== ELITE BUTTON SYSTEM (global) ===== */
+.elite-btn-orange {
+  background: linear-gradient(135deg, #fb923c 0%, #fbbf24 100%);
+  transition: all 0.3s ease;
+}
+
+.elite-btn-orange:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(251, 146, 60, 0.6);
+}
+
+.elite-btn-orange:active {
+  transform: scale(0.95);
+}
+
+.elite-btn-cyan {
+  background: linear-gradient(135deg, #06b6d4 0%, #00E5FF 100%);
+  transition: all 0.3s ease;
+}
+
+.elite-btn-cyan:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.6);
+}
+
+.elite-btn-cyan:active {
+  transform: scale(0.95);
 }

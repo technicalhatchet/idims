@@ -124,10 +124,19 @@ export default function Pricing() {
         <meta name="description" content="Transparent appliance repair pricing in Toledo. No hidden fees, upfront quotes, and warranty included. See our diagnostic, repair, and priority service rates." />
       </Head>
 
-      {/* Background */}
-      <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute w-[700px] h-[700px] bg-cyan-500/10 blur-[180px] top-[-100px] left-[-200px]" />
-        <div className="absolute w-[500px] h-[500px] bg-orange-500/10 blur-[150px] bottom-[10%] right-[-100px]" />
+      {/* Background - Atomic Theme */}
+      <div 
+        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
+        style={{ backgroundColor: '#000208' }}
+      >
+        <div 
+          className="absolute w-[700px] h-[700px] blur-[180px] top-[-100px] left-[-200px]"
+          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
+        />
+        <div 
+          className="absolute w-[500px] h-[500px] blur-[150px] bottom-[20%] right-[-100px]"
+          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
+        />
       </div>
 
       {/* HERO SECTION */}
@@ -431,7 +440,8 @@ export default function Pricing() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] transition-all"
+                  className="w-full py-3 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)] transition-all"
+                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
                 >
                   Get Your Quote
                 </motion.button>
@@ -492,8 +502,8 @@ export default function Pricing() {
             transition={{ duration: 0.6 }}
             className="relative rounded-3xl overflow-hidden"
           >
-            {/* Background */}
-            <div className="absolute inset-0 bg-[#0d1117]" />
+            {/* Background - Atomic Theme */}
+            <div className="absolute inset-0" style={{ backgroundColor: '#000811' }} />
             <div className="absolute left-0 top-0 w-1/2 h-full bg-gradient-to-r from-cyan-500/20 to-transparent" />
             <div className="absolute right-0 bottom-0 w-1/2 h-full bg-gradient-to-l from-orange-500/20 to-transparent" />
             <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-32 h-32 bg-orange-500/30 blur-3xl" />

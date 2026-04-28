@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#080B12] border-t border-white/5">
+    <footer className="relative z-10" style={{ backgroundColor: 'transparent' }}>
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-4 gap-10">
           {/* Brand */}
@@ -88,9 +88,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:info@quantumrepair.com" className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
+                <a href="mailto:info@atomicrepair.com" className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
                   <FaEnvelope className="w-4 h-4 text-cyan-400" />
-                  info@quantumrepair.com
+                  info@atomicrepair.com
                 </a>
               </li>
               <li>
@@ -106,7 +106,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p className="text-gray-500 text-sm">
-            &copy; {currentYear} Quantum Repair. All rights reserved.
+            &copy; {currentYear} Atomic Repair. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link href="/terms" className="text-gray-500 hover:text-gray-300 transition-colors text-sm">

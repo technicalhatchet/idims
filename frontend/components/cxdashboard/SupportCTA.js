@@ -29,7 +29,8 @@ export default function SupportCTA() {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold flex items-center gap-2 hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all"
+            className="px-6 py-3 rounded-xl text-white font-semibold flex items-center gap-2 hover:shadow-[0_0_25px_rgba(251,146,60,0.4)] transition-all"
+            style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
           >
             <FaComments className="w-4 h-4" />
             Message Us

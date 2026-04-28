@@ -156,11 +156,20 @@ export default function BookService() {
         <meta name="description" content="Book your appliance repair service in under 60 seconds." />
       </Head>
 
-      {/* Background */}
-      <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute w-[600px] h-[600px] bg-cyan-500/20 blur-[180px] top-[10%] left-[-10%]" />
-        <div className="absolute w-[500px] h-[500px] bg-orange-500/15 blur-[150px] bottom-[10%] right-[-5%]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#0B0F1A_70%)]" />
+      {/* Background - Atomic Theme */}
+      <div 
+        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
+        style={{ backgroundColor: '#000208' }}
+      >
+        <div 
+          className="absolute w-[700px] h-[700px] blur-[180px] top-[-100px] left-[-200px]"
+          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
+        />
+        <div 
+          className="absolute w-[500px] h-[500px] blur-[150px] bottom-[20%] right-[-100px]"
+          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
+        />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 0%, #000208 70%)' }} />
       </div>
 
       <div className="min-h-screen pt-28 pb-32 px-4 sm:px-6">
@@ -557,7 +566,8 @@ export default function BookService() {
                   <motion.button
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="flex-1 py-3 px-6 rounded-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] flex items-center justify-center gap-2 transition-all"
+                    className="flex-1 py-3 px-6 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)] flex items-center justify-center gap-2 transition-all"
+                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -618,7 +628,7 @@ export default function BookService() {
       </div>
 
       {/* Mobile Sticky CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#0B0F1A]/95 backdrop-blur-md border-t border-white/5 sm:hidden z-40">
+      <div className="fixed bottom-0 left-0 right-0 p-4 backdrop-blur-md border-t border-white/5 sm:hidden z-40" style={{ backgroundColor: 'rgba(0, 2, 8, 0.95)' }}>
         <div className="flex gap-3">
           {currentStep > 1 && !isComplete && (
             <button
@@ -644,7 +654,8 @@ export default function BookService() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex-1 py-3 rounded-xl font-semibold bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center gap-2"
+              className="flex-1 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2"
+              style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
             >
               {isSubmitting ? 'Confirming...' : 'Confirm'}
             </button>

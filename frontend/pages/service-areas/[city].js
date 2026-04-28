@@ -144,7 +144,8 @@ export default function ServiceAreaPage({ area }) {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] transition-all flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)] transition-all flex items-center gap-2"
+                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
                   >
                     <FaCalendarAlt className="w-4 h-4" />
                     Book Service
@@ -541,7 +542,8 @@ export default function ServiceAreaPage({ area }) {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 shadow-[0_0_25px_rgba(249,115,22,0.4)] flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] flex items-center gap-2"
+                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
                   >
                     <FaPhone className="w-4 h-4" />
                     {area.phone}

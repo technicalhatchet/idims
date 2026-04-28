@@ -79,7 +79,7 @@ export default function InvoiceList({ invoices = SAMPLE_INVOICES }) {
       <div className="flex gap-3 mt-4">
         {invoices.some(inv => inv.status === 'Due') && (
           <Link href="/cxdashboard/invoices/pay" className="flex-1">
-            <button className="w-full py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm font-medium hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] transition-all flex items-center justify-center gap-2">
+            <button className="w-full py-2.5 rounded-xl text-white text-sm font-medium hover:shadow-[0_0_20px_rgba(251,146,60,0.4)] transition-all flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}>
               Make a Payment
               <FaArrowRight className="w-3 h-3" />
             </button>

@@ -8,15 +8,15 @@ import HomeLayout from '../components/layouts/HomeLayout';
 import { allCities, serviceAreas } from '../data/serviceAreas';
 
 const THEMES = {
-  default: {
-    name: 'Default',
+  original: {
+    name: 'Original',
     bg: '#0B0F1A',
     card: 'bg-white/5 border-white/10',
     cardHover: 'hover:border-cyan-500/50',
     showGlows: true,
   },
-  midnight: {
-    name: 'Midnight',
+  atomic: {
+    name: 'Atomic',
     bg: '#000208',
     card: 'bg-[#000811] border-[#1A2A3A]',
     cardHover: 'hover:border-[#00E5FF]',
@@ -47,7 +47,7 @@ const MIDNIGHT_ACCENTS = {
 
 export default function ServiceAreaIndex() {
   const mainArea = serviceAreas.toledo;
-  const [theme, setTheme] = useState('default');
+  const [theme, setTheme] = useState('atomic');
   const t = THEMES[theme];
 
   return (
@@ -73,7 +73,7 @@ export default function ServiceAreaIndex() {
             <div 
               className="absolute w-[700px] h-[700px] blur-[180px] top-[-100px] left-[-200px] transition-all duration-500"
               style={{ 
-                backgroundColor: theme === 'midnight' 
+                backgroundColor: theme === 'atomic' 
                   ? 'rgba(0, 229, 255, 0.15)' 
                   : 'rgba(6, 182, 212, 0.1)' 
               }}
@@ -81,7 +81,7 @@ export default function ServiceAreaIndex() {
             <div 
               className="absolute w-[500px] h-[500px] blur-[150px] bottom-[20%] right-[-100px] transition-all duration-500"
               style={{ 
-                backgroundColor: theme === 'midnight' 
+                backgroundColor: theme === 'atomic' 
                   ? 'rgba(255, 122, 26, 0.18)' 
                   : 'rgba(249, 115, 22, 0.1)' 
               }}
@@ -95,11 +95,11 @@ export default function ServiceAreaIndex() {
         <div 
           className="flex items-center gap-2 p-2 rounded-xl backdrop-blur-md border transition-all duration-500"
           style={{
-            backgroundColor: theme === 'midnight' ? 'rgba(0, 8, 17, 0.8)' : 'rgba(255,255,255,0.1)',
-            borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.1)'
+            backgroundColor: theme === 'atomic' ? 'rgba(0, 8, 17, 0.8)' : 'rgba(255,255,255,0.1)',
+            borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)'
           }}
         >
-          <FaPalette className="w-4 h-4" style={{ color: theme === 'midnight' ? '#9FB3C8' : '#9ca3af' }} />
+          <FaPalette className="w-4 h-4" style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }} />
           {Object.entries(THEMES).map(([key, value]) => (
             <button
               key={key}
@@ -107,12 +107,12 @@ export default function ServiceAreaIndex() {
               className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
               style={{
                 backgroundColor: theme === key 
-                  ? (theme === 'midnight' ? '#00E5FF' : '#06b6d4')
+                  ? (theme === 'atomic' ? '#00E5FF' : '#06b6d4')
                   : 'transparent',
                 color: theme === key 
-                  ? (theme === 'midnight' ? '#000208' : 'white')
-                  : (theme === 'midnight' ? '#9FB3C8' : '#9ca3af'),
-                boxShadow: theme === key && theme === 'midnight' 
+                  ? (theme === 'atomic' ? '#000208' : 'white')
+                  : (theme === 'atomic' ? '#9FB3C8' : '#9ca3af'),
+                boxShadow: theme === key && theme === 'atomic' 
                   ? '0 0 15px rgba(0, 229, 255, 0.4)' 
                   : 'none'
               }}
@@ -134,22 +134,22 @@ export default function ServiceAreaIndex() {
             >
               <p 
                 className="text-sm font-semibold tracking-wider uppercase mb-4 transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#00E5FF' : '#22d3ee' }}
+                style={{ color: theme === 'atomic' ? '#00E5FF' : '#22d3ee' }}
               >
                 Our Service Areas
               </p>
               <h1 
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#EAF6FF' : 'white' }}
+                style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
               >
                 APPLIANCE REPAIR IN
                 <br />
                 <span 
                   className="text-transparent bg-clip-text"
                   style={{ 
-                    backgroundImage: theme === 'midnight' 
+                    backgroundImage: theme === 'atomic' 
                       ? 'linear-gradient(to right, #FF7A1A, #FF9A3D)' 
-                      : 'linear-gradient(to right, #fb923c, #f97316)' 
+                      : 'linear-gradient(135deg, #fb923c, #fbbf24)' 
                   }}
                 >
                   TOLEDO & NW OHIO
@@ -157,7 +157,7 @@ export default function ServiceAreaIndex() {
               </h1>
               <p 
                 className="mt-6 text-lg transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#9FB3C8' : '#9ca3af' }}
+                style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
               >
                 We proudly serve Toledo and the surrounding communities with fast, reliable appliance repair. Same-day service available.
               </p>
@@ -169,11 +169,11 @@ export default function ServiceAreaIndex() {
                     whileTap={{ scale: 0.98 }}
                     className="px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300"
                     style={{
-                      background: theme === 'midnight' 
+                      background: theme === 'atomic' 
                         ? 'linear-gradient(135deg, #00E5FF, #0A84FF)' 
                         : 'linear-gradient(to right, #06b6d4, #0891b2)',
-                      color: theme === 'midnight' ? '#000208' : 'white',
-                      boxShadow: theme === 'midnight' 
+                      color: theme === 'atomic' ? '#000208' : 'white',
+                      boxShadow: theme === 'atomic' 
                         ? '0 0 25px rgba(0, 229, 255, 0.4)' 
                         : '0 0 25px rgba(34,211,238,0.4)'
                     }}
@@ -190,8 +190,8 @@ export default function ServiceAreaIndex() {
                     style={{
                       backgroundColor: 'transparent',
                       borderWidth: '1px',
-                      borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.2)',
-                      color: theme === 'midnight' ? '#EAF6FF' : 'white'
+                      borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.2)',
+                      color: theme === 'atomic' ? '#EAF6FF' : 'white'
                     }}
                   >
                     <FaPhone className="w-4 h-4" />
@@ -233,13 +233,13 @@ export default function ServiceAreaIndex() {
           >
             <h2 
               className="text-2xl lg:text-3xl font-bold transition-colors duration-500"
-              style={{ color: theme === 'midnight' ? '#EAF6FF' : 'white' }}
+              style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
             >
               Cities We{' '}
               <span 
                 className="text-transparent bg-clip-text"
                 style={{ 
-                  backgroundImage: theme === 'midnight' 
+                  backgroundImage: theme === 'atomic' 
                     ? 'linear-gradient(to right, #00E5FF, #00C2B8)' 
                     : 'linear-gradient(to right, #22d3ee, #67e8f9)' 
                 }}
@@ -249,7 +249,7 @@ export default function ServiceAreaIndex() {
             </h2>
             <p 
               className="mt-3 transition-colors duration-500"
-              style={{ color: theme === 'midnight' ? '#9FB3C8' : '#9ca3af' }}
+              style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
             >
               Click on a city to learn more about our services in your area.
             </p>
@@ -268,11 +268,11 @@ export default function ServiceAreaIndex() {
                   <div 
                     className="group p-6 rounded-2xl border transition-all cursor-pointer duration-300"
                     style={{
-                      backgroundColor: theme === 'midnight' ? '#000811' : 'rgba(255,255,255,0.05)',
-                      borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
+                      backgroundColor: theme === 'atomic' ? '#000811' : 'rgba(255,255,255,0.05)',
+                      borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
                     }}
                     onMouseEnter={(e) => {
-                      if (theme === 'midnight') {
+                      if (theme === 'atomic') {
                         e.currentTarget.style.borderColor = '#00E5FF';
                         e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 229, 255, 0.25)';
                       } else {
@@ -280,7 +280,7 @@ export default function ServiceAreaIndex() {
                       }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.1)';
+                      e.currentTarget.style.borderColor = theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)';
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
@@ -288,26 +288,26 @@ export default function ServiceAreaIndex() {
                       <div 
                         className="w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300"
                         style={{ 
-                          backgroundColor: theme === 'midnight' ? 'rgba(0, 229, 255, 0.1)' : 'rgba(6, 182, 212, 0.1)' 
+                          backgroundColor: theme === 'atomic' ? 'rgba(0, 229, 255, 0.1)' : 'rgba(6, 182, 212, 0.1)' 
                         }}
                       >
                         <FaMapMarkerAlt 
                           className="w-5 h-5" 
-                          style={{ color: theme === 'midnight' ? '#00E5FF' : '#22d3ee' }}
+                          style={{ color: theme === 'atomic' ? '#00E5FF' : '#22d3ee' }}
                         />
                       </div>
                       <FaArrowRight 
                         className="w-4 h-4 group-hover:translate-x-1 transition-all"
-                        style={{ color: theme === 'midnight' ? '#6B7C8F' : '#6b7280' }}
+                        style={{ color: theme === 'atomic' ? '#6B7C8F' : '#6b7280' }}
                       />
                     </div>
                     <h3 
                       className="font-bold text-lg transition-colors group-hover:text-[#00E5FF]"
-                      style={{ color: theme === 'midnight' ? '#EAF6FF' : 'white' }}
+                      style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
                     >
                       {area.name}, {area.state}
                     </h3>
-                    <p style={{ color: theme === 'midnight' ? '#6B7C8F' : '#9ca3af' }} className="text-sm mt-1">
+                    <p style={{ color: theme === 'atomic' ? '#6B7C8F' : '#9ca3af' }} className="text-sm mt-1">
                       {area.stats.repairsCompleted}+ repairs completed
                     </p>
                   </div>
@@ -323,13 +323,13 @@ export default function ServiceAreaIndex() {
             viewport={{ once: true }}
             className="mt-12 p-6 rounded-2xl border transition-colors duration-500"
             style={{
-              backgroundColor: theme === 'midnight' ? '#000811' : 'rgba(255,255,255,0.05)',
-              borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
+              backgroundColor: theme === 'atomic' ? '#000811' : 'rgba(255,255,255,0.05)',
+              borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
             }}
           >
             <h3 
               className="font-bold mb-4 transition-colors duration-500"
-              style={{ color: theme === 'midnight' ? '#EAF6FF' : 'white' }}
+              style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
             >
               Additional Areas We Serve
             </h3>
@@ -339,9 +339,9 @@ export default function ServiceAreaIndex() {
                   key={i} 
                   className="px-3 py-1.5 rounded-full border text-sm transition-all duration-300 cursor-default hover:border-[#00C2B8]"
                   style={{
-                    backgroundColor: theme === 'midnight' ? 'rgba(0,8,17,0.5)' : 'rgba(255,255,255,0.05)',
-                    borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
-                    color: theme === 'midnight' ? '#9FB3C8' : '#d1d5db',
+                    backgroundColor: theme === 'atomic' ? 'rgba(0,8,17,0.5)' : 'rgba(255,255,255,0.05)',
+                    borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
+                    color: theme === 'atomic' ? '#9FB3C8' : '#d1d5db',
                   }}
                 >
                   {city}
@@ -350,7 +350,7 @@ export default function ServiceAreaIndex() {
             </div>
             <p 
               className="text-sm mt-4 transition-colors duration-500"
-              style={{ color: theme === 'midnight' ? '#6B7C8F' : '#6b7280' }}
+              style={{ color: theme === 'atomic' ? '#6B7C8F' : '#6b7280' }}
             >
               Don't see your city? We likely still serve your area! Call us at (419) 555-1234 to confirm.
             </p>
@@ -361,7 +361,7 @@ export default function ServiceAreaIndex() {
       {/* MAP SECTION */}
       <section 
         className="relative py-16 lg:py-20 border-t transition-colors duration-500"
-        style={{ borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.05)' }}
+        style={{ borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.05)' }}
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -372,19 +372,19 @@ export default function ServiceAreaIndex() {
             >
               <p 
                 className="text-sm font-semibold tracking-wider uppercase mb-3 transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#00E5FF' : '#22d3ee' }}
+                style={{ color: theme === 'atomic' ? '#00E5FF' : '#22d3ee' }}
               >
                 Coverage Area
               </p>
               <h2 
                 className="text-2xl lg:text-3xl font-bold mb-4 transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#EAF6FF' : 'white' }}
+                style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
               >
                 We Cover 25 Miles Around Toledo
               </h2>
               <p 
                 className="mb-6 transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#9FB3C8' : '#9ca3af' }}
+                style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
               >
                 Our service area covers Toledo and all surrounding communities within a 25-mile radius. If you're not sure whether you're in our coverage area, just give us a call!
               </p>
@@ -394,15 +394,15 @@ export default function ServiceAreaIndex() {
                   <li 
                     key={i} 
                     className="flex items-center gap-3 transition-colors duration-500"
-                    style={{ color: theme === 'midnight' ? '#9FB3C8' : '#d1d5db' }}
+                    style={{ color: theme === 'atomic' ? '#9FB3C8' : '#d1d5db' }}
                   >
                     <div 
                       className="w-5 h-5 rounded-full flex items-center justify-center transition-colors duration-500"
-                      style={{ backgroundColor: theme === 'midnight' ? 'rgba(0, 229, 255, 0.15)' : 'rgba(6, 182, 212, 0.2)' }}
+                      style={{ backgroundColor: theme === 'atomic' ? 'rgba(0, 229, 255, 0.15)' : 'rgba(6, 182, 212, 0.2)' }}
                     >
                       <div 
                         className="w-2 h-2 rounded-full transition-colors duration-500"
-                        style={{ backgroundColor: theme === 'midnight' ? '#00E5FF' : '#22d3ee' }}
+                        style={{ backgroundColor: theme === 'atomic' ? '#00E5FF' : '#22d3ee' }}
                       />
                     </div>
                     {item}
@@ -417,10 +417,10 @@ export default function ServiceAreaIndex() {
                     whileTap={{ scale: 0.98 }}
                     className="px-6 py-3 rounded-xl font-semibold text-white flex items-center gap-2 transition-all duration-300"
                     style={{
-                      background: theme === 'midnight' 
+                      background: theme === 'atomic' 
                         ? 'linear-gradient(135deg, #FF7A1A, #FF9A3D)' 
-                        : 'linear-gradient(to right, #f97316, #ea580c)',
-                      boxShadow: theme === 'midnight' 
+                        : 'linear-gradient(135deg, #fb923c, #fbbf24)',
+                      boxShadow: theme === 'atomic' 
                         ? '0 0 25px rgba(255, 122, 26, 0.35)' 
                         : '0 0 25px rgba(249,115,22,0.4)'
                     }}
@@ -437,8 +437,8 @@ export default function ServiceAreaIndex() {
                     style={{
                       backgroundColor: 'transparent',
                       borderWidth: '1px',
-                      borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.2)',
-                      color: theme === 'midnight' ? '#EAF6FF' : 'white'
+                      borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.2)',
+                      color: theme === 'atomic' ? '#EAF6FF' : 'white'
                     }}
                   >
                     <FaCalendarAlt className="w-4 h-4" />
@@ -454,9 +454,9 @@ export default function ServiceAreaIndex() {
               viewport={{ once: true }}
               className="relative h-[350px] rounded-2xl overflow-hidden border transition-all duration-500"
               style={{
-                backgroundColor: theme === 'midnight' ? '#000811' : 'transparent',
-                backgroundImage: theme === 'midnight' ? 'none' : 'linear-gradient(to bottom right, rgba(6,182,212,0.1), rgba(249,115,22,0.1))',
-                borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
+                backgroundColor: theme === 'atomic' ? '#000811' : 'transparent',
+                backgroundImage: theme === 'atomic' ? 'none' : 'linear-gradient(to bottom right, rgba(6,182,212,0.1), rgba(249,115,22,0.1))',
+                borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
               }}
             >
               <div className="absolute inset-0 flex items-center justify-center">
@@ -464,28 +464,28 @@ export default function ServiceAreaIndex() {
                   <div 
                     className="w-32 h-32 rounded-full border-4 flex items-center justify-center mx-auto mb-4 relative transition-colors duration-500"
                     style={{ 
-                      borderColor: theme === 'midnight' ? 'rgba(0, 229, 255, 0.3)' : 'rgba(6, 182, 212, 0.3)',
-                      boxShadow: theme === 'midnight' ? '0 0 30px rgba(0, 229, 255, 0.15)' : 'none'
+                      borderColor: theme === 'atomic' ? 'rgba(0, 229, 255, 0.3)' : 'rgba(6, 182, 212, 0.3)',
+                      boxShadow: theme === 'atomic' ? '0 0 30px rgba(0, 229, 255, 0.15)' : 'none'
                     }}
                   >
                     <div 
                       className="absolute inset-0 rounded-full animate-pulse transition-colors duration-500"
-                      style={{ backgroundColor: theme === 'midnight' ? 'rgba(0, 229, 255, 0.1)' : 'rgba(6, 182, 212, 0.1)' }}
+                      style={{ backgroundColor: theme === 'atomic' ? 'rgba(0, 229, 255, 0.1)' : 'rgba(6, 182, 212, 0.1)' }}
                     />
                     <FaMapMarkerAlt 
                       className="w-10 h-10 transition-colors duration-500"
-                      style={{ color: theme === 'midnight' ? '#FF7A1A' : '#fb923c' }}
+                      style={{ color: theme === 'atomic' ? '#FF7A1A' : '#fb923c' }}
                     />
                   </div>
                   <p 
                     className="font-bold text-lg transition-colors duration-500"
-                    style={{ color: theme === 'midnight' ? '#EAF6FF' : 'white' }}
+                    style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
                   >
                     Toledo, OH
                   </p>
                   <p 
                     className="text-sm transition-colors duration-500"
-                    style={{ color: theme === 'midnight' ? '#6B7C8F' : '#9ca3af' }}
+                    style={{ color: theme === 'atomic' ? '#6B7C8F' : '#9ca3af' }}
                   >
                     25-Mile Coverage Radius
                   </p>
@@ -508,25 +508,25 @@ export default function ServiceAreaIndex() {
             <div 
               className="absolute inset-0 transition-all duration-500"
               style={{
-                backgroundColor: theme === 'midnight' ? '#000811' : 'transparent',
-                backgroundImage: theme === 'midnight' ? 'none' : 'linear-gradient(to right, rgba(6,182,212,0.2), #0d1117, rgba(249,115,22,0.2))',
+                backgroundColor: theme === 'atomic' ? '#000811' : 'transparent',
+                backgroundImage: theme === 'atomic' ? 'none' : 'linear-gradient(to right, rgba(6,182,212,0.2), #0d1117, rgba(249,115,22,0.2))',
               }}
             />
             <div 
               className="absolute inset-0 rounded-3xl border transition-colors duration-500"
-              style={{ borderColor: theme === 'midnight' ? '#1A2A3A' : 'rgba(255,255,255,0.1)' }}
+              style={{ borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)' }}
             />
 
             <div className="relative text-center p-10 lg:p-16">
               <h2 
                 className="text-2xl lg:text-3xl font-bold mb-4 transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#EAF6FF' : 'white' }}
+                style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
               >
                 Ready for Fast, Reliable Appliance Repair?
               </h2>
               <p 
                 className="max-w-xl mx-auto mb-8 transition-colors duration-500"
-                style={{ color: theme === 'midnight' ? '#9FB3C8' : '#9ca3af' }}
+                style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
               >
                 We serve Toledo and surrounding areas with same-day service. Book online or give us a call!
               </p>
@@ -538,11 +538,11 @@ export default function ServiceAreaIndex() {
                     whileTap={{ scale: 0.95 }}
                     className="px-8 py-4 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300"
                     style={{
-                      background: theme === 'midnight' 
+                      background: theme === 'atomic' 
                         ? 'linear-gradient(135deg, #00E5FF, #0A84FF)' 
                         : 'linear-gradient(to right, #06b6d4, #0891b2)',
-                      color: theme === 'midnight' ? '#000208' : 'white',
-                      boxShadow: theme === 'midnight' 
+                      color: theme === 'atomic' ? '#000208' : 'white',
+                      boxShadow: theme === 'atomic' 
                         ? '0 0 30px rgba(0, 229, 255, 0.4)' 
                         : '0 0 30px rgba(34,211,238,0.4)'
                     }}
@@ -559,8 +559,8 @@ export default function ServiceAreaIndex() {
                     style={{
                       backgroundColor: 'transparent',
                       borderWidth: '1px',
-                      borderColor: theme === 'midnight' ? 'rgba(255, 122, 26, 0.5)' : 'rgba(249, 115, 22, 0.5)',
-                      color: theme === 'midnight' ? '#FF7A1A' : '#fb923c',
+                      borderColor: theme === 'atomic' ? 'rgba(255, 122, 26, 0.5)' : 'rgba(249, 115, 22, 0.5)',
+                      color: theme === 'atomic' ? '#FF7A1A' : '#fb923c',
                     }}
                   >
                     <FaPhone className="w-4 h-4" />

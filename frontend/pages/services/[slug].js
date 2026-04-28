@@ -96,10 +96,19 @@ export default function ServiceDetailPage({ service }) {
         <meta name="keywords" content={`${service.title.toLowerCase()}, ${service.applianceType} repair, Toledo, appliance repair`} />
       </Head>
 
-      {/* Background */}
-      <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute w-[700px] h-[700px] bg-cyan-500/10 blur-[180px] top-[-200px] left-[-200px]" />
-        <div className="absolute w-[500px] h-[500px] bg-orange-500/10 blur-[150px] bottom-[20%] right-[-100px]" />
+      {/* Background - Atomic Theme */}
+      <div 
+        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
+        style={{ backgroundColor: '#000208' }}
+      >
+        <div 
+          className="absolute w-[700px] h-[700px] blur-[180px] top-[-100px] left-[-200px]"
+          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
+        />
+        <div 
+          className="absolute w-[500px] h-[500px] blur-[150px] bottom-[20%] right-[-100px]"
+          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
+        />
       </div>
 
       {/* HERO SECTION */}

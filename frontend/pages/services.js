@@ -114,29 +114,24 @@ export default function Services() {
         <meta name="description" content="Expert appliance repair services in Toledo. Refrigerator, washer, dryer, oven, dishwasher, microwave, freezer, and TV repair." />
       </Head>
 
-      {/* Background */}
-      <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute w-[800px] h-[800px] bg-cyan-500/15 blur-[200px] top-[-200px] left-[-200px]" />
-        <div className="absolute w-[600px] h-[600px] bg-orange-500/10 blur-[180px] bottom-[20%] right-[-100px]" />
+      {/* Background - Atomic Theme */}
+      <div 
+        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
+        style={{ backgroundColor: '#000208' }}
+      >
+        <div 
+          className="absolute w-[700px] h-[700px] blur-[180px] top-[-100px] left-[-200px]"
+          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
+        />
+        <div 
+          className="absolute w-[500px] h-[500px] blur-[150px] bottom-[20%] right-[-100px]"
+          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
+        />
       </div>
 
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Top Right CTA - Desktop */}
-          <div className="hidden lg:block absolute top-32 right-6">
-            <Link href="/book">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 rounded-xl font-semibold text-white bg-transparent border border-cyan-500/50 hover:bg-cyan-500/10 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(34,211,238,0.2)]"
-              >
-                <FaCalendarAlt className="w-4 h-4" />
-                Book Your Service
-              </motion.button>
-            </Link>
-          </div>
-
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
             <motion.div
