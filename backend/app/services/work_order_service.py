@@ -160,9 +160,12 @@ class WorkOrderService:
                 equipment_make=work_order_data.get("equipment_make"),
                 equipment_model=work_order_data.get("equipment_model"),
                 equipment_serial=work_order_data.get("equipment_serial"),
-                equipment_version=work_order_data.get("equipment_version")
-                # Removed scheduling fields:
-                # scheduled_start, scheduled_end, estimated_duration, assigned_technician_id
+                equipment_version=work_order_data.get("equipment_version"),
+                equipment_type=work_order_data.get("equipment_type"),
+                equipment_subtype=work_order_data.get("equipment_subtype"),
+                is_wall_mounted=work_order_data.get("is_wall_mounted", False),
+                equipment_notes=work_order_data.get("equipment_notes"),
+                symptoms=work_order_data.get("symptoms")
             )
             
             db.add(work_order)
