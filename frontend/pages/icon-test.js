@@ -298,7 +298,7 @@ export default function IconTest() {
             <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
               <svg viewBox="0 0 24 24" className="w-10 h-10 icon-orange">
                 <circle cx="12" cy="12" r="10"/>
-                <path d="M12 2a10 10 0 0 1 10 10" strokeWidth="3"/>
+                <path d="M12 2a10 10 0 0 1 10 10" strokeWidth="2.5"/>
               </svg>
               <span className="text-sm text-gray-400">Progress</span>
             </div>
@@ -315,7 +315,7 @@ export default function IconTest() {
 
             {/* Error */}
             <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
-              <svg viewBox="0 0 24 24" className="w-10 h-10" style={{ stroke: '#ef4444', strokeWidth: 2.25, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 6px rgba(239,68,68,0.6))' }}>
+              <svg viewBox="0 0 24 24" className="w-10 h-10" style={{ stroke: '#ef4444', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 6px rgba(239,68,68,0.6))' }}>
                 <circle cx="12" cy="12" r="10"/>
                 <line x1="15" y1="9" x2="9" y2="15"/>
                 <line x1="9" y1="9" x2="15" y2="15"/>
@@ -409,7 +409,7 @@ export default function IconTest() {
               <h3 className="text-cyan-400 font-medium mb-2">Cyan Icons (Default)</h3>
               <code className="block bg-black/30 p-3 rounded-lg text-gray-300">
                 stroke: #00D4FF<br/>
-                stroke-width: 2.25<br/>
+                stroke-width: 1.75<br/>
                 fill: none<br/>
                 filter: drop-shadow(0 0 6px #00D4FF66)
               </code>
@@ -418,7 +418,7 @@ export default function IconTest() {
               <h3 className="text-orange-400 font-medium mb-2">Orange Icons (Accent)</h3>
               <code className="block bg-black/30 p-3 rounded-lg text-gray-300">
                 stroke: #FF7A00<br/>
-                stroke-width: 2.25<br/>
+                stroke-width: 1.75<br/>
                 fill: none<br/>
                 filter: drop-shadow(0 0 6px #FF7A0066)
               </code>
@@ -547,7 +547,7 @@ export default function IconTest() {
                     <rect x="4" y="3" width="16" height="18" rx="2" />
                     <line x1="8" y1="8" x2="16" y2="8" />
                     <line x1="8" y1="12" x2="16" y2="12" />
-                    <text x="9" y="17" fontSize="6" fill="none" strokeWidth="2.25">
+                    <text x="9" y="17" fontSize="6" fill="none" strokeWidth="1.75">
                       $
                     </text>
                   </>
@@ -953,7 +953,7 @@ export default function IconTest() {
       <style jsx>{`
         .icon-neon {
           stroke: #00D4FF;
-          stroke-width: 2.25;
+          stroke-width: 1.75;
           fill: none;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -961,7 +961,7 @@ export default function IconTest() {
         }
         .icon-orange {
           stroke: #FF7A00;
-          stroke-width: 2.25;
+          stroke-width: 1.75;
           fill: none;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -978,7 +978,7 @@ export default function IconTest() {
         /* Base icon: clean stroke only (no filter) */
         .icon-test-neon-lab .neon-icon-base {
           stroke: var(--neon-blue);
-          stroke-width: 2.25;
+          stroke-width: 1.75;
           fill: none;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -1153,7 +1153,7 @@ export default function IconTest() {
         /* --- Icon Stroke (base) --- */
         .elite-ui-lab .elite-icon-stroke {
           stroke: var(--elite-blue);
-          stroke-width: 2.25;
+          stroke-width: 1.75;
           fill: none;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -1161,7 +1161,7 @@ export default function IconTest() {
 
         .elite-ui-lab .elite-icon-stroke-orange {
           stroke: var(--elite-orange);
-          stroke-width: 2.25;
+          stroke-width: 1.75;
           fill: none;
           stroke-linecap: round;
           stroke-linejoin: round;
