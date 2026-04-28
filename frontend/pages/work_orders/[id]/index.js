@@ -48,6 +48,9 @@ function WorkOrderDetail() {
   const [clientWorkOrders, setClientWorkOrders] = useState([]);
   const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
   const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(false);
+  const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name }
+  const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
+  const [isSavingPrice, setIsSavingPrice] = useState(false);
   const { theme } = useTheme();
   
   // Ensure dark mode applies correctly on page load
@@ -732,29 +735,57 @@ function WorkOrderDetail() {
                                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Unit Price</th>
                                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</th>
                                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                              </tr>
+                                <th className="px-4 py-3"></th>
+                                 </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                               {allServices.map((item, index) => {
                                 const isBillable = item.billing_status === 'billable' || item.billing_status === 'paid';
                                 const isPaid = item.billing_status === 'paid';
                                 const isWaived = item.billing_status === 'waived';
+                                const isEditingThis = editingServicePrice?.id === item.id;
                                 
                                 return (
                                   <tr key={item.service_id || item.id || index} className={isBillable && !isPaid ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                      {item.name || 'N/A'} 
-                                      {isPaid && <span className="ml-2">✓</span>}
-                                      {isBillable && !isPaid && <span className="ml-2">💰</span>}
+                                    <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                                      {isEditingThis ? (
+                                        <input
+                                          className="w-full px-2 py-1 text-sm border border-blue-400 rounded dark:bg-gray-700 dark:text-white"
+                                          value={editingServicePrice.name}
+                                          onChange={e => setEditingServicePrice(prev => ({ ...prev, name: e.target.value }))}
+                                        />
+                                      ) : (
+                                        <>
+                                          {item.name || 'N/A'}
+                                          {isPaid && <span className="ml-2">✓</span>}
+                                          {isBillable && !isPaid && <span className="ml-2">💰</span>}
+                                        </>
+                                      )}
                                     </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">{item.quantity || 1}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
-                                      {item.quantity || 1}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
-                                      ${item.unit_price ? item.unit_price.toFixed(2) : '0.00'}
+                                      {isEditingThis ? (
+                                        <input
+                                          type="number" step="0.01" min="0"
+                                          className="w-24 px-2 py-1 text-sm border border-blue-400 rounded dark:bg-gray-700 dark:text-white"
+                                          value={editingServicePrice.unit_price}
+                                          onChange={e => setEditingServicePrice(prev => ({ ...prev, unit_price: e.target.value, price: (parseFloat(e.target.value) * (item.quantity || 1)).toFixed(2) }))}
+                                        />
+                                      ) : (
+                                        `${item.unit_price ? item.unit_price.toFixed(2) : '0.00'}`
+                                      )}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-100 text-right">
-                                      ${item.price ? item.price.toFixed(2) : '0.00'}
+                                      {isEditingThis ? (
+                                        <input
+                                          type="number" step="0.01" min="0"
+                                          className="w-24 px-2 py-1 text-sm border border-blue-400 rounded dark:bg-gray-700 dark:text-white"
+                                          value={editingServicePrice.price}
+                                          onChange={e => setEditingServicePrice(prev => ({ ...prev, price: e.target.value }))}
+                                        />
+                                      ) : (
+                                        `${item.price ? item.price.toFixed(2) : '0.00'}`
+                                      )}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
                                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
@@ -765,6 +796,43 @@ function WorkOrderDetail() {
                                       }`}>
                                         {isPaid ? 'Paid' : isBillable ? 'Due Today' : isWaived ? 'Waived' : 'Not Billable'}
                                       </span>
+                                    </td>
+                                    {/* Admin price edit controls */}
+                                    <td className="px-4 py-4 whitespace-nowrap text-right">
+                                      {isEditingThis ? (
+                                        <div className="flex gap-2 justify-end">
+                                          <button
+                                            disabled={isSavingPrice}
+                                            onClick={async () => {
+                                              setIsSavingPrice(true);
+                                              try {
+                                                await apiClient(`api/work-orders/services/${item.id}/price`, {
+                                                  method: 'PUT',
+                                                  body: JSON.stringify({
+                                                    unit_price: parseFloat(editingServicePrice.unit_price),
+                                                    price: parseFloat(editingServicePrice.price),
+                                                    name: editingServicePrice.name
+                                                  })
+                                                });
+                                                setEditingServicePrice(null);
+                                                refetch();
+                                              } catch(e) { alert('Failed to save: ' + e.message); }
+                                              finally { setIsSavingPrice(false); }
+                                            }}
+                                            className="px-2 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                                          >{isSavingPrice ? '...' : 'Save'}</button>
+                                          <button
+                                            onClick={() => setEditingServicePrice(null)}
+                                            className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
+                                          >Cancel</button>
+                                        </div>
+                                      ) : (
+                                        <button
+                                          onClick={() => setEditingServicePrice({ id: item.id, name: item.name, unit_price: item.unit_price, price: item.price })}
+                                          className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
+                                          title="Edit price"
+                                        >✏️</button>
+                                      )}
                                     </td>
                                   </tr>
                                 );
@@ -787,6 +855,7 @@ function WorkOrderDetail() {
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
                                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Price</th>
                                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                <th className="px-4 py-3"></th>
                               </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -812,9 +881,18 @@ function WorkOrderDetail() {
                                       {part.description}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-100 text-right">
-                                      ${price.toFixed(2)}
+                                      {editingPartPrice?.id === part.id ? (
+                                        <input
+                                          type="number" step="0.01" min="0"
+                                          className="w-24 px-2 py-1 text-sm border border-blue-400 rounded dark:bg-gray-700 dark:text-white"
+                                          value={editingPartPrice.price}
+                                          onChange={e => setEditingPartPrice(prev => ({ ...prev, price: e.target.value }))}
+                                        />
+                                      ) : (
+                                        `${price.toFixed(2)}`
+                                      )}
                                       {isPartial && upfrontCollected > 0 && (
-                                        <div className="text-xs text-gray-400">{upfrontCollected.toFixed(2)} collected</div>
+                                        <div className="text-xs text-gray-400">${upfrontCollected.toFixed(2)} collected</div>
                                       )}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -831,6 +909,38 @@ function WorkOrderDetail() {
                                          isInstalled ? 'Due Today' :
                                          'Not Billable'}
                                       </span>
+                                    </td>
+                                    <td className="px-4 py-4 whitespace-nowrap text-right">
+                                      {editingPartPrice?.id === part.id ? (
+                                        <div className="flex gap-2 justify-end">
+                                          <button
+                                            disabled={isSavingPrice}
+                                            onClick={async () => {
+                                              setIsSavingPrice(true);
+                                              try {
+                                                await apiClient(`api/work-orders/parts/${part.id}/price`, {
+                                                  method: 'PUT',
+                                                  body: JSON.stringify({ price: parseFloat(editingPartPrice.price) })
+                                                });
+                                                setEditingPartPrice(null);
+                                                refetch();
+                                              } catch(e) { alert('Failed to save: ' + e.message); }
+                                              finally { setIsSavingPrice(false); }
+                                            }}
+                                            className="px-2 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                                          >{isSavingPrice ? '...' : 'Save'}</button>
+                                          <button
+                                            onClick={() => setEditingPartPrice(null)}
+                                            className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
+                                          >Cancel</button>
+                                        </div>
+                                      ) : (
+                                        <button
+                                          onClick={() => setEditingPartPrice({ id: part.id, price: price })}
+                                          className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
+                                          title="Edit price"
+                                        >✏️</button>
+                                      )}
                                     </td>
                                   </tr>
                                 );

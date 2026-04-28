@@ -1977,6 +1977,63 @@ async def get_work_order_billing_summary(
             detail=f"Error getting billing summary: {str(e)}"
         )
 
+@router.put("/services/{service_id}/price")
+async def update_service_price(
+    service_id: uuid.UUID = Path(..., description="The ID of the work order service"),
+    price_update: dict = Body(..., example={"unit_price": 100.00, "price": 100.00, "name": "Custom Service Name"}),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_or_manager_user)
+):
+    """
+    Admin override to update price of a WorkOrderService line item. Admin/Manager only.
+    """
+    from app.models.work_order import WorkOrderService as WorkOrderServiceModel
+    service = db.query(WorkOrderServiceModel).filter(WorkOrderServiceModel.id == service_id).first()
+    if not service:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Service {service_id} not found")
+    
+    if "unit_price" in price_update:
+        service.unit_price = price_update["unit_price"]
+    if "price" in price_update:
+        service.price = price_update["price"]
+    if "name" in price_update:
+        service.name = price_update["name"]
+    
+    # Recalculate work order totals
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == service.work_order_id).first()
+    if work_order:
+        work_order.calculate_totals()
+    
+    db.commit()
+    return {"message": "Service price updated", "service_id": str(service_id), "new_price": service.price}
+
+
+@router.put("/parts/{part_id}/price")
+async def update_part_price(
+    part_id: uuid.UUID = Path(..., description="The ID of the part"),
+    price_update: dict = Body(..., example={"price": 150.00, "cost": 100.00}),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_or_manager_user)
+):
+    """
+    Admin override to update price of a part. Admin/Manager only.
+    """
+    part = db.query(WorkOrderPart).filter(WorkOrderPart.id == part_id).first()
+    if not part:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Part {part_id} not found")
+    
+    if "price" in price_update:
+        part.price = price_update["price"]
+    if "cost" in price_update:
+        part.cost = price_update["cost"]
+    
+    part.updated_by = current_user.id
+    part.updated_at = datetime.utcnow()
+    
+    db.commit()
+    return {"message": "Part price updated", "part_id": str(part_id), "new_price": part.price}
+
+
 @router.put("/services/{service_id}/billing-status")
 async def update_service_billing_status(
     service_id: uuid.UUID = Path(..., description="The ID of the service"),

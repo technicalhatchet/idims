@@ -169,36 +169,92 @@ export default function ServiceAreaPage({ area }) {
               </p>
             </motion.div>
 
-            {/* Right - Appliances */}
+            {/* Right - Appliances / Hero Image */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" />
+              {/* Toledo: Replace with hero image */}
+              {area.slug === 'toledo' && (
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                  <Image
+                    src="/images/toledo-hero.png"
+                    alt={`Appliance repair in ${area.name}`}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              )}
 
-              <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto">
-                {[
-                  '/applianceicons/neon/neonfridge.png',
-                  '/applianceicons/neon/neonwasher.png',
-                  '/applianceicons/neon/neonrange.png',
-                  '/applianceicons/neon/neondishwasher.png',
-                  '/applianceicons/neon/neonmicrowave.png',
-                  '/applianceicons/neon/neonorangecurvedtv.png'
-                ].map((icon, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.4 + i * 0.1 }}
-                    className="aspect-square relative flex items-center justify-center p-4 rounded-xl bg-white/5 border border-white/10"
-                  >
-                    <Image src={icon} alt="" width={50} height={50} className="object-contain" />
-                  </motion.div>
-                ))}
-              </div>
+              {/* Maumee: Background accent with icon grid on top */}
+              {area.slug === 'maumee' && (
+                <div className="relative">
+                  {/* Background image with overlay */}
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                    <Image
+                      src="/images/toledo-hero.png"
+                      alt=""
+                      fill
+                      className="object-cover opacity-30"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A] via-[#0B0F1A]/70 to-transparent" />
+                  </div>
+
+                  {/* Icon grid on top */}
+                  <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto p-6">
+                    {[
+                      '/applianceicons/neon/neonfridge.png',
+                      '/applianceicons/neon/neonwasher.png',
+                      '/applianceicons/neon/neonrange.png',
+                      '/applianceicons/neon/neondishwasher.png',
+                      '/applianceicons/neon/neonmicrowave.png',
+                      '/applianceicons/neon/neonorangecurvedtv.png'
+                    ].map((icon, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4 + i * 0.1 }}
+                        className="aspect-square relative flex items-center justify-center p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
+                      >
+                        <Image src={icon} alt="" width={50} height={50} className="object-contain" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Other cities: Default icon grid */}
+              {area.slug !== 'toledo' && area.slug !== 'maumee' && (
+                <>
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" />
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" />
+
+                  <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto">
+                    {[
+                      '/applianceicons/neon/neonfridge.png',
+                      '/applianceicons/neon/neonwasher.png',
+                      '/applianceicons/neon/neonrange.png',
+                      '/applianceicons/neon/neondishwasher.png',
+                      '/applianceicons/neon/neonmicrowave.png',
+                      '/applianceicons/neon/neonorangecurvedtv.png'
+                    ].map((icon, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4 + i * 0.1 }}
+                        className="aspect-square relative flex items-center justify-center p-4 rounded-xl bg-white/5 border border-white/10"
+                      >
+                        <Image src={icon} alt="" width={50} height={50} className="object-contain" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </>
+              )}
             </motion.div>
           </div>
         </div>
