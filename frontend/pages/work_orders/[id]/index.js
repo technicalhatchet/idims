@@ -908,6 +908,12 @@ function WorkOrderDetail() {
                               <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Due Today:</span>
                               <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">${dueToday.toFixed(2)}</span>
                             </div>
+                            {diagDiscount > 0 && (
+                              <div className="flex justify-end">
+                                <span className="text-sm text-blue-600 dark:text-blue-400 mr-2">Diagnostic Discount ({halfDiagnosticDiscount ? '50%' : '100%'}):</span>
+                                <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">-${diagDiscount.toFixed(2)}</span>
+                              </div>
+                            )}
                             <div className="flex justify-end pt-2 border-t border-gray-200 dark:border-gray-600">
                               <span className="text-md font-medium text-gray-700 dark:text-gray-200 mr-2">Total Work Order:</span>
                               <span className="text-md font-bold text-gray-900 dark:text-gray-50">${totalWorkOrder.toFixed(2)}</span>
