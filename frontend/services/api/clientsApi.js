@@ -50,7 +50,7 @@ export const getClients = async (params = {}) => {
  */
 export const createClient = async (data) => {
   try {
-    return await apiClient('/clients', {
+    return await apiClient('/clients/', {
       method: 'POST',
       body: JSON.stringify(data)
     });
