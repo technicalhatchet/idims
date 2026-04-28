@@ -47,6 +47,8 @@ function WorkOrderDetail() {
   const [isApplyingPayment, setIsApplyingPayment] = useState(false);
   const [clientWorkOrders, setClientWorkOrders] = useState([]);
   const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
+  const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(false);
+  const [partUpfrontPercent, setPartUpfrontPercent] = useState(null); // null = full, 50 = half upfront
   const { theme } = useTheme();
   
   // Ensure dark mode applies correctly on page load
@@ -825,130 +827,130 @@ function WorkOrderDetail() {
                     )}
 
                     {/* Diagnostic Discount Line */}
-                    {workOrder?.diagnostic_discount_applied && workOrder?.diagnostic_discount_amount > 0 && (
-                      <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <div className="flex justify-between items-center">
-                          <div className="flex items-center">
-                            <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Diagnostic Discount Applied</span>
-                            <span className="ml-2">✓</span>
+                    {workOrder?.diagnostic_discount_applied && workOrder?.diagnostic_discount_amount > 0 && (() => {
+                      const fullDiscount = workOrder.diagnostic_discount_amount;
+                      const appliedDiscount = halfDiagnosticDiscount ? fullDiscount * 0.5 : fullDiscount;
+                      return (
+                        <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Diagnostic Discount Applied ✓</span>
+                              <label className="flex items-center gap-1.5 text-xs text-blue-700 dark:text-blue-300 cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={halfDiagnosticDiscount}
+                                  onChange={e => setHalfDiagnosticDiscount(e.target.checked)}
+                                  className="rounded"
+                                />
+                                Apply 50% only
+                              </label>
+                            </div>
+                            <span className="text-sm font-bold text-blue-800 dark:text-blue-200">
+                              -${appliedDiscount.toFixed(2)}
+                            </span>
                           </div>
-                          <span className="text-sm font-bold text-blue-800 dark:text-blue-200">
-                            -${workOrder.diagnostic_discount_amount.toFixed(2)}
-                          </span>
                         </div>
+                      );
+                    })()}
+
+                    {/* Parts 50% Upfront Option */}
+                    {workOrder?.parts?.some(p => ['installed', 'completed'].includes(p.status)) && (
+                      <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-700/40 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={partUpfrontPercent === 50}
+                            onChange={e => setPartUpfrontPercent(e.target.checked ? 50 : null)}
+                            className="rounded"
+                          />
+                          Collect 50% upfront on parts
+                        </label>
                       </div>
                     )}
 
                     {/* Invoice Totals */}
-                    <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <div className="flex justify-end mb-1">
-                        <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Amount Previously Paid:</span>
-                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                          ${(workOrder.amount_previously_paid || 0).toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="flex justify-end mb-1">
-                        <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Due Today:</span>
-                        <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">
-                          ${(() => {
-                            const billableServicesTotal = (allServices || [])
-                              .filter(service => service.billing_status === 'billable' || service.billing_status === 'paid')
-                              .reduce((sum, service) => sum + (service.price || 0), 0);
-                            
-                            const billablePartsTotal = (workOrder.parts || [])
-                              .filter(part => ['installed', 'completed', 'phone_payment', 'up_front'].includes(part.status))
-                              .reduce((sum, part) => sum + (part.price || 0), 0);
-                            
-                            const billableTotal = billableServicesTotal + billablePartsTotal;
-                            const previouslyPaid = workOrder.amount_previously_paid || 0;
-                            const dueToday = billableTotal - previouslyPaid;
-                            
-                            return dueToday > 0 ? dueToday.toFixed(2) : '0.00';
-                          })()}
-                        </span>
-                      </div>
-                      <div className="flex justify-end pt-2 border-t border-gray-200 dark:border-gray-600">
-                        <span className="text-md font-medium text-gray-700 dark:text-gray-200 mr-2">Total Work Order:</span>
-                        <span className="text-md font-bold text-gray-900 dark:text-gray-50">
-                          ${(workOrder.invoice_total || 0).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Payment Button */}
                     {(() => {
+                      // Total Work Order = ALL services + ALL billable parts - diagnostic discount
+                      const allServicesTotal = (allServices || []).reduce((sum, s) => sum + (s.price || 0), 0);
+                      const allBillablePartsTotal = (workOrder.parts || [])
+                        .filter(p => ['installed', 'completed', 'phone_payment', 'up_front'].includes(p.status))
+                        .reduce((sum, p) => sum + (p.price || 0), 0);
+                      const diagDiscount = workOrder?.diagnostic_discount_applied && workOrder?.diagnostic_discount_amount > 0
+                        ? (halfDiagnosticDiscount ? workOrder.diagnostic_discount_amount * 0.5 : workOrder.diagnostic_discount_amount)
+                        : 0;
+                      const totalWorkOrder = allServicesTotal + allBillablePartsTotal - diagDiscount;
+
+                      // Due Today = billable services + billable parts (applying 50% if selected) - previously paid
                       const billableServicesTotal = (allServices || [])
-                      .filter(service => service.billing_status === 'billable')
-                      .reduce((sum, service) => sum + (service.price || 0), 0);
-                      
-                      const billablePartsTotal = (workOrder.parts || [])
-                        .filter(part => ['installed', 'completed', 'phone_payment', 'up_front'].includes(part.status))
-                        .reduce((sum, part) => sum + (part.price || 0), 0);
-                      
-                      const billableTotal = billableServicesTotal + billablePartsTotal;
+                        .filter(s => s.billing_status === 'billable' || s.billing_status === 'paid')
+                        .reduce((sum, s) => sum + (s.price || 0), 0);
+                      const billablePartsRaw = (workOrder.parts || [])
+                        .filter(p => ['installed', 'completed', 'phone_payment', 'up_front'].includes(p.status))
+                        .reduce((sum, p) => sum + (p.price || 0), 0);
+                      const billablePartsTotal = partUpfrontPercent === 50 ? billablePartsRaw * 0.5 : billablePartsRaw;
                       const previouslyPaid = workOrder.amount_previously_paid || 0;
-                      const dueToday = billableTotal - previouslyPaid;
-                      
-                      if (dueToday > 0) {
-                        return (
-                          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-                            <div className="flex justify-center">
-                              <button
-                                onClick={async () => {
-                                  try {
-                                    // Get client information
-                                    const clientEmail = workOrder.client?.email || workOrder.client_user?.email;
-                                    const clientName = workOrder.client_name || `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim();
+                      const dueToday = Math.max(0, billableServicesTotal + billablePartsTotal - previouslyPaid);
 
-                                    if (!clientEmail) {
-                                      alert('Client email is required for payment processing');
-                                      return;
-                                    }
-
-                                    // Create checkout session
-                                    const response = await apiClient('stripe/create-checkout-session', {
-                                      method: 'POST',
-                                      body: JSON.stringify({
-                                        work_order_id: workOrder.id,
-                                        client_email: clientEmail,
-                                        client_name: clientName,
-                                        success_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=success`,
-                                        cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=cancelled`,
-                                        metadata: {
-                                          work_order_number: workOrder.order_number || workOrder.id.slice(0, 8)
-                                        }
-                                      })
-                                    });
-
-                                    if (response.url) {
-                                      // Redirect to Stripe Checkout
-                                      window.location.href = response.url;
-                                    } else {
-                                      alert('Failed to create payment session');
-                                    }
-
-                                  } catch (error) {
-                                    console.error('Payment error:', error);
-                                    alert('Failed to process payment: ' + (error.message || 'Unknown error'));
-                                  }
-                                }}
-                                className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium text-lg shadow-lg hover:shadow-xl"
-                              >
-                                <div className="flex items-center space-x-3">
-                                  <span className="text-xl">💳</span>
-                                  <span>Pay ${dueToday.toFixed(2)}</span>
-                                </div>
-                              </button>
+                      return (
+                        <>
+                          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-1">
+                            <div className="flex justify-end">
+                              <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Amount Previously Paid:</span>
+                              <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">${previouslyPaid.toFixed(2)}</span>
                             </div>
-                            <div className="text-center mt-2">
-                              <span className="text-xs text-gray-500 dark:text-gray-400">
-                                Secure payment powered by Stripe
-                              </span>
+                            <div className="flex justify-end">
+                              <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Due Today:</span>
+                              <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">${dueToday.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-end pt-2 border-t border-gray-200 dark:border-gray-600">
+                              <span className="text-md font-medium text-gray-700 dark:text-gray-200 mr-2">Total Work Order:</span>
+                              <span className="text-md font-bold text-gray-900 dark:text-gray-50">${totalWorkOrder.toFixed(2)}</span>
                             </div>
                           </div>
-                        );
-                      }
-                      return null;
+
+                          {/* Payment Button */}
+                          {dueToday > 0 && (
+                            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                              <div className="flex justify-center">
+                                <button
+                                  onClick={async () => {
+                                    try {
+                                      const clientEmail = workOrder.client?.email || workOrder.client_user?.email;
+                                      const clientName = workOrder.client_name || `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim();
+                                      if (!clientEmail) { alert('Client email is required for payment processing'); return; }
+                                      const response = await apiClient('stripe/create-checkout-session', {
+                                        method: 'POST',
+                                        body: JSON.stringify({
+                                          work_order_id: workOrder.id,
+                                          client_email: clientEmail,
+                                          client_name: clientName,
+                                          success_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=success`,
+                                          cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=cancelled`,
+                                          metadata: { work_order_number: workOrder.order_number || workOrder.id.slice(0, 8) }
+                                        })
+                                      });
+                                      if (response.url) { window.location.href = response.url; }
+                                      else { alert('Failed to create payment session'); }
+                                    } catch (error) {
+                                      console.error('Payment error:', error);
+                                      alert('Failed to process payment: ' + (error.message || 'Unknown error'));
+                                    }
+                                  }}
+                                  className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium text-lg shadow-lg hover:shadow-xl"
+                                >
+                                  <div className="flex items-center space-x-3">
+                                    <span className="text-xl">💳</span>
+                                    <span>Pay ${dueToday.toFixed(2)}</span>
+                                  </div>
+                                </button>
+                              </div>
+                              <div className="text-center mt-2">
+                                <span className="text-xs text-gray-500 dark:text-gray-400">Secure payment powered by Stripe</span>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      );
                     })()}
 
                     {/* Admin Controls */}
