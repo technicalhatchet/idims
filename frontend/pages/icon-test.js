@@ -280,6 +280,112 @@ export default function IconTest() {
           </div>
         </section>
 
+        {/* Appliance Icons — Thinner (1.5) Comparison */}
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold text-orange-400/70 mb-2">Appliance Icons — Thinner (1.5 stroke)</h2>
+          <p className="text-gray-500 text-sm mb-6">Compare to the 1.75 stroke above.</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6">
+            
+            {/* Refrigerator */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="6" y="2" width="12" height="20" rx="2"/>
+                <line x1="6" y1="10" x2="18" y2="10"/>
+                <line x1="10" y1="5" x2="10" y2="8"/>
+                <line x1="10" y1="13" x2="10" y2="16"/>
+              </svg>
+              <span className="text-sm text-gray-400">Fridge</span>
+            </div>
+
+            {/* Washer */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <circle cx="12" cy="13" r="5"/>
+                <circle cx="12" cy="13" r="2"/>
+                <circle cx="8" y1="6" r="1"/>
+              </svg>
+              <span className="text-sm text-gray-400">Washer</span>
+            </div>
+
+            {/* Dryer */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <circle cx="12" cy="13" r="5"/>
+                <path d="M10 11a2 2 0 0 0 4 0"/>
+                <circle cx="8" cy="6" r="1"/>
+              </svg>
+              <span className="text-sm text-gray-400">Dryer</span>
+            </div>
+
+            {/* Oven */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <rect x="6" y="10" width="12" height="9" rx="1"/>
+                <line x1="7" y1="6" x2="7" y2="6"/>
+                <line x1="10" y1="6" x2="10" y2="6"/>
+                <line x1="13" y1="6" x2="13" y2="6"/>
+                <line x1="16" y1="6" x2="16" y2="6"/>
+              </svg>
+              <span className="text-sm text-gray-400">Oven</span>
+            </div>
+
+            {/* Dishwasher */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <line x1="4" y1="8" x2="20" y2="8"/>
+                <line x1="9" y1="5" x2="15" y2="5"/>
+              </svg>
+              <span className="text-sm text-gray-400">Dishwasher</span>
+            </div>
+
+            {/* Microwave */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="2" y="6" width="20" height="12" rx="2"/>
+                <rect x="4" y="8" width="12" height="8"/>
+                <line x1="18" y1="10" x2="18" y2="10"/>
+                <line x1="18" y1="12" x2="18" y2="12"/>
+                <line x1="18" y1="14" x2="18" y2="14"/>
+              </svg>
+              <span className="text-sm text-gray-400">Microwave</span>
+            </div>
+
+            {/* Freezer */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="3" y="6" width="18" height="14" rx="2"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <line x1="12" y1="6" x2="12" y2="10"/>
+              </svg>
+              <span className="text-sm text-gray-400">Freezer</span>
+            </div>
+
+            {/* TV Modern */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="2" y="4" width="20" height="14" rx="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="18" x2="12" y2="21"/>
+              </svg>
+              <span className="text-sm text-gray-400">TV</span>
+            </div>
+
+            {/* TV Retro */}
+            <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10">
+              <svg viewBox="0 0 24 24" className="w-12 h-12 icon-neon-thin">
+                <rect x="4" y="7" width="16" height="13" rx="2"/>
+                <polyline points="8 7 12 3 16 7"/>
+              </svg>
+              <span className="text-sm text-gray-400">TV Retro</span>
+            </div>
+
+          </div>
+        </section>
+
         {/* Status Icons */}
         <section className="mb-12">
           <h2 className="text-xl font-semibold text-green-400 mb-6">Status Icons</h2>
@@ -966,6 +1072,14 @@ export default function IconTest() {
           stroke-linecap: round;
           stroke-linejoin: round;
           filter: drop-shadow(0 0 6px rgba(255, 122, 0, 0.6));
+        }
+        .icon-neon-thin {
+          stroke: #00D4FF;
+          stroke-width: 1.5;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.6));
         }
       `}</style>
 
