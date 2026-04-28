@@ -1012,13 +1012,12 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
             value={values.equipment_type}
             onChange={(e) => {
               const newType = e.target.value;
-              // Use setFormValues to update all fields atomically to avoid stale closure overwrites
-              setFormValues(prev => ({
-                ...prev,
+              setFormValues({
+                ...values,
                 equipment_type: newType,
                 equipment_subtype: '',
-                is_wall_mounted: newType !== 'tv' ? false : prev.is_wall_mounted,
-              }));
+                is_wall_mounted: newType !== 'tv' ? false : values.is_wall_mounted,
+              });
             }}
             onBlur={handleBlur}
             error={touched.equipment_type && errors.equipment_type}
@@ -1032,7 +1031,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
               id="equipment_subtype"
               name="equipment_subtype"
               value={values.equipment_subtype}
-              onChange={(e) => setFormValues(prev => ({ ...prev, equipment_subtype: e.target.value }))}
+              onChange={(e) => setFormValues({ ...values, equipment_subtype: e.target.value })}
               onBlur={handleBlur}
               error={touched.equipment_subtype && errors.equipment_subtype}
               options={EQUIPMENT_SUBTYPES[values.equipment_type] || []}
