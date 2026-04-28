@@ -1011,13 +1011,12 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
             name="equipment_type"
             value={values.equipment_type}
             onChange={(e) => {
+              handleChange(e);
               const newType = e.target.value;
-              setFormValues({
-                ...values,
-                equipment_type: newType,
-                equipment_subtype: '',
-                is_wall_mounted: newType !== 'tv' ? false : values.is_wall_mounted,
-              });
+              if (newType !== 'tv') {
+                handleChange({ target: { name: 'is_wall_mounted', value: false, type: 'checkbox', checked: false } });
+              }
+              handleChange({ target: { name: 'equipment_subtype', value: '', type: 'select-one' } });
             }}
             onBlur={handleBlur}
             error={touched.equipment_type && errors.equipment_type}
@@ -1031,7 +1030,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
               id="equipment_subtype"
               name="equipment_subtype"
               value={values.equipment_subtype}
-              onChange={(e) => setFormValues({ ...values, equipment_subtype: e.target.value })}
+              onChange={handleChange}
               onBlur={handleBlur}
               error={touched.equipment_subtype && errors.equipment_subtype}
               options={EQUIPMENT_SUBTYPES[values.equipment_type] || []}

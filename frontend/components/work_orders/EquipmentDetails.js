@@ -17,32 +17,45 @@ const EQUIPMENT_SUBTYPES = {
   appliance: [
     { value: '', label: 'Select Appliance Type' },
     { value: 'refrigerator', label: 'Refrigerator' },
-    { value: 'washing_machine', label: 'Washing Machine' },
-    { value: 'electric_dryer', label: 'Electric Dryer' },
-    { value: 'gas_dryer', label: 'Gas Dryer' },
     { value: 'dishwasher', label: 'Dishwasher' },
-    { value: 'otr_microwave', label: 'OTR Microwave' }
+    { value: 'washing_machine', label: 'Washing Machine' },
+    { value: 'dryer', label: 'Dryer' },
+    { value: 'oven', label: 'Oven' },
+    { value: 'microwave', label: 'Microwave' },
+    { value: 'cooktop', label: 'Cooktop' },
+    { value: 'range_hood', label: 'Range Hood' },
+    { value: 'other', label: 'Other' }
   ],
   tv: [
     { value: '', label: 'Select TV Size' },
-    { value: 'under_50', label: '49" and Under' },
-    { value: 'over_50', label: '50" and Over' }
+    { value: 'under_32', label: 'Under 32"' },
+    { value: '32_to_43', label: '32" to 43"' },
+    { value: '44_to_55', label: '44" to 55"' },
+    { value: '56_to_65', label: '56" to 65"' },
+    { value: '66_to_75', label: '66" to 75"' },
+    { value: 'over_75', label: 'Over 75"' }
   ]
 };
 
 // Manufacturers
 const MANUFACTURERS = [
   { value: '', label: 'Select Manufacturer' },
-  { value: 'samsung', label: 'Samsung' },
-  { value: 'lg', label: 'LG' },
-  { value: 'whirlpool', label: 'Whirlpool' },
-  { value: 'ge', label: 'GE' },
-  { value: 'maytag', label: 'Maytag' },
-  { value: 'sony', label: 'Sony' },
-  { value: 'frigidaire', label: 'Frigidaire' },
-  { value: 'bosch', label: 'Bosch' },
-  { value: 'kitchenaid', label: 'KitchenAid' },
-  { value: 'other', label: 'Other' }
+  { value: 'Samsung', label: 'Samsung' },
+  { value: 'LG', label: 'LG' },
+  { value: 'Whirlpool', label: 'Whirlpool' },
+  { value: 'GE', label: 'GE' },
+  { value: 'Maytag', label: 'Maytag' },
+  { value: 'Sony', label: 'Sony' },
+  { value: 'Frigidaire', label: 'Frigidaire' },
+  { value: 'Bosch', label: 'Bosch' },
+  { value: 'KitchenAid', label: 'KitchenAid' },
+  { value: 'Kenmore', label: 'Kenmore' },
+  { value: 'Electrolux', label: 'Electrolux' },
+  { value: 'Haier', label: 'Haier' },
+  { value: 'TCL', label: 'TCL' },
+  { value: 'Hisense', label: 'Hisense' },
+  { value: 'Vizio', label: 'Vizio' },
+  { value: 'Other', label: 'Other' }
 ];
 
 // Part statuses
@@ -111,7 +124,19 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
   const [selectedPart, setSelectedPart] = useState(null);
 
   useEffect(() => {
-    // Load parts from server when workOrderId changes
+    if (workOrder) {
+      setEquipmentType(workOrder.equipment_type || '');
+      setEquipmentSubtype(workOrder.equipment_subtype || '');
+      setManufacturer(workOrder.equipment_make || '');
+      setModelNumber(workOrder.equipment_model || '');
+      setSerialNumber(workOrder.equipment_serial || '');
+      setVersionNumber(workOrder.equipment_version || '');
+      setIsWallMounted(workOrder.is_wall_mounted || false);
+      setEquipmentNotes(workOrder.equipment_notes || '');
+    }
+  }, [workOrder?.id]);
+
+  useEffect(() => {
     if (workOrderId) {
       fetchParts();
     }
