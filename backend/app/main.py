@@ -536,7 +536,8 @@ async def api_work_order_estimate_pdf(
     db: Session = Depends(get_db)
 ):
     from app.core.dependencies import get_current_user
-    current_user = await get_current_user(request, authorization, db=db)
+    auth = authorization or request.headers.get('Authorization') or request.headers.get('authorization')
+    current_user = await get_current_user(request, auth, db=db)
     return await work_orders.get_work_order_estimate_pdf(
         work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
     )
@@ -549,7 +550,8 @@ async def api_work_order_invoice_pdf(
     db: Session = Depends(get_db)
 ):
     from app.core.dependencies import get_current_user
-    current_user = await get_current_user(request, authorization, db=db)
+    auth = authorization or request.headers.get('Authorization') or request.headers.get('authorization')
+    current_user = await get_current_user(request, auth, db=db)
     return await work_orders.get_work_order_invoice_pdf(
         work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
     )
