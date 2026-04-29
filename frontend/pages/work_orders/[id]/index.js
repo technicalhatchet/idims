@@ -29,6 +29,8 @@ const TABS = {
   INVOICES: 'invoices'
 };
 
+const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
+
 function WorkOrderDetail() {
   const router = useRouter();
   const { id } = router.query;
@@ -951,86 +953,133 @@ function WorkOrderDetail() {
                       </div>
                     )}
 
-                    {/* Diagnostic Discount Line */}
-                    {workOrder?.diagnostic_discount_applied && workOrder?.diagnostic_discount_amount > 0 && (() => {
-                      const fullDiscount = workOrder.diagnostic_discount_amount;
-                      const appliedDiscount = halfDiagnosticDiscount ? fullDiscount * 0.5 : fullDiscount;
-                      return (
-                        <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                          <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-3 flex-wrap">
-                              <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Diagnostic Discount Applied ✓</span>
-                              <label className="flex items-center gap-1.5 text-xs text-blue-700 dark:text-blue-300 cursor-pointer">
-                                <input
-                                  type="checkbox"
-                                  checked={halfDiagnosticDiscount}
-                                  onChange={e => setHalfDiagnosticDiscount(e.target.checked)}
-                                  className="rounded"
-                                />
-                                Apply 50% only
-                              </label>
-                            </div>
-                            <span className="text-sm font-bold text-blue-800 dark:text-blue-200">
-                              -${appliedDiscount.toFixed(2)}
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-
                     {/* Invoice Totals */}
                     {(() => {
-                      // Total Work Order = ALL services + ALL billable parts - diagnostic discount
-                      const allServicesTotal = (allServices || []).reduce((sum, s) => sum + (s.price || 0), 0);
-                      const allBillablePartsTotal = (workOrder.parts || [])
-                        .filter(p => ['upfront_50', 'phone_payment', 'installed'].includes(p.status))
-                        .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
-                      const diagDiscount = workOrder?.diagnostic_discount_applied && workOrder?.diagnostic_discount_amount > 0
-                        ? (halfDiagnosticDiscount ? workOrder.diagnostic_discount_amount * 0.5 : workOrder.diagnostic_discount_amount)
-                        : 0;
-                      const totalWorkOrder = allServicesTotal + allBillablePartsTotal - diagDiscount;
+                      const taxRate = parseFloat(workOrder.tax_rate || 0.0775);
+                      const taxPct = (taxRate * 100).toFixed(2);
 
-                      // Due Today = billable services + (parts due now based on status/upfront) - previously paid
-                      const billableServicesTotal = (allServices || [])
-                        .filter(s => s.billing_status === 'billable' || s.billing_status === 'paid')
-                        .reduce((sum, s) => sum + (s.price || 0), 0);
-                      const billablePartsRaw = (workOrder.parts || [])
-                        .reduce((sum, p) => {
-                          const price = parseFloat(p.price || 0);
-                          const upfront = parseFloat(p.amount_upfront_collected || 0);
-                          if (p.status === 'phone_payment') return sum; // already paid
-                          if (p.status === 'upfront_50') return sum + (price * 0.5); // 50% due now
-                          if (p.status === 'installed') return sum + (price - upfront); // remaining after upfront
-                          return sum;
-                        }, 0);
-                      const billablePartsTotal = billablePartsRaw;
-                      const previouslyPaid = workOrder.amount_previously_paid || 0;
-                      const dueToday = Math.max(0, billableServicesTotal + billablePartsTotal - previouslyPaid);
+                      // All services regardless of billing status
+                      const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+
+                      // All billable parts (any payment-triggering status)
+                      const PART_BILLABLE = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed'];
+                      const partsSubtotal = (workOrder.parts || [])
+                        .filter(p => PART_BILLABLE.includes(p.status))
+                        .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
+
+                      const subtotal = servicesSubtotal + partsSubtotal;
+
+                      // Tax only on billable parts
+                      const taxOnParts = round2(partsSubtotal * taxRate);
+                      const grossTotal = round2(subtotal + taxOnParts);
+
+                      // Diagnostic discount — shown always if repair SKU exists, grayed if repair not yet completed
+                      const hasRepairSku = (allServices || []).some(s =>
+                        s.name?.toLowerCase().includes('repair') ||
+                        s.service_definition?.service_type === 'repair'
+                      );
+                      const repairCompleted = (workOrder.appointments || []).some(a =>
+                        a.appointment_type === 'repair' && a.status === 'completed'
+                      );
+                      const discountAmt = hasRepairSku && workOrder?.diagnostic_discount_amount > 0
+                        ? (halfDiagnosticDiscount
+                            ? round2(workOrder.diagnostic_discount_amount * 0.5)
+                            : round2(workOrder.diagnostic_discount_amount))
+                        : 0;
+
+                      const totalWorkOrder = round2(grossTotal - discountAmt);
+                      const previouslyPaid = round2(parseFloat(workOrder.amount_previously_paid || 0));
+                      const dueToday = Math.max(0, round2(totalWorkOrder - previouslyPaid));
 
                       return (
                         <>
-                          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-1">
-                            <div className="flex justify-end">
-                              <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Amount Previously Paid:</span>
-                              <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">${previouslyPaid.toFixed(2)}</span>
+                          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-1.5">
+                            {/* Tax rate control */}
+                            <div className="flex justify-end items-center gap-2 mb-3">
+                              <span className="text-xs text-gray-500 dark:text-gray-400">Tax Rate:</span>
+                              <div className="flex items-center gap-1">
+                                <input
+                                  type="number" step="0.01" min="0" max="20"
+                                  className="w-16 px-2 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white text-right"
+                                  defaultValue={taxPct}
+                                  onBlur={async (e) => {
+                                    const newRate = parseFloat(e.target.value) / 100;
+                                    if (isNaN(newRate)) return;
+                                    try {
+                                      await apiClient(`api/work-orders/${workOrder.id}/tax-rate`, {
+                                        method: 'PUT',
+                                        body: JSON.stringify({ tax_rate: newRate })
+                                      });
+                                      refetch();
+                                    } catch(err) { alert('Failed to update tax rate'); }
+                                  }}
+                                />
+                                <span className="text-xs text-gray-500">%</span>
+                              </div>
                             </div>
-                            <div className="flex justify-end">
-                              <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">Due Today:</span>
-                              <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400">${dueToday.toFixed(2)}</span>
+
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                              <span>Services Subtotal</span>
+                              <span>${servicesSubtotal.toFixed(2)}</span>
                             </div>
-                            {diagDiscount > 0 && (
-                              <div className="flex justify-end">
-                                <span className="text-sm text-blue-600 dark:text-blue-400 mr-2">Diagnostic Discount ({halfDiagnosticDiscount ? '50%' : '100%'}):</span>
-                                <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">-${diagDiscount.toFixed(2)}</span>
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                              <span>Parts Subtotal</span>
+                              <span>${partsSubtotal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm font-medium text-gray-700 dark:text-gray-300 pt-1 border-t border-gray-200 dark:border-gray-700">
+                              <span>Subtotal</span>
+                              <span>${subtotal.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                              <span>Sales Tax ({taxPct}% on parts)</span>
+                              <span>${taxOnParts.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm font-medium text-gray-700 dark:text-gray-300 pt-1 border-t border-gray-200 dark:border-gray-700">
+                              <span>Gross Total</span>
+                              <span>${grossTotal.toFixed(2)}</span>
+                            </div>
+
+                            {/* Diagnostic discount line */}
+                            {hasRepairSku && workOrder?.diagnostic_discount_amount > 0 && (
+                              <div className={`flex justify-between items-center text-sm ${
+                                repairCompleted
+                                  ? 'text-blue-600 dark:text-blue-400 font-medium'
+                                  : 'text-gray-400 dark:text-gray-500 italic'
+                              }`}>
+                                <div className="flex items-center gap-2">
+                                  <span>
+                                    Diagnostic Discount ({halfDiagnosticDiscount ? '50%' : '100%'})
+                                    {!repairCompleted && ' — pending repair completion'}
+                                  </span>
+                                  <label className="flex items-center gap-1 text-xs cursor-pointer not-italic">
+                                    <input
+                                      type="checkbox"
+                                      checked={halfDiagnosticDiscount}
+                                      onChange={e => setHalfDiagnosticDiscount(e.target.checked)}
+                                      className="rounded"
+                                    />
+                                    50% only
+                                  </label>
+                                </div>
+                                <span>-${discountAmt.toFixed(2)}</span>
                               </div>
                             )}
-                            <div className="flex justify-end pt-2 border-t border-gray-200 dark:border-gray-600">
-                              <span className="text-md font-medium text-gray-700 dark:text-gray-200 mr-2">Total Work Order:</span>
-                              <span className="text-md font-bold text-gray-900 dark:text-gray-50">${totalWorkOrder.toFixed(2)}</span>
+
+                            <div className="flex justify-between text-base font-bold text-gray-900 dark:text-gray-50 pt-1 border-t border-gray-200 dark:border-gray-600">
+                              <span>Total Work Order</span>
+                              <span>${totalWorkOrder.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                              <span>Amount Previously Paid</span>
+                              <span>-${previouslyPaid.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-base font-bold text-yellow-600 dark:text-yellow-400 pt-1 border-t border-gray-200 dark:border-gray-600">
+                              <span>Due Today</span>
+                              <span>${dueToday.toFixed(2)}</span>
                             </div>
                           </div>
 
-                          {/* Payment Button */}
+                          {/* Pay button */}
                           {dueToday > 0 && (
                             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
                               <div className="flex justify-center">
@@ -1046,6 +1095,7 @@ function WorkOrderDetail() {
                                           work_order_id: workOrder.id,
                                           client_email: clientEmail,
                                           client_name: clientName,
+                                          amount: dueToday,
                                           success_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=success`,
                                           cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=cancelled`,
                                           metadata: { work_order_number: workOrder.order_number || workOrder.id.slice(0, 8) }

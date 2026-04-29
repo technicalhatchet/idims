@@ -78,6 +78,10 @@ class WorkOrder(Base):
     diagnostic_discount_applied = Column(Boolean, default=False)
     diagnostic_discount_amount = Column(Numeric(10, 2), nullable=True)
     
+    # Tax tracking
+    tax_rate = Column(Numeric(5, 4), nullable=False, default=0.0775)  # e.g. 0.0775 = 7.75%
+    tax_collected = Column(Numeric(10, 2), nullable=False, default=0.00)  # Running total of tax actually collected
+    
     def __repr__(self):
         return f"<WorkOrder {self.order_number}>" # Removed title from repr
     
@@ -378,10 +382,11 @@ class WorkOrderPart(Base):
     cost = Column(Float, nullable=False, default=0.0)
     price = Column(Float, nullable=False, default=0.0)
     vendor = Column(String(50), nullable=True)  # 'Tribles', 'ShopJimmy', 'Encompass', 'Sears', 'Amazon', 'PartsSelect', 'Other'
-    status = Column(String(50), nullable=False, default="needed")  # 'needed', 'ordered', 'received', 'upfront_50', 'phone_payment', 'installed', 'not_installed'
+    status = Column(String(50), nullable=False, default="needed")  # 'needed', 'ordered', 'received', 'upfront_50', 'phone_payment', 'paid_not_installed', 'installed', 'not_installed'
     tracking_number = Column(String(100), nullable=True)
     notes = Column(Text, nullable=True)
     amount_upfront_collected = Column(Numeric(10, 2), nullable=False, default=0.00)
+    tax_collected = Column(Numeric(10, 2), nullable=False, default=0.00)  # Tax collected on this part
     
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

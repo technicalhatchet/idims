@@ -220,6 +220,8 @@ class WorkOrderResponse(WorkOrderBase):
     amount_previously_paid: Optional[float] = 0.00
     diagnostic_discount_applied: Optional[bool] = False
     diagnostic_discount_amount: Optional[float] = None
+    tax_rate: Optional[float] = 0.0775
+    tax_collected: Optional[float] = 0.00
 
     # Service items
     service_items: List[WorkOrderServiceResponse] = []
@@ -434,10 +436,11 @@ class WorkOrderPartBase(BaseModel):
     notes: Optional[str] = None
     
     amount_upfront_collected: float = 0.00
+    tax_collected: float = 0.00
 
     @validator('status')
     def validate_status(cls, v):
-        allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment"]
+        allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment", "paid_not_installed"]
         if v not in allowed_statuses:
             raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -465,11 +468,12 @@ class WorkOrderPartUpdate(BaseModel):
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
     amount_upfront_collected: Optional[float] = None
+    tax_collected: Optional[float] = None
     
     @validator('status')
     def validate_status(cls, v):
         if v is not None:
-            allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment"]
+            allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment", "paid_not_installed"]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -489,6 +493,7 @@ class WorkOrderPartResponse(WorkOrderPartBase):
     id: UUID
     work_order_id: UUID
     amount_upfront_collected: float = 0.00
+    tax_collected: float = 0.00
     created_at: datetime
     updated_at: datetime
     created_by: Optional[UUID] = None

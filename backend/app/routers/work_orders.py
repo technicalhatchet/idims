@@ -469,6 +469,8 @@ async def get_work_order(
                 "tracking_number": part.tracking_number,
                 "notes": part.notes,
                 "markup_percentage": part.markup_percentage,
+                "amount_upfront_collected": float(part.amount_upfront_collected or 0),
+                "tax_collected": float(part.tax_collected or 0),
                 "created_at": part.created_at.isoformat() if hasattr(part, "created_at") else None,
                 "updated_at": part.updated_at.isoformat() if hasattr(part, "updated_at") else None
             }
@@ -1818,7 +1820,6 @@ async def update_work_order_part(
     current_user: UserModel = Depends(get_current_user)
 ):
     """Update a part for a work order"""
-    # Check if part exists
     part = db.query(WorkOrderPart).filter(WorkOrderPart.id == part_id).first()
     if not part:
         raise HTTPException(
@@ -1826,13 +1827,52 @@ async def update_work_order_part(
             detail=f"Part with ID {part_id} not found"
         )
     
-    # Update part fields
     update_data = part_update.dict(exclude_unset=True)
+    new_status = update_data.get('status', part.status)
+    price = float(update_data.get('price', part.price or 0))
+    
+    # Get work order for tax rate
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == part.work_order_id).first()
+    tax_rate = float(work_order.tax_rate) if work_order and work_order.tax_rate else 0.0775
+    
+    # Payment-triggering statuses — calculate and record tax
+    PAYMENT_STATUSES = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed']
+    
+    if new_status in PAYMENT_STATUSES and new_status != part.status:
+        if new_status == 'phone_payment':
+            # Full price + tax collected upfront (committing to order)
+            tax_amt = round(price * tax_rate, 2)
+            update_data['tax_collected'] = tax_amt
+            update_data['amount_upfront_collected'] = price
+        elif new_status == 'paid_not_installed':
+            # Money actually in hand — add price + tax to work order amount_previously_paid
+            tax_amt = round(price * tax_rate, 2)
+            update_data['tax_collected'] = tax_amt
+            update_data['amount_upfront_collected'] = price
+            if work_order:
+                work_order.amount_previously_paid = float(work_order.amount_previously_paid or 0) + price + tax_amt
+                work_order.tax_collected = float(work_order.tax_collected or 0) + tax_amt
+        elif new_status == 'upfront_50':
+            half = round(price * 0.5, 2)
+            tax_amt = round(half * tax_rate, 2)
+            update_data['tax_collected'] = tax_amt
+            update_data['amount_upfront_collected'] = half
+        elif new_status == 'installed':
+            # Remaining balance due including remaining tax
+            already_collected = float(part.amount_upfront_collected or 0)
+            already_taxed = float(part.tax_collected or 0)
+            remaining = price - already_collected
+            remaining_tax = round(remaining * tax_rate, 2)
+            new_tax_total = already_taxed + remaining_tax
+            update_data['tax_collected'] = new_tax_total
+    elif new_status in ['needed', 'ordered', 'received', 'not_installed']:
+        # Reset on non-payment statuses
+        update_data['amount_upfront_collected'] = 0
+        update_data['tax_collected'] = 0
     
     for key, value in update_data.items():
         setattr(part, key, value)
     
-    # Update audit fields
     part.updated_by = current_user.id
     part.updated_at = datetime.utcnow()
     
@@ -1976,6 +2016,24 @@ async def get_work_order_billing_summary(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error getting billing summary: {str(e)}"
         )
+
+@router.put("/{work_order_id}/tax-rate")
+async def update_work_order_tax_rate(
+    work_order_id: uuid.UUID = Path(...),
+    body: dict = Body(..., example={"tax_rate": 0.0775}),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_or_manager_user)
+):
+    """Update the tax rate for a work order. Admin/Manager only."""
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    work_order.tax_rate = body.get('tax_rate', 0.0775)
+    work_order.updated_by = current_user.id
+    work_order.updated_at = datetime.utcnow()
+    db.commit()
+    return {"message": "Tax rate updated", "tax_rate": float(work_order.tax_rate)}
+
 
 @router.put("/services/{service_id}/price")
 async def update_service_price(

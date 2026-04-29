@@ -64,7 +64,8 @@ const PART_STATUSES = [
   { value: 'ordered', label: 'Ordered', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
   { value: 'received', label: 'Received', color: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200' },
   { value: 'upfront_50', label: '50% Upfront', color: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' },
-  { value: 'phone_payment', label: 'Phone Payment', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
+  { value: 'phone_payment', label: 'Phone Payment', color: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200' },
+  { value: 'paid_not_installed', label: 'PdNI', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
   { value: 'installed', label: 'Installed', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' },
   { value: 'not_installed', label: 'Not Installed', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }
 ];
@@ -358,10 +359,11 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
       const price = parseFloat(part.price || 0);
       
       // Auto-calculate amount_upfront_collected when changing status
-      const amountUpfront = newStatus === 'phone_payment'
-        ? price  // full price collected
+      // Backend now handles tax_collected calculation automatically
+      const amountUpfront = newStatus === 'phone_payment' || newStatus === 'paid_not_installed'
+        ? price  // full price committed
         : newStatus === 'upfront_50'
-        ? price * 0.5  // half collected
+        ? price * 0.5  // half committed
         : newStatus === 'installed' || newStatus === 'needed' || newStatus === 'ordered' || newStatus === 'received'
         ? 0  // reset on earlier statuses
         : parseFloat(part.amount_upfront_collected || 0);  // keep existing
