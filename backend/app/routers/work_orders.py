@@ -1826,7 +1826,10 @@ async def get_work_order_estimate_pdf(
     from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart
     if not await can_access_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
-    work_order = await WorkOrderService.get_work_order(db, work_order_id)
+    # Direct DB query instead of service to avoid NotFoundException masking real errors
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
     work_order.calculate_totals()
     rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
     if work_order.client_id:
@@ -1873,7 +1876,9 @@ async def get_work_order_invoice_pdf(
     from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart, WorkOrderNote
     if not await can_access_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
-    work_order = await WorkOrderService.get_work_order(db, work_order_id)
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
     work_order.calculate_totals()
     rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
     if work_order.client_id:
@@ -1906,8 +1911,9 @@ async def get_work_order_invoice_pdf(
     try:
         pdf_bytes = PDFService.generate_work_order_invoice(rd, notes=note_texts)
     except Exception as e:
-        logger.error(f'Invoice PDF error: {e}')
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        logger.error(f'Invoice PDF error: {e}\n{traceback.format_exc()}')
+        raise HTTPException(status_code=500, detail=f'PDF generation failed: {type(e).__name__}: {str(e)}')
     return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
         headers={'Content-Disposition': f'inline; filename="invoice-{work_order.order_number}.pdf"'})
 
