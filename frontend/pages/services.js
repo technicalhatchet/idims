@@ -132,12 +132,13 @@ export default function Services() {
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-8 items-center">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
+              className="lg:flex-1"
             >
               {/* Label */}
               <p className="text-cyan-400 text-sm font-semibold tracking-wider uppercase mb-4">
@@ -185,7 +186,7 @@ export default function Services() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
+              className="relative lg:flex-1"
             >
               {/* Glow Effects */}
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/30 blur-[100px]" />

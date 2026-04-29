@@ -126,11 +126,12 @@ export default function ServiceAreaIndex() {
       {/* HERO */}
       <section className="relative pt-28 pb-16 lg:pt-32 lg:pb-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="flex flex-col-reverse lg:flex-row gap-12 items-center">
             {/* Left - Content */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              className="lg:flex-1"
             >
               <p 
                 className="text-sm font-semibold tracking-wider uppercase mb-4 transition-colors duration-500"
@@ -206,7 +207,7 @@ export default function ServiceAreaIndex() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
+              className="relative lg:flex-1"
             >
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image

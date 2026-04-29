@@ -1,3 +1,6 @@
+from fastapi.responses import StreamingResponse
+from io import BytesIO
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status, Body, Path, Request, Header
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
@@ -2023,6 +2026,87 @@ async def update_work_order_tax_rate(
     body: dict = Body(..., example={"tax_rate": 0.0775}),
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_admin_or_manager_user)
+):
+    """Update the tax rate for a work order. Admin/Manager only."""
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    work_order.tax_rate = body.get('tax_rate', 0.0775)
+    work_order.updated_by = current_user.id
+    work_order.updated_at = datetime.utcnow()
+    db.commit()
+    return {"message": "Tax rate updated", "tax_rate": float(work_order.tax_rate)}
+
+
+@router.get("/{work_order_id}/estimate.pdf")
+async def get_work_order_estimate_pdf(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    """Generate and stream an estimate PDF for a work order."""
+    from app.services.pdf_service import PDFService
+
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    # Reuse the existing get_work_order logic to build the full dict
+    work_order = await WorkOrderService.get_work_order(db, work_order_id)
+    work_order.calculate_totals()
+
+    # Build the same response dict as get_work_order
+    response_dict = await _build_work_order_response_dict(work_order, work_order_id, db)
+
+    try:
+        pdf_bytes = PDFService.generate_work_order_estimate(response_dict)
+    except Exception as e:
+        logger.error(f"Error generating estimate PDF: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate estimate: {str(e)}")
+
+    order_num = work_order.order_number
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type='application/pdf',
+        headers={'Content-Disposition': f'inline; filename="estimate-{order_num}.pdf"'}
+    )
+
+
+@router.get("/{work_order_id}/invoice.pdf")
+async def get_work_order_invoice_pdf(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    """Generate and stream an invoice PDF for a work order."""
+    from app.services.pdf_service import PDFService
+
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    work_order = await WorkOrderService.get_work_order(db, work_order_id)
+    work_order.calculate_totals()
+    response_dict = await _build_work_order_response_dict(work_order, work_order_id, db)
+
+    # Pull public notes for the invoice
+    from app.models.work_order import WorkOrderNote
+    notes = db.query(WorkOrderNote).filter(
+        WorkOrderNote.work_order_id == work_order_id,
+        WorkOrderNote.is_private == False
+    ).order_by(WorkOrderNote.created_at.asc()).all()
+    note_texts = [n.note for n in notes]
+
+    try:
+        pdf_bytes = PDFService.generate_work_order_invoice(response_dict, notes=note_texts)
+    except Exception as e:
+        logger.error(f"Error generating invoice PDF: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate invoice: {str(e)}")
+
+    order_num = work_order.order_number
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type='application/pdf',
+        headers={'Content-Disposition': f'inline; filename="invoice-{order_num}.pdf"'}
+    )
 ):
     """Update the tax rate for a work order. Admin/Manager only."""
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()

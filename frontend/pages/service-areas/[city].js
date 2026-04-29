@@ -98,12 +98,13 @@ export default function ServiceAreaPage({ area }) {
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="flex flex-col-reverse lg:flex-row gap-12 items-center">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
+              className="lg:flex-1"
             >
               <p className="text-cyan-400 text-sm font-semibold tracking-wider uppercase mb-4">
                 Proudly Serving {area.region}
@@ -175,6 +176,7 @@ export default function ServiceAreaPage({ area }) {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
+              className="lg:flex-1"
               className="relative"
             >
               {/* Toledo: Replace with hero image */}
