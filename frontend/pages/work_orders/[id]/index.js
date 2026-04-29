@@ -730,10 +730,23 @@ function WorkOrderDetail() {
                           const headers = await getAuthHeaders();
                           const rawBase = process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app';
                           const baseUrl = rawBase.replace(/\/api\/?$/, '').replace(/\/$/, '');
-                          const token = headers['Authorization']?.replace('Bearer ', '');
-                          // Build URL with token as query param for mobile compatibility
-                          const pdfUrl = `${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf?token=${token}`;
-                          window.location.href = pdfUrl;
+                          const pdfUrl = `${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf`;
+                          const res = await fetch(pdfUrl, { headers });
+                          if (!res.ok) {
+                            const err = await res.json().catch(() => ({ detail: res.statusText }));
+                            throw new Error(err.detail || res.statusText);
+                          }
+                          const blob = await res.blob();
+                          const blobUrl = URL.createObjectURL(blob);
+                          // Use anchor click — works on both desktop and mobile
+                          const a = document.createElement('a');
+                          a.href = blobUrl;
+                          a.download = `${type}-${workOrder.order_number}.pdf`;
+                          a.target = '_blank';
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                          setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
                         } catch(e) { alert(`Failed to generate ${type}: ` + e.message); }
                       }}
                       className={`px-3 py-1.5 text-sm text-white rounded transition-colors ${

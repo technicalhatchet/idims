@@ -1818,7 +1818,6 @@ async def create_work_order_part(
 @router.get("/{work_order_id}/estimate.pdf")
 async def get_work_order_estimate_pdf(
     work_order_id: uuid.UUID = Path(...),
-    token: Optional[str] = None,
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
@@ -1869,7 +1868,6 @@ async def get_work_order_estimate_pdf(
 @router.get("/{work_order_id}/invoice.pdf")
 async def get_work_order_invoice_pdf(
     work_order_id: uuid.UUID = Path(...),
-    token: Optional[str] = None,
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):

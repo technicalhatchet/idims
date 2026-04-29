@@ -532,31 +532,26 @@ async def direct_work_order_detail(work_order_id: str, request: Request, authori
 async def api_work_order_estimate_pdf(
     work_order_id: str,
     request: Request,
-    token: Optional[str] = None,
     authorization: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
     from app.core.dependencies import get_current_user
-    # Accept token as query param for mobile compatibility
-    auth = authorization or (f'Bearer {token}' if token else None)
-    current_user = await get_current_user(request, auth, db=db)
+    current_user = await get_current_user(request, authorization, db=db)
     return await work_orders.get_work_order_estimate_pdf(
-        work_order_id=uuid.UUID(work_order_id), token=token, db=db, current_user=current_user
+        work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
     )
 
 @app.get("/api/work-orders/{work_order_id}/invoice.pdf")
 async def api_work_order_invoice_pdf(
     work_order_id: str,
     request: Request,
-    token: Optional[str] = None,
     authorization: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
     from app.core.dependencies import get_current_user
-    auth = authorization or (f'Bearer {token}' if token else None)
-    current_user = await get_current_user(request, auth, db=db)
+    current_user = await get_current_user(request, authorization, db=db)
     return await work_orders.get_work_order_invoice_pdf(
-        work_order_id=uuid.UUID(work_order_id), token=token, db=db, current_user=current_user
+        work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
     )
 
 # API prefixed version of the work order detail endpoint
