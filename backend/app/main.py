@@ -527,6 +527,33 @@ async def direct_work_order_detail(work_order_id: str, request: Request, authori
     # Redirect to the API endpoint
     return RedirectResponse(url=f"/api/work-orders/{work_order_id}")
 
+# PDF endpoints — must be BEFORE the broad /{work_order_id} catch-all
+@app.get("/api/work-orders/{work_order_id}/estimate.pdf")
+async def api_work_order_estimate_pdf(
+    work_order_id: str,
+    request: Request,
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    from app.core.dependencies import get_current_user
+    current_user = await get_current_user(request, authorization, db=db)
+    return await work_orders.get_work_order_estimate_pdf(
+        work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
+    )
+
+@app.get("/api/work-orders/{work_order_id}/invoice.pdf")
+async def api_work_order_invoice_pdf(
+    work_order_id: str,
+    request: Request,
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    from app.core.dependencies import get_current_user
+    current_user = await get_current_user(request, authorization, db=db)
+    return await work_orders.get_work_order_invoice_pdf(
+        work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
+    )
+
 # API prefixed version of the work order detail endpoint
 @app.get("/api/work-orders/{work_order_id}")
 @app.put("/api/work-orders/{work_order_id}")
