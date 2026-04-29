@@ -1026,7 +1026,16 @@ function WorkOrderDetail() {
 
                       const totalWorkOrder = round2(grossTotal - discountAmt);
                       const previouslyPaid = round2(parseFloat(workOrder.amount_previously_paid || 0));
-                      const dueToday = Math.max(0, round2(totalWorkOrder - previouslyPaid));
+
+                      // Due Today = billable services only + parts due now (with tax) - previously paid
+                      const billableServices = (allServices || [])
+                        .filter(s => s.billing_status === 'billable')
+                        .reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+                      const billableParts = (workOrder.parts || [])
+                        .filter(p => ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'].includes(p.status))
+                        .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
+                      const taxOnBillableParts = round2(billableParts * taxRate);
+                      const dueToday = Math.max(0, round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid));
 
                       return (
                         <>
