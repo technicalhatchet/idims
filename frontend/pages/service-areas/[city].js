@@ -91,8 +91,8 @@ export default function ServiceAreaPage({ area }) {
 
       {/* Background */}
       <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute w-[700px] h-[700px] bg-cyan-500/10 blur-[180px] top-[-100px] left-[-200px]" />
-        <div className="absolute w-[500px] h-[500px] bg-orange-500/10 blur-[150px] bottom-[20%] right-[-100px]" />
+        <div className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px] bg-cyan-500/10" />
+        <div className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px] bg-orange-500/10" />
       </div>
 
       {/* HERO SECTION */}

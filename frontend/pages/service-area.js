@@ -71,7 +71,7 @@ export default function ServiceAreaIndex() {
         {t.showGlows && (
           <>
             <div 
-              className="absolute w-[700px] h-[700px] blur-[180px] top-[-100px] left-[-200px] transition-all duration-500"
+              className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px] transition-all duration-500"
               style={{ 
                 backgroundColor: theme === 'atomic' 
                   ? 'rgba(0, 229, 255, 0.15)' 
@@ -79,7 +79,7 @@ export default function ServiceAreaIndex() {
               }}
             />
             <div 
-              className="absolute w-[500px] h-[500px] blur-[150px] bottom-[20%] right-[-100px] transition-all duration-500"
+              className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px] transition-all duration-500"
               style={{ 
                 backgroundColor: theme === 'atomic' 
                   ? 'rgba(255, 122, 26, 0.18)' 
