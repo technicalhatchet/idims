@@ -728,17 +728,12 @@ function WorkOrderDetail() {
                         try {
                           const { getAuthHeaders } = await import('../../../utils/api-client');
                           const headers = await getAuthHeaders();
-                          // Strip trailing slash and any trailing /api — apiClient adds api/ prefix already
                           const rawBase = process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app';
                           const baseUrl = rawBase.replace(/\/api\/?$/, '').replace(/\/$/, '');
-                          const res = await fetch(`${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf`, { headers });
-                          if (!res.ok) {
-                            const err = await res.json().catch(() => ({ detail: res.statusText }));
-                            throw new Error(err.detail || res.statusText);
-                          }
-                          const blob = await res.blob();
-                          const url = URL.createObjectURL(blob);
-                          window.open(url, '_blank');
+                          const token = headers['Authorization']?.replace('Bearer ', '');
+                          // Build URL with token as query param for mobile compatibility
+                          const pdfUrl = `${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf?token=${token}`;
+                          window.location.href = pdfUrl;
                         } catch(e) { alert(`Failed to generate ${type}: ` + e.message); }
                       }}
                       className={`px-3 py-1.5 text-sm text-white rounded transition-colors ${
