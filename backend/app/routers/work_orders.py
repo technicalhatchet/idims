@@ -1815,6 +1815,102 @@ async def create_work_order_part(
     return new_part
 
 
+@router.get("/{work_order_id}/estimate.pdf")
+async def get_work_order_estimate_pdf(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    """Generate and stream an estimate PDF."""
+    from app.services.pdf_service import PDFService
+    from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+    work_order = await WorkOrderService.get_work_order(db, work_order_id)
+    work_order.calculate_totals()
+    rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
+    if work_order.client_id:
+        c = db.query(Client).filter(Client.id == work_order.client_id).first()
+        if c:
+            rd['client_name'] = c.display_name
+            if c.user_id:
+                u = db.query(UserModel).filter(UserModel.id == c.user_id).first()
+                if u: rd['client_user'] = {'first_name': u.first_name, 'last_name': u.last_name, 'email': u.email, 'phone': u.phone}
+    if work_order.assigned_technician_id:
+        t = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
+        if t and t.user_id:
+            tu = db.query(UserModel).filter(UserModel.id == t.user_id).first()
+            if tu: rd['technician_name'] = f'{tu.first_name} {tu.last_name}'
+    svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order_id).all()
+    rd['services'] = [{'id': str(s.id), 'name': s.name, 'quantity': s.quantity, 'unit_price': float(s.unit_price or 0), 'price': float(s.price or 0), 'billing_status': s.billing_status} for s in svcs]
+    parts = db.query(WOPart).filter(WOPart.work_order_id == work_order_id).all()
+    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
+    rd['tax_rate'] = float(work_order.tax_rate or 0.0775)
+    rd['diagnostic_discount_amount'] = float(work_order.diagnostic_discount_amount or 0)
+    rd['amount_previously_paid'] = float(work_order.amount_previously_paid or 0)
+    rd['service_location'] = work_order.service_location
+    for k in list(rd.keys()):
+        if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
+        elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
+    try:
+        pdf_bytes = PDFService.generate_work_order_estimate(rd)
+    except Exception as e:
+        logger.error(f'Estimate PDF error: {e}')
+        raise HTTPException(status_code=500, detail=str(e))
+    return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
+        headers={'Content-Disposition': f'inline; filename="estimate-{work_order.order_number}.pdf"'})
+
+
+@router.get("/{work_order_id}/invoice.pdf")
+async def get_work_order_invoice_pdf(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    """Generate and stream an invoice PDF."""
+    from app.services.pdf_service import PDFService
+    from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart, WorkOrderNote
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+    work_order = await WorkOrderService.get_work_order(db, work_order_id)
+    work_order.calculate_totals()
+    rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
+    if work_order.client_id:
+        c = db.query(Client).filter(Client.id == work_order.client_id).first()
+        if c:
+            rd['client_name'] = c.display_name
+            if c.user_id:
+                u = db.query(UserModel).filter(UserModel.id == c.user_id).first()
+                if u: rd['client_user'] = {'first_name': u.first_name, 'last_name': u.last_name, 'email': u.email, 'phone': u.phone}
+    if work_order.assigned_technician_id:
+        t = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
+        if t and t.user_id:
+            tu = db.query(UserModel).filter(UserModel.id == t.user_id).first()
+            if tu: rd['technician_name'] = f'{tu.first_name} {tu.last_name}'
+    svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order_id).all()
+    rd['services'] = [{'id': str(s.id), 'name': s.name, 'quantity': s.quantity, 'unit_price': float(s.unit_price or 0), 'price': float(s.price or 0), 'billing_status': s.billing_status} for s in svcs]
+    parts = db.query(WOPart).filter(WOPart.work_order_id == work_order_id).all()
+    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
+    rd['tax_rate'] = float(work_order.tax_rate or 0.0775)
+    rd['diagnostic_discount_amount'] = float(work_order.diagnostic_discount_amount or 0)
+    rd['amount_previously_paid'] = float(work_order.amount_previously_paid or 0)
+    rd['service_location'] = work_order.service_location
+    appts = db.query(WorkOrderAppointment).filter(WorkOrderAppointment.work_order_id == work_order_id).all()
+    rd['appointments'] = [{'appointment_type': a.appointment_type, 'status': a.status.value if hasattr(a.status, 'value') else a.status, 'scheduled_start': a.scheduled_start.isoformat() if a.scheduled_start else None} for a in appts]
+    for k in list(rd.keys()):
+        if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
+        elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
+    notes = db.query(WorkOrderNote).filter(WorkOrderNote.work_order_id == work_order_id, WorkOrderNote.is_private == False).order_by(WorkOrderNote.created_at.asc()).all()
+    note_texts = [n.note for n in notes]
+    try:
+        pdf_bytes = PDFService.generate_work_order_invoice(rd, notes=note_texts)
+    except Exception as e:
+        logger.error(f'Invoice PDF error: {e}')
+        raise HTTPException(status_code=500, detail=str(e))
+    return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
+        headers={'Content-Disposition': f'inline; filename="invoice-{work_order.order_number}.pdf"'})
+
+
 @router.put("/parts/{part_id}", response_model=WorkOrderPartResponse)
 async def update_work_order_part(
     part_id: uuid.UUID = Path(..., description="The ID of the part"),
@@ -2036,102 +2132,6 @@ async def update_work_order_tax_rate(
     work_order.updated_at = datetime.utcnow()
     db.commit()
     return {"message": "Tax rate updated", "tax_rate": float(work_order.tax_rate)}
-
-
-@router.get("/{work_order_id}/estimate.pdf")
-async def get_work_order_estimate_pdf(
-    work_order_id: uuid.UUID = Path(...),
-    db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
-):
-    """Generate and stream an estimate PDF."""
-    from app.services.pdf_service import PDFService
-    from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart
-    if not await can_access_work_order(work_order_id, current_user, db):
-        raise HTTPException(status_code=403, detail="Access denied")
-    work_order = await WorkOrderService.get_work_order(db, work_order_id)
-    work_order.calculate_totals()
-    rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
-    if work_order.client_id:
-        c = db.query(Client).filter(Client.id == work_order.client_id).first()
-        if c:
-            rd['client_name'] = c.display_name
-            if c.user_id:
-                u = db.query(UserModel).filter(UserModel.id == c.user_id).first()
-                if u: rd['client_user'] = {'first_name': u.first_name, 'last_name': u.last_name, 'email': u.email, 'phone': u.phone}
-    if work_order.assigned_technician_id:
-        t = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
-        if t and t.user_id:
-            tu = db.query(UserModel).filter(UserModel.id == t.user_id).first()
-            if tu: rd['technician_name'] = f'{tu.first_name} {tu.last_name}'
-    svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order_id).all()
-    rd['services'] = [{'id': str(s.id), 'name': s.name, 'quantity': s.quantity, 'unit_price': float(s.unit_price or 0), 'price': float(s.price or 0), 'billing_status': s.billing_status} for s in svcs]
-    parts = db.query(WOPart).filter(WOPart.work_order_id == work_order_id).all()
-    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
-    rd['tax_rate'] = float(work_order.tax_rate or 0.0775)
-    rd['diagnostic_discount_amount'] = float(work_order.diagnostic_discount_amount or 0)
-    rd['amount_previously_paid'] = float(work_order.amount_previously_paid or 0)
-    rd['service_location'] = work_order.service_location
-    for k in list(rd.keys()):
-        if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
-        elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
-    try:
-        pdf_bytes = PDFService.generate_work_order_estimate(rd)
-    except Exception as e:
-        logger.error(f'Estimate PDF error: {e}')
-        raise HTTPException(status_code=500, detail=str(e))
-    return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
-        headers={'Content-Disposition': f'inline; filename="estimate-{work_order.order_number}.pdf"'})
-
-
-@router.get("/{work_order_id}/invoice.pdf")
-async def get_work_order_invoice_pdf(
-    work_order_id: uuid.UUID = Path(...),
-    db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
-):
-    """Generate and stream an invoice PDF."""
-    from app.services.pdf_service import PDFService
-    from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart, WorkOrderNote
-    if not await can_access_work_order(work_order_id, current_user, db):
-        raise HTTPException(status_code=403, detail="Access denied")
-    work_order = await WorkOrderService.get_work_order(db, work_order_id)
-    work_order.calculate_totals()
-    rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
-    if work_order.client_id:
-        c = db.query(Client).filter(Client.id == work_order.client_id).first()
-        if c:
-            rd['client_name'] = c.display_name
-            if c.user_id:
-                u = db.query(UserModel).filter(UserModel.id == c.user_id).first()
-                if u: rd['client_user'] = {'first_name': u.first_name, 'last_name': u.last_name, 'email': u.email, 'phone': u.phone}
-    if work_order.assigned_technician_id:
-        t = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
-        if t and t.user_id:
-            tu = db.query(UserModel).filter(UserModel.id == t.user_id).first()
-            if tu: rd['technician_name'] = f'{tu.first_name} {tu.last_name}'
-    svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order_id).all()
-    rd['services'] = [{'id': str(s.id), 'name': s.name, 'quantity': s.quantity, 'unit_price': float(s.unit_price or 0), 'price': float(s.price or 0), 'billing_status': s.billing_status} for s in svcs]
-    parts = db.query(WOPart).filter(WOPart.work_order_id == work_order_id).all()
-    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
-    rd['tax_rate'] = float(work_order.tax_rate or 0.0775)
-    rd['diagnostic_discount_amount'] = float(work_order.diagnostic_discount_amount or 0)
-    rd['amount_previously_paid'] = float(work_order.amount_previously_paid or 0)
-    rd['service_location'] = work_order.service_location
-    appts = db.query(WorkOrderAppointment).filter(WorkOrderAppointment.work_order_id == work_order_id).all()
-    rd['appointments'] = [{'appointment_type': a.appointment_type, 'status': a.status.value if hasattr(a.status, 'value') else a.status, 'scheduled_start': a.scheduled_start.isoformat() if a.scheduled_start else None} for a in appts]
-    for k in list(rd.keys()):
-        if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
-        elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
-    notes = db.query(WorkOrderNote).filter(WorkOrderNote.work_order_id == work_order_id, WorkOrderNote.is_private == False).order_by(WorkOrderNote.created_at.asc()).all()
-    note_texts = [n.note for n in notes]
-    try:
-        pdf_bytes = PDFService.generate_work_order_invoice(rd, notes=note_texts)
-    except Exception as e:
-        logger.error(f'Invoice PDF error: {e}')
-        raise HTTPException(status_code=500, detail=str(e))
-    return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
-        headers={'Content-Disposition': f'inline; filename="invoice-{work_order.order_number}.pdf"'})
 
 
 @router.put("/services/{service_id}/price")
