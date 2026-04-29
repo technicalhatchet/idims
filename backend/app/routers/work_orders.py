@@ -1855,8 +1855,9 @@ async def get_work_order_estimate_pdf(
     try:
         pdf_bytes = PDFService.generate_work_order_estimate(rd)
     except Exception as e:
-        logger.error(f'Estimate PDF error: {e}')
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        logger.error(f'Estimate PDF error: {e}\n{traceback.format_exc()}')
+        raise HTTPException(status_code=500, detail=f'PDF generation failed: {type(e).__name__}: {str(e)}')
     return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
         headers={'Content-Disposition': f'inline; filename="estimate-{work_order.order_number}.pdf"'})
 
