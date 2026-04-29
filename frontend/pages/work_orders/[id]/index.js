@@ -721,22 +721,31 @@ function WorkOrderDetail() {
               <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-between items-center">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
                 <div className="flex gap-2">
-                  <a
-                    href={`${process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app'}/api/work-orders/${workOrder.id}/estimate.pdf`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1.5 text-sm bg-cyan-600 text-white rounded hover:bg-cyan-700 transition-colors"
-                  >
-                    📋 Estimate
-                  </a>
-                  <a
-                    href={`${process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app'}/api/work-orders/${workOrder.id}/invoice.pdf`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1.5 text-sm bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors"
-                  >
-                    📄 Invoice
-                  </a>
+                  {['estimate', 'invoice'].map(type => (
+                    <button
+                      key={type}
+                      onClick={async () => {
+                        try {
+                          const { getAuthHeaders } = await import('../../../utils/api-client');
+                          const headers = await getAuthHeaders();
+                          const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app').replace(/\/$/, '');
+                          const res = await fetch(`${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf`, { headers });
+                          if (!res.ok) {
+                            const err = await res.json().catch(() => ({ detail: res.statusText }));
+                            throw new Error(err.detail || res.statusText);
+                          }
+                          const blob = await res.blob();
+                          const url = URL.createObjectURL(blob);
+                          window.open(url, '_blank');
+                        } catch(e) { alert(`Failed to generate ${type}: ` + e.message); }
+                      }}
+                      className={`px-3 py-1.5 text-sm text-white rounded transition-colors ${
+                        type === 'estimate' ? 'bg-cyan-600 hover:bg-cyan-700' : 'bg-orange-600 hover:bg-orange-700'
+                      }`}
+                    >
+                      {type === 'estimate' ? '📋 Estimate' : '📄 Invoice'}
+                    </button>
+                  ))}
                 </div>
               </div>
               <div className="px-6 py-5">

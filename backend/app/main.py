@@ -585,6 +585,9 @@ async def api_work_order_detail(
         
         # Call the appropriate router handler based on the HTTP method
         if request.method == "GET":
+            # Check if this is a PDF sub-route that slipped through
+            if str(work_order_id).endswith('/estimate.pdf') or str(work_order_id).endswith('/invoice.pdf'):
+                raise HTTPException(status_code=404, detail="Use the dedicated PDF endpoints")
             # For GET requests, we only need regular user authentication
             current_user = await get_current_user(request, authorization, db=db)
             # Convert string UUID to UUID object
