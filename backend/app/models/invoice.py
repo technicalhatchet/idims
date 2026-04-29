@@ -10,12 +10,25 @@ class Invoice(Base):
     """Invoice model for storing invoice information"""
     __tablename__ = "invoices"
 
+   # This code snippet defines a SQLAlchemy model class named `Invoice` with various columns
+   # representing different attributes of an invoice. Here is a breakdown of what each column
+   # represents:
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     invoice_number = Column(String(50), unique=True, nullable=False, index=True)
     client_id = Column(UUID(as_uuid=True), ForeignKey("clients.id"), nullable=False)
     work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"), nullable=True)
-    status = Column(Enum("draft", "sent", "paid", "partially_paid", "overdue", "cancelled", 
-                         name="invoice_status_enum"), default="draft")
+    status = Column(
+        Enum(
+            "draft",
+            "sent",
+            "paid",
+            "partially_paid",
+            "overdue",
+            "cancelled",
+            name="invoice_status_enum"
+    ),
+    default="draft"
+    )
     issue_date = Column(DateTime, default=datetime.utcnow, nullable=False)
     due_date = Column(DateTime, nullable=False)
     subtotal = Column(Float, nullable=False, default=0)
