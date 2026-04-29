@@ -718,8 +718,26 @@ function WorkOrderDetail() {
           {/* Invoices Tab */}
           {activeTab === TABS.INVOICES && (
             <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
-              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-between items-center">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
+                <div className="flex gap-2">
+                  <a
+                    href={`${process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app'}/api/work-orders/${workOrder.id}/estimate.pdf`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 text-sm bg-cyan-600 text-white rounded hover:bg-cyan-700 transition-colors"
+                  >
+                    📋 Estimate
+                  </a>
+                  <a
+                    href={`${process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app'}/api/work-orders/${workOrder.id}/invoice.pdf`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 text-sm bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors"
+                  >
+                    📄 Invoice
+                  </a>
+                </div>
               </div>
               <div className="px-6 py-5">
                 {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (

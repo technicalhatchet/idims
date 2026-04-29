@@ -104,7 +104,7 @@ export default function ServiceAreaPage({ area }) {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="lg:flex-1"
+              className="lg:flex-1 w-full"
             >
               <p className="text-cyan-400 text-sm font-semibold tracking-wider uppercase mb-4">
                 Proudly Serving {area.region}
@@ -176,8 +176,7 @@ export default function ServiceAreaPage({ area }) {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:flex-1"
-              className="relative"
+              className="relative lg:flex-1 w-full"
             >
               {/* Toledo: Replace with hero image */}
               {area.slug === 'toledo' && (

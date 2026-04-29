@@ -131,7 +131,7 @@ export default function ServiceAreaIndex() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="lg:flex-1"
+              className="lg:flex-1 w-full"
             >
               <p 
                 className="text-sm font-semibold tracking-wider uppercase mb-4 transition-colors duration-500"
@@ -207,7 +207,7 @@ export default function ServiceAreaIndex() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative lg:flex-1"
+              className="relative lg:flex-1 w-full"
             >
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image

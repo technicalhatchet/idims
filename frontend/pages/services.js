@@ -138,7 +138,7 @@ export default function Services() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="lg:flex-1"
+              className="lg:flex-1 w-full"
             >
               {/* Label */}
               <p className="text-cyan-400 text-sm font-semibold tracking-wider uppercase mb-4">
@@ -186,14 +186,14 @@ export default function Services() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative lg:flex-1"
+              className="relative lg:flex-1 w-full"
             >
               {/* Glow Effects */}
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/30 blur-[100px]" />
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/30 blur-[100px]" />
 
               {/* Image Container */}
-              <div className="relative w-full h-[1024px] lg:h-[1024px]">
+              <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px]">
                 {!imgError && (
                   <Image
                     src="/images/appliances-hero.png"
