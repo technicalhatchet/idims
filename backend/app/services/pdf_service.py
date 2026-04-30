@@ -31,7 +31,7 @@ AR_MUTED = HexColor('#6B7280')      # muted text
 # Path to the logo — stored in backend/app/static/ so it deploys with the backend
 LOGO_PATH = os.path.join(
     os.path.dirname(__file__),  # backend/app/services/
-    '..', 'static', 'arlogosmall.png'
+    '..', 'static', 'arlogopdf.png'
 )
 LOGO_PATH = os.path.normpath(LOGO_PATH)
 
