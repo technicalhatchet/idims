@@ -307,26 +307,13 @@ export default function WorkOrderNotes({ workOrderId }) {
               </button>
             </div>
             
-            <div className="mb-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center">
-              <div>
-                Added by: {selectedNote.user_name} 
-                {selectedNote.is_private && (
-                  <span className="ml-2 text-yellow-500" title="Private Note">
-                    <FaLock className="h-4 w-4 inline mr-1" />
-                    Private
-                  </span>
-                )}
-              </div>
-              {!isEditing && (
-                <button
-                  onClick={() => {
-                    setEditContent(selectedNote.content);
-                    setIsEditing(true);
-                  }}
-                  className="flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700"
-                >
-                  <FaEdit className="h-3 w-3" /> Edit
-                </button>
+            <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
+              Added by: {selectedNote.user_name} 
+              {selectedNote.is_private && (
+                <span className="ml-2 text-yellow-500" title="Private Note">
+                  <FaLock className="h-4 w-4 inline mr-1" />
+                  Private
+                </span>
               )}
             </div>
 
@@ -344,10 +331,7 @@ export default function WorkOrderNotes({ workOrderId }) {
             </div>
             
             <div className="mt-6 flex justify-between">
-              <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="secondary">
-                Close
-              </Button>
-              {isEditing && (
+              {isEditing ? (
                 <div className="flex gap-2">
                   <Button onClick={() => setIsEditing(false)} variant="secondary">Cancel</Button>
                   <Button
@@ -373,7 +357,20 @@ export default function WorkOrderNotes({ workOrderId }) {
                     {isSaving ? 'Saving...' : 'Save'}
                   </Button>
                 </div>
+              ) : (
+                <Button
+                  onClick={() => {
+                    setEditContent(selectedNote.content);
+                    setIsEditing(true);
+                  }}
+                  variant="secondary"
+                >
+                  <FaEdit className="inline h-3 w-3 mr-1" /> Edit
+                </Button>
               )}
+              <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="secondary">
+                Close
+              </Button>
             </div>
           </div>
         </div>
