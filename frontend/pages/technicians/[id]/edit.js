@@ -26,11 +26,16 @@ function EditTechnician() {
   
   const { update } = useTechnicianMutations();
   
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+
   const handleSubmit = async (formData) => {
     try {
       setIsSubmitting(true);
       await update({ id, data: formData });
-      router.push(`/technicians/${id}`);
+      setUpdateSuccess(true);
+      setTimeout(() => {
+        router.push(`/technicians/${id}`);
+      }, 3000);
     } catch (error) {
       console.error('Failed to update technician:', error);
     } finally {
@@ -97,6 +102,16 @@ function EditTechnician() {
             </Link>
           </div>
         </div>
+
+        {updateSuccess && (
+          <div className="mb-4 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-lg flex items-center gap-3">
+            <span className="text-green-600 dark:text-green-400 text-xl">✓</span>
+            <div>
+              <p className="text-green-800 dark:text-green-200 font-medium">Technician updated successfully!</p>
+              <p className="text-green-600 dark:text-green-400 text-sm">Redirecting to profile...</p>
+            </div>
+          </div>
+        )}
 
         <TechnicianForm
           technician={technician}
