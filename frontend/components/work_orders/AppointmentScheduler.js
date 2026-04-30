@@ -1478,6 +1478,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                     type="date"
                     name="appointment_date"
                     value={formData.scheduled_start ? formData.scheduled_start.split('T')[0] : ''}
+                    min={new Date().toISOString().split('T')[0]}
                     onFocus={() => console.log('[Date Input] formData.scheduled_start onFocus:', formData.scheduled_start)}
                     onChange={(e) => {
                       const newDate = e.target.value; // Just the date YYYY-MM-DD

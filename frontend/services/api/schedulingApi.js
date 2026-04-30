@@ -36,7 +36,8 @@ export async function getSchedule(
   params.append('view_type', viewType || 'day');
   if (technicianId) params.append('technician_id', technicianId);
   if (clientId) params.append('client_id', clientId);
-  return apiClient(`scheduling/schedule?${params.toString()}`);
+  // Use combined endpoint — queries WorkOrderAppointment dates, not work order level dates
+  return apiClient(`scheduling/schedule/combined?${params.toString()}`);
 }
 
 /**
