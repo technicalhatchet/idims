@@ -111,16 +111,6 @@ def _base_styles():
 
 def _build_header(styles, doc_type: str, doc_number: str, doc_date: str, elements: list):
     """Build the branded header with logo + company info + document title."""
-    # Logo
-    logo_img = None
-    if os.path.exists(LOGO_PATH):
-        logo_img = Image(LOGO_PATH, width=0.7*inch, height=0.7*inch)
-
-    company_block = [
-        Paragraph(COMPANY_NAME, styles['ARTitle']),
-        Paragraph(COMPANY_ADDRESS, styles['ARSubtitle']),
-        Paragraph(f'{COMPANY_PHONE}  |  {COMPANY_EMAIL}', styles['ARSubtitle']),
-    ]
 
     doc_block = [
         Paragraph(doc_type, ParagraphStyle(
@@ -137,12 +127,39 @@ def _build_header(styles, doc_type: str, doc_number: str, doc_date: str, element
         )),
     ]
 
-    logo_col = [[logo_img]] if logo_img else [[]]
-    header_data = [[
-        Table([logo_col, company_block], colWidths=[0.8*inch, 4*inch]),
-        Table([[b] for b in doc_block], colWidths=[2.7*inch])
-    ]]
-    header_table = Table(header_data, colWidths=[4.8*inch, 2.7*inch])
+    # Logo — preserve aspect ratio by using width only, let height scale
+    if os.path.exists(LOGO_PATH):
+        logo_img = Image(LOGO_PATH, width=2.2*inch, height=0.75*inch)
+        left_cell = logo_img
+    else:
+        # Fallback: just show company name as text, no garbled letters
+        left_cell = Paragraph(COMPANY_NAME, styles['ARTitle'])
+
+    # Company address below logo
+    addr = Paragraph(
+        f'{COMPANY_ADDRESS}<br/>{COMPANY_PHONE}  |  {COMPANY_EMAIL}',
+        styles['ARSubtitle']
+    )
+
+    left_block = Table(
+        [[left_cell], [addr]],
+        colWidths=[4.8*inch]
+    )
+    left_block.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+        ('TOPPADDING', (0, 0), (-1, -1), 0),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+    ]))
+
+    right_block = Table([[b] for b in doc_block], colWidths=[2.7*inch])
+    right_block.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+    ]))
+
+    header_table = Table([[left_block, right_block]], colWidths=[4.8*inch, 2.7*inch])
     header_table.setStyle(TableStyle([
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
         ('LEFTPADDING', (0, 0), (-1, -1), 0),
