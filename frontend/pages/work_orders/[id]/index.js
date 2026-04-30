@@ -738,9 +738,11 @@ function WorkOrderDetail() {
                           }
                           const blob = await res.blob();
                           const blobUrl = URL.createObjectURL(blob);
+                          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                           const a = document.createElement('a');
                           a.href = blobUrl;
-                          a.target = '_blank';
+                          if (isMobile) a.download = `${type}-${workOrder.order_number}.pdf`;
+                          else a.target = '_blank';
                           document.body.appendChild(a);
                           a.click();
                           document.body.removeChild(a);
