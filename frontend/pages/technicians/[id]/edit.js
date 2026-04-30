@@ -24,12 +24,12 @@ function EditTechnician() {
     refetch
   } = useTechnician(id);
   
-  const { updateTechnician } = useTechnicianMutations();
+  const { update } = useTechnicianMutations();
   
   const handleSubmit = async (formData) => {
     try {
       setIsSubmitting(true);
-      await updateTechnician.mutateAsync({ id, data: formData });
+      await update({ id, data: formData });
       router.push(`/technicians/${id}`);
     } catch (error) {
       console.error('Failed to update technician:', error);

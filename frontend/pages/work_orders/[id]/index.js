@@ -739,13 +739,16 @@ function WorkOrderDetail() {
                           const blob = await res.blob();
                           const blobUrl = URL.createObjectURL(blob);
                           const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                          const a = document.createElement('a');
-                          a.href = blobUrl;
-                          if (isMobile) a.download = `${type}-${workOrder.order_number}.pdf`;
-                          else a.target = '_blank';
-                          document.body.appendChild(a);
-                          a.click();
-                          document.body.removeChild(a);
+                          if (isMobile) {
+                            const a = document.createElement('a');
+                            a.href = blobUrl;
+                            a.download = `${type}-${workOrder.order_number}.pdf`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                          } else {
+                            window.open(blobUrl, '_blank');
+                          }
                           setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
                         } catch(e) { alert(`Failed to generate ${type}: ` + e.message); }
                       }}
