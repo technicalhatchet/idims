@@ -363,12 +363,12 @@ export default function WorkOrderNotes({ workOrderId }) {
                     setEditContent(selectedNote.content);
                     setIsEditing(true);
                   }}
-                  variant="secondary"
+                  className="px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-md text-sm font-medium"
                 >
                   <FaEdit className="inline h-3 w-3 mr-1" /> Edit
                 </Button>
               )}
-              <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="secondary">
+              <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="primary">
                 Close
               </Button>
             </div>
