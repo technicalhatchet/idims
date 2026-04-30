@@ -45,6 +45,7 @@ function EditClient() {
   
   const [submitError, setSubmitError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   
   // Initialize form with client data when available
@@ -99,8 +100,10 @@ function EditClient() {
         id,
         ...formData
       });
-      
-      router.push(`/clients/${id}`);
+      setUpdateSuccess(true);
+      setTimeout(() => {
+        router.push(`/clients/${id}`);
+      }, 3000);
     } catch (error) {
       setSubmitError(error.message || 'An error occurred while updating the client.');
       setIsSubmitting(false);
@@ -160,6 +163,16 @@ function EditClient() {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Edit Client</h1>
         </div>
         
+        {updateSuccess && (
+          <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-lg flex items-center gap-3">
+            <span className="text-green-600 dark:text-green-400 text-xl">✓</span>
+            <div>
+              <p className="text-green-800 dark:text-green-200 font-medium">Client updated successfully!</p>
+              <p className="text-green-600 dark:text-green-400 text-sm">Redirecting to client profile...</p>
+            </div>
+          </div>
+        )}
+
         {submitError && (
           <div className="mb-6">
             <ErrorAlert message={submitError} />
