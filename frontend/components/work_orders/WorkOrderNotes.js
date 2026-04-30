@@ -292,7 +292,7 @@ export default function WorkOrderNotes({ workOrderId }) {
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                {selectedNote.type} - {format(new Date(selectedNote.created_at), 'MMM d, yyyy h:mm a')}
+                {selectedNote.type} - {format(new Date(selectedNote.created_at.endsWith('Z') ? selectedNote.created_at : selectedNote.created_at + 'Z'), 'MMM d, yyyy h:mm a')}
               </h3>
               <button 
                 onClick={() => setSelectedNote(null)}
@@ -339,64 +339,39 @@ export default function WorkOrderNotes({ workOrderId }) {
               No notes yet
             </div>
           ) : (
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Type
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    User
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                {notes.map((note) => {
-                  // Extract note type from content
-                  const match = note.note.match(/^\[(.*?)\]\n/);
-                  const noteType = match ? match[1] : 'Note';
-                  
-                  return (
-                    <tr key={note.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <span className="text-sm font-medium text-gray-900 dark:text-white">
-                            {noteType}
-                          </span>
-                          {note.is_private && (
-                            <span className="ml-2 text-yellow-500" title="Private Note">
-                              <FaLock className="h-4 w-4" />
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900 dark:text-white">{note.user_name}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {format(new Date(note.created_at), 'MMM d, yyyy h:mm a')}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button
-                          onClick={() => handleViewNote(note)}
-                          className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 flex items-center"
-                        >
-                          <FaEye className="h-4 w-4 mr-1" /> View
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+              {notes.map((note) => {
+                const match = note.note.match(/^\[(.*?)\]\n/);
+                const noteType = match ? match[1] : 'Note';
+                // Append Z if no timezone info so it parses as UTC
+                const dateStr = note.created_at.endsWith('Z') ? note.created_at : note.created_at + 'Z';
+                const noteDate = new Date(dateStr);
+                
+                return (
+                  <li
+                    key={note.id}
+                    className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+                    onClick={() => handleViewNote(note)}
+                  >
+                    <div className="flex justify-between items-start gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-sm font-medium text-blue-600 dark:text-blue-400 truncate">
+                          {noteType}
+                        </span>
+                        {note.is_private && (
+                          <FaLock className="h-3 w-3 text-yellow-500 flex-shrink-0" title="Private" />
+                        )}
+                      </div>
+                      <FaEye className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                    </div>
+                    <div className="mt-1 flex flex-wrap gap-x-3 text-xs text-gray-500 dark:text-gray-400">
+                      <span>{note.user_name}</span>
+                      <span>{format(noteDate, 'MMM d, yyyy h:mm a')}</span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </div>
       </div>
