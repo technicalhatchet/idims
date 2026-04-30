@@ -265,6 +265,9 @@ export default function DashboardLayout({ children }) {
               <FaBars />
             </button>
 
+            {/* Invisible spacer on desktop to push icons to the right */}
+            <div className="hidden md:block" />
+
             <div className="flex items-center space-x-4">
               {displayThemeToggle && (
                 <button
