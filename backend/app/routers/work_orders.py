@@ -1538,6 +1538,42 @@ async def list_work_order_notes_v2(
             detail=f"Error retrieving notes: {str(e)}"
         )
 
+@router.put("/{work_order_id}/notes/{note_id}", response_model=WorkOrderNoteResponse)
+async def update_work_order_note(
+    work_order_id: uuid.UUID = Path(...),
+    note_id: uuid.UUID = Path(...),
+    body: dict = Body(..., example={"note": "Updated note content"}),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    """Update a note. Only the author can edit their own note."""
+    from app.models.work_order import WorkOrderNote
+    note = db.query(WorkOrderNote).filter(
+        WorkOrderNote.id == note_id,
+        WorkOrderNote.work_order_id == work_order_id
+    ).first()
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    # Only the author or admin/manager can edit
+    is_admin = any(role in ['admin', 'manager'] for role in current_user.roles)
+    if not is_admin and note.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="You can only edit your own notes")
+    note.note = body.get('note', note.note)
+    note.updated_at = datetime.utcnow()
+    db.commit()
+    db.refresh(note)
+    note_dict = note.__dict__.copy()
+    note_dict.pop('_sa_instance_state', None)
+    if note.user_id:
+        user = db.query(UserModel).filter(UserModel.id == note.user_id).first()
+        if user:
+            note_dict['user_name'] = f'{user.first_name} {user.last_name}'
+    for k, v in note_dict.items():
+        if isinstance(v, uuid.UUID): note_dict[k] = str(v)
+        elif isinstance(v, datetime): note_dict[k] = v.isoformat()
+    return note_dict
+
+
 @router.post("/{work_order_id}/notes", response_model=WorkOrderNoteResponse, status_code=status.HTTP_201_CREATED)
 async def create_work_order_note_v2(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),

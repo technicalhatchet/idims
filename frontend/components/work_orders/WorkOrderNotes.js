@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { FaEye, FaLock, FaTimes } from 'react-icons/fa';
+import { FaEye, FaLock, FaTimes, FaEdit } from 'react-icons/fa';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { apiClient } from '../../utils/api-client';
 import Button from '../ui/Button';
 import { SelectInput, TextareaInput, TextInput } from '../ui/FormElements';
@@ -88,6 +89,10 @@ export default function WorkOrderNotes({ workOrderId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const { user } = useUser();
   const [newNote, setNewNote] = useState({
     type: NOTE_TYPES.GENERAL,
     content: '',
@@ -295,34 +300,80 @@ export default function WorkOrderNotes({ workOrderId }) {
                 {selectedNote.type} - {format(new Date(selectedNote.created_at.endsWith('Z') ? selectedNote.created_at : selectedNote.created_at + 'Z'), 'MMM d, yyyy h:mm a')}
               </h3>
               <button 
-                onClick={() => setSelectedNote(null)}
+                onClick={() => { setSelectedNote(null); setIsEditing(false); }}
                 className="text-gray-400 hover:text-gray-500"
               >
                 <FaTimes className="h-5 w-5" />
               </button>
             </div>
             
-            <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-              Added by: {selectedNote.user_name} 
-              {selectedNote.is_private && (
-                <span className="ml-2 text-yellow-500" title="Private Note">
-                  <FaLock className="h-4 w-4 inline mr-1" />
-                  Private
-                </span>
+            <div className="mb-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center">
+              <div>
+                Added by: {selectedNote.user_name} 
+                {selectedNote.is_private && (
+                  <span className="ml-2 text-yellow-500" title="Private Note">
+                    <FaLock className="h-4 w-4 inline mr-1" />
+                    Private
+                  </span>
+                )}
+              </div>
+              {!isEditing && (
+                <button
+                  onClick={() => {
+                    setEditContent(selectedNote.content);
+                    setIsEditing(true);
+                  }}
+                  className="flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700"
+                >
+                  <FaEdit className="h-3 w-3" /> Edit
+                </button>
               )}
             </div>
 
             <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-              {renderNoteFields(selectedNote.type, selectedNote.fieldValues, true)}
+              {isEditing ? (
+                <textarea
+                  className="w-full px-3 py-2 border border-blue-400 rounded dark:bg-gray-600 dark:text-white text-sm"
+                  rows={8}
+                  value={editContent}
+                  onChange={e => setEditContent(e.target.value)}
+                />
+              ) : (
+                renderNoteFields(selectedNote.type, selectedNote.fieldValues, true)
+              )}
             </div>
             
-            <div className="mt-6 text-right">
-              <Button 
-                onClick={() => setSelectedNote(null)} 
-                variant="secondary"
-              >
+            <div className="mt-6 flex justify-between">
+              <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="secondary">
                 Close
               </Button>
+              {isEditing && (
+                <div className="flex gap-2">
+                  <Button onClick={() => setIsEditing(false)} variant="secondary">Cancel</Button>
+                  <Button
+                    variant="primary"
+                    disabled={isSaving}
+                    onClick={async () => {
+                      setIsSaving(true);
+                      try {
+                        const match = editContent.match(/^\[(.*?)\]\n/);
+                        const noteType = match ? match[1] : selectedNote.type;
+                        const updatedNote = `[${noteType}]\n${match ? editContent.substring(match[0].length) : editContent}`;
+                        await apiClient(`work-orders/${workOrderId}/notes/${selectedNote.id}`, {
+                          method: 'PUT',
+                          body: JSON.stringify({ note: updatedNote })
+                        });
+                        setIsEditing(false);
+                        setSelectedNote(null);
+                        fetchNotes();
+                      } catch(e) { alert('Failed to save: ' + e.message); }
+                      finally { setIsSaving(false); }
+                    }}
+                  >
+                    {isSaving ? 'Saving...' : 'Save'}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
