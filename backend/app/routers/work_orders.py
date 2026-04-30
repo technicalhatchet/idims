@@ -1943,7 +1943,55 @@ async def get_work_order_invoice_pdf(
         if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
         elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
     notes = db.query(WorkOrderNote).filter(WorkOrderNote.work_order_id == work_order_id, WorkOrderNote.is_private == False).order_by(WorkOrderNote.created_at.asc()).all()
-    note_texts = [n.note for n in notes]
+    import re, json as _json
+    NOTE_FIELDS = {
+        'Pre-Call': [
+            ('clientContactStatus', 'Client Contact Status'),
+            ('appointmentTime', 'Appointment Time'),
+            ('detailsReviewed', 'Work Order Details Reviewed'),
+            ('toolsReady', 'Tools and Parts Prepared'),
+            ('additionalNotes', 'Additional Notes'),
+        ],
+        'Follow Up': [
+            ('servicePerformed', 'Service Performed'),
+            ('partsUsed', 'Parts Used'),
+            ('clientFeedback', 'Client Feedback'),
+            ('nextSteps', 'Next Steps'),
+            ('additionalNotes', 'Additional Notes'),
+        ],
+        'Redo': [
+            ('originalIssue', 'Original Issue'),
+            ('previousAttempts', 'Previous Attempts'),
+            ('newApproach', 'New Approach'),
+            ('requiredParts', 'Required Parts'),
+            ('additionalNotes', 'Additional Notes'),
+        ],
+    }
+    note_texts = []
+    for n in notes:
+        raw = n.note or ''
+        # Extract type prefix e.g. [Pre-Call]
+        match = re.match(r'^\[(.*?)\]\n?', raw)
+        note_type = match.group(1) if match else None
+        content = raw[match.end():].strip() if match else raw.strip()
+        if not content:
+            continue
+        # Try to parse as JSON for structured note types
+        if note_type and note_type in NOTE_FIELDS:
+            try:
+                data = _json.loads(content)
+                lines = [f'{note_type}:']
+                for field_id, label in NOTE_FIELDS[note_type]:
+                    val = data.get(field_id, '')
+                    if isinstance(val, bool):
+                        val = '✓' if val else '✗'
+                    if val:
+                        lines.append(f'  {label}: {val}')
+                note_texts.append('\n'.join(lines))
+            except Exception:
+                note_texts.append(f'{note_type}: {content}')
+        else:
+            note_texts.append(f'{note_type}: {content}' if note_type else content)
     try:
         pdf_bytes = PDFService.generate_work_order_invoice(rd, notes=note_texts)
     except Exception as e:
