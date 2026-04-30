@@ -1035,7 +1035,8 @@ function WorkOrderDetail() {
                         .filter(p => ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'].includes(p.status))
                         .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
                       const taxOnBillableParts = round2(billableParts * taxRate);
-                      const dueToday = Math.max(0, round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid));
+                      const dueTodayDiscount = repairCompleted ? discountAmt : 0;
+                      const dueToday = Math.max(0, round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount));
 
                       return (
                         <>
