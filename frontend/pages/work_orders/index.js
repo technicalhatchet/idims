@@ -89,10 +89,11 @@ function WorkOrders() {
             
             <div className="mt-6">
               <Pagination
-                currentPage={page}
-                totalPages={Math.ceil((data?.total || 0) / limit)}
-                onPageChange={setPage}
-              />
+              currentPage={page}
+              totalItems={data?.total || 0}
+              itemsPerPage={limit}
+              onPageChange={setPage}
+            />
             </div>
           </>
         )}
