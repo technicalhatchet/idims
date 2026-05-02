@@ -41,8 +41,8 @@ function Card({ wo }) {
   const equipLabel = [wo.equipment_make, wo.equipment_model].filter(Boolean).join(' ') || (wo.equipment_type || '').replace(/_/g, ' ') || 'Unknown appliance';
 
   return (
-    <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-4 px-4 py-3 rounded-xl bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
-      <div className="flex-shrink-0 w-14 h-14 rounded-xl border border-white/10 flex items-center justify-center" style={{ background: '#0e121b' }}>
+    <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-4 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
+      <div className="flex-shrink-0 w-14 h-14 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#0e121b' }}>
         <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
       </div>
       <div className="flex-1 min-w-0">
@@ -65,13 +65,14 @@ export default function WorkOrdersTest() {
   return (
     <>
       <Head><title>Work Orders Test | IDIMS</title></Head>
+      <div className="min-h-screen" style={{ background: '#080C14' }}>
       <div className="px-4 py-6 max-w-lg mx-auto">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4 px-4 py-3 rounded-lg" style={{ background: '#0D1525' }}>
           <h1 className="text-xl font-bold text-white">Work Orders <span className="text-xs text-orange-400 ml-2">[TEST]</span></h1>
           <Link href="/work_orders" className="text-xs text-gray-500 hover:text-gray-300">← Real page</Link>
         </div>
 
-        <Link href="/work_orders/new" className="relative block w-full py-3 mb-4 rounded-xl font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
+        <Link href="/work_orders/new" className="relative block w-full py-3 mb-4 rounded-lg font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
           {/* inward glow from edges */}
           <div className="absolute inset-0 rounded-xl" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(0,212,255,0.08) 0%, transparent 55%)' }} />
           <span className="relative z-10 flex items-center justify-center gap-2" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6), 0 0 20px rgba(0,212,255,0.3)' }}>
@@ -84,6 +85,7 @@ export default function WorkOrdersTest() {
         <div className="space-y-2">
           {(data?.items || []).map(wo => <Card key={wo.id} wo={wo} />)}
         </div>
+      </div>
       </div>
     </>
   );
