@@ -64,7 +64,15 @@ export default function WorkOrdersTest() {
   const { data, isLoading, error } = useWorkOrders({ page: 1, limit: 20 });
   return (
     <>
-      <Head><title>Work Orders Test | IDIMS</title></Head>
+      <Head>
+        <title>Work Orders Test | IDIMS</title>
+        <style>{`
+          /* Test page only — match header bg to card color */
+          header, nav, .header-bar, [class*='h-16'] {
+            background-color: #0D1525 !important;
+          }
+        `}</style>
+      </Head>
       <div className="min-h-screen" style={{ background: '#080C14' }}>
       <div className="px-4 py-6 max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4 px-4 py-3 rounded-lg" style={{ background: '#0D1525' }}>
