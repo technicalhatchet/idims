@@ -73,7 +73,7 @@ export default function WorkOrdersTest() {
 
         <Link href="/work_orders/new" className="relative block w-full py-3 mb-4 rounded-xl font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
           {/* inward glow from edges */}
-          <div className="absolute inset-0 rounded-xl" style={{ background: 'radial-gradient(ellipse at 0% 50%, rgba(0,212,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 100% 50%, rgba(0,212,255,0.12) 0%, transparent 60%)' }} />
+          <div className="absolute inset-0 rounded-xl" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(0,212,255,0.08) 0%, transparent 55%)' }} />
           <span className="relative z-10 flex items-center justify-center gap-2">+ New Work Order</span>
         </Link>
         {isLoading && <p className="text-gray-400 text-sm">Loading...</p>}
