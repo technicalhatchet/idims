@@ -71,8 +71,10 @@ export default function WorkOrdersTest() {
           <Link href="/work_orders" className="text-xs text-gray-500 hover:text-gray-300">← Real page</Link>
         </div>
 
-        <Link href="/work_orders/new" className="relative block w-full py-3 mb-4 rounded-xl font-medium text-white text-center bg-[#0D1525] border border-cyan-500/30 shadow-[0_0_15px_rgba(0,212,255,0.25)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_22px_rgba(0,212,255,0.4)]">
-          <span className="flex items-center justify-center gap-2">+ New Work Order</span>
+        <Link href="/work_orders/new" className="relative block w-full py-3 mb-4 rounded-xl font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
+          {/* inward glow from edges */}
+          <div className="absolute inset-0 rounded-xl" style={{ background: 'radial-gradient(ellipse at 0% 50%, rgba(0,212,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 100% 50%, rgba(0,212,255,0.12) 0%, transparent 60%)' }} />
+          <span className="relative z-10 flex items-center justify-center gap-2">+ New Work Order</span>
         </Link>
         {isLoading && <p className="text-gray-400 text-sm">Loading...</p>}
         {error && <p className="text-red-400 text-sm">Error loading</p>}
