@@ -154,6 +154,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   // Effect to recalculate time when dependencies change (date, window, technician)
   useEffect(() => {
     const recalculate = async () => {
+      // Skip recalculation when editing — preserve the existing appointment time
+      if (currentAppointment) return;
       if (formData.time_window && formData.scheduled_start && formData.assigned_technician_id && workOrderAddress) {
         console.log(`[AppointmentScheduler useEffect] Dependencies changed. Recalculating time for window: ${formData.time_window}, date: ${formData.scheduled_start.split('T')[0]}, tech: ${formData.assigned_technician_id}`);
         try {
@@ -718,8 +720,11 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       setFormData(prev => ({ ...prev, time_window: windowName }));
       
       if (formData.scheduled_start && !isLoadingSchedule) { // Also check isLoadingSchedule
-        // Pass technicianDailySchedule instead of appointments
-        await calculateAppointmentTime(technicianDailySchedule, windowName); 
+        // When editing, exclude the current appointment from the schedule so it doesn't block its own slot
+        const scheduleForCalc = currentAppointment
+          ? technicianDailySchedule.filter(a => a.id !== currentAppointment.id)
+          : technicianDailySchedule;
+        await calculateAppointmentTime(scheduleForCalc, windowName); 
       } else if (isLoadingSchedule) {
         setError("Technician schedule is loading, please wait...");
       } else {
