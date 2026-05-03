@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
@@ -63,26 +64,36 @@ function Card({ wo }) {
 
 export default function WorkOrdersTest() {
   const { data, isLoading, error } = useWorkOrders({ page: 1, limit: 20 });
+  const [sortBy, setSortBy] = useState('newest');
+
+  const sorted = [...(data?.items || [])].sort((a, b) => {
+    if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+    if (sortBy === 'oldest') return new Date(a.created_at || 0) - new Date(b.created_at || 0);
+    if (sortBy === 'status') return (a.status || '').localeCompare(b.status || '');
+    return 0;
+  });
+
+  const count = data?.total || sorted.length;
+
   return (
     <>
       <Head>
         <title>Work Orders Test | IDIMS</title>
         <style>{`
-          /* Test page only — match header bg to card color */
           header, nav, .header-bar, [class*='h-16'] {
-            background-color: #0D1525 !important;
+            background-color: #111827 !important;
           }
         `}</style>
       </Head>
-      <div className="min-h-screen" style={{ background: '#080C14' }}>
+      <div className="min-h-screen" style={{ background: '#111827' }}>
       <div className="px-4 py-6 max-w-lg mx-auto">
         <div className="mb-4">
           <h1 className="text-xl font-bold text-white">Work Orders <span className="text-xs text-orange-400 ml-2">[TEST]</span></h1>
           <Link href="/work_orders" className="text-xs text-gray-500 hover:text-gray-300">← Real page</Link>
         </div>
 
+        {/* New Work Order button */}
         <Link href="/work_orders/new" className="relative block w-full py-3 mb-3 rounded-lg font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
-          {/* inward glow from edges */}
           <div className="absolute inset-0 rounded-xl" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(0,212,255,0.08) 0%, transparent 55%)' }} />
           <span className="relative z-10 flex items-center justify-center gap-2" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6), 0 0 20px rgba(0,212,255,0.3)' }}>
             <span className="text-xl font-bold" style={{ textShadow: '0 0 8px rgba(0,212,255,0.9), 0 0 20px rgba(0,212,255,0.6), 0 0 35px rgba(0,212,255,0.3)' }}>+</span>
@@ -91,17 +102,43 @@ export default function WorkOrdersTest() {
         </Link>
 
         {/* Filter button */}
-        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#080C14', border: '1px solid #FF7A00' }}>
+        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#111827', border: '1px solid #FF7A00' }}>
           <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
           </svg>
           Filters
         </button>
-        {isLoading && <p className="text-gray-400 text-sm">Loading...</p>}
-        {error && <p className="text-red-400 text-sm">Error loading</p>}
-        <div className="space-y-2">
-          {(data?.items || []).map(wo => <Card key={wo.id} wo={wo} />)}
+
+        {/* Cards container */}
+        <div className="rounded-lg p-3" style={{ background: '#080C14' }}>
+          {/* Container header */}
+          <div className="flex justify-between items-center mb-3 px-1">
+            <span className="text-sm font-medium text-gray-300">{count} Work Orders</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-gray-500">Sort:</span>
+              <select
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                className="text-xs font-medium text-cyan-400 bg-transparent border-none outline-none cursor-pointer"
+              >
+                <option value="newest" className="bg-gray-900 text-white">Date (Newest)</option>
+                <option value="oldest" className="bg-gray-900 text-white">Date (Oldest)</option>
+                <option value="status" className="bg-gray-900 text-white">Status</option>
+              </select>
+              <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: '#22D3EE', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          </div>
+
+          {isLoading && <p className="text-gray-400 text-sm px-1">Loading...</p>}
+          {error && <p className="text-red-400 text-sm px-1">Error loading</p>}
+
+          <div className="space-y-2">
+            {sorted.map(wo => <Card key={wo.id} wo={wo} />)}
+          </div>
         </div>
+
       </div>
       </div>
     </>
