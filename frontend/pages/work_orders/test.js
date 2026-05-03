@@ -44,7 +44,7 @@ function Card({ wo }) {
 
   return (
     <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
-      <div className="flex-shrink-0 w-16 h-16 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#0D1525' }}>
+      <div className="flex-shrink-0 w-16 h-16 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#080C14' }}>
         <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
       </div>
       <div className="flex-1 min-w-0">
@@ -105,7 +105,7 @@ export default function WorkOrdersTest() {
 
         {/* New Work Order button */}
         <Link href="/work_orders/new" className="relative block w-full py-3 mb-3 rounded-lg font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
-          <div className="absolute inset-0 rounded-xl" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(0,212,255,0.08) 0%, transparent 55%)' }} />
+          <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(0,212,255,0.08) 0%, transparent 55%)' }} />
           <span className="relative z-10 flex items-center justify-center gap-2" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6), 0 0 20px rgba(0,212,255,0.3)' }}>
             <span className="text-xl font-bold" style={{ textShadow: '0 0 8px rgba(0,212,255,0.9), 0 0 20px rgba(0,212,255,0.6), 0 0 35px rgba(0,212,255,0.3)' }}>+</span>
             New Work Order
