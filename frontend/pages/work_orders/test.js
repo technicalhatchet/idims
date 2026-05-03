@@ -91,7 +91,7 @@ export default function WorkOrdersTest() {
         </Link>
 
         {/* Filter button */}
-        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-orange-400 transition-all duration-200 active:scale-[0.97]" style={{ background: '#080C14', border: '1px solid #FF7A00' }}>
+        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#080C14', border: '1px solid #FF7A00' }}>
           <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
           </svg>
