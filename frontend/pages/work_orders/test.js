@@ -44,7 +44,7 @@ function Card({ wo }) {
 
   return (
     <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
-      <div className="flex-shrink-0 w-16 h-16 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#080C14' }}>
+      <div className="flex-shrink-0 w-16 h-16 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#000000' }}>
         <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
       </div>
       <div className="flex-1 min-w-0">
