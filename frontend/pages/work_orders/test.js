@@ -44,7 +44,7 @@ function Card({ wo }) {
 
   return (
     <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
-      <div className="flex-shrink-0 w-16 h-16 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#0e121b' }}>
+      <div className="flex-shrink-0 w-16 h-16 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#0D1525' }}>
         <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
       </div>
       <div className="flex-1 min-w-0">
@@ -92,6 +92,7 @@ export default function WorkOrdersTest() {
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;
             border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+            z-index: 50 !important;
           }
         `}</style>
       </Head>
@@ -112,11 +113,12 @@ export default function WorkOrdersTest() {
         </Link>
 
         {/* Filter button */}
-        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#0A0F1E', border: '1px solid #FF7A00' }}>
-          <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+        <button className="relative w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden" style={{ background: '#0A0F1E', border: '1px solid rgba(255,122,0,0.6)', boxShadow: '0 0 8px rgba(255,122,0,0.3)' }}>
+          <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(255,122,0,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(255,122,0,0.08) 0%, transparent 55%)' }} />
+          <svg viewBox="0 0 24 24" className="relative z-10 w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
           </svg>
-          Filters
+          <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(255,122,0,0.6), 0 0 20px rgba(255,122,0,0.3)' }}>Filters</span>
         </button>
 
         {/* Cards container */}
