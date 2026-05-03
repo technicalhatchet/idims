@@ -29,7 +29,7 @@ function ApplianceIcon({ equipmentType, equipmentSubtype }) {
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
   return (
-    <svg viewBox="0 0 24 24" className="w-10 h-10" style={{
+    <svg viewBox="0 0 24 24" className="w-11 h-11" style={{
       stroke: isCyan ? '#00D4FF' : '#FF7A00', strokeWidth: 1.5, fill: 'none',
       strokeLinecap: 'round', strokeLinejoin: 'round',
       filter: isCyan ? 'drop-shadow(0 0 6px rgba(0,212,255,0.6))' : 'drop-shadow(0 0 6px rgba(255,122,0,0.6))'
@@ -43,8 +43,8 @@ function Card({ wo }) {
   const equipLabel = [wo.equipment_make, wo.equipment_model].filter(Boolean).join(' ') || (wo.equipment_type || '').replace(/_/g, ' ') || 'Unknown appliance';
 
   return (
-    <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-4 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
-      <div className="flex-shrink-0 w-14 h-14 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#0e121b' }}>
+    <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
+      <div className="flex-shrink-0 w-16 h-16 rounded-lg border border-white/10 flex items-center justify-center" style={{ background: '#0e121b' }}>
         <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
       </div>
       <div className="flex-1 min-w-0">
