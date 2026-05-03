@@ -90,7 +90,8 @@ export default function WorkOrdersTest() {
         <title>Work Orders Test | IDIMS</title>
         <style>{`
           header, nav, .header-bar, [class*='h-16'] {
-            background-color: #0A0F1E !important;
+            background-color: #0D1525 !important;
+            border-bottom: 1px solid rgba(255,255,255,0.07) !important;
           }
         `}</style>
       </Head>
