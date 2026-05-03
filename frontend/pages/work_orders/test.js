@@ -29,7 +29,7 @@ function ApplianceIcon({ equipmentType, equipmentSubtype }) {
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
   return (
-    <svg viewBox="0 0 24 24" className="w-8 h-8" style={{
+    <svg viewBox="0 0 24 24" className="w-10 h-10" style={{
       stroke: isCyan ? '#00D4FF' : '#FF7A00', strokeWidth: 1.5, fill: 'none',
       strokeLinecap: 'round', strokeLinejoin: 'round',
       filter: isCyan ? 'drop-shadow(0 0 6px rgba(0,212,255,0.6))' : 'drop-shadow(0 0 6px rgba(255,122,0,0.6))'
