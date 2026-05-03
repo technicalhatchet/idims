@@ -63,8 +63,10 @@ function Card({ wo }) {
 }
 
 export default function WorkOrdersTest() {
-  const { data, isLoading, error } = useWorkOrders({ page: 1, limit: 20 });
+  const { data, isLoading, error } = useWorkOrders({ page: 1, limit: 100 });
   const [sortBy, setSortBy] = useState('newest');
+  const [page, setPage] = useState(1);
+  const PER_PAGE = 5;
 
   const sorted = [...(data?.items || [])].sort((a, b) => {
     if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
@@ -73,7 +75,14 @@ export default function WorkOrdersTest() {
     return 0;
   });
 
+  const totalPages = Math.ceil(sorted.length / PER_PAGE);
+  const paginated = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
   const count = data?.total || sorted.length;
+
+  const handleSort = (val) => {
+    setSortBy(val);
+    setPage(1);
+  };
 
   return (
     <>
@@ -81,11 +90,11 @@ export default function WorkOrdersTest() {
         <title>Work Orders Test | IDIMS</title>
         <style>{`
           header, nav, .header-bar, [class*='h-16'] {
-            background-color: #111827 !important;
+            background-color: #0D1117 !important;
           }
         `}</style>
       </Head>
-      <div className="min-h-screen" style={{ background: '#111827' }}>
+      <div className="min-h-screen" style={{ background: '#0D1117' }}>
       <div className="px-4 py-6 max-w-lg mx-auto">
         <div className="mb-4">
           <h1 className="text-xl font-bold text-white">Work Orders <span className="text-xs text-orange-400 ml-2">[TEST]</span></h1>
@@ -102,7 +111,7 @@ export default function WorkOrdersTest() {
         </Link>
 
         {/* Filter button */}
-        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#111827', border: '1px solid #FF7A00' }}>
+        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#0D1117', border: '1px solid #FF7A00' }}>
           <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
           </svg>
@@ -118,7 +127,7 @@ export default function WorkOrdersTest() {
               <span className="text-xs text-gray-500">Sort:</span>
               <select
                 value={sortBy}
-                onChange={e => setSortBy(e.target.value)}
+                onChange={e => handleSort(e.target.value)}
                 className="text-xs font-medium text-cyan-400 bg-transparent border-none outline-none cursor-pointer"
               >
                 <option value="newest" className="bg-gray-900 text-white">Date (Newest)</option>
@@ -135,8 +144,50 @@ export default function WorkOrdersTest() {
           {error && <p className="text-red-400 text-sm px-1">Error loading</p>}
 
           <div className="space-y-2">
-            {sorted.map(wo => <Card key={wo.id} wo={wo} />)}
+            {paginated.map(wo => <Card key={wo.id} wo={wo} />)}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-white/5">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 disabled:opacity-30 transition-all"
+                style={{ background: '#0D1117' }}
+              >
+                <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+                <button
+                  key={n}
+                  onClick={() => setPage(n)}
+                  className="w-8 h-8 rounded-lg text-xs font-medium transition-all"
+                  style={{
+                    background: page === n ? '#0D1525' : '#0D1117',
+                    color: page === n ? '#22D3EE' : '#6B7280',
+                    border: page === n ? '1px solid rgba(34,211,238,0.5)' : '1px solid rgba(255,255,255,0.05)'
+                  }}
+                >
+                  {n}
+                </button>
+              ))}
+
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 disabled:opacity-30 transition-all"
+                style={{ background: '#0D1117' }}
+              >
+                <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
