@@ -90,11 +90,11 @@ export default function WorkOrdersTest() {
         <title>Work Orders Test | IDIMS</title>
         <style>{`
           header, nav, .header-bar, [class*='h-16'] {
-            background-color: #0D1117 !important;
+            background-color: #0A0F1E !important;
           }
         `}</style>
       </Head>
-      <div className="min-h-screen" style={{ background: '#0D1117' }}>
+      <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
       <div className="px-4 py-6 max-w-lg mx-auto">
         <div className="mb-4">
           <h1 className="text-xl font-bold text-white">Work Orders <span className="text-xs text-orange-400 ml-2">[TEST]</span></h1>
@@ -111,7 +111,7 @@ export default function WorkOrdersTest() {
         </Link>
 
         {/* Filter button */}
-        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#0D1117', border: '1px solid #FF7A00' }}>
+        <button className="w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-200 active:scale-[0.97]" style={{ background: '#0A0F1E', border: '1px solid #FF7A00' }}>
           <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
           </svg>
@@ -119,7 +119,7 @@ export default function WorkOrdersTest() {
         </button>
 
         {/* Cards container */}
-        <div className="rounded-lg p-3" style={{ background: '#080C14' }}>
+        <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
           {/* Container header */}
           <div className="flex justify-between items-center mb-3 px-1">
             <span className="text-sm font-medium text-gray-300">{count} Work Orders</span>
@@ -154,7 +154,7 @@ export default function WorkOrdersTest() {
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 disabled:opacity-30 transition-all"
-                style={{ background: '#0D1117' }}
+                style={{ background: '#0A0F1E' }}
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
                   <polyline points="15 18 9 12 15 6"/>
@@ -166,8 +166,7 @@ export default function WorkOrdersTest() {
                   key={n}
                   onClick={() => setPage(n)}
                   className="w-8 h-8 rounded-lg text-xs font-medium transition-all"
-                  style={{
-                    background: page === n ? '#0D1525' : '#0D1117',
+                  style={{ background: page === n ? '#0D1525' : '#0A0F1E',
                     color: page === n ? '#22D3EE' : '#6B7280',
                     border: page === n ? '1px solid rgba(34,211,238,0.5)' : '1px solid rgba(255,255,255,0.05)'
                   }}
@@ -180,7 +179,7 @@ export default function WorkOrdersTest() {
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 disabled:opacity-30 transition-all"
-                style={{ background: '#0D1117' }}
+                style={{ background: '#0A0F1E' }}
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
                   <polyline points="9 18 15 12 9 6"/>
