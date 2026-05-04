@@ -278,7 +278,7 @@ export default function TechDashboardTest() {
                 <StatusBadge status={nextJob.status} />
               </div>
               <div className="flex gap-4">
-                <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14' }}>
+                <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <ApplianceIcon
                     equipmentType={nextJob.equipment_type}
                     equipmentSubtype={nextJob.equipment_subtype}

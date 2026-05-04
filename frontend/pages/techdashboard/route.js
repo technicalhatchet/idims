@@ -269,7 +269,7 @@ export default function RouteTest() {
       if (geocoded.length > 1) {
         const latlngs = geocoded.map(s => [s.lat, s.lng]);
         // Black outline underneath
-        L.polyline(latlngs, { color: '#000000', weight: 4.5, opacity: 0.8 }).addTo(map);
+        L.polyline(latlngs, { color: '#000000', weight: 3.5, opacity: 0.7 }).addTo(map);
         // Orange line on top
         L.polyline(latlngs, { color: '#FF7A00', weight: 3, opacity: 0.9, dashArray: '8, 6' }).addTo(map);
       }
