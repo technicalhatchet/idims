@@ -20,9 +20,13 @@ const APPLIANCE_ICONS = {
   default:        { color: 'cyan',   svg: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>' },
 };
 
-function getIconColor(equipmentType, equipmentSubtype) {
+function getIconKey(equipmentType, equipmentSubtype) {
   const raw = equipmentSubtype || equipmentType || '';
-  const key = raw.toLowerCase().replace(/[^a-z]/g, '');
+  return raw.toLowerCase().replace(/[^a-z]/g, '');
+}
+
+function getIconColor(equipmentType, equipmentSubtype) {
+  const key = getIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   return match.color === 'cyan' ? '#00D4FF' : '#FF7A00';
 }
@@ -225,32 +229,39 @@ export default function RouteTest() {
       const bounds = [];
 
       points.forEach((stop, i) => {
-        const isCyan = getIconColor(stop.equipment_type, stop.equipment_subtype) === '#00D4FF';
-        const color = isCyan ? '#00D4FF' : '#FF7A00';
+      const key = getIconKey(stop.equipment_type, stop.equipment_subtype);
+      const iconDef = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
+          const isCyan = iconDef.color === 'cyan';
+      const color = isCyan ? '#00D4FF' : '#FF7A00';
+      const glow = isCyan ? 'rgba(0,212,255,0.8)' : 'rgba(255,122,0,0.8)';
 
-        // Custom numbered SVG marker
-        const svgMarker = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="44" viewBox="0 0 36 44">
-            <defs>
-              <filter id="glow${i}">
-                <feGaussianBlur stdDeviation="2" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-            <ellipse cx="18" cy="42" rx="8" ry="3" fill="rgba(0,0,0,0.3)"/>
-            <path d="M18 2 C10 2 4 8 4 16 C4 26 18 40 18 40 C18 40 32 26 32 16 C32 8 26 2 18 2Z"
-              fill="#0D1525" stroke="${color}" stroke-width="2" filter="url(#glow${i})"/>
-            <text x="18" y="20" text-anchor="middle" dominant-baseline="middle"
-              font-family="Arial" font-weight="bold" font-size="13" fill="${color}">${i + 1}</text>
-          </svg>`;
+      // Custom pin with appliance SVG inside
+      const svgMarker = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="44" height="54" viewBox="0 0 44 54">
+      <defs>
+        <filter id="glow${i}" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+      </defs>
+        <ellipse cx="22" cy="51" rx="8" ry="3" fill="rgba(0,0,0,0.35)"/>
+      <path d="M22 2 C12 2 4 10 4 20 C4 32 22 50 22 50 C22 50 40 32 40 20 C40 10 32 2 22 2Z"
+            fill="#0D1525" stroke="${color}" stroke-width="2" filter="url(#glow${i})"/>
+              <svg x="9" y="7" width="26" height="26" viewBox="0 0 24 24"
+            stroke="${color}" stroke-width="1.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round"
+                style="filter:drop-shadow(0 0 3px ${glow})">
+                ${iconDef.svg}
+              </svg>
+            </svg>`;
 
-        const icon = L.divIcon({
-          html: svgMarker,
-          className: '',
-          iconSize: [36, 44],
-          iconAnchor: [18, 44],
-          popupAnchor: [0, -44],
-        });
+          const icon = L.divIcon({
+            html: svgMarker,
+            className: '',
+            iconSize: [44, 54],
+            iconAnchor: [22, 54],
+            popupAnchor: [0, -54],
+          });
 
         const client = stop.client_name || 'Unknown';
         const time = stop.scheduled_start
