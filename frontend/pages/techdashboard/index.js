@@ -232,9 +232,21 @@ export default function TechDashboardTest() {
 
           {/* Page Header */}
           <div className="mb-5">
-            <p className="text-sm text-gray-500">Good {getGreeting()},</p>
-            <h1 className="text-2xl font-bold text-white">{firstName}</h1>
-            <p className="text-xs text-gray-500 mt-0.5">{format(today, 'EEEE, MMMM d, yyyy')}</p>
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-sm text-gray-500">Good {getGreeting()},</p>
+                <h1 className="text-2xl font-bold text-white">{firstName}</h1>
+                <p className="text-xs text-gray-500 mt-0.5">{format(today, 'EEEE, MMMM d, yyyy')}</p>
+              </div>
+              <Link href="/techdashboard/route"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium active:opacity-70 transition-opacity"
+                style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.4)', color: '#22D3EE' }}>
+                <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
+                  <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                </svg>
+                Route
+              </Link>
+            </div>
           </div>
 
           {/* ── NEXT JOB CARD ── */}
