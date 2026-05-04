@@ -91,7 +91,8 @@ function StopCard({ stop, index, onNavigate }) {
         </div>
         {stop.scheduled_start && (
           <p className="text-xs mt-0.5" style={{ color: '#22D3EE' }}>
-            {format(new Date(stop.scheduled_start.endsWith('Z') ? stop.scheduled_start : stop.scheduled_start + 'Z'), 'h:mm a')}
+            {new Date(stop.scheduled_start.endsWith('Z') ? stop.scheduled_start : stop.scheduled_start + 'Z')
+              .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' })}
           </p>
         )}
         {stop.geocodeError && <p className="text-xs text-red-400 mt-0.5">⚠ Could not geocode address</p>}
@@ -191,15 +192,93 @@ export default function RouteTest() {
     geocodeAll();
   }, [stops.length]);
 
-  // Init Leaflet map after geocoding done
+  // Init/rebuild Leaflet map whenever geocoding finishes
   useEffect(() => {
     if (geocoding) return;
     if (typeof window === 'undefined') return;
     const geocoded = stops.filter(s => s.lat && s.lng);
     if (geocoded.length === 0) return;
-    if (mapInstanceRef.current) return; // already initialized
 
-    // Dynamically load Leaflet CSS + JS
+    // Destroy existing map instance before rebuilding
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
+      setMapReady(false);
+    }
+
+    function buildMap() {
+      if (!mapRef.current || !window.L) return;
+      const L = window.L;
+      const map = L.map(mapRef.current, { zoomControl: true });
+      mapInstanceRef.current = map;
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19,
+      }).addTo(map);
+
+      const bounds = [];
+
+      geocoded.forEach((stop, i) => {
+        const key = getIconKey(stop.equipment_subtype, stop.equipment_type);
+        const iconDef = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
+        const isCyan = iconDef.color === 'cyan';
+        const color = isCyan ? '#00D4FF' : '#FF7A00';
+        const glow = isCyan ? 'rgba(0,212,255,0.8)' : 'rgba(255,122,0,0.8)';
+
+        const svgMarker = `<svg xmlns="http://www.w3.org/2000/svg" width="44" height="62" viewBox="0 0 44 62">
+          <defs><filter id="pglow${i}" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter></defs>
+          <ellipse cx="22" cy="59" rx="7" ry="3" fill="rgba(0,0,0,0.4)"/>
+          <path d="M22 2 C12 2 4 10 4 20 C4 32 22 58 22 58 C22 58 40 32 40 20 C40 10 32 2 22 2Z"
+            fill="#0D1525" stroke="${color}" stroke-width="2" filter="url(#pglow${i})"/>
+          <svg x="8" y="4" width="28" height="28" viewBox="0 0 24 24"
+            stroke="${color}" stroke-width="1.5" fill="none"
+            stroke-linecap="round" stroke-linejoin="round">
+            ${iconDef.svg}
+          </svg>
+          <text x="22" y="43" text-anchor="middle" dominant-baseline="middle"
+            font-family="Arial" font-weight="bold" font-size="11"
+            fill="${color}" opacity="0.9">${i + 1}</text>
+        </svg>`;
+
+        const icon = L.divIcon({ html: svgMarker, className: '', iconSize: [44, 62], iconAnchor: [22, 62], popupAnchor: [0, -62] });
+
+        const time = stop.scheduled_start
+          ? new Date(stop.scheduled_start.endsWith('Z') ? stop.scheduled_start : stop.scheduled_start + 'Z')
+              .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' })
+          : '';
+        const equip = [stop.equipment_make, stop.equipment_model].filter(Boolean).join(' ')
+          || (stop.equipment_type || '').replace(/_/g, ' ') || 'Appliance';
+
+        L.marker([stop.lat, stop.lng], { icon })
+          .addTo(map)
+          .bindPopup(`
+            <div style="font-family:sans-serif;min-width:160px;">
+              <div style="color:${color};font-weight:bold;font-size:13px;">Stop ${i + 1} — ${time}</div>
+              <div style="font-size:12px;margin-top:4px;color:white;">${stop.client_name || 'Unknown'}</div>
+              <div style="font-size:11px;color:#9CA3AF;">${equip}</div>
+              <div style="font-size:11px;color:#6B7280;margin-top:2px;">${stop.address}</div>
+            </div>`, { className: 'dark-popup' });
+
+        bounds.push([stop.lat, stop.lng]);
+      });
+
+      if (geocoded.length > 1) {
+        const latlngs = geocoded.map(s => [s.lat, s.lng]);
+        // Black outline underneath
+        L.polyline(latlngs, { color: '#000000', weight: 5, opacity: 0.8 }).addTo(map);
+        // Orange line on top
+        L.polyline(latlngs, { color: '#FF7A00', weight: 3, opacity: 0.9, dashArray: '8, 6' }).addTo(map);
+      }
+
+      if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40] });
+      setMapReady(true);
+    }
+
+    // Load Leaflet if not already loaded
     if (!document.getElementById('leaflet-css')) {
       const link = document.createElement('link');
       link.id = 'leaflet-css';
@@ -208,101 +287,13 @@ export default function RouteTest() {
       document.head.appendChild(link);
     }
 
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    script.onload = () => initMap(geocoded);
-    document.head.appendChild(script);
-
-    function initMap(points) {
-      if (!mapRef.current || mapInstanceRef.current) return;
-      const L = window.L;
-
-      const map = L.map(mapRef.current, { zoomControl: true });
-      mapInstanceRef.current = map;
-
-      // OpenStreetMap tiles — free, no key
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19,
-      }).addTo(map);
-
-      const bounds = [];
-
-      points.forEach((stop, i) => {
-      const key = getIconKey(stop.equipment_type, stop.equipment_subtype);
-      const iconDef = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
-          const isCyan = iconDef.color === 'cyan';
-      const color = isCyan ? '#00D4FF' : '#FF7A00';
-      const glow = isCyan ? 'rgba(0,212,255,0.8)' : 'rgba(255,122,0,0.8)';
-
-      // Custom pin with appliance SVG inside
-      const svgMarker = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="44" height="54" viewBox="0 0 44 54">
-      <defs>
-        <filter id="glow${i}" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-      </defs>
-        <ellipse cx="22" cy="51" rx="8" ry="3" fill="rgba(0,0,0,0.35)"/>
-      <path d="M22 2 C12 2 4 10 4 20 C4 32 22 50 22 50 C22 50 40 32 40 20 C40 10 32 2 22 2Z"
-            fill="#0D1525" stroke="${color}" stroke-width="2" filter="url(#glow${i})"/>
-              <svg x="9" y="7" width="26" height="26" viewBox="0 0 24 24"
-            stroke="${color}" stroke-width="1.5" fill="none"
-                stroke-linecap="round" stroke-linejoin="round"
-                style="filter:drop-shadow(0 0 3px ${glow})">
-                ${iconDef.svg}
-              </svg>
-            </svg>`;
-
-          const icon = L.divIcon({
-            html: svgMarker,
-            className: '',
-            iconSize: [44, 54],
-            iconAnchor: [22, 54],
-            popupAnchor: [0, -54],
-          });
-
-        const client = stop.client_name || 'Unknown';
-        const time = stop.scheduled_start
-          ? format(new Date(stop.scheduled_start.endsWith('Z') ? stop.scheduled_start : stop.scheduled_start + 'Z'), 'h:mm a')
-          : '';
-        const equip = [stop.equipment_make, stop.equipment_model].filter(Boolean).join(' ')
-          || (stop.equipment_type || '').replace(/_/g, ' ') || 'Appliance';
-
-        const marker = L.marker([stop.lat, stop.lng], { icon })
-          .addTo(map)
-          .bindPopup(`
-            <div style="font-family:sans-serif;min-width:160px;background:#0D1525;color:white;border-radius:8px;padding:4px;">
-              <div style="color:${color};font-weight:bold;font-size:13px;">Stop ${i + 1} — ${time}</div>
-              <div style="font-size:12px;margin-top:4px;">${client}</div>
-              <div style="font-size:11px;color:#9CA3AF;">${equip}</div>
-              <div style="font-size:11px;color:#6B7280;margin-top:2px;">${stop.address}</div>
-            </div>
-          `, {
-            className: 'dark-popup',
-          });
-
-        bounds.push([stop.lat, stop.lng]);
-      });
-
-      // Draw route line between stops
-      if (points.length > 1) {
-        const latlngs = points.map(s => [s.lat, s.lng]);
-        L.polyline(latlngs, {
-          color: '#22D3EE',
-          weight: 2,
-          opacity: 0.6,
-          dashArray: '6, 8',
-        }).addTo(map);
-      }
-
-      // Fit map to all markers
-      if (bounds.length > 0) {
-        map.fitBounds(bounds, { padding: [40, 40] });
-      }
-
-      setMapReady(true);
+    if (!window.L) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.onload = buildMap;
+      document.head.appendChild(script);
+    } else {
+      buildMap();
     }
   }, [geocoding, stops]);
 
