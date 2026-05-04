@@ -269,6 +269,15 @@ export default function DashboardLayout({ children }) {
             <div className="hidden md:block" />
 
             <div className="flex items-center space-x-4">
+              {/* AR Logo - only on tech dashboard */}
+              {router.pathname.startsWith('/techdashboard') && (
+                <img 
+                  src="/arpano.png" 
+                  alt="Atomic Repair" 
+                  className="h-8 w-auto"
+                />
+              )}
+
               {displayThemeToggle && (
                 <button
                   onClick={toggleTheme}
