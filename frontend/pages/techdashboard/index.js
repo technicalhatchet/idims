@@ -158,7 +158,19 @@ export default function TechDashboardTest() {
           apiClient(`work-orders?page=1&limit=200`),
         ]);
         const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
-        setSchedule(Array.isArray(appts) ? appts : []);
+        const filtered = (Array.isArray(appts) ? appts : []).filter(a => {
+          const startField = a.scheduled_start || a.start;
+          if (!startField) return false;
+          const d = new Date(startField.endsWith('Z') ? startField : startField + 'Z');
+          return isToday(d);
+        });
+        setSchedule(filtered.map(a => ({
+          ...a,
+          scheduled_start: a.scheduled_start || a.start,
+          service_address: a.service_address || a.location || a.service_location?.address || '',
+          client_phone: a.client_phone || a.client?.phone || '',
+          client_name: a.client_name || a.client?.name || '',
+        })));
         const allItems = woItems?.items || [];
         const todayItems = allItems.filter(w => {
           if (!w.scheduled_start) return false;

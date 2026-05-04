@@ -131,14 +131,21 @@ export default function RouteTest() {
         const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
         const todayAppts = (Array.isArray(appts) ? appts : [])
           .filter(a => {
-            if (!a.scheduled_start) return false;
-            const d = new Date(a.scheduled_start.endsWith('Z') ? a.scheduled_start : a.scheduled_start + 'Z');
+            const startField = a.scheduled_start || a.start;
+            if (!startField) return false;
+            const d = new Date(startField.endsWith('Z') ? startField : startField + 'Z');
             return isToday(d);
           })
-          .sort((a, b) => new Date(a.scheduled_start) - new Date(b.scheduled_start))
+          .sort((a, b) => new Date(a.scheduled_start || a.start) - new Date(b.scheduled_start || b.start))
           .map(a => ({
             ...a,
-            address: a.service_address || a.client_address || '',
+            scheduled_start: a.scheduled_start || a.start,
+            address: a.service_address || a.location || a.service_location?.address || '',
+            client_name: a.client_name || a.client?.name || '',
+            equipment_type: a.equipment_type || '',
+            equipment_subtype: a.equipment_subtype || '',
+            equipment_make: a.equipment_make || '',
+            equipment_model: a.equipment_model || '',
             lat: null,
             lng: null,
             geocodeError: false,
