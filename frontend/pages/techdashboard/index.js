@@ -103,31 +103,37 @@ function TodayJobRow({ appt }) {
 export default function TechDashboardTest() {
   const { user } = useUser();
   const [schedule, setSchedule] = useState([]);
-  const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0 });
+  const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0, partsWaiting: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
   const today = new Date();
   const todayStr = format(today, 'yyyy-MM-dd');
+  const nextWeekStr = format(new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
 
   useEffect(() => {
     async function load() {
       try {
-        // Fetch today's schedule
-        const schedData = await apiClient(
-          `scheduling/schedule/combined?start_date=${todayStr}&end_date=${todayStr}&view_type=day`
-        );
-        const appts = schedData?.appointments || schedData?.data || [];
-        setSchedule(appts);
-
-        // Fetch work order counts
-        const woData = await apiClient(`work-orders?page=1&limit=1`);
-        const todayWo = await apiClient(`work-orders?page=1&limit=100&scheduled_date=${todayStr}`);
-        const completedToday = (todayWo?.items || []).filter(w => w.status === 'completed').length;
-
+        const [schedData, woData, woItems] = await Promise.all([
+          apiClient(`scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`),
+          apiClient(`work-orders?page=1&limit=1`),
+          apiClient(`work-orders?page=1&limit=200`),
+        ]);
+        const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
+        setSchedule(Array.isArray(appts) ? appts : []);
+        const allItems = woItems?.items || [];
+        const todayItems = allItems.filter(w => {
+          if (!w.scheduled_start) return false;
+          const d = new Date(w.scheduled_start.endsWith('Z') ? w.scheduled_start : w.scheduled_start + 'Z');
+          return isToday(d);
+        });
+        const partsWaiting = allItems.filter(w =>
+          w.parts && w.parts.some(p => ['ordered', 'needed'].includes(p.status))
+        ).length;
         setWorkOrderStats({
           total: woData?.total || 0,
-          today: todayWo?.total || 0,
-          completed_today: completedToday,
+          today: todayItems.length,
+          completed_today: todayItems.filter(w => w.status === 'completed').length,
+          partsWaiting,
         });
       } catch (e) {
         console.error('Dashboard load error:', e);
@@ -136,7 +142,7 @@ export default function TechDashboardTest() {
       }
     }
     load();
-  }, [todayStr]);
+  }, [todayStr, nextWeekStr]);
 
   const todayAppts = schedule.filter(a => {
     if (!a.scheduled_start) return false;
@@ -241,7 +247,7 @@ export default function TechDashboardTest() {
               borderColor="rgba(34,211,238,0.25)"
               href="/work_orders"
               icon={
-                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
               }
@@ -253,8 +259,34 @@ export default function TechDashboardTest() {
               borderColor="rgba(255,122,0,0.25)"
               href="/work_orders"
               icon={
-                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#FF7A00', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#FF7A00', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' }}>
                   <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              }
+            />
+            <StatCard
+              label="Parts Waiting"
+              value={workOrderStats.partsWaiting}
+              sub={workOrderStats.partsWaiting > 0 ? 'orders on hold' : 'all parts in'}
+              subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
+              borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
+              href="/work_orders"
+              icon={
+                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: workOrderStats.partsWaiting > 0 ? 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 4px rgba(0,212,255,0.5))' }}>
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              }
+            />
+            <StatCard
+              label="Today's Jobs"
+              value={todayAppts.length}
+              sub={nextJob?.scheduled_start ? `next at ${format(new Date(nextJob.scheduled_start.endsWith('Z') ? nextJob.scheduled_start : nextJob.scheduled_start + 'Z'), 'h:mm a')}` : 'none remaining'}
+              borderColor="rgba(34,211,238,0.25)"
+              href="/schedule"
+              icon={
+                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
+                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
               }
             />
@@ -308,30 +340,36 @@ export default function TechDashboardTest() {
         <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-3 max-w-lg mx-auto" style={{ background: '#0A0F1E', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
           <div className="grid grid-cols-3 gap-2">
             {/* New Work Order */}
-            <Link href="/work_orders/new" className="relative flex items-center justify-center gap-1.5 py-3 rounded-lg text-xs font-medium text-white overflow-hidden" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 8px rgba(0,212,255,0.2)' }}>
-              <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#00D4FF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.8))' }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span style={{ textShadow: '0 0 8px rgba(0,212,255,0.5)' }}>New WO</span>
+            <Link href="/work_orders/new" className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
+              <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.12) 0%, transparent 55%)' }} />
+              <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(0,212,255,0.9))' }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6)' }}>New WO</span>
             </Link>
 
             {/* Scan Model/Serial */}
-            <button className="relative flex items-center justify-center gap-1.5 py-3 rounded-lg text-xs font-medium text-white overflow-hidden" style={{ background: '#0D1525', border: '1px solid rgba(255,122,0,0.5)', boxShadow: '0 0 8px rgba(255,122,0,0.2)' }}>
-              <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.8))' }}>
+            <button className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: '#0D1525', border: '1px solid rgba(255,122,0,0.5)', boxShadow: '0 0 10px rgba(255,122,0,0.15)' }}>
+              <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(255,122,0,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(255,122,0,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(255,122,0,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(255,122,0,0.12) 0%, transparent 55%)' }} />
+              <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(255,122,0,0.9))' }}>
                 <path d="M3 9V6a1 1 0 0 1 1-1h3M3 15v3a1 1 0 0 0 1 1h3M21 9V6a1 1 0 0 0-1-1h-3M21 15v3a1 1 0 0 1-1 1h-3"/>
                 <line x1="7" y1="12" x2="7" y2="12"/><line x1="10" y1="8" x2="10" y2="16"/><line x1="13" y1="10" x2="13" y2="14"/><line x1="16" y1="12" x2="16" y2="12"/>
               </svg>
-              <span style={{ textShadow: '0 0 8px rgba(255,122,0,0.5)' }}>Scan</span>
+              <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(255,122,0,0.6)' }}>Scan</span>
             </button>
 
             {/* Call Next Client */}
             {nextJob?.client_phone ? (
-              <a href={`tel:${nextJob.client_phone}`} className="relative flex items-center justify-center gap-1.5 py-3 rounded-lg text-xs font-medium text-white overflow-hidden" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 8px rgba(0,212,255,0.2)' }}>
-                <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#00D4FF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.8))' }}>
+              <a href={`tel:${nextJob.client_phone}`} className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
+                <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.12) 0%, transparent 55%)' }} />
+                <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(0,212,255,0.9))' }}>
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
-                <span style={{ textShadow: '0 0 8px rgba(0,212,255,0.5)' }}>Call Next</span>
+                <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6)' }}>Call Next</span>
               </a>
             ) : (
-              <button disabled className="flex items-center justify-center gap-1.5 py-3 rounded-lg text-xs font-medium text-gray-600" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <button disabled className="flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-gray-600" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <svg viewBox="0 0 24 24" className="w-5 h-5" style={{ stroke: '#4B5563', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
                 Call Next
               </button>
             )}
