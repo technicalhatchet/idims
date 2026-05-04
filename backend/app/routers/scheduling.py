@@ -819,7 +819,11 @@ async def get_combined_schedule(
                 "priority": work_order.priority,
                 "source": "appointment",
                 "work_order_id": str(work_order.id),
-                "appointment_type": appt.appointment_type
+                "appointment_type": appt.appointment_type,
+                "equipment_type": work_order.equipment_type,
+                "equipment_subtype": work_order.equipment_subtype,
+                "equipment_make": work_order.equipment_make,
+                "equipment_model": work_order.equipment_model,
             })
 
         # Get available technicians (for admin/manager)

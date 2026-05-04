@@ -170,6 +170,10 @@ export default function TechDashboardTest() {
           service_address: a.service_address || a.location || a.service_location?.address || '',
           client_phone: a.client_phone || a.client?.phone || '',
           client_name: a.client_name || a.client?.name || '',
+          equipment_type: a.equipment_type || '',
+          equipment_subtype: a.equipment_subtype || '',
+          equipment_make: a.equipment_make || '',
+          equipment_model: a.equipment_model || '',
         })));
         const allItems = woItems?.items || [];
         const todayItems = allItems.filter(w => {
