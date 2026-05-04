@@ -129,11 +129,23 @@ export default function TechDashboardTest() {
         const partsWaiting = allItems.filter(w =>
           w.parts && w.parts.some(p => ['ordered', 'needed'].includes(p.status))
         ).length;
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        yesterday.setHours(23, 59, 59, 999);
+        const criticalMass = allItems.filter(w => {
+          if (!['scheduled', 'pending'].includes(w.status)) return false;
+          if (!w.scheduled_start) return false;
+          const d = new Date(w.scheduled_start.endsWith('Z') ? w.scheduled_start : w.scheduled_start + 'Z');
+          return d <= yesterday;
+        }).length;
+
         setWorkOrderStats({
           total: woData?.total || 0,
           today: todayItems.length,
           completed_today: todayItems.filter(w => w.status === 'completed').length,
           partsWaiting,
+          criticalMass,
         });
       } catch (e) {
         console.error('Dashboard load error:', e);
@@ -291,6 +303,42 @@ export default function TechDashboardTest() {
               }
             />
           </div>
+
+          {/* ── CRITICAL MASS ── */}
+          <Link href="/work_orders" className="relative flex items-center gap-4 p-4 rounded-lg mb-4 overflow-hidden active:opacity-80 transition-opacity" style={{
+            background: '#0D1525',
+            border: workOrderStats.criticalMass > 0 ? '1px solid rgba(251,146,60,0.6)' : '1px solid rgba(255,255,255,0.07)',
+            boxShadow: workOrderStats.criticalMass > 0 ? '0 0 20px rgba(251,146,60,0.15)' : 'none'
+          }}>
+            {workOrderStats.criticalMass > 0 && (
+              <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(251,146,60,0.1) 0%, transparent 60%)' }} />
+            )}
+            <div className="relative z-10 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14' }}>
+              <svg viewBox="0 0 24 24" className="w-7 h-7" style={{
+                stroke: workOrderStats.criticalMass > 0 ? '#FB923C' : '#374151',
+                strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
+                filter: workOrderStats.criticalMass > 0 ? 'drop-shadow(0 0 6px rgba(251,146,60,0.8))' : 'none'
+              }}>
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div className="relative z-10 flex-1 min-w-0">
+              <p className="text-sm font-bold" style={{ color: workOrderStats.criticalMass > 0 ? '#FB923C' : '#6B7280', textShadow: workOrderStats.criticalMass > 0 ? '0 0 8px rgba(251,146,60,0.5)' : 'none' }}>
+                Critical Mass
+              </p>
+              <p className="text-xs mt-0.5" style={{ color: workOrderStats.criticalMass > 0 ? '#9CA3AF' : '#4B5563' }}>
+                {workOrderStats.criticalMass > 0
+                  ? `${workOrderStats.criticalMass} order${workOrderStats.criticalMass > 1 ? 's' : ''} past scheduled date — needs attention`
+                  : 'All clear — no overdue orders'}
+              </p>
+            </div>
+            <div className="relative z-10 flex-shrink-0">
+              <p className="text-2xl font-bold" style={{ color: workOrderStats.criticalMass > 0 ? '#FB923C' : '#374151' }}>
+                {workOrderStats.criticalMass}
+              </p>
+            </div>
+          </Link>
 
           {/* ── TODAY'S JOBS ── */}
           <div className="rounded-lg p-4 mb-4" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
