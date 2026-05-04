@@ -58,13 +58,17 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
   return href ? <Link href={href} className="block">{inner}</Link> : <div>{inner}</div>;
 }
 
+// ── EST time helper ─────────────────────────────────────────────────────
+function toEST(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr.endsWith('Z') ? dateStr : dateStr + 'Z');
+  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' });
+}
+
 // ── Today Job Row ─────────────────────────────────────────────────────────
 function TodayJobRow({ appt }) {
-  const start = appt.scheduled_start
-    ? new Date((appt.scheduled_start.endsWith('Z') ? appt.scheduled_start : appt.scheduled_start + 'Z'))
-    : null;
-  const timeStr = start ? format(start, 'h:mm') : '--:--';
-  const ampm = start ? format(start, 'a') : '';
+  const timeStr = appt.scheduled_start ? toEST(appt.scheduled_start).split(' ')[0] : '--:--';
+  const ampm = appt.scheduled_start ? toEST(appt.scheduled_start).split(' ')[1] : '';
   const client = appt.client_name || 'Unknown Client';
   const equip = [appt.equipment_make, appt.equipment_model].filter(Boolean).join(' ') || appt.equipment_type || 'Appliance';
   const address = appt.service_address || appt.client_address || '';
@@ -282,9 +286,7 @@ export default function TechDashboardTest() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-lg font-bold text-white">
-                    Today at {nextJob.scheduled_start
-                      ? format(new Date(nextJob.scheduled_start.endsWith('Z') ? nextJob.scheduled_start : nextJob.scheduled_start + 'Z'), 'h:mm a')
-                      : 'TBD'}
+                    Today at {nextJob.scheduled_start ? toEST(nextJob.scheduled_start) : 'TBD'}
                   </p>
                   <p className="text-sm font-medium text-white mt-0.5">{nextJob.client_name || 'Unknown Client'}</p>
                   <p className="text-xs text-gray-400">{[nextJob.equipment_make, nextJob.equipment_model].filter(Boolean).join(' ') || 'Appliance'}</p>
@@ -365,7 +367,7 @@ export default function TechDashboardTest() {
             <StatCard
               label="Today's Jobs"
               value={todayAppts.length}
-              sub={nextJob?.scheduled_start ? `next at ${format(new Date(nextJob.scheduled_start.endsWith('Z') ? nextJob.scheduled_start : nextJob.scheduled_start + 'Z'), 'h:mm a')}` : 'none remaining'}
+              sub={nextJob?.scheduled_start ? `next at ${toEST(nextJob.scheduled_start)}` : 'none remaining'}
               borderColor="rgba(34,211,238,0.25)"
               href="/schedule"
               icon={

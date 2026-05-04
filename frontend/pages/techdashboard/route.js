@@ -20,13 +20,13 @@ const APPLIANCE_ICONS = {
   default:        { color: 'cyan',   svg: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>' },
 };
 
-function getIconKey(equipmentType, equipmentSubtype) {
+function getIconKey(equipmentSubtype, equipmentType) {
   const raw = equipmentSubtype || equipmentType || '';
   return raw.toLowerCase().replace(/[^a-z]/g, '');
 }
 
-function getIconColor(equipmentType, equipmentSubtype) {
-  const key = getIconKey(equipmentType, equipmentSubtype);
+function getIconColor(equipmentSubtype, equipmentType) {
+  const key = getIconKey(equipmentSubtype, equipmentType);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   return match.color === 'cyan' ? '#00D4FF' : '#FF7A00';
 }
@@ -269,7 +269,7 @@ export default function RouteTest() {
       if (geocoded.length > 1) {
         const latlngs = geocoded.map(s => [s.lat, s.lng]);
         // Black outline underneath
-        L.polyline(latlngs, { color: '#000000', weight: 5, opacity: 0.8 }).addTo(map);
+        L.polyline(latlngs, { color: '#000000', weight: 4.5, opacity: 0.8 }).addTo(map);
         // Orange line on top
         L.polyline(latlngs, { color: '#FF7A00', weight: 3, opacity: 0.9, dashArray: '8, 6' }).addTo(map);
       }
