@@ -165,7 +165,7 @@ class WorkOrderUpdate(BaseModel):
     @validator('status')
     def validate_status(cls, v):
         if v is not None:
-            allowed_statuses = ["pending", "scheduled", "in_progress", "on_hold", "completed", "cancelled", 
+            allowed_statuses = ["pending", "scheduled", "en_route", "waiting_on_parts", "in_progress", "on_hold", "completed", "cancelled", 
                               "parts_on_order", "reschedule", "need_to_contact", "redo"]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
@@ -260,7 +260,7 @@ class WorkOrderStatusUpdate(BaseModel):
     
     @validator('status')
     def validate_status(cls, v):
-        allowed_statuses = ["pending", "scheduled", "in_progress", "on_hold", "completed", "cancelled",
+        allowed_statuses = ["pending", "scheduled", "en_route", "waiting_on_parts", "in_progress", "on_hold", "completed", "cancelled",
                           "parts_on_order", "reschedule", "need_to_contact", "redo"]
         if v not in allowed_statuses:
             raise ValueError(f"Status must be one of {allowed_statuses}")

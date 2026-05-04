@@ -16,6 +16,12 @@ export default function StatusBadge({ status }) {
       case 'on_hold':
       case 'on hold':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+      case 'en_route':
+      case 'en route':
+        return 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-400';
+      case 'waiting_on_parts':
+      case 'waiting on parts':
+        return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400';
       case 'in_progress':
       case 'in progress':
         return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';

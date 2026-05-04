@@ -25,7 +25,7 @@ class WorkOrder(Base):
     # title = Column(String(200), nullable=False) # Removed title
     description = Column(Text, nullable=True)
     priority = Column(Enum("low", "medium", "high", "urgent", name="work_order_priority_enum"), default="medium")
-    status = Column(Enum("pending", "scheduled", "in_progress", "on_hold", "completed", "cancelled", 
+    status = Column(Enum("pending", "scheduled", "en_route", "waiting_on_parts", "in_progress", "on_hold", "completed", "cancelled", 
                         "parts_on_order", "reschedule", "need_to_contact", "redo",
                         name="work_order_status_enum"), default="pending")
     service_location = Column(JSONB, nullable=True)  # Address and location details

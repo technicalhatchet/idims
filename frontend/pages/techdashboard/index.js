@@ -99,6 +99,45 @@ function TodayJobRow({ appt }) {
   );
 }
 
+// ── En Route Button ─────────────────────────────────────────────────────
+function EnRouteButton({ workOrderId, onSuccess }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleEnRoute = async () => {
+    setLoading(true);
+    try {
+      await apiClient(`work-orders/${workOrderId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ status: 'en_route' }),
+      });
+      onSuccess?.();
+    } catch (e) {
+      alert('Failed to update status: ' + e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleEnRoute}
+      disabled={loading}
+      className="mt-2 relative flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium transition-all active:scale-95 overflow-hidden"
+      style={{ background: '#080C14', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}
+    >
+      <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 50%, rgba(0,212,255,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 50%, rgba(0,212,255,0.1) 0%, transparent 60%)' }} />
+      <svg viewBox="0 0 24 24" className="relative z-10 w-4 h-4" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.8))' }}>
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 8 16 12 12 16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      <span className="relative z-10" style={{ color: '#22D3EE', textShadow: '0 0 8px rgba(0,212,255,0.5)' }}>
+        {loading ? 'Updating...' : '🚗 En Route'}
+      </span>
+    </button>
+  );
+}
+
 // ── Main Page ─────────────────────────────────────────────────────────────
 export default function TechDashboardTest() {
   const { user } = useUser();
@@ -134,7 +173,7 @@ export default function TechDashboardTest() {
         yesterday.setDate(yesterday.getDate() - 1);
         yesterday.setHours(23, 59, 59, 999);
         const criticalMass = allItems.filter(w => {
-          if (!['scheduled', 'pending'].includes(w.status)) return false;
+          if (!['scheduled', 'pending', 'en_route'].includes(w.status)) return false;
           if (!w.scheduled_start) return false;
           const d = new Date(w.scheduled_start.endsWith('Z') ? w.scheduled_start : w.scheduled_start + 'Z');
           return d <= yesterday;
@@ -242,6 +281,11 @@ export default function TechDashboardTest() {
                   </svg>
                   Call Customer
                 </a>
+              )}
+
+              {/* En Route button */}
+              {nextJob.status === 'scheduled' && (
+                <EnRouteButton workOrderId={nextJob.work_order_id} onSuccess={() => window.location.reload()} />
               )}
             </div>
           ) : (
