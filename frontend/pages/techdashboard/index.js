@@ -61,8 +61,9 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
 // ── EST time helper ─────────────────────────────────────────────────────
 function toEST(dateStr) {
   if (!dateStr) return '';
+  // Times are stored as local time in UTC format — display as-is without conversion
   const d = new Date(dateStr.endsWith('Z') ? dateStr : dateStr + 'Z');
-  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' });
+  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' });
 }
 
 // ── Today Job Row ─────────────────────────────────────────────────────────

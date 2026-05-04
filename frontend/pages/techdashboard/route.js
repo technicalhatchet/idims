@@ -92,7 +92,7 @@ function StopCard({ stop, index, onNavigate }) {
         {stop.scheduled_start && (
           <p className="text-xs mt-0.5" style={{ color: '#22D3EE' }}>
             {new Date(stop.scheduled_start.endsWith('Z') ? stop.scheduled_start : stop.scheduled_start + 'Z')
-              .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' })}
+              .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' })}
           </p>
         )}
         {stop.geocodeError && <p className="text-xs text-red-400 mt-0.5">⚠ Could not geocode address</p>}
@@ -248,7 +248,7 @@ export default function RouteTest() {
 
         const time = stop.scheduled_start
           ? new Date(stop.scheduled_start.endsWith('Z') ? stop.scheduled_start : stop.scheduled_start + 'Z')
-              .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' })
+              .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' })
           : '';
         const equip = [stop.equipment_make, stop.equipment_model].filter(Boolean).join(' ')
           || (stop.equipment_type || '').replace(/_/g, ' ') || 'Appliance';
