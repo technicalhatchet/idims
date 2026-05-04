@@ -7,7 +7,6 @@ export default function Document() {
         <meta charSet="utf-8" />
         <meta name="description" content="Atomic Repair - Appliance Repair Management Portal" />
         <meta name="theme-color" content="#000000" />
-        <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/icons/qrbgicon-192x192.png" />
         
