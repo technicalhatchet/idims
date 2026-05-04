@@ -152,8 +152,9 @@ export default function BookService() {
   return (
     <>
       <Head>
-        <title>Book Service | Quantum Repair</title>
+        <title>Book Service | Atomic Repair</title>
         <meta name="description" content="Book your appliance repair service in under 60 seconds." />
+        <link rel="manifest" href="/manifest-book.json" />
       </Head>
 
       {/* Background - Atomic Theme */}

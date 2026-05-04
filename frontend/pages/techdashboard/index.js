@@ -238,7 +238,8 @@ export default function TechDashboardTest() {
   return (
     <>
       <Head>
-        <title>Tech Dashboard Test | IDIMS</title>
+        <title>Tech Dashboard | Atomic Repair</title>
+        <link rel="manifest" href="/manifest-tech.json" />
         <style>{`
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;

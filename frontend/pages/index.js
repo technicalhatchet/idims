@@ -50,6 +50,7 @@ export default function Home() {
       <Head>
         <title>Atomic Repair | Fast, Reliable Appliance Repair in Toledo</title>
         <meta name="description" content="Same-day appliance repair service in Toledo. Honest diagnostics, no surprises. Licensed & insured technicians." />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
 
       {/* Background Glow Blobs - Atomic Theme */}

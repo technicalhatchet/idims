@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import StatCard from '../../components/cxdashboard/StatCard';
@@ -64,7 +65,12 @@ const ACTIVE_REPAIR = {
 
 export default function ClientDashboard() {
   return (
-    <div className="space-y-8">
+    <>
+      <Head>
+        <title>Client Portal | Atomic Repair</title>
+        <link rel="manifest" href="/manifest-client.json" />
+      </Head>
+      <div className="space-y-8">
       {/* Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {STATS.map((stat, index) => (
@@ -90,6 +96,7 @@ export default function ClientDashboard() {
       {/* Support CTA */}
       <SupportCTA />
     </div>
+    </>
   );
 }
 
