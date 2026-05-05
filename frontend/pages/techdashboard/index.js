@@ -389,7 +389,7 @@ export default function TechDashboardTest() {
             {workOrderStats.criticalMass > 0 && (
               <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(251,146,60,0.1) 0%, transparent 60%)' }} />
             )}
-            <div className="relative z-10 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14' }}>
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14' }}>
               <svg viewBox="0 0 24 24" className="w-7 h-7" style={{
                 stroke: workOrderStats.criticalMass > 0 ? '#FB923C' : '#374151',
                 strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
@@ -399,7 +399,7 @@ export default function TechDashboardTest() {
                 <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
             </div>
-            <div className="relative z-10 flex-1 min-w-0">
+            <div className="flex-1 min-w-0">
               <p className="text-sm font-bold" style={{ color: workOrderStats.criticalMass > 0 ? '#FB923C' : '#6B7280', textShadow: workOrderStats.criticalMass > 0 ? '0 0 8px rgba(251,146,60,0.5)' : 'none' }}>
                 Critical Mass
               </p>
@@ -409,7 +409,7 @@ export default function TechDashboardTest() {
                   : 'All clear — no overdue orders'}
               </p>
             </div>
-            <div className="relative z-10 flex-shrink-0">
+            <div className="flex-shrink-0">
               <p className="text-2xl font-bold" style={{ color: workOrderStats.criticalMass > 0 ? '#FB923C' : '#374151' }}>
                 {workOrderStats.criticalMass}
               </p>
@@ -461,7 +461,7 @@ export default function TechDashboardTest() {
         </div>
 
         {/* ── BOTTOM ACTION BUTTONS ── */}
-        <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-3 max-w-lg mx-auto" style={{ background: '#0A0F1E', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-3 max-w-lg mx-auto" style={{ background: '#0A0F1E', borderTop: '1px solid rgba(255,255,255,0.07)', zIndex: 40 }}>
           <div className="grid grid-cols-3 gap-2">
             {/* New Work Order */}
             <Link href="/work_orders/new" className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
