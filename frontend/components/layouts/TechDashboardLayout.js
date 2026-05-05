@@ -3,10 +3,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { FaBars } from 'react-icons/fa';
-import NotificationsDropdown from '../notifications/NotificationsDropdown';
-import UserDropdown from '../user/UserDropdown';
-import ErrorBoundary from '../../context/ErrorBoundary';
 
 // ── Nav Icons (custom SVGs to match our aesthetic) ────────────────────────
 const NAV_ITEMS = [
@@ -102,28 +98,22 @@ export default function TechDashboardLayout({ children }) {
 
       {/* ── HEADER ── */}
       <header className="fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4" style={{ background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
-        {/* Hamburger — bigger touch target */}
+        {/* Hamburger */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
-          className="w-10 h-10 flex items-center justify-center rounded-lg active:opacity-70 transition-opacity"
+          className="w-11 h-11 flex items-center justify-center rounded-lg active:opacity-70 transition-opacity"
           style={{ background: railOpen ? 'rgba(34,211,238,0.1)' : 'transparent' }}
-          aria-label="Open menu"
         >
-          <FaBars className="text-gray-400" style={{ fontSize: 20 }} />
+          <svg viewBox="0 0 24 24" width="22" height="22" style={{ stroke: '#9CA3AF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
         </button>
 
         {/* Center logo */}
         <img src="/arpano.png" alt="Atomic Repair" className="h-7 w-auto absolute left-1/2 -translate-x-1/2" />
 
-        {/* Right icons */}
-        <div className="flex items-center gap-3">
-          <ErrorBoundary>
-            <NotificationsDropdown />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            {typeof UserDropdown === 'function' && <UserDropdown user={user} />}
-          </ErrorBoundary>
-        </div>
+        {/* Right — placeholder for profile/notifications from DashboardLayout */}
+        <div className="w-11" />
       </header>
 
       {/* ── OVERLAY (backdrop) ── */}
