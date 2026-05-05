@@ -130,7 +130,7 @@ function EnRouteButton({ workOrderId, onSuccess }) {
       className="mt-2 relative flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium transition-all active:scale-95 overflow-hidden"
       style={{ background: '#080C14', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}
     >
-      <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 50%, rgba(0,212,255,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 50%, rgba(0,212,255,0.1) 0%, transparent 60%)' }} />
+      <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.12) 0%, transparent 55%)' }} />
       <svg viewBox="0 0 24 24" className="relative z-10 w-4 h-4" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.8))' }}>
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 8 16 12 12 16"/>
