@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { format, isToday, isFuture, parseISO } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
-import DashboardLayout from '../../components/layouts/DashboardLayout';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
 
