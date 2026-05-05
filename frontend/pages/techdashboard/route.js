@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format, isToday } from 'date-fns';
-import DashboardLayout from '../../components/layouts/DashboardLayout';
+import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { apiClient } from '../../utils/api-client';
 
 // ── Appliance Icons ───────────────────────────────────────────────────────
@@ -403,4 +403,4 @@ export default function RouteTest() {
   );
 }
 
-RouteTest.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+RouteTest.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;

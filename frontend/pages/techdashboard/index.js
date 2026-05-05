@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format, isToday, isFuture, parseISO } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
@@ -239,14 +240,6 @@ export default function TechDashboardTest() {
     <>
       <Head>
         <title>Tech Dashboard | Atomic Repair</title>
-        <link rel="manifest" href="/manifest-tech.json" />
-        <style>{`
-          header, nav, .header-bar, [class*='h-16'] {
-            background-color: #0D1525 !important;
-            border-bottom: 1px solid rgba(255,255,255,0.07) !important;
-            z-index: 50 !important;
-          }
-        `}</style>
       </Head>
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
@@ -511,4 +504,4 @@ function getGreeting() {
   return 'evening';
 }
 
-TechDashboardTest.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+TechDashboardTest.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
