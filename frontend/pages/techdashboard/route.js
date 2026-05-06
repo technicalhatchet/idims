@@ -155,7 +155,7 @@ async function geocodeAddress(address) {
     }
   }
 
-  // Third attempt: try just street + city + state (strip zip too)
+  // Third attempt: try just street + city + state (strip zip)
   const simplifiedAddress = noUnitAddress
     .replace(/,?\s*\d{5}(-\d{4})?/g, '')  // Remove zip and preceding comma
     .replace(/,\s*$/,'')                   // Remove trailing comma
@@ -173,6 +173,26 @@ async function geocodeAddress(address) {
       }
     } catch (e) {
       console.error('Geocode error (simplified):', e);
+    }
+  }
+
+  // Fourth attempt: try street + zip only (for when OSM has wrong city but correct zip)
+  const zipMatch = noUnitAddress.match(/\d{5}(-\d{4})?/);
+  const streetMatch = noUnitAddress.match(/^([^,]+)/);
+  if (zipMatch && streetMatch) {
+    const streetPlusZip = `${streetMatch[1].trim()}, ${zipMatch[0]}`;
+    console.log(`Retrying street+zip: "${streetPlusZip}"`);
+    await new Promise(r => setTimeout(r, 1100));
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(streetPlusZip)}&limit=1`;
+      const res = await fetch(url, { headers });
+      const data = await res.json();
+      if (data && data.length > 0) {
+        console.log(`Geocoded OK (street+zip): "${streetPlusZip}"`);
+        return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+      }
+    } catch (e) {
+      console.error('Geocode error (street+zip):', e);
     }
   }
 
