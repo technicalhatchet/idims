@@ -1261,13 +1261,19 @@ function WorkOrderDetail() {
                 <option value="">Select new status</option>
                 <option value="pending">Pending</option>
                 <option value="scheduled">Scheduled</option>
+                <option value="en_route">En Route</option>
                 <option value="in_progress">In Progress</option>
+                <option value="waiting_on_parts">Waiting on Parts</option>
                 <option value="on_hold">On Hold</option>
                 <option value="completed">Completed</option>
+                <option value="completed_pending_payment">Completed — Pending Payment</option>
+                <option value="pending_estimate_approval">Pending Estimate Approval</option>
                 <option value="cancelled">Cancelled</option>
                 <option value="parts_on_order">Parts on Order</option>
                 <option value="reschedule">Reschedule</option>
                 <option value="need_to_contact">Need to Contact</option>
+                <option value="unreachable">Unreachable</option>
+                <option value="recall">Recall / Warranty Return</option>
                 <option value="redo">Redo</option>
               </select>
             </div>
