@@ -35,6 +35,8 @@ export default function StatusBadge({ status }) {
         return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
       case 'recall':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+      case 'in progress':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
       case 'scheduled':
         return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400';
       case 'parts_on_order':
@@ -82,8 +84,8 @@ export default function StatusBadge({ status }) {
     }
     
     // Convert snake_case to Title Case
-    return (status || '').split('_')
-      .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : '')
+    return status.split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   };
 
