@@ -156,7 +156,10 @@ async function geocodeAddress(address) {
   }
 
   // Third attempt: try just street + city + state (strip zip too)
-  const simplifiedAddress = noUnitAddress.replace(/\s+\d{5}(-\d{4})?/g, '').trim();
+  const simplifiedAddress = noUnitAddress
+    .replace(/,?\s*\d{5}(-\d{4})?/g, '')  // Remove zip and preceding comma
+    .replace(/,\s*$/,'')                   // Remove trailing comma
+    .trim();
   if (simplifiedAddress !== noUnitAddress) {
     console.log(`Retrying simplified: "${simplifiedAddress}"`);
     await new Promise(r => setTimeout(r, 1100));
