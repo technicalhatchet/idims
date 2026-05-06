@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import NotificationsDropdown from '../notifications/NotificationsDropdown';
+import UserDropdown from '../user/UserDropdown';
 
 // ── Nav Icons (custom SVGs to match our aesthetic) ────────────────────────
 const NAV_ITEMS = [
@@ -67,7 +69,7 @@ export default function TechDashboardLayout({ children }) {
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
 
       {/* ── HEADER ── */}
-      <header className="fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4" style={{ background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
+      <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-4" style={{ height: 56, background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
         {/* Hamburger */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
@@ -82,8 +84,11 @@ export default function TechDashboardLayout({ children }) {
         {/* Center logo */}
         <img src="/arpano.png" alt="Atomic Repair" className="h-7 w-auto absolute left-1/2 -translate-x-1/2" />
 
-        {/* Right — placeholder for profile/notifications from DashboardLayout */}
-        <div className="w-11" />
+        {/* Right — notifications + profile */}
+        <div className="flex items-center gap-2">
+          <NotificationsDropdown />
+          <UserDropdown user={user} />
+        </div>
       </header>
 
       {/* ── OVERLAY (backdrop) ── */}
@@ -106,7 +111,7 @@ export default function TechDashboardLayout({ children }) {
         }}
       >
         {/* Logo area */}
-        <div className="flex items-center justify-center py-4 flex-shrink-0" style={{ height: 72, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="flex items-center justify-center flex-shrink-0" style={{ height: 56, borderBottom: '1px solid rgba(255,255,255,0.07)', paddingLeft: 8, paddingRight: 8 }}>
           {expanded ? (
             <img src="/arpano.png" alt="Atomic Repair" style={{ height: 36, width: 'auto', maxWidth: 160 }} />
           ) : (
