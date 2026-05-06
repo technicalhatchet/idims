@@ -158,7 +158,7 @@ export default function TechDashboardLayout({ children }) {
                       transition: 'all 0.2s',
                     }}
                   >
-                    {item.icon.props.children}
+                    {item.icon}
                   </svg>
                 </div>
                 {expanded && (

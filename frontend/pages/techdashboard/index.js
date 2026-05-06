@@ -504,3 +504,7 @@ function getGreeting() {
 }
 
 TechDashboardTest.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
+
+export async function getServerSideProps() {
+  return { props: {} };
+}
