@@ -64,19 +64,19 @@ function StopCard({ stop, index, onNavigate }) {
   const isCyan = getIconColor(stop.equipment_type, stop.equipment_subtype) === '#00D4FF';
   return (
     <div className="flex items-start gap-3 p-3 rounded-lg" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
-      {/* Stop number + icon stacked */}
-      <div className="flex flex-col items-center gap-2 flex-shrink-0">
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{
-          background: isCyan ? 'rgba(0,212,255,0.15)' : 'rgba(255,122,0,0.15)',
-          border: isCyan ? '1px solid rgba(0,212,255,0.5)' : '1px solid rgba(255,122,0,0.5)',
-          color: isCyan ? '#00D4FF' : '#FF7A00',
-          textShadow: isCyan ? '0 0 6px rgba(0,212,255,0.6)' : '0 0 6px rgba(255,122,0,0.6)',
-        }}>
-          {index + 1}
-        </div>
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
-          <ApplianceIconSvg equipmentType={stop.equipment_type} equipmentSubtype={stop.equipment_subtype} size={22} />
-        </div>
+      {/* Stop number */}
+      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{
+        background: isCyan ? 'rgba(0,212,255,0.15)' : 'rgba(255,122,0,0.15)',
+        border: isCyan ? '1px solid rgba(0,212,255,0.5)' : '1px solid rgba(255,122,0,0.5)',
+        color: isCyan ? '#00D4FF' : '#FF7A00',
+        textShadow: isCyan ? '0 0 6px rgba(0,212,255,0.6)' : '0 0 6px rgba(255,122,0,0.6)',
+      }}>
+        {index + 1}
+      </div>
+
+      {/* Appliance icon */}
+      <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <ApplianceIconSvg equipmentType={stop.equipment_type} equipmentSubtype={stop.equipment_subtype} size={22} />
       </div>
 
       {/* Info */}
