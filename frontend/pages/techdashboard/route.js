@@ -77,37 +77,60 @@ function ApplianceIconSvg({ equipmentType, equipmentSubtype, size = 20 }) {
   );
 }
 
-// ── Geocode via Nominatim (free, no key) ──────────────────────────────────
-// Strips unit/apt numbers for retry if initial geocode fails
+// ── Address Cleaning Helpers ──────────────────────────────────────────────
+// Normalize address formatting (fix spacing issues)
+function normalizeAddress(address) {
+  return address
+    .replace(/,([^\s])/g, ', $1')  // Add space after commas if missing
+    .replace(/\s+/g, ' ')          // Collapse multiple spaces
+    .trim();
+}
+
+// Strip USA/country from address (for local use)
+function stripCountry(address) {
+  return address
+    .replace(/,?\s*(USA|United States|US|U\.S\.A\.?)$/gi, '')
+    .replace(/,\s*$/,'')
+    .trim();
+}
+
+// Strip unit/apt numbers for geocoding retry
 function stripUnitNumber(address) {
-  // Common unit patterns: Apt, Apt., Unit, #, Suite, Ste, Ste., Bldg, Building, Floor, Fl
-  // Match these followed by optional space/punctuation and alphanumeric unit identifier
   const unitPatterns = [
     /,?\s*(apt\.?|apartment)\s*#?\s*[\w-]+/gi,
     /,?\s*(unit|ste\.?|suite)\s*#?\s*[\w-]+/gi,
     /,?\s*(bldg\.?|building)\s*#?\s*[\w-]+/gi,
     /,?\s*(floor|fl\.?)\s*#?\s*[\w-]+/gi,
-    /,?\s*#\s*[\w-]+/gi,  // Just # followed by unit number
+    /,?\s*#\s*[\w-]+/gi,
   ];
   
   let cleaned = address;
   for (const pattern of unitPatterns) {
     cleaned = cleaned.replace(pattern, '');
   }
-  // Clean up any double spaces or trailing commas
-  cleaned = cleaned.replace(/\s+/g, ' ').replace(/,\s*,/g, ',').replace(/,\s*$/,'').trim();
-  return cleaned;
+  return cleaned.replace(/\s+/g, ' ').replace(/,\s*,/g, ', ').replace(/,\s*$/,'').trim();
 }
 
+// Clean address for display (strip country)
+function displayAddress(address) {
+  return stripCountry(normalizeAddress(address));
+}
+
+// ── Geocode via Nominatim (free, no key) ──────────────────────────────────
 async function geocodeAddress(address) {
   const headers = { 'Accept-Language': 'en', 'User-Agent': 'IDIMS-AtomicRepair/1.0' };
   
-  // First attempt: try with full address
+  // Normalize and strip country first
+  let cleanAddress = stripCountry(normalizeAddress(address));
+  console.log(`Geocoding: "${cleanAddress}"`);
+  
+  // First attempt: try with cleaned address (may include unit)
   try {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanAddress)}&limit=1`;
     const res = await fetch(url, { headers });
     const data = await res.json();
     if (data && data.length > 0) {
+      console.log(`Geocoded OK: "${cleanAddress}"`);
       return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
     }
   } catch (e) {
@@ -115,14 +138,16 @@ async function geocodeAddress(address) {
   }
 
   // Second attempt: strip unit number and retry
-  const strippedAddress = stripUnitNumber(address);
-  if (strippedAddress !== address) {
-    console.log(`Retrying geocode without unit: "${strippedAddress}"`);
+  const noUnitAddress = stripUnitNumber(cleanAddress);
+  if (noUnitAddress !== cleanAddress) {
+    console.log(`Retrying without unit: "${noUnitAddress}"`);
+    await new Promise(r => setTimeout(r, 1100)); // Rate limit delay
     try {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(strippedAddress)}&limit=1`;
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(noUnitAddress)}&limit=1`;
       const res = await fetch(url, { headers });
       const data = await res.json();
       if (data && data.length > 0) {
+        console.log(`Geocoded OK (no unit): "${noUnitAddress}"`);
         return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
       }
     } catch (e) {
@@ -130,6 +155,25 @@ async function geocodeAddress(address) {
     }
   }
 
+  // Third attempt: try just street + city + state (strip zip too)
+  const simplifiedAddress = noUnitAddress.replace(/\s+\d{5}(-\d{4})?/g, '').trim();
+  if (simplifiedAddress !== noUnitAddress) {
+    console.log(`Retrying simplified: "${simplifiedAddress}"`);
+    await new Promise(r => setTimeout(r, 1100));
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(simplifiedAddress)}&limit=1`;
+      const res = await fetch(url, { headers });
+      const data = await res.json();
+      if (data && data.length > 0) {
+        console.log(`Geocoded OK (simplified): "${simplifiedAddress}"`);
+        return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+      }
+    } catch (e) {
+      console.error('Geocode error (simplified):', e);
+    }
+  }
+
+  console.warn(`Failed to geocode: "${address}"`);
   return null;
 }
 
@@ -161,7 +205,7 @@ function StopCard({ stop, index, onNavigate }) {
           <svg viewBox="0 0 24 24" width="10" height="10" style={{ stroke: '#6B7280', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
           </svg>
-          <p className="text-xs text-gray-500">{stop.address}</p>
+          <p className="text-xs text-gray-500">{displayAddress(stop.address)}</p>
         </div>
         {stop.scheduled_start && (
           <p className="text-xs mt-0.5" style={{ color: '#22D3EE' }}>
@@ -369,7 +413,7 @@ export default function RouteTest() {
               <div style="color:${color};font-weight:bold;font-size:13px;">Stop ${i + 1} — ${time}</div>
               <div style="font-size:12px;margin-top:4px;color:white;">${stop.client_name || 'Unknown'}</div>
               <div style="font-size:11px;color:#9CA3AF;">${equip}</div>
-              <div style="font-size:11px;color:#6B7280;margin-top:2px;">${stop.address}</div>
+              <div style="font-size:11px;color:#6B7280;margin-top:2px;">${displayAddress(stop.address)}</div>
             </div>`, { className: 'dark-popup' });
 
         bounds.push([stop.lat, stop.lng]);
