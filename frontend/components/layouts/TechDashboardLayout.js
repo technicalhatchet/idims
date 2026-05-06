@@ -1,5 +1,5 @@
 // TechDashboardLayout v2
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -53,10 +53,23 @@ const NAV_ITEMS = [
 export default function TechDashboardLayout({ children }) {
   const [railOpen, setRailOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef(null);
   const router = useRouter();
   const { user } = useUser();
 
   const railWidth = expanded ? 200 : 64;
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const isActive = (href) => {
     if (href === '/techdashboard') return router.pathname === '/techdashboard';
@@ -67,7 +80,7 @@ export default function TechDashboardLayout({ children }) {
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
 
       {/* ── HEADER ── */}
-      <header className="fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-4" style={{ background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
+      <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-4" style={{ background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
         {/* Hamburger */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
@@ -80,10 +93,86 @@ export default function TechDashboardLayout({ children }) {
         </button>
 
         {/* Center logo */}
-        <img src="/arpano.png" alt="Atomic Repair" className="h-7 w-auto absolute left-1/2 -translate-x-1/2" />
+        <img src="/arpano.png" alt="Atomic Repair" className="h-8 w-auto absolute left-1/2 -translate-x-1/2" />
 
-        {/* Right — placeholder for profile/notifications from DashboardLayout */}
-        <div className="w-11" />
+        {/* Right — Notifications + Profile */}
+        <div className="flex items-center gap-2">
+          {/* Notifications Bell */}
+          <button
+            className="w-10 h-10 flex items-center justify-center rounded-lg transition-all hover:bg-white/5"
+            style={{ border: '1px solid rgba(255,255,255,0.07)' }}
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </button>
+
+          {/* Profile Dropdown */}
+          <div className="relative" ref={profileRef}>
+            <button
+              onClick={() => setProfileOpen(!profileOpen)}
+              className="w-10 h-10 rounded-lg flex items-center justify-center transition-all overflow-hidden"
+              style={{ 
+                background: profileOpen ? 'rgba(34,211,238,0.15)' : 'rgba(34,211,238,0.1)',
+                border: profileOpen ? '1px solid rgba(34,211,238,0.5)' : '1px solid rgba(34,211,238,0.3)',
+              }}
+            >
+              {user?.picture ? (
+                <img src={user.picture} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-sm font-bold" style={{ color: '#22D3EE' }}>
+                  {user?.name?.charAt(0) || user?.email?.charAt(0) || 'U'}
+                </span>
+              )}
+            </button>
+
+            {/* Dropdown Menu */}
+            {profileOpen && (
+              <div 
+                className="absolute right-0 mt-2 w-56 rounded-lg shadow-lg overflow-hidden"
+                style={{ 
+                  background: '#0D1525', 
+                  border: '1px solid rgba(34,211,238,0.3)',
+                  boxShadow: '0 0 20px rgba(0,212,255,0.1)'
+                }}
+              >
+                {/* User Info */}
+                <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                  <p className="text-sm font-medium text-white truncate">{user?.name || 'User'}</p>
+                  <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                </div>
+
+                {/* Menu Items */}
+                <div className="py-1">
+                  <Link
+                    href="/settings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 transition-colors"
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                      <circle cx="12" cy="12" r="3"/>
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    Settings
+                  </Link>
+                  <Link
+                    href="/api/auth/logout"
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors"
+                    style={{ color: '#FF7A00' }}
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                      <polyline points="16 17 21 12 16 7"/>
+                      <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Sign Out
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </header>
 
       {/* ── OVERLAY (backdrop) ── */}
@@ -196,7 +285,7 @@ export default function TechDashboardLayout({ children }) {
       </div>
 
       {/* ── PAGE CONTENT ── */}
-      <main className="pt-14">
+      <main className="pt-16">
         {children}
       </main>
     </div>
