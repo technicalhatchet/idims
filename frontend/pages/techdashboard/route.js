@@ -5,6 +5,39 @@ import { format, isToday } from 'date-fns';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { apiClient } from '../../utils/api-client';
 
+// ── Home Base (Shop) Address ──────────────────────────────────────────────
+const HOME_BASE_ADDRESS = '641 Barclay Drive, Toledo, OH 43609';
+
+// ── Home Base SVG Icon ────────────────────────────────────────────────────
+const HOME_BASE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none">
+  <defs>
+    <linearGradient id="homeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF7A00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="homeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <path d="M12 2L20 7V17L12 22L4 17V7L12 2Z" 
+        stroke="url(#homeGrad)" 
+        stroke-width="1.5" 
+        stroke-linejoin="round"
+        fill="#0D1525"
+        filter="url(#homeGlow)"/>
+  <path d="M8 12L12 9L16 12V16C16 16.5523 15.5523 17 15 17H9C8.44772 17 8 16.5523 8 16V12Z" 
+        stroke="#00D4FF" 
+        stroke-width="1.5" 
+        stroke-linejoin="round"
+        fill="none"/>
+  <path d="M11 17V14H13V17" 
+        stroke="#FF7A00" 
+        stroke-width="1.5" 
+        stroke-linecap="round"
+        fill="none"/>
+</svg>`;
+
 // ── Appliance Icons ───────────────────────────────────────────────────────
 const APPLIANCE_ICONS = {
   refrigerator:   { color: 'cyan',   svg: '<rect x="6" y="2" width="12" height="20" rx="2"/><line x1="6" y1="10" x2="18" y2="10"/><line x1="10" y1="5" x2="10" y2="8"/><line x1="10" y1="13" x2="10" y2="16"/>' },
@@ -13,7 +46,7 @@ const APPLIANCE_ICONS = {
   washer:         { color: 'cyan',   svg: '<rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="13" r="5"/><circle cx="12" cy="13" r="2"/><circle cx="8" cy="6" r="1"/>' },
   dryer:          { color: 'orange', svg: '<rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M10 11a2 2 0 0 0 4 0"/><circle cx="8" cy="6" r="1"/>' },
   dishwasher:     { color: 'cyan',   svg: '<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="4" y1="8" x2="20" y2="8"/><line x1="9" y1="5" x2="15" y2="5"/>' },
-  oven:           { color: 'orange', svg: '<rect x="4" y="2" width="16" height="20" rx="2"/><rect x="6" y="10" width="12" height="9" rx="1"/>' },
+  oven:           { color: 'orange', svg: '<rect x="4" y="2" width="16" height="20" rx="2"/><rect x="6" y="10" width="12" height="9" rx="1"/><line x1="7" y1="6" x2="7" y2="6"/><line x1="10" y1="6" x2="10" y2="6"/><line x1="13" y1="6" x2="13" y2="6"/><line x1="16" y1="6" x2="16" y2="6"/>' },
   microwave:      { color: 'orange', svg: '<rect x="2" y="6" width="20" height="12" rx="2"/><rect x="4" y="8" width="12" height="8"/>' },
   freezer:        { color: 'cyan',   svg: '<rect x="3" y="6" width="18" height="14" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="6" x2="12" y2="10"/>' },
   tv:             { color: 'orange', svg: '<rect x="2" y="4" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/>' },
@@ -45,17 +78,58 @@ function ApplianceIconSvg({ equipmentType, equipmentSubtype, size = 20 }) {
 }
 
 // ── Geocode via Nominatim (free, no key) ──────────────────────────────────
+// Strips unit/apt numbers for retry if initial geocode fails
+function stripUnitNumber(address) {
+  // Common unit patterns: Apt, Apt., Unit, #, Suite, Ste, Ste., Bldg, Building, Floor, Fl
+  // Match these followed by optional space/punctuation and alphanumeric unit identifier
+  const unitPatterns = [
+    /,?\s*(apt\.?|apartment)\s*#?\s*[\w-]+/gi,
+    /,?\s*(unit|ste\.?|suite)\s*#?\s*[\w-]+/gi,
+    /,?\s*(bldg\.?|building)\s*#?\s*[\w-]+/gi,
+    /,?\s*(floor|fl\.?)\s*#?\s*[\w-]+/gi,
+    /,?\s*#\s*[\w-]+/gi,  // Just # followed by unit number
+  ];
+  
+  let cleaned = address;
+  for (const pattern of unitPatterns) {
+    cleaned = cleaned.replace(pattern, '');
+  }
+  // Clean up any double spaces or trailing commas
+  cleaned = cleaned.replace(/\s+/g, ' ').replace(/,\s*,/g, ',').replace(/,\s*$/,'').trim();
+  return cleaned;
+}
+
 async function geocodeAddress(address) {
+  const headers = { 'Accept-Language': 'en', 'User-Agent': 'IDIMS-AtomicRepair/1.0' };
+  
+  // First attempt: try with full address
   try {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
-    const res = await fetch(url, { headers: { 'Accept-Language': 'en', 'User-Agent': 'IDIMS-AtomicRepair/1.0' } });
+    const res = await fetch(url, { headers });
     const data = await res.json();
     if (data && data.length > 0) {
       return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
     }
   } catch (e) {
-    console.error('Geocode error:', e);
+    console.error('Geocode error (first attempt):', e);
   }
+
+  // Second attempt: strip unit number and retry
+  const strippedAddress = stripUnitNumber(address);
+  if (strippedAddress !== address) {
+    console.log(`Retrying geocode without unit: "${strippedAddress}"`);
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(strippedAddress)}&limit=1`;
+      const res = await fetch(url, { headers });
+      const data = await res.json();
+      if (data && data.length > 0) {
+        return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+      }
+    } catch (e) {
+      console.error('Geocode error (retry without unit):', e);
+    }
+  }
+
   return null;
 }
 
@@ -121,10 +195,22 @@ export default function RouteTest() {
   const [geocoding, setGeocoding] = useState(false);
   const [geocodeProgress, setGeocodeProgress] = useState(0);
   const [mapReady, setMapReady] = useState(false);
+  const [homeBase, setHomeBase] = useState(null); // { lat, lng }
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const today = new Date();
   const todayStr = format(today, 'yyyy-MM-dd');
+
+  // Geocode home base address on mount
+  useEffect(() => {
+    async function geocodeHome() {
+      const coords = await geocodeAddress(HOME_BASE_ADDRESS);
+      if (coords) {
+        setHomeBase(coords);
+      }
+    }
+    geocodeHome();
+  }, []);
 
   // Load today's appointments
   useEffect(() => {
@@ -197,7 +283,8 @@ export default function RouteTest() {
     if (geocoding) return;
     if (typeof window === 'undefined') return;
     const geocoded = stops.filter(s => s.lat && s.lng);
-    if (geocoded.length === 0) return;
+    // Show map if we have stops OR home base
+    if (geocoded.length === 0 && !homeBase) return;
 
     // Destroy existing map instance before rebuilding
     if (mapInstanceRef.current) {
@@ -218,6 +305,28 @@ export default function RouteTest() {
       }).addTo(map);
 
       const bounds = [];
+
+      // Add home base marker if geocoded
+      if (homeBase) {
+        const homeIcon = L.divIcon({ 
+          html: HOME_BASE_SVG, 
+          className: '', 
+          iconSize: [48, 48], 
+          iconAnchor: [24, 24], 
+          popupAnchor: [0, -24] 
+        });
+
+        L.marker([homeBase.lat, homeBase.lng], { icon: homeIcon })
+          .addTo(map)
+          .bindPopup(`
+            <div style="font-family:sans-serif;min-width:140px;">
+              <div style="background: linear-gradient(135deg, #00D4FF, #FF7A00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:bold;font-size:13px;">Home Base</div>
+              <div style="font-size:11px;color:#9CA3AF;margin-top:4px;">Atomic Repair Shop</div>
+              <div style="font-size:11px;color:#6B7280;margin-top:2px;">${HOME_BASE_ADDRESS}</div>
+            </div>`, { className: 'dark-popup' });
+
+        bounds.push([homeBase.lat, homeBase.lng]);
+      }
 
       geocoded.forEach((stop, i) => {
         const key = getIconKey(stop.equipment_subtype, stop.equipment_type);
@@ -266,12 +375,18 @@ export default function RouteTest() {
         bounds.push([stop.lat, stop.lng]);
       });
 
-      if (geocoded.length > 1) {
-        const latlngs = geocoded.map(s => [s.lat, s.lng]);
+      // Build route line starting from home base
+      const routePoints = [];
+      if (homeBase) {
+        routePoints.push([homeBase.lat, homeBase.lng]);
+      }
+      geocoded.forEach(s => routePoints.push([s.lat, s.lng]));
+
+      if (routePoints.length > 1) {
         // Black outline underneath
-        L.polyline(latlngs, { color: '#000000', weight: 3.5, opacity: 0.7 }).addTo(map);
+        L.polyline(routePoints, { color: '#000000', weight: 3.5, opacity: 0.7 }).addTo(map);
         // Orange line on top
-        L.polyline(latlngs, { color: '#FF7A00', weight: 3, opacity: 0.9, dashArray: '8, 6' }).addTo(map);
+        L.polyline(routePoints, { color: '#FF7A00', weight: 3, opacity: 0.9, dashArray: '8, 6' }).addTo(map);
       }
 
       if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40] });
@@ -295,7 +410,7 @@ export default function RouteTest() {
     } else {
       buildMap();
     }
-  }, [geocoding, stops]);
+  }, [geocoding, stops, homeBase]);
 
   const geocoded = stops.filter(s => s.lat && s.lng);
   const allAddressUrl = stops.filter(s => s.address).map(s => encodeURIComponent(s.address)).join('/');
