@@ -64,30 +64,30 @@ function StopCard({ stop, index, onNavigate }) {
   const isCyan = getIconColor(stop.equipment_type, stop.equipment_subtype) === '#00D4FF';
   return (
     <div className="flex items-start gap-3 p-3 rounded-lg" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
-      {/* Stop number */}
-      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{
-        background: isCyan ? 'rgba(0,212,255,0.15)' : 'rgba(255,122,0,0.15)',
-        border: isCyan ? '1px solid rgba(0,212,255,0.5)' : '1px solid rgba(255,122,0,0.5)',
-        color: isCyan ? '#00D4FF' : '#FF7A00',
-        textShadow: isCyan ? '0 0 6px rgba(0,212,255,0.6)' : '0 0 6px rgba(255,122,0,0.6)',
-      }}>
-        {index + 1}
-      </div>
-
-      {/* Appliance icon */}
-      <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
-        <ApplianceIconSvg equipmentType={stop.equipment_type} equipmentSubtype={stop.equipment_subtype} size={22} />
+      {/* Stop number + Appliance icon stacked */}
+      <div className="flex-shrink-0 flex flex-col items-center gap-1.5">
+        <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{
+          background: isCyan ? 'rgba(0,212,255,0.15)' : 'rgba(255,122,0,0.15)',
+          border: isCyan ? '1px solid rgba(0,212,255,0.5)' : '1px solid rgba(255,122,0,0.5)',
+          color: isCyan ? '#00D4FF' : '#FF7A00',
+          textShadow: isCyan ? '0 0 6px rgba(0,212,255,0.6)' : '0 0 6px rgba(255,122,0,0.6)',
+        }}>
+          {index + 1}
+        </div>
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <ApplianceIconSvg equipmentType={stop.equipment_type} equipmentSubtype={stop.equipment_subtype} size={20} />
+        </div>
       </div>
 
       {/* Info */}
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-white">{stop.client_name || 'Unknown'}</p>
-        <p className="text-xs text-gray-400 truncate">{[stop.equipment_make, stop.equipment_model].filter(Boolean).join(' ') || (stop.equipment_type || '').replace(/_/g, ' ') || 'Appliance'}</p>
+        <p className="text-xs text-gray-400">{[stop.equipment_make, stop.equipment_model].filter(Boolean).join(' ') || (stop.equipment_type || '').replace(/_/g, ' ') || 'Appliance'}</p>
         <div className="flex items-center gap-1 mt-0.5">
           <svg viewBox="0 0 24 24" width="10" height="10" style={{ stroke: '#6B7280', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
           </svg>
-          <p className="text-xs text-gray-500 truncate">{stop.address}</p>
+          <p className="text-xs text-gray-500">{stop.address}</p>
         </div>
         {stop.scheduled_start && (
           <p className="text-xs mt-0.5" style={{ color: '#22D3EE' }}>
