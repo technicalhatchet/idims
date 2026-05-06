@@ -80,7 +80,7 @@ export default function TechDashboardLayout({ children }) {
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
 
       {/* ── HEADER ── */}
-      <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-4" style={{ background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
+      <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-4" style={{ height: 72, background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
         {/* Hamburger */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
@@ -285,7 +285,7 @@ export default function TechDashboardLayout({ children }) {
       </div>
 
       {/* ── PAGE CONTENT ── */}
-      <main className="pt-16">
+      <main style={{ paddingTop: 72 }}>
         {children}
       </main>
     </div>
