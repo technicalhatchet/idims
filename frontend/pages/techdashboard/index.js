@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format, isToday, isFuture, parseISO } from 'date-fns';
@@ -38,24 +39,52 @@ function ApplianceIcon({ equipmentType, equipmentSubtype, size = 'md' }) {
   );
 }
 
-// ── Stat Card ─────────────────────────────────────────────────────────────
+// ── Stat Card with Glass Effect + Sweep Animation ─────────────────────────
 function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', href }) {
-  const inner = (
-    <div className="flex items-center gap-3 p-4 rounded-lg h-full" style={{ background: '#0D1525', border: `1px solid ${borderColor}` }}>
-      <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14' }}>
-        {icon}
+  const [sweeping, setSweeping] = useState(false);
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    if (!href) return;
+    e.preventDefault();
+    setSweeping(true);
+    // Delay navigation to show the sweep animation
+    setTimeout(() => {
+      router.push(href);
+    }, 600);
+  };
+
+  return (
+    <div 
+      className={`tech-glass-card tech-hover-lift ${sweeping ? 'tech-sweep-active' : ''}`}
+      onClick={handleClick}
+      style={{ cursor: href ? 'pointer' : 'default' }}
+    >
+      <div className="flex items-center gap-3 p-4 rounded-lg h-full relative overflow-hidden"
+        style={{ 
+          background: 'rgba(13, 21, 37, 0.8)', 
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: `1px solid ${borderColor}`,
+        }}
+      >
+        {/* Sweep overlay */}
+        <div className="tech-sweep-overlay" />
+        
+        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 relative z-10 tech-icon-wrap" style={{ background: '#080C14' }}>
+          {icon}
+        </div>
+        <div className="flex-1 min-w-0 relative z-10">
+          <p className="text-xs text-gray-400 mb-0.5">{label}</p>
+          <p className="text-2xl font-bold text-white">{value}</p>
+          {sub && <p className="text-xs mt-0.5" style={{ color: subColor }}>{sub}</p>}
+        </div>
+        <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0 text-gray-600 relative z-10" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
       </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs text-gray-400 mb-0.5">{label}</p>
-        <p className="text-2xl font-bold text-white">{value}</p>
-        {sub && <p className="text-xs mt-0.5" style={{ color: subColor }}>{sub}</p>}
-      </div>
-      <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0 text-gray-600" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-        <polyline points="9 18 15 12 9 6"/>
-      </svg>
     </div>
   );
-  return href ? <Link href={href} className="block">{inner}</Link> : <div>{inner}</div>;
 }
 
 // ── EST time helper ─────────────────────────────────────────────────────
@@ -64,6 +93,92 @@ function toEST(dateStr) {
   // Times are stored as local time in UTC format — display as-is without conversion
   const d = new Date(dateStr.endsWith('Z') ? dateStr : dateStr + 'Z');
   return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' });
+}
+
+// ── Next Job Card with Glass Effect + Sweep Animation ─────────────────────
+function NextJobCard({ job }) {
+  const [sweeping, setSweeping] = useState(false);
+  const router = useRouter();
+
+  const handleCardClick = (e) => {
+    // Don't navigate if clicking on buttons inside the card
+    if (e.target.closest('a') || e.target.closest('button')) return;
+    
+    setSweeping(true);
+    setTimeout(() => {
+      router.push(`/work_orders/${job.work_order_id}`);
+    }, 600);
+  };
+
+  return (
+    <div 
+      className={`tech-glass-card tech-hover-lift mb-4 ${sweeping ? 'tech-sweep-active' : ''}`}
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
+    >
+      <div 
+        className="rounded-lg p-4 relative overflow-hidden"
+        style={{ 
+          background: 'rgba(13, 21, 37, 0.8)', 
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(34,211,238,0.35)' 
+        }}
+      >
+        {/* Sweep overlay */}
+        <div className="tech-sweep-overlay" />
+        
+        <div className="flex justify-between items-start mb-3 relative z-10">
+          <p className="text-xs font-medium text-cyan-400 tracking-wider uppercase">Next Job</p>
+          <StatusBadge status={job.status} />
+        </div>
+        <div className="flex gap-4 relative z-10">
+          <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 tech-icon-wrap" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <ApplianceIcon
+              equipmentType={job.equipment_type}
+              equipmentSubtype={job.equipment_subtype}
+              size="lg"
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-lg font-bold text-white">
+              Today at {job.scheduled_start ? toEST(job.scheduled_start) : 'TBD'}
+            </p>
+            <p className="text-sm font-medium text-white mt-0.5">{job.client_name || 'Unknown Client'}</p>
+            <p className="text-xs text-gray-400">{[job.equipment_make, job.equipment_model].filter(Boolean).join(' ') || 'Appliance'}</p>
+            <div className="flex items-center gap-1 mt-1">
+              <svg viewBox="0 0 24 24" className="w-3 h-3 flex-shrink-0" style={{ stroke: '#6B7280', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              <p className="text-xs text-gray-500 truncate">{job.service_address || job.client_address || 'Address on file'}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Call Customer button */}
+        {job.client_phone && (
+          <a
+            href={`tel:${job.client_phone}`}
+            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium transition-all relative z-10"
+            style={{ background: '#080C14', border: '1px solid rgba(34,211,238,0.3)', color: '#22D3EE' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            Call Customer
+          </a>
+        )}
+
+        {/* En Route button */}
+        {job.status === 'scheduled' && (
+          <div className="relative z-10" onClick={(e) => e.stopPropagation()}>
+            <EnRouteButton workOrderId={job.work_order_id} onSuccess={() => window.location.reload()} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 // ── Today Job Row ─────────────────────────────────────────────────────────
@@ -239,6 +354,77 @@ export default function TechDashboardTest() {
     <>
       <Head>
         <title>Tech Dashboard | Atomic Repair</title>
+        <link rel="manifest" href="/manifest-tech.json" />
+        <style>{`
+          /* ── Tech Dashboard Glass Card System ── */
+          .tech-glass-card {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+          }
+          
+          .tech-glass-card:hover,
+          .tech-glass-card:active {
+            transform: translateY(-4px) scale(1.02);
+          }
+          
+          .tech-glass-card:hover > div,
+          .tech-glass-card:active > div {
+            border-color: rgba(34, 211, 238, 0.5) !important;
+            box-shadow: 
+              0 0 8px rgba(0, 212, 255, 0.4),
+              0 0 20px rgba(0, 212, 255, 0.2),
+              0 0 40px rgba(0, 212, 255, 0.1);
+          }
+          
+          .tech-glass-card:hover .tech-icon-wrap,
+          .tech-glass-card:active .tech-icon-wrap {
+            box-shadow: 
+              0 0 8px rgba(0, 212, 255, 0.6),
+              0 0 16px rgba(0, 212, 255, 0.3);
+          }
+          
+          /* Sweep overlay */
+          .tech-sweep-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+              120deg,
+              transparent 0%,
+              rgba(0, 212, 255, 0.4) 50%,
+              transparent 100%
+            );
+            opacity: 0;
+            transform: translateX(-100%);
+            pointer-events: none;
+            z-index: 5;
+            border-radius: inherit;
+          }
+          
+          /* Sweep on tap/click */
+          .tech-sweep-active .tech-sweep-overlay {
+            opacity: 1;
+            animation: tech-sweep 0.6s ease-out forwards;
+          }
+          
+          .tech-sweep-active > div {
+            border-color: rgba(34, 211, 238, 0.7) !important;
+            box-shadow: 
+              0 0 12px rgba(0, 212, 255, 0.6),
+              0 0 30px rgba(0, 212, 255, 0.4),
+              0 0 60px rgba(0, 212, 255, 0.2) !important;
+          }
+          
+          @keyframes tech-sweep {
+            0% { transform: translateX(-100%); opacity: 0.8; }
+            100% { transform: translateX(100%); opacity: 0; }
+          }
+          
+          /* Mobile touch feedback */
+          @media (hover: none) {
+            .tech-glass-card:active {
+              transform: translateY(-2px) scale(1.01);
+            }
+          }
+        `}</style>
       </Head>
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
@@ -265,53 +451,7 @@ export default function TechDashboardTest() {
 
           {/* ── NEXT JOB CARD ── */}
           {nextJob ? (
-            <div className="rounded-lg p-4 mb-4" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.35)' }}>
-              <div className="flex justify-between items-start mb-3">
-                <p className="text-xs font-medium text-cyan-400 tracking-wider uppercase">Next Job</p>
-                <StatusBadge status={nextJob.status} />
-              </div>
-              <div className="flex gap-4">
-                <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  <ApplianceIcon
-                    equipmentType={nextJob.equipment_type}
-                    equipmentSubtype={nextJob.equipment_subtype}
-                    size="lg"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-lg font-bold text-white">
-                    Today at {nextJob.scheduled_start ? toEST(nextJob.scheduled_start) : 'TBD'}
-                  </p>
-                  <p className="text-sm font-medium text-white mt-0.5">{nextJob.client_name || 'Unknown Client'}</p>
-                  <p className="text-xs text-gray-400">{[nextJob.equipment_make, nextJob.equipment_model].filter(Boolean).join(' ') || 'Appliance'}</p>
-                  <div className="flex items-center gap-1 mt-1">
-                    <svg viewBox="0 0 24 24" className="w-3 h-3 flex-shrink-0" style={{ stroke: '#6B7280', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                    </svg>
-                    <p className="text-xs text-gray-500 truncate">{nextJob.service_address || nextJob.client_address || 'Address on file'}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Call Customer button */}
-              {nextJob.client_phone && (
-                <a
-                  href={`tel:${nextJob.client_phone}`}
-                  className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium transition-all"
-                  style={{ background: '#080C14', border: '1px solid rgba(34,211,238,0.3)', color: '#22D3EE' }}
-                >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                  Call Customer
-                </a>
-              )}
-
-              {/* En Route button */}
-              {nextJob.status === 'scheduled' && (
-                <EnRouteButton workOrderId={nextJob.work_order_id} onSuccess={() => window.location.reload()} />
-              )}
-            </div>
+            <NextJobCard job={nextJob} />
           ) : (
             <div className="rounded-lg p-4 mb-4 text-center" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.2)' }}>
               <p className="text-sm text-gray-400">No upcoming jobs today</p>
