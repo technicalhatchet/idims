@@ -7,6 +7,8 @@ import StatusBadge from '../ui/StatusBadge';
 const START_HOUR = 7;
 const END_HOUR = 19;
 
+const HUD_EASE = [0.4, 0, 0.2, 1];
+
 function minsFromMidnight(d) {
   return d.getHours() * 60 + d.getMinutes();
 }
@@ -36,53 +38,86 @@ function serviceTypeLabel(apt) {
   return t.replace(/_/g, ' ');
 }
 
-/** Travel connector between sequential jobs same tech */
-function RouteConnector({ topPct, heightPct, travelMins }) {
+/** Badge-only travel chip; vertical route drawn in SVG layer */
+function TravelChip({ travelMins, topPct }) {
   if (!travelMins || travelMins < 8) return null;
+  const mid = topPct;
   return (
     <div
-      className="absolute left-4 right-12 z-[1] pointer-events-none flex flex-col items-center justify-center gap-2"
+      className="absolute left-[7%] -translate-x-1/2 z-[5] pointer-events-none flex justify-center"
       style={{
-        top: `${topPct}%`,
-        height: `${heightPct}%`,
-        minHeight: 44,
+        top: `${mid}%`,
+        transform: 'translate(-50%, -50%)',
       }}
     >
       <div
-        className="flex-1 w-px rounded-full"
+        className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-bold tracking-[0.08em] uppercase whitespace-nowrap backdrop-blur-md"
         style={{
-          background:
-            'linear-gradient(180deg, rgba(34,211,238,0.05), rgba(34,211,238,0.55), rgba(34,211,238,0.05))',
-          boxShadow: '0 0 10px rgba(34,211,238,0.35)',
-        }}
-      />
-      <div
-        className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase whitespace-nowrap"
-        style={{
-          background: 'rgba(8,14,26,0.85)',
+          background: 'linear-gradient(180deg, rgba(8,14,26,0.92), rgba(5,10,18,0.88))',
           border: '1px solid rgba(34,211,238,0.28)',
-          color: '#22D3EE',
+          color: '#7EEEF8',
           boxShadow:
-            '0 0 0 1px rgba(0,217,255,0.06), 0 0 18px rgba(34,211,238,0.14)',
+            '0 0 0 1px rgba(0,217,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 16px rgba(34,211,238,0.14)',
         }}
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 1.5 }}>
-          <path d="M5 17h14v2H5v-2z" strokeLinecap="round"/>
-          <path d="M7 17V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8" strokeLinecap="round" strokeLinejoin="round"/>
-          <circle cx="8" cy="14" r="1" fill="#22D3EE"/>
-          <circle cx="16" cy="14" r="1" fill="#22D3EE"/>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 1.5 }}>
+          <path d="M5 17h14v2H5v-2z" strokeLinecap="round" />
+          <path d="M7 17V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        {travelMins} MIN TRAVEL
+        {travelMins} MIN
       </div>
-      <div
-        className="flex-1 w-px rounded-full"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(34,211,238,0.05), rgba(34,211,238,0.55), rgba(34,211,238,0.05))',
-          boxShadow: '0 0 10px rgba(34,211,238,0.35)',
-        }}
-      />
     </div>
+  );
+}
+
+function travelMinsInvalid(tm) {
+  return !tm || tm < 8;
+}
+
+function TimelineRoutesSvg({ connectors }) {
+  if (!connectors.length) return null;
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full pointer-events-none z-[2]"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden
+    >
+      <defs>
+        <filter id="routeGlowHud" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="0.55" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      {connectors.map((c) => {
+        const yTop = Math.min(c.y0, c.y1);
+        const yBot = Math.max(c.y0, c.y1);
+        const x = 8;
+        return (
+          <g key={c.key} filter="url(#routeGlowHud)">
+            <line
+              x1={x}
+              y1={yTop}
+              x2={x}
+              y2={yBot}
+              stroke="rgba(34,211,238,0.42)"
+              strokeWidth={0.18}
+              strokeLinecap="round"
+              strokeDasharray="0.55 0.35"
+              vectorEffect="non-scaling-stroke"
+              style={{
+                filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.45)) drop-shadow(0 0 2px rgba(34,211,238,0.65))',
+              }}
+            />
+            <circle cx={x} cy={yTop} r={0.32} fill="rgba(34,211,238,0.95)" opacity={0.9} />
+            <circle cx={x} cy={yBot} r={0.32} fill="rgba(34,211,238,0.95)" opacity={0.9} />
+          </g>
+        );
+      })}
+    </svg>
   );
 }
 
@@ -136,12 +171,14 @@ export default function ScheduleTestTimeline({
       if (a.technician_id && a.technician_id === b.technician_id) {
         const gap = differenceInMinutes(b._start, a._end);
         const travelMins = gap > 0 ? gap : 0;
-        const topPct = a.topPct + a.heightPct;
-        const heightPct = Math.max(2, b.topPct - topPct);
+        const y0 = a.topPct + a.heightPct;
+        const y1 = b.topPct;
+        const midPct = y0 + (y1 - y0) / 2;
         out.push({
-          key: `c-${a.id ?? a.start}-${b.id ?? b.start}-${i}`,
-          topPct,
-          heightPct,
+          key: `rt-${a.id ?? a.start}-${b.id ?? b.start}-${i}`,
+          y0,
+          y1,
+          topPct: midPct,
           travelMins,
         });
       }
@@ -157,35 +194,57 @@ export default function ScheduleTestTimeline({
   }, [nowTick, dayStart, totalMins]);
 
   return (
-    <div className="relative rounded-2xl overflow-hidden" style={{ minHeight: 520 }}>
-      {/* Tactical grid background */}
+    <div className="relative rounded-[22px] overflow-hidden sched-timeline-hud-root" style={{ minHeight: 540 }}>
+      {/* Layer: atmospheric cyan pool (timeline recedes) */}
       <div
-        className="absolute inset-0 opacity-[0.45]"
+        className="pointer-events-none absolute inset-0 z-0 rounded-[inherit]"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(34,211,238,0.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: '100% 48px, 24px 100%',
+          background:
+            'radial-gradient(ellipse 110% 45% at 50% -5%, rgba(0,217,255,0.09), transparent 55%), radial-gradient(circle at 75% 50%, rgba(34,211,238,0.04), transparent 40%)',
         }}
       />
 
-      <div className="relative flex">
+      {/* Layer: dual-tone hour grid */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.32]"
+        style={{
+          background: `repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent calc(100% / ${slotCount} - 1px),
+            rgba(0, 217, 255, 0.1) calc(100% / ${slotCount} - 1px),
+            rgba(0, 217, 255, 0.1) calc(100% / ${slotCount}),
+            transparent calc(100% / ${slotCount})
+          )`,
+        }}
+      />
+
+      <div className="relative flex z-[2] rounded-[inherit]">
         {/* Time axis */}
         <div
-          className="flex-shrink-0 w-11 sm:w-12 border-r border-white/[0.06] relative z-[2]"
-          style={{ background: 'rgba(3,8,18,0.4)', minHeight: 520 }}
+          className="flex-shrink-0 w-[3.05rem] sm:w-[3.35rem] relative z-[4] scheduling-time-axis rounded-l-[18px]"
+          style={{
+            minHeight: 540,
+            background: 'linear-gradient(180deg, rgba(5,12,26,0.75), rgba(2,8,14,0.88))',
+            boxShadow:
+              'inset -1px 0 0 rgba(34,211,238,0.12), inset 0 1px 0 rgba(255,255,255,0.035)',
+          }}
         >
           {Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
             const h = START_HOUR + i;
             return (
               <div
                 key={h}
-                className="absolute left-0 right-0 text-[10px] sm:text-xs font-medium tabular-nums text-right pr-1.5 sm:pr-2"
+                className="absolute left-0 right-0 tabular-nums text-right leading-none font-medium scheduling-time-label"
                 style={{
                   top: `${(i / slotCount) * 100}%`,
                   transform: 'translateY(-50%)',
+                  paddingRight: '0.82rem',
+                  fontSize: 13,
+                  letterSpacing: '0.04em',
                   color: 'rgba(255,255,255,0.38)',
+                  textShadow: '0 0 12px rgba(0,217,255,0.08)',
+                  transition: `color 180ms cubic-bezier(${HUD_EASE.join(',')})`,
                 }}
               >
                 {format(new Date(2000, 0, 1, h, 0), 'h a')}
@@ -195,120 +254,179 @@ export default function ScheduleTestTimeline({
         </div>
 
         {/* Track */}
-        <div className="flex-1 relative min-h-[520px]">
-          {/* Hour faint lines */}
-          <div className="absolute inset-0 flex flex-col pointer-events-none">
+        <div className="flex-1 relative min-h-[540px]" style={{ background: 'rgba(3,10,22,0.35)' }}>
+          {/* Hour separators — HUD (stronger majors) */}
+          <div className="absolute inset-0 flex flex-col pointer-events-none z-[1]">
             {Array.from({ length: slotCount }, (_, i) => (
-              <div key={i} className="flex-1 border-b border-dotted border-cyan-500/10" />
+              <div
+                key={i}
+                className="flex-1"
+                style={{
+                  borderBottom:
+                    i === slotCount - 1
+                      ? 'none'
+                      : `1px solid rgba(34,211,238,${0.06 + (i % 2 === 0 ? 0.08 : 0.03)})`,
+                  boxShadow: i % 2 === 0 ? 'inset 0 -1px 0 rgba(0,217,255,0.04)' : undefined,
+                }}
+              />
             ))}
           </div>
 
-          {/* Current time — orange scan line */}
+          <TimelineRoutesSvg connectors={connectors.filter((c) => !travelMinsInvalid(c.travelMins))} />
+
+          {connectors.map((c) => (
+            <TravelChip key={c.key} travelMins={c.travelMins} topPct={c.topPct} />
+          ))}
+
+          {/* Tactical scan line — LIVE */}
           {nowLinePct != null && (
             <motion.div
-              className="absolute left-0 right-0 z-[4] pointer-events-none flex items-center"
-              style={{ top: `${nowLinePct}%` }}
+              className="absolute left-0 right-0 z-[8] pointer-events-none flex items-center"
+              style={{ top: `${nowLinePct}%`, transform: 'translateY(-50%)' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              transition={{ duration: 0.18, ease: HUD_EASE }}
             >
-              <div
-                className="h-2 w-2 rounded-full flex-shrink-0 -ml-1"
+              <motion.div
+                className="w-3 h-3 rounded-full flex-shrink-0 ml-[-2px] sched-scan-node"
                 style={{
-                  background: '#FF7A00',
-                  boxShadow: '0 0 12px rgba(255,122,0,0.9), 0 0 24px rgba(255,122,0,0.4)',
+                  background: 'linear-gradient(180deg, #FF9F4A 0%, #FF7A00 55%, #CC5F00 100%)',
+                  boxShadow: '0 0 14px rgba(255,138,26,0.85), 0 0 26px rgba(255,138,26,0.45), inset 0 1px 0 rgba(255,255,255,0.35)',
                 }}
-              />
-              <div
-                className="flex-1 h-px"
-                style={{
-                  background:
-                    'repeating-linear-gradient(90deg, rgba(255,122,0,0.9) 0, rgba(255,122,0,0.9) 6px, transparent 6px, transparent 12px)',
-                  boxShadow: '0 0 10px rgba(255,122,0,0.35)',
-                }}
+                animate={{ opacity: [0.92, 1, 0.92], scale: [1, 1.04, 1] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
               />
               <motion.div
-                className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold tracking-wide flex-shrink-0"
+                className="flex-1 rounded-full sched-scan-bar"
                 style={{
-                  background: 'rgba(12,8,4,0.92)',
-                  border: '1px solid rgba(255,122,0,0.45)',
-                  color: '#FF7A00',
-                  boxShadow: '0 0 14px rgba(255,122,0,0.25)',
+                  height: 2,
+                  background: 'linear-gradient(90deg, rgba(255,138,26,1), rgba(255,138,26,0.75), rgba(255,138,26,1))',
+                  boxShadow:
+                    '0 0 12px rgba(255,138,26,0.8), 0 0 22px rgba(255,138,26,0.35), inset 0 1px 0 rgba(255,255,255,0.25)',
+                  marginLeft: 2,
                 }}
-                animate={{ opacity: [0.85, 1, 0.85] }}
-                transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                animate={{ opacity: [0.88, 1, 0.88] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              <motion.div
+                className="ml-2.5 px-2.5 py-1 rounded-md text-[10px] font-bold tracking-[0.06em] flex-shrink-0"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(22,12,6,0.98), rgba(10,6,4,0.96))',
+                  border: '1px solid rgba(255,138,26,0.42)',
+                  color: '#FFB04A',
+                  boxShadow: '0 0 16px rgba(255,138,26,0.35), inset 0 1px 0 rgba(255,255,255,0.08)',
+                }}
+                animate={{ opacity: [0.9, 1, 0.9] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
               >
                 {format(nowTick, 'h:mm a')}
               </motion.div>
             </motion.div>
           )}
 
-          {connectors.map((c) => (
-            <RouteConnector key={c.key} topPct={c.topPct} heightPct={c.heightPct} travelMins={c.travelMins} />
-          ))}
-
           {prepared.map((apt, idx) => {
             const orderNum = apt.order_number ? `WO #${apt.order_number}` : apt.title || 'Job';
             const woHref = apt.work_order_id ? `/work_orders/${apt.work_order_id}` : null;
+            const typeIsDiagnostic = /diagnostic/i.test(serviceTypeLabel(apt));
 
             return (
               <motion.button
                 key={apt.id ?? `${apt.start}-${idx}`}
                 type="button"
-                className="absolute left-2 right-2 text-left rounded-xl overflow-hidden z-[3] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+                className="sched-hud-apt absolute left-3 right-2 text-left rounded-[14px] overflow-hidden z-[6] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/40 group"
                 style={{
                   top: `${apt.topPct}%`,
                   height: `${apt.heightPct}%`,
-                  minHeight: 72,
+                  minHeight: 76,
                 }}
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2, delay: idx * 0.04 }}
+                transition={{ duration: 0.18, delay: Math.min(idx * 0.035, 0.22), ease: HUD_EASE }}
                 onClick={() => onSelectEvent?.(apt)}
-                whileTap={{ scale: 0.995 }}
+                whileHover={{
+                  y: -1,
+                  transition: { duration: 0.18, ease: HUD_EASE },
+                }}
+                whileTap={{ scale: 0.996 }}
               >
+                {/* Top edge reflection */}
                 <div
-                  className="flex h-full w-full group"
+                  className="pointer-events-none absolute top-0 left-0 right-0 h-px z-10 opacity-40"
                   style={{
-                    background: 'rgba(8,14,26,0.92)',
-                    border: '1px solid rgba(255,255,255,0.06)',
+                    background: 'linear-gradient(90deg, transparent 2%, rgba(255,255,255,0.22) 50%, transparent 98%)',
+                  }}
+                />
+                <div
+                  className="relative sched-hud-inner flex h-full w-full rounded-[13px] overflow-hidden group-hover:shadow-[0_0_26px_rgba(34,211,238,0.12)]"
+                  style={{
+                    background: 'linear-gradient(180deg, rgba(10,18,32,0.97), rgba(5,10,20,0.97))',
+                    border: '1px solid rgba(255,255,255,0.055)',
                     boxShadow:
-                      '0 0 0 1px rgba(34,211,238,0.05), 0 8px 20px rgba(0,0,0,0.35), 0 0 18px rgba(34,211,238,0.06)',
+                      '0 0 0 1px rgba(0,217,255,0.04), 0 10px 28px rgba(0,0,0,0.55), 0 0 18px rgba(34,211,238,0.07), inset 0 1px 0 rgba(255,255,255,0.04)',
+                    transition: `box-shadow 180ms cubic-bezier(${HUD_EASE.join(',')}), transform 180ms cubic-bezier(${HUD_EASE.join(',')})`,
                   }}
                 >
-                  <div className="w-1 flex-shrink-0 h-full" style={{ background: apt.rail, boxShadow: `0 0 12px ${apt.rail}55` }} />
-                  <div className="flex-1 min-w-0 py-2 pl-3 pr-2 flex gap-2 items-stretch">
-                    <div className="flex-1 min-w-0 flex flex-col justify-center gap-1">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="text-xs font-bold text-white/95 tracking-tight">{orderNum}</span>
-                        <StatusBadge status={apt.status || 'scheduled'} />
+                  <div
+                    className="flex-shrink-0 h-full ml-1 my-1 rounded-full"
+                    style={{
+                      width: 5,
+                      background: apt.rail,
+                      boxShadow: `0 0 18px ${apt.rail}, 0 0 8px ${apt.rail}99`,
+                    }}
+                  />
+                  <div className="flex-1 min-w-0 py-2.5 pl-3 pr-2 flex gap-2.5 items-stretch">
+                    <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
+                      <div className="flex flex-wrap items-center gap-1">
                         <span
-                          className="text-[10px] px-2 py-0.5 rounded-full font-medium capitalize"
+                          className="text-[12px] font-bold tracking-[-0.02em] leading-tight"
+                          style={{ color: 'rgba(255,255,255,0.96)' }}
+                        >
+                          {orderNum}
+                        </span>
+                        <span className="sched-hud-status inline-flex [&>span]:!text-[9px] [&>span]:!leading-tight [&>span]:!font-bold [&>span]:!tracking-[0.08em] [&>span]:!uppercase [&>span]:!rounded-md [&>span]:!px-2 [&>span]:!py-0.5 [&>span]:!border [&>span]:!border-purple-400/25 [&>span]:!bg-[rgba(168,85,247,0.14)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_12px_rgba(168,85,247,0.12)]">
+                          <StatusBadge status={apt.status || 'scheduled'} />
+                        </span>
+                        <span
+                          className="text-[9px] font-bold px-2 py-0.5 rounded-md tracking-[0.06em] uppercase leading-tight border border-cyan-400/22"
                           style={{
-                            background: 'rgba(168,85,247,0.12)',
-                            border: '1px solid rgba(168,85,247,0.28)',
-                            color: '#D8B4FE',
+                            background: typeIsDiagnostic ? 'rgba(34,211,238,0.12)' : 'rgba(168,85,247,0.1)',
+                            color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
+                            boxShadow: typeIsDiagnostic
+                              ? '0 0 12px rgba(34,211,238,0.12)'
+                              : '0 0 12px rgba(168,85,247,0.1)',
                           }}
                         >
                           {serviceTypeLabel(apt)}
                         </span>
                       </div>
-                      <p className="text-[11px] text-white/55">
+                      <p className="text-[11px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
                         {format(apt._start, 'h:mm a')}
                         {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
                       </p>
-                      <p className="text-sm font-medium text-white/90 truncate">{apt.client_name || 'Client'}</p>
+                      <p className="text-[13px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
+                        {apt.client_name || 'Client'}
+                      </p>
                       {apt.client_phone && (
-                        <p className="text-[11px] text-cyan-400/80 truncate">{apt.client_phone}</p>
+                        <p className="text-[10px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
+                          {apt.client_phone}
+                        </p>
                       )}
-                      <p className="text-[11px] text-white/40 truncate">{apt.technician_name || 'Unassigned'}</p>
+                      <p className="text-[10px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.32)' }}>
+                        {apt.technician_name || 'Unassigned'}
+                      </p>
                     </div>
                     <div className="flex flex-col items-center justify-center flex-shrink-0">
                       {woHref ? (
                         <a
                           href={woHref}
                           onClick={(e) => e.stopPropagation()}
-                          className="w-9 h-9 rounded-lg flex items-center justify-center transition-all group-hover:shadow-[0_0_14px_rgba(34,211,238,0.25)]"
-                          style={{ border: '1px solid rgba(34,211,238,0.25)', background: 'rgba(3,8,18,0.8)' }}
+                          className="w-10 h-10 rounded-xl flex items-center justify-center sched-hud-action"
+                          style={{
+                            border: '1px solid rgba(34,211,238,0.22)',
+                            background: 'linear-gradient(180deg, rgba(6,14,24,0.95), rgba(3,8,16,0.92))',
+                            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
+                            transition: `all 180ms cubic-bezier(${HUD_EASE.join(',')})`,
+                          }}
                           aria-label="Open work order"
                         >
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 2 }}>
@@ -317,10 +435,10 @@ export default function ScheduleTestTimeline({
                         </a>
                       ) : (
                         <div
-                          className="w-9 h-9 rounded-lg flex items-center justify-center"
-                          style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(3,8,18,0.5)' }}
+                          className="w-10 h-10 rounded-xl flex items-center justify-center"
+                          style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(3,8,18,0.6)' }}
                         >
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.25)', strokeWidth: 2 }}>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.2)', strokeWidth: 2 }}>
                             <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </div>
@@ -333,8 +451,10 @@ export default function ScheduleTestTimeline({
           })}
 
           {prepared.length === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center z-[2] px-6 text-center">
-              <p className="text-sm text-white/40">No jobs in this window — adjust date or filters.</p>
+            <div className="absolute inset-0 flex items-center justify-center z-[3] px-6 text-center">
+              <p className="text-sm tracking-wide" style={{ color: 'rgba(255,255,255,0.36)' }}>
+                No jobs in this window — adjust date or filters.
+              </p>
             </div>
           )}
         </div>

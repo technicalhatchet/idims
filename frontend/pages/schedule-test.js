@@ -58,24 +58,39 @@ function Segment({ active, children, disabled, ...rest }) {
     <button
       type="button"
       disabled={disabled}
-      className="flex-1 min-h-[46px] px-2 rounded-[11px] text-xs font-semibold tracking-wide uppercase transition-[color,background,box-shadow,border-color,opacity] duration-200 disabled:opacity-45 disabled:pointer-events-none"
-      style={
-        active
+      className={`relative flex-1 overflow-hidden min-h-[46px] px-2 rounded-[11px] text-xs font-semibold uppercase transition-[color,background,box-shadow,border-color,opacity,transform] disabled:opacity-45 disabled:pointer-events-none sched-segment ${
+        active ? 'sched-segment-active' : ''
+      }`}
+      style={{
+        letterSpacing: '0.08em',
+        transitionDuration: '180ms',
+        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        ...(active
           ? {
-              background: 'linear-gradient(180deg, rgba(34,211,238,0.24), rgba(34,211,238,0.1))',
-              border: '1px solid rgba(34,211,238,0.32)',
+              background: 'linear-gradient(180deg, rgba(0,217,255,0.24), rgba(0,217,255,0.12))',
+              border: '1px solid rgba(0,217,255,0.28)',
               color: '#fff',
-              boxShadow: '0 0 18px rgba(34,211,238,0.18)',
+              boxShadow:
+                '0 0 20px rgba(0,217,255,0.18), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2)',
             }
           : {
-              background: 'rgba(5,12,22,0.65)',
-              border: '1px solid rgba(255,255,255,0.06)',
-              color: 'rgba(255,255,255,0.52)',
-            }
-      }
+              background: 'rgba(0,0,0,0.28)',
+              border: '1px solid rgba(255,255,255,0.05)',
+              color: 'rgba(255,255,255,0.5)',
+            }),
+      }}
       {...rest}
     >
-      {children}
+      {active && (
+        <span
+          className="pointer-events-none absolute inset-0 opacity-30 sched-segment-shimmer"
+          style={{
+            background:
+              'linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.12) 45%, transparent 70%)',
+          }}
+        />
+      )}
+      <span className="relative z-[1]">{children}</span>
     </button>
   );
 }
@@ -88,70 +103,110 @@ function GlassAppointmentCard({ appointment, techColorMap, techNames, idx, onOpe
   const typeLabel = appointment.appointment_type
     ? String(appointment.appointment_type).replace(/_/g, ' ')
     : 'Service';
+  const typeIsDiagnostic = /diagnostic/i.test(typeLabel);
 
   return (
     <motion.button
       type="button"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.18, delay: Math.min(idx * 0.03, 0.24) }}
-      onClick={() => onOpen?.(appointment)}
-      className="w-full text-left rounded-2xl overflow-hidden mb-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/45 group"
-      whileTap={{ scale: 0.992 }}
-      style={{
-        boxShadow:
-          '0 0 0 1px rgba(0,217,255,0.06), 0 12px 30px rgba(0,0,0,0.45), 0 0 24px rgba(34,211,238,0.06)',
+      transition={{
+        duration: 0.18,
+        delay: Math.min(idx * 0.03, 0.24),
+        ease: [0.4, 0, 0.2, 1],
       }}
+      onClick={() => onOpen?.(appointment)}
+      className="relative w-full text-left rounded-[17px] overflow-hidden mb-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/40 group"
+      whileTap={{ scale: 0.993 }}
+      whileHover={{ y: -1 }}
     >
+      {/* Local ambient pool */}
       <div
-        className="flex w-full backdrop-blur-[18px] group-hover:border-cyan-400/22 transition-colors"
+        className="pointer-events-none absolute -inset-px rounded-[inherit] opacity-55 blur-xl -z-10"
         style={{
-          background: 'rgba(10, 18, 32, 0.82)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: `radial-gradient(ellipse 80% 65% at 20% 0%, ${rail}22, transparent 70%)`,
         }}
-      >
-        <div className="w-1.5 flex-shrink-0" style={{ background: rail, boxShadow: `0 0 14px ${rail}44` }} />
-        <div className="flex-1 py-3.5 px-4 flex gap-3 min-w-0">
-          <div className="flex-1 min-w-0 flex flex-col gap-1">
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <span className="text-[13px] font-bold tracking-tight" style={{ color: 'rgba(255,255,255,0.94)' }}>
-                {orderNum}
-              </span>
-              <StatusBadge status={appointment.status || 'scheduled'} />
-              <span
-                className="text-[10px] px-2 py-0.5 rounded-full font-medium capitalize border"
+      />
+      <div className="relative rounded-[inherit]">
+        {/* Top reflection */}
+        <div
+          className="pointer-events-none absolute top-px left-[12%] right-[12%] h-px z-10 rounded-full opacity-45"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+          }}
+        />
+        <div
+          className="flex w-full rounded-[inherit] overflow-hidden group-hover:shadow-[0_0_22px_rgba(34,211,238,0.1)] transition-shadow duration-[180ms]"
+          style={{
+            background: 'linear-gradient(180deg, rgba(10,18,32,0.96), rgba(5,10,20,0.96))',
+            border: '1px solid rgba(255,255,255,0.055)',
+            boxShadow:
+              '0 0 0 1px rgba(0,217,255,0.05), 0 16px 36px rgba(0,0,0,0.55), 0 0 18px rgba(34,211,238,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
+            backdropFilter: 'blur(20px)',
+            transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          <div
+            className="flex-shrink-0 my-2 ml-1.5 rounded-full"
+            style={{
+              width: 5,
+              boxShadow: `0 0 18px ${rail}, 0 0 10px ${rail}aa`,
+              background: rail,
+            }}
+          />
+          <div className="flex-1 py-3 pl-3.5 pr-3 flex gap-3 min-w-0">
+            <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span
+                  className="text-[12px] font-bold tracking-[-0.02em] leading-tight"
+                  style={{ color: 'rgba(255,255,255,0.96)' }}
+                >
+                  {orderNum}
+                </span>
+                <span className="sched-hud-status inline-flex [&>span]:!text-[9px] [&>span]:!leading-tight [&>span]:!font-bold [&>span]:!tracking-[0.08em] [&>span]:!uppercase [&>span]:!rounded-md [&>span]:!px-2 [&>span]:!py-0.5 [&>span]:!border [&>span]:!border-purple-400/25 [&>span]:!bg-[rgba(168,85,247,0.14)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_12px_rgba(168,85,247,0.12)]">
+                  <StatusBadge status={appointment.status || 'scheduled'} />
+                </span>
+                <span
+                  className="text-[9px] font-bold px-2 py-0.5 rounded-md tracking-[0.06em] uppercase leading-tight border"
+                  style={{
+                    borderColor: typeIsDiagnostic ? 'rgba(34,211,238,0.22)' : 'rgba(168,85,247,0.22)',
+                    background: typeIsDiagnostic ? 'rgba(34,211,238,0.12)' : 'rgba(168,85,247,0.1)',
+                    color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
+                    boxShadow: typeIsDiagnostic
+                      ? '0 0 12px rgba(34,211,238,0.12)'
+                      : '0 0 12px rgba(168,85,247,0.1)',
+                  }}
+                >
+                  {typeLabel}
+                </span>
+              </div>
+              <p className="text-[11px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
+                {appointment.start
+                  ? `${format(parseISO(appointment.start), 'EEE MMM d — h:mm a')}${
+                      appointment.end ? ` – ${format(parseISO(appointment.end), 'h:mm a')}` : ''
+                    }`
+                  : ''}
+              </p>
+              <p className="text-[13px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
+                {appointment.client_name || 'Client'}
+              </p>
+              <p className="text-[10px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
+                {appointment.technician_name || (appointment.technician_id ? techNames[appointment.technician_id] : null) || 'Unassigned'}
+              </p>
+            </div>
+            <div className="flex flex-col justify-center flex-shrink-0">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-[180ms]"
                 style={{
-                  borderColor: 'rgba(168,85,247,0.35)',
-                  background: 'rgba(168,85,247,0.12)',
-                  color: '#DDD6FE',
-                  boxShadow: '0 0 10px rgba(168,85,247,0.12)',
+                  border: '1px solid rgba(34,211,238,0.22)',
+                  background: 'linear-gradient(180deg, rgba(6,14,24,0.95), rgba(3,8,16,0.92))',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
                 }}
               >
-                {typeLabel}
-              </span>
-            </div>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.48)' }}>
-              {appointment.start
-                ? `${format(parseISO(appointment.start), 'EEE MMM d — h:mm a')}${
-                    appointment.end ? ` – ${format(parseISO(appointment.end), 'h:mm a')}` : ''
-                  }`
-                : ''}
-            </p>
-            <p className="text-sm font-medium truncate" style={{ color: 'rgba(255,255,255,0.9)' }}>
-              {appointment.client_name || 'Client'}
-            </p>
-            <p className="text-[11px] truncate" style={{ color: 'rgba(255,255,255,0.38)' }}>
-              {appointment.technician_name || (appointment.technician_id ? techNames[appointment.technician_id] : null) || 'Unassigned'}
-            </p>
-          </div>
-          <div className="flex flex-col justify-center flex-shrink-0">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-shadow group-hover:shadow-[0_0_14px_rgba(34,211,238,0.18)]"
-              style={{ border: '1px solid rgba(34,211,238,0.28)', background: 'rgba(3,12,22,0.65)' }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 2 }}>
-                <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 2 }}>
+                  <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -357,73 +412,153 @@ function ScheduleTestInner() {
     <>
       <Head>
         <title>Schedule [Test] | Atomic Repair</title>
+        <style>{`
+          @keyframes sched-shimmer-pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.42; }
+          }
+          .sched-segment-active .sched-segment-shimmer {
+            animation: sched-shimmer-pulse 2.8s ease-in-out infinite;
+          }
+          @keyframes sched-atmo-drift {
+            0% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(1.02); }
+            100% { opacity: 0.4; transform: scale(1); }
+          }
+          .sched-atmo-bloom {
+            animation: sched-atmo-drift 14s ease-in-out infinite;
+          }
+        `}</style>
       </Head>
 
-      <div
-        className="min-h-screen pb-32"
-        style={{
-          background: 'linear-gradient(180deg, #020817 0%, #031225 100%)',
-        }}
-      >
-        <div className="px-4 pt-5 max-w-lg mx-auto">
-          {/* Page header */}
-          <div className="relative mb-5 overflow-hidden rounded-2xl px-1 py-2">
+      {/* Layer 1–2: operational atmosphere */}
+      <div className="relative min-h-screen pb-36 sched-ops-surface">
+        <div
+          className="fixed inset-0 pointer-events-none -z-20"
+          style={{
+            background: `
+              radial-gradient(circle at 50% -8%, rgba(0,217,255,0.08), transparent 42%),
+              radial-gradient(circle at 100% 35%, rgba(34,211,238,0.04), transparent 38%),
+              linear-gradient(180deg, #020817 0%, #031225 100%)
+            `,
+          }}
+        />
+        <div
+          className="fixed inset-0 pointer-events-none -z-19 opacity-[0.055] sched-atmo-bloom"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0,217,255,0.5) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,217,255,0.45) 1px, transparent 1px)
+            `,
+            backgroundSize: '28px 28px, 28px 28px',
+          }}
+        />
+        <div
+          className="fixed inset-0 pointer-events-none -z-18 opacity-[0.04]"
+          style={{
+            background: 'repeating-linear-gradient(0deg, transparent, transparent 140px, rgba(0,217,255,0.05) 141px, transparent 142px)',
+          }}
+        />
+
+        <div className="relative z-10 px-4 pt-5 max-w-lg mx-auto">
+          {/* Page header — command titleplate */}
+          <div className="relative mb-7 overflow-hidden rounded-2xl px-2 py-3">
             <div
-              className="absolute inset-0 opacity-[0.35] pointer-events-none"
+              className="absolute inset-0 pointer-events-none rounded-2xl"
               style={{
-                backgroundImage: `
-                  linear-gradient(rgba(34,211,238,0.05) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px)
-                `,
-                backgroundSize: '20px 20px, 20px 20px',
+                background:
+                  'radial-gradient(ellipse 70% 80% at 12% 20%, rgba(0,217,255,0.07), transparent 45%), linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%)',
               }}
             />
-            <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
-              <h1 className="text-[1.35rem] font-bold tracking-[0.2em] text-white drop-shadow-[0_0_20px_rgba(34,211,238,0.15)]">
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none rounded-2xl"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(34,211,238,0.4) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(34,211,238,0.35) 1px, transparent 1px)
+                `,
+                backgroundSize: '22px 22px, 22px 22px',
+              }}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              className="relative"
+            >
+              <h1
+                className="text-[1.28rem] font-bold uppercase text-white"
+                style={{ letterSpacing: '0.22em', textShadow: '0 0 28px rgba(0,217,255,0.18), 0 2px 16px rgba(0,0,0,0.6)' }}
+              >
                 SCHEDULE
               </h1>
-              <p className="text-sm mt-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              <p className="text-[13px] mt-2 leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
                 Manage jobs and appointments
               </p>
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex items-center gap-2.5 mt-3">
                 <span
-                  className="text-[10px] uppercase tracking-widest px-2 py-1 rounded-full border border-cyan-500/25"
-                  style={{ color: '#22D3EE', background: 'rgba(34,211,238,0.08)' }}
+                  className="text-[9px] uppercase font-semibold px-2.5 py-1 rounded-md border"
+                  style={{
+                    letterSpacing: '0.14em',
+                    color: '#7EEEF8',
+                    borderColor: 'rgba(0,217,255,0.22)',
+                    background: 'linear-gradient(180deg, rgba(34,211,238,0.12), rgba(34,211,238,0.04))',
+                    boxShadow: '0 0 18px rgba(0,217,255,0.1), inset 0 1px 0 rgba(255,255,255,0.06)',
+                  }}
                 >
                   Tactical preview
                 </span>
-                <Link href="/schedule" className="text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                <Link href="/schedule" className="text-[10px] tracking-wide" style={{ color: 'rgba(255,255,255,0.34)' }}>
                   Classic schedule →
                 </Link>
               </div>
             </motion.div>
           </div>
 
-          {/* Command panel */}
+          {/* Command panel — holographic ops glass */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22 }}
-            className="rounded-[28px] p-4 mb-5 relative overflow-hidden"
+            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+            className="rounded-[28px] p-4 pt-5 mb-7 relative overflow-hidden"
             style={{
-              background: 'rgba(14, 24, 42, 0.88)',
-              backdropFilter: 'blur(18px)',
-              WebkitBackdropFilter: 'blur(18px)',
-              border: '1px solid rgba(34,211,238,0.18)',
+              background: 'linear-gradient(165deg, rgba(16,28,48,0.55) 0%, rgba(10,18,36,0.72) 48%, rgba(8,14,28,0.78) 100%)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: '1px solid rgba(0,217,255,0.2)',
               boxShadow:
-                '0 0 0 1px rgba(0,217,255,0.06), 0 12px 36px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)',
+                '0 0 0 1px rgba(255,255,255,0.03), 0 0 30px rgba(0,217,255,0.08), 0 18px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -1px 0 rgba(0,0,0,0.35)',
             }}
           >
             <div
-              className="pointer-events-none absolute inset-0 opacity-[0.08] animate-pulse"
+              className="pointer-events-none absolute inset-0 rounded-[28px] opacity-[0.9]"
               style={{
-                background:
-                  'repeating-linear-gradient(-15deg, transparent, transparent 6px, rgba(34,211,238,0.12) 6px, rgba(34,211,238,0.12) 7px)',
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.05), transparent 22%)',
               }}
             />
-            <div className="relative z-[1] space-y-4">
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.06]"
+              style={{
+                background:
+                  'repeating-linear-gradient(-12deg, transparent, transparent 7px, rgba(34,211,238,0.12) 7px, rgba(34,211,238,0.12) 8px)',
+              }}
+            />
+            <div
+              className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[120%] h-40 rounded-full opacity-35 blur-3xl"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(0,217,255,0.12), transparent 70%)',
+              }}
+            />
+            <div className="relative z-[1] space-y-5">
               <div className="flex gap-2">
-                <div className="flex flex-1 p-1 rounded-[14px] gap-1" style={{ background: 'rgba(2,8,18,0.55)' }}>
+                <div
+                  className="flex flex-1 p-1 rounded-[14px] gap-1"
+                  style={{
+                    background: 'rgba(0,0,0,0.32)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
+                    border: '1px solid rgba(255,255,255,0.04)',
+                  }}
+                >
                   <Segment active={viewType === 'day'} onClick={() => handleViewTypeChange('day')}>
                     Day
                   </Segment>
@@ -436,7 +571,14 @@ function ScheduleTestInner() {
                 </div>
               </div>
               <div className="flex gap-2">
-                <div className="flex flex-1 p-1 rounded-[14px] gap-1" style={{ background: 'rgba(2,8,18,0.55)' }}>
+                <div
+                  className="flex flex-1 p-1 rounded-[14px] gap-1"
+                  style={{
+                    background: 'rgba(0,0,0,0.32)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
+                    border: '1px solid rgba(255,255,255,0.04)',
+                  }}
+                >
                   <Segment active={displayMode === 'list'} onClick={() => setDisplayMode('list')}>
                     List
                   </Segment>
@@ -451,28 +593,37 @@ function ScheduleTestInner() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-stretch gap-2.5">
                 <button
                   type="button"
                   onClick={navigatePrevious}
-                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 duration-[180ms]"
                   style={{
-                    border: '1px solid rgba(255,255,255,0.09)',
-                    background: 'rgba(5,12,22,0.75)',
+                    border: '1px solid rgba(0,217,255,0.14)',
+                    background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
+                    boxShadow:
+                      'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 18px rgba(0,217,255,0.06), 0 6px 16px rgba(0,0,0,0.35)',
                   }}
                   aria-label="Previous"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: '#94A3B8', strokeWidth: 2 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
                     <polyline points="15 18 9 12 15 6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
 
-                <div className="flex-1 min-w-[160px]">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                <div className="flex-1 min-w-[156px]">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.34)' }}>
                     Date
                   </label>
-                  <div className="mt-1 flex items-center gap-2 rounded-xl px-3 py-2" style={{ background: 'rgba(4,12,22,0.75)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 1.5 }}>
+                  <div
+                    className="mt-1.5 flex items-center gap-2.5 rounded-xl px-3 py-3"
+                    style={{
+                      background: 'linear-gradient(180deg, rgba(6,12,22,0.92), rgba(3,9,18,0.96))',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 22px rgba(0,217,255,0.05)',
+                    }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
                       <rect x="3" y="4" width="18" height="18" rx="2"/>
                       <line x1="16" y1="2" x2="16" y2="6"/>
                       <line x1="8" y1="2" x2="8" y2="6"/>
@@ -482,8 +633,8 @@ function ScheduleTestInner() {
                       type="date"
                       value={formatDateForInput(viewType === 'month' ? startDate : viewType === 'week' ? startDate : startDate)}
                       onChange={(e) => handleDateRangeChange(new Date(`${e.target.value}T12:00:00`), true)}
-                      className="flex-1 bg-transparent text-sm font-medium outline-none"
-                      style={{ color: 'rgba(255,255,255,0.9)' }}
+                      className="flex-1 bg-transparent text-sm font-medium outline-none tracking-wide"
+                      style={{ color: 'rgba(255,255,255,0.92)' }}
                     />
                   </div>
                 </div>
@@ -491,14 +642,16 @@ function ScheduleTestInner() {
                 <button
                   type="button"
                   onClick={navigateNext}
-                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 duration-[180ms]"
                   style={{
-                    border: '1px solid rgba(255,255,255,0.09)',
-                    background: 'rgba(5,12,22,0.75)',
+                    border: '1px solid rgba(0,217,255,0.14)',
+                    background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
+                    boxShadow:
+                      'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 18px rgba(0,217,255,0.06), 0 6px 16px rgba(0,0,0,0.35)',
                   }}
                   aria-label="Next"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: '#94A3B8', strokeWidth: 2 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
                     <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
@@ -506,12 +659,13 @@ function ScheduleTestInner() {
                 <button
                   type="button"
                   onClick={navigateToday}
-                  className="px-4 min-h-[46px] rounded-xl text-xs font-bold uppercase tracking-wider shrink-0"
+                  className="px-4 min-h-[48px] rounded-xl text-xs font-bold uppercase tracking-[0.1em] shrink-0 duration-[180ms]"
                   style={{
-                    border: '1px solid rgba(34,211,238,0.35)',
-                    color: '#22D3EE',
-                    background: 'rgba(34,211,238,0.08)',
-                    boxShadow: '0 0 12px rgba(34,211,238,0.12)',
+                    border: '1px solid rgba(0,217,255,0.3)',
+                    color: '#AFEEF8',
+                    background: 'linear-gradient(180deg, rgba(34,211,238,0.14), rgba(34,211,238,0.06))',
+                    boxShadow:
+                      'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,217,255,0.15), 0 8px 20px rgba(0,0,0,0.35)',
                   }}
                 >
                   Today
@@ -519,21 +673,24 @@ function ScheduleTestInner() {
               </div>
 
               <div>
-                <label className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                <label className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.34)' }}>
                   Technician
                 </label>
-                <div className="mt-1 relative">
+                <div className="mt-1.5 relative">
                   <select
                     value={selectedTechnicianId}
                     onChange={(e) => {
                       setSelectedTechnicianId(e.target.value);
                       setTimeout(() => refetchSchedule(), 80);
                     }}
-                    className="w-full rounded-xl px-4 py-3.5 pr-10 text-sm font-medium appearance-none outline-none"
+                    className="w-full rounded-xl px-4 py-3.5 pr-10 text-sm font-medium appearance-none outline-none duration-[180ms]"
                     style={{
-                      background: 'rgba(4,12,22,0.85)',
-                      border: '1px solid rgba(255,255,255,0.08)',
+                      background: 'linear-gradient(180deg, rgba(8,14,26,0.95), rgba(4,10,20,0.98))',
+                      border: '1px solid rgba(0,217,255,0.14)',
                       color: 'rgba(255,255,255,0.9)',
+                      boxShadow:
+                        'inset 0 1px 0 rgba(255,255,255,0.05), 0 0 24px rgba(0,217,255,0.06), 0 10px 24px rgba(0,0,0,0.35)',
+                      letterSpacing: '0.03em',
                     }}
                   >
                     <option value="">All Technicians</option>
@@ -562,50 +719,74 @@ function ScheduleTestInner() {
             </div>
           )}
 
-          {/* Timeline header strip */}
+          {/* Command timeline strip */}
           <div
-            className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl mb-3"
+            className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg mb-4 min-h-[40px]"
             style={{
-              background: 'rgba(8,14,26,0.85)',
-              border: '1px solid rgba(34,211,238,0.12)',
-              backdropFilter: 'blur(12px)',
+              background: 'linear-gradient(90deg, rgba(8,14,26,0.55) 0%, rgba(5,11,22,0.75) 100%)',
+              border: '1px solid rgba(0,217,255,0.14)',
+              boxShadow:
+                'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 28px rgba(0,217,255,0.06), 0 8px 24px rgba(0,0,0,0.35)',
+              backdropFilter: 'blur(16px)',
             }}
           >
-            <div className="flex items-center gap-2 min-w-0">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.5 }}>
+            <div className="flex items-center gap-2.5 min-w-0 py-0.5">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0 opacity-85" style={{ stroke: '#22D3EE', strokeWidth: 1.65, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
                 <rect x="3" y="4" width="18" height="18" rx="2"/>
                 <line x1="16" y1="2" x2="16" y2="6"/>
                 <line x1="8" y1="2" x2="8" y2="6"/>
                 <line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
-              <span className="text-[11px] sm:text-xs font-bold tracking-[0.15em] truncate" style={{ color: 'rgba(255,255,255,0.78)' }}>
+              <span className="text-[10px] sm:text-[11px] font-semibold truncate leading-tight uppercase" style={{ letterSpacing: '0.12em', color: 'rgba(255,255,255,0.74)' }}>
                 {dayHeaderLabel}
               </span>
             </div>
             <button
               type="button"
               onClick={navigateToday}
-              className="shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider"
-              style={{ border: '1px solid rgba(255,122,0,0.35)', color: '#FF7A00', background: 'rgba(255,122,0,0.06)' }}
+              className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[9px] font-bold uppercase tracking-[0.14em]"
+              style={{
+                border: '1px solid rgba(255,138,26,0.38)',
+                color: '#FFB86C',
+                background: 'linear-gradient(180deg, rgba(255,122,0,0.14), rgba(255,122,0,0.05))',
+                boxShadow:
+                  'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 16px rgba(255,138,26,0.18)',
+              }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ stroke: '#FF7A00', strokeWidth: 2 }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ stroke: '#FFB86C', strokeWidth: 2 }}>
                 <circle cx="12" cy="12" r="3"/>
                 <line x1="12" y1="2" x2="12" y2="4"/>
-                <line x1="12" y1="20" x2="12" y2="22"/>
               </svg>
               Today
             </button>
           </div>
 
-          {/* Main body */}
-          <div
-            className="rounded-[24px] p-3 sm:p-4 relative overflow-hidden"
-            style={{
-              background: 'rgba(10, 18, 32, 0.55)',
-              border: '1px solid rgba(255,255,255,0.06)',
-              boxShadow: 'inset 0 0 40px rgba(0,0,0,0.25)',
-            }}
-          >
+          {/* Ops chamber */}
+          <div className="relative rounded-[26px] mb-4">
+            <div
+              className="pointer-events-none absolute inset-[-1px] rounded-[inherit] opacity-50 blur-xl -z-[1]"
+              style={{
+                background: 'radial-gradient(ellipse 90% 60% at 50% -10%, rgba(0,217,255,0.14), transparent 65%)',
+              }}
+            />
+            <div
+              className="rounded-[inherit] px-2.5 sm:px-3.5 py-4 sm:py-5 relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(165deg, rgba(6,12,24,0.65) 0%, rgba(3,8,18,0.88) 100%)',
+                border: '1px solid rgba(0,217,255,0.1)',
+                boxShadow:
+                  'inset 0 0 50px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03), 0 0 0 1px rgba(0,0,0,0.4), 0 20px 56px rgba(0,0,0,0.5)',
+              }}
+            >
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.04]"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(rgba(0,217,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(0,217,255,0.45) 1px, transparent 1px)',
+                  backgroundSize: '24px 24px',
+                }}
+              />
+              <div className="relative z-[1]">
             {isLoadingSchedule || isLoadingTechnicians ? (
               <div className="py-20 flex justify-center">
                 <LoadingSpinner />
@@ -658,47 +839,61 @@ function ScheduleTestInner() {
                 </div>
               ))
             )}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Floating legend */}
-        <div
-          className="fixed bottom-4 left-4 right-4 max-w-lg mx-auto z-40 rounded-2xl px-4 py-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2"
-          style={{
-            background: 'rgba(8,14,26,0.92)',
-            backdropFilter: 'blur(18px)',
-            WebkitBackdropFilter: 'blur(18px)',
-            border: '1px solid rgba(34,211,238,0.15)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 24px rgba(34,211,238,0.06)',
-          }}
-        >
-          {orderedIds.length === 0 ? (
-            <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.38)' }}>
-              Assign technicians to see legend colors
-            </span>
-          ) : (
-            orderedIds.map((id) => (
-              <div key={id} className="flex items-center gap-2">
-                <span
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                  style={{
-                    background: technicianRailMap[id],
-                    boxShadow: `0 0 10px ${technicianRailMap[id]}88`,
-                  }}
-                />
-                <span className="text-[11px] font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                  {techNames[id] || 'Technician'}
+        {/* Legend — integrated tactical dock */}
+        <div className="fixed bottom-5 left-0 right-0 z-40 px-4 flex justify-center pointer-events-none">
+          <div
+            className="pointer-events-auto flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 max-w-lg w-full px-5 py-3.5 rounded-[22px]"
+            style={{
+              background: 'linear-gradient(180deg, rgba(10,18,34,0.88), rgba(5,10,22,0.92))',
+              backdropFilter: 'blur(22px)',
+              WebkitBackdropFilter: 'blur(22px)',
+              border: '1px solid rgba(0,217,255,0.14)',
+              boxShadow:
+                '0 0 0 1px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05), 0 -4px 32px rgba(0,217,255,0.06), 0 16px 40px rgba(0,0,0,0.55)',
+            }}
+          >
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+              {orderedIds.length === 0 ? (
+                <span className="text-[10px] tracking-wide" style={{ color: 'rgba(255,255,255,0.34)' }}>
+                  Assign technicians to see legend colors
                 </span>
-              </div>
-            ))
-          )}
-          <div className="w-px h-4 bg-white/10 hidden sm:block" />
-          <div className="flex items-center gap-2 text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 1.5 }}>
-              <path d="M5 17h14v2H5v-2z" strokeLinecap="round"/>
-              <path d="M7 17V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8" strokeLinecap="round"/>
-            </svg>
-            Travel lines = same tech, same day
+              ) : (
+                orderedIds.map((id, i) => (
+                  <div key={id} className={`flex items-center gap-2 ${i > 0 ? 'border-l border-white/[0.08] pl-4' : ''}`}>
+                    <span
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{
+                        background: technicianRailMap[id],
+                        boxShadow: `0 0 12px ${technicianRailMap[id]}AA, 0 0 4px ${technicianRailMap[id]}88`,
+                      }}
+                    />
+                    <span className="text-[10px] font-semibold tracking-[0.05em]" style={{ color: 'rgba(255,255,255,0.58)' }}>
+                      {techNames[id] || 'Technician'}
+                    </span>
+                  </div>
+                ))
+              )}
+            </div>
+            <div
+              className="hidden sm:block w-px h-9 mx-1 sm:mx-2 flex-shrink-0"
+              style={{ background: 'linear-gradient(180deg, transparent, rgba(0,217,255,0.2), transparent)' }}
+            />
+            <div
+              className="sm:hidden w-full h-px my-2 opacity-80"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(0,217,255,0.22), transparent)' }}
+            />
+            <div className="flex items-center gap-2 text-[10px] tracking-[0.05em]" style={{ color: 'rgba(255,255,255,0.38)' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
+                <path d="M5 17h14v2H5v-2z" strokeLinecap="round"/>
+                <path d="M7 17V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8" strokeLinecap="round"/>
+              </svg>
+              Route infra · same tech / day
+            </div>
           </div>
         </div>
 
