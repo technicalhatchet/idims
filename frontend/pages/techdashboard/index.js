@@ -110,6 +110,118 @@ function toEST(dateStr) {
   return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' });
 }
 
+// ── Route Button with Glass Effect + Sweep Animation ─────────────────────
+function RouteButton() {
+  const [sweeping, setSweeping] = useState(false);
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setSweeping(true);
+    setTimeout(() => {
+      router.push('/techdashboard/route');
+    }, 600);
+  };
+
+  return (
+    <div
+      className={`tech-glass-card tech-hover-lift ${sweeping ? 'tech-sweep-active' : ''}`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
+      <div 
+        className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium relative overflow-hidden"
+        style={{ 
+          background: 'rgba(13, 21, 37, 0.8)', 
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(34,211,238,0.4)', 
+          color: '#22D3EE' 
+        }}
+      >
+        <div className="tech-sweep-overlay" />
+        <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
+          <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+        </svg>
+        <span className="relative z-10">Route</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Critical Mass Card with Glass Effect + Sweep Animation ───────────────
+function CriticalMassCard({ count }) {
+  const [sweeping, setSweeping] = useState(false);
+  const router = useRouter();
+  const isActive = count > 0;
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setSweeping(true);
+    setTimeout(() => {
+      router.push('/work_orders');
+    }, 600);
+  };
+
+  return (
+    <div
+      className={`tech-glass-card tech-hover-lift mb-4 ${sweeping ? 'tech-sweep-active' : ''}`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+      data-sweep-color={isActive ? 'orange' : 'cyan'}
+    >
+      <div 
+        className="relative flex items-center gap-4 p-4 rounded-lg overflow-hidden"
+        style={{ 
+          background: 'rgba(13, 21, 37, 0.8)', 
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: isActive ? '1px solid rgba(251,146,60,0.6)' : '1px solid rgba(255,255,255,0.07)',
+        }}
+      >
+        {/* Sweep overlay */}
+        <div 
+          className="tech-sweep-overlay" 
+          style={{ 
+            background: sweeping 
+              ? `linear-gradient(120deg, transparent 0%, ${isActive ? 'rgba(251, 146, 60, 0.4)' : 'rgba(0, 212, 255, 0.4)'} 50%, transparent 100%)` 
+              : undefined 
+          }} 
+        />
+        
+        {isActive && (
+          <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(251,146,60,0.1) 0%, transparent 60%)' }} />
+        )}
+        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 relative z-10 tech-icon-wrap" style={{ background: '#080C14' }}>
+          <svg viewBox="0 0 24 24" className="w-7 h-7" style={{
+            stroke: isActive ? '#FB923C' : '#374151',
+            strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
+            filter: isActive ? 'drop-shadow(0 0 6px rgba(251,146,60,0.8))' : 'none'
+          }}>
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div className="flex-1 min-w-0 relative z-10">
+          <p className="text-sm font-bold" style={{ color: isActive ? '#FB923C' : '#6B7280', textShadow: isActive ? '0 0 8px rgba(251,146,60,0.5)' : 'none' }}>
+            Critical Mass
+          </p>
+          <p className="text-xs mt-0.5" style={{ color: isActive ? '#9CA3AF' : '#4B5563' }}>
+            {isActive
+              ? `${count} order${count > 1 ? 's' : ''} past scheduled date — needs attention`
+              : 'All clear — no overdue orders'}
+          </p>
+        </div>
+        <div className="flex-shrink-0 relative z-10">
+          <p className="text-2xl font-bold" style={{ color: isActive ? '#FB923C' : '#374151' }}>
+            {count}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Next Job Card with Glass Effect + Sweep Animation ─────────────────────
 function NextJobCard({ job }) {
   const [sweeping, setSweeping] = useState(false);
@@ -480,14 +592,7 @@ export default function TechDashboardTest() {
                 <h1 className="text-2xl font-bold text-white">{firstName}</h1>
                 <p className="text-xs text-gray-500 mt-0.5">{format(today, 'EEEE, MMMM d, yyyy')}</p>
               </div>
-              <Link href="/techdashboard/route"
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium active:opacity-70 transition-opacity"
-                style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.4)', color: '#22D3EE' }}>
-                <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
-                  <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-                </svg>
-                Route
-              </Link>
+              <RouteButton />
             </div>
           </div>
 
@@ -557,40 +662,7 @@ export default function TechDashboardTest() {
           </div>
 
           {/* ── CRITICAL MASS ── */}
-          <Link href="/work_orders" className="relative flex items-center gap-4 p-4 rounded-lg mb-4 overflow-hidden active:opacity-80 transition-opacity" style={{
-            background: '#0D1525',
-            border: workOrderStats.criticalMass > 0 ? '1px solid rgba(251,146,60,0.6)' : '1px solid rgba(255,255,255,0.07)',
-            boxShadow: workOrderStats.criticalMass > 0 ? '0 0 20px rgba(251,146,60,0.15)' : 'none'
-          }}>
-            {workOrderStats.criticalMass > 0 && (
-              <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(251,146,60,0.1) 0%, transparent 60%)' }} />
-            )}
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14' }}>
-              <svg viewBox="0 0 24 24" className="w-7 h-7" style={{
-                stroke: workOrderStats.criticalMass > 0 ? '#FB923C' : '#374151',
-                strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
-                filter: workOrderStats.criticalMass > 0 ? 'drop-shadow(0 0 6px rgba(251,146,60,0.8))' : 'none'
-              }}>
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-              </svg>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold" style={{ color: workOrderStats.criticalMass > 0 ? '#FB923C' : '#6B7280', textShadow: workOrderStats.criticalMass > 0 ? '0 0 8px rgba(251,146,60,0.5)' : 'none' }}>
-                Critical Mass
-              </p>
-              <p className="text-xs mt-0.5" style={{ color: workOrderStats.criticalMass > 0 ? '#9CA3AF' : '#4B5563' }}>
-                {workOrderStats.criticalMass > 0
-                  ? `${workOrderStats.criticalMass} order${workOrderStats.criticalMass > 1 ? 's' : ''} past scheduled date — needs attention`
-                  : 'All clear — no overdue orders'}
-              </p>
-            </div>
-            <div className="flex-shrink-0">
-              <p className="text-2xl font-bold" style={{ color: workOrderStats.criticalMass > 0 ? '#FB923C' : '#374151' }}>
-                {workOrderStats.criticalMass}
-              </p>
-            </div>
-          </Link>
+          <CriticalMassCard count={workOrderStats.criticalMass} />
 
           {/* ── TODAY'S JOBS ── */}
           <div className="rounded-lg p-4 mb-4" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
