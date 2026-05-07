@@ -40,9 +40,16 @@ function ApplianceIcon({ equipmentType, equipmentSubtype, size = 'md' }) {
 }
 
 // ── Stat Card with Glass Effect + Sweep Animation ─────────────────────────
-function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', href }) {
+function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href }) {
   const [sweeping, setSweeping] = useState(false);
   const router = useRouter();
+
+  // Color configs for sweep effect
+  const colorConfigs = {
+    cyan: { sweep: 'rgba(0, 212, 255, 0.4)', glow: 'rgba(0, 212, 255, 0.6)', border: 'rgba(34, 211, 238, 0.7)' },
+    orange: { sweep: 'rgba(255, 122, 0, 0.4)', glow: 'rgba(255, 122, 0, 0.6)', border: 'rgba(255, 122, 0, 0.7)' },
+  };
+  const colors = colorConfigs[sweepColor] || colorConfigs.cyan;
 
   const handleClick = (e) => {
     if (!href) return;
@@ -59,6 +66,7 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
       className={`tech-glass-card tech-hover-lift ${sweeping ? 'tech-sweep-active' : ''}`}
       onClick={handleClick}
       style={{ cursor: href ? 'pointer' : 'default' }}
+      data-sweep-color={sweepColor}
     >
       <div className="flex items-center gap-3 p-4 rounded-lg h-full relative overflow-hidden"
         style={{ 
@@ -68,8 +76,15 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
           border: `1px solid ${borderColor}`,
         }}
       >
-        {/* Sweep overlay */}
-        <div className="tech-sweep-overlay" />
+        {/* Sweep overlay - color matched */}
+        <div 
+          className="tech-sweep-overlay" 
+          style={{ 
+            background: sweeping 
+              ? `linear-gradient(120deg, transparent 0%, ${colors.sweep} 50%, transparent 100%)` 
+              : undefined 
+          }} 
+        />
         
         <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 relative z-10 tech-icon-wrap" style={{ background: '#080C14' }}>
           {icon}
@@ -366,6 +381,7 @@ export default function TechDashboardTest() {
             transform: translateY(-4px) scale(1.02);
           }
           
+          /* Cyan cards (default) */
           .tech-glass-card:hover > div,
           .tech-glass-card:active > div {
             border-color: rgba(34, 211, 238, 0.5) !important;
@@ -380,6 +396,23 @@ export default function TechDashboardTest() {
             box-shadow: 
               0 0 8px rgba(0, 212, 255, 0.6),
               0 0 16px rgba(0, 212, 255, 0.3);
+          }
+          
+          /* Orange cards */
+          .tech-glass-card[data-sweep-color="orange"]:hover > div,
+          .tech-glass-card[data-sweep-color="orange"]:active > div {
+            border-color: rgba(255, 122, 0, 0.5) !important;
+            box-shadow: 
+              0 0 8px rgba(255, 122, 0, 0.4),
+              0 0 20px rgba(255, 122, 0, 0.2),
+              0 0 40px rgba(255, 122, 0, 0.1);
+          }
+          
+          .tech-glass-card[data-sweep-color="orange"]:hover .tech-icon-wrap,
+          .tech-glass-card[data-sweep-color="orange"]:active .tech-icon-wrap {
+            box-shadow: 
+              0 0 8px rgba(255, 122, 0, 0.6),
+              0 0 16px rgba(255, 122, 0, 0.3);
           }
           
           /* Sweep overlay */
@@ -399,7 +432,7 @@ export default function TechDashboardTest() {
             border-radius: inherit;
           }
           
-          /* Sweep on tap/click */
+          /* Sweep on tap/click (cyan default) */
           .tech-sweep-active .tech-sweep-overlay {
             opacity: 1;
             animation: tech-sweep 0.6s ease-out forwards;
@@ -411,6 +444,15 @@ export default function TechDashboardTest() {
               0 0 12px rgba(0, 212, 255, 0.6),
               0 0 30px rgba(0, 212, 255, 0.4),
               0 0 60px rgba(0, 212, 255, 0.2) !important;
+          }
+          
+          /* Sweep on tap/click (orange) */
+          .tech-sweep-active[data-sweep-color="orange"] > div {
+            border-color: rgba(255, 122, 0, 0.7) !important;
+            box-shadow: 
+              0 0 12px rgba(255, 122, 0, 0.6),
+              0 0 30px rgba(255, 122, 0, 0.4),
+              0 0 60px rgba(255, 122, 0, 0.2) !important;
           }
           
           @keyframes tech-sweep {
@@ -477,10 +519,11 @@ export default function TechDashboardTest() {
               value={workOrderStats.total}
               sub={`+${workOrderStats.today} today`}
               borderColor="rgba(255,122,0,0.25)"
+              sweepColor="orange"
               href="/work_orders"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#FF7A00', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' }}>
-                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                  <rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8" y="2.5" width="8" height="4" rx="1.5"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="16" x2="13" y2="16"/>
                 </svg>
               }
             />
@@ -490,6 +533,7 @@ export default function TechDashboardTest() {
               sub={workOrderStats.partsWaiting > 0 ? 'orders on hold' : 'all parts in'}
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
+              sweepColor={workOrderStats.partsWaiting > 0 ? 'orange' : 'cyan'}
               href="/work_orders"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: workOrderStats.partsWaiting > 0 ? 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 4px rgba(0,212,255,0.5))' }}>
