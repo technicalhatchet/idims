@@ -32,18 +32,15 @@ function formatDateForInput(date) {
 }
 
 function SchedulePage() {
-  const [viewType, setViewType] = useState('week');
-  const [displayMode, setDisplayMode] = useState('timeline'); // 'list' or 'timeline'
+  const [viewType, setViewType] = useState('day');
+  const [displayMode, setDisplayMode] = useState('list'); // 'list' or 'timeline'
   
   // Initialize dates to the start and end of the current day
   const getInitialDates = () => {
     const today = new Date();
-    const dayOfWeek = today.getDay();
     const todayStart = new Date(today);
-    todayStart.setDate(today.getDate() - dayOfWeek);
     todayStart.setHours(0, 0, 0, 0);
     const todayEnd = new Date(todayStart);
-    todayEnd.setDate(todayStart.getDate() + 6);
     todayEnd.setHours(23, 59, 59, 999);
     return { initialStartDate: todayStart, initialEndDate: todayEnd };
   };
@@ -442,64 +439,49 @@ function SchedulePage() {
         
         {/* Filters */}
         <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4 md:mb-0">Filters</h2>
-            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-              <div className="inline-flex rounded-md shadow-sm" role="group">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3 sm:mb-0">Filters</h2>
+            <div className="flex flex-row gap-2 w-full sm:w-auto">
+              <div className="inline-flex rounded-md shadow-sm flex-1 sm:flex-none" role="group">
                 <button
                   type="button"
                   onClick={() => handleViewTypeChange('day')}
-                  className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
-                    viewType === 'day' 
-                      ? 'bg-blue-600 text-white dark:bg-blue-700' 
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600'
-                  }`}
+                  className="flex-1 sm:flex-none px-3 py-2 text-sm font-medium rounded-l-lg border transition-colors"
+                  style={viewType === 'day' ? { background: '#00D4FF', color: '#000', borderColor: '#00D4FF' } : {}}
                 >
                   Day
                 </button>
                 <button
                   type="button"
                   onClick={() => handleViewTypeChange('week')}
-                  className={`px-4 py-2 text-sm font-medium ${
-                    viewType === 'week' 
-                      ? 'bg-blue-600 text-white dark:bg-blue-700' 
-                      : 'bg-white text-gray-700 border-t border-b border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600'
-                  }`}
+                  className="flex-1 sm:flex-none px-3 py-2 text-sm font-medium border-t border-b transition-colors"
+                  style={viewType === 'week' ? { background: '#00D4FF', color: '#000', borderColor: '#00D4FF' } : {}}
                 >
                   Week
                 </button>
                 <button
                   type="button"
                   onClick={() => handleViewTypeChange('month')}
-                  className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
-                    viewType === 'month' 
-                      ? 'bg-blue-600 text-white dark:bg-blue-700' 
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600'
-                  }`}
+                  className="flex-1 sm:flex-none px-3 py-2 text-sm font-medium rounded-r-lg border transition-colors"
+                  style={viewType === 'month' ? { background: '#00D4FF', color: '#000', borderColor: '#00D4FF' } : {}}
                 >
                   Month
                 </button>
               </div>
-              <div className="inline-flex rounded-md shadow-sm" role="group">
+              <div className="inline-flex rounded-md shadow-sm flex-1 sm:flex-none" role="group">
                 <button
                   type="button"
                   onClick={() => setDisplayMode('list')}
-                  className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
-                    displayMode === 'list' 
-                      ? 'bg-blue-600 text-white dark:bg-blue-700' 
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600'
-                  }`}
+                  className="flex-1 sm:flex-none px-3 py-2 text-sm font-medium rounded-l-lg border transition-colors"
+                  style={displayMode === 'list' ? { background: '#00D4FF', color: '#000', borderColor: '#00D4FF' } : {}}
                 >
                   List
                 </button>
                 <button
                   type="button"
                   onClick={() => setDisplayMode('timeline')}
-                  className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
-                    displayMode === 'timeline' 
-                      ? 'bg-blue-600 text-white dark:bg-blue-700' 
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600'
-                  }`}
+                  className="flex-1 sm:flex-none px-3 py-2 text-sm font-medium rounded-r-lg border transition-colors"
+                  style={displayMode === 'timeline' ? { background: '#00D4FF', color: '#000', borderColor: '#00D4FF' } : {}}
                 >
                   Timeline
                 </button>
