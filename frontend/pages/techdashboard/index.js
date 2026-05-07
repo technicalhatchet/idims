@@ -165,7 +165,7 @@ function CriticalMassCard({ count }) {
 
   return (
     <div
-      className={`tech-glass-card tech-hover-lift mb-4 ${sweeping ? 'tech-sweep-active' : ''}`}
+      className={`tech-glass-card tech-hover-lift mb-4 ${sweeping ? 'tech-sweep-active' : ''} ${isActive ? 'tech-breathing-pulse' : ''}`}
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
       data-sweep-color={isActive ? 'orange' : 'cyan'}
@@ -286,14 +286,15 @@ function NextJobCard({ job }) {
         {job.client_phone && (
           <a
             href={`tel:${job.client_phone}`}
-            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium transition-all relative z-10"
+            className="tech-btn-glow mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium relative z-10 overflow-hidden"
             style={{ background: '#080C14', border: '1px solid rgba(34,211,238,0.3)', color: '#22D3EE' }}
             onClick={(e) => e.stopPropagation()}
           >
-            <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+            <span className="tech-btn-sweep" />
+            <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
-            Call Customer
+            <span className="relative z-10">Call Customer</span>
           </a>
         )}
 
@@ -572,10 +573,67 @@ export default function TechDashboardTest() {
             100% { transform: translateX(100%); opacity: 0; }
           }
           
+          /* Breathing pulse for Critical Mass */
+          .tech-breathing-pulse > div {
+            animation: tech-breathe 2.5s ease-in-out infinite;
+          }
+          
+          @keyframes tech-breathe {
+            0%, 100% { 
+              box-shadow: 
+                0 0 10px rgba(251, 146, 60, 0.2),
+                0 0 20px rgba(251, 146, 60, 0.1);
+            }
+            50% { 
+              box-shadow: 
+                0 0 20px rgba(251, 146, 60, 0.4),
+                0 0 40px rgba(251, 146, 60, 0.2),
+                0 0 60px rgba(251, 146, 60, 0.1);
+            }
+          }
+          
+          /* Button glow + sweep effect */
+          .tech-btn-glow {
+            transition: all 0.3s ease;
+          }
+          
+          .tech-btn-glow:hover,
+          .tech-btn-glow:active {
+            border-color: rgba(34, 211, 238, 0.6) !important;
+            box-shadow: 
+              0 0 8px rgba(0, 212, 255, 0.4),
+              0 0 16px rgba(0, 212, 255, 0.2);
+            transform: translateY(-1px);
+          }
+          
+          .tech-btn-sweep {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+              120deg,
+              transparent 0%,
+              rgba(0, 212, 255, 0.3) 50%,
+              transparent 100%
+            );
+            opacity: 0;
+            transform: translateX(-100%);
+            pointer-events: none;
+            z-index: 5;
+          }
+          
+          .tech-btn-glow:active .tech-btn-sweep {
+            opacity: 1;
+            animation: tech-sweep 0.5s ease-out forwards;
+          }
+          
           /* Mobile touch feedback */
           @media (hover: none) {
             .tech-glass-card:active {
               transform: translateY(-2px) scale(1.01);
+            }
+            
+            .tech-btn-glow:active {
+              transform: translateY(-1px);
             }
           }
         `}</style>
