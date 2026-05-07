@@ -420,14 +420,6 @@ function ScheduleTestInner() {
           .sched-segment-active .sched-segment-shimmer {
             animation: sched-shimmer-pulse 2.8s ease-in-out infinite;
           }
-          @keyframes sched-atmo-drift {
-            0% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.55; transform: scale(1.02); }
-            100% { opacity: 0.4; transform: scale(1); }
-          }
-          .sched-atmo-bloom {
-            animation: sched-atmo-drift 14s ease-in-out infinite;
-          }
         `}</style>
       </Head>
 
@@ -441,16 +433,6 @@ function ScheduleTestInner() {
               radial-gradient(circle at 100% 35%, rgba(34,211,238,0.04), transparent 38%),
               linear-gradient(180deg, #020817 0%, #031225 100%)
             `,
-          }}
-        />
-        <div
-          className="fixed inset-0 pointer-events-none -z-19 opacity-[0.055] sched-atmo-bloom"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0,217,255,0.5) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0,217,255,0.45) 1px, transparent 1px)
-            `,
-            backgroundSize: '28px 28px, 28px 28px',
           }}
         />
         <div
@@ -468,16 +450,6 @@ function ScheduleTestInner() {
               style={{
                 background:
                   'radial-gradient(ellipse 70% 80% at 12% 20%, rgba(0,217,255,0.07), transparent 45%), linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%)',
-              }}
-            />
-            <div
-              className="absolute inset-0 opacity-[0.04] pointer-events-none rounded-2xl"
-              style={{
-                backgroundImage: `
-                  linear-gradient(rgba(34,211,238,0.4) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(34,211,238,0.35) 1px, transparent 1px)
-                `,
-                backgroundSize: '22px 22px, 22px 22px',
               }}
             />
             <motion.div
@@ -550,9 +522,9 @@ function ScheduleTestInner() {
               }}
             />
             <div className="relative z-[1] space-y-5">
-              <div className="flex gap-2">
+              <div className="flex flex-row gap-2 items-stretch">
                 <div
-                  className="flex flex-1 p-1 rounded-[14px] gap-1"
+                  className="flex flex-1 min-w-0 p-1 rounded-[14px] gap-1"
                   style={{
                     background: 'rgba(0,0,0,0.32)',
                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
@@ -569,10 +541,8 @@ function ScheduleTestInner() {
                     Month
                   </Segment>
                 </div>
-              </div>
-              <div className="flex gap-2">
                 <div
-                  className="flex flex-1 p-1 rounded-[14px] gap-1"
+                  className="flex flex-1 min-w-0 p-1 rounded-[14px] gap-1"
                   style={{
                     background: 'rgba(0,0,0,0.32)',
                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
