@@ -33,7 +33,7 @@ function formatDateForInput(date) {
 
 function SchedulePage() {
   const [viewType, setViewType] = useState('day');
-  const [displayMode, setDisplayMode] = useState('list'); // 'list' or 'timeline'
+  const [displayMode, setDisplayMode] = useState('timeline'); // 'list' or 'timeline'
   
   // Initialize dates to the start and end of the current day
   const getInitialDates = () => {
@@ -430,10 +430,7 @@ function SchedulePage() {
       <div className="px-4 py-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
-            <h1 className="text-2xl font-bold mb-2 dark:text-white">Schedule</h1>
-            <p className="text-gray-600 dark:text-gray-300">
-              View and manage all scheduled appointments
-            </p>
+            <h1 className="text-2xl font-bold mb-1 dark:text-white">Schedule</h1>
           </div>
         </div>
         
@@ -489,65 +486,73 @@ function SchedulePage() {
             </div>
           </div>
           
+          {/* Smart date navigation per view type */}
           <div className="mb-4">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={navigatePrevious}
-                  className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                  title="Previous"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
+            {viewType === 'day' && (
+              <div className="flex items-center gap-3">
+                <button onClick={navigatePrevious} className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                 </button>
-                <button
-                  onClick={navigateToday}
-                  className="px-3 py-1 text-sm rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-                >
-                  Today
+                <input
+                  type="date"
+                  value={formatDateForInput(startDate)}
+                  onChange={(e) => handleDateRangeChange(new Date(e.target.value + 'T00:00:00'), true)}
+                  className="block shadow-sm text-sm border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-0 focus:border-gray-300"
+                  style={{ colorScheme: 'dark' }}
+                />
+                <button onClick={navigateNext} className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
                 </button>
-                <button
-                  onClick={navigateNext}
-                  className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                  title="Next"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  </svg>
-                </button>
+                <button onClick={navigateToday} className="px-3 py-1 text-sm rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">Today</button>
               </div>
-            </div>
-            <div className="text-lg font-medium text-gray-700 dark:text-gray-300">
-              {viewType === 'day' && format(startDate, 'MMMM d, yyyy')}
-              {viewType === 'week' && `${format(startDate, 'MMM d')} - ${format(endDate, 'MMM d, yyyy')}`}
-              {viewType === 'month' && format(startDate, 'MMMM yyyy')}
-            </div>
+            )}
+
+            {viewType === 'week' && (
+              <div className="flex items-center gap-3">
+                <button onClick={navigatePrevious} className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </button>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {format(startDate, 'MMM d')} &ndash; {format(endDate, 'MMM d, yyyy')}
+                </span>
+                <button onClick={navigateNext} className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                </button>
+                <button onClick={navigateToday} className="px-3 py-1 text-sm rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">This Week</button>
+              </div>
+            )}
+
+            {viewType === 'month' && (
+              <div className="flex items-center gap-3">
+                <button onClick={navigatePrevious} className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                </button>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {format(startDate, 'MMMM')}
+                  </span>
+                  <select
+                    value={startDate.getFullYear()}
+                    onChange={(e) => {
+                      const newDate = new Date(parseInt(e.target.value), startDate.getMonth(), 1);
+                      handleDateRangeChange(newDate, true);
+                    }}
+                    className="text-sm border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  >
+                    {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i).map(y => (
+                      <option key={y} value={y}>{y}</option>
+                    ))}
+                  </select>
+                </div>
+                <button onClick={navigateNext} className="p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                </button>
+                <button onClick={navigateToday} className="px-3 py-1 text-sm rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">This Month</button>
+              </div>
+            )}
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
-              <input
-                type="date"
-                value={formatDateForInput(startDate)}
-                // Pass the changed date to the handler
-                onChange={(e) => handleDateRangeChange(new Date(e.target.value + 'T00:00:00'), true)}
-                className="mt-1 block w-full shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
-              <input
-                type="date"
-                value={formatDateForInput(endDate)}
-                // Pass the changed date to the handler
-                onChange={(e) => handleDateRangeChange(new Date(e.target.value + 'T12:00:00'), false)} // Use noon to avoid timezone issues near midnight
-                min={formatDateForInput(startDate)} 
-                disabled={viewType === 'day'} 
-                className={`mt-1 block w-full shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white ${viewType === 'day' ? 'bg-gray-100 dark:bg-gray-600 cursor-not-allowed' : ''}`}
-              />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Technician</label>
               <div className="relative mt-1">
