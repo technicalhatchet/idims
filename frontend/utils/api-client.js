@@ -344,10 +344,15 @@ export async function apiClient(endpoint, options = {}) {
 
     // Handle errors
     if (!response.ok) {
-      if (response.status === 401) {
-        console.warn("Unauthorized API request - token may have expired")
-        // Consider refreshing the token here or redirecting to login
-      } else if (response.status === 405) {
+    if (response.status === 401) {
+    console.warn("Unauthorized API request - redirecting to login");
+    tokenCache = { token: null, expiresAt: null };
+      if (isBrowser) {
+            const returnTo = encodeURIComponent(window.location.pathname + window.location.search);
+            window.location.href = `/api/auth/login?returnTo=${returnTo}`;
+            return null;
+          }
+        } else if (response.status === 405) {
         console.error("Method Not Allowed - the endpoint exists but doesn't support this HTTP method")
       } else if (response.status === 404) {
         console.error(`Endpoint not found: ${url}`)

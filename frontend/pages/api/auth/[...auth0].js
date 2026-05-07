@@ -8,12 +8,12 @@ console.log('NEXT_PUBLIC_AUTH0_CLIENT_ID exists:', !!process.env.NEXT_PUBLIC_AUT
 console.log('AUTH0_AUDIENCE exists:', !!process.env.AUTH0_AUDIENCE);
 
 export default handleAuth({
-  login: handleLogin({
+  login: handleLogin((req) => ({
     authorizationParams: {
-      // Add offline_access to request refresh tokens
       scope: 'openid profile email offline_access'
-    }
-  }),
+    },
+    returnTo: req.query.returnTo || '/techdashboard'
+  })),
   callback: handleCallback({
     async onError(req, res, error) {
       console.error('Auth0 Callback Error:', {
