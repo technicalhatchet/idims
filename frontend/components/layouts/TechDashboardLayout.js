@@ -58,7 +58,7 @@ export default function TechDashboardLayout({ children }) {
   const router = useRouter();
   const { user } = useUser();
 
-  const railWidth = expanded ? 200 : 64;
+  const railWidth = expanded ? 220 : 76;
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
@@ -195,16 +195,16 @@ export default function TechDashboardLayout({ children }) {
         }}
       >
         {/* Logo area */}
-        <div className="flex items-center justify-center py-4 flex-shrink-0" style={{ height: 72, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="flex items-center justify-center flex-shrink-0 px-2" style={{ height: 72, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
           {expanded ? (
-            <img src="/arpano.png" alt="Atomic Repair" style={{ height: 36, width: 'auto', maxWidth: 160 }} />
+            <img src="/arpano.png" alt="Atomic Repair" style={{ height: 46, width: 'auto', maxWidth: 192 }} />
           ) : (
-            <img src="/atomwrenches.png" alt="AR" style={{ height: 36, width: 36, objectFit: 'contain' }} />
+            <img src="/atomwrenches.png" alt="AR" style={{ height: 46, width: 46, objectFit: 'contain' }} />
           )}
         </div>
 
         {/* Nav Items */}
-        <nav className="flex-1 py-3 overflow-y-auto overflow-x-hidden">
+        <nav className="flex-1 py-2 overflow-y-auto overflow-x-hidden">
           {NAV_ITEMS.map((item) => {
             const active = isActive(item.href);
             const itemColor = item.color === 'orange' ? '#FF7A00' : '#00D4FF';
@@ -218,20 +218,20 @@ export default function TechDashboardLayout({ children }) {
                 key={item.name}
                 href={item.href}
                 onClick={() => setRailOpen(false)}
-                className="flex items-center py-3 transition-all active:opacity-70"
+                className="flex items-center min-h-[52px] py-3.5 transition-all active:opacity-70"
                 style={{
-                  paddingLeft: expanded ? 20 : 20,
-                  paddingRight: expanded ? 16 : 20,
-                  gap: expanded ? 12 : 0,
+                  paddingLeft: expanded ? 16 : 12,
+                  paddingRight: expanded ? 12 : 12,
+                  gap: expanded ? 14 : 0,
                   background: active ? 'rgba(34,211,238,0.06)' : 'transparent',
-                  borderLeft: active ? `2px solid ${color}` : '2px solid transparent',
+                  borderLeft: active ? `3px solid ${color}` : '3px solid transparent',
                 }}
               >
-                <div style={{ width: 24, height: 24, flexShrink: 0 }}>
+                <div className="flex items-center justify-center flex-shrink-0" style={{ width: 44, height: 44 }}>
                   <svg
                     viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
+                    width="30"
+                    height="30"
                     style={{
                       stroke: color,
                       strokeWidth: 1.75,
@@ -246,7 +246,7 @@ export default function TechDashboardLayout({ children }) {
                   </svg>
                 </div>
                 {expanded && (
-                  <span className="text-sm font-medium whitespace-nowrap transition-all" style={{ color, textShadow: active ? (item.color === 'orange' ? '0 0 8px rgba(255,122,0,0.4)' : '0 0 8px rgba(0,212,255,0.4)') : 'none' }}>
+                  <span className="text-base font-medium leading-tight whitespace-nowrap transition-all pr-1" style={{ color, textShadow: active ? (item.color === 'orange' ? '0 0 8px rgba(255,122,0,0.4)' : '0 0 8px rgba(0,212,255,0.4)') : 'none' }}>
                     {item.name}
                   </span>
                 )}
@@ -260,15 +260,16 @@ export default function TechDashboardLayout({ children }) {
           {/* Expand arrow */}
           <button
             onClick={() => setExpanded(e => !e)}
-            className="flex items-center justify-center w-full py-3 active:opacity-70 transition-opacity"
+            className="flex items-center justify-center w-full min-h-[52px] py-3.5 active:opacity-70 transition-opacity"
             style={{ gap: expanded ? 8 : 0 }}
+            aria-label={expanded ? 'Collapse navigation' : 'Expand navigation'}
           >
             <svg
               viewBox="0 0 24 24"
-              width="18"
-              height="18"
+              width="24"
+              height="24"
               style={{
-                stroke: 'rgba(255,255,255,0.3)',
+                stroke: 'rgba(255,255,255,0.4)',
                 strokeWidth: 2,
                 fill: 'none',
                 strokeLinecap: 'round',
@@ -279,7 +280,7 @@ export default function TechDashboardLayout({ children }) {
             >
               <polyline points="9 18 15 12 9 6"/>
             </svg>
-            {expanded && <span className="text-xs text-gray-500">Collapse</span>}
+            {expanded && <span className="text-sm text-gray-500">Collapse</span>}
           </button>
         </div>
       </div>
