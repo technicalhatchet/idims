@@ -22,6 +22,14 @@ const TIMELINE_SCROLL_ANCHOR_HOUR = 8;
 
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
+/** Appliance chip — aligns with route / landing orange (#FFB86C, #FF7A00 family); light text on dark glass */
+export const SCHEDULE_EQUIP_BADGE_STYLE = {
+  background: 'linear-gradient(180deg, rgba(255,138,26,0.1), rgba(255,118,46,0.05))',
+  color: '#FFDCC8',
+  boxShadow:
+    'inset 0 0 0 0.5px rgba(255,190,154,0.45), 0 0 10px rgba(255,138,26,0.14)',
+};
+
 /** Composited FUI-style grid: time-locked minors + hour majors only (no mixed px grids). */
 function TimelineGridScene({ slotCount }) {
   const totalSteps = slotCount * SUBDIVISIONS_PER_HOUR;
@@ -524,12 +532,7 @@ export default function ScheduleTestTimeline({
                       {equipLabel && (
                         <span
                           className="inline-flex self-start text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-full truncate"
-                          style={{
-                            background: 'rgba(251,191,36,0.08)',
-                            color: '#FDE68A',
-                            boxShadow:
-                              'inset 0 0 0 0.5px rgba(251,191,36,0.42), 0 0 8px rgba(251,191,36,0.1)',
-                          }}
+                          style={SCHEDULE_EQUIP_BADGE_STYLE}
                           title={equipLabel}
                         >
                           {equipLabel}

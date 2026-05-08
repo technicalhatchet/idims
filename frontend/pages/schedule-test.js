@@ -9,7 +9,11 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import ErrorAlert from '../components/ui/ErrorAlert';
 import StatusBadge from '../components/ui/StatusBadge';
 import EventDetailModal from '../components/schedule/EventDetailModal';
-import ScheduleTestTimeline, { NEON_RAILS, formatEquipmentSubtypeLabel } from '../components/schedule/ScheduleTestTimeline';
+import ScheduleTestTimeline, {
+  NEON_RAILS,
+  formatEquipmentSubtypeLabel,
+  SCHEDULE_EQUIP_BADGE_STYLE,
+} from '../components/schedule/ScheduleTestTimeline';
 import { useSchedule } from '../hooks/useSchedule';
 import { useTechnicians } from '../hooks/useTechnicians';
 import { useAuthRedirect } from '../hooks/useAuthRedirect';
@@ -194,12 +198,7 @@ function GlassAppointmentCard({ appointment, techColorMap, idx, onOpen }) {
               {equipLabel ? (
                 <span
                   className="inline-flex self-start text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-full truncate"
-                  style={{
-                    background: 'rgba(251,191,36,0.08)',
-                    color: '#FDE68A',
-                    boxShadow:
-                      'inset 0 0 0 0.5px rgba(251,191,36,0.42), 0 0 8px rgba(251,191,36,0.1)',
-                  }}
+                  style={SCHEDULE_EQUIP_BADGE_STYLE}
                   title={equipLabel}
                 >
                   {equipLabel}
