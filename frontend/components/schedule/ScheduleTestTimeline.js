@@ -204,16 +204,16 @@ export default function ScheduleTestTimeline({
         }}
       />
 
-      {/* Layer: dual-tone hour grid */}
+      {/* Layer: hour bands — spreadsheet row rhythm */}
       <div
-        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.32]"
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.52]"
         style={{
           background: `repeating-linear-gradient(
             to bottom,
             transparent 0,
             transparent calc(100% / ${slotCount} - 1px),
-            rgba(0, 217, 255, 0.1) calc(100% / ${slotCount} - 1px),
-            rgba(0, 217, 255, 0.1) calc(100% / ${slotCount}),
+            rgba(0, 217, 255, 0.16) calc(100% / ${slotCount} - 1px),
+            rgba(0, 217, 255, 0.16) calc(100% / ${slotCount}),
             transparent calc(100% / ${slotCount})
           )`,
         }}
@@ -253,24 +253,21 @@ export default function ScheduleTestTimeline({
           })}
         </div>
 
-        {/* Track */}
+        {/* Track — Excel-style row + column grid (wide cells) */}
         <div className="flex-1 relative min-h-[540px]" style={{ background: 'rgba(3,10,22,0.35)' }}>
-          {/* Hour separators — HUD (stronger majors) */}
-          <div className="absolute inset-0 flex flex-col pointer-events-none z-[1]">
-            {Array.from({ length: slotCount }, (_, i) => (
-              <div
-                key={i}
-                className="flex-1"
-                style={{
-                  borderBottom:
-                    i === slotCount - 1
-                      ? 'none'
-                      : `1px solid rgba(34,211,238,${0.06 + (i % 2 === 0 ? 0.08 : 0.03)})`,
-                  boxShadow: i % 2 === 0 ? 'inset 0 -1px 0 rgba(0,217,255,0.04)' : undefined,
-                }}
-              />
-            ))}
-          </div>
+          <div
+            className="absolute inset-0 pointer-events-none z-[1]"
+            style={{
+              backgroundImage: `repeating-linear-gradient(
+                90deg,
+                transparent 0,
+                transparent 55px,
+                rgba(34, 211, 238, 0.2) 56px,
+                rgba(34, 211, 238, 0.2) 57px
+              )`,
+              opacity: 0.88,
+            }}
+          />
 
           <TimelineRoutesSvg connectors={connectors.filter((c) => !travelMinsInvalid(c.travelMins))} />
 

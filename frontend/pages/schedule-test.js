@@ -425,10 +425,27 @@ function ScheduleTestInner() {
             appearance: none;
             border: none;
             box-shadow: none;
+            color: #22d3ee;
           }
           .sched-date-picker input[type="date"]::-webkit-datetime-edit,
           .sched-date-picker input[type="date"]::-webkit-datetime-edit-fields-wrapper {
             background: transparent;
+          }
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            color: #22d3ee;
+          }
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit-text-field,
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit-month-field,
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit-day-field,
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit-year-field {
+            color: #22d3ee;
+          }
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit {
+            text-align: center;
           }
         `}</style>
       </Head>
@@ -502,7 +519,7 @@ function ScheduleTestInner() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-            className="rounded-[28px] p-4 pt-5 mb-7 relative overflow-hidden"
+            className="rounded-[28px] p-3 pt-3.5 mb-5 relative overflow-hidden"
             style={{
               background: 'linear-gradient(165deg, rgba(16,28,48,0.55) 0%, rgba(10,18,36,0.72) 48%, rgba(8,14,28,0.78) 100%)',
               backdropFilter: 'blur(24px)',
@@ -531,7 +548,7 @@ function ScheduleTestInner() {
                 background: 'radial-gradient(ellipse at center, rgba(0,217,255,0.12), transparent 70%)',
               }}
             />
-            <div className="relative z-[1] space-y-5">
+            <div className="relative z-[1] space-y-2.5">
               <div className="flex flex-row gap-2 items-stretch">
                 <div
                   className="flex flex-1 min-w-0 p-[3px] rounded-xl gap-0.5"
@@ -573,7 +590,7 @@ function ScheduleTestInner() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
                 <button
                   type="button"
                   onClick={navigatePrevious}
@@ -593,13 +610,20 @@ function ScheduleTestInner() {
 
                 <div className="flex-1 min-w-[140px] h-10 flex">
                   <div
-                    className="sched-date-picker flex w-full h-full min-h-0 items-center gap-2 rounded-lg px-2.5 py-0"
+                    className="sched-date-picker relative flex w-full h-full min-h-0 items-center justify-center rounded-lg pl-8 pr-2 py-0"
                     style={{
                       background: 'linear-gradient(180deg, rgba(6,12,22,0.92), rgba(3,9,18,0.96))',
                       boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
                     }}
                   >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 shrink-0"
+                      style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}
+                    >
                       <rect x="3" y="4" width="18" height="18" rx="2"/>
                       <line x1="16" y1="2" x2="16" y2="6"/>
                       <line x1="8" y1="2" x2="8" y2="6"/>
@@ -610,8 +634,8 @@ function ScheduleTestInner() {
                       aria-label="Select date"
                       value={formatDateForInput(viewType === 'month' ? startDate : viewType === 'week' ? startDate : startDate)}
                       onChange={(e) => handleDateRangeChange(new Date(`${e.target.value}T12:00:00`), true)}
-                      className="flex-1 min-w-0 bg-transparent font-medium outline-none outline-offset-0 border-0 ring-0 tracking-wide text-[12px] leading-none h-full py-2 appearance-none"
-                      style={{ color: 'rgba(255,255,255,0.92)' }}
+                      className="w-full min-w-0 bg-transparent font-medium outline-none outline-offset-0 border-0 ring-0 tracking-wide text-[12px] leading-none h-full py-2 appearance-none text-center text-[#22D3EE]"
+                      style={{ color: '#22D3EE' }}
                     />
                   </div>
                 </div>
@@ -653,14 +677,14 @@ function ScheduleTestInner() {
                 <label className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.34)' }}>
                   Technician
                 </label>
-                <div className="mt-1.5 relative">
+                <div className="mt-1 relative">
                   <select
                     value={selectedTechnicianId}
                     onChange={(e) => {
                       setSelectedTechnicianId(e.target.value);
                       setTimeout(() => refetchSchedule(), 80);
                     }}
-                    className="w-full rounded-xl px-4 py-3.5 pr-10 text-sm font-medium appearance-none outline-none duration-[180ms]"
+                    className="w-full rounded-xl px-3 py-2.5 pr-10 text-xs font-medium appearance-none outline-none duration-[180ms]"
                     style={{
                       background: 'linear-gradient(180deg, rgba(8,14,26,0.95), rgba(4,10,20,0.98))',
                       border: '1px solid rgba(0,217,255,0.14)',
@@ -756,11 +780,11 @@ function ScheduleTestInner() {
               }}
             >
               <div
-                className="pointer-events-none absolute inset-0 opacity-[0.04]"
+                className="pointer-events-none absolute inset-0 opacity-[0.14]"
                 style={{
                   backgroundImage:
-                    'linear-gradient(rgba(0,217,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(0,217,255,0.45) 1px, transparent 1px)',
-                  backgroundSize: '24px 24px',
+                    'linear-gradient(rgba(0,217,255,0.42) 1px, transparent 1px), linear-gradient(90deg, rgba(0,217,255,0.36) 1px, transparent 1px)',
+                  backgroundSize: '64px 36px',
                 }}
               />
               <div className="relative z-[1]">
