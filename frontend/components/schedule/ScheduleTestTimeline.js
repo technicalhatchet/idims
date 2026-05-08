@@ -7,10 +7,21 @@ import StatusBadge from '../ui/StatusBadge';
 const START_HOUR = 7;
 const END_HOUR = 19;
 
+/**
+ * Vertical grid subdivisions inside each hour (e.g. 6 bands ≈ 10‑minute rhythm).
+ * Must stay in sync with how we paint the minor horizontal lines — all %‑based so
+ * appointment blocks remain aligned regardless of viewport height.
+ */
+const SUBDIVISIONS_PER_HOUR = 6;
+
+/** Minimum px per hour on the timeline — more vertical room for WO detail */
+const MIN_PX_PER_HOUR = 72;
+
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
-/** Composited FUI-style grid: independent visual scene behind HUD (not layout). */
+/** Composited FUI-style grid: time-locked minors + hour majors only (no mixed px grids). */
 function TimelineGridScene({ slotCount }) {
+  const totalSteps = slotCount * SUBDIVISIONS_PER_HOUR;
   return (
     <div
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]"
@@ -33,69 +44,55 @@ function TimelineGridScene({ slotCount }) {
           `,
         }}
       />
-      {/* L3 — vertical columns */}
+      {/* L3 — vertical columns (texture only — does not affect time alignment) */}
       <div
         className="absolute inset-0"
         style={{
-          opacity: 0.75,
+          opacity: 0.62,
           backgroundImage: `
             repeating-linear-gradient(
               90deg,
               transparent 0,
               transparent 47px,
-              rgba(0,217,255,0.06) 48px,
-              rgba(0,217,255,0.06) 49px
+              rgba(0,217,255,0.055) 48px,
+              rgba(0,217,255,0.055) 49px
             )
           `,
         }}
       />
-      {/* L4 — minor horizontal (40px) */}
+      {/* L4 — minor horizontal: equal steps within each hour */}
       <div
         className="absolute inset-0"
         style={{
-          opacity: 0.85,
+          opacity: 0.88,
           backgroundImage: `
             repeating-linear-gradient(
               to bottom,
               transparent 0,
-              transparent 39px,
-              rgba(0,217,255,0.05) 40px
+              transparent calc(100% / ${totalSteps} - 1px),
+              rgba(0,217,255,0.055) calc(100% / ${totalSteps} - 1px),
+              rgba(0,217,255,0.055) calc(100% / ${totalSteps})
             )
           `,
         }}
       />
-      {/* L5 — major horizontal (160px) */}
+      {/* L5 — hour majors (strong hierarchy; aligns with axis labels) */}
       <div
         className="absolute inset-0"
         style={{
-          opacity: 0.75,
-          backgroundImage: `
-            repeating-linear-gradient(
-              to bottom,
-              transparent 0,
-              transparent 159px,
-              rgba(0,217,255,0.12) 160px
-            )
-          `,
-        }}
-      />
-      {/* L6 — hour-locked grid (time hierarchy) */}
-      <div
-        className="absolute inset-0"
-        style={{
-          opacity: 0.52,
+          opacity: 0.92,
           backgroundImage: `
             repeating-linear-gradient(
               to bottom,
               transparent 0,
               transparent calc(100% / ${slotCount} - 1px),
-              rgba(0,217,255,0.1) calc(100% / ${slotCount} - 1px),
-              rgba(0,217,255,0.1) calc(100% / ${slotCount})
+              rgba(0,217,255,0.145) calc(100% / ${slotCount} - 1px),
+              rgba(0,217,255,0.145) calc(100% / ${slotCount})
             )
           `,
         }}
       />
-      {/* L7 — vignette + rim */}
+      {/* L6 — vignette + rim */}
       <div
         className="absolute inset-0 rounded-[inherit]"
         style={{
@@ -243,6 +240,8 @@ export default function ScheduleTestTimeline({
 
   const totalMins = (END_HOUR - START_HOUR) * 60;
   const slotCount = END_HOUR - START_HOUR;
+  /** Taller track = clearer grid + room for WO copy (still %-positioned appointments). */
+  const timelineMinHeight = slotCount * MIN_PX_PER_HOUR;
 
   const prepared = useMemo(() => {
     const list = (appointments || [])
@@ -296,7 +295,7 @@ export default function ScheduleTestTimeline({
   }, [nowTick, dayStart, totalMins]);
 
   return (
-    <div className="relative isolate rounded-[22px] overflow-hidden sched-timeline-hud-root" style={{ minHeight: 540 }}>
+    <div className="relative isolate rounded-[22px] overflow-hidden sched-timeline-hud-root" style={{ minHeight: timelineMinHeight }}>
       <TimelineGridScene slotCount={slotCount} />
 
       <div className="relative flex z-[2] rounded-[inherit]">
@@ -304,7 +303,7 @@ export default function ScheduleTestTimeline({
         <div
           className="flex-shrink-0 w-[3.05rem] sm:w-[3.35rem] relative z-[4] scheduling-time-axis rounded-l-[18px]"
           style={{
-            minHeight: 540,
+            minHeight: timelineMinHeight,
             background: 'linear-gradient(180deg, rgba(4,11,24,0.42), rgba(2,7,14,0.58))',
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
@@ -337,8 +336,9 @@ export default function ScheduleTestTimeline({
 
         {/* Track — composited grid lives in TimelineGridScene; this is the interaction plane */}
         <div
-          className="flex-1 relative min-h-[540px]"
+          className="flex-1 relative"
           style={{
+            minHeight: timelineMinHeight,
             background: 'linear-gradient(180deg, rgba(3,8,18,0.22), rgba(1,4,10,0.28))',
           }}
         >
@@ -407,7 +407,7 @@ export default function ScheduleTestTimeline({
                 style={{
                   top: `${apt.topPct}%`,
                   height: `${apt.heightPct}%`,
-                  minHeight: 76,
+                  minHeight: Math.max(78, Math.round(MIN_PX_PER_HOUR * 0.82)),
                 }}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
