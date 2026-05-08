@@ -58,11 +58,11 @@ function Segment({ active, children, disabled, ...rest }) {
     <button
       type="button"
       disabled={disabled}
-      className={`relative flex-1 overflow-hidden min-h-[46px] px-2 rounded-[11px] text-xs font-semibold uppercase transition-[color,background,box-shadow,border-color,opacity,transform] disabled:opacity-45 disabled:pointer-events-none sched-segment ${
+      className={`relative flex-1 overflow-hidden min-h-[32px] py-1.5 px-1.5 rounded-[9px] text-[10px] font-semibold uppercase leading-none transition-[color,background,box-shadow,border-color,opacity,transform] disabled:opacity-45 disabled:pointer-events-none sched-segment ${
         active ? 'sched-segment-active' : ''
       }`}
       style={{
-        letterSpacing: '0.08em',
+        letterSpacing: '0.07em',
         transitionDuration: '180ms',
         transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
         ...(active
@@ -524,7 +524,7 @@ function ScheduleTestInner() {
             <div className="relative z-[1] space-y-5">
               <div className="flex flex-row gap-2 items-stretch">
                 <div
-                  className="flex flex-1 min-w-0 p-1 rounded-[14px] gap-1"
+                  className="flex flex-1 min-w-0 p-[3px] rounded-xl gap-0.5"
                   style={{
                     background: 'rgba(0,0,0,0.32)',
                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
@@ -542,7 +542,7 @@ function ScheduleTestInner() {
                   </Segment>
                 </div>
                 <div
-                  className="flex flex-1 min-w-0 p-1 rounded-[14px] gap-1"
+                  className="flex flex-1 min-w-0 p-[3px] rounded-xl gap-0.5"
                   style={{
                     background: 'rgba(0,0,0,0.32)',
                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
@@ -563,11 +563,11 @@ function ScheduleTestInner() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-stretch gap-2.5">
+              <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   onClick={navigatePrevious}
-                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 duration-[180ms]"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 duration-[180ms]"
                   style={{
                     border: '1px solid rgba(0,217,255,0.14)',
                     background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
@@ -576,24 +576,21 @@ function ScheduleTestInner() {
                   }}
                   aria-label="Previous"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
                     <polyline points="15 18 9 12 15 6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
 
-                <div className="flex-1 min-w-[156px]">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.34)' }}>
-                    Date
-                  </label>
+                <div className="flex-1 min-w-[140px] h-10 flex">
                   <div
-                    className="mt-1.5 flex items-center gap-2.5 rounded-xl px-3 py-3"
+                    className="flex w-full h-full min-h-0 items-center gap-2 rounded-lg px-2.5 py-0"
                     style={{
                       background: 'linear-gradient(180deg, rgba(6,12,22,0.92), rgba(3,9,18,0.96))',
                       border: '1px solid rgba(255,255,255,0.06)',
                       boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 22px rgba(0,217,255,0.05)',
                     }}
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
                       <rect x="3" y="4" width="18" height="18" rx="2"/>
                       <line x1="16" y1="2" x2="16" y2="6"/>
                       <line x1="8" y1="2" x2="8" y2="6"/>
@@ -601,9 +598,10 @@ function ScheduleTestInner() {
                     </svg>
                     <input
                       type="date"
+                      aria-label="Select date"
                       value={formatDateForInput(viewType === 'month' ? startDate : viewType === 'week' ? startDate : startDate)}
                       onChange={(e) => handleDateRangeChange(new Date(`${e.target.value}T12:00:00`), true)}
-                      className="flex-1 bg-transparent text-sm font-medium outline-none tracking-wide"
+                      className="flex-1 min-w-0 bg-transparent font-medium outline-none tracking-wide text-[12px] leading-none h-full py-2"
                       style={{ color: 'rgba(255,255,255,0.92)' }}
                     />
                   </div>
@@ -612,7 +610,7 @@ function ScheduleTestInner() {
                 <button
                   type="button"
                   onClick={navigateNext}
-                  className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 duration-[180ms]"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 duration-[180ms]"
                   style={{
                     border: '1px solid rgba(0,217,255,0.14)',
                     background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
@@ -621,7 +619,7 @@ function ScheduleTestInner() {
                   }}
                   aria-label="Next"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
                     <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
@@ -629,7 +627,7 @@ function ScheduleTestInner() {
                 <button
                   type="button"
                   onClick={navigateToday}
-                  className="px-4 min-h-[48px] rounded-xl text-xs font-bold uppercase tracking-[0.1em] shrink-0 duration-[180ms]"
+                  className="px-3 h-10 rounded-lg text-[10px] font-bold uppercase tracking-[0.08em] shrink-0 flex items-center justify-center duration-[180ms]"
                   style={{
                     border: '1px solid rgba(0,217,255,0.3)',
                     color: '#AFEEF8',
