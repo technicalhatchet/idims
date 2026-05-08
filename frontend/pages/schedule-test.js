@@ -9,7 +9,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import ErrorAlert from '../components/ui/ErrorAlert';
 import StatusBadge from '../components/ui/StatusBadge';
 import EventDetailModal from '../components/schedule/EventDetailModal';
-import ScheduleTestTimeline, { NEON_RAILS } from '../components/schedule/ScheduleTestTimeline';
+import ScheduleTestTimeline, { NEON_RAILS, formatEquipmentSubtypeLabel } from '../components/schedule/ScheduleTestTimeline';
 import { useSchedule } from '../hooks/useSchedule';
 import { useTechnicians } from '../hooks/useTechnicians';
 import { useAuthRedirect } from '../hooks/useAuthRedirect';
@@ -95,7 +95,7 @@ function Segment({ active, children, disabled, ...rest }) {
   );
 }
 
-function GlassAppointmentCard({ appointment, techColorMap, techNames, idx, onOpen }) {
+function GlassAppointmentCard({ appointment, techColorMap, idx, onOpen }) {
   const rail = appointment.technician_id
     ? techColorMap[appointment.technician_id] || NEON_RAILS[0]
     : 'rgba(100,116,139,0.9)';
@@ -104,6 +104,7 @@ function GlassAppointmentCard({ appointment, techColorMap, techNames, idx, onOpe
     ? String(appointment.appointment_type).replace(/_/g, ' ')
     : 'Service';
   const typeIsDiagnostic = /diagnostic/i.test(typeLabel);
+  const equipLabel = formatEquipmentSubtypeLabel(appointment);
 
   return (
     <motion.button
@@ -163,18 +164,18 @@ function GlassAppointmentCard({ appointment, techColorMap, techNames, idx, onOpe
                 >
                   {orderNum}
                 </span>
-                <span className="sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border [&>span]:!border-purple-400/22 [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
+                <span className="sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
                   <StatusBadge status={appointment.status || 'scheduled'} />
                 </span>
                 <span
-                  className="text-[8px] font-bold px-[5px] py-[2px] rounded tracking-[0.05em] uppercase leading-tight border"
+                  className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight"
                   style={{
-                    borderColor: typeIsDiagnostic ? 'rgba(34,211,238,0.2)' : 'rgba(168,85,247,0.2)',
+                    border: 'none',
                     background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
                     color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
                     boxShadow: typeIsDiagnostic
-                      ? '0 0 8px rgba(34,211,238,0.1)'
-                      : '0 0 8px rgba(168,85,247,0.09)',
+                      ? 'inset 0 0 0 0.5px rgba(34,211,238,0.42), 0 0 8px rgba(34,211,238,0.1)'
+                      : 'inset 0 0 0 0.5px rgba(168,85,247,0.42), 0 0 8px rgba(168,85,247,0.09)',
                   }}
                 >
                   {typeLabel}
@@ -190,9 +191,20 @@ function GlassAppointmentCard({ appointment, techColorMap, techNames, idx, onOpe
               <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
                 {appointment.client_name || 'Client'}
               </p>
-              <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
-                {appointment.technician_name || (appointment.technician_id ? techNames[appointment.technician_id] : null) || 'Unassigned'}
-              </p>
+              {equipLabel ? (
+                <span
+                  className="inline-flex self-start text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-full truncate"
+                  style={{
+                    background: 'rgba(251,191,36,0.08)',
+                    color: '#FDE68A',
+                    boxShadow:
+                      'inset 0 0 0 0.5px rgba(251,191,36,0.42), 0 0 8px rgba(251,191,36,0.1)',
+                  }}
+                  title={equipLabel}
+                >
+                  {equipLabel}
+                </span>
+              ) : null}
             </div>
             <div className="flex flex-col justify-center flex-shrink-0">
               <div
@@ -865,7 +877,6 @@ function ScheduleTestInner() {
                   key={a.id || `${a.start}-${i}`}
                   appointment={a}
                   techColorMap={technicianRailMap}
-                  techNames={techNames}
                   idx={i}
                   onOpen={handleEventClick}
                 />
@@ -884,7 +895,6 @@ function ScheduleTestInner() {
                       key={a.id || `${a.start}-${i}`}
                       appointment={a}
                       techColorMap={technicianRailMap}
-                      techNames={techNames}
                       idx={i}
                       onOpen={handleEventClick}
                     />

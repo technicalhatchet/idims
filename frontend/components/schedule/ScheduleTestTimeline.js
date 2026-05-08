@@ -140,6 +140,14 @@ function serviceTypeLabel(apt) {
   return t.replace(/_/g, ' ');
 }
 
+/** Display label for serviced equipment (subtype preferred, then type). */
+export function formatEquipmentSubtypeLabel(apt) {
+  const raw = apt?.equipment_subtype ?? apt?.equipment_type;
+  if (raw == null || String(raw).trim() === '') return null;
+  const s = String(raw).trim().replace(/_/g, ' ');
+  return s.length ? s : null;
+}
+
 /** Badge-only travel chip; vertical route drawn in SVG layer */
 function TravelChip({ travelMins, topPct }) {
   if (!travelMins || travelMins < 8) return null;
@@ -429,6 +437,7 @@ export default function ScheduleTestTimeline({
             const orderNum = apt.order_number ? `WO #${apt.order_number}` : apt.title || 'Job';
             const woHref = apt.work_order_id ? `/work_orders/${apt.work_order_id}` : null;
             const typeIsDiagnostic = /diagnostic/i.test(serviceTypeLabel(apt));
+            const equipLabel = formatEquipmentSubtypeLabel(apt);
 
             return (
               <motion.button
@@ -484,17 +493,17 @@ export default function ScheduleTestTimeline({
                         >
                           {orderNum}
                         </span>
-                        <span className="sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border [&>span]:!border-purple-400/22 [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
+                        <span className="sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
                           <StatusBadge status={apt.status || 'scheduled'} />
                         </span>
                         <span
-                          className="text-[8px] font-bold px-[5px] py-[2px] rounded tracking-[0.05em] uppercase leading-tight border border-cyan-400/22"
+                          className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight"
                           style={{
                             background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
                             color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
                             boxShadow: typeIsDiagnostic
-                              ? '0 0 8px rgba(34,211,238,0.1)'
-                              : '0 0 8px rgba(168,85,247,0.09)',
+                              ? 'inset 0 0 0 0.5px rgba(34,211,238,0.42), 0 0 8px rgba(34,211,238,0.1)'
+                              : 'inset 0 0 0 0.5px rgba(168,85,247,0.42), 0 0 8px rgba(168,85,247,0.09)',
                           }}
                         >
                           {serviceTypeLabel(apt)}
@@ -512,9 +521,20 @@ export default function ScheduleTestTimeline({
                           {apt.client_phone}
                         </p>
                       )}
-                      <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.32)' }}>
-                        {apt.technician_name || 'Unassigned'}
-                      </p>
+                      {equipLabel && (
+                        <span
+                          className="inline-flex self-start text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-full truncate"
+                          style={{
+                            background: 'rgba(251,191,36,0.08)',
+                            color: '#FDE68A',
+                            boxShadow:
+                              'inset 0 0 0 0.5px rgba(251,191,36,0.42), 0 0 8px rgba(251,191,36,0.1)',
+                          }}
+                          title={equipLabel}
+                        >
+                          {equipLabel}
+                        </span>
+                      )}
                     </div>
                     <div className="flex flex-col items-center justify-center flex-shrink-0">
                       {woHref ? (
