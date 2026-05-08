@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
+import { TECHNICIAN_RAIL_CAR_PATH_D } from '../../constants/technicianRailCarPath';
+
 // ── Nav Icons (custom SVGs to match our aesthetic) ────────────────────────
 const NAV_ITEMS = [
   {
@@ -40,7 +42,7 @@ const NAV_ITEMS = [
     name: 'Technicians',
     href: '/technicians',
     color: 'orange',
-    icon: (<><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></>),
+    icon: null,
   },
   {
     name: 'Settings',
@@ -228,22 +230,45 @@ export default function TechDashboardLayout({ children }) {
                 }}
               >
                 <div className="flex items-center justify-center flex-shrink-0" style={{ width: 44, height: 44 }}>
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="30"
-                    height="30"
-                    style={{
-                      stroke: color,
-                      strokeWidth: 1.75,
-                      fill: 'none',
-                      strokeLinecap: 'round',
-                      strokeLinejoin: 'round',
-                      filter: glowFilter,
-                      transition: 'all 0.2s',
-                    }}
-                  >
-                    {item.icon}
-                  </svg>
+                  {item.href === '/technicians' ? (
+                    <svg
+                      viewBox="0 0 122.88 99.47"
+                      width={30}
+                      height={24}
+                      aria-hidden
+                      style={{
+                        color,
+                        fill: 'currentColor',
+                        stroke: 'none',
+                        filter: glowFilter,
+                        transition: 'all 0.2s',
+                      }}
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        fill="currentColor"
+                        d={TECHNICIAN_RAIL_CAR_PATH_D}
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="30"
+                      height="30"
+                      style={{
+                        stroke: color,
+                        strokeWidth: 1.75,
+                        fill: 'none',
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                        filter: glowFilter,
+                        transition: 'all 0.2s',
+                      }}
+                    >
+                      {item.icon}
+                    </svg>
+                  )}
                 </div>
                 {expanded && (
                   <span className="text-base font-medium leading-tight whitespace-nowrap transition-all pr-1" style={{ color, textShadow: active ? (item.color === 'orange' ? '0 0 8px rgba(255,122,0,0.4)' : '0 0 8px rgba(0,212,255,0.4)') : 'none' }}>
