@@ -6,7 +6,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 import {
   TECH_ICON_ASPECT,
-  TECH_ICON_PATH_D,
+  TECH_ICON_PARTS,
   TECH_ICON_VIEWBOX,
 } from '../../constants/techIconRail';
 
@@ -251,12 +251,16 @@ export default function TechDashboardLayout({ children }) {
                         transition: 'all 0.2s',
                       }}
                     >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        fill="currentColor"
-                        d={TECH_ICON_PATH_D}
-                      />
+                      {TECH_ICON_PARTS.map(({ d, fillRule, transform: transformAttr }, i) => (
+                        <path
+                          key={i}
+                          d={d}
+                          fill="currentColor"
+                          transform={transformAttr}
+                          fillRule={fillRule === 'evenodd' ? 'evenodd' : 'nonzero'}
+                          clipRule={fillRule === 'evenodd' ? 'evenodd' : 'nonzero'}
+                        />
+                      ))}
                     </svg>
                   ) : (
                     <svg
