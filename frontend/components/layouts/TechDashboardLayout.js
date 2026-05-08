@@ -4,11 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import {
-  TECHNICIAN_ICON_ASPECT,
-  TECHNICIAN_ICON_PATH_D,
-  TECHNICIAN_ICON_VIEWBOX,
-} from '../../constants/technicianIconRail';
+import { TECHNICIAN_RAIL_CAR_PATH_D } from '../../constants/technicianRailCarPath';
 
 // ── Nav Icons (custom SVGs to match our aesthetic) ────────────────────────
 const NAV_ITEMS = [
@@ -236,9 +232,9 @@ export default function TechDashboardLayout({ children }) {
                 <div className="flex items-center justify-center flex-shrink-0" style={{ width: 44, height: 44 }}>
                   {item.href === '/technicians' ? (
                     <svg
-                      viewBox={TECHNICIAN_ICON_VIEWBOX}
+                      viewBox="0 0 122.88 99.47"
                       width={30}
-                      height={Math.round((30 / TECHNICIAN_ICON_ASPECT) * 100) / 100}
+                      height={24}
                       aria-hidden
                       style={{
                         color,
@@ -252,7 +248,7 @@ export default function TechDashboardLayout({ children }) {
                         fillRule="evenodd"
                         clipRule="evenodd"
                         fill="currentColor"
-                        d={TECHNICIAN_ICON_PATH_D}
+                        d={TECHNICIAN_RAIL_CAR_PATH_D}
                       />
                     </svg>
                   ) : (
