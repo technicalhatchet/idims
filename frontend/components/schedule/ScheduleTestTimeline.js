@@ -15,7 +15,7 @@ const END_HOUR = 19;
 const SUBDIVISIONS_PER_HOUR = 6;
 
 /** Minimum px per hour on the timeline — more vertical room for WO detail */
-const MIN_PX_PER_HOUR = 72;
+const MIN_PX_PER_HOUR = 82;
 
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
@@ -316,13 +316,13 @@ export default function ScheduleTestTimeline({
             return (
               <div
                 key={h}
-                className="absolute left-0 right-0 tabular-nums text-right leading-none font-medium scheduling-time-label"
+                className="absolute left-0 right-0 w-full tabular-nums text-right leading-none font-medium scheduling-time-label"
                 style={{
                   top: `${(i / slotCount) * 100}%`,
                   transform: 'translateY(-50%)',
-                  paddingRight: '0.82rem',
-                  fontSize: 13,
-                  letterSpacing: '0.04em',
+                  paddingRight: '0.38rem',
+                  fontSize: 11,
+                  letterSpacing: '0.03em',
                   color: 'rgba(255,255,255,0.38)',
                   textShadow: '0 0 12px rgba(0,217,255,0.08)',
                   transition: `color 180ms cubic-bezier(${HUD_EASE.join(',')})`,
