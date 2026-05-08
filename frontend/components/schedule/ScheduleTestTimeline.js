@@ -15,7 +15,7 @@ const END_HOUR = 18;
 const SUBDIVISIONS_PER_HOUR = 6;
 
 /** Minimum px per hour on the timeline — more vertical room for WO detail */
-const MIN_PX_PER_HOUR = 107;
+const MIN_PX_PER_HOUR = 125;
 
 /** Align this hour’s band to the viewport top after mount (scrolls page; hides cut-off earlier hour labels). */
 const TIMELINE_SCROLL_ANCHOR_HOUR = 8;
@@ -477,42 +477,42 @@ export default function ScheduleTestTimeline({
                   />
                   <div className="flex-1 min-w-0 py-2.5 pl-3 pr-2 flex gap-2.5 items-stretch">
                     <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
-                      <div className="flex flex-wrap items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-0.5">
                         <span
-                          className="text-[12px] font-bold tracking-[-0.02em] leading-tight"
+                          className="text-[11px] font-bold tracking-[-0.02em] leading-tight"
                           style={{ color: 'rgba(255,255,255,0.96)' }}
                         >
                           {orderNum}
                         </span>
-                        <span className="sched-hud-status inline-flex [&>span]:!text-[9px] [&>span]:!leading-tight [&>span]:!font-bold [&>span]:!tracking-[0.08em] [&>span]:!uppercase [&>span]:!rounded-md [&>span]:!px-2 [&>span]:!py-0.5 [&>span]:!border [&>span]:!border-purple-400/25 [&>span]:!bg-[rgba(168,85,247,0.14)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_12px_rgba(168,85,247,0.12)]">
+                        <span className="sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border [&>span]:!border-purple-400/22 [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
                           <StatusBadge status={apt.status || 'scheduled'} />
                         </span>
                         <span
-                          className="text-[9px] font-bold px-2 py-0.5 rounded-md tracking-[0.06em] uppercase leading-tight border border-cyan-400/22"
+                          className="text-[8px] font-bold px-[5px] py-[2px] rounded tracking-[0.05em] uppercase leading-tight border border-cyan-400/22"
                           style={{
-                            background: typeIsDiagnostic ? 'rgba(34,211,238,0.12)' : 'rgba(168,85,247,0.1)',
+                            background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
                             color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
                             boxShadow: typeIsDiagnostic
-                              ? '0 0 12px rgba(34,211,238,0.12)'
-                              : '0 0 12px rgba(168,85,247,0.1)',
+                              ? '0 0 8px rgba(34,211,238,0.1)'
+                              : '0 0 8px rgba(168,85,247,0.09)',
                           }}
                         >
                           {serviceTypeLabel(apt)}
                         </span>
                       </div>
-                      <p className="text-[11px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
+                      <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
                         {format(apt._start, 'h:mm a')}
                         {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
                       </p>
-                      <p className="text-[13px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
+                      <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
                         {apt.client_name || 'Client'}
                       </p>
                       {apt.client_phone && (
-                        <p className="text-[10px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
+                        <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
                           {apt.client_phone}
                         </p>
                       )}
-                      <p className="text-[10px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.32)' }}>
+                      <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.32)' }}>
                         {apt.technician_name || 'Unassigned'}
                       </p>
                     </div>
