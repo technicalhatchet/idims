@@ -10,6 +10,9 @@ import {
   TECH_ICON_VIEWBOX,
 } from '../../constants/techIconRail';
 
+/** Filled silhouette: a few px wider than stroke icons (30) so optical size matches */
+const TECH_RAIL_NAV_ICON_W_PX = 36;
+
 // ── Nav Icons (custom SVGs to match our aesthetic) ────────────────────────
 const NAV_ITEMS = [
   {
@@ -237,13 +240,11 @@ export default function TechDashboardLayout({ children }) {
                   {item.href === '/technicians' ? (
                     <svg
                       viewBox={TECH_ICON_VIEWBOX}
-                      width={30}
-                      height={Math.round((30 / TECH_ICON_ASPECT) * 100) / 100}
+                      width={TECH_RAIL_NAV_ICON_W_PX}
+                      height={Math.round((TECH_RAIL_NAV_ICON_W_PX / TECH_ICON_ASPECT) * 100) / 100}
                       aria-hidden
                       style={{
                         color,
-                        fill: 'currentColor',
-                        stroke: 'none',
                         filter: glowFilter,
                         transition: 'all 0.2s',
                       }}
@@ -252,6 +253,12 @@ export default function TechDashboardLayout({ children }) {
                         fillRule="evenodd"
                         clipRule="evenodd"
                         fill="currentColor"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                        vectorEffect="non-scaling-stroke"
+                        paintOrder="stroke fill"
                         d={TECH_ICON_PATH_D}
                       />
                     </svg>
