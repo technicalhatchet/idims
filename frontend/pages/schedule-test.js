@@ -57,6 +57,16 @@ function techNameLookup(techniciansData) {
   return m;
 }
 
+/** First names only — used in bottom legend chroma rail labels */
+function techFirstNameLegendLookup(techniciansData) {
+  const m = {};
+  techniciansData?.items?.forEach((t) => {
+    const fn = `${t.user?.first_name || ''}`.trim();
+    m[t.id] = fn || `Tech ${String(t.id).slice(0, 6)}`;
+  });
+  return m;
+}
+
 function Segment({ active, children, disabled, ...rest }) {
   return (
     <button
@@ -257,6 +267,7 @@ function ScheduleTestInner() {
 
   const { map: technicianRailMap, orderedIds } = useTechnicianRails(techniciansData, appointments);
   const techNames = useMemo(() => techNameLookup(techniciansData), [techniciansData]);
+  const techLegendFirstNames = useMemo(() => techFirstNameLegendLookup(techniciansData), [techniciansData]);
 
   useEffect(() => {
     if (scheduleError?.status !== 401) return;
@@ -921,7 +932,7 @@ function ScheduleTestInner() {
                       }}
                     />
                     <span className="text-[10px] font-semibold tracking-[0.05em]" style={{ color: 'rgba(255,255,255,0.58)' }}>
-                      {techNames[id] || 'Technician'}
+                      {techLegendFirstNames[id] || techNames[id]?.split(/\s+/)[0] || 'Technician'}
                     </span>
                   </div>
                 ))
@@ -940,7 +951,7 @@ function ScheduleTestInner() {
                 <path d="M5 17h14v2H5v-2z" strokeLinecap="round"/>
                 <path d="M7 17V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8" strokeLinecap="round"/>
               </svg>
-              Route infra · same tech / day
+              Connectors · same tech, consecutive jobs
             </div>
           </div>
         </div>
