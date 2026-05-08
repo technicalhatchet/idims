@@ -9,6 +9,108 @@ const END_HOUR = 19;
 
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
+/** Composited FUI-style grid: independent visual scene behind HUD (not layout). */
+function TimelineGridScene({ slotCount }) {
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]"
+      aria-hidden
+    >
+      {/* L1 — deep base */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(165deg, #010509 0%, #050f18 42%, #020407 100%)',
+        }}
+      />
+      {/* L2 — ambient radial pool */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            radial-gradient(circle at 50% 18%, rgba(0,217,255,0.1), transparent 58%),
+            radial-gradient(ellipse 90% 48% at 72% 55%, rgba(34,211,238,0.05), transparent 50%)
+          `,
+        }}
+      />
+      {/* L3 — vertical columns */}
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: 0.75,
+          backgroundImage: `
+            repeating-linear-gradient(
+              90deg,
+              transparent 0,
+              transparent 47px,
+              rgba(0,217,255,0.06) 48px,
+              rgba(0,217,255,0.06) 49px
+            )
+          `,
+        }}
+      />
+      {/* L4 — minor horizontal (40px) */}
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: 0.85,
+          backgroundImage: `
+            repeating-linear-gradient(
+              to bottom,
+              transparent 0,
+              transparent 39px,
+              rgba(0,217,255,0.05) 40px
+            )
+          `,
+        }}
+      />
+      {/* L5 — major horizontal (160px) */}
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: 0.75,
+          backgroundImage: `
+            repeating-linear-gradient(
+              to bottom,
+              transparent 0,
+              transparent 159px,
+              rgba(0,217,255,0.12) 160px
+            )
+          `,
+        }}
+      />
+      {/* L6 — hour-locked grid (time hierarchy) */}
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: 0.52,
+          backgroundImage: `
+            repeating-linear-gradient(
+              to bottom,
+              transparent 0,
+              transparent calc(100% / ${slotCount} - 1px),
+              rgba(0,217,255,0.1) calc(100% / ${slotCount} - 1px),
+              rgba(0,217,255,0.1) calc(100% / ${slotCount})
+            )
+          `,
+        }}
+      />
+      {/* L7 — vignette + rim */}
+      <div
+        className="absolute inset-0 rounded-[inherit]"
+        style={{
+          boxShadow: `
+            inset 0 1px 0 rgba(0,217,255,0.07),
+            inset 0 -1px 0 rgba(0,0,0,0.55),
+            inset 0 0 90px rgba(0,0,0,0.5),
+            inset 0 0 28px rgba(0,0,0,0.35)
+          `,
+        }}
+      />
+    </div>
+  );
+}
+
 function minsFromMidnight(d) {
   return d.getHours() * 60 + d.getMinutes();
 }
@@ -194,30 +296,8 @@ export default function ScheduleTestTimeline({
   }, [nowTick, dayStart, totalMins]);
 
   return (
-    <div className="relative rounded-[22px] overflow-hidden sched-timeline-hud-root" style={{ minHeight: 540 }}>
-      {/* Layer: atmospheric cyan pool (timeline recedes) */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0 rounded-[inherit]"
-        style={{
-          background:
-            'radial-gradient(ellipse 110% 45% at 50% -5%, rgba(0,217,255,0.09), transparent 55%), radial-gradient(circle at 75% 50%, rgba(34,211,238,0.04), transparent 40%)',
-        }}
-      />
-
-      {/* Layer: hour bands — spreadsheet row rhythm */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.52]"
-        style={{
-          background: `repeating-linear-gradient(
-            to bottom,
-            transparent 0,
-            transparent calc(100% / ${slotCount} - 1px),
-            rgba(0, 217, 255, 0.16) calc(100% / ${slotCount} - 1px),
-            rgba(0, 217, 255, 0.16) calc(100% / ${slotCount}),
-            transparent calc(100% / ${slotCount})
-          )`,
-        }}
-      />
+    <div className="relative isolate rounded-[22px] overflow-hidden sched-timeline-hud-root" style={{ minHeight: 540 }}>
+      <TimelineGridScene slotCount={slotCount} />
 
       <div className="relative flex z-[2] rounded-[inherit]">
         {/* Time axis */}
@@ -225,9 +305,11 @@ export default function ScheduleTestTimeline({
           className="flex-shrink-0 w-[3.05rem] sm:w-[3.35rem] relative z-[4] scheduling-time-axis rounded-l-[18px]"
           style={{
             minHeight: 540,
-            background: 'linear-gradient(180deg, rgba(5,12,26,0.75), rgba(2,8,14,0.88))',
+            background: 'linear-gradient(180deg, rgba(4,11,24,0.42), rgba(2,7,14,0.58))',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
             boxShadow:
-              'inset -1px 0 0 rgba(34,211,238,0.12), inset 0 1px 0 rgba(255,255,255,0.035)',
+              'inset -1px 0 0 rgba(34,211,238,0.14), inset 0 1px 0 rgba(255,255,255,0.04)',
           }}
         >
           {Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
@@ -253,22 +335,13 @@ export default function ScheduleTestTimeline({
           })}
         </div>
 
-        {/* Track — Excel-style row + column grid (wide cells) */}
-        <div className="flex-1 relative min-h-[540px]" style={{ background: 'rgba(3,10,22,0.35)' }}>
-          <div
-            className="absolute inset-0 pointer-events-none z-[1]"
-            style={{
-              backgroundImage: `repeating-linear-gradient(
-                90deg,
-                transparent 0,
-                transparent 55px,
-                rgba(34, 211, 238, 0.2) 56px,
-                rgba(34, 211, 238, 0.2) 57px
-              )`,
-              opacity: 0.88,
-            }}
-          />
-
+        {/* Track — composited grid lives in TimelineGridScene; this is the interaction plane */}
+        <div
+          className="flex-1 relative min-h-[540px]"
+          style={{
+            background: 'linear-gradient(180deg, rgba(3,8,18,0.22), rgba(1,4,10,0.28))',
+          }}
+        >
           <TimelineRoutesSvg connectors={connectors.filter((c) => !travelMinsInvalid(c.travelMins))} />
 
           {connectors.map((c) => (
