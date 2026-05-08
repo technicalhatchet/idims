@@ -443,7 +443,6 @@ export default function ScheduleTestTimeline({
 
           {prepared.map((apt, idx) => {
             const orderNum = apt.order_number ? `WO #${apt.order_number}` : apt.title || 'Job';
-            const woHref = apt.work_order_id ? `/work_orders/${apt.work_order_id}` : null;
             const typeIsDiagnostic = /diagnostic/i.test(serviceTypeLabel(apt));
             const equipLabel = formatEquipmentSubtypeLabel(apt);
 
@@ -492,20 +491,26 @@ export default function ScheduleTestTimeline({
                       boxShadow: `0 0 18px ${apt.rail}, 0 0 8px ${apt.rail}99`,
                     }}
                   />
-                  <div className="flex-1 min-w-0 py-2.5 pl-3 pr-2 flex gap-2.5 items-stretch">
-                    <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
-                      <div className="flex flex-wrap items-center gap-0.5">
+                  <div className="flex-1 min-w-0 py-2.5 pl-3 pr-3 flex flex-col justify-center gap-0.5">
+                    <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 w-full min-w-0">
+                      <span
+                        className="text-[11px] font-bold tracking-[-0.02em] leading-tight shrink min-w-0"
+                        style={{ color: 'rgba(255,255,255,0.96)' }}
+                      >
+                        {orderNum}
+                      </span>
+                      <div className="flex flex-wrap items-center justify-end gap-0.5 flex-1 min-w-0">
+                        {equipLabel && (
+                          <span
+                            className="inline-flex text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-[min(100%,11rem)] truncate"
+                            style={SCHEDULE_EQUIP_BADGE_STYLE}
+                            title={equipLabel}
+                          >
+                            {equipLabel}
+                          </span>
+                        )}
                         <span
-                          className="text-[11px] font-bold tracking-[-0.02em] leading-tight"
-                          style={{ color: 'rgba(255,255,255,0.96)' }}
-                        >
-                          {orderNum}
-                        </span>
-                        <span className="sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
-                          <StatusBadge status={apt.status || 'scheduled'} />
-                        </span>
-                        <span
-                          className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight"
+                          className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight shrink-0"
                           style={{
                             background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
                             color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
@@ -516,58 +521,23 @@ export default function ScheduleTestTimeline({
                         >
                           {serviceTypeLabel(apt)}
                         </span>
-                      </div>
-                      <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
-                        {format(apt._start, 'h:mm a')}
-                        {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
-                      </p>
-                      <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
-                        {apt.client_name || 'Client'}
-                      </p>
-                      {apt.client_phone && (
-                        <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
-                          {apt.client_phone}
-                        </p>
-                      )}
-                      {equipLabel && (
-                        <span
-                          className="inline-flex self-start text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-full truncate"
-                          style={SCHEDULE_EQUIP_BADGE_STYLE}
-                          title={equipLabel}
-                        >
-                          {equipLabel}
+                        <span className="sched-hud-status inline-flex shrink-0 [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
+                          <StatusBadge status={apt.status || 'scheduled'} />
                         </span>
-                      )}
+                      </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center flex-shrink-0">
-                      {woHref ? (
-                        <a
-                          href={woHref}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-10 h-10 rounded-xl flex items-center justify-center sched-hud-action"
-                          style={{
-                            border: '1px solid rgba(34,211,238,0.22)',
-                            background: 'linear-gradient(180deg, rgba(6,14,24,0.95), rgba(3,8,16,0.92))',
-                            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
-                            transition: `all 180ms cubic-bezier(${HUD_EASE.join(',')})`,
-                          }}
-                          aria-label="Open work order"
-                        >
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 2 }}>
-                            <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </a>
-                      ) : (
-                        <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center"
-                          style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(3,8,18,0.6)' }}
-                        >
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.2)', strokeWidth: 2 }}>
-                            <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
+                    <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
+                      {format(apt._start, 'h:mm a')}
+                      {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
+                    </p>
+                    <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
+                      {apt.client_name || 'Client'}
+                    </p>
+                    {apt.client_phone && (
+                      <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
+                        {apt.client_phone}
+                      </p>
+                    )}
                   </div>
                 </div>
               </motion.button>

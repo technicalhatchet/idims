@@ -159,20 +159,26 @@ function GlassAppointmentCard({ appointment, techColorMap, idx, onOpen }) {
               background: rail,
             }}
           />
-          <div className="flex-1 py-3 pl-3.5 pr-3 flex gap-3 min-w-0">
-            <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-              <div className="flex flex-wrap items-center gap-0.5">
+          <div className="flex-1 py-3 pl-3.5 pr-3 min-w-0 flex flex-col gap-0.5">
+            <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 w-full min-w-0">
+              <span
+                className="text-[11px] font-bold tracking-[-0.02em] leading-tight shrink min-w-0"
+                style={{ color: 'rgba(255,255,255,0.96)' }}
+              >
+                {orderNum}
+              </span>
+              <div className="flex flex-wrap items-center justify-end gap-0.5 flex-1 min-w-0">
+                {equipLabel ? (
+                  <span
+                    className="inline-flex text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-[min(100%,11rem)] truncate"
+                    style={SCHEDULE_EQUIP_BADGE_STYLE}
+                    title={equipLabel}
+                  >
+                    {equipLabel}
+                  </span>
+                ) : null}
                 <span
-                  className="text-[11px] font-bold tracking-[-0.02em] leading-tight"
-                  style={{ color: 'rgba(255,255,255,0.96)' }}
-                >
-                  {orderNum}
-                </span>
-                <span className="sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
-                  <StatusBadge status={appointment.status || 'scheduled'} />
-                </span>
-                <span
-                  className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight"
+                  className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight shrink-0"
                   style={{
                     border: 'none',
                     background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
@@ -184,41 +190,21 @@ function GlassAppointmentCard({ appointment, techColorMap, idx, onOpen }) {
                 >
                   {typeLabel}
                 </span>
-              </div>
-              <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
-                {appointment.start
-                  ? `${format(parseISO(appointment.start), 'EEE MMM d — h:mm a')}${
-                      appointment.end ? ` – ${format(parseISO(appointment.end), 'h:mm a')}` : ''
-                    }`
-                  : ''}
-              </p>
-              <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
-                {appointment.client_name || 'Client'}
-              </p>
-              {equipLabel ? (
-                <span
-                  className="inline-flex self-start text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-full truncate"
-                  style={SCHEDULE_EQUIP_BADGE_STYLE}
-                  title={equipLabel}
-                >
-                  {equipLabel}
+                <span className="sched-hud-status inline-flex shrink-0 [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
+                  <StatusBadge status={appointment.status || 'scheduled'} />
                 </span>
-              ) : null}
-            </div>
-            <div className="flex flex-col justify-center flex-shrink-0">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-[180ms]"
-                style={{
-                  border: '1px solid rgba(34,211,238,0.22)',
-                  background: 'linear-gradient(180deg, rgba(6,14,24,0.95), rgba(3,8,16,0.92))',
-                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 2 }}>
-                  <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
               </div>
             </div>
+            <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
+              {appointment.start
+                ? `${format(parseISO(appointment.start), 'EEE MMM d — h:mm a')}${
+                    appointment.end ? ` – ${format(parseISO(appointment.end), 'h:mm a')}` : ''
+                  }`
+                : ''}
+            </p>
+            <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
+              {appointment.client_name || 'Client'}
+            </p>
           </div>
         </div>
       </div>
