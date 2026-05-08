@@ -245,6 +245,8 @@ export default function TechDashboardLayout({ children }) {
                       aria-hidden
                       style={{
                         color,
+                        fill: 'currentColor',
+                        stroke: 'none',
                         filter: glowFilter,
                         transition: 'all 0.2s',
                       }}
@@ -253,12 +255,6 @@ export default function TechDashboardLayout({ children }) {
                         fillRule="evenodd"
                         clipRule="evenodd"
                         fill="currentColor"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                        paintOrder="stroke fill"
                         d={TECH_ICON_PATH_D}
                       />
                     </svg>
