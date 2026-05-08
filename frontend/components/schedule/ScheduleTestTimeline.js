@@ -15,10 +15,10 @@ const END_HOUR = 19;
 const SUBDIVISIONS_PER_HOUR = 6;
 
 /** Minimum px per hour on the timeline — more vertical room for WO detail */
-const MIN_PX_PER_HOUR = 98;
+const MIN_PX_PER_HOUR = 107;
 
 /** Align this hour’s band to the viewport top after mount (scrolls page; hides cut-off earlier hour labels). */
-const TIMELINE_SCROLL_ANCHOR_HOUR = 8;
+const TIMELINE_SCROLL_ANCHOR_HOUR = 9;
 
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
