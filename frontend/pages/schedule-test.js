@@ -420,6 +420,16 @@ function ScheduleTestInner() {
           .sched-segment-active .sched-segment-shimmer {
             animation: sched-shimmer-pulse 2.8s ease-in-out infinite;
           }
+          .sched-date-picker input[type="date"] {
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            box-shadow: none;
+          }
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit,
+          .sched-date-picker input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+            background: transparent;
+          }
         `}</style>
       </Head>
 
@@ -583,11 +593,10 @@ function ScheduleTestInner() {
 
                 <div className="flex-1 min-w-[140px] h-10 flex">
                   <div
-                    className="flex w-full h-full min-h-0 items-center gap-2 rounded-lg px-2.5 py-0"
+                    className="sched-date-picker flex w-full h-full min-h-0 items-center gap-2 rounded-lg px-2.5 py-0"
                     style={{
                       background: 'linear-gradient(180deg, rgba(6,12,22,0.92), rgba(3,9,18,0.96))',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 22px rgba(0,217,255,0.05)',
+                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
                     }}
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
@@ -601,7 +610,7 @@ function ScheduleTestInner() {
                       aria-label="Select date"
                       value={formatDateForInput(viewType === 'month' ? startDate : viewType === 'week' ? startDate : startDate)}
                       onChange={(e) => handleDateRangeChange(new Date(`${e.target.value}T12:00:00`), true)}
-                      className="flex-1 min-w-0 bg-transparent font-medium outline-none tracking-wide text-[12px] leading-none h-full py-2"
+                      className="flex-1 min-w-0 bg-transparent font-medium outline-none outline-offset-0 border-0 ring-0 tracking-wide text-[12px] leading-none h-full py-2 appearance-none"
                       style={{ color: 'rgba(255,255,255,0.92)' }}
                     />
                   </div>
