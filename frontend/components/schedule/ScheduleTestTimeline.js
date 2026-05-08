@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
@@ -15,7 +15,10 @@ const END_HOUR = 19;
 const SUBDIVISIONS_PER_HOUR = 6;
 
 /** Minimum px per hour on the timeline — more vertical room for WO detail */
-const MIN_PX_PER_HOUR = 82;
+const MIN_PX_PER_HOUR = 98;
+
+/** Align this hour’s band to the viewport top after mount (scrolls page; hides cut-off earlier hour labels). */
+const TIMELINE_SCROLL_ANCHOR_HOUR = 8;
 
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
@@ -227,10 +230,14 @@ export default function ScheduleTestTimeline({
   onSelectEvent,
 }) {
   const [nowTick, setNowTick] = useState(() => new Date());
+  const scrollAnchorRef = useRef(null);
+
   useEffect(() => {
     const t = setInterval(() => setNowTick(new Date()), 60_000);
     return () => clearInterval(t);
   }, []);
+
+  const scrollAnchorStepIndex = TIMELINE_SCROLL_ANCHOR_HOUR - START_HOUR;
 
   const dayStart = useMemo(() => {
     const d = new Date(anchorDate);
@@ -294,11 +301,32 @@ export default function ScheduleTestTimeline({
     return ((m - START_HOUR * 60) / totalMins) * 100;
   }, [nowTick, dayStart, totalMins]);
 
+  /** Scroll window so TIMELINE_SCROLL_ANCHOR_HOUR row sits ~at top (7am stays above scroll). */
+  useEffect(() => {
+    if (scrollAnchorStepIndex < 1 || scrollAnchorStepIndex > slotCount) return;
+    const node = scrollAnchorRef.current;
+    if (!node) return;
+    const id = requestAnimationFrame(() => {
+      node.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [anchorDate, scrollAnchorStepIndex, slotCount, timelineMinHeight]);
+
+  const showScrollAnchor = scrollAnchorStepIndex >= 1 && scrollAnchorStepIndex <= slotCount;
+
   return (
     <div className="relative isolate rounded-[22px] overflow-hidden sched-timeline-hud-root" style={{ minHeight: timelineMinHeight }}>
       <TimelineGridScene slotCount={slotCount} />
 
       <div className="relative flex z-[2] rounded-[inherit]">
+        {showScrollAnchor && (
+          <div
+            ref={scrollAnchorRef}
+            className="pointer-events-none absolute left-0 right-0 z-[30] h-0 scroll-mt-3"
+            style={{ top: `${(scrollAnchorStepIndex / slotCount) * 100}%` }}
+            aria-hidden
+          />
+        )}
         {/* Time axis */}
         <div
           className="flex-shrink-0 w-[3.05rem] sm:w-[3.35rem] relative z-[4] scheduling-time-axis rounded-l-[18px]"
@@ -313,13 +341,16 @@ export default function ScheduleTestTimeline({
         >
           {Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
             const h = START_HOUR + i;
+            const isFirst = i === 0;
+            const isLast = i === slotCount;
+            const labelTransform = isFirst ? 'translateY(0)' : isLast ? 'translateY(-100%)' : 'translateY(-50%)';
             return (
               <div
                 key={h}
                 className="absolute left-0 right-0 w-full tabular-nums text-right leading-none font-medium scheduling-time-label"
                 style={{
                   top: `${(i / slotCount) * 100}%`,
-                  transform: 'translateY(-50%)',
+                  transform: labelTransform,
                   paddingRight: '0.38rem',
                   fontSize: 11,
                   letterSpacing: '0.03em',
