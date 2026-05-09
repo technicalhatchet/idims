@@ -7,12 +7,11 @@ import { motion } from 'framer-motion';
 import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import ErrorAlert from '../components/ui/ErrorAlert';
-import StatusBadge from '../components/ui/StatusBadge';
 import EventDetailModal from '../components/schedule/EventDetailModal';
 import ScheduleTestTimeline, {
+  AppointmentCardBadgeStack,
   NEON_RAILS,
   formatEquipmentSubtypeLabel,
-  SCHEDULE_EQUIP_BADGE_STYLE,
 } from '../components/schedule/ScheduleTestTimeline';
 import { useSchedule } from '../hooks/useSchedule';
 import { useTechnicians } from '../hooks/useTechnicians';
@@ -169,52 +168,31 @@ function GlassAppointmentCard({ appointment, techColorMap, idx, onOpen }) {
               background: rail,
             }}
           />
-          <div className="flex-1 py-3 pl-3.5 pr-3 min-w-0 flex flex-col gap-0.5">
-            <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 w-full min-w-0">
+          <div className="flex-1 py-2.5 pl-2 pr-2 min-w-0 flex flex-row justify-between gap-2 items-center">
+            <div className="flex-1 min-w-0 flex flex-col gap-0.5">
               <span
-                className="text-[11px] font-bold tracking-[-0.02em] leading-tight shrink min-w-0"
+                className="text-[11px] font-bold tracking-[-0.02em] leading-tight truncate min-w-0"
                 style={{ color: 'rgba(255,255,255,0.96)' }}
               >
                 {orderNum}
               </span>
-              <div className="flex flex-wrap items-center justify-end gap-0.5 flex-1 min-w-0">
-                {equipLabel ? (
-                  <span
-                    className="inline-flex text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-[min(100%,11rem)] truncate"
-                    style={SCHEDULE_EQUIP_BADGE_STYLE}
-                    title={equipLabel}
-                  >
-                    {equipLabel}
-                  </span>
-                ) : null}
-                <span
-                  className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight shrink-0"
-                  style={{
-                    border: 'none',
-                    background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
-                    color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
-                    boxShadow: typeIsDiagnostic
-                      ? 'inset 0 0 0 0.5px rgba(34,211,238,0.42), 0 0 8px rgba(34,211,238,0.1)'
-                      : 'inset 0 0 0 0.5px rgba(168,85,247,0.42), 0 0 8px rgba(168,85,247,0.09)',
-                  }}
-                >
-                  {typeLabel}
-                </span>
-                <span className="sched-hud-status inline-flex shrink-0 [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
-                  <StatusBadge status={appointment.status || 'scheduled'} />
-                </span>
-              </div>
+              <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
+                {appointment.start
+                  ? `${format(parseISO(appointment.start), 'EEE MMM d — h:mm a')}${
+                      appointment.end ? ` – ${format(parseISO(appointment.end), 'h:mm a')}` : ''
+                    }`
+                  : ''}
+              </p>
+              <p className="text-[11px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
+                {appointment.client_name || 'Client'}
+              </p>
             </div>
-            <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
-              {appointment.start
-                ? `${format(parseISO(appointment.start), 'EEE MMM d — h:mm a')}${
-                    appointment.end ? ` – ${format(parseISO(appointment.end), 'h:mm a')}` : ''
-                  }`
-                : ''}
-            </p>
-            <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
-              {appointment.client_name || 'Client'}
-            </p>
+            <AppointmentCardBadgeStack
+              status={appointment.status || 'scheduled'}
+              appointmentTypeLabel={typeLabel}
+              typeIsDiagnostic={typeIsDiagnostic}
+              equipLabel={equipLabel}
+            />
           </div>
         </div>
       </div>

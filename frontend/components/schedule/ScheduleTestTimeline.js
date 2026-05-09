@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
@@ -156,33 +156,198 @@ export function formatEquipmentSubtypeLabel(apt) {
   return s.length ? s : null;
 }
 
-/** Badge-only travel chip; vertical route drawn in SVG layer */
+const SCHEDULE_STATUS_BADGE_WRAP_CLASS =
+  'sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]';
+
+/** Status (top), appointment type (mid), equipment subtype (bottom) — right column */
+export function AppointmentCardBadgeStack({ status = 'scheduled', appointmentTypeLabel, typeIsDiagnostic, equipLabel }) {
+  return (
+    <div className="flex flex-col items-end gap-0.5 flex-shrink-0 text-right">
+      <span className={SCHEDULE_STATUS_BADGE_WRAP_CLASS}>
+        <StatusBadge status={status} />
+      </span>
+      <span
+        className="inline-flex justify-end max-w-[9.5rem] truncate text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight"
+        style={{
+          background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
+          color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
+          boxShadow: typeIsDiagnostic
+            ? 'inset 0 0 0 0.5px rgba(34,211,238,0.42), 0 0 8px rgba(34,211,238,0.1)'
+            : 'inset 0 0 0 0.5px rgba(168,85,247,0.42), 0 0 8px rgba(168,85,247,0.09)',
+        }}
+      >
+        {appointmentTypeLabel}
+      </span>
+      {equipLabel ? (
+        <span
+          className="inline-flex justify-end max-w-[9.5rem] truncate text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight"
+          style={SCHEDULE_EQUIP_BADGE_STYLE}
+          title={equipLabel}
+        >
+          {equipLabel}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+/** ~width of one stacked HUD badge chip column; shrinks apt card inset from track edge */
+const HUD_APPOINTMENT_CARD_RIGHT_INSET = '5.75rem';
+
+/** Timeline route gutter spine (% from left): trunk + elbows + horizontal arms share this anchor */
+const ROUTE_GUTTER_X_PCT = 92;
+
+/** Px stroke for solid trunk / arms (`TravelRouteOrthoLayer`) */
+const ROUTE_TRUNK_STROKE_PX = 2;
+
+/** Share of travel-gap height reserved as hollow band around van on spine (~total vertical gap carved) */
+const ROUTE_VAN_SPINE_VERTICAL_CLEAR_FRAC = 0.35;
+
+/** Glow + silhouette shared by all spine junction hoops (job elbows + van branch points) */
+const ROUTE_JUNCTION_RING_GLOW =
+  '0 0 6px rgba(34,211,238,0.45), inset 0 0 4px rgba(34,211,238,0.08)';
+
+/** Shorten spine near van hoops (% of timeline) so line/glow doesn’t pierce the ring */
+const ROUTE_SPINE_VAN_GAP_PCT = 0.12;
+
+/** Spine carve around travel van: splits vertical trunk above/below `midY` (van center %). */
+function vanSpineCarveBands(yTop, yBot, midY) {
+  const eps = 0.06;
+  const gap = yBot - yTop;
+  if (gap < eps * 3) return { carveTop: yTop, carveBot: yBot, splitOk: false };
+
+  let halfBand = (gap * ROUTE_VAN_SPINE_VERTICAL_CLEAR_FRAC) / 2;
+  halfBand = clamp(halfBand, 0.32, gap / 2 - eps);
+
+  let carveTop = midY - halfBand;
+  let carveBot = midY + halfBand;
+  carveTop = Math.max(carveTop, yTop + eps);
+  carveBot = Math.min(carveBot, yBot - eps);
+
+  if (carveTop >= carveBot - eps) return { carveTop: yTop, carveBot: yBot, splitOk: false };
+
+  const upperH = carveTop - yTop;
+  const lowerH = yBot - carveBot;
+  if (upperH < 0.12 && lowerH < 0.12) return { carveTop: yTop, carveBot: yBot, splitOk: false };
+
+  return { carveTop, carveBot, splitOk: true };
+}
+
+/**
+ * Gap spine for dashed line + endpoint dots (% of track height).
+ * yLo / yHi are connectors’ anchor band (prior job bottom → next job top).
+ * Outward frac nudges terminals slightly toward the jobs → visually longer spine, dots farther apart.
+ */
+const ROUTE_DOT_OUTWARD_FRAC = 2.07;
+
+/** yTop < yBot along track; dashed line shares same endpoints as DOM dots */
+function routeTravelSpineEndpoints(y0, y1) {
+  const yLo = Math.min(y0, y1);
+  const yHi = Math.max(y0, y1);
+  const gap = yHi - yLo;
+  if (gap <= 0.08) return { yTop: yLo, yBot: yHi };
+  const out = gap * ROUTE_DOT_OUTWARD_FRAC;
+  let yTop = yLo - out;
+  let yBot = yHi + out;
+  yTop = Math.max(yTop, 0.35);
+  yBot = Math.min(yBot, 99.65);
+  if (yTop >= yBot - 0.05) return { yTop: yLo, yBot: yHi };
+  return { yTop, yBot };
+}
+
+/** Tune when minutes sit on top of the van glazing (lower = quieter behind text). */
+const TRAVEL_VAN_GLASS = { windowOpacity: 0.28, windshieldOpacity: 0.34, doorOpacity: 0.2 };
+
+/** ViewBox‑unit nudge for filled neon dots (optical center on body vs stroke outline). */
+const TRAVEL_VAN_NEON_NUDGE_X = 4;
+
+/** Stroke van icon for travel chip; uses currentColor from parent */
+function TravelVanGlyph({
+  className,
+  windowOpacity = TRAVEL_VAN_GLASS.windowOpacity,
+  windshieldOpacity = TRAVEL_VAN_GLASS.windshieldOpacity,
+  doorOpacity = TRAVEL_VAN_GLASS.doorOpacity,
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 256 128"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        d="M38 82 L48 56 Q52 46 64 46 H146 Q164 46 176 56 L198 72 Q206 76 206 84 V90 H198 Q196 102 184 102 Q172 102 170 90 H82 Q80 102 68 102 Q56 102 54 90 H40 Q34 90 34 84 Q34 82 38 82 Z"
+        stroke="currentColor"
+        strokeWidth={4}
+        strokeLinejoin="round"
+      />
+      <path
+        d="M66 54 H142 Q152 52 164 60 L176 71 H58 Z"
+        stroke="currentColor"
+        strokeWidth={3}
+        opacity={windowOpacity}
+        strokeLinejoin="round"
+      />
+      <path
+        d="M168 50L182 71H194"
+        stroke="currentColor"
+        strokeWidth={2.5}
+        opacity={windshieldOpacity}
+        strokeLinecap="round"
+      />
+      <path
+        d="M122 54V90"
+        stroke="currentColor"
+        strokeWidth={2}
+        opacity={doorOpacity}
+        strokeLinecap="round"
+      />
+      <path d="M84 71H108" stroke="currentColor" strokeWidth={2} opacity={0.35} strokeLinecap="round" />
+      <path d="M138 71H158" stroke="currentColor" strokeWidth={2} opacity={0.35} strokeLinecap="round" />
+      <path d="M194 80H202" stroke="currentColor" strokeWidth={2} opacity={0.7} strokeLinecap="round" />
+      <circle cx={68} cy={90} r={14} stroke="currentColor" strokeWidth={4} />
+      <circle cx={184} cy={90} r={14} stroke="currentColor" strokeWidth={4} />
+      <circle cx={68} cy={90} r={5} stroke="currentColor" strokeWidth={2} opacity={0.5} />
+      <circle cx={184} cy={90} r={5} stroke="currentColor" strokeWidth={2} opacity={0.5} />
+      <g transform={`translate(${TRAVEL_VAN_NEON_NUDGE_X} 0)`}>
+        <circle cx={64} cy={46} r={2} fill="currentColor" />
+        <circle cx={176} cy={56} r={2} fill="currentColor" />
+        <circle cx={38} cy={82} r={2} fill="currentColor" />
+      </g>
+    </svg>
+  );
+}
+
+/** Badge-only travel chip; sits in track right gutter; vertical route in SVG layer */
 function TravelChip({ travelMins, topPct }) {
   if (!travelMins || travelMins < 8) return null;
   const mid = topPct;
   return (
     <div
-      className="absolute left-[7%] -translate-x-1/2 z-[5] pointer-events-none flex justify-center"
+      className="absolute z-[5] pointer-events-none flex justify-end px-0 pl-1"
       style={{
         top: `${mid}%`,
-        transform: 'translate(-50%, -50%)',
+        right: '0.15rem',
+        width: HUD_APPOINTMENT_CARD_RIGHT_INSET,
+        transform: 'translate(10px, -50%)',
       }}
     >
       <div
-        className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-bold tracking-[0.08em] uppercase whitespace-nowrap backdrop-blur-md"
-        style={{
-          background: 'linear-gradient(180deg, rgba(8,14,26,0.92), rgba(5,10,18,0.88))',
-          border: '1px solid rgba(34,211,238,0.28)',
-          color: '#7EEEF8',
-          boxShadow:
-            '0 0 0 1px rgba(0,217,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 16px rgba(34,211,238,0.14)',
-        }}
+        className="relative w-full"
+        style={{ aspectRatio: '2 / 1', color: '#6EEAF4' }}
       >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style={{ stroke: '#22D3EE', strokeWidth: 1.5 }}>
-          <path d="M5 17h14v2H5v-2z" strokeLinecap="round" />
-          <path d="M7 17V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        {travelMins} MIN
+        <TravelVanGlyph className="pointer-events-none absolute inset-0 block h-full w-full" />
+        <span
+          className="pointer-events-none absolute left-[49%] top-[52%] -translate-x-1/2 -translate-y-1/2 text-[8px] font-normal tabular-nums tracking-[0.07em] uppercase whitespace-nowrap"
+          style={{
+            color: '#E8FDFF',
+            WebkitTextStroke: '0.26px rgba(255,154,92,0.62)',
+            textShadow: '0 0 7px rgba(255,154,92,0.28), 0 0 3px rgba(255,138,26,0.2), 0 1px 2px rgba(0,0,0,0.9)',
+          }}
+        >
+          {travelMins} MIN
+        </span>
       </div>
     </div>
   );
@@ -192,51 +357,131 @@ function travelMinsInvalid(tm) {
   return !tm || tm < 8;
 }
 
-function TimelineRoutesSvg({ connectors }) {
+/** Orthogonal Π / L-route: solid trunk + arms; spine splits above/below travel van (+ van-side junction rings). */
+function TravelRouteOrthoLayer({ connectors }) {
   if (!connectors.length) return null;
-  return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none z-[2]"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
+
+  const spineFromRight = `${100 - ROUTE_GUTTER_X_PCT}%`;
+  const cardEdge = `calc(100% - 0.5rem - ${HUD_APPOINTMENT_CARD_RIGHT_INSET})`;
+  const cyan = 'rgba(34,211,238,0.68)';
+  const glow = '0 0 7px rgba(34,211,238,0.38), 0 0 2px rgba(34,211,238,0.55)';
+  const half = ROUTE_TRUNK_STROKE_PX / 2;
+  const vanGap = ROUTE_SPINE_VAN_GAP_PCT;
+
+  const vanBranchRing = (cKey, y, suf) => (
+    <div
+      key={`${cKey}-van-ring-${suf}`}
       aria-hidden
-    >
-      <defs>
-        <filter id="routeGlowHud" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="0.55" result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      {connectors.map((c) => {
-        const yTop = Math.min(c.y0, c.y1);
-        const yBot = Math.max(c.y0, c.y1);
-        const x = 8;
-        return (
-          <g key={c.key} filter="url(#routeGlowHud)">
-            <line
-              x1={x}
-              y1={yTop}
-              x2={x}
-              y2={yBot}
-              stroke="rgba(34,211,238,0.42)"
-              strokeWidth={0.18}
-              strokeLinecap="round"
-              strokeDasharray="0.55 0.35"
-              vectorEffect="non-scaling-stroke"
-              style={{
-                filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.45)) drop-shadow(0 0 2px rgba(34,211,238,0.65))',
-              }}
-            />
-            <circle cx={x} cy={yTop} r={0.32} fill="rgba(34,211,238,0.95)" opacity={0.9} />
-            <circle cx={x} cy={yBot} r={0.32} fill="rgba(34,211,238,0.95)" opacity={0.9} />
-          </g>
-        );
-      })}
-    </svg>
+      className="pointer-events-none absolute z-[4] rounded-full"
+      style={{
+        left: `${ROUTE_GUTTER_X_PCT}%`,
+        top: `${y}%`,
+        width: 9,
+        height: 9,
+        transform: 'translate(-50%, -50%)',
+        border: `2px solid rgba(56,229,239,0.92)`,
+        background: 'rgba(8,14,26,0.35)',
+        boxShadow: ROUTE_JUNCTION_RING_GLOW,
+        backdropFilter: 'blur(4px)',
+      }}
+    />
   );
+
+  return connectors.flatMap((c) => {
+    const { yTop, yBot } = routeTravelSpineEndpoints(c.y0, c.y1);
+    const midY = c.topPct;
+    const { carveTop, carveBot, splitOk } = vanSpineCarveBands(yTop, yBot, midY);
+
+    const spineSeg = (suffix, segTopPct, spanPct) => (
+      <div
+        key={`${c.key}-spine-${suffix}`}
+        aria-hidden
+        className="pointer-events-none absolute z-[2]"
+        style={{
+          left: `calc(${ROUTE_GUTTER_X_PCT}% - ${half}px)`,
+          width: ROUTE_TRUNK_STROKE_PX,
+          top: `${segTopPct}%`,
+          height: `${Math.max(spanPct, 0.04)}%`,
+          background: cyan,
+          borderRadius: 1,
+          boxShadow: glow,
+        }}
+      />
+    );
+
+    const arm = (y, suf) => (
+      <div
+        key={`${c.key}-arm-${suf}`}
+        aria-hidden
+        className="pointer-events-none absolute z-[2]"
+        style={{
+          top: `${y}%`,
+          left: cardEdge,
+          right: spineFromRight,
+          height: ROUTE_TRUNK_STROKE_PX,
+          transform: 'translateY(-50%)',
+          background: cyan,
+          borderRadius: 1,
+          boxShadow: glow,
+        }}
+      />
+    );
+
+    const spineParts = [];
+    if (!splitOk) {
+      spineParts.push(spineSeg('full', yTop, yBot - yTop));
+    } else {
+      const uh = carveTop - yTop;
+      const lh = yBot - carveBot;
+      if (uh >= 0.06) {
+        spineParts.push(spineSeg('u', yTop, Math.max(uh - vanGap, 0.06)));
+      }
+      if (lh >= 0.06) {
+        spineParts.push(spineSeg('l', carveBot + vanGap, Math.max(lh - vanGap, 0.06)));
+      }
+      spineParts.push(vanBranchRing(c.key, carveTop, 't'));
+      spineParts.push(vanBranchRing(c.key, carveBot, 'b'));
+    }
+
+    return [...spineParts, arm(yTop, 't'), arm(yBot, 'b')];
+  });
+}
+
+/**
+ * Hollow rings on elbows (matches reference junctions).
+ * Keeps circular — DOM positioning, avoids SVG ellipse stretch under preserveAspectRatio=none on track.
+ */
+function TravelRouteEndpointMarkers({ connectors }) {
+  if (!connectors.length) return null;
+
+  const ringGlow = ROUTE_JUNCTION_RING_GLOW;
+  return connectors.map((c) => {
+    const { yTop, yBot } = routeTravelSpineEndpoints(c.y0, c.y1);
+    const ring = (y, suf) => (
+      <div
+        key={`${c.key}-ring-${suf}`}
+        aria-hidden
+        className="pointer-events-none absolute z-[4] rounded-full"
+        style={{
+          left: `${ROUTE_GUTTER_X_PCT}%`,
+          top: `${y}%`,
+          width: 9,
+          height: 9,
+          transform: 'translate(-50%, -50%)',
+          border: `2px solid rgba(56,229,239,0.92)`,
+          background: 'rgba(8,14,26,0.35)',
+          boxShadow: ringGlow,
+          backdropFilter: 'blur(4px)',
+        }}
+      />
+    );
+    return (
+      <Fragment key={`${c.key}-ep`}>
+        {ring(yTop, 't')}
+        {ring(yBot, 'b')}
+      </Fragment>
+    );
+  });
 }
 
 export default function ScheduleTestTimeline({
@@ -309,6 +554,11 @@ export default function ScheduleTestTimeline({
     }
     return out;
   }, [prepared]);
+
+  const visibleRouteConnectors = useMemo(
+    () => connectors.filter((c) => !travelMinsInvalid(c.travelMins)),
+    [connectors],
+  );
 
   const nowLinePct = useMemo(() => {
     if (!isSameDay(nowTick, dayStart)) return null;
@@ -389,7 +639,8 @@ export default function ScheduleTestTimeline({
             background: 'linear-gradient(180deg, rgba(3,8,18,0.22), rgba(1,4,10,0.28))',
           }}
         >
-          <TimelineRoutesSvg connectors={connectors.filter((c) => !travelMinsInvalid(c.travelMins))} />
+          <TravelRouteOrthoLayer connectors={visibleRouteConnectors} />
+          <TravelRouteEndpointMarkers connectors={visibleRouteConnectors} />
 
           {connectors.map((c) => (
             <TravelChip key={c.key} travelMins={c.travelMins} topPct={c.topPct} />
@@ -450,11 +701,12 @@ export default function ScheduleTestTimeline({
               <motion.button
                 key={apt.id ?? `${apt.start}-${idx}`}
                 type="button"
-                className="sched-hud-apt absolute left-3 right-2 text-left rounded-[14px] overflow-hidden z-[6] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/40 group"
+                className="sched-hud-apt absolute left-3 text-left rounded-[14px] overflow-hidden z-[6] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/40 group"
                 style={{
                   top: `${apt.topPct}%`,
                   height: `${apt.heightPct}%`,
                   minHeight: Math.max(78, Math.round(MIN_PX_PER_HOUR * 0.82)),
+                  right: `calc(0.5rem + ${HUD_APPOINTMENT_CARD_RIGHT_INSET})`,
                 }}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -484,48 +736,23 @@ export default function ScheduleTestTimeline({
                   }}
                 >
                   <div
-                    className="flex-shrink-0 h-full ml-1 my-1 rounded-full"
+                    className="flex-shrink-0 h-full self-stretch ml-1 rounded-full"
                     style={{
+                      alignSelf: 'stretch',
                       width: 5,
+                      minHeight: '100%',
                       background: apt.rail,
                       boxShadow: `0 0 18px ${apt.rail}, 0 0 8px ${apt.rail}99`,
                     }}
                   />
-                  <div className="flex-1 min-w-0 py-2.5 pl-3 pr-3 flex flex-col justify-center gap-0.5">
-                    <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1 w-full min-w-0">
+                  <div className="flex-1 min-w-0 py-2 pl-2 pr-2 flex flex-row justify-between gap-2 items-center">
+                    <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
                       <span
-                        className="text-[11px] font-bold tracking-[-0.02em] leading-tight shrink min-w-0"
+                        className="text-[11px] font-bold tracking-[-0.02em] leading-tight truncate min-w-0"
                         style={{ color: 'rgba(255,255,255,0.96)' }}
                       >
                         {orderNum}
                       </span>
-                      <div className="flex flex-wrap items-center justify-end gap-0.5 flex-1 min-w-0">
-                        {equipLabel && (
-                          <span
-                            className="inline-flex text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight max-w-[min(100%,11rem)] truncate"
-                            style={SCHEDULE_EQUIP_BADGE_STYLE}
-                            title={equipLabel}
-                          >
-                            {equipLabel}
-                          </span>
-                        )}
-                        <span
-                          className="text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight shrink-0"
-                          style={{
-                            background: typeIsDiagnostic ? 'rgba(34,211,238,0.1)' : 'rgba(168,85,247,0.09)',
-                            color: typeIsDiagnostic ? '#A5F3FC' : '#DDD6FE',
-                            boxShadow: typeIsDiagnostic
-                              ? 'inset 0 0 0 0.5px rgba(34,211,238,0.42), 0 0 8px rgba(34,211,238,0.1)'
-                              : 'inset 0 0 0 0.5px rgba(168,85,247,0.42), 0 0 8px rgba(168,85,247,0.09)',
-                          }}
-                        >
-                          {serviceTypeLabel(apt)}
-                        </span>
-                        <span className="sched-hud-status inline-flex shrink-0 [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]">
-                          <StatusBadge status={apt.status || 'scheduled'} />
-                        </span>
-                      </div>
-                    </div>
                     <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
                       {format(apt._start, 'h:mm a')}
                       {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
@@ -538,6 +765,13 @@ export default function ScheduleTestTimeline({
                         {apt.client_phone}
                       </p>
                     )}
+                    </div>
+                    <AppointmentCardBadgeStack
+                      status={apt.status || 'scheduled'}
+                      appointmentTypeLabel={serviceTypeLabel(apt)}
+                      typeIsDiagnostic={typeIsDiagnostic}
+                      equipLabel={equipLabel}
+                    />
                   </div>
                 </div>
               </motion.button>
