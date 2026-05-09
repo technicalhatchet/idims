@@ -693,7 +693,8 @@ export default function ScheduleTestTimeline({
           )}
 
           {prepared.map((apt, idx) => {
-            const orderNum = apt.order_number ? `WO #${apt.order_number}` : apt.title || 'Job';
+            const orderLabel = apt.order_number ? String(apt.order_number).trim() : apt.title || 'Job';
+            const clientLine = apt.client_name || 'Client';
             const typeIsDiagnostic = /diagnostic/i.test(serviceTypeLabel(apt));
             const equipLabel = formatEquipmentSubtypeLabel(apt);
 
@@ -746,25 +747,25 @@ export default function ScheduleTestTimeline({
                     }}
                   />
                   <div className="flex-1 min-w-0 py-2 pl-2 pr-2 flex flex-row justify-between gap-2 items-center">
-                    <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
+                    <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5 translate-x-[5px]">
                       <span
-                        className="text-[11px] font-bold tracking-[-0.02em] leading-tight truncate min-w-0"
+                        className="text-[13px] font-bold tracking-[-0.02em] leading-tight truncate min-w-0"
                         style={{ color: 'rgba(255,255,255,0.96)' }}
                       >
-                        {orderNum}
+                        {clientLine}
                       </span>
-                    <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
-                      {format(apt._start, 'h:mm a')}
-                      {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
-                    </p>
-                    <p className="text-[12px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.88)' }}>
-                      {apt.client_name || 'Client'}
-                    </p>
-                    {apt.client_phone && (
-                      <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
-                        {apt.client_phone}
+                      <p className="text-[10px] leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
+                        {format(apt._start, 'h:mm a')}
+                        {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
                       </p>
-                    )}
+                      {apt.client_phone && (
+                        <p className="text-[9px] leading-tight truncate" style={{ color: 'rgba(255,255,255,0.34)' }}>
+                          {apt.client_phone}
+                        </p>
+                      )}
+                      <p className="text-[10px] font-medium leading-tight truncate" style={{ color: 'rgba(255,255,255,0.72)' }}>
+                        {orderLabel}
+                      </p>
                     </div>
                     <AppointmentCardBadgeStack
                       status={apt.status || 'scheduled'}
