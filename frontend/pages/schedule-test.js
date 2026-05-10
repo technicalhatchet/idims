@@ -716,6 +716,12 @@ function ScheduleTestInner() {
                 onSelectEvent={handleEventClick}
                 dayHeaderTitle={dayHeaderLabel}
                 onNavigateToday={navigateToday}
+                onHudNavigatePrevious={navigatePrevious}
+                onHudNavigateNext={navigateNext}
+                hudDateISO={formatDateForInput(startDate)}
+                onHudDateChange={(e) =>
+                  handleDateRangeChange(new Date(`${e.target.value}T12:00:00`), true)
+                }
                 blockingStatus={
                   scheduleError ? 'error' : isLoadingSchedule || isLoadingTechnicians ? 'loading' : undefined
                 }

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
@@ -27,6 +27,9 @@ const HUD_EASE = [0.4, 0, 0.2, 1];
 export const SCHED_TIMELINE_TIME_AXIS_COLUMN =
   'w-[3.05rem] sm:w-[3.35rem] flex-shrink-0';
 
+/** Must match `.sched-hud-today-btn…::after { animation: … sched-hud-today-sweep-move 0.8s }` below */
+const SCHED_HUD_TODAY_SWEEP_MS = 800;
+
 /** Fused HUD shell — tighter than legacy 22px for a squarer tactical frame */
 const HUD_SHELL_RADIUS_CLASS = 'rounded-[10px]';
 
@@ -37,6 +40,16 @@ const hudShellChrome = {
   backdropFilter: 'blur(16px)',
   WebkitBackdropFilter: 'blur(16px)',
 };
+
+/** Chevrons: stroke only — glow handled by sched-hud-neon-glow-cyan wrappers (matches icon-test Neon Lab) */
+function HudNavChevron({ direction }) {
+  const pathD = direction === 'left' ? 'M28 14L18 24L28 34' : 'M20 14L30 24L20 34';
+  return (
+    <svg width={28} height={28} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path className="sched-hud-neon-chevron" d={pathD} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 /** Appliance chip — aligns with route / landing orange (#FFB86C, #FF7A00 family); light text on dark glass */
 export const SCHEDULE_EQUIP_BADGE_STYLE = {
@@ -508,7 +521,65 @@ function TravelRouteEndpointMarkers({ connectors }) {
   });
 }
 
-function TimelineHudHeader({ title, onToday }) {
+function TimelineHudHeader({
+  title,
+  onToday,
+  onNavigatePrevious,
+  onNavigateNext,
+  hudDateISO,
+  onHudDateChange,
+}) {
+  const todaySweepBtnRef = useRef(null);
+  const todaySweepTimersRef = useRef({ raf: undefined, fallback: undefined });
+  /** Avoid double sweep when pointer gesture already triggered before click */
+  const todaySweepAlreadyFromPointerRef = useRef(false);
+
+  const clearTodaySweepTimers = useCallback(() => {
+    const t = todaySweepTimersRef.current;
+    if (t.raf != null) {
+      cancelAnimationFrame(t.raf);
+      t.raf = undefined;
+    }
+    if (t.fallback != null) {
+      window.clearTimeout(t.fallback);
+      t.fallback = undefined;
+    }
+  }, []);
+
+  const triggerTodaySweepPlayback = useCallback(() => {
+    const el = todaySweepBtnRef.current;
+    if (!el) return;
+    clearTodaySweepTimers();
+    el.classList.remove('sched-hud-today-sweep-playing');
+    const t = todaySweepTimersRef.current;
+    t.raf = window.requestAnimationFrame(() => {
+      t.raf = undefined;
+      void el.offsetWidth;
+      el.classList.add('sched-hud-today-sweep-playing');
+      t.fallback = window.setTimeout(() => {
+        el.classList.remove('sched-hud-today-sweep-playing');
+        t.fallback = undefined;
+      }, SCHED_HUD_TODAY_SWEEP_MS + 100);
+    });
+  }, [clearTodaySweepTimers]);
+
+  useEffect(
+    () => () => {
+      clearTodaySweepTimers();
+      todaySweepBtnRef.current?.classList.remove('sched-hud-today-sweep-playing');
+    },
+    [clearTodaySweepTimers],
+  );
+
+  /** Bare hit targets + Neon Lab–style hover (see pages/icon-test — layered glow) */
+  const hitTargetBare = 'min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0';
+  const neonHover = 'sched-hud-neon-hover';
+  const glowWrapCyan = 'inline-flex sched-hud-neon-glow-layer sched-hud-neon-glow-cyan';
+  const showPickers =
+    typeof hudDateISO === 'string' && typeof onHudDateChange === 'function';
+  const showArrows =
+    typeof onNavigatePrevious === 'function' && typeof onNavigateNext === 'function';
+
   return (
     <div
       className="relative z-[5] flex items-stretch min-h-[46px]"
@@ -522,55 +593,112 @@ function TimelineHudHeader({ title, onToday }) {
             'inset -1px 0 0 rgba(34,211,238,0.14), inset 0 1px 0 rgba(255,255,255,0.05)',
         }}
       >
-        <div
-          className="w-9 h-9 rounded-md flex items-center justify-center shrink-0"
-          style={{
-            border: '1px solid rgba(34,211,238,0.28)',
-            background: 'linear-gradient(180deg, rgba(8,16,30,0.85), rgba(4,10,20,0.92))',
-            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 14px rgba(0,217,255,0.08)',
-          }}
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            style={{
-              stroke: '#22D3EE',
-              strokeWidth: 1.65,
-              filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))',
-            }}
+        {showPickers ? (
+          <label
+            className={`${hitTargetBare} ${neonHover} cursor-pointer relative overflow-visible`}
           >
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
-        </div>
+            <input
+              type="date"
+              value={hudDateISO}
+              onChange={onHudDateChange}
+              aria-label="Select date"
+              className="absolute inset-0 z-[6] opacity-0 w-full h-full cursor-pointer"
+            />
+            <span className={`${glowWrapCyan} pointer-events-none relative z-[1]`}>
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="shrink-0"
+                aria-hidden
+              >
+                <rect className="sched-hud-neon-icon-calendar" x="3" y="4" width="18" height="18" rx="2" />
+                <line className="sched-hud-neon-icon-calendar" x1="16" y1="2" x2="16" y2="6" />
+                <line className="sched-hud-neon-icon-calendar" x1="8" y1="2" x2="8" y2="6" />
+                <line className="sched-hud-neon-icon-calendar" x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+            </span>
+          </label>
+        ) : (
+          <div className={`${hitTargetBare} ${neonHover}`}>
+            <span className={glowWrapCyan}>
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="shrink-0"
+                aria-hidden
+              >
+                <rect className="sched-hud-neon-icon-calendar" x="3" y="4" width="18" height="18" rx="2" />
+                <line className="sched-hud-neon-icon-calendar" x1="16" y1="2" x2="16" y2="6" />
+                <line className="sched-hud-neon-icon-calendar" x1="8" y1="2" x2="8" y2="6" />
+                <line className="sched-hud-neon-icon-calendar" x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+            </span>
+          </div>
+        )}
       </div>
-      <div className="flex flex-1 min-w-0 items-center justify-between gap-3 px-3 py-2.5">
+      <div className="flex flex-1 min-w-0 items-center gap-2 sm:gap-2.5 px-2 py-2.5 sm:px-3">
+        {showArrows ? (
+          <button
+            type="button"
+            onClick={onNavigatePrevious}
+            aria-label="Previous day"
+            className={`${hitTargetBare} ${neonHover} rounded-lg border-0 bg-transparent shadow-none outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-400/25 focus-visible:ring-offset-0 focus-visible:ring-offset-transparent duration-[180ms]`}
+          >
+            <span className={glowWrapCyan}>
+              <HudNavChevron direction="left" />
+            </span>
+          </button>
+        ) : null}
         <span
-          className="text-left text-[10px] sm:text-[11px] font-semibold truncate leading-snug uppercase pl-0.5"
+          className="flex-1 min-w-0 text-center text-[10px] sm:text-[11px] font-semibold truncate leading-snug uppercase px-0.5"
           style={{ letterSpacing: '0.12em', color: 'rgba(255,255,255,0.78)' }}
         >
           {title}
         </span>
+        {showArrows ? (
+          <button
+            type="button"
+            onClick={onNavigateNext}
+            aria-label="Next day"
+            className={`${hitTargetBare} ${neonHover} rounded-lg border-0 bg-transparent shadow-none outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-400/25 focus-visible:ring-offset-0 focus-visible:ring-offset-transparent duration-[180ms]`}
+          >
+            <span className={glowWrapCyan}>
+              <HudNavChevron direction="right" />
+            </span>
+          </button>
+        ) : null}
         <button
           type="button"
-          onClick={onToday}
-          className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[9px] font-bold uppercase tracking-[0.14em]"
-          style={{
-            border: '1px solid rgba(255,138,26,0.38)',
-            color: '#FFB86C',
-            background: 'linear-gradient(180deg, rgba(255,122,0,0.14), rgba(255,122,0,0.05))',
-            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 16px rgba(255,138,26,0.18)',
+          ref={todaySweepBtnRef}
+          onPointerDown={(e) => {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            todaySweepAlreadyFromPointerRef.current = true;
+            triggerTodaySweepPlayback();
           }}
+          onPointerCancel={() => {
+            todaySweepAlreadyFromPointerRef.current = false;
+          }}
+          onPointerLeave={(e) => {
+            if (e.buttons === 0) todaySweepAlreadyFromPointerRef.current = false;
+          }}
+          onClick={(e) => {
+            if (!todaySweepAlreadyFromPointerRef.current) triggerTodaySweepPlayback();
+            todaySweepAlreadyFromPointerRef.current = false;
+            if (typeof onToday === 'function') onToday(e);
+          }}
+          className="sched-hud-neon-hover sched-hud-today-btn sched-hud-today-glow-sweep relative overflow-hidden shrink-0 flex items-center gap-1.5 ml-auto rounded-md text-[9px] font-bold uppercase tracking-[0.14em] outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-orange-400/40 focus-visible:ring-offset-0"
         >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ stroke: '#FFB86C', strokeWidth: 2 }}>
-            <circle cx="12" cy="12" r="3" />
-            <line x1="12" y1="2" x2="12" y2="4" />
-          </svg>
-          Today
+          <span className="relative z-[1] inline-flex sched-hud-neon-glow-layer sched-hud-neon-glow-orange items-center justify-center shrink-0">
+            <svg className="sched-hud-today-icon" width="13" height="13" viewBox="0 0 24 24" aria-hidden>
+              <circle cx="12" cy="12" r="3" />
+              <line x1="12" y1="2" x2="12" y2="4" />
+            </svg>
+          </span>
+          <span className="sched-hud-today-label whitespace-nowrap relative z-[1]">Today</span>
         </button>
       </div>
     </div>
@@ -584,6 +712,10 @@ export default function ScheduleTestTimeline({
   onSelectEvent,
   dayHeaderTitle,
   onNavigateToday,
+  onHudNavigatePrevious,
+  onHudNavigateNext,
+  hudDateISO,
+  onHudDateChange,
   blockingStatus,
 }) {
   const [nowTick, setNowTick] = useState(() => new Date());
@@ -684,11 +816,199 @@ export default function ScheduleTestTimeline({
   const bodyBlocking = blockingStatus === 'loading' || blockingStatus === 'error';
 
   return (
-    <div
-      className={`relative isolate overflow-hidden sched-timeline-hud-root ${HUD_SHELL_RADIUS_CLASS}`}
-      style={hudShellChrome}
-    >
-      {showFusedDayHeader ? <TimelineHudHeader title={dayHeaderTitle} onToday={onNavigateToday} /> : null}
+    <>
+      <style jsx global>{`
+        /* Layered neon hover — icon-test Neon Lab pattern; cyan + orange scoped to fused HUD */
+        .sched-timeline-hud-root.sched-hud-neon-scope {
+          --sched-hud-neon: #22d3ee;
+          --sched-hud-neon-bright: #66e6ff;
+          --sched-hud-neon-active: #eafbff;
+        }
+        .sched-hud-neon-scope .sched-hud-neon-glow-layer {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transition:
+            filter 0.25s ease,
+            transform 0.25s ease;
+        }
+        .sched-hud-neon-scope .sched-hud-neon-glow-cyan {
+          filter:
+            drop-shadow(0 0 2px rgba(34, 211, 238, 0.85))
+            drop-shadow(0 0 6px rgba(34, 211, 238, 0.55))
+            drop-shadow(0 0 12px rgba(34, 211, 238, 0.35));
+        }
+        .sched-hud-neon-scope .sched-hud-neon-glow-orange {
+          filter:
+            drop-shadow(0 0 2px rgba(255, 138, 26, 0.75))
+            drop-shadow(0 0 8px rgba(255, 122, 0, 0.48))
+            drop-shadow(0 0 14px rgba(255, 122, 0, 0.3));
+        }
+        .sched-hud-neon-scope .sched-hud-neon-icon-calendar {
+          stroke: var(--sched-hud-neon);
+          stroke-width: 1.65;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          transition: stroke 0.25s ease;
+        }
+        .sched-hud-neon-scope .sched-hud-neon-chevron {
+          stroke: var(--sched-hud-neon);
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          transition: stroke 0.25s ease;
+        }
+        .sched-hud-neon-scope label.sched-hud-neon-hover,
+        .sched-hud-neon-scope button.sched-hud-neon-hover {
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+        .sched-hud-neon-scope .sched-hud-neon-hover {
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sched-hud-neon-scope .sched-hud-neon-hover:hover .sched-hud-neon-icon-calendar,
+        .sched-hud-neon-scope .sched-hud-neon-hover:hover .sched-hud-neon-chevron {
+          stroke: var(--sched-hud-neon-bright);
+        }
+        .sched-hud-neon-scope .sched-hud-neon-hover:hover {
+          transform: scale(1.08);
+        }
+        .sched-hud-neon-scope .sched-hud-neon-hover:hover .sched-hud-neon-glow-layer.sched-hud-neon-glow-cyan {
+          filter:
+            drop-shadow(0 0 3px rgba(34, 211, 238, 1))
+            drop-shadow(0 0 12px rgba(34, 211, 238, 0.9))
+            drop-shadow(0 0 24px rgba(34, 211, 238, 0.55));
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:hover .sched-hud-neon-glow-layer.sched-hud-neon-glow-orange {
+          filter:
+            drop-shadow(0 0 3px rgba(255, 218, 180, 0.98))
+            drop-shadow(0 0 12px rgba(255, 138, 26, 0.92))
+            drop-shadow(0 0 26px rgba(255, 122, 0, 0.58));
+        }
+        .sched-hud-today-btn {
+          padding: 0.35rem 0.75rem;
+          border: 1px solid rgba(255, 138, 26, 0.38);
+          background: linear-gradient(180deg, rgba(255, 122, 0, 0.14), rgba(255, 122, 0, 0.05));
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            0 0 16px rgba(255, 138, 26, 0.18);
+          transition:
+            transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            border-color 0.25s ease,
+            box-shadow 0.25s ease,
+            background 0.25s ease;
+        }
+        .sched-hud-today-btn .sched-hud-today-label {
+          color: #ffb86c;
+          transition: color 0.25s ease;
+        }
+        .sched-hud-today-btn .sched-hud-today-icon {
+          stroke: #ffb86c;
+          stroke-width: 2;
+          fill: none;
+          stroke-linecap: round;
+          transition: stroke 0.25s ease;
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:hover {
+          transform: scale(1.08);
+          border-color: rgba(255, 178, 110, 0.58);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            0 0 22px rgba(255, 138, 26, 0.38),
+            0 0 12px rgba(255, 122, 0, 0.28),
+            0 0 28px rgba(255, 100, 0, 0.15);
+          background: linear-gradient(180deg, rgba(255, 160, 60, 0.24), rgba(255, 122, 0, 0.1));
+        }
+        /* Elite glow sweep: class sched-hud-today-sweep-playing (JS); runs ~0.8s through release — keep SCHED_HUD_TODAY_SWEEP_MS in sync */
+        .sched-hud-today-btn.sched-hud-today-glow-sweep::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          border-radius: inherit;
+          background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(255, 218, 180, 0.38) 42%,
+            rgba(255, 150, 60, 0.55) 50%,
+            rgba(255, 200, 140, 0.32) 58%,
+            transparent 100%
+          );
+          opacity: 0;
+          transform: translateX(-100%);
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+        }
+        .sched-hud-today-btn.sched-hud-today-glow-sweep.sched-hud-today-sweep-playing::after {
+          opacity: 1;
+          animation: sched-hud-today-sweep-move 0.8s ease-out;
+        }
+        @keyframes sched-hud-today-sweep-move {
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(100%);
+          }
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:hover .sched-hud-today-label {
+          color: #ffe8d4;
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:hover .sched-hud-today-icon {
+          stroke: #ffe8d4;
+        }
+        /* Tap / press — cyan controls spike; Today uses tidy press below */
+        .sched-hud-neon-scope label.sched-hud-neon-hover:active,
+        .sched-hud-neon-scope button.sched-hud-neon-hover:not(.sched-hud-today-btn):active {
+          transform: scale(1.12);
+        }
+        .sched-hud-neon-scope .sched-hud-neon-hover:active .sched-hud-neon-icon-calendar,
+        .sched-hud-neon-scope .sched-hud-neon-hover:active .sched-hud-neon-chevron {
+          stroke: var(--sched-hud-neon-active);
+        }
+        .sched-hud-neon-scope .sched-hud-neon-hover:active .sched-hud-neon-glow-layer.sched-hud-neon-glow-cyan {
+          filter:
+            drop-shadow(0 0 4px rgba(255, 255, 255, 0.98))
+            drop-shadow(0 0 14px rgba(34, 211, 238, 1))
+            drop-shadow(0 0 28px rgba(34, 211, 238, 0.98))
+            drop-shadow(0 0 42px rgba(34, 211, 238, 0.7));
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:active {
+          transform: scale(1.04);
+          border-color: rgba(255, 190, 140, 0.65);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            0 0 20px rgba(255, 160, 70, 0.35),
+            0 0 10px rgba(255, 122, 0, 0.22);
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:active .sched-hud-today-label {
+          color: #fff8f0;
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:active .sched-hud-today-icon {
+          stroke: #fff8f0;
+        }
+        .sched-hud-today-btn.sched-hud-neon-hover:active .sched-hud-neon-glow-layer.sched-hud-neon-glow-orange {
+          filter:
+            drop-shadow(0 0 4px rgba(255, 220, 190, 0.9))
+            drop-shadow(0 0 12px rgba(255, 150, 60, 0.75))
+            drop-shadow(0 0 22px rgba(255, 122, 0, 0.45));
+        }
+      `}</style>
+      <div
+        className={`relative isolate overflow-hidden sched-timeline-hud-root sched-hud-neon-scope ${HUD_SHELL_RADIUS_CLASS}`}
+        style={hudShellChrome}
+      >
+      {showFusedDayHeader ? (
+        <TimelineHudHeader
+          title={dayHeaderTitle}
+          onToday={onNavigateToday}
+          onNavigatePrevious={onHudNavigatePrevious}
+          onNavigateNext={onHudNavigateNext}
+          hudDateISO={hudDateISO}
+          onHudDateChange={onHudDateChange}
+        />
+      ) : null}
 
       <div className="relative" style={{ minHeight: timelineMinHeight }}>
         {blockingStatus === 'loading' && (
@@ -921,5 +1241,6 @@ export default function ScheduleTestTimeline({
         )}
       </div>
     </div>
+    </>
   );
 }
