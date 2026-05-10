@@ -28,7 +28,7 @@ from app.routers import (
     #inventory,
     quotes, technicians, notifications, reports,
     media, mobile, admin, chat, dashboard,
-    health, users, debug, services, skills, stripe
+    health, users, debug, services, skills, stripe, distance
 )
 from app.core.middleware import (
     RequestLoggingMiddleware, 
@@ -977,7 +977,10 @@ async def calculate_distance_endpoint(request_data: DistanceRequest):
     between two addresses using the configured Maps API.
     """
     logger.info(f"Received request for /api/calculate-distance: Origin=\"{request_data.origin}\", Destination=\"{request_data.destination}\"")
-    origin = request_data.origin
+    
+  if request_data.origin.strip().lower() == request_data.destination.strip().lower():
+    logger.warning("Origin and destination are the same address — returning 0")
+    return {"travelTime": 0, "distance": 0}
     destination = request_data.destination
 
     if not origin or not destination:
