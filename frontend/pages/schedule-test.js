@@ -706,37 +706,52 @@ function ScheduleTestInner() {
             </div>
           )}
 
-          {/* Ops chamber */}
-          <div className="relative rounded-[26px] mb-4">
-            <div
-              className="pointer-events-none absolute inset-[-1px] rounded-[inherit] opacity-50 blur-xl -z-[1]"
-              style={{
-                background: 'radial-gradient(ellipse 90% 60% at 50% -10%, rgba(0,217,255,0.14), transparent 65%)',
-              }}
-            />
-            <div
-              className="rounded-[inherit] px-2.5 sm:px-3.5 py-4 sm:py-5 relative overflow-hidden isolate"
-              style={{
-                background: 'linear-gradient(165deg, rgba(3,7,14,0.82) 0%, rgba(2,5,11,0.92) 100%)',
-                border: '1px solid rgba(0,217,255,0.08)',
-                boxShadow:
-                  'inset 0 0 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.03), 0 0 0 1px rgba(0,0,0,0.45), 0 20px 56px rgba(0,0,0,0.55)',
-              }}
-            >
-              {/* Composited atmospheric grid (same discipline as timeline — not table layout) */}
-              <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]" aria-hidden>
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      'radial-gradient(ellipse 75% 50% at 50% 10%, rgba(0,217,255,0.09), transparent 58%)',
-                  }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    opacity: 0.7,
-                    backgroundImage: `
+          {/* Day timeline: fused HUD fills column; other modes stay in Ops chamber */}
+          {displayMode === 'timeline' && viewType === 'day' ? (
+            <div className="relative mb-4 w-full min-w-0">
+              <ScheduleTestTimeline
+                appointments={filteredAppointments}
+                anchorDate={startDate}
+                technicianRailMap={technicianRailMap}
+                onSelectEvent={handleEventClick}
+                dayHeaderTitle={dayHeaderLabel}
+                onNavigateToday={navigateToday}
+                blockingStatus={
+                  scheduleError ? 'error' : isLoadingSchedule || isLoadingTechnicians ? 'loading' : undefined
+                }
+              />
+            </div>
+          ) : (
+            <div className="relative rounded-[26px] mb-4">
+              <div
+                className="pointer-events-none absolute inset-[-1px] rounded-[inherit] opacity-50 blur-xl -z-[1]"
+                style={{
+                  background: 'radial-gradient(ellipse 90% 60% at 50% -10%, rgba(0,217,255,0.14), transparent 65%)',
+                }}
+              />
+              <div
+                className="rounded-[inherit] px-2.5 sm:px-3.5 py-4 sm:py-5 relative overflow-hidden isolate"
+                style={{
+                  background: 'linear-gradient(165deg, rgba(3,7,14,0.82) 0%, rgba(2,5,11,0.92) 100%)',
+                  border: '1px solid rgba(0,217,255,0.08)',
+                  boxShadow:
+                    'inset 0 0 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.03), 0 0 0 1px rgba(0,0,0,0.45), 0 20px 56px rgba(0,0,0,0.55)',
+                }}
+              >
+                {/* Composited atmospheric grid */}
+                <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]" aria-hidden>
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'radial-gradient(ellipse 75% 50% at 50% 10%, rgba(0,217,255,0.09), transparent 58%)',
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      opacity: 0.7,
+                      backgroundImage: `
                       repeating-linear-gradient(
                         90deg,
                         transparent 0,
@@ -745,13 +760,13 @@ function ScheduleTestInner() {
                         rgba(0,217,255,0.055) 49px
                       )
                     `,
-                  }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    opacity: 0.8,
-                    backgroundImage: `
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      opacity: 0.8,
+                      backgroundImage: `
                       repeating-linear-gradient(
                         to bottom,
                         transparent 0,
@@ -759,13 +774,13 @@ function ScheduleTestInner() {
                         rgba(0,217,255,0.045) 40px
                       )
                     `,
-                  }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    opacity: 0.68,
-                    backgroundImage: `
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      opacity: 0.68,
+                      backgroundImage: `
                       repeating-linear-gradient(
                         to bottom,
                         transparent 0,
@@ -773,75 +788,64 @@ function ScheduleTestInner() {
                         rgba(0,217,255,0.1) 160px
                       )
                     `,
-                  }}
-                />
-                <div
-                  className="absolute inset-0 rounded-[inherit]"
-                  style={{
-                    boxShadow:
-                      'inset 0 1px 0 rgba(0,217,255,0.05), inset 0 0 72px rgba(0,0,0,0.48)',
-                  }}
-                />
-              </div>
-              <div className="relative z-[1]">
-                {displayMode === 'timeline' && viewType === 'day' ? (
-                  <ScheduleTestTimeline
-                    appointments={filteredAppointments}
-                    anchorDate={startDate}
-                    technicianRailMap={technicianRailMap}
-                    onSelectEvent={handleEventClick}
-                    dayHeaderTitle={dayHeaderLabel}
-                    onNavigateToday={navigateToday}
-                    blockingStatus={
-                      scheduleError ? 'error' : isLoadingSchedule || isLoadingTechnicians ? 'loading' : undefined
-                    }
+                    }}
                   />
-                ) : isLoadingSchedule || isLoadingTechnicians ? (
-                  <div className="py-20 flex justify-center">
-                    <LoadingSpinner />
-                  </div>
-                ) : scheduleError ? (
-                  <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                    Unable to load schedule.
-                  </p>
-                ) : filteredAppointments.length === 0 ? (
-                  <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                    No appointments in this range.
-                  </p>
-                ) : viewType === 'day' ? (
-                  filteredAppointments.map((a, i) => (
-                    <GlassAppointmentCard
-                      key={a.id || `${a.start}-${i}`}
-                      appointment={a}
-                      techColorMap={technicianRailMap}
-                      idx={i}
-                      onOpen={handleEventClick}
-                    />
-                  ))
-                ) : (
-                  groupedByDay.map((g) => (
-                    <div key={g.dateKey} className="mb-6 last:mb-0">
-                      <p
-                        className="text-[10px] font-bold tracking-[0.2em] mb-3 pl-1"
-                        style={{ color: 'rgba(255,255,255,0.42)' }}
-                      >
-                        {g.label}
-                      </p>
-                      {g.items.map((a, i) => (
-                        <GlassAppointmentCard
-                          key={a.id || `${a.start}-${i}`}
-                          appointment={a}
-                          techColorMap={technicianRailMap}
-                          idx={i}
-                          onOpen={handleEventClick}
-                        />
-                      ))}
+                  <div
+                    className="absolute inset-0 rounded-[inherit]"
+                    style={{
+                      boxShadow:
+                        'inset 0 1px 0 rgba(0,217,255,0.05), inset 0 0 72px rgba(0,0,0,0.48)',
+                    }}
+                  />
+                </div>
+                <div className="relative z-[1]">
+                  {isLoadingSchedule || isLoadingTechnicians ? (
+                    <div className="py-20 flex justify-center">
+                      <LoadingSpinner />
                     </div>
-                  ))
-                )}
+                  ) : scheduleError ? (
+                    <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      Unable to load schedule.
+                    </p>
+                  ) : filteredAppointments.length === 0 ? (
+                    <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                      No appointments in this range.
+                    </p>
+                  ) : viewType === 'day' ? (
+                    filteredAppointments.map((a, i) => (
+                      <GlassAppointmentCard
+                        key={a.id || `${a.start}-${i}`}
+                        appointment={a}
+                        techColorMap={technicianRailMap}
+                        idx={i}
+                        onOpen={handleEventClick}
+                      />
+                    ))
+                  ) : (
+                    groupedByDay.map((g) => (
+                      <div key={g.dateKey} className="mb-6 last:mb-0">
+                        <p
+                          className="text-[10px] font-bold tracking-[0.2em] mb-3 pl-1"
+                          style={{ color: 'rgba(255,255,255,0.42)' }}
+                        >
+                          {g.label}
+                        </p>
+                        {g.items.map((a, i) => (
+                          <GlassAppointmentCard
+                            key={a.id || `${a.start}-${i}`}
+                            appointment={a}
+                            techColorMap={technicianRailMap}
+                            idx={i}
+                            onOpen={handleEventClick}
+                          />
+                        ))}
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Legend — integrated tactical dock */}
