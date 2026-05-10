@@ -197,11 +197,17 @@ const HUD_APPOINTMENT_CARD_RIGHT_INSET = '5.75rem';
 /** Timeline route gutter spine (% from left): trunk + elbows + horizontal arms share this anchor */
 const ROUTE_GUTTER_X_PCT = 92;
 
+/** Shift spine + junction hoops left from % anchor (arms use matching `right:`); smaller = farther right */
+const ROUTE_SPINE_ENDPT_NUDGE_PX = 6;
+
+/** Positive = move route spine, arms & junction hoops down slightly (px) */
+const ROUTE_ROUTE_VERT_NUDGE_PX = 2;
+
 /** Px stroke for solid trunk / arms (`TravelRouteOrthoLayer`) */
 const ROUTE_TRUNK_STROKE_PX = 2;
 
 /** Share of travel-gap height reserved as hollow band around van on spine (~total vertical gap carved) */
-const ROUTE_VAN_SPINE_VERTICAL_CLEAR_FRAC = 0.35;
+const ROUTE_VAN_SPINE_VERTICAL_CLEAR_FRAC = 0.41;
 
 /** Glow + silhouette shared by all spine junction hoops (job elbows + van branch points) */
 const ROUTE_JUNCTION_RING_GLOW =
@@ -238,7 +244,7 @@ function vanSpineCarveBands(yTop, yBot, midY) {
  * yLo / yHi are connectors’ anchor band (prior job bottom → next job top).
  * Outward frac nudges terminals slightly toward the jobs → visually longer spine, dots farther apart.
  */
-const ROUTE_DOT_OUTWARD_FRAC = 2.07;
+const ROUTE_DOT_OUTWARD_FRAC = 1.70
 
 /** yTop < yBot along track; dashed line shares same endpoints as DOM dots */
 function routeTravelSpineEndpoints(y0, y1) {
@@ -294,7 +300,8 @@ function TravelVanGlyph({
         stroke="currentColor"
         strokeWidth={2.5}
         opacity={windshieldOpacity}
-        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeLinecap="butt"
       />
       <path
         d="M122 54V90"
@@ -339,7 +346,7 @@ function TravelChip({ travelMins, topPct }) {
       >
         <TravelVanGlyph className="pointer-events-none absolute inset-0 block h-full w-full" />
         <span
-          className="pointer-events-none absolute left-[49%] top-[52%] -translate-x-1/2 -translate-y-1/2 text-[8px] font-normal tabular-nums tracking-[0.07em] uppercase whitespace-nowrap"
+          className="pointer-events-none absolute left-[48%] top-[52%] -translate-x-1/2 -translate-y-1/2 text-[8px] font-normal tabular-nums tracking-[0.07em] uppercase whitespace-nowrap"
           style={{
             color: '#E8FDFF',
             WebkitTextStroke: '0.26px rgba(255,154,92,0.62)',
@@ -361,7 +368,7 @@ function travelMinsInvalid(tm) {
 function TravelRouteOrthoLayer({ connectors }) {
   if (!connectors.length) return null;
 
-  const spineFromRight = `${100 - ROUTE_GUTTER_X_PCT}%`;
+  const spineFromRight = `calc(${100 - ROUTE_GUTTER_X_PCT}% + ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`;
   const cardEdge = `calc(100% - 0.5rem - ${HUD_APPOINTMENT_CARD_RIGHT_INSET})`;
   const cyan = 'rgba(34,211,238,0.68)';
   const glow = '0 0 7px rgba(34,211,238,0.38), 0 0 2px rgba(34,211,238,0.55)';
@@ -374,11 +381,11 @@ function TravelRouteOrthoLayer({ connectors }) {
       aria-hidden
       className="pointer-events-none absolute z-[4] rounded-full"
       style={{
-        left: `${ROUTE_GUTTER_X_PCT}%`,
+        left: `calc(${ROUTE_GUTTER_X_PCT}% - ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`,
         top: `${y}%`,
         width: 9,
         height: 9,
-        transform: 'translate(-50%, -50%)',
+        transform: `translate(-50%, calc(-50% + ${ROUTE_ROUTE_VERT_NUDGE_PX}px))`,
         border: `2px solid rgba(56,229,239,0.92)`,
         background: 'rgba(8,14,26,0.35)',
         boxShadow: ROUTE_JUNCTION_RING_GLOW,
@@ -398,13 +405,14 @@ function TravelRouteOrthoLayer({ connectors }) {
         aria-hidden
         className="pointer-events-none absolute z-[2]"
         style={{
-          left: `calc(${ROUTE_GUTTER_X_PCT}% - ${half}px)`,
+          left: `calc(${ROUTE_GUTTER_X_PCT}% - ${half}px - ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`,
           width: ROUTE_TRUNK_STROKE_PX,
           top: `${segTopPct}%`,
           height: `${Math.max(spanPct, 0.04)}%`,
           background: cyan,
           borderRadius: 1,
           boxShadow: glow,
+          transform: `translateY(${ROUTE_ROUTE_VERT_NUDGE_PX}px)`,
         }}
       />
     );
@@ -419,7 +427,7 @@ function TravelRouteOrthoLayer({ connectors }) {
           left: cardEdge,
           right: spineFromRight,
           height: ROUTE_TRUNK_STROKE_PX,
-          transform: 'translateY(-50%)',
+          transform: `translateY(calc(-50% + ${ROUTE_ROUTE_VERT_NUDGE_PX}px))`,
           background: cyan,
           borderRadius: 1,
           boxShadow: glow,
@@ -463,11 +471,11 @@ function TravelRouteEndpointMarkers({ connectors }) {
         aria-hidden
         className="pointer-events-none absolute z-[4] rounded-full"
         style={{
-          left: `${ROUTE_GUTTER_X_PCT}%`,
+          left: `calc(${ROUTE_GUTTER_X_PCT}% - ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`,
           top: `${y}%`,
           width: 9,
           height: 9,
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, calc(-50% + ${ROUTE_ROUTE_VERT_NUDGE_PX}px))`,
           border: `2px solid rgba(56,229,239,0.92)`,
           background: 'rgba(8,14,26,0.35)',
           boxShadow: ringGlow,
