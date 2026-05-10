@@ -22,6 +22,10 @@ const TIMELINE_SCROLL_ANCHOR_HOUR = 8;
 
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
+/** Time-axis gutter width — reuse in timeline header strip so divider lines up with the grid */
+export const SCHED_TIMELINE_TIME_AXIS_COLUMN =
+  'w-[3.05rem] sm:w-[3.35rem] flex-shrink-0';
+
 /** Appliance chip — aligns with route / landing orange (#FFB86C, #FF7A00 family); light text on dark glass */
 export const SCHEDULE_EQUIP_BADGE_STYLE = {
   background: 'linear-gradient(180deg, rgba(255,138,26,0.1), rgba(255,118,46,0.05))',
@@ -603,7 +607,7 @@ export default function ScheduleTestTimeline({
         )}
         {/* Time axis */}
         <div
-          className="flex-shrink-0 w-[3.05rem] sm:w-[3.35rem] relative z-[4] scheduling-time-axis rounded-l-[18px]"
+          className={`${SCHED_TIMELINE_TIME_AXIS_COLUMN} relative z-[4] scheduling-time-axis rounded-l-[18px]`}
           style={{
             minHeight: timelineMinHeight,
             background: 'linear-gradient(180deg, rgba(4,11,24,0.42), rgba(2,7,14,0.58))',
