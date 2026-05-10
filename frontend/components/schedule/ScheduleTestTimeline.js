@@ -582,7 +582,7 @@ function TimelineHudHeader({
 
   return (
     <div
-      className="relative z-[5] flex items-stretch min-h-[46px]"
+      className="relative z-[5] flex items-stretch min-h-[44px]"
       style={{ borderBottom: '1px solid rgba(34,211,238,0.14)' }}
     >
       <div
@@ -640,7 +640,7 @@ function TimelineHudHeader({
           </div>
         )}
       </div>
-      <div className="flex flex-1 min-w-0 items-center gap-2 sm:gap-2.5 px-2 py-2.5 sm:px-3">
+      <div className="flex flex-1 min-w-0 items-center gap-2 sm:gap-2.5 px-2 py-2 sm:px-3">
         {showArrows ? (
           <button
             type="button"

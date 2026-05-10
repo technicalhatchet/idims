@@ -71,7 +71,7 @@ function Segment({ active, children, disabled, ...rest }) {
     <button
       type="button"
       disabled={disabled}
-      className={`relative flex-1 overflow-hidden min-h-[32px] py-1.5 px-1.5 rounded-[9px] text-[10px] font-semibold uppercase leading-none transition-[color,background,box-shadow,border-color,opacity,transform] disabled:opacity-45 disabled:pointer-events-none sched-segment ${
+      className={`relative flex-1 overflow-hidden min-h-0 py-1 px-1 rounded-lg text-[10px] font-semibold uppercase leading-none transition-[color,background,box-shadow,border-color,opacity,transform] disabled:opacity-45 disabled:pointer-events-none sched-segment ${
         active ? 'sched-segment-active' : ''
       }`}
       style={{
@@ -80,16 +80,19 @@ function Segment({ active, children, disabled, ...rest }) {
         transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
         ...(active
           ? {
-              background: 'linear-gradient(180deg, rgba(0,217,255,0.24), rgba(0,217,255,0.12))',
-              border: '1px solid rgba(0,217,255,0.28)',
-              color: '#fff',
+              background:
+                'linear-gradient(180deg, rgba(125,239,253,0.38), rgba(34,211,238,0.16), rgba(14,165,233,0.1))',
+              border: '1px solid rgba(183,246,253,0.58)',
+              color: '#F0FBFF',
               boxShadow:
-                '0 0 20px rgba(0,217,255,0.18), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2)',
+                '0 0 26px rgba(34,211,238,0.42), 0 0 12px rgba(56,189,248,0.22), inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -1px 0 rgba(6,62,76,0.45)',
             }
           : {
-              background: 'rgba(0,0,0,0.28)',
-              border: '1px solid rgba(255,255,255,0.05)',
-              color: 'rgba(255,255,255,0.5)',
+              background:
+                'linear-gradient(180deg, rgba(12,74,106,0.48), rgba(6,52,74,0.42))',
+              border: '1px solid rgba(34,211,238,0.18)',
+              color: 'rgba(204,246,253,0.85)',
+              boxShadow: 'inset 0 1px 0 rgba(103,232,249,0.08)',
             }),
       }}
       {...rest}
@@ -473,13 +476,14 @@ function ScheduleTestInner() {
             >
               <h1
                 className="text-[1.28rem] font-bold uppercase text-white"
-                style={{ letterSpacing: '0.22em', textShadow: '0 0 28px rgba(0,217,255,0.18), 0 2px 16px rgba(0,0,0,0.6)' }}
+                style={{
+                  letterSpacing: '0.18em',
+                  fontFamily: "'Orbitron', system-ui, sans-serif",
+                  textShadow: '0 0 28px rgba(0,217,255,0.18), 0 2px 16px rgba(0,0,0,0.6)',
+                }}
               >
                 SCHEDULE
               </h1>
-              <p className="text-[13px] mt-2 leading-snug tracking-wide" style={{ color: 'rgba(255,255,255,0.58)' }}>
-                Manage jobs and appointments
-              </p>
               <div className="flex items-center gap-2.5 mt-3">
                 <span
                   className="text-[9px] uppercase font-semibold px-2.5 py-1 rounded-md border"
@@ -505,7 +509,7 @@ function ScheduleTestInner() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-            className="rounded-[28px] p-3 pt-3.5 mb-5 relative overflow-hidden"
+            className="rounded-[28px] p-2.5 mb-5 relative overflow-hidden"
             style={{
               background: 'linear-gradient(165deg, rgba(16,28,48,0.55) 0%, rgba(10,18,36,0.72) 48%, rgba(8,14,28,0.78) 100%)',
               backdropFilter: 'blur(24px)',
@@ -534,14 +538,15 @@ function ScheduleTestInner() {
                 background: 'radial-gradient(ellipse at center, rgba(0,217,255,0.12), transparent 70%)',
               }}
             />
-            <div className="relative z-[1] space-y-2.5">
-              <div className="flex flex-row gap-2 items-stretch">
+            <div className="relative z-[1] space-y-2">
+              <div className="flex flex-row gap-1.5 items-stretch">
                 <div
-                  className="flex flex-1 min-w-0 p-[3px] rounded-xl gap-0.5"
+                  className="flex flex-1 min-w-0 p-0.5 rounded-lg gap-px"
                   style={{
-                    background: 'rgba(0,0,0,0.32)',
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
-                    border: '1px solid rgba(255,255,255,0.04)',
+                    background: 'linear-gradient(180deg, rgba(15,71,93,0.55), rgba(6,41,54,0.52))',
+                    boxShadow:
+                      'inset 0 1px 0 rgba(103,232,249,0.1), inset 0 -3px 10px rgba(0,0,0,0.32)',
+                    border: '1px solid rgba(34,211,238,0.16)',
                   }}
                 >
                   <Segment active={viewType === 'day'} onClick={() => handleViewTypeChange('day')}>
@@ -555,11 +560,12 @@ function ScheduleTestInner() {
                   </Segment>
                 </div>
                 <div
-                  className="flex flex-1 min-w-0 p-[3px] rounded-xl gap-0.5"
+                  className="flex flex-1 min-w-0 p-0.5 rounded-lg gap-px"
                   style={{
-                    background: 'rgba(0,0,0,0.32)',
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -2px 8px rgba(0,0,0,0.35)',
-                    border: '1px solid rgba(255,255,255,0.04)',
+                    background: 'linear-gradient(180deg, rgba(15,71,93,0.55), rgba(6,41,54,0.52))',
+                    boxShadow:
+                      'inset 0 1px 0 rgba(103,232,249,0.1), inset 0 -3px 10px rgba(0,0,0,0.32)',
+                    border: '1px solid rgba(34,211,238,0.16)',
                   }}
                 >
                   <Segment active={displayMode === 'list'} onClick={() => setDisplayMode('list')}>
@@ -576,94 +582,96 @@ function ScheduleTestInner() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={navigatePrevious}
-                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 duration-[180ms]"
-                  style={{
-                    border: '1px solid rgba(0,217,255,0.14)',
-                    background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
-                    boxShadow:
-                      'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 18px rgba(0,217,255,0.06), 0 6px 16px rgba(0,0,0,0.35)',
-                  }}
-                  aria-label="Previous"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
-                    <polyline points="15 18 9 12 15 6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-
-                <div className="flex-1 min-w-[140px] h-10 flex">
-                  <div
-                    className="sched-date-picker relative flex w-full h-full min-h-0 items-center justify-center rounded-lg pl-8 pr-2 py-0"
+              {!(displayMode === 'timeline' && viewType === 'day') && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={navigatePrevious}
+                    className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 duration-[180ms]"
                     style={{
-                      background: 'linear-gradient(180deg, rgba(6,12,22,0.92), rgba(3,9,18,0.96))',
-                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(0,217,255,0.14)',
+                      background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
+                      boxShadow:
+                        'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 18px rgba(0,217,255,0.06), 0 6px 16px rgba(0,0,0,0.35)',
+                    }}
+                    aria-label="Previous"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
+                      <polyline points="15 18 9 12 15 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+
+                  <div className="flex-1 min-w-[140px] h-10 flex">
+                    <div
+                      className="sched-date-picker relative flex w-full h-full min-h-0 items-center justify-center rounded-lg pl-8 pr-2 py-0"
+                      style={{
+                        background: 'linear-gradient(180deg, rgba(6,12,22,0.92), rgba(3,9,18,0.96))',
+                        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
+                      }}
+                    >
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 shrink-0"
+                        style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}
+                      >
+                        <rect x="3" y="4" width="18" height="18" rx="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                      </svg>
+                      <input
+                        type="date"
+                        aria-label="Select date"
+                        value={formatDateForInput(startDate)}
+                        onChange={(e) => handleDateRangeChange(new Date(`${e.target.value}T12:00:00`), true)}
+                        className="w-full min-w-0 bg-transparent font-medium outline-none outline-offset-0 border-0 ring-0 tracking-wide text-[12px] leading-none h-full py-2 appearance-none text-center text-[#22D3EE]"
+                        style={{ color: '#22D3EE' }}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={navigateNext}
+                    className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 duration-[180ms]"
+                    style={{
+                      border: '1px solid rgba(0,217,255,0.14)',
+                      background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
+                      boxShadow:
+                        'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 18px rgba(0,217,255,0.06), 0 6px 16px rgba(0,0,0,0.35)',
+                    }}
+                    aria-label="Next"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
+                      <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={navigateToday}
+                    className="px-3 h-10 rounded-lg text-[10px] font-bold uppercase tracking-[0.08em] shrink-0 flex items-center justify-center duration-[180ms]"
+                    style={{
+                      border: '1px solid rgba(0,217,255,0.3)',
+                      color: '#AFEEF8',
+                      background: 'linear-gradient(180deg, rgba(34,211,238,0.14), rgba(34,211,238,0.06))',
+                      boxShadow:
+                        'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,217,255,0.15), 0 8px 20px rgba(0,0,0,0.35)',
                     }}
                   >
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 shrink-0"
-                      style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}
-                    >
-                      <rect x="3" y="4" width="18" height="18" rx="2"/>
-                      <line x1="16" y1="2" x2="16" y2="6"/>
-                      <line x1="8" y1="2" x2="8" y2="6"/>
-                      <line x1="3" y1="10" x2="21" y2="10"/>
-                    </svg>
-                    <input
-                      type="date"
-                      aria-label="Select date"
-                      value={formatDateForInput(viewType === 'month' ? startDate : viewType === 'week' ? startDate : startDate)}
-                      onChange={(e) => handleDateRangeChange(new Date(`${e.target.value}T12:00:00`), true)}
-                      className="w-full min-w-0 bg-transparent font-medium outline-none outline-offset-0 border-0 ring-0 tracking-wide text-[12px] leading-none h-full py-2 appearance-none text-center text-[#22D3EE]"
-                      style={{ color: '#22D3EE' }}
-                    />
-                  </div>
+                    Today
+                  </button>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={navigateNext}
-                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 duration-[180ms]"
-                  style={{
-                    border: '1px solid rgba(0,217,255,0.14)',
-                    background: 'linear-gradient(180deg, rgba(8,14,26,0.9), rgba(4,10,18,0.95))',
-                    boxShadow:
-                      'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 18px rgba(0,217,255,0.06), 0 6px 16px rgba(0,0,0,0.35)',
-                  }}
-                  aria-label="Next"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ stroke: 'rgba(255,255,255,0.45)', strokeWidth: 2 }}>
-                    <polyline points="9 18 15 12 9 6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={navigateToday}
-                  className="px-3 h-10 rounded-lg text-[10px] font-bold uppercase tracking-[0.08em] shrink-0 flex items-center justify-center duration-[180ms]"
-                  style={{
-                    border: '1px solid rgba(0,217,255,0.3)',
-                    color: '#AFEEF8',
-                    background: 'linear-gradient(180deg, rgba(34,211,238,0.14), rgba(34,211,238,0.06))',
-                    boxShadow:
-                      'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,217,255,0.15), 0 8px 20px rgba(0,0,0,0.35)',
-                  }}
-                >
-                  Today
-                </button>
-              </div>
+              )}
 
               <div>
                 <label className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.34)' }}>
                   Technician
                 </label>
-                <div className="mt-1 relative">
+                <div className="mt-0.5 relative">
                   <select
                     value={selectedTechnicianId}
                     onChange={(e) => {
