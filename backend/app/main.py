@@ -976,40 +976,27 @@ async def calculate_distance_endpoint(request_data: DistanceRequest):
     Calculates estimated travel time (seconds) and distance (meters) 
     between two addresses using the configured Maps API.
     """
-    logger.info(f"Received request for /api/calculate-distance: Origin=\"{request_data.origin}\", Destination=\"{request_data.destination}\"")
-    
-  if request_data.origin.strip().lower() == request_data.destination.strip().lower():
-    logger.warning("Origin and destination are the same address — returning 0")
-    return {"travelTime": 0, "distance": 0}
+    origin = request_data.origin
     destination = request_data.destination
+    logger.info(f"calculate-distance: Origin=\"{origin}\", Destination=\"{destination}\"")
 
     if not origin or not destination:
-        logger.warning("/api/calculate-distance: Missing origin or destination.")
         raise HTTPException(status_code=400, detail="Origin and destination addresses are required.")
 
-    # Call the utility function (returns minutes, miles)
     try:
-        logger.info(f"Calling get_travel_time_and_distance for Origin=\"{origin}\", Dest=\"{destination}\"")
         travel_time_minutes, travel_distance_miles = get_travel_time_and_distance(origin, destination)
-        logger.info(f"get_travel_time_and_distance returned: Time={travel_time_minutes} min, Distance={travel_distance_miles} mi")
     except Exception as e:
-        logger.error(f"Exception calling get_travel_time_and_distance: {str(e)}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Error during travel calculation utility: {str(e)}")
+        logger.error(f"Exception in get_travel_time_and_distance: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Error during travel calculation: {str(e)}")
 
     if travel_time_minutes is None or travel_distance_miles is None:
-        # Log this specific failure case
-        logger.error(f"Failed to calculate distance for Origin=\"{origin}\", Dest=\"{destination}\" - Utility returned None.")
-        raise HTTPException(status_code=500, detail="Failed to calculate distance or time via external service or fallback.")
+        raise HTTPException(status_code=500, detail="Failed to calculate distance or time.")
 
-    # Convert results back to seconds and meters for frontend consistency
     travel_time_seconds = int(travel_time_minutes * 60)
-    travel_distance_meters = int(travel_distance_miles * 1609.34) 
-    logger.info(f"Converted to: Time={travel_time_seconds}s, Distance={travel_distance_meters}m")
+    travel_distance_meters = int(travel_distance_miles * 1609.34)
+    logger.info(f"calculate-distance result: {travel_time_seconds}s, {travel_distance_meters}m")
 
-    return {
-        "travelTime": travel_time_seconds, 
-        "distance": travel_distance_meters 
-    }
+    return {"travelTime": travel_time_seconds, "distance": travel_distance_meters}
 # --- End New Maps API Route --- #
 
 if __name__ == "__main__":
