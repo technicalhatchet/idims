@@ -2,6 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 /** Business window (local clock) displayed on tactical grid */
 const START_HOUR = 8;
@@ -25,6 +26,17 @@ const HUD_EASE = [0.4, 0, 0.2, 1];
 /** Time-axis gutter width — reuse in timeline header strip so divider lines up with the grid */
 export const SCHED_TIMELINE_TIME_AXIS_COLUMN =
   'w-[3.05rem] sm:w-[3.35rem] flex-shrink-0';
+
+/** Fused HUD shell — tighter than legacy 22px for a squarer tactical frame */
+const HUD_SHELL_RADIUS_CLASS = 'rounded-[10px]';
+
+const hudShellChrome = {
+  border: '1px solid rgba(0,217,255,0.14)',
+  boxShadow:
+    'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 28px rgba(0,217,255,0.06), 0 8px 24px rgba(0,0,0,0.35)',
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+};
 
 /** Appliance chip — aligns with route / landing orange (#FFB86C, #FF7A00 family); light text on dark glass */
 export const SCHEDULE_EQUIP_BADGE_STYLE = {
@@ -496,11 +508,83 @@ function TravelRouteEndpointMarkers({ connectors }) {
   });
 }
 
+function TimelineHudHeader({ title, onToday }) {
+  return (
+    <div
+      className="relative z-[5] flex items-stretch min-h-[46px]"
+      style={{ borderBottom: '1px solid rgba(34,211,238,0.14)' }}
+    >
+      <div
+        className={`${SCHED_TIMELINE_TIME_AXIS_COLUMN} flex items-center justify-center relative scheduling-time-axis`}
+        style={{
+          background: 'linear-gradient(180deg, rgba(4,11,24,0.52), rgba(3,9,18,0.62))',
+          boxShadow:
+            'inset -1px 0 0 rgba(34,211,238,0.14), inset 0 1px 0 rgba(255,255,255,0.05)',
+        }}
+      >
+        <div
+          className="w-9 h-9 rounded-md flex items-center justify-center shrink-0"
+          style={{
+            border: '1px solid rgba(34,211,238,0.28)',
+            background: 'linear-gradient(180deg, rgba(8,16,30,0.85), rgba(4,10,20,0.92))',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 14px rgba(0,217,255,0.08)',
+          }}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            style={{
+              stroke: '#22D3EE',
+              strokeWidth: 1.65,
+              filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))',
+            }}
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+        </div>
+      </div>
+      <div className="flex flex-1 min-w-0 items-center justify-between gap-3 px-3 py-2.5">
+        <span
+          className="text-left text-[10px] sm:text-[11px] font-semibold truncate leading-snug uppercase pl-0.5"
+          style={{ letterSpacing: '0.12em', color: 'rgba(255,255,255,0.78)' }}
+        >
+          {title}
+        </span>
+        <button
+          type="button"
+          onClick={onToday}
+          className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[9px] font-bold uppercase tracking-[0.14em]"
+          style={{
+            border: '1px solid rgba(255,138,26,0.38)',
+            color: '#FFB86C',
+            background: 'linear-gradient(180deg, rgba(255,122,0,0.14), rgba(255,122,0,0.05))',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 16px rgba(255,138,26,0.18)',
+          }}
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ stroke: '#FFB86C', strokeWidth: 2 }}>
+            <circle cx="12" cy="12" r="3" />
+            <line x1="12" y1="2" x2="12" y2="4" />
+          </svg>
+          Today
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function ScheduleTestTimeline({
   appointments = [],
   anchorDate,
   technicianRailMap = {},
   onSelectEvent,
+  dayHeaderTitle,
+  onNavigateToday,
+  blockingStatus,
 }) {
   const [nowTick, setNowTick] = useState(() => new Date());
   const scrollAnchorRef = useRef(null);
@@ -581,6 +665,7 @@ export default function ScheduleTestTimeline({
 
   /** Scroll window so TIMELINE_SCROLL_ANCHOR_HOUR row sits ~at top (7am stays above scroll). */
   useEffect(() => {
+    if (blockingStatus) return;
     if (scrollAnchorStepIndex < 1 || scrollAnchorStepIndex > slotCount) return;
     const node = scrollAnchorRef.current;
     if (!node) return;
@@ -588,15 +673,47 @@ export default function ScheduleTestTimeline({
       node.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
     });
     return () => cancelAnimationFrame(id);
-  }, [anchorDate, scrollAnchorStepIndex, slotCount, timelineMinHeight]);
+  }, [anchorDate, blockingStatus, scrollAnchorStepIndex, slotCount, timelineMinHeight]);
 
-  const showScrollAnchor = scrollAnchorStepIndex >= 1 && scrollAnchorStepIndex <= slotCount;
+  const showScrollAnchor =
+    !blockingStatus && scrollAnchorStepIndex >= 1 && scrollAnchorStepIndex <= slotCount;
+
+  const showFusedDayHeader =
+    typeof dayHeaderTitle === 'string' && dayHeaderTitle.length > 0 && typeof onNavigateToday === 'function';
+
+  const bodyBlocking = blockingStatus === 'loading' || blockingStatus === 'error';
 
   return (
-    <div className="relative isolate rounded-[22px] overflow-hidden sched-timeline-hud-root" style={{ minHeight: timelineMinHeight }}>
-      <TimelineGridScene slotCount={slotCount} />
+    <div
+      className={`relative isolate overflow-hidden sched-timeline-hud-root ${HUD_SHELL_RADIUS_CLASS}`}
+      style={hudShellChrome}
+    >
+      {showFusedDayHeader ? <TimelineHudHeader title={dayHeaderTitle} onToday={onNavigateToday} /> : null}
 
-      <div className="relative flex z-[2] rounded-[inherit]">
+      <div className="relative" style={{ minHeight: timelineMinHeight }}>
+        {blockingStatus === 'loading' && (
+          <div
+            className="flex justify-center items-center py-20 relative z-10 px-6"
+            style={{ minHeight: timelineMinHeight }}
+          >
+            <LoadingSpinner />
+          </div>
+        )}
+
+        {blockingStatus === 'error' && (
+          <div
+            className="flex justify-center items-center py-16 relative z-10 px-6 text-center text-sm"
+            style={{ minHeight: timelineMinHeight, color: 'rgba(255,255,255,0.45)' }}
+          >
+            Unable to load schedule.
+          </div>
+        )}
+
+        {!bodyBlocking && (
+          <>
+            <TimelineGridScene slotCount={slotCount} />
+
+            <div className="relative flex z-[2] rounded-[inherit]">
         {showScrollAnchor && (
           <div
             ref={scrollAnchorRef}
@@ -607,7 +724,7 @@ export default function ScheduleTestTimeline({
         )}
         {/* Time axis */}
         <div
-          className={`${SCHED_TIMELINE_TIME_AXIS_COLUMN} relative z-[4] scheduling-time-axis rounded-l-[18px]`}
+          className={`${SCHED_TIMELINE_TIME_AXIS_COLUMN} relative z-[4] scheduling-time-axis`}
           style={{
             minHeight: timelineMinHeight,
             background: 'linear-gradient(180deg, rgba(4,11,24,0.42), rgba(2,7,14,0.58))',
@@ -799,6 +916,9 @@ export default function ScheduleTestTimeline({
             </div>
           )}
         </div>
+      </div>
+          </>
+        )}
       </div>
     </div>
   );

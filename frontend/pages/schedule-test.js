@@ -11,7 +11,6 @@ import EventDetailModal from '../components/schedule/EventDetailModal';
 import ScheduleTestTimeline, {
   AppointmentCardBadgeStack,
   NEON_RAILS,
-  SCHED_TIMELINE_TIME_AXIS_COLUMN,
   formatEquipmentSubtypeLabel,
 } from '../components/schedule/ScheduleTestTimeline';
 import { useSchedule } from '../hooks/useSchedule';
@@ -785,126 +784,32 @@ function ScheduleTestInner() {
                 />
               </div>
               <div className="relative z-[1]">
-                {displayMode === 'timeline' && viewType === 'day' && (
-                  <div
-                    className={`flex items-stretch min-h-[46px] mb-2 rounded-t-[18px] rounded-b-lg overflow-hidden sched-timeline-day-header`}
-                    style={{
-                      background: 'linear-gradient(165deg, rgba(5,11,22,0.75) 0%, rgba(3,8,16,0.82) 100%)',
-                      border: '1px solid rgba(0,217,255,0.14)',
-                      boxShadow:
-                        'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 28px rgba(0,217,255,0.06), 0 8px 24px rgba(0,0,0,0.35)',
-                      backdropFilter: 'blur(16px)',
-                    }}
-                  >
-                    {/* Gutter aligns with HUD time-axis; vertical rule continues into timeline */}
-                    <div
-                      className={`${SCHED_TIMELINE_TIME_AXIS_COLUMN} flex items-center justify-center relative z-[2] scheduling-time-axis border-b`}
-                      style={{
-                        background: 'linear-gradient(180deg, rgba(4,11,24,0.52), rgba(3,9,18,0.62))',
-                        boxShadow:
-                          'inset -1px 0 0 rgba(34,211,238,0.14), inset 0 1px 0 rgba(255,255,255,0.05)',
-                        borderBottomColor: 'rgba(34,211,238,0.14)',
-                      }}
-                    >
-                      <div
-                        className="w-9 h-9 rounded-md flex items-center justify-center shrink-0"
-                        style={{
-                          border: '1px solid rgba(34,211,238,0.28)',
-                          background: 'linear-gradient(180deg, rgba(8,16,30,0.85), rgba(4,10,20,0.92))',
-                          boxShadow:
-                            'inset 0 1px 0 rgba(255,255,255,0.06), 0 0 14px rgba(0,217,255,0.08)',
-                        }}
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          style={{
-                            stroke: '#22D3EE',
-                            strokeWidth: 1.65,
-                            filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))',
-                          }}
-                        >
-                          <rect x="3" y="4" width="18" height="18" rx="2" />
-                          <line x1="16" y1="2" x2="16" y2="6" />
-                          <line x1="8" y1="2" x2="8" y2="6" />
-                          <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      className="flex flex-1 min-w-0 items-center justify-between gap-3 px-3 py-2.5 border-b"
-                      style={{
-                        borderBottomColor: 'rgba(34,211,238,0.14)',
-                      }}
-                    >
-                      <span
-                        className="text-left text-[10px] sm:text-[11px] font-semibold truncate leading-snug uppercase pl-0.5"
-                        style={{ letterSpacing: '0.12em', color: 'rgba(255,255,255,0.78)' }}
-                      >
-                        {dayHeaderLabel}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={navigateToday}
-                        className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[9px] font-bold uppercase tracking-[0.14em]"
-                        style={{
-                          border: '1px solid rgba(255,138,26,0.38)',
-                          color: '#FFB86C',
-                          background: 'linear-gradient(180deg, rgba(255,122,0,0.14), rgba(255,122,0,0.05))',
-                          boxShadow:
-                            'inset 0 1px 0 rgba(255,255,255,0.1), 0 0 16px rgba(255,138,26,0.18)',
-                        }}
-                      >
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ stroke: '#FFB86C', strokeWidth: 2 }}>
-                          <circle cx="12" cy="12" r="3" />
-                          <line x1="12" y1="2" x2="12" y2="4" />
-                        </svg>
-                        Today
-                      </button>
-                    </div>
+                {displayMode === 'timeline' && viewType === 'day' ? (
+                  <ScheduleTestTimeline
+                    appointments={filteredAppointments}
+                    anchorDate={startDate}
+                    technicianRailMap={technicianRailMap}
+                    onSelectEvent={handleEventClick}
+                    dayHeaderTitle={dayHeaderLabel}
+                    onNavigateToday={navigateToday}
+                    blockingStatus={
+                      scheduleError ? 'error' : isLoadingSchedule || isLoadingTechnicians ? 'loading' : undefined
+                    }
+                  />
+                ) : isLoadingSchedule || isLoadingTechnicians ? (
+                  <div className="py-20 flex justify-center">
+                    <LoadingSpinner />
                   </div>
-                )}
-            {isLoadingSchedule || isLoadingTechnicians ? (
-              <div className="py-20 flex justify-center">
-                <LoadingSpinner />
-              </div>
-            ) : scheduleError ? (
-              <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                Unable to load schedule.
-              </p>
-            ) : displayMode === 'timeline' && viewType === 'day' ? (
-              <ScheduleTestTimeline
-                appointments={filteredAppointments}
-                anchorDate={startDate}
-                technicianRailMap={technicianRailMap}
-                onSelectEvent={handleEventClick}
-              />
-            ) : filteredAppointments.length === 0 ? (
-              <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                No appointments in this range.
-              </p>
-            ) : viewType === 'day' ? (
-              filteredAppointments.map((a, i) => (
-                <GlassAppointmentCard
-                  key={a.id || `${a.start}-${i}`}
-                  appointment={a}
-                  techColorMap={technicianRailMap}
-                  idx={i}
-                  onOpen={handleEventClick}
-                />
-              ))
-            ) : (
-              groupedByDay.map((g) => (
-                <div key={g.dateKey} className="mb-6 last:mb-0">
-                  <p
-                    className="text-[10px] font-bold tracking-[0.2em] mb-3 pl-1"
-                    style={{ color: 'rgba(255,255,255,0.42)' }}
-                  >
-                    {g.label}
+                ) : scheduleError ? (
+                  <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                    Unable to load schedule.
                   </p>
-                  {g.items.map((a, i) => (
+                ) : filteredAppointments.length === 0 ? (
+                  <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                    No appointments in this range.
+                  </p>
+                ) : viewType === 'day' ? (
+                  filteredAppointments.map((a, i) => (
                     <GlassAppointmentCard
                       key={a.id || `${a.start}-${i}`}
                       appointment={a}
@@ -912,10 +817,28 @@ function ScheduleTestInner() {
                       idx={i}
                       onOpen={handleEventClick}
                     />
-                  ))}
-                </div>
-              ))
-            )}
+                  ))
+                ) : (
+                  groupedByDay.map((g) => (
+                    <div key={g.dateKey} className="mb-6 last:mb-0">
+                      <p
+                        className="text-[10px] font-bold tracking-[0.2em] mb-3 pl-1"
+                        style={{ color: 'rgba(255,255,255,0.42)' }}
+                      >
+                        {g.label}
+                      </p>
+                      {g.items.map((a, i) => (
+                        <GlassAppointmentCard
+                          key={a.id || `${a.start}-${i}`}
+                          appointment={a}
+                          techColorMap={technicianRailMap}
+                          idx={i}
+                          onOpen={handleEventClick}
+                        />
+                      ))}
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
