@@ -112,7 +112,20 @@ export function isTimeWindowAvailable(date, windowName, existingAppointments, te
     normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0);
   }
   
-  console.log(`[isTimeWindowAvailable] Normalized Date: ${normalizedDate.toDateString()}, Window: ${windowName}, Technician ID: ${technicianId || 'none'}`);
+  // If checking today's date, gray out windows that have already passed
+  const now = new Date();
+  const isToday = normalizedDate.getFullYear() === now.getFullYear() &&
+                  normalizedDate.getMonth() === now.getMonth() &&
+                  normalizedDate.getDate() === now.getDate();
+
+  if (isToday) {
+    const { endTime: windowEnd } = getTimeWindowBoundaries(normalizedDate, windowName);
+    // Add buffer — need enough time to actually get there
+    const bufferMs = 30 * 60 * 1000; // 30 min buffer
+    if (now.getTime() + bufferMs >= windowEnd.getTime()) {
+      return { available: false, reason: 'This time window has already passed' };
+    }
+  }
   
   const { startTime, endTime } = getTimeWindowBoundaries(normalizedDate, windowName);
   
@@ -398,7 +411,10 @@ export async function findNextAvailableSlot(
       return {
         startTime: currentTryStartTime,
         endTime: proposedEndTime,
-        travelTime: initialTravelTimeSecs, 
+        travelTimeBefore: initialTravelTimeSecs,
+        travelDistanceBefore: initialTravelDistMeters,
+        // Keep old names for backwards compat
+        travelTime: initialTravelTimeSecs,
         travelDistance: initialTravelDistMeters,
       };
     }

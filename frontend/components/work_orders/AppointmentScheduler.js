@@ -861,8 +861,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
         ...prev,
         scheduled_start: formatDateTimeForInput(slot.startTime),
         scheduled_end: formatDateTimeForInput(slot.endTime),
-        travel_time_before: slot.travelTimeBefore,
-        travel_distance_before: slot.travelDistanceBefore
+        travel_time_before: slot.travelTimeBefore ?? slot.travelTime ?? null,
+        travel_distance_before: slot.travelDistanceBefore ?? slot.travelDistance ?? null
       }));
       
       setIsCalculating(false);
