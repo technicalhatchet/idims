@@ -690,15 +690,11 @@ function TimelineHudHeader({
             todaySweepAlreadyFromPointerRef.current = false;
             if (typeof onToday === 'function') onToday(e);
           }}
-          className="sched-hud-neon-hover sched-hud-today-btn sched-hud-today-glow-sweep relative overflow-hidden shrink-0 flex items-center gap-1.5 ml-auto rounded-md text-[9px] font-bold uppercase tracking-[0.14em] outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-orange-400/40 focus-visible:ring-offset-0"
+          className="sched-hud-neon-hover sched-hud-today-btn sched-hud-today-glow-sweep relative overflow-hidden shrink-0 flex items-center justify-center ml-auto rounded-md text-[9px] font-bold uppercase tracking-[0.14em] outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-orange-400/40 focus-visible:ring-offset-0"
         >
-          <span className="relative z-[1] inline-flex sched-hud-neon-glow-layer sched-hud-neon-glow-orange items-center justify-center shrink-0">
-            <svg className="sched-hud-today-icon" width="13" height="13" viewBox="0 0 24 24" aria-hidden>
-              <circle cx="12" cy="12" r="3" />
-              <line x1="12" y1="2" x2="12" y2="4" />
-            </svg>
+          <span className="sched-hud-today-label relative z-[1] inline-flex items-center justify-center whitespace-nowrap sched-hud-neon-glow-layer sched-hud-neon-glow-orange">
+            Today
           </span>
-          <span className="sched-hud-today-label whitespace-nowrap relative z-[1]">Today</span>
         </button>
       </div>
     </div>
@@ -887,7 +883,7 @@ export default function ScheduleTestTimeline({
             drop-shadow(0 0 26px rgba(255, 122, 0, 0.58));
         }
         .sched-hud-today-btn {
-          padding: 0.35rem 0.75rem;
+          padding: 0.3rem 0.5rem;
           border: 1px solid rgba(255, 138, 26, 0.38);
           background: linear-gradient(180deg, rgba(255, 122, 0, 0.14), rgba(255, 122, 0, 0.05));
           box-shadow:
@@ -902,13 +898,6 @@ export default function ScheduleTestTimeline({
         .sched-hud-today-btn .sched-hud-today-label {
           color: #ffb86c;
           transition: color 0.25s ease;
-        }
-        .sched-hud-today-btn .sched-hud-today-icon {
-          stroke: #ffb86c;
-          stroke-width: 2;
-          fill: none;
-          stroke-linecap: round;
-          transition: stroke 0.25s ease;
         }
         .sched-hud-today-btn.sched-hud-neon-hover:hover {
           transform: scale(1.08);
@@ -955,9 +944,6 @@ export default function ScheduleTestTimeline({
         .sched-hud-today-btn.sched-hud-neon-hover:hover .sched-hud-today-label {
           color: #ffe8d4;
         }
-        .sched-hud-today-btn.sched-hud-neon-hover:hover .sched-hud-today-icon {
-          stroke: #ffe8d4;
-        }
         /* Tap / press — cyan controls spike; Today uses tidy press below */
         .sched-hud-neon-scope label.sched-hud-neon-hover:active,
         .sched-hud-neon-scope button.sched-hud-neon-hover:not(.sched-hud-today-btn):active {
@@ -984,9 +970,6 @@ export default function ScheduleTestTimeline({
         }
         .sched-hud-today-btn.sched-hud-neon-hover:active .sched-hud-today-label {
           color: #fff8f0;
-        }
-        .sched-hud-today-btn.sched-hud-neon-hover:active .sched-hud-today-icon {
-          stroke: #fff8f0;
         }
         .sched-hud-today-btn.sched-hud-neon-hover:active .sched-hud-neon-glow-layer.sched-hud-neon-glow-orange {
           filter:
