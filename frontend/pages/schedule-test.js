@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -6,6 +6,7 @@ import { parseISO, format, startOfWeek, endOfWeek } from 'date-fns';
 import { motion } from 'framer-motion';
 import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import PullToRefresh from '../components/ui/PullToRefresh';
 import ErrorAlert from '../components/ui/ErrorAlert';
 import EventDetailModal from '../components/schedule/EventDetailModal';
 import ScheduleTestTimeline, {
@@ -242,7 +243,7 @@ function ScheduleTestInner() {
     viewType,
   });
 
-  const { data: techniciansData, isLoading: isLoadingTechnicians } = useTechnicians();
+  const { data: techniciansData, isLoading: isLoadingTechnicians, refetch: refetchTechnicians } = useTechnicians();
 
   const appointments = scheduleData?.appointments || [];
 
@@ -361,6 +362,10 @@ function ScheduleTestInner() {
       .catch(() => refetchSchedule());
   };
 
+  const handlePullRefresh = useCallback(async () => {
+    await Promise.all([refetchSchedule(), refetchTechnicians()]);
+  }, [refetchSchedule, refetchTechnicians]);
+
   const handleEventClick = (ev) => {
     const enhanced = {
       ...ev,
@@ -439,6 +444,7 @@ function ScheduleTestInner() {
         `}</style>
       </Head>
 
+      <PullToRefresh onRefresh={handlePullRefresh} disabled={!!selectedEvent}>
       {/* Layer 1–2: operational atmosphere */}
       <div className="relative min-h-screen pb-36 sched-ops-surface">
         <div
@@ -900,6 +906,7 @@ function ScheduleTestInner() {
 
         {selectedEvent && <EventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />}
       </div>
+      </PullToRefresh>
     </>
   );
 }
