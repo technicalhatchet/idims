@@ -916,21 +916,6 @@ function ScheduleTestInner() {
                 ))
               )}
             </div>
-            <div
-              className="hidden sm:block w-px h-9 mx-1 sm:mx-2 flex-shrink-0"
-              style={{ background: 'linear-gradient(180deg, transparent, rgba(0,217,255,0.2), transparent)' }}
-            />
-            <div
-              className="sm:hidden w-full h-px my-2 opacity-80"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(0,217,255,0.22), transparent)' }}
-            />
-            <div className="flex items-center gap-2 text-[10px] tracking-[0.05em]" style={{ color: 'rgba(255,255,255,0.38)' }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.5, filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.35))' }}>
-                <path d="M5 17h14v2H5v-2z" strokeLinecap="round"/>
-                <path d="M7 17V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8" strokeLinecap="round"/>
-              </svg>
-              Connectors · same tech, consecutive jobs
-            </div>
           </div>
         </div>
 
