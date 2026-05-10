@@ -546,7 +546,6 @@ function ScheduleTestInner() {
                     background: 'linear-gradient(180deg, rgba(15,71,93,0.55), rgba(6,41,54,0.52))',
                     boxShadow:
                       'inset 0 1px 0 rgba(103,232,249,0.1), inset 0 -3px 10px rgba(0,0,0,0.32)',
-                    border: '1px solid rgba(34,211,238,0.16)',
                   }}
                 >
                   <Segment active={viewType === 'day'} onClick={() => handleViewTypeChange('day')}>
@@ -565,7 +564,6 @@ function ScheduleTestInner() {
                     background: 'linear-gradient(180deg, rgba(15,71,93,0.55), rgba(6,41,54,0.52))',
                     boxShadow:
                       'inset 0 1px 0 rgba(103,232,249,0.1), inset 0 -3px 10px rgba(0,0,0,0.32)',
-                    border: '1px solid rgba(34,211,238,0.16)',
                   }}
                 >
                   <Segment active={displayMode === 'list'} onClick={() => setDisplayMode('list')}>

@@ -654,7 +654,7 @@ function TimelineHudHeader({
           </button>
         ) : null}
         <span
-          className="flex-1 min-w-0 text-center text-[10px] sm:text-[11px] font-semibold truncate leading-snug uppercase px-0.5"
+          className="flex-1 min-w-0 text-center text-[10px] sm:text-[11px] font-semibold truncate leading-snug uppercase -mx-px px-0.5"
           style={{ letterSpacing: '0.12em', color: 'rgba(255,255,255,0.78)' }}
         >
           {title}
