@@ -387,12 +387,12 @@ function ScheduleTestInner() {
       buckets[dk].push(a);
     });
     const keys = Object.keys(buckets).sort();
-    return keys.map((k) => ({ dateKey: k, items: buckets[k], label: format(parseISO(k), 'EEEE // MMMM d, yyyy').toUpperCase() }));
+    return keys.map((k) => ({ dateKey: k, items: buckets[k], label: format(parseISO(k), 'EEE // MMMM d, yyyy').toUpperCase() }));
   }, [filteredAppointments]);
 
   const dayHeaderLabel =
     viewType === 'day'
-      ? `${format(startDate, 'EEEE // MMMM d, yyyy')}`.toUpperCase()
+      ? `${format(startDate, 'EEE // MMMM d, yyyy')}`.toUpperCase()
       : viewType === 'week'
       ? `${format(startDate, 'MMM d')} – ${format(endDate, 'MMM d, yyyy')}`.toUpperCase()
       : `${format(startDate, 'MMMM yyyy')}`.toUpperCase();
