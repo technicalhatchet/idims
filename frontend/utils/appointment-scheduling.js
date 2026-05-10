@@ -284,7 +284,7 @@ export async function findNextAvailableSlot(
     ...apt,
     startTime: new Date(apt.scheduled_start),
     endTime: new Date(apt.scheduled_end),
-    location: apt.service_location?.address || null // Extract location
+    location: apt.service_location?.address || apt.location || apt.service_address || null // Normalize location field
   })).sort((a, b) => a.startTime - b.startTime); // Sort by start time
 
   console.log(`[findNextAvailableSlot V2] Found ${technicianAppointments.length} appointments for technician ${technicianId} on ${dateStr}:`, 
@@ -300,7 +300,7 @@ export async function findNextAvailableSlot(
   if (previousAppointments.length > 0) {
       const lastPreviousAppt = previousAppointments[previousAppointments.length - 1]; // Already sorted
       lastEventEndTime = lastPreviousAppt.endTime;
-      lastEventLocation = lastPreviousAppt.location || DEFAULT_SHOP_ADDRESS; // Use appointment location or fallback
+      lastEventLocation = lastPreviousAppt.location || lastEventLocation || DEFAULT_SHOP_ADDRESS;
       console.log(`[findNextAvailableSlot V2] Last event before window: Appt ${lastPreviousAppt.id} ending at ${lastEventEndTime.toLocaleTimeString()}, Loc: ${lastEventLocation}`);
   } else {
       console.log(`[findNextAvailableSlot V2] No appointments before window. Starting from WorkDayStart ${workDayStartTime.toLocaleTimeString()}, Loc: ${lastEventLocation}`);
@@ -375,7 +375,8 @@ export async function findNextAvailableSlot(
         
         currentTryStartTime = new Date(existingEnd.getTime() + BUFFER_TIME_MS);
         
-        const conflictApptLocation = existingAppt.service_location;
+        // Use normalized location from the mapped appointment object
+        const conflictApptLocation = existingAppt.location;
         console.log(`[findNextAvailableSlot V2 - Loop ${iterationCount}] Conflict details: Ends at ${existingEnd.toLocaleTimeString()}, Location: ${conflictApptLocation}`);
 
         if (conflictApptLocation && toAddress && conflictApptLocation !== toAddress) {
