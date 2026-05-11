@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { format, isToday } from 'date-fns';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { apiClient } from '../../utils/api-client';
+import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 
 // ── Home Base (Shop) Address ──────────────────────────────────────────────
 const HOME_BASE_ADDRESS = '641 Barclay Drive, Toledo, OH 43609';
@@ -53,20 +54,14 @@ const APPLIANCE_ICONS = {
   default:        { color: 'cyan',   svg: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>' },
 };
 
-function getIconKey(equipmentSubtype, equipmentType) {
-  const raw = equipmentSubtype || equipmentType || '';
-  return raw.toLowerCase().replace(/[^a-z]/g, '');
-}
-
-function getIconColor(equipmentSubtype, equipmentType) {
-  const key = getIconKey(equipmentSubtype, equipmentType);
+function getIconColor(equipmentType, equipmentSubtype) {
+  const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   return match.color === 'cyan' ? '#00D4FF' : '#FF7A00';
 }
 
 function ApplianceIconSvg({ equipmentType, equipmentSubtype, size = 20 }) {
-  const raw = equipmentSubtype || equipmentType || '';
-  const key = raw.toLowerCase().replace(/[^a-z]/g, '');
+  const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
   const color = isCyan ? '#00D4FF' : '#FF7A00';
@@ -396,7 +391,7 @@ export default function RouteTest() {
       }
 
       geocoded.forEach((stop, i) => {
-        const key = getIconKey(stop.equipment_subtype, stop.equipment_type);
+        const key = getEquipmentIconKey(stop.equipment_type, stop.equipment_subtype);
         const iconDef = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
         const isCyan = iconDef.color === 'cyan';
         const color = isCyan ? '#00D4FF' : '#FF7A00';

@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
+import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 
 const APPLIANCE_ICONS = {
   refrigerator:   { color: 'cyan',   svg: (<><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="6" y1="10" x2="18" y2="10"/><line x1="10" y1="5" x2="10" y2="8"/><line x1="10" y1="13" x2="10" y2="16"/></>) },
@@ -21,9 +22,7 @@ const APPLIANCE_ICONS = {
 };
 
 function ApplianceIcon({ equipmentType, equipmentSubtype }) {
-  // Use subtype first (e.g. 'refrigerator'), fall back to type (e.g. 'tv')
-  const raw = equipmentSubtype || equipmentType || '';
-  const key = raw.toLowerCase().replace(/[^a-z]/g, '');
+  const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
   return (

@@ -6,6 +6,7 @@ import StatusBadge from '../ui/StatusBadge';
 import Modal from '../ui/Modal';
 import { useUserRole } from '../../utils/auth0-helpers';
 import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
+import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 
 // ── Appliance icons ────────────────────────────────────────────────────────
 const APPLIANCE_ICONS = {
@@ -23,8 +24,7 @@ const APPLIANCE_ICONS = {
 };
 
 function ApplianceIcon({ equipmentType, equipmentSubtype }) {
-  const raw = equipmentSubtype || equipmentType || '';
-  const key = raw.toLowerCase().replace(/[^a-z]/g, '');
+  const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
   return (

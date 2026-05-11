@@ -7,6 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
+import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 
 // ── Appliance Icons (same as work orders test) ────────────────────────────
 const APPLIANCE_ICONS = {
@@ -25,8 +26,7 @@ const APPLIANCE_ICONS = {
 };
 
 function ApplianceIcon({ equipmentType, equipmentSubtype, size = 'md' }) {
-  const raw = equipmentSubtype || equipmentType || '';
-  const key = raw.toLowerCase().replace(/[^a-z]/g, '');
+  const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
   const sz = size === 'lg' ? 'w-12 h-12' : 'w-9 h-9';
