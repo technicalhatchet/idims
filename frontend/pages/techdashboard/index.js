@@ -338,7 +338,11 @@ function NextJobCard({ job }) {
               </a>
             )}
             {job.status === 'scheduled' && (
-              <EnRouteButton workOrderId={job.work_order_id} onSuccess={() => window.location.reload()} />
+              <EnRouteButton
+                workOrderId={job.work_order_id}
+                appointmentId={job.id}
+                onSuccess={() => window.location.reload()}
+              />
             )}
           </div>
         )}
@@ -386,19 +390,28 @@ function TodayJobRow({ appt }) {
 }
 
 // ── En Route Button ─────────────────────────────────────────────────────
-function EnRouteButton({ workOrderId, onSuccess }) {
+function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
   const [loading, setLoading] = useState(false);
 
   const handleEnRoute = async () => {
     setLoading(true);
     try {
-      await apiClient(`work-orders/${workOrderId}`, {
+      let id = appointmentId;
+      if (!id && workOrderId) {
+        const apptRes = await apiClient(`work-orders/${workOrderId}/appointments`);
+        id = apptRes?.items?.[0]?.id;
+      }
+      if (!id) {
+        alert('Could not find an appointment to update.');
+        return;
+      }
+      await apiClient(`work-orders/appointments/${id}`, {
         method: 'PUT',
         body: JSON.stringify({ status: 'en_route' }),
       });
       onSuccess?.();
     } catch (e) {
-      alert('Failed to update status: ' + e.message);
+      alert('Failed to update appointment status: ' + e.message);
     } finally {
       setLoading(false);
     }
@@ -745,7 +758,7 @@ export default function TechDashboardTest() {
               value={workOrderStats.completed_today}
               sub={`${todayAppts.length} scheduled today`}
               borderColor="rgba(34,211,238,0.25)"
-              href="/work_orders/test"
+              href="/techdashboard/opsboard"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <polyline points="20 6 9 17 4 12"/>

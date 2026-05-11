@@ -12,6 +12,7 @@ export default function StatusBadge({ status }) {
       case 'completed':
         return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
       case 'cancelled':
+      case 'canceled':
         return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
       case 'on_hold':
       case 'on hold':

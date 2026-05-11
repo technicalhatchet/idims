@@ -1126,11 +1126,15 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   const getStatusColor = (status) => {
     switch (status) {
       case 'scheduled': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+      case 'en_route': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+      case 'in_progress': return 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300';
+      case 'completed_pending_payment': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';      
       case 'completed': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-      case 'phone_payment': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
-      case 'refund': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
-      case 'canceled': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       case 'reschedule': return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300';
+      case 'refund': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
+      case 'phone_payment': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+      case 'unreachable': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      case 'canceled': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
   };
@@ -1770,11 +1774,15 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                           }`}
                         >
                           <option value="scheduled">Scheduled</option>
-                          <option value="completed">Completed</option>
-                          <option value="phone_payment">Phone Payment</option>
-                          <option value="canceled">Canceled</option>
+                          <option value="en_route">En Route</option>
+                          <option value="in_progress">In Progress</option>
+                          <option value="completed_pending_payment">Completed — Pending Payment</option>  
+                          <option value="completed">Completed</option>                                                                
                           <option value="reschedule">Reschedule</option>
-                          <option value="refund">Refund</option>
+                          <option value="refund">Refund</option> 
+                          <option value="phone_payment">Phone Payment</option>
+                          <option value="unreachable">Unreachable</option>                        
+                          <option value="canceled">Canceled</option>
                         </select>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">

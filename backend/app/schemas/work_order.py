@@ -341,7 +341,18 @@ class WorkOrderAppointmentUpdate(BaseModel):
     @validator('status')
     def validate_status(cls, v):
         if v is not None:
-            allowed_statuses = ["scheduled", "reschedule", "completed", "canceled", "phone_payment", "refund"]
+            allowed_statuses = [
+                "scheduled",
+                "reschedule",
+                "completed",
+                "canceled",
+                "phone_payment",
+                "refund",
+                "en_route",
+                "in_progress",
+                "completed_pending_payment",
+                "unreachable",
+            ]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
         return v

@@ -1277,12 +1277,22 @@ async def update_work_order_appointment(
     """
     Update an existing appointment.
     Administrators and managers can update all appointment fields.
-    Technicians can only update status to completed for their own appointments.
+    Technicians may only update the status field on their own appointments,
+    to: en_route, in_progress, reschedule, completed, completed_pending_payment, or unreachable.
     """
     try:
+        # Allowed appointment statuses for technician-only status updates (field day workflow)
+        TECH_APPOINTMENT_STATUS_UPDATES = frozenset({
+            "en_route",
+            "in_progress",
+            "reschedule",
+            "completed",
+            "completed_pending_payment",
+            "unreachable",
+        })
         # Check permissions based on user role
         if "technician" in current_user.roles:
-            # Technicians can only update status to completed, and only for their own appointments
+            # Technicians may only update status on their own appointments
             appointment = db.query(WorkOrderAppointment).filter(WorkOrderAppointment.id == appointment_id).first()
             if not appointment:
                 raise HTTPException(
@@ -1305,12 +1315,21 @@ async def update_work_order_appointment(
                     detail="Technicians can only update their own appointments"
                 )
             
-            # Check if technician is only updating status to completed
             update_data = appointment_update.model_dump(exclude_unset=True)
-            if len(update_data) > 1 or ('status' in update_data and update_data['status'] != 'completed'):
+            if len(update_data) > 1:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Technicians can only update appointment status to completed"
+                    detail="Technicians can only update appointment status on this endpoint"
+                )
+            if "status" not in update_data:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Technicians must specify status when updating an appointment"
+                )
+            if update_data["status"] not in TECH_APPOINTMENT_STATUS_UPDATES:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Technicians can only set appointment status to: en_route, in_progress, reschedule, completed, completed_pending_payment, or unreachable"
                 )
         
         elif not any(role in ["admin", "manager"] for role in current_user.roles):

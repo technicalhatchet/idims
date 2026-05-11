@@ -320,7 +320,8 @@ class WorkOrderAppointment(Base):
     work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"), nullable=False)
     appointment_type = Column(String(50), nullable=False)  # 'diagnostic', 'repair', 'follow-up', etc.
     status = Column(Enum("scheduled", "reschedule", "completed", "canceled", "phone_payment", "refund",
-                        name="appointment_status_enum"), default="scheduled")
+                    "en_route", "in_progress", "completed_pending_payment", "unreachable",
+                    name="appointment_status_enum"), default="scheduled")
     scheduled_start = Column(DateTime, nullable=False)
     scheduled_end = Column(DateTime, nullable=False)
     actual_start = Column(DateTime, nullable=True)

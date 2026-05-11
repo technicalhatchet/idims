@@ -483,6 +483,10 @@ function WorkOrderDetail() {
                                       appointment.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
                                       appointment.status === 'canceled' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
                                       appointment.status === 'reschedule' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' :
+                                      appointment.status === 'en_route' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                                      appointment.status === 'in_progress' ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200' :
+                                      appointment.status === 'completed_pending_payment' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+                                      appointment.status === 'unreachable' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
                                       'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                                     }`}>
                                       {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
