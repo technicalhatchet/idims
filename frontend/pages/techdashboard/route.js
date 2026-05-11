@@ -482,10 +482,10 @@ export default function RouteTest() {
       <Head>
         <title>Today's Route | IDIMS</title>
         <style>{`
+          /* Do not pin header z-index here — Leaflet controls use z-index ~1000 */
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;
             border-bottom: 1px solid rgba(255,255,255,0.07) !important;
-            z-index: 50 !important;
           }
           .dark-popup .leaflet-popup-content-wrapper {
             background: #0D1525 !important;

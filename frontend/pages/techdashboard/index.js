@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import { format, isToday, isFuture, parseISO } from 'date-fns';
+import { format, isToday, isFuture } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../components/ui/StatusBadge';
@@ -103,11 +103,77 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
 }
 
 // ── EST time helper ─────────────────────────────────────────────────────
+/**
+ * Parse API schedule timestamps (combined schedule uses `start` from datetime.isoformat()).
+ * Append `Z` only when the string has no timezone — appending Z to `...+00:00` breaks parsing (NaN)
+ * and leaves lists in DB order so "next job" can pick the wrong row.
+ */
+function parseScheduleUtcMs(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return NaN;
+  const hasExplicitZone =
+    /z$/i.test(s)
+    || /[+-]\d{2}:\d{2}$/.test(s)
+    || /[+-]\d{4}$/.test(s);
+  const normalized = hasExplicitZone ? s : `${s}Z`;
+  const t = Date.parse(normalized);
+  return Number.isFinite(t) ? t : NaN;
+}
+
 function toEST(dateStr) {
   if (!dateStr) return '';
-  // Times are stored as local time in UTC format — display as-is without conversion
-  const d = new Date(dateStr.endsWith('Z') ? dateStr : dateStr + 'Z');
+  const ms = parseScheduleUtcMs(dateStr);
+  if (!Number.isFinite(ms)) return '';
+  const d = new Date(ms);
   return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' });
+}
+
+/** Instant (ms) for sorting / next-job — prefers scheduled_start then start (combined schedule). */
+function appointmentStartMs(apptOrStartField) {
+  const raw =
+    typeof apptOrStartField === 'string'
+      ? apptOrStartField
+      : apptOrStartField?.scheduled_start || apptOrStartField?.start || '';
+  return parseScheduleUtcMs(raw);
+}
+
+function normalizeWorkOrderStatus(status) {
+  return String(status || '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '_');
+}
+
+/** Appointments fully done for today — omit from "next job" card. */
+function isAppointmentDoneStatus(status) {
+  const n = normalizeWorkOrderStatus(status);
+  return (
+    n === 'completed'
+    || n === 'cancelled'
+    || n === 'canceled'
+    || n === 'completed_pending_payment'
+    || n === 'paid'
+    || n === 'expired'
+  );
+}
+
+function isActivelyDeployedStatus(status) {
+  const n = normalizeWorkOrderStatus(status);
+  return n === 'in_progress' || n === 'en_route';
+}
+
+/**
+ * Next job card: unfinished work today — row `status` should already reflect work-order
+ * status when available (see load). Active job first, then earliest incomplete ≥ now, else earliest remaining.
+ */
+function pickNextJobToday(sortedTodayAppts) {
+  const now = Date.now();
+  const incomplete = sortedTodayAppts.filter((a) => !isAppointmentDoneStatus(a.status));
+  const working = incomplete.find((a) => isActivelyDeployedStatus(a.status));
+  if (working) return working;
+  const upcoming = incomplete.find((a) => appointmentStartMs(a) >= now);
+  if (upcoming) return upcoming;
+  return incomplete[0] ?? null;
 }
 
 // ── Route Button with Glass Effect + Sweep Animation ─────────────────────
@@ -378,28 +444,41 @@ export default function TechDashboardTest() {
           apiClient(`work-orders?page=1&limit=200`),
         ]);
         const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
+        const statusByWorkOrderId = {};
+        for (const w of woItems?.items || []) {
+          statusByWorkOrderId[String(w.id)] = w.status;
+        }
         const filtered = (Array.isArray(appts) ? appts : []).filter(a => {
           const startField = a.scheduled_start || a.start;
           if (!startField) return false;
-          const d = new Date(startField.endsWith('Z') ? startField : startField + 'Z');
-          return isToday(d);
+          const ms = parseScheduleUtcMs(startField);
+          if (!Number.isFinite(ms)) return false;
+          return isToday(new Date(ms));
         });
-        setSchedule(filtered.map(a => ({
-          ...a,
-          scheduled_start: a.scheduled_start || a.start,
-          service_address: a.service_address || a.location || a.service_location?.address || '',
-          client_phone: a.client_phone || a.client?.phone || '',
-          client_name: a.client_name || a.client?.name || '',
-          equipment_type: a.equipment_type || '',
-          equipment_subtype: a.equipment_subtype || '',
-          equipment_make: a.equipment_make || '',
-          equipment_model: a.equipment_model || '',
-        })));
+        setSchedule(filtered.map(a => {
+          const wid = a.work_order_id != null ? String(a.work_order_id) : '';
+          const woStatus = wid ? statusByWorkOrderId[wid] : undefined;
+          const mergedStatus =
+            woStatus != null && String(woStatus).trim() !== '' ? woStatus : a.status;
+          return {
+            ...a,
+            scheduled_start: a.scheduled_start || a.start,
+            status: mergedStatus,
+            service_address: a.service_address || a.location || a.service_location?.address || '',
+            client_phone: a.client_phone || a.client?.phone || '',
+            client_name: a.client_name || a.client?.name || '',
+            equipment_type: a.equipment_type || '',
+            equipment_subtype: a.equipment_subtype || '',
+            equipment_make: a.equipment_make || '',
+            equipment_model: a.equipment_model || '',
+          };
+        }));
         const allItems = woItems?.items || [];
         const todayItems = allItems.filter(w => {
           if (!w.scheduled_start) return false;
-          const d = new Date(w.scheduled_start.endsWith('Z') ? w.scheduled_start : w.scheduled_start + 'Z');
-          return isToday(d);
+          const ms = parseScheduleUtcMs(w.scheduled_start);
+          if (!Number.isFinite(ms)) return false;
+          return isToday(new Date(ms));
         });
         const partsWaiting = allItems.filter(w =>
           w.parts && w.parts.some(p => ['ordered', 'needed'].includes(p.status))
@@ -411,8 +490,9 @@ export default function TechDashboardTest() {
         const criticalMass = allItems.filter(w => {
           if (!['scheduled', 'pending', 'en_route'].includes(w.status)) return false;
           if (!w.scheduled_start) return false;
-          const d = new Date(w.scheduled_start.endsWith('Z') ? w.scheduled_start : w.scheduled_start + 'Z');
-          return d <= yesterday;
+          const ms = parseScheduleUtcMs(w.scheduled_start);
+          if (!Number.isFinite(ms)) return false;
+          return new Date(ms) <= yesterday;
         }).length;
 
         setWorkOrderStats({
@@ -431,22 +511,37 @@ export default function TechDashboardTest() {
     load();
   }, [todayStr, nextWeekStr]);
 
-  const todayAppts = schedule.filter(a => {
-    if (!a.scheduled_start) return false;
-    const d = new Date(a.scheduled_start.endsWith('Z') ? a.scheduled_start : a.scheduled_start + 'Z');
-    return isToday(d);
-  }).sort((a, b) => new Date(a.scheduled_start) - new Date(b.scheduled_start));
+  const todayAppts = schedule
+    .filter((a) => {
+      const startField = a.scheduled_start || a.start;
+      if (!startField) return false;
+      const ms = parseScheduleUtcMs(startField);
+      if (!Number.isFinite(ms)) return false;
+      return isToday(new Date(ms));
+    })
+    .sort((a, b) => {
+      const ta = appointmentStartMs(a);
+      const tb = appointmentStartMs(b);
+      const aOk = Number.isFinite(ta);
+      const bOk = Number.isFinite(tb);
+      if (aOk && bOk && ta !== tb) return ta - tb;
+      if (aOk && !bOk) return -1;
+      if (!aOk && bOk) return 1;
+      const ida = String(a.work_order_id || a.id || '');
+      const idb = String(b.work_order_id || b.id || '');
+      return ida.localeCompare(idb);
+    });
 
   const upcomingAppts = schedule.filter(a => {
-    if (!a.scheduled_start) return false;
-    const d = new Date(a.scheduled_start.endsWith('Z') ? a.scheduled_start : a.scheduled_start + 'Z');
+    const startField = a.scheduled_start || a.start;
+    if (!startField) return false;
+    const ms = parseScheduleUtcMs(startField);
+    if (!Number.isFinite(ms)) return false;
+    const d = new Date(ms);
     return isFuture(d) && !isToday(d);
-  }).sort((a, b) => new Date(a.scheduled_start) - new Date(b.scheduled_start));
+  }).sort((a, b) => appointmentStartMs(a) - appointmentStartMs(b));
 
-  const nextJob = todayAppts.find(a => {
-    const d = new Date(a.scheduled_start.endsWith('Z') ? a.scheduled_start : a.scheduled_start + 'Z');
-    return d >= new Date();
-  }) || todayAppts[0];
+  const nextJob = pickNextJobToday(todayAppts);
 
   const firstName = user?.given_name || user?.name?.split(' ')[0] || 'Tech';
 

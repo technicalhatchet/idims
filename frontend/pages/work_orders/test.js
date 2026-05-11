@@ -3,7 +3,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
+/* Old nav / layout — keep for quick reactivation:
 import DashboardLayout from '../../components/layouts/DashboardLayout';
+*/
+import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 
@@ -88,10 +91,10 @@ export default function WorkOrdersTest() {
       <Head>
         <title>Work Orders Test | IDIMS</title>
         <style>{`
+          /* Omit z-index; TechDashboard icon rail/header use z-index above Leaflet (~1000) */
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;
             border-bottom: 1px solid rgba(255,255,255,0.07) !important;
-            z-index: 50 !important;
           }
         `}</style>
       </Head>
@@ -197,4 +200,8 @@ export default function WorkOrdersTest() {
   );
 }
 
+WorkOrdersTest.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
+
+/* Previously: standard dashboard nav + sidebar
 WorkOrdersTest.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+*/

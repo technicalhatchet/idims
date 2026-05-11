@@ -23,7 +23,7 @@ const NAV_ITEMS = [
   },
   {
     name: 'Work Orders',
-    href: '/work_orders',
+    href: '/work_orders/test',
     color: 'cyan',
     icon: (<><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8" y="2.5" width="8" height="4" rx="1.5"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="16" x2="13" y2="16"/></>),
   },
@@ -89,7 +89,7 @@ export default function TechDashboardLayout({ children }) {
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
 
       {/* ── HEADER ── */}
-      <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-4" style={{ height: 72, background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
+      <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-4" style={{ height: 72, background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 1200 }}>
         {/* Hamburger */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
@@ -187,7 +187,7 @@ export default function TechDashboardLayout({ children }) {
       {/* ── OVERLAY (backdrop) ── */}
       {railOpen && (
         <div
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-[1190]"
           style={{ background: 'rgba(0,0,0,0.5)' }}
           onClick={() => setRailOpen(false)}
         />
@@ -195,7 +195,7 @@ export default function TechDashboardLayout({ children }) {
 
       {/* ── ICON RAIL ── */}
       <div
-        className="fixed top-0 left-0 bottom-0 flex flex-col z-50 transition-all duration-300 ease-in-out"
+        className="fixed top-0 left-0 bottom-0 flex flex-col transition-all duration-300 ease-in-out z-[1195]"
         style={{
           width: railOpen ? railWidth : 0,
           background: '#0D1525',

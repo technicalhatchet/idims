@@ -762,10 +762,14 @@ async def get_combined_schedule(
         work_order_ids = [wo_id for (wo_id,) in work_order_query.all()]
         
         # Now get appointments for these work orders - Use OVERLAP logic
-        appointment_query = db.query(WorkOrderAppointment).filter(
-            WorkOrderAppointment.work_order_id.in_(work_order_ids),
-            WorkOrderAppointment.scheduled_start < end_datetime, # NEW: Overlap check
-            WorkOrderAppointment.scheduled_end > start_datetime  # NEW: Overlap check
+        appointment_query = (
+            db.query(WorkOrderAppointment)
+            .filter(
+                WorkOrderAppointment.work_order_id.in_(work_order_ids),
+                WorkOrderAppointment.scheduled_start < end_datetime,
+                WorkOrderAppointment.scheduled_end > start_datetime,
+            )
+            .order_by(WorkOrderAppointment.scheduled_start.asc())
         )
         
         # Apply technician filter to appointments if specified
