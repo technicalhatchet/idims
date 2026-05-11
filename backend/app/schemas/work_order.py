@@ -372,6 +372,7 @@ class WorkOrderAppointmentResponse(WorkOrderAppointmentBase):
 
     services: Optional[List[ServiceResponse]] = []
     assigned_technician: Optional[TechnicianResponse] = None
+    location: Optional[str] = None  # injected from work_order.service_location
     
     # Explicitly declare service_ids here, even if inherited, to make validator target clear
     service_ids: Optional[List[UUID]] = Field(default_factory=list) # Default to empty list

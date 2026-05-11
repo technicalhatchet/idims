@@ -1192,7 +1192,13 @@ def get_technician_schedule(
         
         response_appointments = []
         for appt in appointments:
-            response_appointments.append(WorkOrderAppointmentResponse.model_validate(appt))
+            appt_response = WorkOrderAppointmentResponse.model_validate(appt)
+            # Inject service location from the related work order so the frontend
+            # can calculate inter-appointment travel time
+            if appt.work_order and appt.work_order.service_location:
+                loc = appt.work_order.service_location
+                appt_response.location = loc.get('address') if isinstance(loc, dict) else str(loc)
+            response_appointments.append(appt_response)
             
         return response_appointments
         

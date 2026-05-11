@@ -850,10 +850,12 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       });
       
       // Verify the slot is within the correct time window
-      if (slot.startTime < startTime || slot.endTime > endTime) {
+      if (slot.startTime < startTime || slot.startTime >= endTime) {
         console.error('Error: Calculated slot is outside the selected time window!');
-        console.log(`Slot start: ${slot.startTime.toLocaleString()}, Slot end: ${slot.endTime.toLocaleString()}`);
-        console.log(`Window start: ${startTime.toLocaleString()}, Window end: ${endTime.toLocaleString()}`);
+        console.log(`Slot start: ${slot.startTime.toLocaleString()}, Window: ${startTime.toLocaleString()} - ${endTime.toLocaleString()}`);
+        setError(`No available slot fits within the ${windowName} time window on this date. All slots are taken — please try a different date or window.`);
+        setIsCalculating(false);
+        return false;
       }
       
       // Update form data with calculated times
@@ -908,7 +910,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     techAppointments.sort((a, b) => new Date(b.scheduled_end) - new Date(a.scheduled_end));
 
     const previousApt = techAppointments[0];
-    const previousAddress = previousApt?.service_location?.address;
+    const previousAddress = previousApt?.location || previousApt?.service_location?.address;
     
     console.log(`[getPreviousAppointment] Found previous appointment for tech ${technicianId}: ID=${previousApt?.id}, EndTime=${previousApt?.scheduled_end}, Address=${previousAddress}`);
 
