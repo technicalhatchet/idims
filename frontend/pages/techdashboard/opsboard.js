@@ -303,7 +303,8 @@ function TodaysRoute() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchWO, setSearchWO] = useState('');
-  const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+  const scheduleDateISO = format(new Date(), 'yyyy-MM-dd');
+  const scheduleDateDisplay = format(new Date(), 'EEEE, MMM d, yyyy');
 
   const userRole = user ? getUserRole(user) : null;
   const isTechnician = userRole === 'technician';
@@ -340,13 +341,13 @@ function TodaysRoute() {
     findMyTech();
   }, [isTechnician, user]);
 
-  // Fetch appointments for selected date and technician
+  // Fetch appointments for today only and selected technician
   useEffect(() => {
     const fetchAppointments = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        let url = `scheduling/schedule/combined?start_date=${date}&end_date=${date}&view_type=day`;
+        let url = `scheduling/schedule/combined?start_date=${scheduleDateISO}&end_date=${scheduleDateISO}&view_type=day`;
         if (selectedTechId) url += `&technician_id=${selectedTechId}`;
         const res = await apiClient(url);
         const appts = res?.appointments || [];
@@ -363,7 +364,7 @@ function TodaysRoute() {
       }
     };
     fetchAppointments();
-  }, [date, selectedTechId]);
+  }, [scheduleDateISO, selectedTechId]);
 
   const getTechName = (tech) => {
     if (tech?.user?.first_name || tech?.user?.last_name) {
@@ -393,8 +394,6 @@ function TodaysRoute() {
     return map;
   }, [appointments]);
 
-  const isDateToday = date === format(new Date(), 'yyyy-MM-dd');
-
   return (
     <>
       <Head>
@@ -420,8 +419,10 @@ function TodaysRoute() {
               <div className="min-w-0">
                 <h1 className="text-xl font-bold text-white">Ops Board</h1>
                 <p className="text-sm text-gray-500">
-                  {isDateToday ? 'Today' : format(new Date(`${date}T12:00:00`), 'MMM d, yyyy')}
-                  {' · '}
+                  <span className="text-gray-400">Today</span>
+                  <span className="text-gray-600">{' · '}</span>
+                  {scheduleDateDisplay}
+                  <span className="text-gray-600">{' · '}</span>
                   {filteredAppointments.length} stop{filteredAppointments.length !== 1 ? 's' : ''}
                 </p>
               </div>
@@ -434,41 +435,10 @@ function TodaysRoute() {
               </Link>
             </div>
 
-            <div className="flex items-center justify-between gap-2 mb-3">
-              <button
-                type="button"
-                onClick={() => {
-                  const d = new Date(`${date}T12:00:00`);
-                  d.setDate(d.getDate() - 1);
-                  setDate(format(d, 'yyyy-MM-dd'));
-                }}
-                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg text-cyan-400 transition active:scale-95"
-                style={{ background: '#080C14', border: '1px solid rgba(34,211,238,0.25)' }}
-              >
-                ‹
-              </button>
-
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="min-w-0 flex-1 rounded-lg px-2 py-2 text-center text-sm font-semibold text-white"
-                style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.1)' }}
-              />
-
-              <button
-                type="button"
-                onClick={() => {
-                  const d = new Date(`${date}T12:00:00`);
-                  d.setDate(d.getDate() + 1);
-                  setDate(format(d, 'yyyy-MM-dd'));
-                }}
-                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg text-cyan-400 transition active:scale-95"
-                style={{ background: '#080C14', border: '1px solid rgba(34,211,238,0.25)' }}
-              >
-                ›
-              </button>
-            </div>
+            {/*
+             * Date selector (prev / date input / next) — intentionally removed; Ops Board is today-only.
+             * To restore: useState yyyy-MM-dd, row with ‹ input type="date" › wired to setDate.
+             */}
 
             {!isTechnician && (
               <select
@@ -504,9 +474,9 @@ function TodaysRoute() {
             ) : filteredAppointments.length === 0 ? (
               <div className="py-16 text-center">
                 <FaCalendarAlt className="mx-auto mb-4 h-12 w-12 text-gray-600" />
-                <p className="font-medium text-gray-400">No appointments for this day</p>
+                <p className="font-medium text-gray-400">No appointments today</p>
                 <p className="mt-1 text-sm text-gray-600">
-                  {selectedTechId ? 'Try a different technician or date.' : 'Try a different date.'}
+                  {selectedTechId ? 'Try selecting a different technician.' : 'Check back later for appointments.'}
                 </p>
               </div>
             ) : (
