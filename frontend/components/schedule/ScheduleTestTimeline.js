@@ -4,22 +4,38 @@ import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
-/** Business window (local clock) displayed on tactical grid */
+/** Business window start (hour) — labels + grid reference this clock hour. */
 const START_HOUR = 8;
+/** Business window end (hour) — grid extends through this hour (e.g. 18 ⇒ 6 PM band). */
 const END_HOUR = 18;
 
 /**
- * Vertical grid subdivisions inside each hour (e.g. 6 bands ≈ 10‑minute rhythm).
- * Must stay in sync with how we paint the minor horizontal lines — all %‑based so
- * appointment blocks remain aligned regardless of viewport height.
+ * Minutes past `START_HOUR` where the tactical grid begins (e.g. 40 ⇒ 8:40).
+ * Shrinks empty space before typical first jobs (~9) while keeping some pre‑9 grid visible.
  */
-const SUBDIVISIONS_PER_HOUR = 6;
+const TIMELINE_START_OFFSET_MINS = 40;
+
+/** Absolute minutes from midnight: first row of the grid (START_HOUR:00 + offset). */
+const TIMELINE_DAY_START_MINS = START_HOUR * 60 + TIMELINE_START_OFFSET_MINS;
+
+/** Length of the visible day strip on the timeline (minutes). */
+const TIMELINE_DAY_TOTAL_MINS = END_HOUR * 60 - TIMELINE_DAY_START_MINS;
+
+/** Scroll anchor: hour row aligned to top on mount (local time). 9 = first real job band. */
+const TIMELINE_SCROLL_ANCHOR_HOUR = 9;
+
+/** % from top for `TIMELINE_SCROLL_ANCHOR_HOUR` (scroll-into-view target). */
+const SCHEDULE_SCROLL_ANCHOR_PCT =
+  ((TIMELINE_SCROLL_ANCHOR_HOUR * 60 - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
+
+/**
+ * Minor grid = 10-minute ticks (`TIMELINE_DAY_TOTAL_MINS` / 10 steps).
+ * Major grid = clock hours via `TIMELINE_HOUR_MAJOR_GRADIENT`.
+ */
+const TIMELINE_MINOR_STEP_MINS = 10;
 
 /** Minimum px per hour on the timeline — more vertical room for WO detail */
 const MIN_PX_PER_HOUR = 125;
-
-/** Align this hour’s band to the viewport top after mount (scrolls page; hides cut-off earlier hour labels). */
-const TIMELINE_SCROLL_ANCHOR_HOUR = 8;
 
 const HUD_EASE = [0.4, 0, 0.2, 1];
 
@@ -59,9 +75,27 @@ export const SCHEDULE_EQUIP_BADGE_STYLE = {
     'inset 0 0 0 0.5px rgba(255,190,154,0.45), 0 0 10px rgba(255,138,26,0.14)',
 };
 
-/** Composited FUI-style grid: time-locked minors + hour majors only (no mixed px grids). */
-function TimelineGridScene({ slotCount }) {
-  const totalSteps = slotCount * SUBDIVISIONS_PER_HOUR;
+const TIMELINE_TOTAL_MINOR_STEPS = TIMELINE_DAY_TOTAL_MINS / TIMELINE_MINOR_STEP_MINS;
+
+/** Strong hour lines at real clock hours (aligns with appointment %-time). */
+function buildTimelineHourMajorGradient() {
+  const line = 'rgba(0,217,255,0.145)';
+  const segs = [];
+  for (let h = START_HOUR; h <= END_HOUR; h++) {
+    const p = ((h * 60 - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
+    if (p < 0 || p > 100) continue;
+    const lo = Math.max(0, p - 0.12);
+    const hi = Math.min(100, p + 0.12);
+    segs.push(`transparent ${lo}%`, `${line} ${p}%`, `transparent ${hi}%`);
+  }
+  return `linear-gradient(to bottom, ${segs.join(', ')})`;
+}
+
+const TIMELINE_HOUR_MAJOR_GRADIENT = buildTimelineHourMajorGradient();
+
+/** Composited FUI-style grid: 10-minute minors + clock-aligned hour majors */
+function TimelineGridScene() {
+  const totalSteps = TIMELINE_TOTAL_MINOR_STEPS;
   return (
     <div
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]"
@@ -100,7 +134,7 @@ function TimelineGridScene({ slotCount }) {
           `,
         }}
       />
-      {/* L4 — minor horizontal: equal steps within each hour */}
+      {/* L4 — minor horizontal: 10-minute steps (full day strip) */}
       <div
         className="absolute inset-0"
         style={{
@@ -116,20 +150,12 @@ function TimelineGridScene({ slotCount }) {
           `,
         }}
       />
-      {/* L5 — hour majors (strong hierarchy; aligns with axis labels) */}
+      {/* L5 — hour majors (clock-aligned; matches axis labels + %-positioned cards) */}
       <div
         className="absolute inset-0"
         style={{
           opacity: 0.92,
-          backgroundImage: `
-            repeating-linear-gradient(
-              to bottom,
-              transparent 0,
-              transparent calc(100% / ${slotCount} - 1px),
-              rgba(0,217,255,0.145) calc(100% / ${slotCount} - 1px),
-              rgba(0,217,255,0.145) calc(100% / ${slotCount})
-            )
-          `,
+          backgroundImage: TIMELINE_HOUR_MAJOR_GRADIENT,
         }}
       />
       {/* L6 — vignette + rim */}
@@ -656,18 +682,14 @@ export default function ScheduleTestTimeline({
     return () => clearInterval(t);
   }, []);
 
-  const scrollAnchorStepIndex = TIMELINE_SCROLL_ANCHOR_HOUR - START_HOUR;
-
   const dayStart = useMemo(() => {
     const d = new Date(anchorDate);
     d.setHours(0, 0, 0, 0);
     return d;
   }, [anchorDate]);
 
-  const totalMins = (END_HOUR - START_HOUR) * 60;
-  const slotCount = END_HOUR - START_HOUR;
-  /** Taller track = clearer grid + room for WO copy (still %-positioned appointments). */
-  const timelineMinHeight = slotCount * MIN_PX_PER_HOUR;
+  /** Scales strip height to real minutes (8:40→6pm ≈ 9.33h, slightly shorter than 10h). */
+  const timelineMinHeight = (TIMELINE_DAY_TOTAL_MINS / 60) * MIN_PX_PER_HOUR;
 
   const prepared = useMemo(() => {
     const list = (appointments || [])
@@ -681,14 +703,14 @@ export default function ScheduleTestTimeline({
       .sort((a, b) => a._start - b._start);
 
     return list.map((a) => {
-      const startM = clamp(minsFromMidnight(a._start), START_HOUR * 60, END_HOUR * 60);
+      const startM = clamp(minsFromMidnight(a._start), TIMELINE_DAY_START_MINS, END_HOUR * 60);
       const endM = clamp(minsFromMidnight(a._end), startM + 15, END_HOUR * 60);
-      const topPct = ((startM - START_HOUR * 60) / totalMins) * 100;
-      const heightPct = Math.max(4, ((endM - startM) / totalMins) * 100);
+      const topPct = ((startM - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
+      const heightPct = Math.max(4, ((endM - startM) / TIMELINE_DAY_TOTAL_MINS) * 100);
       const rail = a.technician_id ? technicianRailMap[a.technician_id] || NEON_RAILS[0] : '#64748B';
       return { ...a, topPct, heightPct, rail };
     });
-  }, [appointments, dayStart, totalMins, technicianRailMap]);
+  }, [appointments, dayStart, technicianRailMap]);
 
   const connectors = useMemo(() => {
     const out = [];
@@ -721,24 +743,22 @@ export default function ScheduleTestTimeline({
   const nowLinePct = useMemo(() => {
     if (!isSameDay(nowTick, dayStart)) return null;
     const m = minsFromMidnight(nowTick);
-    if (m < START_HOUR * 60 || m > END_HOUR * 60) return null;
-    return ((m - START_HOUR * 60) / totalMins) * 100;
-  }, [nowTick, dayStart, totalMins]);
+    if (m < TIMELINE_DAY_START_MINS || m > END_HOUR * 60) return null;
+    return ((m - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
+  }, [nowTick, dayStart]);
 
-  /** Scroll window so TIMELINE_SCROLL_ANCHOR_HOUR row sits ~at top (7am stays above scroll). */
+  /** Scroll so the 9 AM band (see `TIMELINE_SCROLL_ANCHOR_HOUR`) sits near the top. */
   useEffect(() => {
     if (blockingStatus) return;
-    if (scrollAnchorStepIndex < 1 || scrollAnchorStepIndex > slotCount) return;
     const node = scrollAnchorRef.current;
     if (!node) return;
     const id = requestAnimationFrame(() => {
       node.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
     });
     return () => cancelAnimationFrame(id);
-  }, [anchorDate, blockingStatus, scrollAnchorStepIndex, slotCount, timelineMinHeight]);
+  }, [anchorDate, blockingStatus, timelineMinHeight]);
 
-  const showScrollAnchor =
-    !blockingStatus && scrollAnchorStepIndex >= 1 && scrollAnchorStepIndex <= slotCount;
+  const showScrollAnchor = !blockingStatus;
 
   const showFusedDayHeader =
     typeof dayHeaderTitle === 'string' && dayHeaderTitle.length > 0 && typeof onNavigateToday === 'function';
@@ -1024,14 +1044,14 @@ export default function ScheduleTestTimeline({
 
         {!bodyBlocking && (
           <>
-            <TimelineGridScene slotCount={slotCount} />
+            <TimelineGridScene />
 
             <div className="relative flex z-[2] rounded-[inherit]">
         {showScrollAnchor && (
           <div
             ref={scrollAnchorRef}
             className="pointer-events-none absolute left-0 right-0 z-[30] h-0 scroll-mt-3"
-            style={{ top: `${(scrollAnchorStepIndex / slotCount) * 100}%` }}
+            style={{ top: `${SCHEDULE_SCROLL_ANCHOR_PCT}%` }}
             aria-hidden
           />
         )}
@@ -1056,17 +1076,18 @@ export default function ScheduleTestTimeline({
             className="pointer-events-none w-full overflow-hidden select-none"
             style={{ height: timelineMinHeight }}
           />
-          {Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
-            const h = START_HOUR + i;
-            const isFirst = i === 0;
-            const isLast = i === slotCount;
-            const labelTransform = isFirst ? 'translateY(0)' : isLast ? 'translateY(-100%)' : 'translateY(-50%)';
+          {Array.from({ length: END_HOUR - START_HOUR }, (_, i) => {
+            const h = START_HOUR + 1 + i;
+            const rawPct = ((h * 60 - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
+            const topPct = Math.max(0, Math.min(100, rawPct));
+            const isLast = h === END_HOUR;
+            const labelTransform = isLast ? 'translateY(-100%)' : 'translateY(-50%)';
             return (
               <div
                 key={h}
                 className="absolute left-0 right-0 w-full tabular-nums text-right leading-none font-medium scheduling-time-label"
                 style={{
-                  top: `${(i / slotCount) * 100}%`,
+                  top: `${topPct}%`,
                   transform: labelTransform,
                   paddingRight: '0.38rem',
                   fontSize: 11,
