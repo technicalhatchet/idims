@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
@@ -235,66 +235,36 @@ const ROUTE_ROUTE_VERT_NUDGE_PX = 2;
 /** Px stroke for solid trunk / arms (`TravelRouteOrthoLayer`) */
 const ROUTE_TRUNK_STROKE_PX = 2;
 
-/** Share of travel-gap height reserved as hollow band around van on spine (~total vertical gap carved) */
-const ROUTE_VAN_SPINE_VERTICAL_CLEAR_FRAC = 0.41;
+/** Arm diagonal: earlier-job connector tilts one way, later-job the other (see `TravelRouteOrthoLayer`). */
+const ROUTE_ARM_TILT_DEG = 28;
 
-/** Glow + silhouette shared by all spine junction hoops (job elbows + van branch points) */
-const ROUTE_JUNCTION_RING_GLOW =
-  '0 0 6px rgba(34,211,238,0.45), inset 0 0 4px rgba(34,211,238,0.08)';
+/** Fraction of inter-job span for van cutout (scaled up on long gaps); floored by min gap */
+const ROUTE_TRUNK_VAN_CLEAR_FRAC = 0.36;
 
-/** Shorten spine near van hoops (% of timeline) so line/glow doesn’t pierce the ring */
-const ROUTE_SPINE_VAN_GAP_PCT = 0.12;
-
-/** Spine carve around travel van: splits vertical trunk above/below `midY` (van center %). */
-function vanSpineCarveBands(yTop, yBot, midY) {
-  const eps = 0.06;
-  const gap = yBot - yTop;
-  if (gap < eps * 3) return { carveTop: yTop, carveBot: yBot, splitOk: false };
-
-  let halfBand = (gap * ROUTE_VAN_SPINE_VERTICAL_CLEAR_FRAC) / 2;
-  halfBand = clamp(halfBand, 0.32, gap / 2 - eps);
-
-  let carveTop = midY - halfBand;
-  let carveBot = midY + halfBand;
-  carveTop = Math.max(carveTop, yTop + eps);
-  carveBot = Math.min(carveBot, yBot - eps);
-
-  if (carveTop >= carveBot - eps) return { carveTop: yTop, carveBot: yBot, splitOk: false };
-
-  const upperH = carveTop - yTop;
-  const lowerH = yBot - carveBot;
-  if (upperH < 0.12 && lowerH < 0.12) return { carveTop: yTop, carveBot: yBot, splitOk: false };
-
-  return { carveTop, carveBot, splitOk: true };
-}
+/** Minimum empty band at van (% of timeline height) — target size; may shrink when span is tight */
+const ROUTE_TRUNK_VAN_GAP_MIN_PCT = 2.05;
 
 /**
- * Gap spine for dashed line + endpoint dots (% of track height).
- * yLo / yHi are connectors’ anchor band (prior job bottom → next job top).
- * Outward frac nudges terminals slightly toward the jobs → visually longer spine, dots farther apart.
+ * Minimum vertical spine **shaft** above and below the van cutout (% of timeline height).
+ * Reserves trunk space on **short** job gaps so the route keeps the same Π silhouette as on
+ * long gaps (instead of van-only + steep arms with no vertical shaft).
  */
-const ROUTE_DOT_OUTWARD_FRAC = 1.70
+const ROUTE_TRUNK_SPINE_MIN_PCT = 0.38;
 
-/** yTop < yBot along track; dashed line shares same endpoints as DOM dots */
-function routeTravelSpineEndpoints(y0, y1) {
-  const yLo = Math.min(y0, y1);
-  const yHi = Math.max(y0, y1);
-  const gap = yHi - yLo;
-  if (gap <= 0.08) return { yTop: yLo, yBot: yHi };
-  const out = gap * ROUTE_DOT_OUTWARD_FRAC;
-  let yTop = yLo - out;
-  let yBot = yHi + out;
-  yTop = Math.max(yTop, 0.35);
-  yBot = Math.min(yBot, 99.65);
-  if (yTop >= yBot - 0.05) return { yTop: yLo, yBot: yHi };
-  return { yTop, yBot };
-}
+/** Below this cutout height (%), omit the trunk entirely (span too tight for hole + shafts). */
+const ROUTE_TRUNK_VAN_HOLE_HIDE_BELOW_PCT = 0.42;
 
 /** Tune when minutes sit on top of the van glazing (lower = quieter behind text). */
 const TRAVEL_VAN_GLASS = { windowOpacity: 0.28, windshieldOpacity: 0.34, doorOpacity: 0.2 };
 
 /** ViewBox‑unit nudge for filled neon dots (optical center on body vs stroke outline). */
 const TRAVEL_VAN_NEON_NUDGE_X = 4;
+
+/** Minutes label on travel van — warm orange (readable on cyan + dark HUD) */
+const TRAVEL_CHIP_MINUTES_COLOR = '#F5A524';
+
+/** Subtracted from raw calendar gap **only** for the “NN MIN” label (route math unchanged). */
+const TRAVEL_CHIP_LABEL_SUBTRACT_MINS = 10;
 
 /** Stroke van icon for travel chip; uses currentColor from parent */
 function TravelVanGlyph({
@@ -358,6 +328,7 @@ function TravelVanGlyph({
 /** Badge-only travel chip; sits in track right gutter; vertical route in SVG layer */
 function TravelChip({ travelMins, topPct }) {
   if (!travelMins || travelMins < 8) return null;
+  const labelMins = Math.max(0, travelMins - TRAVEL_CHIP_LABEL_SUBTRACT_MINS);
   const mid = topPct;
   return (
     <div
@@ -369,20 +340,27 @@ function TravelChip({ travelMins, topPct }) {
         transform: 'translate(10px, -50%)',
       }}
     >
-      <div
-        className="relative w-full"
-        style={{ aspectRatio: '2 / 1', color: '#6EEAF4' }}
-      >
-        <TravelVanGlyph className="pointer-events-none absolute inset-0 block h-full w-full" />
-        <span
-          className="pointer-events-none absolute left-[48%] top-[52%] -translate-x-1/2 -translate-y-1/2 text-[8px] font-normal tabular-nums tracking-[0.07em] uppercase whitespace-nowrap"
+      <div className="relative w-full overflow-visible" style={{ aspectRatio: '2 / 1', color: '#6EEAF4' }}>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-[48%] top-[52%] z-0 -translate-x-1/2 -translate-y-1/2"
           style={{
-            color: '#E8FDFF',
-            WebkitTextStroke: '0.26px rgba(255,154,92,0.62)',
-            textShadow: '0 0 7px rgba(255,154,92,0.28), 0 0 3px rgba(255,138,26,0.2), 0 1px 2px rgba(0,0,0,0.9)',
+            width: '5.555rem',
+            height: '2.750rem',
+            background:
+              'radial-gradient(ellipse 70% 65% at 50% 50%, rgba(255, 150, 62, 0.14) 0%, rgba(255, 118, 38, 0.07) 42%, transparent 72%)',
+          }}
+        />
+        <TravelVanGlyph className="pointer-events-none absolute inset-0 z-[1] block h-full w-full" />
+        <span
+          className="pointer-events-none absolute left-[48%] top-[52%] z-[2] -translate-x-1/2 -translate-y-1/2 text-[8px] font-semibold tabular-nums tracking-[0.07em] uppercase whitespace-nowrap"
+          style={{
+            color: TRAVEL_CHIP_MINUTES_COLOR,
+            textShadow:
+              '0 1px 2px rgba(0,0,0,0.85), 0 0 8px rgba(245, 165, 36, 0.35)',
           }}
         >
-          {travelMins} MIN
+          {labelMins} MIN
         </span>
       </div>
     </div>
@@ -393,132 +371,88 @@ function travelMinsInvalid(tm) {
   return !tm || tm < 8;
 }
 
-/** Orthogonal Π / L-route: solid trunk + arms; spine splits above/below travel van (+ van-side junction rings). */
+/**
+ * Π-route: vertical trunk in the inter-job gap, **not** through the van (split + gap).
+ * Hole height is capped so **minimum shaft** (`ROUTE_TRUNK_SPINE_MIN_PCT`) remains above/below
+ * the van when possible. If the span is still too tight, **no trunk** — only diagonal arms + van.
+ * Tilt is around the **spine** (right): **earlier** job edge (`yLo`) kicks **down** toward that
+ * card; **later** job edge (`yHi`) kicks **up** toward the next card.
+ */
 function TravelRouteOrthoLayer({ connectors }) {
   if (!connectors.length) return null;
 
   const spineFromRight = `calc(${100 - ROUTE_GUTTER_X_PCT}% + ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`;
   const cardEdge = `calc(100% - 0.5rem - ${HUD_APPOINTMENT_CARD_RIGHT_INSET})`;
-  const cyan = 'rgba(34,211,238,0.68)';
-  const glow = '0 0 7px rgba(34,211,238,0.38), 0 0 2px rgba(34,211,238,0.55)';
   const half = ROUTE_TRUNK_STROKE_PX / 2;
-  const vanGap = ROUTE_SPINE_VAN_GAP_PCT;
 
-  const vanBranchRing = (cKey, y, suf) => (
+  return (
     <div
-      key={`${cKey}-van-ring-${suf}`}
+      className="pointer-events-none absolute inset-0 z-[2] overflow-visible"
       aria-hidden
-      className="pointer-events-none absolute z-[4] rounded-full"
-      style={{
-        left: `calc(${ROUTE_GUTTER_X_PCT}% - ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`,
-        top: `${y}%`,
-        width: 9,
-        height: 9,
-        transform: `translate(-50%, calc(-50% + ${ROUTE_ROUTE_VERT_NUDGE_PX}px))`,
-        border: `2px solid rgba(56,229,239,0.92)`,
-        background: 'rgba(8,14,26,0.35)',
-        boxShadow: ROUTE_JUNCTION_RING_GLOW,
-        backdropFilter: 'blur(4px)',
-      }}
-    />
+    >
+      {connectors.flatMap((c) => {
+        const yLo = Math.min(c.y0, c.y1);
+        const yHi = Math.max(c.y0, c.y1);
+        const span = Math.max(yHi - yLo, 0.05);
+        const midY = c.topPct;
+        const spinePad = ROUTE_TRUNK_SPINE_MIN_PCT;
+
+        const spineSeg = (suffix, topPct, heightPct) => (
+          <div
+            key={`${c.key}-spine-${suffix}`}
+            aria-hidden
+            className="pointer-events-none absolute z-[2] sched-route-spine-plasma"
+            style={{
+              left: `calc(${ROUTE_GUTTER_X_PCT}% - ${half}px - ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`,
+              width: ROUTE_TRUNK_STROKE_PX,
+              top: `${topPct}%`,
+              height: `${Math.max(heightPct, 0.03)}%`,
+              transform: `translateY(${ROUTE_ROUTE_VERT_NUDGE_PX}px)`,
+            }}
+          />
+        );
+
+        // Van cutout: prefer large hole, but cap by span − 2×shaft so short gaps keep vertical Π-legs.
+        // `topPct` is the gap midpoint ⇒ upH = lowH = span/2 − holeH/2 when the hole is centered.
+        const maxHoleForShafts = Math.max(0, span - 2 * spinePad);
+        let holeH = Math.max(span * ROUTE_TRUNK_VAN_CLEAR_FRAC, ROUTE_TRUNK_VAN_GAP_MIN_PCT);
+        holeH = Math.min(holeH, maxHoleForShafts);
+
+        let spineParts = [];
+        const gapTop = midY - holeH / 2;
+        const gapBot = midY + holeH / 2;
+        const upH = gapTop - yLo;
+        const lowH = yHi - gapBot;
+        if (
+          holeH >= ROUTE_TRUNK_VAN_HOLE_HIDE_BELOW_PCT &&
+          maxHoleForShafts >= ROUTE_TRUNK_VAN_HOLE_HIDE_BELOW_PCT &&
+          upH >= spinePad - 0.0001 &&
+          lowH >= spinePad - 0.0001
+        ) {
+          spineParts = [spineSeg('u', yLo, upH), spineSeg('l', gapBot, lowH)];
+        }
+
+        /** `tiltDeg`: origin at spine — positive ° drops the card-side end; negative raises it. */
+        const arm = (y, suf, tiltDeg) => (
+          <div
+            key={`${c.key}-arm-${suf}`}
+            aria-hidden
+            className="pointer-events-none absolute z-[2] overflow-visible sched-route-arm-plasma"
+            style={{
+              top: `${y}%`,
+              left: cardEdge,
+              right: spineFromRight,
+              height: ROUTE_TRUNK_STROKE_PX,
+              transformOrigin: 'right center',
+              transform: `translateY(calc(-50% + ${ROUTE_ROUTE_VERT_NUDGE_PX}px)) rotate(${tiltDeg}deg)`,
+            }}
+          />
+        );
+
+        return [...spineParts, arm(yLo, 't', ROUTE_ARM_TILT_DEG), arm(yHi, 'b', -ROUTE_ARM_TILT_DEG)];
+      })}
+    </div>
   );
-
-  return connectors.flatMap((c) => {
-    const { yTop, yBot } = routeTravelSpineEndpoints(c.y0, c.y1);
-    const midY = c.topPct;
-    const { carveTop, carveBot, splitOk } = vanSpineCarveBands(yTop, yBot, midY);
-
-    const spineSeg = (suffix, segTopPct, spanPct) => (
-      <div
-        key={`${c.key}-spine-${suffix}`}
-        aria-hidden
-        className="pointer-events-none absolute z-[2]"
-        style={{
-          left: `calc(${ROUTE_GUTTER_X_PCT}% - ${half}px - ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`,
-          width: ROUTE_TRUNK_STROKE_PX,
-          top: `${segTopPct}%`,
-          height: `${Math.max(spanPct, 0.04)}%`,
-          background: cyan,
-          borderRadius: 1,
-          boxShadow: glow,
-          transform: `translateY(${ROUTE_ROUTE_VERT_NUDGE_PX}px)`,
-        }}
-      />
-    );
-
-    const arm = (y, suf) => (
-      <div
-        key={`${c.key}-arm-${suf}`}
-        aria-hidden
-        className="pointer-events-none absolute z-[2]"
-        style={{
-          top: `${y}%`,
-          left: cardEdge,
-          right: spineFromRight,
-          height: ROUTE_TRUNK_STROKE_PX,
-          transform: `translateY(calc(-50% + ${ROUTE_ROUTE_VERT_NUDGE_PX}px))`,
-          background: cyan,
-          borderRadius: 1,
-          boxShadow: glow,
-        }}
-      />
-    );
-
-    const spineParts = [];
-    if (!splitOk) {
-      spineParts.push(spineSeg('full', yTop, yBot - yTop));
-    } else {
-      const uh = carveTop - yTop;
-      const lh = yBot - carveBot;
-      if (uh >= 0.06) {
-        spineParts.push(spineSeg('u', yTop, Math.max(uh - vanGap, 0.06)));
-      }
-      if (lh >= 0.06) {
-        spineParts.push(spineSeg('l', carveBot + vanGap, Math.max(lh - vanGap, 0.06)));
-      }
-      spineParts.push(vanBranchRing(c.key, carveTop, 't'));
-      spineParts.push(vanBranchRing(c.key, carveBot, 'b'));
-    }
-
-    return [...spineParts, arm(yTop, 't'), arm(yBot, 'b')];
-  });
-}
-
-/**
- * Hollow rings on elbows (matches reference junctions).
- * Keeps circular — DOM positioning, avoids SVG ellipse stretch under preserveAspectRatio=none on track.
- */
-function TravelRouteEndpointMarkers({ connectors }) {
-  if (!connectors.length) return null;
-
-  const ringGlow = ROUTE_JUNCTION_RING_GLOW;
-  return connectors.map((c) => {
-    const { yTop, yBot } = routeTravelSpineEndpoints(c.y0, c.y1);
-    const ring = (y, suf) => (
-      <div
-        key={`${c.key}-ring-${suf}`}
-        aria-hidden
-        className="pointer-events-none absolute z-[4] rounded-full"
-        style={{
-          left: `calc(${ROUTE_GUTTER_X_PCT}% - ${ROUTE_SPINE_ENDPT_NUDGE_PX}px)`,
-          top: `${y}%`,
-          width: 9,
-          height: 9,
-          transform: `translate(-50%, calc(-50% + ${ROUTE_ROUTE_VERT_NUDGE_PX}px))`,
-          border: `2px solid rgba(56,229,239,0.92)`,
-          background: 'rgba(8,14,26,0.35)',
-          boxShadow: ringGlow,
-          backdropFilter: 'blur(4px)',
-        }}
-      />
-    );
-    return (
-      <Fragment key={`${c.key}-ep`}>
-        {ring(yTop, 't')}
-        {ring(yBot, 'b')}
-      </Fragment>
-    );
-  });
 }
 
 function TimelineHudHeader({
@@ -944,6 +878,82 @@ export default function ScheduleTestTimeline({
         .sched-hud-today-btn.sched-hud-neon-hover:hover .sched-hud-today-label {
           color: #ffe8d4;
         }
+        /* Travel route — orange plasma on the nodes only (no ::before/::after: avoids WebKit mis-paint) */
+        .sched-hud-neon-scope .sched-route-arm-plasma {
+          border-radius: 9999px;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 100, 20, 0.1) 0%,
+            rgba(255, 160, 70, 0.32) 14%,
+            rgba(255, 138, 26, 0.82) 36%,
+            rgba(255, 200, 130, 0.48) 52%,
+            rgba(255, 122, 0, 0.85) 68%,
+            rgba(255, 178, 100, 0.28) 88%,
+            rgba(255, 90, 0, 0.08) 100%
+          );
+          background-size: 280% 100%;
+          background-position: 12% 50%;
+          box-shadow:
+            0 0 4px rgba(255, 200, 140, 0.55),
+            0 0 14px rgba(255, 130, 40, 0.22),
+            0 0 22px rgba(255, 100, 20, 0.08),
+            inset 0 0 4px rgba(255, 255, 255, 0.15);
+          animation: sched-route-orange-plasma-drift 5.8s ease-in-out infinite;
+        }
+        .sched-hud-neon-scope .sched-route-spine-plasma {
+          border-radius: 9999px;
+          background: linear-gradient(
+            180deg,
+            rgba(255, 120, 40, 0.42) 0%,
+            rgba(255, 90, 0, 0.28) 32%,
+            rgba(255, 170, 85, 0.62) 50%,
+            rgba(255, 122, 0, 0.32) 68%,
+            rgba(255, 200, 130, 0.38) 100%
+          );
+          background-size: 100% 240%;
+          background-position: 50% 20%;
+          box-shadow:
+            0 0 4px rgba(255, 190, 120, 0.48),
+            0 0 12px rgba(255, 120, 30, 0.2),
+            inset 0 0 3px rgba(255, 255, 255, 0.12);
+          animation: sched-route-orange-spine-drift 6.2s ease-in-out infinite;
+        }
+        @keyframes sched-route-orange-plasma-drift {
+          0%,
+          100% {
+            background-position: 5% 50%;
+            opacity: 0.94;
+          }
+          50% {
+            background-position: 95% 50%;
+            opacity: 1;
+          }
+        }
+        @keyframes sched-route-orange-spine-drift {
+          0%,
+          100% {
+            background-position: 50% 5%;
+            opacity: 0.93;
+          }
+          50% {
+            background-position: 50% 95%;
+            opacity: 1;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sched-hud-neon-scope .sched-route-arm-plasma,
+          .sched-hud-neon-scope .sched-route-spine-plasma {
+            animation: none !important;
+          }
+          .sched-hud-neon-scope .sched-route-arm-plasma {
+            background-position: 45% 50%;
+            opacity: 0.98;
+          }
+          .sched-hud-neon-scope .sched-route-spine-plasma {
+            background-position: 50% 40%;
+            opacity: 0.96;
+          }
+        }
         /* Tap / press — cyan controls spike; Today uses tidy press below */
         .sched-hud-neon-scope label.sched-hud-neon-hover:active,
         .sched-hud-neon-scope button.sched-hud-neon-hover:not(.sched-hud-today-btn):active {
@@ -1037,6 +1047,15 @@ export default function ScheduleTestTimeline({
               'inset -1px 0 0 rgba(34,211,238,0.14), inset 0 1px 0 rgba(255,255,255,0.04)',
           }}
         >
+          {/*
+            In-flow strut: track + axis only use absolutely positioned children for labels/cards/route.
+            Without this, % top/height can resolve against an indefinite/collapsed column (esp. mobile).
+          */}
+          <div
+            aria-hidden
+            className="pointer-events-none w-full overflow-hidden select-none"
+            style={{ height: timelineMinHeight }}
+          />
           {Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
             const h = START_HOUR + i;
             const isFirst = i === 0;
@@ -1071,8 +1090,12 @@ export default function ScheduleTestTimeline({
             background: 'linear-gradient(180deg, rgba(3,8,18,0.22), rgba(1,4,10,0.28))',
           }}
         >
+          <div
+            aria-hidden
+            className="pointer-events-none w-full overflow-hidden select-none"
+            style={{ height: timelineMinHeight }}
+          />
           <TravelRouteOrthoLayer connectors={visibleRouteConnectors} />
-          <TravelRouteEndpointMarkers connectors={visibleRouteConnectors} />
 
           {connectors.map((c) => (
             <TravelChip key={c.key} travelMins={c.travelMins} topPct={c.topPct} />
