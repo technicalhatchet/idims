@@ -225,7 +225,7 @@ function CriticalMassCard({ count }) {
     e.preventDefault();
     setSweeping(true);
     setTimeout(() => {
-      router.push('/work_orders');
+      router.push('/work_orders/test');
     }, 600);
   };
 
@@ -745,7 +745,7 @@ export default function TechDashboardTest() {
               value={workOrderStats.completed_today}
               sub={`${todayAppts.length} scheduled today`}
               borderColor="rgba(34,211,238,0.25)"
-              href="/work_orders"
+              href="/work_orders/test"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <polyline points="20 6 9 17 4 12"/>
@@ -758,7 +758,7 @@ export default function TechDashboardTest() {
               sub={`+${workOrderStats.today} today`}
               borderColor="rgba(255,122,0,0.25)"
               sweepColor="orange"
-              href="/work_orders"
+              href="/work_orders/test"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#FF7A00', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' }}>
                   <rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8" y="2.5" width="8" height="4" rx="1.5"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="16" x2="13" y2="16"/>
@@ -772,7 +772,7 @@ export default function TechDashboardTest() {
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
               sweepColor={workOrderStats.partsWaiting > 0 ? 'orange' : 'cyan'}
-              href="/work_orders"
+              href="/work_orders/test"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: workOrderStats.partsWaiting > 0 ? 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 4px rgba(0,212,255,0.5))' }}>
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
@@ -785,7 +785,7 @@ export default function TechDashboardTest() {
               value={todayAppts.length}
               sub={nextJob?.scheduled_start ? `next at ${toEST(nextJob.scheduled_start)}` : 'none remaining'}
               borderColor="rgba(34,211,238,0.25)"
-              href="/schedule"
+              href="/schedule-test"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -801,7 +801,7 @@ export default function TechDashboardTest() {
           <div className="rounded-lg p-4 mb-4" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Today's Jobs</h2>
-              <Link href="/schedule" className="text-xs text-cyan-400 flex items-center gap-1">
+              <Link href="/schedule-test" className="text-xs text-cyan-400 flex items-center gap-1">
                 View all
                 <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
@@ -822,7 +822,7 @@ export default function TechDashboardTest() {
           <div className="rounded-lg p-4 mb-4" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Upcoming Appointments</h2>
-              <Link href="/schedule" className="text-xs text-cyan-400 flex items-center gap-1">
+              <Link href="/schedule-test" className="text-xs text-cyan-400 flex items-center gap-1">
                 View all
                 <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
