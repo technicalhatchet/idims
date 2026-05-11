@@ -23,33 +23,25 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         self.log_request_body = False
 
     async def dispatch(self, request: Request, call_next) -> Response:
+        # Skip logging for health checks and static assets
+        if request.url.path in ['/health', '/api/health', '/docs', '/redoc', '/openapi.json']:
+            return await call_next(request)
+
         request_id = str(uuid.uuid4())
         request.state.request_id = request_id
-        
         start_time = time.time()
-        
-        # Log request
-        logger.info(f"Request {request_id} started: {request.method} {request.url}")
-        
-        # Log headers
-        headers = dict(request.headers)
-        logger.debug(f"Request {request_id} headers: {json.dumps(headers)}")
         
         try:
             response = await call_next(request)
-            
-            # Log response
             process_time = time.time() - start_time
-            logger.info(
-                f"Request {request_id} completed: {request.method} {request.url} "
-                f"- Status: {response.status_code} - Time: {process_time:.4f}s"
-            )
-            
-            # Add request ID to response headers
+            # Only log slow requests (>1s) or errors at INFO level
+            if process_time > 1.0 or response.status_code >= 400:
+                logger.info(
+                    f"{request.method} {request.url.path} "
+                    f"- {response.status_code} - {process_time:.3f}s"
+                )
             response.headers["X-Request-ID"] = request_id
-            
             return response
-            
         except Exception as e:
             logger.exception(f"Request {request_id} failed: {str(e)}")
             raise

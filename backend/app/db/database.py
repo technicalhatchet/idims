@@ -14,8 +14,8 @@ database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
 engine = create_engine(
     database_url,
     pool_pre_ping=True,
-    pool_size=5,
-    max_overflow=5,
+    pool_size=10,
+    max_overflow=10,
     pool_timeout=30,
     pool_recycle=300,
     pool_reset_on_return='rollback',
@@ -26,7 +26,7 @@ engine = create_engine(
         'keepalives_count': 5,
         'connect_timeout': 10,
     },
-    echo=settings.DEBUG
+    echo=False  # Never log SQL queries in production — causes massive overhead
 )
 
 # Create session factory
