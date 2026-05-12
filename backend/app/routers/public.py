@@ -1,25 +1,21 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime, timedelta
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import asyncio
+import uuid as uuid_lib
+import logging
 import httpx
-from concurrent.futures import ThreadPoolExecutor
-from app.config import settings
 
+from app.config import settings
 from app.db.database import get_db
 from app.models.client import Client
 from app.models.property import Property
 from app.models.work_order import WorkOrder
 
-import logging
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
 
 class BookingRequest(BaseModel):
     name: str
@@ -30,47 +26,89 @@ class BookingRequest(BaseModel):
     issue: str
     time_preference: str
 
+
+def send_booking_notification(
+    booking_name: str,
+    booking_phone: str,
+    booking_address: str,
+    booking_appliance: str,
+    booking_issue: str,
+    booking_time: str,
+    work_order_id: str
+):
+    try:
+        response = httpx.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "from": "service@atomicrepair419.com",
+                "to": "chester@chettechpro.com",
+                "subject": f"🔧 New Booking: {booking_appliance} - {booking_name}",
+                "text": f"""New booking received from your website!
+
+Name: {booking_name}
+Phone: {booking_phone}
+Address: {booking_address}
+Appliance: {booking_appliance}
+Issue: {booking_issue}
+Preferred Time: {booking_time}
+
+Work Order: https://v0-idims.vercel.app/work_orders/{work_order_id}
+"""
+            }
+        )
+        logger.info(f"Booking notification sent: {response.status_code}")
+    except Exception as e:
+        logger.warning(f"Booking notification email failed: {e}")
+
+
 @router.post("/booking")
-async def create_booking(booking: BookingRequest, db: Session = Depends(get_db)):
+async def create_booking(
+    booking: BookingRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
     """Public endpoint for booking service — no auth required"""
-    
+
     try:
         # Split name into first/last
         name_parts = booking.name.strip().split(maxsplit=1)
         first_name = name_parts[0]
         last_name = name_parts[1] if len(name_parts) > 1 else ""
-        
+
         # Find or create client by phone
         client = db.query(Client).filter(Client.phone == booking.phone).first()
-        
+
         if not client:
             client = Client(
                 first_name=first_name,
                 last_name=last_name,
                 phone=booking.phone,
                 email=booking.email if booking.email else None,
-                user_id=None  # No auth link
+                user_id=None
             )
             db.add(client)
             db.flush()
-        
+
         # Find or create property at this address for this client
         prop = db.query(Property).filter(
             Property.client_id == client.id,
             Property.address == booking.address
         ).first()
-        
+
         if not prop:
             prop = Property(
                 client_id=client.id,
                 address=booking.address,
-                property_type="residential"  # default
+                property_type="residential"
             )
             db.add(prop)
             db.flush()
-        
+
         # Create work order
-        import uuid as uuid_lib
         work_order = WorkOrder(
             client_id=client.id,
             property_id=prop.id,
@@ -79,83 +117,30 @@ async def create_booking(booking: BookingRequest, db: Session = Depends(get_db))
             symptoms=[booking.issue],
             description=f"Online booking - {booking.appliance} issue: {booking.issue}. Service address: {booking.address}. Customer preferred time: {booking.time_preference}.",
             priority="medium",
-            status="pending",
-            #created_by=client.id  # use client id as placeholder since no auth user
+            status="pending"
         )
         db.add(work_order)
-        db.flush()
-        
-
-        # Set placeholder scheduled time based on preference
-        tomorrow = datetime.utcnow().replace(hour=14, minute=0, second=0, microsecond=0) + timedelta(days=1)
-        if booking.time_preference == 'today':
-            placeholder_start = datetime.utcnow().replace(hour=14, minute=0, second=0, microsecond=0)
-        elif booking.time_preference == 'tomorrow':
-            placeholder_start = tomorrow
-        else:
-            # this-week or flexible — just set to 2 days out
-            placeholder_start = datetime.utcnow().replace(hour=14, minute=0, second=0, microsecond=0) + timedelta(days=2)
-
-        placeholder_end = placeholder_start + timedelta(hours=1)
-
-        # Create appointment with placeholder time
- #       appointment = WorkOrderAppointment(
-  #          work_order_id=work_order.id,
-   #         appointment_type="diagnostic",
-    #        notes=f"Customer requested: {booking.time_preference}. PLACEHOLDER TIME — needs to be confirmed.",
-     #       status="scheduled",
-     #       scheduled_start=placeholder_start,
-     #       scheduled_end=placeholder_end,
-     #   )
-     #   db.add(appointment)
-        
         db.commit()
-        
-        # Send notification email to Chester
-        async def send_notification():
-            try:
-                async with httpx.AsyncClient() as client:
-                    await client.post(
-                        "https://api.resend.com/emails",
-                        headers={
-                            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
-                            "Content-Type": "application/json"
-                        },
-                        json={
-                            "from": "service@atomicrepair419.com",
-                            "to": "chester@chettechpro.com",
-                            "subject": f"🔧 New Booking: {booking.appliance} - {booking.name}",
-                            "text": f"""
-        New booking received!
+        db.refresh(work_order)
 
-        Name: {booking.name}
-        Phone: {booking.phone}
-        Address: {booking.address}
-        Appliance: {booking.appliance}
-        Issue: {booking.issue}
-        Preferred Time: {booking.time_preference}
-
-        Work Order: https://v0-idims.vercel.app/work_orders/{str(work_order.id)}
-                            """
-                        }
-                    )
-            except Exception as email_err:
-                logger.warning(f"Booking notification email failed: {email_err}")
-
-        asyncio.create_task(send_notification())
+        # Fire notification email in background — won't block the response
+        background_tasks.add_task(
+            send_booking_notification,
+            booking.name,
+            booking.phone,
+            booking.address,
+            booking.appliance,
+            booking.issue,
+            booking.time_preference,
+            str(work_order.id)
+        )
 
         return {
             "success": True,
             "work_order_id": str(work_order.id),
             "message": "Booking received! We'll contact you shortly to confirm your appointment."
         }
-            
-        return {
-            "success": True,
-            "work_order_id": str(work_order.id),
-            "message": "Booking received! We'll contact you shortly to confirm your appointment."
-        }
-        
+
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Booking failed: {str(e)}")
