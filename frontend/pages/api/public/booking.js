@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/public/booking`,
+        `${process.env.NEXT_PUBLIC_API_URL}/public/booking`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
