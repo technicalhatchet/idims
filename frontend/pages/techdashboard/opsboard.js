@@ -417,8 +417,44 @@ function TodaysRoute() {
           >
             <div className="flex items-start justify-between gap-2 mb-3">
               <div className="min-w-0">
-                <h1 className="text-xl font-bold text-white">Ops Board</h1>
-                <p className="text-sm text-gray-500">
+                <div className="relative mb-1 inline-block">
+                  <h1 className="flex flex-wrap items-center gap-2 text-[1.35rem] font-black leading-none tracking-[0.04em]">
+                    <span
+                      style={{
+                        color: '#67E8F9',
+                        textShadow:
+                          '0 0 22px rgba(34,211,238,0.55), 0 0 2px rgba(34,211,238,1), 0 0 40px rgba(34,211,238,0.18)',
+                      }}
+                    >
+                      Ops
+                    </span>
+                    <span
+                      className="inline-block h-[0.92em] w-px shrink-0 self-center"
+                      style={{
+                        background: 'linear-gradient(180deg, transparent, rgba(34,211,238,0.55), transparent)',
+                        boxShadow: '0 0 12px rgba(34,211,238,0.45)',
+                      }}
+                      aria-hidden
+                    />
+                    <span
+                      className="text-white font-extrabold tracking-[0.02em]"
+                      style={{
+                        textShadow: '0 0 14px rgba(255,122,0,0.12), 0 0 1px rgba(255,255,255,0.25)',
+                      }}
+                    >
+                      Board
+                    </span>
+                  </h1>
+                  <div
+                    className="pointer-events-none mt-2 h-[2px] w-[min(10rem,60%)] rounded-full opacity-85"
+                    style={{
+                      background: 'linear-gradient(90deg, rgba(34,211,238,0.95), rgba(255,122,0,0.85), transparent)',
+                      boxShadow: '0 0 14px rgba(34,211,238,0.35), 0 0 8px rgba(255,122,0,0.2)',
+                    }}
+                    aria-hidden
+                  />
+                </div>
+                <p className="text-sm text-gray-500 mt-3">
                   <span className="text-gray-400">Today</span>
                   <span className="text-gray-600">{' · '}</span>
                   {scheduleDateDisplay}
