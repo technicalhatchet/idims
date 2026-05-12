@@ -109,8 +109,9 @@ async def create_booking(
             db.add(prop)
             db.flush()
 
-        # Create work order with sequential number matching existing work orders
+        # Create work order with sequential number, OB- prefix for online bookings
         order_number = await WorkOrderService.get_next_work_order_number(db)
+        order_number = order_number.replace("CT-", "OB-")
         work_order = WorkOrder(
             client_id=client.id,
             property_id=prop.id,
