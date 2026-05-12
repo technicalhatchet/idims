@@ -51,62 +51,141 @@ def send_booking_notification(
                 "subject": f"🔧 New Booking: {booking_appliance} - {booking_name}",
                 "html": f"""
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <style>
-    body {{ font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }}
-    .container {{ max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }}
-    .header {{ background: #1a1a2e; padding: 24px 32px; }}
-    .header h1 {{ color: #ffffff; margin: 0; font-size: 22px; }}
-    .header p {{ color: #a0a0b0; margin: 4px 0 0; font-size: 14px; }}
-    .badge {{ display: inline-block; background: #f59e0b; color: #1a1a2e; font-weight: bold; font-size: 12px; padding: 4px 10px; border-radius: 4px; margin-top: 8px; }}
-    .body {{ padding: 32px; }}
-    .field {{ margin-bottom: 20px; }}
-    .label {{ font-size: 11px; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }}
-    .value {{ font-size: 16px; color: #1a1a2e; font-weight: 500; }}
-    .divider {{ border: none; border-top: 1px solid #eee; margin: 24px 0; }}
-    .cta {{ display: block; background: #f59e0b; color: #1a1a2e; text-decoration: none; text-align: center; padding: 14px 24px; border-radius: 6px; font-weight: bold; font-size: 15px; margin-top: 24px; }}
-    .footer {{ background: #f4f4f4; padding: 16px 32px; text-align: center; font-size: 12px; color: #999; }}
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Booking - Atomic Repair 419</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>⚡ New Online Booking</h1>
-      <p>A customer just submitted a service request</p>
-      <span class="badge">Work Order {order_number}</span>
-    </div>
-    <div class="body">
-      <div class="field">
-        <div class="label">Customer</div>
-        <div class="value">{booking_name}</div>
-      </div>
-      <div class="field">
-        <div class="label">Phone</div>
-        <div class="value">{booking_phone}</div>
-      </div>
-      <div class="field">
-        <div class="label">Service Address</div>
-        <div class="value">{booking_address}</div>
-      </div>
-      <hr class="divider">
-      <div class="field">
-        <div class="label">Appliance</div>
-        <div class="value">{booking_appliance}</div>
-      </div>
-      <div class="field">
-        <div class="label">Issue Reported</div>
-        <div class="value">{booking_issue}</div>
-      </div>
-      <div class="field">
-        <div class="label">Preferred Time</div>
-        <div class="value">{booking_time}</div>
-      </div>
-      <a href="https://v0-idims.vercel.app/work_orders/{work_order_id}" class="cta">View Work Order in IDIMS →</a>
-    </div>
-    <div class="footer">Atomic Repair 419 · Toledo, OH · atomicrepair419.com</div>
-  </div>
+<body style="margin:0;padding:0;background-color:#0f0f1a;font-family:'Inter',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f0f1a;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid #2d2d4e;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px;border-bottom:1px solid #2d2d4e;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair 419" width="48" height="48" style="display:block;border-radius:8px;">
+                  </td>
+                  <td style="padding-left:16px;">
+                    <div style="color:#ffffff;font-size:20px;font-weight:700;margin:0;">Atomic Repair 419</div>
+                    <div style="color:#6b7280;font-size:13px;margin-top:2px;">New Service Booking</div>
+                  </td>
+                  <td align="right">
+                    <span style="background-color:#f59e0b;color:#0f0f1a;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:0.5px;">ONLINE BOOKING</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Work Order Badge -->
+          <tr>
+            <td style="background-color:#16213e;padding:16px 32px;border-bottom:1px solid #2d2d4e;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <span style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Work Order</span>
+                    <div style="color:#f59e0b;font-size:22px;font-weight:700;margin-top:2px;">{order_number}</div>
+                  </td>
+                  <td align="right">
+                    <span style="background-color:#0f0f1a;color:#10b981;font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid #10b981;">⚡ Pending Scheduling</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Customer Info -->
+          <tr>
+            <td style="padding:28px 32px 0;">
+              <div style="color:#9ca3af;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Customer Information</div>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
+                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Name</div>
+                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_name}</div>
+                  </td>
+                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
+                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Phone</div>
+                    <div style="color:#f59e0b;font-size:15px;font-weight:600;">{booking_phone}</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-bottom:20px;">
+                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Service Address</div>
+                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_address}</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding:0 32px;">
+              <div style="border-top:1px solid #2d2d4e;"></div>
+            </td>
+          </tr>
+
+          <!-- Job Info -->
+          <tr>
+            <td style="padding:24px 32px 0;">
+              <div style="color:#9ca3af;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Job Details</div>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
+                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Appliance</div>
+                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_appliance}</div>
+                  </td>
+                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
+                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Preferred Time</div>
+                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_time}</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-bottom:24px;">
+                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Issue Reported</div>
+                    <div style="background-color:#0f0f1a;border:1px solid #2d2d4e;border-radius:8px;padding:14px 16px;color:#e5e7eb;font-size:14px;line-height:1.5;">{booking_issue}</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CTA Button -->
+          <tr>
+            <td style="padding:0 32px 32px;">
+              <a href="https://v0-idims.vercel.app/work_orders/{work_order_id}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View &amp; Schedule in IDIMS &rarr;</a>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#0f0f1a;padding:20px 32px;border-top:1px solid #2d2d4e;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <div style="color:#6b7280;font-size:12px;">Atomic Repair 419 &middot; Toledo, OH &middot; 419 Area</div>
+                    <div style="color:#4b5563;font-size:11px;margin-top:4px;">atomicrepair419.com</div>
+                  </td>
+                  <td align="right">
+                    <div style="color:#4b5563;font-size:11px;">This is an internal notification</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
 """
