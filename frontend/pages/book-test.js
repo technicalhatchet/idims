@@ -206,7 +206,7 @@ export default function BookService() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-4"
+            className="text-center mb-2"
           >
             <div className="flex justify-center mb-4">
               <Image
