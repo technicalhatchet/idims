@@ -64,12 +64,8 @@ def send_booking_notification(
             <td style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px;border-bottom:1px solid #2d2d4e;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td width="56">
-                    <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair 419" width="48" height="48" style="display:block;border-radius:8px;">
-                  </td>
-                  <td style="padding-left:16px;">
-                    <div style="color:#ffffff;font-size:20px;font-weight:700;margin:0;">Atomic Repair 419</div>
-                    <div style="color:#6b7280;font-size:13px;margin-top:2px;">New Service Booking</div>
+                  <td>
+                    <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair 419" width="300" height="62" style="display:block;">
                   </td>
                   <td align="right">
                     <span style="background-color:#f59e0b;color:#0f0f1a;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:0.5px;">ONLINE BOOKING</span>
