@@ -11,6 +11,7 @@ from app.db.database import get_db
 from app.models.client import Client
 from app.models.property import Property
 from app.models.work_order import WorkOrder
+from app.services.work_order_service import WorkOrderService
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ def send_booking_notification(
                 "Content-Type": "application/json"
             },
             json={
-                "from": "service@atomicrepair419.com",
+                "from": "Atomic Repair Bookings <booking@atomicrepair419.com>",
                 "to": "service@atomicrepair419.com",
                 "subject": f"🔧 New Booking: {booking_appliance} - {booking_name}",
                 "text": f"""New booking received from your website!
@@ -108,11 +109,12 @@ async def create_booking(
             db.add(prop)
             db.flush()
 
-        # Create work order
+        # Create work order with sequential number matching existing work orders
+        order_number = await WorkOrderService.get_next_work_order_number(db)
         work_order = WorkOrder(
             client_id=client.id,
             property_id=prop.id,
-            order_number=f"OB-{str(uuid_lib.uuid4())[:6].upper()}",
+            order_number=order_number,
             equipment_type=booking.appliance,
             symptoms=[booking.issue],
             description=f"Online booking - {booking.appliance} issue: {booking.issue}. Service address: {booking.address}. Customer preferred time: {booking.time_preference}.",
