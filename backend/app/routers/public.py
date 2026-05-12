@@ -150,7 +150,7 @@ def send_booking_notification(
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>
-                    <div style="color:#6b7280;font-size:12px;">Atomic Repair 419 - Toledo, OH - 419 Area</div>
+                    <div style="color:#6b7280;font-size:12px;">Atomic Repair - Toledo, OH - 419 Area</div>
                     <div style="color:#4b5563;font-size:11px;margin-top:4px;">atomicrepair419.com</div>
                   </td>
                   <td align="right">
