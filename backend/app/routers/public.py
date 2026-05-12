@@ -240,8 +240,23 @@ async def create_booking(
             db.flush()
 
         # Create work order with sequential number, OB- prefix for online bookings
-        order_number = await WorkOrderService.get_next_work_order_number(db)
-        order_number = order_number.replace("CT-", "OB-")
+        # Get next number checking ALL prefixes to avoid conflicts
+        latest = db.query(WorkOrder).filter(
+            WorkOrder.order_number.op('~')(r'^(CT|OB)-[0-9]+$')
+        ).order_by(WorkOrder.created_at.desc()).first()
+
+        if latest:
+            try:
+                next_num = int(latest.order_number.split('-')[1]) + 1
+            except (ValueError, IndexError):
+                next_num = 1002
+        else:
+            next_num = 1002
+
+        order_number = f"OB-{next_num:06d}"
+        while db.query(WorkOrder).filter(WorkOrder.order_number == order_number).first():
+            next_num += 1
+            order_number = f"OB-{next_num:06d}"
         work_order = WorkOrder(
             client_id=client.id,
             property_id=prop.id,
