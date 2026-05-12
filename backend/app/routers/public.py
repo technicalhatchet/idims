@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from app.config import settings
 
 from app.db.database import get_db
@@ -110,14 +111,14 @@ async def create_booking(booking: BookingRequest, db: Session = Depends(get_db))
         db.commit()
         
         # Send notification email to Chester
-        try:
-            msg = MIMEMultipart()
-            msg['From'] = settings.MAIL_FROM
-            msg['To'] = settings.MAIL_FROM  # email yourself
-            msg['Subject'] = f"🔧 New Booking: {booking.appliance} - {booking.name}"
-            
-            body = f"""
-        New booking received from your website!
+        async def send_notification():
+            try:
+                msg = MIMEMultipart()
+                msg['From'] = settings.MAIL_FROM
+                msg['To'] = settings.MAIL_FROM
+                msg['Subject'] = f"🔧 New Booking: {booking.appliance} - {booking.name}"
+                body = f"""
+        New booking received!
 
         Name: {booking.name}
         Phone: {booking.phone}
@@ -126,20 +127,24 @@ async def create_booking(booking: BookingRequest, db: Session = Depends(get_db))
         Issue: {booking.issue}
         Preferred Time: {booking.time_preference}
 
-        Work Order ID: {str(work_order.id)}
+        Work Order: https://v0-idims.vercel.app/work_orders/{str(work_order.id)}
+                """
+                msg.attach(MIMEText(body, 'plain'))
+                with smtplib.SMTP_SSL(settings.MAIL_SERVER, settings.MAIL_PORT) as server:
+                    server.login(settings.MAIL_USERNAME, settings.MAIL_PASSWORD)
+                    server.send_message(msg)
+            except Exception as email_err:
+                logger.warning(f"Booking notification email failed: {email_err}")
 
-        Login to IDIMS to schedule the appointment:
-        https://v0-idims.vercel.app/work_orders/{str(work_order.id)}
-            """
+        # Fire and forget — don't await it
+        asyncio.create_task(send_notification())
+
+        return {
+            "success": True,
+            "work_order_id": str(work_order.id),
+            "message": "Booking received! We'll contact you shortly to confirm your appointment."
+        }
             
-            msg.attach(MIMEText(body, 'plain'))
-            
-            with smtplib.SMTP_SSL(settings.MAIL_SERVER, settings.MAIL_PORT) as server:
-                server.login(settings.MAIL_USERNAME, settings.MAIL_PASSWORD)
-                server.send_message(msg)
-        except Exception as email_err:
-            # Don't fail the booking if email fails
-            logger.warning(f"Booking notification email failed: {email_err}")
         return {
             "success": True,
             "work_order_id": str(work_order.id),
