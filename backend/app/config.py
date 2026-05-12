@@ -147,6 +147,7 @@ class Settings(BaseModel):
     SENDGRID_API_KEY: str = Field(default_factory=lambda: os.getenv("SENDGRID_API_KEY", ""))
     MAILGUN_API_KEY: str = Field(default_factory=lambda: os.getenv("MAILGUN_API_KEY", ""))
     MAILGUN_DOMAIN: str = ""
+    RESEND_API_KEY: str = ""
     
     # Company/Site Information
     SITE_NAME: str = "Atomic Repair"
