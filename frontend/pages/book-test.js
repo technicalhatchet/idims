@@ -124,7 +124,7 @@ export default function BookService() {
         body: JSON.stringify({
           name: formData.name,
           phone: formData.phone,
-          email: '', // Optional for now
+          email: '',
           address: formData.address,
           appliance: formData.appliance === 'other' ? formData.customAppliance : formData.appliance,
           issue: formData.issue === 'other' ? formData.customIssue : formData.issue,
@@ -132,14 +132,13 @@ export default function BookService() {
         })
       });
   
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'Booking failed');
+      // Show success regardless of email issues — if we got any 2xx back, it worked
+      if (response.ok) {
+        setIsComplete(true);
+      } else {
+        const text = await response.text();
+        throw new Error(text);
       }
-  
-      const data = await response.json();
-      console.log('Booking successful:', data);
-      setIsComplete(true);
     } catch (error) {
       console.error('Booking error:', error);
       alert(`Booking failed: ${error.message}`);

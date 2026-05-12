@@ -7,6 +7,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import asyncio
+import httpx
 from concurrent.futures import ThreadPoolExecutor
 from app.config import settings
 
@@ -113,11 +114,18 @@ async def create_booking(booking: BookingRequest, db: Session = Depends(get_db))
         # Send notification email to Chester
         async def send_notification():
             try:
-                msg = MIMEMultipart()
-                msg['From'] = settings.MAIL_FROM
-                msg['To'] = settings.MAIL_FROM
-                msg['Subject'] = f"🔧 New Booking: {booking.appliance} - {booking.name}"
-                body = f"""
+                async with httpx.AsyncClient() as client:
+                    await client.post(
+                        "https://api.resend.com/emails",
+                        headers={
+                            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+                            "Content-Type": "application/json"
+                        },
+                        json={
+                            "from": "service@atomicrepair419.com",
+                            "to": "chester@chettechpro.com",
+                            "subject": f"🔧 New Booking: {booking.appliance} - {booking.name}",
+                            "text": f"""
         New booking received!
 
         Name: {booking.name}
@@ -128,15 +136,12 @@ async def create_booking(booking: BookingRequest, db: Session = Depends(get_db))
         Preferred Time: {booking.time_preference}
 
         Work Order: https://v0-idims.vercel.app/work_orders/{str(work_order.id)}
-                """
-                msg.attach(MIMEText(body, 'plain'))
-                with smtplib.SMTP_SSL(settings.MAIL_SERVER, settings.MAIL_PORT) as server:
-                    server.login(settings.MAIL_USERNAME, settings.MAIL_PASSWORD)
-                    server.send_message(msg)
+                            """
+                        }
+                    )
             except Exception as email_err:
                 logger.warning(f"Booking notification email failed: {email_err}")
 
-        # Fire and forget — don't await it
         asyncio.create_task(send_notification())
 
         return {
