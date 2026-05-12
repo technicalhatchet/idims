@@ -11,7 +11,6 @@ from app.db.database import get_db
 from app.models.client import Client
 from app.models.property import Property
 from app.models.work_order import WorkOrder
-from app.services.work_order_service import WorkOrderService
 
 logger = logging.getLogger(__name__)
 
@@ -35,8 +34,7 @@ def send_booking_notification(
     booking_appliance: str,
     booking_issue: str,
     booking_time: str,
-    work_order_id: str,
-    order_number: str
+    work_order_id: str
 ):
     try:
         response = httpx.post(
@@ -46,148 +44,19 @@ def send_booking_notification(
                 "Content-Type": "application/json"
             },
             json={
-                "from": "Atomic Repair Bookings <booking@atomicrepair419.com>",
-                "to": "service@atomicrepair419.com",
+                "from": "service@atomicrepair419.com",
+                "to": "chester@chettechpro.com",
                 "subject": f"🔧 New Booking: {booking_appliance} - {booking_name}",
-                "html": f"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Booking - Atomic Repair 419</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body style="margin:0;padding:0;background-color:#0f0f1a;font-family:'Inter',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f0f1a;padding:32px 16px;">
-    <tr>
-      <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid #2d2d4e;">
+                "text": f"""New booking received from your website!
 
-          <!-- Header -->
-          <tr>
-            <td style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px;border-bottom:1px solid #2d2d4e;">
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>
-                    <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair 419" width="48" height="48" style="display:block;border-radius:8px;">
-                  </td>
-                  <td style="padding-left:16px;">
-                    <div style="color:#ffffff;font-size:20px;font-weight:700;margin:0;">Atomic Repair 419</div>
-                    <div style="color:#6b7280;font-size:13px;margin-top:2px;">New Service Booking</div>
-                  </td>
-                  <td align="right">
-                    <span style="background-color:#f59e0b;color:#0f0f1a;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:0.5px;">ONLINE BOOKING</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+Name: {booking_name}
+Phone: {booking_phone}
+Address: {booking_address}
+Appliance: {booking_appliance}
+Issue: {booking_issue}
+Preferred Time: {booking_time}
 
-          <!-- Work Order Badge -->
-          <tr>
-            <td style="background-color:#16213e;padding:16px 32px;border-bottom:1px solid #2d2d4e;">
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>
-                    <span style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Work Order</span>
-                    <div style="color:#f59e0b;font-size:22px;font-weight:700;margin-top:2px;">{order_number}</div>
-                  </td>
-                  <td align="right">
-                    <span style="background-color:#0f0f1a;color:#10b981;font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid #10b981;">⚡ Pending Scheduling</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- Customer Info -->
-          <tr>
-            <td style="padding:28px 32px 0;">
-              <div style="color:#9ca3af;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Customer Information</div>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
-                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Name</div>
-                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_name}</div>
-                  </td>
-                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
-                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Phone</div>
-                    <div style="color:#f59e0b;font-size:15px;font-weight:600;">{booking_phone}</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="padding-bottom:20px;">
-                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Service Address</div>
-                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_address}</div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- Divider -->
-          <tr>
-            <td style="padding:0 32px;">
-              <div style="border-top:1px solid #2d2d4e;"></div>
-            </td>
-          </tr>
-
-          <!-- Job Info -->
-          <tr>
-            <td style="padding:24px 32px 0;">
-              <div style="color:#9ca3af;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Job Details</div>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
-                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Appliance</div>
-                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_appliance}</div>
-                  </td>
-                  <td width="50%" style="padding-bottom:20px;vertical-align:top;">
-                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Preferred Time</div>
-                    <div style="color:#ffffff;font-size:15px;font-weight:500;">{booking_time}</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="padding-bottom:24px;">
-                    <div style="color:#6b7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Issue Reported</div>
-                    <div style="background-color:#0f0f1a;border:1px solid #2d2d4e;border-radius:8px;padding:14px 16px;color:#e5e7eb;font-size:14px;line-height:1.5;">{booking_issue}</div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- CTA Button -->
-          <tr>
-            <td style="padding:0 32px 32px;">
-              <a href="https://v0-idims.vercel.app/work_orders/{work_order_id}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View &amp; Schedule in IDIMS &rarr;</a>
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="background-color:#0f0f1a;padding:20px 32px;border-top:1px solid #2d2d4e;">
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>
-                    <div style="color:#6b7280;font-size:12px;">Atomic Repair 419 &middot; Toledo, OH &middot; 419 Area</div>
-                    <div style="color:#4b5563;font-size:11px;margin-top:4px;">atomicrepair419.com</div>
-                  </td>
-                  <td align="right">
-                    <div style="color:#4b5563;font-size:11px;">This is an internal notification</div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
+Work Order: https://v0-idims.vercel.app/work_orders/{work_order_id}
 """
             }
         )
@@ -239,13 +108,11 @@ async def create_booking(
             db.add(prop)
             db.flush()
 
-        # Create work order with sequential number, OB- prefix for online bookings
-        order_number = await WorkOrderService.get_next_work_order_number(db)
-        order_number = order_number.replace("CT-", "OB-")
+        # Create work order
         work_order = WorkOrder(
             client_id=client.id,
             property_id=prop.id,
-            order_number=order_number,
+            order_number=f"OB-{str(uuid_lib.uuid4())[:6].upper()}",
             equipment_type=booking.appliance,
             symptoms=[booking.issue],
             description=f"Online booking - {booking.appliance} issue: {booking.issue}. Service address: {booking.address}. Customer preferred time: {booking.time_preference}.",
@@ -265,8 +132,7 @@ async def create_booking(
             booking.appliance,
             booking.issue,
             booking.time_preference,
-            str(work_order.id),
-            order_number
+            str(work_order.id)
         )
 
         return {
