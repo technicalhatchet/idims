@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional
+import uuid as uuid_lib
 import logging
 import httpx
 
@@ -10,6 +11,7 @@ from app.db.database import get_db
 from app.models.client import Client
 from app.models.property import Property
 from app.models.work_order import WorkOrder
+from app.services.work_order_service import WorkOrderService
 
 logger = logging.getLogger(__name__)
 
@@ -46,8 +48,9 @@ def send_booking_notification(
             json={
                 "from": "Atomic Repair Bookings <booking@atomicrepair419.com>",
                 "to": "service@atomicrepair419.com",
-                "subject": f"New Booking: {booking_appliance} - {booking_name}",
-                "html": f"""<!DOCTYPE html>
+                "subject": f"🔧 New Booking: {booking_appliance} - {booking_name}",
+                "html": f"""
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -60,11 +63,13 @@ def send_booking_notification(
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid #2d2d4e;">
+
+          <!-- Header -->
           <tr>
             <td style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);padding:32px;border-bottom:1px solid #2d2d4e;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td width="56">
+                  <td>
                     <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair 419" width="48" height="48" style="display:block;border-radius:8px;">
                   </td>
                   <td style="padding-left:16px;">
@@ -78,6 +83,8 @@ def send_booking_notification(
               </table>
             </td>
           </tr>
+
+          <!-- Work Order Badge -->
           <tr>
             <td style="background-color:#16213e;padding:16px 32px;border-bottom:1px solid #2d2d4e;">
               <table width="100%" cellpadding="0" cellspacing="0">
@@ -87,12 +94,14 @@ def send_booking_notification(
                     <div style="color:#f59e0b;font-size:22px;font-weight:700;margin-top:2px;">{order_number}</div>
                   </td>
                   <td align="right">
-                    <span style="background-color:#0f0f1a;color:#10b981;font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid #10b981;">Pending Scheduling</span>
+                    <span style="background-color:#0f0f1a;color:#10b981;font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;border:1px solid #10b981;">⚡ Pending Scheduling</span>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
+
+          <!-- Customer Info -->
           <tr>
             <td style="padding:28px 32px 0;">
               <div style="color:#9ca3af;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Customer Information</div>
@@ -116,11 +125,15 @@ def send_booking_notification(
               </table>
             </td>
           </tr>
+
+          <!-- Divider -->
           <tr>
             <td style="padding:0 32px;">
               <div style="border-top:1px solid #2d2d4e;"></div>
             </td>
           </tr>
+
+          <!-- Job Info -->
           <tr>
             <td style="padding:24px 32px 0;">
               <div style="color:#9ca3af;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">Job Details</div>
@@ -144,32 +157,38 @@ def send_booking_notification(
               </table>
             </td>
           </tr>
+
+          <!-- CTA Button -->
           <tr>
             <td style="padding:0 32px 32px;">
-              <a href="https://v0-idims.vercel.app/work_orders/{work_order_id}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View and Schedule in IDIMS</a>
+              <a href="https://v0-idims.vercel.app/work_orders/{work_order_id}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View &amp; Schedule in IDIMS &rarr;</a>
             </td>
           </tr>
+
+          <!-- Footer -->
           <tr>
             <td style="background-color:#0f0f1a;padding:20px 32px;border-top:1px solid #2d2d4e;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>
-                    <div style="color:#6b7280;font-size:12px;">Atomic Repair 419 - Toledo, OH - 419 Area</div>
+                    <div style="color:#6b7280;font-size:12px;">Atomic Repair 419 &middot; Toledo, OH &middot; 419 Area</div>
                     <div style="color:#4b5563;font-size:11px;margin-top:4px;">atomicrepair419.com</div>
                   </td>
                   <td align="right">
-                    <div style="color:#4b5563;font-size:11px;">Internal notification</div>
+                    <div style="color:#4b5563;font-size:11px;">This is an internal notification</div>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
+
         </table>
       </td>
     </tr>
   </table>
 </body>
-</html>"""
+</html>
+"""
             }
         )
         logger.info(f"Booking notification sent: {response.status_code}")
@@ -183,13 +202,15 @@ async def create_booking(
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db)
 ):
-    """Public endpoint for booking service - no auth required"""
+    """Public endpoint for booking service — no auth required"""
 
     try:
+        # Split name into first/last
         name_parts = booking.name.strip().split(maxsplit=1)
         first_name = name_parts[0]
         last_name = name_parts[1] if len(name_parts) > 1 else ""
 
+        # Find or create client by phone
         client = db.query(Client).filter(Client.phone == booking.phone).first()
 
         if not client:
@@ -203,6 +224,7 @@ async def create_booking(
             db.add(client)
             db.flush()
 
+        # Find or create property at this address for this client
         prop = db.query(Property).filter(
             Property.client_id == client.id,
             Property.address == booking.address
@@ -217,7 +239,8 @@ async def create_booking(
             db.add(prop)
             db.flush()
 
-        # Generate sequential OB- number checking ALL prefixes to avoid conflicts
+        # Create work order with sequential number, OB- prefix for online bookings
+        # Get next number checking ALL prefixes to avoid conflicts
         latest = db.query(WorkOrder).filter(
             WorkOrder.order_number.op('~')(r'^(CT|OB)-[0-9]+$')
         ).order_by(WorkOrder.created_at.desc()).first()
@@ -234,7 +257,6 @@ async def create_booking(
         while db.query(WorkOrder).filter(WorkOrder.order_number == order_number).first():
             next_num += 1
             order_number = f"OB-{next_num:06d}"
-
         work_order = WorkOrder(
             client_id=client.id,
             property_id=prop.id,
@@ -249,6 +271,7 @@ async def create_booking(
         db.commit()
         db.refresh(work_order)
 
+        # Fire notification email in background — won't block the response
         background_tasks.add_task(
             send_booking_notification,
             booking.name,
