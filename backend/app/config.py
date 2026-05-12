@@ -64,6 +64,7 @@ class Settings(BaseModel):
     MAIL_PASSWORD: str = Field(default_factory=lambda: os.getenv("MAIL_PASSWORD", ""))
     MAIL_FROM: str = Field(default_factory=lambda: os.getenv("MAIL_FROM", ""))
     MAIL_FROM_NAME: str = "Atomic Repair"
+    RESEND_API_KEY: str = ""
     
     # Redis settings
     REDIS_HOST: str = "localhost"
@@ -147,7 +148,7 @@ class Settings(BaseModel):
     SENDGRID_API_KEY: str = Field(default_factory=lambda: os.getenv("SENDGRID_API_KEY", ""))
     MAILGUN_API_KEY: str = Field(default_factory=lambda: os.getenv("MAILGUN_API_KEY", ""))
     MAILGUN_DOMAIN: str = ""
-    RESEND_API_KEY: str = ""
+    RESEND_API_KEY: str = Field(default_factory=lambda: os.getenv("RESEND_API_KEY", ""))
     
     # Company/Site Information
     SITE_NAME: str = "Atomic Repair"
@@ -238,11 +239,11 @@ class Settings(BaseModel):
     MAIL_PORT: int = 465
     MAIL_USE_TLS: bool = False
     MAIL_USE_SSL: bool = True
-    MAIL_USERNAME: str = "chester@chettechpro.com"
-    MAIL_PASSWORD: str = "zbSC KdLi Gmtd"
-    MAIL_FROM: str = "chester@chettechpro.com"
-    MAIL_FROM_NAME: str = "Chettech Pro"
-    
+    MAIL_USERNAME: str = Field(default=os.getenv("MAIL_USERNAME", ""))
+    MAIL_PASSWORD: str = Field(default=os.getenv("MAIL_PASSWORD", ""))
+    MAIL_FROM: str = Field(default=os.getenv("MAIL_FROM", ""))
+    MAIL_FROM_NAME: str = "Atomic Repair"
+        
     # Redis settings
     REDIS_HOST: str = "localhost"
     REDIS_PORT: int = 6379
@@ -342,11 +343,12 @@ class Settings(BaseModel):
     MAILGUN_API_KEY: str = ""
     MAILGUN_DOMAIN: str = ""
     
+    
     # Company/Site Information for emails
-    SITE_NAME: str = "Quantum Repairs"
-    CONTACT_EMAIL: str = "support@chettechpro.com"
-    LOGO_URL: str = "https://imgur.com/a/ou9RtjZ"
-    DEFAULT_FROM_EMAIL: str = "chester@chettechpro.com"
+    SITE_NAME: str = "Atomic Repair"
+    CONTACT_EMAIL: str = Field(default=os.getenv("CONTACT_EMAIL", "service@atomicrepair419.com"))
+    LOGO_URL: str = "https://v0-idims.vercel.app/arpano.png"
+    DEFAULT_FROM_EMAIL: str = Field(default=os.getenv("MAIL_FROM", ""))
     
     # URL settings
     FRONTEND_URL: str = "http://localhost:3000"
