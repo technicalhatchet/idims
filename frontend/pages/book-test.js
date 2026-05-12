@@ -116,7 +116,7 @@ export default function BookService() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:8000/api/public/booking', {
+      const response = await fetch('https://idims-production.up.railway.app/api/public/booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
