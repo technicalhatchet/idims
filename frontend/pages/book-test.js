@@ -211,7 +211,7 @@ export default function BookService() {
             <div className="flex justify-center mb-4">
               <Image
                 src="/wrenches.png"
-                alt="Quantum Repair"
+                alt="Atomic Repair"
                 width={100}
                 height={100}
                 className="drop-shadow-[0_0_25px_rgba(249,115,22,0.6)]"
@@ -706,5 +706,5 @@ export default function BookService() {
 }
 
 BookService.getLayout = function getLayout(page) {
-  return <HomeLayout title="Book Service | Quantum Repair">{page}</HomeLayout>;
+  return <HomeLayout title="Book Service | Atomic Repair">{page}</HomeLayout>;
 };
