@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator, Field, field_validator
+from pydantic import BaseModel, validator, Field, field_validator, UUID4
 from typing import Optional, Dict, List, Any, Union
 from datetime import datetime
 from uuid import UUID
@@ -40,6 +40,7 @@ class WorkOrderBase(BaseModel):
     # title: str # Removed title
     description: Optional[str] = None
     priority: str = "medium"  # low, medium, high, urgent
+    property_id: Optional[UUID4] = None
     service_location: Optional[Dict[str, Any]] = None
     
     # Optional equipment details
@@ -197,7 +198,7 @@ class WorkOrderResponse(WorkOrderBase):
     id: UUID
     created_at: datetime
     updated_at: datetime
-    created_by: UUID
+    created_by: Optional[UUID] = None
     updated_by: Optional[UUID] = None
     status: str
     # Scheduling at WO level (may be mirrored from appointments for display)

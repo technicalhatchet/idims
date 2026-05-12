@@ -39,6 +39,7 @@ class Client(Base):
     work_orders = relationship("WorkOrder", back_populates="client", cascade="all, delete-orphan")
     invoices = relationship("Invoice", back_populates="client", cascade="all, delete-orphan")
     documents = relationship("Document", back_populates="client", cascade="all, delete-orphan")
+    properties = relationship("Property", back_populates="client", cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<Client {self.id}: {self.company_name or f'{self.first_name} {self.last_name}'}>"

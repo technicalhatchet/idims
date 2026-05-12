@@ -26,8 +26,8 @@ from app.core.logger import setup_logging
 from app.routers import (
     auth, clients, work_orders, scheduling, invoices, payments,
     #inventory,
-    quotes, technicians, notifications, reports,
-    media, mobile, admin, chat, dashboard,
+    quotes, technicians, notifications, reports, public,
+    media, mobile, admin, chat, dashboard, properties,
     health, users, debug, services, skills, stripe, distance
 )
 from app.core.middleware import (
@@ -721,7 +721,8 @@ app.include_router(debug.router, prefix="/api/debug", tags=["debug"])
 app.include_router(services.router, prefix="/api/services", tags=["services"])
 app.include_router(skills.router, prefix="/api/skills", tags=["skills"])
 app.include_router(stripe.router, prefix="/api/stripe", tags=["stripe"])
-
+app.include_router(properties.router, prefix="/api/properties", tags=["properties"])
+app.include_router(public.router, prefix="/api/public", tags=["public"])
 # Mock endpoints for clients, technicians, and services
 # NOTE: These mock endpoints have been replaced with real database-backed endpoints in the router files.
 # The include_router() calls above now handle these endpoints.

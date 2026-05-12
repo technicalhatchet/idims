@@ -170,7 +170,19 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
   const [newClientData, setNewClientData] = useState({ first_name: '', last_name: '', email: '', phone: '' });
   const [newClientSaving, setNewClientSaving] = useState(false);
   const [newClientError, setNewClientError] = useState(null);
-  
+
+  // Property state
+const [clientProperties, setClientProperties] = useState([]);
+const [loadingProperties, setLoadingProperties] = useState(false);
+const [selectedPropertyId, setSelectedPropertyId] = useState('');
+const [showNewPropertyForm, setShowNewPropertyForm] = useState(false);
+const [newPropertyData, setNewPropertyData] = useState({
+  address: '', unit_number: '', property_type: 'residential', gate_code: '', access_instructions: ''
+});
+const [newPropertySaving, setNewPropertySaving] = useState(false);
+const [newPropertyError, setNewPropertyError] = useState(null);
+
+
   // Initialize form with default values or provided data
   const defaultValues = {
     client_id: '',
@@ -852,6 +864,49 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
       setNewClientSaving(false);
     }
   };
+  
+// Fetch properties when client changes
+useEffect(() => {
+  if (!values.client_id) {
+    setClientProperties([]);
+    setSelectedPropertyId('');
+    return;
+  }
+  setLoadingProperties(true);
+  apiClient(`properties/client/${values.client_id}`)
+    .then(data => setClientProperties(Array.isArray(data) ? data : []))
+    .catch(() => setClientProperties([]))
+    .finally(() => setLoadingProperties(false));
+}, [values.client_id]);
+
+const handlePropertySelect = (propertyId) => {
+  setSelectedPropertyId(propertyId);
+  const property = clientProperties.find(p => p.id === propertyId);
+  if (property) {
+    const addr = [property.address, property.unit_number ? `Unit ${property.unit_number}` : ''].filter(Boolean).join(', ');
+    setFieldValue('service_location', { address: addr });
+  }
+};
+
+const handleCreateProperty = async () => {
+  if (!newPropertyData.address.trim()) { setNewPropertyError('Address is required'); return; }
+  setNewPropertySaving(true);
+  setNewPropertyError(null);
+  try {
+    const created = await apiClient('properties', {
+      method: 'POST',
+      body: JSON.stringify({ client_id: values.client_id, ...newPropertyData })
+    });
+    setClientProperties(prev => [...prev, created]);
+    handlePropertySelect(created.id);
+    setShowNewPropertyForm(false);
+    setNewPropertyData({ address: '', unit_number: '', property_type: 'residential', gate_code: '', access_instructions: '' });
+  } catch (err) {
+    setNewPropertyError(err.message || 'Failed to create property');
+  } finally {
+    setNewPropertySaving(false);
+  }
+};
 
   if (isLoading) {
     return (
@@ -1187,39 +1242,78 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
       </div>
       
       {/* Location */}
+      {/* Property Selector */}
+      {values.client_id && (
+        <div className="mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Property</label>
+          {loadingProperties ? (
+            <p className="text-sm text-gray-500">Loading properties...</p>
+          ) : !showNewPropertyForm ? (
+            <div className="space-y-2">
+              <select
+                value={selectedPropertyId}
+                onChange={(e) => handlePropertySelect(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm"
+              >
+                <option value="">Select a property or enter address below...</option>
+                {clientProperties.map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.address}{p.unit_number ? ` – Unit ${p.unit_number}` : ''}{p.gate_code ? ` 🔑 ${p.gate_code}` : ''}
+                  </option>
+                ))}
+              </select>
+              <button type="button" onClick={() => setShowNewPropertyForm(true)} className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 flex items-center gap-1">
+                <FaUserPlus className="w-3 h-3" /> Add new property for this client
+              </button>
+            </div>
+          ) : (
+            <div className="p-4 border border-blue-200 dark:border-blue-800 rounded-lg bg-blue-50 dark:bg-blue-900/20 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold text-gray-900 dark:text-white">New Property</span>
+                <button type="button" onClick={() => { setShowNewPropertyForm(false); setNewPropertyError(null); }} className="text-gray-400 hover:text-gray-600"><FaTimes /></button>
+              </div>
+              {newPropertyError && <p className="text-sm text-red-600 dark:text-red-400">{newPropertyError}</p>}
+              <input type="text" placeholder="Address *" value={newPropertyData.address} onChange={e => setNewPropertyData(p => ({ ...p, address: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+              <input type="text" placeholder="Unit number (optional)" value={newPropertyData.unit_number} onChange={e => setNewPropertyData(p => ({ ...p, unit_number: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+              <select value={newPropertyData.property_type} onChange={e => setNewPropertyData(p => ({ ...p, property_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm">
+                <option value="residential">Residential</option>
+                <option value="rental">Rental Property</option>
+                <option value="commercial">Commercial</option>
+                <option value="flip">Flip/Investment</option>
+              </select>
+              <input type="text" placeholder="Gate code (optional)" value={newPropertyData.gate_code} onChange={e => setNewPropertyData(p => ({ ...p, gate_code: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+              <textarea placeholder="Access instructions (optional)" value={newPropertyData.access_instructions} onChange={e => setNewPropertyData(p => ({ ...p, access_instructions: e.target.value }))} rows={2} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm resize-none" />
+              <div className="flex gap-2">
+                <button type="button" onClick={handleCreateProperty} disabled={newPropertySaving} className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm font-medium">
+                  {newPropertySaving ? 'Creating...' : 'Create Property'}
+                </button>
+                <button type="button" onClick={() => { setShowNewPropertyForm(false); setNewPropertyError(null); }} className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm">Cancel</button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Location */}
       <div className="relative">
-      <TextInput
-        label="Service Location"
-        name="service_location.address"
+        <TextInput
+          label="Service Location"
+          name="service_location.address"
           value={values.service_location?.address || ''}
-        onChange={(e) => {
-            setFieldValue('service_location', {
-              ...values.service_location,
-              address: e.target.value
-          });
-        }}
+          onChange={(e) => {
+            setFieldValue('service_location', { ...values.service_location, address: e.target.value });
+          }}
           onBlur={handleBlur}
           error={touched['service_location.address'] && errors['service_location.address']}
-        placeholder="Full address where service will be performed"
-      />
+          placeholder="Full address where service will be performed"
+        />
         {values.client_id && clientData && clientData.address && (
           <button
             type="button"
             className="absolute right-2 top-8 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
             onClick={() => {
-              const addressStr = [
-                clientData.address.street1,
-                clientData.address.street2,
-                clientData.address.city,
-                clientData.address.state,
-                clientData.address.zip,
-                clientData.address.country
-              ].filter(Boolean).join(', ');
-              
-              setFieldValue('service_location', {
-                ...values.service_location,
-                address: addressStr
-              });
+              const addressStr = [clientData.address.street1, clientData.address.street2, clientData.address.city, clientData.address.state, clientData.address.zip, clientData.address.country].filter(Boolean).join(', ');
+              setFieldValue('service_location', { ...values.service_location, address: addressStr });
             }}
           >
             Use Client Address

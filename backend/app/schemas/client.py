@@ -42,7 +42,7 @@ class ClientBase(BaseModel):
     company_name: Optional[str] = None
     first_name: str
     last_name: str
-    email: EmailStr
+    email: Optional[EmailStr] = None
     phone: Optional[str] = None
     mobile: Optional[str] = None
     address: Optional[Dict[str, Any]] = None

@@ -397,7 +397,7 @@ function TodaysRoute() {
   return (
     <>
       <Head>
-        <title>Ops Board | IDIMS</title>
+        <title>Mission Queue | IDIMS</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <style>{`
           header, nav, .header-bar, [class*='h-16'] {
@@ -426,7 +426,7 @@ function TodaysRoute() {
                           '0 0 22px rgba(34,211,238,0.55), 0 0 2px rgba(34,211,238,1), 0 0 40px rgba(34,211,238,0.18)',
                       }}
                     >
-                      Ops
+                      Mission
                     </span>
                     <span
                       className="inline-block h-[0.92em] w-px shrink-0 self-center"
@@ -442,7 +442,7 @@ function TodaysRoute() {
                         textShadow: '0 0 14px rgba(255,122,0,0.12), 0 0 1px rgba(255,255,255,0.25)',
                       }}
                     >
-                      Board
+                      Queue
                     </span>
                   </h1>
                   <div
@@ -472,7 +472,7 @@ function TodaysRoute() {
             </div>
 
             {/*
-             * Date selector (prev / date input / next) — intentionally removed; Ops Board is today-only.
+             * Date selector (prev / date input / next) — intentionally removed; Mission Queue is today-only.
              * To restore: useState yyyy-MM-dd, row with ‹ input type="date" › wired to setDate.
              */}
 

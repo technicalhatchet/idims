@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
-import Link from 'next/link';
 import { parseISO, format, startOfWeek, endOfWeek } from 'date-fns';
 import { motion } from 'framer-motion';
 import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
@@ -407,6 +406,62 @@ function ScheduleTestInner() {
       <Head>
         <title>Schedule [Test] | Atomic Repair</title>
         <style>{`
+          .sched-tactical-grid-bg {
+            background-image:
+              linear-gradient(rgba(0,217,255,.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,217,255,.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+          }
+          .sched-hud-orbitron {
+            font-family: 'Orbitron', system-ui, sans-serif;
+          }
+          .sched-hud-orbitron-glow {
+            text-shadow:
+              0 0 8px rgba(255,255,255,.15),
+              0 0 18px rgba(0,217,255,.12),
+              0 0 40px rgba(0,217,255,.08);
+          }
+          .sched-neon-edge {
+            position: relative;
+          }
+          .sched-neon-edge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(
+              135deg,
+              rgba(0,229,255,.55),
+              rgba(0,102,255,.15),
+              rgba(0,229,255,.35)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+          }
+          .sched-hud-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(255,255,255,.06),
+              transparent
+            );
+            animation: sched-hud-scan 5s linear infinite;
+            border-radius: inherit;
+            pointer-events: none;
+          }
+          @keyframes sched-hud-scan {
+            100% { left: 120%; }
+          }
           @keyframes sched-shimmer-pulse {
             0%, 100% { opacity: 0.2; }
             50% { opacity: 0.42; }
@@ -465,50 +520,37 @@ function ScheduleTestInner() {
         />
 
         <div className="relative z-10 px-4 pt-5 max-w-lg mx-auto">
-          {/* Page header — command titleplate */}
-          <div className="relative mb-7 overflow-hidden rounded-2xl px-2 py-3">
+          {/* Page header — tactical OPS BOARD titleplate */}
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            className="relative mb-4"
+          >
             <div
-              className="absolute inset-0 pointer-events-none rounded-2xl"
-              style={{
-                background:
-                  'radial-gradient(ellipse 70% 80% at 12% 20%, rgba(0,217,255,0.07), transparent 45%), linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%)',
-              }}
-            />
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-              className="relative"
+              className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/30 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,217,255,.35)] sched-neon-edge sched-hud-scan"
             >
-              <h1
-                className="text-[1.28rem] font-bold uppercase text-white"
-                style={{
-                  letterSpacing: '0.18em',
-                  fontFamily: "'Orbitron', system-ui, sans-serif",
-                  textShadow: '0 0 28px rgba(0,217,255,0.18), 0 2px 16px rgba(0,0,0,0.6)',
-                }}
-              >
-                SCHEDULE
-              </h1>
-              <div className="flex items-center gap-2.5 mt-3">
-                <span
-                  className="text-[9px] uppercase font-semibold px-2.5 py-1 rounded-md border"
-                  style={{
-                    letterSpacing: '0.14em',
-                    color: '#7EEEF8',
-                    borderColor: 'rgba(0,217,255,0.22)',
-                    background: 'linear-gradient(180deg, rgba(34,211,238,0.12), rgba(34,211,238,0.04))',
-                    boxShadow: '0 0 18px rgba(0,217,255,0.1), inset 0 1px 0 rgba(255,255,255,0.06)',
-                  }}
-                >
-                  Tactical preview
-                </span>
-                <Link href="/schedule" className="text-[10px] tracking-wide" style={{ color: 'rgba(255,255,255,0.34)' }}>
-                  Classic schedule →
-                </Link>
+              <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 sched-tactical-grid-bg" aria-hidden />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-cyan-500/0 opacity-60 pointer-events-none rounded-[inherit]" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
+              <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent pointer-events-none z-[1]" />
+
+              <div className="relative z-[2] min-w-0">
+                <p className="sched-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.22em] md:tracking-[0.32em] text-cyan-300 mb-1.5 font-semibold leading-tight">
+                  TACTICAL OPERATIONS GRID
+                </p>
+                <h1 className="sched-hud-orbitron sched-hud-orbitron-glow whitespace-nowrap text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
+                  Ops Board
+                </h1>
+                <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
+                  <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
+                  <span className="sched-hud-orbitron text-white/40 text-[9px] md:text-[10px] tracking-[0.14em] md:tracking-[0.22em] uppercase">
+                    Online
+                  </span>
+                </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
           {/* Command panel — holographic ops glass */}
           <motion.div

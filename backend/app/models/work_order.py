@@ -30,6 +30,7 @@ class WorkOrder(Base):
                         "cancelled", "parts_on_order", "reschedule", "need_to_contact",
                         "unreachable", "recall", "redo",
                         name="work_order_status_enum"), default="pending")
+    property_id = Column(UUID(as_uuid=True), ForeignKey('properties.id', ondelete='SET NULL'), nullable=True)
     service_location = Column(JSONB, nullable=True)  # Address and location details
     scheduled_start = Column(DateTime, nullable=True)
     scheduled_end = Column(DateTime, nullable=True)
@@ -69,6 +70,7 @@ class WorkOrder(Base):
     documents = relationship("Document", back_populates="work_order")
     quote = relationship("Quote", back_populates="work_order")
     parts = relationship("WorkOrderPart", back_populates="work_order", cascade="all, delete-orphan")
+    property_ref = relationship("Property", back_populates="work_orders")
     
     # New columns for invoice totals
     invoice_subtotal = Column(Numeric(10, 2), nullable=True, default=0.00)
