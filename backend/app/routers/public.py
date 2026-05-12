@@ -45,7 +45,7 @@ def send_booking_notification(
             },
             json={
                 "from": "service@atomicrepair419.com",
-                "to": "chester@chettechpro.com",
+                "to": "service@atomicrepair419.com",
                 "subject": f"🔧 New Booking: {booking_appliance} - {booking_name}",
                 "text": f"""New booking received from your website!
 
