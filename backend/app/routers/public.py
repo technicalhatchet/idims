@@ -14,6 +14,9 @@ from app.models.client import Client
 from app.models.property import Property
 from app.models.work_order import WorkOrder
 
+import logging
+logger = logging.getLogger(__name__)
+
 router = APIRouter()
 
 class BookingRequest(BaseModel):
