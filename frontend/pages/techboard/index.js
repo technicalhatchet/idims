@@ -780,42 +780,40 @@ export default function TechDashboardTest() {
       </Head>
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
-        <div className="px-4 py-5 max-w-lg mx-auto">
+        <div className="px-4 pt-0 pb-5 max-w-lg mx-auto">
           <div
             className="
-              relative mb-4 overflow-hidden rounded-[26px] sm:rounded-[32px]
-              border border-cyan-400/20
+              relative mb-4 overflow-hidden
               bg-[#050C16]/95
               backdrop-blur-2xl
-              shadow-[0_0_0_1px_rgba(0,217,255,.08),
-                      0_0_40px_rgba(0,217,255,.08),
+              shadow-[0_0_40px_rgba(0,217,255,.08),
                       0_24px_60px_rgba(0,0,0,.55)]
             "
           >
             <div
-              className="absolute inset-[1px] pointer-events-none overflow-hidden rounded-[26px] sm:rounded-[32px]"
+              className="absolute inset-0 pointer-events-none overflow-hidden"
               aria-hidden
             >
-              <div className="absolute inset-0 rounded-[inherit] bg-[rgba(5,12,22,.92)] backdrop-blur-2xl" />
+              <div className="absolute inset-0 bg-[rgba(5,12,22,.92)] backdrop-blur-2xl" />
               <div
-                className="absolute inset-0 opacity-[0.11] rounded-[inherit]
+                className="absolute inset-0 opacity-[0.11]
                   bg-[linear-gradient(rgba(0,217,255,.28)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
                   bg-[size:42px_42px]"
               />
-              <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
               <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
               <div
-                className="absolute inset-0 opacity-[0.028] rounded-[inherit]
+                className="absolute inset-0 opacity-[0.028]
                   bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
               />
               <div
-                className="absolute inset-0 opacity-[0.04] rounded-[inherit] pointer-events-none mix-blend-overlay"
+                className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
                 style={{ backgroundImage: TECHBOARD_TACTICAL_NOISE_BG }}
               />
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-6 right-6 sm:left-8 sm:right-8 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
-              <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
-              <div className="absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-none">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div
                   className="absolute top-0 bottom-0 w-[42%]"
                   style={{
@@ -825,7 +823,7 @@ export default function TechDashboardTest() {
                   }}
                 />
               </div>
-              <div className="absolute inset-0 rounded-[inherit] shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
+              <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
             </div>
 
             <div className="relative z-10 p-4 sm:p-6">
