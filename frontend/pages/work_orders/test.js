@@ -66,11 +66,74 @@ export default function WorkOrdersTest() {
   return (
     <>
       <Head>
-        <title>Work Orders Test | IDIMS</title>
+        <title>Master OPS List | IDIMS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
         <style>{`
           @keyframes wo-test-tactical-scan {
             0% { left: -48%; }
             100% { left: 115%; }
+          }
+          /* Ops titleplate — orange chroma (was cyan in schedule-test) */
+          .sched-tactical-grid-bg {
+            background-image:
+              linear-gradient(rgba(255,122,0,.07) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,122,0,.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+          }
+          .sched-hud-orbitron {
+            font-family: 'Orbitron', system-ui, sans-serif;
+          }
+          .sched-hud-orbitron-glow {
+            text-shadow:
+              0 0 8px rgba(255,255,255,.15),
+              0 0 18px rgba(255,122,0,.14),
+              0 0 40px rgba(251,146,60,.1);
+          }
+          .sched-neon-edge {
+            position: relative;
+          }
+          .sched-neon-edge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(
+              135deg,
+              rgba(251,146,60,.55),
+              rgba(180,83,9,.22),
+              rgba(255,122,0,.42)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+          }
+          .sched-hud-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(255,255,255,.06),
+              transparent
+            );
+            animation: sched-hud-scan 5s linear infinite;
+            border-radius: inherit;
+            pointer-events: none;
+          }
+          @keyframes sched-hud-scan {
+            100% { left: 120%; }
           }
           /* Omit z-index; TechDashboard icon rail/header use z-index above Leaflet (~1000) */
           header, nav, .header-bar, [class*='h-16'] {
@@ -116,10 +179,35 @@ export default function WorkOrdersTest() {
         </div>
 
         <div className="relative z-10">
-        <div className="mb-4">
-          <h1 className="text-xl font-bold text-white">Work Orders <span className="text-xs text-orange-400 ml-2">[TEST]</span></h1>
-          <Link href="/work_orders" className="text-xs text-gray-500 hover:text-gray-300">← Real page</Link>
+        {/* Page header — same titleplate pattern as schedule-test “Ops Board” */}
+        <div className="relative mb-4">
+          <div
+            className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.32)] sched-neon-edge sched-hud-scan"
+          >
+            <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 sched-tactical-grid-bg" aria-hidden />
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-orange-600/0 opacity-60 pointer-events-none rounded-[inherit]" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
+            <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-orange-400/25 to-transparent pointer-events-none z-[1]" />
+
+            <div className="relative z-[2] min-w-0">
+              <p className="sched-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.22em] md:tracking-[0.32em] text-orange-300 mb-1.5 font-semibold leading-tight">
+                Mobile Initialization
+              </p>
+              <h1 className="sched-hud-orbitron sched-hud-orbitron-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
+                Master OPS List
+              </h1>
+              <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
+                <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-orange-300 to-transparent" />
+                <span className="sched-hud-orbitron text-white/40 text-[9px] md:text-[10px] tracking-[0.14em] md:tracking-[0.22em] uppercase">
+                  Online
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
+        <Link href="/work_orders" className="inline-flex items-center gap-1 mb-4 text-xs text-gray-500 hover:text-gray-300">
+          ← Real page
+        </Link>
 
         {/* New Work Order button */}
         <Link href="/work_orders/new" className="relative block w-full py-3 mb-3 rounded-lg font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
@@ -130,13 +218,40 @@ export default function WorkOrdersTest() {
           </span>
         </Link>
 
-        {/* Filter button */}
-        <button type="button" className="relative w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden" style={{ background: '#0A0F1E', border: '1px solid rgba(255,122,0,0.6)', boxShadow: '0 0 8px rgba(255,122,0,0.3)' }}>
-          <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(255,122,0,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(255,122,0,0.08) 0%, transparent 55%)' }} />
-          <svg viewBox="0 0 24 24" className="relative z-10 w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+        {/* Filter button — same glow system as New Work Order, orange chroma */}
+        <button
+          type="button"
+          className="relative w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white bg-[#0D1525] border border-orange-400/60 shadow-[0_0_8px_rgba(255,122,0,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden"
+        >
+          <div
+            className="absolute inset-0 rounded-lg"
+            style={{
+              background:
+                'radial-gradient(ellipse at 0% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(255,122,0,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(255,122,0,0.08) 0%, transparent 55%)',
+            }}
+          />
+          <svg
+            viewBox="0 0 24 24"
+            className="relative z-10 w-4 h-4"
+            style={{
+              stroke: '#fdba74',
+              strokeWidth: 1.75,
+              fill: 'none',
+              strokeLinecap: 'round',
+              strokeLinejoin: 'round',
+              filter: 'drop-shadow(0 0 6px rgba(255,122,0,0.9)) drop-shadow(0 0 12px rgba(255,122,0,0.5))',
+            }}
+          >
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
           </svg>
-          <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(255,122,0,0.6), 0 0 20px rgba(255,122,0,0.3)' }}>Filters</span>
+          <span
+            className="relative z-10"
+            style={{
+              textShadow: '0 0 8px rgba(255,122,0,0.6), 0 0 20px rgba(255,122,0,0.3)',
+            }}
+          >
+            Filters
+          </span>
         </button>
 
         {/* Cards container */}
@@ -163,6 +278,10 @@ export default function WorkOrdersTest() {
 
           {isLoading && <p className="text-gray-400 text-sm px-1">Loading...</p>}
           {error && <p className="text-red-400 text-sm px-1">Error loading</p>}
+
+          {!isLoading && !error && sorted.length === 0 && (
+            <p className="text-gray-500 text-sm px-1 py-4 text-center">No work orders yet.</p>
+          )}
 
           <div className="space-y-2">
             {paginated.map(wo => <Card key={wo.id} wo={wo} />)}

@@ -209,8 +209,8 @@ export default function BookService() {
         <div className="max-w-3xl mx-auto">
           {/* Logo & Title */}
           <motion.div
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0 }}
             className="flex items-center justify-start gap-4 mb-6"
           >
 
