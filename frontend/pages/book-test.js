@@ -63,6 +63,11 @@ export default function BookService() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (router.isReady) {
@@ -200,34 +205,31 @@ export default function BookService() {
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 0%, #000208 70%)' }} />
       </div>
 
-      <div className="min-h-screen pt-28 pb-32 px-4 sm:px-6">
+      <div className="min-h-screen pt-28 pb-32 px-4 sm:px-6 relative z-10">
         <div className="max-w-3xl mx-auto">
           {/* Logo & Title */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-2"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center justify-start gap-4 mb-6"
           >
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/wrenches.png"
-                alt="Atomic Repair"
-                width={100}
-                height={100}
-                className="drop-shadow-[0_0_25px_rgba(249,115,22,0.6)]"
-              />
+
+            <Image
+              src="/wrenches.png"
+              alt="Atomic Repair"
+              width={70}
+              height={70}
+              className="drop-shadow-[0_0_25px_rgba(249,115,22,0.6)] flex-shrink-0"
+            />
+            <div className="text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                BOOK <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300">YOUR SERVICE</span>
+              </h1>
+              <p className="text-gray-400 text-sm mt-1">Takes less than 60 seconds</p>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white">
-              BOOK <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300">YOUR SERVICE</span>
-            </h1>
-            <p className="text-gray-400 mt-2">Takes less than 60 seconds</p>
           </motion.div>
         
-          <div className="bg-yellow-500/20 border border-yellow-500 rounded-lg p-3 mb-6">
-            <p className="text-yellow-300 text-sm font-semibold text-center">
-              🧪 TEST MODE - This page uses the real backend
-            </p>
-          </div>
+
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex items-center justify-between relative">
@@ -267,7 +269,7 @@ export default function BookService() {
 
           {/* Main Card */}
           <motion.div
-            className="relative rounded-2xl overflow-hidden"
+            className="relative rounded-2xl overflow-visible"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
@@ -19,16 +18,6 @@ const ATOMIC_THEME = {
 
 export default function HomeLayout({ children, title = 'Quantum Repair | Appliance Repair Toledo' }) {
   const { user, isLoading } = useUser();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <div 
       className="min-h-screen flex flex-col relative"
