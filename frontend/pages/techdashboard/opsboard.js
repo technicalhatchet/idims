@@ -9,8 +9,12 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
 import { getUserRole } from '../../utils/auth0-helpers';
-import { FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaChevronDown, FaChevronUp, FaArrowLeft, FaClock, FaUser } from 'react-icons/fa';
+import { FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaChevronDown, FaChevronUp, FaClock, FaUser } from 'react-icons/fa';
 import { NEON_RAILS } from '../../components/schedule/ScheduleTestTimeline';
+
+/** Fractal noise texture for tactical HUD shell (matches tech dashboard board) */
+const OPSBOARD_TACTICAL_NOISE_BG =
+  'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
 
 /** Set to `true` to show Navigate / Call on expanded appointment cards */
 const SHOW_NAVIGATE_AND_CALL_BUTTONS = false;
@@ -399,7 +403,74 @@ function TodaysRoute() {
       <Head>
         <title>Mission Queue | IDIMS</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
         <style>{`
+          @keyframes opsboard-tactical-scan {
+            0% { left: -48%; }
+            100% { left: 115%; }
+          }
+          /* Titleplate — work_orders/test pattern, violet chroma */
+          .ops-queue-titleplate-grid {
+            background-image:
+              linear-gradient(rgba(167,139,250,.085) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(167,139,250,.085) 1px, transparent 1px);
+            background-size: 40px 40px;
+          }
+          .ops-queue-titleplate-orbitron {
+            font-family: 'Orbitron', system-ui, sans-serif;
+          }
+          .ops-queue-titleplate-title-glow {
+            text-shadow:
+              0 0 8px rgba(255,255,255,.12),
+              0 0 18px rgba(167,139,250,.35),
+              0 0 40px rgba(139,92,246,.22);
+          }
+          .ops-queue-titleplate-edge {
+            position: relative;
+          }
+          .ops-queue-titleplate-edge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(
+              135deg,
+              rgba(167,139,250,.72),
+              rgba(88,28,135,.28),
+              rgba(139,92,246,.5)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+          }
+          .ops-queue-titleplate-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(167,139,250,.085),
+              transparent
+            );
+            animation: ops-queue-titleplate-scan 5s linear infinite;
+            border-radius: inherit;
+            pointer-events: none;
+          }
+          @keyframes ops-queue-titleplate-scan {
+            100% { left: 120%; }
+          }
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;
             border-bottom: 1px solid rgba(255,255,255,0.07) !important;
@@ -408,131 +479,137 @@ function TodaysRoute() {
       </Head>
 
       <div className="min-h-screen pb-8" style={{ background: '#0A0F1E' }}>
-        <div className="max-w-lg mx-auto px-4 py-5">
-          <div
-            className="sticky z-[1100] -mx-4 px-4 pt-2 pb-3 mb-4 top-[72px]"
-            style={{
-              background: 'linear-gradient(180deg, #0A0F1E 0%, #0A0F1E 88%, rgba(10,15,30,0) 100%)',
-            }}
-          >
-            <div className="flex items-start justify-between gap-2 mb-3">
-              <div className="min-w-0">
-                <div className="relative mb-1 inline-block">
-                  <h1 className="flex flex-wrap items-center gap-2 text-[1.35rem] font-black leading-none tracking-[0.04em]">
-                    <span
-                      style={{
-                        color: '#67E8F9',
-                        textShadow:
-                          '0 0 22px rgba(34,211,238,0.55), 0 0 2px rgba(34,211,238,1), 0 0 40px rgba(34,211,238,0.18)',
-                      }}
-                    >
-                      Mission
-                    </span>
-                    <span
-                      className="inline-block h-[0.92em] w-px shrink-0 self-center"
-                      style={{
-                        background: 'linear-gradient(180deg, transparent, rgba(34,211,238,0.55), transparent)',
-                        boxShadow: '0 0 12px rgba(34,211,238,0.45)',
-                      }}
-                      aria-hidden
-                    />
-                    <span
-                      className="text-white font-extrabold tracking-[0.02em]"
-                      style={{
-                        textShadow: '0 0 14px rgba(255,122,0,0.12), 0 0 1px rgba(255,255,255,0.25)',
-                      }}
-                    >
-                      Queue
-                    </span>
-                  </h1>
-                  <div
-                    className="pointer-events-none mt-2 h-[2px] w-[min(10rem,60%)] rounded-full opacity-85"
-                    style={{
-                      background: 'linear-gradient(90deg, rgba(34,211,238,0.95), rgba(255,122,0,0.85), transparent)',
-                      boxShadow: '0 0 14px rgba(34,211,238,0.35), 0 0 8px rgba(255,122,0,0.2)',
-                    }}
-                    aria-hidden
-                  />
-                </div>
-                <p className="text-sm text-gray-500 mt-3">
-                  <span className="text-gray-400">Today</span>
-                  <span className="text-gray-600">{' · '}</span>
-                  {scheduleDateDisplay}
-                  <span className="text-gray-600">{' · '}</span>
-                  {filteredAppointments.length} stop{filteredAppointments.length !== 1 ? 's' : ''}
-                </p>
-              </div>
-              <Link
-                href="/techdashboard"
-                className="flex flex-shrink-0 items-center gap-1 text-xs text-gray-500 hover:text-cyan-400"
-              >
-                <FaArrowLeft className="text-[10px]" />
-                <span>Dashboard</span>
-              </Link>
-            </div>
-
-            {/*
-             * Date selector (prev / date input / next) — intentionally removed; Mission Queue is today-only.
-             * To restore: useState yyyy-MM-dd, row with ‹ input type="date" › wired to setDate.
-             */}
-
-            {!isTechnician && (
-              <select
-                value={selectedTechId}
-                onChange={(e) => setSelectedTechId(e.target.value)}
-                className="mb-2 w-full rounded-lg px-3 py-2.5 text-sm text-white"
-                style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.1)' }}
-              >
-                <option value="">All Technicians</option>
-                {technicians.map(tech => (
-                  <option key={tech.id} value={tech.id}>{getTechName(tech)}</option>
-                ))}
-              </select>
-            )}
-
-            <input
-              type="text"
-              placeholder="Search by work order #..."
-              value={searchWO}
-              onChange={(e) => setSearchWO(e.target.value)}
-              className="w-full rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-gray-500"
-              style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.1)' }}
+        <div className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+          {/* Tactical background — full column; same pattern as work_orders/test */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+            <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
+            <div
+              className="absolute inset-0 opacity-[0.11]
+                bg-[linear-gradient(rgba(0,217,255,.28)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
+                bg-[size:42px_42px]"
             />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
+            <div
+              className="absolute inset-0 opacity-[0.028]
+                bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
+            />
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
+              style={{ backgroundImage: OPSBOARD_TACTICAL_NOISE_BG }}
+            />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div
+                className="absolute top-0 bottom-0 w-[42%]"
+                style={{
+                  left: '-48%',
+                  background:
+                    'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                  animation: 'opsboard-tactical-scan 6.5s linear infinite',
+                }}
+              />
+            </div>
+            <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-          <div>
-            {isLoading ? (
-              <div className="flex justify-center py-16">
-                <LoadingSpinner />
+          <div className="relative z-10">
+            <div className="sticky z-[1100] mb-4 top-[72px]">
+              <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 sm:pb-5 space-y-4">
+                <div
+                  className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-violet-400/40 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(139,92,246,.38)] ops-queue-titleplate-edge ops-queue-titleplate-scan"
+                >
+                  <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 ops-queue-titleplate-grid" aria-hidden />
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-400/22 to-purple-950/0 opacity-70 pointer-events-none rounded-[inherit]" />
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/22 to-transparent pointer-events-none z-[1]" />
+                  <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-violet-400/35 to-transparent pointer-events-none z-[1]" />
+
+                  <div className="relative z-[2] min-w-0 w-full">
+                    <p className="ops-queue-titleplate-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.22em] md:tracking-[0.32em] text-violet-300 mb-1.5 font-semibold leading-tight">
+                      Live dispatch · today&apos;s stops
+                    </p>
+                    <h1 className="ops-queue-titleplate-orbitron ops-queue-titleplate-title-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
+                      Mission Queue
+                    </h1>
+                    <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-violet-300 to-transparent" />
+                      <span className="ops-queue-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.18em] uppercase">
+                        {scheduleDateDisplay}
+                        <span className="mx-2 text-white/25">/</span>
+                        {filteredAppointments.length} Stop{filteredAppointments.length !== 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/*
+                 * Date selector (prev / date input / next) — intentionally removed; Mission Queue is today-only.
+                 * To restore: useState yyyy-MM-dd, row with ‹ input type="date" › wired to setDate.
+                 */}
+
+                <div className="space-y-2">
+                  {!isTechnician && (
+                    <select
+                      value={selectedTechId}
+                      onChange={(e) => setSelectedTechId(e.target.value)}
+                      className="w-full rounded-lg px-3 py-2.5 text-sm text-white"
+                      style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.1)' }}
+                    >
+                      <option value="">All Technicians</option>
+                      {technicians.map(tech => (
+                        <option key={tech.id} value={tech.id}>{getTechName(tech)}</option>
+                      ))}
+                    </select>
+                  )}
+
+                  <input
+                    type="text"
+                    placeholder="Search by work order #..."
+                    value={searchWO}
+                    onChange={(e) => setSearchWO(e.target.value)}
+                    className="w-full rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-gray-500"
+                    style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.1)' }}
+                  />
+                </div>
               </div>
-            ) : error ? (
-              <div className="py-16 text-center text-red-400">{error}</div>
-            ) : filteredAppointments.length === 0 ? (
-              <div className="py-16 text-center">
-                <FaCalendarAlt className="mx-auto mb-4 h-12 w-12 text-gray-600" />
-                <p className="font-medium text-gray-400">No appointments today</p>
-                <p className="mt-1 text-sm text-gray-600">
-                  {selectedTechId ? 'Try selecting a different technician.' : 'Check back later for appointments.'}
-                </p>
-              </div>
-            ) : (
-              filteredAppointments.map((apt, i) => (
-                <AppointmentCard
-                  key={apt.id || i}
-                  appointment={apt}
-                  railColor={
-                    apt.technician_id
-                      ? techRailMap[String(apt.technician_id)] || NEON_RAILS[0]
-                      : RAIL_FALLBACK
-                  }
-                  onStatusChange={(id, status) => {
-                    setAppointments(prev =>
-                      prev.map(a => a.id === id ? { ...a, status } : a)
-                    );
-                  }}
-                />
-              ))
-            )}
+            </div>
+
+            <div>
+              {isLoading ? (
+                <div className="flex justify-center py-16">
+                  <LoadingSpinner />
+                </div>
+              ) : error ? (
+                <div className="py-16 text-center text-red-400">{error}</div>
+              ) : filteredAppointments.length === 0 ? (
+                <div className="py-16 text-center">
+                  <FaCalendarAlt className="mx-auto mb-4 h-12 w-12 text-gray-600" />
+                  <p className="font-medium text-gray-400">No appointments today</p>
+                  <p className="mt-1 text-sm text-gray-600">
+                    {selectedTechId ? 'Try selecting a different technician.' : 'Check back later for appointments.'}
+                  </p>
+                </div>
+              ) : (
+                filteredAppointments.map((apt, i) => (
+                  <AppointmentCard
+                    key={apt.id || i}
+                    appointment={apt}
+                    railColor={
+                      apt.technician_id
+                        ? techRailMap[String(apt.technician_id)] || NEON_RAILS[0]
+                        : RAIL_FALLBACK
+                    }
+                    onStatusChange={(id, status) => {
+                      setAppointments(prev =>
+                        prev.map(a => a.id === id ? { ...a, status } : a)
+                      );
+                    }}
+                  />
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
