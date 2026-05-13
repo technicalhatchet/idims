@@ -210,7 +210,7 @@ export default function BookService() {
           {/* Logo & Title */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="flex items-center justify-start gap-4 mb-6"
           >
 
