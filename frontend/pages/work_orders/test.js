@@ -10,6 +10,12 @@ import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 
+/** Fractal noise overlay (matches techboard tactical shell) */
+const TACTICAL_NOISE_BG =
+  'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
+
+const WO_TEST_PAGE_BG = '#0A0F1E';
+
 function Card({ wo }) {
   const clientName = wo.client?.company_name || wo.client_name || `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() || 'No client';
   const schedDate = wo.scheduled_start ? format(new Date(wo.scheduled_start.endsWith('Z') ? wo.scheduled_start : wo.scheduled_start + 'Z'), 'MMM d, yyyy h:mm a') : 'Not scheduled';
@@ -62,6 +68,10 @@ export default function WorkOrdersTest() {
       <Head>
         <title>Work Orders Test | IDIMS</title>
         <style>{`
+          @keyframes wo-test-tactical-scan {
+            0% { left: -48%; }
+            100% { left: 115%; }
+          }
           /* Omit z-index; TechDashboard icon rail/header use z-index above Leaflet (~1000) */
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;
@@ -69,8 +79,43 @@ export default function WorkOrdersTest() {
           }
         `}</style>
       </Head>
-      <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
-      <div className="px-4 py-6 max-w-lg mx-auto">
+      <div className="min-h-screen" style={{ background: WO_TEST_PAGE_BG }}>
+      <div className="relative px-4 py-6 max-w-lg mx-auto">
+        {/* Tactical background — same layers as techboard; no extra “card” container */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div className="absolute inset-0" style={{ background: WO_TEST_PAGE_BG }} />
+          <div
+            className="absolute inset-0 opacity-[0.11]
+              bg-[linear-gradient(rgba(0,217,255,.28)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
+              bg-[size:42px_42px]"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
+          <div
+            className="absolute inset-0 opacity-[0.028]
+              bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
+          />
+          <div
+            className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
+            style={{ backgroundImage: TACTICAL_NOISE_BG }}
+          />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+              className="absolute top-0 bottom-0 w-[42%]"
+              style={{
+                left: '-48%',
+                background: 'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                animation: 'wo-test-tactical-scan 6.5s linear infinite',
+              }}
+            />
+          </div>
+          <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
+        </div>
+
+        <div className="relative z-10">
         <div className="mb-4">
           <h1 className="text-xl font-bold text-white">Work Orders <span className="text-xs text-orange-400 ml-2">[TEST]</span></h1>
           <Link href="/work_orders" className="text-xs text-gray-500 hover:text-gray-300">← Real page</Link>
@@ -86,7 +131,7 @@ export default function WorkOrdersTest() {
         </Link>
 
         {/* Filter button */}
-        <button className="relative w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden" style={{ background: '#0A0F1E', border: '1px solid rgba(255,122,0,0.6)', boxShadow: '0 0 8px rgba(255,122,0,0.3)' }}>
+        <button type="button" className="relative w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden" style={{ background: '#0A0F1E', border: '1px solid rgba(255,122,0,0.6)', boxShadow: '0 0 8px rgba(255,122,0,0.3)' }}>
           <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(255,122,0,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(255,122,0,0.08) 0%, transparent 55%)' }} />
           <svg viewBox="0 0 24 24" className="relative z-10 w-4 h-4" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
@@ -163,6 +208,7 @@ export default function WorkOrdersTest() {
               </button>
             </div>
           )}
+        </div>
         </div>
 
       </div>
