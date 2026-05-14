@@ -103,6 +103,8 @@ export default function PartsWaitingPage() {
   const [selectedTechIds, setSelectedTechIds] = useState(() => new Set());
   const [sortBy, setSortBy] = useState('alpha_asc');
   const [search, setSearch] = useState('');
+  /** Admin tech filter: collapsed by default to save vertical space */
+  const [techPanelOpen, setTechPanelOpen] = useState(false);
 
   const userRole = user ? getUserRole(user) : null;
   const isTechnician = userRole === 'technician';
@@ -234,6 +236,14 @@ export default function PartsWaitingPage() {
     technicians.length > 0 &&
     technicians.every((t) => selectedTechIds.has(String(t.id))) &&
     selectedTechIds.has(UNASSIGNED);
+
+  const techFilterSummary = useMemo(() => {
+    const slots = technicians.length + 1;
+    const n = selectedTechIds.size;
+    if (allTechsSelected) return 'Showing all technicians and unassigned';
+    if (n === 0) return 'None selected — list will be empty';
+    return `Filtering · ${n} of ${slots} selected`;
+  }, [technicians.length, selectedTechIds, allTechsSelected]);
 
   return (
     <>
@@ -408,62 +418,98 @@ export default function PartsWaitingPage() {
                 className="rounded-lg p-3 mb-3"
                 style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
-                    Technicians
-                  </span>
-                  <div className="flex gap-2">
+                <div className="flex items-start justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setTechPanelOpen((o) => !o)}
+                    className="min-w-0 flex-1 text-left rounded-md -m-1 p-1 hover:bg-white/[0.04] focus:outline-none focus-visible:ring-1 focus-visible:ring-orange-400/40"
+                    aria-expanded={techPanelOpen}
+                  >
+                    <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
+                      Technicians
+                    </span>
+                    <p className="text-[11px] text-gray-500 mt-0.5 leading-snug pr-1">
+                      {techFilterSummary}
+                    </p>
+                  </button>
+                  <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
                     <button
                       type="button"
                       onClick={selectAllTechs}
-                      className="text-[11px] text-orange-400/90 hover:text-orange-300"
+                      className="text-[11px] text-orange-400/90 hover:text-orange-300 px-1 py-0.5 rounded"
                     >
                       All
                     </button>
                     <button
                       type="button"
                       onClick={clearTechs}
-                      className="text-[11px] text-gray-500 hover:text-gray-400"
+                      className="text-[11px] text-gray-500 hover:text-gray-400 px-1 py-0.5 rounded"
                     >
                       Clear
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setTechPanelOpen((o) => !o)}
+                      className="p-1 rounded text-gray-400 hover:text-gray-300 hover:bg-white/[0.06] focus:outline-none focus-visible:ring-1 focus-visible:ring-orange-400/40"
+                      aria-label={techPanelOpen ? 'Collapse technician list' : 'Expand technician list'}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        className={`h-4 w-4 transition-transform duration-200 ${techPanelOpen ? 'rotate-180' : ''}`}
+                        style={{
+                          stroke: 'currentColor',
+                          strokeWidth: 2,
+                          fill: 'none',
+                          strokeLinecap: 'round',
+                          strokeLinejoin: 'round',
+                        }}
+                        aria-hidden
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
-                <div className="max-h-36 overflow-y-auto space-y-1.5 pr-1">
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={selectedTechIds.has(UNASSIGNED)}
-                      onChange={() => toggleTech(UNASSIGNED)}
-                      className="rounded border-white/20 bg-[#0D1525] text-orange-500 focus:ring-orange-500/40"
-                    />
-                    <span>Unassigned</span>
-                  </label>
-                  {technicians.map((t) => {
-                    const id = String(t.id);
-                    const name =
-                      [t.user?.first_name, t.user?.last_name].filter(Boolean).join(' ') ||
-                      (t.employee_id ? `Tech (${t.employee_id})` : 'Technician');
-                    return (
-                      <label
-                        key={id}
-                        className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer"
-                      >
+                {techPanelOpen && (
+                  <>
+                    <div className="max-h-36 overflow-y-auto space-y-1.5 pr-1 mt-3 pt-3 border-t border-white/[0.06]">
+                      <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={selectedTechIds.has(id)}
-                          onChange={() => toggleTech(id)}
+                          checked={selectedTechIds.has(UNASSIGNED)}
+                          onChange={() => toggleTech(UNASSIGNED)}
                           className="rounded border-white/20 bg-[#0D1525] text-orange-500 focus:ring-orange-500/40"
                         />
-                        <span className="truncate">{name}</span>
+                        <span>Unassigned</span>
                       </label>
-                    );
-                  })}
-                </div>
-                {!allTechsSelected && selectedTechIds.size > 0 && (
-                  <p className="text-[10px] text-gray-600 mt-2">
-                    Showing only selected technicians{selectedTechIds.has(UNASSIGNED) ? ' (and unassigned)' : ''}.
-                  </p>
+                      {technicians.map((t) => {
+                        const id = String(t.id);
+                        const name =
+                          [t.user?.first_name, t.user?.last_name].filter(Boolean).join(' ') ||
+                          (t.employee_id ? `Tech (${t.employee_id})` : 'Technician');
+                        return (
+                          <label
+                            key={id}
+                            className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedTechIds.has(id)}
+                              onChange={() => toggleTech(id)}
+                              className="rounded border-white/20 bg-[#0D1525] text-orange-500 focus:ring-orange-500/40"
+                            />
+                            <span className="truncate">{name}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                    {!allTechsSelected && selectedTechIds.size > 0 && (
+                      <p className="text-[10px] text-gray-600 mt-2">
+                        Showing only selected technicians
+                        {selectedTechIds.has(UNASSIGNED) ? ' (and unassigned)' : ''}.
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             )}
@@ -477,12 +523,12 @@ export default function PartsWaitingPage() {
                     : ''}
                 </span>
                 <div className="flex items-center gap-1.5 flex-wrap justify-end sm:justify-start">
-                  <span className="text-xs font-medium text-orange-400/70">Sort:</span>
+                  <span className="text-xs font-medium text-orange-400/95">Sort:</span>
                   <div className="relative min-w-0 max-w-[min(18rem,100%)]">
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="mass-select w-full max-w-[14rem] cursor-pointer rounded-lg border border-orange-400/25 py-1 pl-0 pr-8 text-xs font-medium text-orange-400/95 outline-none focus:ring-1 focus:ring-orange-400/35"
+                      className="mass-select w-full max-w-[14rem] cursor-pointer rounded-lg border border-orange-400/25 py-1 pl-2.5 pr-8 text-xs font-medium text-orange-400/95 outline-none focus:ring-1 focus:ring-orange-400/35"
                       style={{
                         backgroundColor: 'transparent',
                         WebkitAppearance: 'none',
