@@ -1,72 +1,282 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { format } from 'date-fns';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import {
+  format,
+  startOfDay,
+  isBefore,
+  parseISO,
+  differenceInCalendarDays,
+} from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
-/* Old nav / layout — keep for quick reactivation:
-import DashboardLayout from '../../components/layouts/DashboardLayout';
-*/
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
+import { apiClient } from '../../utils/api-client';
+import { getUserRole } from '../../utils/auth0-helpers';
 
 /** Fractal noise overlay (matches techboard tactical shell) */
 const TACTICAL_NOISE_BG =
   'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
 
-const WO_TEST_PAGE_BG = '#0A0F1E';
+const PAGE_BG = '#0A0F1E';
+const FETCH_LIMIT = 500;
+const UNASSIGNED = '__unassigned__';
+
+/** Work orders considered finished for this queue */
+const TERMINAL_STATUSES = new Set(['completed']);
+
+function parseScheduled(wo) {
+  if (!wo.scheduled_start) return null;
+  const s = String(wo.scheduled_start).trim();
+  if (!s) return null;
+  const hasZone = s.endsWith('Z') || /[+-]\d{2}:?\d{2}$/.test(s);
+  const d = parseISO(hasZone ? s : `${s}Z`);
+  return d && !Number.isNaN(d.getTime()) ? d : null;
+}
+
+/** Strictly before today's calendar date (local) — “the next day” after the booked day */
+function isScheduledOnPriorDay(wo) {
+  const d = parseScheduled(wo);
+  if (!d) return false;
+  return isBefore(startOfDay(d), startOfDay(new Date()));
+}
+
+function clientLabel(wo) {
+  return (
+    wo.client?.company_name ||
+    wo.client_name ||
+    `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() ||
+    'No client'
+  );
+}
+
+function daysOverdue(wo) {
+  const d = parseScheduled(wo);
+  if (!d) return 0;
+  return Math.max(0, differenceInCalendarDays(startOfDay(new Date()), startOfDay(d)));
+}
+
+function techIdKey(wo) {
+  if (wo.assigned_technician_id) return String(wo.assigned_technician_id);
+  return UNASSIGNED;
+}
 
 function Card({ wo }) {
-  const clientName = wo.client?.company_name || wo.client_name || `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() || 'No client';
-  const schedDate = wo.scheduled_start ? format(new Date(wo.scheduled_start.endsWith('Z') ? wo.scheduled_start : wo.scheduled_start + 'Z'), 'MMM d, yyyy h:mm a') : 'Not scheduled';
-  const equipLabel = [wo.equipment_make, wo.equipment_model].filter(Boolean).join(' ') || (wo.equipment_type || '').replace(/_/g, ' ') || 'Unknown appliance';
+  const schedDate = wo.scheduled_start
+    ? format(
+        new Date(
+          wo.scheduled_start.endsWith('Z') || /[+-]\d{2}/.test(String(wo.scheduled_start))
+            ? wo.scheduled_start
+            : `${wo.scheduled_start}Z`
+        ),
+        'MMM d, yyyy h:mm a'
+      )
+    : 'Not scheduled';
+  const equipLabel =
+    [wo.equipment_make, wo.equipment_model].filter(Boolean).join(' ') ||
+    (wo.equipment_type || '').replace(/_/g, ' ') ||
+    'Unknown appliance';
+  const overdue = daysOverdue(wo);
 
   return (
-    <Link href={`/work_orders/${wo.id}`} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
-      <div className="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style={{ background: '#000000', border: '1px solid rgba(255,255,255,0.1)' }}>
+    <Link
+      href={`/work_orders/${wo.id}`}
+      className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-orange-500/35 transition-all"
+    >
+      <div
+        className="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center"
+        style={{ background: '#000000', border: '1px solid rgba(255,255,255,0.1)' }}
+      >
         <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-0.5">
-          <span className="text-sm font-bold text-cyan-400">{wo.order_number}</span>
+        <div className="flex justify-between items-start mb-0.5 gap-2">
+          <span className="text-sm font-bold text-orange-300/95">{wo.order_number}</span>
           <StatusBadge status={wo.status} />
         </div>
-        <p className="text-sm font-medium text-white truncate">{clientName}</p>
+        <p className="text-sm font-medium text-white truncate">{clientLabel(wo)}</p>
         <p className="text-xs text-gray-400 truncate">{equipLabel}</p>
-        <p className="text-xs text-gray-500 mt-0.5">{schedDate}</p>
-        {wo.description && <p className="text-xs text-gray-500 truncate mt-0.5">{wo.description}</p>}
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
+          <p className="text-xs text-gray-500">{schedDate}</p>
+          {overdue > 0 && (
+            <span className="text-[10px] uppercase tracking-wide text-orange-400/90 font-medium">
+              +{overdue} day{overdue !== 1 ? 's' : ''} past visit date
+            </span>
+          )}
+        </div>
+        {wo.description && (
+          <p className="text-xs text-gray-500 truncate mt-0.5">{wo.description}</p>
+        )}
       </div>
       <div className="flex-shrink-0 text-gray-600 text-xl">›</div>
     </Link>
   );
 }
 
-export default function WorkOrdersTest() {
-  const { data, isLoading, error } = useWorkOrders({ page: 1, limit: 100 });
-  const [sortBy, setSortBy] = useState('newest');
-  const [page, setPage] = useState(1);
-  const PER_PAGE = 5;
+export default function CriticalMassPage() {
+  const { user, isLoading: authLoading } = useUser();
+  const [technicians, setTechnicians] = useState([]);
+  const [selectedTechIds, setSelectedTechIds] = useState(() => new Set());
+  const [sortBy, setSortBy] = useState('appt_oldest');
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [minDaysPast, setMinDaysPast] = useState(0);
 
-  const sorted = [...(data?.items || [])].sort((a, b) => {
-    if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
-    if (sortBy === 'oldest') return new Date(a.created_at || 0) - new Date(b.created_at || 0);
-    if (sortBy === 'status') return (a.status || '').localeCompare(b.status || '');
-    return 0;
+  const userRole = user ? getUserRole(user) : null;
+  const isTechnician = userRole === 'technician';
+  const [myTechId, setMyTechId] = useState('');
+
+  useEffect(() => {
+    if (!isTechnician || !user) return;
+    const load = async () => {
+      try {
+        const res = await apiClient('technicians');
+        const techs = res?.items || [];
+        const mine = techs.find(
+          (t) => t.user?.email === user.email || t.user_email === user.email
+        );
+        if (mine) setMyTechId(String(mine.id));
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    load();
+  }, [isTechnician, user]);
+
+  useEffect(() => {
+    if (isTechnician) return;
+    const load = async () => {
+      try {
+        const res = await apiClient('technicians');
+        setTechnicians(res?.items || []);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    load();
+  }, [isTechnician]);
+
+  useEffect(() => {
+    if (isTechnician || technicians.length === 0) return;
+    setSelectedTechIds(new Set([...technicians.map((t) => String(t.id)), UNASSIGNED]));
+  }, [isTechnician, technicians]);
+
+  const listParams = useMemo(() => {
+    const base = { page: 1, limit: FETCH_LIMIT };
+    if (isTechnician && myTechId) return { ...base, technician_id: myTechId };
+    return base;
+  }, [isTechnician, myTechId]);
+
+  const { data, isLoading, error } = useWorkOrders(listParams, {
+    enabled: !authLoading && (!isTechnician || !!myTechId),
   });
 
-  const totalPages = Math.ceil(sorted.length / PER_PAGE);
-  const paginated = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
-  const count = data?.total || sorted.length;
+  const criticalRaw = useMemo(() => {
+    const items = data?.items || [];
+    return items.filter((wo) => {
+      if (TERMINAL_STATUSES.has(wo.status)) return false;
+      return isScheduledOnPriorDay(wo);
+    });
+  }, [data]);
 
-  const handleSort = (val) => {
-    setSortBy(val);
-    setPage(1);
+  const filteredSorted = useMemo(() => {
+    let rows = criticalRaw;
+
+    if (!isTechnician && technicians.length > 0) {
+      rows = rows.filter((wo) => selectedTechIds.has(techIdKey(wo)));
+    }
+
+    if (statusFilter) {
+      rows = rows.filter((wo) => wo.status === statusFilter);
+    }
+
+    if (minDaysPast > 0) {
+      rows = rows.filter((wo) => daysOverdue(wo) >= minDaysPast);
+    }
+
+    const q = search.trim().toLowerCase();
+    if (q) {
+      rows = rows.filter((wo) => {
+        const blob = [
+          wo.order_number,
+          clientLabel(wo),
+          wo.description,
+          wo.equipment_type,
+          wo.equipment_make,
+          wo.equipment_model,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        return blob.includes(q);
+      });
+    }
+
+    const out = [...rows];
+    out.sort((a, b) => {
+      const ca = clientLabel(a).toLowerCase();
+      const cb = clientLabel(b).toLowerCase();
+      const sa = parseScheduled(a)?.getTime() ?? 0;
+      const sb = parseScheduled(b)?.getTime() ?? 0;
+      const cra = new Date(a.created_at || 0).getTime();
+      const crb = new Date(b.created_at || 0).getTime();
+
+      switch (sortBy) {
+        case 'order_newest':
+          return crb - cra;
+        case 'order_oldest':
+          return cra - crb;
+        case 'appt_newest':
+          return sb - sa;
+        case 'appt_oldest':
+          return sa - sb;
+        case 'alpha_asc':
+          return ca.localeCompare(cb);
+        case 'alpha_desc':
+          return cb.localeCompare(ca);
+        default:
+          return sa - sb;
+      }
+    });
+    return out;
+  }, [
+    criticalRaw,
+    isTechnician,
+    selectedTechIds,
+    statusFilter,
+    minDaysPast,
+    search,
+    sortBy,
+  ]);
+
+  const toggleTech = (id) => {
+    setSelectedTechIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
+
+  const selectAllTechs = () => {
+    setSelectedTechIds(new Set([...technicians.map((t) => String(t.id)), UNASSIGNED]));
+  };
+
+  const clearTechs = () => {
+    setSelectedTechIds(new Set());
+  };
+
+  const allTechsSelected =
+    technicians.length > 0 &&
+    technicians.every((t) => selectedTechIds.has(String(t.id))) &&
+    selectedTechIds.has(UNASSIGNED);
 
   return (
     <>
       <Head>
-        <title>Master OPS List | IDIMS</title>
+        <title>Critical Mass | IDIMS</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -74,11 +284,10 @@ export default function WorkOrdersTest() {
           rel="stylesheet"
         />
         <style>{`
-          @keyframes wo-test-tactical-scan {
+          @keyframes wo-mass-tactical-scan {
             0% { left: -48%; }
             100% { left: 115%; }
           }
-          /* Ops titleplate — orange chroma (was cyan in schedule-test) */
           .sched-tactical-grid-bg {
             background-image:
               linear-gradient(rgba(255,122,0,.07) 1px, transparent 1px),
@@ -135,209 +344,371 @@ export default function WorkOrdersTest() {
           @keyframes sched-hud-scan {
             100% { left: 120%; }
           }
-          /* Omit z-index; TechDashboard icon rail/header use z-index above Leaflet (~1000) */
+          /* Native <select>: kill default opaque fill (incl. Chrome/Win) — custom chevron only */
+          .mass-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: rgba(0, 0, 0, 0) !important;
+            background-image: none !important;
+            box-shadow: none !important;
+          }
+          .mass-select:hover,
+          .mass-select:focus,
+          .mass-select:focus-visible,
+          .mass-select:active {
+            background-color: rgba(0, 0, 0, 0) !important;
+            background-image: none !important;
+            box-shadow: none !important;
+          }
+          .mass-select::-ms-expand {
+            display: none;
+          }
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;
             border-bottom: 1px solid rgba(255,255,255,0.07) !important;
           }
         `}</style>
       </Head>
-      <div className="min-h-screen" style={{ background: WO_TEST_PAGE_BG }}>
-      <div className="relative px-4 py-6 max-w-lg mx-auto">
-        {/* Tactical background — same layers as techboard; no extra “card” container */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div className="absolute inset-0" style={{ background: WO_TEST_PAGE_BG }} />
-          <div
-            className="absolute inset-0 opacity-[0.11]
+      <div className="min-h-screen" style={{ background: PAGE_BG }}>
+        <div className="relative px-4 py-6 max-w-lg mx-auto">
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+            <div className="absolute inset-0" style={{ background: PAGE_BG }} />
+            <div
+              className="absolute inset-0 opacity-[0.11]
               bg-[linear-gradient(rgba(0,217,255,.28)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
               bg-[size:42px_42px]"
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
-          <div
-            className="absolute inset-0 opacity-[0.028]
-              bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
-          />
-          <div
-            className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{ backgroundImage: TACTICAL_NOISE_BG }}
-          />
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div
-              className="absolute top-0 bottom-0 w-[42%]"
-              style={{
-                left: '-48%',
-                background: 'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
-                animation: 'wo-test-tactical-scan 6.5s linear infinite',
-              }}
             />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
+            <div
+              className="absolute inset-0 opacity-[0.028]
+              bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
+            />
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
+              style={{ backgroundImage: TACTICAL_NOISE_BG }}
+            />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div
+                className="absolute top-0 bottom-0 w-[42%]"
+                style={{
+                  left: '-48%',
+                  background:
+                    'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                  animation: 'wo-mass-tactical-scan 6.5s linear infinite',
+                }}
+              />
+            </div>
+            <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
-          <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
-        </div>
 
-        <div className="relative z-10">
-        {/* Page header — same titleplate pattern as schedule-test “Ops Board” */}
-        <div className="relative mb-4">
-          <div
-            className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.32)] sched-neon-edge sched-hud-scan"
-          >
-            <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 sched-tactical-grid-bg" aria-hidden />
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-orange-600/0 opacity-60 pointer-events-none rounded-[inherit]" />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
-            <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-orange-400/25 to-transparent pointer-events-none z-[1]" />
+          <div className="relative z-10">
+            <div className="relative mb-4">
+              <div
+                className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.32)] sched-neon-edge sched-hud-scan"
+              >
+                <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 sched-tactical-grid-bg" aria-hidden />
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-orange-600/0 opacity-60 pointer-events-none rounded-[inherit]" />
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
+                <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-orange-400/25 to-transparent pointer-events-none z-[1]" />
 
-            <div className="relative z-[2] min-w-0">
-              <p className="sched-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.22em] md:tracking-[0.32em] text-orange-300 mb-1.5 font-semibold leading-tight">
-                Mobile Initialization
-              </p>
-              <h1 className="sched-hud-orbitron sched-hud-orbitron-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
-                Master OPS List
-              </h1>
-              <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
-                <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-orange-300 to-transparent" />
-                <span className="sched-hud-orbitron text-white/40 text-[9px] md:text-[10px] tracking-[0.14em] md:tracking-[0.22em] uppercase">
-                  Online
+                <div className="relative z-[2] min-w-0">
+                  <p className="sched-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.28em] text-orange-300/95 mb-1.5 font-semibold leading-tight">
+                    Overdue · still open · CLEAN IT UP!
+                  </p>
+                  <h1 className="sched-hud-orbitron sched-hud-orbitron-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
+                    Critical Mass
+                  </h1>
+                  <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
+                    <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-orange-300 to-transparent" />
+                    <span className="sched-hud-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase">
+                      Online
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+{/*
+            <Link
+              href="/work_orders/test"
+              className="inline-flex items-center gap-1 mb-4 text-xs text-gray-500 hover:text-gray-300"
+            >
+              ← Master OPS list
+            </Link>
+*/}
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search order #, client, notes…"
+              className="w-full rounded-lg px-3 py-2.5 mb-3 text-sm text-white placeholder:text-gray-500 outline-none focus:ring-1 focus:ring-orange-400/45 bg-[rgba(13,21,37,0.25)]"
+              style={{ border: '1px solid rgba(255,255,255,0.12)' }}
+            />
+
+            {!isTechnician && technicians.length > 0 && (
+              <div
+                className="rounded-lg p-3 mb-3"
+                style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
+                    Technicians
+                  </span>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={selectAllTechs}
+                      className="text-[11px] text-orange-400/90 hover:text-orange-300"
+                    >
+                      All
+                    </button>
+                    <button
+                      type="button"
+                      onClick={clearTechs}
+                      className="text-[11px] text-gray-500 hover:text-gray-400"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+                <div className="max-h-36 overflow-y-auto space-y-1.5 pr-1">
+                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedTechIds.has(UNASSIGNED)}
+                      onChange={() => toggleTech(UNASSIGNED)}
+                      className="rounded border-white/20 bg-[#0D1525] text-orange-500 focus:ring-orange-500/40"
+                    />
+                    <span>Unassigned</span>
+                  </label>
+                  {technicians.map((t) => {
+                    const id = String(t.id);
+                    const name =
+                      [t.user?.first_name, t.user?.last_name].filter(Boolean).join(' ') ||
+                      (t.employee_id ? `Tech (${t.employee_id})` : 'Technician');
+                    return (
+                      <label
+                        key={id}
+                        className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedTechIds.has(id)}
+                          onChange={() => toggleTech(id)}
+                          className="rounded border-white/20 bg-[#0D1525] text-orange-500 focus:ring-orange-500/40"
+                        />
+                        <span className="truncate">{name}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+                {!allTechsSelected && selectedTechIds.size > 0 && (
+                  <p className="text-[10px] text-gray-600 mt-2">
+                    Showing only selected technicians{selectedTechIds.has(UNASSIGNED) ? ' (and unassigned)' : ''}.
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <div>
+                <label className="block text-[10px] uppercase tracking-wide text-orange-400/70 mb-1">
+                  Status
+                </label>
+                <div className="relative">
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="mass-select w-full cursor-pointer rounded-lg border border-orange-400/25 py-2 pl-2 pr-8 text-xs font-medium text-orange-400/95 outline-none focus:ring-1 focus:ring-orange-400/35"
+                    style={{
+                      backgroundColor: 'transparent',
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'none',
+                    }}
+                  >
+                    <option value="" className="bg-[#111827] text-white">
+                      Any open
+                    </option>
+                    <option value="pending" className="bg-[#111827] text-white">
+                      Pending
+                    </option>
+                    <option value="scheduled" className="bg-[#111827] text-white">
+                      Scheduled
+                    </option>
+                    <option value="en_route" className="bg-[#111827] text-white">
+                      En route
+                    </option>
+                    <option value="in_progress" className="bg-[#111827] text-white">
+                      In progress
+                    </option>
+                    <option value="waiting_on_parts" className="bg-[#111827] text-white">
+                      Waiting on parts
+                    </option>
+                    <option value="on_hold" className="bg-[#111827] text-white">
+                      On hold
+                    </option>
+                    <option
+                      value="completed_pending_payment"
+                      className="bg-[#111827] text-white"
+                    >
+                      Done — payment
+                    </option>
+                  </select>
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2"
+                    style={{
+                      stroke: '#fb923c',
+                      strokeWidth: 2.5,
+                      fill: 'none',
+                      strokeLinecap: 'round',
+                      strokeLinejoin: 'round',
+                    }}
+                    aria-hidden
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-wide text-orange-400/70 mb-1">
+                  Min days past visit
+                </label>
+                <div className="relative">
+                  <select
+                    value={minDaysPast}
+                    onChange={(e) => setMinDaysPast(Number(e.target.value))}
+                    className="mass-select w-full cursor-pointer rounded-lg border border-orange-400/25 py-2 pl-2 pr-8 text-xs font-medium text-orange-400/95 outline-none focus:ring-1 focus:ring-orange-400/35"
+                    style={{
+                      backgroundColor: 'transparent',
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'none',
+                    }}
+                  >
+                    <option value={0} className="bg-[#111827] text-white">
+                      Any
+                    </option>
+                    <option value={1} className="bg-[#111827] text-white">
+                      1+
+                    </option>
+                    <option value={3} className="bg-[#111827] text-white">
+                      3+
+                    </option>
+                    <option value={7} className="bg-[#111827] text-white">
+                      7+
+                    </option>
+                    <option value={14} className="bg-[#111827] text-white">
+                      14+
+                    </option>
+                  </select>
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2"
+                    style={{
+                      stroke: '#fb923c',
+                      strokeWidth: 2.5,
+                      fill: 'none',
+                      strokeLinecap: 'round',
+                      strokeLinejoin: 'round',
+                    }}
+                    aria-hidden
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center mb-3 px-1">
+                <span className="text-sm font-medium text-gray-300">
+                  {filteredSorted.length} overdue
+                  {criticalRaw.length !== filteredSorted.length
+                    ? ` (${criticalRaw.length} before filters)`
+                    : ''}
                 </span>
+                <div className="flex items-center gap-1.5 flex-wrap justify-end sm:justify-start">
+                  <span className="text-xs font-medium text-orange-400/70">Sort:</span>
+                  <div className="relative min-w-0 max-w-[min(18rem,100%)]">
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="mass-select w-full max-w-[14rem] cursor-pointer rounded-lg border border-orange-400/25 py-1 pl-0 pr-8 text-xs font-medium text-orange-400/95 outline-none focus:ring-1 focus:ring-orange-400/35"
+                      style={{
+                        backgroundColor: 'transparent',
+                        WebkitAppearance: 'none',
+                        MozAppearance: 'none',
+                      }}
+                    >
+                      <option value="appt_oldest" className="bg-[#111827] text-white">
+                        Visit date (oldest first)
+                      </option>
+                      <option value="appt_newest" className="bg-[#111827] text-white">
+                        Visit date (newest first)
+                      </option>
+                      <option value="order_oldest" className="bg-[#111827] text-white">
+                        Order age (oldest first)
+                      </option>
+                      <option value="order_newest" className="bg-[#111827] text-white">
+                        Order age (newest first)
+                      </option>
+                      <option value="alpha_asc" className="bg-[#111827] text-white">
+                        Client A–Z
+                      </option>
+                      <option value="alpha_desc" className="bg-[#111827] text-white">
+                        Client Z–A
+                      </option>
+                    </select>
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="pointer-events-none absolute right-1 top-1/2 h-3 w-3 -translate-y-1/2"
+                      style={{
+                        stroke: '#fb923c',
+                        strokeWidth: 2.5,
+                        fill: 'none',
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                      }}
+                      aria-hidden
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {isTechnician && !myTechId && !authLoading && (
+                <p className="text-gray-500 text-sm px-1 py-4 text-center">Linking your technician…</p>
+              )}
+
+              {isLoading && <p className="text-gray-400 text-sm px-1">Loading…</p>}
+              {error && <p className="text-red-400 text-sm px-1">Could not load work orders.</p>}
+
+              {!isLoading &&
+                !error &&
+                (isTechnician ? myTechId : true) &&
+                filteredSorted.length === 0 && (
+                  <p className="text-gray-500 text-sm px-1 py-4 text-center">
+                    No overdue open orders match these filters.
+                  </p>
+                )}
+
+              <div className="space-y-2">
+                {filteredSorted.map((wo) => (
+                  <Card key={wo.id} wo={wo} />
+                ))}
               </div>
             </div>
           </div>
         </div>
-        <Link href="/work_orders" className="inline-flex items-center gap-1 mb-4 text-xs text-gray-500 hover:text-gray-300">
-          ← Real page
-        </Link>
-
-        {/* New Work Order button */}
-        <Link href="/work_orders/new" className="relative block w-full py-3 mb-3 rounded-lg font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
-          <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(0,212,255,0.08) 0%, transparent 55%)' }} />
-          <span className="relative z-10 flex items-center justify-center gap-2" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6), 0 0 20px rgba(0,212,255,0.3)' }}>
-            <svg viewBox="0 0 24 24" className="w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 6px rgba(0,212,255,0.9)) drop-shadow(0 0 12px rgba(0,212,255,0.5))' }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            New Work Order
-          </span>
-        </Link>
-
-        {/* Filter button — same glow system as New Work Order, orange chroma */}
-        <button
-          type="button"
-          className="relative w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white bg-[#0D1525] border border-orange-400/60 shadow-[0_0_8px_rgba(255,122,0,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden"
-        >
-          <div
-            className="absolute inset-0 rounded-lg"
-            style={{
-              background:
-                'radial-gradient(ellipse at 0% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(255,122,0,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(255,122,0,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(255,122,0,0.08) 0%, transparent 55%)',
-            }}
-          />
-          <svg
-            viewBox="0 0 24 24"
-            className="relative z-10 w-4 h-4"
-            style={{
-              stroke: '#fdba74',
-              strokeWidth: 1.75,
-              fill: 'none',
-              strokeLinecap: 'round',
-              strokeLinejoin: 'round',
-              filter: 'drop-shadow(0 0 6px rgba(255,122,0,0.9)) drop-shadow(0 0 12px rgba(255,122,0,0.5))',
-            }}
-          >
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-          </svg>
-          <span
-            className="relative z-10"
-            style={{
-              textShadow: '0 0 8px rgba(255,122,0,0.6), 0 0 20px rgba(255,122,0,0.3)',
-            }}
-          >
-            Filters
-          </span>
-        </button>
-
-        {/* Cards container */}
-        <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
-          {/* Container header */}
-          <div className="flex justify-between items-center mb-3 px-1">
-            <span className="text-sm font-medium text-gray-300">{count} Work Orders</span>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs text-gray-500">Sort:</span>
-              <select
-                value={sortBy}
-                onChange={e => handleSort(e.target.value)}
-                className="text-xs font-medium text-cyan-400 bg-transparent border-none outline-none cursor-pointer"
-              >
-                <option value="newest" className="bg-gray-900 text-white">Date (Newest)</option>
-                <option value="oldest" className="bg-gray-900 text-white">Date (Oldest)</option>
-                <option value="status" className="bg-gray-900 text-white">Status</option>
-              </select>
-              <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: '#22D3EE', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-
-          {isLoading && <p className="text-gray-400 text-sm px-1">Loading...</p>}
-          {error && <p className="text-red-400 text-sm px-1">Error loading</p>}
-
-          {!isLoading && !error && sorted.length === 0 && (
-            <p className="text-gray-500 text-sm px-1 py-4 text-center">No work orders yet.</p>
-          )}
-
-          <div className="space-y-2">
-            {paginated.map(wo => <Card key={wo.id} wo={wo} />)}
-          </div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-white/5">
-              <button
-                onClick={() => setPage(p => Math.max(1, p - 1))}
-                disabled={page === 1}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 disabled:opacity-30 transition-all"
-                style={{ background: '#0A0F1E' }}
-              >
-                <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <polyline points="15 18 9 12 15 6"/>
-                </svg>
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
-                <button
-                  key={n}
-                  onClick={() => setPage(n)}
-                  className="w-8 h-8 rounded-lg text-xs font-medium transition-all"
-                  style={{ background: page === n ? '#0D1525' : '#0A0F1E',
-                    color: page === n ? '#22D3EE' : '#6B7280',
-                    border: page === n ? '1px solid rgba(34,211,238,0.5)' : '1px solid rgba(255,255,255,0.05)'
-                  }}
-                >
-                  {n}
-                </button>
-              ))}
-
-              <button
-                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                disabled={page === totalPages}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 disabled:opacity-30 transition-all"
-                style={{ background: '#0A0F1E' }}
-              >
-                <svg viewBox="0 0 24 24" className="w-4 h-4" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <polyline points="9 18 15 12 9 6"/>
-                </svg>
-              </button>
-            </div>
-          )}
-        </div>
-        </div>
-
-      </div>
       </div>
     </>
   );
 }
 
-WorkOrdersTest.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
-
-/* Previously: standard dashboard nav + sidebar
-WorkOrdersTest.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
-*/
+CriticalMassPage.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
