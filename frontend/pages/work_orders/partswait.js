@@ -2,13 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import {
-  format,
-  startOfDay,
-  isBefore,
-  parseISO,
-  differenceInCalendarDays,
-} from 'date-fns';
+import { format } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
@@ -24,23 +18,25 @@ const PAGE_BG = '#0A0F1E';
 const FETCH_LIMIT = 500;
 const UNASSIGNED = '__unassigned__';
 
-/** Work orders considered finished for this queue */
-const TERMINAL_STATUSES = new Set(['completed']);
+/** Same work-order statuses as techboard Parts Waiting stat (+ parts lines). */
+const WO_PARTS_HOLD_STATUSES = new Set(['waiting_on_parts', 'parts_on_order']);
 
-function parseScheduled(wo) {
-  if (!wo.scheduled_start) return null;
-  const s = String(wo.scheduled_start).trim();
-  if (!s) return null;
-  const hasZone = s.endsWith('Z') || /[+-]\d{2}:?\d{2}$/.test(s);
-  const d = parseISO(hasZone ? s : `${s}Z`);
-  return d && !Number.isNaN(d.getTime()) ? d : null;
+function normalizeWorkOrderStatus(status) {
+  return String(status || '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '_');
 }
 
-/** Strictly before today's calendar date (local) — “the next day” after the booked day */
-function isScheduledOnPriorDay(wo) {
-  const d = parseScheduled(wo);
-  if (!d) return false;
-  return isBefore(startOfDay(d), startOfDay(new Date()));
+/** Matches `partsWaiting` on /techboard: WO status holds, or nested parts ordered/needed. */
+function matchesPartsWaitingStatCriteria(wo) {
+  const st = normalizeWorkOrderStatus(wo.status);
+  if (st === 'completed') return false;
+  if (WO_PARTS_HOLD_STATUSES.has(st)) return true;
+  return (
+    Array.isArray(wo.parts) &&
+    wo.parts.some((p) => ['ordered', 'needed'].includes(p.status))
+  );
 }
 
 function clientLabel(wo) {
@@ -50,12 +46,6 @@ function clientLabel(wo) {
     `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() ||
     'No client'
   );
-}
-
-function daysOverdue(wo) {
-  const d = parseScheduled(wo);
-  if (!d) return 0;
-  return Math.max(0, differenceInCalendarDays(startOfDay(new Date()), startOfDay(d)));
 }
 
 function techIdKey(wo) {
@@ -78,7 +68,6 @@ function Card({ wo }) {
     [wo.equipment_make, wo.equipment_model].filter(Boolean).join(' ') ||
     (wo.equipment_type || '').replace(/_/g, ' ') ||
     'Unknown appliance';
-  const overdue = daysOverdue(wo);
 
   return (
     <Link
@@ -98,14 +87,7 @@ function Card({ wo }) {
         </div>
         <p className="text-sm font-medium text-white truncate">{clientLabel(wo)}</p>
         <p className="text-xs text-gray-400 truncate">{equipLabel}</p>
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
-          <p className="text-xs text-gray-500">{schedDate}</p>
-          {overdue > 0 && (
-            <span className="text-[10px] uppercase tracking-wide text-orange-400/90 font-medium">
-              +{overdue} day{overdue !== 1 ? 's' : ''} past visit date
-            </span>
-          )}
-        </div>
+        <p className="text-xs text-gray-500 mt-0.5">{schedDate}</p>
         {wo.description && (
           <p className="text-xs text-gray-500 truncate mt-0.5">{wo.description}</p>
         )}
@@ -115,14 +97,12 @@ function Card({ wo }) {
   );
 }
 
-export default function CriticalMassPage() {
+export default function PartsWaitingPage() {
   const { user, isLoading: authLoading } = useUser();
   const [technicians, setTechnicians] = useState([]);
   const [selectedTechIds, setSelectedTechIds] = useState(() => new Set());
-  const [sortBy, setSortBy] = useState('appt_oldest');
+  const [sortBy, setSortBy] = useState('alpha_asc');
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [minDaysPast, setMinDaysPast] = useState(0);
 
   const userRole = user ? getUserRole(user) : null;
   const isTechnician = userRole === 'technician';
@@ -173,27 +153,16 @@ export default function CriticalMassPage() {
     enabled: !authLoading && (!isTechnician || !!myTechId),
   });
 
-  const criticalRaw = useMemo(() => {
+  const partsHoldRaw = useMemo(() => {
     const items = data?.items || [];
-    return items.filter((wo) => {
-      if (TERMINAL_STATUSES.has(wo.status)) return false;
-      return isScheduledOnPriorDay(wo);
-    });
+    return items.filter((wo) => matchesPartsWaitingStatCriteria(wo));
   }, [data]);
 
   const filteredSorted = useMemo(() => {
-    let rows = criticalRaw;
+    let rows = partsHoldRaw;
 
     if (!isTechnician && technicians.length > 0) {
       rows = rows.filter((wo) => selectedTechIds.has(techIdKey(wo)));
-    }
-
-    if (statusFilter) {
-      rows = rows.filter((wo) => wo.status === statusFilter);
-    }
-
-    if (minDaysPast > 0) {
-      rows = rows.filter((wo) => daysOverdue(wo) >= minDaysPast);
     }
 
     const q = search.trim().toLowerCase();
@@ -218,8 +187,6 @@ export default function CriticalMassPage() {
     out.sort((a, b) => {
       const ca = clientLabel(a).toLowerCase();
       const cb = clientLabel(b).toLowerCase();
-      const sa = parseScheduled(a)?.getTime() ?? 0;
-      const sb = parseScheduled(b)?.getTime() ?? 0;
       const cra = new Date(a.created_at || 0).getTime();
       const crb = new Date(b.created_at || 0).getTime();
 
@@ -228,25 +195,20 @@ export default function CriticalMassPage() {
           return crb - cra;
         case 'order_oldest':
           return cra - crb;
-        case 'appt_newest':
-          return sb - sa;
-        case 'appt_oldest':
-          return sa - sb;
         case 'alpha_asc':
           return ca.localeCompare(cb);
         case 'alpha_desc':
           return cb.localeCompare(ca);
         default:
-          return sa - sb;
+          return ca.localeCompare(cb);
       }
     });
     return out;
   }, [
-    criticalRaw,
+    partsHoldRaw,
     isTechnician,
+    technicians.length,
     selectedTechIds,
-    statusFilter,
-    minDaysPast,
     search,
     sortBy,
   ]);
@@ -276,7 +238,7 @@ export default function CriticalMassPage() {
   return (
     <>
       <Head>
-        <title>Critical Mass | IDIMS</title>
+        <title>Waiting On Parts | IDIMS</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -284,7 +246,7 @@ export default function CriticalMassPage() {
           rel="stylesheet"
         />
         <style>{`
-          @keyframes wo-mass-tactical-scan {
+          @keyframes wo-partswait-tactical-scan {
             0% { left: -48%; }
             100% { left: 115%; }
           }
@@ -344,7 +306,6 @@ export default function CriticalMassPage() {
           @keyframes sched-hud-scan {
             100% { left: 120%; }
           }
-          /* Native <select>: kill default opaque fill (incl. Chrome/Win) — custom chevron only */
           .mass-select {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -399,7 +360,7 @@ export default function CriticalMassPage() {
                   left: '-48%',
                   background:
                     'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
-                  animation: 'wo-mass-tactical-scan 6.5s linear infinite',
+                  animation: 'wo-partswait-tactical-scan 6.5s linear infinite',
                 }}
               />
             </div>
@@ -418,10 +379,10 @@ export default function CriticalMassPage() {
 
                 <div className="relative z-[2] min-w-0">
                   <p className="sched-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.28em] text-orange-300/95 mb-1.5 font-semibold leading-tight">
-                    Overdue · still open · CLEAN IT UP!
+                  WO holds / parts marked ordered / needed
                   </p>
                   <h1 className="sched-hud-orbitron sched-hud-orbitron-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
-                    Critical Mass
+                    Waiting On Parts
                   </h1>
                   <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
                     <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-orange-300 to-transparent" />
@@ -433,14 +394,6 @@ export default function CriticalMassPage() {
               </div>
             </div>
 
-{/*
-            <Link
-              href="/work_orders/test"
-              className="inline-flex items-center gap-1 mb-4 text-xs text-gray-500 hover:text-gray-300"
-            >
-              ← Master OPS list
-            </Link>
-*/}
             <input
               type="search"
               value={search}
@@ -515,121 +468,12 @@ export default function CriticalMassPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-2 mb-3">
-              <div>
-                <label className="block text-[10px] uppercase tracking-wide text-orange-400/70 mb-1">
-                  Status
-                </label>
-                <div className="relative">
-                  <select
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="mass-select w-full cursor-pointer rounded-lg border border-orange-400/25 py-2 pl-2 pr-8 text-xs font-medium text-orange-400/95 outline-none focus:ring-1 focus:ring-orange-400/35"
-                    style={{
-                      backgroundColor: 'transparent',
-                      WebkitAppearance: 'none',
-                      MozAppearance: 'none',
-                    }}
-                  >
-                    <option value="" className="bg-[#111827] text-white">
-                      Any open
-                    </option>
-                    <option value="pending" className="bg-[#111827] text-white">
-                      Pending
-                    </option>
-                    <option value="scheduled" className="bg-[#111827] text-white">
-                      Scheduled
-                    </option>
-                    <option value="en_route" className="bg-[#111827] text-white">
-                      En route
-                    </option>
-                    <option value="in_progress" className="bg-[#111827] text-white">
-                      In progress
-                    </option>
-                    <option value="waiting_on_parts" className="bg-[#111827] text-white">
-                      Waiting on parts
-                    </option>
-                    <option value="on_hold" className="bg-[#111827] text-white">
-                      On hold
-                    </option>
-                    <option
-                      value="completed_pending_payment"
-                      className="bg-[#111827] text-white"
-                    >
-                      Done — payment
-                    </option>
-                  </select>
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2"
-                    style={{
-                      stroke: '#fb923c',
-                      strokeWidth: 2.5,
-                      fill: 'none',
-                      strokeLinecap: 'round',
-                      strokeLinejoin: 'round',
-                    }}
-                    aria-hidden
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </div>
-              </div>
-              <div>
-                <label className="block text-[10px] uppercase tracking-wide text-orange-400/70 mb-1">
-                  Min days past visit
-                </label>
-                <div className="relative">
-                  <select
-                    value={minDaysPast}
-                    onChange={(e) => setMinDaysPast(Number(e.target.value))}
-                    className="mass-select w-full cursor-pointer rounded-lg border border-orange-400/25 py-2 pl-2 pr-8 text-xs font-medium text-orange-400/95 outline-none focus:ring-1 focus:ring-orange-400/35"
-                    style={{
-                      backgroundColor: 'transparent',
-                      WebkitAppearance: 'none',
-                      MozAppearance: 'none',
-                    }}
-                  >
-                    <option value={0} className="bg-[#111827] text-white">
-                      Any
-                    </option>
-                    <option value={1} className="bg-[#111827] text-white">
-                      1+
-                    </option>
-                    <option value={3} className="bg-[#111827] text-white">
-                      3+
-                    </option>
-                    <option value={7} className="bg-[#111827] text-white">
-                      7+
-                    </option>
-                    <option value={14} className="bg-[#111827] text-white">
-                      14+
-                    </option>
-                  </select>
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2"
-                    style={{
-                      stroke: '#fb923c',
-                      strokeWidth: 2.5,
-                      fill: 'none',
-                      strokeLinecap: 'round',
-                      strokeLinejoin: 'round',
-                    }}
-                    aria-hidden
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
             <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
               <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center mb-3 px-1">
                 <span className="text-sm font-medium text-gray-300">
-                  {filteredSorted.length} overdue
-                  {criticalRaw.length !== filteredSorted.length
-                    ? ` (${criticalRaw.length} before filters)`
+                  {filteredSorted.length} on parts hold
+                  {partsHoldRaw.length !== filteredSorted.length
+                    ? ` (${partsHoldRaw.length} before filters)`
                     : ''}
                 </span>
                 <div className="flex items-center gap-1.5 flex-wrap justify-end sm:justify-start">
@@ -645,23 +489,17 @@ export default function CriticalMassPage() {
                         MozAppearance: 'none',
                       }}
                     >
-                      <option value="appt_oldest" className="bg-[#111827] text-white">
-                        Visit date (oldest first)
+                      <option value="alpha_asc" className="bg-[#111827] text-white">
+                        Client A–Z
                       </option>
-                      <option value="appt_newest" className="bg-[#111827] text-white">
-                        Visit date (newest first)
+                      <option value="alpha_desc" className="bg-[#111827] text-white">
+                        Client Z–A
                       </option>
                       <option value="order_oldest" className="bg-[#111827] text-white">
                         Order age (oldest first)
                       </option>
                       <option value="order_newest" className="bg-[#111827] text-white">
                         Order age (newest first)
-                      </option>
-                      <option value="alpha_asc" className="bg-[#111827] text-white">
-                        Client A–Z
-                      </option>
-                      <option value="alpha_desc" className="bg-[#111827] text-white">
-                        Client Z–A
                       </option>
                     </select>
                     <svg
@@ -694,7 +532,7 @@ export default function CriticalMassPage() {
                 (isTechnician ? myTechId : true) &&
                 filteredSorted.length === 0 && (
                   <p className="text-gray-500 text-sm px-1 py-4 text-center">
-                    No overdue open orders match these filters.
+                    No orders match the Parts Waiting criteria.
                   </p>
                 )}
 
@@ -711,4 +549,4 @@ export default function CriticalMassPage() {
   );
 }
 
-CriticalMassPage.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
+PartsWaitingPage.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;

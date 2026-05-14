@@ -793,7 +793,7 @@ export default function TechDashboardTest() {
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
               sweepColor={workOrderStats.partsWaiting > 0 ? 'orange' : 'cyan'}
-              href="/work_orders/test"
+              href="/work_orders/partswait"
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: workOrderStats.partsWaiting > 0 ? 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 4px rgba(0,212,255,0.5))' }}>
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
