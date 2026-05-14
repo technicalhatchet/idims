@@ -229,7 +229,7 @@ function CriticalMassCard({ count }) {
     e.preventDefault();
     setSweeping(true);
     setTimeout(() => {
-      router.push('/work_orders/test');
+      router.push('/work_orders/mass');
     }, 600);
   };
 
@@ -881,7 +881,7 @@ export default function TechDashboardTest() {
               }
             />
             <StatCard
-              label="Today's Jobs"
+              label="OPS Board"
               value={todayAppts.length}
               sub={nextJob?.scheduled_start ? `next at ${toEST(nextJob.scheduled_start)}` : 'none remaining'}
               borderColor="rgba(34,211,238,0.25)"
@@ -900,8 +900,8 @@ export default function TechDashboardTest() {
           {/* ── TODAY'S JOBS ── */}
           <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }}>
             <div className="flex justify-between items-center mb-2">
-              <h2 className="text-base font-bold text-white">Today's Jobs</h2>
-              <Link href="/schedule-test" className="text-xs text-cyan-400 flex items-center gap-1">
+              <h2 className="text-base font-bold text-white">Mission Queue</h2>
+              <Link href="/opsboard" className="text-xs text-cyan-400 flex items-center gap-1">
                 View all
                 <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
