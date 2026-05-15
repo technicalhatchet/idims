@@ -491,7 +491,8 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────
-const DOUBLE_TAP_MS = 300;
+const DOUBLE_TAP_MS = 350;
+const DOUBLE_TAP_MAX_DIST_PX = 48;
 
 export default function TechDashboardTest() {
   const { user } = useUser();
@@ -501,19 +502,47 @@ export default function TechDashboardTest() {
   const [isLoading, setIsLoading] = useState(true);
 
   const tacticalColumnRef = useRef(null);
+  const gridTapLayerRef = useRef(null);
   const titleplateRef = useRef(null);
-  const lastTap = useRef(0);
+  const lastTap = useRef({ t: 0, x: 0, y: 0 });
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
 
-  const handleGridTouchEnd = useCallback((e) => {
-    if (e.target.closest('[data-techboard-card]')) return;
-    const now = Date.now();
-    if (lastTap.current && now - lastTap.current < DOUBLE_TAP_MS) {
+  useEffect(() => {
+    const layer = gridTapLayerRef.current;
+    if (!layer) return undefined;
+
+    const tryOpenRailFromDoubleTap = (x, y) => {
+      const now = Date.now();
+      const prev = lastTap.current;
+      const dt = now - prev.t;
+      const dist = Math.hypot(x - prev.x, y - prev.y);
+      if (prev.t && dt < DOUBLE_TAP_MS && dist < DOUBLE_TAP_MAX_DIST_PX) {
+        lastTap.current = { t: 0, x: 0, y: 0 };
+        openRail?.();
+        return true;
+      }
+      lastTap.current = { t: now, x, y };
+      return false;
+    };
+
+    const onTouchStart = (e) => {
+      if (e.touches.length !== 1) return;
+      const { clientX, clientY } = e.touches[0];
+      if (tryOpenRailFromDoubleTap(clientX, clientY)) {
+        e.preventDefault();
+      }
+    };
+
+    const onDoubleClick = () => {
       openRail?.();
-      lastTap.current = 0;
-    } else {
-      lastTap.current = now;
-    }
+    };
+
+    layer.addEventListener('touchstart', onTouchStart, { passive: false });
+    layer.addEventListener('dblclick', onDoubleClick);
+    return () => {
+      layer.removeEventListener('touchstart', onTouchStart);
+      layer.removeEventListener('dblclick', onDoubleClick);
+    };
   }, [openRail]);
 
   const syncHudGridAlignment = useCallback(() => {
@@ -678,6 +707,16 @@ export default function TechDashboardTest() {
           rel="stylesheet"
         />
         <style>{`
+          .techboard-tactical-column {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+          }
+          .techboard-grid-content {
+            pointer-events: none;
+          }
+          .techboard-grid-content [data-techboard-card] {
+            pointer-events: auto;
+          }
           @keyframes techboard-tactical-scan {
             0% { left: -48%; }
             100% { left: 115%; }
@@ -929,8 +968,7 @@ export default function TechDashboardTest() {
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
         <div
           ref={tacticalColumnRef}
-          className="relative px-4 pt-0 pb-5 max-w-lg mx-auto"
-          onTouchEnd={handleGridTouchEnd}
+          className="techboard-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
         >
           {/* Tactical background — full column; same cyan grid stack as opsboard / mass / partswait */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -966,7 +1004,13 @@ export default function TechDashboardTest() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-          <div className="relative z-10 p-4 sm:p-6">
+          <div
+            ref={gridTapLayerRef}
+            className="absolute inset-0 z-[1]"
+            aria-hidden
+          />
+
+          <div className="techboard-grid-content relative z-10 p-4 sm:p-6">
 
           {/* Page header — HUD titleplate (same shell as opsboard / mass / partswait) */}
           <div className="mb-5">
