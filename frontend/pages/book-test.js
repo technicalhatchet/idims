@@ -4,39 +4,39 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   FaUser, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft,
-  FaBolt, FaShieldAlt, FaClock, FaMedal, FaSnowflake, FaTint, FaVolumeUp, FaPowerOff,
-  FaCalendarDay, FaCalendarAlt, FaCalendarWeek, FaHourglass
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import NeonIcon from '../components/ui/NeonIcon';
 
+/** Cyan vs orange — same mapping as neon PNGs / ApplianceIcon */
 const APPLIANCES = [
-  { id: 'refrigerator', name: 'Refrigerator', icon: '/applianceicons/neon/neonfridge.png' },
-  { id: 'washer', name: 'Washer', icon: '/applianceicons/neon/neonwasher.png' },
-  { id: 'dryer', name: 'Dryer', icon: '/applianceicons/neon/neondryer.png' },
-  { id: 'oven', name: 'Oven', icon: '/applianceicons/neon/neonrange.png' },
-  { id: 'dishwasher', name: 'Dishwasher', icon: '/applianceicons/neon/neondishwasher.png' },
-  { id: 'microwave', name: 'Microwave', icon: '/applianceicons/neon/neonmicrowave.png' },
-  { id: 'freezer', name: 'Freezer', icon: '/applianceicons/neon/neonchestfreezer.png' },
-  { id: 'tv', name: 'TV', icon: '/applianceicons/neon/neonorangecurvedtv.png' },
-  { id: 'other', name: 'Other', icon: '/applianceicons/wrenches.png', allowCustom: true },
+  { id: 'refrigerator', name: 'Refrigerator', icon: 'refrigerator', color: 'cyan' },
+  { id: 'washer', name: 'Washer', icon: 'washer', color: 'cyan' },
+  { id: 'dryer', name: 'Dryer', icon: 'dryer', color: 'orange' },
+  { id: 'oven', name: 'Oven', icon: 'oven', color: 'orange' },
+  { id: 'dishwasher', name: 'Dishwasher', icon: 'dishwasher', color: 'cyan' },
+  { id: 'microwave', name: 'Microwave', icon: 'microwave', color: 'orange' },
+  // { id: 'freezer', name: 'Freezer', icon: 'freezer', color: 'cyan' },
+  { id: 'tv', name: 'TV', icon: 'tv', color: 'orange' },
+  { id: 'other', name: 'Other', icon: 'wrench', color: 'cyan', allowCustom: true },
 ];
 
 const ISSUES = [
-  { id: 'not-working', name: 'Not working at all', icon: FaPowerOff },
-  { id: 'not-cooling-heating', name: 'Not cooling/heating', icon: FaSnowflake },
-  { id: 'leaking', name: 'Leaking water', icon: FaTint },
-  { id: 'making-noise', name: 'Making strange noise', icon: FaVolumeUp },
-  { id: 'error-code', name: 'Showing error code', icon: FaBolt },
-  { id: 'other', name: 'Other issue', icon: FaBolt, allowCustom: true },
+  { id: 'not-working', name: 'Not working at all', icon: 'powerOff' },
+  { id: 'not-cooling-heating', name: 'Not cooling/heating', icon: 'thermometer' },
+  { id: 'leaking', name: 'Leaking water', icon: 'droplet' },
+  { id: 'making-noise', name: 'Making strange noise', icon: 'volume' },
+  { id: 'error-code', name: 'Showing error code', icon: 'zap' },
+  { id: 'other', name: 'Other issue', icon: 'zap', allowCustom: true },
 ];
 
 const TIME_OPTIONS = [
-  { id: 'today', name: 'Today', icon: FaCalendarDay, desc: 'ASAP' },
-  { id: 'tomorrow', name: 'Tomorrow', icon: FaCalendarAlt, desc: 'Next day' },
-  { id: 'this-week', name: 'This Week', icon: FaCalendarWeek, desc: 'Flexible' },
-  { id: 'flexible', name: 'Flexible', icon: FaHourglass, desc: 'Any time' },
+  { id: 'today', name: 'Today', icon: 'calendarDot', desc: 'ASAP' },
+  { id: 'tomorrow', name: 'Tomorrow', icon: 'calendar', desc: 'Next day' },
+  { id: 'this-week', name: 'This Week', icon: 'calendarWeek', desc: 'Flexible' },
+  { id: 'flexible', name: 'Flexible', icon: 'hourglass', desc: 'Any time' },
 ];
 
 const STEPS = [
@@ -317,14 +317,11 @@ export default function BookService() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 relative">
-                              <Image
-                                src={appliance.icon}
-                                alt={appliance.name}
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
+                            <NeonIcon
+                              name={appliance.icon}
+                              className="w-10 h-10 sm:w-12 sm:h-12"
+                              variant={appliance.color || 'cyan'}
+                            />
                             <span className="text-white font-medium text-xs sm:text-sm">{appliance.name}</span>
                             {formData.appliance === appliance.id && (
                               <motion.div
@@ -368,9 +365,7 @@ export default function BookService() {
                   {/* Step 2: Issue Selection */}
                   {currentStep === 2 && (
                     <div className="space-y-3">
-                      {ISSUES.map((issue) => {
-                        const Icon = issue.icon;
-                        return (
+                      {ISSUES.map((issue) => (
                           <motion.button
                             key={issue.id}
                             onClick={() => updateFormData('issue', issue.id)}
@@ -385,15 +380,18 @@ export default function BookService() {
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                               formData.issue === issue.id ? 'bg-cyan-500/20' : 'bg-white/5'
                             }`}>
-                              <Icon className={`w-5 h-5 ${formData.issue === issue.id ? 'text-cyan-400' : 'text-gray-400'}`} />
+                              <NeonIcon
+                                name={issue.icon}
+                                className="w-5 h-5"
+                                variant="cyan"
+                              />
                             </div>
                             <span className="text-white font-medium">{issue.name}</span>
                             {formData.issue === issue.id && (
                               <FaCheckCircle className="w-5 h-5 text-cyan-400 ml-auto" />
                             )}
                           </motion.button>
-                        );
-                      })}
+                      ))}
                       
                       {/* Custom issue input when "Other" is selected */}
                       <AnimatePresence>
@@ -424,9 +422,7 @@ export default function BookService() {
                   {/* Step 3: Time Selection */}
                   {currentStep === 3 && (
                     <div className="grid grid-cols-2 gap-4">
-                      {TIME_OPTIONS.map((option) => {
-                        const Icon = option.icon;
-                        return (
+                      {TIME_OPTIONS.map((option) => (
                           <motion.button
                             key={option.id}
                             onClick={() => updateFormData('time', option.id)}
@@ -438,7 +434,11 @@ export default function BookService() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <Icon className={`w-8 h-8 ${formData.time === option.id ? 'text-cyan-400' : 'text-gray-400'}`} />
+                            <NeonIcon
+                              name={option.icon}
+                              className="w-8 h-8"
+                              variant="cyan"
+                            />
                             <span className="text-white font-medium">{option.name}</span>
                             {formData.time === option.id && (
                               <motion.div
@@ -449,8 +449,7 @@ export default function BookService() {
                               </motion.div>
                             )}
                           </motion.button>
-                        );
-                      })}
+                      ))}
                     </div>
                   )}
 
@@ -642,22 +641,19 @@ export default function BookService() {
             className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4"
           >
             {[
-              { icon: FaBolt, title: 'FAST & EASY', desc: 'Book in under 60 seconds' },
-              { icon: FaShieldAlt, title: 'TRUSTED EXPERTS', desc: 'Certified technicians you can trust' },
-              { icon: FaClock, title: 'ON TIME SERVICE', desc: 'We respect your time' },
-              { icon: FaMedal, title: 'SATISFACTION GUARANTEED', desc: 'We stand behind our work' },
-            ].map((item, i) => {
-              const Icon = item.icon;
-              return (
+              { icon: 'zap', title: 'FAST & EASY', desc: 'Book in under 60 seconds' },
+              { icon: 'shield', title: 'TRUSTED EXPERTS', desc: 'Certified technicians you can trust' },
+              { icon: 'clock', title: 'ON TIME SERVICE', desc: 'We respect your time' },
+              { icon: 'medal', title: 'SATISFACTION GUARANTEED', desc: 'We stand behind our work' },
+            ].map((item, i) => (
                 <div key={i} className="flex flex-col items-center text-center p-4">
                   <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center mb-2">
-                    <Icon className="w-5 h-5 text-cyan-400" />
+                    <NeonIcon name={item.icon} className="w-5 h-5" variant="cyan" />
                   </div>
                   <p className="text-white text-xs font-semibold">{item.title}</p>
                   <p className="text-gray-500 text-xs mt-1">{item.desc}</p>
                 </div>
-              );
-            })}
+            ))}
           </motion.div>
         </div>
       </div>
