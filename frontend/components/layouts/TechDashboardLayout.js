@@ -12,6 +12,10 @@ import {
 
 /** Filled silhouette: a few px wider than stroke icons (30) so optical size matches */
 const TECH_RAIL_NAV_ICON_W_PX = 36;
+const RAIL_WIDTH_COLLAPSED = 76;
+const RAIL_WIDTH_EXPANDED = 220;
+const RAIL_SLIDE_MS = 280;
+const RAIL_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
 
 // ── Nav Icons (custom SVGs to match our aesthetic) ────────────────────────
 const NAV_ITEMS = [
@@ -73,7 +77,9 @@ export default function TechDashboardLayout({ children }) {
   const router = useRouter();
   const { user } = useUser();
 
-  const railWidth = expanded ? 220 : 76;
+  const railWidth = expanded ? RAIL_WIDTH_EXPANDED : RAIL_WIDTH_COLLAPSED;
+  const railSlideTransition = `transform ${RAIL_SLIDE_MS}ms ${RAIL_EASE}`;
+  const railWidthTransition = expanded ? `width ${RAIL_SLIDE_MS}ms ${RAIL_EASE}` : 'none';
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
@@ -196,23 +202,34 @@ export default function TechDashboardLayout({ children }) {
         </div>
       </header>
 
-      {/* ── OVERLAY (backdrop) ── */}
-      {railOpen && (
-        <div
-          className="fixed inset-0 z-[1190]"
-          style={{ background: 'rgba(0,0,0,0.5)' }}
-          onClick={() => setRailOpen(false)}
-        />
-      )}
-
-      {/* ── ICON RAIL ── */}
+      {/* ── OVERLAY (backdrop) — opacity fade, always mounted ── */}
       <div
-        className="fixed top-0 left-0 bottom-0 flex flex-col transition-all duration-300 ease-in-out z-[1195]"
+        className="fixed inset-0 z-[1190]"
         style={{
-          width: railOpen ? railWidth : 0,
+          background: 'rgba(0,0,0,0.5)',
+          opacity: railOpen ? 1 : 0,
+          pointerEvents: railOpen ? 'auto' : 'none',
+          transition: `opacity ${RAIL_SLIDE_MS}ms ease-out`,
+        }}
+        onClick={() => setRailOpen(false)}
+        aria-hidden={!railOpen}
+      />
+
+      {/* ── ICON RAIL — GPU translateX, fixed width (no width:0 animation) ── */}
+      <div
+        className="fixed top-0 left-0 bottom-0 flex flex-col z-[1195]"
+        style={{
+          width: railWidth,
           background: '#0D1525',
-          borderRight: railOpen ? '1px solid rgba(255,255,255,0.07)' : 'none',
+          borderRight: '1px solid rgba(255,255,255,0.07)',
           overflow: 'hidden',
+          transform: railOpen ? 'translate3d(0, 0, 0)' : `translate3d(-${railWidth}px, 0, 0)`,
+          transition: railOpen
+            ? `${railSlideTransition}, ${railWidthTransition}`
+            : railSlideTransition,
+          willChange: 'transform',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
         }}
       >
         {/* Logo area */}
