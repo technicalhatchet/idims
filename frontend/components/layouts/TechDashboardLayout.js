@@ -105,6 +105,25 @@ export default function TechDashboardLayout({ children }) {
   return (
     <TechDashboardRailContext.Provider value={{ openRail }}>
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
+      <style>{`
+        .hud-tactical-column {
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .hud-grid-content {
+          pointer-events: none;
+        }
+        .hud-grid-content [data-hud-card],
+        .hud-grid-content [data-techboard-card],
+        .hud-grid-content a,
+        .hud-grid-content button,
+        .hud-grid-content input,
+        .hud-grid-content select,
+        .hud-grid-content textarea,
+        .hud-grid-content label {
+          pointer-events: auto;
+        }
+      `}</style>
 
       {/* ── HEADER ── */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-4" style={{ height: 72, background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 1200 }}>

@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { parseISO, format, startOfWeek, endOfWeek } from 'date-fns';
 import { motion } from 'framer-motion';
 import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../hooks/useHudGridDoubleTapRail';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import PullToRefresh from '../components/ui/PullToRefresh';
 import ErrorAlert from '../components/ui/ErrorAlert';
@@ -415,6 +416,7 @@ function ScheduleTestInner() {
     return keys.map((k) => ({ dateKey: k, items: buckets[k], label: format(parseISO(k), 'EEE // MMMM d, yyyy').toUpperCase() }));
   }, [filteredAppointments]);
 
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
@@ -585,7 +587,7 @@ function ScheduleTestInner() {
           }}
         />
 
-        <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: SCHED_TACTICAL_PAGE_BG }} />
             <div
@@ -619,13 +621,15 @@ function ScheduleTestInner() {
             </div>
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
-          <div className="relative z-10 p-4 sm:p-6">
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
           {/* Page header — tactical OPS BOARD titleplate */}
           <motion.div
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             className="relative mb-4"
+            data-hud-card
             onAnimationComplete={syncHudGridAlignment}
           >
             <div
@@ -871,7 +875,7 @@ function ScheduleTestInner() {
 
           {/* Day timeline: fused HUD fills column; other modes stay in Ops chamber */}
           {displayMode === 'timeline' && viewType === 'day' ? (
-            <div className="relative mb-4 w-full min-w-0">
+            <div className="relative mb-4 w-full min-w-0" data-hud-card>
               <ScheduleTestTimeline
                 appointments={filteredAppointments}
                 anchorDate={startDate}
@@ -891,7 +895,7 @@ function ScheduleTestInner() {
               />
             </div>
           ) : (
-            <div className="relative rounded-[26px] mb-4">
+            <div className="relative rounded-[26px] mb-4" data-hud-card>
               <div
                 className="pointer-events-none absolute inset-[-1px] rounded-[inherit] opacity-50 blur-xl -z-[1]"
                 style={{

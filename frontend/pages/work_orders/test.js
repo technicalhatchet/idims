@@ -7,6 +7,7 @@ import StatusBadge from '../../components/ui/StatusBadge';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 */
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 
@@ -64,6 +65,7 @@ export default function WorkOrdersTest() {
   const [page, setPage] = useState(1);
   const PER_PAGE = 5;
 
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
@@ -190,7 +192,7 @@ export default function WorkOrdersTest() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: WO_TEST_PAGE_BG }}>
-      <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
         {/* Tactical background — same layers as techboard; no extra “card” container */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div className="absolute inset-0" style={{ background: WO_TEST_PAGE_BG }} />
@@ -225,11 +227,14 @@ export default function WorkOrdersTest() {
           <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
         </div>
 
-        <div className="relative z-10 p-4 sm:p-6">
+        <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
+
+        <div className="hud-grid-content relative z-10 p-4 sm:p-6">
         {/* Page header — same titleplate pattern as schedule-test “Ops Board” */}
         <div className="relative mb-4">
           <div
             ref={titleplateRef}
+            data-hud-card
             className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.32)] sched-neon-edge sched-hud-scan"
             style={{
               ['--wo-test-hud-grid-x']: `${hudGridShift.x}px`,
@@ -310,7 +315,7 @@ export default function WorkOrdersTest() {
         </button>
 
         {/* Cards container */}
-        <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
           {/* Container header */}
           <div className="flex justify-between items-center mb-3 px-1">
             <span className="text-sm font-medium text-gray-300">{count} Work Orders</span>

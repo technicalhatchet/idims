@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react
 import Head from 'next/head';
 import { format, isToday } from 'date-fns';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 
@@ -218,7 +219,7 @@ async function geocodeAddress(address) {
 function StopCard({ stop, index, onNavigate }) {
   const isCyan = getIconColor(stop.equipment_type, stop.equipment_subtype) === '#00D4FF';
   return (
-    <div className="flex items-start gap-3 p-3 rounded-lg" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
+    <div className="flex items-start gap-3 p-3 rounded-lg" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
       {/* Stop number + Appliance icon stacked */}
       <div className="flex-shrink-0 flex flex-col items-center gap-1.5">
         <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{
@@ -493,6 +494,7 @@ export default function RouteTest() {
     }
   }, [geocoding, stops, homeBase]);
 
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
@@ -617,7 +619,7 @@ export default function RouteTest() {
       </Head>
 
       <div className="min-h-screen pb-6" style={{ background: ROUTE_PAGE_BG }}>
-        <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: ROUTE_PAGE_BG }} />
             <div
@@ -652,10 +654,13 @@ export default function RouteTest() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-          <div className="relative z-10 p-4 sm:p-6">
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
+
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
           <div className="mb-5">
             <div
               ref={titleplateRef}
+              data-hud-card
               className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)] td-route-titleplate-edge td-route-titleplate-scan"
               style={{
                 ['--td-route-hud-grid-x']: `${hudGridShift.x}px`,
@@ -690,7 +695,7 @@ export default function RouteTest() {
           </div>
 
           {/* Map */}
-          <div className="rounded-lg mb-4 overflow-hidden" style={{ height: 320, background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', position: 'relative' }}>
+          <div className="rounded-lg mb-4 overflow-hidden" style={{ height: 320, background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', position: 'relative' }} data-hud-card>
             {(isLoading || geocoding) && (
               <div className="absolute inset-0 flex flex-col items-center justify-center z-10" style={{ background: '#0D1525' }}>
                 <div className="w-8 h-8 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin mb-3" />

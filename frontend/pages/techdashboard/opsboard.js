@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import StatusBadge from '../../components/ui/StatusBadge';
@@ -160,6 +161,7 @@ function AppointmentCard({ appointment, onStatusChange, railColor }) {
 
   return (
     <div
+      data-hud-card
       className={`rounded-lg mb-3 overflow-hidden flex shadow-sm ${
         completedTint ? 'opacity-80' : ''
       } ${canceledTint ? 'opacity-[0.65]' : ''} ${
@@ -415,6 +417,7 @@ function TodaysRoute() {
     return map;
   }, [appointments]);
 
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
@@ -526,7 +529,7 @@ function TodaysRoute() {
       </Head>
 
       <div className="min-h-screen pb-8" style={{ background: '#0A0F1E' }}>
-        <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
           {/* Tactical background — full column; same pattern as work_orders/test */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
@@ -562,11 +565,14 @@ function TodaysRoute() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-          <div className="relative z-10">
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
+
+          <div className="hud-grid-content relative z-10">
             <div className="sticky z-[1100] mb-4 top-[72px]">
               <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 sm:pb-5 space-y-4">
                 <div
                   ref={titleplateRef}
+                  data-hud-card
                   className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-violet-400/40 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(139,92,246,.38)] ops-queue-titleplate-edge ops-queue-titleplate-scan"
                   style={{
                     ['--ops-queue-hud-grid-x']: `${hudGridShift.x}px`,

@@ -4,7 +4,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format, isToday, isFuture } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import TechDashboardLayout, { useTechDashboardRail } from '../../components/layouts/TechDashboardLayout';
+import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
@@ -491,59 +492,16 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────
-const DOUBLE_TAP_MS = 350;
-const DOUBLE_TAP_MAX_DIST_PX = 48;
-
 export default function TechDashboardTest() {
   const { user } = useUser();
-  const { openRail } = useTechDashboardRail() || {};
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   const [schedule, setSchedule] = useState([]);
   const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0, partsWaiting: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
   const tacticalColumnRef = useRef(null);
-  const gridTapLayerRef = useRef(null);
   const titleplateRef = useRef(null);
-  const lastTap = useRef({ t: 0, x: 0, y: 0 });
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const layer = gridTapLayerRef.current;
-    if (!layer) return undefined;
-
-    const tryOpenRailFromDoubleTap = (x, y) => {
-      const now = Date.now();
-      const prev = lastTap.current;
-      const dt = now - prev.t;
-      const dist = Math.hypot(x - prev.x, y - prev.y);
-      if (prev.t && dt < DOUBLE_TAP_MS && dist < DOUBLE_TAP_MAX_DIST_PX) {
-        lastTap.current = { t: 0, x: 0, y: 0 };
-        openRail?.();
-        return true;
-      }
-      lastTap.current = { t: now, x, y };
-      return false;
-    };
-
-    const onTouchStart = (e) => {
-      if (e.touches.length !== 1) return;
-      const { clientX, clientY } = e.touches[0];
-      if (tryOpenRailFromDoubleTap(clientX, clientY)) {
-        e.preventDefault();
-      }
-    };
-
-    const onDoubleClick = () => {
-      openRail?.();
-    };
-
-    layer.addEventListener('touchstart', onTouchStart, { passive: false });
-    layer.addEventListener('dblclick', onDoubleClick);
-    return () => {
-      layer.removeEventListener('touchstart', onTouchStart);
-      layer.removeEventListener('dblclick', onDoubleClick);
-    };
-  }, [openRail]);
 
   const syncHudGridAlignment = useCallback(() => {
     const col = tacticalColumnRef.current;
@@ -707,16 +665,6 @@ export default function TechDashboardTest() {
           rel="stylesheet"
         />
         <style>{`
-          .techboard-tactical-column {
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-          }
-          .techboard-grid-content {
-            pointer-events: none;
-          }
-          .techboard-grid-content [data-techboard-card] {
-            pointer-events: auto;
-          }
           @keyframes techboard-tactical-scan {
             0% { left: -48%; }
             100% { left: 115%; }
@@ -968,7 +916,7 @@ export default function TechDashboardTest() {
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
         <div
           ref={tacticalColumnRef}
-          className="techboard-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
+          className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
         >
           {/* Tactical background — full column; same cyan grid stack as opsboard / mass / partswait */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -1010,7 +958,7 @@ export default function TechDashboardTest() {
             aria-hidden
           />
 
-          <div className="techboard-grid-content relative z-10 p-4 sm:p-6">
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
 
           {/* Page header — HUD titleplate (same shell as opsboard / mass / partswait) */}
           <div className="mb-5">

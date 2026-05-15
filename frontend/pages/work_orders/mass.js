@@ -11,6 +11,7 @@ import {
 } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 import { apiClient } from '../../utils/api-client';
@@ -141,6 +142,7 @@ export default function CriticalMassPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [minDaysPast, setMinDaysPast] = useState(0);
 
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
@@ -418,7 +420,7 @@ export default function CriticalMassPage() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: PAGE_BG }}>
-        <div ref={tacticalColumnRef} className="relative px-4 py-6 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 py-6 max-w-lg mx-auto">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: PAGE_BG }} />
             <div
@@ -453,10 +455,13 @@ export default function CriticalMassPage() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-          <div className="relative z-10">
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
+
+          <div className="hud-grid-content relative z-10">
             <div className="relative mb-4">
               <div
                 ref={titleplateRef}
+                data-hud-card
                 className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.32)] sched-neon-edge sched-hud-scan"
                 style={{
                   ['--mass-hud-grid-x']: `${hudGridShift.x}px`,
@@ -507,6 +512,7 @@ export default function CriticalMassPage() {
 
             {!isTechnician && technicians.length > 0 && (
               <div
+                data-hud-card
                 className="rounded-lg p-3 mb-3"
                 style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.08)' }}
               >
@@ -679,7 +685,7 @@ export default function CriticalMassPage() {
               </div>
             </div>
 
-            <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
               <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center mb-3 px-1">
                 <span className="text-sm font-medium text-gray-300">
                   {filteredSorted.length} overdue
