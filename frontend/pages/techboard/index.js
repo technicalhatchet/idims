@@ -645,8 +645,14 @@ export default function TechDashboardTest() {
   return (
     <>
       <Head>
-        <title>Tech Dashboard | Atomic Repair</title>
-        <link rel="manifest" href="/manifest-tech.json" />
+        <title>Tech Board | Atomic Repair</title>
+        <meta name="description" content="Atomic Repair technician board" />
+        <meta name="theme-color" content="#22D3EE" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Tech Board" />
+        <link rel="manifest" href="/manifest-techboard.json" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
