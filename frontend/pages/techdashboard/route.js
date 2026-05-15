@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import { format, isToday } from 'date-fns';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { apiClient } from '../../utils/api-client';
@@ -8,6 +7,26 @@ import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 
 // ── Home Base (Shop) Address ──────────────────────────────────────────────
 const HOME_BASE_ADDRESS = '641 Barclay Drive, Toledo, OH 43609';
+
+const ROUTE_PAGE_BG = '#0A0F1E';
+const ROUTE_TACTICAL_NOISE_BG =
+  'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
+
+/** Match tactical field grid (`bg-[size:42px_42px]`). */
+const HUD_GRID_STEP = 42;
+const HUD_GRID_NUDGE_X = -1;
+const HUD_GRID_NUDGE_Y = -1;
+
+function positiveMod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+function hudGridShiftForTitleplate(dx, dy, step) {
+  return {
+    x: -positiveMod(dx, step),
+    y: -positiveMod(dy, step),
+  };
+}
 
 // ── Home Base SVG Icon ────────────────────────────────────────────────────
 const HOME_BASE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none">
@@ -474,6 +493,39 @@ export default function RouteTest() {
     }
   }, [geocoding, stops, homeBase]);
 
+  const tacticalColumnRef = useRef(null);
+  const titleplateRef = useRef(null);
+  const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+
+  const syncHudGridAlignment = useCallback(() => {
+    const col = tacticalColumnRef.current;
+    const plate = titleplateRef.current;
+    if (!col || !plate) return;
+    const c = col.getBoundingClientRect();
+    const p = plate.getBoundingClientRect();
+    const dx = p.left - c.left;
+    const dy = p.top - c.top;
+    const base = hudGridShiftForTitleplate(dx, dy, HUD_GRID_STEP);
+    setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
+  }, []);
+
+  useLayoutEffect(() => {
+    syncHudGridAlignment();
+    const raf = requestAnimationFrame(() => syncHudGridAlignment());
+    const col = tacticalColumnRef.current;
+    if (!col) {
+      return () => cancelAnimationFrame(raf);
+    }
+    const ro = new ResizeObserver(() => syncHudGridAlignment());
+    ro.observe(col);
+    window.addEventListener('resize', syncHudGridAlignment);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      window.removeEventListener('resize', syncHudGridAlignment);
+    };
+  }, [syncHudGridAlignment]);
+
   const geocoded = stops.filter(s => s.lat && s.lng);
   const allAddressUrl = stops.filter(s => s.address).map(s => encodeURIComponent(s.address)).join('/');
 
@@ -481,7 +533,74 @@ export default function RouteTest() {
     <>
       <Head>
         <title>Today's Route | IDIMS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
         <style>{`
+          @keyframes td-route-tactical-scan {
+            0% { left: -48%; }
+            100% { left: 115%; }
+          }
+          @keyframes td-route-titleplate-scan {
+            100% { left: 120%; }
+          }
+          .td-route-titleplate-grid {
+            background-image:
+              linear-gradient(rgba(0, 217, 255, 0.07) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 217, 255, 0.07) 1px, transparent 1px);
+            background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
+            background-position: var(--td-route-hud-grid-x, 0px) var(--td-route-hud-grid-y, 0px);
+          }
+          .td-route-titleplate-orbitron {
+            font-family: 'Orbitron', system-ui, sans-serif;
+          }
+          .td-route-titleplate-title-glow {
+            text-shadow:
+              0 0 8px rgba(255, 255, 255, 0.15),
+              0 0 18px rgba(34, 211, 238, 0.35),
+              0 0 40px rgba(0, 212, 255, 0.22);
+          }
+          .td-route-titleplate-edge {
+            position: relative;
+          }
+          .td-route-titleplate-edge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(
+              135deg,
+              rgba(34, 211, 238, 0.72),
+              rgba(8, 51, 68, 0.28),
+              rgba(0, 212, 255, 0.5)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+          }
+          .td-route-titleplate-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(34, 211, 238, 0.085),
+              transparent
+            );
+            animation: td-route-titleplate-scan 5s linear infinite;
+            border-radius: inherit;
+            pointer-events: none;
+          }
           /* Do not pin header z-index here — Leaflet controls use z-index ~1000 */
           header, nav, .header-bar, [class*='h-16'] {
             background-color: #0D1525 !important;
@@ -497,16 +616,77 @@ export default function RouteTest() {
         `}</style>
       </Head>
 
-      <div className="min-h-screen pb-6" style={{ background: '#0A0F1E' }}>
-        <div className="px-4 pt-5 pb-3 max-w-lg mx-auto">
-
-          {/* Header */}
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <h1 className="text-xl font-bold text-white">Today's Route</h1>
-              <p className="text-xs text-gray-500">{format(today, 'EEEE, MMMM d')}</p>
+      <div className="min-h-screen pb-6" style={{ background: ROUTE_PAGE_BG }}>
+        <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+            <div className="absolute inset-0" style={{ background: ROUTE_PAGE_BG }} />
+            <div
+              className="absolute inset-0 opacity-[0.11]
+                bg-[linear-gradient(rgba(0,217,255,.28)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
+                bg-[size:42px_42px]"
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
+            <div
+              className="absolute inset-0 opacity-[0.028]
+                bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
+            />
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
+              style={{ backgroundImage: ROUTE_TACTICAL_NOISE_BG }}
+            />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div
+                className="absolute top-0 bottom-0 w-[42%]"
+                style={{
+                  left: '-48%',
+                  background:
+                    'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                  animation: 'td-route-tactical-scan 6.5s linear infinite',
+                }}
+              />
             </div>
-            <Link href="/techdashboard" className="text-xs text-gray-500 hover:text-gray-300">← Dashboard</Link>
+            <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
+          </div>
+
+          <div className="relative z-10 p-4 sm:p-6">
+          <div className="mb-5">
+            <div
+              ref={titleplateRef}
+              className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)] td-route-titleplate-edge td-route-titleplate-scan"
+              style={{
+                ['--td-route-hud-grid-x']: `${hudGridShift.x}px`,
+                ['--td-route-hud-grid-y']: `${hudGridShift.y}px`,
+              }}
+            >
+              <div
+                className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 td-route-titleplate-grid"
+                aria-hidden
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-cyan-950/0 opacity-60 pointer-events-none rounded-[inherit]" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
+              <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent pointer-events-none z-[1]" />
+
+              <div className="relative z-[2] min-w-0">
+                <p className="td-route-titleplate-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.28em] text-cyan-300/95 mb-1.5 font-semibold leading-tight">
+                  Field routing · map & stops
+                </p>
+                <h1 className="td-route-titleplate-orbitron td-route-titleplate-title-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
+                  Today&apos;s Route
+                </h1>
+                <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
+                  <span className="td-route-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase">
+                    {format(today, 'EEEE, MMMM d').toUpperCase()}
+                    <span className="mx-2 text-white/25">/</span>
+                    {stops.length} stop{stops.length !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Map */}
@@ -574,6 +754,7 @@ export default function RouteTest() {
             </div>
           )}
 
+          </div>
         </div>
       </div>
     </>
