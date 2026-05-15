@@ -91,12 +91,18 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
     >
       <div className="flex items-center gap-3 p-4 rounded-lg h-full relative overflow-hidden"
         style={{ 
-          background: 'rgba(13, 21, 37, 0.25)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
           border: `1px solid ${borderColor}`,
         }}
       >
+        <div
+          className="pointer-events-none absolute inset-0 rounded-[inherit] z-0"
+          style={{
+            background: 'rgba(13, 21, 37, 0.001)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+          }}
+          aria-hidden
+        />
         {/* Sweep overlay - color matched */}
         <div 
           className="tech-sweep-overlay" 

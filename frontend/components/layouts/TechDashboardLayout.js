@@ -17,7 +17,7 @@ const TECH_RAIL_NAV_ICON_W_PX = 36;
 const NAV_ITEMS = [
   {
     name: 'Tech Dashboard',
-    href: '/techdashboard',
+    href: '/techboard',
     color: 'cyan',
     icon: (<><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></>),
   },
@@ -81,7 +81,7 @@ export default function TechDashboardLayout({ children }) {
   }, []);
 
   const isActive = (href) => {
-    if (href === '/techdashboard') return router.pathname === '/techdashboard';
+    if (href === '/techboard') return router.pathname === '/techboard';
     return router.pathname.startsWith(href);
   };
 
