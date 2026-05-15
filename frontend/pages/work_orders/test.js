@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useLayoutEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
@@ -15,6 +15,23 @@ const TACTICAL_NOISE_BG =
   'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
 
 const WO_TEST_PAGE_BG = '#0A0F1E';
+
+/** Match tactical field grid (`bg-[size:42px_42px]`). */
+const HUD_GRID_STEP = 42;
+/** Subpixel / DPR tweak — same as mass / partswait / headertest. */
+const HUD_GRID_NUDGE_X = -1;
+const HUD_GRID_NUDGE_Y = -1;
+
+function positiveMod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+function hudGridShiftForTitleplate(dx, dy, step) {
+  return {
+    x: -positiveMod(dx, step),
+    y: -positiveMod(dy, step),
+  };
+}
 
 function Card({ wo }) {
   const clientName = wo.client?.company_name || wo.client_name || `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() || 'No client';
@@ -47,6 +64,35 @@ export default function WorkOrdersTest() {
   const [page, setPage] = useState(1);
   const PER_PAGE = 5;
 
+  const tacticalColumnRef = useRef(null);
+  const titleplateRef = useRef(null);
+  const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+
+  const syncHudGridAlignment = useCallback(() => {
+    const col = tacticalColumnRef.current;
+    const plate = titleplateRef.current;
+    if (!col || !plate) return;
+    const c = col.getBoundingClientRect();
+    const p = plate.getBoundingClientRect();
+    const dx = p.left - c.left;
+    const dy = p.top - c.top;
+    const base = hudGridShiftForTitleplate(dx, dy, HUD_GRID_STEP);
+    setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
+  }, []);
+
+  useLayoutEffect(() => {
+    syncHudGridAlignment();
+    const col = tacticalColumnRef.current;
+    if (!col) return undefined;
+    const ro = new ResizeObserver(() => syncHudGridAlignment());
+    ro.observe(col);
+    window.addEventListener('resize', syncHudGridAlignment);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', syncHudGridAlignment);
+    };
+  }, [syncHudGridAlignment]);
+
   const sorted = [...(data?.items || [])].sort((a, b) => {
     if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
     if (sortBy === 'oldest') return new Date(a.created_at || 0) - new Date(b.created_at || 0);
@@ -78,12 +124,13 @@ export default function WorkOrdersTest() {
             0% { left: -48%; }
             100% { left: 115%; }
           }
-          /* Ops titleplate — orange chroma (was cyan in schedule-test) */
-          .sched-tactical-grid-bg {
+          /* Ops titleplate — orange chroma; grid step matches field (42px) + alignment vars */
+          .wo-test-hud-titleplate-grid {
             background-image:
               linear-gradient(rgba(255,122,0,.07) 1px, transparent 1px),
               linear-gradient(90deg, rgba(255,122,0,.07) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
+            background-position: var(--wo-test-hud-grid-x, 0px) var(--wo-test-hud-grid-y, 0px);
           }
           .sched-hud-orbitron {
             font-family: 'Orbitron', system-ui, sans-serif;
@@ -143,7 +190,7 @@ export default function WorkOrdersTest() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: WO_TEST_PAGE_BG }}>
-      <div className="relative px-4 py-6 max-w-lg mx-auto">
+      <div ref={tacticalColumnRef} className="relative px-4 py-6 max-w-lg mx-auto">
         {/* Tactical background — same layers as techboard; no extra “card” container */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div className="absolute inset-0" style={{ background: WO_TEST_PAGE_BG }} />
@@ -182,9 +229,17 @@ export default function WorkOrdersTest() {
         {/* Page header — same titleplate pattern as schedule-test “Ops Board” */}
         <div className="relative mb-4">
           <div
+            ref={titleplateRef}
             className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.32)] sched-neon-edge sched-hud-scan"
+            style={{
+              ['--wo-test-hud-grid-x']: `${hudGridShift.x}px`,
+              ['--wo-test-hud-grid-y']: `${hudGridShift.y}px`,
+            }}
           >
-            <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 sched-tactical-grid-bg" aria-hidden />
+            <div
+              className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 wo-test-hud-titleplate-grid"
+              aria-hidden
+            />
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-orange-600/0 opacity-60 pointer-events-none rounded-[inherit]" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
             <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-orange-400/25 to-transparent pointer-events-none z-[1]" />

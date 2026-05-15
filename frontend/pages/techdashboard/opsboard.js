@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -15,6 +15,23 @@ import { NEON_RAILS } from '../../components/schedule/ScheduleTestTimeline';
 /** Fractal noise texture for tactical HUD shell (matches tech dashboard board) */
 const OPSBOARD_TACTICAL_NOISE_BG =
   'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
+
+/** Match tactical field grid (`bg-[size:42px_42px]`). */
+const HUD_GRID_STEP = 42;
+/** Subpixel / DPR tweak — same as mass / partswait / headertest. */
+const HUD_GRID_NUDGE_X = -1;
+const HUD_GRID_NUDGE_Y = -1;
+
+function positiveMod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+function hudGridShiftForTitleplate(dx, dy, step) {
+  return {
+    x: -positiveMod(dx, step),
+    y: -positiveMod(dy, step),
+  };
+}
 
 /** Set to `true` to show Navigate / Call on expanded appointment cards */
 const SHOW_NAVIGATE_AND_CALL_BUTTONS = false;
@@ -398,6 +415,35 @@ function TodaysRoute() {
     return map;
   }, [appointments]);
 
+  const tacticalColumnRef = useRef(null);
+  const titleplateRef = useRef(null);
+  const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+
+  const syncHudGridAlignment = useCallback(() => {
+    const col = tacticalColumnRef.current;
+    const plate = titleplateRef.current;
+    if (!col || !plate) return;
+    const c = col.getBoundingClientRect();
+    const p = plate.getBoundingClientRect();
+    const dx = p.left - c.left;
+    const dy = p.top - c.top;
+    const base = hudGridShiftForTitleplate(dx, dy, HUD_GRID_STEP);
+    setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
+  }, []);
+
+  useLayoutEffect(() => {
+    syncHudGridAlignment();
+    const col = tacticalColumnRef.current;
+    if (!col) return undefined;
+    const ro = new ResizeObserver(() => syncHudGridAlignment());
+    ro.observe(col);
+    window.addEventListener('resize', syncHudGridAlignment);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', syncHudGridAlignment);
+    };
+  }, [syncHudGridAlignment]);
+
   return (
     <>
       <Head>
@@ -414,12 +460,13 @@ function TodaysRoute() {
             0% { left: -48%; }
             100% { left: 115%; }
           }
-          /* Titleplate — work_orders/test pattern, violet chroma */
+          /* Titleplate — violet chroma; grid step matches field (42px) + alignment vars */
           .ops-queue-titleplate-grid {
             background-image:
               linear-gradient(rgba(167,139,250,.085) 1px, transparent 1px),
               linear-gradient(90deg, rgba(167,139,250,.085) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
+            background-position: var(--ops-queue-hud-grid-x, 0px) var(--ops-queue-hud-grid-y, 0px);
           }
           .ops-queue-titleplate-orbitron {
             font-family: 'Orbitron', system-ui, sans-serif;
@@ -479,7 +526,7 @@ function TodaysRoute() {
       </Head>
 
       <div className="min-h-screen pb-8" style={{ background: '#0A0F1E' }}>
-        <div className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
           {/* Tactical background — full column; same pattern as work_orders/test */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
@@ -519,9 +566,17 @@ function TodaysRoute() {
             <div className="sticky z-[1100] mb-4 top-[72px]">
               <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 sm:pb-5 space-y-4">
                 <div
+                  ref={titleplateRef}
                   className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-violet-400/40 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(139,92,246,.38)] ops-queue-titleplate-edge ops-queue-titleplate-scan"
+                  style={{
+                    ['--ops-queue-hud-grid-x']: `${hudGridShift.x}px`,
+                    ['--ops-queue-hud-grid-y']: `${hudGridShift.y}px`,
+                  }}
                 >
-                  <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 ops-queue-titleplate-grid" aria-hidden />
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 ops-queue-titleplate-grid"
+                    aria-hidden
+                  />
                   <div className="absolute inset-0 bg-gradient-to-br from-violet-400/22 to-purple-950/0 opacity-70 pointer-events-none rounded-[inherit]" />
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/22 to-transparent pointer-events-none z-[1]" />
                   <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-violet-400/35 to-transparent pointer-events-none z-[1]" />

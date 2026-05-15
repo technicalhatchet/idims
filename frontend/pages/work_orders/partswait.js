@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -17,6 +17,23 @@ const TACTICAL_NOISE_BG =
 const PAGE_BG = '#0A0F1E';
 const FETCH_LIMIT = 500;
 const UNASSIGNED = '__unassigned__';
+
+/** Match tactical field grid (`bg-[size:42px_42px]`). */
+const HUD_GRID_STEP = 42;
+/** Subpixel / DPR tweak — same as `/work_orders/headertest`. */
+const HUD_GRID_NUDGE_X = -1;
+const HUD_GRID_NUDGE_Y = -1;
+
+function positiveMod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+function hudGridShiftForTitleplate(dx, dy, step) {
+  return {
+    x: -positiveMod(dx, step),
+    y: -positiveMod(dy, step),
+  };
+}
 
 /** Same work-order statuses as techboard Parts Waiting stat (+ parts lines). */
 const WO_PARTS_HOLD_STATUSES = new Set(['waiting_on_parts', 'parts_on_order']);
@@ -105,6 +122,35 @@ export default function PartsWaitingPage() {
   const [search, setSearch] = useState('');
   /** Admin tech filter: collapsed by default to save vertical space */
   const [techPanelOpen, setTechPanelOpen] = useState(false);
+
+  const tacticalColumnRef = useRef(null);
+  const titleplateRef = useRef(null);
+  const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+
+  const syncHudGridAlignment = useCallback(() => {
+    const col = tacticalColumnRef.current;
+    const plate = titleplateRef.current;
+    if (!col || !plate) return;
+    const c = col.getBoundingClientRect();
+    const p = plate.getBoundingClientRect();
+    const dx = p.left - c.left;
+    const dy = p.top - c.top;
+    const base = hudGridShiftForTitleplate(dx, dy, HUD_GRID_STEP);
+    setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
+  }, []);
+
+  useLayoutEffect(() => {
+    syncHudGridAlignment();
+    const col = tacticalColumnRef.current;
+    if (!col) return undefined;
+    const ro = new ResizeObserver(() => syncHudGridAlignment());
+    ro.observe(col);
+    window.addEventListener('resize', syncHudGridAlignment);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', syncHudGridAlignment);
+    };
+  }, [syncHudGridAlignment]);
 
   const userRole = user ? getUserRole(user) : null;
   const isTechnician = userRole === 'technician';
@@ -260,11 +306,12 @@ export default function PartsWaitingPage() {
             0% { left: -48%; }
             100% { left: 115%; }
           }
-          .sched-tactical-grid-bg {
+          .partswait-hud-titleplate-grid {
             background-image:
               linear-gradient(rgba(255,122,0,.07) 1px, transparent 1px),
               linear-gradient(90deg, rgba(255,122,0,.07) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
+            background-position: var(--partswait-hud-grid-x, 0px) var(--partswait-hud-grid-y, 0px);
           }
           .sched-hud-orbitron {
             font-family: 'Orbitron', system-ui, sans-serif;
@@ -342,7 +389,7 @@ export default function PartsWaitingPage() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: PAGE_BG }}>
-        <div className="relative px-4 py-6 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="relative px-4 py-6 max-w-lg mx-auto">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: PAGE_BG }} />
             <div
@@ -380,9 +427,17 @@ export default function PartsWaitingPage() {
           <div className="relative z-10">
             <div className="relative mb-4">
               <div
+                ref={titleplateRef}
                 className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.32)] sched-neon-edge sched-hud-scan"
+                style={{
+                  ['--partswait-hud-grid-x']: `${hudGridShift.x}px`,
+                  ['--partswait-hud-grid-y']: `${hudGridShift.y}px`,
+                }}
               >
-                <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 sched-tactical-grid-bg" aria-hidden />
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 partswait-hud-titleplate-grid"
+                  aria-hidden
+                />
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-orange-600/0 opacity-60 pointer-events-none rounded-[inherit]" />
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
                 <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-orange-400/25 to-transparent pointer-events-none z-[1]" />
