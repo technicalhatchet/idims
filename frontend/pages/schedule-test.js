@@ -585,7 +585,7 @@ function ScheduleTestInner() {
           }}
         />
 
-        <div ref={tacticalColumnRef} className="relative px-4 pt-5 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: SCHED_TACTICAL_PAGE_BG }} />
             <div
@@ -619,7 +619,7 @@ function ScheduleTestInner() {
             </div>
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
-          <div className="relative z-10">
+          <div className="relative z-10 p-4 sm:p-6">
           {/* Page header — tactical OPS BOARD titleplate */}
           <motion.div
             initial={{ opacity: 0, y: 6 }}

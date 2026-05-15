@@ -591,7 +591,7 @@ function TodaysRoute() {
                     <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1">
                       <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-violet-300 to-transparent" />
                       <span className="ops-queue-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.18em] uppercase">
-                        {scheduleDateDisplay}
+                        Online
                         <span className="mx-2 text-white/25">/</span>
                         {filteredAppointments.length} Stop{filteredAppointments.length !== 1 ? 's' : ''}
                       </span>

@@ -190,7 +190,7 @@ export default function WorkOrdersTest() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: WO_TEST_PAGE_BG }}>
-      <div ref={tacticalColumnRef} className="relative px-4 py-6 max-w-lg mx-auto">
+      <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
         {/* Tactical background — same layers as techboard; no extra “card” container */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div className="absolute inset-0" style={{ background: WO_TEST_PAGE_BG }} />
@@ -225,7 +225,7 @@ export default function WorkOrdersTest() {
           <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
         </div>
 
-        <div className="relative z-10">
+        <div className="relative z-10 p-4 sm:p-6">
         {/* Page header — same titleplate pattern as schedule-test “Ops Board” */}
         <div className="relative mb-4">
           <div
