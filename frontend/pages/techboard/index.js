@@ -595,10 +595,72 @@ export default function TechDashboardTest() {
       <Head>
         <title>Tech Dashboard | Atomic Repair</title>
         <link rel="manifest" href="/manifest-tech.json" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
         <style>{`
           @keyframes techboard-tactical-scan {
             0% { left: -48%; }
             100% { left: 115%; }
+          }
+          @keyframes techboard-titleplate-scan {
+            100% { left: 120%; }
+          }
+          .techboard-titleplate-grid {
+            background-image:
+              linear-gradient(rgba(0, 217, 255, 0.07) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 217, 255, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+          }
+          .techboard-titleplate-orbitron {
+            font-family: 'Orbitron', system-ui, sans-serif;
+          }
+          .techboard-titleplate-title-glow {
+            text-shadow:
+              0 0 8px rgba(255, 255, 255, 0.15),
+              0 0 18px rgba(34, 211, 238, 0.35),
+              0 0 40px rgba(0, 212, 255, 0.22);
+          }
+          .techboard-titleplate-edge {
+            position: relative;
+          }
+          .techboard-titleplate-edge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(
+              135deg,
+              rgba(34, 211, 238, 0.72),
+              rgba(8, 51, 68, 0.28),
+              rgba(0, 212, 255, 0.5)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+          }
+          .techboard-titleplate-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(34, 211, 238, 0.085),
+              transparent
+            );
+            animation: techboard-titleplate-scan 5s linear infinite;
+            border-radius: inherit;
+            pointer-events: none;
           }
           /* Next job — flat spotlight (no hover/sweep on shell) */
           .tech-next-job-card {
@@ -789,12 +851,12 @@ export default function TechDashboardTest() {
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
         <div className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
-          {/* Tactical background — full column; same pattern as work_orders/test */}
+          {/* Tactical background — full column; same cyan grid stack as opsboard / mass / partswait */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
             <div
               className="absolute inset-0 opacity-[0.11]
-                bg-[linear-gradient(rgba(0,217,255,.36)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.36)_1px,transparent_1px)]
+                bg-[linear-gradient(rgba(0,217,255,.36)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
                 bg-[size:42px_42px]"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
@@ -825,15 +887,38 @@ export default function TechDashboardTest() {
 
           <div className="relative z-10 p-4 sm:p-6">
 
-          {/* Page Header */}
+          {/* Page header — HUD titleplate (same shell as opsboard / mass / partswait) */}
           <div className="mb-5">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-gray-500">Good {getGreeting()},</p>
-                <h1 className="text-2xl font-bold text-white">{firstName}</h1>
-                <p className="text-xs text-gray-500 mt-0.5">{format(today, 'EEEE, MMMM d, yyyy')}</p>
+            <div
+              className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)] techboard-titleplate-edge techboard-titleplate-scan"
+            >
+              <div
+                className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 techboard-titleplate-grid"
+                aria-hidden
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-cyan-950/0 opacity-60 pointer-events-none rounded-[inherit]" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
+              <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent pointer-events-none z-[1]" />
+
+              <div className="relative z-[2] flex justify-between items-start gap-3 min-w-0">
+                <div className="min-w-0 flex-1">
+                  <p className="techboard-titleplate-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.28em] text-cyan-300/95 mb-1.5 font-semibold leading-tight">
+                    Good {getGreeting()},
+                  </p>
+                  <h1 className="techboard-titleplate-orbitron techboard-titleplate-title-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
+                    {firstName}
+                  </h1>
+                  <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
+                    <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
+                    <span className="techboard-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase">
+                      {format(today, 'EEEE, MMMM d, yyyy')}
+                    </span>
+                  </div>
+                </div>
+                <div className="shrink-0 pt-0.5">
+                  <RouteButton />
+                </div>
               </div>
-              <RouteButton />
             </div>
           </div>
 
