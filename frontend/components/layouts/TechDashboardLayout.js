@@ -1,5 +1,5 @@
 // TechDashboardLayout v2
-import { useState, useRef, useEffect } from 'react';
+import { createContext, useContext, useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -59,6 +59,12 @@ const NAV_ITEMS = [
   },
 ];
 
+const TechDashboardRailContext = createContext(null);
+
+export function useTechDashboardRail() {
+  return useContext(TechDashboardRailContext);
+}
+
 export default function TechDashboardLayout({ children }) {
   const [railOpen, setRailOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -85,7 +91,13 @@ export default function TechDashboardLayout({ children }) {
     return router.pathname.startsWith(href);
   };
 
+  const openRail = useCallback(() => {
+    setRailOpen(true);
+    setExpanded(false);
+  }, []);
+
   return (
+    <TechDashboardRailContext.Provider value={{ openRail }}>
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
 
       {/* ── HEADER ── */}
@@ -326,5 +338,6 @@ export default function TechDashboardLayout({ children }) {
         {children}
       </main>
     </div>
+    </TechDashboardRailContext.Provider>
   );
 }

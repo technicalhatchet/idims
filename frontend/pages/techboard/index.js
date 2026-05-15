@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format, isToday, isFuture } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import TechDashboardLayout, { useTechDashboardRail } from '../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
@@ -88,6 +88,7 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
       onClick={handleClick}
       style={{ cursor: href ? 'pointer' : 'default' }}
       data-sweep-color={sweepColor}
+      data-techboard-card
     >
       <div className="flex items-center gap-3 p-4 rounded-lg h-full relative overflow-hidden"
         style={{ 
@@ -224,15 +225,16 @@ function RouteButton() {
       className={`tech-glass-card tech-hover-lift ${sweeping ? 'tech-sweep-active' : ''}`}
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
+      data-techboard-card
     >
-      <div 
+      <div
         className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium relative overflow-hidden"
-        style={{ 
-          background: 'rgba(13, 21, 37, 0.25)', 
+        style={{
+          background: 'rgba(13, 21, 37, 0.25)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(34,211,238,0.4)', 
-          color: '#22D3EE' 
+          border: '1px solid rgba(34,211,238,0.4)',
+          color: '#22D3EE',
         }}
       >
         <div className="tech-sweep-overlay" />
@@ -265,8 +267,9 @@ function CriticalMassCard({ count }) {
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
       data-sweep-color={isActive ? 'orange' : 'cyan'}
+      data-techboard-card
     >
-      <div 
+      <div
         className="relative flex items-center gap-4 p-4 rounded-lg overflow-hidden"
         style={{ 
           background: 'rgba(13, 21, 37, 0.25)', 
@@ -321,7 +324,7 @@ function CriticalMassCard({ count }) {
 // ── Next Job Card (flat spotlight + link to work order body) ───────────────
 function NextJobCard({ job }) {
   return (
-    <div className="mb-4 rounded-lg tech-next-job-card">
+    <div className="mb-4 rounded-lg tech-next-job-card" data-techboard-card>
       <div className="rounded-lg" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.35)' }}>
         <Link href={`/work_orders/${job.work_order_id}`} className="block p-4 active:opacity-90">
           <div className="flex justify-between items-start mb-3">
@@ -488,15 +491,30 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────
+const DOUBLE_TAP_MS = 300;
+
 export default function TechDashboardTest() {
   const { user } = useUser();
+  const { openRail } = useTechDashboardRail() || {};
   const [schedule, setSchedule] = useState([]);
   const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0, partsWaiting: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
+  const lastTap = useRef(0);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+
+  const handleGridTouchEnd = useCallback((e) => {
+    if (e.target.closest('[data-techboard-card]')) return;
+    const now = Date.now();
+    if (lastTap.current && now - lastTap.current < DOUBLE_TAP_MS) {
+      openRail?.();
+      lastTap.current = 0;
+    } else {
+      lastTap.current = now;
+    }
+  }, [openRail]);
 
   const syncHudGridAlignment = useCallback(() => {
     const col = tacticalColumnRef.current;
@@ -909,7 +927,11 @@ export default function TechDashboardTest() {
       </Head>
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
-        <div ref={tacticalColumnRef} className="relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+        <div
+          ref={tacticalColumnRef}
+          className="relative px-4 pt-0 pb-5 max-w-lg mx-auto"
+          onTouchEnd={handleGridTouchEnd}
+        >
           {/* Tactical background — full column; same cyan grid stack as opsboard / mass / partswait */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
@@ -951,6 +973,7 @@ export default function TechDashboardTest() {
             <div
               ref={titleplateRef}
               className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)] techboard-titleplate-edge techboard-titleplate-scan"
+              data-techboard-card
               style={{
                 ['--techboard-hud-grid-x']: `${hudGridShift.x}px`,
                 ['--techboard-hud-grid-y']: `${hudGridShift.y}px`,
@@ -990,7 +1013,7 @@ export default function TechDashboardTest() {
           {nextJob ? (
             <NextJobCard job={nextJob} />
           ) : (
-            <div className="rounded-lg p-4 mb-4 text-center" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.2)' }}>
+            <div className="rounded-lg p-4 mb-4 text-center" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.2)' }} data-techboard-card>
               <p className="text-sm text-gray-400">No upcoming jobs today</p>
             </div>
           )}
@@ -1055,7 +1078,7 @@ export default function TechDashboardTest() {
           <CriticalMassCard count={workOrderStats.criticalMass} />
 
           {/* ── TODAY'S JOBS ── */}
-          <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Mission Queue</h2>
               <Link href="/opsboard" className="text-xs text-cyan-400 flex items-center gap-1">
@@ -1076,7 +1099,7 @@ export default function TechDashboardTest() {
           </div>
 
           {/* ── UPCOMING APPOINTMENTS ── */}
-          <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Upcoming Appointments</h2>
               <Link href="/schedule-test" className="text-xs text-cyan-400 flex items-center gap-1">
