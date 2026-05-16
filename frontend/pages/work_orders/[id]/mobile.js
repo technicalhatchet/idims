@@ -66,7 +66,14 @@ function WorkOrderDetail() {
 
   /** Mobile ⋯ overflow (Print, Edit, Delete, Status) */
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
   const mobileMoreRef = useRef(null);
+
+  useEffect(() => {
+    if (activeTab !== TABS.NOTES) {
+      setNotesAddSheetOpen(false);
+    }
+  }, [activeTab]);
   
   // Ensure dark mode applies correctly on page load
   useEffect(() => {
@@ -707,7 +714,12 @@ function WorkOrderDetail() {
           {/* Notes Tab */}
           {activeTab === TABS.NOTES && (
             <div className="px-1 py-2 md:p-6 min-w-0">
-              <WorkOrderNotes workOrderId={workOrder.id} />
+              <WorkOrderNotes
+                workOrderId={workOrder.id}
+                variant="mobile"
+                addSheetOpen={notesAddSheetOpen}
+                onAddSheetOpenChange={setNotesAddSheetOpen}
+              />
             </div>
           )}
           
@@ -1382,7 +1394,7 @@ function WorkOrderDetail() {
           {activeTab === TABS.NOTES && (
             <button
               type="button"
-              onClick={() => document.getElementById('noteType')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+              onClick={() => setNotesAddSheetOpen(true)}
               className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
             >
               Add note

@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { format } from 'date-fns';
-import { FaEye, FaLock, FaTimes, FaEdit } from 'react-icons/fa';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { FaEye, FaLock, FaTimes, FaEdit, FaPlus } from 'react-icons/fa';
 import { apiClient } from '../../utils/api-client';
 import Button from '../ui/Button';
 import { SelectInput, TextareaInput, TextInput } from '../ui/FormElements';
@@ -46,7 +45,7 @@ const NOTE_FIELDS = {
 // Initial field values for structured note types
 const getInitialFieldValues = (noteType) => {
   if (!NOTE_FIELDS[noteType]) return {};
-  
+
   return NOTE_FIELDS[noteType].reduce((values, field) => {
     values[field.id] = field.type === 'checkbox' ? false : '';
     return values;
@@ -56,7 +55,7 @@ const getInitialFieldValues = (noteType) => {
 // Parse structured note content
 const parseNoteContent = (content, noteType) => {
   if (!NOTE_FIELDS[noteType]) return { text: content };
-  
+
   try {
     return JSON.parse(content);
   } catch (e) {
@@ -67,7 +66,7 @@ const parseNoteContent = (content, noteType) => {
 // Format structured fields for display
 const formatFieldsForDisplay = (fieldValues, noteType) => {
   if (!NOTE_FIELDS[noteType]) return fieldValues.text || '';
-  
+
   return NOTE_FIELDS[noteType].map(field => {
     const value = fieldValues[field.id];
     if (field.type === 'checkbox') {
@@ -84,7 +83,20 @@ const formatFieldsForAPI = (fieldValues, noteType) => {
   return JSON.stringify(fieldValues);
 };
 
-export default function WorkOrderNotes({ workOrderId }) {
+const EMPTY_NOTE = {
+  type: NOTE_TYPES.GENERAL,
+  content: '',
+  fieldValues: {},
+  isPrivate: false,
+};
+
+export default function WorkOrderNotes({
+  workOrderId,
+  variant = 'desktop',
+  addSheetOpen: addSheetOpenProp,
+  onAddSheetOpenChange,
+}) {
+  const isMobile = variant === 'mobile';
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -92,13 +104,24 @@ export default function WorkOrderNotes({ workOrderId }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const { user } = useUser();
-  const [newNote, setNewNote] = useState({
-    type: NOTE_TYPES.GENERAL,
-    content: '',
-    fieldValues: {},
-    isPrivate: false
-  });
+  const [internalAddSheetOpen, setInternalAddSheetOpen] = useState(false);
+  const [newNote, setNewNote] = useState({ ...EMPTY_NOTE });
+
+  const addSheetOpen = onAddSheetOpenChange != null ? addSheetOpenProp : internalAddSheetOpen;
+  const setAddSheetOpen = onAddSheetOpenChange ?? setInternalAddSheetOpen;
+
+  const resetNewNoteForm = useCallback(() => {
+    setNewNote({ ...EMPTY_NOTE });
+  }, []);
+
+  const openAddSheet = useCallback(() => {
+    resetNewNoteForm();
+    setAddSheetOpen(true);
+  }, [resetNewNoteForm, setAddSheetOpen]);
+
+  const closeAddSheet = useCallback(() => {
+    setAddSheetOpen(false);
+  }, [setAddSheetOpen]);
 
   useEffect(() => {
     if (workOrderId) {
@@ -107,7 +130,6 @@ export default function WorkOrderNotes({ workOrderId }) {
   }, [workOrderId]);
 
   useEffect(() => {
-    // When note type changes, initialize appropriate field values
     if (NOTE_FIELDS[newNote.type]) {
       setNewNote(prev => ({
         ...prev,
@@ -116,12 +138,18 @@ export default function WorkOrderNotes({ workOrderId }) {
     }
   }, [newNote.type]);
 
+  const prevAddSheetOpen = useRef(false);
+  useEffect(() => {
+    if (isMobile && addSheetOpen && !prevAddSheetOpen.current) {
+      resetNewNoteForm();
+    }
+    prevAddSheetOpen.current = addSheetOpen;
+  }, [addSheetOpen, isMobile, resetNewNoteForm]);
+
   const fetchNotes = async () => {
     try {
       setIsLoading(true);
-      console.log('Fetching notes for work order:', workOrderId);
       const response = await apiClient(`work-orders/${workOrderId}/notes`);
-      console.log('Notes response:', response);
       setNotes(response);
       setError(null);
     } catch (err) {
@@ -153,11 +181,10 @@ export default function WorkOrderNotes({ workOrderId }) {
   };
 
   const handleViewNote = (note) => {
-    // Extract note type from content
     const match = note.note.match(/^\[(.*?)\]\n/);
     const noteType = match ? match[1] : NOTE_TYPES.GENERAL;
     const content = match ? note.note.substring(match[0].length) : note.note;
-    
+
     setSelectedNote({
       ...note,
       type: noteType,
@@ -168,7 +195,7 @@ export default function WorkOrderNotes({ workOrderId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       let noteContent;
       if (NOTE_FIELDS[newNote.type]) {
@@ -185,14 +212,9 @@ export default function WorkOrderNotes({ workOrderId }) {
           is_private: newNote.isPrivate
         })
       });
-      
-      // Reset form and refresh notes
-      setNewNote({
-        type: NOTE_TYPES.GENERAL,
-        content: '',
-        fieldValues: {},
-        isPrivate: false
-      });
+
+      resetNewNoteForm();
+      closeAddSheet();
       fetchNotes();
     } catch (err) {
       console.error('Error creating note:', err);
@@ -208,7 +230,6 @@ export default function WorkOrderNotes({ workOrderId }) {
     return <div className="text-red-500 text-center py-8">{error}</div>;
   }
 
-  // Render a field based on its type
   const renderField = (field, value, readOnly = false) => {
     switch (field.type) {
       case 'checkbox':
@@ -262,7 +283,6 @@ export default function WorkOrderNotes({ workOrderId }) {
     }
   };
 
-  // Render form fields or note content based on the note type
   const renderNoteFields = (noteType, fieldValues, readOnly = false) => {
     if (!NOTE_FIELDS[noteType]) {
       return (
@@ -272,7 +292,7 @@ export default function WorkOrderNotes({ workOrderId }) {
           value={readOnly ? fieldValues.text || '' : newNote.content}
           onChange={(e) => !readOnly && setNewNote({ ...newNote, content: e.target.value })}
           rows={8}
-          placeholder={readOnly ? '' : "Enter your note here..."}
+          placeholder={readOnly ? '' : 'Enter your note here...'}
           disabled={readOnly}
         />
       );
@@ -289,94 +309,289 @@ export default function WorkOrderNotes({ workOrderId }) {
     );
   };
 
+  const addNoteForm = (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <SelectInput
+        label="Note Type"
+        id="noteType"
+        value={newNote.type}
+        onChange={handleNoteTypeChange}
+        options={Object.values(NOTE_TYPES).map(type => ({ value: type, label: type }))}
+      />
+
+      {renderNoteFields(newNote.type, newNote.fieldValues)}
+
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="isPrivate"
+          checked={newNote.isPrivate}
+          onChange={(e) => setNewNote({ ...newNote, isPrivate: e.target.checked })}
+          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+        />
+        <label htmlFor="isPrivate" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+          Private Note (only visible to staff)
+        </label>
+      </div>
+
+      <div className="flex justify-end gap-2">
+        {isMobile && (
+          <Button type="button" variant="secondary" onClick={closeAddSheet}>
+            Cancel
+          </Button>
+        )}
+        <Button type="submit" variant="primary">
+          Save Note
+        </Button>
+      </div>
+    </form>
+  );
+
+  const noteViewerTitle = selectedNote && (
+    <>
+      {selectedNote.type} — {format(
+        new Date(selectedNote.created_at.endsWith('Z') ? selectedNote.created_at : selectedNote.created_at + 'Z'),
+        'MMM d, yyyy h:mm a'
+      )}
+    </>
+  );
+
+  const noteViewerBody = selectedNote && (
+    <>
+      <div className={`mb-4 text-sm ${isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}`}>
+        Added by: {selectedNote.user_name}
+        {selectedNote.is_private && (
+          <span className="ml-2 text-yellow-500" title="Private Note">
+            <FaLock className="h-4 w-4 inline mr-1" />
+            Private
+          </span>
+        )}
+      </div>
+
+      <div className={`p-4 rounded-lg ${isMobile ? 'bg-white/5 border border-white/10' : 'bg-gray-50 dark:bg-gray-700'}`}>
+        {isEditing ? (
+          <textarea
+            className="w-full px-3 py-2 border border-blue-400 rounded dark:bg-gray-600 dark:text-white text-sm"
+            rows={8}
+            value={editContent}
+            onChange={e => setEditContent(e.target.value)}
+          />
+        ) : (
+          renderNoteFields(selectedNote.type, selectedNote.fieldValues, true)
+        )}
+      </div>
+
+      <div className={`mt-6 flex ${isMobile ? 'flex-col gap-2' : 'justify-between'}`}>
+        {isEditing ? (
+          <div className="flex gap-2">
+            <Button onClick={() => setIsEditing(false)} variant="secondary">Cancel</Button>
+            <Button
+              variant="primary"
+              disabled={isSaving}
+              onClick={async () => {
+                setIsSaving(true);
+                try {
+                  const match = editContent.match(/^\[(.*?)\]\n/);
+                  const noteType = match ? match[1] : selectedNote.type;
+                  const updatedNote = `[${noteType}]\n${match ? editContent.substring(match[0].length) : editContent}`;
+                  await apiClient(`work-orders/${workOrderId}/notes/${selectedNote.id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ note: updatedNote })
+                  });
+                  setIsEditing(false);
+                  setSelectedNote(null);
+                  fetchNotes();
+                } catch (e) { alert('Failed to save: ' + e.message); }
+                finally { setIsSaving(false); }
+              }}
+            >
+              {isSaving ? 'Saving...' : 'Save'}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            onClick={() => {
+              setEditContent(selectedNote.content);
+              setIsEditing(true);
+            }}
+            className="px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-md text-sm font-medium"
+          >
+            <FaEdit className="inline h-3 w-3 mr-1" /> Edit
+          </Button>
+        )}
+        <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="primary">
+          Close
+        </Button>
+      </div>
+    </>
+  );
+
+  const sheetBackdrop = (onClose) => (
+    <button
+      type="button"
+      aria-label="Close"
+      className="fixed inset-0 z-[1190] bg-black/60"
+      onClick={onClose}
+    />
+  );
+
+  const renderNoteListItem = (note, asButton = false) => {
+    const match = note.note.match(/^\[(.*?)\]\n/);
+    const noteType = match ? match[1] : 'Note';
+    const dateStr = note.created_at.endsWith('Z') ? note.created_at : note.created_at + 'Z';
+    const noteDate = new Date(dateStr);
+
+    const inner = (
+      <>
+        <div className="flex justify-between items-start gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className={`text-sm font-medium truncate ${asButton ? 'font-semibold text-cyan-300' : 'text-blue-600 dark:text-blue-400'}`}>
+              {noteType}
+            </span>
+            {note.is_private && (
+              <FaLock className="h-3 w-3 text-yellow-500 flex-shrink-0" title="Private" />
+            )}
+          </div>
+          <FaEye className={`h-4 w-4 flex-shrink-0 mt-0.5 ${asButton ? 'text-gray-500' : 'text-gray-400'}`} />
+        </div>
+        <div className={`mt-1 flex flex-wrap gap-x-3 text-xs ${asButton ? 'text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>
+          <span>{note.user_name}</span>
+          <span>{format(noteDate, 'MMM d, yyyy h:mm a')}</span>
+        </div>
+      </>
+    );
+
+    if (asButton) {
+      return (
+        <button
+          key={note.id}
+          type="button"
+          onClick={() => handleViewNote(note)}
+          className="w-full text-left rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 active:bg-white/[0.06] transition-colors"
+        >
+          {inner}
+        </button>
+      );
+    }
+
+    return (
+      <li
+        key={note.id}
+        className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+        onClick={() => handleViewNote(note)}
+      >
+        {inner}
+      </li>
+    );
+  };
+
+  if (isMobile) {
+    return (
+      <div className="min-w-0">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3 px-0.5">
+          Notes history
+        </h3>
+
+        {notes.length === 0 ? (
+          <div className="text-center py-10 text-gray-400 text-sm rounded-xl border border-dashed border-white/15">
+            No notes yet. Tap Add note below to create one.
+          </div>
+        ) : (
+          <div className="space-y-2 pb-4">
+            {notes.map(note => renderNoteListItem(note, true))}
+          </div>
+        )}
+
+        {!addSheetOpen && onAddSheetOpenChange == null && (
+          <button
+            type="button"
+            onClick={openAddSheet}
+            className="fixed right-4 z-[1185] flex h-12 items-center gap-2 rounded-full bg-gradient-to-br from-cyan-600 to-cyan-700 px-4 text-sm font-semibold text-white shadow-[0_0_24px_rgba(34,211,238,0.35)] active:scale-[0.98]"
+            style={{ bottom: 'calc(72px + env(safe-area-inset-bottom))' }}
+          >
+            <FaPlus className="h-3.5 w-3.5" />
+            Add note
+          </button>
+        )}
+
+        {addSheetOpen && (
+          <>
+            {sheetBackdrop(closeAddSheet)}
+            <div
+              className="fixed inset-x-0 bottom-0 z-[1191] max-h-[88vh] overflow-y-auto rounded-t-2xl border-t border-white/10 bg-[#0f172a] shadow-2xl"
+              style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}
+            >
+              <div className="sticky top-0 z-10 bg-[#0f172a] pt-3 pb-2 px-4 border-b border-white/10">
+                <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-white/20" />
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-semibold text-white">Add note</h3>
+                  <button
+                    type="button"
+                    onClick={closeAddSheet}
+                    className="p-2 text-gray-400 hover:text-white"
+                    aria-label="Close"
+                  >
+                    <FaTimes className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+              <div className="px-4 py-4">{addNoteForm}</div>
+            </div>
+          </>
+        )}
+
+        {selectedNote && (
+          <>
+            {sheetBackdrop(() => { setSelectedNote(null); setIsEditing(false); })}
+            <div
+              className="fixed inset-x-0 bottom-0 z-[1192] max-h-[88vh] overflow-y-auto rounded-t-2xl border-t border-white/10 bg-[#0f172a] shadow-2xl"
+              style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}
+            >
+              <div className="sticky top-0 z-10 bg-[#0f172a] pt-3 pb-2 px-4 border-b border-white/10">
+                <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-white/20" />
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-base font-semibold text-white leading-snug pr-2">
+                    {noteViewerTitle}
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => { setSelectedNote(null); setIsEditing(false); }}
+                    className="p-2 text-gray-400 hover:text-white shrink-0"
+                    aria-label="Close"
+                  >
+                    <FaTimes className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+              <div className="px-4 py-4 text-gray-200">{noteViewerBody}</div>
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      {/* Note Viewer Modal */}
       {selectedNote && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                {selectedNote.type} - {format(new Date(selectedNote.created_at.endsWith('Z') ? selectedNote.created_at : selectedNote.created_at + 'Z'), 'MMM d, yyyy h:mm a')}
+                {noteViewerTitle}
               </h3>
-              <button 
+              <button
                 onClick={() => { setSelectedNote(null); setIsEditing(false); }}
                 className="text-gray-400 hover:text-gray-500"
               >
                 <FaTimes className="h-5 w-5" />
               </button>
             </div>
-            
-            <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-              Added by: {selectedNote.user_name} 
-              {selectedNote.is_private && (
-                <span className="ml-2 text-yellow-500" title="Private Note">
-                  <FaLock className="h-4 w-4 inline mr-1" />
-                  Private
-                </span>
-              )}
-            </div>
-
-            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-              {isEditing ? (
-                <textarea
-                  className="w-full px-3 py-2 border border-blue-400 rounded dark:bg-gray-600 dark:text-white text-sm"
-                  rows={8}
-                  value={editContent}
-                  onChange={e => setEditContent(e.target.value)}
-                />
-              ) : (
-                renderNoteFields(selectedNote.type, selectedNote.fieldValues, true)
-              )}
-            </div>
-            
-            <div className="mt-6 flex justify-between">
-              {isEditing ? (
-                <div className="flex gap-2">
-                  <Button onClick={() => setIsEditing(false)} variant="secondary">Cancel</Button>
-                  <Button
-                    variant="primary"
-                    disabled={isSaving}
-                    onClick={async () => {
-                      setIsSaving(true);
-                      try {
-                        const match = editContent.match(/^\[(.*?)\]\n/);
-                        const noteType = match ? match[1] : selectedNote.type;
-                        const updatedNote = `[${noteType}]\n${match ? editContent.substring(match[0].length) : editContent}`;
-                        await apiClient(`work-orders/${workOrderId}/notes/${selectedNote.id}`, {
-                          method: 'PUT',
-                          body: JSON.stringify({ note: updatedNote })
-                        });
-                        setIsEditing(false);
-                        setSelectedNote(null);
-                        fetchNotes();
-                      } catch(e) { alert('Failed to save: ' + e.message); }
-                      finally { setIsSaving(false); }
-                    }}
-                  >
-                    {isSaving ? 'Saving...' : 'Save'}
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setEditContent(selectedNote.content);
-                    setIsEditing(true);
-                  }}
-                  className="px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-md text-sm font-medium"
-                >
-                  <FaEdit className="inline h-3 w-3 mr-1" /> Edit
-                </Button>
-              )}
-              <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="primary">
-                Close
-              </Button>
-            </div>
+            {noteViewerBody}
           </div>
         </div>
       )}
 
-      {/* Existing Notes List */}
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">Notes History</h3>
@@ -388,78 +603,18 @@ export default function WorkOrderNotes({ workOrderId }) {
             </div>
           ) : (
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-              {notes.map((note) => {
-                const match = note.note.match(/^\[(.*?)\]\n/);
-                const noteType = match ? match[1] : 'Note';
-                // Append Z if no timezone info so it parses as UTC
-                const dateStr = note.created_at.endsWith('Z') ? note.created_at : note.created_at + 'Z';
-                const noteDate = new Date(dateStr);
-                
-                return (
-                  <li
-                    key={note.id}
-                    className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-                    onClick={() => handleViewNote(note)}
-                  >
-                    <div className="flex justify-between items-start gap-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-sm font-medium text-blue-600 dark:text-blue-400 truncate">
-                          {noteType}
-                        </span>
-                        {note.is_private && (
-                          <FaLock className="h-3 w-3 text-yellow-500 flex-shrink-0" title="Private" />
-                        )}
-                      </div>
-                      <FaEye className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
-                    </div>
-                    <div className="mt-1 flex flex-wrap gap-x-3 text-xs text-gray-500 dark:text-gray-400">
-                      <span>{note.user_name}</span>
-                      <span>{format(noteDate, 'MMM d, yyyy h:mm a')}</span>
-                    </div>
-                  </li>
-                );
-              })}
+              {notes.map(note => renderNoteListItem(note, false))}
             </ul>
           )}
         </div>
       </div>
 
-      {/* Add New Note Form */}
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">Add New Note</h3>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <SelectInput
-            label="Note Type"
-            id="noteType"
-            value={newNote.type}
-            onChange={handleNoteTypeChange}
-            options={Object.values(NOTE_TYPES).map(type => ({ value: type, label: type }))}
-          />
-
-          {renderNoteFields(newNote.type, newNote.fieldValues)}
-
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="isPrivate"
-              checked={newNote.isPrivate}
-              onChange={(e) => setNewNote({ ...newNote, isPrivate: e.target.checked })}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label htmlFor="isPrivate" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-              Private Note (only visible to staff)
-            </label>
-          </div>
-
-          <div className="flex justify-end">
-            <Button type="submit" variant="primary">
-              Save Note
-            </Button>
-          </div>
-        </form>
+        <div className="p-6">{addNoteForm}</div>
       </div>
     </div>
   );
-} 
+}
