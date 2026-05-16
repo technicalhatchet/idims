@@ -94,7 +94,7 @@ const PART_LOOKUP_LOGOS = {
 
 export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop' }) {
   const isMobile = variant === 'mobile';
-  const [openSection, setOpenSection] = useState(isMobile ? 'equipment' : null);
+  const [openSection, setOpenSection] = useState(null);
   // Equipment details
   const [equipmentType, setEquipmentType] = useState(workOrder?.equipment_type || '');
   const [equipmentSubtype, setEquipmentSubtype] = useState(workOrder?.equipment_subtype || '');

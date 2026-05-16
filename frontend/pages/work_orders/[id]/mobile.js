@@ -699,16 +699,17 @@ function WorkOrderDetail() {
           
           {/* Appointments Tab */}
           {activeTab === TABS.APPOINTMENTS && (
-            <>
-              <AppointmentScheduler 
-                workOrderId={id} 
+            <div className="px-1 py-2 md:p-6 min-w-0">
+              <AppointmentScheduler
+                workOrderId={id}
                 workOrderAddress={workOrder.service_location?.address}
                 key={`appointments-${id}`}
+                variant="mobile"
                 onAppointmentChange={() => {
                   refetch();
                 }}
               />
-            </>
+            </div>
           )}
           
           {/* Notes Tab */}

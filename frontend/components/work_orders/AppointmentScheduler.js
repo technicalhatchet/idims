@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaUserClock, FaSave, FaTimes, FaCheckCircle, FaExclamationCircle, FaClock, FaCar } from 'react-icons/fa';
-import { format, addMinutes, subMinutes, parseISO } from 'date-fns';
+import { format, addMinutes, subMinutes, parseISO, differenceInMinutes } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../ui/ErrorAlert';
 import Button from '../ui/Button';
@@ -22,7 +22,8 @@ import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
 
-export default function AppointmentScheduler({ workOrderId, workOrderAddress, onAppointmentChange }) {
+export default function AppointmentScheduler({ workOrderId, workOrderAddress, onAppointmentChange, variant = 'desktop' }) {
+  const isMobile = variant === 'mobile';
   console.log("AppointmentScheduler received workOrderId:", workOrderId);
   
   const [appointments, setAppointments] = useState([]);
@@ -1122,6 +1123,33 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     }
   };
 
+  const getDurationLabel = (start, end) => {
+    if (!start || !end) return null;
+    try {
+      const mins = differenceInMinutes(new Date(end), new Date(start));
+      if (mins <= 0) return null;
+      if (mins < 60) return `${mins} min`;
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      return m ? `${h}h ${m}m` : `${h}h`;
+    } catch {
+      return null;
+    }
+  };
+
+  const getAccentBorder = (status) => {
+    switch (status) {
+      case 'scheduled': return 'border-l-cyan-500';
+      case 'en_route': return 'border-l-blue-400';
+      case 'in_progress': return 'border-l-indigo-400';
+      case 'completed_pending_payment': return 'border-l-amber-400';
+      case 'completed': return 'border-l-emerald-500';
+      case 'reschedule': return 'border-l-purple-400';
+      case 'canceled': return 'border-l-red-500/80';
+      default: return 'border-l-gray-500';
+    }
+  };
+
   // Get status badge color
   const getStatusColor = (status) => {
     switch (status) {
@@ -1194,6 +1222,95 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     return `Technician #${techId}`;
   };
 
+  const renderMobileAppointmentCards = () => (
+    <div className="space-y-3">
+      {appointments.map((appointment) => {
+        const duration = getDurationLabel(appointment.scheduled_start, appointment.scheduled_end);
+        return (
+          <article
+            key={appointment.id}
+            className={`rounded-xl border border-white/10 bg-white/[0.03] border-l-[3px] px-3 py-3 ${getAccentBorder(appointment.status)}`}
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-white">
+                  {getAppointmentTypeLabel(appointment.appointment_type)}
+                </p>
+                <p className="text-xs text-cyan-300/90 mt-0.5">
+                  {formatDateTime(appointment.scheduled_start)} – {formatTime(appointment.scheduled_end)}
+                </p>
+                {duration && (
+                  <p className="text-[10px] uppercase tracking-wide text-gray-500 mt-0.5">{duration}</p>
+                )}
+              </div>
+              <select
+                value={appointment.status}
+                onChange={(e) => handleStatusUpdate(appointment.id, e.target.value)}
+                disabled={updatingStatus === appointment.id}
+                className={`shrink-0 max-w-[7.5rem] px-2 py-1 rounded text-[10px] font-semibold border-0 cursor-pointer ${getStatusColor(appointment.status)} ${
+                  updatingStatus === appointment.id ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                <option value="scheduled">Scheduled</option>
+                <option value="en_route">En Route</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed_pending_payment">Pending Pay</option>
+                <option value="completed">Completed</option>
+                <option value="reschedule">Reschedule</option>
+                <option value="refund">Refund</option>
+                <option value="phone_payment">Phone Pay</option>
+                <option value="unreachable">Unreachable</option>
+                <option value="canceled">Canceled</option>
+              </select>
+            </div>
+            <p className="text-xs text-gray-400 mt-2 flex items-center gap-1.5 min-w-0">
+              <FaUserClock className="shrink-0 text-gray-500" />
+              <span className="truncate">{getTechnicianName(appointment.assigned_technician_id)}</span>
+            </p>
+            {workOrderAddress && (
+              <p className="text-xs text-gray-500 mt-1 line-clamp-2">{workOrderAddress}</p>
+            )}
+            {appointment.services?.length > 0 && (
+              <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                {appointment.services.map((s) => s.name).join(', ')}
+              </p>
+            )}
+            {appointment.notes && (
+              <p className="text-xs text-gray-500 mt-1 line-clamp-2">{appointment.notes}</p>
+            )}
+            {(appointment.travel_time_before || appointment.travel_distance_before) && (
+              <div className="mt-2">
+                <TravelTimeInfo
+                  travelTimeBefore={appointment.travel_time_before}
+                  travelTimeAfter={appointment.travel_time_after}
+                  travelDistanceBefore={appointment.travel_distance_before}
+                  travelDistanceAfter={appointment.travel_distance_after}
+                  compact={true}
+                />
+              </div>
+            )}
+            <div className="flex gap-2 mt-3 pt-2 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => editAppointment(appointment)}
+                className="flex-1 h-9 rounded-lg border border-cyan-500/35 text-xs font-semibold uppercase tracking-wide text-cyan-300"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDelete(appointment.id)}
+                className="h-9 px-3 rounded-lg border border-red-500/30 text-xs font-semibold uppercase tracking-wide text-red-300"
+              >
+                Delete
+              </button>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+
   if (isLoading && appointments.length === 0) {
     return <LoadingSpinner />;
   }
@@ -1203,10 +1320,31 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-between">
-        <h2 className="text-lg font-medium text-gray-900 dark:text-white">Appointments</h2>
-        <div className="flex space-x-2">
+    <div
+      className={
+        isMobile
+          ? 'min-w-0 overflow-x-hidden'
+          : 'bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden'
+      }
+    >
+      <div
+        className={
+          isMobile
+            ? 'flex items-center justify-between gap-2 mb-3 px-0.5'
+            : 'px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-between'
+        }
+      >
+        <h2
+          className={
+            isMobile
+              ? 'text-xs font-semibold uppercase tracking-wider text-gray-500'
+              : 'text-lg font-medium text-gray-900 dark:text-white'
+          }
+        >
+          {isMobile ? 'Schedule' : 'Appointments'}
+        </h2>
+        <div className={isMobile ? 'flex gap-1.5' : 'flex space-x-2'}>
+          {!isMobile && (
           <Button 
             onClick={() => setViewMode('list')} 
             variant={viewMode === 'list' ? "primary" : "secondary"} 
@@ -1214,6 +1352,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
           >
             List View
           </Button>
+          )}
           {/* Comment out Calendar button */}
           {/*
           <Button 
@@ -1247,14 +1386,25 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
             Time Windows
           </Button>
           */}
-          <Button 
-            onClick={openForm} 
-            variant="primary" 
-            size="sm" 
-            Icon={FaPlus}
-          >
-            Add Appointment
-          </Button>
+          {isMobile ? (
+            <button
+              type="button"
+              onClick={openForm}
+              className="inline-flex items-center gap-1 rounded-lg border border-cyan-500/35 px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
+            >
+              <FaPlus className="h-3 w-3" />
+              Add
+            </button>
+          ) : (
+            <Button 
+              onClick={openForm} 
+              variant="primary" 
+              size="sm" 
+              Icon={FaPlus}
+            >
+              Add Appointment
+            </Button>
+          )}
         </div>
       </div>
       
@@ -1289,7 +1439,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       
       {/* List View or Calendar View - continue with existing code */}
       {viewMode !== 'auto' && viewMode !== 'window' && (
-        <div className="px-6 py-5">
+        <div className={isMobile ? 'min-w-0' : 'px-6 py-5'}>
           {/* Success message */}
           {successMessage && (
             <div className="mb-4 rounded-md bg-green-50 p-4 dark:bg-green-900/30">
@@ -1344,7 +1494,13 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
           
           {/* Add appointment form */}
           {showForm && (
-            <div className="mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded-md">
+            <div
+              className={
+                isMobile
+                  ? 'mb-4 p-3 rounded-xl border border-white/10 bg-white/[0.03]'
+                  : 'mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded-md'
+              }
+            >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                   {currentAppointment ? `Edit Appointment (${getAppointmentTypeLabel(currentAppointment.appointment_type)})` : 'New Appointment'}
@@ -1720,6 +1876,9 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
               <p className="text-sm">No appointments scheduled yet.</p>
             </div>
           ) : viewMode === 'list' ? (
+            isMobile ? (
+              renderMobileAppointmentCards()
+            ) : (
             <div className="overflow-x-auto">
               <div className="mb-3 text-xs text-gray-500 dark:text-gray-400">
                 Found {appointments.length} appointments. Work Order ID: {workOrderId}
@@ -1810,6 +1969,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                 </tbody>
               </table>
             </div>
+            )
           ) : (
             <div className="calendar-view">
               <div className="grid grid-cols-1 md:grid-cols-7 gap-2 mb-4">
