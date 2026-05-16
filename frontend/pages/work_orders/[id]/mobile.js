@@ -31,7 +31,7 @@ const TABS = {
 
 const TAB_ITEMS = [
   { id: TABS.DETAILS, label: 'Details', Icon: FaClipboardList },
-  { id: TABS.APPOINTMENTS, label: 'Schedule', Icon: FaCalendarAlt },
+  { id: TABS.APPOINTMENTS, label: 'Appointments', Icon: FaCalendarAlt },
   { id: TABS.NOTES, label: 'Notes', Icon: FaClipboardList },
   { id: TABS.MODEL, label: 'Equipment', Icon: FaToolbox },
   { id: TABS.CLIENT, label: 'Client', Icon: FaUserAlt },

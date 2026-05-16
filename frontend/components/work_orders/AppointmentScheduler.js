@@ -1341,7 +1341,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
               : 'text-lg font-medium text-gray-900 dark:text-white'
           }
         >
-          {isMobile ? 'Schedule' : 'Appointments'}
+          Appointments
         </h2>
         <div className={isMobile ? 'flex gap-1.5' : 'flex space-x-2'}>
           {!isMobile && (
