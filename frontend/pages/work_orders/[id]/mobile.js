@@ -725,12 +725,17 @@ function WorkOrderDetail() {
           
           {/* Model Tab */}
           {activeTab === TABS.MODEL && (
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
-              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+            <div className="px-1 py-2 md:p-6 min-w-0 md:bg-white md:dark:bg-gray-800 md:shadow md:rounded-lg md:overflow-hidden md:mb-6">
+              <div className="hidden md:block px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Equipment Details</h2>
               </div>
-              <div className="px-6 py-5">
-                <EquipmentDetails workOrderId={workOrder.id} workOrder={workOrder} onUpdate={refetch} />
+              <div className="md:px-6 md:py-5">
+                <EquipmentDetails
+                  workOrderId={workOrder.id}
+                  workOrder={workOrder}
+                  onUpdate={refetch}
+                  variant="mobile"
+                />
               </div>
             </div>
           )}

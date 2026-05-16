@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { apiClient } from '../../utils/api-client';
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
-import { FaTrash, FaEdit, FaExternalLinkAlt, FaSave, FaTimes, FaInfoCircle } from 'react-icons/fa';
+import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
 import Image from 'next/image';
+import EquipmentDetailsMobile from './EquipmentDetailsMobile';
 
 // Equipment types
 const EQUIPMENT_TYPES = [
@@ -91,7 +92,9 @@ const PART_LOOKUP_LOGOS = {
   encompass: <Image src="/images/logos/encompass.png" alt="Encompass" width={100} height={50} className="w-24 h-12 object-contain" />
 };
 
-export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
+export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop' }) {
+  const isMobile = variant === 'mobile';
+  const [openSection, setOpenSection] = useState(isMobile ? 'equipment' : null);
   // Equipment details
   const [equipmentType, setEquipmentType] = useState(workOrder?.equipment_type || '');
   const [equipmentSubtype, setEquipmentSubtype] = useState(workOrder?.equipment_subtype || '');
@@ -395,6 +398,74 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate }) {
       setError('Failed to update part status');
     }
   };
+
+  const toggleMobileSection = (id) => {
+    setOpenSection((cur) => (cur === id ? null : id));
+  };
+
+  const subtypeLabel =
+    equipmentType && equipmentSubtype
+      ? (EQUIPMENT_SUBTYPES[equipmentType] || []).find((o) => o.value === equipmentSubtype)?.label
+      : null;
+  const equipmentSummary =
+    [subtypeLabel, manufacturer, modelNumber].filter(Boolean).join(' · ') || 'Add equipment details';
+  const identificationSummary =
+    [serialNumber && `S/N ${serialNumber}`, versionNumber && `Ver ${versionNumber}`]
+      .filter(Boolean)
+      .join(' · ') || 'Serial & version';
+  const partsSummary = parts.length ? `${parts.length} part${parts.length === 1 ? '' : 's'}` : 'No parts yet';
+
+  useEffect(() => {
+    if (isMobile && showPartForm) setOpenSection('parts');
+  }, [showPartForm, isMobile]);
+
+  if (isMobile) {
+    return (
+      <EquipmentDetailsMobile
+        openSection={openSection}
+        toggleMobileSection={toggleMobileSection}
+        equipmentSummary={equipmentSummary}
+        identificationSummary={identificationSummary}
+        partsSummary={partsSummary}
+        equipmentType={equipmentType}
+        equipmentSubtype={equipmentSubtype}
+        manufacturer={manufacturer}
+        modelNumber={modelNumber}
+        serialNumber={serialNumber}
+        versionNumber={versionNumber}
+        isWallMounted={isWallMounted}
+        equipmentNotes={equipmentNotes}
+        loading={loading}
+        error={error}
+        successMessage={successMessage}
+        parts={parts}
+        showPartForm={showPartForm}
+        showPartModal={showPartModal}
+        selectedPart={selectedPart}
+        currentPart={currentPart}
+        editingPartIndex={editingPartIndex}
+        setEquipmentSubtype={setEquipmentSubtype}
+        setManufacturer={setManufacturer}
+        setModelNumber={setModelNumber}
+        setSerialNumber={setSerialNumber}
+        setVersionNumber={setVersionNumber}
+        setIsWallMounted={setIsWallMounted}
+        setEquipmentNotes={setEquipmentNotes}
+        setShowPartForm={setShowPartForm}
+        handleEquipmentTypeChange={handleEquipmentTypeChange}
+        saveEquipmentDetails={saveEquipmentDetails}
+        handlePartChange={handlePartChange}
+        addOrUpdatePart={addOrUpdatePart}
+        resetPartForm={resetPartForm}
+        startEditPart={startEditPart}
+        deletePart={deletePart}
+        openPartModal={openPartModal}
+        closePartModal={closePartModal}
+        updatePartStatus={updatePartStatus}
+        generateSearchLink={generateSearchLink}
+      />
+    );
+  }
 
   return (
     <div className="space-y-6">
