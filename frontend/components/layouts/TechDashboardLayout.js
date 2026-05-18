@@ -129,18 +129,21 @@ export default function TechDashboardLayout({ children }) {
       <header 
         className="fixed left-0 right-0 flex items-center justify-between px-4" 
         style={{ 
-          top: 'env(safe-area-inset-top, 0px)',
+          top: 'max(0px, env(safe-area-inset-top, 0px))',
+          minHeight: 72,
           height: 72, 
           background: '#0D1525', 
           borderBottom: '1px solid rgba(255,255,255,0.07)', 
-          zIndex: 1200
+          zIndex: 1200,
+          transition: 'none'
         }}
       >
         {/* Hamburger */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
-          className="w-11 h-11 flex items-center justify-center rounded-lg active:opacity-70 transition-opacity"
+          className="-ml-2 w-14 h-14 flex items-center justify-center rounded-lg active:opacity-70 transition-opacity"
           style={{ background: railOpen ? 'rgba(34,211,238,0.1)' : 'transparent' }}
+          aria-label="Open navigation menu"
         >
           <svg viewBox="0 0 24 24" width="22" height="22" style={{ stroke: '#9CA3AF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
@@ -247,7 +250,7 @@ export default function TechDashboardLayout({ children }) {
       <div
         className="fixed left-0 bottom-0 flex flex-col z-[1195]"
         style={{
-          top: 'env(safe-area-inset-top, 0px)',
+          top: 'max(0px, env(safe-area-inset-top, 0px))',
           width: railWidth,
           background: '#0D1525',
           borderRight: '1px solid rgba(255,255,255,0.07)',
@@ -380,7 +383,7 @@ export default function TechDashboardLayout({ children }) {
       </div>
 
       {/* ── PAGE CONTENT ── */}
-      <main style={{ paddingTop: 'calc(72px + env(safe-area-inset-top, 0px))' }}>
+      <main style={{ paddingTop: 'calc(72px + max(0px, env(safe-area-inset-top, 0px)))' }}>
         {children}
       </main>
     </div>

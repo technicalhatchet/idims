@@ -312,7 +312,8 @@ function WorkOrderDetail() {
           .hud-grid-content input,
           .hud-grid-content select,
           .hud-grid-content textarea,
-          .hud-grid-content label {
+          .hud-grid-content label,
+          .hud-grid-content nav {
             pointer-events: auto;
           }
           @keyframes wo-mobile-tactical-scan {
@@ -372,6 +373,7 @@ function WorkOrderDetail() {
           <div
             ref={gridTapLayerRef}
             className="absolute inset-0 z-[1]"
+            style={{ pointerEvents: 'auto' }}
             aria-hidden
           />
 
@@ -495,7 +497,7 @@ function WorkOrderDetail() {
         {/* Mobile tab pills — sticky below tech header */}
         <div 
           className="md:hidden sticky z-[1100] -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80"
-          style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
+          style={{ top: 'calc(72px + max(0px, env(safe-area-inset-top, 0px)))' }}
         >
         <nav className="flex gap-2 overflow-x-auto overscroll-x-contain pb-0.5 snap-x snap-mandatory touch-pan-x" aria-label="Work order sections">
             {TAB_ITEMS.map(({ id, label }) => (
