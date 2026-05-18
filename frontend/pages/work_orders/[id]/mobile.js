@@ -332,7 +332,8 @@ function WorkOrderDetail() {
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
         <div
           ref={tacticalColumnRef}
-          className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
+          className="hud-tactical-column relative px-4 pb-5 max-w-lg mx-auto"
+          style={{ paddingTop: '1rem' }}
         >
           {/* Tactical background — full column; same cyan grid stack */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -374,7 +375,7 @@ function WorkOrderDetail() {
             aria-hidden
           />
 
-          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
+          <div className="hud-grid-content relative z-10 pt-4 px-4 pb-4 sm:pt-6 sm:px-6 sm:pb-6">
             {/* Header card */}
             <div className="mb-4 md:mb-6">
               <div
@@ -492,7 +493,10 @@ function WorkOrderDetail() {
             </div>
 
         {/* Mobile tab pills — sticky below tech header */}
-        <div className="md:hidden sticky top-[72px] z-[1100] -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80">
+        <div 
+          className="md:hidden sticky z-[1100] -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80"
+          style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
+        >
         <nav className="flex gap-2 overflow-x-auto overscroll-x-contain pb-0.5 snap-x snap-mandatory touch-pan-x" aria-label="Work order sections">
             {TAB_ITEMS.map(({ id, label }) => (
               <button
