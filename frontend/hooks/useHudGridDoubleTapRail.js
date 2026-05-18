@@ -12,21 +12,25 @@ export function useHudGridDoubleTapRail() {
   const lastTap = useRef({ t: 0, x: 0, y: 0 });
 
   useEffect(() => {
+    // Need to wait for ref to be set
+    if (!gridTapLayerRef.current) {
+      console.log('[DoubleTap] Waiting for ref...');
+      return undefined;
+    }
+    
     const layer = gridTapLayerRef.current;
     console.log('[DoubleTap] useEffect running', { 
       hasLayer: !!layer, 
       hasOpenRail: !!openRail,
-      hasContext: !!railContext 
+      hasContext: !!railContext,
+      element: layer.className 
     });
-    if (!layer) {
-      console.error('[DoubleTap] No layer element found!');
-      return undefined;
-    }
+    
     if (!openRail) {
       console.error('[DoubleTap] No openRail function!', { railContext });
       return undefined;
     }
-    console.log('[DoubleTap] Successfully attached to element:', layer.className);
+    console.log('[DoubleTap] ✅ Successfully attached to element:', layer.className);
 
     const tryOpenRailFromDoubleTap = (x, y) => {
       const now = Date.now();
@@ -62,11 +66,14 @@ export function useHudGridDoubleTapRail() {
 
     layer.addEventListener('touchstart', onTouchStart, { passive: false });
     layer.addEventListener('dblclick', onDoubleClick);
+    console.log('[DoubleTap] Event listeners attached!');
+    
     return () => {
+      console.log('[DoubleTap] Cleaning up listeners');
       layer.removeEventListener('touchstart', onTouchStart);
       layer.removeEventListener('dblclick', onDoubleClick);
     };
-  }, [openRail]);
+  }, [openRail, gridTapLayerRef.current]);
 
   return gridTapLayerRef;
 }
