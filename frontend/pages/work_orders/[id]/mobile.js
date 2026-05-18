@@ -299,23 +299,6 @@ function WorkOrderDetail() {
         <title>{workOrder.order_number} | Work Order | Service Business Management</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <style>{`
-          .hud-tactical-column {
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-          }
-          .hud-grid-content {
-            pointer-events: none;
-          }
-          .hud-grid-content [data-hud-card],
-          .hud-grid-content a,
-          .hud-grid-content button,
-          .hud-grid-content input,
-          .hud-grid-content select,
-          .hud-grid-content textarea,
-          .hud-grid-content label,
-          .hud-grid-content nav {
-            pointer-events: auto;
-          }
           @keyframes wo-mobile-tactical-scan {
             0% { left: -48%; }
             100% { left: 115%; }
@@ -377,6 +360,7 @@ function WorkOrderDetail() {
           />
 
           <div className="hud-grid-content relative z-10 pt-4 px-4 pb-4 sm:pt-6 sm:px-6 sm:pb-6">
+
             {/* Header card */}
             <div className="mb-4 md:mb-6">
               <div
