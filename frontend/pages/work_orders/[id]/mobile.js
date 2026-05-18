@@ -273,6 +273,25 @@ function WorkOrderDetail() {
     }
   };
   
+  if (isLoading) {
+    return (
+      <div className="px-4 py-6">
+        <LoadingSpinner size="large" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="px-4 py-6">
+        <ErrorAlert 
+          message="Failed to load work order details" 
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -338,24 +357,6 @@ function WorkOrderDetail() {
           </div>
 
         <div className="hud-grid-content relative z-10 p-4 sm:p-6">
-
-        {isLoading && (
-          <div className="py-6">
-            <LoadingSpinner size="large" />
-          </div>
-        )}
-
-        {error && (
-          <div className="py-6">
-            <ErrorAlert 
-              message="Failed to load work order details" 
-              onRetry={refetch}
-            />
-          </div>
-        )}
-
-        {!isLoading && !error && (
-          <>
         {/* Header card */}
         <div className="relative mb-4">
           <div
@@ -1898,8 +1899,6 @@ function WorkOrderDetail() {
 
         </div>
         {/* End content card container */}
-        </>
-        )}
 
         </div>
       </div>
