@@ -310,6 +310,10 @@ function WorkOrderDetail() {
             background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
             background-position: var(--wo-mobile-hud-grid-x, 0px) var(--wo-mobile-hud-grid-y, 0px);
           }
+          /* Ensure tap layer can receive events in empty areas */
+          .hud-tactical-column {
+            touch-action: manipulation;
+          }
         `}</style>
       </Head>
 
@@ -356,7 +360,11 @@ function WorkOrderDetail() {
           <div
             ref={gridTapLayerRef}
             className="absolute inset-0 z-[1]"
-            aria-hidden
+            style={{ 
+              WebkitTapHighlightColor: 'transparent',
+              cursor: 'pointer'
+            }}
+            aria-hidden="true"
           />
 
           <div className="hud-grid-content relative z-10 pt-4 px-4 pb-4 sm:pt-6 sm:px-6 sm:pb-6">
