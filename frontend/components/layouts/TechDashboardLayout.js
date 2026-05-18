@@ -129,13 +129,13 @@ export default function TechDashboardLayout({ children }) {
       <header 
         className="fixed left-0 right-0 flex items-center justify-between px-4" 
         style={{ 
-          top: 'max(0px, env(safe-area-inset-top, 0px))',
-          minHeight: 72,
-          height: 72, 
+          top: 0,
+          paddingTop: 'env(safe-area-inset-top, 0px)',
+          minHeight: 'calc(72px + env(safe-area-inset-top, 0px))',
+          height: 'auto',
           background: '#0D1525', 
           borderBottom: '1px solid rgba(255,255,255,0.07)', 
-          zIndex: 1200,
-          transition: 'none'
+          zIndex: 1200
         }}
       >
         {/* Hamburger */}
@@ -250,7 +250,8 @@ export default function TechDashboardLayout({ children }) {
       <div
         className="fixed left-0 bottom-0 flex flex-col z-[1195]"
         style={{
-          top: 'max(0px, env(safe-area-inset-top, 0px))',
+          top: 0,
+          paddingTop: 'env(safe-area-inset-top, 0px)',
           width: railWidth,
           background: '#0D1525',
           borderRight: '1px solid rgba(255,255,255,0.07)',
@@ -383,7 +384,7 @@ export default function TechDashboardLayout({ children }) {
       </div>
 
       {/* ── PAGE CONTENT ── */}
-      <main style={{ paddingTop: 'calc(72px + max(0px, env(safe-area-inset-top, 0px)))' }}>
+      <main style={{ paddingTop: 'calc(72px + env(safe-area-inset-top, 0px))' }}>
         {children}
       </main>
     </div>
