@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
@@ -18,6 +18,7 @@ import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
+import { useHudGridDoubleTapRail } from '../../../hooks/useHudGridDoubleTapRail';
 
 // Tabs for the detail page
 const TABS = {
@@ -39,6 +40,25 @@ const TAB_ITEMS = [
 ];
 
 const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
+
+/** Fractal noise texture for tactical HUD background */
+const TACTICAL_NOISE_BG =
+  'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
+
+const HUD_GRID_STEP = 42;
+const HUD_GRID_NUDGE_X = -1;
+const HUD_GRID_NUDGE_Y = -1;
+
+function positiveMod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+function hudGridShiftForTitleplate(dx, dy, step) {
+  return {
+    x: -positiveMod(dx, step),
+    y: -positiveMod(dy, step),
+  };
+}
 
 function WorkOrderDetail() {
   const router = useRouter();
@@ -68,6 +88,37 @@ function WorkOrderDetail() {
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
   const mobileMoreRef = useRef(null);
+
+  /** HUD grid double-tap for icon rail */
+  const gridTapLayerRef = useHudGridDoubleTapRail();
+  const tacticalColumnRef = useRef(null);
+  const headerCardRef = useRef(null);
+  const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+
+  const syncHudGridAlignment = useCallback(() => {
+    const col = tacticalColumnRef.current;
+    const card = headerCardRef.current;
+    if (!col || !card) return;
+    const c = col.getBoundingClientRect();
+    const h = card.getBoundingClientRect();
+    const dx = h.left - c.left;
+    const dy = h.top - c.top;
+    const base = hudGridShiftForTitleplate(dx, dy, HUD_GRID_STEP);
+    setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
+  }, []);
+
+  useLayoutEffect(() => {
+    syncHudGridAlignment();
+    const col = tacticalColumnRef.current;
+    if (!col) return undefined;
+    const ro = new ResizeObserver(() => syncHudGridAlignment());
+    ro.observe(col);
+    window.addEventListener('resize', syncHudGridAlignment);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', syncHudGridAlignment);
+    };
+  }, [syncHudGridAlignment]);
 
   useEffect(() => {
     if (activeTab !== TABS.NOTES) {
@@ -247,31 +298,121 @@ function WorkOrderDetail() {
       <Head>
         <title>{workOrder.order_number} | Work Order | Service Business Management</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <style>{`
+          .hud-tactical-column {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+          }
+          .hud-grid-content {
+            pointer-events: none;
+          }
+          .hud-grid-content [data-hud-card],
+          .hud-grid-content a,
+          .hud-grid-content button,
+          .hud-grid-content input,
+          .hud-grid-content select,
+          .hud-grid-content textarea,
+          .hud-grid-content label {
+            pointer-events: auto;
+          }
+          @keyframes wo-mobile-tactical-scan {
+            0% { left: -48%; }
+            100% { left: 115%; }
+          }
+          .wo-mobile-hud-card-grid {
+            background-image:
+              linear-gradient(rgba(0,217,255,.07) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,217,255,.07) 1px, transparent 1px);
+            background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
+            background-position: var(--wo-mobile-hud-grid-x, 0px) var(--wo-mobile-hud-grid-y, 0px);
+          }
+        `}</style>
       </Head>
 
-      <div
-        className="overflow-x-hidden max-w-[100vw] w-full px-3 sm:px-4 lg:px-8 py-3 md:py-6 pb-[max(6.5rem,env(safe-area-inset-bottom,0px))] md:pb-6"
-      >
-        {/* Header */}
-        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between mb-4 md:mb-6">
-          <div className="flex min-w-0 flex-1 items-start justify-between gap-3">
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="hidden md:inline text-2xl font-bold text-gray-900 dark:text-white">
-                  Work Order:{' '}
-                </span>
-                <span className="md:hidden text-[10px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-full md:w-auto">
-                  Work order
-                </span>
-                <h1 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white truncate max-w-[12rem] sm:max-w-none">
-                  #{workOrder.order_number}
-                </h1>
-                <StatusBadge status={workOrder.status} />
-              </div>
-              <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Created {format(new Date(workOrder.created_at), 'MMM d, yyyy')}
-              </p>
+      <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
+        <div
+          ref={tacticalColumnRef}
+          className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
+        >
+          {/* Tactical background — full column; same cyan grid stack */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+            <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
+            <div
+              className="absolute inset-0 opacity-[0.11]
+                bg-[linear-gradient(rgba(0,217,255,.36)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
+                bg-[size:42px_42px]"
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
+            <div
+              className="absolute inset-0 opacity-[0.028]
+                bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
+            />
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
+              style={{ backgroundImage: TACTICAL_NOISE_BG }}
+            />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div
+                className="absolute top-0 bottom-0 w-[42%]"
+                style={{
+                  left: '-48%',
+                  background: 'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                  animation: 'wo-mobile-tactical-scan 6.5s linear infinite',
+                }}
+              />
             </div>
+            <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
+          </div>
+
+          <div
+            ref={gridTapLayerRef}
+            className="absolute inset-0 z-[1]"
+            aria-hidden
+          />
+
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
+            {/* Header card */}
+            <div className="mb-4 md:mb-6">
+              <div
+                ref={headerCardRef}
+                data-hud-card
+                className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)]"
+                style={{
+                  ['--wo-mobile-hud-grid-x']: `${hudGridShift.x}px`,
+                  ['--wo-mobile-hud-grid-y']: `${hudGridShift.y}px`,
+                }}
+              >
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 wo-mobile-hud-card-grid"
+                  aria-hidden
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-cyan-950/0 opacity-60 pointer-events-none rounded-[inherit]" />
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
+                <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent pointer-events-none z-[1]" />
+
+                <div className="relative z-[2] flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="flex min-w-0 flex-1 items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span className="hidden md:inline text-2xl font-bold text-gray-900 dark:text-white">
+                          Work Order:{' '}
+                        </span>
+                        <span className="md:hidden text-[10px] font-semibold uppercase tracking-wider text-cyan-300/95 w-full md:w-auto">
+                          Work order
+                        </span>
+                        <h1 className="text-lg md:text-2xl font-bold text-white truncate max-w-[12rem] sm:max-w-none">
+                          #{workOrder.order_number}
+                        </h1>
+                        <StatusBadge status={workOrder.status} />
+                      </div>
+                      <p className="text-xs md:text-sm text-gray-400 mt-1">
+                        Created {format(new Date(workOrder.created_at), 'MMM d, yyyy')}
+                      </p>
+                    </div>
             {/* Mobile ⋯ */}
             <div className="relative shrink-0 md:hidden" ref={mobileMoreRef}>
               <button
@@ -324,29 +465,31 @@ function WorkOrderDetail() {
                   </button>
                 </div>
               )}
-            </div>
-          </div>
+                    </div>
+                  </div>
 
-          {/* Desktop actions */}
-          <div className="hidden md:flex flex-wrap gap-2">
-            <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center h-10" title="Edit work order">
-              <FaEdit className="mr-2" />
-              Edit
-            </Link>
-            <button type="button" onClick={() => window.print()} className="btn-white flex items-center h-10" title="Print work order">
-              <FaPrint className="mr-2" />
-              Print
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowStatusModal(true)}
-              className="btn-secondary flex items-center h-10"
-              title="Update status"
-            >
-              Update Status
-            </button>
-          </div>
-        </div>
+                  {/* Desktop actions */}
+                  <div className="hidden md:flex flex-wrap gap-2">
+                    <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center h-10" title="Edit work order">
+                      <FaEdit className="mr-2" />
+                      Edit
+                    </Link>
+                    <button type="button" onClick={() => window.print()} className="btn-white flex items-center h-10" title="Print work order">
+                      <FaPrint className="mr-2" />
+                      Print
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowStatusModal(true)}
+                      className="btn-secondary flex items-center h-10"
+                      title="Update status"
+                    >
+                      Update Status
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
         {/* Mobile tab pills — sticky below tech header */}
         <div className="md:hidden sticky top-[72px] z-[1100] -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80">
@@ -1765,6 +1908,9 @@ function WorkOrderDetail() {
             </div>
           </div>
         </Modal>
+
+          </div>
+        </div>
       </div>
     </>
   );
