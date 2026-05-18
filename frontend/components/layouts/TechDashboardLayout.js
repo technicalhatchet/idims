@@ -126,7 +126,17 @@ export default function TechDashboardLayout({ children }) {
       `}</style>
 
       {/* ── HEADER ── */}
-      <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-4" style={{ height: 72, background: '#0D1525', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 1200 }}>
+      <header 
+        className="fixed top-0 left-0 right-0 flex items-center justify-between px-4" 
+        style={{ 
+          height: 72, 
+          background: '#0D1525', 
+          borderBottom: '1px solid rgba(255,255,255,0.07)', 
+          zIndex: 1200,
+          paddingTop: 'env(safe-area-inset-top, 0px)',
+          top: 0
+        }}
+      >
         {/* Hamburger */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
@@ -236,8 +246,9 @@ export default function TechDashboardLayout({ children }) {
 
       {/* ── ICON RAIL — GPU translateX, fixed width (no width:0 animation) ── */}
       <div
-        className="fixed top-0 left-0 bottom-0 flex flex-col z-[1195]"
+        className="fixed left-0 bottom-0 flex flex-col z-[1195]"
         style={{
+          top: 'env(safe-area-inset-top, 0px)',
           width: railWidth,
           background: '#0D1525',
           borderRight: '1px solid rgba(255,255,255,0.07)',
@@ -370,7 +381,7 @@ export default function TechDashboardLayout({ children }) {
       </div>
 
       {/* ── PAGE CONTENT ── */}
-      <main style={{ paddingTop: 72 }}>
+      <main style={{ paddingTop: 'calc(72px + env(safe-area-inset-top, 0px))' }}>
         {children}
       </main>
     </div>
