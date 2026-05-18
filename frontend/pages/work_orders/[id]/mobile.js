@@ -858,9 +858,11 @@ function WorkOrderDetail() {
           
           {/* Invoices Tab */}
           {activeTab === TABS.INVOICES && (
-            <div className="mb-6 min-w-0 overflow-x-hidden rounded-2xl border border-gray-200/60 bg-white shadow dark:border-gray-700 dark:bg-gray-800 md:rounded-lg md:border-0">
-              <div className="flex flex-col gap-3 border-b border-gray-200 px-4 py-4 dark:border-gray-700 sm:flex-row sm:items-center sm:justify-between md:px-6 md:py-5 bg-gray-50 dark:bg-gray-900">
-                <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
+            <div className="mb-6 min-w-0 overflow-x-hidden md:rounded-lg md:border md:border-gray-200 md:dark:border-gray-700 md:bg-white md:dark:bg-gray-800 md:shadow">
+              <div className="flex flex-col gap-3 mb-3 px-0.5 md:mb-0 md:border-b md:border-gray-200 md:dark:border-gray-700 md:px-6 md:py-5 md:bg-gray-50 md:dark:bg-gray-900 sm:flex-row sm:items-center sm:justify-between">
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500 md:text-lg md:font-medium md:normal-case md:tracking-normal md:text-gray-900 md:dark:text-white">
+                  Billing
+                </h2>
                 <div className="flex gap-2">
                   {['estimate', 'invoice'].map(type => (
                     <button
@@ -893,24 +895,162 @@ function WorkOrderDetail() {
                           setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
                         } catch(e) { alert(`Failed to generate ${type}: ` + e.message); }
                       }}
-                      className={`px-3 py-1.5 text-sm text-white rounded transition-colors ${
-                        type === 'estimate' ? 'bg-cyan-600 hover:bg-cyan-700' : 'bg-orange-600 hover:bg-orange-700'
+                      className={`px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide rounded-lg border transition-colors md:px-3 md:py-1.5 md:text-sm md:normal-case md:tracking-normal md:rounded ${
+                        type === 'estimate'
+                          ? 'border-cyan-500/35 text-cyan-300 md:border-0 md:bg-cyan-600 md:text-white md:hover:bg-cyan-700'
+                          : 'border-orange-500/35 text-orange-200 md:border-0 md:bg-orange-600 md:text-white md:hover:bg-orange-700'
                       }`}
                     >
-                      {type === 'estimate' ? '📋 Estimate' : '📄 Invoice'}
+                      {type === 'estimate' ? 'Estimate' : 'Invoice'}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="min-w-0 px-3 py-4 md:px-6 md:py-5">
+              <div className="min-w-0 px-0.5 py-2 md:px-6 md:py-5">
                 {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
                   <div className="space-y-6">
                     {/* Services Section */}
                     {allServices?.length > 0 && (
                       <div className="min-w-0">
-                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Services</h3>
-                        <div className="-mx-1 overflow-x-hidden md:mx-0 md:overflow-x-auto">
-                          <table className="w-full table-fixed md:min-w-full md:table-auto divide-y divide-gray-200 dark:divide-gray-700">
+                        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2 md:text-md md:font-medium md:normal-case md:tracking-normal md:text-gray-700 md:dark:text-gray-300 md:mb-3">
+                          Services
+                        </h3>
+                        {/* Mobile service cards */}
+                        <div className="md:hidden space-y-2">
+                          {allServices.map((item, index) => {
+                            const isBillable = item.billing_status === 'billable' || item.billing_status === 'paid';
+                            const isPaid = item.billing_status === 'paid';
+                            const isWaived = item.billing_status === 'waived';
+                            const isEditingThis = editingServicePrice?.id === item.id;
+                            const statusLabel = isPaid ? 'Paid' : isBillable ? 'Due Today' : isWaived ? 'Waived' : 'Not Billable';
+                            const statusClass = isPaid
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                              : isBillable
+                                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                : isWaived
+                                  ? 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+                                  : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+
+                            return (
+                              <div
+                                key={`svc-m-${item.service_id || item.id || index}`}
+                                className={`rounded-xl border p-3 ${
+                                  isBillable && !isPaid
+                                    ? 'border-cyan-500/25 bg-cyan-500/[0.04]'
+                                    : 'border-white/10 bg-white/[0.03]'
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="min-w-0 flex-1">
+                                    {isEditingThis ? (
+                                      <input
+                                        className="w-full px-2 py-1.5 text-sm border border-cyan-500/40 rounded-lg bg-[#0B1120] text-white"
+                                        value={editingServicePrice.name}
+                                        onChange={e => setEditingServicePrice(prev => ({ ...prev, name: e.target.value }))}
+                                      />
+                                    ) : (
+                                      <p className="text-sm font-semibold text-white truncate">
+                                        {item.name || 'N/A'}
+                                        {isPaid && <span className="ml-1">✓</span>}
+                                        {isBillable && !isPaid && <span className="ml-1">💰</span>}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <span className={`shrink-0 px-2 py-0.5 text-[10px] font-semibold rounded-full ${statusClass}`}>
+                                    {statusLabel}
+                                  </span>
+                                </div>
+                                <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                                  <div>
+                                    <p className="text-[10px] uppercase tracking-wide text-gray-500">Qty</p>
+                                    <p className="text-sm text-gray-200 mt-0.5">{item.quantity || 1}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] uppercase tracking-wide text-gray-500">Unit</p>
+                                    {isEditingThis ? (
+                                      <input
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        className="w-full mt-0.5 px-1.5 py-1 text-sm border border-cyan-500/40 rounded bg-[#0B1120] text-white text-center"
+                                        value={editingServicePrice.unit_price}
+                                        onChange={e => setEditingServicePrice(prev => ({
+                                          ...prev,
+                                          unit_price: e.target.value,
+                                          price: (parseFloat(e.target.value) * (item.quantity || 1)).toFixed(2),
+                                        }))}
+                                      />
+                                    ) : (
+                                      <p className="text-sm text-gray-200 mt-0.5">${item.unit_price ? item.unit_price.toFixed(2) : '0.00'}</p>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] uppercase tracking-wide text-gray-500">Total</p>
+                                    {isEditingThis ? (
+                                      <input
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        className="w-full mt-0.5 px-1.5 py-1 text-sm border border-cyan-500/40 rounded bg-[#0B1120] text-white text-center"
+                                        value={editingServicePrice.price}
+                                        onChange={e => setEditingServicePrice(prev => ({ ...prev, price: e.target.value }))}
+                                      />
+                                    ) : (
+                                      <p className="text-sm font-medium text-cyan-300 mt-0.5">${item.price ? item.price.toFixed(2) : '0.00'}</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="mt-3 pt-2 border-t border-white/10 flex justify-end">
+                                  {isEditingThis ? (
+                                    <div className="flex gap-2 w-full">
+                                      <button
+                                        type="button"
+                                        disabled={isSavingPrice}
+                                        onClick={async () => {
+                                          setIsSavingPrice(true);
+                                          try {
+                                            await apiClient(`api/work-orders/services/${item.id}/price`, {
+                                              method: 'PUT',
+                                              body: JSON.stringify({
+                                                unit_price: parseFloat(editingServicePrice.unit_price),
+                                                price: parseFloat(editingServicePrice.price),
+                                                name: editingServicePrice.name,
+                                              }),
+                                            });
+                                            setEditingServicePrice(null);
+                                            refetch();
+                                          } catch (e) { alert('Failed to save: ' + e.message); }
+                                          finally { setIsSavingPrice(false); }
+                                        }}
+                                        className="flex-1 h-9 rounded-lg bg-green-600 text-xs font-semibold text-white disabled:opacity-50"
+                                      >
+                                        {isSavingPrice ? 'Saving…' : 'Save'}
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => setEditingServicePrice(null)}
+                                        className="h-9 px-3 rounded-lg border border-white/15 text-xs font-semibold text-gray-300"
+                                      >
+                                        Cancel
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={() => setEditingServicePrice({ id: item.id, name: item.name, unit_price: item.unit_price, price: item.price })}
+                                      className="text-xs font-semibold uppercase tracking-wide text-cyan-300"
+                                    >
+                                      Edit price
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {/* Desktop table */}
+                        <div className="hidden md:block overflow-x-auto">
+                          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead className="bg-gray-50 dark:bg-gray-700">
                               <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Service</th>
@@ -1029,9 +1169,123 @@ function WorkOrderDetail() {
                     {/* Parts Section */}
                     {workOrder?.parts?.length > 0 && (
                       <div className="min-w-0">
-                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Parts</h3>
-                        <div className="-mx-1 overflow-x-hidden md:mx-0 md:overflow-x-auto">
-                          <table className="w-full table-fixed md:min-w-full md:table-auto divide-y divide-gray-200 dark:divide-gray-700">
+                        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2 md:text-md md:font-medium md:normal-case md:tracking-normal md:text-gray-700 md:dark:text-gray-300 md:mb-3">
+                          Parts
+                        </h3>
+                        <div className="md:hidden space-y-2">
+                          {workOrder.parts.map((part, index) => {
+                            const isPhonePayment = part.status === 'phone_payment';
+                            const isUpfront50 = part.status === 'upfront_50';
+                            const isInstalled = part.status === 'installed';
+                            const upfrontCollected = parseFloat(part.amount_upfront_collected || 0);
+                            const price = parseFloat(part.price || 0);
+                            const remainingDue = isInstalled ? price - upfrontCollected : isUpfront50 ? price * 0.5 : isPhonePayment ? 0 : null;
+                            const isBillable = isPhonePayment || isUpfront50 || isInstalled;
+                            const isPaid = isPhonePayment;
+                            const isPartial = isUpfront50 || (isInstalled && upfrontCollected > 0);
+                            const statusLabel = isPaid
+                              ? 'Paid in Full'
+                              : isUpfront50
+                                ? `50% Due ($${(price * 0.5).toFixed(2)})`
+                                : isInstalled && upfrontCollected > 0
+                                  ? `Balance ($${remainingDue.toFixed(2)})`
+                                  : isInstalled
+                                    ? 'Due Today'
+                                    : 'Not Billable';
+                            const statusClass = isPaid
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                              : isUpfront50
+                                ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
+                                : isInstalled && upfrontCollected > 0
+                                  ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                  : isBillable
+                                    ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                    : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+
+                            return (
+                              <div
+                                key={`part-m-${part.id || index}`}
+                                className={`rounded-xl border p-3 ${
+                                  isBillable && !isPaid
+                                    ? 'border-cyan-500/25 bg-cyan-500/[0.04]'
+                                    : 'border-white/10 bg-white/[0.03]'
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="min-w-0 flex-1">
+                                    <p className="text-sm font-semibold text-white truncate">{part.number}</p>
+                                    <p className="text-xs text-gray-400 mt-1 line-clamp-2">{part.description}</p>
+                                  </div>
+                                  <span className={`shrink-0 px-2 py-0.5 text-[10px] font-semibold rounded-full max-w-[42%] text-right leading-tight ${statusClass}`}>
+                                    {statusLabel}
+                                  </span>
+                                </div>
+                                <div className="mt-3 flex items-end justify-between gap-3">
+                                  <div>
+                                    <p className="text-[10px] uppercase tracking-wide text-gray-500">Price</p>
+                                    {editingPartPrice?.id === part.id ? (
+                                      <input
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        className="w-28 mt-0.5 px-2 py-1 text-sm border border-cyan-500/40 rounded bg-[#0B1120] text-white"
+                                        value={editingPartPrice.price}
+                                        onChange={e => setEditingPartPrice(prev => ({ ...prev, price: e.target.value }))}
+                                      />
+                                    ) : (
+                                      <p className="text-lg font-semibold text-cyan-300 mt-0.5">${price.toFixed(2)}</p>
+                                    )}
+                                    {isPartial && upfrontCollected > 0 && (
+                                      <p className="text-xs text-gray-500 mt-0.5">${upfrontCollected.toFixed(2)} collected</p>
+                                    )}
+                                  </div>
+                                  <div className="flex gap-2">
+                                    {editingPartPrice?.id === part.id ? (
+                                      <>
+                                        <button
+                                          type="button"
+                                          disabled={isSavingPrice}
+                                          onClick={async () => {
+                                            setIsSavingPrice(true);
+                                            try {
+                                              await apiClient(`api/work-orders/parts/${part.id}/price`, {
+                                                method: 'PUT',
+                                                body: JSON.stringify({ price: parseFloat(editingPartPrice.price) }),
+                                              });
+                                              setEditingPartPrice(null);
+                                              refetch();
+                                            } catch (e) { alert('Failed to save: ' + e.message); }
+                                            finally { setIsSavingPrice(false); }
+                                          }}
+                                          className="h-9 px-3 rounded-lg bg-green-600 text-xs font-semibold text-white disabled:opacity-50"
+                                        >
+                                          {isSavingPrice ? '…' : 'Save'}
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => setEditingPartPrice(null)}
+                                          className="h-9 px-3 rounded-lg border border-white/15 text-xs font-semibold text-gray-300"
+                                        >
+                                          Cancel
+                                        </button>
+                                      </>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={() => setEditingPartPrice({ id: part.id, price })}
+                                        className="h-9 px-3 rounded-lg border border-cyan-500/35 text-xs font-semibold uppercase tracking-wide text-cyan-300"
+                                      >
+                                        Edit
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="hidden md:block overflow-x-auto">
+                          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead className="bg-gray-50 dark:bg-gray-700">
                               <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Part Number</th>
@@ -1184,14 +1438,14 @@ function WorkOrderDetail() {
 
                       return (
                         <>
-                          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-1.5">
+                          <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.03] p-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700 space-y-1.5">
                             {/* Tax rate control */}
-                            <div className="flex justify-end items-center gap-2 mb-3">
-                              <span className="text-xs text-gray-500 dark:text-gray-400">Tax Rate:</span>
+                            <div className="flex justify-between md:justify-end items-center gap-2 mb-3">
+                              <span className="text-xs text-gray-500">Tax Rate</span>
                               <div className="flex items-center gap-1">
                                 <input
                                   type="number" step="0.01" min="0" max="20"
-                                  className="w-16 px-2 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white text-right"
+                                  className="w-16 px-2 py-1 text-xs border border-white/15 rounded bg-[#0B1120] text-white text-right md:border-gray-300 md:dark:border-gray-600 md:dark:bg-gray-700"
                                   defaultValue={taxPct}
                                   onBlur={async (e) => {
                                     const newRate = parseFloat(e.target.value) / 100;
@@ -1209,35 +1463,35 @@ function WorkOrderDetail() {
                               </div>
                             </div>
 
-                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Services Subtotal</span>
                               <span>${servicesSubtotal.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Parts Subtotal</span>
                               <span>${partsSubtotal.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-sm font-medium text-gray-700 dark:text-gray-300 pt-1 border-t border-gray-200 dark:border-gray-700">
+                            <div className="flex justify-between text-sm font-medium text-gray-200 md:text-gray-700 md:dark:text-gray-300 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-700">
                               <span>Subtotal</span>
                               <span>${subtotal.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Sales Tax ({taxPct}% on parts)</span>
                               <span>${taxOnParts.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-sm font-medium text-gray-700 dark:text-gray-300 pt-1 border-t border-gray-200 dark:border-gray-700">
+                            <div className="flex justify-between text-sm font-medium text-gray-200 md:text-gray-700 md:dark:text-gray-300 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-700">
                               <span>Gross Total</span>
                               <span>${grossTotal.toFixed(2)}</span>
                             </div>
 
                             {/* Diagnostic discount line */}
                             {hasRepairSku && workOrder?.diagnostic_discount_amount > 0 && (
-                              <div className={`flex justify-between items-center text-sm ${
+                              <div className={`flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center text-sm ${
                                 repairCompleted
-                                  ? 'text-blue-600 dark:text-blue-400 font-medium'
-                                  : 'text-gray-400 dark:text-gray-500 italic'
+                                  ? 'text-cyan-300 md:text-blue-600 md:dark:text-blue-400 font-medium'
+                                  : 'text-gray-500 italic md:text-gray-400 md:dark:text-gray-500'
                               }`}>
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-wrap items-center gap-2 min-w-0">
                                   <span>
                                     Diagnostic Discount ({halfDiagnosticDiscount ? '50%' : '100%'})
                                     {!repairCompleted && ' — pending repair completion'}
@@ -1256,15 +1510,15 @@ function WorkOrderDetail() {
                               </div>
                             )}
 
-                            <div className="flex justify-between text-base font-bold text-gray-900 dark:text-gray-50 pt-1 border-t border-gray-200 dark:border-gray-600">
+                            <div className="flex justify-between text-base font-bold text-white md:text-gray-900 md:dark:text-gray-50 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
                               <span>Total Work Order</span>
                               <span>${totalWorkOrder.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Amount Previously Paid</span>
                               <span>-${previouslyPaid.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-base font-bold text-yellow-600 dark:text-yellow-400 pt-1 border-t border-gray-200 dark:border-gray-600">
+                            <div className="flex justify-between text-base font-bold text-amber-300 md:text-yellow-600 md:dark:text-yellow-400 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
                               <span>Due Today</span>
                               <span>${dueToday.toFixed(2)}</span>
                             </div>
@@ -1272,7 +1526,7 @@ function WorkOrderDetail() {
 
                           {/* Pay button */}
                           {dueToday > 0 && (
-                            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div className="mt-4 md:mt-6 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700">
                               <div className="flex justify-center">
                                 <button
                                   onClick={async () => {
@@ -1299,12 +1553,9 @@ function WorkOrderDetail() {
                                       alert('Failed to process payment: ' + (error.message || 'Unknown error'));
                                     }
                                   }}
-                                  className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium text-lg shadow-lg hover:shadow-xl"
+                                  className="w-full max-w-sm h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white font-semibold text-base shadow-[0_0_24px_rgba(16,185,129,0.25)] active:scale-[0.98] md:w-auto md:max-w-none md:px-8 md:py-3 md:rounded-lg md:bg-green-600 md:hover:bg-green-700 md:shadow-lg md:hover:shadow-xl"
                                 >
-                                  <div className="flex items-center space-x-3">
-                                    <span className="text-xl">💳</span>
-                                    <span>Pay ${dueToday.toFixed(2)}</span>
-                                  </div>
+                                  Pay ${dueToday.toFixed(2)}
                                 </button>
                               </div>
                               <div className="text-center mt-2">
@@ -1318,12 +1569,14 @@ function WorkOrderDetail() {
 
                     {/* Admin Controls */}
                     {user?.roles?.includes('admin') && (
-                      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Admin Controls</h4>
+                      <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.03] p-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700">
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3 md:text-sm md:font-medium md:normal-case md:tracking-normal md:text-gray-700 md:dark:text-gray-300">
+                          Admin Controls
+                        </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Service Billing Status</label>
-                            <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                            <select className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900">
                               <option value="">Select service...</option>
                               {allServices?.map(service => (
                                 <option key={service.id} value={service.id}>
@@ -1334,7 +1587,7 @@ function WorkOrderDetail() {
                           </div>
                           <div>
                             <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">New Billing Status</label>
-                            <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm">
+                            <select className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900">
                               <option value="not_billable">Not Billable</option>
                               <option value="billable">Billable</option>
                               <option value="paid">Paid</option>
@@ -1361,7 +1614,7 @@ function WorkOrderDetail() {
                               placeholder="Amount"
                               value={paymentAmount}
                               onChange={(e) => setPaymentAmount(e.target.value)}
-                              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                              className="flex-1 px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900"
                             />
                             <button 
                               onClick={handleApplyPayment}
