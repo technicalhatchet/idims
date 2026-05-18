@@ -318,7 +318,7 @@ function WorkOrderDetail() {
       </Head>
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
-      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto" style={{ minHeight: '100vh' }}>
         {/* Tactical background — same layers as techboard; no extra "card" container */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
@@ -356,17 +356,17 @@ function WorkOrderDetail() {
         <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
         <div className="hud-grid-content relative z-10 p-4 sm:p-6">
-          {/* Header card */}
-          <div className="mb-4 md:mb-6">
-              <div
-                ref={headerCardRef}
-                data-hud-card
-                className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)]"
-                style={{
-                  ['--wo-mobile-hud-grid-x']: `${hudGridShift.x}px`,
-                  ['--wo-mobile-hud-grid-y']: `${hudGridShift.y}px`,
-                }}
-              >
+        {/* Header card */}
+        <div className="relative mb-4">
+          <div
+            ref={headerCardRef}
+            data-hud-card
+            className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)]"
+            style={{
+              ['--wo-mobile-hud-grid-x']: `${hudGridShift.x}px`,
+              ['--wo-mobile-hud-grid-y']: `${hudGridShift.y}px`,
+            }}
+          >
                 <div
                   className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 wo-mobile-hud-card-grid"
                   aria-hidden
@@ -467,10 +467,10 @@ function WorkOrderDetail() {
                     >
                       Update Status
                     </button>
-                  </div>
-                </div>
               </div>
             </div>
+          </div>
+        </div>
 
         {/* Mobile tab pills — sticky below tech header */}
         <div 
