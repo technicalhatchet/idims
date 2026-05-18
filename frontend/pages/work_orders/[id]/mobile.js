@@ -469,9 +469,12 @@ function WorkOrderDetail() {
           </div>
         </div>
 
+        {/* Content card container */}
+        <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
+        
         {/* Mobile tab pills — sticky below tech header */}
         <div 
-          className="md:hidden sticky z-[1100] -mx-3 sm:-mx-4 px-3 sm:px-4 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80"
+          className="md:hidden sticky z-[1100] -mx-3 px-3 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80"
           style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
         >
         <nav className="flex gap-2 overflow-x-auto overscroll-x-contain pb-0.5 snap-x snap-mandatory touch-pan-x" aria-label="Work order sections">
@@ -1889,6 +1892,9 @@ function WorkOrderDetail() {
             </div>
           </div>
         </Modal>
+
+        </div>
+        {/* End content card container */}
 
         </div>
       </div>
