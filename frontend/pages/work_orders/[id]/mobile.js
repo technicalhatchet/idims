@@ -90,7 +90,8 @@ function WorkOrderDetail() {
   const mobileMoreRef = useRef(null);
 
   /** HUD grid double-tap for icon rail */
-  const tacticalColumnRef = useHudGridDoubleTapRail();
+  const doubleTapRef = useHudGridDoubleTapRail();
+  const tacticalColumnRef = useRef(null);
   const headerCardRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
 
@@ -317,7 +318,14 @@ function WorkOrderDetail() {
       </Head>
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
-      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto" style={{ minHeight: '100vh' }}>
+      <div 
+        ref={(node) => {
+          tacticalColumnRef.current = node;
+          doubleTapRef.current = node;
+        }}
+        className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto" 
+        style={{ minHeight: '100vh' }}
+      >
         {/* Tactical background — same layers as techboard; no extra "card" container */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
@@ -470,7 +478,7 @@ function WorkOrderDetail() {
         </div>
 
         {/* Content card container */}
-        <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
+        <div className="rounded-lg p-3 overflow-visible" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
         
         {/* Mobile tab pills — sticky below tech header */}
         <div 
