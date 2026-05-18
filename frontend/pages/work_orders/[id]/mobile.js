@@ -318,13 +318,9 @@ function WorkOrderDetail() {
       </Head>
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
-        <div
-          ref={tacticalColumnRef}
-          className="hud-tactical-column relative px-4 pb-5 max-w-lg mx-auto"
-          style={{ paddingTop: '1rem' }}
-        >
-          {/* Tactical background — full column; same cyan grid stack */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+        {/* Tactical background — same layers as techboard; no extra "card" container */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
             <div
               className="absolute inset-0 opacity-[0.11]
@@ -357,11 +353,10 @@ function WorkOrderDetail() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
+        <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
-          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
-
-            {/* Header card */}
+        <div className="hud-grid-content relative z-10 p-4 sm:p-6">
+        {/* Header card */}
             <div className="mb-4 md:mb-6">
               <div
                 ref={headerCardRef}
@@ -476,6 +471,8 @@ function WorkOrderDetail() {
                 </div>
               </div>
             </div>
+
+        </div>
 
         {/* Mobile tab pills — sticky below tech header */}
         <div 
@@ -1898,8 +1895,7 @@ function WorkOrderDetail() {
           </div>
         </Modal>
 
-          </div>
-        </div>
+      </div>
       </div>
     </>
   );
