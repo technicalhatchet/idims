@@ -90,8 +90,7 @@ function WorkOrderDetail() {
   const mobileMoreRef = useRef(null);
 
   /** HUD grid double-tap for icon rail */
-  const gridTapLayerRef = useHudGridDoubleTapRail();
-  const tacticalColumnRef = useRef(null);
+  const tacticalColumnRef = useHudGridDoubleTapRail();
   const headerCardRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
 
@@ -352,8 +351,6 @@ function WorkOrderDetail() {
             </div>
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
-
-        <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
         <div className="hud-grid-content relative z-10 p-4 sm:p-6">
         {/* Header card */}
