@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useTechDashboardRail } from '../components/layouts/TechDashboardLayout';
 
 const DOUBLE_TAP_MS = 350;
@@ -11,14 +11,13 @@ export function useHudGridDoubleTapRail() {
   const gridTapLayerRef = useRef(null);
   const lastTap = useRef({ t: 0, x: 0, y: 0 });
 
-  useEffect(() => {
-    // Need to wait for ref to be set
-    if (!gridTapLayerRef.current) {
-      console.log('[DoubleTap] Waiting for ref...');
+  useLayoutEffect(() => {
+    const layer = gridTapLayerRef.current;
+    
+    if (!layer) {
+      console.log('[DoubleTap] useLayoutEffect - no ref yet');
       return undefined;
     }
-    
-    const layer = gridTapLayerRef.current;
     console.log('[DoubleTap] useEffect running', { 
       hasLayer: !!layer, 
       hasOpenRail: !!openRail,
@@ -73,7 +72,7 @@ export function useHudGridDoubleTapRail() {
       layer.removeEventListener('touchstart', onTouchStart);
       layer.removeEventListener('dblclick', onDoubleClick);
     };
-  }, [openRail, gridTapLayerRef.current]);
+  }, [openRail]);
 
   return gridTapLayerRef;
 }
