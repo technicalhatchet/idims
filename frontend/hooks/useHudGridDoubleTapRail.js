@@ -12,11 +12,7 @@ export function useHudGridDoubleTapRail() {
 
   useEffect(() => {
     const layer = gridTapLayerRef.current;
-    console.log('[DoubleTap] Hook effect running', { layer, openRail: !!openRail });
-    if (!layer) {
-      console.warn('[DoubleTap] No layer element found');
-      return undefined;
-    }
+    if (!layer) return undefined;
 
     const tryOpenRailFromDoubleTap = (x, y) => {
       const now = Date.now();
@@ -33,16 +29,9 @@ export function useHudGridDoubleTapRail() {
     };
 
     const onTouchStart = (e) => {
-      console.log('[DoubleTap] Touch detected', { 
-        target: e.target, 
-        touches: e.touches.length,
-        layer: layer 
-      });
       if (e.touches.length !== 1) return;
       const { clientX, clientY } = e.touches[0];
-      console.log('[DoubleTap] Single touch at', { x: clientX, y: clientY });
       if (tryOpenRailFromDoubleTap(clientX, clientY)) {
-        console.log('[DoubleTap] Double-tap detected! Opening rail');
         e.preventDefault();
       }
     };

@@ -357,17 +357,9 @@ function WorkOrderDetail() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-          <div
-            ref={gridTapLayerRef}
-            className="absolute inset-0 z-[1]"
-            style={{ 
-              WebkitTapHighlightColor: 'transparent',
-              cursor: 'pointer'
-            }}
-            aria-hidden="true"
-          />
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
-          <div className="hud-grid-content relative z-10 pt-4 px-4 pb-4 sm:pt-6 sm:px-6 sm:pb-6">
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
 
             {/* Header card */}
             <div className="mb-4 md:mb-6">
