@@ -356,8 +356,8 @@ function WorkOrderDetail() {
         <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
         <div className="hud-grid-content relative z-10 p-4 sm:p-6">
-        {/* Header card */}
-            <div className="mb-4 md:mb-6">
+          {/* Header card */}
+          <div className="mb-4 md:mb-6">
               <div
                 ref={headerCardRef}
                 data-hud-card
@@ -471,8 +471,6 @@ function WorkOrderDetail() {
                 </div>
               </div>
             </div>
-
-        </div>
 
         {/* Mobile tab pills — sticky below tech header */}
         <div 
@@ -1895,6 +1893,7 @@ function WorkOrderDetail() {
           </div>
         </Modal>
 
+        </div>
       </div>
       </div>
     </>
