@@ -18,7 +18,7 @@ import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
-import { useHudGridDoubleTapRail } from '../../../hooks/useHudGridDoubleTapRail';
+import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 
 // Tabs for the detail page
 const TABS = {
@@ -89,10 +89,51 @@ function WorkOrderDetail() {
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
   const mobileMoreRef = useRef(null);
 
-  /** HUD grid double-tap for icon rail */
-  const tacticalColumnRef = useHudGridDoubleTapRail();
+  /** HUD grid double-tap for icon rail - attach after data loads */
+  const tacticalColumnRef = useRef(null);
+  const { openRail } = useTechDashboardRail() || {};
   const headerCardRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+
+  // Attach double-tap listener AFTER work order loads
+  useEffect(() => {
+    if (isLoading || error || !tacticalColumnRef.current || !openRail) return;
+    
+    const layer = tacticalColumnRef.current;
+    const lastTap = { t: 0, x: 0, y: 0 };
+    
+    const tryOpenRail = (x, y) => {
+      const now = Date.now();
+      const dt = now - lastTap.t;
+      const dist = Math.hypot(x - lastTap.x, y - lastTap.y);
+      if (lastTap.t && dt < 350 && dist < 48) {
+        openRail();
+        lastTap.t = 0;
+        return true;
+      }
+      lastTap.t = now;
+      lastTap.x = x;
+      lastTap.y = y;
+      return false;
+    };
+    
+    const onTouch = (e) => {
+      if (e.touches.length === 1) {
+        const { clientX, clientY } = e.touches[0];
+        if (tryOpenRail(clientX, clientY)) e.preventDefault();
+      }
+    };
+    
+    const onDblClick = () => openRail();
+    
+    layer.addEventListener('touchstart', onTouch, { passive: false });
+    layer.addEventListener('dblclick', onDblClick);
+    
+    return () => {
+      layer.removeEventListener('touchstart', onTouch);
+      layer.removeEventListener('dblclick', onDblClick);
+    };
+  }, [isLoading, error, openRail]);
 
   const syncHudGridAlignment = useCallback(() => {
     const col = tacticalColumnRef.current;
