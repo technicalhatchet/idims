@@ -6,13 +6,27 @@ const DOUBLE_TAP_MAX_DIST_PX = 48;
 
 /** Double-tap empty tactical grid background to open the tech dashboard icon rail. */
 export function useHudGridDoubleTapRail() {
-  const { openRail } = useTechDashboardRail() || {};
+  const railContext = useTechDashboardRail();
+  const { openRail } = railContext || {};
   const gridTapLayerRef = useRef(null);
   const lastTap = useRef({ t: 0, x: 0, y: 0 });
 
   useEffect(() => {
     const layer = gridTapLayerRef.current;
-    if (!layer) return undefined;
+    console.log('[DoubleTap] useEffect running', { 
+      hasLayer: !!layer, 
+      hasOpenRail: !!openRail,
+      hasContext: !!railContext 
+    });
+    if (!layer) {
+      console.error('[DoubleTap] No layer element found!');
+      return undefined;
+    }
+    if (!openRail) {
+      console.error('[DoubleTap] No openRail function!', { railContext });
+      return undefined;
+    }
+    console.log('[DoubleTap] Successfully attached to element:', layer.className);
 
     const tryOpenRailFromDoubleTap = (x, y) => {
       const now = Date.now();
@@ -29,14 +43,20 @@ export function useHudGridDoubleTapRail() {
     };
 
     const onTouchStart = (e) => {
+      console.log('[DoubleTap] touchstart event', { touches: e.touches.length, target: e.target.className });
       if (e.touches.length !== 1) return;
       const { clientX, clientY } = e.touches[0];
-      if (tryOpenRailFromDoubleTap(clientX, clientY)) {
+      console.log('[DoubleTap] Position:', { x: clientX, y: clientY });
+      const result = tryOpenRailFromDoubleTap(clientX, clientY);
+      console.log('[DoubleTap] Detection result:', result);
+      if (result) {
+        console.log('[DoubleTap] 🎉 DOUBLE-TAP DETECTED! Opening rail...');
         e.preventDefault();
       }
     };
 
     const onDoubleClick = () => {
+      console.log('[DoubleTap] dblclick event (desktop)');
       openRail?.();
     };
 
