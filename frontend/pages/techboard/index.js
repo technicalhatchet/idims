@@ -502,6 +502,12 @@ export default function TechDashboardTest() {
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
+  /** Avoid SSR/client mismatch on greeting, date, and Auth0 name (React #425/#418). */
+  const [headerReady, setHeaderReady] = useState(false);
+
+  useEffect(() => {
+    setHeaderReady(true);
+  }, []);
 
   const syncHudGridAlignment = useCallback(() => {
     const col = tacticalColumnRef.current;
@@ -645,7 +651,13 @@ export default function TechDashboardTest() {
 
   const nextJob = pickNextJobToday(todayAppts);
 
-  const firstName = user?.given_name || user?.name?.split(' ')[0] || 'Tech';
+  const titleplateFirstName = headerReady
+    ? (user?.given_name || user?.name?.split(' ')[0] || 'Tech')
+    : 'Tech';
+  const titleplateGreeting = headerReady ? getGreeting() : 'morning';
+  const titleplateDateLabel = headerReady
+    ? format(new Date(), 'EEEE, MMMM d, yyyy')
+    : '\u00a0';
 
   return (
     <>
@@ -982,15 +994,18 @@ export default function TechDashboardTest() {
               <div className="relative z-[2] flex justify-between items-start gap-3 min-w-0">
                 <div className="min-w-0 flex-1">
                   <p className="techboard-titleplate-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.28em] text-cyan-300/95 mb-1.5 font-semibold leading-tight">
-                    Good {getGreeting()},
+                    Good {titleplateGreeting},
                   </p>
                   <h1 className="techboard-titleplate-orbitron techboard-titleplate-title-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
-                    {firstName}
+                    {titleplateFirstName}
                   </h1>
                   <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
                     <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
-                    <span className="techboard-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase">
-                      {format(today, 'EEEE, MMMM d, yyyy')}
+                    <span
+                      className="techboard-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase min-h-[1em]"
+                      suppressHydrationWarning
+                    >
+                      {titleplateDateLabel}
                     </span>
                   </div>
                 </div>
@@ -1157,8 +1172,8 @@ export default function TechDashboardTest() {
   );
 }
 
-function getGreeting() {
-  const h = new Date().getHours();
+function getGreeting(now = new Date()) {
+  const h = now.getHours();
   if (h < 12) return 'morning';
   if (h < 17) return 'afternoon';
   return 'evening';
