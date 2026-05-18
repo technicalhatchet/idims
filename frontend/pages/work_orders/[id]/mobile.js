@@ -90,8 +90,7 @@ function WorkOrderDetail() {
   const mobileMoreRef = useRef(null);
 
   /** HUD grid double-tap for icon rail */
-  const doubleTapRef = useHudGridDoubleTapRail();
-  const tacticalColumnRef = useRef(null);
+  const tacticalColumnRef = useHudGridDoubleTapRail();
   const headerCardRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
 
@@ -319,10 +318,7 @@ function WorkOrderDetail() {
 
       <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
       <div 
-        ref={(node) => {
-          tacticalColumnRef.current = node;
-          doubleTapRef.current = node;
-        }}
+        ref={tacticalColumnRef}
         className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto" 
         style={{ minHeight: '100vh' }}
       >
