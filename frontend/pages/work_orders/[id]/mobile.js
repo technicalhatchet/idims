@@ -946,7 +946,7 @@ function WorkOrderDetail() {
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
                         <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.client_user?.phone || workOrder.client?.mobile || workOrder.client?.phone || 'N/A'}
+                          {workOrder.client?.phone || workOrder.client?.mobile || 'N/A'}
                         </p>
                       </div>
                       <div className="md:col-span-2">
