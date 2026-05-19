@@ -185,6 +185,8 @@ function ClientDetail() {
         </button>
       </div>
       {propertyError && <p className="text-sm text-red-600 dark:text-red-400 mb-3">{propertyError}</p>}
+      <input type="text" style={{ display: 'none' }} autoComplete="username" readOnly />
+      <input type="password" style={{ display: 'none' }} autoComplete="current-password" readOnly />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="md:col-span-2">
           <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Address *</label>
