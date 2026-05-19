@@ -125,6 +125,7 @@ class WorkOrderUpdate(BaseModel):
     priority: Optional[str] = None
     status: Optional[str] = None
     client_id: Optional[uuid.UUID] = None
+    property_id: Optional[uuid.UUID] = None
     scheduled_start: Optional[datetime] = None
     scheduled_end: Optional[datetime] = None
     actual_start: Optional[datetime] = None
