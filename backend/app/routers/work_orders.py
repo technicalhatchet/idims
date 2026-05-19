@@ -393,6 +393,12 @@ async def get_work_order(
         if work_order.client_id:
             client = db.query(Client).filter(Client.id == work_order.client_id).first()
             if client:
+                # Debug logging
+                print(f"DEBUG: Client ID: {client.id}")
+                print(f"DEBUG: Client phone: {client.phone}")
+                print(f"DEBUG: Client mobile: {client.mobile}")
+                print(f"DEBUG: Client dict: {client.__dict__}")
+                
                 response_dict["client_name"] = client.display_name
                 response_dict["client"] = {
                     "first_name": client.first_name,

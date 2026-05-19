@@ -27,7 +27,8 @@ export function useWorkOrders(params = {}, options = {}) {
           const transformedWorkOrder = { ...workOrder };
           
           // Add client object if client_name exists
-          if (transformedWorkOrder.client_name) {
+          // Only transform client_name if client object doesn't already exist from backend
+          if (transformedWorkOrder.client_name && !transformedWorkOrder.client) {
             // Try to parse client name into first and last name
             let firstName = '';
             let lastName = '';
@@ -85,8 +86,8 @@ export function useWorkOrder(id, options = {}) {
       // Create client and technician objects to match the expected structure
       // This adapts the flat structure from the API to the nested structure expected by UI
       if (data) {
-        // Add client object if client_name exists
-        if (data.client_name) {
+        // Only transform client_name if client object doesn't already exist from backend
+        if (data.client_name && !data.client) {
           // Try to parse client name into first and last name
           let firstName = '';
           let lastName = '';

@@ -56,6 +56,12 @@ class ClientBase(BaseModel):
     tax_id: Optional[str] = None
     payment_terms: Optional[int] = 30
     credit_limit: Optional[float] = None
+    
+    @validator('email', pre=True)
+    def empty_str_to_none(cls, v):
+        if v == '':
+            return None
+        return v
 
 class ClientCreate(ClientBase):
     """Schema for creating a new client"""
@@ -87,6 +93,12 @@ class ClientUpdate(BaseModel):
     tax_id: Optional[str] = None
     payment_terms: Optional[int] = None
     credit_limit: Optional[float] = None
+    
+    @validator('email', pre=True)
+    def empty_str_to_none(cls, v):
+        if v == '':
+            return None
+        return v
     
     @validator('status')
     def validate_status(cls, v):
