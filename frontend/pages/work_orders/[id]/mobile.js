@@ -628,6 +628,20 @@ function WorkOrderDetail() {
                 </div>
               </div>
               
+              {/* DEBUG - Remove after testing */}
+              <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-6">
+                <p className="font-bold">Debug Info:</p>
+                <p>Has property: {workOrder.property ? 'YES' : 'NO'}</p>
+                <p>Property ID from WO: {workOrder.property_id || 'null'}</p>
+                {workOrder.property && (
+                  <>
+                    <p>Property address: {workOrder.property.address || 'N/A'}</p>
+                    <p>Tenant name: {workOrder.property.tenant_name || 'N/A'}</p>
+                    <p>Tenant phone: {workOrder.property.tenant_phone || 'N/A'}</p>
+                  </>
+                )}
+              </div>
+              
               {/* Property & Contact Information */}
               {workOrder.property && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
