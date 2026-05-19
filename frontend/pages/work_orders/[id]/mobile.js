@@ -380,7 +380,7 @@ function WorkOrderDetail() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-        <div className="hud-grid-content relative z-10 px-4 pb-4 sm:px-6 sm:pb-6">
+        <div className="hud-grid-content relative z-10 p-4 sm:p-6">
 
         {isLoading && (
           <div className="py-6">
@@ -516,7 +516,7 @@ function WorkOrderDetail() {
         </div>
 
         {/* Content card container */}
-        <div className="rounded-lg p-3 overflow-visible" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
+        <div className="rounded-lg p-3 overflow-visible" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
         
         {/* Mobile tab pills — sticky below tech header */}
         <div 
