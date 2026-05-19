@@ -402,6 +402,38 @@ async def get_work_order(
                     "email": client.email,
                 }
                 
+                # Include all properties for this client
+            from app.models.property import Property
+            properties = db.query(Property).filter(Property.client_id == client.id).all()
+            response_dict["client_properties"] = [
+                {
+                    "id": str(p.id),
+                    "address": p.address,
+                    "unit_number": p.unit_number,
+                    "property_type": p.property_type,
+                    "gate_code": p.gate_code,
+                    "access_instructions": p.access_instructions,
+                    "tenant_name": p.tenant_name,
+                    "tenant_phone": p.tenant_phone,
+                    "tenant_email": p.tenant_email,
+                }
+                for p in properties
+            ]
+
+            # Include the specific property for this work order if set
+            if work_order.property_id:
+                matched = next((p for p in properties if p.id == work_order.property_id), None)
+                if matched:
+                    response_dict["property"] = {
+                        "id": str(matched.id),
+                        "address": matched.address,
+                        "unit_number": matched.unit_number,
+                        "property_type": matched.property_type,
+                        "gate_code": matched.gate_code,
+                        "access_instructions": matched.access_instructions,
+                        "tenant_name": matched.tenant_name,
+                        "tenant_phone": matched.tenant_phone,
+                        "tenant_email": matched.tenant_email,
                 # Also include the related User data if available
                 if client.user_id:
                     user = db.query(UserModel).filter(UserModel.id == client.user_id).first()
