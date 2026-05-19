@@ -17,6 +17,9 @@ class Property(Base):
     notes = Column(Text, nullable=True)
     gate_code = Column(String(50), nullable=True)
     access_instructions = Column(Text, nullable=True)
+    tenant_name = Column(String(255), nullable=True)
+    tenant_phone = Column(String(50), nullable=True)
+    tenant_email = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
