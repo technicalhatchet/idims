@@ -1811,38 +1811,6 @@ function WorkOrderDetail() {
           )}
         </div>
 
-        {/* Mobile sticky action bar */}
-        <div
-          className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2"
-          style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
-        >
-          <button
-            type="button"
-            onClick={() => setShowStatusModal(true)}
-            className="flex-1 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_0_20px_rgba(34,211,238,0.25)] active:scale-[0.98]"
-          >
-            Update status
-          </button>
-          {activeTab === TABS.NOTES && (
-            <button
-              type="button"
-              onClick={() => setNotesAddSheetOpen(true)}
-              className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
-            >
-              Add note
-            </button>
-          )}
-          {activeTab !== TABS.INVOICES && (
-            <button
-              type="button"
-              onClick={() => setActiveTab(TABS.INVOICES)}
-              className="h-10 shrink-0 rounded-xl border border-white/15 px-3 text-[11px] font-semibold uppercase tracking-wide text-gray-300"
-            >
-              Billing
-            </button>
-          )}
-        </div>
-
         {/* Status Update Modal */}
         <Modal
           isOpen={showStatusModal}
@@ -1946,6 +1914,39 @@ function WorkOrderDetail() {
 
         </div>
       </div>
+
+      {/* Mobile sticky action bar */}
+      <div
+        className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2"
+        style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
+      >
+        <button
+          type="button"
+          onClick={() => setShowStatusModal(true)}
+          className="flex-1 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_0_20px_rgba(34,211,238,0.25)] active:scale-[0.98]"
+        >
+          Update status
+        </button>
+        {activeTab === TABS.NOTES && (
+          <button
+            type="button"
+            onClick={() => setNotesAddSheetOpen(true)}
+            className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
+          >
+            Add note
+          </button>
+        )}
+        {activeTab !== TABS.INVOICES && (
+          <button
+            type="button"
+            onClick={() => setActiveTab(TABS.INVOICES)}
+            className="h-10 shrink-0 rounded-xl border border-white/15 px-3 text-[11px] font-semibold uppercase tracking-wide text-gray-300"
+          >
+            Billing
+          </button>
+        )}
+      </div>
+
       </div>
     </>
   );
