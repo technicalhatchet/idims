@@ -9,6 +9,9 @@ class PropertyBase(BaseModel):
     notes: Optional[str] = None
     gate_code: Optional[str] = None
     access_instructions: Optional[str] = None
+    tenant_name: Optional[str] = None
+    tenant_phone: Optional[str] = None
+    tenant_email: Optional[str] = None
 
 class PropertyCreate(PropertyBase):
     client_id: UUID4
@@ -20,6 +23,9 @@ class PropertyUpdate(BaseModel):
     notes: Optional[str] = None
     gate_code: Optional[str] = None
     access_instructions: Optional[str] = None
+    tenant_name: Optional[str] = None
+    tenant_phone: Optional[str] = None
+    tenant_email: Optional[str] = None
 
 class PropertyResponse(PropertyBase):
     id: UUID4
