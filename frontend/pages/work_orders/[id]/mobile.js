@@ -404,7 +404,7 @@ function WorkOrderDetail() {
           <div
             ref={headerCardRef}
             data-hud-card
-            className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)]"
+            className="relative overflow-visible rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)]"
             style={{
               '--wo-mobile-hud-grid-x': `${hudGridShift.x}px`,
               '--wo-mobile-hud-grid-y': `${hudGridShift.y}px`,
