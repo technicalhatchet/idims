@@ -26,7 +26,7 @@ const TABS = {
   NOTES: 'notes',
   MODEL: 'model',
   CLIENT: 'client',
-  INVOICES: 'invoices'
+  INVOICES: 'invoices',
 };
 
 const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
@@ -265,6 +265,7 @@ function WorkOrderDetail() {
             </div>
           </div>
         </div>
+      </div> 
         
         {/* Tabs Navigation */}
         <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
@@ -672,6 +673,8 @@ function WorkOrderDetail() {
                     No client information available.
                   </p>
                 )}
+                </div>
+              </div>
 
               {/* Client's Other Work Orders */}
               <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
