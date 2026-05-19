@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
@@ -138,19 +138,19 @@ function WorkOrderDetail() {
     };
   }, [isLoading, error, openRail]);
 
-  useEffect(() => {
-    const syncHudGridAlignment = () => {
-      const col = tacticalColumnRef.current;
-      const card = headerCardRef.current;
-      if (!col || !card) return;
-      const c = col.getBoundingClientRect();
-      const h = card.getBoundingClientRect();
-      const dx = h.left - c.left;
-      const dy = h.top - c.top;
-      const base = hudGridShiftForTitleplate(dx, dy, HUD_GRID_STEP);
-      setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
-    };
+  const syncHudGridAlignment = useCallback(() => {
+    const col = tacticalColumnRef.current;
+    const card = headerCardRef.current;
+    if (!col || !card) return;
+    const c = col.getBoundingClientRect();
+    const h = card.getBoundingClientRect();
+    const dx = h.left - c.left;
+    const dy = h.top - c.top;
+    const base = hudGridShiftForTitleplate(dx, dy, HUD_GRID_STEP);
+    setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
+  }, []);
 
+  useLayoutEffect(() => {
     syncHudGridAlignment();
     const col = tacticalColumnRef.current;
     if (!col) return undefined;
@@ -161,7 +161,7 @@ function WorkOrderDetail() {
       ro.disconnect();
       window.removeEventListener('resize', syncHudGridAlignment);
     };
-  }, []);
+  }, [syncHudGridAlignment]);
 
   useEffect(() => {
     if (activeTab !== TABS.NOTES) {
