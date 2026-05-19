@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -82,6 +82,8 @@ function WorkOrderDetail() {
   const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name }
   const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
   const [isSavingPrice, setIsSavingPrice] = useState(false);
+  const [showServiceProperty, setShowServiceProperty] = useState(false);
+  const [showAllProperties, setShowAllProperties] = useState(false);
   const { theme } = useTheme();
 
     // Fetch work order details
@@ -931,12 +933,14 @@ function WorkOrderDetail() {
                           {`${(workOrder.client_user?.first_name || workOrder.client?.first_name || '')} ${(workOrder.client_user?.last_name || workOrder.client?.last_name || '')}`.trim() || 'N/A'}
                         </p>
                       </div>
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.client?.company_name || 'N/A'}
-                        </p>
-                      </div>
+                      {workOrder.client?.company_name && (
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                            {workOrder.client.company_name}
+                          </p>
+                        </div>
+                      )}
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
                         <p className="mt-1 text-sm text-gray-900 dark:text-white">
@@ -966,9 +970,14 @@ function WorkOrderDetail() {
               {/* Service Property (if set) */}
               {workOrder.property && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                  <button
+                    onClick={() => setShowServiceProperty(!showServiceProperty)}
+                    className="w-full px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                  >
                     <h2 className="text-lg font-medium text-gray-900 dark:text-white">Service Property</h2>
-                  </div>
+                    {showServiceProperty ? <FaChevronUp className="text-gray-500" /> : <FaChevronDown className="text-gray-500" />}
+                  </button>
+                  {showServiceProperty && (
                   <div className="px-6 py-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
                       <div className="md:col-span-2">
@@ -1029,15 +1038,21 @@ function WorkOrderDetail() {
                       )}
                     </div>
                   </div>
+                  )}
                 </div>
               )}
 
               {/* All Client Properties */}
               {workOrder.client_properties && workOrder.client_properties.length > 0 && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                  <button
+                    onClick={() => setShowAllProperties(!showAllProperties)}
+                    className="w-full px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                  >
                     <h2 className="text-lg font-medium text-gray-900 dark:text-white">All Properties ({workOrder.client_properties.length})</h2>
-                  </div>
+                    {showAllProperties ? <FaChevronUp className="text-gray-500" /> : <FaChevronDown className="text-gray-500" />}
+                  </button>
+                  {showAllProperties && (
                   <div className="px-6 py-5">
                     <div className="space-y-4">
                       {workOrder.client_properties.map((property) => (
@@ -1080,6 +1095,7 @@ function WorkOrderDetail() {
                       ))}
                     </div>
                   </div>
+                  )}
                 </div>
               )}
 
