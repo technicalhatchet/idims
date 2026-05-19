@@ -635,40 +635,43 @@ function WorkOrderDetail() {
                   <h2 className="text-lg font-medium text-gray-900 dark:text-white">Client Information</h2>
                 </div>
                 <div className="px-6 py-5">
-                  {workOrder.client_user ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {`${workOrder.client_user.first_name || ''} ${workOrder.client_user.last_name || ''}`.trim() || 'N/A'}
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.client?.company_name || 'N/A'}
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.client_user.email || 'N/A'}
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.client_user.phone || workOrder.client?.phone || 'N/A'}
-                        </p>
-                      </div>
+                {workOrder.client ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {`${workOrder.client.first_name || ''} ${workOrder.client.last_name || ''}`.trim() || 'N/A'}
+                      </p>
                     </div>
-                  ) : (
-                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                      No client information available.
-                    </p>
-                  )}
-                </div>
-              </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {workOrder.client.company_name || 'N/A'}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {workOrder.client.email || 'N/A'}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        {workOrder.client.phone || 'N/A'}
+                      </p>
+                    </div>
+                    <div className="md:col-span-2">
+                      <Link href={`/clients/${workOrder.client_id}`} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-sm">
+                        View Full Client Profile →
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                    No client information available.
+                  </p>
+                )}
 
               {/* Client's Other Work Orders */}
               <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
