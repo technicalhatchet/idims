@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
@@ -147,7 +147,7 @@ function WorkOrderDetail() {
     setHudGridShift({ x: base.x + HUD_GRID_NUDGE_X, y: base.y + HUD_GRID_NUDGE_Y });
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     syncHudGridAlignment();
     const col = tacticalColumnRef.current;
     if (!col) return undefined;
