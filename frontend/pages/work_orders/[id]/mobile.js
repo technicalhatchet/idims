@@ -250,7 +250,7 @@ function WorkOrderDetail() {
   const handleDelete = async () => {
     try {
       await deleteWorkOrder(id);
-      router.push('/work_orders');
+      router.push('/work_orders/test');
     } catch (error) {
       console.error('Error deleting work order:', error);
       // Error is shown by the mutation hook
