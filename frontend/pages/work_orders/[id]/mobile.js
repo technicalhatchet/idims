@@ -629,7 +629,7 @@ function WorkOrderDetail() {
               </div>
               
               {/* Property & Contact Information */}
-              {workOrder.property && (workOrder.property.tenant_name || workOrder.property.tenant_phone) && (
+              {workOrder.property && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
                   <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                     <h2 className="text-lg font-medium text-gray-900 dark:text-white">Property & Contact Information</h2>
