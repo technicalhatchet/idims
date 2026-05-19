@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useEffect, useRef } from 'react';
 import { useTechDashboardRail } from '../components/layouts/TechDashboardLayout';
 
 const DOUBLE_TAP_MS = 350;
