@@ -188,7 +188,7 @@ function ClientDetail() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="md:col-span-2">
           <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Address *</label>
-          <input type="text" value={propertyForm.address} onChange={e => setPropertyForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St, Toledo, OH 43604" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+          <input type="text" value={propertyForm.address} onChange={e => setPropertyForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St, Toledo, OH 43604" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Unit Number</label>
