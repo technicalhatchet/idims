@@ -190,6 +190,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
     priority: 'medium',
     status: 'pending',
     work_type: 'service_call',
+    property_id: null,
     service_location: { address: '' },
     equipment_make: '',
     equipment_model: '',
@@ -224,6 +225,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
       priority: initialData.priority || 'medium',
       status: initialData.status || 'pending',
       work_type: initialData.work_type || 'service_call',
+      property_id: initialData.property_id || null,
       service_location: initialData.service_location || { address: '' },
       equipment_make: initialData.equipment_make || '',
       equipment_model: initialData.equipment_model || '',
@@ -881,6 +883,8 @@ useEffect(() => {
 
 const handlePropertySelect = (propertyId) => {
   setSelectedPropertyId(propertyId);
+  // Set the property_id in the form values
+  setFieldValue('property_id', propertyId || null);
   const property = clientProperties.find(p => p.id === propertyId);
   if (property) {
     const addr = [property.address, property.unit_number ? `Unit ${property.unit_number}` : ''].filter(Boolean).join(', ');
