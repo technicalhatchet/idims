@@ -317,7 +317,7 @@ function WorkOrderDetail() {
   return (
     <>
       <Head>
-        <title>{workOrder.order_number} | Work Order | Service Business Management</title>
+        <title>{workOrder?.order_number || 'Work Order'} | Work Order | Atomic Repair 419</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <style>{`
           @keyframes wo-mobile-tactical-scan {
