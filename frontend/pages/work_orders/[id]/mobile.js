@@ -380,7 +380,7 @@ function WorkOrderDetail() {
             <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
           </div>
 
-        <div className="hud-grid-content relative z-10 p-4 sm:p-6">
+        <div className="hud-grid-content relative z-10 px-4 pb-4 sm:px-6 sm:pb-6">
 
         {isLoading && (
           <div className="py-6">
@@ -400,7 +400,7 @@ function WorkOrderDetail() {
         {!isLoading && !error && (
           <>
         {/* Header card */}
-        <div className="relative mb-4">
+        <div className="relative mb-4 z-[1200]">
           <div
             ref={headerCardRef}
             data-hud-card
