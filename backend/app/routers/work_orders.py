@@ -394,6 +394,13 @@ async def get_work_order(
             client = db.query(Client).filter(Client.id == work_order.client_id).first()
             if client:
                 response_dict["client_name"] = client.display_name
+                response_dict["client"] = {
+                    "first_name": client.first_name,
+                    "last_name": client.last_name,
+                    "company_name": client.company_name,
+                    "phone": client.phone,
+                    "email": client.email,
+                }
                 
                 # Also include the related User data if available
                 if client.user_id:
