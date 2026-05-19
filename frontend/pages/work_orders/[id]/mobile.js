@@ -84,6 +84,9 @@ function WorkOrderDetail() {
   const [isSavingPrice, setIsSavingPrice] = useState(false);
   const { theme } = useTheme();
 
+    // Fetch work order details
+  const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+
   /** Mobile ⋯ overflow (Print, Edit, Delete, Status) */
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
@@ -190,8 +193,7 @@ function WorkOrderDetail() {
     };
   }, [mobileMoreOpen]);
 
-  // Fetch work order details
-  const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
