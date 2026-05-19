@@ -399,6 +399,7 @@ async def get_work_order(
                     "last_name": client.last_name,
                     "company_name": client.company_name,
                     "phone": client.phone,
+                    "mobile": client.mobile,
                     "email": client.email,
                 }
                 
