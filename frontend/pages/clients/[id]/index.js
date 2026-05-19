@@ -19,9 +19,7 @@ const formatPhoneNumber = (phoneNumberString) => {
   if (!phoneNumberString) return '';
   const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
   const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-  if (match) {
-    return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-  }
+  if (match) return '(' + match[1] + ') ' + match[2] + '-' + match[3];
   return phoneNumberString;
 };
 
@@ -46,69 +44,62 @@ const emptyPropertyForm = {
 function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProperty, editingProperty, onSave, onCancel }) {
   return (
     <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-4">
-      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-4">
-    <div className="flex justify-between items-center mb-4">
-      <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-        {editingProperty ? 'Edit Property' : 'Add New Property'}
-      </h4>
-      <button type="button" onClick={() => { setShowAddProperty(false); setEditingProperty(null); setPropertyForm(emptyPropertyForm); setPropertyError(null); }} className="text-gray-400 hover:text-gray-600">
-        <FaTimes />
-      </button>
-    </div>
-    {propertyError && <p className="text-sm text-red-600 dark:text-red-400 mb-3">{propertyError}</p>}
-    <input type="text" style={{ display: 'none' }} autoComplete="username" readOnly />
-  <input type="password" style={{ display: 'none' }} autoComplete="current-password" readOnly />
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div className="md:col-span-2">
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Address *</label>
-        <input type="text" value={propertyForm.address} onChange={e => setPropertyForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St, Toledo, OH 43604" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      <div className="flex justify-between items-center mb-4">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+          {editingProperty ? 'Edit Property' : 'Add New Property'}
+        </h4>
+        <button type="button" onClick={onCancel} className="text-gray-400 hover:text-gray-600">
+          <FaTimes />
+        </button>
       </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Unit Number</label>
-        <input type="text" value={propertyForm.unit_number} onChange={e => setPropertyForm(p => ({ ...p, unit_number: e.target.value }))} placeholder="Apt 4B" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      {propertyError && <p className="text-sm text-red-600 dark:text-red-400 mb-3">{propertyError}</p>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="md:col-span-2">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Address *</label>
+          <input type="text" value={propertyForm.address} onChange={e => setPropertyForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St, Toledo, OH 43604" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Unit Number</label>
+          <input type="text" value={propertyForm.unit_number} onChange={e => setPropertyForm(p => ({ ...p, unit_number: e.target.value }))} placeholder="Apt 4B" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Property Type</label>
+          <select value={propertyForm.property_type} onChange={e => setPropertyForm(p => ({ ...p, property_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm">
+            {PROPERTY_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Gate Code</label>
+          <input type="text" value={propertyForm.gate_code} onChange={e => setPropertyForm(p => ({ ...p, gate_code: e.target.value }))} placeholder="*1234#" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Access Instructions</label>
+          <input type="text" value={propertyForm.access_instructions} onChange={e => setPropertyForm(p => ({ ...p, access_instructions: e.target.value }))} placeholder="Side door, park in back..." autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+        </div>
+        <div className="md:col-span-2 pt-2 border-t border-blue-200 dark:border-blue-800">
+          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tenant / Occupant (optional)</p>
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Name</label>
+          <input type="text" value={propertyForm.tenant_name} onChange={e => setPropertyForm(p => ({ ...p, tenant_name: e.target.value }))} placeholder="John Doe" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Phone</label>
+          <input type="text" value={propertyForm.tenant_phone} onChange={e => setPropertyForm(p => ({ ...p, tenant_phone: e.target.value }))} placeholder="4195551234" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Email</label>
+          <input type="text" value={propertyForm.tenant_email} onChange={e => setPropertyForm(p => ({ ...p, tenant_email: e.target.value }))} placeholder="tenant@email.com" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+        </div>
       </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Property Type</label>
-        <select value={propertyForm.property_type} onChange={e => setPropertyForm(p => ({ ...p, property_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm">
-          {PROPERTY_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-        </select>
+      <div className="flex gap-2 mt-4">
+        <button type="button" onClick={onSave} disabled={savingProperty} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm font-medium">
+          {savingProperty ? 'Saving...' : editingProperty ? 'Save Changes' : 'Add Property'}
+        </button>
+        <button type="button" onClick={onCancel} className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm">
+          Cancel
+        </button>
       </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Gate Code</label>
-        <input type="text" value={propertyForm.gate_code} onChange={e => setPropertyForm(p => ({ ...p, gate_code: e.target.value }))} placeholder="*1234#" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Access Instructions</label>
-        <input type="text" value={propertyForm.access_instructions} onChange={e => setPropertyForm(p => ({ ...p, access_instructions: e.target.value }))} placeholder="Side door, park in back..." className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-      </div>
-
-      {/* Tenant Info */}
-      <div className="md:col-span-2 pt-2 border-t border-blue-200 dark:border-blue-800">
-        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tenant / Occupant (optional)</p>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Name</label>
-        <input type="text" value={propertyForm.tenant_name} onChange={e => setPropertyForm(p => ({ ...p, tenant_name: e.target.value }))} placeholder="John Doe" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Phone</label>
-        <input type="text" value={propertyForm.tenant_phone} onChange={e => setPropertyForm(p => ({ ...p, tenant_phone: e.target.value }))} placeholder="4195551234" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Email</label>
-        <input type="text" value={propertyForm.tenant_email} onChange={e => setPropertyForm(p => ({ ...p, tenant_email: e.target.value }))} placeholder="tenant@email.com" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-      </div>
-    </div>
-    <div className="flex gap-2 mt-4">
-      <button type="button" onClick={handleSaveProperty} disabled={savingProperty} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm font-medium">
-        {savingProperty ? 'Saving...' : editingProperty ? 'Save Changes' : 'Add Property'}
-      </button>
-      <button type="button" onClick={() => { setShowAddProperty(false); setEditingProperty(null); setPropertyForm(emptyPropertyForm); setPropertyError(null); }} className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm">
-        Cancel
-      </button>
-    </div>
-  </div>
-
     </div>
   );
 }
@@ -120,8 +111,6 @@ function ClientDetail() {
   const [emailSending, setEmailSending] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(null);
-
-  // Properties state
   const [properties, setProperties] = useState([]);
   const [propertiesLoading, setPropertiesLoading] = useState(false);
   const [showAddProperty, setShowAddProperty] = useState(false);
@@ -142,7 +131,6 @@ function ClientDetail() {
     { id: 'billing', label: 'Billing', icon: <FaMoneyBillWave className="mr-2" /> },
   ];
 
-  // Fetch properties when tab is active or client loads
   useEffect(() => {
     if (!id) return;
     setPropertiesLoading(true);
@@ -150,28 +138,26 @@ function ClientDetail() {
       .then(data => setProperties(Array.isArray(data) ? data : []))
       .catch(() => setProperties([]))
       .finally(() => setPropertiesLoading(false));
-  }, [id, activeTab]);
+  }, [id]);
+
+  const handleCancelProperty = () => {
+    setShowAddProperty(false);
+    setEditingProperty(null);
+    setPropertyForm(emptyPropertyForm);
+    setPropertyError(null);
+  };
 
   const handleSaveProperty = async () => {
-    if (!propertyForm.address.trim()) {
-      setPropertyError('Address is required');
-      return;
-    }
+    if (!propertyForm.address.trim()) { setPropertyError('Address is required'); return; }
     setSavingProperty(true);
     setPropertyError(null);
     try {
       if (editingProperty) {
-        const updated = await apiClient(`properties/${editingProperty.id}`, {
-          method: 'PUT',
-          body: JSON.stringify(propertyForm),
-        });
+        const updated = await apiClient(`properties/${editingProperty.id}`, { method: 'PUT', body: JSON.stringify(propertyForm) });
         setProperties(prev => prev.map(p => p.id === editingProperty.id ? updated : p));
         setEditingProperty(null);
       } else {
-        const created = await apiClient('properties', {
-          method: 'POST',
-          body: JSON.stringify({ client_id: id, ...propertyForm }),
-        });
+        const created = await apiClient('properties', { method: 'POST', body: JSON.stringify({ client_id: id, ...propertyForm }) });
         setProperties(prev => [...prev, created]);
       }
       setPropertyForm(emptyPropertyForm);
@@ -214,10 +200,7 @@ function ClientDetail() {
     setEmailSending(true);
     setEmailError(null);
     try {
-      await sendRegistrationEmail({
-        clientId: id,
-        data: { name: `${client.first_name} ${client.last_name}`, company: client.company_name }
-      });
+      await sendRegistrationEmail({ clientId: id, data: { name: `${client.first_name} ${client.last_name}`, company: client.company_name } });
       setEmailSent(true);
       setTimeout(() => setEmailSent(false), 5000);
     } catch (error) {
@@ -243,23 +226,6 @@ function ClientDetail() {
       </div>
     );
   }
-
-  {showAddProperty && (
-    <PropertyForm
-      propertyForm={propertyForm}
-      setPropertyForm={setPropertyForm}
-      propertyError={propertyError}
-      savingProperty={savingProperty}
-      editingProperty={editingProperty}
-      onSave={handleSaveProperty}
-      onCancel={() => {
-        setShowAddProperty(false);
-        setEditingProperty(null);
-        setPropertyForm(emptyPropertyForm);
-        setPropertyError(null);
-      }}
-    />
-  )}
 
   return (
     <>
@@ -288,14 +254,11 @@ function ClientDetail() {
           </div>
         </div>
 
-        {/* Client overview card */}
         <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mb-6">
           <div className="flex flex-col md:flex-row">
             <div className="flex-1 mb-4 md:mb-0">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                {client?.company_name
-                  ? `${client.first_name} ${client.last_name} (${client.company_name})`
-                  : `${client.first_name} ${client.last_name}`}
+                {client?.company_name ? `${client.first_name} ${client.last_name} (${client.company_name})` : `${client.first_name} ${client.last_name}`}
               </h2>
               <div className="space-y-2 text-gray-700 dark:text-gray-300">
                 {client?.phone && (
@@ -336,7 +299,6 @@ function ClientDetail() {
 
         <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 mt-2">
 
-          {/* Details Tab */}
           {activeTab === 'details' && (
             <div className="space-y-6">
               <div>
@@ -354,15 +316,12 @@ function ClientDetail() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 dark:text-gray-300">
                   <div><p className="font-medium">Status</p><StatusBadge status={client?.status || 'active'} /></div>
                   <div><p className="font-medium">Customer ID</p><p>{client?.id || 'N/A'}</p></div>
-                  {client?.notes && (
-                    <div className="col-span-2"><p className="font-medium">Notes</p><p className="whitespace-pre-line">{client.notes}</p></div>
-                  )}
+                  {client?.notes && <div className="col-span-2"><p className="font-medium">Notes</p><p className="whitespace-pre-line">{client.notes}</p></div>}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Properties Tab */}
           {activeTab === 'properties' && (
             <div>
               <div className="flex justify-between items-center mb-4">
@@ -374,7 +333,17 @@ function ClientDetail() {
                 )}
               </div>
 
-              {showAddProperty && <PropertyForm />}
+              {showAddProperty && (
+                <PropertyForm
+                  propertyForm={propertyForm}
+                  setPropertyForm={setPropertyForm}
+                  propertyError={propertyError}
+                  savingProperty={savingProperty}
+                  editingProperty={editingProperty}
+                  onSave={handleSaveProperty}
+                  onCancel={handleCancelProperty}
+                />
+              )}
 
               {propertiesLoading ? (
                 <div className="flex justify-center py-8"><LoadingSpinner /></div>
@@ -400,7 +369,6 @@ function ClientDetail() {
                               {property.property_type || 'residential'}
                             </span>
                           </div>
-
                           <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
                             {property.gate_code && (
                               <p className="flex items-center gap-1">
@@ -415,8 +383,6 @@ function ClientDetail() {
                               </p>
                             )}
                           </div>
-
-                          {/* Tenant info */}
                           {(property.tenant_name || property.tenant_phone || property.tenant_email) && (
                             <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
                               <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Tenant</p>
@@ -428,12 +394,8 @@ function ClientDetail() {
                             </div>
                           )}
                         </div>
-
                         <div className="flex items-center gap-2 ml-4 shrink-0">
-                          <Link
-                            href={`/work_orders/new?client_id=${id}&address=${encodeURIComponent(property.address + (property.unit_number ? ` Unit ${property.unit_number}` : ''))}&property_id=${property.id}`}
-                            className="px-3 py-1.5 text-xs bg-green-600 text-white rounded hover:bg-green-700 whitespace-nowrap"
-                          >
+                          <Link href={`/work_orders/new?client_id=${id}&address=${encodeURIComponent(property.address + (property.unit_number ? ` Unit ${property.unit_number}` : ''))}&property_id=${property.id}`} className="px-3 py-1.5 text-xs bg-green-600 text-white rounded hover:bg-green-700 whitespace-nowrap">
                             + Work Order
                           </Link>
                           <button type="button" onClick={() => handleEditProperty(property)} className="p-1.5 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
@@ -451,7 +413,6 @@ function ClientDetail() {
             </div>
           )}
 
-          {/* Work Orders Tab */}
           {activeTab === 'work-orders' && (
             <div>
               <div className="flex justify-between items-center mb-4">
@@ -480,9 +441,7 @@ function ClientDetail() {
                       {workOrdersData.items.map((order) => (
                         <tr key={order.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
                           <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#{order.order_number}</td>
-                          <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
-                            {order.scheduled_date ? format(new Date(order.scheduled_date), 'MMM d, yyyy') : 'Not scheduled'}
-                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{order.scheduled_date ? format(new Date(order.scheduled_date), 'MMM d, yyyy') : 'Not scheduled'}</td>
                           <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{order.service?.name || 'Multiple Services'}</td>
                           <td className="px-4 py-3 whitespace-nowrap"><StatusBadge status={order.status} /></td>
                           <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
@@ -504,7 +463,6 @@ function ClientDetail() {
             </div>
           )}
 
-          {/* Billing Tab */}
           {activeTab === 'billing' && (
             <div>
               <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
@@ -542,7 +500,6 @@ function ClientDetail() {
           )}
         </div>
 
-        {/* Registration Email */}
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
           <div className="flex flex-col items-center justify-center text-center">
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Account Registration</h3>
