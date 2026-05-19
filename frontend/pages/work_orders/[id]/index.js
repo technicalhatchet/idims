@@ -675,6 +675,126 @@ function WorkOrderDetail() {
                 </div>
               </div>
 
+              {/* Service Property (if set) */}
+              {workOrder.property && (
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Service Property</h2>
+                  </div>
+                  <div className="px-6 py-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                      <div className="md:col-span-2">
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Address</h3>
+                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          {workOrder.property.address || 'N/A'}
+                          {workOrder.property.unit_number && ` - Unit ${workOrder.property.unit_number}`}
+                        </p>
+                      </div>
+                      {workOrder.property.property_type && (
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Property Type</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">
+                            {workOrder.property.property_type}
+                          </p>
+                        </div>
+                      )}
+                      {workOrder.property.gate_code && (
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Gate Code</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white font-mono">
+                            {workOrder.property.gate_code}
+                          </p>
+                        </div>
+                      )}
+                      {workOrder.property.access_instructions && (
+                        <div className="md:col-span-2">
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Access Instructions</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                            {workOrder.property.access_instructions}
+                          </p>
+                        </div>
+                      )}
+                      {(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.tenant_email) && (
+                        <div className="md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Tenant Information</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {workOrder.property.tenant_name && (
+                              <div>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Name</p>
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.property.tenant_name}</p>
+                              </div>
+                            )}
+                            {workOrder.property.tenant_phone && (
+                              <div>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Phone</p>
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.property.tenant_phone}</p>
+                              </div>
+                            )}
+                            {workOrder.property.tenant_email && (
+                              <div>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Email</p>
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.property.tenant_email}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* All Client Properties */}
+              {workOrder.client_properties && workOrder.client_properties.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">All Properties ({workOrder.client_properties.length})</h2>
+                  </div>
+                  <div className="px-6 py-5">
+                    <div className="space-y-4">
+                      {workOrder.client_properties.map((property) => (
+                        <div key={property.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 dark:text-white">
+                                {property.address}
+                                {property.unit_number && ` - Unit ${property.unit_number}`}
+                              </p>
+                              {property.property_type && (
+                                <p className="text-sm text-gray-500 dark:text-gray-400 capitalize mt-1">
+                                  {property.property_type}
+                                </p>
+                              )}
+                            </div>
+                            {workOrder.property_id === property.id && (
+                              <span className="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded">
+                                Service Location
+                              </span>
+                            )}
+                          </div>
+                          {(property.gate_code || property.tenant_name) && (
+                            <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                {property.gate_code && (
+                                  <p className="text-gray-600 dark:text-gray-400">
+                                    Gate: <span className="font-mono text-gray-900 dark:text-white">{property.gate_code}</span>
+                                  </p>
+                                )}
+                                {property.tenant_name && (
+                                  <p className="text-gray-600 dark:text-gray-400">
+                                    Tenant: <span className="text-gray-900 dark:text-white">{property.tenant_name}</span>
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Client's Other Work Orders */}
               <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
                 <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">

@@ -272,7 +272,7 @@ export default function BookService() {
             <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/30 via-transparent to-orange-500/30 rounded-2xl blur-sm" />
             
             {/* Card Content */}
-            <div className="relative bg-[#0d1117]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 min-h-[400px]">
+            <div className="relative bg-[#0d1117]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 h-[500px] overflow-hidden">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentStep}
@@ -282,6 +282,7 @@ export default function BookService() {
                   animate="center"
                   exit="exit"
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="absolute inset-0 p-6 sm:p-8 overflow-y-auto"
                 >
                   {/* Step Header */}
                   <div className="mb-6">
