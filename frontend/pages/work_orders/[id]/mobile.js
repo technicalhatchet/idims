@@ -628,6 +628,81 @@ function WorkOrderDetail() {
                 </div>
               </div>
               
+              {/* Property & Contact Information */}
+              {workOrder.property && (
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Property & Contact Information</h2>
+                  </div>
+                  
+                  <div className="px-6 py-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                      <div className="md:col-span-2">
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Address</h3>
+                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          {workOrder.property.address || 'No address'}
+                          {workOrder.property.unit_number && ` - Unit ${workOrder.property.unit_number}`}
+                        </p>
+                      </div>
+                      
+                      {workOrder.property.property_type && (
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Property Type</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">
+                            {workOrder.property.property_type}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {workOrder.property.gate_code && (
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Gate Code</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white font-mono bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded inline-block">
+                            {workOrder.property.gate_code}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {(workOrder.property.tenant_name || workOrder.property.tenant_phone) && (
+                        <div className="md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Tenant / Contact at Property</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {workOrder.property.tenant_name && (
+                              <div>
+                                <h4 className="text-xs text-gray-500 dark:text-gray-400">Name</h4>
+                                <p className="mt-1 text-sm text-gray-900 dark:text-white font-medium">
+                                  {workOrder.property.tenant_name}
+                                </p>
+                              </div>
+                            )}
+                            {workOrder.property.tenant_phone && (
+                              <div>
+                                <h4 className="text-xs text-gray-500 dark:text-gray-400">Phone</h4>
+                                <a 
+                                  href={`tel:${workOrder.property.tenant_phone}`}
+                                  className="mt-1 text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium inline-block"
+                                >
+                                  {workOrder.property.tenant_phone}
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {workOrder.property.access_instructions && (
+                        <div className="md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Access Instructions</h3>
+                          <p className="mt-2 text-sm text-gray-900 dark:text-white bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                            {workOrder.property.access_instructions}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              
               {/* Schedule Information */}
               {workOrder.scheduled_start && (
                 <div className="mb-6">
