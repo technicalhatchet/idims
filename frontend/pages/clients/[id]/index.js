@@ -43,6 +43,76 @@ const emptyPropertyForm = {
   tenant_email: '',
 };
 
+function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProperty, editingProperty, onSave, onCancel }) {
+  return (
+    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-4">
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-4">
+    <div className="flex justify-between items-center mb-4">
+      <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+        {editingProperty ? 'Edit Property' : 'Add New Property'}
+      </h4>
+      <button type="button" onClick={() => { setShowAddProperty(false); setEditingProperty(null); setPropertyForm(emptyPropertyForm); setPropertyError(null); }} className="text-gray-400 hover:text-gray-600">
+        <FaTimes />
+      </button>
+    </div>
+    {propertyError && <p className="text-sm text-red-600 dark:text-red-400 mb-3">{propertyError}</p>}
+    <input type="text" style={{ display: 'none' }} autoComplete="username" readOnly />
+  <input type="password" style={{ display: 'none' }} autoComplete="current-password" readOnly />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="md:col-span-2">
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Address *</label>
+        <input type="text" value={propertyForm.address} onChange={e => setPropertyForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St, Toledo, OH 43604" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Unit Number</label>
+        <input type="text" value={propertyForm.unit_number} onChange={e => setPropertyForm(p => ({ ...p, unit_number: e.target.value }))} placeholder="Apt 4B" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Property Type</label>
+        <select value={propertyForm.property_type} onChange={e => setPropertyForm(p => ({ ...p, property_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm">
+          {PROPERTY_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+        </select>
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Gate Code</label>
+        <input type="text" value={propertyForm.gate_code} onChange={e => setPropertyForm(p => ({ ...p, gate_code: e.target.value }))} placeholder="*1234#" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Access Instructions</label>
+        <input type="text" value={propertyForm.access_instructions} onChange={e => setPropertyForm(p => ({ ...p, access_instructions: e.target.value }))} placeholder="Side door, park in back..." className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      </div>
+
+      {/* Tenant Info */}
+      <div className="md:col-span-2 pt-2 border-t border-blue-200 dark:border-blue-800">
+        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tenant / Occupant (optional)</p>
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Name</label>
+        <input type="text" value={propertyForm.tenant_name} onChange={e => setPropertyForm(p => ({ ...p, tenant_name: e.target.value }))} placeholder="John Doe" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Phone</label>
+        <input type="text" value={propertyForm.tenant_phone} onChange={e => setPropertyForm(p => ({ ...p, tenant_phone: e.target.value }))} placeholder="4195551234" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Email</label>
+        <input type="text" value={propertyForm.tenant_email} onChange={e => setPropertyForm(p => ({ ...p, tenant_email: e.target.value }))} placeholder="tenant@email.com" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+      </div>
+    </div>
+    <div className="flex gap-2 mt-4">
+      <button type="button" onClick={handleSaveProperty} disabled={savingProperty} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm font-medium">
+        {savingProperty ? 'Saving...' : editingProperty ? 'Save Changes' : 'Add Property'}
+      </button>
+      <button type="button" onClick={() => { setShowAddProperty(false); setEditingProperty(null); setPropertyForm(emptyPropertyForm); setPropertyError(null); }} className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+    </div>
+  );
+}
+
 function ClientDetail() {
   const router = useRouter();
   const { id } = router.query;
@@ -174,70 +244,22 @@ function ClientDetail() {
     );
   }
 
-  const PropertyForm = () => (
-    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-4">
-      <div className="flex justify-between items-center mb-4">
-        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-          {editingProperty ? 'Edit Property' : 'Add New Property'}
-        </h4>
-        <button type="button" onClick={() => { setShowAddProperty(false); setEditingProperty(null); setPropertyForm(emptyPropertyForm); setPropertyError(null); }} className="text-gray-400 hover:text-gray-600">
-          <FaTimes />
-        </button>
-      </div>
-      {propertyError && <p className="text-sm text-red-600 dark:text-red-400 mb-3">{propertyError}</p>}
-      <input type="text" style={{ display: 'none' }} autoComplete="username" readOnly />
-      <input type="password" style={{ display: 'none' }} autoComplete="current-password" readOnly />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div className="md:col-span-2">
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Address *</label>
-          <input type="text" value={propertyForm.address} onChange={e => setPropertyForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St, Toledo, OH 43604" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Unit Number</label>
-          <input type="text" value={propertyForm.unit_number} onChange={e => setPropertyForm(p => ({ ...p, unit_number: e.target.value }))} placeholder="Apt 4B" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Property Type</label>
-          <select value={propertyForm.property_type} onChange={e => setPropertyForm(p => ({ ...p, property_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm">
-            {PROPERTY_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-          </select>
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Gate Code</label>
-          <input type="text" value={propertyForm.gate_code} onChange={e => setPropertyForm(p => ({ ...p, gate_code: e.target.value }))} placeholder="*1234#" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Access Instructions</label>
-          <input type="text" value={propertyForm.access_instructions} onChange={e => setPropertyForm(p => ({ ...p, access_instructions: e.target.value }))} placeholder="Side door, park in back..." className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-
-        {/* Tenant Info */}
-        <div className="md:col-span-2 pt-2 border-t border-blue-200 dark:border-blue-800">
-          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tenant / Occupant (optional)</p>
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Name</label>
-          <input type="text" value={propertyForm.tenant_name} onChange={e => setPropertyForm(p => ({ ...p, tenant_name: e.target.value }))} placeholder="John Doe" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Phone</label>
-          <input type="text" value={propertyForm.tenant_phone} onChange={e => setPropertyForm(p => ({ ...p, tenant_phone: e.target.value }))} placeholder="4195551234" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Email</label>
-          <input type="text" value={propertyForm.tenant_email} onChange={e => setPropertyForm(p => ({ ...p, tenant_email: e.target.value }))} placeholder="tenant@email.com" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-      </div>
-      <div className="flex gap-2 mt-4">
-        <button type="button" onClick={handleSaveProperty} disabled={savingProperty} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm font-medium">
-          {savingProperty ? 'Saving...' : editingProperty ? 'Save Changes' : 'Add Property'}
-        </button>
-        <button type="button" onClick={() => { setShowAddProperty(false); setEditingProperty(null); setPropertyForm(emptyPropertyForm); setPropertyError(null); }} className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm">
-          Cancel
-        </button>
-      </div>
-    </div>
-  );
+  {showAddProperty && (
+    <PropertyForm
+      propertyForm={propertyForm}
+      setPropertyForm={setPropertyForm}
+      propertyError={propertyError}
+      savingProperty={savingProperty}
+      editingProperty={editingProperty}
+      onSave={handleSaveProperty}
+      onCancel={() => {
+        setShowAddProperty(false);
+        setEditingProperty(null);
+        setPropertyForm(emptyPropertyForm);
+        setPropertyError(null);
+      }}
+    />
+  )}
 
   return (
     <>
