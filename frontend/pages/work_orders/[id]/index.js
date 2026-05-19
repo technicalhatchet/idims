@@ -265,7 +265,6 @@ function WorkOrderDetail() {
             </div>
           </div>
         </div>
-      </div> 
         
         {/* Tabs Navigation */}
         <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
