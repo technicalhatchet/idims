@@ -420,7 +420,7 @@ function ClientDetail() {
             Client Profile
           </h1>
           <Link
-            href={`/clients/${id}/edit`}
+            href={`/clients/${id}/mobile_edit`}
             className="text-cyan-400 hover:text-cyan-300 transition-colors"
           >
             <FaEdit size={18} />

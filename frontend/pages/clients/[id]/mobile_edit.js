@@ -3,20 +3,26 @@ import { useRouter } from 'next/router';
 import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import Link from 'next/link';
-import { FaArrowLeft, FaSave, FaTrash } from 'react-icons/fa';
-import DashboardLayout from '../../../components/layouts/DashboardLayout';
+import { FaArrowLeft, FaSave, FaTrash, FaTimes } from 'react-icons/fa';
+import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { useClient, useClientMutations } from '../../../hooks/useClients';
 import { useAuthRedirect } from '../../../hooks/useAuthRedirect';
 import { withPageAuthRequired } from '../../../utils/auth0-helpers';
+import { useHudGridDoubleTapRail } from '../../../hooks/useHudGridDoubleTapRail';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 function EditClient() {
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useUser();
   
   // Authentication check
   useAuthRedirect();
+  
+  // HUD grid double tap rail
+  useHudGridDoubleTapRail();
   
   // Client data fetching
   const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
@@ -124,10 +130,12 @@ function EditClient() {
     }
   };
   
+  const hudGridShiftForTitleplate = 64;
+
   // Loading state
   if (clientLoading || !id) {
     return (
-      <div className="flex justify-center items-center h-96">
+      <div className="flex justify-center items-center h-screen">
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -136,12 +144,11 @@ function EditClient() {
   // Error state
   if (clientError) {
     return (
-      <div className="p-6">
+      <div className="min-h-screen p-4">
         <ErrorAlert message={`Error loading client: ${clientError.message}`} />
         <div className="mt-4">
-          <Link href="/clients" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
-            <FaArrowLeft className="inline mr-2" />
-            Back to Clients
+          <Link href={`/clients/${id}/mobile`} className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2">
+            <FaArrowLeft />Back to Client
           </Link>
         </div>
       </div>
@@ -151,71 +158,158 @@ function EditClient() {
   return (
     <>
       <Head>
-        <title>Edit Client | Service Business Management</title>
+        <title>Edit Client | Atomic Repair</title>
       </Head>
-      
-      <div className="px-4 py-6">
-        <div className="flex items-center mb-6">
-          <Link href={`/clients/${id}`} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mr-4">
-            <FaArrowLeft className="inline mr-2" />
-            Back to Client Details
+
+      <style jsx>{`
+        .edit-tactical-scan {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image:
+            linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+          background-size: 24px 24px;
+          background-position: 0 ${hudGridShiftForTitleplate}px, 0 ${hudGridShiftForTitleplate}px;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .edit-hud-titleplate-grid {
+          background-image:
+            linear-gradient(rgba(34, 211, 238, 0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
+          background-size: 8px 8px;
+        }
+        .edit-hud-orbitron {
+          font-family: 'Orbitron', system-ui, -apple-system, sans-serif;
+          font-optical-sizing: auto;
+          font-weight: 700;
+          font-style: normal;
+        }
+      `}</style>
+
+      <div className="edit-tactical-scan" />
+
+      <div 
+        className="fixed top-0 left-0 right-0 z-20 edit-hud-titleplate-grid"
+        style={{
+          height: '64px',
+          background: 'linear-gradient(180deg, rgba(13, 21, 37, 0.98) 0%, rgba(13, 21, 37, 0.95) 100%)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: '2px solid rgba(34, 211, 238, 0.5)',
+          paddingTop: 'env(safe-area-inset-top)',
+        }}
+      >
+        <div className="h-full flex items-center justify-between px-4">
+          <Link 
+            href={`/clients/${id}/mobile`}
+            className="text-cyan-400 hover:text-cyan-300 transition-colors"
+          >
+            <FaArrowLeft size={20} />
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Edit Client</h1>
+          <h1 className="edit-hud-orbitron text-cyan-400 text-lg uppercase tracking-wider truncate mx-4">
+            Edit Client
+          </h1>
+          <div className="w-5" />
         </div>
+      </div>
+
+      <div 
+        className="pb-6"
+        style={{
+          paddingTop: 'calc(64px + env(safe-area-inset-top) + 1rem)',
+          minHeight: '100vh',
+        }}
+      >
+        <div className="px-4 space-y-4">
         
         {updateSuccess && (
-          <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-lg flex items-center gap-3">
-            <span className="text-green-600 dark:text-green-400 text-xl">✓</span>
+          <div 
+            className="p-4 rounded-lg flex items-center gap-3"
+            style={{
+              background: 'rgba(34, 197, 94, 0.15)',
+              border: '1px solid rgba(34, 197, 94, 0.4)',
+            }}
+          >
+            <span className="text-green-400 text-xl font-bold">✓</span>
             <div>
-              <p className="text-green-800 dark:text-green-200 font-medium">Client updated successfully!</p>
-              <p className="text-green-600 dark:text-green-400 text-sm">Redirecting to client profile...</p>
+              <p className="text-green-400 font-bold">Client updated successfully!</p>
+              <p className="text-green-300 text-sm">Redirecting to client profile...</p>
             </div>
           </div>
         )}
 
         {submitError && (
-          <div className="mb-6">
-            <ErrorAlert message={submitError} />
+          <div 
+            className="p-4 rounded-lg"
+            style={{
+              background: 'rgba(239, 68, 68, 0.15)',
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+            }}
+          >
+            <p className="text-red-400">{submitError}</p>
           </div>
         )}
         
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Contact Information</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div 
+            className="rounded-lg p-4"
+            style={{
+              background: 'rgba(13, 21, 37, 0.85)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(34, 211, 238, 0.3)',
+              boxShadow: '0 0 20px rgba(34, 211, 238, 0.15)',
+            }}
+          >
+            <h2 className="text-cyan-400 text-sm font-bold uppercase tracking-wider mb-4">Contact Information</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  First Name *
-                </label>
-                <input
-                  type="text"
-                  id="first_name"
-                  name="first_name"
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                />
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label htmlFor="first_name" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                    style={{
+                      background: 'rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(34, 211, 238, 0.2)',
+                    }}
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="last_name" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                    style={{
+                      background: 'rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(34, 211, 238, 0.2)',
+                    }}
+                  />
+                </div>
               </div>
               
               <div>
-                <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Last Name *
-                </label>
-                <input
-                  type="text"
-                  id="last_name"
-                  name="last_name"
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="company_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="company_name" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   Company
                 </label>
                 <input
@@ -224,12 +318,16 @@ function EditClient() {
                   name="company_name"
                   value={formData.company_name}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 />
               </div>
               
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="email" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   Email
                 </label>
                 <input
@@ -238,12 +336,16 @@ function EditClient() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 />
               </div>
               
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="phone" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   Phone
                 </label>
                 <input
@@ -252,18 +354,31 @@ function EditClient() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 />
               </div>
             </div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Address</h2>
+          <div 
+            className="rounded-lg p-4"
+            style={{
+              background: 'rgba(13, 21, 37, 0.85)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(34, 211, 238, 0.3)',
+              boxShadow: '0 0 20px rgba(34, 211, 238, 0.15)',
+            }}
+          >
+            <h2 className="text-cyan-400 text-sm font-bold uppercase tracking-wider mb-4">Address</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="md:col-span-2">
-                <label htmlFor="address.street1" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="address.street1" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   Street Address
                 </label>
                 <input
@@ -272,12 +387,16 @@ function EditClient() {
                   name="address.street1"
                   value={formData.address?.street1 || ''}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 />
               </div>
               
-              <div className="md:col-span-2">
-                <label htmlFor="address.street2" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div>
+                <label htmlFor="address.street2" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   Address Line 2 (Optional)
                 </label>
                 <input
@@ -286,12 +405,16 @@ function EditClient() {
                   name="address.street2"
                   value={formData.address?.street2 || ''}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 />
               </div>
               
               <div>
-                <label htmlFor="address.city" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="address.city" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   City
                 </label>
                 <input
@@ -300,14 +423,18 @@ function EditClient() {
                   name="address.city"
                   value={formData.address?.city || ''}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="address.state" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    State/Province
+                  <label htmlFor="address.state" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
+                    State
                   </label>
                   <input
                     type="text"
@@ -315,13 +442,17 @@ function EditClient() {
                     name="address.state"
                     value={formData.address?.state || ''}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                    style={{
+                      background: 'rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(34, 211, 238, 0.2)',
+                    }}
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="address.zip" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    ZIP / Postal Code
+                  <label htmlFor="address.zip" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
+                    ZIP Code
                   </label>
                   <input
                     type="text"
@@ -329,19 +460,32 @@ function EditClient() {
                     name="address.zip"
                     value={formData.address?.zip || ''}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                    style={{
+                      background: 'rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(34, 211, 238, 0.2)',
+                    }}
                   />
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Additional Information</h2>
+          <div 
+            className="rounded-lg p-4"
+            style={{
+              background: 'rgba(13, 21, 37, 0.85)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(34, 211, 238, 0.3)',
+              boxShadow: '0 0 20px rgba(34, 211, 238, 0.15)',
+            }}
+          >
+            <h2 className="text-cyan-400 text-sm font-bold uppercase tracking-wider mb-4">Additional Information</h2>
             
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="status" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   Status
                 </label>
                 <select
@@ -349,7 +493,11 @@ function EditClient() {
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 >
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
@@ -358,7 +506,7 @@ function EditClient() {
               </div>
               
               <div>
-                <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="notes" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
                   Notes
                 </label>
                 <textarea
@@ -367,59 +515,106 @@ function EditClient() {
                   rows="4"
                   value={formData.notes}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
                 />
               </div>
             </div>
           </div>
           
-          <div className="flex justify-between">
+          <div className="space-y-3">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-50 active:opacity-70"
+              style={{
+                background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.15))',
+                border: '1px solid rgba(34, 211, 238, 0.4)',
+                color: '#22D3EE',
+                boxShadow: '0 0 15px rgba(34, 211, 238, 0.2)',
+              }}
+            >
+              {isSubmitting ? (
+                <LoadingSpinner size="sm" />
+              ) : (
+                <>
+                  <FaSave />
+                  Save Changes
+                </>
+              )}
+            </button>
+            
+            <Link 
+              href={`/clients/${id}/mobile`} 
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
+              style={{
+                background: 'rgba(0, 0, 0, 0.3)',
+                border: '1px solid rgba(100, 100, 100, 0.3)',
+                color: '#9CA3AF',
+              }}
+            >
+              Cancel
+            </Link>
+            
             <button
               type="button"
               onClick={() => setShowDeleteConfirm(true)}
-              className="inline-flex items-center px-4 py-2 border border-red-600 text-red-600 rounded hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-500 dark:hover:bg-red-700 dark:hover:text-white transition"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
+              style={{
+                background: 'rgba(239, 68, 68, 0.15)',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                color: '#EF4444',
+              }}
             >
-              <FaTrash className="mr-2" />
+              <FaTrash />
               Delete Client
             </button>
-            
-            <div className="flex space-x-3">
-              <Link 
-                href={`/clients/${id}`} 
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition"
-              >
-                Cancel
-              </Link>
-              
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition"
-              >
-                {isSubmitting ? (
-                  <LoadingSpinner size="sm" className="mr-2" />
-                ) : (
-                  <FaSave className="mr-2" />
-                )}
-                Save Changes
-              </button>
-            </div>
           </div>
         </form>
         
-        {/* Delete confirmation modal */}
         {showDeleteConfirm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-6">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Confirm Delete</h3>
-              <p className="text-gray-700 dark:text-gray-300 mb-6">
-                Are you sure you want to delete this client? This action cannot be undone and will also delete all associated records.
-              </p>
-              <div className="flex justify-end space-x-3">
+          <div 
+            className="fixed inset-0 flex items-center justify-center z-50 p-4"
+            style={{
+              background: 'rgba(0, 0, 0, 0.8)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+            }}
+          >
+            <div 
+              className="rounded-lg max-w-md w-full p-6"
+              style={{
+                background: 'rgba(13, 21, 37, 0.95)',
+                border: '1px solid rgba(239, 68, 68, 0.5)',
+                boxShadow: '0 0 30px rgba(239, 68, 68, 0.3)',
+              }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-red-400 text-lg font-bold uppercase tracking-wide">Confirm Delete</h3>
                 <button
                   type="button"
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <FaTimes size={20} />
+                </button>
+              </div>
+              <p className="text-gray-300 mb-6 text-sm">
+                Are you sure you want to delete this client? This action cannot be undone and will also delete all associated records.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  className="flex-1 py-2.5 rounded-md text-sm font-medium transition-all active:opacity-70"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(100, 100, 100, 0.3)',
+                    color: '#9CA3AF',
+                  }}
                 >
                   Cancel
                 </button>
@@ -427,7 +622,12 @@ function EditClient() {
                   type="button"
                   onClick={handleDelete}
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  className="flex-1 py-2.5 rounded-md text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-50 active:opacity-70"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.2))',
+                    border: '1px solid rgba(239, 68, 68, 0.5)',
+                    color: '#EF4444',
+                  }}
                 >
                   {isSubmitting ? <LoadingSpinner size="sm" /> : 'Delete'}
                 </button>
@@ -435,14 +635,14 @@ function EditClient() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </>
   );
 }
 
-// Use the dashboard layout
 EditClient.getLayout = function getLayout(page) {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  return <TechDashboardLayout>{page}</TechDashboardLayout>;
 };
 
 export default withPageAuthRequired(EditClient); 
