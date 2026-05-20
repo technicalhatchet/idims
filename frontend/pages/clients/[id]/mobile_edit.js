@@ -108,7 +108,7 @@ function EditClient() {
       });
       setUpdateSuccess(true);
       setTimeout(() => {
-        router.push(`/clients/${id}`);
+        router.push(`/clients/${id}/mobile`);
       }, 3000);
     } catch (error) {
       setSubmitError(error.message || 'An error occurred while updating the client.');
@@ -122,7 +122,7 @@ function EditClient() {
     
     try {
       await deleteClient(id);
-      router.push('/clients');
+      router.push('/techboard/assets');
     } catch (error) {
       setSubmitError(error.message || 'An error occurred while deleting the client.');
       setIsSubmitting(false);
