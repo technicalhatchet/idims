@@ -529,8 +529,8 @@ function TodaysRoute() {
       </Head>
 
       <div className="min-h-screen pb-8" style={{ background: '#0A0F1E' }}>
-        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
-          {/* Tactical background — full column; same pattern as work_orders/test */}
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative pt-0 pb-5">
+          {/* Tactical background — full screen; same pattern as work_orders/test */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
             <div
@@ -567,7 +567,7 @@ function TodaysRoute() {
 
           <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
-          <div className="hud-grid-content relative z-10">
+          <div className="hud-grid-content relative z-10 max-w-lg mx-auto px-4">
             <div className="sticky z-[1100] mb-4 top-[72px]">
               <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4 sm:pb-5 space-y-4">
                 <div
