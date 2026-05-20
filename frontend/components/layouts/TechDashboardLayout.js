@@ -137,7 +137,7 @@ export default function TechDashboardLayout({ children }) {
           background: linear-gradient(
             120deg,
             transparent 0%,
-            rgba(0, 212, 255, 0.5) 50%,
+            rgba(0, 212, 255, 0.5) 88%,
             transparent 100%
           );
           opacity: 0;
