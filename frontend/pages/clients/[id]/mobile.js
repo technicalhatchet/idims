@@ -526,19 +526,34 @@ function ClientDetail() {
               </div>
             </div>
 
-            <Link
-              href={`/work_orders/new?client_id=${id}`}
-              className="flex items-center justify-center gap-2 w-full py-3 mt-4 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
-              style={{
-                background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.15))',
-                border: '1px solid rgba(34, 211, 238, 0.4)',
-                color: '#22D3EE',
-                boxShadow: '0 0 15px rgba(34, 211, 238, 0.2)',
-              }}
-            >
-              <FaPlusCircle />
-              New Work Order
-            </Link>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              <Link
+                href={`/clients/${id}/mobile_edit`}
+                className="flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.25), rgba(147, 51, 234, 0.15))',
+                  border: '1px solid rgba(147, 51, 234, 0.4)',
+                  color: '#A855F7',
+                  boxShadow: '0 0 15px rgba(147, 51, 234, 0.2)',
+                }}
+              >
+                <FaEdit />
+                Edit
+              </Link>
+              <Link
+                href={`/work_orders/new?client_id=${id}`}
+                className="flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.15))',
+                  border: '1px solid rgba(34, 211, 238, 0.4)',
+                  color: '#22D3EE',
+                  boxShadow: '0 0 15px rgba(34, 211, 238, 0.2)',
+                }}
+              >
+                <FaPlusCircle />
+                New WO
+              </Link>
+            </div>
           </div>
 
           <div 
