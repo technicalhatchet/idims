@@ -374,6 +374,26 @@ export default function AssetsPage() {
               </div>
             </div>
 
+            {/* New Client Button */}
+            <Link
+              href="/clients/mobile_new"
+              className="w-full flex items-center justify-center gap-2 py-3 mb-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
+              style={{
+                background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.15))',
+                border: '1px solid rgba(34, 211, 238, 0.4)',
+                color: '#22D3EE',
+                boxShadow: '0 0 15px rgba(34, 211, 238, 0.2)',
+              }}
+              data-hud-card
+            >
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="16" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+              </svg>
+              New Client
+            </Link>
+
             {/* Client List */}
             <div
               className="rounded-lg p-3"
