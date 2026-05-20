@@ -881,14 +881,27 @@ useEffect(() => {
     .finally(() => setLoadingProperties(false));
 }, [values.client_id]);
 
+// Initialize selectedPropertyId from initialData when editing
+useEffect(() => {
+  if (initialData?.property_id) {
+    setSelectedPropertyId(initialData.property_id);
+  }
+}, [initialData?.property_id]);
+
 const handlePropertySelect = (propertyId) => {
+  console.log('DEBUG: handlePropertySelect called with propertyId:', propertyId);
   setSelectedPropertyId(propertyId);
   // Set the property_id in the form values
-  setFieldValue('property_id', propertyId || null);
+  const idToSet = propertyId || null;
+  console.log('DEBUG: Setting property_id to:', idToSet);
+  setFieldValue('property_id', idToSet);
   const property = clientProperties.find(p => p.id === propertyId);
   if (property) {
+    console.log('DEBUG: Found property:', property);
     const addr = [property.address, property.unit_number ? `Unit ${property.unit_number}` : ''].filter(Boolean).join(', ');
     setFieldValue('service_location', { address: addr });
+  } else {
+    console.log('DEBUG: Property not found in clientProperties');
   }
 };
 
