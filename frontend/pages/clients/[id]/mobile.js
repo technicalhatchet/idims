@@ -4,7 +4,7 @@ import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaArrowLeft, FaEdit, FaPlusCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHistory, FaTools, FaMoneyBillWave, FaFileInvoiceDollar, FaCreditCard, FaPaperPlane, FaHome, FaKey, FaTrash, FaTimes, FaUser, FaBuilding, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaArrowLeft, FaEdit, FaPlusCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHistory, FaTools, FaMoneyBillWave, FaFileInvoiceDollar, FaCreditCard, FaPaperPlane, FaHome, FaKey, FaTrash, FaTimes, FaUser, FaBuilding, FaChevronDown, FaChevronUp, FaChevronRight } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
@@ -773,9 +773,9 @@ function ClientDetail() {
                               </span>
                             </div>
                             {isExpanded ? (
-                              <FaChevronUp className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
-                            ) : (
                               <FaChevronDown className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
+                            ) : (
+                              <FaChevronRight className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
                             )}
                           </button>
 
