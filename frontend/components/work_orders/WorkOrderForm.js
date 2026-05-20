@@ -293,9 +293,14 @@ const [newPropertyError, setNewPropertyError] = useState(null);
   
   // Form submission handler
   const handleSubmit = async (values) => {
+    console.log('DEBUG handleSubmit: values.property_id =', values.property_id);
+    console.log('DEBUG handleSubmit: selectedPropertyId =', selectedPropertyId);
+    
     // Make a copy of values to modify
     const formattedValues = {
       ...values,
+      // Explicitly include property_id
+      property_id: values.property_id || selectedPropertyId || null,
       service_location: values.service_location || { address: '' },
       service_items: values.service_items.map(item => ({
         service_id: item.service_id,
