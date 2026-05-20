@@ -406,43 +406,18 @@ function WorkOrderDetail() {
                 </div>
               </div>
               
-              {/* Property & Contact Information */}
-              {workOrder.property && (workOrder.property.tenant_name || workOrder.property.tenant_phone) && (
+              {/* Tenant & Property Access */}
+              {workOrder.property && (workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number || workOrder.property.gate_code || workOrder.property.access_instructions) && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
                   <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Property & Contact Information</h2>
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Tenant & Property Access</h2>
                   </div>
                   
                   <div className="px-6 py-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
-                      <div className="md:col-span-2">
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Address</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.property.address || 'No address'}
-                          {workOrder.property.unit_number && ` - Unit ${workOrder.property.unit_number}`}
-                        </p>
-                      </div>
-                      
-                      {workOrder.property.property_type && (
-                        <div>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Property Type</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">
-                            {workOrder.property.property_type}
-                          </p>
-                        </div>
-                      )}
-                      
-                      {workOrder.property.gate_code && (
-                        <div>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Gate Code</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white font-mono bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded inline-block">
-                            {workOrder.property.gate_code}
-                          </p>
-                        </div>
-                      )}
-                      
+                      {/* Tenant Contact - Lead Information */}
                       {(workOrder.property.tenant_name || workOrder.property.tenant_phone) && (
-                        <div className="md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className="md:col-span-2">
                           <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Tenant / Contact at Property</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {workOrder.property.tenant_name && (
@@ -468,8 +443,29 @@ function WorkOrderDetail() {
                         </div>
                       )}
                       
+                      {/* Unit Number */}
+                      {workOrder.property.unit_number && (
+                        <div className={`${(workOrder.property.tenant_name || workOrder.property.tenant_phone) ? 'md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700' : ''}`}>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Unit Number</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                            {workOrder.property.unit_number}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {/* Gate Code */}
+                      {workOrder.property.gate_code && (
+                        <div className={`${(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number) ? 'pt-4 border-t border-gray-200 dark:border-gray-700' : ''}`}>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Gate Code</h3>
+                          <p className="mt-1 text-sm text-gray-900 dark:text-white font-mono bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded inline-block">
+                            {workOrder.property.gate_code}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {/* Access Instructions */}
                       {workOrder.property.access_instructions && (
-                        <div className="md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className={`md:col-span-2 ${(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number || workOrder.property.gate_code) ? 'pt-4 border-t border-gray-200 dark:border-gray-700' : ''}`}>
                           <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Access Instructions</h3>
                           <p className="mt-2 text-sm text-gray-900 dark:text-white bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
                             {workOrder.property.access_instructions}
