@@ -293,13 +293,10 @@ const [newPropertyError, setNewPropertyError] = useState(null);
   
   // Form submission handler
   const handleSubmit = async (values) => {
-    console.log('DEBUG handleSubmit: values.property_id =', values.property_id);
-    console.log('DEBUG handleSubmit: selectedPropertyId =', selectedPropertyId);
-    
     // Make a copy of values to modify
     const formattedValues = {
       ...values,
-      // Explicitly include property_id
+      // Explicitly include property_id (fallback to selectedPropertyId state if not in form values)
       property_id: values.property_id || selectedPropertyId || null,
       service_location: values.service_location || { address: '' },
       service_items: values.service_items.map(item => ({
@@ -317,9 +314,6 @@ const [newPropertyError, setNewPropertyError] = useState(null);
     if (formattedValues.equipment_type === '') formattedValues.equipment_type = null;
     if (formattedValues.equipment_subtype === '') formattedValues.equipment_subtype = null;
     if (formattedValues.equipment_notes === '') formattedValues.equipment_notes = null;
-    
-    // Debug the values being sent
-    console.log('Submitting work order with values:', formattedValues);
     
     try {
       if (isEdit && initialData?.id) {
@@ -894,19 +888,13 @@ useEffect(() => {
 }, [initialData?.property_id]);
 
 const handlePropertySelect = (propertyId) => {
-  console.log('DEBUG: handlePropertySelect called with propertyId:', propertyId);
   setSelectedPropertyId(propertyId);
   // Set the property_id in the form values
-  const idToSet = propertyId || null;
-  console.log('DEBUG: Setting property_id to:', idToSet);
-  setFieldValue('property_id', idToSet);
+  setFieldValue('property_id', propertyId || null);
   const property = clientProperties.find(p => p.id === propertyId);
   if (property) {
-    console.log('DEBUG: Found property:', property);
     const addr = [property.address, property.unit_number ? `Unit ${property.unit_number}` : ''].filter(Boolean).join(', ');
     setFieldValue('service_location', { address: addr });
-  } else {
-    console.log('DEBUG: Property not found in clientProperties');
   }
 };
 

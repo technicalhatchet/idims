@@ -587,11 +587,6 @@ function WorkOrderDetail() {
                     </div>
                     
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Title</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.title}</p>
-                    </div>
-                    
-                    <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Scheduled Time</h3>
                       <p className="mt-1 text-sm text-gray-900 dark:text-white flex items-center">
                         {workOrder.scheduled_start ? (
@@ -610,10 +605,12 @@ function WorkOrderDetail() {
                       </p>
                     </div>
                     
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Priority</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">{workOrder.priority}</p>
-                    </div>
+                    {workOrder.priority && workOrder.priority !== 'medium' && (
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Priority</h3>
+                        <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">{workOrder.priority}</p>
+                      </div>
+                    )}
                     
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Location</h3>
@@ -628,22 +625,8 @@ function WorkOrderDetail() {
                 </div>
               </div>
               
-              {/* DEBUG - Remove after testing */}
-              <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-6">
-                <p className="font-bold">Debug Info:</p>
-                <p>Has property: {workOrder.property ? 'YES' : 'NO'}</p>
-                <p>Property ID from WO: {workOrder.property_id || 'null'}</p>
-                {workOrder.property && (
-                  <>
-                    <p>Property address: {workOrder.property.address || 'N/A'}</p>
-                    <p>Tenant name: {workOrder.property.tenant_name || 'N/A'}</p>
-                    <p>Tenant phone: {workOrder.property.tenant_phone || 'N/A'}</p>
-                  </>
-                )}
-              </div>
-              
               {/* Property & Contact Information */}
-              {workOrder.property && (
+              {workOrder.property && (workOrder.property.tenant_name || workOrder.property.tenant_phone) && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
                   <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                     <h2 className="text-lg font-medium text-gray-900 dark:text-white">Property & Contact Information</h2>
