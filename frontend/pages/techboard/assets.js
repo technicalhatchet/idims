@@ -33,7 +33,7 @@ function ClientCard({ client }) {
 
   return (
     <Link
-      href={`/clients/${client.id}`}
+      href={`/clients/${client.id}/mobile`}
       className="block rounded-lg p-4 transition-all active:opacity-90"
       style={{
         background: 'rgba(13, 21, 37, 0.25)',
