@@ -808,13 +808,13 @@ async def get_combined_schedule(
             
             # Get property and tenant information
             property_data = None
-            if work_order.property:
+            if work_order.property_ref:
                 property_data = {
-                    "id": str(work_order.property.id),
-                    "address": work_order.property.address,
-                    "unit_number": work_order.property.unit_number,
-                    "tenant_name": work_order.property.tenant_name,
-                    "tenant_phone": work_order.property.tenant_phone,
+                    "id": str(work_order.property_ref.id),
+                    "address": work_order.property_ref.address,
+                    "unit_number": work_order.property_ref.unit_number,
+                    "tenant_name": work_order.property_ref.tenant_name,
+                    "tenant_phone": work_order.property_ref.tenant_phone,
                 }
                     
             formatted_appointments.append({
