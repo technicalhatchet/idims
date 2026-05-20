@@ -141,6 +141,7 @@ export default function CriticalMassPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [minDaysPast, setMinDaysPast] = useState(0);
+  const [techListExpanded, setTechListExpanded] = useState(false);
 
   const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
@@ -516,28 +517,48 @@ export default function CriticalMassPage() {
                 className="rounded-lg p-3 mb-3"
                 style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.08)' }}
               >
-                <div className="flex items-center justify-between gap-2 mb-2">
+                <button
+                  type="button"
+                  onClick={() => setTechListExpanded(!techListExpanded)}
+                  className="flex items-center justify-between gap-2 mb-2 w-full text-left"
+                >
                   <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
-                    Technicians
+                    Technicians {selectedTechIds.size > 0 && `(${selectedTechIds.size} selected)`}
                   </span>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={selectAllTechs}
-                      className="text-[11px] text-orange-400/90 hover:text-orange-300"
-                    >
-                      All
-                    </button>
-                    <button
-                      type="button"
-                      onClick={clearTechs}
-                      className="text-[11px] text-gray-500 hover:text-gray-400"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                </div>
-                <div className="max-h-36 overflow-y-auto space-y-1.5 pr-1">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-4 h-4 transition-transform"
+                    style={{
+                      stroke: '#9CA3AF',
+                      strokeWidth: 2,
+                      fill: 'none',
+                      strokeLinecap: 'round',
+                      strokeLinejoin: 'round',
+                      transform: techListExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                    }}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                {techListExpanded && (
+                  <>
+                    <div className="flex gap-2 mb-2">
+                      <button
+                        type="button"
+                        onClick={selectAllTechs}
+                        className="text-[11px] text-orange-400/90 hover:text-orange-300"
+                      >
+                        All
+                      </button>
+                      <button
+                        type="button"
+                        onClick={clearTechs}
+                        className="text-[11px] text-gray-500 hover:text-gray-400"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                    <div className="max-h-36 overflow-y-auto space-y-1.5 pr-1">
                   <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
                     <input
                       type="checkbox"
@@ -567,11 +588,13 @@ export default function CriticalMassPage() {
                       </label>
                     );
                   })}
-                </div>
-                {!allTechsSelected && selectedTechIds.size > 0 && (
-                  <p className="text-[10px] text-gray-600 mt-2">
-                    Showing only selected technicians{selectedTechIds.has(UNASSIGNED) ? ' (and unassigned)' : ''}.
-                  </p>
+                    </div>
+                    {!allTechsSelected && selectedTechIds.size > 0 && (
+                      <p className="text-[10px] text-gray-600 mt-2">
+                        Showing only selected technicians{selectedTechIds.has(UNASSIGNED) ? ' (and unassigned)' : ''}.
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             )}

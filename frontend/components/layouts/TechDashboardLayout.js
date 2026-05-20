@@ -137,7 +137,7 @@ export default function TechDashboardLayout({ children }) {
           background: linear-gradient(
             120deg,
             transparent 0%,
-            rgba(0, 212, 255, 0.3) 50%,
+            rgba(0, 212, 255, 0.5) 50%,
             transparent 100%
           );
           opacity: 0;
@@ -150,7 +150,7 @@ export default function TechDashboardLayout({ children }) {
           background: linear-gradient(
             120deg,
             transparent 0%,
-            rgba(255, 122, 0, 0.3) 50%,
+            rgba(255, 122, 0, 0.5) 50%,
             transparent 100%
           );
         }
@@ -161,7 +161,7 @@ export default function TechDashboardLayout({ children }) {
         }
         
         @keyframes rail-sweep {
-          0% { transform: translateX(-100%); opacity: 0.8; }
+          0% { transform: translateX(-100%); opacity: 1; }
           100% { transform: translateX(100%); opacity: 0; }
         }
       `}</style>
