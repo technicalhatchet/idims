@@ -619,7 +619,7 @@ export default function RouteTest() {
       </Head>
 
       <div className="min-h-screen pb-6" style={{ background: ROUTE_PAGE_BG }}>
-        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: ROUTE_PAGE_BG }} />
             <div

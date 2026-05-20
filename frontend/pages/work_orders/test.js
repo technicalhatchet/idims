@@ -192,7 +192,7 @@ export default function WorkOrdersTest() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: WO_TEST_PAGE_BG }}>
-      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto">
+      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen">
         {/* Tactical background — same layers as techboard; no extra “card” container */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div className="absolute inset-0" style={{ background: WO_TEST_PAGE_BG }} />

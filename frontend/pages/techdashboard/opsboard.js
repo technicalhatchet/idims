@@ -529,7 +529,7 @@ function TodaysRoute() {
       </Head>
 
       <div className="min-h-screen pb-8" style={{ background: '#0A0F1E' }}>
-        <div ref={tacticalColumnRef} className="hud-tactical-column relative pt-0 pb-5">
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative pt-0 pb-5 min-h-screen">
           {/* Tactical background — full screen; same pattern as work_orders/test */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />

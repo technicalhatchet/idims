@@ -272,9 +272,8 @@ export default function BookService() {
             <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/30 via-transparent to-orange-500/30 rounded-2xl blur-sm" />
             
             {/* Card Content */}
-            <div className="relative bg-[#0d1117]/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex flex-col">
-			  <div className="relative h-[420px] overflow-hidden">
-			  <AnimatePresence mode="wait" custom={direction}>
+            <div className="relative bg-[#0d1117]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 h-[500px] overflow-hidden">
+              <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentStep}
                   custom={direction}
@@ -563,7 +562,6 @@ export default function BookService() {
                   )}
                 </motion.div>
               </AnimatePresence>
-			  </div>
 
               {/* Navigation Buttons */}
               <div className="flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
