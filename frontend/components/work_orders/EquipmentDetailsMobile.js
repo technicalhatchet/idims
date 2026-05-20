@@ -231,6 +231,10 @@ export default function EquipmentDetailsMobile({
           placeholder="Enter model number"
           required={!modelNumber}
         />
+        <Button onClick={saveEquipmentDetails} disabled={loading} color="blue" className="w-full h-9">
+          {loading ? 'Saving…' : 'Save equipment'}
+        </Button>
+        {saveFeedback}
       </MobileAccordionSection>
 
       <MobileAccordionSection
@@ -259,6 +263,10 @@ export default function EquipmentDetailsMobile({
             onChange={(e) => setIsWallMounted(e.target.checked)}
           />
         )}
+        <Button onClick={saveEquipmentDetails} disabled={loading} color="blue" className="w-full h-9">
+          {loading ? 'Saving…' : 'Save equipment'}
+        </Button>
+        {saveFeedback}
       </MobileAccordionSection>
 
       <MobileAccordionSection
