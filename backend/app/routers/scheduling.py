@@ -805,6 +805,17 @@ async def get_combined_schedule(
             technician_name = "Unassigned"
             if appt.technician:
                 technician_name = appt.technician.name
+            
+            # Get property and tenant information
+            property_data = None
+            if work_order.property:
+                property_data = {
+                    "id": str(work_order.property.id),
+                    "address": work_order.property.address,
+                    "unit_number": work_order.property.unit_number,
+                    "tenant_name": work_order.property.tenant_name,
+                    "tenant_phone": work_order.property.tenant_phone,
+                }
                     
             formatted_appointments.append({
                 "id": str(appt.id),
@@ -817,6 +828,7 @@ async def get_combined_schedule(
                 "client_id": str(work_order.client_id) if work_order.client_id else None,
                 "client_name": client_name,
                 "client_phone": client_phone,
+                "property": property_data,
                 "location": work_order.service_location.get("address") if work_order.service_location else None,
                 "description": appt.description if hasattr(appt, 'description') else work_order.description,
                 "order_number": work_order.order_number,

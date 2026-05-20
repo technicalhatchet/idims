@@ -341,14 +341,26 @@ function NextJobCard({ job }) {
     const hasClientPhone = Boolean(job.client_phone);
     const hasTenantPhone = Boolean(job.tenant_phone);
     
+    console.log('[Call Button] Debug:', {
+      client_phone: job.client_phone,
+      tenant_phone: job.tenant_phone,
+      tenant_name: job.tenant_name,
+      hasClientPhone,
+      hasTenantPhone,
+      property: job.property
+    });
+    
     // If both phones available, show options
     if (hasClientPhone && hasTenantPhone) {
+      console.log('[Call Button] Showing options modal');
       setShowCallOptions(true);
     } else if (hasClientPhone) {
       // Call client directly
+      console.log('[Call Button] Calling client directly');
       window.location.href = `tel:${job.client_phone}`;
     } else if (hasTenantPhone) {
       // Call tenant directly
+      console.log('[Call Button] Calling tenant directly');
       window.location.href = `tel:${job.tenant_phone}`;
     }
   };
@@ -403,7 +415,13 @@ function NextJobCard({ job }) {
         {(job.client_phone || job.tenant_phone || job.status === 'scheduled') && (
           <div className="px-4 pb-4 pt-2 space-y-3 relative z-10" onClick={(e) => e.stopPropagation()}>
             {(job.client_phone || job.tenant_phone) && (
-              <div className="relative">
+              <div className="relative" onClick={(e) => {
+                // Close modal if clicking on the wrapper but not on the modal itself
+                if (showCallOptions && e.target === e.currentTarget) {
+                  e.stopPropagation();
+                  setShowCallOptions(false);
+                }
+              }}>
                 <button
                   type="button"
                   onClick={handleCallClick}
