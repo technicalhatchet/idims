@@ -70,10 +70,11 @@ class ClientService:
     @staticmethod
     async def create_client(db: Session, client_data: ClientCreate, created_by: uuid.UUID) -> Client:
         """Create a new client"""
-        # Check if email is unique
-        existing_client = db.query(Client).filter(Client.email == client_data.email).first()
-        if existing_client:
-            raise ConflictException(f"A client with email {client_data.email} already exists")
+        # Check if email is unique (only if email is provided)
+        if client_data.email:
+            existing_client = db.query(Client).filter(Client.email == client_data.email).first()
+            if existing_client:
+                raise ConflictException(f"A client with email {client_data.email} already exists")
         
         # Create user account if user_id is not provided
         user_id = client_data.user_id
