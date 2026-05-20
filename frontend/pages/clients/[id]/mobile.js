@@ -244,8 +244,21 @@ function ClientDetail() {
   const [savingProperty, setSavingProperty] = useState(false);
   const [propertyError, setPropertyError] = useState(null);
   const [editingProperty, setEditingProperty] = useState(null);
+  const [expandedProperties, setExpandedProperties] = useState(new Set());
   
   useHudGridDoubleTapRail();
+
+  const togglePropertyExpanded = (propertyId) => {
+    setExpandedProperties(prev => {
+      const next = new Set(prev);
+      if (next.has(propertyId)) {
+        next.delete(propertyId);
+      } else {
+        next.add(propertyId);
+      }
+      return next;
+    });
+  };
 
   const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
   const { sendRegistrationEmail } = useClientMutations();
@@ -726,112 +739,137 @@ function ClientDetail() {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {properties.map(property => (
-                      <div 
-                        key={property.id} 
-                        className="rounded-lg p-3"
-                        style={{
-                          background: 'rgba(0, 0, 0, 0.3)',
-                          border: '1px solid rgba(34, 211, 238, 0.2)',
-                        }}
-                      >
-                        <div className="flex items-start gap-2 mb-2">
-                          <FaMapMarkerAlt className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-white font-medium text-sm">
-                              {property.address}
-                              {property.unit_number && ` — Unit ${property.unit_number}`}
-                            </p>
-                            <span 
-                              className="inline-block px-2 py-0.5 mt-1 text-xs rounded capitalize"
-                              style={{
-                                background: 'rgba(34, 211, 238, 0.15)',
-                                color: '#22D3EE',
-                                border: '1px solid rgba(34, 211, 238, 0.3)',
-                              }}
-                            >
-                              {property.property_type || 'residential'}
-                            </span>
-                          </div>
-                        </div>
-
-                        {(property.gate_code || property.access_instructions) && (
-                          <div className="space-y-1.5 mb-2 text-xs">
-                            {property.gate_code && (
-                              <div className="flex items-center gap-2">
-                                <FaKey className="text-gray-500 flex-shrink-0" size={12} />
-                                <span className="text-gray-400">Gate:</span>
-                                <span className="text-cyan-400 font-mono">{property.gate_code}</span>
-                              </div>
+                    {properties.map(property => {
+                      const isExpanded = expandedProperties.has(property.id);
+                      return (
+                        <div 
+                          key={property.id} 
+                          className="rounded-lg overflow-hidden"
+                          style={{
+                            background: 'rgba(0, 0, 0, 0.3)',
+                            border: '1px solid rgba(34, 211, 238, 0.2)',
+                          }}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => togglePropertyExpanded(property.id)}
+                            className="w-full flex items-start gap-2 p-3 text-left transition-colors active:bg-cyan-500/10"
+                          >
+                            <FaMapMarkerAlt className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-white font-medium text-sm">
+                                {property.address}
+                                {property.unit_number && ` — Unit ${property.unit_number}`}
+                              </p>
+                              <span 
+                                className="inline-block px-2 py-0.5 mt-1 text-xs rounded capitalize"
+                                style={{
+                                  background: 'rgba(34, 211, 238, 0.15)',
+                                  color: '#22D3EE',
+                                  border: '1px solid rgba(34, 211, 238, 0.3)',
+                                }}
+                              >
+                                {property.property_type || 'residential'}
+                              </span>
+                            </div>
+                            {isExpanded ? (
+                              <FaChevronUp className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
+                            ) : (
+                              <FaChevronDown className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
                             )}
-                            {property.access_instructions && (
-                              <p className="text-gray-400 text-xs">{property.access_instructions}</p>
-                            )}
-                          </div>
-                        )}
+                          </button>
 
-                        {(property.tenant_name || property.tenant_phone || property.tenant_email) && (
-                          <div className="pt-2 mt-2 border-t border-cyan-500/20">
-                            <p className="text-xs text-gray-500 uppercase tracking-wide mb-1.5">Tenant</p>
-                            <div className="space-y-1">
-                              {property.tenant_name && (
-                                <div className="flex items-center gap-2 text-sm">
-                                  <FaUser className="text-gray-500" size={12} />
-                                  <span className="text-white">{property.tenant_name}</span>
+                          {isExpanded && (
+                            <div className="px-3 pb-3">
+                              {(property.gate_code || property.access_instructions) && (
+                                <div className="space-y-1.5 mb-2 text-xs pt-2 border-t border-cyan-500/20">
+                                  {property.gate_code && (
+                                    <div className="flex items-center gap-2">
+                                      <FaKey className="text-gray-500 flex-shrink-0" size={12} />
+                                      <span className="text-gray-400">Gate:</span>
+                                      <span className="text-cyan-400 font-mono">{property.gate_code}</span>
+                                    </div>
+                                  )}
+                                  {property.access_instructions && (
+                                    <p className="text-gray-400 text-xs">{property.access_instructions}</p>
+                                  )}
                                 </div>
                               )}
-                              {property.tenant_phone && (
-                                <a 
-                                  href={`tel:${property.tenant_phone}`} 
-                                  className="flex items-center gap-2 text-sm text-cyan-400 active:opacity-70"
-                                >
-                                  <FaPhone className="text-gray-500" size={12} />
-                                  {formatPhoneNumber(property.tenant_phone)}
-                                </a>
-                              )}
-                              {property.tenant_email && (
-                                <a 
-                                  href={`mailto:${property.tenant_email}`} 
-                                  className="flex items-center gap-2 text-xs text-cyan-400 active:opacity-70 truncate"
-                                >
-                                  <FaEnvelope className="text-gray-500 flex-shrink-0" size={12} />
-                                  <span className="truncate">{property.tenant_email}</span>
-                                </a>
-                              )}
-                            </div>
-                          </div>
-                        )}
 
-                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-cyan-500/20">
-                          <Link 
-                            href={`/work_orders/new?client_id=${id}&address=${encodeURIComponent(property.address + (property.unit_number ? ` Unit ${property.unit_number}` : ''))}&property_id=${property.id}`} 
-                            className="flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-xs font-bold uppercase tracking-wide transition-all active:opacity-70"
-                            style={{
-                              background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.1))',
-                              border: '1px solid rgba(34, 211, 238, 0.4)',
-                              color: '#22D3EE',
-                            }}
-                          >
-                            <FaTools size={12} />
-                            New WO
-                          </Link>
-                          <button 
-                            type="button" 
-                            onClick={() => handleEditProperty(property)} 
-                            className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors"
-                          >
-                            <FaEdit size={16} />
-                          </button>
-                          <button 
-                            type="button" 
-                            onClick={() => handleDeleteProperty(property.id)} 
-                            className="p-2 text-red-400 hover:text-red-300 transition-colors"
-                          >
-                            <FaTrash size={16} />
-                          </button>
+                              {(property.tenant_name || property.tenant_phone || property.tenant_email) && (
+                                <div className="pt-2 mt-2 border-t border-cyan-500/20">
+                                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1.5">Tenant</p>
+                                  <div className="space-y-1">
+                                    {property.tenant_name && (
+                                      <div className="flex items-center gap-2 text-sm">
+                                        <FaUser className="text-gray-500" size={12} />
+                                        <span className="text-white">{property.tenant_name}</span>
+                                      </div>
+                                    )}
+                                    {property.tenant_phone && (
+                                      <a 
+                                        href={`tel:${property.tenant_phone}`} 
+                                        className="flex items-center gap-2 text-sm text-cyan-400 active:opacity-70"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        <FaPhone className="text-gray-500" size={12} />
+                                        {formatPhoneNumber(property.tenant_phone)}
+                                      </a>
+                                    )}
+                                    {property.tenant_email && (
+                                      <a 
+                                        href={`mailto:${property.tenant_email}`} 
+                                        className="flex items-center gap-2 text-xs text-cyan-400 active:opacity-70 truncate"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        <FaEnvelope className="text-gray-500 flex-shrink-0" size={12} />
+                                        <span className="truncate">{property.tenant_email}</span>
+                                      </a>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+
+                              <div className="flex items-center gap-2 mt-3 pt-3 border-t border-cyan-500/20">
+                                <Link 
+                                  href={`/work_orders/new?client_id=${id}&address=${encodeURIComponent(property.address + (property.unit_number ? ` Unit ${property.unit_number}` : ''))}&property_id=${property.id}`} 
+                                  className="flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-xs font-bold uppercase tracking-wide transition-all active:opacity-70"
+                                  style={{
+                                    background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.1))',
+                                    border: '1px solid rgba(34, 211, 238, 0.4)',
+                                    color: '#22D3EE',
+                                  }}
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <FaTools size={12} />
+                                  New WO
+                                </Link>
+                                <button 
+                                  type="button" 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleEditProperty(property);
+                                  }} 
+                                  className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors"
+                                >
+                                  <FaEdit size={16} />
+                                </button>
+                                <button 
+                                  type="button" 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteProperty(property.id);
+                                  }} 
+                                  className="p-2 text-red-400 hover:text-red-300 transition-colors"
+                                >
+                                  <FaTrash size={16} />
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
