@@ -73,6 +73,7 @@ export default function TechDashboardLayout({ children }) {
   const [railOpen, setRailOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [sweepingItem, setSweepingItem] = useState(null);
   const profileRef = useRef(null);
   const router = useRouter();
   const { user } = useUser();
@@ -122,6 +123,46 @@ export default function TechDashboardLayout({ children }) {
         .hud-grid-content textarea,
         .hud-grid-content label {
           pointer-events: auto;
+        }
+        
+        /* Rail nav item sweep effect */
+        .rail-nav-item {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .rail-nav-sweep {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(0, 212, 255, 0.3) 50%,
+            transparent 100%
+          );
+          opacity: 0;
+          transform: translateX(-100%);
+          pointer-events: none;
+          z-index: 1;
+        }
+        
+        .rail-nav-sweep.orange {
+          background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(255, 122, 0, 0.3) 50%,
+            transparent 100%
+          );
+        }
+        
+        .rail-nav-item.sweeping .rail-nav-sweep {
+          opacity: 1;
+          animation: rail-sweep 0.5s ease-out forwards;
+        }
+        
+        @keyframes rail-sweep {
+          0% { transform: translateX(-100%); opacity: 0.8; }
+          100% { transform: translateX(100%); opacity: 0; }
         }
       `}</style>
 
@@ -283,13 +324,24 @@ export default function TechDashboardLayout({ children }) {
             const glowFilter = active
               ? (item.color === 'orange' ? 'drop-shadow(0 0 5px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 5px rgba(0,212,255,0.7))')
               : 'none';
+            const isSweeping = sweepingItem === item.name;
+
+            const handleClick = (e) => {
+              e.preventDefault();
+              setSweepingItem(item.name);
+              setTimeout(() => {
+                setSweepingItem(null);
+                setRailOpen(false);
+                router.push(item.href);
+              }, 500);
+            };
 
             return (
               <Link
                 key={item.name}
                 href={item.href}
-                onClick={() => setRailOpen(false)}
-                className="flex items-center min-h-[52px] py-3.5 transition-all active:opacity-70"
+                onClick={handleClick}
+                className={`rail-nav-item flex items-center min-h-[52px] py-3.5 transition-all active:opacity-70 ${isSweeping ? 'sweeping' : ''}`}
                 style={{
                   paddingLeft: expanded ? 16 : 12,
                   paddingRight: expanded ? 12 : 12,
@@ -298,7 +350,9 @@ export default function TechDashboardLayout({ children }) {
                   borderLeft: active ? `3px solid ${color}` : '3px solid transparent',
                 }}
               >
-                <div className="flex items-center justify-center flex-shrink-0" style={{ width: 44, height: 44 }}>
+                {/* Sweep overlay */}
+                <div className={`rail-nav-sweep ${item.color === 'orange' ? 'orange' : ''}`} />
+                <div className="flex items-center justify-center flex-shrink-0 relative z-10" style={{ width: 44, height: 44 }}>
                   {item.href === '/technicians' ? (
                     <svg
                       viewBox={TECH_ICON_VIEWBOX}
@@ -344,7 +398,7 @@ export default function TechDashboardLayout({ children }) {
                   )}
                 </div>
                 {expanded && (
-                  <span className="text-base font-medium leading-tight whitespace-nowrap transition-all pr-1" style={{ color, textShadow: active ? (item.color === 'orange' ? '0 0 8px rgba(255,122,0,0.4)' : '0 0 8px rgba(0,212,255,0.4)') : 'none' }}>
+                  <span className="relative z-10 text-base font-medium leading-tight whitespace-nowrap transition-all pr-1" style={{ color, textShadow: active ? (item.color === 'orange' ? '0 0 8px rgba(255,122,0,0.4)' : '0 0 8px rgba(0,212,255,0.4)') : 'none' }}>
                     {item.name}
                   </span>
                 )}
