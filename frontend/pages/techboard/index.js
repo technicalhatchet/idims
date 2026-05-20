@@ -322,18 +322,44 @@ function CriticalMassCard({ count }) {
   );
 }
 
-// ── Next Job Card (flat spotlight + link to work order body) ───────────────
+// ── Next Job Card (flat spotlight + link to work order mobile + sweep on tap) ───────────────
 function NextJobCard({ job }) {
+  const [sweeping, setSweeping] = useState(false);
+  const router = useRouter();
+
+  const handleCardClick = (e) => {
+    e.preventDefault();
+    setSweeping(true);
+    setTimeout(() => {
+      router.push(`/work_orders/${job.work_order_id}/mobile`);
+    }, 600);
+  };
+
   return (
-    <div className="mb-4 rounded-lg tech-next-job-card" data-techboard-card>
-      <div className="rounded-lg" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.35)' }}>
-        <Link href={`/work_orders/${job.work_order_id}`} className="block p-4 active:opacity-90">
+    <div 
+      className={`mb-4 rounded-lg tech-next-job-card ${sweeping ? 'tech-sweep-active' : ''}`} 
+      data-techboard-card
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
+    >
+      <div className="rounded-lg relative overflow-hidden" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.35)' }}>
+        {/* Sweep overlay */}
+        <div 
+          className="tech-sweep-overlay" 
+          style={{ 
+            background: sweeping 
+              ? 'linear-gradient(120deg, transparent 0%, rgba(0, 212, 255, 0.4) 50%, transparent 100%)' 
+              : undefined 
+          }} 
+        />
+        
+        <div className="block p-4 relative z-10">
           <div className="flex justify-between items-start mb-3">
             <p className="text-xs font-medium text-cyan-400 tracking-wider uppercase">Next Job</p>
             <StatusBadge status={job.status} />
           </div>
           <div className="flex gap-4">
-            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 tech-icon-wrap" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
               <ApplianceIcon
                 equipmentType={job.equipment_type}
                 equipmentSubtype={job.equipment_subtype}
@@ -354,15 +380,16 @@ function NextJobCard({ job }) {
               </div>
             </div>
           </div>
-        </Link>
+        </div>
 
         {(job.client_phone || job.status === 'scheduled') && (
-          <div className="px-4 pb-4 pt-2 space-y-3">
+          <div className="px-4 pb-4 pt-2 space-y-3 relative z-10" onClick={(e) => e.stopPropagation()}>
             {job.client_phone && (
               <a
                 href={`tel:${job.client_phone}`}
                 className="tech-btn-glow flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium overflow-hidden relative"
                 style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.3)', color: '#22D3EE' }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <span className="tech-btn-sweep" />
                 <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
@@ -372,11 +399,13 @@ function NextJobCard({ job }) {
               </a>
             )}
             {job.status === 'scheduled' && (
-              <EnRouteButton
-                workOrderId={job.work_order_id}
-                appointmentId={job.id}
-                onSuccess={() => window.location.reload()}
-              />
+              <div onClick={(e) => e.stopPropagation()}>
+                <EnRouteButton
+                  workOrderId={job.work_order_id}
+                  appointmentId={job.id}
+                  onSuccess={() => window.location.reload()}
+                />
+              </div>
             )}
           </div>
         )}
