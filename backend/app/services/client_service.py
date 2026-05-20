@@ -76,9 +76,9 @@ class ClientService:
             if existing_client:
                 raise ConflictException(f"A client with email {client_data.email} already exists")
         
-        # Create user account if user_id is not provided
+        # Create user account if user_id is not provided and email is available
         user_id = client_data.user_id
-        if not user_id:
+        if not user_id and client_data.email:
             try:
                 # Create user with client role
                 user = User(
