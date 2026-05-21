@@ -220,7 +220,7 @@ function EditClient() {
       </div>
 
       <div 
-        className="pb-6"
+        className="pb-6 relative z-10"
         style={{
           paddingTop: 'calc(64px + env(safe-area-inset-top) + 1rem)',
           minHeight: '100vh',
