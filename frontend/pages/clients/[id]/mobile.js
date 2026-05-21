@@ -246,6 +246,8 @@ function ClientDetail() {
   const [editingProperty, setEditingProperty] = useState(null);
   const [expandedProperties, setExpandedProperties] = useState(new Set());
 
+  const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
+
   const tacticalColumnRef = useRef(null);
   const { openRail } = useTechDashboardRail() || {};
 
@@ -302,8 +304,6 @@ function ClientDetail() {
       return next;
     });
   };
-
-  const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
   const { sendRegistrationEmail } = useClientMutations();
   const { data: workOrdersData, isLoading: workOrdersLoading, error: workOrdersError } =
     useWorkOrders({ client_id: id, page: 1, limit: 100 });

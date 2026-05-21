@@ -21,6 +21,9 @@ function EditClient() {
   // Authentication check
   useAuthRedirect();
   
+  // Client data fetching
+  const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
+  
   const tacticalColumnRef = useRef(null);
   const { openRail } = useTechDashboardRail() || {};
 
@@ -65,9 +68,6 @@ function EditClient() {
       layer.removeEventListener('dblclick', onDblClick);
     };
   }, [clientLoading, clientError, openRail]);
-  
-  // Client data fetching
-  const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
   
   // Client mutations
   const { updateClient, deleteClient } = useClientMutations();
