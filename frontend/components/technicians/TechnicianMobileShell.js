@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useRef } from 'react';
 import Head from 'next/head';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
+import { TX_ORANGE } from '../../constants/technicianMobileTheme';
 
 const TACTICAL_NOISE_BG =
   'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
@@ -69,8 +70,8 @@ export default function TechnicianMobileShell({ title, scanKey = 'tx-mobile', ti
           }
           .${scanKey}-hud-titleplate-grid {
             background-image:
-              linear-gradient(rgba(0, 217, 255, 0.07) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 217, 255, 0.07) 1px, transparent 1px);
+              linear-gradient(${TX_ORANGE.grid} 1px, transparent 1px),
+              linear-gradient(90deg, ${TX_ORANGE.grid} 1px, transparent 1px);
             background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
             background-position: var(--${scanKey}-hud-grid-x, 0px) var(--${scanKey}-hud-grid-y, 0px);
           }
@@ -82,7 +83,7 @@ export default function TechnicianMobileShell({ title, scanKey = 'tx-mobile', ti
             inset: 0;
             border-radius: inherit;
             padding: 1px;
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.72), rgba(8, 51, 68, 0.28), rgba(0, 212, 255, 0.5));
+            background: linear-gradient(135deg, rgba(255, 122, 0, 0.72), rgba(68, 28, 8, 0.28), rgba(255, 154, 60, 0.5));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -96,7 +97,7 @@ export default function TechnicianMobileShell({ title, scanKey = 'tx-mobile', ti
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.085), transparent);
+            background: linear-gradient(90deg, transparent, ${TX_ORANGE.scan}, transparent);
             animation: ${scanKey}-hud-card-scan 5s linear infinite;
             border-radius: inherit;
             pointer-events: none;
@@ -109,15 +110,21 @@ export default function TechnicianMobileShell({ title, scanKey = 'tx-mobile', ti
         <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: TX_MOBILE_PAGE_BG }} />
-            <div className="absolute inset-0 opacity-[0.11] bg-[linear-gradient(rgba(0,217,255,.36)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)] bg-[size:42px_42px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+            <div
+              className="absolute inset-0 opacity-[0.11] bg-[size:42px_42px]"
+              style={{
+                backgroundImage: `linear-gradient(${TX_ORANGE.gridLine.replace('0.28', '0.36')} 1px, transparent 1px), linear-gradient(90deg, ${TX_ORANGE.gridLine} 1px, transparent 1px)`,
+              }}
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,122,0,.13),transparent_48%)]" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-orange-400/[0.085] blur-[120px] rounded-full" />
             <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay" style={{ backgroundImage: TACTICAL_NOISE_BG }} />
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div
                 className="absolute top-0 bottom-0 w-[42%]"
                 style={{
                   left: '-48%',
-                  background: 'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                  background: 'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255, 154, 60, 0.04) 50%, transparent 68%, transparent 100%)',
                   animation: `${scanKey}-tactical-scan 6.5s linear infinite`,
                 }}
               />
@@ -131,9 +138,10 @@ export default function TechnicianMobileShell({ title, scanKey = 'tx-mobile', ti
               <div
                 ref={titleplateRef}
                 data-hud-card
-                className={`relative overflow-hidden rounded-[18px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 shadow-[0_0_30px_rgba(0,212,255,.28)] ${scanKey}-neon-edge ${scanKey}-hud-scan`}
+                className={`relative overflow-hidden rounded-[18px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 shadow-[0_0_30px_rgba(255,122,0,.28)] ${scanKey}-neon-edge ${scanKey}-hud-scan`}
               >
                 <div className={`pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 ${scanKey}-hud-titleplate-grid`} aria-hidden />
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-orange-950/0 opacity-60 pointer-events-none rounded-[inherit]" />
                 <div className="relative z-[2]">{titleplate}</div>
               </div>
             </div>

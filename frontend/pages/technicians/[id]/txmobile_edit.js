@@ -76,7 +76,7 @@ function TechnicianMobileEdit() {
   if (error || !technician) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4" style={{ background: TX_MOBILE_PAGE_BG }}>
-        <button type="button" onClick={() => router.push('/techboard/operatives')} className="text-cyan-400">
+        <button type="button" onClick={() => router.push('/techboard/operatives')} className="text-orange-400">
           Back to Operatives
         </button>
       </div>
@@ -87,7 +87,7 @@ function TechnicianMobileEdit() {
     ? `${technician.user.first_name} ${technician.user.last_name}`
     : technician.employee_id;
 
-  const inputClass = 'w-full px-3 py-2 text-sm rounded border text-white bg-[rgba(0,0,0,0.3)] border-cyan-400/30';
+  const inputClass = 'w-full px-3 py-2 text-sm rounded border text-white bg-[rgba(0,0,0,0.3)] border-orange-400/30';
 
   return (
     <TechnicianMobileShell
@@ -96,7 +96,7 @@ function TechnicianMobileEdit() {
       syncKey={id}
       titleplate={
         <div className="flex items-center gap-3">
-          <Link href={`/technicians/${id}/txmobile_view`} className="text-cyan-400" data-hud-card>
+          <Link href={`/technicians/${id}/txmobile_view`} className="text-orange-400" data-hud-card>
             <FaArrowLeft size={18} />
           </Link>
           <h1 className="tx-edit-hud-orbitron text-base font-black uppercase tracking-[0.08em] text-white">Edit Operative</h1>
@@ -104,7 +104,7 @@ function TechnicianMobileEdit() {
       }
     >
       {updateSuccess && (
-        <div className="rounded-lg p-4 mb-4 text-cyan-400 border border-cyan-400/30 bg-cyan-400/10" data-hud-card>
+        <div className="rounded-lg p-4 mb-4 text-orange-400 border border-orange-400/30 bg-orange-400/10" data-hud-card>
           Operative updated successfully! Redirecting...
         </div>
       )}
@@ -115,8 +115,8 @@ function TechnicianMobileEdit() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="rounded-lg p-4 mb-4 border border-cyan-400/30 bg-[rgba(13,21,37,0.85)]" data-hud-card>
-          <h2 className="text-sm font-bold text-cyan-400 uppercase tracking-wide mb-4">Operative Information</h2>
+        <div className="rounded-lg p-4 mb-4 border border-orange-400/30 bg-[rgba(13,21,37,0.85)]" data-hud-card>
+          <h2 className="text-sm font-bold text-orange-400 uppercase tracking-wide mb-4">Operative Information</h2>
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">Employee ID *</label>
@@ -142,7 +142,7 @@ function TechnicianMobileEdit() {
         </div>
 
         <div className="space-y-3">
-          <button type="submit" disabled={isSubmitting} className="w-full py-3 rounded-lg text-sm font-bold uppercase tracking-wide text-cyan-400 border border-cyan-400/50 bg-cyan-400/20 disabled:opacity-50" data-hud-card>
+          <button type="submit" disabled={isSubmitting} className="w-full py-3 rounded-lg text-sm font-bold uppercase tracking-wide text-orange-400 border border-orange-400/50 bg-orange-400/20 disabled:opacity-50" data-hud-card>
             {isSubmitting ? 'Saving...' : 'Save Changes'}
           </button>
           <Link href={`/technicians/${id}/txmobile_view`} className="block w-full py-3 rounded-lg text-sm font-bold uppercase tracking-wide text-center text-gray-400 border border-white/10" data-hud-card>

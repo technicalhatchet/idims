@@ -5,6 +5,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import { useTechnicians } from '../../hooks/useTechnicians';
+import { TX_ORANGE } from '../../constants/technicianMobileTheme';
 
 const TACTICAL_NOISE_BG =
   'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
@@ -38,7 +39,7 @@ function TechnicianCard({ technician }) {
         background: 'rgba(13, 21, 37, 0.25)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(34,211,238,0.25)',
+        border: `1px solid ${TX_ORANGE.border}`,
       }}
       data-hud-card
     >
@@ -47,7 +48,7 @@ function TechnicianCard({ technician }) {
           className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center"
           style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.1)' }}
         >
-          <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+          <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: TX_ORANGE.primary, strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
@@ -60,12 +61,12 @@ function TechnicianCard({ technician }) {
               className="ml-2 px-2 py-0.5 text-[10px] uppercase tracking-wide font-medium rounded-full flex-shrink-0"
               style={{
                 background: technician.status === 'active'
-                  ? 'rgba(34, 211, 238, 0.15)'
+                  ? TX_ORANGE.fill
                   : technician.status === 'inactive'
                   ? 'rgba(239, 68, 68, 0.15)'
                   : 'rgba(251, 146, 60, 0.15)',
                 color: technician.status === 'active'
-                  ? '#22D3EE'
+                  ? TX_ORANGE.primary
                   : technician.status === 'inactive'
                   ? '#EF4444'
                   : '#FB923C',
@@ -148,8 +149,8 @@ export default function OperativesPage() {
           }
           .operatives-hud-titleplate-grid {
             background-image:
-              linear-gradient(rgba(0, 217, 255, 0.07) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 217, 255, 0.07) 1px, transparent 1px);
+              linear-gradient(${TX_ORANGE.grid} 1px, transparent 1px),
+              linear-gradient(90deg, ${TX_ORANGE.grid} 1px, transparent 1px);
             background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
             background-position: var(--operatives-hud-grid-x, 0px) var(--operatives-hud-grid-y, 0px);
           }
@@ -159,8 +160,8 @@ export default function OperativesPage() {
           .operatives-hud-orbitron-glow {
             text-shadow:
               0 0 8px rgba(255, 255, 255, 0.15),
-              0 0 18px rgba(34, 211, 238, 0.35),
-              0 0 40px rgba(0, 212, 255, 0.22);
+              0 0 18px rgba(255, 122, 0, 0.35),
+              0 0 40px rgba(255, 122, 0, 0.22);
           }
           .operatives-neon-edge {
             position: relative;
@@ -171,7 +172,7 @@ export default function OperativesPage() {
             inset: 0;
             border-radius: inherit;
             padding: 1px;
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.72), rgba(8, 51, 68, 0.28), rgba(0, 212, 255, 0.5));
+            background: linear-gradient(135deg, rgba(255, 122, 0, 0.72), rgba(68, 28, 8, 0.28), rgba(255, 154, 60, 0.5));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -185,7 +186,7 @@ export default function OperativesPage() {
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.085), transparent);
+            background: linear-gradient(90deg, transparent, ${TX_ORANGE.scan}, transparent);
             animation: operatives-hud-scan 5s linear infinite;
             border-radius: inherit;
             pointer-events: none;
@@ -204,12 +205,13 @@ export default function OperativesPage() {
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: PAGE_BG }} />
             <div
-              className="absolute inset-0 opacity-[0.11]
-                bg-[linear-gradient(rgba(0,217,255,.36)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
-                bg-[size:42px_42px]"
+              className="absolute inset-0 opacity-[0.11] bg-[size:42px_42px]"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,122,0,.36) 1px, transparent 1px), linear-gradient(90deg, rgba(255,122,0,.28) 1px, transparent 1px)`,
+              }}
             />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,122,0,.13),transparent_48%)]" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-orange-400/[0.085] blur-[120px] rounded-full" />
             <div
               className="absolute inset-0 opacity-[0.028]
                 bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
@@ -218,7 +220,7 @@ export default function OperativesPage() {
               className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
               style={{ backgroundImage: TACTICAL_NOISE_BG }}
             />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-300/45 to-transparent pointer-events-none" />
             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -241,23 +243,23 @@ export default function OperativesPage() {
               <div
                 ref={titleplateRef}
                 data-hud-card
-                className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)] operatives-neon-edge operatives-hud-scan"
+                className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-orange-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(255,122,0,.28)] operatives-neon-edge operatives-hud-scan"
                 style={{
                   '--operatives-hud-grid-x': `${hudGridShift.x}px`,
                   '--operatives-hud-grid-y': `${hudGridShift.y}px`,
                 }}
               >
                 <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 operatives-hud-titleplate-grid" aria-hidden />
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-cyan-950/0 opacity-60 pointer-events-none rounded-[inherit]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-orange-950/0 opacity-60 pointer-events-none rounded-[inherit]" />
                 <div className="relative z-[2] min-w-0">
-                  <p className="operatives-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-cyan-300/95 mb-1.5 font-semibold">
+                  <p className="operatives-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-orange-300/95 mb-1.5 font-semibold">
                     Field Personnel
                   </p>
                   <h1 className="operatives-hud-orbitron operatives-hud-orbitron-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] text-white">
                     Operatives
                   </h1>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
-                    <div className="h-px w-10 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
+                    <div className="h-px w-10 shrink-0 bg-gradient-to-r from-orange-300 to-transparent" />
                     <span className="operatives-hud-orbitron text-white/45 text-[9px] tracking-[0.12em] uppercase">
                       {technicians.length} operative{technicians.length !== 1 ? 's' : ''}
                     </span>
@@ -274,9 +276,9 @@ export default function OperativesPage() {
                   onClick={() => setStatus(statusOption)}
                   className="px-4 py-2 text-xs uppercase tracking-wide font-medium rounded-lg whitespace-nowrap transition-all"
                   style={{
-                    background: status === statusOption ? 'rgba(34, 211, 238, 0.25)' : 'rgba(13, 21, 37, 0.4)',
-                    border: `1px solid ${status === statusOption ? 'rgba(34, 211, 238, 0.5)' : 'rgba(255,255,255,0.1)'}`,
-                    color: status === statusOption ? '#22D3EE' : '#9CA3AF',
+                    background: status === statusOption ? TX_ORANGE.fillStrong : 'rgba(13, 21, 37, 0.4)',
+                    border: `1px solid ${status === statusOption ? TX_ORANGE.borderStrong : 'rgba(255,255,255,0.1)'}`,
+                    color: status === statusOption ? TX_ORANGE.primary : '#9CA3AF',
                   }}
                 >
                   {statusOption || 'All'}
@@ -288,10 +290,10 @@ export default function OperativesPage() {
               href="/technicians/txmobile_new"
               className="flex items-center justify-center gap-2 w-full mb-4 px-4 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-90"
               style={{
-                background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(147, 51, 234, 0.25))',
-                border: '1px solid rgba(34, 211, 238, 0.6)',
-                color: '#22D3EE',
-                boxShadow: '0 0 30px rgba(34, 211, 238, 0.4)',
+                background: `linear-gradient(135deg, ${TX_ORANGE.fillStrong}, rgba(255, 154, 60, 0.15))`,
+                border: `1px solid ${TX_ORANGE.borderStrong}`,
+                color: TX_ORANGE.primary,
+                boxShadow: `0 0 30px ${TX_ORANGE.glow}`,
               }}
               data-hud-card
             >

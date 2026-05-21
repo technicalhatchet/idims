@@ -42,7 +42,7 @@ function TechnicianMobileNew() {
     }
   };
 
-  const inputClass = 'w-full px-3 py-2 text-sm rounded border text-white bg-[rgba(0,0,0,0.3)] border-cyan-400/30';
+  const inputClass = 'w-full px-3 py-2 text-sm rounded border text-white bg-[rgba(0,0,0,0.3)] border-orange-400/30';
 
   return (
     <TechnicianMobileShell
@@ -50,7 +50,7 @@ function TechnicianMobileNew() {
       scanKey="tx-new"
       titleplate={
         <div className="flex items-center gap-3">
-          <Link href="/techboard/operatives" className="text-cyan-400" data-hud-card>
+          <Link href="/techboard/operatives" className="text-orange-400" data-hud-card>
             <FaArrowLeft size={18} />
           </Link>
           <h1 className="tx-new-hud-orbitron text-base font-black uppercase tracking-[0.08em] text-white">New Operative</h1>
@@ -64,8 +64,8 @@ function TechnicianMobileNew() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="rounded-lg p-4 mb-4 border border-cyan-400/30 bg-[rgba(13,21,37,0.85)]" data-hud-card>
-          <h2 className="text-sm font-bold text-cyan-400 uppercase tracking-wide mb-4">User Information</h2>
+        <div className="rounded-lg p-4 mb-4 border border-orange-400/30 bg-[rgba(13,21,37,0.85)]" data-hud-card>
+          <h2 className="text-sm font-bold text-orange-400 uppercase tracking-wide mb-4">User Information</h2>
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">First Name *</label>
@@ -86,8 +86,8 @@ function TechnicianMobileNew() {
           </div>
         </div>
 
-        <div className="rounded-lg p-4 mb-4 border border-cyan-400/30 bg-[rgba(13,21,37,0.85)]" data-hud-card>
-          <h2 className="text-sm font-bold text-cyan-400 uppercase tracking-wide mb-4">Operative Information</h2>
+        <div className="rounded-lg p-4 mb-4 border border-orange-400/30 bg-[rgba(13,21,37,0.85)]" data-hud-card>
+          <h2 className="text-sm font-bold text-orange-400 uppercase tracking-wide mb-4">Operative Information</h2>
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">Employee ID *</label>
@@ -113,7 +113,7 @@ function TechnicianMobileNew() {
         </div>
 
         <div className="space-y-3">
-          <button type="submit" disabled={isSubmitting} className="w-full py-3 rounded-lg text-sm font-bold uppercase tracking-wide text-cyan-400 border border-cyan-400/50 bg-cyan-400/20 disabled:opacity-50" data-hud-card>
+          <button type="submit" disabled={isSubmitting} className="w-full py-3 rounded-lg text-sm font-bold uppercase tracking-wide text-orange-400 border border-orange-400/50 bg-orange-400/20 disabled:opacity-50" data-hud-card>
             {isSubmitting ? 'Creating...' : 'Create Operative'}
           </button>
           <Link href="/techboard/operatives" className="block w-full py-3 rounded-lg text-sm font-bold uppercase tracking-wide text-center text-gray-400 border border-white/10" data-hud-card>
