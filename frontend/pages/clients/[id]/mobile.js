@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
@@ -13,8 +13,8 @@ import { useClient, useClientMutations } from '../../../hooks/useClients';
 import { useWorkOrders } from '../../../hooks/useWorkOrders';
 import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 import { apiClient } from '../../../utils/api-client';
-import { useHudGridDoubleTapRail } from '../../../hooks/useHudGridDoubleTapRail';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 
 const formatPhoneNumber = (phoneNumberString) => {
   if (!phoneNumberString) return '';
@@ -246,7 +246,50 @@ function ClientDetail() {
   const [editingProperty, setEditingProperty] = useState(null);
   const [expandedProperties, setExpandedProperties] = useState(new Set());
 
-  const gridTapLayerRef = useHudGridDoubleTapRail();
+  const tacticalColumnRef = useRef(null);
+  const { openRail } = useTechDashboardRail() || {};
+
+  // Attach double-tap listener
+  useEffect(() => {
+    if (clientLoading || clientError || !tacticalColumnRef.current || !openRail) return;
+
+    const layer = tacticalColumnRef.current;
+    const lastTap = { t: 0, x: 0, y: 0 };
+
+    const tryOpenRail = (x, y) => {
+      const now = Date.now();
+      const dt = now - lastTap.t;
+      const dist = Math.hypot(x - lastTap.x, y - lastTap.y);
+      if (lastTap.t && dt < 350 && dist < 48) {
+        openRail();
+        lastTap.t = 0;
+        return true;
+      }
+      lastTap.t = now;
+      lastTap.x = x;
+      lastTap.y = y;
+      return false;
+    };
+
+    const onTouch = (e) => {
+      if (e.touches.length === 1) {
+        const t = e.touches[0];
+        tryOpenRail(t.clientX, t.clientY);
+      }
+    };
+
+    const onDblClick = (e) => {
+      tryOpenRail(e.clientX, e.clientY);
+    };
+
+    layer.addEventListener('touchstart', onTouch, { passive: false });
+    layer.addEventListener('dblclick', onDblClick);
+
+    return () => {
+      layer.removeEventListener('touchstart', onTouch);
+      layer.removeEventListener('dblclick', onDblClick);
+    };
+  }, [clientLoading, clientError, openRail]);
 
   const togglePropertyExpanded = (propertyId) => {
     setExpandedProperties(prev => {
@@ -398,6 +441,9 @@ function ClientDetail() {
             linear-gradient(90deg, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
           background-size: 8px 8px;
         }
+        .hud-tactical-column {
+          touch-action: manipulation;
+        }
         .client-hud-orbitron {
           font-family: 'Orbitron', system-ui, -apple-system, sans-serif;
           font-optical-sizing: auto;
@@ -409,12 +455,14 @@ function ClientDetail() {
         }
       `}</style>
 
-      <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
-        <div className="relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen">
+      <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
+        <div
+          ref={tacticalColumnRef}
+          className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
+          style={{ minHeight: '100vh' }}
+        >
           
           <div className="client-tactical-scan" />
-
-          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
 
           <div 
             className="fixed top-0 left-0 right-0 z-20 client-hud-titleplate-grid"
