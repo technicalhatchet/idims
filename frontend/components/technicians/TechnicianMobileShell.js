@@ -133,7 +133,7 @@ export default function TechnicianMobileShell({ title, scanKey = 'tx-mobile', ti
 
           <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
 
-          <div className="hud-grid-content relative z-10 px-4 pb-4 sm:px-6 sm:pb-6">
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
             <div className="mb-5">
               <div
                 ref={titleplateRef}
