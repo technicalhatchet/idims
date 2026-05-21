@@ -51,7 +51,7 @@ const NAV_ITEMS = [
   },
   {
     name: 'Technicians',
-    href: '/technicians',
+    href: '/techboard/operatives',
     color: 'orange',
     icon: null,
   },
