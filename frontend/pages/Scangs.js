@@ -102,7 +102,7 @@ export default function ScanTest() {
 
             rgba(255,122,0,0.09) 30%,
 
-            rgba(255,122,0,0.17) 50%,
+            rgba(255,122,0,0.17) 80%,
 
             rgba(255,122,0,0.09) 70%,
 
