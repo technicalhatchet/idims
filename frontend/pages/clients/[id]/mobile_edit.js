@@ -34,11 +34,15 @@ function EditClient() {
     const layer = tacticalColumnRef.current;
     const lastTap = { t: 0, x: 0, y: 0 };
 
-    const tryOpenRail = (x, y) => {
+    const tryOpenRail = (x, y, event) => {
       const now = Date.now();
       const dt = now - lastTap.t;
       const dist = Math.hypot(x - lastTap.x, y - lastTap.y);
       if (lastTap.t && dt < 350 && dist < 48) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         openRail();
         lastTap.t = 0;
         return true;
@@ -52,12 +56,18 @@ function EditClient() {
     const onTouch = (e) => {
       if (e.touches.length === 1) {
         const t = e.touches[0];
-        tryOpenRail(t.clientX, t.clientY);
+        if (tryOpenRail(t.clientX, t.clientY, e)) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
       }
     };
 
     const onDblClick = (e) => {
-      tryOpenRail(e.clientX, e.clientY);
+      if (tryOpenRail(e.clientX, e.clientY, e)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
     };
 
     layer.addEventListener('touchstart', onTouch, { passive: false });
