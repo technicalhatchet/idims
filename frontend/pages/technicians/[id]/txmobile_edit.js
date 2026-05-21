@@ -164,6 +164,10 @@ function TechnicianMobileEdit() {
       </Head>
 
       <style jsx>{`
+        @keyframes tactical-scan {
+          0%, 100% { transform: translateY(-100%); }
+          50% { transform: translateY(100%); }
+        }
         .edit-tactical-scan {
           position: fixed;
           top: 0;
@@ -177,6 +181,22 @@ function TechnicianMobileEdit() {
           background-position: 0 ${hudGridShiftForTitleplate}px, 0 ${hudGridShiftForTitleplate}px;
           pointer-events: none;
           z-index: 0;
+        }
+        .hud-tactical-scan-line {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(34, 211, 238, 0.5) 50%,
+            transparent 100%
+          );
+          pointer-events: none;
+          animation: tactical-scan 4s ease-in-out infinite;
+          box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+          z-index: 5;
         }
         .edit-hud-titleplate-grid {
           background-image:
@@ -196,7 +216,9 @@ function TechnicianMobileEdit() {
           style={{ minHeight: '100vh' }}
         >
           
-          <div className="edit-tactical-scan" />
+          <div className="edit-tactical-scan">
+            <div className="hud-tactical-scan-line" />
+          </div>
 
           <div 
             className="fixed top-0 left-0 right-0 z-20 edit-hud-titleplate-grid"

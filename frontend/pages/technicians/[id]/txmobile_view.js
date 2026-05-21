@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import { FaArrowLeft, FaEdit, FaUser, FaChevronDown, FaChevronUp, FaIdCard, FaPhone, FaEnvelope, FaCalendar } from 'react-icons/fa';
+import { FaArrowLeft, FaEdit, FaUser, FaChevronDown, FaChevronUp, FaIdCard, FaPhone, FaEnvelope, FaCalendar, FaChartLine } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -106,6 +106,10 @@ function TechnicianMobileView() {
       </Head>
 
       <style jsx>{`
+        @keyframes tactical-scan {
+          0%, 100% { transform: translateY(-100%); }
+          50% { transform: translateY(100%); }
+        }
         .technician-tactical-scan {
           position: fixed;
           top: 0;
@@ -119,6 +123,22 @@ function TechnicianMobileView() {
           background-position: 0 ${hudGridShiftForTitleplate}px, 0 ${hudGridShiftForTitleplate}px;
           pointer-events: none;
           z-index: 0;
+        }
+        .hud-tactical-scan-line {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(34, 211, 238, 0.5) 50%,
+            transparent 100%
+          );
+          pointer-events: none;
+          animation: tactical-scan 4s ease-in-out infinite;
+          box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+          z-index: 5;
         }
         .technician-hud-titleplate-grid {
           background-image:
@@ -138,7 +158,9 @@ function TechnicianMobileView() {
           style={{ minHeight: '100vh' }}
         >
           
-          <div className="technician-tactical-scan" />
+          <div className="technician-tactical-scan">
+            <div className="hud-tactical-scan-line" />
+          </div>
 
           <div 
             className="fixed top-0 left-0 right-0 z-20 technician-hud-titleplate-grid"
@@ -287,6 +309,21 @@ function TechnicianMobileView() {
                 </div>
               )}
             </div>
+
+            {/* Performance Link */}
+            <Link
+              href={`/technicians/${id}/txmobile_perform`}
+              className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-90"
+              style={{
+                background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(147, 51, 234, 0.15))',
+                border: '1px solid rgba(34, 211, 238, 0.4)',
+                color: '#22D3EE',
+                boxShadow: '0 0 20px rgba(34, 211, 238, 0.2)',
+              }}
+            >
+              <FaChartLine />
+              View Performance
+            </Link>
           </div>
         </div>
       </div>

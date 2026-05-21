@@ -234,6 +234,7 @@ export default function OperativesPage() {
           pointer-events: none;
           animation: tactical-scan 4s ease-in-out infinite;
           box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+          z-index: 5;
         }
         .hud-titleplate-grid {
           background-image:
@@ -318,10 +319,11 @@ export default function OperativesPage() {
             href="/technicians/txmobile_new"
             className="flex items-center justify-center gap-2 w-full mb-4 px-4 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-90"
             style={{
-              background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(147, 51, 234, 0.15))',
-              border: '1px solid rgba(34, 211, 238, 0.4)',
+              background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(147, 51, 234, 0.25))',
+              border: '1px solid rgba(34, 211, 238, 0.6)',
               color: '#22D3EE',
-              boxShadow: '0 0 20px rgba(34, 211, 238, 0.2)',
+              boxShadow: '0 0 30px rgba(34, 211, 238, 0.4)',
+              textShadow: '0 0 10px rgba(34, 211, 238, 0.5)',
             }}
           >
             <FaPlusCircle className="text-lg" />

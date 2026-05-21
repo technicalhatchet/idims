@@ -106,6 +106,10 @@ function TechnicianMobilePerform() {
       </Head>
 
       <style jsx>{`
+        @keyframes tactical-scan {
+          0%, 100% { transform: translateY(-100%); }
+          50% { transform: translateY(100%); }
+        }
         .perform-tactical-scan {
           position: fixed;
           top: 0;
@@ -119,6 +123,22 @@ function TechnicianMobilePerform() {
           background-position: 0 ${hudGridShiftForTitleplate}px, 0 ${hudGridShiftForTitleplate}px;
           pointer-events: none;
           z-index: 0;
+        }
+        .hud-tactical-scan-line {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(34, 211, 238, 0.5) 50%,
+            transparent 100%
+          );
+          pointer-events: none;
+          animation: tactical-scan 4s ease-in-out infinite;
+          box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+          z-index: 5;
         }
         .perform-hud-titleplate-grid {
           background-image:
@@ -138,7 +158,9 @@ function TechnicianMobilePerform() {
           style={{ minHeight: '100vh' }}
         >
           
-          <div className="perform-tactical-scan" />
+          <div className="perform-tactical-scan">
+            <div className="hud-tactical-scan-line" />
+          </div>
 
           <div 
             className="fixed top-0 left-0 right-0 z-20 perform-hud-titleplate-grid"
