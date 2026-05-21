@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react';
+import { useState, useCallback, useLayoutEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { FaPlusCircle } from 'react-icons/fa';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
-import { useTechDashboardRail } from '../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import { useTechnicians } from '../../hooks/useTechnicians';
+
+const TACTICAL_NOISE_BG =
+  'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")';
 
 const PAGE_BG = '#0A0F1E';
 const HUD_GRID_STEP = 42;
@@ -24,7 +26,7 @@ function hudGridShiftForTitleplate(dx, dy, step) {
 }
 
 function TechnicianCard({ technician }) {
-  const displayName = technician.user 
+  const displayName = technician.user
     ? `${technician.user.first_name} ${technician.user.last_name}`
     : technician.employee_id;
 
@@ -38,9 +40,9 @@ function TechnicianCard({ technician }) {
         WebkitBackdropFilter: 'blur(12px)',
         border: '1px solid rgba(34,211,238,0.25)',
       }}
+      data-hud-card
     >
       <div className="flex items-start gap-3">
-        {/* Icon */}
         <div
           className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center"
           style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.1)' }}
@@ -51,7 +53,6 @@ function TechnicianCard({ technician }) {
           </svg>
         </div>
 
-        {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-start mb-1">
             <p className="text-base font-bold text-white truncate">{displayName}</p>
@@ -76,39 +77,17 @@ function TechnicianCard({ technician }) {
 
           <div className="space-y-0.5">
             {technician.user?.email && (
-              <div className="flex items-center gap-1.5">
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-                <p className="text-xs text-gray-400 truncate">{technician.user.email}</p>
-              </div>
+              <p className="text-xs text-gray-400 truncate">{technician.user.email}</p>
             )}
-
             {technician.user?.phone && (
-              <div className="flex items-center gap-1.5">
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4A2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <p className="text-xs text-gray-400 truncate">{technician.user.phone}</p>
-              </div>
+              <p className="text-xs text-gray-400 truncate">{technician.user.phone}</p>
             )}
-
             {technician.employee_id && (
-              <div className="flex items-center gap-1.5">
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                  <line x1="16" y1="2" x2="16" y2="6"/>
-                  <line x1="8" y1="2" x2="8" y2="6"/>
-                  <line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                <p className="text-xs text-gray-400 truncate">#{technician.employee_id}</p>
-              </div>
+              <p className="text-xs text-gray-400 truncate">#{technician.employee_id}</p>
             )}
           </div>
         </div>
 
-        {/* Chevron */}
         <div className="flex-shrink-0 text-gray-600 text-xl">›</div>
       </div>
     </Link>
@@ -116,12 +95,11 @@ function TechnicianCard({ technician }) {
 }
 
 export default function OperativesPage() {
-  const { user } = useUser();
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [status, setStatus] = useState('');
 
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
-  const { openRail } = useTechDashboardRail() || {};
   const titleplateRef = useRef(null);
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
 
@@ -150,110 +128,79 @@ export default function OperativesPage() {
     };
   }, [syncHudGridAlignment]);
 
-  // Attach double-tap listener
-  useEffect(() => {
-    if (!tacticalColumnRef.current || !openRail) return;
-
-    const layer = tacticalColumnRef.current;
-    const lastTap = { t: 0, x: 0, y: 0 };
-
-    const tryOpenRail = (x, y, event) => {
-      const now = Date.now();
-      const dt = now - lastTap.t;
-      const dist = Math.hypot(x - lastTap.x, y - lastTap.y);
-      if (lastTap.t && dt < 350 && dist < 48) {
-        if (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        openRail();
-        lastTap.t = 0;
-        return true;
-      }
-      lastTap.t = now;
-      lastTap.x = x;
-      lastTap.y = y;
-      return false;
-    };
-
-    const onTouch = (e) => {
-      if (e.touches.length === 1) {
-        const t = e.touches[0];
-        if (tryOpenRail(t.clientX, t.clientY, e)) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
-    };
-
-    const onDblClick = (e) => {
-      if (tryOpenRail(e.clientX, e.clientY, e)) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
-    layer.addEventListener('touchstart', onTouch, { passive: false });
-    layer.addEventListener('dblclick', onDblClick);
-
-    return () => {
-      layer.removeEventListener('touchstart', onTouch);
-      layer.removeEventListener('dblclick', onDblClick);
-    };
-  }, [openRail]);
-
   const queryParams = { page, limit: 50 };
   if (status) queryParams.status = status;
 
   const { data, isLoading, error } = useTechnicians(queryParams);
-
   const technicians = data?.items || [];
 
   return (
     <>
       <Head>
         <title>Operatives | Field Tech Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+        <style>{`
+          @keyframes operatives-tactical-scan {
+            0% { left: -48%; }
+            100% { left: 115%; }
+          }
+          .operatives-hud-titleplate-grid {
+            background-image:
+              linear-gradient(rgba(0, 217, 255, 0.07) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 217, 255, 0.07) 1px, transparent 1px);
+            background-size: ${HUD_GRID_STEP}px ${HUD_GRID_STEP}px;
+            background-position: var(--operatives-hud-grid-x, 0px) var(--operatives-hud-grid-y, 0px);
+          }
+          .operatives-hud-orbitron {
+            font-family: 'Orbitron', system-ui, sans-serif;
+          }
+          .operatives-hud-orbitron-glow {
+            text-shadow:
+              0 0 8px rgba(255, 255, 255, 0.15),
+              0 0 18px rgba(34, 211, 238, 0.35),
+              0 0 40px rgba(0, 212, 255, 0.22);
+          }
+          .operatives-neon-edge {
+            position: relative;
+          }
+          .operatives-neon-edge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.72), rgba(8, 51, 68, 0.28), rgba(0, 212, 255, 0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+          }
+          .operatives-hud-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.085), transparent);
+            animation: operatives-hud-scan 5s linear infinite;
+            border-radius: inherit;
+            pointer-events: none;
+          }
+          @keyframes operatives-hud-scan {
+            100% { left: 120%; }
+          }
+        `}</style>
       </Head>
 
-      <style jsx>{`
-        @keyframes tactical-scan {
-          0%, 100% { transform: translateY(-100%); }
-          50% { transform: translateY(100%); }
-        }
-        .hud-tactical-scan-line {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background: linear-gradient(90deg,
-            transparent 0%,
-            rgba(34, 211, 238, 0.5) 50%,
-            transparent 100%
-          );
-          pointer-events: none;
-          animation: tactical-scan 4s ease-in-out infinite;
-          box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
-          z-index: 5;
-        }
-        .hud-titleplate-grid {
-          background-image:
-            linear-gradient(rgba(34, 211, 238, 0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
-          background-size: 8px 8px;
-        }
-        .hud-tactical-column {
-          touch-action: manipulation;
-        }
-      `}</style>
-
-      <div className="min-h-screen pb-24" style={{ background: PAGE_BG }}>
+      <div className="min-h-screen" style={{ background: PAGE_BG }}>
         <div
           ref={tacticalColumnRef}
-          className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
-          style={{ minHeight: '100vh' }}
+          className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen"
         >
-          {/* Tactical background */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: PAGE_BG }} />
             <div
@@ -261,103 +208,111 @@ export default function OperativesPage() {
                 bg-[linear-gradient(rgba(0,217,255,.36)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
                 bg-[size:42px_42px]"
             />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
             <div
-              className="absolute inset-0 opacity-[0.025]"
-              style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")' }}
+              className="absolute inset-0 opacity-[0.028]
+                bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
             />
-            <div className="hud-tactical-scan-line" />
-          </div>
-
-          {/* Fixed HUD titleplate */}
-          <div
-            ref={titleplateRef}
-            className="sticky top-0 z-20 -mx-4 px-4 py-3 mb-4 hud-titleplate-grid"
-            style={{
-              background: 'rgba(10, 15, 30, 0.85)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              borderBottom: '1px solid rgba(34, 211, 238, 0.25)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
-            }}
-          >
-            <div className="flex items-center justify-between">
-              <h1
-                className="text-xl font-bold uppercase tracking-widest"
-                style={{
-                  fontFamily: "'Orbitron', sans-serif",
-                  color: '#22D3EE',
-                  textShadow: '0 0 10px rgba(34,211,238,0.5)',
-                }}
-              >
-                Operatives
-              </h1>
-            </div>
-          </div>
-
-          {/* Status Filter */}
-          <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
-            {['', 'active', 'inactive', 'on_leave'].map((statusOption) => (
-              <button
-                key={statusOption}
-                onClick={() => setStatus(statusOption)}
-                className="px-4 py-2 text-xs uppercase tracking-wide font-medium rounded-lg whitespace-nowrap transition-all"
-                style={{
-                  background: status === statusOption
-                    ? 'rgba(34, 211, 238, 0.25)'
-                    : 'rgba(13, 21, 37, 0.4)',
-                  border: `1px solid ${status === statusOption ? 'rgba(34, 211, 238, 0.5)' : 'rgba(255,255,255,0.1)'}`,
-                  color: status === statusOption ? '#22D3EE' : '#9CA3AF',
-                }}
-              >
-                {statusOption || 'All'}
-              </button>
-            ))}
-          </div>
-
-          {/* New Technician Button */}
-          <Link
-            href="/technicians/txmobile_new"
-            className="flex items-center justify-center gap-2 w-full mb-4 px-4 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-90"
-            style={{
-              background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(147, 51, 234, 0.25))',
-              border: '1px solid rgba(34, 211, 238, 0.6)',
-              color: '#22D3EE',
-              boxShadow: '0 0 30px rgba(34, 211, 238, 0.4)',
-              textShadow: '0 0 10px rgba(34, 211, 238, 0.5)',
-            }}
-          >
-            <FaPlusCircle className="text-lg" />
-            New Operative
-          </Link>
-
-          {/* Technician Cards */}
-          <div className="space-y-3">
-            {isLoading && (
-              <div className="text-center py-8 text-gray-400">Loading...</div>
-            )}
-
-            {error && (
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay"
+              style={{ backgroundImage: TACTICAL_NOISE_BG }}
+            />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/45 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,.52)_100%)] pointer-events-none" />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div
-                className="rounded-lg p-4 text-center"
+                className="absolute top-0 bottom-0 w-[42%]"
                 style={{
-                  background: 'rgba(239, 68, 68, 0.1)',
-                  border: '1px solid rgba(239, 68, 68, 0.3)',
-                  color: '#EF4444',
+                  left: '-48%',
+                  background: 'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                  animation: 'operatives-tactical-scan 6.5s linear infinite',
+                }}
+              />
+            </div>
+            <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] pointer-events-none" />
+          </div>
+
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
+
+          <div className="hud-grid-content relative z-10 px-4 pb-4 sm:px-6 sm:pb-6">
+            <div className="mb-5">
+              <div
+                ref={titleplateRef}
+                data-hud-card
+                className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/35 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,212,255,.28)] operatives-neon-edge operatives-hud-scan"
+                style={{
+                  '--operatives-hud-grid-x': `${hudGridShift.x}px`,
+                  '--operatives-hud-grid-y': `${hudGridShift.y}px`,
                 }}
               >
-                Failed to load technicians
+                <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-50 operatives-hud-titleplate-grid" aria-hidden />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-cyan-950/0 opacity-60 pointer-events-none rounded-[inherit]" />
+                <div className="relative z-[2] min-w-0">
+                  <p className="operatives-hud-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-cyan-300/95 mb-1.5 font-semibold">
+                    Field Personnel
+                  </p>
+                  <h1 className="operatives-hud-orbitron operatives-hud-orbitron-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] text-white">
+                    Operatives
+                  </h1>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <div className="h-px w-10 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
+                    <span className="operatives-hud-orbitron text-white/45 text-[9px] tracking-[0.12em] uppercase">
+                      {technicians.length} operative{technicians.length !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+                </div>
               </div>
-            )}
+            </div>
 
-            {!isLoading && !error && technicians.length === 0 && (
-              <div className="text-center py-8 text-gray-400">
-                No technicians found
-              </div>
-            )}
+            <div className="flex gap-2 mb-3 overflow-x-auto pb-1" data-hud-card>
+              {['', 'active', 'inactive', 'on_leave'].map((statusOption) => (
+                <button
+                  key={statusOption || 'all'}
+                  type="button"
+                  onClick={() => setStatus(statusOption)}
+                  className="px-4 py-2 text-xs uppercase tracking-wide font-medium rounded-lg whitespace-nowrap transition-all"
+                  style={{
+                    background: status === statusOption ? 'rgba(34, 211, 238, 0.25)' : 'rgba(13, 21, 37, 0.4)',
+                    border: `1px solid ${status === statusOption ? 'rgba(34, 211, 238, 0.5)' : 'rgba(255,255,255,0.1)'}`,
+                    color: status === statusOption ? '#22D3EE' : '#9CA3AF',
+                  }}
+                >
+                  {statusOption || 'All'}
+                </button>
+              ))}
+            </div>
 
-            {!isLoading && !error && technicians.map((technician) => (
-              <TechnicianCard key={technician.id} technician={technician} />
-            ))}
+            <Link
+              href="/technicians/txmobile_new"
+              className="flex items-center justify-center gap-2 w-full mb-4 px-4 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-90"
+              style={{
+                background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(147, 51, 234, 0.25))',
+                border: '1px solid rgba(34, 211, 238, 0.6)',
+                color: '#22D3EE',
+                boxShadow: '0 0 30px rgba(34, 211, 238, 0.4)',
+              }}
+              data-hud-card
+            >
+              <FaPlusCircle className="text-lg" />
+              New Operative
+            </Link>
+
+            <div className="space-y-2">
+              {isLoading && (
+                <p className="text-gray-400 text-sm text-center py-8" data-hud-card>Loading...</p>
+              )}
+              {error && (
+                <p className="text-red-400 text-sm text-center py-8" data-hud-card>Failed to load technicians</p>
+              )}
+              {!isLoading && !error && technicians.length === 0 && (
+                <p className="text-gray-500 text-sm text-center py-8" data-hud-card>No technicians found</p>
+              )}
+              {!isLoading && !error && technicians.map((technician) => (
+                <TechnicianCard key={technician.id} technician={technician} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
