@@ -191,7 +191,7 @@ function EditClient() {
       `}</style>
 
       <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
-        <div className="relative min-h-screen">
+        <div className="relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen">
           
           <div className="edit-tactical-scan" />
 
