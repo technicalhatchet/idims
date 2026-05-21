@@ -117,20 +117,6 @@ function TechnicianMobileNew() {
           0%, 100% { transform: translateY(-100%); }
           50% { transform: translateY(100%); }
         }
-        .new-tactical-scan {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-image:
-            linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
-          background-size: 24px 24px;
-          background-position: 0 ${hudGridShiftForTitleplate}px, 0 ${hudGridShiftForTitleplate}px;
-          pointer-events: none;
-          z-index: 0;
-        }
         .hud-tactical-scan-line {
           position: absolute;
           top: 0;
@@ -145,7 +131,6 @@ function TechnicianMobileNew() {
           pointer-events: none;
           animation: tactical-scan 4s ease-in-out infinite;
           box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
-          z-index: 5;
         }
         .new-hud-titleplate-grid {
           background-image:
@@ -164,8 +149,18 @@ function TechnicianMobileNew() {
           className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto"
           style={{ minHeight: '100vh' }}
         >
-          
-          <div className="new-tactical-scan">
+          {/* Tactical background */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+            <div className="absolute inset-0" style={{ background: '#0A0F1E' }} />
+            <div
+              className="absolute inset-0 opacity-[0.11]
+                bg-[linear-gradient(rgba(0,217,255,.36)_1px,transparent_1px),linear-gradient(90deg,rgba(0,217,255,.28)_1px,transparent_1px)]
+                bg-[size:42px_42px]"
+            />
+            <div
+              className="absolute inset-0 opacity-[0.025]"
+              style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E")' }}
+            />
             <div className="hud-tactical-scan-line" />
           </div>
 
