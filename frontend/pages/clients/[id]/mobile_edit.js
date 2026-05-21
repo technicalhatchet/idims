@@ -190,43 +190,46 @@ function EditClient() {
         }
       `}</style>
 
-      <div className="edit-tactical-scan" />
+      <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
+        <div className="relative min-h-screen">
+          
+          <div className="edit-tactical-scan" />
 
-      <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
 
-      <div 
-        className="fixed top-0 left-0 right-0 z-20 edit-hud-titleplate-grid"
-        style={{
-          height: '64px',
-          background: 'linear-gradient(180deg, rgba(13, 21, 37, 0.98) 0%, rgba(13, 21, 37, 0.95) 100%)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '2px solid rgba(34, 211, 238, 0.5)',
-          paddingTop: 'env(safe-area-inset-top)',
-        }}
-      >
-        <div className="h-full flex items-center justify-between px-4">
-          <Link 
-            href={`/clients/${id}/mobile`}
-            className="text-cyan-400 hover:text-cyan-300 transition-colors"
+          <div 
+            className="fixed top-0 left-0 right-0 z-20 edit-hud-titleplate-grid"
+            style={{
+              height: '64px',
+              background: 'linear-gradient(180deg, rgba(13, 21, 37, 0.98) 0%, rgba(13, 21, 37, 0.95) 100%)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              borderBottom: '2px solid rgba(34, 211, 238, 0.5)',
+              paddingTop: 'env(safe-area-inset-top)',
+            }}
           >
-            <FaArrowLeft size={20} />
-          </Link>
-          <h1 className="edit-hud-orbitron text-cyan-400 text-lg uppercase tracking-wider truncate mx-4">
-            Edit Client
-          </h1>
-          <div className="w-5" />
-        </div>
-      </div>
+            <div className="h-full flex items-center justify-between px-4">
+              <Link 
+                href={`/clients/${id}/mobile`}
+                className="text-cyan-400 hover:text-cyan-300 transition-colors"
+              >
+                <FaArrowLeft size={20} />
+              </Link>
+              <h1 className="edit-hud-orbitron text-cyan-400 text-lg uppercase tracking-wider truncate mx-4">
+                Edit Client
+              </h1>
+              <div className="w-5" />
+            </div>
+          </div>
 
-      <div 
-        className="pb-6 relative z-10"
-        style={{
-          paddingTop: 'calc(64px + env(safe-area-inset-top) + 1rem)',
-          minHeight: '100vh',
-        }}
-      >
-        <div className="px-4 space-y-4">
+          <div 
+            className="relative z-10 pb-6"
+            style={{
+              paddingTop: 'calc(64px + env(safe-area-inset-top) + 1rem)',
+              minHeight: '100vh',
+            }}
+          >
+            <div className="px-4 space-y-4">
         
         {updateSuccess && (
           <div 
@@ -637,6 +640,8 @@ function EditClient() {
             </div>
           </div>
         )}
+        </div>
+          </div>
         </div>
       </div>
     </>
