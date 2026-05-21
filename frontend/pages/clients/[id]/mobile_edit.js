@@ -22,7 +22,7 @@ function EditClient() {
   useAuthRedirect();
   
   // HUD grid double tap rail
-  useHudGridDoubleTapRail();
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   
   // Client data fetching
   const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
@@ -191,6 +191,8 @@ function EditClient() {
       `}</style>
 
       <div className="edit-tactical-scan" />
+
+      <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
 
       <div 
         className="fixed top-0 left-0 right-0 z-20 edit-hud-titleplate-grid"

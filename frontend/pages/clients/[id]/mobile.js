@@ -245,8 +245,8 @@ function ClientDetail() {
   const [propertyError, setPropertyError] = useState(null);
   const [editingProperty, setEditingProperty] = useState(null);
   const [expandedProperties, setExpandedProperties] = useState(new Set());
-  
-  useHudGridDoubleTapRail();
+
+  const gridTapLayerRef = useHudGridDoubleTapRail();
 
   const togglePropertyExpanded = (propertyId) => {
     setExpandedProperties(prev => {
@@ -410,6 +410,8 @@ function ClientDetail() {
       `}</style>
 
       <div className="client-tactical-scan" />
+
+      <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
 
       <div 
         className="fixed top-0 left-0 right-0 z-20 client-hud-titleplate-grid"

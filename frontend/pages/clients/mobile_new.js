@@ -20,7 +20,7 @@ function NewClientPage() {
   useAuthRedirect();
   
   // HUD grid double tap rail
-  useHudGridDoubleTapRail();
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   
   // Client mutations
   const { createClient, sendRegistrationEmail, isLoading: isMutating, error: mutationError } = useClientMutations();
@@ -144,6 +144,8 @@ function NewClientPage() {
       `}</style>
 
       <div className="new-tactical-scan" />
+
+      <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden="true" />
 
       <div 
         className="fixed top-0 left-0 right-0 z-20 new-hud-titleplate-grid"
