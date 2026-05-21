@@ -228,7 +228,7 @@ export default function OperativesPage() {
                 className="absolute top-0 bottom-0 w-[42%]"
                 style={{
                   left: '-48%',
-                  background: 'linear-gradient(90deg, transparent 0%, transparent 32%, rgba(255,255,255,0.024) 50%, transparent 68%, transparent 100%)',
+                  background: TX_ORANGE.tacticalScan,
                   animation: 'operatives-tactical-scan 6.5s linear infinite',
                 }}
               />
