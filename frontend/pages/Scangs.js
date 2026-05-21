@@ -68,9 +68,9 @@ export default function ScanTest() {
 
           backgroundImage: `
 
-            linear-gradient(rgba(255,122,0,0.05) 1px, transparent 1px),
+            linear-gradient(rgba(255,122,0,0.18) 1px, transparent 1px),
 
-            linear-gradient(90deg, rgba(255,122,0,0.05) 1px, transparent 1px)
+            linear-gradient(90deg, rgba(255,122,0,0.18) 1px, transparent 1px)
 
           `,
 
@@ -112,7 +112,7 @@ export default function ScanTest() {
 
           mixBlendMode: 'screen',
 
-          opacity: 0.33,
+          opacity: 0.69,
 
           zIndex: 1,
 
