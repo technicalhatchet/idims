@@ -195,8 +195,8 @@ function isActivelyDeployedStatus(status) {
 }
 
 /**
- * Next job card: unfinished work today — row `status` should already reflect work-order
- * status when available (see load). Active job first, then earliest incomplete ≥ now, else earliest remaining.
+ * Next job card: unfinished visits today — uses appointment status from combined schedule
+ * (not work order status). Active visit first, then earliest incomplete ≥ now, else earliest remaining.
  */
 function pickNextJobToday(sortedTodayAppts) {
   const now = Date.now();
@@ -673,10 +673,6 @@ export default function TechDashboardTest() {
           apiClient(`work-orders?page=1&limit=200`),
         ]);
         const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
-        const statusByWorkOrderId = {};
-        for (const w of woItems?.items || []) {
-          statusByWorkOrderId[String(w.id)] = w.status;
-        }
         const filtered = (Array.isArray(appts) ? appts : []).filter(a => {
           const startField = a.scheduled_start || a.start;
           if (!startField) return false;
@@ -684,15 +680,11 @@ export default function TechDashboardTest() {
           if (!Number.isFinite(ms)) return false;
           return isToday(new Date(ms));
         });
-        setSchedule(filtered.map(a => {
-          const wid = a.work_order_id != null ? String(a.work_order_id) : '';
-          const woStatus = wid ? statusByWorkOrderId[wid] : undefined;
-          const mergedStatus =
-            woStatus != null && String(woStatus).trim() !== '' ? woStatus : a.status;
-          return {
+        setSchedule(filtered.map(a => ({
             ...a,
             scheduled_start: a.scheduled_start || a.start,
-            status: mergedStatus,
+            // Combined schedule returns appointment status (WO fallback only when appt has none).
+            status: a.status || 'scheduled',
             service_address: a.service_address || a.location || a.service_location?.address || '',
             client_phone: a.client_phone || a.client?.phone || '',
             client_name: a.client_name || a.client?.name || '',
@@ -702,8 +694,7 @@ export default function TechDashboardTest() {
             equipment_subtype: a.equipment_subtype || '',
             equipment_make: a.equipment_make || '',
             equipment_model: a.equipment_model || '',
-          };
-        }));
+        })));
         const allItems = woItems?.items || [];
         const todayItems = allItems.filter(w => {
           if (!w.scheduled_start) return false;
