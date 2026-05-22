@@ -95,19 +95,7 @@ export default function EventDetailModal({ event, onClose }) {
             </div>
           )}
           
-          {isAppointment && (
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-              <div className="bg-indigo-50 dark:bg-indigo-900 p-3 rounded-md">
-                <h3 className="text-sm font-medium text-indigo-800 dark:text-indigo-200 mb-1">Appointment Info</h3>
-                <p className="text-xs text-indigo-700 dark:text-indigo-300">
-                  This is a scheduled appointment for the work order.
-                  {workOrderId && (
-                    <span> You can view and manage all appointments in the work order details page.</span>
-                  )}
-                </p>
-              </div>
-            </div>
-          )}
+         
           
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-end space-x-3">
             <Button

@@ -8,7 +8,7 @@ import { useHudGridDoubleTapRail } from '../hooks/useHudGridDoubleTapRail';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import PullToRefresh from '../components/ui/PullToRefresh';
 import ErrorAlert from '../components/ui/ErrorAlert';
-import EventDetailModal from '../components/schedule/EventDetailModal';
+import MobileEventDetailModal from '../components/schedule/MobileEventDetailModal';
 import ScheduleTestTimeline, {
   AppointmentCardBadgeStack,
   NEON_RAILS,
@@ -1060,7 +1060,7 @@ function ScheduleTestInner() {
           </div>
         </div>
 
-        {selectedEvent && <EventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />}
+        {selectedEvent && <MobileEventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />}
       </div>
       </PullToRefresh>
     </>
