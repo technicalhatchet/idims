@@ -283,7 +283,7 @@ export default function AssetsPage() {
 
           <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
-          <div className="hud-grid-content relative z-10 px-4 pb-4 sm:px-6 sm:pb-6">
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
             {/* HUD Titleplate */}
             <div className="mb-5">
               <div
