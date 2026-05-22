@@ -22,11 +22,11 @@ class StripeService:
     @staticmethod
     def create_checkout_session(
         work_order_id: str,
-        client_email: Optional[str] = None,
-        client_name: Optional[str] = None,
         line_items: List[Dict[str, Any]],
         success_url: str,
         cancel_url: str,
+        client_email: Optional[str] = None,
+        client_name: Optional[str] = None,
         metadata: Optional[Dict[str, str]] = None
     ) -> Dict[str, Any]:
         """
