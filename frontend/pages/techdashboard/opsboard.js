@@ -247,7 +247,7 @@ function AppointmentCard({ appointment, onStatusChange, railColor }) {
                   )}
                   {workOrderId && (
                     <Link
-                      href={`/work_orders/${workOrderId}`}
+                      href={`/work_orders/${workOrderId}/mobile`}
                       onClick={(e) => e.stopPropagation()}
                       className="text-sm font-semibold text-cyan-400 hover:text-cyan-300 underline underline-offset-2"
                     >
