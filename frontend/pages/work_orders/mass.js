@@ -100,7 +100,7 @@ function Card({ wo }) {
 
   return (
     <Link
-      href={`/work_orders/${wo.id}`}
+      href={`/work_orders/${wo.id}/mobile`}
       className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-orange-500/35 transition-all"
     >
       <div
