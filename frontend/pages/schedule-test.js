@@ -460,7 +460,7 @@ function ScheduleTestInner() {
   return (
     <>
       <Head>
-        <title>Schedule [Test] | Atomic Repair</title>
+        <title>Schedule | Atomic Repair</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
