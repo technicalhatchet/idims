@@ -453,7 +453,7 @@ function WorkOrderDetail() {
               {mobileMoreOpen && (
                 <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-white/10 bg-[#0D1525] py-1 shadow-xl z-[1198] ring-1 ring-black/40">
                   <Link
-                    href={`/work_orders/${id}/edit`}
+                    href={`/work_orders/${id}/womobile_edit`}
                     className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 active:bg-white/10"
                     onClick={() => setMobileMoreOpen(false)}
                   >
@@ -496,7 +496,7 @@ function WorkOrderDetail() {
 
                   {/* Desktop actions */}
                   <div className="hidden md:flex flex-wrap gap-2">
-                    <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center h-10" title="Edit work order">
+                    <Link href={`/work_orders/${id}/womobile_edit`} className="btn-primary flex items-center h-10" title="Edit work order">
                       <FaEdit className="mr-2" />
                       Edit
                     </Link>
@@ -1915,7 +1915,7 @@ function WorkOrderDetail() {
                                     try {
                                       const clientEmail = workOrder.client?.email || workOrder.client_user?.email;
                                       const clientName = workOrder.client_name || `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim();
-                                      if (!clientEmail) { alert('Client email is required for payment processing'); return; }
+
                                       const response = await apiClient('stripe/create-checkout-session', {
                                         method: 'POST',
                                         body: JSON.stringify({

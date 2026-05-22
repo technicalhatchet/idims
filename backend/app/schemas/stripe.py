@@ -17,8 +17,8 @@ class StripeLineItem(BaseModel):
 class CreateCheckoutSessionRequest(BaseModel):
     """Schema for creating a Stripe checkout session"""
     work_order_id: str = Field(..., description="Work order ID")
-    client_email: str = Field(..., description="Client's email address")
-    client_name: str = Field(..., description="Client's name")
+    client_email: Optional[str] = Field(None, description="Client's email address")
+    client_name: Optional[str] = Field(None, description="Client's name")
     success_url: str = Field(..., description="URL to redirect to on successful payment")
     cancel_url: str = Field(..., description="URL to redirect to on cancelled payment")
     metadata: Optional[Dict[str, str]] = Field(None, description="Additional metadata")

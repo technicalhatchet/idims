@@ -137,8 +137,9 @@ function formatTechnicianSelectLabel(t) {
   return String(t.id);
 }
 
-export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuccess }) {
+export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuccess, variant = 'desktop', cancelHref }) {
   const router = useRouter();
+  const isMobile = variant === 'mobile';
   const [clients, setClients] = useState([]);
   const [allServicesRaw, setAllServicesRaw] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -146,6 +147,75 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
   const [clientData, setClientData] = useState({}); // Store detailed client data for address auto-population
   const [success, setSuccess] = useState(false);
   const { createWorkOrder, createWorkOrderWithInitialAppointment, updateWorkOrder, isLoading: isMutating } = useWorkOrderMutations();
+
+  const workOrderDetailsPath = (orderId) =>
+    isMobile ? `/work_orders/${orderId}/mobile` : `/work_orders/${orderId}`;
+  const workOrderAppointmentsPath = (orderId) =>
+    isMobile ? `/work_orders/${orderId}/mobile?tab=appointments` : `/work_orders/${orderId}?tab=appointments`;
+  const workOrdersListPath = isMobile ? '/work_orders/test' : '/work_orders';
+
+  const mobileSelectStyles = {
+    control: (base, state) => ({
+      ...base,
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+      borderColor: state.isFocused ? 'rgba(34, 211, 238, 0.5)' : 'rgba(34, 211, 238, 0.2)',
+      boxShadow: state.isFocused ? '0 0 0 1px rgba(34, 211, 238, 0.35)' : 'none',
+      borderRadius: '0.375rem',
+      minHeight: '42px',
+    }),
+    menu: (base) => ({ ...base, backgroundColor: '#0f172a', zIndex: 50 }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected ? '#0891b2' : state.isFocused ? '#1e293b' : 'transparent',
+      color: state.data?.isSpecial ? '#34d399' : state.isSelected ? 'white' : '#d1d5db',
+      fontWeight: state.data?.isSpecial ? '600' : 'normal',
+    }),
+    singleValue: (base) => ({ ...base, color: '#e5e7eb' }),
+    input: (base) => ({ ...base, color: '#e5e7eb' }),
+    placeholder: (base) => ({ ...base, color: '#9ca3af' }),
+    indicatorSeparator: () => ({ display: 'none' }),
+  };
+
+  const desktopSelectStyles = {
+    control: (base, state) => ({
+      ...base,
+      backgroundColor: 'var(--color-bg-input, #1f2937)',
+      borderColor: state.isFocused ? '#3b82f6' : '#4b5563',
+      boxShadow: state.isFocused ? '0 0 0 1px #3b82f6' : 'none',
+      borderRadius: '0.375rem',
+      minHeight: '38px',
+    }),
+    menu: (base) => ({ ...base, backgroundColor: '#1f2937', zIndex: 50 }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected ? '#3b82f6' : state.isFocused ? '#374151' : 'transparent',
+      color: state.data?.isSpecial ? '#34d399' : state.isSelected ? 'white' : '#d1d5db',
+      fontWeight: state.data?.isSpecial ? '600' : 'normal',
+    }),
+    singleValue: (base) => ({ ...base, color: '#e5e7eb' }),
+    input: (base) => ({ ...base, color: '#e5e7eb' }),
+    placeholder: (base) => ({ ...base, color: '#9ca3af' }),
+    indicatorSeparator: () => ({ display: 'none' }),
+  };
+
+  const MobileSection = ({ title, children }) => {
+    if (!isMobile) return children;
+    return (
+      <div
+        className="rounded-xl p-4 space-y-4"
+        style={{
+          background: 'rgba(13, 21, 37, 0.85)',
+          border: '1px solid rgba(34, 211, 238, 0.25)',
+          boxShadow: '0 0 20px rgba(34, 211, 238, 0.08)',
+        }}
+      >
+        {title && (
+          <h2 className="text-cyan-400 text-sm font-bold uppercase tracking-wider">{title}</h2>
+        )}
+        {children}
+      </div>
+    );
+  };
 
   /** Optional: create first appointment in the same transaction as the work order (new WOs only). 
   const [scheduleFirstVisit, setScheduleFirstVisit] = useState(false);
@@ -328,8 +398,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
         
         // Delay for 2 seconds so the user sees the success message
         setTimeout(() => {
-          // Redirect to work order details page (with underscore in path)
-          router.push(`/work_orders/${initialData.id}`);
+          router.push(workOrderDetailsPath(initialData.id));
         }, 2000);
       } else {
         // Create a new work order
@@ -348,8 +417,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
             
             // Delay for 2 seconds so the user sees the success message
             setTimeout(() => {
-              // Navigate to the new work order (using underscore not hyphen)
-              router.push(`/work_orders/${newWorkOrder.id}?tab=appointments`);
+              router.push(workOrderAppointmentsPath(newWorkOrder.id));
             }, 2000);
           }
           // Fallback: check if we have a paginated response
@@ -363,8 +431,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
               
               // Delay for 2 seconds so the user sees the success message
               setTimeout(() => {
-                // Navigate to the new work order (using underscore not hyphen)
-                router.push(`/work_orders/${createdWorkOrder.id}`);
+                router.push(workOrderDetailsPath(createdWorkOrder.id));
               }, 2000);
             } else {
               console.error('Error: Work order created but no ID found in the first item', createdWorkOrder);
@@ -557,7 +624,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
     
     // After a short delay, redirect to the work orders list
     setTimeout(() => {
-      router.push('/work_orders');
+      router.push(workOrdersListPath);
     }, 1500);
   };
   
@@ -931,22 +998,33 @@ const handleCreateProperty = async () => {
   }
   
   return (
-    <form onSubmit={submitForm} className="space-y-6 text-gray-900 dark:text-gray-100">
+    <form onSubmit={submitForm} className={`${isMobile ? 'wo-mobile-form space-y-4 text-gray-100' : 'space-y-6 text-gray-900 dark:text-gray-100'}`}>
       {/* Success message */}
       {success && (
-        <div className="rounded-md bg-green-50 p-4 mb-4">
+        <div className={isMobile
+          ? 'rounded-lg p-4 flex items-center gap-3'
+          : 'rounded-md bg-green-50 p-4 mb-4'
+        }
+        style={isMobile ? { background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.4)' } : undefined}
+        >
           <div className="flex">
+            {!isMobile && (
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
             </div>
-            <div className="ml-3 flex-grow">
-              <h3 className="text-sm font-medium text-green-800">Work order {isEdit ? "updated" : "created"} successfully!</h3>
-              <div className="mt-2 text-sm text-green-700">
-                <p>Your changes have been saved. Redirecting to details page...</p>
+            )}
+            <div className={isMobile ? '' : 'ml-3 flex-grow'}>
+              {isMobile && <span className="text-green-400 text-xl font-bold mr-2">✓</span>}
+              <h3 className={isMobile ? 'inline text-green-400 font-bold text-sm' : 'text-sm font-medium text-green-800'}>
+                Work order {isEdit ? 'updated' : 'created'} successfully!
+              </h3>
+              <div className={isMobile ? 'mt-1 text-sm text-green-300' : 'mt-2 text-sm text-green-700'}>
+                <p>Your changes have been saved. Redirecting...</p>
               </div>
             </div>
+            {!isMobile && (
             <div className="flex-shrink-0 self-center">
               <button
                 type="button"
@@ -959,14 +1037,16 @@ const handleCreateProperty = async () => {
                 </svg>
               </button>
             </div>
+            )}
           </div>
         </div>
       )}
       
       {/* Client and basic info */}
+      <MobileSection title="Client">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className={`block mb-1 ${isMobile ? 'text-xs font-medium text-gray-400 uppercase tracking-wide' : 'text-sm font-medium text-gray-700 dark:text-gray-300'}`}>
             Client <span className="text-red-500">*</span>
           </label>
           <Select
@@ -985,27 +1065,7 @@ const handleCreateProperty = async () => {
             }}
             placeholder="Search or select client..."
             isClearable
-            styles={{
-              control: (base, state) => ({
-                ...base,
-                backgroundColor: 'var(--color-bg-input, #1f2937)',
-                borderColor: state.isFocused ? '#3b82f6' : '#4b5563',
-                boxShadow: state.isFocused ? '0 0 0 1px #3b82f6' : 'none',
-                borderRadius: '0.375rem',
-                minHeight: '38px',
-              }),
-              menu: (base) => ({ ...base, backgroundColor: '#1f2937', zIndex: 50 }),
-              option: (base, state) => ({
-                ...base,
-                backgroundColor: state.isSelected ? '#3b82f6' : state.isFocused ? '#374151' : 'transparent',
-                color: state.data?.isSpecial ? '#34d399' : state.isSelected ? 'white' : '#d1d5db',
-                fontWeight: state.data?.isSpecial ? '600' : 'normal',
-              }),
-              singleValue: (base) => ({ ...base, color: '#e5e7eb' }),
-              input: (base) => ({ ...base, color: '#e5e7eb' }),
-              placeholder: (base) => ({ ...base, color: '#9ca3af' }),
-              indicatorSeparator: () => ({ display: 'none' }),
-            }}
+            styles={isMobile ? mobileSelectStyles : desktopSelectStyles}
           />
           {touched.client_id && !values.client_id && (
             <p className="mt-1 text-sm text-red-600">Client is required</p>
@@ -1013,51 +1073,51 @@ const handleCreateProperty = async () => {
 
           {/* Inline new client form */}
           {showNewClientForm && (
-            <div className="mt-3 p-4 border border-green-300 dark:border-green-700 rounded-md bg-green-50 dark:bg-green-900/20">
+            <div className={`mt-3 p-4 rounded-md ${isMobile ? 'border border-cyan-500/30 bg-cyan-950/20' : 'border border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-900/20'}`}>
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-sm font-medium text-green-800 dark:text-green-300 flex items-center">
+                <h4 className={`text-sm font-medium flex items-center ${isMobile ? 'text-cyan-300' : 'text-green-800 dark:text-green-300'}`}>
                   <FaUserPlus className="mr-2" /> New Client
                 </h4>
-                <button type="button" onClick={() => setShowNewClientForm(false)} className="text-gray-400 hover:text-gray-600">
+                <button type="button" onClick={() => setShowNewClientForm(false)} className="text-gray-400 hover:text-gray-200">
                   <FaTimes />
                 </button>
               </div>
-              {newClientError && <p className="text-sm text-red-600 mb-2">{newClientError}</p>}
+              {newClientError && <p className="text-sm text-red-400 mb-2">{newClientError}</p>}
               <div className="grid grid-cols-2 gap-2 mb-2">
                 <input
                   type="text"
                   placeholder="First Name *"
                   value={newClientData.first_name}
                   onChange={e => setNewClientData(p => ({ ...p, first_name: e.target.value }))}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={`px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'}`}
                 />
                 <input
                   type="text"
                   placeholder="Last Name *"
                   value={newClientData.last_name}
                   onChange={e => setNewClientData(p => ({ ...p, last_name: e.target.value }))}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={`px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'}`}
                 />
                 <input
                   type="email"
                   placeholder="Email"
                   value={newClientData.email}
                   onChange={e => setNewClientData(p => ({ ...p, email: e.target.value }))}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={`px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'}`}
                 />
                 <input
                   type="tel"
                   placeholder="Phone"
                   value={newClientData.phone}
                   onChange={e => setNewClientData(p => ({ ...p, phone: e.target.value }))}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={`px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'}`}
                 />
               </div>
               <button
                 type="button"
                 onClick={handleSaveNewClient}
                 disabled={newClientSaving}
-                className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium disabled:opacity-50"
+                className={`w-full px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50 ${isMobile ? 'bg-cyan-600 text-white hover:bg-cyan-700' : 'bg-green-600 text-white hover:bg-green-700'}`}
               >
                 {newClientSaving ? 'Saving...' : 'Save & Select Client'}
               </button>
@@ -1065,10 +1125,12 @@ const handleCreateProperty = async () => {
           )}
         </div>
       </div>
+      </MobileSection>
       
       {/* Equipment Information */}
+      <MobileSection title="Equipment Details">
       <div className="mb-6">
-        <h3 className="text-lg font-medium mb-3">Equipment Details</h3>
+        {!isMobile && <h3 className="text-lg font-medium mb-3">Equipment Details</h3>}
         <div className="grid gap-4 sm:grid-cols-2">
           <SelectInput
             label="Equipment Type"
@@ -1127,8 +1189,8 @@ const handleCreateProperty = async () => {
                         }}
                         className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                           selected
-                            ? 'bg-blue-600 text-white border-blue-600'
-                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-400'
+                            ? isMobile ? 'bg-cyan-600 text-white border-cyan-600' : 'bg-blue-600 text-white border-blue-600'
+                            : isMobile ? 'bg-black/30 text-gray-300 border-cyan-500/20 hover:border-cyan-400/50' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-400'
                         }`}
                       >
                         {symptom}
@@ -1202,7 +1264,7 @@ const handleCreateProperty = async () => {
               onChange={handleChange}
               onBlur={handleBlur}
               rows={2}
-              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none overflow-y-auto"
+              className={`w-full p-2 rounded-md shadow-sm resize-none overflow-y-auto ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white focus:ring-cyan-500 focus:border-cyan-500' : 'border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white'}`}
               placeholder="Equipment notes..."
               style={{ minHeight: '2.5rem', maxHeight: '8rem', overflowY: 'auto' }}
               onInput={e => {
@@ -1230,7 +1292,9 @@ const handleCreateProperty = async () => {
           </p>
         </div> */}
       </div>
+      </MobileSection>
       
+      <MobileSection title="Priority">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SelectInput
           label="Priority"
@@ -1250,8 +1314,10 @@ const handleCreateProperty = async () => {
         {/* Empty div to maintain grid layout */}
         <div></div>
       </div>
+      </MobileSection>
       
       {/* Location */}
+      <MobileSection title="Service Location">
       {/* Property Selector */}
       {values.client_id && (
         <div className="mb-2">
@@ -1263,7 +1329,7 @@ const handleCreateProperty = async () => {
               <select
                 value={selectedPropertyId}
                 onChange={(e) => handlePropertySelect(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white text-sm"
+                className={`w-full px-3 py-2 rounded-md shadow-sm text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white focus:ring-cyan-500 focus:border-cyan-500' : 'border border-gray-300 dark:border-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white'}`}
               >
                 <option value="">Select a property or enter address below...</option>
                 {clientProperties.map(p => (
@@ -1272,29 +1338,29 @@ const handleCreateProperty = async () => {
                   </option>
                 ))}
               </select>
-              <button type="button" onClick={() => setShowNewPropertyForm(true)} className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 flex items-center gap-1">
+              <button type="button" onClick={() => setShowNewPropertyForm(true)} className={`text-sm flex items-center gap-1 ${isMobile ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700 dark:text-blue-400'}`}>
                 <FaUserPlus className="w-3 h-3" /> Add new property for this client
               </button>
             </div>
           ) : (
-            <div className="p-4 border border-blue-200 dark:border-blue-800 rounded-lg bg-blue-50 dark:bg-blue-900/20 space-y-3">
+            <div className={`p-4 rounded-lg space-y-3 ${isMobile ? 'border border-cyan-500/30 bg-cyan-950/20' : 'border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20'}`}>
               <div className="flex justify-between items-center">
                 <span className="text-sm font-semibold text-gray-900 dark:text-white">New Property</span>
                 <button type="button" onClick={() => { setShowNewPropertyForm(false); setNewPropertyError(null); }} className="text-gray-400 hover:text-gray-600"><FaTimes /></button>
               </div>
               {newPropertyError && <p className="text-sm text-red-600 dark:text-red-400">{newPropertyError}</p>}
-              <input type="text" placeholder="Address *" value={newPropertyData.address} onChange={e => setNewPropertyData(p => ({ ...p, address: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-              <input type="text" placeholder="Unit number (optional)" value={newPropertyData.unit_number} onChange={e => setNewPropertyData(p => ({ ...p, unit_number: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-              <select value={newPropertyData.property_type} onChange={e => setNewPropertyData(p => ({ ...p, property_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm">
+              <input type="text" placeholder="Address *" value={newPropertyData.address} onChange={e => setNewPropertyData(p => ({ ...p, address: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
+              <input type="text" placeholder="Unit number (optional)" value={newPropertyData.unit_number} onChange={e => setNewPropertyData(p => ({ ...p, unit_number: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
+              <select value={newPropertyData.property_type} onChange={e => setNewPropertyData(p => ({ ...p, property_type: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`}>
                 <option value="residential">Residential</option>
                 <option value="rental">Rental Property</option>
                 <option value="commercial">Commercial</option>
                 <option value="flip">Flip/Investment</option>
               </select>
-              <input type="text" placeholder="Gate code (optional)" value={newPropertyData.gate_code} onChange={e => setNewPropertyData(p => ({ ...p, gate_code: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-              <textarea placeholder="Access instructions (optional)" value={newPropertyData.access_instructions} onChange={e => setNewPropertyData(p => ({ ...p, access_instructions: e.target.value }))} rows={2} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm resize-none" />
+              <input type="text" placeholder="Gate code (optional)" value={newPropertyData.gate_code} onChange={e => setNewPropertyData(p => ({ ...p, gate_code: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
+              <textarea placeholder="Access instructions (optional)" value={newPropertyData.access_instructions} onChange={e => setNewPropertyData(p => ({ ...p, access_instructions: e.target.value }))} rows={2} className={`w-full px-3 py-2 rounded-md text-sm resize-none ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
               <div className="flex gap-2">
-                <button type="button" onClick={handleCreateProperty} disabled={newPropertySaving} className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm font-medium">
+                <button type="button" onClick={handleCreateProperty} disabled={newPropertySaving} className={`flex-1 px-3 py-2 rounded-md disabled:opacity-50 text-sm font-medium ${isMobile ? 'bg-cyan-600 text-white hover:bg-cyan-700' : 'bg-blue-600 text-white hover:bg-blue-700'}`}>
                   {newPropertySaving ? 'Creating...' : 'Create Property'}
                 </button>
                 <button type="button" onClick={() => { setShowNewPropertyForm(false); setNewPropertyError(null); }} className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm">Cancel</button>
@@ -1320,7 +1386,7 @@ const handleCreateProperty = async () => {
         {values.client_id && clientData && clientData.address && (
           <button
             type="button"
-            className="absolute right-2 top-8 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            className={`absolute right-2 top-8 text-sm ${isMobile ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'}`}
             onClick={() => {
               const addressStr = [clientData.address.street1, clientData.address.street2, clientData.address.city, clientData.address.state, clientData.address.zip, clientData.address.country].filter(Boolean).join(', ');
               setFieldValue('service_location', { ...values.service_location, address: addressStr });
@@ -1330,10 +1396,12 @@ const handleCreateProperty = async () => {
           </button>
         )}
       </div>
+      </MobileSection>
       
       {/* Description */}
+      <MobileSection title="Description">
       <TextareaInput
-        label="Description"
+        label={isMobile ? undefined : 'Description'}
         name="description"
         value={values.description}
         onChange={handleChange}
@@ -1343,10 +1411,13 @@ const handleCreateProperty = async () => {
         placeholder="Detailed description of the problem and requirements"
         required
       />
+      </MobileSection>
       
       {/* Form-level error */}
       {(errors._form || error) && (
-        <div className="rounded-md bg-red-50 p-4">
+        <div className={isMobile ? 'rounded-lg p-4' : 'rounded-md bg-red-50 p-4'}
+          style={isMobile ? { background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)' } : undefined}
+        >
           <div className="flex">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -1368,7 +1439,7 @@ const handleCreateProperty = async () => {
                   <button
                     type="button"
                     className="rounded-md px-3 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700"
-                    onClick={() => router.push('/work_orders')}
+                    onClick={() => router.push(workOrdersListPath)}
                   >
                     View Work Orders
                   </button>
@@ -1399,11 +1470,32 @@ const handleCreateProperty = async () => {
       )}
       
       {/* Form actions */}
+      {isMobile ? (
+        <div
+          className="fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2"
+          style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
+        >
+          <button
+            type="button"
+            onClick={() => (cancelHref ? router.push(cancelHref) : router.back())}
+            className="h-10 shrink-0 rounded-xl border border-white/15 px-4 text-[11px] font-semibold uppercase tracking-wide text-gray-300"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting || isMutating}
+            className="flex-1 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_0_20px_rgba(34,211,238,0.25)] active:scale-[0.98] disabled:opacity-50"
+          >
+            {isSubmitting || isMutating ? 'Saving...' : `${isEdit ? 'Update' : 'Create'} Work Order`}
+          </button>
+        </div>
+      ) : (
       <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
         <Button
           type="button"
           variant="outline"
-          onClick={() => router.back()}
+          onClick={() => (cancelHref ? router.push(cancelHref) : router.back())}
           icon={<FaTimes />}
         >
           Cancel
@@ -1418,6 +1510,7 @@ const handleCreateProperty = async () => {
           {isEdit ? 'Update' : 'Create'} Work Order
         </Button>
       </div>
+      )}
     </form>
   );
 }

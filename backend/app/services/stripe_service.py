@@ -22,8 +22,8 @@ class StripeService:
     @staticmethod
     def create_checkout_session(
         work_order_id: str,
-        client_email: str,
-        client_name: str,
+        client_email: Optional[str] = None,
+        client_name: Optional[str] = None,
         line_items: List[Dict[str, Any]],
         success_url: str,
         cancel_url: str,
@@ -51,7 +51,7 @@ class StripeService:
             # Prepare metadata
             session_metadata = {
                 "work_order_id": work_order_id,
-                "client_name": client_name,
+                **({"client_name": client_name} if client_name else {}),
                 **(metadata or {})
             }
             
@@ -60,7 +60,7 @@ class StripeService:
                 payment_method_types=['card'],
                 line_items=line_items,
                 mode='payment',
-                customer_email=client_email,
+                customer_email=client_email if client_email else None,
                 success_url=success_url,
                 cancel_url=cancel_url,
                 metadata=session_metadata,
