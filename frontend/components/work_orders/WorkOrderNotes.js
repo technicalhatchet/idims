@@ -139,12 +139,25 @@ export default function WorkOrderNotes({
   }, [newNote.type]);
 
   const prevAddSheetOpen = useRef(false);
+  const addPanelRef = useRef(null);
+  const viewPanelRef = useRef(null);
+
   useEffect(() => {
     if (isMobile && addSheetOpen && !prevAddSheetOpen.current) {
       resetNewNoteForm();
     }
     prevAddSheetOpen.current = addSheetOpen;
   }, [addSheetOpen, isMobile, resetNewNoteForm]);
+
+  useEffect(() => {
+    if (!isMobile || !addSheetOpen || !addPanelRef.current) return;
+    addPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [isMobile, addSheetOpen]);
+
+  useEffect(() => {
+    if (!isMobile || !selectedNote || !viewPanelRef.current) return;
+    viewPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [isMobile, selectedNote]);
 
   const fetchNotes = async () => {
     try {
@@ -426,13 +439,24 @@ export default function WorkOrderNotes({
     </>
   );
 
-  const sheetBackdrop = (onClose) => (
-    <button
-      type="button"
-      aria-label="Close"
-      className="fixed inset-0 z-[1190] bg-black/60"
-      onClick={onClose}
-    />
+  const mobilePanelShell = (title, onClose, body, panelRef) => (
+    <div
+      ref={panelRef}
+      className="mb-4 overflow-hidden rounded-2xl border border-cyan-400/30 bg-[#0f172a] shadow-[0_0_24px_rgba(34,211,238,0.12)]"
+    >
+      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+        <h3 className="text-base font-semibold text-white">{title}</h3>
+        <button
+          type="button"
+          onClick={onClose}
+          className="p-2 text-gray-400 hover:text-white"
+          aria-label="Close"
+        >
+          <FaTimes className="h-5 w-5" />
+        </button>
+      </div>
+      <div className="px-4 py-4">{body}</div>
+    </div>
   );
 
   const renderNoteListItem = (note, asButton = false) => {
@@ -488,6 +512,15 @@ export default function WorkOrderNotes({
   if (isMobile) {
     return (
       <div className="min-w-0">
+        {addSheetOpen && mobilePanelShell('Add note', closeAddSheet, addNoteForm, addPanelRef)}
+
+        {selectedNote && mobilePanelShell(
+          noteViewerTitle,
+          () => { setSelectedNote(null); setIsEditing(false); },
+          <div className="text-gray-200">{noteViewerBody}</div>,
+          viewPanelRef,
+        )}
+
         <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3 px-0.5">
           Notes history
         </h3>
@@ -512,60 +545,6 @@ export default function WorkOrderNotes({
             <FaPlus className="h-3.5 w-3.5" />
             Add note
           </button>
-        )}
-
-        {addSheetOpen && (
-          <>
-            {sheetBackdrop(closeAddSheet)}
-            <div
-              className="fixed inset-x-0 bottom-0 z-[1191] max-h-[88vh] overflow-y-auto rounded-t-2xl border-t border-white/10 bg-[#0f172a] shadow-2xl"
-              style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}
-            >
-              <div className="sticky top-0 z-10 bg-[#0f172a] pt-3 pb-2 px-4 border-b border-white/10">
-                <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-white/20" />
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold text-white">Add note</h3>
-                  <button
-                    type="button"
-                    onClick={closeAddSheet}
-                    className="p-2 text-gray-400 hover:text-white"
-                    aria-label="Close"
-                  >
-                    <FaTimes className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-              <div className="px-4 py-4">{addNoteForm}</div>
-            </div>
-          </>
-        )}
-
-        {selectedNote && (
-          <>
-            {sheetBackdrop(() => { setSelectedNote(null); setIsEditing(false); })}
-            <div
-              className="fixed inset-x-0 bottom-0 z-[1192] max-h-[88vh] overflow-y-auto rounded-t-2xl border-t border-white/10 bg-[#0f172a] shadow-2xl"
-              style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}
-            >
-              <div className="sticky top-0 z-10 bg-[#0f172a] pt-3 pb-2 px-4 border-b border-white/10">
-                <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-white/20" />
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-base font-semibold text-white leading-snug pr-2">
-                    {noteViewerTitle}
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => { setSelectedNote(null); setIsEditing(false); }}
-                    className="p-2 text-gray-400 hover:text-white shrink-0"
-                    aria-label="Close"
-                  >
-                    <FaTimes className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-              <div className="px-4 py-4 text-gray-200">{noteViewerBody}</div>
-            </div>
-          </>
         )}
       </div>
     );
