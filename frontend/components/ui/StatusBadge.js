@@ -34,6 +34,8 @@ export default function StatusBadge({ status }) {
         return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400';
       case 'unreachable':
         return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
+      case 'failed':
+        return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
       case 'recall':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
       case 'in progress':

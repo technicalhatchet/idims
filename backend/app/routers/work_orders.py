@@ -1331,6 +1331,7 @@ async def update_work_order_appointment(
             "completed",
             "completed_pending_payment",
             "unreachable",
+            "failed",
         })
         # Check permissions based on user role
         if "technician" in current_user.roles:
@@ -1371,7 +1372,7 @@ async def update_work_order_appointment(
             if update_data["status"] not in TECH_APPOINTMENT_STATUS_UPDATES:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Technicians can only set appointment status to: en_route, in_progress, reschedule, completed, completed_pending_payment, or unreachable"
+                    detail="Technicians can only set appointment status to: en_route, in_progress, reschedule, completed, completed_pending_payment, unreachable, or failed"
                 )
         
         elif not any(role in ["admin", "manager"] for role in current_user.roles):
@@ -1525,7 +1526,10 @@ async def delete_work_order_appointment(
         work_order_service = WorkOrderService(db)
         
         # Use the instance method to delete the appointment
-        deleted = await work_order_service.delete_work_order_appointment(appointment_id=appointment_id)
+        deleted = await work_order_service.delete_work_order_appointment(
+            appointment_id=appointment_id,
+            user_id=current_user.id,
+        )
         
         if not deleted:
             # This case should ideally be handled by NotFoundException within the service method
@@ -2205,6 +2209,9 @@ async def update_work_order_equipment(
     # Update audit fields
     work_order.updated_by = current_user.id
     work_order.updated_at = datetime.utcnow()
+
+    from app.services import work_order_activity_service as activity
+    activity.log_equipment_updated(db, work_order_id, current_user.id)
     
     db.add(work_order)
     db.commit()

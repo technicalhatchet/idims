@@ -1145,6 +1145,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       case 'completed_pending_payment': return 'border-l-amber-400';
       case 'completed': return 'border-l-emerald-500';
       case 'reschedule': return 'border-l-purple-400';
+      case 'unreachable':
+      case 'failed':
       case 'canceled': return 'border-l-red-500/80';
       default: return 'border-l-gray-500';
     }
@@ -1162,6 +1164,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       case 'refund': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
       case 'phone_payment': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
       case 'unreachable': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      case 'failed': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       case 'canceled': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
@@ -1260,6 +1263,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                 <option value="refund">Refund</option>
                 <option value="phone_payment">Phone Pay</option>
                 <option value="unreachable">Unreachable</option>
+                <option value="failed">Failed</option>
                 <option value="canceled">Canceled</option>
               </select>
             </div>
@@ -1940,7 +1944,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                           <option value="reschedule">Reschedule</option>
                           <option value="refund">Refund</option> 
                           <option value="phone_payment">Phone Payment</option>
-                          <option value="unreachable">Unreachable</option>                        
+                          <option value="unreachable">Unreachable</option>
+                          <option value="failed">Failed</option>                        
                           <option value="canceled">Canceled</option>
                         </select>
                       </td>

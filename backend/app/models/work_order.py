@@ -65,6 +65,7 @@ class WorkOrder(Base):
     items = relationship("WorkOrderItem", back_populates="work_order", cascade="all, delete-orphan")
     notes = relationship("WorkOrderNote", back_populates="work_order", cascade="all, delete-orphan")
     status_history = relationship("WorkOrderStatusHistory", back_populates="work_order", cascade="all, delete-orphan")
+    activity_log = relationship("WorkOrderActivityLog", back_populates="work_order", cascade="all, delete-orphan")
     appointments = relationship("WorkOrderAppointment", back_populates="work_order", cascade="all, delete-orphan")
     invoices = relationship("Invoice", back_populates="work_order")
     documents = relationship("Document", back_populates="work_order")
@@ -314,6 +315,26 @@ class WorkOrderStatusHistory(Base):
         return f"<StatusHistory {self.work_order_id}: {self.previous_status} -> {self.new_status}>"
 
 
+class WorkOrderActivityLog(Base):
+    """Debriefing / audit trail for work order and appointment changes."""
+    __tablename__ = "work_order_activity_log"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"), nullable=False, index=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    event_type = Column(String(80), nullable=False)
+    headline = Column(String(500), nullable=False)
+    actor_label = Column(String(50), nullable=False)
+    event_metadata = Column(JSONB, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    work_order = relationship("WorkOrder", back_populates="activity_log")
+    user = relationship("User")
+
+    def __repr__(self):
+        return f"<WorkOrderActivityLog {self.event_type}: {self.headline[:40]}>"
+
+
 class WorkOrderAppointment(Base):
     """Work order appointment model for scheduling multiple appointments for a work order"""
     __tablename__ = "work_order_appointments"
@@ -322,7 +343,7 @@ class WorkOrderAppointment(Base):
     work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"), nullable=False)
     appointment_type = Column(String(50), nullable=False)  # 'diagnostic', 'repair', 'follow-up', etc.
     status = Column(Enum("scheduled", "reschedule", "completed", "canceled", "phone_payment", "refund",
-                    "en_route", "in_progress", "completed_pending_payment", "unreachable",
+                    "en_route", "in_progress", "completed_pending_payment", "unreachable", "failed",
                     name="appointment_status_enum"), default="scheduled")
     scheduled_start = Column(DateTime, nullable=False)
     scheduled_end = Column(DateTime, nullable=False)

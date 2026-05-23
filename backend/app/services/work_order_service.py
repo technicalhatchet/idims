@@ -11,6 +11,7 @@ from sqlalchemy.future import select as future_select
 from decimal import Decimal
 
 from app.models.work_order import WorkOrder, WorkOrderStatusHistory, WorkOrderService as WorkOrderServiceModel, WorkOrderItem, WorkOrderNote, WorkOrderAppointment, WorkOrderPart, appointment_services_association
+from app.services import work_order_activity_service as activity
 from app.models.service import Service
 from app.schemas.work_order import (
     WorkOrderCreate,
@@ -206,6 +207,8 @@ class WorkOrderService:
             )
             db.add(status_history)
 
+            activity.log_work_order_created(db, work_order.id, work_order_data["created_by"])
+            
             if commit:
                 db.commit()
                 db.refresh(work_order)
@@ -301,6 +304,8 @@ class WorkOrderService:
         try:
             # Begin transaction
             update_data = work_order_data.dict(exclude_unset=True)
+            previous_status = work_order.status
+            previous_technician_id = work_order.assigned_technician_id
             
             # Ensure status is not null - if it's null, keep the existing status
             if "status" in update_data and update_data["status"] is None:
@@ -318,6 +323,13 @@ class WorkOrderService:
                     notes=update_data.get("status_notes", "Status updated")
                 )
                 db.add(status_history)
+                activity.log_work_order_status_changed(
+                    db,
+                    work_order.id,
+                    update_data.get("updated_by", work_order.created_by),
+                    activity._status_val(previous_status),
+                    activity._status_val(update_data["status"]),
+                )
                 
                 # Set timestamps based on status
                 if update_data["status"] == "in_progress" and not work_order.actual_start:
@@ -329,6 +341,23 @@ class WorkOrderService:
             for key, value in update_data.items():
                 if key not in ["updated_by", "status_notes"]:
                     setattr(work_order, key, value)
+
+            actor_id = update_data.get("updated_by", work_order.updated_by or work_order.created_by)
+            if (
+                "assigned_technician_id" in update_data
+                and update_data["assigned_technician_id"] != previous_technician_id
+                and update_data["assigned_technician_id"] is not None
+            ):
+                tech_name = None
+                tech = (
+                    db.query(Technician)
+                    .options(selectinload(Technician.user))
+                    .filter(Technician.id == update_data["assigned_technician_id"])
+                    .first()
+                )
+                if tech and tech.user:
+                    tech_name = activity.get_user_display_name(tech.user)
+                activity.log_work_order_assigned(db, work_order.id, actor_id, tech_name)
             
             db.commit()
             db.refresh(work_order)
@@ -825,6 +854,14 @@ class WorkOrderService:
                 logger.error(f"Error syncing work order schedule: {str(sync_error)}", exc_info=True)
                 raise # Re-raise the exception to be caught by the main handler
 
+            activity.log_appointment_added(
+                self.db,
+                appointment_data.work_order_id,
+                user_id,
+                db_appointment.scheduled_start,
+                db_appointment.appointment_type,
+            )
+
             if commit:
                 self.db.commit()
                 committed_appointment_id = db_appointment.id
@@ -874,6 +911,7 @@ class WorkOrderService:
         # Store original start and technician to check for changes
         original_start_time = appointment.scheduled_start
         original_technician_id = appointment.assigned_technician_id
+        original_status = activity._status_val(appointment.status)
         original_service_ids = set(s.id for s in appointment.services) # Assuming 'services' relationship exists
 
         # Update fields from appointment_data
@@ -1069,6 +1107,25 @@ class WorkOrderService:
         
         # After updating an appointment, sync the work order's schedule with appointments
         await self.sync_work_order_schedule_with_appointments(appointment.work_order_id)
+
+        new_status = activity._status_val(appointment.status)
+        if "status" in update_data and new_status != original_status:
+            activity.log_appointment_status_changed(
+                self.db,
+                appointment.work_order_id,
+                user_id,
+                original_status,
+                new_status,
+                appointment.scheduled_start,
+            )
+        elif start_time_changed and appointment.scheduled_start and original_start_time:
+            activity.log_appointment_rescheduled(
+                self.db,
+                appointment.work_order_id,
+                user_id,
+                original_start_time,
+                appointment.scheduled_start,
+            )
         
         self.db.commit()
         self.db.refresh(appointment)
@@ -1077,7 +1134,8 @@ class WorkOrderService:
     
     async def delete_work_order_appointment(
         self,
-        appointment_id: uuid.UUID
+        appointment_id: uuid.UUID,
+        user_id: uuid.UUID,
     ) -> bool:
         """Delete a work order appointment"""
         # Get the appointment
@@ -1089,6 +1147,15 @@ class WorkOrderService:
         work_order_id = appointment.work_order_id
         technician_id = appointment.assigned_technician_id
         appointment_date = appointment.scheduled_start
+        appointment_type = appointment.appointment_type
+
+        activity.log_appointment_removed(
+            self.db,
+            work_order_id,
+            user_id,
+            appointment.scheduled_start,
+            appointment_type,
+        )
         
         # Delete the appointment
         self.db.delete(appointment)
@@ -1271,3 +1338,9 @@ class WorkOrderService:
             logger.error(f"Database error fetching schedule for technician {technician_id} on {schedule_date}: {e}", exc_info=True)
             # Return None to indicate failure to the router
             return None
+
+    @staticmethod
+    async def get_work_order_timeline(db: Session, work_order_id: uuid.UUID) -> List[Dict[str, Any]]:
+        """Return debriefing / activity log entries for a work order."""
+        await WorkOrderService.get_work_order(db, work_order_id)
+        return activity.get_work_order_activity_timeline(db, work_order_id)

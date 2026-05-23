@@ -18,6 +18,7 @@ import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
+import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 
 // Tabs for the detail page
 const TABS = {
@@ -557,6 +558,7 @@ function WorkOrderDetail() {
                                       appointment.status === 'in_progress' ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200' :
                                       appointment.status === 'completed_pending_payment' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                                       appointment.status === 'unreachable' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+                                      appointment.status === 'failed' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
                                       'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                                     }`}>
                                       {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
@@ -659,6 +661,8 @@ function WorkOrderDetail() {
                   </div>
                 </div>
               )}
+
+              <WorkOrderDebriefing workOrderId={workOrder.id} />
             </>
           )}
           
@@ -1351,7 +1355,7 @@ function WorkOrderDetail() {
                                     try {
                                       const clientEmail = workOrder.client?.email || workOrder.client_user?.email;
                                       const clientName = workOrder.client_name || `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim();
-                                      if (!clientEmail) { alert('Client email is required for payment processing'); return; }
+                                      
                                       const response = await apiClient('stripe/create-checkout-session', {
                                         method: 'POST',
                                         body: JSON.stringify({
@@ -1486,6 +1490,7 @@ function WorkOrderDetail() {
                 <option value="reschedule">Reschedule</option>
                 <option value="need_to_contact">Need to Contact</option>
                 <option value="unreachable">Unreachable</option>
+                <option value="failed">Failed</option>
                 <option value="recall">Recall / Warranty Return</option>
                 <option value="redo">Redo</option>
               </select>

@@ -186,6 +186,7 @@ function isAppointmentDoneStatus(status) {
     || n === 'completed_pending_payment'
     || n === 'paid'
     || n === 'expired'
+    || n === 'failed'
   );
 }
 

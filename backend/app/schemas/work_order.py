@@ -354,6 +354,7 @@ class WorkOrderAppointmentUpdate(BaseModel):
                 "in_progress",
                 "completed_pending_payment",
                 "unreachable",
+                "failed",
             ]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
@@ -553,3 +554,17 @@ class AdminBillingOverride(BaseModel):
         if v not in allowed_actions:
             raise ValueError(f"Action must be one of {allowed_actions}")
         return v
+
+
+class WorkOrderActivityLogResponse(BaseModel):
+    """Debriefing timeline entry for a work order."""
+    id: UUID
+    event_type: str
+    headline: str
+    actor_label: str
+    actor_name: str
+    occurred_at: datetime
+    occurred_at_est: str
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+    model_config = ConfigDict(from_attributes=True)
