@@ -27,7 +27,7 @@ from app.routers import (
     auth, clients, work_orders, scheduling, invoices, payments,
     #inventory,
     quotes, technicians, notifications, reports, public,
-    media, mobile, admin, chat, dashboard, properties,
+    media, mobile, admin, chat, dashboard, properties, app_settings,
     health, users, debug, services, skills, stripe, distance
 )
 from app.core.middleware import (
@@ -723,6 +723,7 @@ app.include_router(skills.router, prefix="/api/skills", tags=["skills"])
 app.include_router(stripe.router, prefix="/api/stripe", tags=["stripe"])
 app.include_router(properties.router, prefix="/api/properties", tags=["properties"])
 app.include_router(public.router, prefix="/api/public", tags=["public"])
+app.include_router(app_settings.router, prefix="/api/settings", tags=["settings"])
 # Mock endpoints for clients, technicians, and services
 # NOTE: These mock endpoints have been replaced with real database-backed endpoints in the router files.
 # The include_router() calls above now handle these endpoints.
