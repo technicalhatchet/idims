@@ -304,10 +304,31 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
     setShowPartForm(true);
   };
 
-  const deletePart = (index) => {
-    const updatedParts = [...parts];
-    updatedParts.splice(index, 1);
-    setParts(updatedParts);
+  const deletePart = async (index) => {
+    const part = parts[index];
+    if (!part) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      if (part.id) {
+        await apiClient(`work-orders/parts/${part.id}`, { method: 'DELETE' });
+      }
+
+      const updatedParts = [...parts];
+      updatedParts.splice(index, 1);
+      setParts(updatedParts);
+      resetPartForm();
+      if (onUpdate) onUpdate();
+      setSuccessMessage('Part deleted successfully');
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (err) {
+      console.error('Error deleting part:', err);
+      setError('Failed to delete part. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetPartForm = () => {

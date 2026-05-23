@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { FaTrash, FaEdit, FaTimes, FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
+import { FaTrash, FaTimes, FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 
@@ -155,6 +156,12 @@ export default function EquipmentDetailsMobile({
   updatePartStatus,
   generateSearchLink,
 }) {
+  const [confirmDeletePart, setConfirmDeletePart] = useState(false);
+
+  useEffect(() => {
+    setConfirmDeletePart(false);
+  }, [editingPartIndex, showPartForm]);
+
   const saveFeedback = (
     <>
       {error && <p className="text-red-400 text-sm">{error}</p>}
@@ -398,13 +405,63 @@ export default function EquipmentDetailsMobile({
               />
             </div>
             <div className="flex gap-2">
-              <Button onClick={addOrUpdatePart} color="blue" size="sm" className="flex-1">
+              <Button onClick={addOrUpdatePart} color="blue" size="sm" className="flex-1" disabled={loading}>
                 {editingPartIndex !== null ? 'Update' : 'Add'}
               </Button>
-              <Button onClick={resetPartForm} color="gray" size="sm">
+              <Button
+                onClick={() => {
+                  setConfirmDeletePart(false);
+                  resetPartForm();
+                }}
+                color="gray"
+                size="sm"
+                disabled={loading}
+              >
                 Cancel
               </Button>
             </div>
+            {editingPartIndex !== null && (
+              <div className="pt-3 mt-1 border-t border-white/10">
+                {!confirmDeletePart ? (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmDeletePart(true)}
+                    disabled={loading}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-red-400 disabled:opacity-50"
+                  >
+                    <FaTrash className="h-3.5 w-3.5" />
+                    Delete part
+                  </button>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-300">
+                      Delete part <span className="font-semibold text-white">{currentPart.number || 'this part'}</span>?
+                      This cannot be undone.
+                    </p>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => deletePart(editingPartIndex)}
+                        variant="danger"
+                        size="sm"
+                        className="flex-1"
+                        disabled={loading}
+                        isLoading={loading}
+                      >
+                        Yes, delete
+                      </Button>
+                      <Button
+                        onClick={() => setConfirmDeletePart(false)}
+                        color="gray"
+                        size="sm"
+                        disabled={loading}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -430,28 +487,20 @@ export default function EquipmentDetailsMobile({
                     </span>
                   </div>
                   <p className="text-xs text-gray-400 mt-1 line-clamp-2">{part.description}</p>
-                  <div className="flex items-center justify-between mt-2 gap-2">
-                    <span className="text-sm font-medium text-cyan-300">${part.price}</span>
-                    <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-                      <button type="button" className="text-blue-400 p-1" onClick={() => startEditPart(index)} title="Edit">
-                        <FaEdit className="h-4 w-4" />
-                      </button>
-                      <button type="button" className="text-red-400 p-1" onClick={() => deletePart(index)} title="Delete">
-                        <FaTrash className="h-4 w-4" />
-                      </button>
-                      <select
-                        className="text-[10px] bg-[#0B1120] border border-white/15 rounded px-1.5 py-1 text-gray-300 max-w-[5.5rem]"
-                        value={part.status}
-                        onChange={(e) => updatePartStatus(index, e.target.value)}
-                        title="Status"
-                      >
-                        {PART_STATUSES.map((status) => (
-                          <option key={status.value} value={status.value}>
-                            {status.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  <div className="flex items-center mt-2 gap-2" onClick={(e) => e.stopPropagation()}>
+                    <span className="text-sm font-medium text-cyan-300 shrink-0">${part.price}</span>
+                    <select
+                      className="flex-1 min-w-0 text-xs bg-[#0B1120] border border-white/15 rounded px-2 py-1.5 text-gray-300"
+                      value={part.status}
+                      onChange={(e) => updatePartStatus(index, e.target.value)}
+                      title="Status"
+                    >
+                      {PART_STATUSES.map((status) => (
+                        <option key={status.value} value={status.value}>
+                          {status.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               );
