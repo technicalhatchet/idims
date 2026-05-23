@@ -944,6 +944,17 @@ class WorkOrderService:
             if key == "service_ids": # Special handling for service_ids
                 continue
             setattr(appointment, key, value)
+
+        if "status" in update_data:
+            from app.services.work_order_performance_service import handle_appointment_status_timing
+            if not appointment.services:
+                self.db.refresh(appointment)
+            handle_appointment_status_timing(
+                self.db,
+                appointment=appointment,
+                previous_status=original_status,
+                user_id=user_id,
+            )
         
         appointment.updated_at = datetime.utcnow()
         appointment.updated_by = user_id

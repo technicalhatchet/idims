@@ -66,6 +66,7 @@ class WorkOrder(Base):
     notes = relationship("WorkOrderNote", back_populates="work_order", cascade="all, delete-orphan")
     status_history = relationship("WorkOrderStatusHistory", back_populates="work_order", cascade="all, delete-orphan")
     activity_log = relationship("WorkOrderActivityLog", back_populates="work_order", cascade="all, delete-orphan")
+    performance_metrics = relationship("WorkOrderPerformanceMetric", back_populates="work_order", cascade="all, delete-orphan")
     appointments = relationship("WorkOrderAppointment", back_populates="work_order", cascade="all, delete-orphan")
     invoices = relationship("Invoice", back_populates="work_order")
     documents = relationship("Document", back_populates="work_order")
@@ -333,6 +334,29 @@ class WorkOrderActivityLog(Base):
 
     def __repr__(self):
         return f"<WorkOrderActivityLog {self.event_type}: {self.headline[:40]}>"
+
+
+class WorkOrderPerformanceMetric(Base):
+    """Stored field-performance metrics (on-site time, etc.) for reporting."""
+    __tablename__ = "work_order_performance_metrics"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"), nullable=False, index=True)
+    appointment_id = Column(UUID(as_uuid=True), ForeignKey("work_order_appointments.id"), nullable=True, index=True)
+    metric_type = Column(String(50), nullable=False, default="on_site_duration")
+    actual_minutes = Column(Float, nullable=False)
+    estimated_minutes = Column(Float, nullable=True)
+    percent_of_estimate = Column(Float, nullable=True)
+    started_at = Column(DateTime, nullable=True)
+    ended_at = Column(DateTime, nullable=True)
+    event_metadata = Column(JSONB, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    work_order = relationship("WorkOrder", back_populates="performance_metrics")
+    appointment = relationship("WorkOrderAppointment")
+
+    def __repr__(self):
+        return f"<WorkOrderPerformanceMetric {self.metric_type}: {self.actual_minutes}m>"
 
 
 class WorkOrderAppointment(Base):

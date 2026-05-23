@@ -19,6 +19,7 @@ import AppointmentScheduler from '../../../components/work_orders/AppointmentSch
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
+import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 
 // Tabs for the detail page
 const TABS = {
@@ -478,55 +479,19 @@ function WorkOrderDetail() {
                 </div>
               )}
               
-              {/* Schedule Information */}
-              {workOrder.scheduled_start && (
+              <WorkOrderPerformancePanel workOrderId={workOrder.id} />
+
+              {workOrder.appointments && workOrder.appointments.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Schedule Information</h3>
+                  <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Appointments</h3>
                   <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
                     <div className="px-6 py-4">
-                      <div className="mb-4">
-                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-1">
-                          <span className="font-medium mr-2">Primary Schedule:</span>
-                          <span>
-                            {new Date(workOrder.scheduled_start).toLocaleDateString()} {new Date(workOrder.scheduled_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            {workOrder.scheduled_end && (
-                              <span> - {new Date(workOrder.scheduled_end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                            )}
-                          </span>
-                        </div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                          This is the overall scheduled time period for this work order.
-                        </p>
-                        
-                        {/* Show a button to view all appointments if they exist */}
-                        {workOrder.appointments && workOrder.appointments.length > 0 && (
-                          <div>
-                            <button
-                              type="button"
-                              onClick={() => setActiveTab(TABS.APPOINTMENTS)}
-                              className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:text-blue-800 dark:hover:text-blue-300 flex items-center"
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                              </svg>
-                              View All {workOrder.appointments.length} Appointment{workOrder.appointments.length !== 1 ? 's' : ''}
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                        
-                      {/* Display Individual Appointments Summary */}
-                      {workOrder.appointments && workOrder.appointments.length > 0 && (
-                        <div className="mt-4">
-                          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Related Appointments</h4>
-                          <div className="space-y-2 max-h-60 overflow-y-auto">
-                            {workOrder.appointments.map((appointment, index) => (
-                              <div 
-                                key={index}
-                                className="p-2 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-650 cursor-pointer"
-                                onClick={() => setActiveTab(TABS.APPOINTMENTS)}
-                              >
+                      <div className="space-y-2 max-h-60 overflow-y-auto">
+                        {workOrder.appointments.map((appointment, index) => (
+                          <div
+                            key={index}
+                            className="p-2 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700"
+                          >
                                 <div className="flex justify-between items-center">
                                   <div>
                                     <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
@@ -572,9 +537,7 @@ function WorkOrderDetail() {
                                 )}
                               </div>
                             ))}
-                          </div>
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>

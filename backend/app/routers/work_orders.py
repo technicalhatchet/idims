@@ -832,6 +832,32 @@ async def get_work_order_timeline(
             detail="Error retrieving work order timeline"
         )
 
+@router.get("/{work_order_id}/performance", response_model=Dict[str, Any])
+async def get_work_order_performance(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    """On-site time and other stored performance metrics for a work order."""
+    can_access = await can_access_work_order(work_order_id, current_user, db)
+    if not can_access:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to view this work order"
+        )
+    try:
+        await WorkOrderService.get_work_order(db, work_order_id)
+        from app.services.work_order_performance_service import get_work_order_performance as fetch_performance
+        return fetch_performance(db, work_order_id)
+    except NotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error retrieving work order performance: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error retrieving work order performance"
+        )
+
 @router.get("/work-orders-demo", response_model=WorkOrderListResponse)
 async def list_work_orders_demo(
     status_filter: Optional[str] = Query(None, description="Filter by status"),
