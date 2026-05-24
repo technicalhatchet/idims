@@ -10,7 +10,8 @@ import {
   updateTechnicianAvailability,
   getTechnicianSchedule,
   getTechnicianWorkload,
-  getTechnicianPerformance
+  getTechnicianPerformance,
+  getMyTechnicianPerformance
 } from '../services/api/techniciansApi';
 
 /**
@@ -127,6 +128,14 @@ export function useTechnicianPerformance(id, period = 'month') {
     queryFn: () => getTechnicianPerformance(id, period),
     enabled: !!id,
     staleTime: 5 * 60 * 1000 // 5 minutes
+  });
+}
+
+export function useTechnicianMyPerformance(period = 'month') {
+  return useQuery({
+    queryKey: ['technicianPerformance', 'me', period],
+    queryFn: () => getMyTechnicianPerformance(period),
+    staleTime: 5 * 60 * 1000,
   });
 }
 

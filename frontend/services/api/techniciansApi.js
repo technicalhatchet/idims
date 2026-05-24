@@ -143,6 +143,18 @@ export async function getTechnicianPerformance(id, period = 'month') {
 }
 
 /**
+ * Get performance metrics for the logged-in technician
+ */
+export async function getMyTechnicianPerformance(period = 'month') {
+  try {
+    return await apiClient(`technicians/me/performance?period=${period}`);
+  } catch (error) {
+    console.error('Error fetching my technician performance:', error);
+    throw error;
+  }
+}
+
+/**
  * Get all available skills
  */
 export async function getSkills() {

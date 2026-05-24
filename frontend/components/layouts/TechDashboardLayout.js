@@ -44,6 +44,12 @@ const NAV_ITEMS = [
     icon: (<><polygon points="3 11 22 2 13 21 11 13 3 11"/></>),
   },
   {
+    name: 'Performance',
+    href: '/techdashboard/performance',
+    color: 'orange',
+    icon: (<><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></>),
+  },
+  {
     name: 'Clients',
     href: '/techboard/assets',
     color: 'cyan',

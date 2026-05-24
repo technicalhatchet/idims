@@ -13,6 +13,7 @@ from app.schemas.technician import (
     TechnicianCreate, TechnicianUpdate, TechnicianResponse, TechnicianListResponse, TechnicianAvailability
 )
 from app.services.technician_service import TechnicianService
+from app.services.user_service import UserService
 from app.core.dependencies import get_current_user, get_admin_user, get_admin_or_manager_user
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 
@@ -427,17 +428,49 @@ async def get_technician_workload(
             detail=f"Error retrieving technician workload: {str(e)}"
         )
 
-@router.get("/technicians/{technician_id}/performance", response_model=dict)
+@router.get("/me/performance", response_model=dict)
+async def get_my_technician_performance(
+    period: str = Query("month", description="Period for performance metrics (week, month, quarter, year)"),
+    current_user=Depends(get_current_user_dependency),
+    db: Session = Depends(get_db),
+):
+    """Performance metrics for the logged-in technician."""
+    technician = UserService.get_technician_by_user_id(db, str(current_user.id))
+    if not technician:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No technician profile linked to this account",
+        )
+    try:
+        return await TechnicianService.get_technician_performance(db, technician.id, period)
+    except ValidationException as e:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error retrieving technician performance: {str(e)}",
+        )
+
+
+@router.get("/{technician_id}/performance", response_model=dict)
 async def get_technician_performance(
     technician_id: uuid.UUID = Path(..., description="The ID of the technician"),
     period: str = Query("month", description="Period for performance metrics (week, month, quarter, year)"),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+    current_user=Depends(get_current_user_dependency),
     db: Session = Depends(get_db)
 ):
     """
     Get a technician's performance metrics.
-    Only managers and admins can access this endpoint.
+    Technicians may view their own; managers and admins may view any.
     """
+    own = UserService.get_technician_by_user_id(db, str(current_user.id))
+    is_self = own is not None and own.id == technician_id
+    roles = set(getattr(current_user, "roles", None) or [])
+    if not is_self and not roles.intersection({"admin", "manager"}):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to view this technician's performance",
+        )
     try:
         performance = await TechnicianService.get_technician_performance(db, technician_id, period)
         return performance
@@ -451,7 +484,7 @@ async def get_technician_performance(
             detail=f"Error retrieving technician performance: {str(e)}"
         )
 
-@router.get("/technicians/skills", response_model=List[str])
+@router.get("/skills", response_model=List[str])
 async def get_all_skills(
     current_user: AuthUser = Depends(get_current_user_dependency),
     db: Session = Depends(get_db)

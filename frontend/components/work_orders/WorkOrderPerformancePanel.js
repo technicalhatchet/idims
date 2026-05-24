@@ -23,8 +23,24 @@ function percentTone(pct) {
   return 'text-red-600 dark:text-red-400';
 }
 
+function boolTone(value) {
+  if (value === true) return 'text-green-600 dark:text-green-400';
+  if (value === false) return 'text-amber-600 dark:text-amber-400';
+  return 'text-gray-500 dark:text-gray-400';
+}
+
 async function fetchPerformance(workOrderId) {
   return apiClient(`work-orders/${workOrderId}/performance`);
+}
+
+function MetricBlock({ label, value, sub, toneClass, labelClass, valueClass }) {
+  return (
+    <div>
+      <p className={`text-xs uppercase tracking-wide ${labelClass}`}>{label}</p>
+      <p className={`text-base font-semibold ${toneClass || valueClass}`}>{value}</p>
+      {sub && <p className={`text-xs mt-0.5 ${labelClass}`}>{sub}</p>}
+    </div>
+  );
 }
 
 export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desktop' }) {
@@ -51,15 +67,33 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
   }, [load]);
 
   useEffect(() => {
-    if (!data?.active_on_site) return undefined;
+    if (!data?.on_site?.active_on_site && !data?.active_on_site) return undefined;
     const interval = setInterval(load, 60000);
     return () => clearInterval(interval);
-  }, [data?.active_on_site, load]);
+  }, [data?.on_site?.active_on_site, data?.active_on_site, load]);
 
-  const summary = data?.summary;
-  const active = data?.active_on_site;
-  const visits = data?.visits || [];
-  const hasContent = active || visits.length > 0;
+  const onSite = data?.on_site || data;
+  const summary = onSite?.summary || data?.summary;
+  const active = onSite?.active_on_site || data?.active_on_site;
+  const visits = onSite?.visits || data?.visits || [];
+  const enRoute = data?.en_route;
+  const adherence = data?.schedule_adherence;
+  const partsHold = data?.parts_hold;
+  const timeToClose = data?.time_to_close;
+  const firstVisit = data?.first_visit_completion;
+  const callback = data?.callback_redo;
+  const accessFailures = data?.access_failures;
+
+  const hasContent =
+    active ||
+    visits.length > 0 ||
+    enRoute?.visits?.length > 0 ||
+    adherence?.visits?.length > 0 ||
+    partsHold?.periods?.length > 0 ||
+    timeToClose ||
+    firstVisit?.recorded ||
+    callback?.recorded ||
+    accessFailures?.count > 0;
 
   const cardClass = isMobile
     ? 'rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden mb-4'
@@ -70,10 +104,16 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
   const titleClass = isMobile
     ? 'text-sm font-medium text-white'
     : 'text-md font-medium text-gray-700 dark:text-gray-300';
+  const sectionClass = isMobile
+    ? 'border-t border-white/10 pt-4 mt-4'
+    : 'border-t border-gray-200 dark:border-gray-700 pt-4 mt-4';
+  const rowClass = isMobile
+    ? 'flex justify-between items-center text-sm border border-white/10 rounded-lg px-3 py-2'
+    : 'flex justify-between items-center text-sm border border-gray-200 dark:border-gray-700 rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700/50';
 
   return (
     <div>
-      <h3 className={`${titleClass} mb-2`}>On-Site Performance</h3>
+      <h3 className={`${titleClass} mb-2`}>Performance</h3>
       <div className={cardClass}>
         <div className="px-4 py-4 sm:px-6">
           {loading && (
@@ -84,35 +124,43 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
           )}
           {!loading && !error && !hasContent && (
             <p className={`text-sm ${labelClass}`}>
-              On-site time is recorded when a visit leaves In Progress, compared to SKU duration estimates.
+              Metrics are recorded as visits progress — on-site time, travel, schedule adherence, and outcomes.
             </p>
           )}
           {!loading && !error && hasContent && (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
-                <div>
-                  <p className={`text-xs uppercase tracking-wide ${labelClass}`}>Total on-site</p>
-                  <p className={`text-lg font-semibold ${valueClass}`}>
-                    {formatMinutes(summary?.total_actual_minutes)}
-                    {active && (
-                      <span className={`text-sm font-normal ml-1 ${labelClass}`}>
-                        (+{formatMinutes(active.elapsed_minutes)} active)
-                      </span>
-                    )}
-                  </p>
-                </div>
-                <div>
-                  <p className={`text-xs uppercase tracking-wide ${labelClass}`}>Estimated</p>
-                  <p className={`text-lg font-semibold ${valueClass}`}>
-                    {formatMinutes(summary?.total_estimated_minutes)}
-                  </p>
-                </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <p className={`text-xs uppercase tracking-wide ${labelClass}`}>Vs estimate</p>
-                  <p className={`text-lg font-semibold ${percentTone(summary?.percent_of_estimate)}`}>
-                    {percentLabel(summary?.percent_of_estimate) || '—'}
-                  </p>
-                </div>
+              {/* On-site */}
+              <p className={`text-xs font-semibold uppercase tracking-wide mb-3 ${labelClass}`}>On-site time</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-3">
+                <MetricBlock
+                  label="Total on-site"
+                  value={
+                    <>
+                      {formatMinutes(summary?.total_actual_minutes)}
+                      {active && (
+                        <span className={`text-sm font-normal ml-1 ${labelClass}`}>
+                          (+{formatMinutes(active.elapsed_minutes)} active)
+                        </span>
+                      )}
+                    </>
+                  }
+                  labelClass={labelClass}
+                  valueClass={valueClass}
+                />
+                <MetricBlock
+                  label="Estimated"
+                  value={formatMinutes(summary?.total_estimated_minutes)}
+                  labelClass={labelClass}
+                  valueClass={valueClass}
+                />
+                <MetricBlock
+                  label="Vs estimate"
+                  value={percentLabel(summary?.percent_of_estimate) || '—'}
+                  sub={summary?.avg_percent_of_estimate != null ? `Avg ${summary.avg_percent_of_estimate}% per visit` : null}
+                  toneClass={percentTone(summary?.percent_of_estimate)}
+                  labelClass={labelClass}
+                  valueClass={valueClass}
+                />
               </div>
 
               {active && (
@@ -134,16 +182,9 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
               )}
 
               {visits.length > 0 && (
-                <div className="space-y-2">
+                <div className="space-y-2 mb-1">
                   {visits.map((visit) => (
-                    <div
-                      key={visit.appointment_id}
-                      className={
-                        isMobile
-                          ? 'flex justify-between items-center text-sm border border-white/10 rounded-lg px-3 py-2'
-                          : 'flex justify-between items-center text-sm border border-gray-200 dark:border-gray-700 rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700/50'
-                      }
-                    >
+                    <div key={visit.appointment_id} className={rowClass}>
                       <span className={`capitalize ${valueClass}`}>{visit.appointment_type}</span>
                       <span className={labelClass}>
                         {formatMinutes(visit.actual_minutes)}
@@ -158,6 +199,115 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
                       </span>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {/* En route */}
+              {(enRoute?.visits?.length > 0 || enRoute?.summary?.total_actual_minutes > 0) && (
+                <div className={sectionClass}>
+                  <p className={`text-xs font-semibold uppercase tracking-wide mb-3 ${labelClass}`}>En-route time</p>
+                  <div className="grid grid-cols-2 gap-4 mb-2">
+                    <MetricBlock
+                      label="Total travel"
+                      value={formatMinutes(enRoute.summary?.total_actual_minutes)}
+                      labelClass={labelClass}
+                      valueClass={valueClass}
+                    />
+                    <MetricBlock
+                      label="Vs estimate"
+                      value={percentLabel(enRoute.summary?.percent_of_estimate) || '—'}
+                      toneClass={percentTone(enRoute.summary?.percent_of_estimate)}
+                      labelClass={labelClass}
+                      valueClass={valueClass}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Schedule adherence */}
+              {adherence?.visits?.length > 0 && (
+                <div className={sectionClass}>
+                  <p className={`text-xs font-semibold uppercase tracking-wide mb-3 ${labelClass}`}>Schedule adherence</p>
+                  <div className="grid grid-cols-3 gap-3 mb-2">
+                    <MetricBlock
+                      label="On time"
+                      value={adherence.summary?.on_time_count ?? 0}
+                      labelClass={labelClass}
+                      valueClass="text-green-600 dark:text-green-400"
+                    />
+                    <MetricBlock
+                      label="Late"
+                      value={adherence.summary?.late_count ?? 0}
+                      labelClass={labelClass}
+                      valueClass="text-amber-600 dark:text-amber-400"
+                    />
+                    <MetricBlock
+                      label="Early"
+                      value={adherence.summary?.early_count ?? 0}
+                      labelClass={labelClass}
+                      valueClass={valueClass}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* WO-level outcomes */}
+              {(partsHold?.periods?.length > 0 ||
+                timeToClose ||
+                firstVisit?.recorded ||
+                callback?.recorded ||
+                accessFailures?.count > 0) && (
+                <div className={sectionClass}>
+                  <p className={`text-xs font-semibold uppercase tracking-wide mb-3 ${labelClass}`}>Work order outcomes</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {partsHold?.periods?.length > 0 && (
+                      <MetricBlock
+                        label="Parts hold"
+                        value={formatMinutes(partsHold.total_minutes)}
+                        sub={partsHold.active ? 'Currently waiting on parts' : null}
+                        labelClass={labelClass}
+                        valueClass={valueClass}
+                      />
+                    )}
+                    {timeToClose && (
+                      <MetricBlock
+                        label="Time to close"
+                        value={formatMinutes(timeToClose.actual_minutes)}
+                        labelClass={labelClass}
+                        valueClass={valueClass}
+                      />
+                    )}
+                    {firstVisit?.recorded && (
+                      <MetricBlock
+                        label="First-visit fix"
+                        value={firstVisit.achieved ? 'Yes' : 'No'}
+                        sub={firstVisit.achieved ? 'No follow-up visit needed' : 'Follow-up visit on file'}
+                        toneClass={boolTone(firstVisit.achieved)}
+                        labelClass={labelClass}
+                        valueClass={valueClass}
+                      />
+                    )}
+                    {callback?.recorded && (
+                      <MetricBlock
+                        label="Callback / redo"
+                        value={callback.is_callback ? 'Yes' : 'No'}
+                        sub={callback.follow_up_visits > 0 ? `${callback.follow_up_visits} follow-up visit(s)` : null}
+                        toneClass={callback.is_callback ? 'text-amber-600 dark:text-amber-400' : 'text-green-600 dark:text-green-400'}
+                        labelClass={labelClass}
+                        valueClass={valueClass}
+                      />
+                    )}
+                    {accessFailures?.count > 0 && (
+                      <MetricBlock
+                        label="Unreachable / failed"
+                        value={accessFailures.count}
+                        sub="Access failure visits"
+                        toneClass="text-red-600 dark:text-red-400"
+                        labelClass={labelClass}
+                        valueClass={valueClass}
+                      />
+                    )}
+                  </div>
                 </div>
               )}
             </>

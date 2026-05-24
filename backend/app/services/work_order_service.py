@@ -343,6 +343,15 @@ class WorkOrderService:
                     setattr(work_order, key, value)
 
             actor_id = update_data.get("updated_by", work_order.updated_by or work_order.created_by)
+            if "status" in update_data and activity._status_val(update_data["status"]) != activity._status_val(previous_status):
+                from app.services.work_order_performance_service import handle_work_order_status_timing
+                handle_work_order_status_timing(
+                    db,
+                    work_order=work_order,
+                    previous_status=activity._status_val(previous_status),
+                    user_id=actor_id,
+                )
+
             if (
                 "assigned_technician_id" in update_data
                 and update_data["assigned_technician_id"] != previous_technician_id

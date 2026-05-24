@@ -539,6 +539,12 @@ class TechnicianService:
         duration_change = ((avg_duration - prev_avg_duration) / prev_avg_duration * 100) if prev_avg_duration > 0 else 0
         
         # Format performance data
+        from app.services.work_order_performance_service import get_technician_field_performance
+
+        field = get_technician_field_performance(db, technician_id, start_date, end_date)
+        avg_on_site = field["on_site"].get("avg_actual_minutes")
+        efficiency = field["on_site"].get("avg_percent_of_estimate") or field["on_site"].get("percent_of_estimate")
+
         performance = {
             "technician_id": str(technician.id),
             "technician_name": technician.name,
@@ -546,6 +552,44 @@ class TechnicianService:
             "date_range": {
                 "start": start_date.isoformat(),
                 "end": end_date.isoformat()
+            },
+            "field": field,
+            "completed_jobs": completed_jobs,
+            "efficiency_score": efficiency,
+            "avg_on_site_minutes": avg_on_site,
+            "avg_completion_time": f"{avg_on_site:.0f} min" if avg_on_site else "N/A",
+            "details": {
+                "Completed jobs": completed_jobs,
+                "On-site visits tracked": field.get("visit_count", 0),
+                "Avg on-site time": f"{avg_on_site:.0f} min" if avg_on_site else "N/A",
+                "Vs SKU estimate": f"{efficiency}%" if efficiency is not None else "N/A",
+                "On-time arrivals": (
+                    f"{field['schedule_adherence']['on_time_count']}/{field['schedule_adherence']['visit_count']}"
+                    if field["schedule_adherence"]["visit_count"]
+                    else "N/A"
+                ),
+                "En-route time": (
+                    f"{field['en_route']['total_actual_minutes']:.0f} min"
+                    if field["en_route"]["total_actual_minutes"]
+                    else "N/A"
+                ),
+                "First-visit fix rate": (
+                    f"{field['first_visit_fix_rate']}%"
+                    if field.get("first_visit_fix_rate") is not None
+                    else "N/A"
+                ),
+                "Callbacks / redos": field.get("callback_count", 0),
+                "Unreachable / failed": field.get("access_failure_count", 0),
+                "Parts hold time": (
+                    f"{field['parts_hold_minutes']:.0f} min"
+                    if field.get("parts_hold_minutes")
+                    else "N/A"
+                ),
+                "Avg time to close": (
+                    f"{field['avg_time_to_close_minutes']:.0f} min"
+                    if field.get("avg_time_to_close_minutes") is not None
+                    else "N/A"
+                ),
             },
             "metrics": [
                 {
@@ -571,7 +615,33 @@ class TechnicianService:
                     "value": f"{avg_duration:.1f} minutes",
                     "comparison": duration_change,
                     "target": None
-                }
+                },
+                {
+                    "name": "On-Site vs Estimate",
+                    "value": f"{efficiency}%" if efficiency is not None else "N/A",
+                    "comparison": None,
+                    "target": 100.0
+                },
+                {
+                    "name": "On-Time Arrival Rate",
+                    "value": (
+                        f"{field['schedule_adherence']['on_time_rate']}%"
+                        if field["schedule_adherence"].get("on_time_rate") is not None
+                        else "N/A"
+                    ),
+                    "comparison": None,
+                    "target": 90.0
+                },
+                {
+                    "name": "First-Visit Fix Rate",
+                    "value": (
+                        f"{field['first_visit_fix_rate']}%"
+                        if field.get("first_visit_fix_rate") is not None
+                        else "N/A"
+                    ),
+                    "comparison": None,
+                    "target": 75.0
+                },
             ]
         }
         
