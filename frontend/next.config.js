@@ -16,18 +16,8 @@ const withPWA = require('next-pwa')({
     // Railway API — stale-while-revalidate: show cached instantly, fetch fresh in background
     // Good for schedule, work orders, clients — data that changes but you want fast loads
     {
-      urlPattern: /^https:\/\/idims-production\.up\.railway\.app\/api\/.*/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'idims-api-cache',
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 60 * 5, // 5 minutes
-        },
-        cacheableResponse: {
-          statuses: [0, 200],
-        },
-      },
+      urlPattern: /^https:\/\/idims-production\.up\.railway\.app\/.*/i,
+      handler: 'NetworkOnly',
     },
     // Public booking endpoint — network only, never cache POST
     {
