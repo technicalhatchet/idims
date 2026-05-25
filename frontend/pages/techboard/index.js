@@ -1194,7 +1194,7 @@ export default function TechDashboardTest() {
           <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Mission Queue</h2>
-              <Link href="/opsboard" className="text-xs text-cyan-400 flex items-center gap-1">
+              <Link href="/techdashboard/opsboard" className="text-xs text-cyan-400 flex items-center gap-1">
                 View all
                 <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
               </Link>

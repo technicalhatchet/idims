@@ -11,7 +11,7 @@ export default function NotFound() {
   // Redirect to dashboard after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
-      const destination = user ? '/dashboard' : '/';
+      const destination = user ? '/techboard' : '/';
       router.push(destination);
     }, 5000);
     
@@ -21,7 +21,7 @@ export default function NotFound() {
   return (
     <>
       <Head>
-        <title>Page Not Found | Service Business Management</title>
+        <title>Page Not Found | IDIMS</title>
       </Head>
       
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4">
