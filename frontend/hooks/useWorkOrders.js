@@ -219,6 +219,11 @@ export function useWorkOrderMutations() {
   const updateStatusMutation = useMutation({
     mutationFn: (data) => updateWorkOrderStatus(data),
     onSuccess: (data) => {
+      if (data?.queued && data.id) {
+        queryClient.setQueryData(['workOrder', data.id], (old) =>
+          old ? { ...old, status: data.status } : old
+        );
+      }
       queryClient.invalidateQueries({ queryKey: ['workOrder', data.id] });
       queryClient.invalidateQueries({ queryKey: ['workOrders'] });
       return data;

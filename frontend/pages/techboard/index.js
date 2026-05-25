@@ -8,6 +8,7 @@ import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
+import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 import { useOfflineSchedule, useOfflineWorkOrders } from '../../hooks/useOfflineData';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
@@ -503,7 +504,19 @@ function NextJobCard({ job }) {
                 <EnRouteButton
                   workOrderId={job.work_order_id}
                   appointmentId={job.id}
-                  onSuccess={() => window.location.reload()}
+                  onSuccess={(result) => {
+                    if (result?.queued) {
+                      setSchedule((prev) =>
+                        prev.map((a) =>
+                          a.id === job.id || a.work_order_id === job.work_order_id
+                            ? { ...a, status: 'en_route' }
+                            : a
+                        )
+                      );
+                      return;
+                    }
+                    window.location.reload();
+                  }}
                 />
               </div>
             )}
@@ -568,11 +581,8 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
         alert('Could not find an appointment to update.');
         return;
       }
-      await apiClient(`work-orders/appointments/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({ status: 'en_route' }),
-      });
-      onSuccess?.();
+      const result = await updateAppointmentStatus({ appointmentId: id, status: 'en_route' });
+      onSuccess?.(result);
     } catch (e) {
       alert('Failed to update appointment status: ' + e.message);
     } finally {

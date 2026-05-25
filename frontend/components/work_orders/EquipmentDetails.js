@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { apiClient } from '../../utils/api-client';
+import { updatePartStatusOffline } from '../../lib/offlineWrites';
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
@@ -392,24 +393,32 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
         ? 0  // reset on earlier statuses
         : parseFloat(part.amount_upfront_collected || 0);  // keep existing
       
-      const response = await apiClient(`work-orders/parts/${part.id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          status: newStatus,
-          amount_upfront_collected: amountUpfront
-        })
+      const response = await updatePartStatusOffline({
+        partId: part.id,
+        status: newStatus,
+        amountUpfrontCollected: amountUpfront,
+        partSnapshot: part,
       });
+
+      const updatedPart = response?.queued
+        ? { ...part, status: newStatus, amount_upfront_collected: amountUpfront }
+        : response;
       
       // Update local state
       const updatedParts = [...parts];
-      updatedParts[partIndex] = response;
+      updatedParts[partIndex] = updatedPart;
       setParts(updatedParts);
       
       // Notify parent to refetch work order so invoices tab reflects new status
       if (onUpdate) onUpdate();
       
       // Show success indicator briefly
-      setSuccessMessage(`Part status updated to ${PART_STATUSES.find(s => s.value === newStatus)?.label}`);
+      const label = PART_STATUSES.find(s => s.value === newStatus)?.label;
+      setSuccessMessage(
+        response?.queued
+          ? `Part status saved offline (${label}) — will sync when online`
+          : `Part status updated to ${label}`
+      );
       setTimeout(() => {
         setSuccessMessage(null);
       }, 3000);

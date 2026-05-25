@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import OfflineBanner from '../components/ui/OfflineBanner';
+import SyncBanner from '../components/ui/SyncBanner';
 import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
 
 const queryClient = new QueryClient({
@@ -108,7 +108,7 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <ServiceWorkerMigration />
-          <OfflineBanner />
+          <SyncBanner />
           <ClientOnlyPrefetch />
           {Component.getLayout ? (
             Component.getLayout(<Component {...pageProps} />)

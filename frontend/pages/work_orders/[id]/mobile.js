@@ -276,7 +276,10 @@ function WorkOrderDetail() {
         notes: statusNotes
       });
       setShowStatusModal(false);
-      refetch(); // Refresh the work order data
+      setStatusNotes('');
+      if (navigator.onLine) {
+        refetch();
+      }
     } catch (error) {
       console.error('Error updating status:', error);
       // Error is shown by the mutation hook

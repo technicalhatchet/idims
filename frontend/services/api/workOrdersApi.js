@@ -1,4 +1,5 @@
 import { apiClient } from '../../utils/api-client';
+import { updateWorkOrderStatusOffline } from '../../lib/offlineWrites';
 
 /**
  * Get work orders with pagination and filters
@@ -92,12 +93,11 @@ export async function deleteWorkOrder(id) {
  */
 export async function updateWorkOrderStatus({ id, status, notes }) {
   console.log('updateWorkOrderStatus called with:', { id, status, notes });
-  
-  // Let the apiClient handle the URL construction correctly
-  return apiClient(`work-orders/${id}/status`, {
-    method: 'PUT',
-    body: JSON.stringify({ status, notes })
-  });
+  const result = await updateWorkOrderStatusOffline({ id, status, notes });
+  if (result?.queued) {
+    return { id, status, notes, queued: true };
+  }
+  return result;
 }
 
 /**

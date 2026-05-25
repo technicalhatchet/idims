@@ -5,7 +5,7 @@
  */
 
 const DB_NAME = 'idims-offline';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const STORES = {
   workOrders: 'workOrders',
@@ -14,7 +14,9 @@ const STORES = {
   properties: 'properties',
   parts: 'parts',
   schedule: 'schedule',
-  meta: 'meta', // last sync timestamps etc
+  meta: 'meta',
+  pendingMutations: 'pendingMutations',
+  notes: 'notes',
 };
 
 let _db = null;
@@ -70,6 +72,18 @@ function openDB() {
       // Meta — key/value store for sync timestamps
       if (!db.objectStoreNames.contains(STORES.meta)) {
         db.createObjectStore(STORES.meta, { keyPath: 'key' });
+      }
+
+      // Offline write queue
+      if (!db.objectStoreNames.contains(STORES.pendingMutations)) {
+        const store = db.createObjectStore(STORES.pendingMutations, { keyPath: 'id' });
+        store.createIndex('createdAt', 'createdAt', { unique: false });
+      }
+
+      // Work order notes (cached + pending offline creates)
+      if (!db.objectStoreNames.contains(STORES.notes)) {
+        const store = db.createObjectStore(STORES.notes, { keyPath: 'id' });
+        store.createIndex('work_order_id', 'work_order_id', { unique: false });
       }
     };
 
@@ -137,6 +151,18 @@ function txGetByIndex(storeName, indexName, value) {
   });
 }
 
+function txDelete(storeName, key) {
+  return openDB().then((db) => {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(storeName, 'readwrite');
+      const store = tx.objectStore(storeName);
+      const req = store.delete(key);
+      req.onsuccess = () => resolve();
+      req.onerror = (e) => reject(e.target.error);
+    });
+  });
+}
+
 // ── Public API ────────────────────────────────────────────────────────────
 
 // Work Orders
@@ -195,4 +221,26 @@ export const ScheduleStore = {
 export const MetaStore = {
   set: (key, value) => txPut(STORES.meta, { key, value, updatedAt: Date.now() }),
   get: (key) => txGet(STORES.meta, key).then((r) => r?.value ?? null),
+};
+
+// Pending offline mutations (FIFO outbox)
+export const PendingMutationStore = {
+  add: (item) => txPut(STORES.pendingMutations, item),
+  remove: (id) => txDelete(STORES.pendingMutations, id),
+  getAll: () =>
+    txGetAll(STORES.pendingMutations).then((items) =>
+      items.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0))
+    ),
+  count: () => txGetAll(STORES.pendingMutations).then((items) => items.length),
+};
+
+// Work order notes
+export const NotesStore = {
+  put: (item) => txPut(STORES.notes, item),
+  putAll: (items) => txPut(STORES.notes, items),
+  getAll: () => txGetAll(STORES.notes),
+  get: (id) => txGet(STORES.notes, id),
+  getByWorkOrder: (workOrderId) =>
+    txGetByIndex(STORES.notes, 'work_order_id', workOrderId),
+  remove: (id) => txDelete(STORES.notes, id),
 };

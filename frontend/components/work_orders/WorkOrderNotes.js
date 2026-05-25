@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { format } from 'date-fns';
 import { FaEye, FaLock, FaTimes, FaEdit, FaPlus } from 'react-icons/fa';
 import { apiClient } from '../../utils/api-client';
+import { createWorkOrderNoteOffline, fetchWorkOrderNotes } from '../../lib/offlineWrites';
 import Button from '../ui/Button';
 import { SelectInput, TextareaInput, TextInput } from '../ui/FormElements';
 
@@ -162,7 +163,7 @@ export default function WorkOrderNotes({
   const fetchNotes = async () => {
     try {
       setIsLoading(true);
-      const response = await apiClient(`work-orders/${workOrderId}/notes`);
+      const response = await fetchWorkOrderNotes(workOrderId);
       setNotes(response);
       setError(null);
     } catch (err) {
@@ -217,18 +218,19 @@ export default function WorkOrderNotes({
         noteContent = newNote.content;
       }
 
-      await apiClient(`work-orders/${workOrderId}/notes`, {
-        method: 'POST',
-        body: JSON.stringify({
-          work_order_id: workOrderId,
-          note: `[${newNote.type}]\n${noteContent}`,
-          is_private: newNote.isPrivate
-        })
+      const result = await createWorkOrderNoteOffline({
+        workOrderId,
+        note: `[${newNote.type}]\n${noteContent}`,
+        isPrivate: newNote.isPrivate,
       });
 
       resetNewNoteForm();
       closeAddSheet();
-      fetchNotes();
+      await fetchNotes();
+
+      if (result?.queued) {
+        setError(null);
+      }
     } catch (err) {
       console.error('Error creating note:', err);
       setError('Failed to create note');
@@ -474,6 +476,11 @@ export default function WorkOrderNotes({
             </span>
             {note.is_private && (
               <FaLock className="h-3 w-3 text-yellow-500 flex-shrink-0" title="Private" />
+            )}
+            {note.pendingSync && (
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-amber-400 flex-shrink-0">
+                Pending sync
+              </span>
             )}
           </div>
           <FaEye className={`h-4 w-4 flex-shrink-0 mt-0.5 ${asButton ? 'text-gray-500' : 'text-gray-400'}`} />

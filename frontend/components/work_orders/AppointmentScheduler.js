@@ -14,6 +14,7 @@ import {
   getTechnicianSchedule
 } from '../../services/api/appointmentsApi';
 import { apiClient } from '../../utils/api-client';
+import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import AutoScheduler from './AutoScheduler';
 import TravelTimeInfo from './TravelTimeInfo';
 import TimeWindowSelector from './TimeWindowSelector';
@@ -1081,9 +1082,9 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     setError(null);
     
     try {
-      await apiClient(`/api/work-orders/appointments/${appointmentId}`, {
-        method: 'PUT',
-        body: JSON.stringify({ status: newStatus })
+      const result = await updateAppointmentStatus({
+        appointmentId,
+        status: newStatus,
       });
       
       // Update the local state immediately for better UX
@@ -1098,6 +1099,10 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       // Notify parent component that appointments have changed
       if (onAppointmentChange && typeof onAppointmentChange === 'function') {
         onAppointmentChange();
+      }
+
+      if (result?.queued) {
+        setError(null);
       }
       
     } catch (err) {
