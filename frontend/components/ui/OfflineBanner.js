@@ -3,12 +3,18 @@
  * Sits at the top of the app, doesn't block content
  */
 
+import { useEffect, useState } from 'react';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 
 export default function OfflineBanner() {
+  const [mounted, setMounted] = useState(false);
   const { isOnline, wasOffline } = useOnlineStatus();
 
-  if (isOnline && !wasOffline) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || (isOnline && !wasOffline)) return null;
 
   if (wasOffline) {
     return (

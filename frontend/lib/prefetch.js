@@ -17,6 +17,17 @@ import {
 import { format, addDays } from 'date-fns';
 
 const PREFETCH_INTERVAL_MS = 5 * 60 * 1000; // Re-fetch every 5 minutes when online
+const PREFETCH_CONCURRENCY = 3;
+
+async function mapWithConcurrency(items, fn, concurrency = PREFETCH_CONCURRENCY) {
+  const results = [];
+  for (let i = 0; i < items.length; i += concurrency) {
+    const batch = items.slice(i, i + concurrency);
+    const batchResults = await Promise.allSettled(batch.map(fn));
+    results.push(...batchResults);
+  }
+  return results;
+}
 
 /**
  * Check if we need to prefetch based on last sync time
@@ -83,8 +94,8 @@ export async function prefetchAll(options = {}) {
 
     onProgress?.(`Fetching ${todayWOIds.length} work order details...`);
 
-    const woDetails = await Promise.allSettled(
-      todayWOIds.map((id) => apiClient(`work-orders/${id}`))
+    const woDetails = await mapWithConcurrency(todayWOIds, (id) =>
+      apiClient(`work-orders/${id}`)
     );
     const detailedWOs = woDetails
       .filter((r) => r.status === 'fulfilled')
@@ -102,8 +113,8 @@ export async function prefetchAll(options = {}) {
 
     onProgress?.(`Fetching ${clientIds.length} clients...`);
 
-    const clientResults = await Promise.allSettled(
-      clientIds.map((id) => apiClient(`clients/${id}`))
+    const clientResults = await mapWithConcurrency(clientIds, (id) =>
+      apiClient(`clients/${id}`)
     );
     const clients = clientResults
       .filter((r) => r.status === 'fulfilled')
@@ -125,14 +136,12 @@ export async function prefetchAll(options = {}) {
     // 6. Fetch parts for today's work orders
     onProgress?.('Fetching parts...');
 
-    const partsResults = await Promise.allSettled(
-      todayWOIds.map((id) =>
-        apiClient(`work-orders/${id}/parts`).then((data) =>
-          (Array.isArray(data) ? data : data?.items || []).map((p) => ({
-            ...p,
-            work_order_id: id,
-          }))
-        )
+    const partsResults = await mapWithConcurrency(todayWOIds, (id) =>
+      apiClient(`work-orders/${id}/parts`).then((data) =>
+        (Array.isArray(data) ? data : data?.items || []).map((p) => ({
+          ...p,
+          work_order_id: id,
+        }))
       )
     );
     const allParts = partsResults

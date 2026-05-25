@@ -1,29 +1,13 @@
 /** @type {import('next').NextConfig} */
 const withPWA = require('next-pwa')({
   dest: 'public',
-  // Disable in development so you're not fighting the service worker while coding
   disable: process.env.NODE_ENV === 'development',
-  // Register the service worker automatically
   register: true,
-  // Skip waiting so new versions activate immediately
   skipWaiting: true,
+  // Offline data lives in IndexedDB (prefetch.js + useOfflineData), NOT in the SW.
+  // The SW only caches the app shell + static assets so techboard loads with no network.
+  // Do NOT add Railway / Auth0 / any API URL to runtimeCaching — Workbox intercept breaks CORS.
   runtimeCaching: [
-    // Auth0 — always network, never cache tokens
-    {
-      urlPattern: /^https:\/\/dev-fqp1z1l3km7uj2gq\.us\.auth0\.com\/.*/i,
-      handler: 'NetworkOnly',
-    },
-    // Railway API — stale-while-revalidate: show cached instantly, fetch fresh in background
-    // Good for schedule, work orders, clients — data that changes but you want fast loads
-    {
-      urlPattern: /^https:\/\/idims-production\.up\.railway\.app\/.*/i,
-      handler: 'NetworkOnly',
-    },
-    // Public booking endpoint — network only, never cache POST
-    {
-      urlPattern: /\/api\/public\/booking/i,
-      handler: 'NetworkOnly',
-    },
     // Google Fonts
     {
       urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -123,14 +107,15 @@ const withPWA = require('next-pwa')({
         },
       },
     },
-    // Everything else — network first, fall back to cache
+    // Same-origin navigations only — do not catch-all cache HTML/API
     {
-      urlPattern: /.*/i,
+      urlPattern: ({ sameOrigin, request }) =>
+        sameOrigin && request.mode === 'navigate',
       handler: 'NetworkFirst',
       options: {
-        cacheName: 'fallback-cache',
+        cacheName: 'pages-cache',
         expiration: {
-          maxEntries: 200,
+          maxEntries: 50,
           maxAgeSeconds: 60 * 60 * 24,
         },
         networkTimeoutSeconds: 10,

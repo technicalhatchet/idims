@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import OfflineBanner from '../components/ui/OfflineBanner';
 import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
 
@@ -18,8 +19,48 @@ const queryClient = new QueryClient({
   },
 });
 
-// Client-only — never runs on server, no hydration mismatch
+// One-time migration: drop the broken SW config that cached/intercepted Railway API.
+// After reload, next-pwa registers the fixed SW (static assets + app shell only).
+const SW_MIGRATION_KEY = 'idims_pwa_v2_migrated';
+
+function ServiceWorkerMigration() {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (localStorage.getItem(SW_MIGRATION_KEY)) return;
+
+    async function migrate() {
+      try {
+        if ('caches' in window) {
+          const names = await caches.keys();
+          await Promise.all(
+            names
+              .filter((name) => /fallback-cache|workbox-precache/i.test(name))
+              .map((name) => caches.delete(name))
+          );
+        }
+
+        if ('serviceWorker' in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations.map((reg) => reg.unregister()));
+        }
+
+        localStorage.setItem(SW_MIGRATION_KEY, '1');
+        window.location.reload();
+      } catch (err) {
+        console.warn('[PWA] Migration failed:', err);
+        localStorage.setItem(SW_MIGRATION_KEY, '1');
+      }
+    }
+
+    migrate();
+  }, []);
+
+  return null;
+}
+
+// Client-only — techboard offline prefetch only (not every page in the app)
 function ClientOnlyPrefetch() {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -28,18 +69,21 @@ function ClientOnlyPrefetch() {
 
   useEffect(() => {
     if (!mounted) return;
+    if (!router.pathname.startsWith('/techboard')) return;
 
-    // Full prefetch on app open
-    if (navigator.onLine) {
-      prefetchAll({ onProgress: (msg) => console.log('[Prefetch]', msg) });
-    }
+    const startPrefetch = () => {
+      if (navigator.onLine) {
+        prefetchAll({ onProgress: (msg) => console.log('[Prefetch]', msg) });
+      }
+    };
 
-    // Light schedule refresh every 5 minutes while online
+    // Defer so page queries run first and we don't flood Railway on load
+    const timeoutId = setTimeout(startPrefetch, 3000);
+
     const interval = setInterval(() => {
       if (navigator.onLine) prefetchScheduleOnly();
     }, 5 * 60 * 1000);
 
-    // Re-prefetch when coming back online
     function handleOnline() {
       console.log('[Prefetch] Back online — refreshing data...');
       prefetchAll({ force: true, onProgress: (msg) => console.log('[Prefetch]', msg) });
@@ -47,10 +91,11 @@ function ClientOnlyPrefetch() {
     window.addEventListener('online', handleOnline);
 
     return () => {
+      clearTimeout(timeoutId);
       clearInterval(interval);
       window.removeEventListener('online', handleOnline);
     };
-  }, [mounted]);
+  }, [mounted, router.pathname]);
 
   return null;
 }
@@ -62,6 +107,7 @@ function MyApp({ Component, pageProps }) {
     <UserProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
+          <ServiceWorkerMigration />
           <OfflineBanner />
           <ClientOnlyPrefetch />
           {Component.getLayout ? (
