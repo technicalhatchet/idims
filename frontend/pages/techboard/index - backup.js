@@ -9,8 +9,6 @@ import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
-import { useOfflineSchedule, useOfflineWorkOrders } from '../../hooks/useOfflineData';
-import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 
 /** Fractal noise texture for outer tactical HUD shell (low-opacity overlay) */
 const TECHBOARD_TACTICAL_NOISE_BG =
@@ -663,67 +661,83 @@ export default function TechDashboardTest() {
     };
   }, [syncHudGridAlignment]);
 
-  const { isOnline } = useOnlineStatus();
-  const { data: scheduleData, isLoading: scheduleLoading } = useOfflineSchedule();
-  const { data: workOrdersData, isLoading: woLoading } = useOfflineWorkOrders(200);
+  const today = new Date();
+  const todayStr = format(today, 'yyyy-MM-dd');
+  const nextWeekStr = format(new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
 
   useEffect(() => {
-    const appts = Array.isArray(scheduleData) ? scheduleData : [];
-    const filtered = appts.filter(a => {
-      const startField = a.scheduled_start || a.start;
-      if (!startField) return false;
-      const ms = parseScheduleUtcMs(startField);
-      if (!Number.isFinite(ms)) return false;
-      return isToday(new Date(ms));
-    });
-    setSchedule(filtered.map(a => ({
-      ...a,
-      scheduled_start: a.scheduled_start || a.start,
-      status: a.status || 'scheduled',
-      service_address: a.service_address || a.location || a.service_location?.address || '',
-      client_phone: a.client_phone || a.client?.phone || '',
-      client_name: a.client_name || a.client?.name || '',
-      tenant_phone: a.property?.tenant_phone || a.tenant_phone || '',
-      tenant_name: a.property?.tenant_name || a.tenant_name || '',
-      equipment_type: a.equipment_type || '',
-      equipment_subtype: a.equipment_subtype || '',
-      equipment_make: a.equipment_make || '',
-      equipment_model: a.equipment_model || '',
-    })));
-  }, [scheduleData]);
+    async function load() {
+      try {
+        const [schedData, woData, woItems] = await Promise.all([
+          apiClient(`scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`),
+          apiClient(`work-orders?page=1&limit=1`),
+          apiClient(`work-orders?page=1&limit=200`),
+        ]);
+        const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
+        const filtered = (Array.isArray(appts) ? appts : []).filter(a => {
+          const startField = a.scheduled_start || a.start;
+          if (!startField) return false;
+          const ms = parseScheduleUtcMs(startField);
+          if (!Number.isFinite(ms)) return false;
+          return isToday(new Date(ms));
+        });
+        setSchedule(filtered.map(a => ({
+            ...a,
+            scheduled_start: a.scheduled_start || a.start,
+            // Combined schedule returns appointment status (WO fallback only when appt has none).
+            status: a.status || 'scheduled',
+            service_address: a.service_address || a.location || a.service_location?.address || '',
+            client_phone: a.client_phone || a.client?.phone || '',
+            client_name: a.client_name || a.client?.name || '',
+            tenant_phone: a.property?.tenant_phone || a.tenant_phone || '',
+            tenant_name: a.property?.tenant_name || a.tenant_name || '',
+            equipment_type: a.equipment_type || '',
+            equipment_subtype: a.equipment_subtype || '',
+            equipment_make: a.equipment_make || '',
+            equipment_model: a.equipment_model || '',
+        })));
+        const allItems = woItems?.items || [];
+        const todayItems = allItems.filter(w => {
+          if (!w.scheduled_start) return false;
+          const ms = parseScheduleUtcMs(w.scheduled_start);
+          if (!Number.isFinite(ms)) return false;
+          return isToday(new Date(ms));
+        });
+        const partsWaiting = allItems.filter((w) => {
+          const st = normalizeWorkOrderStatus(w.status);
+          if (WO_PARTS_HOLD_STATUSES.has(st)) return true;
+          return (
+            Array.isArray(w.parts) &&
+            w.parts.some((p) => ['ordered', 'needed'].includes(p.status))
+          );
+        }).length;
 
-  useEffect(() => {
-    const allItems = workOrdersData?.items || [];
-    const todayItems = allItems.filter(w => {
-      if (!w.scheduled_start) return false;
-      const ms = parseScheduleUtcMs(w.scheduled_start);
-      if (!Number.isFinite(ms)) return false;
-      return isToday(new Date(ms));
-    });
-    const partsWaiting = allItems.filter((w) => {
-      const st = normalizeWorkOrderStatus(w.status);
-      if (WO_PARTS_HOLD_STATUSES.has(st)) return true;
-      return Array.isArray(w.parts) && w.parts.some((p) => ['ordered', 'needed'].includes(p.status));
-    }).length;
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    yesterday.setHours(23, 59, 59, 999);
-    const criticalMass = allItems.filter(w => {
-      if (!['scheduled', 'pending', 'en_route'].includes(w.status)) return false;
-      if (!w.scheduled_start) return false;
-      const ms = parseScheduleUtcMs(w.scheduled_start);
-      if (!Number.isFinite(ms)) return false;
-      return new Date(ms) <= yesterday;
-    }).length;
-    setWorkOrderStats({
-      total: workOrdersData?.total || 0,
-      today: todayItems.length,
-      completed_today: todayItems.filter(w => w.status === 'completed').length,
-      partsWaiting,
-      criticalMass,
-    });
-    if (!scheduleLoading && !woLoading) setIsLoading(false);
-  }, [workOrdersData, scheduleLoading, woLoading]);
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        yesterday.setHours(23, 59, 59, 999);
+        const criticalMass = allItems.filter(w => {
+          if (!['scheduled', 'pending', 'en_route'].includes(w.status)) return false;
+          if (!w.scheduled_start) return false;
+          const ms = parseScheduleUtcMs(w.scheduled_start);
+          if (!Number.isFinite(ms)) return false;
+          return new Date(ms) <= yesterday;
+        }).length;
+
+        setWorkOrderStats({
+          total: woData?.total || 0,
+          today: todayItems.length,
+          completed_today: todayItems.filter(w => w.status === 'completed').length,
+          partsWaiting,
+          criticalMass,
+        });
+      } catch (e) {
+        console.error('Dashboard load error:', e);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    load();
+  }, [todayStr, nextWeekStr]);
 
   const todayAppts = schedule
     .filter((a) => {

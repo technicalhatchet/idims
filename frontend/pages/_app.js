@@ -5,8 +5,11 @@ import { ThemeProvider } from '../context/ThemeContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useOnlineStatus } from '../hooks/useOnlineStatus';
+import OfflineBanner from '../components/ui/OfflineBanner';
+import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
 
-// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -16,14 +19,47 @@ const queryClient = new QueryClient({
   },
 });
 
+function PrefetchManager() {
+  const { isOnline, wasOffline } = useOnlineStatus();
+
+  // Full prefetch on app open
+  useEffect(() => {
+    if (isOnline) {
+      prefetchAll({
+        onProgress: (msg) => console.log('[Prefetch]', msg),
+      });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Re-prefetch when coming back online after being offline
+  useEffect(() => {
+    if (wasOffline) {
+      console.log('[Prefetch] Back online — refreshing data...');
+      prefetchAll({ force: true, onProgress: (msg) => console.log('[Prefetch]', msg) });
+    }
+  }, [wasOffline]);
+
+  // Light schedule refresh every 5 minutes while online
+  useEffect(() => {
+    if (!isOnline) return;
+    const interval = setInterval(() => {
+      prefetchScheduleOnly();
+    }, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [isOnline]);
+
+  return null;
+}
+
 function MyApp({ Component, pageProps }) {
   const { user } = pageProps;
-  
+
   return (
     <UserProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          {/* Layout is provided by Component.getLayout if defined or falls back to default */}
+          <OfflineBanner />
+          <PrefetchManager />
           {Component.getLayout ? (
             Component.getLayout(<Component {...pageProps} />)
           ) : (
