@@ -20,6 +20,7 @@ import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
+import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 
 // Tabs for the detail page
@@ -742,10 +743,10 @@ function WorkOrderDetail() {
                                       appointment.status === 'in_progress' ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200' :
                                       appointment.status === 'completed_pending_payment' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                                       appointment.status === 'unreachable' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
-                                      appointment.status === 'failed' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+                                      appointment.status === 'failed' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200' :
                                       'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                                     }`}>
-                                      {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                                      {formatAppointmentStatus(appointment.status)}
                                     </span>
                                   </div>
                                 </div>
@@ -2014,7 +2015,7 @@ function WorkOrderDetail() {
                 <option value="reschedule">Reschedule</option>
                 <option value="need_to_contact">Need to Contact</option>
                 <option value="unreachable">Unreachable</option>
-                <option value="failed">Failed</option>
+                <option value="failed">APR — Additional Parts Required</option>
                 <option value="recall">Recall / Warranty Return</option>
                 <option value="redo">Redo</option>
               </select>

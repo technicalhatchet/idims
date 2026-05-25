@@ -579,7 +579,7 @@ class TechnicianService:
                     else "N/A"
                 ),
                 "Callbacks / redos": field.get("callback_count", 0),
-                "Unreachable / failed": field.get("access_failure_count", 0),
+                "Unreachable": field.get("access_failure_count", 0),
                 "Parts hold time": (
                     f"{field['parts_hold_minutes']:.0f} min"
                     if field.get("parts_hold_minutes")

@@ -84,9 +84,9 @@ export function buildPerformanceCards(performance) {
     },
     {
       key: 'access',
-      label: 'Unreachable / failed',
+      label: 'Unreachable',
       value: field.access_failure_count ?? 0,
-      sub: 'Access failure visits',
+      sub: 'Could not access property',
     },
   ];
 }

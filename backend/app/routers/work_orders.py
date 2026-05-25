@@ -1398,7 +1398,7 @@ async def update_work_order_appointment(
             if update_data["status"] not in TECH_APPOINTMENT_STATUS_UPDATES:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Technicians can only set appointment status to: en_route, in_progress, reschedule, completed, completed_pending_payment, unreachable, or failed"
+                    detail="Technicians can only set appointment status to: en_route, in_progress, reschedule, completed, completed_pending_payment, unreachable, or APR (failed)"
                 )
         
         elif not any(role in ["admin", "manager"] for role in current_user.roles):

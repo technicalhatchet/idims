@@ -299,9 +299,9 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
                     )}
                     {accessFailures?.count > 0 && (
                       <MetricBlock
-                        label="Unreachable / failed"
+                        label="Unreachable"
                         value={accessFailures.count}
-                        sub="Access failure visits"
+                        sub="Could not access property"
                         toneClass="text-red-600 dark:text-red-400"
                         labelClass={labelClass}
                         valueClass={valueClass}

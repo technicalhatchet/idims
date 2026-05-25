@@ -27,7 +27,7 @@ METRIC_ACCESS_FAILURE = "access_failure"
 ON_TIME_GRACE_MINUTES = 15
 COMPLETED_APPT_STATUSES = frozenset({"completed", "completed_pending_payment"})
 FOLLOW_UP_APPT_TYPES = frozenset({"repair", "follow-up", "follow_up", "recall", "redo", "callback"})
-ACCESS_FAILURE_STATUSES = frozenset({"unreachable", "failed"})
+ACCESS_FAILURE_STATUSES = frozenset({"unreachable"})
 WO_COMPLETED_STATUSES = frozenset({"completed", "completed_pending_payment"})
 
 
@@ -414,6 +414,12 @@ def refresh_work_order_derived_metrics(
                 "statuses": [activity._status_val(a.status) for a in access_failures],
             },
         )
+    else:
+        db.query(WorkOrderPerformanceMetric).filter(
+            WorkOrderPerformanceMetric.work_order_id == work_order_id,
+            WorkOrderPerformanceMetric.metric_type == METRIC_ACCESS_FAILURE,
+            WorkOrderPerformanceMetric.appointment_id.is_(None),
+        ).delete(synchronize_session=False)
 
 
 def record_time_to_close(
@@ -480,7 +486,7 @@ def handle_appointment_status_timing(
             appointment.actual_end = now
         record_on_site_duration(db, appointment=appointment, user_id=user_id, ended_at=appointment.actual_end)
 
-    if new_status in ACCESS_FAILURE_STATUSES or new_status in COMPLETED_APPT_STATUSES:
+    if new_status in ACCESS_FAILURE_STATUSES or new_status in COMPLETED_APPT_STATUSES or new_status == "failed":
         refresh_work_order_derived_metrics(db, appointment.work_order_id, user_id)
 
 

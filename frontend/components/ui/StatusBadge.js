@@ -35,7 +35,7 @@ export default function StatusBadge({ status }) {
       case 'unreachable':
         return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
       case 'failed':
-        return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
+        return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400';
       case 'recall':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
       case 'in progress':
@@ -84,6 +84,10 @@ export default function StatusBadge({ status }) {
     // Special case for REDO - display in all caps
     if (status.toLowerCase() === 'redo') {
       return 'REDO';
+    }
+
+    if (status.toLowerCase() === 'failed') {
+      return 'APR';
     }
     
     // Convert snake_case to Title Case

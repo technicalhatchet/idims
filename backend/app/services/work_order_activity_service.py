@@ -28,7 +28,7 @@ APPOINTMENT_STATUS_LABELS = {
     "in_progress": "In Progress",
     "completed_pending_payment": "Completed — Pending Payment",
     "unreachable": "Unreachable",
-    "failed": "Failed",
+    "failed": "APR",
 }
 
 WORK_ORDER_STATUS_LABELS = {
