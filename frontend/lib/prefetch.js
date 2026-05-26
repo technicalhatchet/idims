@@ -121,6 +121,17 @@ export async function prefetchAll(options = {}) {
       .map((r) => r.value);
     await ClientStore.putAll(clients);
 
+    onProgress?.('Fetching client directory...');
+    try {
+      const clientList = await apiClient('clients?page=1&limit=100');
+      const allClients = clientList?.items || [];
+      if (allClients.length) {
+        await ClientStore.putAll(allClients);
+      }
+    } catch (err) {
+      console.warn('[Prefetch] Client directory fetch failed:', err);
+    }
+
     // 5. Fetch properties for those clients
     onProgress?.('Fetching properties...');
 

@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { useOnlineStatus } from './useOnlineStatus';
+import { isOffline } from '../lib/offlineMutations';
 import {
   WorkOrderStore,
   AppointmentStore,
@@ -30,7 +31,7 @@ export function useOfflineSchedule() {
     async function load() {
       setIsLoading(true);
 
-      if (isOnline) {
+      if (!isOffline()) {
         try {
           const today = new Date();
           const todayStr = format(today, 'yyyy-MM-dd');
@@ -39,7 +40,17 @@ export function useOfflineSchedule() {
             `scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`
           );
           const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
-          setData(Array.isArray(appts) ? appts : []);
+          const list = Array.isArray(appts) ? appts : [];
+          const apptItems = list.map((a) => ({
+            ...a,
+            id: a.id || `${a.work_order_id}-${a.scheduled_start || a.start}`,
+            date: (a.scheduled_start || a.start || '').substring(0, 10),
+          }));
+          if (apptItems.length) {
+            await AppointmentStore.putAll(apptItems);
+            await ScheduleStore.putAll(apptItems);
+          }
+          setData(list);
           setSource('network');
         } catch (err) {
           console.warn('[useOfflineSchedule] Network failed, falling back to IndexedDB:', err);
@@ -76,10 +87,14 @@ export function useOfflineWorkOrders(limit = 200) {
     async function load() {
       setIsLoading(true);
 
-      if (isOnline) {
+      if (!isOffline()) {
         try {
           const result = await apiClient(`work-orders?page=1&limit=${limit}`);
-          setData(result || { items: [], total: 0 });
+          const payload = result || { items: [], total: 0 };
+          if (payload.items?.length) {
+            await WorkOrderStore.putAll(payload.items);
+          }
+          setData(payload);
           setSource('network');
         } catch (err) {
           console.warn('[useOfflineWorkOrders] Network failed, falling back to IndexedDB:', err);
@@ -118,7 +133,7 @@ export function useOfflineWorkOrder(id) {
     async function load() {
       setIsLoading(true);
 
-      if (isOnline) {
+      if (!isOffline()) {
         try {
           const result = await apiClient(`work-orders/${id}`);
           setData(result);
@@ -161,7 +176,7 @@ export function useOfflineClient(id) {
     async function load() {
       setIsLoading(true);
 
-      if (isOnline) {
+      if (!isOffline()) {
         try {
           const result = await apiClient(`clients/${id}`);
           setData(result);
@@ -199,7 +214,7 @@ export function useOfflineProperties(clientId) {
     async function load() {
       setIsLoading(true);
 
-      if (isOnline) {
+      if (!isOffline()) {
         try {
           const result = await apiClient(`properties/client/${clientId}`);
           const props = Array.isArray(result) ? result : [];

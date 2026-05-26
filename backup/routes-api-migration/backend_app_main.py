@@ -976,7 +976,7 @@ class DistanceRequest(BaseModel):
 async def calculate_distance_endpoint(request_data: DistanceRequest):
     """
     Calculates estimated travel time (seconds) and distance (meters) 
-    between two addresses using Google Routes API (traffic-unaware).
+    between two addresses using the configured Maps API.
     """
     origin = request_data.origin
     destination = request_data.destination

@@ -1,6 +1,6 @@
 /**
- * Google Maps service utility for calculating travel times and distances.
- * Calls the backend /api/calculate-distance endpoint (Google Routes API, traffic-unaware).
+ * Google Maps service utility for calculating travel times and distances
+ * This utility uses the Google Maps Distance Matrix API to calculate travel times between locations
  */
 
 // Constants
@@ -102,7 +102,8 @@ export async function calculateTravelTime(originAddress, destinationAddress) {
     const origin = encodeAddress(originAddress);
     const destination = encodeAddress(destinationAddress);
 
-    // Backend uses Google Routes API (traffic-unaware drive routing)
+    // Build URL for Distance Matrix API
+    // const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${apiKey}`;
 
     // Define the backend API endpoint URL
     const backendHost = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';

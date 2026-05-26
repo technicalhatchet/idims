@@ -1,5 +1,7 @@
 import { apiClient } from '../../utils/api-client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { fetchClientsWithCache } from '../../lib/offlineReads';
+import { isOffline } from '../../lib/offlineMutations';
 
 /**
  * Get client by ID
@@ -181,9 +183,10 @@ export function useClient(id, options = {}) {
 export function useClients(params = {}, options = {}) {
   return useQuery({
     queryKey: ['clients', params],
-    queryFn: () => getClients(params),
+    queryFn: () => fetchClientsWithCache(params),
     keepPreviousData: true,
     staleTime: 10000, // 10 seconds
+    retry: (count) => !isOffline() && count < 1,
     ...options,
   });
 }

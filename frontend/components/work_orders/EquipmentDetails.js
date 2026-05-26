@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { apiClient } from '../../utils/api-client';
 import { updatePartStatusOffline } from '../../lib/offlineWrites';
+import { fetchWorkOrderPartsWithCache } from '../../lib/offlineReads';
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
@@ -152,10 +153,8 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   const fetchParts = async () => {
     try {
-      const response = await apiClient(`work-orders/${workOrderId}/parts`, {
-        method: 'GET'
-      });
-      setParts(response);
+      const response = await fetchWorkOrderPartsWithCache(workOrderId);
+      setParts(Array.isArray(response) ? response : []);
     } catch (err) {
       console.error('Error fetching parts:', err);
     }

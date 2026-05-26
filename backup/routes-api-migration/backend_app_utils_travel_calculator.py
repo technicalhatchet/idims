@@ -78,108 +78,69 @@ def geocode_address(address: str) -> Optional[Dict[str, float]]:
         logger.error(f"Error geocoding address: {str(e)}")
         return None
 
-def _parse_routes_duration_seconds(duration_value) -> Optional[int]:
-    """Parse Routes API duration (JSON string like '123s' or dict with 'seconds')."""
-    if duration_value is None:
-        return None
-    if isinstance(duration_value, (int, float)):
-        return int(duration_value)
-    if isinstance(duration_value, dict):
-        seconds = duration_value.get("seconds")
-        if seconds is not None:
-            return int(seconds)
-        return None
-    if isinstance(duration_value, str):
-        trimmed = duration_value.strip()
-        if trimmed.endswith("s"):
-            try:
-                return int(float(trimmed[:-1]))
-            except ValueError:
-                return None
-    return None
-
-
-def _fetch_google_routes_travel(origin: str, destination: str) -> Tuple[Optional[int], Optional[float]]:
-    """
-    Call Google Routes API (computeRoutes) for traffic-unaware drive time/distance.
-    Returns (travel_time_minutes, travel_distance_miles) or (None, None).
-    """
-    if not settings.MAPS_API_KEY:
-        return (None, None)
-
-    url = "https://routes.googleapis.com/directions/v2:computeRoutes"
-    headers = {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": settings.MAPS_API_KEY,
-        "X-Goog-FieldMask": "routes.duration,routes.distanceMeters,routes.routeLabels",
-    }
-    payload = {
-        "origin": {"address": origin},
-        "destination": {"address": destination},
-        "travelMode": "DRIVE",
-        "routingPreference": "TRAFFIC_UNAWARE",
-        "computeAlternativeRoutes": False,
-    }
-
-    logger.info(
-        "Making Google Routes API request for origin '%s' to destination '%s'",
-        origin,
-        destination,
-    )
-    response = requests.post(url, headers=headers, json=payload, timeout=15)
-    logger.info("Google Routes API response status: %s", response.status_code)
-
-    try:
-        data = response.json()
-    except Exception as json_e:
-        logger.error("Failed to parse Google Routes API JSON: %s", json_e)
-        logger.error("Raw response: %s", response.text[:500])
-        return (None, None)
-
-    if response.status_code != 200:
-        error_message = data.get("error", {}).get("message") or response.text[:300]
-        logger.error("Google Routes API HTTP %s: %s", response.status_code, error_message)
-        return (None, None)
-
-    routes = data.get("routes") or []
-    if not routes:
-        logger.warning(
-            "Google Routes API returned no routes for origin '%s' to destination '%s'",
-            origin,
-            destination,
-        )
-        return (None, None)
-
-    route = routes[0]
-    duration_seconds = _parse_routes_duration_seconds(route.get("duration"))
-    distance_meters = route.get("distanceMeters")
-
-    if duration_seconds is None or not isinstance(distance_meters, (int, float)):
-        logger.warning("Google Routes API missing duration/distance in route: %s", route)
-        return (None, None)
-
-    travel_time = round(duration_seconds / 60)
-    travel_distance = round(float(distance_meters) / 1609.34, 1)
-    logger.info(
-        "Google Routes API success: time=%s min, distance=%s mi",
-        travel_time,
-        travel_distance,
-    )
-    return (travel_time, travel_distance)
-
-
 def get_travel_time_and_distance(origin: str, destination: str) -> Tuple[Optional[int], Optional[int]]:
     """
     Calculate travel time (in minutes) and distance (in miles) between two addresses.
     Returns a tuple of (travel_time, travel_distance) or (None, None) if calculation fails.
     
-    Uses Google Routes API (traffic-unaware), then falls back to Haversine + geocoding.
+    First tries to use an external API service, then falls back to a direct distance calculation.
     """
     try:
         if settings.MAPS_API_KEY:
-            travel_time, travel_distance = _fetch_google_routes_travel(origin, destination)
-            if travel_time is not None and travel_distance is not None:
-                return (travel_time, travel_distance)
+            # Try to use external API (e.g. Google Distance Matrix API)
+            api_url = f"https://maps.googleapis.com/maps/api/distancematrix/json"
+            params = {
+                "origins": origin,
+                "destinations": destination,
+                "key": settings.MAPS_API_KEY,
+                "units": "imperial"  # Use miles
+            }
+            logger.info(f"Making Google Maps Distance Matrix API request to {api_url} with params: {params}")
+            response = requests.get(api_url, params=params)
+            
+            # Log raw response status and content
+            logger.info(f"Google Maps API Response Status: {response.status_code}")
+            try:
+                data = response.json()
+                logger.info(f"Google Maps API Response JSON: {data}")
+            except Exception as json_e:
+                logger.error(f"Failed to parse Google Maps API response JSON: {json_e}")
+                logger.error(f"Raw Response Text: {response.text}")
+                data = {"status": "JSON_PARSE_ERROR", "error_message": str(json_e)}
+                
+            # Check response status before accessing elements
+            if data.get("status") == "OK":
+                # Check row status
+                if data.get("rows") and data["rows"][0].get("elements"):
+                    element = data["rows"][0]["elements"][0]
+                    # Check element status
+                    if element.get("status") == "OK":
+                        # Ensure duration and distance keys exist
+                        if element.get("duration") and element.get("distance") and \
+                           isinstance(element["duration"].get("value"), (int, float)) and \
+                           isinstance(element["distance"].get("value"), (int, float)):
+                               
+                            # Convert seconds to minutes and round
+                            travel_time = round(element["duration"]["value"] / 60)
+                            # Distance is returned in miles (value is meters initially from Google)
+                            # Convert meters to miles for calculation consistency here
+                            travel_distance_meters = element["distance"]["value"]
+                            travel_distance = round(travel_distance_meters / 1609.34, 1)
+                            logger.info(f"Google API Success: Time={travel_time} min, Distance={travel_distance} mi")
+                            return (travel_time, travel_distance)
+                        else:
+                             logger.warning(f"Google API OK, but duration/distance data missing or invalid format in element: {element}")
+                    else:
+                        # Log specific element error (e.g., ZERO_RESULTS)
+                        element_status = element.get("status", "NO_ELEMENT_STATUS")
+                        logger.warning(f"Google API OK, but element status is {element_status} for origin '{origin}' to dest '{destination}'.")
+                else:
+                    logger.warning(f"Google API OK, but rows/elements data missing in response: {data}")
+            else:
+                # Log specific API error (e.g., REQUEST_DENIED, OVER_QUERY_LIMIT)
+                api_status = data.get("status", "NO_API_STATUS")
+                error_message = data.get("error_message", "No error message.")
+                logger.error(f"Google Maps API returned status {api_status}: {error_message}")
         
         # Fall back to direct distance calculation
         logger.warning("Falling back to Haversine distance calculation.")

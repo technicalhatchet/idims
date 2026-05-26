@@ -13,6 +13,8 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import Button from '../../../components/ui/Button';
 import Modal from '../../../components/ui/Modal';
 import { useWorkOrder, useWorkOrderMutations } from '../../../hooks/useWorkOrders';
+import { warmWorkOrderCache } from '../../../lib/offlineReads';
+import { useOnlineStatus } from '../../../hooks/useOnlineStatus';
 import { apiClient } from '../../../utils/api-client';
 import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
@@ -91,6 +93,13 @@ function WorkOrderDetail() {
 
     // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+  const { isOnline } = useOnlineStatus();
+
+  useEffect(() => {
+    if (isOnline && id) {
+      warmWorkOrderCache(id);
+    }
+  }, [isOnline, id]);
 
   /** Mobile ⋯ overflow (Print, Edit, Delete, Status) */
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
@@ -399,7 +408,11 @@ function WorkOrderDetail() {
         {error && (
           <div className="py-6">
             <ErrorAlert 
-              message="Failed to load work order details" 
+              message={
+                typeof navigator !== 'undefined' && !navigator.onLine
+                  ? 'This work order is not cached offline yet. Visit /techboard while online, open this job once, then try again.'
+                  : 'Failed to load work order details'
+              }
               onRetry={refetch}
             />
           </div>

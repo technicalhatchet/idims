@@ -16,16 +16,15 @@ To enable Google Maps integration, you need to:
    - Go to the [Google Cloud Console](https://console.cloud.google.com/)
    - Create a new project or select an existing one
    - Enable the following APIs:
-     - Maps JavaScript API (Places autocomplete on scheduling UI)
-     - **Routes API** (drive time / distance between job sites)
-     - Geocoding API (Haversine fallback)
+     - Maps JavaScript API
+     - Distance Matrix API
+     - Geocoding API
    - Create an API key with appropriate restrictions
 
 2. **Configure the environment variables**:
    - Open your `.env` and `.env.local` files
    - Set the following variables:
      ```
-     MAPS_API_KEY=your-google-maps-api-key-here
      NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your-google-maps-api-key-here
      GOOGLE_MAPS_API_KEY=your-google-maps-api-key-here
      NEXT_PUBLIC_DEFAULT_SHOP_ADDRESS=123 Main Street, Anytown, USA 12345
@@ -50,8 +49,8 @@ Once configured, you can:
 
 ### Limitations
 
-- The backend uses **Google Routes API** with `TRAFFIC_UNAWARE` drive routing (no live traffic)
-- Travel times are typical road-network estimates, not real-time traffic
+- The current implementation uses the Distance Matrix API with road travel only
+- Travel times are estimated based on typical conditions and don't account for real-time traffic
 - A maximum of 10 appointments can be scheduled at once with the optimization feature
 
 For more information on the Google Maps API, visit the [Google Maps Platform documentation](https://developers.google.com/maps/documentation). 

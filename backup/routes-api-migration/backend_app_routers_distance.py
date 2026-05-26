@@ -19,7 +19,7 @@ class DistanceResponse(BaseModel):
 async def calculate_distance(request: DistanceRequest):
     """
     Calculate travel time and distance between two addresses.
-    Uses Google Routes API (traffic-unaware) with Haversine fallback.
+    Uses Google Maps Distance Matrix API with Haversine fallback.
     """
     if not request.origin or not request.destination:
         raise HTTPException(status_code=400, detail="Origin and destination are required")
@@ -33,9 +33,8 @@ async def calculate_distance(request: DistanceRequest):
         # Return sensible defaults rather than failing — 30 min, 15 miles
         return DistanceResponse(travelTime=1800, distance=24140)
 
-    # travel_calculator returns minutes and miles; convert for API contract
-    travel_time_seconds = int(travel_time * 60)
+    # Google returns seconds and miles; convert miles to meters for frontend consistency
     travel_distance_meters = travel_distance * 1609.34
 
-    logger.info(f"Distance result: {travel_time_seconds} sec, {travel_distance} mi ({travel_distance_meters:.0f} m)")
-    return DistanceResponse(travelTime=travel_time_seconds, distance=travel_distance_meters)
+    logger.info(f"Distance result: {travel_time} sec, {travel_distance} mi ({travel_distance_meters:.0f} m)")
+    return DistanceResponse(travelTime=travel_time, distance=travel_distance_meters)

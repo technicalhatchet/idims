@@ -1,13 +1,24 @@
 /**
- * API endpoint to proxy Google Maps Distance Matrix API requests
- * This avoids exposing the API key in the frontend
+ * Legacy Next.js proxy for travel time/distance.
+ * Prefer POST /api/calculate-distance on the FastAPI backend (same Routes API).
+ * Kept for backwards compatibility if any client still hits this route.
  */
 
 import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
-// Main API handler
+function parseRoutesDurationSeconds(durationValue) {
+  if (durationValue == null) return null;
+  if (typeof durationValue === 'number') return durationValue;
+  if (typeof durationValue === 'object' && durationValue.seconds != null) {
+    return Number(durationValue.seconds);
+  }
+  if (typeof durationValue === 'string' && durationValue.endsWith('s')) {
+    return Math.round(parseFloat(durationValue.slice(0, -1)));
+  }
+  return null;
+}
+
 export default withApiAuthRequired(async function handler(req, res) {
-  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -15,47 +26,57 @@ export default withApiAuthRequired(async function handler(req, res) {
   try {
     const { origin, destination } = req.body;
 
-    // Validate request data
     if (!origin || !destination) {
-      return res.status(400).json({ 
-        error: 'Origin and destination addresses are required' 
+      return res.status(400).json({
+        error: 'Origin and destination addresses are required',
       });
     }
 
-    // Get API key from environment variables
     const apiKey = process.env.GOOGLE_MAPS_API_KEY;
     if (!apiKey) {
       console.error('Google Maps API key not configured in server environment');
-      return res.status(500).json({ 
-        error: 'Google Maps API is not properly configured' 
+      return res.status(500).json({
+        error: 'Google Maps API is not properly configured',
       });
     }
 
-    // Encode parameters
-    const encodedOrigin = encodeURIComponent(origin);
-    const encodedDestination = encodeURIComponent(destination);
+    const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters',
+      },
+      body: JSON.stringify({
+        origin: { address: origin },
+        destination: { address: destination },
+        travelMode: 'DRIVE',
+        routingPreference: 'TRAFFIC_UNAWARE',
+        computeAlternativeRoutes: false,
+      }),
+    });
 
-    // Build URL for Google Maps Distance Matrix API
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodedOrigin}&destinations=${encodedDestination}&units=imperial&key=${apiKey}`;
-
-    // Make request to Google Maps API
-    const response = await fetch(url);
     const data = await response.json();
 
-    // Check for API errors
-    if (data.status !== 'OK') {
-      console.error('Google Maps API error:', data);
-      return res.status(500).json({ 
-        error: `Google Maps API error: ${data.status}` 
-      });
+    if (!response.ok) {
+      const message = data?.error?.message || response.statusText;
+      console.error('Google Routes API error:', message, data);
+      return res.status(500).json({ error: `Google Routes API error: ${message}` });
     }
 
-    // Return the data
-    return res.status(200).json(data);
+    const route = data?.routes?.[0];
+    const travelTime = parseRoutesDurationSeconds(route?.duration);
+    const distance = route?.distanceMeters;
+
+    if (travelTime == null || distance == null) {
+      return res.status(500).json({ error: 'No route found between origin and destination' });
+    }
+
+    return res.status(200).json({ travelTime, distance });
   } catch (error) {
-    console.error('Error in distance matrix API:', error);
-    return res.status(500).json({ 
-      error: `Internal server error: ${error.message}` 
+    console.error('Error in routes proxy API:', error);
+    return res.status(500).json({
+      error: `Internal server error: ${error.message}`,
     });
   }
-}); 
+});
