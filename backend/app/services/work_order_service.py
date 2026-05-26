@@ -10,7 +10,18 @@ import logging
 from sqlalchemy.future import select as future_select
 from decimal import Decimal
 
-from app.models.work_order import WorkOrder, WorkOrderStatusHistory, WorkOrderService as WorkOrderServiceModel, WorkOrderItem, WorkOrderNote, WorkOrderAppointment, WorkOrderPart, appointment_services_association
+from app.models.work_order import (
+    WorkOrder,
+    WorkOrderStatusHistory,
+    WorkOrderService as WorkOrderServiceModel,
+    WorkOrderItem,
+    WorkOrderNote,
+    WorkOrderAppointment,
+    WorkOrderPart,
+    WorkOrderActivityLog,
+    WorkOrderPerformanceMetric,
+    appointment_services_association,
+)
 from app.services import work_order_activity_service as activity
 from app.models.service import Service
 from app.schemas.work_order import (
@@ -434,6 +445,46 @@ class WorkOrderService:
                     WorkOrderNote.work_order_id == work_order_id
                 ).delete()
                 logger.info(f"Deleted {note_count} note records")
+
+                logger.info(f"Deleting performance metrics for work order {work_order_id}")
+                metric_count = db.query(WorkOrderPerformanceMetric).filter(
+                    WorkOrderPerformanceMetric.work_order_id == work_order_id
+                ).delete()
+                logger.info(f"Deleted {metric_count} performance metric records")
+
+                logger.info(f"Deleting activity log records for work order {work_order_id}")
+                activity_count = db.query(WorkOrderActivityLog).filter(
+                    WorkOrderActivityLog.work_order_id == work_order_id
+                ).delete()
+                logger.info(f"Deleted {activity_count} activity log records")
+
+                logger.info(f"Deleting part records for work order {work_order_id}")
+                part_count = db.query(WorkOrderPart).filter(
+                    WorkOrderPart.work_order_id == work_order_id
+                ).delete()
+                logger.info(f"Deleted {part_count} part records")
+
+                appointment_ids = [
+                    row[0]
+                    for row in db.query(WorkOrderAppointment.id).filter(
+                        WorkOrderAppointment.work_order_id == work_order_id
+                    ).all()
+                ]
+                if appointment_ids:
+                    logger.info(
+                        f"Deleting appointment service links for {len(appointment_ids)} appointments"
+                    )
+                    db.execute(
+                        appointment_services_association.delete().where(
+                            appointment_services_association.c.appointment_id.in_(appointment_ids)
+                        )
+                    )
+
+                logger.info(f"Deleting appointment records for work order {work_order_id}")
+                appointment_count = db.query(WorkOrderAppointment).filter(
+                    WorkOrderAppointment.work_order_id == work_order_id
+                ).delete(synchronize_session=False)
+                logger.info(f"Deleted {appointment_count} appointment records")
                 
                 # Delete the work order
                 logger.info(f"Deleting work order {work_order_id}")

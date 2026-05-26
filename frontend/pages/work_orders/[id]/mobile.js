@@ -24,6 +24,7 @@ import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebrie
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
+import { useUserRole } from '../../../utils/auth0-helpers';
 
 // Tabs for the detail page
 const TABS = {
@@ -70,6 +71,8 @@ function WorkOrderDetail() {
   const { id } = router.query;
   const { user } = useUser();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteModalError, setDeleteModalError] = useState(null);
+  const { isManager } = useUserRole();
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [newStatus, setNewStatus] = useState('');
   const [statusNotes, setStatusNotes] = useState('');
@@ -262,12 +265,24 @@ function WorkOrderDetail() {
   
   // Handle work order deletion
   const handleDelete = async () => {
+    setDeleteModalError(null);
     try {
-      await deleteWorkOrder(id);
+      const workOrderId = workOrder?.id || id;
+      if (!workOrderId) {
+        setDeleteModalError('Work order ID is not available. Try refreshing the page.');
+        return;
+      }
+      await deleteWorkOrder(workOrderId);
+      setShowDeleteModal(false);
       router.push('/work_orders/test');
     } catch (error) {
       console.error('Error deleting work order:', error);
-      // Error is shown by the mutation hook
+      const detail = error?.responseData?.detail ?? error?.message;
+      setDeleteModalError(
+        typeof detail === 'string'
+          ? detail
+          : 'Failed to delete work order. It may have invoices, be in progress, or require admin access.'
+      );
     }
   };
   
@@ -493,21 +508,25 @@ function WorkOrderDetail() {
                     className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5"
                     onClick={() => {
                       setMobileMoreOpen(false);
+                      setDeleteModalError(null);
                       setShowStatusModal(true);
                     }}
                   >
                     <FaExclamationTriangle className="opacity-70" /> Update status
                   </button>
-                  <button
-                    type="button"
-                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-red-400 hover:bg-white/5"
-                    onClick={() => {
-                      setMobileMoreOpen(false);
-                      setShowDeleteModal(true);
-                    }}
-                  >
-                    Delete…
-                  </button>
+                  {isManager && (
+                    <button
+                      type="button"
+                      className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-red-400 hover:bg-white/5"
+                      onClick={() => {
+                        setMobileMoreOpen(false);
+                        setDeleteModalError(null);
+                        setShowDeleteModal(true);
+                      }}
+                    >
+                      Delete…
+                    </button>
+                  )}
                 </div>
               )}
                     </div>
@@ -531,6 +550,19 @@ function WorkOrderDetail() {
                     >
                       Update Status
                     </button>
+                    {isManager && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setDeleteModalError(null);
+                          setShowDeleteModal(true);
+                        }}
+                        className="btn-danger flex items-center h-10"
+                        title="Delete work order"
+                      >
+                        Delete
+                      </button>
+                    )}
               </div>
             </div>
           </div>
@@ -2071,13 +2103,19 @@ function WorkOrderDetail() {
         {/* Delete Modal */}
         <Modal
           isOpen={showDeleteModal}
-          onClose={() => setShowDeleteModal(false)}
+          onClose={() => {
+            setShowDeleteModal(false);
+            setDeleteModalError(null);
+          }}
           title="Delete Work Order"
         >
           <div className="p-4">
             <p className="mb-4 text-gray-700 dark:text-gray-300">
               Are you sure you want to delete this work order? This action cannot be undone.
             </p>
+            {deleteModalError && (
+              <ErrorAlert message={deleteModalError} />
+            )}
             
             <div className="flex justify-end space-x-2">
               <button
