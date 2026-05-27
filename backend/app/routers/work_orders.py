@@ -1657,6 +1657,17 @@ async def update_work_order_note(
         raise HTTPException(status_code=403, detail="You can only edit your own notes")
     note.note = body.get('note', note.note)
     note.updated_at = datetime.utcnow()
+    db.flush()
+
+    from app.services.dma_service import upsert_repair_outcome_from_note
+    upsert_repair_outcome_from_note(
+        db,
+        work_order_id=work_order_id,
+        user_id=current_user.id,
+        note_id=note.id,
+        note_text=note.note,
+    )
+
     db.commit()
     db.refresh(note)
     note_dict = note.__dict__.copy()

@@ -5,12 +5,20 @@ import { apiClient } from '../../utils/api-client';
 import { createWorkOrderNoteOffline, fetchWorkOrderNotes } from '../../lib/offlineWrites';
 import Button from '../ui/Button';
 import { SelectInput, TextareaInput, TextInput } from '../ui/FormElements';
+import {
+  DMA_PROBLEM_CODES,
+  DMA_RESOLUTION_CODES,
+  REPAIR_OUTCOME_NOTE_TYPE,
+  codeOptions,
+  codeLabel,
+} from '../../constants/dmaCodes';
 
 const NOTE_TYPES = {
   GENERAL: 'General Note',
   PRE_CALL: 'Pre-Call',
   FOLLOW_UP: 'Follow Up',
-  REDO: 'Redo'
+  REDO: 'Redo',
+  REPAIR_OUTCOME: REPAIR_OUTCOME_NOTE_TYPE,
 };
 
 // Define field structure for each note type
@@ -40,7 +48,28 @@ const NOTE_FIELDS = {
     { id: 'newApproach', label: 'New Approach', type: 'text' },
     { id: 'requiredParts', label: 'Required Parts', type: 'text' },
     { id: 'additionalNotes', label: 'Additional Notes', type: 'textarea' }
-  ]
+  ],
+  [NOTE_TYPES.REPAIR_OUTCOME]: [
+    { id: 'customerComplaint', label: 'Customer Complaint', type: 'textarea' },
+    {
+      id: 'problemCode',
+      label: 'Problem Code',
+      type: 'select',
+      options: [{ value: '', label: 'Select problem…' }, ...codeOptions(DMA_PROBLEM_CODES)],
+    },
+    {
+      id: 'resolutionCode',
+      label: 'Resolution Code',
+      type: 'select',
+      options: [{ value: '', label: 'Select resolution…' }, ...codeOptions(DMA_RESOLUTION_CODES)],
+    },
+    { id: 'confirmedFix', label: 'Confirmed Fix (required)', type: 'text' },
+    { id: 'errorCodeText', label: 'Error Code (optional)', type: 'text' },
+    { id: 'replacedParts', label: 'Replaced Parts', type: 'text' },
+    { id: 'repairSuccessful', label: 'Repair successful', type: 'checkbox' },
+    { id: 'callbackRequired', label: 'Callback required', type: 'checkbox' },
+    { id: 'repairComments', label: 'Repair Comments', type: 'textarea' },
+  ],
 };
 
 // Initial field values for structured note types
@@ -48,7 +77,11 @@ const getInitialFieldValues = (noteType) => {
   if (!NOTE_FIELDS[noteType]) return {};
 
   return NOTE_FIELDS[noteType].reduce((values, field) => {
-    values[field.id] = field.type === 'checkbox' ? false : '';
+    if (field.type === 'checkbox') {
+      values[field.id] = field.id === 'repairSuccessful' ? true : false;
+    } else {
+      values[field.id] = '';
+    }
     return values;
   }, {});
 };
@@ -69,12 +102,16 @@ const formatFieldsForDisplay = (fieldValues, noteType) => {
   if (!NOTE_FIELDS[noteType]) return fieldValues.text || '';
 
   return NOTE_FIELDS[noteType].map(field => {
-    const value = fieldValues[field.id];
+    let value = fieldValues[field.id];
     if (field.type === 'checkbox') {
       return `${field.label}: ${value ? '✓' : '✗'}\n`;
-    } else {
-      return `${field.label}: ${value || 'N/A'}\n`;
     }
+    if (field.id === 'problemCode') {
+      value = codeLabel(DMA_PROBLEM_CODES, value);
+    } else if (field.id === 'resolutionCode') {
+      value = codeLabel(DMA_RESOLUTION_CODES, value);
+    }
+    return `${field.label}: ${value || 'N/A'}\n`;
   }).join('');
 };
 
@@ -93,6 +130,7 @@ const EMPTY_NOTE = {
 
 export default function WorkOrderNotes({
   workOrderId,
+  workOrder = null,
   variant = 'desktop',
   addSheetOpen: addSheetOpenProp,
   onAddSheetOpenChange,
@@ -176,11 +214,18 @@ export default function WorkOrderNotes({
 
   const handleNoteTypeChange = (e) => {
     const type = e.target.value;
+    let fieldValues = getInitialFieldValues(type);
+    if (type === NOTE_TYPES.REPAIR_OUTCOME && workOrder) {
+      const symptomText = Array.isArray(workOrder.symptoms) && workOrder.symptoms.length
+        ? workOrder.symptoms.join(', ')
+        : '';
+      fieldValues.customerComplaint = workOrder.description || symptomText || '';
+    }
     setNewNote({
       ...newNote,
       type,
       content: '',
-      fieldValues: getInitialFieldValues(type)
+      fieldValues,
     });
   };
 
@@ -211,6 +256,14 @@ export default function WorkOrderNotes({
     e.preventDefault();
 
     try {
+      if (newNote.type === NOTE_TYPES.REPAIR_OUTCOME) {
+        const fix = (newNote.fieldValues?.confirmedFix || '').trim();
+        if (!fix) {
+          setError('Confirmed Fix is required for Repair Outcome notes.');
+          return;
+        }
+      }
+
       let noteContent;
       if (NOTE_FIELDS[newNote.type]) {
         noteContent = formatFieldsForAPI(newNote.fieldValues, newNote.type);

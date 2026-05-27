@@ -974,6 +974,7 @@ function WorkOrderDetail() {
             <div className="px-1 py-2 md:p-6 min-w-0">
               <WorkOrderNotes
                 workOrderId={workOrder.id}
+                workOrder={workOrder}
                 variant="mobile"
                 addSheetOpen={notesAddSheetOpen}
                 onAddSheetOpenChange={setNotesAddSheetOpen}

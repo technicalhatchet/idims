@@ -1343,6 +1343,17 @@ class WorkOrderService:
             )
             
             db.add(note)
+            db.flush()
+
+            from app.services.dma_service import upsert_repair_outcome_from_note
+            upsert_repair_outcome_from_note(
+                db,
+                work_order_id=work_order_id,
+                user_id=user_id,
+                note_id=note.id,
+                note_text=note_text,
+            )
+
             db.commit()
             db.refresh(note)
             

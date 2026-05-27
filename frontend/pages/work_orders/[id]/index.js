@@ -648,7 +648,7 @@ function WorkOrderDetail() {
           {/* Notes Tab */}
           {activeTab === TABS.NOTES && (
             <div className="p-6">
-              <WorkOrderNotes workOrderId={workOrder.id} />
+              <WorkOrderNotes workOrderId={workOrder.id} workOrder={workOrder} />
             </div>
           )}
           

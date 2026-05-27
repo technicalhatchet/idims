@@ -44,6 +44,12 @@ const NAV_ITEMS = [
     icon: (<><polygon points="3 11 22 2 13 21 11 13 3 11"/></>),
   },
   {
+    name: 'Repair Memory',
+    href: '/techdashboard/dma',
+    color: 'orange',
+    icon: (<><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></>),
+  },
+  {
     name: 'Performance',
     href: '/techdashboard/performance',
     color: 'orange',
