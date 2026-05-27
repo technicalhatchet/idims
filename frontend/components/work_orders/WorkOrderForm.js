@@ -1,5 +1,6 @@
 import { useForm } from '../../hooks/useForm';
 import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '../ui/FormElements';
+import Select from 'react-select';
 import { FaSave, FaTimes, FaTrash, FaUserPlus } from 'react-icons/fa';
 import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
 import { useRouter } from 'next/router';
