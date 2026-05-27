@@ -4,6 +4,7 @@ from app.models.payment import Payment, PaymentMethod
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderService, WorkOrderItem, WorkOrderNote, WorkOrderStatusHistory, WorkOrderActivityLog
 from app.models.dma import DmaRepairOutcome
+from app.models.work_order_payment import WorkOrderPayment
 from app.models.technician import Technician
 from app.models.notification import Notification
 from app.models.audit_log import AuditLog
@@ -29,6 +30,7 @@ __all__ = [
     'WorkOrderStatusHistory',
     'WorkOrderActivityLog',
     'DmaRepairOutcome',
+    'WorkOrderPayment',
     'Technician',
     'Notification',
     'AuditLog',

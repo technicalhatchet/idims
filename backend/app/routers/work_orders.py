@@ -30,6 +30,12 @@ from app.schemas.work_order import (
     BillingStatusUpdate, WorkOrderBillingSummary, AdminBillingOverride,
     WorkOrderWithInitialAppointmentCreate, WorkOrderWithInitialAppointmentResponse,
 )
+from app.schemas.work_order_payment import (
+    RecordWorkOrderPaymentRequest,
+    WorkOrderPaymentResponse,
+    WorkOrderPaymentListResponse,
+)
+from app.services.work_order_payment_service import record_work_order_payment, list_work_order_payments
 from app.schemas.service import ServiceResponse
 from app.services.work_order_service import WorkOrderService
 from app.core.dependencies import get_current_user, get_admin_or_manager_user
@@ -2430,6 +2436,65 @@ async def update_service_billing_status(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error updating billing status: {str(e)}"
         )
+
+@router.get("/{work_order_id}/payments", response_model=WorkOrderPaymentListResponse)
+async def get_work_order_payments(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """List field-recorded payments for a work order."""
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+    items = list_work_order_payments(db, work_order_id)
+    return WorkOrderPaymentListResponse(items=items, total=len(items))
+
+
+@router.post("/{work_order_id}/record-payment", response_model=WorkOrderPaymentResponse, status_code=status.HTTP_201_CREATED)
+async def record_work_order_payment_endpoint(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    body: RecordWorkOrderPaymentRequest = Body(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """
+    Record a payment received in the field (cash, check, etc.).
+    Applies the same billing updates as a successful Stripe payment.
+    """
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+
+    try:
+        payment = record_work_order_payment(db, work_order_id, current_user.id, body)
+        db.commit()
+        db.refresh(payment)
+
+        recorder_name = f"{current_user.first_name} {current_user.last_name}".strip()
+        return WorkOrderPaymentResponse(
+            id=payment.id,
+            work_order_id=payment.work_order_id,
+            payment_number=payment.payment_number,
+            amount=float(payment.amount),
+            subtotal_amount=float(payment.subtotal_amount) if payment.subtotal_amount is not None else None,
+            tax_amount=float(payment.tax_amount or 0),
+            tax_rate_snapshot=float(payment.tax_rate_snapshot) if payment.tax_rate_snapshot is not None else None,
+            payment_method=payment.payment_method,
+            reference_number=payment.reference_number,
+            notes=payment.notes,
+            payment_date=payment.payment_date,
+            recorded_by=payment.recorded_by,
+            recorder_name=recorder_name or None,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error recording work order payment: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error recording payment: {str(e)}",
+        )
+
 
 @router.post("/{work_order_id}/admin-override")
 async def admin_billing_override(

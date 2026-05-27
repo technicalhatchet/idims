@@ -74,6 +74,7 @@ class WorkOrder(Base):
     parts = relationship("WorkOrderPart", back_populates="work_order", cascade="all, delete-orphan")
     property_ref = relationship("Property", back_populates="work_orders")
     dma_outcome = relationship("DmaRepairOutcome", back_populates="work_order", uselist=False, cascade="all, delete-orphan")
+    field_payments = relationship("WorkOrderPayment", back_populates="work_order", cascade="all, delete-orphan")
     
     # New columns for invoice totals
     invoice_subtotal = Column(Numeric(10, 2), nullable=True, default=0.00)

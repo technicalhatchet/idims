@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
@@ -22,6 +22,7 @@ import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
+import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import { useUserRole } from '../../../utils/auth0-helpers';
@@ -46,6 +47,43 @@ const TAB_ITEMS = [
 ];
 
 const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
+
+function computeMobileBillingTotals(workOrder, allServices, halfDiagnosticDiscount) {
+  if (!workOrder) {
+    return { dueToday: 0, taxOnBillableParts: 0, totalWorkOrder: 0, previouslyPaid: 0 };
+  }
+  const taxRate = parseFloat(workOrder.tax_rate || 0.0775);
+  const hasRepairSku = (allServices || []).some(
+    (s) => s.name?.toLowerCase().includes('repair') || s.service_definition?.service_type === 'repair'
+  );
+  const repairCompleted = (workOrder.appointments || []).some(
+    (a) => a.appointment_type === 'repair' && a.status === 'completed'
+  );
+  const discountAmt =
+    hasRepairSku && workOrder?.diagnostic_discount_amount > 0
+      ? halfDiagnosticDiscount
+        ? round2(workOrder.diagnostic_discount_amount * 0.5)
+        : round2(workOrder.diagnostic_discount_amount)
+      : 0;
+  const billableServices = (allServices || [])
+    .filter((s) => s.billing_status === 'billable')
+    .reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+  const billableParts = (workOrder.parts || [])
+    .filter((p) => ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'].includes(p.status))
+    .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
+  const taxOnBillableParts = round2(billableParts * taxRate);
+  const previouslyPaid = round2(parseFloat(workOrder.amount_previously_paid || 0));
+  const dueTodayDiscount = repairCompleted ? discountAmt : 0;
+  const dueToday = Math.max(0, round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount));
+  const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+  const PART_BILLABLE = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed'];
+  const partsSubtotal = (workOrder.parts || [])
+    .filter((p) => PART_BILLABLE.includes(p.status))
+    .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
+  const taxOnParts = round2(partsSubtotal * taxRate);
+  const totalWorkOrder = round2(servicesSubtotal + partsSubtotal + taxOnParts - (repairCompleted ? discountAmt : 0));
+  return { dueToday, taxOnBillableParts, totalWorkOrder, previouslyPaid };
+}
 
 /** Fractal noise texture for tactical HUD background */
 const TACTICAL_NOISE_BG =
@@ -90,6 +128,8 @@ function WorkOrderDetail() {
   const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name }
   const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
   const [isSavingPrice, setIsSavingPrice] = useState(false);
+  const [showRecordPayment, setShowRecordPayment] = useState(false);
+  const [fieldPayments, setFieldPayments] = useState([]);
   const [showServiceProperty, setShowServiceProperty] = useState(false);
   const [showAllProperties, setShowAllProperties] = useState(false);
   const { theme } = useTheme();
@@ -214,6 +254,17 @@ function WorkOrderDetail() {
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
+  const billingTotals = useMemo(
+    () => computeMobileBillingTotals(workOrder, allServices, halfDiagnosticDiscount),
+    [workOrder, allServices, halfDiagnosticDiscount]
+  );
+
+  useEffect(() => {
+    if (!workOrder?.id || activeTab !== TABS.INVOICES) return;
+    apiClient(`work-orders/${workOrder.id}/payments`)
+      .then((res) => setFieldPayments(res?.items || []))
+      .catch(() => setFieldPayments([]));
+  }, [workOrder?.id, activeTab, showRecordPayment]);
   
   // Handle payment success/cancel URLs
   useEffect(() => {
@@ -1921,10 +1972,12 @@ function WorkOrderDetail() {
                             </div>
                           </div>
 
-                          {/* Pay button */}
-                          {dueToday > 0 && (
+                          {/* Pay / record payment */}
+                          {(billingTotals.dueToday > 0 || billingTotals.totalWorkOrder > billingTotals.previouslyPaid) && (
                             <div className="mt-4 md:mt-6 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700">
-                              <div className="flex justify-center">
+                              {billingTotals.dueToday > 0 ? (
+                                <>
+                                <div className="flex flex-col sm:flex-row gap-2 justify-center max-w-sm mx-auto sm:max-w-none">
                                 <button
                                   onClick={async () => {
                                     try {
@@ -1937,7 +1990,7 @@ function WorkOrderDetail() {
                                           work_order_id: workOrder.id,
                                           client_email: clientEmail,
                                           client_name: clientName,
-                                          amount: dueToday,
+                                          amount: billingTotals.dueToday,
                                           success_url: `${window.location.origin}/work_orders/${workOrder.id}/mobile?payment=success`,
                                           cancel_url: `${window.location.origin}/work_orders/${workOrder.id}/mobile?payment=cancelled`,
                                           metadata: { work_order_number: workOrder.order_number || workOrder.id.slice(0, 8) }
@@ -1950,14 +2003,48 @@ function WorkOrderDetail() {
                                       alert('Failed to process payment: ' + (error.message || 'Unknown error'));
                                     }
                                   }}
-                                  className="w-full max-w-sm h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white font-semibold text-base shadow-[0_0_24px_rgba(16,185,129,0.25)] active:scale-[0.98] md:w-auto md:max-w-none md:px-8 md:py-3 md:rounded-lg md:bg-green-600 md:hover:bg-green-700 md:shadow-lg md:hover:shadow-xl"
+                                  className="flex-1 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white font-semibold text-base shadow-[0_0_24px_rgba(16,185,129,0.25)] active:scale-[0.98] md:px-8 md:py-3 md:rounded-lg md:bg-green-600 md:hover:bg-green-700"
                                 >
-                                  Pay ${dueToday.toFixed(2)}
+                                  Pay ${billingTotals.dueToday.toFixed(2)}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setShowRecordPayment(true)}
+                                  className="flex-1 h-12 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-200 font-semibold text-sm active:scale-[0.98] md:border-amber-600 md:text-amber-700 md:dark:text-amber-300"
+                                >
+                                  Record payment
                                 </button>
                               </div>
                               <div className="text-center mt-2">
-                                <span className="text-xs text-gray-500 dark:text-gray-400">Secure payment powered by Stripe</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">Pay Now uses Stripe · Record for cash, check, etc.</span>
                               </div>
+                                </>
+                              ) : (
+                                <div className="flex justify-center">
+                                  <button
+                                    type="button"
+                                    onClick={() => setShowRecordPayment(true)}
+                                    className="h-11 px-6 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-200 font-semibold text-sm"
+                                  >
+                                    Record payment
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {fieldPayments.length > 0 && (
+                            <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
+                              <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Recorded payments</h4>
+                              {fieldPayments.map((p) => (
+                                <div key={p.id} className="flex justify-between text-sm text-gray-300">
+                                  <span>
+                                    {p.payment_method.replace(/_/g, ' ')}
+                                    {p.reference_number ? ` · ${p.reference_number}` : ''}
+                                  </span>
+                                  <span>${Number(p.amount).toFixed(2)}</span>
+                                </div>
+                              ))}
                             </div>
                           )}
                         </>
@@ -2177,6 +2264,19 @@ function WorkOrderDetail() {
           </button>
         )}
       </div>
+
+      <RecordPaymentSheet
+        open={showRecordPayment}
+        onClose={() => setShowRecordPayment(false)}
+        workOrderId={workOrder?.id}
+        dueToday={billingTotals.dueToday}
+        suggestedTax={billingTotals.taxOnBillableParts}
+        onSuccess={() => {
+          refetch();
+          alert('Payment recorded.');
+        }}
+        variant="mobile"
+      />
 
       </div>
     </>
