@@ -3,21 +3,21 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { format } from 'date-fns';
-import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
-import LoadingSpinner from '../../../components/ui/LoadingSpinner';
-import ErrorAlert from '../../../components/ui/ErrorAlert';
-import DmaFieldRecordForm from '../../../components/dma/DmaFieldRecordForm';
+import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../../../components/ui/ErrorAlert';
+import DmaFieldRecordForm from '../../../../components/dma/DmaFieldRecordForm';
 import {
   formatDmaEquipment,
   formValuesToPayload,
   recordToFormValues,
-} from '../../../constants/dmaEquipmentOptions';
-import { codeLabel, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../../constants/dmaCodes';
+} from '../../../../constants/dmaEquipmentOptions';
+import { codeLabel, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../../../constants/dmaCodes';
 import {
   deleteDmaRepairRecord,
   getDmaRepairRecord,
   updateDmaRepairRecord,
-} from '../../../services/api/dmaApi';
+} from '../../../../services/api/dmaApi';
 
 function DetailRow({ label, children }) {
   if (children == null || children === '') return null;
