@@ -23,6 +23,7 @@ import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
+import { hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import { useUserRole } from '../../../utils/auth0-helpers';
@@ -56,9 +57,7 @@ function computeMobileBillingTotals(workOrder, allServices, halfDiagnosticDiscou
   const hasRepairSku = (allServices || []).some(
     (s) => s.name?.toLowerCase().includes('repair') || s.service_definition?.service_type === 'repair'
   );
-  const repairCompleted = (workOrder.appointments || []).some(
-    (a) => a.appointment_type === 'repair' && a.status === 'completed'
-  );
+  const repairCompleted = hasCompletedRepairAppointment(workOrder.appointments);
   const discountAmt =
     hasRepairSku && workOrder?.diagnostic_discount_amount > 0
       ? halfDiagnosticDiscount
@@ -1861,9 +1860,7 @@ function WorkOrderDetail() {
                         s.name?.toLowerCase().includes('repair') ||
                         s.service_definition?.service_type === 'repair'
                       );
-                      const repairCompleted = (workOrder.appointments || []).some(a =>
-                        a.appointment_type === 'repair' && a.status === 'completed'
-                      );
+                      const repairCompleted = hasCompletedRepairAppointment(workOrder.appointments);
                       const discountAmt = hasRepairSku && workOrder?.diagnostic_discount_amount > 0
                         ? (halfDiagnosticDiscount
                             ? round2(workOrder.diagnostic_discount_amount * 0.5)

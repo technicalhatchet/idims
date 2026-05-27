@@ -20,7 +20,7 @@ import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
-import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
+import { formatAppointmentStatus, hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 
 // Tabs for the detail page
 const TABS = {
@@ -1199,9 +1199,7 @@ function WorkOrderDetail() {
                         s.name?.toLowerCase().includes('repair') ||
                         s.service_definition?.service_type === 'repair'
                       );
-                      const repairCompleted = (workOrder.appointments || []).some(a =>
-                        a.appointment_type === 'repair' && a.status === 'completed'
-                      );
+                      const repairCompleted = hasCompletedRepairAppointment(workOrder.appointments);
                       const discountAmt = hasRepairSku && workOrder?.diagnostic_discount_amount > 0
                         ? (halfDiagnosticDiscount
                             ? round2(workOrder.diagnostic_discount_amount * 0.5)
