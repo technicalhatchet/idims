@@ -142,6 +142,7 @@ export default function WorkOrderNotes({
   const [selectedNote, setSelectedNote] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState('');
+  const [editFieldValues, setEditFieldValues] = useState({});
   const [isSaving, setIsSaving] = useState(false);
   const [internalAddSheetOpen, setInternalAddSheetOpen] = useState(false);
   const [newNote, setNewNote] = useState({ ...EMPTY_NOTE });
@@ -239,6 +240,67 @@ export default function WorkOrderNotes({
     }));
   };
 
+  const handleEditFieldChange = (fieldId, value) => {
+    setEditFieldValues(prev => ({
+      ...prev,
+      [fieldId]: value,
+    }));
+  };
+
+  const startEditingNote = () => {
+    if (!selectedNote) return;
+    if (NOTE_FIELDS[selectedNote.type]) {
+      setEditFieldValues({
+        ...getInitialFieldValues(selectedNote.type),
+        ...selectedNote.fieldValues,
+      });
+      setEditContent('');
+    } else {
+      setEditContent(selectedNote.content);
+      setEditFieldValues({});
+    }
+    setIsEditing(true);
+  };
+
+  const cancelEditingNote = () => {
+    setIsEditing(false);
+    setEditContent('');
+    setEditFieldValues({});
+  };
+
+  const saveEditedNote = async () => {
+    if (!selectedNote) return;
+    setIsSaving(true);
+    try {
+      let noteBody;
+      if (NOTE_FIELDS[selectedNote.type]) {
+        if (selectedNote.type === NOTE_TYPES.REPAIR_OUTCOME) {
+          const fix = (editFieldValues?.confirmedFix || '').trim();
+          if (!fix) {
+            alert('Confirmed Fix is required for Repair Outcome notes.');
+            setIsSaving(false);
+            return;
+          }
+        }
+        noteBody = formatFieldsForAPI(editFieldValues, selectedNote.type);
+      } else {
+        noteBody = editContent;
+      }
+      const updatedNote = `[${selectedNote.type}]\n${noteBody}`;
+      await apiClient(`work-orders/${workOrderId}/notes/${selectedNote.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ note: updatedNote }),
+      });
+      cancelEditingNote();
+      setSelectedNote(null);
+      fetchNotes();
+    } catch (e) {
+      alert('Failed to save: ' + e.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleViewNote = (note) => {
     const match = note.note.match(/^\[(.*?)\]\n/);
     const noteType = match ? match[1] : NOTE_TYPES.GENERAL;
@@ -298,20 +360,21 @@ export default function WorkOrderNotes({
     return <div className="text-red-500 text-center py-8">{error}</div>;
   }
 
-  const renderField = (field, value, readOnly = false) => {
+  const renderField = (field, value, readOnly = false, onChange = handleFieldChange, idSuffix = '') => {
+    const fieldDomId = `${field.id}${idSuffix}`;
     switch (field.type) {
       case 'checkbox':
         return (
           <div className="flex items-center">
             <input
               type="checkbox"
-              id={field.id}
-              checked={value}
-              onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.checked)}
+              id={fieldDomId}
+              checked={!!value}
+              onChange={(e) => !readOnly && onChange(field.id, e.target.checked)}
               disabled={readOnly}
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
-            <label htmlFor={field.id} className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+            <label htmlFor={fieldDomId} className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
               {field.label}
             </label>
           </div>
@@ -320,9 +383,9 @@ export default function WorkOrderNotes({
         return (
           <SelectInput
             label={field.label}
-            id={field.id}
+            id={fieldDomId}
             value={value || ''}
-            onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.value)}
+            onChange={(e) => !readOnly && onChange(field.id, e.target.value)}
             options={field.options}
             disabled={readOnly}
           />
@@ -331,9 +394,9 @@ export default function WorkOrderNotes({
         return (
           <TextareaInput
             label={field.label}
-            id={field.id}
+            id={fieldDomId}
             value={value || ''}
-            onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.value)}
+            onChange={(e) => !readOnly && onChange(field.id, e.target.value)}
             rows={3}
             disabled={readOnly}
           />
@@ -342,16 +405,16 @@ export default function WorkOrderNotes({
         return (
           <TextInput
             label={field.label}
-            id={field.id}
+            id={fieldDomId}
             value={value || ''}
-            onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.value)}
+            onChange={(e) => !readOnly && onChange(field.id, e.target.value)}
             disabled={readOnly}
           />
         );
     }
   };
 
-  const renderNoteFields = (noteType, fieldValues, readOnly = false) => {
+  const renderNoteFields = (noteType, fieldValues, readOnly = false, onFieldChange = handleFieldChange, idSuffix = '') => {
     if (!NOTE_FIELDS[noteType]) {
       return (
         <TextareaInput
@@ -370,7 +433,7 @@ export default function WorkOrderNotes({
       <div className="space-y-4">
         {NOTE_FIELDS[noteType].map(field => (
           <div key={field.id} className="mb-4">
-            {renderField(field, fieldValues[field.id], readOnly)}
+            {renderField(field, fieldValues[field.id], readOnly, onFieldChange, idSuffix)}
           </div>
         ))}
       </div>
@@ -438,12 +501,22 @@ export default function WorkOrderNotes({
 
       <div className={`p-4 rounded-lg ${isMobile ? 'bg-white/5 border border-white/10' : 'bg-gray-50 dark:bg-gray-700'}`}>
         {isEditing ? (
-          <textarea
-            className="w-full px-3 py-2 border border-blue-400 rounded dark:bg-gray-600 dark:text-white text-sm"
-            rows={8}
-            value={editContent}
-            onChange={e => setEditContent(e.target.value)}
-          />
+          NOTE_FIELDS[selectedNote.type] ? (
+            renderNoteFields(
+              selectedNote.type,
+              editFieldValues,
+              false,
+              handleEditFieldChange,
+              '-edit',
+            )
+          ) : (
+            <textarea
+              className="w-full px-3 py-2 border border-blue-400 rounded dark:bg-gray-600 dark:text-white text-sm"
+              rows={8}
+              value={editContent}
+              onChange={e => setEditContent(e.target.value)}
+            />
+          )
         ) : (
           renderNoteFields(selectedNote.type, selectedNote.fieldValues, true)
         )}
@@ -452,42 +525,24 @@ export default function WorkOrderNotes({
       <div className={`mt-6 flex ${isMobile ? 'flex-col gap-2' : 'justify-between'}`}>
         {isEditing ? (
           <div className="flex gap-2">
-            <Button onClick={() => setIsEditing(false)} variant="secondary">Cancel</Button>
+            <Button onClick={cancelEditingNote} variant="secondary">Cancel</Button>
             <Button
               variant="primary"
               disabled={isSaving}
-              onClick={async () => {
-                setIsSaving(true);
-                try {
-                  const match = editContent.match(/^\[(.*?)\]\n/);
-                  const noteType = match ? match[1] : selectedNote.type;
-                  const updatedNote = `[${noteType}]\n${match ? editContent.substring(match[0].length) : editContent}`;
-                  await apiClient(`work-orders/${workOrderId}/notes/${selectedNote.id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({ note: updatedNote })
-                  });
-                  setIsEditing(false);
-                  setSelectedNote(null);
-                  fetchNotes();
-                } catch (e) { alert('Failed to save: ' + e.message); }
-                finally { setIsSaving(false); }
-              }}
+              onClick={saveEditedNote}
             >
               {isSaving ? 'Saving...' : 'Save'}
             </Button>
           </div>
         ) : (
           <Button
-            onClick={() => {
-              setEditContent(selectedNote.content);
-              setIsEditing(true);
-            }}
+            onClick={startEditingNote}
             className="px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-md text-sm font-medium"
           >
             <FaEdit className="inline h-3 w-3 mr-1" /> Edit
           </Button>
         )}
-        <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="primary">
+        <Button onClick={() => { setSelectedNote(null); cancelEditingNote(); }} variant="primary">
           Close
         </Button>
       </div>
@@ -576,7 +631,7 @@ export default function WorkOrderNotes({
 
         {selectedNote && mobilePanelShell(
           noteViewerTitle,
-          () => { setSelectedNote(null); setIsEditing(false); },
+          () => { setSelectedNote(null); cancelEditingNote(); },
           <div className="text-gray-200">{noteViewerBody}</div>,
           viewPanelRef,
         )}
@@ -620,7 +675,7 @@ export default function WorkOrderNotes({
                 {noteViewerTitle}
               </h3>
               <button
-                onClick={() => { setSelectedNote(null); setIsEditing(false); }}
+                onClick={() => { setSelectedNote(null); cancelEditingNote(); }}
                 className="text-gray-400 hover:text-gray-500"
               >
                 <FaTimes className="h-5 w-5" />
