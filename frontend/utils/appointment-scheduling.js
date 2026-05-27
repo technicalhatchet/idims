@@ -52,10 +52,29 @@ export function formatPropertyAddress(property) {
   return parts.length ? parts.join(', ') : null;
 }
 
-/**
- * Resolve the best service address for scheduling/display.
- * Work orders may have property_id set while service_location.address is empty.
- */
+/** Best-effort address for an appointment record (schedule API, local list, etc.) */
+export function resolveAppointmentLocation(appointment) {
+  if (!appointment) return null;
+  if (typeof appointment.location === 'string' && appointment.location.trim()) {
+    return appointment.location.trim();
+  }
+  if (typeof appointment.service_address === 'string' && appointment.service_address.trim()) {
+    return appointment.service_address.trim();
+  }
+  const fromServiceLocation = formatServiceLocationAddress(appointment.service_location);
+  if (fromServiceLocation) return fromServiceLocation;
+
+  const workOrder = appointment.work_order;
+  if (workOrder) {
+    const fromWorkOrder = formatServiceLocationAddress(workOrder.service_location);
+    if (fromWorkOrder) return fromWorkOrder;
+    const fromProperty = formatPropertyAddress(workOrder.property);
+    if (fromProperty) return fromProperty;
+  }
+
+  return null;
+}
+
 export function resolveWorkOrderServiceAddress(workOrder = {}) {
   const fromServiceLocation = formatServiceLocationAddress(workOrder.service_location);
   if (fromServiceLocation) return fromServiceLocation;
@@ -358,7 +377,7 @@ export async function findNextAvailableSlot(
     ...apt,
     startTime: new Date(apt.scheduled_start),
     endTime: new Date(apt.scheduled_end),
-    location: apt.service_location?.address || apt.location || apt.service_address || null // Normalize location field
+    location: resolveAppointmentLocation(apt),
   })).sort((a, b) => a.startTime - b.startTime); // Sort by start time
 
   console.log(`[findNextAvailableSlot V2] Found ${technicianAppointments.length} appointments for technician ${technicianId} on ${dateStr}:`, 
@@ -449,8 +468,7 @@ export async function findNextAvailableSlot(
         
         currentTryStartTime = new Date(existingEnd.getTime() + BUFFER_TIME_MS);
         
-        // Use normalized location from the mapped appointment object
-        const conflictApptLocation = existingAppt.location;
+        const conflictApptLocation = resolveAppointmentLocation(existingAppt);
         console.log(`[findNextAvailableSlot V2 - Loop ${iterationCount}] Conflict details: Ends at ${existingEnd.toLocaleTimeString()}, Location: ${conflictApptLocation}`);
 
         if (conflictApptLocation && normalizedToAddress && conflictApptLocation !== normalizedToAddress) {
@@ -477,20 +495,79 @@ export async function findNextAvailableSlot(
 
     if (!conflictFound) {
       console.log(`[findNextAvailableSlot V2 - Loop ${iterationCount}] --> NO CONFLICT found for slot [${currentTryStartTime.toLocaleTimeString()}-${proposedEndTime.toLocaleTimeString()}]`);
-      
-      // Slot is valid if it starts within window, ends within workday, and has no conflicts.
-      // The check for (proposedEndTime > windowEndTime) that returned null is removed.
-      // The check for (proposedEndTime > workDayEndTime) is handled at the start of the loop.
 
-      console.log(`[findNextAvailableSlot V2 - Loop ${iterationCount}] Successfully found slot: [${currentTryStartTime.toLocaleTimeString()}-${proposedEndTime.toLocaleTimeString()}]`);
+      // Recompute travel from the actual prior stop (not shop) for this slot start
+      const priorAppointments = technicianAppointments.filter(
+        (apt) => apt.endTime.getTime() <= currentTryStartTime.getTime()
+      );
+      let travelFromLocation = fromAddress || DEFAULT_SHOP_ADDRESS;
+      let travelFromEndTime = workDayStartTime;
+
+      if (priorAppointments.length > 0) {
+        const lastPrior = priorAppointments[priorAppointments.length - 1];
+        travelFromLocation = resolveAppointmentLocation(lastPrior) || travelFromLocation;
+        travelFromEndTime = lastPrior.endTime;
+        console.log(
+          `[findNextAvailableSlot V2] Prior stop: Appt ${lastPrior.id.substring(0, 4)} ended ${travelFromEndTime.toLocaleTimeString()} at ${travelFromLocation}`
+        );
+      } else {
+        travelFromLocation = lastEventLocation || travelFromLocation;
+        travelFromEndTime = lastEventEndTime;
+      }
+
+      let slotTravelTimeSecs = 0;
+      let slotTravelDistMeters = 0;
+      try {
+        if (travelFromLocation && normalizedToAddress) {
+          console.log(
+            `[findNextAvailableSlot V2] Final travel from ${travelFromLocation} to ${normalizedToAddress}`
+          );
+          const travelResult = await calculateTravelTime(travelFromLocation, normalizedToAddress);
+          slotTravelTimeSecs = travelResult.travelTime;
+          slotTravelDistMeters = travelResult.distance;
+        }
+      } catch (err) {
+        console.error('[findNextAvailableSlot V2] Final travel calculation failed:', err);
+      }
+
+      const minStartFromPrior = new Date(
+        travelFromEndTime.getTime() + BUFFER_TIME_MS + slotTravelTimeSecs * 1000
+      );
+      let finalStartTime = currentTryStartTime;
+      if (finalStartTime.getTime() < minStartFromPrior.getTime()) {
+        finalStartTime = minStartFromPrior;
+        console.log(
+          `[findNextAvailableSlot V2] Adjusted start to ${finalStartTime.toLocaleTimeString()} to allow drive time from prior stop`
+        );
+      }
+
+      const finalEndTime = new Date(finalStartTime.getTime() + durationMs);
+      if (finalEndTime > workDayEndTime) {
+        console.log('[findNextAvailableSlot V2] Adjusted slot exceeds work day end; continuing search.');
+        currentTryStartTime = new Date(finalStartTime.getTime() + 15 * 60 * 1000);
+        continue;
+      }
+
+      // Guard against overlap after time adjustment
+      const overlapsExisting = technicianAppointments.some((apt) => {
+        return finalStartTime < apt.endTime && finalEndTime > apt.startTime;
+      });
+      if (overlapsExisting) {
+        console.log('[findNextAvailableSlot V2] Adjusted slot overlaps an existing appointment; continuing search.');
+        currentTryStartTime = new Date(finalStartTime.getTime() + 15 * 60 * 1000);
+        continue;
+      }
+
+      console.log(
+        `[findNextAvailableSlot V2 - Loop ${iterationCount}] Successfully found slot: [${finalStartTime.toLocaleTimeString()}-${finalEndTime.toLocaleTimeString()}], travel ${slotTravelTimeSecs}s`
+      );
       return {
-        startTime: currentTryStartTime,
-        endTime: proposedEndTime,
-        travelTimeBefore: initialTravelTimeSecs,
-        travelDistanceBefore: initialTravelDistMeters,
-        // Keep old names for backwards compat
-        travelTime: initialTravelTimeSecs,
-        travelDistance: initialTravelDistMeters,
+        startTime: finalStartTime,
+        endTime: finalEndTime,
+        travelTimeBefore: slotTravelTimeSecs,
+        travelDistanceBefore: slotTravelDistMeters,
+        travelTime: slotTravelTimeSecs,
+        travelDistance: slotTravelDistMeters,
       };
     }
   } // End while loop

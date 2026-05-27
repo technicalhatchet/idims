@@ -3,7 +3,7 @@ from io import BytesIO
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status, Body, Path, Request, Header
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from typing import List, Dict, Any, Optional
@@ -1268,6 +1268,9 @@ def get_technician_schedule(
 
         stmt = (
             select(WorkOrderAppointment)
+            .options(
+                joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrderModel.property_ref)
+            )
             .where(WorkOrderAppointment.assigned_technician_id == technician_id)
             .where(WorkOrderAppointment.scheduled_start >= start_of_day)
             .where(WorkOrderAppointment.scheduled_start <= end_of_day)
@@ -1282,11 +1285,20 @@ def get_technician_schedule(
         response_appointments = []
         for appt in appointments:
             appt_response = WorkOrderAppointmentResponse.model_validate(appt)
-            # Inject service location from the related work order so the frontend
-            # can calculate inter-appointment travel time
-            if appt.work_order and appt.work_order.service_location:
-                loc = appt.work_order.service_location
-                appt_response.location = loc.get('address') if isinstance(loc, dict) else str(loc)
+            # Inject service location from work order (property fallback) for inter-stop travel
+            if appt.work_order:
+                wo = appt.work_order
+                loc = wo.service_location
+                address = None
+                if isinstance(loc, dict) and loc.get("address"):
+                    address = loc["address"]
+                elif wo.property_ref and wo.property_ref.address:
+                    parts = [wo.property_ref.address]
+                    if wo.property_ref.unit_number:
+                        parts.append(f"Unit {wo.property_ref.unit_number}")
+                    address = ", ".join(parts)
+                if address:
+                    appt_response.location = address
             response_appointments.append(appt_response)
             
         return response_appointments

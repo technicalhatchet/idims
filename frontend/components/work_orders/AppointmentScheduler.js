@@ -18,7 +18,7 @@ import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import AutoScheduler from './AutoScheduler';
 import TravelTimeInfo from './TravelTimeInfo';
 import TimeWindowSelector from './TimeWindowSelector';
-import { findNextAvailableSlot, getTimeWindowBoundaries, resolveWorkOrderServiceAddress, filterSchedulingConflicts } from '../../utils/appointment-scheduling';
+import { findNextAvailableSlot, getTimeWindowBoundaries, resolveWorkOrderServiceAddress, resolveAppointmentLocation, filterSchedulingConflicts } from '../../utils/appointment-scheduling';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
@@ -980,7 +980,7 @@ export default function AppointmentScheduler({
     techAppointments.sort((a, b) => new Date(b.scheduled_end) - new Date(a.scheduled_end));
 
     const previousApt = techAppointments[0];
-    const previousAddress = previousApt?.location || previousApt?.service_location?.address;
+    const previousAddress = resolveAppointmentLocation(previousApt);
     
     console.log(`[getPreviousAppointment] Found previous appointment for tech ${technicianId}: ID=${previousApt?.id}, EndTime=${previousApt?.scheduled_end}, Address=${previousAddress}`);
 
