@@ -4,6 +4,44 @@
 import { calculateTravelTime } from './google-maps-service';
 import { DEFAULT_SHOP_ADDRESS } from './google-maps-service'; // Import shop address
 
+/** Statuses that still occupy the technician calendar when finding slots */
+export const SCHEDULE_CONFLICT_STATUSES = new Set([
+  'scheduled',
+  'en_route',
+  'in_progress',
+  'reschedule',
+]);
+
+export function getAppointmentStatusValue(appointment) {
+  if (!appointment) return '';
+  const status = appointment.status?.value ?? appointment.status ?? '';
+  return String(status).toLowerCase();
+}
+
+export function isSchedulingConflict(appointment) {
+  return SCHEDULE_CONFLICT_STATUSES.has(getAppointmentStatusValue(appointment));
+}
+
+export function filterSchedulingConflicts(appointments) {
+  if (!Array.isArray(appointments)) return [];
+  return appointments.filter(isSchedulingConflict);
+}
+
+/** Build a geocodable address from work order service_location JSONB */
+export function formatServiceLocationAddress(serviceLocation) {
+  if (!serviceLocation) return null;
+  if (typeof serviceLocation === 'string') {
+    const trimmed = serviceLocation.trim();
+    return trimmed || null;
+  }
+  const parts = [];
+  if (serviceLocation.address) parts.push(serviceLocation.address);
+  if (serviceLocation.city) parts.push(serviceLocation.city);
+  if (serviceLocation.state) parts.push(serviceLocation.state);
+  if (serviceLocation.zip) parts.push(serviceLocation.zip);
+  return parts.length ? parts.join(', ') : null;
+}
+
 // Define time window boundaries
 export const TIME_WINDOWS = {
   MORNING: {
@@ -89,8 +127,9 @@ export function getTimeWindowBoundaries(date, windowName) {
  * @returns {Object} { available: boolean, reason: string }
  */
 export function isTimeWindowAvailable(date, windowName, existingAppointments, technicianId) {
+  const blockingAppointments = filterSchedulingConflicts(existingAppointments);
   console.log(`[isTimeWindowAvailable] Checking availability for date: ${date}, window: ${windowName}, technicianId: ${technicianId || 'none'}`);
-  console.log(`[isTimeWindowAvailable] Existing appointments received:`, existingAppointments);
+  console.log(`[isTimeWindowAvailable] Blocking appointments received:`, blockingAppointments);
   
   // Define limits at the top level of the function
   const MAX_APPOINTMENTS_PER_TECHNICIAN = 6; 
@@ -132,7 +171,7 @@ export function isTimeWindowAvailable(date, windowName, existingAppointments, te
   console.log(`[isTimeWindowAvailable] Calculated Boundaries: ${startTime.toLocaleString()} - ${endTime.toLocaleString()}`);
   
   // Get all appointments for this date, regardless of technician
-  const appointmentsForDate = existingAppointments.filter(apt => {
+  const appointmentsForDate = blockingAppointments.filter(apt => {
     // Skip appointments without scheduled times
     if (!apt.scheduled_start || !apt.scheduled_end) return false;
     
@@ -248,14 +287,16 @@ export async function findNextAvailableSlot(
   
   if (!technicianId) {
     console.error("[findNextAvailableSlot V2] Technician ID is required for detailed slot finding.");
-    // Fallback or error? For now, return null.
-    return null; 
+    return null;
   }
-  
-  if (!toAddress) {
-     console.error("[findNextAvailableSlot V2] Destination address (toAddress) is required.");
-     return null;
+
+  if (!toAddress || (typeof toAddress === 'string' && !toAddress.trim())) {
+    console.error("[findNextAvailableSlot V2] Destination address (toAddress) is required.");
+    return null;
   }
+
+  const normalizedToAddress = typeof toAddress === 'string' ? toAddress.trim() : toAddress;
+  allExistingAppointments = filterSchedulingConflicts(allExistingAppointments);
 
   // --- Date and Time Setup ---
   let normalizedDate;
@@ -312,9 +353,9 @@ export async function findNextAvailableSlot(
   let initialTravelTimeSecs = 0;
   let initialTravelDistMeters = 0;
   try {
-      if (lastEventLocation && toAddress) {
-          console.log(`[findNextAvailableSlot V2] Calculating initial travel from ${lastEventLocation} to ${toAddress}`);
-          const travelResult = await calculateTravelTime(lastEventLocation, toAddress);
+      if (lastEventLocation && normalizedToAddress) {
+          console.log(`[findNextAvailableSlot V2] Calculating initial travel from ${lastEventLocation} to ${normalizedToAddress}`);
+          const travelResult = await calculateTravelTime(lastEventLocation, normalizedToAddress);
           initialTravelTimeSecs = travelResult.travelTime;
           initialTravelDistMeters = travelResult.distance;
           console.log(`[findNextAvailableSlot V2] Initial travel: ${initialTravelTimeSecs}s, ${initialTravelDistMeters}m`);
@@ -379,10 +420,10 @@ export async function findNextAvailableSlot(
         const conflictApptLocation = existingAppt.location;
         console.log(`[findNextAvailableSlot V2 - Loop ${iterationCount}] Conflict details: Ends at ${existingEnd.toLocaleTimeString()}, Location: ${conflictApptLocation}`);
 
-        if (conflictApptLocation && toAddress && conflictApptLocation !== toAddress) {
-            console.log(`[findNextAvailableSlot V2 - Loop ${iterationCount}] Calculating travel from conflict location: ${conflictApptLocation} to ${toAddress}`);
+        if (conflictApptLocation && normalizedToAddress && conflictApptLocation !== normalizedToAddress) {
+            console.log(`[findNextAvailableSlot V2 - Loop ${iterationCount}] Calculating travel from conflict location: ${conflictApptLocation} to ${normalizedToAddress}`);
             try {
-                const travelInfo = await calculateTravelTime(conflictApptLocation, toAddress);
+                const travelInfo = await calculateTravelTime(conflictApptLocation, normalizedToAddress);
                 initialTravelTimeSecs = travelInfo.travelTime;
                 initialTravelDistMeters = travelInfo.distance;
                 currentTryStartTime = new Date(currentTryStartTime.getTime() + initialTravelTimeSecs * 1000);

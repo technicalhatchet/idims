@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaUserClock, FaSave, FaTimes, FaCheckCircle, FaExclamationCircle, FaClock, FaCar } from 'react-icons/fa';
 import { format, addMinutes, subMinutes, parseISO, differenceInMinutes } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -18,12 +18,12 @@ import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import AutoScheduler from './AutoScheduler';
 import TravelTimeInfo from './TravelTimeInfo';
 import TimeWindowSelector from './TimeWindowSelector';
-import { findNextAvailableSlot, getTimeWindowBoundaries } from '../../utils/appointment-scheduling';
+import { findNextAvailableSlot, getTimeWindowBoundaries, formatServiceLocationAddress, filterSchedulingConflicts } from '../../utils/appointment-scheduling';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
 
-export default function AppointmentScheduler({ workOrderId, workOrderAddress, onAppointmentChange, variant = 'desktop' }) {
+export default function AppointmentScheduler({ workOrderId, workOrderAddress, serviceLocation, onAppointmentChange, variant = 'desktop' }) {
   const isMobile = variant === 'mobile';
   console.log("AppointmentScheduler received workOrderId:", workOrderId);
   
@@ -66,6 +66,18 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   const [showForm, setShowForm] = useState(false);
   const [displayEtaWindow, setDisplayEtaWindow] = useState(null);
   const [updatingStatus, setUpdatingStatus] = useState(null); // Track which appointment is being updated
+
+  const resolvedWorkOrderAddress = useMemo(
+    () => formatServiceLocationAddress(serviceLocation) || formatServiceLocationAddress(workOrderAddress) || workOrderAddress || null,
+    [serviceLocation, workOrderAddress]
+  );
+
+  const schedulingConflictAppointments = useMemo(
+    () => filterSchedulingConflicts(
+      technicianDailySchedule.length > 0 ? technicianDailySchedule : appointments
+    ),
+    [technicianDailySchedule, appointments]
+  );
 
   // Fetch appointments when component mounts
   useEffect(() => {
@@ -158,7 +170,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     const recalculate = async () => {
       // Skip recalculation when editing — preserve the existing appointment time
       if (currentAppointment) return;
-      if (formData.time_window && formData.scheduled_start && formData.assigned_technician_id && workOrderAddress) {
+      if (formData.time_window && formData.scheduled_start && formData.assigned_technician_id && resolvedWorkOrderAddress) {
         console.log(`[AppointmentScheduler useEffect] Dependencies changed. Recalculating time for window: ${formData.time_window}, date: ${formData.scheduled_start.split('T')[0]}, tech: ${formData.assigned_technician_id}`);
         try {
           const success = await calculateAppointmentTime(technicianDailySchedule, formData.time_window);
@@ -182,7 +194,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       }
     };
     recalculate();
-  }, [formData.time_window, formData.assigned_technician_id, workOrderAddress, technicianDailySchedule]); // Removed formData.scheduled_start from here
+  }, [formData.time_window, formData.assigned_technician_id, resolvedWorkOrderAddress, technicianDailySchedule]); // Removed formData.scheduled_start from here
 
   // Effect to update ETA window when scheduled_start or travel_time_before changes
   useEffect(() => {
@@ -309,6 +321,22 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   // Default technician name to auto-select
   const DEFAULT_TECHNICIAN_NAME = 'Chee Clocksin';
 
+  const getTechnicianDisplayName = (tech) => {
+    if (!tech) return '';
+    if (tech.user) {
+      return `${tech.user.first_name || ''} ${tech.user.last_name || ''}`.trim();
+    }
+    if (tech.name) return tech.name;
+    return `${tech.first_name || ''} ${tech.last_name || ''}`.trim();
+  };
+
+  const pickDefaultTechnician = (techList) => {
+    if (!Array.isArray(techList) || techList.length === 0) return null;
+    const byName = techList.find((t) => getTechnicianDisplayName(t) === DEFAULT_TECHNICIAN_NAME);
+    if (byName) return byName;
+    return techList.find((t) => t.status === 'active' || !t.status) || techList[0];
+  };
+
   // Fetch technicians for assignment
   const fetchTechnicians = async () => {
     try {
@@ -323,12 +351,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
         // Auto-select default technician if none is selected
         setFormData(prev => {
           if (prev.assigned_technician_id) return prev; // already set, don't override
-          const defaultTech = response.items.find(t => {
-            const name = t.user
-              ? `${t.user.first_name || ''} ${t.user.last_name || ''}`.trim()
-              : `${t.first_name || ''} ${t.last_name || ''}`.trim();
-            return name === DEFAULT_TECHNICIAN_NAME;
-          });
+          const defaultTech = pickDefaultTechnician(response.items);
           if (defaultTech) {
             console.log('Auto-selecting default technician:', defaultTech.id);
             return { ...prev, assigned_technician_id: defaultTech.id };
@@ -590,8 +613,22 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
   };
 
   // Add openForm function
-  const openForm = () => {
+  const openForm = async () => {
     fetchServices(); // Fetch services
+
+    let techList = technicians;
+    if (techList.length === 0) {
+      try {
+        const response = await apiClient('api/technicians');
+        if (response?.items && Array.isArray(response.items)) {
+          techList = response.items;
+          setTechnicians(response.items);
+        }
+      } catch (err) {
+        console.error('Error fetching technicians for new appointment form:', err);
+      }
+    }
+
     // Set default start and end time to business hours, defaulting to 9 AM
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Strip time part
@@ -608,13 +645,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     // Create end time 1 hour after start time (will be auto-adjusted by services later)
     const endTime = addMinutes(startTime, 60);
 
-    // Find default technician from already-loaded list
-    const defaultTech = technicians.find(t => {
-      const name = t.user
-        ? `${t.user.first_name || ''} ${t.user.last_name || ''}`.trim()
-        : `${t.first_name || ''} ${t.last_name || ''}`.trim();
-      return name === DEFAULT_TECHNICIAN_NAME;
-    });
+    const defaultTech = pickDefaultTechnician(techList);
     
     setFormData({
       ...initialFormData,
@@ -718,7 +749,16 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
     }
     // === End of added logging ===
     
-    if (windowInfo && windowInfo.available) { 
+    if (windowInfo && windowInfo.available) {
+      if (!resolvedWorkOrderAddress) {
+        setError('This work order needs a service address before you can schedule. Add an address on the work order first.');
+        return;
+      }
+      if (!formData.assigned_technician_id) {
+        setError('Please select a technician before choosing a time window.');
+        return;
+      }
+
       setFormData(prev => ({ ...prev, time_window: windowName }));
       
       if (formData.scheduled_start && !isLoadingSchedule) { // Also check isLoadingSchedule
@@ -792,7 +832,19 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       console.log(`Selected time window: ${windowName}`); 
       
       // Get the service address from props
-      const toAddress = workOrderAddress;
+      const toAddress = resolvedWorkOrderAddress;
+      
+      if (!toAddress) {
+        setError('This work order needs a service address before you can schedule. Add an address on the work order first.');
+        setIsCalculating(false);
+        return false;
+      }
+
+      if (!formData.assigned_technician_id) {
+        setError('Please select a technician before scheduling.');
+        setIsCalculating(false);
+        return false;
+      }
       
       // Get the previous appointment location or shop address
       // Pass dailySchedule to getPreviousAppointment
@@ -829,8 +881,9 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
       console.log(`[AppointmentScheduler] findNextAvailableSlot result:`, slot);
       
       if (!slot) {
-        // Use passed windowName in error message
-        setError(`No available slots found in the ${windowName} time window. Please select a different time window or date.`);
+        setError(
+          `No open slots in the ${windowName} window on this date — the technician's active schedule is full. Try another date or window, or check for overlapping appointments.`
+        );
         setIsCalculating(false);
         return false;
       }
@@ -1276,8 +1329,8 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
               <FaUserClock className="shrink-0 text-gray-500" />
               <span className="truncate">{getTechnicianName(appointment.assigned_technician_id)}</span>
             </p>
-            {workOrderAddress && (
-              <p className="text-xs text-gray-500 mt-1 line-clamp-2">{workOrderAddress}</p>
+            {resolvedWorkOrderAddress && (
+              <p className="text-xs text-gray-500 mt-1 line-clamp-2">{resolvedWorkOrderAddress}</p>
             )}
             {appointment.services?.length > 0 && (
               <p className="text-xs text-gray-500 mt-1 line-clamp-2">
@@ -1422,7 +1475,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
         <div className="px-6 py-4">
           <WindowScheduler
             workOrderId={workOrderId}
-            workOrderAddress={workOrderAddress}
+            workOrderAddress={resolvedWorkOrderAddress}
             onAppointmentCreated={() => {
               fetchAppointments();
               if (onAppointmentChange) {
@@ -1438,7 +1491,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
         <div className="px-6 py-4">
           <AutoScheduler
             workOrderId={workOrderId}
-            workOrderAddress={workOrderAddress}
+            workOrderAddress={resolvedWorkOrderAddress}
             existingAppointments={appointments}
             onScheduleCreated={handleAutoSchedule}
             technicians={technicians}
@@ -1697,11 +1750,21 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, on
                     <TimeWindowSelector
                       selectedDate={formData.scheduled_start ? formData.scheduled_start : null}
                       onSelectTimeWindow={handleTimeWindowSelect}
-                      existingAppointments={appointments}
+                      existingAppointments={schedulingConflictAppointments}
                       technicianId={formData.assigned_technician_id}
                       initialValue={formData.time_window}
-                      address={workOrderAddress}
+                      address={resolvedWorkOrderAddress}
                     />
+                    {!resolvedWorkOrderAddress && (
+                      <p className="mt-2 text-sm text-amber-600 dark:text-amber-400">
+                        Add a service address to this work order before scheduling.
+                      </p>
+                    )}
+                    {!formData.assigned_technician_id && (
+                      <p className="mt-2 text-sm text-amber-600 dark:text-amber-400">
+                        Select a technician before choosing a time window.
+                      </p>
+                    )}
                   </>
                 )}
                 

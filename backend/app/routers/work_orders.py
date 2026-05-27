@@ -1252,11 +1252,14 @@ def get_technician_schedule(
         start_of_day = datetime.combine(schedule_date, datetime.min.time())
         end_of_day = datetime.combine(schedule_date, datetime.max.time())
 
+        blocking_statuses = ("scheduled", "en_route", "in_progress", "reschedule")
+
         stmt = (
             select(WorkOrderAppointment)
             .where(WorkOrderAppointment.assigned_technician_id == technician_id)
             .where(WorkOrderAppointment.scheduled_start >= start_of_day)
             .where(WorkOrderAppointment.scheduled_start <= end_of_day)
+            .where(WorkOrderAppointment.status.in_(blocking_statuses))
             .order_by(WorkOrderAppointment.scheduled_start)
         )
         result = db.execute(stmt)

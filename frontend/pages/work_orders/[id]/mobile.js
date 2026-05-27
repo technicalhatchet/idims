@@ -1010,6 +1010,7 @@ function WorkOrderDetail() {
               <AppointmentScheduler
                 workOrderId={id}
                 workOrderAddress={workOrder.service_location?.address}
+                serviceLocation={workOrder.service_location}
                 key={`appointments-${id}`}
                 variant="mobile"
                 onAppointmentChange={() => {
