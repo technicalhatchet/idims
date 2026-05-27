@@ -1,0 +1,606 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { format } from 'date-fns';
+import { FaEye, FaLock, FaTimes, FaEdit, FaPlus } from 'react-icons/fa';
+import { apiClient } from '../../utils/api-client';
+import { createWorkOrderNoteOffline, fetchWorkOrderNotes } from '../../lib/offlineWrites';
+import Button from '../ui/Button';
+import { SelectInput, TextareaInput, TextInput } from '../ui/FormElements';
+
+const NOTE_TYPES = {
+  GENERAL: 'General Note',
+  PRE_CALL: 'Pre-Call',
+  FOLLOW_UP: 'Follow Up',
+  REDO: 'Redo'
+};
+
+// Define field structure for each note type
+const NOTE_FIELDS = {
+  [NOTE_TYPES.PRE_CALL]: [
+    { id: 'clientContactStatus', label: 'Client Contact Status', type: 'select', options: [
+      { value: 'Connected', label: 'Connected' },
+      { value: 'Left VM', label: 'Left VM' },
+      { value: 'No VM Setup', label: 'No VM Setup' },
+      { value: 'LNIS', label: 'LNIS' }
+    ] },
+    { id: 'appointmentTime', label: 'Appointment Time', type: 'text' },
+    { id: 'detailsReviewed', label: 'Work Order Details Reviewed', type: 'checkbox' },
+    { id: 'toolsReady', label: 'Tools and Parts Prepared', type: 'checkbox' },
+    { id: 'additionalNotes', label: 'Additional Notes', type: 'textarea' }
+  ],
+  [NOTE_TYPES.FOLLOW_UP]: [
+    { id: 'servicePerformed', label: 'Service Performed', type: 'text' },
+    { id: 'partsUsed', label: 'Parts Used', type: 'text' },
+    { id: 'clientFeedback', label: 'Client Feedback', type: 'text' },
+    { id: 'nextSteps', label: 'Next Steps', type: 'text' },
+    { id: 'additionalNotes', label: 'Additional Notes', type: 'textarea' }
+  ],
+  [NOTE_TYPES.REDO]: [
+    { id: 'originalIssue', label: 'Original Issue', type: 'text' },
+    { id: 'previousAttempts', label: 'Previous Attempts', type: 'text' },
+    { id: 'newApproach', label: 'New Approach', type: 'text' },
+    { id: 'requiredParts', label: 'Required Parts', type: 'text' },
+    { id: 'additionalNotes', label: 'Additional Notes', type: 'textarea' }
+  ]
+};
+
+// Initial field values for structured note types
+const getInitialFieldValues = (noteType) => {
+  if (!NOTE_FIELDS[noteType]) return {};
+
+  return NOTE_FIELDS[noteType].reduce((values, field) => {
+    values[field.id] = field.type === 'checkbox' ? false : '';
+    return values;
+  }, {});
+};
+
+// Parse structured note content
+const parseNoteContent = (content, noteType) => {
+  if (!NOTE_FIELDS[noteType]) return { text: content };
+
+  try {
+    return JSON.parse(content);
+  } catch (e) {
+    return { text: content };
+  }
+};
+
+// Format structured fields for display
+const formatFieldsForDisplay = (fieldValues, noteType) => {
+  if (!NOTE_FIELDS[noteType]) return fieldValues.text || '';
+
+  return NOTE_FIELDS[noteType].map(field => {
+    const value = fieldValues[field.id];
+    if (field.type === 'checkbox') {
+      return `${field.label}: ${value ? '✓' : '✗'}\n`;
+    } else {
+      return `${field.label}: ${value || 'N/A'}\n`;
+    }
+  }).join('');
+};
+
+// Format structured fields for API
+const formatFieldsForAPI = (fieldValues, noteType) => {
+  if (!NOTE_FIELDS[noteType]) return fieldValues.text || '';
+  return JSON.stringify(fieldValues);
+};
+
+const EMPTY_NOTE = {
+  type: NOTE_TYPES.GENERAL,
+  content: '',
+  fieldValues: {},
+  isPrivate: false,
+};
+
+export default function WorkOrderNotes({
+  workOrderId,
+  variant = 'desktop',
+  addSheetOpen: addSheetOpenProp,
+  onAddSheetOpenChange,
+}) {
+  const isMobile = variant === 'mobile';
+  const [notes, setNotes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [internalAddSheetOpen, setInternalAddSheetOpen] = useState(false);
+  const [newNote, setNewNote] = useState({ ...EMPTY_NOTE });
+
+  const addSheetOpen = onAddSheetOpenChange != null ? addSheetOpenProp : internalAddSheetOpen;
+  const setAddSheetOpen = onAddSheetOpenChange ?? setInternalAddSheetOpen;
+
+  const resetNewNoteForm = useCallback(() => {
+    setNewNote({ ...EMPTY_NOTE });
+  }, []);
+
+  const openAddSheet = useCallback(() => {
+    resetNewNoteForm();
+    setAddSheetOpen(true);
+  }, [resetNewNoteForm, setAddSheetOpen]);
+
+  const closeAddSheet = useCallback(() => {
+    setAddSheetOpen(false);
+  }, [setAddSheetOpen]);
+
+  useEffect(() => {
+    if (workOrderId) {
+      fetchNotes();
+    }
+  }, [workOrderId]);
+
+  useEffect(() => {
+    if (NOTE_FIELDS[newNote.type]) {
+      setNewNote(prev => ({
+        ...prev,
+        fieldValues: getInitialFieldValues(newNote.type)
+      }));
+    }
+  }, [newNote.type]);
+
+  const prevAddSheetOpen = useRef(false);
+  const addPanelRef = useRef(null);
+  const viewPanelRef = useRef(null);
+
+  useEffect(() => {
+    if (isMobile && addSheetOpen && !prevAddSheetOpen.current) {
+      resetNewNoteForm();
+    }
+    prevAddSheetOpen.current = addSheetOpen;
+  }, [addSheetOpen, isMobile, resetNewNoteForm]);
+
+  useEffect(() => {
+    if (!isMobile || !addSheetOpen || !addPanelRef.current) return;
+    addPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [isMobile, addSheetOpen]);
+
+  useEffect(() => {
+    if (!isMobile || !selectedNote || !viewPanelRef.current) return;
+    viewPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [isMobile, selectedNote]);
+
+  const fetchNotes = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetchWorkOrderNotes(workOrderId);
+      setNotes(response);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching notes:', err);
+      setError('Failed to load notes');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleNoteTypeChange = (e) => {
+    const type = e.target.value;
+    setNewNote({
+      ...newNote,
+      type,
+      content: '',
+      fieldValues: getInitialFieldValues(type)
+    });
+  };
+
+  const handleFieldChange = (fieldId, value) => {
+    setNewNote(prev => ({
+      ...prev,
+      fieldValues: {
+        ...prev.fieldValues,
+        [fieldId]: value
+      }
+    }));
+  };
+
+  const handleViewNote = (note) => {
+    const match = note.note.match(/^\[(.*?)\]\n/);
+    const noteType = match ? match[1] : NOTE_TYPES.GENERAL;
+    const content = match ? note.note.substring(match[0].length) : note.note;
+
+    setSelectedNote({
+      ...note,
+      type: noteType,
+      content,
+      fieldValues: parseNoteContent(content, noteType)
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      let noteContent;
+      if (NOTE_FIELDS[newNote.type]) {
+        noteContent = formatFieldsForAPI(newNote.fieldValues, newNote.type);
+      } else {
+        noteContent = newNote.content;
+      }
+
+      const result = await createWorkOrderNoteOffline({
+        workOrderId,
+        note: `[${newNote.type}]\n${noteContent}`,
+        isPrivate: newNote.isPrivate,
+      });
+
+      resetNewNoteForm();
+      closeAddSheet();
+      await fetchNotes();
+
+      if (result?.queued) {
+        setError(null);
+      }
+    } catch (err) {
+      console.error('Error creating note:', err);
+      setError('Failed to create note');
+    }
+  };
+
+  if (isLoading) {
+    return <div className="text-center py-8">Loading notes...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center py-8">{error}</div>;
+  }
+
+  const renderField = (field, value, readOnly = false) => {
+    switch (field.type) {
+      case 'checkbox':
+        return (
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id={field.id}
+              checked={value}
+              onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.checked)}
+              disabled={readOnly}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label htmlFor={field.id} className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+              {field.label}
+            </label>
+          </div>
+        );
+      case 'select':
+        return (
+          <SelectInput
+            label={field.label}
+            id={field.id}
+            value={value || ''}
+            onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.value)}
+            options={field.options}
+            disabled={readOnly}
+          />
+        );
+      case 'textarea':
+        return (
+          <TextareaInput
+            label={field.label}
+            id={field.id}
+            value={value || ''}
+            onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.value)}
+            rows={3}
+            disabled={readOnly}
+          />
+        );
+      default:
+        return (
+          <TextInput
+            label={field.label}
+            id={field.id}
+            value={value || ''}
+            onChange={(e) => !readOnly && handleFieldChange(field.id, e.target.value)}
+            disabled={readOnly}
+          />
+        );
+    }
+  };
+
+  const renderNoteFields = (noteType, fieldValues, readOnly = false) => {
+    if (!NOTE_FIELDS[noteType]) {
+      return (
+        <TextareaInput
+          label="Note Content"
+          id="noteContent"
+          value={readOnly ? fieldValues.text || '' : newNote.content}
+          onChange={(e) => !readOnly && setNewNote({ ...newNote, content: e.target.value })}
+          rows={8}
+          placeholder={readOnly ? '' : 'Enter your note here...'}
+          disabled={readOnly}
+        />
+      );
+    }
+
+    return (
+      <div className="space-y-4">
+        {NOTE_FIELDS[noteType].map(field => (
+          <div key={field.id} className="mb-4">
+            {renderField(field, fieldValues[field.id], readOnly)}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const addNoteForm = (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <SelectInput
+        label="Note Type"
+        id="noteType"
+        value={newNote.type}
+        onChange={handleNoteTypeChange}
+        options={Object.values(NOTE_TYPES).map(type => ({ value: type, label: type }))}
+      />
+
+      {renderNoteFields(newNote.type, newNote.fieldValues)}
+
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="isPrivate"
+          checked={newNote.isPrivate}
+          onChange={(e) => setNewNote({ ...newNote, isPrivate: e.target.checked })}
+          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+        />
+        <label htmlFor="isPrivate" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+          Private Note (only visible to staff)
+        </label>
+      </div>
+
+      <div className="flex justify-end gap-2">
+        {isMobile && (
+          <Button type="button" variant="secondary" onClick={closeAddSheet}>
+            Cancel
+          </Button>
+        )}
+        <Button type="submit" variant="primary">
+          Save Note
+        </Button>
+      </div>
+    </form>
+  );
+
+  const noteViewerTitle = selectedNote && (
+    <>
+      {selectedNote.type} — {format(
+        new Date(selectedNote.created_at.endsWith('Z') ? selectedNote.created_at : selectedNote.created_at + 'Z'),
+        'MMM d, yyyy h:mm a'
+      )}
+    </>
+  );
+
+  const noteViewerBody = selectedNote && (
+    <>
+      <div className={`mb-4 text-sm ${isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}`}>
+        Added by: {selectedNote.user_name}
+        {selectedNote.is_private && (
+          <span className="ml-2 text-yellow-500" title="Private Note">
+            <FaLock className="h-4 w-4 inline mr-1" />
+            Private
+          </span>
+        )}
+      </div>
+
+      <div className={`p-4 rounded-lg ${isMobile ? 'bg-white/5 border border-white/10' : 'bg-gray-50 dark:bg-gray-700'}`}>
+        {isEditing ? (
+          <textarea
+            className="w-full px-3 py-2 border border-blue-400 rounded dark:bg-gray-600 dark:text-white text-sm"
+            rows={8}
+            value={editContent}
+            onChange={e => setEditContent(e.target.value)}
+          />
+        ) : (
+          renderNoteFields(selectedNote.type, selectedNote.fieldValues, true)
+        )}
+      </div>
+
+      <div className={`mt-6 flex ${isMobile ? 'flex-col gap-2' : 'justify-between'}`}>
+        {isEditing ? (
+          <div className="flex gap-2">
+            <Button onClick={() => setIsEditing(false)} variant="secondary">Cancel</Button>
+            <Button
+              variant="primary"
+              disabled={isSaving}
+              onClick={async () => {
+                setIsSaving(true);
+                try {
+                  const match = editContent.match(/^\[(.*?)\]\n/);
+                  const noteType = match ? match[1] : selectedNote.type;
+                  const updatedNote = `[${noteType}]\n${match ? editContent.substring(match[0].length) : editContent}`;
+                  await apiClient(`work-orders/${workOrderId}/notes/${selectedNote.id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ note: updatedNote })
+                  });
+                  setIsEditing(false);
+                  setSelectedNote(null);
+                  fetchNotes();
+                } catch (e) { alert('Failed to save: ' + e.message); }
+                finally { setIsSaving(false); }
+              }}
+            >
+              {isSaving ? 'Saving...' : 'Save'}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            onClick={() => {
+              setEditContent(selectedNote.content);
+              setIsEditing(true);
+            }}
+            className="px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-md text-sm font-medium"
+          >
+            <FaEdit className="inline h-3 w-3 mr-1" /> Edit
+          </Button>
+        )}
+        <Button onClick={() => { setSelectedNote(null); setIsEditing(false); }} variant="primary">
+          Close
+        </Button>
+      </div>
+    </>
+  );
+
+  const mobilePanelShell = (title, onClose, body, panelRef) => (
+    <div
+      ref={panelRef}
+      className="mb-4 overflow-hidden rounded-2xl border border-cyan-400/30 bg-[#0f172a] shadow-[0_0_24px_rgba(34,211,238,0.12)]"
+    >
+      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+        <h3 className="text-base font-semibold text-white">{title}</h3>
+        <button
+          type="button"
+          onClick={onClose}
+          className="p-2 text-gray-400 hover:text-white"
+          aria-label="Close"
+        >
+          <FaTimes className="h-5 w-5" />
+        </button>
+      </div>
+      <div className="px-4 py-4">{body}</div>
+    </div>
+  );
+
+  const renderNoteListItem = (note, asButton = false) => {
+    const match = note.note.match(/^\[(.*?)\]\n/);
+    const noteType = match ? match[1] : 'Note';
+    const dateStr = note.created_at.endsWith('Z') ? note.created_at : note.created_at + 'Z';
+    const noteDate = new Date(dateStr);
+
+    const inner = (
+      <>
+        <div className="flex justify-between items-start gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className={`text-sm font-medium truncate ${asButton ? 'font-semibold text-cyan-300' : 'text-blue-600 dark:text-blue-400'}`}>
+              {noteType}
+            </span>
+            {note.is_private && (
+              <FaLock className="h-3 w-3 text-yellow-500 flex-shrink-0" title="Private" />
+            )}
+            {note.pendingSync && (
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-amber-400 flex-shrink-0">
+                Pending sync
+              </span>
+            )}
+          </div>
+          <FaEye className={`h-4 w-4 flex-shrink-0 mt-0.5 ${asButton ? 'text-gray-500' : 'text-gray-400'}`} />
+        </div>
+        <div className={`mt-1 flex flex-wrap gap-x-3 text-xs ${asButton ? 'text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>
+          <span>{note.user_name}</span>
+          <span>{format(noteDate, 'MMM d, yyyy h:mm a')}</span>
+        </div>
+      </>
+    );
+
+    if (asButton) {
+      return (
+        <button
+          key={note.id}
+          type="button"
+          onClick={() => handleViewNote(note)}
+          className="w-full text-left rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 active:bg-white/[0.06] transition-colors"
+        >
+          {inner}
+        </button>
+      );
+    }
+
+    return (
+      <li
+        key={note.id}
+        className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+        onClick={() => handleViewNote(note)}
+      >
+        {inner}
+      </li>
+    );
+  };
+
+  if (isMobile) {
+    return (
+      <div className="min-w-0">
+        {addSheetOpen && mobilePanelShell('Add note', closeAddSheet, addNoteForm, addPanelRef)}
+
+        {selectedNote && mobilePanelShell(
+          noteViewerTitle,
+          () => { setSelectedNote(null); setIsEditing(false); },
+          <div className="text-gray-200">{noteViewerBody}</div>,
+          viewPanelRef,
+        )}
+
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3 px-0.5">
+          Notes history
+        </h3>
+
+        {notes.length === 0 ? (
+          <div className="text-center py-10 text-gray-400 text-sm rounded-xl border border-dashed border-white/15">
+            No notes yet. Tap Add note below to create one.
+          </div>
+        ) : (
+          <div className="space-y-2 pb-4">
+            {notes.map(note => renderNoteListItem(note, true))}
+          </div>
+        )}
+
+        {!addSheetOpen && onAddSheetOpenChange == null && (
+          <button
+            type="button"
+            onClick={openAddSheet}
+            className="fixed right-4 z-[1185] flex h-12 items-center gap-2 rounded-full bg-gradient-to-br from-cyan-600 to-cyan-700 px-4 text-sm font-semibold text-white shadow-[0_0_24px_rgba(34,211,238,0.35)] active:scale-[0.98]"
+            style={{ bottom: 'calc(72px + env(safe-area-inset-bottom))' }}
+          >
+            <FaPlus className="h-3.5 w-3.5" />
+            Add note
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {selectedNote && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                {noteViewerTitle}
+              </h3>
+              <button
+                onClick={() => { setSelectedNote(null); setIsEditing(false); }}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <FaTimes className="h-5 w-5" />
+              </button>
+            </div>
+            {noteViewerBody}
+          </div>
+        </div>
+      )}
+
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Notes History</h3>
+        </div>
+        <div>
+          {notes.length === 0 ? (
+            <div className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+              No notes yet
+            </div>
+          ) : (
+            <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+              {notes.map(note => renderNoteListItem(note, false))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Add New Note</h3>
+        </div>
+        <div className="p-6">{addNoteForm}</div>
+      </div>
+    </div>
+  );
+}
