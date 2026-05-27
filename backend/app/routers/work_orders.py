@@ -1459,17 +1459,9 @@ async def update_work_order_appointment(
                 # Get the work order
                 work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
                 
-                if new_status == 'phone_payment':
-                    # Phone Payment → Billable: Make services billable
-                    logging.info(f"DEBUG: Status changed to phone_payment, making services billable")
-                    for service in services:
-                        if service.billing_status == 'not_billable':
-                            logging.info(f"DEBUG: Updating service {service.id} from {service.billing_status} to billable")
-                            service.billing_status = 'billable'
-                
-                elif new_status == 'completed':
-                    # Completed → Billable: Make services billable (same as phone_payment)
-                    logging.info(f"DEBUG: Status changed to completed, making services billable")
+                if new_status in ('phone_payment', 'completed', 'completed_pending_payment'):
+                    # Payment-ready / completed → Billable
+                    logging.info(f"DEBUG: Status changed to {new_status}, making services billable")
                     for service in services:
                         if service.billing_status == 'not_billable':
                             logging.info(f"DEBUG: Updating service {service.id} from {service.billing_status} to billable")

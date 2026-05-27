@@ -9,6 +9,7 @@ ALLOWED_PAYMENT_METHODS = [
     "check",
     "credit_card",
     "bank_transfer",
+    "venmo",
     "other",
 ]
 

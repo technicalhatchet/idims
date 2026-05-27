@@ -5,6 +5,7 @@ const PAYMENT_METHODS = [
   { value: 'cash', label: 'Cash' },
   { value: 'check', label: 'Check' },
   { value: 'credit_card', label: 'Card (in person)' },
+  { value: 'venmo', label: 'Venmo' },
   { value: 'bank_transfer', label: 'Bank transfer / Zelle' },
   { value: 'other', label: 'Other' },
 ];

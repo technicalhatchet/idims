@@ -31,6 +31,7 @@ class WorkOrderPayment(Base):
             "bank_transfer",
             "paypal",
             "stripe",
+            "venmo",
             "other",
             name="payment_method_enum",
             create_type=False,
