@@ -909,7 +909,10 @@ class WorkOrderService:
             
             logger.info(f"Syncing work order schedule for work_order_id: {appointment_data.work_order_id} post-appointment creation.")
             try:
-                await self.sync_work_order_schedule_with_appointments(appointment_data.work_order_id)
+                await self.sync_work_order_schedule_with_appointments(
+                    appointment_data.work_order_id,
+                    changed_by=user_id,
+                )
             except Exception as sync_error:
                 logger.error(f"Error syncing work order schedule: {str(sync_error)}", exc_info=True)
                 raise # Re-raise the exception to be caught by the main handler
@@ -1177,7 +1180,10 @@ class WorkOrderService:
                 )
         
         # After updating an appointment, sync the work order's schedule with appointments
-        await self.sync_work_order_schedule_with_appointments(appointment.work_order_id)
+        await self.sync_work_order_schedule_with_appointments(
+            appointment.work_order_id,
+            changed_by=user_id,
+        )
 
         new_status = activity._status_val(appointment.status)
         if "status" in update_data and new_status != original_status:
@@ -1241,13 +1247,21 @@ class WorkOrderService:
             )
         
         # After deleting an appointment, sync the work order's schedule with remaining appointments
-        await self.sync_work_order_schedule_with_appointments(work_order_id)
+        await self.sync_work_order_schedule_with_appointments(
+            work_order_id,
+            changed_by=user_id,
+        )
         
         self.db.commit()
         
         return True
 
-    async def sync_work_order_schedule_with_appointments(self, work_order_id: uuid.UUID) -> None:
+    async def sync_work_order_schedule_with_appointments(
+        self,
+        work_order_id: uuid.UUID,
+        *,
+        changed_by: Optional[uuid.UUID] = None,
+    ) -> None:
         """
         Sync a work order's scheduled_start and scheduled_end with its appointments.
         This method calculates the overall time span of all active appointments,
@@ -1265,6 +1279,38 @@ class WorkOrderService:
             if s is None:
                 return ""
             return s.value if hasattr(s, "value") else str(s)
+
+        def _resolve_status_actor(appointments_list) -> Optional[uuid.UUID]:
+            if changed_by:
+                return changed_by
+            if work_order.updated_by:
+                return work_order.updated_by
+            if work_order.created_by:
+                return work_order.created_by
+            for appt in appointments_list:
+                if appt.created_by:
+                    return appt.created_by
+            return None
+
+        def _record_status_sync(previous_status: str, new_status: str, notes: str, appointments_list) -> None:
+            actor = _resolve_status_actor(appointments_list)
+            if not actor:
+                logger.warning(
+                    "Skipping work order status history for %s (%s -> %s): no changed_by available",
+                    work_order_id,
+                    previous_status,
+                    new_status,
+                )
+                return
+            self.db.add(
+                WorkOrderStatusHistory(
+                    work_order_id=work_order.id,
+                    previous_status=previous_status,
+                    new_status=new_status,
+                    changed_by=actor,
+                    notes=notes,
+                )
+            )
         
         # Get all active appointments for this work order, sorted by scheduled_start
         appointments = self.db.query(WorkOrderAppointment).filter(
@@ -1280,15 +1326,11 @@ class WorkOrderService:
 
             if _status_val(work_order.status) == "scheduled":
                 work_order.status = "pending"
-                actor = work_order.updated_by or work_order.created_by
-                self.db.add(
-                    WorkOrderStatusHistory(
-                        work_order_id=work_order.id,
-                        previous_status="scheduled",
-                        new_status="pending",
-                        changed_by=actor,
-                        notes="Status synced: no active appointments",
-                    )
+                _record_status_sync(
+                    "scheduled",
+                    "pending",
+                    "Status synced: no active appointments",
+                    appointments,
                 )
         else:
             # Calculate the overall time span of all appointments
@@ -1306,15 +1348,11 @@ class WorkOrderService:
             # List and dashboards key off work_orders.status; keep it aligned when visits exist
             if _status_val(work_order.status) == "pending":
                 work_order.status = "scheduled"
-                actor = work_order.updated_by or work_order.created_by
-                self.db.add(
-                    WorkOrderStatusHistory(
-                        work_order_id=work_order.id,
-                        previous_status="pending",
-                        new_status="scheduled",
-                        changed_by=actor,
-                        notes="Status synced: work order has active appointment(s)",
-                    )
+                _record_status_sync(
+                    "pending",
+                    "scheduled",
+                    "Status synced: work order has active appointment(s)",
+                    appointments,
                 )
         
         # Save the changes
