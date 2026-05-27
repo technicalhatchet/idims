@@ -8,7 +8,7 @@ import { apiClient } from '../../utils/api-client';
 import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
-import Select from 'react-select';
+import { formatPropertyAddress } from '../../utils/appointment-scheduling';
 
 
 // Constants for equipment types
@@ -288,15 +288,24 @@ const [newPropertyError, setNewPropertyError] = useState(null);
   // Prepare initial form values
   const getInitialValues = () => {
     if (!initialData) return defaultValues;
+
+    const resolvedClientId = initialData.client_id || initialData.client?.id || '';
+    let serviceLocation = initialData.service_location || { address: '' };
+    if (!serviceLocation?.address && initialData.property) {
+      const propertyAddress = formatPropertyAddress(initialData.property);
+      if (propertyAddress) {
+        serviceLocation = { ...serviceLocation, address: propertyAddress };
+      }
+    }
     
     return {
-      client_id: initialData.client_id || '',
+      client_id: resolvedClientId,
       description: initialData.description || '',
       priority: initialData.priority || 'medium',
       status: initialData.status || 'pending',
       work_type: initialData.work_type || 'service_call',
       property_id: initialData.property_id || null,
-      service_location: initialData.service_location || { address: '' },
+      service_location: serviceLocation,
       equipment_make: initialData.equipment_make || '',
       equipment_model: initialData.equipment_model || '',
       equipment_serial: initialData.equipment_serial || '',
@@ -953,6 +962,18 @@ useEffect(() => {
     setSelectedPropertyId(initialData.property_id);
   }
 }, [initialData?.property_id]);
+
+// When properties load, sync service location from the linked property if address is empty
+useEffect(() => {
+  if (!selectedPropertyId || !clientProperties.length) return;
+  const property = clientProperties.find((p) => String(p.id) === String(selectedPropertyId));
+  if (!property) return;
+  const propertyAddress = formatPropertyAddress(property);
+  if (!propertyAddress) return;
+  if (!values.service_location?.address?.trim()) {
+    setFieldValue('service_location', { address: propertyAddress });
+  }
+}, [selectedPropertyId, clientProperties, values.service_location?.address, setFieldValue]);
 
 const handlePropertySelect = (propertyId) => {
   setSelectedPropertyId(propertyId);

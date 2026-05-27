@@ -42,6 +42,39 @@ export function formatServiceLocationAddress(serviceLocation) {
   return parts.length ? parts.join(', ') : null;
 }
 
+/** Build address string from a property record */
+export function formatPropertyAddress(property) {
+  if (!property) return null;
+  const parts = [
+    property.address,
+    property.unit_number ? `Unit ${property.unit_number}` : '',
+  ].filter(Boolean);
+  return parts.length ? parts.join(', ') : null;
+}
+
+/**
+ * Resolve the best service address for scheduling/display.
+ * Work orders may have property_id set while service_location.address is empty.
+ */
+export function resolveWorkOrderServiceAddress(workOrder = {}) {
+  const fromServiceLocation = formatServiceLocationAddress(workOrder.service_location);
+  if (fromServiceLocation) return fromServiceLocation;
+
+  const fromProperty = formatPropertyAddress(workOrder.property);
+  if (fromProperty) return fromProperty;
+
+  const propertyId = workOrder.property_id;
+  if (propertyId && Array.isArray(workOrder.client_properties)) {
+    const matched = workOrder.client_properties.find(
+      (p) => p.id === propertyId || String(p.id) === String(propertyId)
+    );
+    const fromClientProperty = formatPropertyAddress(matched);
+    if (fromClientProperty) return fromClientProperty;
+  }
+
+  return null;
+}
+
 // Define time window boundaries
 export const TIME_WINDOWS = {
   MORNING: {

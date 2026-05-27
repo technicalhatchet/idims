@@ -18,6 +18,7 @@ import { useOnlineStatus } from '../../../hooks/useOnlineStatus';
 import { apiClient } from '../../../utils/api-client';
 import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
+import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
@@ -256,6 +257,10 @@ function WorkOrderDetail() {
   const billingTotals = useMemo(
     () => computeMobileBillingTotals(workOrder, allServices, halfDiagnosticDiscount),
     [workOrder, allServices, halfDiagnosticDiscount]
+  );
+  const resolvedServiceAddress = useMemo(
+    () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
+    [workOrder]
   );
 
   useEffect(() => {
@@ -715,7 +720,7 @@ function WorkOrderDetail() {
                     
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Location</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.service_location?.address || 'No location specified'}</p>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{resolvedServiceAddress || 'No location specified'}</p>
                     </div>
                     
                     <div className="md:col-span-2">
@@ -1011,6 +1016,10 @@ function WorkOrderDetail() {
                 workOrderId={id}
                 workOrderAddress={workOrder.service_location?.address}
                 serviceLocation={workOrder.service_location}
+                workOrderProperty={workOrder.property}
+                propertyId={workOrder.property_id}
+                clientProperties={workOrder.client_properties}
+                editWorkOrderHref={`/work_orders/${id}/womobile_edit`}
                 key={`appointments-${id}`}
                 variant="mobile"
                 onAppointmentChange={() => {

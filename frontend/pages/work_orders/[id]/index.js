@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
@@ -21,6 +21,7 @@ import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import { formatAppointmentStatus, hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
+import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
 
 // Tabs for the detail page
 const TABS = {
@@ -75,6 +76,10 @@ function WorkOrderDetail() {
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
+  const resolvedServiceAddress = useMemo(
+    () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
+    [workOrder]
+  );
   
   // Handle payment success/cancel URLs
   useEffect(() => {
@@ -398,7 +403,7 @@ function WorkOrderDetail() {
                     
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Location</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.service_location?.address || 'No location specified'}</p>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{resolvedServiceAddress || 'No location specified'}</p>
                     </div>
                     
                     <div className="md:col-span-2">
@@ -637,6 +642,10 @@ function WorkOrderDetail() {
                 workOrderId={id} 
                 workOrderAddress={workOrder.service_location?.address}
                 serviceLocation={workOrder.service_location}
+                workOrderProperty={workOrder.property}
+                propertyId={workOrder.property_id}
+                clientProperties={workOrder.client_properties}
+                editWorkOrderHref={`/work_orders/${id}/edit`}
                 key={`appointments-${id}`}
                 onAppointmentChange={() => {
                   console.log("Appointment changed, refreshing work order data");

@@ -18,12 +18,22 @@ import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import AutoScheduler from './AutoScheduler';
 import TravelTimeInfo from './TravelTimeInfo';
 import TimeWindowSelector from './TimeWindowSelector';
-import { findNextAvailableSlot, getTimeWindowBoundaries, formatServiceLocationAddress, filterSchedulingConflicts } from '../../utils/appointment-scheduling';
+import { findNextAvailableSlot, getTimeWindowBoundaries, resolveWorkOrderServiceAddress, filterSchedulingConflicts } from '../../utils/appointment-scheduling';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
 
-export default function AppointmentScheduler({ workOrderId, workOrderAddress, serviceLocation, onAppointmentChange, variant = 'desktop' }) {
+export default function AppointmentScheduler({
+  workOrderId,
+  workOrderAddress,
+  serviceLocation,
+  workOrderProperty,
+  propertyId,
+  clientProperties,
+  editWorkOrderHref,
+  onAppointmentChange,
+  variant = 'desktop',
+}) {
   const isMobile = variant === 'mobile';
   console.log("AppointmentScheduler received workOrderId:", workOrderId);
   
@@ -68,8 +78,13 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, se
   const [updatingStatus, setUpdatingStatus] = useState(null); // Track which appointment is being updated
 
   const resolvedWorkOrderAddress = useMemo(
-    () => formatServiceLocationAddress(serviceLocation) || formatServiceLocationAddress(workOrderAddress) || workOrderAddress || null,
-    [serviceLocation, workOrderAddress]
+    () => resolveWorkOrderServiceAddress({
+      service_location: serviceLocation || (workOrderAddress ? { address: workOrderAddress } : null),
+      property: workOrderProperty,
+      property_id: propertyId,
+      client_properties: clientProperties,
+    }),
+    [serviceLocation, workOrderAddress, workOrderProperty, propertyId, clientProperties]
   );
 
   const schedulingConflictAppointments = useMemo(
@@ -751,7 +766,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, se
     
     if (windowInfo && windowInfo.available) {
       if (!resolvedWorkOrderAddress) {
-        setError('This work order needs a service address before you can schedule. Add an address on the work order first.');
+        setError('This work order needs a service address before you can schedule. Edit the work order and set a property or service location.');
         return;
       }
       if (!formData.assigned_technician_id) {
@@ -835,7 +850,7 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, se
       const toAddress = resolvedWorkOrderAddress;
       
       if (!toAddress) {
-        setError('This work order needs a service address before you can schedule. Add an address on the work order first.');
+        setError('This work order needs a service address before you can schedule. Edit the work order and set a property or service location.');
         setIsCalculating(false);
         return false;
       }
@@ -1756,9 +1771,14 @@ export default function AppointmentScheduler({ workOrderId, workOrderAddress, se
                       address={resolvedWorkOrderAddress}
                     />
                     {!resolvedWorkOrderAddress && (
-                      <p className="mt-2 text-sm text-amber-600 dark:text-amber-400">
-                        Add a service address to this work order before scheduling.
-                      </p>
+                      <div className="mt-2 text-sm text-amber-600 dark:text-amber-400 space-y-1">
+                        <p>No service address on this work order. Edit the work order to pick a property or enter a service location.</p>
+                        {editWorkOrderHref && (
+                          <a href={editWorkOrderHref} className="inline-block text-cyan-600 dark:text-cyan-400 underline font-medium">
+                            Edit work order
+                          </a>
+                        )}
+                      </div>
                     )}
                     {!formData.assigned_technician_id && (
                       <p className="mt-2 text-sm text-amber-600 dark:text-amber-400">

@@ -442,6 +442,18 @@ async def get_work_order(
                             "tenant_phone": matched.tenant_phone,
                             "tenant_email": matched.tenant_email,
                         }
+                        # Backfill service_location for older work orders that only have property_id set
+                        existing_loc = response_dict.get("service_location") or {}
+                        if not (isinstance(existing_loc, dict) and existing_loc.get("address")):
+                            addr_parts = [matched.address]
+                            if matched.unit_number:
+                                addr_parts.append(f"Unit {matched.unit_number}")
+                            formatted = ", ".join(p for p in addr_parts if p)
+                            if formatted:
+                                response_dict["service_location"] = {
+                                    **(existing_loc if isinstance(existing_loc, dict) else {}),
+                                    "address": formatted,
+                                }
                 
                 # Also include the related User data if available
                 if client.user_id:
