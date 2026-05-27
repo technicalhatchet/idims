@@ -21,7 +21,6 @@ class RecordWorkOrderPaymentRequest(BaseModel):
     payment_method: str
     reference_number: Optional[str] = None
     notes: Optional[str] = None
-    mark_work_order_completed: bool = False
 
     @validator("payment_method")
     def validate_payment_method(cls, v):

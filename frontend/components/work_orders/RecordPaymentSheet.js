@@ -28,7 +28,6 @@ export default function RecordPaymentSheet({
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [referenceNumber, setReferenceNumber] = useState('');
   const [notes, setNotes] = useState('');
-  const [markCompleted, setMarkCompleted] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
 
@@ -39,7 +38,6 @@ export default function RecordPaymentSheet({
     setPaymentMethod('cash');
     setReferenceNumber('');
     setNotes('');
-    setMarkCompleted(true);
     setError(null);
   }, [open, dueToday, suggestedTax]);
 
@@ -72,7 +70,6 @@ export default function RecordPaymentSheet({
           payment_method: paymentMethod,
           reference_number: referenceNumber.trim() || undefined,
           notes: notes.trim() || undefined,
-          mark_work_order_completed: markCompleted,
         }),
       });
       onSuccess?.();
@@ -101,7 +98,7 @@ export default function RecordPaymentSheet({
           Record Payment
         </h3>
         <p className={`text-sm mb-4 ${variant === 'mobile' ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}`}>
-          Cash, check, or other non-Stripe payment. Updates billing like Pay Now.
+          Cash, check, or other non-Stripe payment. Marks billable services paid and completes any appointments pending payment.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -169,16 +166,6 @@ export default function RecordPaymentSheet({
               className={inputClass}
             />
           </div>
-
-          <label className={`flex items-center gap-2 text-sm ${variant === 'mobile' ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}`}>
-            <input
-              type="checkbox"
-              checked={markCompleted}
-              onChange={(e) => setMarkCompleted(e.target.checked)}
-              className="rounded"
-            />
-            Mark work order completed
-          </label>
 
           {error && <p className="text-sm text-red-400">{error}</p>}
 

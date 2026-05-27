@@ -3,7 +3,7 @@ from app.models.invoice import Invoice, InvoiceItem
 from app.models.payment import Payment, PaymentMethod
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderService, WorkOrderItem, WorkOrderNote, WorkOrderStatusHistory, WorkOrderActivityLog
-from app.models.dma import DmaRepairOutcome
+from app.models.dma import DmaRepairOutcome, DmaRepairRecord
 from app.models.work_order_payment import WorkOrderPayment
 from app.models.technician import Technician
 from app.models.notification import Notification
@@ -30,6 +30,7 @@ __all__ = [
     'WorkOrderStatusHistory',
     'WorkOrderActivityLog',
     'DmaRepairOutcome',
+    'DmaRepairRecord',
     'WorkOrderPayment',
     'Technician',
     'Notification',

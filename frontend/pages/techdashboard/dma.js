@@ -5,15 +5,29 @@ import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { getDmaCodes, searchDmaRepairs } from '../../services/api/dmaApi';
+import { formatDmaEquipment } from '../../constants/dmaEquipmentOptions';
 import { codeLabel, codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
 
-function formatEquipment(item) {
-  const parts = [item.equipment_make, item.equipment_model].filter(Boolean);
-  const subtype = item.equipment_subtype
-    ? item.equipment_subtype.replace(/_/g, ' ')
-    : '';
-  if (parts.length) return parts.join(' ');
-  return subtype || 'Unknown equipment';
+function resultHref(item) {
+  if (item.source_type === 'field_record') {
+    return `/techdashboard/dma/records/${item.id}`;
+  }
+  return `/work_orders/${item.work_order_id}/mobile?tab=notes`;
+}
+
+function SourceBadge({ item }) {
+  if (item.source_type === 'field_record') {
+    return (
+      <span className="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/25">
+        Field record
+      </span>
+    );
+  }
+  return (
+    <span className="text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/25">
+      {item.order_number || 'Work order'}
+    </span>
+  );
 }
 
 function DmaSearchPage() {
@@ -91,14 +105,22 @@ function DmaSearchPage() {
       </Head>
 
       <div className="px-4 py-6 max-w-3xl mx-auto pb-24">
-        <div className="mb-6">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90 mb-1">
-            Diagnostic Memory Amplifier
-          </p>
-          <h1 className="text-2xl font-bold text-white">Repair Memory</h1>
-          <p className="text-sm text-gray-400 mt-1">
-            Search past confirmed fixes by equipment, error code, or symptom.
-          </p>
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90 mb-1">
+              Diagnostic Memory Amplifier
+            </p>
+            <h1 className="text-2xl font-bold text-white">Repair Memory</h1>
+            <p className="text-sm text-gray-400 mt-1">
+              Search past confirmed fixes by equipment, error code, or symptom.
+            </p>
+          </div>
+          <Link
+            href="/techdashboard/dma/new"
+            className="inline-flex items-center justify-center h-10 px-4 rounded-xl bg-gradient-to-br from-amber-600 to-amber-700 text-sm font-semibold text-white shrink-0"
+          >
+            + Add field record
+          </Link>
         </div>
 
         <form
@@ -212,24 +234,28 @@ function DmaSearchPage() {
               {results.total} result{results.total === 1 ? '' : 's'}
             </p>
             {results.items.length === 0 ? (
-              <div className="rounded-xl border border-white/10 bg-[#0D1525] p-6 text-center text-gray-400 text-sm">
-                No repair outcomes found. Add a <strong className="text-cyan-400">Repair Outcome</strong> note on a completed work order.
+              <div className="rounded-xl border border-white/10 bg-[#0D1525] p-6 text-center text-gray-400 text-sm space-y-2">
+                <p>No repair memory found yet.</p>
+                <p>
+                  <Link href="/techdashboard/dma/new" className="text-amber-400 hover:text-amber-300">Add a field record</Link>
+                  {' '}or add a <strong className="text-cyan-400">Repair Outcome</strong> note on a work order.
+                </p>
               </div>
             ) : (
               <ul className="space-y-3">
                 {results.items.map((item) => (
-                  <li key={item.id}>
+                  <li key={`${item.source_type}-${item.id}`}>
                     <Link
-                      href={`/work_orders/${item.work_order_id}/mobile?tab=notes`}
+                      href={resultHref(item)}
                       className="block rounded-xl border border-white/10 bg-[#0D1525] p-4 hover:border-cyan-500/30 transition-colors"
                     >
-                      <div className="flex justify-between items-start gap-2 mb-2">
-                        <span className="text-sm font-semibold text-cyan-400">{item.order_number}</span>
+                      <div className="flex justify-between items-start gap-2 mb-2 flex-wrap">
+                        <SourceBadge item={item} />
                         {!item.repair_successful && (
                           <span className="text-[10px] uppercase tracking-wide text-orange-400">Unsuccessful</span>
                         )}
                       </div>
-                      <p className="text-sm font-medium text-white">{formatEquipment(item)}</p>
+                      <p className="text-sm font-medium text-white">{formatDmaEquipment(item)}</p>
                       {item.error_code_text && (
                         <p className="text-xs text-orange-300 mt-1">Code: {item.error_code_text}</p>
                       )}

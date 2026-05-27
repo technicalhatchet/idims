@@ -1,10 +1,40 @@
-from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime, Text
+from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime, Text, Date
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
 
 from app.db.base import Base
+
+
+class DmaRepairRecord(Base):
+    """Standalone repair memory entry — no work order or client (field / training corpus)."""
+    __tablename__ = "dma_repair_records"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    equipment_make = Column(String(120), nullable=True, index=True)
+    equipment_model = Column(String(120), nullable=True)
+    equipment_type = Column(String(50), nullable=True)
+    equipment_subtype = Column(String(80), nullable=True, index=True)
+    customer_complaint = Column(Text, nullable=True)
+    problem_code = Column(String(80), nullable=True, index=True)
+    resolution_code = Column(String(80), nullable=True, index=True)
+    confirmed_fix = Column(Text, nullable=False)
+    error_code_text = Column(String(80), nullable=True, index=True)
+    replaced_parts = Column(Text, nullable=True)
+    repair_successful = Column(Boolean, default=True, nullable=False, index=True)
+    callback_required = Column(Boolean, default=False, nullable=False)
+    technician_summary = Column(Text, nullable=True)
+    performed_on = Column(Date, nullable=True)
+    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    updated_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
+    creator = relationship("User", foreign_keys=[created_by])
+
+    def __repr__(self):
+        return f"<DmaRepairRecord {self.id} fix={self.confirmed_fix[:40]!r}>"
 
 
 class DmaRepairOutcome(Base):

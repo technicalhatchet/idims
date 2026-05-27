@@ -6,7 +6,11 @@ from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
-from app.models.work_order import WorkOrder, WorkOrderService as WorkOrderServiceModel
+from app.models.work_order import (
+    WorkOrder,
+    WorkOrderAppointment,
+    WorkOrderService as WorkOrderServiceModel,
+)
 from app.models.work_order_payment import WorkOrderPayment
 from app.models.user import User
 from app.schemas.work_order_payment import RecordWorkOrderPaymentRequest
@@ -24,6 +28,58 @@ def _generate_payment_number(db: Session) -> str:
     return f"{prefix}-{count + 1:04d}"
 
 
+def complete_pending_payment_appointments(
+    db: Session,
+    work_order_id: uuid.UUID,
+    *,
+    user_id: Optional[uuid.UUID] = None,
+) -> int:
+    """
+    After payment, move appointments from completed_pending_payment → completed.
+    Does not change work order status (order may stay open for future visits).
+    """
+    from app.services import work_order_activity_service as activity
+    from app.services.work_order_performance_service import handle_appointment_status_timing
+
+    pending = (
+        db.query(WorkOrderAppointment)
+        .filter(
+            WorkOrderAppointment.work_order_id == work_order_id,
+            WorkOrderAppointment.status == "completed_pending_payment",
+        )
+        .all()
+    )
+    if not pending:
+        return 0
+
+    for appointment in pending:
+        previous_status = activity._status_val(appointment.status)
+        appointment.status = "completed"
+        appointment.updated_at = datetime.utcnow()
+        if user_id:
+            handle_appointment_status_timing(
+                db,
+                appointment=appointment,
+                previous_status=previous_status,
+                user_id=user_id,
+            )
+            activity.log_appointment_status_changed(
+                db,
+                work_order_id=work_order_id,
+                user_id=user_id,
+                previous_status=previous_status,
+                new_status="completed",
+                scheduled_start=appointment.scheduled_start,
+            )
+        logger.info(
+            "Appointment %s completed after payment (was %s)",
+            appointment.id,
+            previous_status,
+        )
+
+    return len(pending)
+
+
 def apply_payment_to_work_order(
     db: Session,
     work_order: WorkOrder,
@@ -31,6 +87,7 @@ def apply_payment_to_work_order(
     *,
     tax_amount: float = 0,
     mark_billable_services_paid: bool = True,
+    user_id: Optional[uuid.UUID] = None,
 ) -> None:
     """Same financial updates as Stripe successful payment."""
     work_order.amount_previously_paid = Decimal(str(work_order.amount_previously_paid or 0)) + Decimal(
@@ -52,6 +109,9 @@ def apply_payment_to_work_order(
             service.billing_status = "paid"
             logger.info("Marked service %s as paid", service.id)
 
+    complete_pending_payment_appointments(
+        db, work_order.id, user_id=user_id or work_order.updated_by or work_order.created_by
+    )
     work_order.calculate_totals()
 
 
@@ -89,17 +149,8 @@ def record_work_order_payment(
         work_order,
         float(data.amount),
         tax_amount=tax_amount,
+        user_id=user_id,
     )
-
-    if data.mark_work_order_completed:
-        if work_order.status in (
-            "completed_pending_payment",
-            "in_progress",
-            "scheduled",
-            "en_route",
-            "waiting_on_parts",
-        ):
-            work_order.status = "completed"
 
     db.flush()
     return payment

@@ -3,14 +3,16 @@ import logging
 import math
 import re
 import uuid
+from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from sqlalchemy import or_, cast, String
 from sqlalchemy.orm import Session
 
 from app.constants.dma_codes import REPAIR_OUTCOME_NOTE_TYPE
-from app.models.dma import DmaRepairOutcome
+from app.models.dma import DmaRepairOutcome, DmaRepairRecord
 from app.models.work_order import WorkOrder
+from app.schemas.dma import DmaRepairRecordCreate, DmaRepairRecordUpdate
 
 logger = logging.getLogger(__name__)
 
@@ -129,7 +131,59 @@ def search_repair_outcomes(
     page: int = 1,
     limit: int = 20,
 ) -> Dict[str, Any]:
-    """Search DMA repair outcomes joined with work order equipment context."""
+    """Unified search: work-order outcomes + standalone field records."""
+    wo_items = _fetch_work_order_outcome_items(
+        db,
+        q=q,
+        equipment_make=equipment_make,
+        equipment_subtype=equipment_subtype,
+        problem_code=problem_code,
+        resolution_code=resolution_code,
+        error_code=error_code,
+        repair_successful=repair_successful,
+    )
+    field_items = _fetch_field_record_items(
+        db,
+        q=q,
+        equipment_make=equipment_make,
+        equipment_subtype=equipment_subtype,
+        problem_code=problem_code,
+        resolution_code=resolution_code,
+        error_code=error_code,
+        repair_successful=repair_successful,
+    )
+
+    combined = sorted(
+        wo_items + field_items,
+        key=lambda row: row["updated_at"],
+        reverse=True,
+    )
+    total = len(combined)
+    safe_limit = max(1, min(limit, 100))
+    safe_page = max(1, page)
+    offset = (safe_page - 1) * safe_limit
+    page_items = combined[offset : offset + safe_limit]
+    pages = max(1, math.ceil(total / safe_limit)) if total else 1
+
+    return {
+        "items": page_items,
+        "total": total,
+        "page": safe_page,
+        "pages": pages,
+    }
+
+
+def _fetch_work_order_outcome_items(
+    db: Session,
+    *,
+    q: Optional[str],
+    equipment_make: Optional[str],
+    equipment_subtype: Optional[str],
+    problem_code: Optional[str],
+    resolution_code: Optional[str],
+    error_code: Optional[str],
+    repair_successful: Optional[bool],
+) -> List[Dict[str, Any]]:
     query = (
         db.query(DmaRepairOutcome, WorkOrder)
         .join(WorkOrder, DmaRepairOutcome.work_order_id == WorkOrder.id)
@@ -137,7 +191,6 @@ def search_repair_outcomes(
 
     if repair_successful is not None:
         query = query.filter(DmaRepairOutcome.repair_successful == repair_successful)
-
     if equipment_make:
         query = query.filter(WorkOrder.equipment_make.ilike(f"%{equipment_make.strip()}%"))
     if equipment_subtype:
@@ -149,7 +202,6 @@ def search_repair_outcomes(
     if error_code:
         term = f"%{error_code.strip()}%"
         query = query.filter(DmaRepairOutcome.error_code_text.ilike(term))
-
     if q:
         term = f"%{q.strip()}%"
         query = query.filter(
@@ -166,22 +218,13 @@ def search_repair_outcomes(
             )
         )
 
-    total = query.count()
-    safe_limit = max(1, min(limit, 100))
-    safe_page = max(1, page)
-    offset = (safe_page - 1) * safe_limit
-    rows = (
-        query.order_by(DmaRepairOutcome.updated_at.desc())
-        .offset(offset)
-        .limit(safe_limit)
-        .all()
-    )
-
+    rows = query.order_by(DmaRepairOutcome.updated_at.desc()).all()
     items = []
     for outcome, work_order in rows:
         items.append(
             {
                 "id": outcome.id,
+                "source_type": "work_order",
                 "work_order_id": outcome.work_order_id,
                 "source_note_id": outcome.source_note_id,
                 "customer_complaint": outcome.customer_complaint,
@@ -193,6 +236,7 @@ def search_repair_outcomes(
                 "repair_successful": outcome.repair_successful,
                 "callback_required": outcome.callback_required,
                 "technician_summary": outcome.technician_summary,
+                "performed_on": None,
                 "created_at": outcome.created_at,
                 "updated_at": outcome.updated_at,
                 "order_number": work_order.order_number,
@@ -205,14 +249,125 @@ def search_repair_outcomes(
                 "work_order_description": work_order.description,
             }
         )
+    return items
 
-    pages = max(1, math.ceil(total / safe_limit)) if total else 1
+
+def _fetch_field_record_items(
+    db: Session,
+    *,
+    q: Optional[str],
+    equipment_make: Optional[str],
+    equipment_subtype: Optional[str],
+    problem_code: Optional[str],
+    resolution_code: Optional[str],
+    error_code: Optional[str],
+    repair_successful: Optional[bool],
+) -> List[Dict[str, Any]]:
+    query = db.query(DmaRepairRecord)
+
+    if repair_successful is not None:
+        query = query.filter(DmaRepairRecord.repair_successful == repair_successful)
+    if equipment_make:
+        query = query.filter(DmaRepairRecord.equipment_make.ilike(f"%{equipment_make.strip()}%"))
+    if equipment_subtype:
+        query = query.filter(DmaRepairRecord.equipment_subtype.ilike(f"%{equipment_subtype.strip()}%"))
+    if problem_code:
+        query = query.filter(DmaRepairRecord.problem_code == problem_code)
+    if resolution_code:
+        query = query.filter(DmaRepairRecord.resolution_code == resolution_code)
+    if error_code:
+        term = f"%{error_code.strip()}%"
+        query = query.filter(DmaRepairRecord.error_code_text.ilike(term))
+    if q:
+        term = f"%{q.strip()}%"
+        query = query.filter(
+            or_(
+                DmaRepairRecord.confirmed_fix.ilike(term),
+                DmaRepairRecord.customer_complaint.ilike(term),
+                DmaRepairRecord.technician_summary.ilike(term),
+                DmaRepairRecord.replaced_parts.ilike(term),
+                DmaRepairRecord.error_code_text.ilike(term),
+                DmaRepairRecord.equipment_make.ilike(term),
+                DmaRepairRecord.equipment_model.ilike(term),
+            )
+        )
+
+    rows = query.order_by(DmaRepairRecord.updated_at.desc()).all()
+    return [_field_record_to_search_item(record) for record in rows]
+
+
+def _field_record_to_search_item(record: DmaRepairRecord) -> Dict[str, Any]:
     return {
-        "items": items,
-        "total": total,
-        "page": safe_page,
-        "pages": pages,
+        "id": record.id,
+        "source_type": "field_record",
+        "work_order_id": None,
+        "source_note_id": None,
+        "customer_complaint": record.customer_complaint,
+        "problem_code": record.problem_code,
+        "resolution_code": record.resolution_code,
+        "confirmed_fix": record.confirmed_fix,
+        "error_code_text": record.error_code_text,
+        "replaced_parts": record.replaced_parts,
+        "repair_successful": record.repair_successful,
+        "callback_required": record.callback_required,
+        "technician_summary": record.technician_summary,
+        "performed_on": record.performed_on,
+        "created_at": record.created_at,
+        "updated_at": record.updated_at,
+        "order_number": None,
+        "equipment_make": record.equipment_make,
+        "equipment_model": record.equipment_model,
+        "equipment_type": record.equipment_type,
+        "equipment_subtype": record.equipment_subtype,
+        "equipment_serial": None,
+        "symptoms": None,
+        "work_order_description": None,
     }
+
+
+def create_repair_record(
+    db: Session,
+    user_id: uuid.UUID,
+    data: DmaRepairRecordCreate,
+) -> DmaRepairRecord:
+    record = DmaRepairRecord(
+        created_by=user_id,
+        updated_by=user_id,
+        **data.model_dump(),
+    )
+    db.add(record)
+    db.flush()
+    return record
+
+
+def get_repair_record(db: Session, record_id: uuid.UUID) -> Optional[DmaRepairRecord]:
+    return db.query(DmaRepairRecord).filter(DmaRepairRecord.id == record_id).first()
+
+
+def update_repair_record(
+    db: Session,
+    record: DmaRepairRecord,
+    user_id: uuid.UUID,
+    data: DmaRepairRecordUpdate,
+) -> DmaRepairRecord:
+    updates = data.model_dump(exclude_unset=True)
+    if updates:
+        make = (updates.get("equipment_make") if "equipment_make" in updates else record.equipment_make) or ""
+        subtype = (updates.get("equipment_subtype") if "equipment_subtype" in updates else record.equipment_subtype) or ""
+        if not str(make).strip() and not str(subtype).strip():
+            raise ValueError("Provide at least equipment make or appliance type")
+    for key, value in updates.items():
+        setattr(record, key, value)
+    record.updated_by = user_id
+    record.updated_at = datetime.utcnow()
+    db.add(record)
+    db.flush()
+    return record
+
+
+def delete_repair_record(db: Session, record: DmaRepairRecord) -> None:
+    db.delete(record)
+    db.flush()
 
 
 def get_outcome_for_work_order(

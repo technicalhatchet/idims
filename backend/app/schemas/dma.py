@@ -1,7 +1,9 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List, Any
-from datetime import datetime
+from pydantic import BaseModel, Field, field_validator, model_validator
+from typing import Optional, List, Any, Literal
+from datetime import datetime, date
 from uuid import UUID
+
+from app.constants.dma_codes import DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES
 
 
 class DmaCodesResponse(BaseModel):
@@ -9,9 +11,104 @@ class DmaCodesResponse(BaseModel):
     resolution_codes: dict[str, str]
 
 
+class DmaRepairRecordCreate(BaseModel):
+    equipment_make: Optional[str] = None
+    equipment_model: Optional[str] = None
+    equipment_type: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    customer_complaint: Optional[str] = None
+    problem_code: Optional[str] = None
+    resolution_code: Optional[str] = None
+    confirmed_fix: str = Field(..., min_length=1)
+    error_code_text: Optional[str] = None
+    replaced_parts: Optional[str] = None
+    repair_successful: bool = True
+    callback_required: bool = False
+    technician_summary: Optional[str] = None
+    performed_on: Optional[date] = None
+
+    @model_validator(mode="after")
+    def require_equipment_hint(self):
+        make = (self.equipment_make or "").strip()
+        subtype = (self.equipment_subtype or "").strip()
+        if not make and not subtype:
+            raise ValueError("Provide at least equipment make or appliance type")
+        return self
+
+    @field_validator("problem_code")
+    @classmethod
+    def validate_problem_code(cls, v):
+        if v and v not in DMA_PROBLEM_CODES:
+            raise ValueError(f"problem_code must be one of {list(DMA_PROBLEM_CODES.keys())}")
+        return v
+
+    @field_validator("resolution_code")
+    @classmethod
+    def validate_resolution_code(cls, v):
+        if v and v not in DMA_RESOLUTION_CODES:
+            raise ValueError(f"resolution_code must be one of {list(DMA_RESOLUTION_CODES.keys())}")
+        return v
+
+
+class DmaRepairRecordUpdate(BaseModel):
+    equipment_make: Optional[str] = None
+    equipment_model: Optional[str] = None
+    equipment_type: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    customer_complaint: Optional[str] = None
+    problem_code: Optional[str] = None
+    resolution_code: Optional[str] = None
+    confirmed_fix: Optional[str] = None
+    error_code_text: Optional[str] = None
+    replaced_parts: Optional[str] = None
+    repair_successful: Optional[bool] = None
+    callback_required: Optional[bool] = None
+    technician_summary: Optional[str] = None
+    performed_on: Optional[date] = None
+
+    @field_validator("problem_code")
+    @classmethod
+    def validate_problem_code(cls, v):
+        if v and v not in DMA_PROBLEM_CODES:
+            raise ValueError(f"problem_code must be one of {list(DMA_PROBLEM_CODES.keys())}")
+        return v
+
+    @field_validator("resolution_code")
+    @classmethod
+    def validate_resolution_code(cls, v):
+        if v and v not in DMA_RESOLUTION_CODES:
+            raise ValueError(f"resolution_code must be one of {list(DMA_RESOLUTION_CODES.keys())}")
+        return v
+
+
+class DmaRepairRecordResponse(BaseModel):
+    id: UUID
+    equipment_make: Optional[str] = None
+    equipment_model: Optional[str] = None
+    equipment_type: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    customer_complaint: Optional[str] = None
+    problem_code: Optional[str] = None
+    resolution_code: Optional[str] = None
+    confirmed_fix: str
+    error_code_text: Optional[str] = None
+    replaced_parts: Optional[str] = None
+    repair_successful: bool = True
+    callback_required: bool = False
+    technician_summary: Optional[str] = None
+    performed_on: Optional[date] = None
+    created_at: datetime
+    updated_at: datetime
+    created_by: UUID
+
+    class Config:
+        from_attributes = True
+
+
 class DmaRepairOutcomeResponse(BaseModel):
     id: UUID
-    work_order_id: UUID
+    source_type: Literal["work_order", "field_record"] = "work_order"
+    work_order_id: Optional[UUID] = None
     source_note_id: Optional[UUID] = None
     customer_complaint: Optional[str] = None
     problem_code: Optional[str] = None
@@ -22,6 +119,7 @@ class DmaRepairOutcomeResponse(BaseModel):
     repair_successful: bool = True
     callback_required: bool = False
     technician_summary: Optional[str] = None
+    performed_on: Optional[date] = None
     created_at: datetime
     updated_at: datetime
     order_number: Optional[str] = None

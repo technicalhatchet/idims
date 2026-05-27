@@ -18,3 +18,27 @@ export async function searchDmaRepairs(params = {}) {
 export async function getWorkOrderDmaOutcome(workOrderId) {
   return apiClient(`dma/work-orders/${workOrderId}`);
 }
+
+export async function createDmaRepairRecord(body) {
+  return apiClient('dma/records', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+}
+
+export async function getDmaRepairRecord(recordId) {
+  return apiClient(`dma/records/${recordId}`);
+}
+
+export async function updateDmaRepairRecord(recordId, body) {
+  return apiClient(`dma/records/${recordId}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+}
+
+export async function deleteDmaRepairRecord(recordId) {
+  return apiClient(`dma/records/${recordId}`, {
+    method: 'DELETE',
+  });
+}

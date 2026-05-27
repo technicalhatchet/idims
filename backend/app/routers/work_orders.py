@@ -2527,19 +2527,14 @@ async def admin_billing_override(
                 service.billing_status = override.new_billing_status
         
         elif override.action == "apply_payment" and override.payment_amount:
-            # Apply payment to work order and move billable services to paid
-            work_order.amount_previously_paid = (work_order.amount_previously_paid or 0) + override.payment_amount
-            
-            # Move all billable services to paid status
-            from app.models.work_order import WorkOrderService as WorkOrderServiceModel
-            billable_services = db.query(WorkOrderServiceModel).filter(
-                WorkOrderServiceModel.work_order_id == work_order_id,
-                WorkOrderServiceModel.billing_status == 'billable'
-            ).all()
-            
-            for service in billable_services:
-                logging.info(f"DEBUG: Moving billable service {service.id} to paid status")
-                service.billing_status = 'paid'
+            from app.services.work_order_payment_service import apply_payment_to_work_order
+
+            apply_payment_to_work_order(
+                db,
+                work_order,
+                float(override.payment_amount),
+                user_id=current_user.id,
+            )
         
         # Recalculate totals
         work_order.calculate_totals()

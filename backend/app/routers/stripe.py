@@ -247,13 +247,13 @@ def process_payment_success(
     payment_intent_id: str,
     amount: int
 ):
-    """Process successful payment - update work order and service statuses"""
+    """Process successful payment - update work order, services, and pending appointments."""
     try:
         from app.db.database import SessionLocal
+        from app.services.work_order_payment_service import apply_payment_to_work_order
         
         db = SessionLocal()
         
-        # Get the work order
         work_order = db.query(WorkOrder).filter(
             WorkOrder.id == work_order_id
         ).first()
@@ -262,24 +262,13 @@ def process_payment_success(
             logger.error(f"Work order {work_order_id} not found")
             return
         
-        # Convert amount from cents to dollars
         payment_amount = amount / 100
-        
-        # Update work order with payment information
-        work_order.amount_previously_paid = (work_order.amount_previously_paid or 0) + payment_amount
-        
-        # Update all billable services to paid
-        billable_services = db.query(WorkOrderService).filter(
-            WorkOrderService.work_order_id == work_order_id,
-            WorkOrderService.billing_status == 'billable'
-        ).all()
-        
-        for service in billable_services:
-            service.billing_status = 'paid'
-            logger.info(f"Updated service {service.id} to paid status")
-        
-        # Recalculate totals
-        work_order.calculate_totals()
+        apply_payment_to_work_order(
+            db,
+            work_order,
+            payment_amount,
+            user_id=work_order.updated_by or work_order.created_by,
+        )
         
         db.commit()
         logger.info(f"Successfully processed payment for work order {work_order_id}: ${payment_amount}")
@@ -326,20 +315,14 @@ async def process_payment(
         if not work_order:
             raise HTTPException(status_code=404, detail="Work order not found")
         
-        # Update work order with payment
-        work_order.amount_previously_paid = (work_order.amount_previously_paid or 0) + request.amount
-        
-        # Update billable services to paid
-        billable_services = db.query(WorkOrderService).filter(
-            WorkOrderService.work_order_id == request.work_order_id,
-            WorkOrderService.billing_status == 'billable'
-        ).all()
-        
-        for service in billable_services:
-            service.billing_status = 'paid'
-        
-        # Recalculate totals
-        work_order.calculate_totals()
+        from app.services.work_order_payment_service import apply_payment_to_work_order
+
+        apply_payment_to_work_order(
+            db,
+            work_order,
+            float(request.amount),
+            user_id=current_user.id,
+        )
         
         db.commit()
         
@@ -347,7 +330,7 @@ async def process_payment(
         
         return ProcessPaymentResponse(
             success=True,
-            payment_id=f"manual_{work_order_id}_{int(request.amount * 100)}",
+            payment_id=f"manual_{request.work_order_id}_{int(request.amount * 100)}",
             amount=request.amount,
             currency="usd",
             status="succeeded",
