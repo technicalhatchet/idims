@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
-import LoadingSpinner from '../../../components/ui/LoadingSpinner';
-import ErrorAlert from '../../../components/ui/ErrorAlert';
-import { searchDmaErrorCodes } from '../../../services/api/dmaApi';
+import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../../../components/ui/ErrorAlert';
+import { searchDmaErrorCodes } from '../../../../services/api/dmaApi';
 import {
   DMA_CANONICAL_MANUFACTURERS,
   formatDmaSubtype,
-} from '../../../constants/dmaErrorCodes';
+} from '../../../../constants/dmaErrorCodes';
 
 function DmaErrorCodesPage() {
   const router = useRouter();
