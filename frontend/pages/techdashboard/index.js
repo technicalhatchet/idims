@@ -125,7 +125,12 @@ function toEST(dateStr) {
   const ms = parseScheduleUtcMs(dateStr);
   if (!Number.isFinite(ms)) return '';
   const d = new Date(ms);
-  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' });
+  return d.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'America/New_York',
+  });
 }
 
 /** Instant (ms) for sorting / next-job — prefers scheduled_start then start (combined schedule). */
@@ -166,16 +171,13 @@ function isActivelyDeployedStatus(status) {
 }
 
 /**
- * Next job card: unfinished work today — row `status` should already reflect work-order
- * status when available (see load). Active job first, then earliest incomplete ≥ now, else earliest remaining.
+ * Next job card: unfinished work today — active job first, then earliest incomplete
+ * appointment in schedule order (even if its start time has passed).
  */
 function pickNextJobToday(sortedTodayAppts) {
-  const now = Date.now();
   const incomplete = sortedTodayAppts.filter((a) => !isAppointmentDoneStatus(a.status));
   const working = incomplete.find((a) => isActivelyDeployedStatus(a.status));
   if (working) return working;
-  const upcoming = incomplete.find((a) => appointmentStartMs(a) >= now);
-  if (upcoming) return upcoming;
   return incomplete[0] ?? null;
 }
 
