@@ -140,12 +140,20 @@ function DmaSearchPage() {
               Search past confirmed fixes by equipment, error code, or symptom.
             </p>
           </div>
-          <Link
-            href="/techdashboard/dma/new"
-            className="inline-flex items-center justify-center h-10 px-4 rounded-xl bg-gradient-to-br from-amber-600 to-amber-700 text-sm font-semibold text-white shrink-0"
-          >
-            + Add field record
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+            <Link
+              href="/techdashboard/dma/codes"
+              className="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-orange-500/30 bg-orange-500/10 text-sm font-semibold text-orange-200"
+            >
+              Error codes
+            </Link>
+            <Link
+              href="/techdashboard/dma/new"
+              className="inline-flex items-center justify-center h-10 px-4 rounded-xl bg-gradient-to-br from-amber-600 to-amber-700 text-sm font-semibold text-white"
+            >
+              + Add field record
+            </Link>
+          </div>
         </div>
 
         <form

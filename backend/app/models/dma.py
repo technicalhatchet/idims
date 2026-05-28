@@ -74,3 +74,22 @@ class DmaRepairOutcome(Base):
 
     def __repr__(self):
         return f"<DmaRepairOutcome wo={self.work_order_id} fix={self.confirmed_fix[:40]!r}>"
+
+
+class DmaErrorCodeReference(Base):
+    """Read-only manufacturer error code reference (seeded from field docs)."""
+    __tablename__ = "dma_error_code_references"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    manufacturer = Column(String(80), nullable=False, index=True)
+    equipment_subtype = Column(String(80), nullable=False, index=True)
+    code = Column(String(40), nullable=False)
+    code_normalized = Column(String(40), nullable=False, index=True)
+    meaning = Column(Text, nullable=False)
+    common_causes = Column(Text, nullable=True)
+    recommended_fix = Column(Text, nullable=True)
+    alias_group_id = Column(UUID(as_uuid=True), nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self):
+        return f"<DmaErrorCodeReference {self.manufacturer} {self.code_normalized}>"

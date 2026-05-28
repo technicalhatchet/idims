@@ -10,7 +10,8 @@ from sqlalchemy import or_, cast, String
 from sqlalchemy.orm import Session
 
 from app.constants.dma_codes import REPAIR_OUTCOME_NOTE_TYPE
-from app.models.dma import DmaRepairOutcome, DmaRepairRecord
+from app.constants.dma_brand_families import manufacturers_for_lookup
+from app.models.dma import DmaRepairOutcome, DmaRepairRecord, DmaErrorCodeReference
 from app.models.work_order import WorkOrder
 from app.schemas.dma import DmaRepairRecordCreate, DmaRepairRecordUpdate
 
@@ -452,6 +453,7 @@ def get_dma_suggestions(
         "total_count": 0,
         "common_fixes": [],
         "detected_error_codes": [],
+        "error_code_references": [],
         "search_params": {
             "equipment_make": make or None,
             "equipment_subtype": subtype or None,
@@ -494,13 +496,158 @@ def get_dma_suggestions(
             items = error_filtered
             applied_error_code = detected_codes[0]
 
+    reference_codes = detected_codes[:3] if detected_codes else []
+    error_code_references = lookup_error_code_references(
+        db,
+        equipment_make=make,
+        equipment_subtype=subtype,
+        codes=reference_codes,
+        limit=3,
+    )
+
     return {
         "total_count": len(items),
         "common_fixes": _aggregate_common_fixes(items),
         "detected_error_codes": detected_codes,
+        "error_code_references": error_code_references,
         "search_params": {
             "equipment_make": make,
             "equipment_subtype": subtype,
             "error_code": applied_error_code,
         },
     }
+
+
+def _normalize_lookup_code(code: str) -> str:
+    return re.sub(r"\s+", "", code.strip()).upper()
+
+
+def _error_code_to_summary(record: DmaErrorCodeReference) -> Dict[str, Any]:
+    return {
+        "id": record.id,
+        "manufacturer": record.manufacturer,
+        "equipment_subtype": record.equipment_subtype,
+        "code": record.code,
+        "code_normalized": record.code_normalized,
+        "meaning": record.meaning,
+        "alias_group_id": record.alias_group_id,
+    }
+
+
+def lookup_error_code_references(
+    db: Session,
+    *,
+    equipment_make: Optional[str] = None,
+    equipment_subtype: Optional[str] = None,
+    codes: Optional[List[str]] = None,
+    limit: int = 5,
+) -> List[Dict[str, Any]]:
+    """Find reference rows for detected or searched codes."""
+    if not codes:
+        return []
+
+    manufacturers = manufacturers_for_lookup(equipment_make)
+    normalized_codes = [_normalize_lookup_code(code) for code in codes if code and code.strip()]
+    if not manufacturers or not normalized_codes:
+        return []
+
+    query = db.query(DmaErrorCodeReference).filter(
+        DmaErrorCodeReference.manufacturer.in_(manufacturers),
+        DmaErrorCodeReference.code_normalized.in_(normalized_codes),
+    )
+    if equipment_subtype and equipment_subtype.strip():
+        query = query.filter(
+            DmaErrorCodeReference.equipment_subtype == equipment_subtype.strip()
+        )
+
+    rows = query.order_by(DmaErrorCodeReference.code_normalized.asc()).limit(max(1, limit)).all()
+    return [_error_code_to_summary(row) for row in rows]
+
+
+def search_error_code_references(
+    db: Session,
+    *,
+    q: Optional[str] = None,
+    equipment_make: Optional[str] = None,
+    equipment_subtype: Optional[str] = None,
+    code: Optional[str] = None,
+    page: int = 1,
+    limit: int = 30,
+) -> Dict[str, Any]:
+    query = db.query(DmaErrorCodeReference)
+
+    if equipment_make and equipment_make.strip():
+        manufacturers = manufacturers_for_lookup(equipment_make)
+        query = query.filter(DmaErrorCodeReference.manufacturer.in_(manufacturers))
+    if equipment_subtype and equipment_subtype.strip():
+        query = query.filter(
+            DmaErrorCodeReference.equipment_subtype == equipment_subtype.strip()
+        )
+    if code and code.strip():
+        normalized = _normalize_lookup_code(code)
+        query = query.filter(DmaErrorCodeReference.code_normalized == normalized)
+    if q and q.strip():
+        term = f"%{q.strip()}%"
+        query = query.filter(
+            or_(
+                DmaErrorCodeReference.code.ilike(term),
+                DmaErrorCodeReference.code_normalized.ilike(term),
+                DmaErrorCodeReference.meaning.ilike(term),
+                DmaErrorCodeReference.common_causes.ilike(term),
+                DmaErrorCodeReference.recommended_fix.ilike(term),
+            )
+        )
+
+    total = query.count()
+    safe_limit = max(1, min(limit, 100))
+    safe_page = max(1, page)
+    offset = (safe_page - 1) * safe_limit
+    rows = (
+        query.order_by(
+            DmaErrorCodeReference.manufacturer.asc(),
+            DmaErrorCodeReference.equipment_subtype.asc(),
+            DmaErrorCodeReference.code_normalized.asc(),
+        )
+        .offset(offset)
+        .limit(safe_limit)
+        .all()
+    )
+    pages = max(1, math.ceil(total / safe_limit)) if total else 1
+    return {
+        "items": [_error_code_to_summary(row) for row in rows],
+        "total": total,
+        "page": safe_page,
+        "pages": pages,
+    }
+
+
+def get_error_code_reference(
+    db: Session, reference_id: uuid.UUID
+) -> Optional[Dict[str, Any]]:
+    record = (
+        db.query(DmaErrorCodeReference)
+        .filter(DmaErrorCodeReference.id == reference_id)
+        .first()
+    )
+    if not record:
+        return None
+
+    related = (
+        db.query(DmaErrorCodeReference)
+        .filter(DmaErrorCodeReference.alias_group_id == record.alias_group_id)
+        .order_by(DmaErrorCodeReference.code_normalized.asc())
+        .all()
+    )
+    payload = {
+        "id": record.id,
+        "manufacturer": record.manufacturer,
+        "equipment_subtype": record.equipment_subtype,
+        "code": record.code,
+        "code_normalized": record.code_normalized,
+        "meaning": record.meaning,
+        "common_causes": record.common_causes,
+        "recommended_fix": record.recommended_fix,
+        "alias_group_id": record.alias_group_id,
+        "related_codes": [_error_code_to_summary(row) for row in related],
+    }
+    return payload

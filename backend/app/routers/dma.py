@@ -17,13 +17,17 @@ from app.schemas.dma import (
     DmaRepairRecordUpdate,
     DmaSearchResponse,
     DmaSuggestionsResponse,
+    DmaErrorCodeReferenceResponse,
+    DmaErrorCodeSearchResponse,
 )
 from app.services.dma_service import (
     create_repair_record,
     delete_repair_record,
     get_dma_suggestions,
+    get_error_code_reference,
     get_outcome_for_work_order,
     get_repair_record,
+    search_error_code_references,
     search_repair_outcomes,
     update_repair_record,
 )
@@ -42,6 +46,42 @@ async def get_dma_codes(
         problem_codes=DMA_PROBLEM_CODES,
         resolution_codes=DMA_RESOLUTION_CODES,
     )
+
+
+@router.get("/error-codes/search", response_model=DmaErrorCodeSearchResponse)
+async def search_dma_error_codes(
+    q: Optional[str] = Query(None, description="Search code, meaning, causes, or fix"),
+    equipment_make: Optional[str] = Query(None),
+    equipment_subtype: Optional[str] = Query(None),
+    code: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    limit: int = Query(30, ge=1, le=100),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Search read-only manufacturer error code reference rows."""
+    result = search_error_code_references(
+        db,
+        q=q,
+        equipment_make=equipment_make,
+        equipment_subtype=equipment_subtype,
+        code=code,
+        page=page,
+        limit=limit,
+    )
+    return DmaErrorCodeSearchResponse(**result)
+
+
+@router.get("/error-codes/{reference_id}", response_model=DmaErrorCodeReferenceResponse)
+async def get_dma_error_code(
+    reference_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    payload = get_error_code_reference(db, reference_id)
+    if not payload:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Error code not found")
+    return DmaErrorCodeReferenceResponse(**payload)
 
 
 @router.get("/suggestions", response_model=DmaSuggestionsResponse)

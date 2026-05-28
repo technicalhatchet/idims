@@ -15,6 +15,21 @@ export async function getDmaSuggestions(params = {}) {
   return apiClient(`dma/suggestions${qs ? `?${qs}` : ''}`);
 }
 
+export async function searchDmaErrorCodes(params = {}) {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      query.set(key, String(value));
+    }
+  });
+  const qs = query.toString();
+  return apiClient(`dma/error-codes/search${qs ? `?${qs}` : ''}`);
+}
+
+export async function getDmaErrorCode(referenceId) {
+  return apiClient(`dma/error-codes/${referenceId}`);
+}
+
 export async function searchDmaRepairs(params = {}) {
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {

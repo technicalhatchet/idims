@@ -153,8 +153,45 @@ class DmaSuggestionSearchParams(BaseModel):
     error_code: Optional[str] = None
 
 
+class DmaErrorCodeReferenceSummary(BaseModel):
+    id: UUID
+    manufacturer: str
+    equipment_subtype: str
+    code: str
+    code_normalized: str
+    meaning: str
+    alias_group_id: UUID
+
+    class Config:
+        from_attributes = True
+
+
 class DmaSuggestionsResponse(BaseModel):
     total_count: int
     common_fixes: List[DmaSuggestionFix]
     detected_error_codes: List[str] = Field(default_factory=list)
     search_params: DmaSuggestionSearchParams
+    error_code_references: List[DmaErrorCodeReferenceSummary] = Field(default_factory=list)
+
+
+class DmaErrorCodeReferenceResponse(BaseModel):
+    id: UUID
+    manufacturer: str
+    equipment_subtype: str
+    code: str
+    code_normalized: str
+    meaning: str
+    common_causes: Optional[str] = None
+    recommended_fix: Optional[str] = None
+    alias_group_id: UUID
+    related_codes: List[DmaErrorCodeReferenceSummary] = Field(default_factory=list)
+
+    class Config:
+        from_attributes = True
+
+
+class DmaErrorCodeSearchResponse(BaseModel):
+    items: List[DmaErrorCodeReferenceSummary]
+    total: int
+    page: int
+    pages: int

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { getDmaSuggestions } from '../../services/api/dmaApi';
+import { formatDmaSubtype } from '../../constants/dmaErrorCodes';
 
 function buildRepairMemoryHref(searchParams) {
   const query = new URLSearchParams();
@@ -58,15 +59,24 @@ export default function DmaSuggestionsAccordion({
     [suggestions?.search_params],
   );
 
-  if (!canSuggest || isLoading || !suggestions?.total_count) {
+  if (!canSuggest || isLoading) {
     return null;
   }
 
-  const title = `DMA Q Suggests (${suggestions.total_count})`;
+  const referenceCount = suggestions?.error_code_references?.length || 0;
+  const historyCount = suggestions?.total_count || 0;
+  if (!historyCount && !referenceCount) {
+    return null;
+  }
+
+  const title = historyCount
+    ? `DMA Q Suggests (${historyCount})`
+    : `DMA Q Reference (${referenceCount})`;
   const summary =
     suggestions.common_fixes?.[0]?.label ||
+    suggestions.error_code_references?.[0]?.meaning ||
     (suggestions.detected_error_codes?.length
-      ? `Error ${suggestions.detected_error_codes[0]} matches`
+      ? `Error ${suggestions.detected_error_codes[0]}`
       : 'Past fixes for this equipment');
 
   return (
@@ -95,6 +105,31 @@ export default function DmaSuggestionsAccordion({
               Detected code: {suggestions.detected_error_codes.join(', ')}
             </p>
           )}
+          {suggestions.error_code_references?.length > 0 && (
+            <div>
+              <p className="text-[10px] uppercase tracking-wide text-gray-500 mb-2">
+                Code reference
+              </p>
+              <ul className="space-y-2">
+                {suggestions.error_code_references.map((ref) => (
+                  <li key={ref.id}>
+                    <Link
+                      href={`/techdashboard/dma/codes/${ref.id}`}
+                      className="block rounded-lg border border-orange-500/20 bg-orange-500/[0.05] px-3 py-2 hover:border-orange-500/35"
+                    >
+                      <p className="text-sm font-medium text-orange-200">
+                        {ref.code}
+                        <span className="text-gray-500 font-normal ml-2">
+                          {formatDmaSubtype(ref.equipment_subtype)}
+                        </span>
+                      </p>
+                      <p className="text-xs text-gray-300 mt-1 line-clamp-2">{ref.meaning}</p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {suggestions.common_fixes?.length > 0 && (
             <div>
               <p className="text-[10px] uppercase tracking-wide text-gray-500 mb-2">
@@ -118,12 +153,14 @@ export default function DmaSuggestionsAccordion({
               </ul>
             </div>
           )}
-          <Link
-            href={repairMemoryHref}
-            className="inline-flex text-sm font-medium text-cyan-400 hover:text-cyan-300"
-          >
-            View all {suggestions.total_count} in Repair Memory →
-          </Link>
+          {historyCount > 0 && (
+            <Link
+              href={repairMemoryHref}
+              className="inline-flex text-sm font-medium text-cyan-400 hover:text-cyan-300"
+            >
+              View all {historyCount} in Repair Memory →
+            </Link>
+          )}
         </div>
       )}
     </div>
