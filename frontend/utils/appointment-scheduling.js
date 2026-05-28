@@ -64,6 +64,9 @@ export function resolveAppointmentLocation(appointment) {
   const fromServiceLocation = formatServiceLocationAddress(appointment.service_location);
   if (fromServiceLocation) return fromServiceLocation;
 
+  const fromAppointmentProperty = formatPropertyAddress(appointment.property);
+  if (fromAppointmentProperty) return fromAppointmentProperty;
+
   const workOrder = appointment.work_order;
   if (workOrder) {
     const fromWorkOrder = formatServiceLocationAddress(workOrder.service_location);

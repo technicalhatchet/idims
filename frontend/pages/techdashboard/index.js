@@ -8,6 +8,8 @@ import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
+import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
+import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
 
 // ── Appliance Icons (same as work orders test) ────────────────────────────
 const APPLIANCE_ICONS = {
@@ -100,46 +102,6 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
       </div>
     </div>
   );
-}
-
-// ── EST time helper ─────────────────────────────────────────────────────
-/**
- * Parse API schedule timestamps (combined schedule uses `start` from datetime.isoformat()).
- * Append `Z` only when the string has no timezone — appending Z to `...+00:00` breaks parsing (NaN)
- * and leaves lists in DB order so "next job" can pick the wrong row.
- */
-function parseScheduleUtcMs(raw) {
-  const s = String(raw || '').trim();
-  if (!s) return NaN;
-  const hasExplicitZone =
-    /z$/i.test(s)
-    || /[+-]\d{2}:\d{2}$/.test(s)
-    || /[+-]\d{4}$/.test(s);
-  const normalized = hasExplicitZone ? s : `${s}Z`;
-  const t = Date.parse(normalized);
-  return Number.isFinite(t) ? t : NaN;
-}
-
-function toEST(dateStr) {
-  if (!dateStr) return '';
-  const ms = parseScheduleUtcMs(dateStr);
-  if (!Number.isFinite(ms)) return '';
-  const d = new Date(ms);
-  return d.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-    timeZone: 'America/New_York',
-  });
-}
-
-/** Instant (ms) for sorting / next-job — prefers scheduled_start then start (combined schedule). */
-function appointmentStartMs(apptOrStartField) {
-  const raw =
-    typeof apptOrStartField === 'string'
-      ? apptOrStartField
-      : apptOrStartField?.scheduled_start || apptOrStartField?.start || '';
-  return parseScheduleUtcMs(raw);
 }
 
 function normalizeWorkOrderStatus(status) {
@@ -313,7 +275,7 @@ function NextJobCard({ job }) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-lg font-bold text-white">
-                Today at {job.scheduled_start ? toEST(job.scheduled_start) : 'TBD'}
+                Today at {job.scheduled_start ? formatScheduleTime(job.scheduled_start) : 'TBD'}
               </p>
               <p className="text-sm font-medium text-white mt-0.5">{job.client_name || 'Unknown Client'}</p>
               <p className="text-xs text-gray-400">{[job.equipment_make, job.equipment_model].filter(Boolean).join(' ') || 'Appliance'}</p>
@@ -321,7 +283,9 @@ function NextJobCard({ job }) {
                 <svg viewBox="0 0 24 24" className="w-3 h-3 flex-shrink-0" style={{ stroke: '#6B7280', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
-                <p className="text-xs text-gray-500 truncate">{job.service_address || job.client_address || 'Address on file'}</p>
+                <p className="text-xs text-gray-500 truncate">
+                  {job.service_address || resolveAppointmentLocation(job) || 'No address listed'}
+                </p>
               </div>
             </div>
           </div>
@@ -358,8 +322,9 @@ function NextJobCard({ job }) {
 
 // ── Today Job Row ─────────────────────────────────────────────────────────
 function TodayJobRow({ appt }) {
-  const timeStr = appt.scheduled_start ? toEST(appt.scheduled_start).split(' ')[0] : '--:--';
-  const ampm = appt.scheduled_start ? toEST(appt.scheduled_start).split(' ')[1] : '';
+  const timeLabel = appt.scheduled_start ? formatScheduleTime(appt.scheduled_start) : '--:--';
+  const timeStr = timeLabel.split(' ')[0];
+  const ampm = timeLabel.split(' ').slice(1).join(' ');
   const client = appt.client_name || 'Unknown Client';
   const equip = [appt.equipment_make, appt.equipment_model].filter(Boolean).join(' ') || appt.equipment_type || 'Appliance';
   const address = appt.service_address || appt.client_address || '';
@@ -482,7 +447,7 @@ export default function TechDashboardTest() {
             ...a,
             scheduled_start: a.scheduled_start || a.start,
             status: mergedStatus,
-            service_address: a.service_address || a.location || a.service_location?.address || '',
+            service_address: resolveAppointmentLocation(a) || '',
             client_phone: a.client_phone || a.client?.phone || '',
             client_name: a.client_name || a.client?.name || '',
             equipment_type: a.equipment_type || '',
@@ -806,7 +771,7 @@ export default function TechDashboardTest() {
             <StatCard
               label="Today's Jobs"
               value={todayAppts.length}
-              sub={nextJob?.scheduled_start ? `next at ${toEST(nextJob.scheduled_start)}` : 'none remaining'}
+              sub={nextJob?.scheduled_start ? `next at ${formatScheduleTime(nextJob.scheduled_start)}` : 'none remaining'}
               borderColor="rgba(34,211,238,0.25)"
               href="/schedule-test"
               icon={
