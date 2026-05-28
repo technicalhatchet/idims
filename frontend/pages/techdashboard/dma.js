@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
@@ -31,6 +32,7 @@ function SourceBadge({ item }) {
 }
 
 function DmaSearchPage() {
+  const router = useRouter();
   const [codes, setCodes] = useState(null);
   const [query, setQuery] = useState('');
   const [equipmentMake, setEquipmentMake] = useState('');
@@ -50,11 +52,28 @@ function DmaSearchPage() {
   }, []);
 
   useEffect(() => {
+    if (!router.isReady) return undefined;
+
+    const make = typeof router.query.make === 'string' ? router.query.make : '';
+    const subtype = typeof router.query.subtype === 'string' ? router.query.subtype : '';
+    const error = typeof router.query.error === 'string' ? router.query.error : '';
+    const hasPrefill = Boolean(make || subtype || error);
+
+    if (make) setEquipmentMake(make);
+    if (subtype) setEquipmentSubtype(subtype);
+    if (error) setErrorCode(error);
+
     let cancelled = false;
     (async () => {
       setIsLoading(true);
       try {
-        const data = await searchDmaRepairs({ repair_successful: true, limit: 20 });
+        const data = await searchDmaRepairs({
+          equipment_make: make || undefined,
+          equipment_subtype: subtype || undefined,
+          error_code: error || undefined,
+          repair_successful: true,
+          limit: hasPrefill ? 30 : 20,
+        });
         if (!cancelled) {
           setResults(data);
           setError(null);
@@ -67,8 +86,14 @@ function DmaSearchPage() {
         if (!cancelled) setIsLoading(false);
       }
     })();
+
     return () => { cancelled = true; };
-  }, []);
+  }, [
+    router.isReady,
+    router.query.make,
+    router.query.subtype,
+    router.query.error,
+  ]);
 
   const runSearch = useCallback(async (e) => {
     if (e) e.preventDefault();

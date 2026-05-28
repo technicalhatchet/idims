@@ -451,6 +451,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   if (isMobile) {
     return (
       <EquipmentDetailsMobile
+        workOrderId={workOrderId}
         openSection={openSection}
         toggleMobileSection={toggleMobileSection}
         equipmentSummary={equipmentSummary}

@@ -378,3 +378,129 @@ def get_outcome_for_work_order(
         .filter(DmaRepairOutcome.work_order_id == work_order_id)
         .first()
     )
+
+
+_ERROR_CODE_PATTERN = re.compile(
+    r"\b(?:"
+    r"F\s*\d{1,2}\s*E\s*\d{1,2}|"
+    r"E\s*\d{1,3}|"
+    r"[A-Z]{2}\s*\d{1,3}|"
+    r"LF|LE|OE|UE|SE|PE|DC|DR|IE|FE|HF|HE|PF\s*\d+"
+    r")\b",
+    re.IGNORECASE,
+)
+
+
+def extract_error_codes_from_text(text: str) -> List[str]:
+    """Extract likely appliance error codes from free text."""
+    if not text or not text.strip():
+        return []
+    seen: set[str] = set()
+    codes: List[str] = []
+    for match in _ERROR_CODE_PATTERN.finditer(text):
+        normalized = re.sub(r"\s+", "", match.group(0)).upper()
+        if normalized not in seen:
+            seen.add(normalized)
+            codes.append(normalized)
+    return codes
+
+
+def _symptoms_to_text(symptoms: Any) -> str:
+    if not symptoms:
+        return ""
+    if isinstance(symptoms, list):
+        parts = [str(item).strip() for item in symptoms if str(item).strip()]
+        return ", ".join(parts)
+    return str(symptoms).strip()
+
+
+def _work_order_context_text(work_order: WorkOrder) -> str:
+    parts = [work_order.description or "", _symptoms_to_text(work_order.symptoms)]
+    return "\n".join(part for part in parts if part)
+
+
+def _normalize_fix_key(text: str) -> str:
+    return re.sub(r"\s+", " ", text.strip().lower())
+
+
+def _aggregate_common_fixes(items: List[Dict[str, Any]], limit: int = 3) -> List[Dict[str, Any]]:
+    tallies: Dict[str, Dict[str, Any]] = {}
+    for item in items:
+        fix = (item.get("confirmed_fix") or "").strip()
+        if not fix:
+            continue
+        key = _normalize_fix_key(fix)
+        if key not in tallies:
+            tallies[key] = {"label": fix, "count": 0}
+        tallies[key]["count"] += 1
+    ranked = sorted(tallies.values(), key=lambda row: (-row["count"], row["label"].lower()))
+    return ranked[:limit]
+
+
+def get_dma_suggestions(
+    db: Session,
+    *,
+    equipment_make: Optional[str] = None,
+    equipment_subtype: Optional[str] = None,
+    error_code: Optional[str] = None,
+    work_order_id: Optional[uuid.UUID] = None,
+) -> Dict[str, Any]:
+    """Return in-context repair memory suggestions for equipment on a job."""
+    make = (equipment_make or "").strip()
+    subtype = (equipment_subtype or "").strip()
+    empty = {
+        "total_count": 0,
+        "common_fixes": [],
+        "detected_error_codes": [],
+        "search_params": {
+            "equipment_make": make or None,
+            "equipment_subtype": subtype or None,
+            "error_code": None,
+        },
+    }
+    if not make or not subtype:
+        return empty
+
+    detected_codes: List[str] = []
+    if error_code and error_code.strip():
+        detected_codes = [re.sub(r"\s+", "", error_code.strip()).upper()]
+    elif work_order_id:
+        work_order = db.query(WorkOrder).filter(WorkOrder.id == work_order_id).first()
+        if work_order:
+            detected_codes = extract_error_codes_from_text(_work_order_context_text(work_order))
+
+    baseline_items = search_repair_outcomes(
+        db,
+        equipment_make=make,
+        equipment_subtype=subtype,
+        repair_successful=True,
+        page=1,
+        limit=100,
+    )["items"]
+
+    items = baseline_items
+    applied_error_code: Optional[str] = None
+    if detected_codes:
+        error_filtered = search_repair_outcomes(
+            db,
+            equipment_make=make,
+            equipment_subtype=subtype,
+            error_code=detected_codes[0],
+            repair_successful=True,
+            page=1,
+            limit=100,
+        )["items"]
+        if error_filtered:
+            items = error_filtered
+            applied_error_code = detected_codes[0]
+
+    return {
+        "total_count": len(items),
+        "common_fixes": _aggregate_common_fixes(items),
+        "detected_error_codes": detected_codes,
+        "search_params": {
+            "equipment_make": make,
+            "equipment_subtype": subtype,
+            "error_code": applied_error_code,
+        },
+    }

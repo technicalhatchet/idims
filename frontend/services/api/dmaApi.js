@@ -4,6 +4,17 @@ export async function getDmaCodes() {
   return apiClient('dma/codes');
 }
 
+export async function getDmaSuggestions(params = {}) {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      query.set(key, String(value));
+    }
+  });
+  const qs = query.toString();
+  return apiClient(`dma/suggestions${qs ? `?${qs}` : ''}`);
+}
+
 export async function searchDmaRepairs(params = {}) {
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {

@@ -16,10 +16,12 @@ from app.schemas.dma import (
     DmaRepairRecordResponse,
     DmaRepairRecordUpdate,
     DmaSearchResponse,
+    DmaSuggestionsResponse,
 )
 from app.services.dma_service import (
     create_repair_record,
     delete_repair_record,
+    get_dma_suggestions,
     get_outcome_for_work_order,
     get_repair_record,
     search_repair_outcomes,
@@ -40,6 +42,26 @@ async def get_dma_codes(
         problem_codes=DMA_PROBLEM_CODES,
         resolution_codes=DMA_RESOLUTION_CODES,
     )
+
+
+@router.get("/suggestions", response_model=DmaSuggestionsResponse)
+async def get_dma_repair_suggestions(
+    equipment_make: Optional[str] = Query(None),
+    equipment_subtype: Optional[str] = Query(None),
+    error_code: Optional[str] = Query(None),
+    work_order_id: Optional[uuid.UUID] = Query(None),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """In-context repair memory suggestions for equipment on a job."""
+    result = get_dma_suggestions(
+        db,
+        equipment_make=equipment_make,
+        equipment_subtype=equipment_subtype,
+        error_code=error_code,
+        work_order_id=work_order_id,
+    )
+    return DmaSuggestionsResponse(**result)
 
 
 @router.get("/search", response_model=DmaSearchResponse)

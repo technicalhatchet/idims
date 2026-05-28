@@ -140,3 +140,21 @@ class DmaSearchResponse(BaseModel):
     total: int
     page: int
     pages: int
+
+
+class DmaSuggestionFix(BaseModel):
+    label: str
+    count: int
+
+
+class DmaSuggestionSearchParams(BaseModel):
+    equipment_make: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    error_code: Optional[str] = None
+
+
+class DmaSuggestionsResponse(BaseModel):
+    total_count: int
+    common_fixes: List[DmaSuggestionFix]
+    detected_error_codes: List[str] = Field(default_factory=list)
+    search_params: DmaSuggestionSearchParams

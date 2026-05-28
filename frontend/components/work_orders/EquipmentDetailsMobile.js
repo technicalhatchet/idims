@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { FaTrash, FaTimes, FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
+import DmaSuggestionsAccordion from '../dma/DmaSuggestionsAccordion';
 
 const EQUIPMENT_TYPES = [
   { value: '', label: 'Select Equipment Type' },
@@ -114,6 +115,7 @@ function MobileAccordionSection({ id, title, summary, isOpen, onToggle, children
 }
 
 export default function EquipmentDetailsMobile({
+  workOrderId,
   openSection,
   toggleMobileSection,
   equipmentSummary,
@@ -200,6 +202,12 @@ export default function EquipmentDetailsMobile({
   return (
     <div className="space-y-3 pb-4 min-w-0">
       {(error || successMessage) && <div className="px-0.5">{saveFeedback}</div>}
+
+      <DmaSuggestionsAccordion
+        workOrderId={workOrderId}
+        equipmentMake={manufacturer}
+        equipmentSubtype={equipmentSubtype}
+      />
 
       <MobileAccordionSection
         id="equipment"

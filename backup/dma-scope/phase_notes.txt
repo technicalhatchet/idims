@@ -1,0 +1,340 @@
+=== LINE 3471 ===
+DMA v1 is in place. Here’s what was built and how to use it.
+
+## What you got
+
+### Capture — **Repair Outcome** note type
+On any work order **Notes** tab (mobile or desktop):
+1. Add note → type **Repair Outcome**
+2. Fill in complaint, problem/resolution codes, confirmed fix (required), optional error code, parts, success/callback flags, comments
+3. Save — one outcome per work order (latest Repair Outcome overwrites the previous)
+
+Customer complaint pre-fills from the WO `description` / `symptoms` when you pick Repair Outcome.
+
+### Search — **Repair Memory** page
+Nav → **Repair Memory** (`/techdashboard/dma`)  
+Search by text, make, subtype, problem/resolution code, error code. Results link back to the work order.
+
+### Backend
+- Table `dma_repair_outcomes` (1:1 with work orders)
+- Auto-sync when a Repair Outcome note is created or edited
+- API: `/api/dma/search`, `/api/dma/codes`, `/api/dma/work-orders/{id}`
+
+---
+
+## Deploy step (required before it works in prod)
+
+Run this in **Supabase SQL Editor** (or your DB):
+
+`backend/database/supabase_dma.sql`
+
+Then deploy backend + frontend to Railway/Vercel.
+
+---
+
+## How to test
+
+1. Open a work order → **Notes** → **Repair Outcome**
+2. Enter a confirmed fix (e.g. “Cleared pressure hose obstruction”), optional error code `F9E1`
+3. Save
+4. Go to **Repair Memory** and search `F9E1` or the fix text
+
+---
+
+## Problem / resolution codes (starter set)
+
+**Problem:** not cooling, not heating, not draining, leaking, noisy, won’t start, won’t spin, ice maker, door seal, error code on display, poor drying, display issue, other  
+
+**Resolution:** mechanical/electrical adjustment, mechanical/electrical part replaced, cleaning/maintenance, reset/software, wiring repair, other  
+
+Easy to extend in `backend/app/constants/dma_codes.py` and `frontend/constants/dmaCodes.js`.
+
+---
+
+## Note on offline
+
+Repair Outcome notes still queue offline like other notes; the DMA index updates when the note syncs online. Search requires network.
+
+After you run the SQL migration and deploy, try one real completed job and search for it. If anything’s off (sync, search, or codes), say what you see and we can tighten it up.
+
+[REDACTED]
+
+=== LINE 3535 ===
+You've already shipped the core of **Phase 1**: structured capture + retrieval. Repair Outcome notes feed `dma_repair_outcomes`, and you can search past fixes from **Repair Memory** by equipment, error code, problem/resolution codes, and free text. That's the "structured retrieval first" foundation — no AI, no vectors, no rewrite.
+
+---
+
+## Where you are
+
+**V1 delivered:**
+- Repair Outcome as a note type (human-readable + JSON index)
+- One outcome row per work order
+- Search page at `/techdashboard/dma`
+- Manual entry only — you type the fix, codes, parts, etc.
+
+**V1 did not deliver yet:**
+- Tags
+- A standalone error-code reference library
+- Showing similar past repairs *while you're on a job*
+- Auto-extraction from notes
+- Stats like "most common fix for F9E1"
+- Semantic / vector search
+
+---
+
+## Recommended Phase 2: make it useful on-site
+
+The biggest gap right now isn't smarter AI — it's **context**. DMA lives on its own page. When you're standing in front of a Whirlpool with F9E1, you want memory *on the work order*, not a separate detour.
+
+Phase 2 should focus on **"similar past repairs, right where I'm diagnosing."**
+
+Roughly:
+
+1. **In-context panel on the WO** (mobile first)
+   - On open, query DMA by current equipment make/model/subtype + any error code from notes/symptoms
+   - Show 3–5 past confirmed fixes with links back to those WOs
+   - Optional "copy fix language into note" shortcut
+
+2. **Repair tags (manual first)**
+   - Tags like `drain`, `compressor`, `control_board`, `pressure_hose`
+   - Many-to-many: `work_order_tags` / `tags`
+   - Add to Repair Outcome form + filter on Repair Memory search
+   - Sets you up for extraction later without needing it now
+
+3. **Error code reference table (lightweight)**
+   - `error_codes`: manufacturer, appliance type, code, description
+   - Searchable lookup UI
+   - Link from a code → all matching repair outcomes in your history
+   - You can seed it slowly (Whirlpool/Samsung codes you hit often)
+
+4. **Capture habit / data quality**
+   - Nudge Repair Outcome when marking repair **Completed** or **Completed — Pending Payment**
+   - Maybe a "missing outcome" indicator on closed WOs
+   - Backfill a few recent successful jobs so search isn't empty
+
+That's still additive architecture: new tables, new endpoints, new UI panels — no rework of work orders.
+
+---
+
+## Phase 3: extraction (still no LLM required)
+
+Once search + tags are in daily use:
+
+- On note save, run simple Python rules:
+  - Regex for error codes (`F9E1`, `E01`, etc.)
+  - Keyword scan for components (`drain pump`, `compressor`, `thermistor`)
+  - **Suggest** tags — don't auto-commit
+- Optional background job later if sync processing gets slow
+
+This is where the backend starts feeling more "intelligence layer" than CRUD, but you can fake v1 synchronously on note save.
+
+---
+
+## Phase 4: statistical memory
+
+When you have enough rows:
+
+- "Top fixes for this error code on this brand"
+- "Success rate when part X was replaced"
+- Callback patterns
+
+Useful for you solo, but it needs volume. Don't build this until you have ~20–30+ outcomes with decent tagging.
+
+---
+
+## Phase 5+: semantic search / AI assist
+
+Only after structured search feels insufficient:
+
+- Embeddings on `confirmed_fix` + complaint + summary
+- pgvector in Supabase
+- "Find repairs similar to this symptom paragraph"
+
+Powerful, but it's the wrong next move if Phase 2 isn't done — you'll search an empty or thin corpus with fancy tools.
+
+---
+
+## What I'd *not* do next
+
+- Route optimization tied to DMA (you already deferred this — correct call)
+- Rebuilding Repair Outcome as a separate panel (Option A note type was the right call)
+- LLM pipelines before tags + in-context retrieval
+- A standalone DMA app (you correctly integrated into IDIMS)
+
+---
+
+## Practical priority order
+
+If I were sequencing for **solo field use**:
+
+| Priority | What | Why |
+|----------|------|-----|
+| 1 | In-context "similar repairs" on WO mobile | Biggest daily payoff |
+| 2 | Manual tags + search filters | Better retrieval without AI |
+| 3 | Completion nudge for Repair Outcome | Grows the corpus |
+| 4 | Error code reference table | Fast lookup + history link |
+| 5 | Rule-based extraction suggestions | Reduces typing |
+| 6 | Stats / trends | Needs data volume |
+| 7 | Vector search | Nice later |
+
+---
+
+**Bottom line:** Phase 2 isn't "more DMA tables" — it's **bringing DMA to the moment of diagnosis** and **tagging** so retrieval gets sharper. Phase 3 is teaching the system to read your notes; Phase 4+ is when it starts telling you what's *likely*.
+
+If you want to pick one slice to build next, **in-context similar repairs on the mobile WO page** is the highest-leverage move.
+
+[REDACTED]
+
+=== LINE 3551 ===
+You're thinking about it the right way. Intake + view is the core, but a few supporting pieces make it actually usable day to day.
+
+## The problem with today's DMA
+
+`dma_repair_outcomes` is **1:1 with work orders**. Equipment context comes from the WO join; search results link to `/work_orders/{id}`. That fits Atomic Repair jobs, not employer field notes with no client and no order.
+
+You want a **second lane** in the same repair memory system: same kind of knowledge, zero WO/client/billing baggage.
+
+---
+
+## What you're building (conceptually)
+
+Think of it as **Repair Memory Records** — standalone entries that only hold technical repair knowledge.
+
+```
+Repair Memory (search)
+    ├── From Atomic work orders (existing — Repair Outcome notes)
+    └── Standalone records (new — manual intake, CSV later)
+```
+
+No fake order numbers. No clients. Internal ID only (e.g. a UUID or simple `RM-042` display label if you want something human-readable).
+
+---
+
+## V1 scope: yes, intake + view — plus a few essentials
+
+### 1. Intake form (required)
+Same fields you already use on Repair Outcome, plus **equipment on the record itself** (since there's no WO):
+
+| Field | Notes |
+|--------|--------|
+| Equipment make / model / type / subtype | Required-ish (at least make or subtype) |
+| Customer complaint / symptoms | Free text — technical only, no names |
+| Error code | |
+| Problem code / resolution code | Same dropdowns as today |
+| Confirmed fix | Required |
+| Replaced parts | Free text |
+| Repair successful / callback required | Checkboxes |
+| Technician summary / notes | Optional |
+| **Date performed** | Optional but useful for FT jobs logged later |
+
+Explicitly **not** on the form: name, phone, email, address, employer WO#, payment.
+
+### 2. Detail view (required)
+A **dedicated page** beats a modal as the primary view — easier on mobile, bookmarkable, room to edit.
+
+`/techdashboard/dma/records/[id]` — stripped-down read view:
+- Equipment block
+- Symptom / error code
+- Fix + parts + codes
+- Success flags
+- When recorded / when performed
+- Edit + Delete buttons
+
+Search results can open this page instead of a work order when the record is standalone.
+
+A **modal** is still nice for a quick peek from search without navigation — optional polish, not required for V1.
+
+### 3. Unified search (required)
+Your existing Repair Memory search should return **both**:
+- WO-linked outcomes (link → work order notes tab)
+- Standalone records (link → detail page)
+
+Each result gets a small badge: **Atomic job** vs **Field record** (or similar).
+
+Without this, standalone data is orphaned.
+
+### 4. Edit + delete (required for you solo)
+You'll typo "Whirlpool" or paste the wrong error code. Simple edit on the detail page; delete with confirmation.
+
+### 5. "Add record" entry point (required)
+On `/techdashboard/dma`:
+- **+ Add field record** button → intake form (page or sheet)
+- Empty state text updated: "Add a field record or a Repair Outcome on a work order"
+
+---
+
+## What you do **not** need for V1
+
+- Work orders, clients, appointments, billing, Stripe
+- Addresses or order numbering schemes
+- CSV import (Phase 2 — design the form fields to match the CSV columns you'll import later)
+- Tags (Phase 2/3)
+- Linking a standalone record to a WO later (nice later, not now)
+- Separate app or duplicate auth
+
+---
+
+## Backend shape (when you build it)
+
+**New table** — e.g. `dma_repair_records` — not nullable `work_order_id` on the existing table.
+
+Reasons:
+- Clear compliance story: "these rows never had a customer"
+- WO delete doesn't wipe your training corpus
+- Simpler permissions and reporting
+
+**Search** — one service that queries both sources and normalizes the response shape (equipment, fix, codes, `source_type`, `detail_url`).
+
+**CSV later** — same columns as the form; bulk POST or import endpoint.
+
+---
+
+## Suggested UX flow
+
+```
+Repair Memory page
+  → Search (existing)
+  → [+ Add field record]
+       → Intake form → Save → Detail page
+  → Result tap
+       → If WO-linked  → WO mobile (notes)
+       → If standalone → Detail page
+```
+
+Detail page is the "stripped-down work order" you described — really a **repair dossier**, not a WO clone.
+
+---
+
+## CSV import (Phase 2 — plan now, build later)
+
+Template columns aligned with the form:
+
+```csv
+performed_on,equipment_make,equipment_model,equipment_subtype,error_code,customer_complaint,problem_code,resolution_code,confirmed_fix,replaced_parts,repair_successful,callback_required,technician_summary
+```
+
+Import preview → confirm → bulk create. Duplicates: optional skip if same make+model+error+fix+date.
+
+---
+
+## Compliance angle (why this is cleaner)
+
+Standalone records with **no PII fields in the schema** are easier to reason about than anonymized WOs. You're not storing customer data and redacting it — you're storing **only** what DMA needs. If policy ever asks, you can say: field memory is technical repair metadata with no customer identifiers.
+
+Still worth checking employer policy on **using de-identified repair knowledge** from their jobs — but you're not mirroring their CRM.
+
+---
+
+## Build order I'd recommend
+
+1. **Table + API** — CRUD for standalone records  
+2. **Intake form** — mobile-friendly on tech dashboard  
+3. **Detail page** — view / edit / delete  
+4. **Unified search** — merge into existing DMA search + badges + correct links  
+5. **CSV import** — once manual entry feels good  
+
+That's a tight V1. Intake + view + search + edit/delete covers daily use; CSV accelerates backfill once the shape is proven.
+
+When you want to build it, say the word — I'd start with the table and intake form, then wire search so new records show up immediately next to your Atomic Repair outcomes.
+
+[REDACTED]
