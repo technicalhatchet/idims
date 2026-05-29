@@ -16,6 +16,9 @@ class DmaTagResponse(BaseModel):
     slug: str
     label: str
 
+    class Config:
+        from_attributes = True
+
 
 class DmaTagsResponse(BaseModel):
     items: List[DmaTagResponse]
