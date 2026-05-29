@@ -135,9 +135,14 @@ function WorkOrderDetail() {
   const [fieldPayments, setFieldPayments] = useState([]);
   const [showServiceProperty, setShowServiceProperty] = useState(false);
   const [showAllProperties, setShowAllProperties] = useState(false);
+  const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
+  const [notesAddNoteType, setNotesAddNoteType] = useState(null);
+  const [showRepairOutcomePrompt, setShowRepairOutcomePrompt] = useState(false);
+  const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const { theme } = useTheme();
 
-    // Fetch work order details
+  // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
   const { isOnline } = useOnlineStatus();
 
@@ -179,12 +184,6 @@ function WorkOrderDetail() {
     setNotesAddSheetOpen(true);
   }, []);
 
-  /** Mobile ⋯ overflow (Print, Edit, Delete, Status) */
-  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
-  const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
-  const [notesAddNoteType, setNotesAddNoteType] = useState(null);
-  const [showRepairOutcomePrompt, setShowRepairOutcomePrompt] = useState(false);
-  const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
   const mobileMoreRef = useRef(null);
 
   /** HUD grid double-tap for icon rail - attach after data loads */
