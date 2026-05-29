@@ -23,7 +23,6 @@ CREATE TABLE IF NOT EXISTS dma_record_tags (
 CREATE INDEX IF NOT EXISTS ix_dma_outcome_tags_tag_id ON dma_outcome_tags (tag_id);
 CREATE INDEX IF NOT EXISTS ix_dma_record_tags_tag_id ON dma_record_tags (tag_id);
 
--- Starter tag vocabulary (slug, label)
 INSERT INTO dma_tags (slug, label) VALUES
   ('drain', 'Drain'),
   ('drain_pump', 'Drain pump'),
@@ -40,14 +39,29 @@ INSERT INTO dma_tags (slug, label) VALUES
   ('belt', 'Belt'),
   ('motor', 'Motor'),
   ('inverter_board', 'Inverter board'),
-  ('leak', 'Leak'),
   ('wiring', 'Wiring / harness'),
   ('capacitor', 'Capacitor'),
   ('fan_motor', 'Fan motor'),
   ('ice_maker', 'Ice maker'),
-  ('vent', 'Vent / airflow'),
   ('sensor', 'Sensor'),
   ('pump', 'Pump'),
   ('filter', 'Filter'),
-  ('detergent', 'Detergent / suds')
-ON CONFLICT (slug) DO NOTHING;
+  ('detergent', 'Detergent / suds'),
+  ('sealed_system', 'Sealed system'),
+  ('defrost_timer', 'Defrost timer'),
+  ('relay', 'Relay / overload'),
+  ('airflow', 'Airflow'),
+  ('leak', 'Leak'),
+  ('no_cool', 'No cool'),
+  ('not_draining', 'Not draining'),
+  ('not_heating', 'Not heating'),
+  ('not_spinning', 'Not spinning'),
+  ('intermittent', 'Intermittent'),
+  ('noisy', 'Noisy'),
+  ('dead', 'Dead / no power'),
+  ('restriction', 'Restriction'),
+  ('clogged', 'Clogged'),
+  ('replaced', 'Replaced'),
+  ('cleaned', 'Cleaned'),
+  ('cleared', 'Cleared')
+ON CONFLICT (slug) DO UPDATE SET label = EXCLUDED.label;

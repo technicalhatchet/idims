@@ -85,7 +85,16 @@ def sync_record_tags(
 
 
 def list_tags(db: Session) -> List[DmaTag]:
-    return db.query(DmaTag).order_by(DmaTag.label.asc()).all()
+    from app.constants.dma_tags import CATEGORY_SORT_ORDER
+
+    rows = db.query(DmaTag).all()
+    return sorted(
+        rows,
+        key=lambda tag: (
+            CATEGORY_SORT_ORDER.get(tag.category or "", 99),
+            (tag.label or "").lower(),
+        ),
+    )
 
 
 def _parse_tags_from_note(parsed: Dict[str, Any]) -> List[str]:
@@ -98,7 +107,15 @@ def _parse_tags_from_note(parsed: Dict[str, Any]) -> List[str]:
 
 
 def _tag_dicts(tags: Optional[List[DmaTag]]) -> List[Dict[str, Any]]:
-    return [{"id": tag.id, "slug": tag.slug, "label": tag.label} for tag in (tags or [])]
+    return [
+        {
+            "id": tag.id,
+            "slug": tag.slug,
+            "label": tag.label,
+            "category": tag.category,
+        }
+        for tag in (tags or [])
+    ]
 
 
 def _apply_tag_filter_outcomes(query, db: Session, tags: Optional[List[str]]):

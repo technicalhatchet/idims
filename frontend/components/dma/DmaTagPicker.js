@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getDmaTags } from '../../services/api/dmaApi';
+import { groupTagsByCategory } from '../../constants/dmaTagCategories';
 
 function normalizeSlug(value) {
   return String(value || '')
@@ -86,21 +87,32 @@ export default function DmaTagPicker({ value = [], onChange, label = 'Repair tag
           No preset tags in the catalog yet. Run <code className="text-[11px]">supabase_dma_tags.sql</code> in Supabase, or add custom tags below.
         </p>
       )}
-      <div className="flex flex-wrap gap-2">
-        {catalog.map((tag) => {
-          const active = selected.has(tag.slug);
-          return (
-            <button
-              key={tag.slug}
-              type="button"
-              onClick={() => toggle(tag.slug)}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${chipClass(active)}`}
-            >
-              {tag.label}
-            </button>
-          );
-        })}
-      </div>
+      {catalogState === 'ready' && catalog.length > 0 && (
+        <div className="space-y-3">
+          {groupTagsByCategory(catalog).map((group) => (
+            <div key={group.key}>
+              <p className={`text-[10px] uppercase tracking-wide mb-1.5 ${isDark ? 'text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>
+                {group.label}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {group.tags.map((tag) => {
+                  const active = selected.has(tag.slug);
+                  return (
+                    <button
+                      key={tag.slug}
+                      type="button"
+                      onClick={() => toggle(tag.slug)}
+                      className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${chipClass(active)}`}
+                    >
+                      {tag.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       {selected.size > 0 && (
         <div className="flex flex-wrap gap-1.5 mt-2">
           {Array.from(selected)

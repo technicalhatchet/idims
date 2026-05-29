@@ -48,6 +48,7 @@ class DmaTag(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     slug = Column(String(80), nullable=False, unique=True, index=True)
     label = Column(String(120), nullable=False)
+    category = Column(String(32), nullable=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     def __repr__(self):

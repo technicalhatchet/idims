@@ -15,6 +15,7 @@ class DmaTagResponse(BaseModel):
     id: UUID
     slug: str
     label: str
+    category: Optional[str] = None
 
     class Config:
         from_attributes = True

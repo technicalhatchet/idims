@@ -9,6 +9,7 @@ import { getDmaCodes, getDmaTags, searchDmaRepairs } from '../../services/api/dm
 import { formatDmaEquipment } from '../../constants/dmaEquipmentOptions';
 import { codeLabel, codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
 import { DmaTagPills } from '../../components/dma/DmaTagPicker';
+import { groupTagsByCategory } from '../../constants/dmaTagCategories';
 
 function resultHref(item) {
   if (item.source_type === 'field_record') {
@@ -244,30 +245,37 @@ function DmaSearchPage() {
           {tagCatalog.length > 0 && (
             <div>
               <label className="block text-xs uppercase tracking-wide text-gray-400 mb-2">Tags</label>
-              <div className="flex flex-wrap gap-2">
-                {tagCatalog.map((tag) => {
-                  const active = selectedTags.includes(tag.slug);
-                  return (
-                    <button
-                      key={tag.slug}
-                      type="button"
-                      onClick={() => {
-                        setSelectedTags((prev) => (
-                          prev.includes(tag.slug)
-                            ? prev.filter((s) => s !== tag.slug)
-                            : [...prev, tag.slug]
-                        ));
-                      }}
-                      className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                        active
-                          ? 'border-cyan-500/50 bg-cyan-500/15 text-cyan-200'
-                          : 'border-white/10 bg-white/[0.03] text-gray-400 hover:border-cyan-500/30'
-                      }`}
-                    >
-                      {tag.label}
-                    </button>
-                  );
-                })}
+              <div className="space-y-3">
+                {groupTagsByCategory(tagCatalog).map((group) => (
+                  <div key={group.key}>
+                    <p className="text-[10px] uppercase tracking-wide text-gray-500 mb-1.5">{group.label}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {group.tags.map((tag) => {
+                        const active = selectedTags.includes(tag.slug);
+                        return (
+                          <button
+                            key={tag.slug}
+                            type="button"
+                            onClick={() => {
+                              setSelectedTags((prev) => (
+                                prev.includes(tag.slug)
+                                  ? prev.filter((s) => s !== tag.slug)
+                                  : [...prev, tag.slug]
+                              ));
+                            }}
+                            className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                              active
+                                ? 'border-cyan-500/50 bg-cyan-500/15 text-cyan-200'
+                                : 'border-white/10 bg-white/[0.03] text-gray-400 hover:border-cyan-500/30'
+                            }`}
+                          >
+                            {tag.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
