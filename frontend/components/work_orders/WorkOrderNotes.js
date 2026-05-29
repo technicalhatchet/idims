@@ -142,6 +142,7 @@ export default function WorkOrderNotes({
   variant = 'desktop',
   addSheetOpen: addSheetOpenProp,
   onAddSheetOpenChange,
+  addNoteType = null,
 }) {
   const isMobile = variant === 'mobile';
   const [notes, setNotes] = useState([]);
@@ -158,9 +159,28 @@ export default function WorkOrderNotes({
   const addSheetOpen = onAddSheetOpenChange != null ? addSheetOpenProp : internalAddSheetOpen;
   const setAddSheetOpen = onAddSheetOpenChange ?? setInternalAddSheetOpen;
 
+  const buildNewNoteState = useCallback((type = NOTE_TYPES.GENERAL) => {
+    let fieldValues = getInitialFieldValues(type);
+    if (type === NOTE_TYPES.REPAIR_OUTCOME && workOrder) {
+      const symptomText = Array.isArray(workOrder.symptoms) && workOrder.symptoms.length
+        ? workOrder.symptoms.join(', ')
+        : '';
+      fieldValues = {
+        ...fieldValues,
+        customerComplaint: workOrder.description || symptomText || '',
+      };
+    }
+    return {
+      type,
+      content: '',
+      fieldValues,
+      isPrivate: false,
+    };
+  }, [workOrder]);
+
   const resetNewNoteForm = useCallback(() => {
-    setNewNote({ ...EMPTY_NOTE });
-  }, []);
+    setNewNote(buildNewNoteState(NOTE_TYPES.GENERAL));
+  }, [buildNewNoteState]);
 
   const openAddSheet = useCallback(() => {
     resetNewNoteForm();
@@ -192,10 +212,14 @@ export default function WorkOrderNotes({
 
   useEffect(() => {
     if (isMobile && addSheetOpen && !prevAddSheetOpen.current) {
-      resetNewNoteForm();
+      if (addNoteType && NOTE_FIELDS[addNoteType]) {
+        setNewNote(buildNewNoteState(addNoteType));
+      } else {
+        resetNewNoteForm();
+      }
     }
     prevAddSheetOpen.current = addSheetOpen;
-  }, [addSheetOpen, isMobile, resetNewNoteForm]);
+  }, [addSheetOpen, isMobile, resetNewNoteForm, addNoteType, buildNewNoteState]);
 
   useEffect(() => {
     if (!isMobile || !addSheetOpen || !addPanelRef.current) return;

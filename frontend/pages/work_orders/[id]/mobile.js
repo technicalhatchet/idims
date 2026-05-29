@@ -24,6 +24,9 @@ import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
+import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
+import { getWorkOrderOutcomeStatus } from '../../../services/api/dmaApi';
+import { REPAIR_OUTCOME_NOTE_TYPE } from '../../../constants/dmaCodes';
 import { hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
@@ -144,9 +147,44 @@ function WorkOrderDetail() {
     }
   }, [isOnline, id]);
 
+  const refreshOutcomeStatus = useCallback(async () => {
+    if (!workOrder?.id || workOrder.status !== 'completed') {
+      setMissingRepairOutcome(false);
+      return;
+    }
+    try {
+      const status = await getWorkOrderOutcomeStatus(workOrder.id);
+      setMissingRepairOutcome(!status?.has_outcome);
+    } catch {
+      setMissingRepairOutcome(false);
+    }
+  }, [workOrder?.id, workOrder?.status]);
+
+  useEffect(() => {
+    refreshOutcomeStatus();
+  }, [refreshOutcomeStatus]);
+
+  const prevNotesAddSheetOpen = useRef(false);
+  useEffect(() => {
+    if (prevNotesAddSheetOpen.current && !notesAddSheetOpen) {
+      refreshOutcomeStatus();
+    }
+    prevNotesAddSheetOpen.current = notesAddSheetOpen;
+  }, [notesAddSheetOpen, refreshOutcomeStatus]);
+
+  const openRepairOutcomeNote = useCallback(() => {
+    setShowRepairOutcomePrompt(false);
+    setNotesAddNoteType(REPAIR_OUTCOME_NOTE_TYPE);
+    setActiveTab(TABS.NOTES);
+    setNotesAddSheetOpen(true);
+  }, []);
+
   /** Mobile ⋯ overflow (Print, Edit, Delete, Status) */
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
+  const [notesAddNoteType, setNotesAddNoteType] = useState(null);
+  const [showRepairOutcomePrompt, setShowRepairOutcomePrompt] = useState(false);
+  const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
   const mobileMoreRef = useRef(null);
 
   /** HUD grid double-tap for icon rail - attach after data loads */
@@ -273,19 +311,26 @@ function WorkOrderDetail() {
   // Handle payment success/cancel URLs
   useEffect(() => {
     const { payment } = router.query;
-    
+
     if (payment === 'success') {
-      // Show success message and refresh work order data
-      alert('Payment successful! Your work order has been updated.');
-      refetch(); // Refresh the work order data
-      
-      // Remove the payment parameter from URL
-      router.replace(`/work_orders/${id}/mobile`, undefined, { shallow: true });
+      (async () => {
+        await refetch();
+        try {
+          const wo = await apiClient(`work-orders/${id}`);
+          const status = await getWorkOrderOutcomeStatus(id);
+          if (wo?.status === 'completed' && !status?.has_outcome) {
+            setMissingRepairOutcome(true);
+            setShowRepairOutcomePrompt(true);
+          } else {
+            alert('Payment successful! Your work order has been updated.');
+          }
+        } catch {
+          alert('Payment successful! Your work order has been updated.');
+        }
+        router.replace(`/work_orders/${id}/mobile`, undefined, { shallow: true });
+      })();
     } else if (payment === 'cancelled') {
-      // Show cancellation message
       alert('Payment was cancelled. You can try again anytime.');
-      
-      // Remove the payment parameter from URL
       router.replace(`/work_orders/${id}/mobile`, undefined, { shallow: true });
     }
   }, [router.query, router, id, refetch]);
@@ -490,6 +535,20 @@ function WorkOrderDetail() {
 
         {!isLoading && !error && (
           <>
+        {missingRepairOutcome && (
+          <button
+            type="button"
+            onClick={openRepairOutcomeNote}
+            className="mb-4 w-full rounded-xl border border-amber-500/35 bg-amber-500/10 px-4 py-3 text-left"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-300">
+              Repair outcome missing
+            </p>
+            <p className="mt-1 text-sm text-amber-100/90">
+              This job is complete but not in Repair Memory yet. Tap to log what you fixed.
+            </p>
+          </button>
+        )}
         {/* Header card */}
         <div className="relative mb-4 z-[1200]">
           <div
@@ -1037,7 +1096,11 @@ function WorkOrderDetail() {
                 workOrder={workOrder}
                 variant="mobile"
                 addSheetOpen={notesAddSheetOpen}
-                onAddSheetOpenChange={setNotesAddSheetOpen}
+                onAddSheetOpenChange={(open) => {
+                  setNotesAddSheetOpen(open);
+                  if (!open) setNotesAddNoteType(null);
+                }}
+                addNoteType={notesAddNoteType}
               />
             </div>
           )}
@@ -2278,10 +2341,20 @@ function WorkOrderDetail() {
         workOrderId={workOrder?.id}
         dueToday={billingTotals.dueToday}
         suggestedTax={billingTotals.taxOnBillableParts}
-        onSuccess={() => {
-          refetch();
-          alert('Payment recorded.');
+        onSuccess={async (result) => {
+          await refetch();
+          if (result?.needs_repair_outcome) {
+            setShowRepairOutcomePrompt(true);
+          }
+          refreshOutcomeStatus();
         }}
+        variant="mobile"
+      />
+
+      <RepairOutcomePromptSheet
+        open={showRepairOutcomePrompt}
+        onClose={() => setShowRepairOutcomePrompt(false)}
+        onAddOutcome={openRepairOutcomeNote}
         variant="mobile"
       />
 

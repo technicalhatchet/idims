@@ -52,6 +52,10 @@ export async function getWorkOrderDmaOutcome(workOrderId) {
   return apiClient(`dma/work-orders/${workOrderId}`);
 }
 
+export async function getWorkOrderOutcomeStatus(workOrderId) {
+  return apiClient(`dma/work-orders/${workOrderId}/outcome-status`);
+}
+
 export async function createDmaRepairRecord(body) {
   return apiClient('dma/records', {
     method: 'POST',

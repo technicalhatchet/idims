@@ -2,15 +2,16 @@ import logging
 import uuid
 from datetime import datetime
 from decimal import Decimal
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.models.work_order import (
     WorkOrder,
     WorkOrderAppointment,
     WorkOrderService as WorkOrderServiceModel,
 )
+from app.services.work_order_completion_service import try_auto_complete_after_payment
 from app.models.work_order_payment import WorkOrderPayment
 from app.models.user import User
 from app.schemas.work_order_payment import RecordWorkOrderPaymentRequest
@@ -88,7 +89,7 @@ def apply_payment_to_work_order(
     tax_amount: float = 0,
     mark_billable_services_paid: bool = True,
     user_id: Optional[uuid.UUID] = None,
-) -> None:
+) -> Dict[str, Any]:
     """Same financial updates as Stripe successful payment."""
     work_order.amount_previously_paid = Decimal(str(work_order.amount_previously_paid or 0)) + Decimal(
         str(amount)
@@ -113,6 +114,12 @@ def apply_payment_to_work_order(
         db, work_order.id, user_id=user_id or work_order.updated_by or work_order.created_by
     )
     work_order.calculate_totals()
+    db.flush()
+    return try_auto_complete_after_payment(
+        db,
+        work_order,
+        user_id=user_id or work_order.updated_by or work_order.created_by,
+    )
 
 
 def record_work_order_payment(
@@ -120,8 +127,13 @@ def record_work_order_payment(
     work_order_id: uuid.UUID,
     user_id: uuid.UUID,
     data: RecordWorkOrderPaymentRequest,
-) -> WorkOrderPayment:
-    work_order = db.query(WorkOrder).filter(WorkOrder.id == work_order_id).first()
+) -> Tuple[WorkOrderPayment, Dict[str, Any]]:
+    work_order = (
+        db.query(WorkOrder)
+        .options(joinedload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service))
+        .filter(WorkOrder.id == work_order_id)
+        .first()
+    )
     if not work_order:
         raise ValueError("Work order not found")
 
@@ -144,7 +156,7 @@ def record_work_order_payment(
     )
     db.add(payment)
 
-    apply_payment_to_work_order(
+    completion = apply_payment_to_work_order(
         db,
         work_order,
         float(data.amount),
@@ -153,7 +165,7 @@ def record_work_order_payment(
     )
 
     db.flush()
-    return payment
+    return payment, completion
 
 
 def list_work_order_payments(db: Session, work_order_id: uuid.UUID) -> List[dict]:

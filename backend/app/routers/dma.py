@@ -22,6 +22,7 @@ from app.schemas.dma import (
     DmaErrorCodeSearchResponse,
     DmaTagsResponse,
     DmaTagResponse,
+    DmaOutcomeStatusResponse,
 )
 from app.services.dma_service import (
     create_repair_record,
@@ -229,6 +230,17 @@ async def delete_dma_repair_record(
         db.rollback()
         logger.error("Error deleting DMA repair record: %s", e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete record")
+
+
+@router.get("/work-orders/{work_order_id}/outcome-status", response_model=DmaOutcomeStatusResponse)
+async def get_work_order_outcome_status(
+    work_order_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Check whether a work order already has a DMA repair outcome."""
+    outcome = get_outcome_for_work_order(db, work_order_id)
+    return DmaOutcomeStatusResponse(has_outcome=outcome is not None)
 
 
 @router.get("/work-orders/{work_order_id}", response_model=DmaRepairOutcomeResponse)

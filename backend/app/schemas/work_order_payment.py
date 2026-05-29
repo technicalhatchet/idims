@@ -43,6 +43,8 @@ class WorkOrderPaymentResponse(BaseModel):
     payment_date: datetime
     recorded_by: UUID
     recorder_name: Optional[str] = None
+    work_order_completed: bool = False
+    needs_repair_outcome: bool = False
 
     class Config:
         from_attributes = True

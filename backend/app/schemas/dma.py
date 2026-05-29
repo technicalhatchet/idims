@@ -24,6 +24,10 @@ class DmaTagsResponse(BaseModel):
     items: List[DmaTagResponse]
 
 
+class DmaOutcomeStatusResponse(BaseModel):
+    has_outcome: bool
+
+
 class DmaRepairRecordCreate(BaseModel):
     equipment_make: Optional[str] = None
     equipment_model: Optional[str] = None

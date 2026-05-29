@@ -2484,7 +2484,7 @@ async def record_work_order_payment_endpoint(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
 
     try:
-        payment = record_work_order_payment(db, work_order_id, current_user.id, body)
+        payment, completion = record_work_order_payment(db, work_order_id, current_user.id, body)
         db.commit()
         db.refresh(payment)
 
@@ -2503,6 +2503,8 @@ async def record_work_order_payment_endpoint(
             payment_date=payment.payment_date,
             recorded_by=payment.recorded_by,
             recorder_name=recorder_name or None,
+            work_order_completed=completion.get("work_order_completed", False),
+            needs_repair_outcome=completion.get("needs_repair_outcome", False),
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

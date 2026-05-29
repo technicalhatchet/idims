@@ -61,7 +61,7 @@ export default function RecordPaymentSheet({
     }
     setIsSaving(true);
     try {
-      await apiClient(`work-orders/${workOrderId}/record-payment`, {
+      const result = await apiClient(`work-orders/${workOrderId}/record-payment`, {
         method: 'POST',
         body: JSON.stringify({
           amount: round2(total),
@@ -72,7 +72,7 @@ export default function RecordPaymentSheet({
           notes: notes.trim() || undefined,
         }),
       });
-      onSuccess?.();
+      onSuccess?.(result);
       onClose();
     } catch (err) {
       setError(err.message || 'Failed to record payment');

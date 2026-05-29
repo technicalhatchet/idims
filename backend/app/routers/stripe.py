@@ -251,12 +251,17 @@ def process_payment_success(
     try:
         from app.db.database import SessionLocal
         from app.services.work_order_payment_service import apply_payment_to_work_order
+        from app.models.work_order import WorkOrderService as WorkOrderServiceModel
+        from sqlalchemy.orm import joinedload
         
         db = SessionLocal()
         
-        work_order = db.query(WorkOrder).filter(
-            WorkOrder.id == work_order_id
-        ).first()
+        work_order = (
+            db.query(WorkOrder)
+            .options(joinedload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service))
+            .filter(WorkOrder.id == work_order_id)
+            .first()
+        )
         
         if not work_order:
             logger.error(f"Work order {work_order_id} not found")
