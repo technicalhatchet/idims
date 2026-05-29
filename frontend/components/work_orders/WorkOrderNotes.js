@@ -12,6 +12,7 @@ import {
   codeOptions,
   codeLabel,
 } from '../../constants/dmaCodes';
+import DmaTagPicker from '../dma/DmaTagPicker';
 
 const NOTE_TYPES = {
   GENERAL: 'General Note',
@@ -69,6 +70,7 @@ const NOTE_FIELDS = {
     { id: 'repairSuccessful', label: 'Repair successful', type: 'checkbox' },
     { id: 'callbackRequired', label: 'Callback required', type: 'checkbox' },
     { id: 'repairComments', label: 'Repair Comments', type: 'textarea' },
+    { id: 'tags', label: 'Repair tags', type: 'tags' },
   ],
 };
 
@@ -79,6 +81,8 @@ const getInitialFieldValues = (noteType) => {
   return NOTE_FIELDS[noteType].reduce((values, field) => {
     if (field.type === 'checkbox') {
       values[field.id] = field.id === 'repairSuccessful' ? true : false;
+    } else if (field.type === 'tags') {
+      values[field.id] = [];
     } else {
       values[field.id] = '';
     }
@@ -105,6 +109,10 @@ const formatFieldsForDisplay = (fieldValues, noteType) => {
     let value = fieldValues[field.id];
     if (field.type === 'checkbox') {
       return `${field.label}: ${value ? '✓' : '✗'}\n`;
+    }
+    if (field.id === 'tags') {
+      const labels = Array.isArray(value) ? value.join(', ') : '';
+      return `${field.label}: ${labels || 'N/A'}\n`;
     }
     if (field.id === 'problemCode') {
       value = codeLabel(DMA_PROBLEM_CODES, value);
@@ -399,6 +407,23 @@ export default function WorkOrderNotes({
             onChange={(e) => !readOnly && onChange(field.id, e.target.value)}
             rows={3}
             disabled={readOnly}
+          />
+        );
+      case 'tags':
+        if (readOnly) {
+          const labels = Array.isArray(value) && value.length ? value.join(', ') : 'None';
+          return (
+            <div>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{field.label}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{labels}</p>
+            </div>
+          );
+        }
+        return (
+          <DmaTagPicker
+            label={field.label}
+            value={Array.isArray(value) ? value : []}
+            onChange={(tags) => onChange(field.id, tags)}
           />
         );
       default:

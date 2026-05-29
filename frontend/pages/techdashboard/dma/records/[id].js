@@ -13,6 +13,7 @@ import {
   recordToFormValues,
 } from '../../../../constants/dmaEquipmentOptions';
 import { codeLabel, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../../../constants/dmaCodes';
+import { DmaTagPills } from '../../../../components/dma/DmaTagPicker';
 import {
   deleteDmaRepairRecord,
   getDmaRepairRecord,
@@ -160,6 +161,12 @@ function DmaRecordDetailPage() {
               <DetailRow label="Confirmed fix">
                 <span className="text-cyan-300 font-medium">{record.confirmed_fix}</span>
               </DetailRow>
+              {record.tags?.length > 0 && (
+                <div className="py-2 border-b border-white/5">
+                  <dt className="text-[10px] uppercase tracking-wide text-gray-500 mb-1">Tags</dt>
+                  <dd><DmaTagPills tags={record.tags} /></dd>
+                </div>
+              )}
               <DetailRow label="Error code">{record.error_code_text}</DetailRow>
               <DetailRow label="Symptom">{record.customer_complaint}</DetailRow>
               <DetailRow label="Problem">

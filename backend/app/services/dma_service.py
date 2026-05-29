@@ -7,11 +7,18 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from sqlalchemy import or_, cast, String
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.constants.dma_codes import REPAIR_OUTCOME_NOTE_TYPE
 from app.constants.dma_brand_families import manufacturers_for_lookup
-from app.models.dma import DmaRepairOutcome, DmaRepairRecord, DmaErrorCodeReference
+from app.models.dma import (
+    DmaRepairOutcome,
+    DmaRepairRecord,
+    DmaErrorCodeReference,
+    DmaTag,
+    dma_outcome_tags,
+    dma_record_tags,
+)
 from app.models.work_order import WorkOrder
 from app.schemas.dma import DmaRepairRecordCreate, DmaRepairRecordUpdate
 
@@ -21,6 +28,105 @@ _REPAIR_OUTCOME_PREFIX = re.compile(
     rf"^\[{re.escape(REPAIR_OUTCOME_NOTE_TYPE)}\]\n",
     re.IGNORECASE,
 )
+
+
+def normalize_tag_slug(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", value.lower().strip()).strip("_")
+    return slug[:80] or "tag"
+
+
+def normalize_tag_label(slug: str, raw: Optional[str] = None) -> str:
+    if raw and str(raw).strip():
+        return str(raw).strip()[:120]
+    return slug.replace("_", " ").title()[:120]
+
+
+def get_or_create_tag(db: Session, raw: str) -> Optional[DmaTag]:
+    if not raw or not str(raw).strip():
+        return None
+    text = str(raw).strip()
+    slug = normalize_tag_slug(text)
+    existing = db.query(DmaTag).filter(DmaTag.slug == slug).first()
+    if existing:
+        return existing
+    tag = DmaTag(slug=slug, label=normalize_tag_label(slug, text))
+    db.add(tag)
+    db.flush()
+    return tag
+
+
+def resolve_tags(db: Session, raw_tags: Optional[List[Any]]) -> List[DmaTag]:
+    if not raw_tags:
+        return []
+    tags: List[DmaTag] = []
+    seen: set[str] = set()
+    for raw in raw_tags:
+        tag = get_or_create_tag(db, str(raw))
+        if tag and tag.slug not in seen:
+            seen.add(tag.slug)
+            tags.append(tag)
+    return tags
+
+
+def sync_outcome_tags(
+    db: Session, outcome: DmaRepairOutcome, raw_tags: Optional[List[Any]]
+) -> None:
+    outcome.tags = resolve_tags(db, raw_tags or [])
+    db.add(outcome)
+    db.flush()
+
+
+def sync_record_tags(
+    db: Session, record: DmaRepairRecord, raw_tags: Optional[List[Any]]
+) -> None:
+    record.tags = resolve_tags(db, raw_tags or [])
+    db.add(record)
+    db.flush()
+
+
+def list_tags(db: Session) -> List[DmaTag]:
+    return db.query(DmaTag).order_by(DmaTag.label.asc()).all()
+
+
+def _parse_tags_from_note(parsed: Dict[str, Any]) -> List[str]:
+    raw = parsed.get("tags") or parsed.get("repairTags") or parsed.get("repair_tags") or []
+    if isinstance(raw, str):
+        return [part.strip() for part in raw.split(",") if part.strip()]
+    if isinstance(raw, list):
+        return [str(item).strip() for item in raw if str(item).strip()]
+    return []
+
+
+def _tag_dicts(tags: Optional[List[DmaTag]]) -> List[Dict[str, Any]]:
+    return [{"id": tag.id, "slug": tag.slug, "label": tag.label} for tag in (tags or [])]
+
+
+def _apply_tag_filter_outcomes(query, db: Session, tags: Optional[List[str]]):
+    if not tags:
+        return query
+    slugs = [normalize_tag_slug(tag) for tag in tags if tag and str(tag).strip()]
+    if not slugs:
+        return query
+    tagged_ids = (
+        db.query(dma_outcome_tags.c.outcome_id)
+        .join(DmaTag, DmaTag.id == dma_outcome_tags.c.tag_id)
+        .filter(DmaTag.slug.in_(slugs))
+    )
+    return query.filter(DmaRepairOutcome.id.in_(tagged_ids))
+
+
+def _apply_tag_filter_records(query, db: Session, tags: Optional[List[str]]):
+    if not tags:
+        return query
+    slugs = [normalize_tag_slug(tag) for tag in tags if tag and str(tag).strip()]
+    if not slugs:
+        return query
+    tagged_ids = (
+        db.query(dma_record_tags.c.record_id)
+        .join(DmaTag, DmaTag.id == dma_record_tags.c.tag_id)
+        .filter(DmaTag.slug.in_(slugs))
+    )
+    return query.filter(DmaRepairRecord.id.in_(tagged_ids))
 
 
 def parse_repair_outcome_note(note_text: str) -> Optional[Dict[str, Any]]:
@@ -107,6 +213,7 @@ def upsert_repair_outcome_from_note(
             setattr(existing, key, value)
         db.add(existing)
         db.flush()
+        sync_outcome_tags(db, existing, _parse_tags_from_note(parsed))
         return existing
 
     outcome = DmaRepairOutcome(
@@ -116,6 +223,7 @@ def upsert_repair_outcome_from_note(
     )
     db.add(outcome)
     db.flush()
+    sync_outcome_tags(db, outcome, _parse_tags_from_note(parsed))
     return outcome
 
 
@@ -128,6 +236,7 @@ def search_repair_outcomes(
     problem_code: Optional[str] = None,
     resolution_code: Optional[str] = None,
     error_code: Optional[str] = None,
+    tags: Optional[List[str]] = None,
     repair_successful: Optional[bool] = True,
     page: int = 1,
     limit: int = 20,
@@ -141,6 +250,7 @@ def search_repair_outcomes(
         problem_code=problem_code,
         resolution_code=resolution_code,
         error_code=error_code,
+        tags=tags,
         repair_successful=repair_successful,
     )
     field_items = _fetch_field_record_items(
@@ -151,6 +261,7 @@ def search_repair_outcomes(
         problem_code=problem_code,
         resolution_code=resolution_code,
         error_code=error_code,
+        tags=tags,
         repair_successful=repair_successful,
     )
 
@@ -183,11 +294,13 @@ def _fetch_work_order_outcome_items(
     problem_code: Optional[str],
     resolution_code: Optional[str],
     error_code: Optional[str],
+    tags: Optional[List[str]],
     repair_successful: Optional[bool],
 ) -> List[Dict[str, Any]]:
     query = (
         db.query(DmaRepairOutcome, WorkOrder)
         .join(WorkOrder, DmaRepairOutcome.work_order_id == WorkOrder.id)
+        .options(joinedload(DmaRepairOutcome.tags))
     )
 
     if repair_successful is not None:
@@ -203,6 +316,7 @@ def _fetch_work_order_outcome_items(
     if error_code:
         term = f"%{error_code.strip()}%"
         query = query.filter(DmaRepairOutcome.error_code_text.ilike(term))
+    query = _apply_tag_filter_outcomes(query, db, tags)
     if q:
         term = f"%{q.strip()}%"
         query = query.filter(
@@ -248,6 +362,7 @@ def _fetch_work_order_outcome_items(
                 "equipment_serial": work_order.equipment_serial,
                 "symptoms": work_order.symptoms,
                 "work_order_description": work_order.description,
+                "tags": _tag_dicts(outcome.tags),
             }
         )
     return items
@@ -262,9 +377,10 @@ def _fetch_field_record_items(
     problem_code: Optional[str],
     resolution_code: Optional[str],
     error_code: Optional[str],
+    tags: Optional[List[str]],
     repair_successful: Optional[bool],
 ) -> List[Dict[str, Any]]:
-    query = db.query(DmaRepairRecord)
+    query = db.query(DmaRepairRecord).options(joinedload(DmaRepairRecord.tags))
 
     if repair_successful is not None:
         query = query.filter(DmaRepairRecord.repair_successful == repair_successful)
@@ -279,6 +395,7 @@ def _fetch_field_record_items(
     if error_code:
         term = f"%{error_code.strip()}%"
         query = query.filter(DmaRepairRecord.error_code_text.ilike(term))
+    query = _apply_tag_filter_records(query, db, tags)
     if q:
         term = f"%{q.strip()}%"
         query = query.filter(
@@ -323,6 +440,7 @@ def _field_record_to_search_item(record: DmaRepairRecord) -> Dict[str, Any]:
         "equipment_serial": None,
         "symptoms": None,
         "work_order_description": None,
+        "tags": _tag_dicts(record.tags),
     }
 
 
@@ -331,18 +449,50 @@ def create_repair_record(
     user_id: uuid.UUID,
     data: DmaRepairRecordCreate,
 ) -> DmaRepairRecord:
+    payload = data.model_dump(exclude={"tags"})
     record = DmaRepairRecord(
         created_by=user_id,
         updated_by=user_id,
-        **data.model_dump(),
+        **payload,
     )
     db.add(record)
     db.flush()
+    sync_record_tags(db, record, data.tags)
     return record
 
 
 def get_repair_record(db: Session, record_id: uuid.UUID) -> Optional[DmaRepairRecord]:
-    return db.query(DmaRepairRecord).filter(DmaRepairRecord.id == record_id).first()
+    return (
+        db.query(DmaRepairRecord)
+        .options(joinedload(DmaRepairRecord.tags))
+        .filter(DmaRepairRecord.id == record_id)
+        .first()
+    )
+
+
+def repair_record_to_response(record: DmaRepairRecord) -> Dict[str, Any]:
+    payload = {
+        "id": record.id,
+        "equipment_make": record.equipment_make,
+        "equipment_model": record.equipment_model,
+        "equipment_type": record.equipment_type,
+        "equipment_subtype": record.equipment_subtype,
+        "customer_complaint": record.customer_complaint,
+        "problem_code": record.problem_code,
+        "resolution_code": record.resolution_code,
+        "confirmed_fix": record.confirmed_fix,
+        "error_code_text": record.error_code_text,
+        "replaced_parts": record.replaced_parts,
+        "repair_successful": record.repair_successful,
+        "callback_required": record.callback_required,
+        "technician_summary": record.technician_summary,
+        "performed_on": record.performed_on,
+        "created_at": record.created_at,
+        "updated_at": record.updated_at,
+        "created_by": record.created_by,
+        "tags": _tag_dicts(record.tags),
+    }
+    return payload
 
 
 def update_repair_record(
@@ -352,6 +502,7 @@ def update_repair_record(
     data: DmaRepairRecordUpdate,
 ) -> DmaRepairRecord:
     updates = data.model_dump(exclude_unset=True)
+    tag_values = updates.pop("tags", None)
     if updates:
         make = (updates.get("equipment_make") if "equipment_make" in updates else record.equipment_make) or ""
         subtype = (updates.get("equipment_subtype") if "equipment_subtype" in updates else record.equipment_subtype) or ""
@@ -363,6 +514,8 @@ def update_repair_record(
     record.updated_at = datetime.utcnow()
     db.add(record)
     db.flush()
+    if tag_values is not None:
+        sync_record_tags(db, record, tag_values)
     return record
 
 
@@ -376,6 +529,7 @@ def get_outcome_for_work_order(
 ) -> Optional[DmaRepairOutcome]:
     return (
         db.query(DmaRepairOutcome)
+        .options(joinedload(DmaRepairOutcome.tags))
         .filter(DmaRepairOutcome.work_order_id == work_order_id)
         .first()
     )

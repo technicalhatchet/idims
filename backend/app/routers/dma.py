@@ -1,6 +1,6 @@
 import logging
 import uuid
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
@@ -19,6 +19,8 @@ from app.schemas.dma import (
     DmaSuggestionsResponse,
     DmaErrorCodeReferenceResponse,
     DmaErrorCodeSearchResponse,
+    DmaTagsResponse,
+    DmaTagResponse,
 )
 from app.services.dma_service import (
     create_repair_record,
@@ -27,9 +29,12 @@ from app.services.dma_service import (
     get_error_code_reference,
     get_outcome_for_work_order,
     get_repair_record,
+    list_tags,
+    repair_record_to_response,
     search_error_code_references,
     search_repair_outcomes,
     update_repair_record,
+    _tag_dicts,
 )
 
 logger = logging.getLogger(__name__)
@@ -46,6 +51,16 @@ async def get_dma_codes(
         problem_codes=DMA_PROBLEM_CODES,
         resolution_codes=DMA_RESOLUTION_CODES,
     )
+
+
+@router.get("/tags", response_model=DmaTagsResponse)
+async def get_dma_tags(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """List all repair memory tags."""
+    tags = list_tags(db)
+    return DmaTagsResponse(items=[DmaTagResponse.model_validate(tag) for tag in tags])
 
 
 @router.get("/error-codes/search", response_model=DmaErrorCodeSearchResponse)
@@ -112,6 +127,7 @@ async def search_dma_repairs(
     problem_code: Optional[str] = Query(None),
     resolution_code: Optional[str] = Query(None),
     error_code: Optional[str] = Query(None),
+    tags: Optional[List[str]] = Query(None, description="Filter by tag slug(s)"),
     repair_successful: Optional[bool] = Query(None, description="Filter by success; omit for all"),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
@@ -127,6 +143,7 @@ async def search_dma_repairs(
         problem_code=problem_code,
         resolution_code=resolution_code,
         error_code=error_code,
+        tags=tags,
         repair_successful=repair_successful,
         page=page,
         limit=limit,
@@ -144,8 +161,8 @@ async def create_dma_repair_record(
     try:
         record = create_repair_record(db, current_user.id, body)
         db.commit()
-        db.refresh(record)
-        return record
+        record = get_repair_record(db, record.id)
+        return DmaRepairRecordResponse(**repair_record_to_response(record))
     except ValueError as e:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
@@ -164,7 +181,7 @@ async def get_dma_repair_record(
     record = get_repair_record(db, record_id)
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
-    return record
+    return DmaRepairRecordResponse(**repair_record_to_response(record))
 
 
 @router.put("/records/{record_id}", response_model=DmaRepairRecordResponse)
@@ -180,8 +197,8 @@ async def update_dma_repair_record(
     try:
         record = update_repair_record(db, record, current_user.id, body)
         db.commit()
-        db.refresh(record)
-        return record
+        record = get_repair_record(db, record.id)
+        return DmaRepairRecordResponse(**repair_record_to_response(record))
     except ValueError as e:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
@@ -248,5 +265,6 @@ async def get_work_order_dma_outcome(
         "equipment_serial": work_order.equipment_serial if work_order else None,
         "symptoms": work_order.symptoms if work_order else None,
         "work_order_description": work_order.description if work_order else None,
+        "tags": _tag_dicts(outcome.tags),
     }
     return DmaRepairOutcomeResponse(**payload)

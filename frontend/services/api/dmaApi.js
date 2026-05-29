@@ -4,6 +4,10 @@ export async function getDmaCodes() {
   return apiClient('dma/codes');
 }
 
+export async function getDmaTags() {
+  return apiClient('dma/tags');
+}
+
 export async function getDmaSuggestions(params = {}) {
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
@@ -33,9 +37,12 @@ export async function getDmaErrorCode(referenceId) {
 export async function searchDmaRepairs(params = {}) {
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
-      query.set(key, String(value));
+    if (value === undefined || value === null || value === '') return;
+    if (key === 'tags' && Array.isArray(value)) {
+      value.filter(Boolean).forEach((tag) => query.append('tags', tag));
+      return;
     }
+    query.set(key, String(value));
   });
   const qs = query.toString();
   return apiClient(`dma/search${qs ? `?${qs}` : ''}`);

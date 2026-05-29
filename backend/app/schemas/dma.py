@@ -11,6 +11,16 @@ class DmaCodesResponse(BaseModel):
     resolution_codes: dict[str, str]
 
 
+class DmaTagResponse(BaseModel):
+    id: UUID
+    slug: str
+    label: str
+
+
+class DmaTagsResponse(BaseModel):
+    items: List[DmaTagResponse]
+
+
 class DmaRepairRecordCreate(BaseModel):
     equipment_make: Optional[str] = None
     equipment_model: Optional[str] = None
@@ -26,6 +36,7 @@ class DmaRepairRecordCreate(BaseModel):
     callback_required: bool = False
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None
+    tags: List[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def require_equipment_hint(self):
@@ -65,6 +76,7 @@ class DmaRepairRecordUpdate(BaseModel):
     callback_required: Optional[bool] = None
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None
+    tags: Optional[List[str]] = None
 
     @field_validator("problem_code")
     @classmethod
@@ -100,6 +112,7 @@ class DmaRepairRecordResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     created_by: UUID
+    tags: List[DmaTagResponse] = Field(default_factory=list)
 
     class Config:
         from_attributes = True
@@ -130,6 +143,7 @@ class DmaRepairOutcomeResponse(BaseModel):
     equipment_serial: Optional[str] = None
     symptoms: Optional[Any] = None
     work_order_description: Optional[str] = None
+    tags: List[DmaTagResponse] = Field(default_factory=list)
 
     class Config:
         from_attributes = True

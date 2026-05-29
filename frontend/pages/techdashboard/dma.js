@@ -5,9 +5,10 @@ import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
-import { getDmaCodes, searchDmaRepairs } from '../../services/api/dmaApi';
+import { getDmaCodes, getDmaTags, searchDmaRepairs } from '../../services/api/dmaApi';
 import { formatDmaEquipment } from '../../constants/dmaEquipmentOptions';
 import { codeLabel, codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
+import { DmaTagPills } from '../../components/dma/DmaTagPicker';
 
 function resultHref(item) {
   if (item.source_type === 'field_record') {
@@ -40,6 +41,8 @@ function DmaSearchPage() {
   const [problemCode, setProblemCode] = useState('');
   const [resolutionCode, setResolutionCode] = useState('');
   const [errorCode, setErrorCode] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [tagCatalog, setTagCatalog] = useState([]);
   const [includeUnsuccessful, setIncludeUnsuccessful] = useState(false);
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +52,9 @@ function DmaSearchPage() {
     getDmaCodes()
       .then(setCodes)
       .catch((err) => console.error('Failed to load DMA codes', err));
+    getDmaTags()
+      .then((data) => setTagCatalog(data?.items || []))
+      .catch((err) => console.error('Failed to load DMA tags', err));
   }, []);
 
   useEffect(() => {
@@ -107,6 +113,7 @@ function DmaSearchPage() {
         problem_code: problemCode || undefined,
         resolution_code: resolutionCode || undefined,
         error_code: errorCode.trim() || undefined,
+        tags: selectedTags.length ? selectedTags : undefined,
         repair_successful: includeUnsuccessful ? undefined : true,
         limit: 30,
       });
@@ -118,7 +125,7 @@ function DmaSearchPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [query, equipmentMake, equipmentSubtype, problemCode, resolutionCode, errorCode, includeUnsuccessful]);
+  }, [query, equipmentMake, equipmentSubtype, problemCode, resolutionCode, errorCode, selectedTags, includeUnsuccessful]);
 
   const problemOptions = codes?.problem_codes || DMA_PROBLEM_CODES;
   const resolutionOptions = codes?.resolution_codes || DMA_RESOLUTION_CODES;
@@ -234,6 +241,37 @@ function DmaSearchPage() {
             />
           </div>
 
+          {tagCatalog.length > 0 && (
+            <div>
+              <label className="block text-xs uppercase tracking-wide text-gray-400 mb-2">Tags</label>
+              <div className="flex flex-wrap gap-2">
+                {tagCatalog.map((tag) => {
+                  const active = selectedTags.includes(tag.slug);
+                  return (
+                    <button
+                      key={tag.slug}
+                      type="button"
+                      onClick={() => {
+                        setSelectedTags((prev) => (
+                          prev.includes(tag.slug)
+                            ? prev.filter((s) => s !== tag.slug)
+                            : [...prev, tag.slug]
+                        ));
+                      }}
+                      className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                        active
+                          ? 'border-cyan-500/50 bg-cyan-500/15 text-cyan-200'
+                          : 'border-white/10 bg-white/[0.03] text-gray-400 hover:border-cyan-500/30'
+                      }`}
+                    >
+                      {tag.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           <label className="flex items-center gap-2 text-sm text-gray-400">
             <input
               type="checkbox"
@@ -293,6 +331,9 @@ function DmaSearchPage() {
                         <p className="text-xs text-orange-300 mt-1">Code: {item.error_code_text}</p>
                       )}
                       <p className="text-sm text-gray-200 mt-2">{item.confirmed_fix}</p>
+                      <div className="mt-2">
+                        <DmaTagPills tags={item.tags} />
+                      </div>
                       <div className="flex flex-wrap gap-2 mt-2 text-[11px] text-gray-500">
                         {item.problem_code && (
                           <span>{codeLabel(problemOptions, item.problem_code)}</span>

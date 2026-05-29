@@ -1,10 +1,57 @@
-from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime, Text, Date
+from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime, Text, Date, Table
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
 
 from app.db.base import Base
+
+
+dma_outcome_tags = Table(
+    "dma_outcome_tags",
+    Base.metadata,
+    Column(
+        "outcome_id",
+        UUID(as_uuid=True),
+        ForeignKey("dma_repair_outcomes.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    Column(
+        "tag_id",
+        UUID(as_uuid=True),
+        ForeignKey("dma_tags.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+)
+
+dma_record_tags = Table(
+    "dma_record_tags",
+    Base.metadata,
+    Column(
+        "record_id",
+        UUID(as_uuid=True),
+        ForeignKey("dma_repair_records.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    Column(
+        "tag_id",
+        UUID(as_uuid=True),
+        ForeignKey("dma_tags.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+)
+
+
+class DmaTag(Base):
+    __tablename__ = "dma_tags"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    slug = Column(String(80), nullable=False, unique=True, index=True)
+    label = Column(String(120), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self):
+        return f"<DmaTag {self.slug}>"
 
 
 class DmaRepairRecord(Base):
@@ -32,6 +79,7 @@ class DmaRepairRecord(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
     creator = relationship("User", foreign_keys=[created_by])
+    tags = relationship("DmaTag", secondary=dma_record_tags, lazy="selectin")
 
     def __repr__(self):
         return f"<DmaRepairRecord {self.id} fix={self.confirmed_fix[:40]!r}>"
@@ -71,6 +119,7 @@ class DmaRepairOutcome(Base):
 
     work_order = relationship("WorkOrder", back_populates="dma_outcome")
     source_note = relationship("WorkOrderNote", foreign_keys=[source_note_id])
+    tags = relationship("DmaTag", secondary=dma_outcome_tags, lazy="selectin")
 
     def __repr__(self):
         return f"<DmaRepairOutcome wo={self.work_order_id} fix={self.confirmed_fix[:40]!r}>"

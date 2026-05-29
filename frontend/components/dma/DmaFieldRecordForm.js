@@ -7,6 +7,7 @@ import {
 } from '../../constants/dmaEquipmentOptions';
 import { codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
 import { getDmaCodes } from '../../services/api/dmaApi';
+import DmaTagPicker from './DmaTagPicker';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0A0F1E] px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-cyan-500/50 focus:outline-none';
@@ -162,6 +163,12 @@ export default function DmaFieldRecordForm({
             className={inputClass}
           />
         </div>
+
+        <DmaTagPicker
+          label="Repair tags"
+          value={Array.isArray(values.tags) ? values.tags : []}
+          onChange={(tags) => setValues((prev) => ({ ...prev, tags }))}
+        />
 
         <div>
           <label className={labelClass}>Technician notes</label>

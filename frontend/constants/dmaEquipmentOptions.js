@@ -51,6 +51,7 @@ export const EMPTY_FIELD_RECORD = {
   callback_required: false,
   technician_summary: '',
   performed_on: '',
+  tags: [],
 };
 
 export function formatDmaEquipment(record) {
@@ -79,6 +80,7 @@ export function recordToFormValues(record) {
     callback_required: !!record.callback_required,
     technician_summary: record.technician_summary || '',
     performed_on: record.performed_on || '',
+    tags: Array.isArray(record.tags) ? record.tags.map((t) => t.slug || t) : [],
   };
 }
 
@@ -98,6 +100,7 @@ export function formValuesToPayload(values) {
     callback_required: !!values.callback_required,
     technician_summary: values.technician_summary?.trim() || null,
     performed_on: values.performed_on || null,
+    tags: Array.isArray(values.tags) ? values.tags.filter(Boolean) : [],
   };
   Object.keys(payload).forEach((key) => {
     if (payload[key] === '') payload[key] = null;
