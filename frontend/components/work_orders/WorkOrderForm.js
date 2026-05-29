@@ -6,6 +6,7 @@ import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { apiClient } from '../../utils/api-client';
+import { createClient } from '../../services/api/clientsApi';
 import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
@@ -138,6 +139,25 @@ function formatTechnicianSelectLabel(t) {
   return String(t.id);
 }
 
+function MobileSection({ title, children, isMobile }) {
+  if (!isMobile) return children;
+  return (
+    <div
+      className="rounded-xl p-4 space-y-4"
+      style={{
+        background: 'rgba(13, 21, 37, 0.85)',
+        border: '1px solid rgba(34, 211, 238, 0.25)',
+        boxShadow: '0 0 20px rgba(34, 211, 238, 0.08)',
+      }}
+    >
+      {title && (
+        <h2 className="text-cyan-400 text-sm font-bold uppercase tracking-wider">{title}</h2>
+      )}
+      {children}
+    </div>
+  );
+}
+
 export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuccess, variant = 'desktop', cancelHref }) {
   const router = useRouter();
   const isMobile = variant === 'mobile';
@@ -199,26 +219,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
     indicatorSeparator: () => ({ display: 'none' }),
   };
 
-  const MobileSection = ({ title, children }) => {
-    if (!isMobile) return children;
-    return (
-      <div
-        className="rounded-xl p-4 space-y-4"
-        style={{
-          background: 'rgba(13, 21, 37, 0.85)',
-          border: '1px solid rgba(34, 211, 238, 0.25)',
-          boxShadow: '0 0 20px rgba(34, 211, 238, 0.08)',
-        }}
-      >
-        {title && (
-          <h2 className="text-cyan-400 text-sm font-bold uppercase tracking-wider">{title}</h2>
-        )}
-        {children}
-      </div>
-    );
-  };
-
-  /** Optional: create first appointment in the same transaction as the work order (new WOs only). 
+  /** Optional: create first appointment in the same transaction as the work order (new WOs only).
   const [scheduleFirstVisit, setScheduleFirstVisit] = useState(false);
   const [firstVisitStart, setFirstVisitStart] = useState(() => {
     const d = new Date();
@@ -917,10 +918,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
     setNewClientSaving(true);
     setNewClientError(null);
     try {
-      const created = await apiClient('clients', {
-        method: 'POST',
-        body: JSON.stringify(newClientData)
-      });
+      const created = await createClient(newClientData);
       // Add to clients list and auto-select
       const newOption = {
         value: created.id,
@@ -1065,7 +1063,7 @@ const handleCreateProperty = async () => {
       )}
       
       {/* Client and basic info */}
-      <MobileSection title="Client">
+      <MobileSection title="Client" isMobile={isMobile}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className={`block mb-1 ${isMobile ? 'text-xs font-medium text-gray-400 uppercase tracking-wide' : 'text-sm font-medium text-gray-700 dark:text-gray-300'}`}>
@@ -1150,7 +1148,7 @@ const handleCreateProperty = async () => {
       </MobileSection>
       
       {/* Equipment Information */}
-      <MobileSection title="Equipment Details">
+      <MobileSection title="Equipment Details" isMobile={isMobile}>
       <div className="mb-6">
         {!isMobile && <h3 className="text-lg font-medium mb-3">Equipment Details</h3>}
         <div className="grid gap-4 sm:grid-cols-2">
@@ -1316,7 +1314,7 @@ const handleCreateProperty = async () => {
       </div>
       </MobileSection>
       
-      <MobileSection title="Priority">
+      <MobileSection title="Priority" isMobile={isMobile}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SelectInput
           label="Priority"
@@ -1339,7 +1337,7 @@ const handleCreateProperty = async () => {
       </MobileSection>
       
       {/* Location */}
-      <MobileSection title="Service Location">
+      <MobileSection title="Service Location" isMobile={isMobile}>
       {/* Property Selector */}
       {values.client_id && (
         <div className="mb-2">
@@ -1421,7 +1419,7 @@ const handleCreateProperty = async () => {
       </MobileSection>
       
       {/* Description */}
-      <MobileSection title="Description">
+      <MobileSection title="Description" isMobile={isMobile}>
       <TextareaInput
         label={isMobile ? undefined : 'Description'}
         name="description"

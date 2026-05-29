@@ -123,6 +123,7 @@ async def list_clients(
     skip = (page - 1) * limit
     return await ClientService.get_clients(db, search=search, status=status, skip=skip, limit=limit)
 
+@router.post("", response_model=ClientResponse, status_code=status.HTTP_201_CREATED, include_in_schema=False)
 @router.post("/", response_model=ClientResponse, status_code=status.HTTP_201_CREATED)
 async def create_client(
     client: ClientCreate,
