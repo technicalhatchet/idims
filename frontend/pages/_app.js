@@ -77,8 +77,8 @@ function ClientOnlyPrefetch() {
       }
     };
 
-    // Defer so page queries run first and we don't flood Railway on load
-    const timeoutId = setTimeout(startPrefetch, 3000);
+    // Defer prefetch so page queries finish first; avoid flooding Railway on load
+    const timeoutId = setTimeout(startPrefetch, 10000);
 
     const interval = setInterval(() => {
       if (navigator.onLine) prefetchScheduleOnly();

@@ -13,6 +13,7 @@ import {
   PropertyStore,
   PartStore,
   ScheduleStore,
+  MetaStore,
 } from '../lib/db';
 import { apiClient } from '../utils/api-client';
 import { format, isToday, addDays } from 'date-fns';
@@ -28,8 +29,17 @@ export function useOfflineSchedule() {
   const [source, setSource] = useState('network');
 
   useEffect(() => {
+    let cancelled = false;
+
     async function load() {
       setIsLoading(true);
+
+      const cached = await ScheduleStore.getAll();
+      if (!cancelled && cached.length) {
+        setData(cached);
+        setIsLoading(false);
+        setSource('cache');
+      }
 
       if (!isOffline()) {
         try {
@@ -49,25 +59,29 @@ export function useOfflineSchedule() {
           if (apptItems.length) {
             await AppointmentStore.putAll(apptItems);
             await ScheduleStore.putAll(apptItems);
+            await MetaStore.set('lastScheduleFetch', Date.now());
           }
-          setData(list);
-          setSource('network');
+          if (!cancelled) {
+            setData(list);
+            setSource('network');
+          }
         } catch (err) {
           console.warn('[useOfflineSchedule] Network failed, falling back to IndexedDB:', err);
-          const cached = await ScheduleStore.getAll();
-          setData(cached);
-          setSource('cache');
+          if (!cancelled && !cached.length) {
+            setData(cached);
+            setSource('cache');
+          }
         }
-      } else {
-        const cached = await ScheduleStore.getAll();
+      } else if (!cancelled && !cached.length) {
         setData(cached);
         setSource('cache');
       }
 
-      setIsLoading(false);
+      if (!cancelled) setIsLoading(false);
     }
 
     load();
+    return () => { cancelled = true; };
   }, [isOnline]);
 
   return { data, isLoading, source };
@@ -84,8 +98,17 @@ export function useOfflineWorkOrders(limit = 200) {
   const [source, setSource] = useState('network');
 
   useEffect(() => {
+    let cancelled = false;
+
     async function load() {
       setIsLoading(true);
+
+      const cached = await WorkOrderStore.getAll();
+      if (!cancelled && cached.length) {
+        setData({ items: cached, total: cached.length });
+        setIsLoading(false);
+        setSource('cache');
+      }
 
       if (!isOffline()) {
         try {
@@ -93,25 +116,29 @@ export function useOfflineWorkOrders(limit = 200) {
           const payload = result || { items: [], total: 0 };
           if (payload.items?.length) {
             await WorkOrderStore.putAll(payload.items);
+            await MetaStore.set('lastWorkOrdersFetch', Date.now());
           }
-          setData(payload);
-          setSource('network');
+          if (!cancelled) {
+            setData(payload);
+            setSource('network');
+          }
         } catch (err) {
           console.warn('[useOfflineWorkOrders] Network failed, falling back to IndexedDB:', err);
-          const cached = await WorkOrderStore.getAll();
-          setData({ items: cached, total: cached.length });
-          setSource('cache');
+          if (!cancelled && !cached.length) {
+            setData({ items: cached, total: cached.length });
+            setSource('cache');
+          }
         }
-      } else {
-        const cached = await WorkOrderStore.getAll();
+      } else if (!cancelled && !cached.length) {
         setData({ items: cached, total: cached.length });
         setSource('cache');
       }
 
-      setIsLoading(false);
+      if (!cancelled) setIsLoading(false);
     }
 
     load();
+    return () => { cancelled = true; };
   }, [isOnline, limit]);
 
   return { data, isLoading, source };

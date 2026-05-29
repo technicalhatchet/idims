@@ -17,7 +17,10 @@ import {
 import { format, addDays } from 'date-fns';
 
 const PREFETCH_INTERVAL_MS = 5 * 60 * 1000; // Re-fetch every 5 minutes when online
-const PREFETCH_CONCURRENCY = 3;
+const PREFETCH_CONCURRENCY = 2;
+const PREFETCH_DEFER_AFTER_NETWORK_MS = 2 * 60 * 1000;
+
+let prefetchInFlight = null;
 
 async function mapWithConcurrency(items, fn, concurrency = PREFETCH_CONCURRENCY) {
   const results = [];
@@ -38,6 +41,11 @@ async function shouldPrefetch() {
   return Date.now() - lastSync > PREFETCH_INTERVAL_MS;
 }
 
+async function networkDataFresh(key) {
+  const last = await MetaStore.get(key);
+  return last && Date.now() - last < PREFETCH_DEFER_AFTER_NETWORK_MS;
+}
+
 /**
  * Main prefetch function — call this on app open when online.
  * Fetches everything needed for today and the next 7 days.
@@ -55,42 +63,66 @@ export async function prefetchAll(options = {}) {
     return { skipped: true, reason: 'recent' };
   }
 
+  if (prefetchInFlight) {
+    console.log('[Prefetch] Already running — skipping duplicate');
+    return prefetchInFlight;
+  }
+
+  prefetchInFlight = (async () => {
   console.log('[Prefetch] Starting prefetch...');
   const today = new Date();
   const todayStr = format(today, 'yyyy-MM-dd');
   const nextWeekStr = format(addDays(today, 7), 'yyyy-MM-dd');
 
   try {
-    onProgress?.('Fetching schedule...');
+    let appointments = [];
+    let workOrders = [];
 
-    // 1. Fetch today's schedule + next 7 days
-    const schedData = await apiClient(
-      `scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`
-    );
-    const appointments = schedData?.appointments || schedData?.schedule || schedData?.data || [];
+    const scheduleFresh = !force && (await networkDataFresh('lastScheduleFetch'));
+    const workOrdersFresh = !force && (await networkDataFresh('lastWorkOrdersFetch'));
 
-    // Store appointments with a date field for indexing
+    if (scheduleFresh) {
+      onProgress?.('Using recent schedule from cache...');
+      appointments = await ScheduleStore.getAll();
+    } else {
+      onProgress?.('Fetching schedule...');
+      const schedData = await apiClient(
+        `scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`
+      );
+      appointments = schedData?.appointments || schedData?.schedule || schedData?.data || [];
+    }
+
     const apptItems = appointments.map((a) => ({
       ...a,
       id: a.id || `${a.work_order_id}-${a.scheduled_start || a.start}`,
       date: (a.scheduled_start || a.start || '').substring(0, 10),
     }));
-    await AppointmentStore.putAll(apptItems);
-    await ScheduleStore.putAll(apptItems);
+    if (apptItems.length) {
+      await AppointmentStore.putAll(apptItems);
+      await ScheduleStore.putAll(apptItems);
+    }
+    if (!scheduleFresh) {
+      await MetaStore.set('lastScheduleFetch', Date.now());
+    }
 
-    onProgress?.('Fetching work orders...');
+    if (workOrdersFresh) {
+      onProgress?.('Using recent work orders from cache...');
+      workOrders = await WorkOrderStore.getAll();
+    } else {
+      onProgress?.('Fetching work orders...');
+      const woData = await apiClient('work-orders?page=1&limit=200');
+      workOrders = woData?.items || [];
+      if (workOrders.length) {
+        await WorkOrderStore.putAll(workOrders);
+      }
+      await MetaStore.set('lastWorkOrdersFetch', Date.now());
+    }
 
-    // 2. Fetch all active work orders (not completed/cancelled)
-    const woData = await apiClient('work-orders?page=1&limit=200');
-    const workOrders = woData?.items || [];
-    await WorkOrderStore.putAll(workOrders);
-
-    // 3. Fetch full detail for today's work orders
     const todayWOIds = apptItems
       .filter((a) => a.date === todayStr)
       .map((a) => a.work_order_id)
       .filter(Boolean)
-      .filter((id, i, arr) => arr.indexOf(id) === i); // dedupe
+      .filter((id, i, arr) => arr.indexOf(id) === i);
 
     onProgress?.(`Fetching ${todayWOIds.length} work order details...`);
 
@@ -100,31 +132,16 @@ export async function prefetchAll(options = {}) {
     const detailedWOs = woDetails
       .filter((r) => r.status === 'fulfilled')
       .map((r) => r.value);
-    await WorkOrderStore.putAll(detailedWOs);
+    if (detailedWOs.length) {
+      await WorkOrderStore.putAll(detailedWOs);
+    }
 
-    // 4. Fetch clients for today's work orders
-    const clientIds = [
-      ...new Set(
-        [...workOrders, ...detailedWOs]
-          .map((w) => w.client_id)
-          .filter(Boolean)
-      ),
-    ];
-
-    onProgress?.(`Fetching ${clientIds.length} clients...`);
-
-    const clientResults = await mapWithConcurrency(clientIds, (id) =>
-      apiClient(`clients/${id}`)
-    );
-    const clients = clientResults
-      .filter((r) => r.status === 'fulfilled')
-      .map((r) => r.value);
-    await ClientStore.putAll(clients);
-
+    // Client directory once — skip N individual client GETs
     onProgress?.('Fetching client directory...');
+    let allClients = [];
     try {
       const clientList = await apiClient('clients?page=1&limit=100');
-      const allClients = clientList?.items || [];
+      allClients = clientList?.items || [];
       if (allClients.length) {
         await ClientStore.putAll(allClients);
       }
@@ -132,19 +149,27 @@ export async function prefetchAll(options = {}) {
       console.warn('[Prefetch] Client directory fetch failed:', err);
     }
 
-    // 5. Fetch properties for those clients
-    onProgress?.('Fetching properties...');
+    const clientIds = [
+      ...new Set(
+        [...detailedWOs, ...workOrders.filter((w) => todayWOIds.includes(w.id))]
+          .map((w) => w.client_id)
+          .filter(Boolean)
+      ),
+    ];
 
-    const propertyResults = await Promise.allSettled(
-      clientIds.map((id) => apiClient(`properties/client/${id}`))
+    onProgress?.(`Fetching properties for ${clientIds.length} clients...`);
+
+    const propertyResults = await mapWithConcurrency(clientIds, (id) =>
+      apiClient(`properties/client/${id}`)
     );
     const allProperties = propertyResults
       .filter((r) => r.status === 'fulfilled')
       .flatMap((r) => (Array.isArray(r.value) ? r.value : []))
       .filter((p) => p && p.id);
-    await PropertyStore.putAll(allProperties);
+    if (allProperties.length) {
+      await PropertyStore.putAll(allProperties);
+    }
 
-    // 6. Fetch parts for today's work orders
     onProgress?.('Fetching parts...');
 
     const partsResults = await mapWithConcurrency(todayWOIds, (id) =>
@@ -159,9 +184,10 @@ export async function prefetchAll(options = {}) {
       .filter((r) => r.status === 'fulfilled')
       .flatMap((r) => r.value)
       .filter((p) => p && p.id);
-    await PartStore.putAll(allParts);
+    if (allParts.length) {
+      await PartStore.putAll(allParts);
+    }
 
-    // 7. Mark sync time
     await MetaStore.set('lastPrefetch', Date.now());
     await MetaStore.set('lastPrefetchDate', todayStr);
 
@@ -169,7 +195,7 @@ export async function prefetchAll(options = {}) {
       appointments: apptItems.length,
       workOrders: workOrders.length,
       detailedWorkOrders: detailedWOs.length,
-      clients: clients.length,
+      clients: allClients.length,
       properties: allProperties.length,
       parts: allParts.length,
     };
@@ -180,7 +206,12 @@ export async function prefetchAll(options = {}) {
   } catch (err) {
     console.error('[Prefetch] Error:', err);
     return { success: false, error: err.message };
+  } finally {
+    prefetchInFlight = null;
   }
+  })();
+
+  return prefetchInFlight;
 }
 
 /**
@@ -206,11 +237,13 @@ export async function prefetchScheduleOnly() {
     }));
     await AppointmentStore.putAll(apptItems);
     await ScheduleStore.putAll(apptItems);
+    await MetaStore.set('lastScheduleFetch', Date.now());
 
     // Refresh work order statuses
     const woData = await apiClient('work-orders?page=1&limit=200');
     if (woData?.items) {
       await WorkOrderStore.putAll(woData.items);
+      await MetaStore.set('lastWorkOrdersFetch', Date.now());
     }
   } catch (err) {
     console.error('[Prefetch] Schedule refresh error:', err);

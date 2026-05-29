@@ -292,7 +292,11 @@ export async function apiClient(endpoint, options = {}) {
     ...fetchableOptions
   } = options
 
-  console.log("apiClient called with endpoint:", endpoint)
+  const debug = process.env.NODE_ENV !== "production"
+
+  if (debug) {
+    console.log("apiClient called with endpoint:", endpoint)
+  }
 
   try {
     // Ensure headers exist in options
@@ -333,12 +337,14 @@ export async function apiClient(endpoint, options = {}) {
     }
 
     // Make the request
-    console.log(`API Request to ${url}`, {
-      method: requestOptions.method || "GET",
-      headers: Object.keys(mergedHeaders),
-      withCredentials: requestOptions.credentials === "include",
-      authHeader: mergedHeaders["Authorization"] ? `${mergedHeaders["Authorization"].substring(0, 15)}...` : "none",
-    })
+    if (debug) {
+      console.log(`API Request to ${url}`, {
+        method: requestOptions.method || "GET",
+        headers: Object.keys(mergedHeaders),
+        withCredentials: requestOptions.credentials === "include",
+        authHeader: mergedHeaders["Authorization"] ? `${mergedHeaders["Authorization"].substring(0, 15)}...` : "none",
+      })
+    }
 
     const response = await fetch(url, requestOptions)
 
@@ -412,7 +418,7 @@ export async function apiClient(endpoint, options = {}) {
 
     // Handle 204 No Content response
     if (response.status === 204) {
-      console.log(`API Response for ${url}: 204 No Content (no body)`);
+      if (debug) console.log(`API Response for ${url}: 204 No Content (no body)`);
       return null;
     }
 
@@ -420,7 +426,7 @@ export async function apiClient(endpoint, options = {}) {
     const responseContentType = response.headers.get("content-type")
     if (responseContentType && responseContentType.includes("application/json")) {
       const responseData = await response.json();
-      console.log(`API Response for ${url}:`, responseData);
+      if (debug) console.log(`API Response for ${url}:`, responseData);
       return responseData;
     } else {
       return await response.text()
