@@ -422,6 +422,7 @@ export default function WorkOrderNotes({
         return (
           <DmaTagPicker
             label={field.label}
+            variant={isMobile ? 'dark' : 'light'}
             value={Array.isArray(value) ? value : []}
             onChange={(tags) => onChange(field.id, tags)}
           />

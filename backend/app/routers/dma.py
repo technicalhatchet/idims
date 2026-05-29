@@ -3,6 +3,7 @@ import uuid
 from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy.exc import OperationalError, ProgrammingError
 from sqlalchemy.orm import Session
 
 from app.constants.dma_codes import DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES
@@ -59,7 +60,11 @@ async def get_dma_tags(
     current_user: User = Depends(get_current_user),
 ):
     """List all repair memory tags."""
-    tags = list_tags(db)
+    try:
+        tags = list_tags(db)
+    except (ProgrammingError, OperationalError) as exc:
+        logger.warning("DMA tags table unavailable: %s", exc)
+        return DmaTagsResponse(items=[])
     return DmaTagsResponse(items=[DmaTagResponse.model_validate(tag) for tag in tags])
 
 

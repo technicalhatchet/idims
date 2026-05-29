@@ -108,18 +108,30 @@ if not settings.AUTH0_API_AUDIENCE:
 auth_handler = get_auth_handler()
 logger.info(f"Auth0 configuration loaded - Domain: {settings.AUTH0_DOMAIN}, Audience: {settings.AUTH0_API_AUDIENCE}")
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",  # Vite default port
+    "http://127.0.0.1:5173",
+    f"https://{settings.AUTH0_DOMAIN}",
+    "https://v0-idims.vercel.app",
+]
+
+
+def cors_headers_for_request(request: Request) -> Dict[str, str]:
+    origin = request.headers.get("Origin")
+    if origin and origin in CORS_ALLOWED_ORIGINS:
+        return {
+            "Access-Control-Allow-Origin": origin,
+            "Access-Control-Allow-Credentials": "true",
+        }
+    return {}
+
+
 # Add middlewares in correct order
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",  # Vite default port
-        "http://127.0.0.1:5173",
-        f"https://{settings.AUTH0_DOMAIN}",
-        "https://v0-idims.vercel.app",
-        # Add production domains if needed
-    ],
+    allow_origins=CORS_ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],  # Using wildcard to allow all headers including Authorization
@@ -282,8 +294,8 @@ async def api_test_route():
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Custom handler for HTTP exceptions"""
-    headers = getattr(exc, "headers", {}) or {}
-    
+    headers = {**(getattr(exc, "headers", {}) or {}), **cors_headers_for_request(request)}
+
     return JSONResponse(
         status_code=exc.status_code,
         content={
@@ -297,13 +309,14 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 async def general_exception_handler(request: Request, exc: Exception):
     """General exception handler"""
     logger.exception("Unhandled exception")
-    
+
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={
             "detail": str(exc),
             "request_id": getattr(request.state, "request_id", None)
-        }
+        },
+        headers=cors_headers_for_request(request),
     )
 
 # Direct access to key endpoints

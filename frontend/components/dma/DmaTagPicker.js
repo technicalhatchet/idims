@@ -9,14 +9,22 @@ function normalizeSlug(value) {
     .replace(/^_+|_+$/g, '');
 }
 
-export default function DmaTagPicker({ value = [], onChange, label = 'Repair tags' }) {
+export default function DmaTagPicker({ value = [], onChange, label = 'Repair tags', variant = 'dark' }) {
   const [catalog, setCatalog] = useState([]);
+  const [catalogState, setCatalogState] = useState('loading');
   const [custom, setCustom] = useState('');
+  const isDark = variant === 'dark';
 
   useEffect(() => {
     getDmaTags()
-      .then((data) => setCatalog(data?.items || []))
-      .catch(() => setCatalog([]));
+      .then((data) => {
+        setCatalog(data?.items || []);
+        setCatalogState('ready');
+      })
+      .catch(() => {
+        setCatalog([]);
+        setCatalogState('error');
+      });
   }, []);
 
   const selected = new Set((value || []).map(normalizeSlug).filter(Boolean));
@@ -46,11 +54,38 @@ export default function DmaTagPicker({ value = [], onChange, label = 'Repair tag
 
   const labelFor = (slug) => catalogBySlug[slug]?.label || slug.replace(/_/g, ' ');
 
+  const chipClass = (active) => {
+    if (active) {
+      return isDark
+        ? 'border-cyan-500/50 bg-cyan-500/15 text-cyan-200'
+        : 'border-cyan-600 bg-cyan-50 text-cyan-800';
+    }
+    return isDark
+      ? 'border-white/10 bg-white/[0.03] text-gray-400 hover:border-cyan-500/30'
+      : 'border-gray-300 bg-gray-50 text-gray-700 hover:border-cyan-400';
+  };
+
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}`}>
         {label}
       </label>
+      <p className={`text-xs mb-2 ${isDark ? 'text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>
+        Tap preset tags to select them. Use the box below only for tags not in the list.
+      </p>
+      {catalogState === 'loading' && (
+        <p className={`text-xs mb-2 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Loading tags…</p>
+      )}
+      {catalogState === 'error' && (
+        <p className="text-xs mb-2 text-amber-600 dark:text-amber-300">
+          Could not load preset tags. You can still add custom tags below, or check that the DMA tags migration ran.
+        </p>
+      )}
+      {catalogState === 'ready' && catalog.length === 0 && (
+        <p className="text-xs mb-2 text-amber-600 dark:text-amber-300">
+          No preset tags in the catalog yet. Run <code className="text-[11px]">supabase_dma_tags.sql</code> in Supabase, or add custom tags below.
+        </p>
+      )}
       <div className="flex flex-wrap gap-2">
         {catalog.map((tag) => {
           const active = selected.has(tag.slug);
@@ -59,11 +94,7 @@ export default function DmaTagPicker({ value = [], onChange, label = 'Repair tag
               key={tag.slug}
               type="button"
               onClick={() => toggle(tag.slug)}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                active
-                  ? 'border-cyan-500/50 bg-cyan-500/15 text-cyan-200'
-                  : 'border-white/10 bg-white/[0.03] text-gray-400 hover:border-cyan-500/30'
-              }`}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${chipClass(active)}`}
             >
               {tag.label}
             </button>
@@ -98,12 +129,20 @@ export default function DmaTagPicker({ value = [], onChange, label = 'Repair tag
             }
           }}
           placeholder="Add custom tag…"
-          className="flex-1 rounded-lg border border-white/10 bg-[#0A0F1E] px-3 py-2 text-sm text-white placeholder:text-gray-500"
+          className={
+            isDark
+              ? 'flex-1 rounded-lg border border-white/10 bg-[#0A0F1E] px-3 py-2 text-sm text-white placeholder:text-gray-500'
+              : 'flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 dark:border-white/10 dark:bg-[#0A0F1E] dark:text-white'
+          }
         />
         <button
           type="button"
           onClick={addCustom}
-          className="px-3 py-2 rounded-lg border border-white/10 text-xs text-gray-300 hover:border-cyan-500/30"
+          className={
+            isDark
+              ? 'px-3 py-2 rounded-lg border border-white/10 text-xs text-gray-300 hover:border-cyan-500/30'
+              : 'px-3 py-2 rounded-lg border border-gray-300 text-xs text-gray-700 hover:border-cyan-400 dark:border-white/10 dark:text-gray-300'
+          }
         >
           Add
         </button>
