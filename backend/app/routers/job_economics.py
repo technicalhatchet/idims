@@ -1,9 +1,11 @@
 import logging
 from datetime import date
+from pathlib import Path
 from typing import Optional
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile, status
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from app.core.dependencies import get_admin_or_manager_user, get_current_user
@@ -150,6 +152,38 @@ async def upload_work_order_receipt(
         return ExpenseReceiptResponse.model_validate(row)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc))
+
+
+@router.get("/receipts/{receipt_id}/download")
+async def download_receipt(
+    receipt_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    try:
+        row = svc.get_receipt(db, receipt_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+
+    if row.storage_backend == "drive" and row.drive_web_view_link:
+        raise HTTPException(
+            status_code=400,
+            detail="This receipt is on Google Drive — open it from the Drive link.",
+        )
+
+    if not row.local_path:
+        raise HTTPException(status_code=404, detail="Receipt file path not found")
+
+    path = Path(row.local_path)
+    if not path.is_file():
+        logger.error("Receipt file missing on disk: %s (id=%s)", row.local_path, receipt_id)
+        raise HTTPException(status_code=404, detail="Receipt file not found on server")
+
+    return FileResponse(
+        path,
+        media_type=row.mime_type or "application/octet-stream",
+        filename=row.filename,
+    )
 
 
 @router.put(

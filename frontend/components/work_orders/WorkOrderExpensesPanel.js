@@ -6,6 +6,7 @@ import {
   getExpenseVendors,
   getWorkOrderExpenses,
   getWorkOrderReceipts,
+  openReceiptDownload,
   uploadWorkOrderReceipt,
 } from '../../services/api/jobEconomicsApi';
 
@@ -83,6 +84,19 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
       await load();
     } catch (err) {
       setError(err.message || 'Failed to delete');
+    }
+  };
+
+  const handleOpenReceipt = async (receipt) => {
+    if (receipt.drive_web_view_link) {
+      window.open(receipt.drive_web_view_link, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    setError(null);
+    try {
+      await openReceiptDownload(receipt.id);
+    } catch (err) {
+      setError(err.message || 'Could not open receipt');
     }
   };
 
@@ -186,14 +200,20 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
       {receipts.length > 0 && (
         <div>
           <h3 className={`text-sm font-semibold mb-2 ${isMobile ? 'text-gray-300' : 'text-gray-900 dark:text-white'}`}>Receipts</h3>
+          <p className="text-[10px] text-gray-500 mb-2">
+            Attachments only — add an expense amount above for this to affect job economics / monthly report.
+          </p>
           <ul className="space-y-1">
             {receipts.map((r) => (
               <li key={r.id}>
-                {r.drive_web_view_link ? (
-                  <a href={r.drive_web_view_link} target="_blank" rel="noopener noreferrer" className="text-xs text-cyan-400 hover:underline">{r.filename}</a>
-                ) : (
-                  <span className="text-xs text-gray-400">{r.filename} (local)</span>
-                )}
+                <button
+                  type="button"
+                  onClick={() => handleOpenReceipt(r)}
+                  className="text-xs text-cyan-400 hover:underline text-left"
+                >
+                  {r.filename}
+                  {r.storage_backend === 'local' ? ' (server)' : ''}
+                </button>
               </li>
             ))}
           </ul>

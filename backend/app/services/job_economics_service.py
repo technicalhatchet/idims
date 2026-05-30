@@ -25,6 +25,7 @@ from app.models.dma import DmaRepairOutcome
 from app.config import settings
 from app.services.google_drive_service import (
     build_receipt_filename,
+    drive_unavailable_reason,
     save_receipt_locally,
     upload_receipt_to_drive,
 )
@@ -111,6 +112,13 @@ def list_receipts(db: Session, work_order_id: UUID) -> List[ExpenseReceipt]:
     )
 
 
+def get_receipt(db: Session, receipt_id: UUID) -> ExpenseReceipt:
+    row = db.query(ExpenseReceipt).filter(ExpenseReceipt.id == receipt_id).first()
+    if not row:
+        raise ValueError("Receipt not found")
+    return row
+
+
 def save_receipt(
     db: Session,
     *,
@@ -149,6 +157,7 @@ def save_receipt(
 
     if drive_result:
         file_id, link, folder_id = drive_result
+        logger.info("Receipt %s uploaded to Google Drive for WO %s", filename, order_number)
         row = ExpenseReceipt(
             work_order_id=work_order_id,
             expense_id=expense_id,
@@ -167,6 +176,13 @@ def save_receipt(
             filename=filename,
             order_number=order_number,
             year=year,
+        )
+        logger.info(
+            "Receipt %s stored locally for WO %s at %s (%s)",
+            filename,
+            order_number,
+            local_path,
+            drive_unavailable_reason(),
         )
         row = ExpenseReceipt(
             work_order_id=work_order_id,

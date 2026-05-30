@@ -44,6 +44,14 @@ def is_drive_configured() -> bool:
     return bool(settings.GOOGLE_DRIVE_ROOT_FOLDER_ID and _drive_credentials())
 
 
+def drive_unavailable_reason() -> str:
+    if not settings.GOOGLE_DRIVE_ROOT_FOLDER_ID:
+        return "GOOGLE_DRIVE_ROOT_FOLDER_ID is not set"
+    if not _drive_credentials():
+        return "Google Drive credentials missing or invalid (check GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON)"
+    return "Google Drive client could not be initialized"
+
+
 def _drive_credentials():
     raw = settings.GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON
     if raw:
@@ -127,12 +135,20 @@ def upload_receipt_to_drive(
         return None
 
     media = io.BytesIO(file_bytes)
+    try:
+        from googleapiclient.http import MediaIoBaseUpload
+
+        media_upload = MediaIoBaseUpload(
+            media, mimetype=mime_type or "application/octet-stream", resumable=True
+        )
+    except ImportError:
+        media_upload = media
+
     created = (
         service.files()
         .create(
             body={"name": filename, "parents": [wo_folder]},
-            media_body=media,
-            media_mime_type=mime_type or "application/octet-stream",
+            media_body=media_upload,
             fields="id, webViewLink",
         )
         .execute()
