@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { upsertAppointmentMileage } from '../../services/api/jobEconomicsApi';
 
-export default function AppointmentMileageForm({ appointment, variant = 'mobile' }) {
+export default function AppointmentMileageForm({ appointment, variant = 'mobile', embedded = false }) {
   const isMobile = variant === 'mobile';
   const [method, setMethod] = useState('estimated');
   const [miles, setMiles] = useState('');
@@ -53,8 +53,10 @@ export default function AppointmentMileageForm({ appointment, variant = 'mobile'
   if (!appointment?.id) return null;
 
   return (
-    <div className={`mt-3 pt-3 border-t ${isMobile ? 'border-cyan-500/15' : 'border-gray-200'}`}>
-      <p className={`text-xs font-medium mb-2 ${isMobile ? 'text-cyan-400/90' : 'text-gray-600'}`}>Trip mileage</p>
+    <div className={embedded ? '' : `mt-3 pt-3 border-t ${isMobile ? 'border-cyan-500/15' : 'border-gray-200'}`}>
+      {!embedded && (
+        <p className={`text-xs font-medium mb-2 ${isMobile ? 'text-cyan-400/90' : 'text-gray-600'}`}>Trip mileage</p>
+      )}
       <div className="grid grid-cols-2 gap-2">
         <select className={inputClass} value={method} onChange={(e) => setMethod(e.target.value)}>
           <option value="estimated">Estimated miles</option>

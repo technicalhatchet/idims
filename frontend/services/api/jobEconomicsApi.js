@@ -1,4 +1,4 @@
-import { apiClient } from '../../utils/api-client';
+import { apiClient, buildApiUrl, getAuthHeaders } from '../../utils/api-client';
 
 const BASE = 'job-economics';
 
@@ -36,14 +36,12 @@ export async function uploadWorkOrderReceipt(workOrderId, file, { expenseId, cat
   if (category) form.append('category', category);
   if (vendorName) form.append('vendor_name', vendorName);
 
-  const tokenRes = await fetch('/api/auth/token', { credentials: 'same-origin', cache: 'no-cache' });
-  const tokenData = tokenRes.ok ? await tokenRes.json() : null;
-  const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/').replace(/\/$/, '');
-  const url = `${base}/api/${BASE}/work-orders/${workOrderId}/receipts`;
+  const headers = await getAuthHeaders();
+  const url = buildApiUrl(`job-economics/work-orders/${workOrderId}/receipts`);
 
   const response = await fetch(url, {
     method: 'POST',
-    headers: tokenData?.accessToken ? { Authorization: `Bearer ${tokenData.accessToken}` } : {},
+    headers,
     body: form,
     credentials: 'include',
   });

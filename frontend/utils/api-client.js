@@ -64,7 +64,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/"
  * @param {boolean} tryBothPrefixes - Whether to try both prefixed and non-prefixed URLs (for future use)
  * @returns {string} The complete URL
  */
-function buildApiUrl(endpoint, tryBothPrefixes = false) {
+export function buildApiUrl(endpoint, tryBothPrefixes = false) {
   const debug = process.env.NODE_ENV !== "production"
 
   // Handle the case where no endpoint is provided

@@ -271,7 +271,7 @@ def compute_job_economics(db: Session, work_order_id: UUID) -> dict:
     if not wo:
         raise ValueError("Work order not found")
 
-    rate = _dec(settings.MILEAGE_RATE_PER_MILE)
+    rate = _dec(getattr(settings, "MILEAGE_RATE_PER_MILE", 0.67))
     customer_paid = _customer_paid(db, wo)
     parts_cost = _parts_cost(db, work_order_id)
     other_expenses = _other_expenses(db, work_order_id)
@@ -340,7 +340,7 @@ def monthly_economics_report(db: Session, year: int, month: int) -> dict:
         .all()
     )
     mileage_miles = sum(_dec(m.miles) for m in mileage_rows)
-    rate = _dec(settings.MILEAGE_RATE_PER_MILE)
+    rate = _dec(getattr(settings, "MILEAGE_RATE_PER_MILE", 0.67))
     mileage_cost = (mileage_miles * rate).quantize(Decimal("0.01"))
 
     part_rows = (

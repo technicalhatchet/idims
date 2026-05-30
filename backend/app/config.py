@@ -300,6 +300,10 @@ class Settings(BaseModel):
     STORAGE_ACCESS_KEY: str = ""
     STORAGE_SECRET_KEY: str = ""
     LOCAL_STORAGE_PATH: str = "storage"  # Local storage directory for files
+    GOOGLE_DRIVE_ROOT_FOLDER_ID: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_ROOT_FOLDER_ID", ""))
+    GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON", ""))
+    GOOGLE_DRIVE_CREDENTIALS_PATH: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_CREDENTIALS_PATH", ""))
+    MILEAGE_RATE_PER_MILE: float = Field(default_factory=lambda: float(os.getenv("MILEAGE_RATE_PER_MILE", "0.67")))
     
     # Notification settings
     NOTIFICATION_EMAIL_ENABLED: bool = True

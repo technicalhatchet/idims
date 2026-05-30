@@ -1090,7 +1090,6 @@ function WorkOrderDetail() {
                   refetch();
                 }}
               />
-              <WorkOrderMileageSection workOrder={workOrder} variant="mobile" />
             </div>
           )}
           
@@ -1100,6 +1099,7 @@ function WorkOrderDetail() {
                 <JobEconomicsCard workOrderId={workOrder.id} variant="mobile" />
               )}
               <WorkOrderExpensesPanel workOrderId={workOrder.id} variant="mobile" />
+              <WorkOrderMileageSection workOrder={workOrder} variant="mobile" />
             </div>
           )}
           
