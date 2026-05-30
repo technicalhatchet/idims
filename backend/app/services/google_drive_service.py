@@ -1,4 +1,8 @@
-"""Upload receipts to Google Drive (optional) with local fallback."""
+"""Upload receipts to Google Drive (optional) with local fallback.
+
+Personal Gmail: use OAuth refresh token (service accounts have no My Drive quota).
+Google Workspace shared drives: service account JSON may work instead.
+"""
 
 from __future__ import annotations
 
@@ -15,6 +19,7 @@ from app.config import settings
 logger = logging.getLogger(__name__)
 
 _DRIVE_SCOPES = ["https://www.googleapis.com/auth/drive.file"]
+_TOKEN_URI = "https://oauth2.googleapis.com/token"
 
 
 def _sanitize_filename_part(value: str, fallback: str = "file") -> str:
@@ -40,19 +45,15 @@ def build_receipt_filename(
     )
 
 
-def is_drive_configured() -> bool:
-    return bool(settings.GOOGLE_DRIVE_ROOT_FOLDER_ID and _drive_credentials())
+def _oauth_configured() -> bool:
+    return bool(
+        settings.GOOGLE_DRIVE_OAUTH_CLIENT_ID
+        and settings.GOOGLE_DRIVE_OAUTH_CLIENT_SECRET
+        and settings.GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN
+    )
 
 
-def drive_unavailable_reason() -> str:
-    if not settings.GOOGLE_DRIVE_ROOT_FOLDER_ID:
-        return "GOOGLE_DRIVE_ROOT_FOLDER_ID is not set"
-    if not _drive_credentials():
-        return "Google Drive credentials missing or invalid (check GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON)"
-    return "Google Drive client could not be initialized"
-
-
-def _drive_credentials():
+def _service_account_info():
     raw = settings.GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON
     if raw:
         try:
@@ -69,17 +70,70 @@ def _drive_credentials():
     return None
 
 
-def _drive_service():
-    creds_info = _drive_credentials()
+def is_drive_configured() -> bool:
+    if not settings.GOOGLE_DRIVE_ROOT_FOLDER_ID:
+        return False
+    return _oauth_configured() or bool(_service_account_info())
+
+
+def drive_unavailable_reason() -> str:
+    if not settings.GOOGLE_DRIVE_ROOT_FOLDER_ID:
+        return "GOOGLE_DRIVE_ROOT_FOLDER_ID is not set"
+    if _oauth_configured():
+        return "Google Drive OAuth credentials present but client init failed"
+    if _service_account_info():
+        return (
+            "Service account configured — personal Gmail needs OAuth "
+            "(GOOGLE_DRIVE_OAUTH_* env vars); service accounts only work with Workspace shared drives"
+        )
+    return "Set GOOGLE_DRIVE_OAUTH_* (personal Drive) or GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON (Workspace shared drive)"
+
+
+def _oauth_credentials():
+    if not _oauth_configured():
+        return None
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2.credentials import Credentials
+
+        creds = Credentials(
+            token=None,
+            refresh_token=settings.GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN,
+            token_uri=_TOKEN_URI,
+            client_id=settings.GOOGLE_DRIVE_OAUTH_CLIENT_ID,
+            client_secret=settings.GOOGLE_DRIVE_OAUTH_CLIENT_SECRET,
+            scopes=_DRIVE_SCOPES,
+        )
+        creds.refresh(Request())
+        return creds
+    except Exception as exc:
+        logger.error("Google Drive OAuth refresh failed: %s", exc)
+        return None
+
+
+def _service_account_credentials():
+    creds_info = _service_account_info()
     if not creds_info:
         return None
     try:
         from google.oauth2 import service_account
-        from googleapiclient.discovery import build
 
-        credentials = service_account.Credentials.from_service_account_info(
+        return service_account.Credentials.from_service_account_info(
             creds_info, scopes=_DRIVE_SCOPES
         )
+    except Exception as exc:
+        logger.error("Google Drive service account init failed: %s", exc)
+        return None
+
+
+def _drive_service():
+    """Prefer OAuth (personal Drive quota); fall back to service account."""
+    credentials = _oauth_credentials() or _service_account_credentials()
+    if not credentials:
+        return None
+    try:
+        from googleapiclient.discovery import build
+
         return build("drive", "v3", credentials=credentials, cache_discovery=False)
     except Exception as exc:
         logger.error("Google Drive client init failed: %s", exc)
@@ -87,24 +141,34 @@ def _drive_service():
 
 
 def _ensure_folder(service, parent_id: str, name: str) -> Optional[str]:
+    from googleapiclient.errors import HttpError
+
     safe_name = _sanitize_filename_part(name.replace("/", "-"), "folder")
     query = (
         f"'{parent_id}' in parents and mimeType='application/vnd.google-apps.folder' "
         f"and name='{safe_name}' and trashed=false"
     )
-    result = service.files().list(q=query, fields="files(id,name)", pageSize=1).execute()
-    files = result.get("files") or []
-    if files:
-        return files[0]["id"]
-    created = (
-        service.files()
-        .create(
-            body={"name": safe_name, "mimeType": "application/vnd.google-apps.folder", "parents": [parent_id]},
-            fields="id",
+    try:
+        result = service.files().list(q=query, fields="files(id,name)", pageSize=1).execute()
+        files = result.get("files") or []
+        if files:
+            return files[0]["id"]
+        created = (
+            service.files()
+            .create(
+                body={
+                    "name": safe_name,
+                    "mimeType": "application/vnd.google-apps.folder",
+                    "parents": [parent_id],
+                },
+                fields="id",
+            )
+            .execute()
         )
-        .execute()
-    )
-    return created.get("id")
+        return created.get("id")
+    except HttpError as exc:
+        logger.error("Google Drive folder create/list failed: %s", exc)
+        return None
 
 
 def upload_receipt_to_drive(
@@ -134,25 +198,35 @@ def upload_receipt_to_drive(
     if not wo_folder:
         return None
 
-    media = io.BytesIO(file_bytes)
     try:
+        from googleapiclient.errors import HttpError
         from googleapiclient.http import MediaIoBaseUpload
 
         media_upload = MediaIoBaseUpload(
-            media, mimetype=mime_type or "application/octet-stream", resumable=True
+            io.BytesIO(file_bytes),
+            mimetype=mime_type or "application/octet-stream",
+            resumable=True,
         )
-    except ImportError:
-        media_upload = media
+        created = (
+            service.files()
+            .create(
+                body={"name": filename, "parents": [wo_folder]},
+                media_body=media_upload,
+                fields="id, webViewLink",
+            )
+            .execute()
+        )
+    except HttpError as exc:
+        logger.error(
+            "Google Drive upload failed for %s: %s — personal Gmail requires OAuth, not service account",
+            filename,
+            exc,
+        )
+        return None
+    except Exception as exc:
+        logger.error("Google Drive upload failed for %s: %s", filename, exc)
+        return None
 
-    created = (
-        service.files()
-        .create(
-            body={"name": filename, "parents": [wo_folder]},
-            media_body=media_upload,
-            fields="id, webViewLink",
-        )
-        .execute()
-    )
     file_id = created.get("id")
     link = created.get("webViewLink")
     if not file_id:
