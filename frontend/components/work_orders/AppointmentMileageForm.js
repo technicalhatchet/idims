@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import { upsertAppointmentMileage } from '../../services/api/jobEconomicsApi';
 
+function scheduleMilesFromAppointment(appointment) {
+  const meters = appointment?.travel_distance_before;
+  if (meters == null || Number(meters) <= 0) return null;
+  return (Number(meters) / 1609.34).toFixed(1);
+}
+
 export default function AppointmentMileageForm({ appointment, variant = 'mobile', embedded = false }) {
   const isMobile = variant === 'mobile';
+  const scheduleMiles = scheduleMilesFromAppointment(appointment);
   const [method, setMethod] = useState('estimated');
   const [miles, setMiles] = useState('');
   const [odometerStart, setOdometerStart] = useState('');
@@ -14,17 +21,41 @@ export default function AppointmentMileageForm({ appointment, variant = 'mobile'
 
   useEffect(() => {
     const m = appointment?.mileage;
-    if (!m) return;
-    setMethod(m.method || 'estimated');
-    setMiles(m.miles != null ? String(m.miles) : '');
-    setOdometerStart(m.odometer_start != null ? String(m.odometer_start) : '');
-    setOdometerEnd(m.odometer_end != null ? String(m.odometer_end) : '');
-    setNotes(m.notes || '');
-  }, [appointment?.id, appointment?.mileage]);
+    if (m) {
+      setMethod(m.method || 'estimated');
+      setMiles(m.miles != null ? String(m.miles) : '');
+      setOdometerStart(m.odometer_start != null ? String(m.odometer_start) : '');
+      setOdometerEnd(m.odometer_end != null ? String(m.odometer_end) : '');
+      setNotes(m.notes || '');
+      return;
+    }
 
-  const suggestedMiles = appointment?.travel_distance_before
-    ? (Number(appointment.travel_distance_before) / 1609.34).toFixed(1)
-    : null;
+    if (scheduleMiles) {
+      setMethod('calculated');
+      setMiles(scheduleMiles);
+    } else {
+      setMethod('estimated');
+      setMiles('');
+    }
+    setOdometerStart('');
+    setOdometerEnd('');
+    setNotes('');
+  }, [appointment?.id, appointment?.mileage, scheduleMiles]);
+
+  const handleMethodChange = (nextMethod) => {
+    setMethod(nextMethod);
+    if (nextMethod === 'calculated' && scheduleMiles) {
+      setMiles(scheduleMiles);
+    }
+  };
+
+  const resolveMilesForSave = () => {
+    if (method === 'odometer') return 0;
+    const parsed = Number(miles);
+    if (!Number.isNaN(parsed) && parsed > 0) return parsed;
+    if (scheduleMiles) return Number(scheduleMiles);
+    return 0;
+  };
 
   const inputClass = isMobile
     ? 'w-full rounded border border-cyan-500/20 bg-black/30 px-2 py-1.5 text-xs text-white'
@@ -37,7 +68,7 @@ export default function AppointmentMileageForm({ appointment, variant = 'mobile'
     try {
       await upsertAppointmentMileage(appointment.id, {
         method,
-        miles: method === 'odometer' ? 0 : Number(miles || 0),
+        miles: resolveMilesForSave(),
         odometer_start: odometerStart ? Number(odometerStart) : undefined,
         odometer_end: odometerEnd ? Number(odometerEnd) : undefined,
         notes: notes || undefined,
@@ -58,13 +89,21 @@ export default function AppointmentMileageForm({ appointment, variant = 'mobile'
         <p className={`text-xs font-medium mb-2 ${isMobile ? 'text-cyan-400/90' : 'text-gray-600'}`}>Trip mileage</p>
       )}
       <div className="grid grid-cols-2 gap-2">
-        <select className={inputClass} value={method} onChange={(e) => setMethod(e.target.value)}>
+        <select className={inputClass} value={method} onChange={(e) => handleMethodChange(e.target.value)}>
+          <option value="calculated">From schedule</option>
           <option value="estimated">Estimated miles</option>
           <option value="odometer">Odometer</option>
-          <option value="calculated">From schedule</option>
         </select>
         {method !== 'odometer' ? (
-          <input type="number" step="0.1" min="0" className={inputClass} value={miles} onChange={(e) => setMiles(e.target.value)} placeholder="Miles" />
+          <input
+            type="number"
+            step="0.1"
+            min="0"
+            className={inputClass}
+            value={miles}
+            onChange={(e) => setMiles(e.target.value)}
+            placeholder={scheduleMiles ? scheduleMiles : 'Miles'}
+          />
         ) : (
           <div className="col-span-2 grid grid-cols-2 gap-2">
             <input type="number" step="0.1" className={inputClass} value={odometerStart} onChange={(e) => setOdometerStart(e.target.value)} placeholder="Start odometer" />
@@ -72,10 +111,11 @@ export default function AppointmentMileageForm({ appointment, variant = 'mobile'
           </div>
         )}
       </div>
-      {suggestedMiles && method === 'calculated' && (
-        <button type="button" className="text-xs text-cyan-400 mt-1" onClick={() => { setMiles(suggestedMiles); setMethod('estimated'); }}>
-          Use calculated {suggestedMiles} mi
-        </button>
+      {method === 'calculated' && scheduleMiles && (
+        <p className="text-[10px] text-gray-500 mt-1">Prefilled from schedule ({scheduleMiles} mi). Edit miles above if needed.</p>
+      )}
+      {!scheduleMiles && method === 'calculated' && (
+        <p className="text-[10px] text-amber-500/90 mt-1">No schedule distance on this visit — enter miles manually or pick another method.</p>
       )}
       <input type="text" className={`${inputClass} mt-2`} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes (optional)" />
       <div className="flex items-center gap-2 mt-2">

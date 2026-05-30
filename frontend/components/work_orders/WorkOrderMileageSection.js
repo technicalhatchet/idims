@@ -34,8 +34,13 @@ export default function WorkOrderMileageSection({ workOrder, variant = 'mobile' 
     const when = appt.scheduled_start
       ? new Date(appt.scheduled_start).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
       : 'Scheduled';
-    const miles = m?.miles != null ? `${Number(m.miles)} mi` : '—';
-    return `${type} · ${when} · ${miles}`;
+    let milesLabel = '—';
+    if (m?.miles != null) {
+      milesLabel = `${Number(m.miles)} mi`;
+    } else if (appt.travel_distance_before) {
+      milesLabel = `~${(Number(appt.travel_distance_before) / 1609.34).toFixed(1)} mi`;
+    }
+    return `${type} · ${when} · ${milesLabel}`;
   };
 
   return (
