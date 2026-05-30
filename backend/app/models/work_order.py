@@ -75,6 +75,9 @@ class WorkOrder(Base):
     property_ref = relationship("Property", back_populates="work_orders")
     dma_outcome = relationship("DmaRepairOutcome", back_populates="work_order", uselist=False, cascade="all, delete-orphan")
     field_payments = relationship("WorkOrderPayment", back_populates="work_order", cascade="all, delete-orphan")
+    expenses = relationship("WorkOrderExpense", back_populates="work_order", cascade="all, delete-orphan")
+    expense_receipts = relationship("ExpenseReceipt", back_populates="work_order", cascade="all, delete-orphan")
+    appointment_mileage = relationship("AppointmentMileage", back_populates="work_order", cascade="all, delete-orphan")
     
     # New columns for invoice totals
     invoice_subtotal = Column(Numeric(10, 2), nullable=True, default=0.00)
@@ -389,6 +392,8 @@ class WorkOrderAppointment(Base):
     is_forced_schedule = Column(Boolean, default=False)  # Flag for admin-forced scheduling
     time_window = Column(String(50), nullable=True) # Added time_window field for 'morning'/'afternoon'
     notes = Column(Text, nullable=True)  # Notes for this appointment
+    
+    mileage = relationship("AppointmentMileage", back_populates="appointment", uselist=False, cascade="all, delete-orphan")
     
     # Relationships
     work_order = relationship("WorkOrder", back_populates="appointments")

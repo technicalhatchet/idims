@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -25,6 +25,10 @@ import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebrie
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
+import WorkOrderExpensesPanel from '../../../components/work_orders/WorkOrderExpensesPanel';
+import WorkOrderMileageSection from '../../../components/work_orders/WorkOrderMileageSection';
+import JobEconomicsCard from '../../../components/work_orders/JobEconomicsCard';
+import PropertyServiceHistory from '../../../components/work_orders/PropertyServiceHistory';
 import { getWorkOrderOutcomeStatus } from '../../../services/api/dmaApi';
 import { REPAIR_OUTCOME_NOTE_TYPE } from '../../../constants/dmaCodes';
 import { hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
@@ -39,7 +43,8 @@ const TABS = {
   NOTES: 'notes',
   MODEL: 'model',
   CLIENT: 'client',
-  INVOICES: 'invoices'
+  INVOICES: 'invoices',
+  COSTS: 'costs',
 };
 
 const TAB_ITEMS = [
@@ -49,6 +54,7 @@ const TAB_ITEMS = [
   { id: TABS.MODEL, label: 'Equipment', Icon: FaToolbox },
   { id: TABS.CLIENT, label: 'Client', Icon: FaUserAlt },
   { id: TABS.INVOICES, label: 'Billing', Icon: FaFileInvoiceDollar },
+  { id: TABS.COSTS, label: 'Costs', Icon: FaReceipt },
 ];
 
 const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
@@ -1084,6 +1090,16 @@ function WorkOrderDetail() {
                   refetch();
                 }}
               />
+              <WorkOrderMileageSection workOrder={workOrder} variant="mobile" />
+            </div>
+          )}
+          
+          {activeTab === TABS.COSTS && (
+            <div className="px-1 py-2 space-y-4 min-w-0">
+              {isManager && workOrder?.id && (
+                <JobEconomicsCard workOrderId={workOrder.id} variant="mobile" />
+              )}
+              <WorkOrderExpensesPanel workOrderId={workOrder.id} variant="mobile" />
             </div>
           )}
           
@@ -1245,6 +1261,13 @@ function WorkOrderDetail() {
                   </div>
                   )}
                 </div>
+              )}
+
+              {(workOrder.property_id || workOrder.property?.id) && (
+                <PropertyServiceHistory
+                  propertyId={workOrder.property_id || workOrder.property?.id}
+                  variant="mobile"
+                />
               )}
 
               {/* All Client Properties */}
