@@ -6,6 +6,7 @@ import logging
 from calendar import monthrange
 from datetime import date, datetime
 from decimal import Decimal
+from pathlib import Path
 from typing import List, Optional
 from uuid import UUID
 
@@ -25,6 +26,7 @@ from app.models.dma import DmaRepairOutcome
 from app.config import settings
 from app.services.google_drive_service import (
     build_receipt_filename,
+    download_drive_file_bytes,
     drive_unavailable_reason,
     save_receipt_locally,
     upload_receipt_to_drive,
@@ -117,6 +119,26 @@ def get_receipt(db: Session, receipt_id: UUID) -> ExpenseReceipt:
     if not row:
         raise ValueError("Receipt not found")
     return row
+
+
+def read_receipt_bytes(row: ExpenseReceipt) -> tuple[bytes, str]:
+    """Load receipt file bytes and mime type from Drive or local disk."""
+    mime = row.mime_type or "application/octet-stream"
+
+    if row.storage_backend == "drive" and row.drive_file_id:
+        content = download_drive_file_bytes(row.drive_file_id)
+        if not content:
+            raise ValueError(drive_unavailable_reason() or "Could not download receipt from Google Drive")
+        return content, mime
+
+    if not row.local_path:
+        raise ValueError("Receipt file path not found")
+
+    path = Path(row.local_path)
+    if not path.is_file():
+        raise ValueError("Receipt file not found on server")
+
+    return path.read_bytes(), mime
 
 
 def save_receipt(

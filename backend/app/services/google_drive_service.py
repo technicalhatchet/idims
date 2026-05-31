@@ -386,6 +386,27 @@ def upload_receipt_to_drive(
     return file_id, link, wo_folder
 
 
+def download_drive_file_bytes(file_id: str) -> Optional[bytes]:
+    """Download file content from Drive by file id."""
+    service = _drive_service()
+    if not service or not file_id:
+        return None
+    try:
+        from googleapiclient.http import MediaIoBaseDownload
+
+        request = service.files().get_media(fileId=file_id, supportsAllDrives=True)
+        buffer = io.BytesIO()
+        downloader = MediaIoBaseDownload(buffer, request)
+        done = False
+        while not done:
+            _, done = downloader.next_chunk()
+        return buffer.getvalue()
+    except Exception as exc:
+        logger.error("Google Drive download failed for file %s: %s", file_id, exc)
+        _set_drive_failure(f"Google Drive download failed: {exc}")
+        return None
+
+
 def save_receipt_locally(
     *,
     file_bytes: bytes,

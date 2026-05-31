@@ -88,7 +88,7 @@ export function getReceiptDownloadUrl(receiptId) {
   return buildApiUrl(`job-economics/receipts/${receiptId}/download`);
 }
 
-export async function openReceiptDownload(receiptId) {
+export async function fetchReceiptBlob(receiptId) {
   const headers = await getAuthHeaders();
   const url = getReceiptDownloadUrl(receiptId);
   const response = await fetch(url, { headers, credentials: 'include' });
@@ -101,7 +101,15 @@ export async function openReceiptDownload(receiptId) {
     throw new Error(typeof detail === 'string' ? detail : detail);
   }
   const blob = await response.blob();
-  const blobUrl = URL.createObjectURL(blob);
+  return {
+    blobUrl: URL.createObjectURL(blob),
+    mimeType: blob.type || response.headers.get('content-type') || '',
+  };
+}
+
+/** @deprecated use fetchReceiptBlob + ReceiptViewerModal */
+export async function openReceiptDownload(receiptId) {
+  const { blobUrl } = await fetchReceiptBlob(receiptId);
   window.open(blobUrl, '_blank', 'noopener,noreferrer');
   setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
 }

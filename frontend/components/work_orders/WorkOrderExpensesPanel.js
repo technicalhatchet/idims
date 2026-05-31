@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import {
   createWorkOrderExpense,
   deleteWorkOrderExpense,
+  fetchReceiptBlob,
   getDriveStorageStatus,
   getExpenseCategories,
   getExpenseVendors,
   getWorkOrderExpenses,
   getWorkOrderReceipts,
-  openReceiptDownload,
   uploadWorkOrderReceipt,
 } from '../../services/api/jobEconomicsApi';
+import ReceiptViewerModal from './ReceiptViewerModal';
 
 const fmt = (n) => `$${Number(n || 0).toFixed(2)}`;
 
@@ -24,6 +25,15 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
   const [error, setError] = useState(null);
   const [notice, setNotice] = useState(null);
   const [driveStatus, setDriveStatus] = useState(null);
+  const [viewer, setViewer] = useState({
+    open: false,
+    loading: false,
+    error: null,
+    blobUrl: null,
+    mimeType: null,
+    filename: null,
+    driveLink: null,
+  });
   const [form, setForm] = useState({
     category: 'misc',
     amount: '',
@@ -93,16 +103,49 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
     }
   };
 
+  const closeViewer = () => {
+    setViewer((prev) => {
+      if (prev.blobUrl) URL.revokeObjectURL(prev.blobUrl);
+      return {
+        open: false,
+        loading: false,
+        error: null,
+        blobUrl: null,
+        mimeType: null,
+        filename: null,
+        driveLink: null,
+      };
+    });
+  };
+
   const handleOpenReceipt = async (receipt) => {
-    if (receipt.drive_web_view_link) {
-      window.open(receipt.drive_web_view_link, '_blank', 'noopener,noreferrer');
-      return;
-    }
     setError(null);
+    setViewer((prev) => {
+      if (prev.blobUrl) URL.revokeObjectURL(prev.blobUrl);
+      return {
+        open: true,
+        loading: true,
+        error: null,
+        blobUrl: null,
+        mimeType: null,
+        filename: receipt.filename,
+        driveLink: receipt.drive_web_view_link || null,
+      };
+    });
     try {
-      await openReceiptDownload(receipt.id);
+      const { blobUrl, mimeType } = await fetchReceiptBlob(receipt.id);
+      setViewer((prev) => ({
+        ...prev,
+        loading: false,
+        blobUrl,
+        mimeType,
+      }));
     } catch (err) {
-      setError(err.message || 'Could not open receipt');
+      setViewer((prev) => ({
+        ...prev,
+        loading: false,
+        error: err.message || 'Could not open receipt',
+      }));
     }
   };
 
@@ -243,6 +286,17 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
           </ul>
         </div>
       )}
+      <ReceiptViewerModal
+        open={viewer.open}
+        onClose={closeViewer}
+        filename={viewer.filename}
+        blobUrl={viewer.blobUrl}
+        mimeType={viewer.mimeType}
+        driveLink={viewer.driveLink}
+        loading={viewer.loading}
+        error={viewer.error}
+        isMobile={isMobile}
+      />
     </div>
   );
 }
