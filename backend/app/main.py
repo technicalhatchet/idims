@@ -718,6 +718,10 @@ app.include_router(technicians.router, prefix="/api/technicians", tags=["technic
 app.include_router(work_orders.router, prefix="/api/work-orders", tags=["work_orders"])
 app.include_router(dma.router, prefix="/api/dma", tags=["dma"])
 app.include_router(job_economics.router, prefix="/api/job-economics", tags=["job_economics"])
+
+from app.services.google_drive_service import log_drive_status_on_startup
+
+log_drive_status_on_startup()
 app.include_router(scheduling.router, prefix="/api/scheduling", tags=["scheduling"])
 app.include_router(invoices.router, prefix="/api/invoices", tags=["invoices"])
 app.include_router(payments.router, prefix="/api/payments", tags=["payments"])

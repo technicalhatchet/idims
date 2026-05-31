@@ -107,6 +107,15 @@ class ExpenseReceiptListResponse(BaseModel):
     items: List[ExpenseReceiptResponse]
 
 
+class DriveStorageStatusResponse(BaseModel):
+    ready: bool
+    auth_mode: Optional[str] = None
+    root_folder_set: bool
+    oauth_configured: bool
+    service_account_configured: bool
+    message: str
+
+
 class AppointmentMileageUpsert(BaseModel):
     method: str = "estimated"
     miles: Decimal = Field(..., ge=0)

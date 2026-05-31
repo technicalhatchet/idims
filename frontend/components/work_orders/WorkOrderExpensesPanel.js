@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   createWorkOrderExpense,
   deleteWorkOrderExpense,
+  getDriveStorageStatus,
   getExpenseCategories,
   getExpenseVendors,
   getWorkOrderExpenses,
@@ -21,6 +22,8 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [notice, setNotice] = useState(null);
+  const [driveStatus, setDriveStatus] = useState(null);
   const [form, setForm] = useState({
     category: 'misc',
     amount: '',
@@ -53,6 +56,9 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
 
   useEffect(() => {
     load();
+    getDriveStorageStatus()
+      .then(setDriveStatus)
+      .catch(() => setDriveStatus(null));
   }, [workOrderId]);
 
   const handleAdd = async (e) => {
@@ -105,9 +111,18 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
     if (!file) return;
     setSaving(true);
     setError(null);
+    setNotice(null);
     try {
-      await uploadWorkOrderReceipt(workOrderId, file, { expenseId, category, vendorName });
+      const result = await uploadWorkOrderReceipt(workOrderId, file, { expenseId, category, vendorName });
       e.target.value = '';
+      if (result?.storage_backend === 'drive') {
+        setNotice('Receipt saved to Google Drive.');
+      } else {
+        setNotice(
+          driveStatus?.message
+            || 'Receipt saved on server only — not in Google Drive. Managers: check Drive status below.'
+        );
+      }
       await load();
     } catch (err) {
       setError(err.message || 'Receipt upload failed');
@@ -127,6 +142,13 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
   return (
     <div className="space-y-4">
       {error && <p className="text-sm text-red-400">{error}</p>}
+      {notice && <p className="text-sm text-amber-300">{notice}</p>}
+      {driveStatus && !driveStatus.ready && (
+        <p className={`text-xs rounded-lg px-3 py-2 ${isMobile ? 'bg-amber-950/40 text-amber-200/90 border border-amber-500/20' : 'bg-amber-50 text-amber-900 border border-amber-200'}`}>
+          <span className="font-medium">Google Drive: </span>
+          {driveStatus.message}
+        </p>
+      )}
 
       <form onSubmit={handleAdd} className={`rounded-xl p-4 space-y-3 ${isMobile ? 'border border-cyan-500/20 bg-[#0D1525]' : 'border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900'}`}>
         <h3 className={`text-sm font-semibold ${isMobile ? 'text-cyan-300' : 'text-gray-900 dark:text-white'}`}>Add expense</h3>
@@ -212,7 +234,9 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
                   className="text-xs text-cyan-400 hover:underline text-left"
                 >
                   {r.filename}
-                  {r.storage_backend === 'local' ? ' (server)' : ''}
+                  <span className="text-gray-500">
+                    {r.storage_backend === 'drive' ? ' · Drive' : ' · server only'}
+                  </span>
                 </button>
               </li>
             ))}

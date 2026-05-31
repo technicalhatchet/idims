@@ -20,6 +20,7 @@ from app.schemas.job_economics import (
     ExpenseReceiptResponse,
     ExpenseVendorListResponse,
     ExpenseVendorResponse,
+    DriveStorageStatusResponse,
     JobEconomicsResponse,
     MonthlyEconomicsReportResponse,
     PropertyServiceHistoryResponse,
@@ -29,10 +30,18 @@ from app.schemas.job_economics import (
     WorkOrderExpenseUpdate,
 )
 from app.services import job_economics_service as svc
+from app.services.google_drive_service import drive_storage_status
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+
+@router.get("/drive-status", response_model=DriveStorageStatusResponse)
+async def get_drive_storage_status(
+    current_user: User = Depends(get_current_user),
+):
+    return DriveStorageStatusResponse(**drive_storage_status())
 
 
 @router.get("/categories", response_model=ExpenseCategoriesResponse)

@@ -70,6 +70,71 @@ def _service_account_info():
     return None
 
 
+def drive_storage_status() -> dict:
+    """Non-secret diagnostic for admins — explains why Drive may be skipped."""
+    oauth = _oauth_configured()
+    sa = bool(_service_account_info())
+    root = bool(settings.GOOGLE_DRIVE_ROOT_FOLDER_ID)
+
+    if not root:
+        return {
+            "ready": False,
+            "auth_mode": None,
+            "root_folder_set": False,
+            "oauth_configured": oauth,
+            "service_account_configured": sa,
+            "message": "Set GOOGLE_DRIVE_ROOT_FOLDER_ID to a folder in your personal Drive.",
+        }
+
+    if oauth:
+        creds = _oauth_credentials()
+        if creds:
+            return {
+                "ready": True,
+                "auth_mode": "oauth",
+                "root_folder_set": True,
+                "oauth_configured": True,
+                "service_account_configured": sa,
+                "message": "Google Drive ready (OAuth). New receipts upload to your Drive folder.",
+            }
+        return {
+            "ready": False,
+            "auth_mode": "oauth",
+            "root_folder_set": True,
+            "oauth_configured": True,
+            "service_account_configured": sa,
+            "message": "OAuth env vars are set but token refresh failed. Regenerate GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN.",
+        }
+
+    if sa:
+        return {
+            "ready": False,
+            "auth_mode": "service_account",
+            "root_folder_set": True,
+            "oauth_configured": False,
+            "service_account_configured": True,
+            "message": (
+                "Service account cannot upload to personal Gmail (no storage quota). "
+                "Remove GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON and set GOOGLE_DRIVE_OAUTH_* instead."
+            ),
+        }
+
+    return {
+        "ready": False,
+        "auth_mode": None,
+        "root_folder_set": True,
+        "oauth_configured": False,
+        "service_account_configured": False,
+        "message": "No Drive credentials on server — receipts are stored on Railway disk only.",
+    }
+
+
+def log_drive_status_on_startup() -> None:
+    status = drive_storage_status()
+    level = logging.INFO if status["ready"] else logging.WARNING
+    logger.log(level, "Google Drive receipts: %s", status["message"])
+
+
 def is_drive_configured() -> bool:
     if not settings.GOOGLE_DRIVE_ROOT_FOLDER_ID:
         return False

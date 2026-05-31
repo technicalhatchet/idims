@@ -76,6 +76,14 @@ export async function getMonthlyEconomicsReport(year, month) {
   return apiClient(`${BASE}/reports/monthly?year=${year}&month=${month}`);
 }
 
+export async function getDriveStorageStatus() {
+  return apiClient(`${BASE}/drive-status`);
+}
+
+export async function getPropertyServiceHistory(propertyId) {
+  return apiClient(`${BASE}/properties/${propertyId}/service-history`);
+}
+
 export function getReceiptDownloadUrl(receiptId) {
   return buildApiUrl(`job-economics/receipts/${receiptId}/download`);
 }
