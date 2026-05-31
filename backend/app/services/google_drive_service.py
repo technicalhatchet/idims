@@ -20,6 +20,21 @@ logger = logging.getLogger(__name__)
 
 _DRIVE_SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 _TOKEN_URI = "https://oauth2.googleapis.com/token"
+_last_drive_failure_reason: Optional[str] = None
+
+
+def get_last_drive_failure_reason() -> Optional[str]:
+    return _last_drive_failure_reason
+
+
+def _set_drive_failure(reason: str) -> None:
+    global _last_drive_failure_reason
+    _last_drive_failure_reason = reason
+
+
+def _clear_drive_failure() -> None:
+    global _last_drive_failure_reason
+    _last_drive_failure_reason = None
 
 
 def _sanitize_filename_part(value: str, fallback: str = "file") -> str:
@@ -70,47 +85,102 @@ def _service_account_info():
     return None
 
 
+def _verify_root_folder_access(service) -> tuple[bool, str]:
+    """Confirm the configured root folder exists and is reachable by the active credentials."""
+    from googleapiclient.errors import HttpError
+
+    root_id = (settings.GOOGLE_DRIVE_ROOT_FOLDER_ID or "").strip()
+    if not root_id:
+        return False, "GOOGLE_DRIVE_ROOT_FOLDER_ID is not set"
+
+    try:
+        meta = (
+            service.files()
+            .get(fileId=root_id, fields="id,name,mimeType,trashed", supportsAllDrives=True)
+            .execute()
+        )
+    except HttpError as exc:
+        if exc.resp.status == 404:
+            return False, (
+                f"Folder not found: {root_id}. "
+                "Create a folder in the same Google account you used for GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN, "
+                "then copy its ID from the Drive URL."
+            )
+        return False, f"Cannot access GOOGLE_DRIVE_ROOT_FOLDER_ID ({root_id}): {exc}"
+
+    if meta.get("trashed"):
+        return False, f"Root folder {root_id} is in Google Drive trash — restore it or pick a new folder ID."
+
+    if meta.get("mimeType") != "application/vnd.google-apps.folder":
+        return False, (
+            f"GOOGLE_DRIVE_ROOT_FOLDER_ID ({root_id}) is not a folder. "
+            "Use the ID from a folder URL, not a file."
+        )
+
+    name = meta.get("name") or root_id
+    return True, f'Upload folder "{name}" ({root_id}) is accessible'
+
+
 def drive_storage_status() -> dict:
     """Non-secret diagnostic for admins — explains why Drive may be skipped."""
     oauth = _oauth_configured()
     sa = bool(_service_account_info())
-    root = bool(settings.GOOGLE_DRIVE_ROOT_FOLDER_ID)
+    root_id = (settings.GOOGLE_DRIVE_ROOT_FOLDER_ID or "").strip()
+    root = bool(root_id)
 
     if not root:
         return {
             "ready": False,
             "auth_mode": None,
             "root_folder_set": False,
+            "root_folder_id": None,
             "oauth_configured": oauth,
             "service_account_configured": sa,
             "message": "Set GOOGLE_DRIVE_ROOT_FOLDER_ID to a folder in your personal Drive.",
         }
 
     if oauth:
-        creds = _oauth_credentials()
-        if creds:
+        service = _drive_service()
+        if not service:
             return {
-                "ready": True,
+                "ready": False,
                 "auth_mode": "oauth",
                 "root_folder_set": True,
+                "root_folder_id": root_id,
                 "oauth_configured": True,
                 "service_account_configured": sa,
-                "message": "Google Drive ready (OAuth). New receipts upload to your Drive folder.",
+                "message": "OAuth env vars are set but token refresh failed. Regenerate GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN.",
             }
+        ok, detail = _verify_root_folder_access(service)
         return {
-            "ready": False,
+            "ready": ok,
             "auth_mode": "oauth",
             "root_folder_set": True,
+            "root_folder_id": root_id,
             "oauth_configured": True,
             "service_account_configured": sa,
-            "message": "OAuth env vars are set but token refresh failed. Regenerate GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN.",
+            "message": detail,
         }
 
     if sa:
+        service = _drive_service()
+        if service:
+            ok, detail = _verify_root_folder_access(service)
+            if ok:
+                return {
+                    "ready": True,
+                    "auth_mode": "service_account",
+                    "root_folder_set": True,
+                    "root_folder_id": root_id,
+                    "oauth_configured": False,
+                    "service_account_configured": True,
+                    "message": detail,
+                }
         return {
             "ready": False,
             "auth_mode": "service_account",
             "root_folder_set": True,
+            "root_folder_id": root_id,
             "oauth_configured": False,
             "service_account_configured": True,
             "message": (
@@ -123,6 +193,7 @@ def drive_storage_status() -> dict:
         "ready": False,
         "auth_mode": None,
         "root_folder_set": True,
+        "root_folder_id": root_id,
         "oauth_configured": False,
         "service_account_configured": False,
         "message": "No Drive credentials on server — receipts are stored on Railway disk only.",
@@ -142,16 +213,12 @@ def is_drive_configured() -> bool:
 
 
 def drive_unavailable_reason() -> str:
+    if _last_drive_failure_reason:
+        return _last_drive_failure_reason
     if not settings.GOOGLE_DRIVE_ROOT_FOLDER_ID:
         return "GOOGLE_DRIVE_ROOT_FOLDER_ID is not set"
-    if _oauth_configured():
-        return "Google Drive OAuth credentials present but client init failed"
-    if _service_account_info():
-        return (
-            "Service account configured — personal Gmail needs OAuth "
-            "(GOOGLE_DRIVE_OAUTH_* env vars); service accounts only work with Workspace shared drives"
-        )
-    return "Set GOOGLE_DRIVE_OAUTH_* (personal Drive) or GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON (Workspace shared drive)"
+    status = drive_storage_status()
+    return status.get("message") or "Google Drive upload unavailable"
 
 
 def _oauth_credentials():
@@ -232,7 +299,9 @@ def _ensure_folder(service, parent_id: str, name: str) -> Optional[str]:
         )
         return created.get("id")
     except HttpError as exc:
-        logger.error("Google Drive folder create/list failed: %s", exc)
+        reason = f"Google Drive folder create/list failed under parent {parent_id}: {exc}"
+        logger.error(reason)
+        _set_drive_failure(reason)
         return None
 
 
@@ -249,13 +318,20 @@ def upload_receipt_to_drive(
     Folder layout: {root}/{year}/{order_number}/
     """
     if not is_drive_configured():
+        _set_drive_failure("Google Drive is not configured")
         return None
 
     service = _drive_service()
     if not service:
+        _set_drive_failure("Google Drive client could not be initialized")
         return None
 
     root_id = settings.GOOGLE_DRIVE_ROOT_FOLDER_ID
+    ok, detail = _verify_root_folder_access(service)
+    if not ok:
+        _set_drive_failure(detail)
+        return None
+
     year_folder = _ensure_folder(service, root_id, str(year))
     if not year_folder:
         return None
@@ -282,20 +358,22 @@ def upload_receipt_to_drive(
             .execute()
         )
     except HttpError as exc:
-        logger.error(
-            "Google Drive upload failed for %s: %s — personal Gmail requires OAuth, not service account",
-            filename,
-            exc,
-        )
+        reason = f"Google Drive upload failed for {filename}: {exc}"
+        logger.error(reason)
+        _set_drive_failure(reason)
         return None
     except Exception as exc:
-        logger.error("Google Drive upload failed for %s: %s", filename, exc)
+        reason = f"Google Drive upload failed for {filename}: {exc}"
+        logger.error(reason)
+        _set_drive_failure(reason)
         return None
 
     file_id = created.get("id")
     link = created.get("webViewLink")
     if not file_id:
+        _set_drive_failure(f"Google Drive upload for {filename} returned no file id")
         return None
+    _clear_drive_failure()
     return file_id, link, wo_folder
 
 

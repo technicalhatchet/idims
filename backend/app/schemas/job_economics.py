@@ -111,6 +111,7 @@ class DriveStorageStatusResponse(BaseModel):
     ready: bool
     auth_mode: Optional[str] = None
     root_folder_set: bool
+    root_folder_id: Optional[str] = None
     oauth_configured: bool
     service_account_configured: bool
     message: str
