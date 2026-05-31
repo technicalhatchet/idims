@@ -22,7 +22,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-SCOPES = ["https://www.googleapis.com/auth/drive.file"]
+SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 
 def main() -> None:
@@ -50,6 +50,8 @@ def main() -> None:
     print(f"GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN={creds.refresh_token}")
     print("\nCreate a folder in your personal Drive, copy its ID from the URL:")
     print("GOOGLE_DRIVE_ROOT_FOLDER_ID=<folder-id-from-drive-url>")
+    print("\nImportant: use a NEW refresh token after each scope change (revoke old access at")
+    print("https://myaccount.google.com/permissions if uploads still fail).")
     print("\nYou can remove GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON — not needed for personal Gmail.")
 
 

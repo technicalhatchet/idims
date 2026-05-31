@@ -18,7 +18,9 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
-_DRIVE_SCOPES = ["https://www.googleapis.com/auth/drive.file"]
+# drive.file only allows files/folders created by THIS app — user-created folders return 404.
+# Full drive scope is required to upload into a folder the user picks in My Drive.
+_DRIVE_SCOPES = ["https://www.googleapis.com/auth/drive"]
 _TOKEN_URI = "https://oauth2.googleapis.com/token"
 _last_drive_failure_reason: Optional[str] = None
 
@@ -102,9 +104,10 @@ def _verify_root_folder_access(service) -> tuple[bool, str]:
     except HttpError as exc:
         if exc.resp.status == 404:
             return False, (
-                f"Folder not found: {root_id}. "
-                "Create a folder in the same Google account you used for GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN, "
-                "then copy its ID from the Drive URL."
+                f"Folder not found via Drive API: {root_id}. "
+                "If you can open this folder in the browser, regenerate GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN "
+                "(old tokens may use the restricted drive.file scope). "
+                "Folder must be in the same Google account used for OAuth."
             )
         return False, f"Cannot access GOOGLE_DRIVE_ROOT_FOLDER_ID ({root_id}): {exc}"
 
@@ -281,7 +284,11 @@ def _ensure_folder(service, parent_id: str, name: str) -> Optional[str]:
         f"and name='{safe_name}' and trashed=false"
     )
     try:
-        result = service.files().list(q=query, fields="files(id,name)", pageSize=1).execute()
+        result = (
+            service.files()
+            .list(q=query, fields="files(id,name)", pageSize=1, supportsAllDrives=True, includeItemsFromAllDrives=True)
+            .execute()
+        )
         files = result.get("files") or []
         if files:
             return files[0]["id"]
@@ -294,6 +301,7 @@ def _ensure_folder(service, parent_id: str, name: str) -> Optional[str]:
                     "parents": [parent_id],
                 },
                 fields="id",
+                supportsAllDrives=True,
             )
             .execute()
         )
@@ -354,6 +362,7 @@ def upload_receipt_to_drive(
                 body={"name": filename, "parents": [wo_folder]},
                 media_body=media_upload,
                 fields="id, webViewLink",
+                supportsAllDrives=True,
             )
             .execute()
         )
