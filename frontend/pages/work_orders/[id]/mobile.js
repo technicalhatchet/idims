@@ -2328,7 +2328,8 @@ function WorkOrderDetail() {
         </div>
       </div>
 
-      {/* Mobile sticky action bar */}
+      {/* Mobile sticky action bar — hidden while photo upload sheet is open */}
+      {!notesPhotoSheetOpen && (
       <div
         className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2"
         style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
@@ -2369,6 +2370,7 @@ function WorkOrderDetail() {
           </button>
         )}
       </div>
+      )}
 
       <RecordPaymentSheet
         open={showRecordPayment}
