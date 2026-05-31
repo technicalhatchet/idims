@@ -77,6 +77,7 @@ class WorkOrder(Base):
     field_payments = relationship("WorkOrderPayment", back_populates="work_order", cascade="all, delete-orphan")
     expenses = relationship("WorkOrderExpense", back_populates="work_order", cascade="all, delete-orphan")
     expense_receipts = relationship("ExpenseReceipt", back_populates="work_order", cascade="all, delete-orphan")
+    photos = relationship("WorkOrderPhoto", back_populates="work_order", cascade="all, delete-orphan")
     appointment_mileage = relationship("AppointmentMileage", back_populates="work_order", cascade="all, delete-orphan")
     
     # New columns for invoice totals
@@ -299,6 +300,34 @@ class WorkOrderNote(Base):
     
     def __repr__(self):
         return f"<WorkOrderNote {self.id}: {self.note[:30]}...>"
+
+
+class WorkOrderPhoto(Base):
+    """Field photos attached to a work order (Notes tab)."""
+    __tablename__ = "work_order_photos"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    work_order_id = Column(
+        UUID(as_uuid=True), ForeignKey("work_orders.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    description = Column(String(500), nullable=True)
+    is_model_sn_tag = Column(Boolean, nullable=False, default=False)
+    filename = Column(String(255), nullable=False)
+    mime_type = Column(String(100), nullable=True)
+    file_size = Column(Integer, nullable=True)
+    storage_backend = Column(String(20), nullable=False, default="local")
+    local_path = Column(String(512), nullable=True)
+    drive_file_id = Column(String(128), nullable=True)
+    drive_web_view_link = Column(String(512), nullable=True)
+    drive_folder_id = Column(String(128), nullable=True)
+    uploaded_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    work_order = relationship("WorkOrder", back_populates="photos")
+    uploader = relationship("User")
+
+    def __repr__(self):
+        return f"<WorkOrderPhoto {self.id}: {self.filename}>"
 
 
 class WorkOrderStatusHistory(Base):

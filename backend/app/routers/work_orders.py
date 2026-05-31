@@ -1,7 +1,7 @@
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, Response
 from io import BytesIO
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status, Body, Path, Request, Header
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Body, Path, Request, Header, File, Form, UploadFile
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -26,6 +26,7 @@ from app.schemas.work_order import (
     WorkOrderStatusUpdate, WorkOrderAssign, WorkOrderListResponse,
     WorkOrderAppointmentCreate, WorkOrderAppointmentUpdate, WorkOrderAppointmentResponse,
     WorkOrderNoteCreate, WorkOrderNoteResponse,
+    WorkOrderPhotoListResponse, WorkOrderPhotoResponse,
     WorkOrderPartCreate, WorkOrderPartUpdate, WorkOrderPartResponse,
     BillingStatusUpdate, WorkOrderBillingSummary, AdminBillingOverride,
     WorkOrderWithInitialAppointmentCreate, WorkOrderWithInitialAppointmentResponse,
@@ -36,6 +37,7 @@ from app.schemas.work_order_payment import (
     WorkOrderPaymentListResponse,
 )
 from app.services.work_order_payment_service import record_work_order_payment, list_work_order_payments
+from app.services import work_order_photos_service as photos_svc
 from app.schemas.service import ServiceResponse
 from app.services.work_order_service import WorkOrderService
 from app.core.dependencies import get_current_user, get_admin_or_manager_user
@@ -1776,6 +1778,84 @@ async def create_work_order_note_v2(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error creating note: {str(e)}"
         )
+
+
+@router.get("/{work_order_id}/photos", response_model=WorkOrderPhotoListResponse)
+async def list_work_order_photos(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    can_access = await can_access_work_order(work_order_id, current_user, db)
+    if not can_access:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You don't have permission to access this work order")
+
+    rows = photos_svc.list_photos(db, work_order_id)
+    items = [WorkOrderPhotoResponse(**photos_svc.photo_to_dict(r)) for r in rows]
+    return WorkOrderPhotoListResponse(items=items)
+
+
+@router.post(
+    "/{work_order_id}/photos",
+    response_model=WorkOrderPhotoResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def upload_work_order_photo(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    file: UploadFile = File(...),
+    description: Optional[str] = Form(None),
+    is_model_sn_tag: str = Form("false"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    can_access = await can_access_work_order(work_order_id, current_user, db)
+    if not can_access:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You don't have permission to access this work order")
+
+    content = await file.read()
+    if not content:
+        raise HTTPException(status_code=422, detail="Empty file")
+
+    mime = file.content_type or "application/octet-stream"
+    if not mime.startswith("image/"):
+        raise HTTPException(status_code=422, detail="Only image files are allowed")
+
+    tag_flag = is_model_sn_tag.lower() in ("true", "1", "yes", "on")
+
+    try:
+        row = photos_svc.save_photo(
+            db,
+            work_order_id=work_order_id,
+            user_id=current_user.id,
+            file_bytes=content,
+            original_filename=file.filename or "photo.jpg",
+            mime_type=mime,
+            description=description,
+            is_model_sn_tag=tag_flag,
+        )
+        return WorkOrderPhotoResponse(**photos_svc.photo_to_dict(row))
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+
+
+@router.get("/photos/{photo_id}/download")
+async def download_work_order_photo(
+    photo_id: uuid.UUID = Path(..., description="The ID of the photo"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    try:
+        row = photos_svc.get_photo(db, photo_id)
+        can_access = await can_access_work_order(row.work_order_id, current_user, db)
+        if not can_access:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You don't have permission to access this work order")
+        content, mime = photos_svc.read_photo_bytes(row)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+
+    headers = {"Content-Disposition": f'inline; filename="{row.filename}"'}
+    return Response(content=content, media_type=mime, headers=headers)
+
 
 @router.post("/admin/migrate-work-order-schedules", status_code=status.HTTP_200_OK)
 async def migrate_work_order_schedules(

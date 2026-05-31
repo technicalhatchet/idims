@@ -117,6 +117,7 @@ class Settings(BaseModel):
     STORAGE_SECRET_KEY: str = Field(default_factory=lambda: os.getenv("STORAGE_SECRET_KEY", ""))
     LOCAL_STORAGE_PATH: str = "storage"
     GOOGLE_DRIVE_ROOT_FOLDER_ID: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_ROOT_FOLDER_ID", ""))
+    GOOGLE_DRIVE_PHOTOS_ROOT_FOLDER_ID: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_PHOTOS_ROOT_FOLDER_ID", ""))
     GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON", ""))
     GOOGLE_DRIVE_CREDENTIALS_PATH: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_CREDENTIALS_PATH", ""))
     GOOGLE_DRIVE_OAUTH_CLIENT_ID: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_OAUTH_CLIENT_ID", ""))
@@ -304,6 +305,7 @@ class Settings(BaseModel):
     STORAGE_SECRET_KEY: str = ""
     LOCAL_STORAGE_PATH: str = "storage"  # Local storage directory for files
     GOOGLE_DRIVE_ROOT_FOLDER_ID: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_ROOT_FOLDER_ID", ""))
+    GOOGLE_DRIVE_PHOTOS_ROOT_FOLDER_ID: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_PHOTOS_ROOT_FOLDER_ID", ""))
     GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON", ""))
     GOOGLE_DRIVE_CREDENTIALS_PATH: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_CREDENTIALS_PATH", ""))
     GOOGLE_DRIVE_OAUTH_CLIENT_ID: str = Field(default_factory=lambda: os.getenv("GOOGLE_DRIVE_OAUTH_CLIENT_ID", ""))

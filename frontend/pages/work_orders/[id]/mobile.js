@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -143,6 +143,7 @@ function WorkOrderDetail() {
   const [showAllProperties, setShowAllProperties] = useState(false);
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
   const [notesAddNoteType, setNotesAddNoteType] = useState(null);
+  const [notesPhotoSheetOpen, setNotesPhotoSheetOpen] = useState(false);
   const [showRepairOutcomePrompt, setShowRepairOutcomePrompt] = useState(false);
   const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
@@ -1116,6 +1117,8 @@ function WorkOrderDetail() {
                   if (!open) setNotesAddNoteType(null);
                 }}
                 addNoteType={notesAddNoteType}
+                photoSheetOpen={notesPhotoSheetOpen}
+                onPhotoSheetOpenChange={setNotesPhotoSheetOpen}
               />
             </div>
           )}
@@ -2338,15 +2341,25 @@ function WorkOrderDetail() {
           Update status
         </button>
         {activeTab === TABS.NOTES && (
-          <button
-            type="button"
-            onClick={() => setNotesAddSheetOpen(true)}
-            className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
-          >
-            Add note
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={() => setNotesAddSheetOpen(true)}
+              className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
+            >
+              Add note
+            </button>
+            <button
+              type="button"
+              onClick={() => setNotesPhotoSheetOpen(true)}
+              className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300 flex items-center gap-1.5"
+            >
+              <FaCamera className="h-3.5 w-3.5" />
+              Photo
+            </button>
+          </>
         )}
-        {activeTab !== TABS.INVOICES && (
+        {activeTab !== TABS.INVOICES && activeTab !== TABS.NOTES && (
           <button
             type="button"
             onClick={() => setActiveTab(TABS.INVOICES)}

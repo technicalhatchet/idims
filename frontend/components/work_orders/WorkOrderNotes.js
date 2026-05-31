@@ -13,6 +13,7 @@ import {
   codeLabel,
 } from '../../constants/dmaCodes';
 import DmaTagPicker from '../dma/DmaTagPicker';
+import WorkOrderPhotosSection from './WorkOrderPhotosSection';
 
 const NOTE_TYPES = {
   GENERAL: 'General Note',
@@ -143,6 +144,8 @@ export default function WorkOrderNotes({
   addSheetOpen: addSheetOpenProp,
   onAddSheetOpenChange,
   addNoteType = null,
+  photoSheetOpen = false,
+  onPhotoSheetOpenChange = null,
 }) {
   const isMobile = variant === 'mobile';
   const [notes, setNotes] = useState([]);
@@ -700,17 +703,12 @@ export default function WorkOrderNotes({
           </div>
         )}
 
-        {!addSheetOpen && onAddSheetOpenChange == null && (
-          <button
-            type="button"
-            onClick={openAddSheet}
-            className="fixed right-4 z-[1185] flex h-12 items-center gap-2 rounded-full bg-gradient-to-br from-cyan-600 to-cyan-700 px-4 text-sm font-semibold text-white shadow-[0_0_24px_rgba(34,211,238,0.35)] active:scale-[0.98]"
-            style={{ bottom: 'calc(72px + env(safe-area-inset-bottom))' }}
-          >
-            <FaPlus className="h-3.5 w-3.5" />
-            Add note
-          </button>
-        )}
+        <WorkOrderPhotosSection
+          workOrderId={workOrderId}
+          variant="mobile"
+          uploadOpen={photoSheetOpen}
+          onUploadOpenChange={onPhotoSheetOpenChange}
+        />
       </div>
     );
   }
@@ -759,6 +757,8 @@ export default function WorkOrderNotes({
         </div>
         <div className="p-6">{addNoteForm}</div>
       </div>
+
+      <WorkOrderPhotosSection workOrderId={workOrderId} variant="desktop" />
     </div>
   );
 }

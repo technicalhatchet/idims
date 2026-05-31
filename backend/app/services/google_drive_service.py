@@ -10,7 +10,7 @@ import io
 import json
 import logging
 import re
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import Optional, Tuple
 
@@ -87,13 +87,28 @@ def _service_account_info():
     return None
 
 
-def _verify_root_folder_access(service) -> tuple[bool, str]:
+def build_photo_filename(
+    order_number: str,
+    description: str,
+    original_filename: str,
+    *,
+    is_model_sn_tag: bool = False,
+) -> str:
+    ext = Path(original_filename or "photo.jpg").suffix.lower() or ".jpg"
+    if ext not in {".jpg", ".jpeg", ".png", ".webp", ".heic", ".gif"}:
+        ext = ".jpg"
+    label = "model-sn-tag" if is_model_sn_tag else _sanitize_filename_part(description, "photo")
+    stamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
+    return f"{_sanitize_filename_part(order_number, 'WO')}_{stamp}_{label}{ext}"
+
+
+def _verify_root_folder_access(service, root_id: str) -> tuple[bool, str]:
     """Confirm the configured root folder exists and is reachable by the active credentials."""
     from googleapiclient.errors import HttpError
 
-    root_id = (settings.GOOGLE_DRIVE_ROOT_FOLDER_ID or "").strip()
+    root_id = (root_id or "").strip()
     if not root_id:
-        return False, "GOOGLE_DRIVE_ROOT_FOLDER_ID is not set"
+        return False, "Google Drive root folder ID is not set"
 
     try:
         meta = (
@@ -109,14 +124,14 @@ def _verify_root_folder_access(service) -> tuple[bool, str]:
                 "(old tokens may use the restricted drive.file scope). "
                 "Folder must be in the same Google account used for OAuth."
             )
-        return False, f"Cannot access GOOGLE_DRIVE_ROOT_FOLDER_ID ({root_id}): {exc}"
+        return False, f"Cannot access Google Drive folder ({root_id}): {exc}"
 
     if meta.get("trashed"):
         return False, f"Root folder {root_id} is in Google Drive trash — restore it or pick a new folder ID."
 
     if meta.get("mimeType") != "application/vnd.google-apps.folder":
         return False, (
-            f"GOOGLE_DRIVE_ROOT_FOLDER_ID ({root_id}) is not a folder. "
+            f"Google Drive folder ID ({root_id}) is not a folder. "
             "Use the ID from a folder URL, not a file."
         )
 
@@ -154,7 +169,7 @@ def drive_storage_status() -> dict:
                 "service_account_configured": sa,
                 "message": "OAuth env vars are set but token refresh failed. Regenerate GOOGLE_DRIVE_OAUTH_REFRESH_TOKEN.",
             }
-        ok, detail = _verify_root_folder_access(service)
+        ok, detail = _verify_root_folder_access(service, root_id)
         return {
             "ready": ok,
             "auth_mode": "oauth",
@@ -168,7 +183,7 @@ def drive_storage_status() -> dict:
     if sa:
         service = _drive_service()
         if service:
-            ok, detail = _verify_root_folder_access(service)
+            ok, detail = _verify_root_folder_access(service, root_id)
             if ok:
                 return {
                     "ready": True,
@@ -209,10 +224,18 @@ def log_drive_status_on_startup() -> None:
     logger.log(level, "Google Drive receipts: %s", status["message"])
 
 
-def is_drive_configured() -> bool:
-    if not settings.GOOGLE_DRIVE_ROOT_FOLDER_ID:
+def is_drive_configured_for_root(root_folder_id: str) -> bool:
+    if not (root_folder_id or "").strip():
         return False
     return _oauth_configured() or bool(_service_account_info())
+
+
+def is_drive_configured() -> bool:
+    return is_drive_configured_for_root(settings.GOOGLE_DRIVE_ROOT_FOLDER_ID)
+
+
+def is_photos_drive_configured() -> bool:
+    return is_drive_configured_for_root(settings.GOOGLE_DRIVE_PHOTOS_ROOT_FOLDER_ID)
 
 
 def drive_unavailable_reason() -> str:
@@ -313,8 +336,9 @@ def _ensure_folder(service, parent_id: str, name: str) -> Optional[str]:
         return None
 
 
-def upload_receipt_to_drive(
+def upload_file_to_drive(
     *,
+    root_folder_id: str,
     file_bytes: bytes,
     filename: str,
     mime_type: str,
@@ -325,7 +349,8 @@ def upload_receipt_to_drive(
     Returns (file_id, web_view_link, folder_id) or None if Drive unavailable.
     Folder layout: {root}/{year}/{order_number}/
     """
-    if not is_drive_configured():
+    root_id = (root_folder_id or "").strip()
+    if not is_drive_configured_for_root(root_id):
         _set_drive_failure("Google Drive is not configured")
         return None
 
@@ -334,8 +359,7 @@ def upload_receipt_to_drive(
         _set_drive_failure("Google Drive client could not be initialized")
         return None
 
-    root_id = settings.GOOGLE_DRIVE_ROOT_FOLDER_ID
-    ok, detail = _verify_root_folder_access(service)
+    ok, detail = _verify_root_folder_access(service, root_id)
     if not ok:
         _set_drive_failure(detail)
         return None
@@ -386,6 +410,46 @@ def upload_receipt_to_drive(
     return file_id, link, wo_folder
 
 
+def upload_receipt_to_drive(
+    *,
+    file_bytes: bytes,
+    filename: str,
+    mime_type: str,
+    order_number: str,
+    year: int,
+) -> Optional[Tuple[str, str, str]]:
+    """
+    Returns (file_id, web_view_link, folder_id) or None if Drive unavailable.
+    Folder layout: {root}/{year}/{order_number}/
+    """
+    return upload_file_to_drive(
+        root_folder_id=settings.GOOGLE_DRIVE_ROOT_FOLDER_ID,
+        file_bytes=file_bytes,
+        filename=filename,
+        mime_type=mime_type,
+        order_number=order_number,
+        year=year,
+    )
+
+
+def upload_photo_to_drive(
+    *,
+    file_bytes: bytes,
+    filename: str,
+    mime_type: str,
+    order_number: str,
+    year: int,
+) -> Optional[Tuple[str, str, str]]:
+    return upload_file_to_drive(
+        root_folder_id=settings.GOOGLE_DRIVE_PHOTOS_ROOT_FOLDER_ID,
+        file_bytes=file_bytes,
+        filename=filename,
+        mime_type=mime_type,
+        order_number=order_number,
+        year=year,
+    )
+
+
 def download_drive_file_bytes(file_id: str) -> Optional[bytes]:
     """Download file content from Drive by file id."""
     service = _drive_service()
@@ -407,6 +471,26 @@ def download_drive_file_bytes(file_id: str) -> Optional[bytes]:
         return None
 
 
+def save_file_locally(
+    *,
+    storage_subdir: str,
+    file_bytes: bytes,
+    filename: str,
+    order_number: str,
+    year: int,
+) -> str:
+    base = (
+        Path(settings.LOCAL_STORAGE_PATH)
+        / storage_subdir
+        / str(year)
+        / _sanitize_filename_part(order_number, "wo")
+    )
+    base.mkdir(parents=True, exist_ok=True)
+    target = base / filename
+    target.write_bytes(file_bytes)
+    return str(target)
+
+
 def save_receipt_locally(
     *,
     file_bytes: bytes,
@@ -414,8 +498,26 @@ def save_receipt_locally(
     order_number: str,
     year: int,
 ) -> str:
-    base = Path(settings.LOCAL_STORAGE_PATH) / "receipts" / str(year) / _sanitize_filename_part(order_number, "wo")
-    base.mkdir(parents=True, exist_ok=True)
-    target = base / filename
-    target.write_bytes(file_bytes)
-    return str(target)
+    return save_file_locally(
+        storage_subdir="receipts",
+        file_bytes=file_bytes,
+        filename=filename,
+        order_number=order_number,
+        year=year,
+    )
+
+
+def save_photo_locally(
+    *,
+    file_bytes: bytes,
+    filename: str,
+    order_number: str,
+    year: int,
+) -> str:
+    return save_file_locally(
+        storage_subdir="photos",
+        file_bytes=file_bytes,
+        filename=filename,
+        order_number=order_number,
+        year=year,
+    )

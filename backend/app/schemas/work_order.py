@@ -567,4 +567,24 @@ class WorkOrderActivityLogResponse(BaseModel):
     occurred_at_est: str
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
+
+class WorkOrderPhotoResponse(BaseModel):
+    id: UUID
+    work_order_id: UUID
+    description: Optional[str] = None
+    is_model_sn_tag: bool = False
+    filename: str
+    mime_type: Optional[str] = None
+    file_size: Optional[int] = None
+    storage_backend: str
+    drive_web_view_link: Optional[str] = None
+    uploaded_by: UUID
+    user_name: Optional[str] = None
+    created_at: datetime
+    model_config = ConfigDict(from_attributes=True)
+
+
+class WorkOrderPhotoListResponse(BaseModel):
+    items: List[WorkOrderPhotoResponse]
+
     model_config = ConfigDict(from_attributes=True)
