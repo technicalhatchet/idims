@@ -9,6 +9,7 @@ export default function ReceiptViewerModal({
   mimeType,
   driveLink,
   loading,
+  loadingLabel = 'Loading…',
   error,
   isMobile = false,
 }) {
@@ -55,7 +56,7 @@ export default function ReceiptViewerModal({
           </div>
 
           <div className="flex-1 min-h-0 overflow-auto flex items-center justify-center p-2 bg-black/40">
-            {loading && <p className="text-sm text-gray-300 p-8">Loading receipt…</p>}
+            {loading && <p className="text-sm text-gray-300 p-8">{loadingLabel}</p>}
             {error && !loading && <p className="text-sm text-red-400 p-8 text-center">{error}</p>}
             {!loading && !error && blobUrl && isImage && (
               <img

@@ -132,12 +132,12 @@ export default function WorkOrderPhotosSection({
         </button>
 
         {sectionOpen && (
-          <div className={`px-4 pb-4 space-y-2 border-t ${isMobile ? 'border-cyan-500/15' : 'border-gray-200'}`}>
+          <div className={`pt-2 pb-3 space-y-2 border-t ${isMobile ? 'border-cyan-500/15 px-0.5' : 'border-gray-200 px-4'}`}>
             {onUploadOpenChange == null && (
               <button
                 type="button"
                 onClick={() => setUploadOpen(true)}
-                className={`w-full h-9 rounded-lg text-xs font-semibold uppercase tracking-wide ${
+                className={`w-full h-9 rounded-xl text-xs font-semibold uppercase tracking-wide ${
                   isMobile
                     ? 'border border-cyan-500/35 text-cyan-300'
                     : 'border border-gray-300 text-gray-700 bg-white'
@@ -146,9 +146,11 @@ export default function WorkOrderPhotosSection({
                 Add photo
               </button>
             )}
-            {error && <p className="text-sm text-red-400 pt-3">{error}</p>}
+            {error && (
+              <p className={`text-sm text-red-400 ${isMobile ? 'px-3 pt-1' : 'pt-1'}`}>{error}</p>
+            )}
             {!photos.length && !error && (
-              <p className={`text-sm py-3 ${isMobile ? 'text-gray-500' : 'text-gray-400'}`}>
+              <p className={`text-sm py-2 ${isMobile ? 'px-3 text-gray-500' : 'text-gray-400'}`}>
                 No photos yet. Tap Photo below to add one.
               </p>
             )}
@@ -157,15 +159,15 @@ export default function WorkOrderPhotosSection({
                 key={photo.id}
                 type="button"
                 onClick={() => handleOpenPhoto(photo)}
-                className={`w-full text-left rounded-xl border px-4 py-3 transition active:scale-[0.99] ${
+                className={
                   isMobile
-                    ? 'border-white/10 bg-white/[0.03] hover:bg-white/[0.06]'
-                    : 'border-gray-200 bg-white hover:bg-gray-50'
-                }`}
+                    ? 'w-full text-left rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 active:bg-white/[0.06] transition-colors'
+                    : 'w-full text-left rounded-xl border border-gray-200 bg-white px-4 py-3 hover:bg-gray-50 transition'
+                }
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className={`text-sm font-medium truncate ${isMobile ? 'text-cyan-300' : 'text-blue-600'}`}>
+                    <p className={`text-sm truncate ${isMobile ? 'font-semibold text-cyan-300' : 'font-medium text-blue-600'}`}>
                       {photo.description || 'Photo'}
                     </p>
                     <div className={`mt-1 flex flex-wrap gap-x-3 text-xs ${isMobile ? 'text-gray-500' : 'text-gray-500'}`}>
@@ -189,6 +191,7 @@ export default function WorkOrderPhotosSection({
         mimeType={viewer.mimeType}
         driveLink={viewer.driveLink}
         loading={viewer.loading}
+        loadingLabel="Loading photo…"
         error={viewer.error}
         isMobile={isMobile}
       />
