@@ -692,7 +692,7 @@ function DeployButton({ workOrderId, appointmentId, onSuccess }) {
       type="button"
       onClick={handleDeploy}
       disabled={loading}
-      className="tech-btn-glow tech-btn-glow-orange flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium overflow-hidden relative disabled:opacity-60"
+      className="tech-btn-glow tech-btn-glow-orange flex items-center justify-center w-full py-2.5 rounded-lg text-sm font-medium overflow-visible relative disabled:opacity-60"
       style={{
         background: 'rgba(13, 21, 37, 0.25)',
         backdropFilter: 'blur(12px)',
@@ -702,25 +702,21 @@ function DeployButton({ workOrderId, appointmentId, onSuccess }) {
       }}
     >
       <span className="tech-btn-sweep tech-btn-sweep-orange" />
-      <svg
-        viewBox="0 0 24 24"
-        className="w-4 h-4 relative z-10"
-        style={{
-          stroke: '#FF7A00',
-          strokeWidth: 1.75,
-          fill: 'none',
-          strokeLinecap: 'round',
-          strokeLinejoin: 'round',
-          filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.75))',
-        }}
-        aria-hidden
-      >
-        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-        <polyline points="10 17 15 12 10 7" />
-        <line x1="15" y1="12" x2="3" y2="12" />
-      </svg>
-      <span className="relative z-10" style={{ color: '#FF7A00', textShadow: '0 0 8px rgba(255,122,0,0.45)' }}>
-        {loading ? 'Updating...' : 'Deploy'}
+      <span className="relative z-10 flex items-center gap-2">
+        <span className="relative inline-flex h-4 w-4 shrink-0 overflow-visible pointer-events-none">
+          <img
+            src="/artechwalk.png"
+            alt=""
+            width={48}
+            height={48}
+            className="absolute right-0 top-1/2 h-12 w-12 max-w-none -translate-y-1/2 object-contain object-right"
+            style={{ filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.75))' }}
+            aria-hidden
+          />
+        </span>
+        <span style={{ color: '#FF7A00', textShadow: '0 0 8px rgba(255,122,0,0.45)' }}>
+          {loading ? 'Updating...' : 'Deploy'}
+        </span>
       </span>
     </button>
   );
