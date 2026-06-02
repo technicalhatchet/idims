@@ -31,6 +31,21 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
+def _work_order_service_address(work_order: WorkOrder) -> Optional[str]:
+    """Resolve a geocodable address from service_location or linked property."""
+    loc = work_order.service_location
+    if isinstance(loc, dict) and loc.get("address"):
+        return str(loc["address"]).strip() or None
+    prop = work_order.property_ref
+    if prop and prop.address:
+        parts = [prop.address]
+        if prop.unit_number:
+            parts.append(f"Unit {prop.unit_number}")
+        formatted = ", ".join(p for p in parts if p)
+        return formatted.strip() or None
+    return None
+
+
 def _enum_to_str(value) -> Optional[str]:
     if value is None:
         return None
@@ -829,7 +844,8 @@ async def get_combined_schedule(
                 "client_name": client_name,
                 "client_phone": client_phone,
                 "property": property_data,
-                "location": work_order.service_location.get("address") if work_order.service_location else None,
+                "location": _work_order_service_address(work_order),
+                "service_address": _work_order_service_address(work_order),
                 "description": appt.description if hasattr(appt, 'description') else work_order.description,
                 "order_number": work_order.order_number,
                 "priority": work_order.priority,

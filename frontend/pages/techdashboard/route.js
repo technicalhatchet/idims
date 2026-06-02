@@ -5,6 +5,7 @@ import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
+import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 
 // ── Home Base (Shop) Address ──────────────────────────────────────────────
 const HOME_BASE_ADDRESS = '641 Barclay Drive, Toledo, OH 43609';
@@ -313,7 +314,7 @@ export default function RouteTest() {
           .map(a => ({
             ...a,
             scheduled_start: a.scheduled_start || a.start,
-            address: a.service_address || a.location || a.service_location?.address || '',
+            address: resolveAppointmentLocation(a) || '',
             client_name: a.client_name || a.client?.name || '',
             equipment_type: a.equipment_type || '',
             equipment_subtype: a.equipment_subtype || '',

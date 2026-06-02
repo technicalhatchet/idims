@@ -26,6 +26,12 @@ class BookingRequest(BaseModel):
     time_preference: str
 
 
+def _booking_address_to_location(address: str) -> dict:
+    """Normalize a single-line booking address for JSONB service/client fields."""
+    trimmed = (address or "").strip()
+    return {"address": trimmed} if trimmed else {}
+
+
 def send_booking_notification(
     booking_name: str,
     booking_phone: str,
@@ -188,16 +194,21 @@ async def create_booking(
 
         client = db.query(Client).filter(Client.phone == booking.phone).first()
 
+        service_location = _booking_address_to_location(booking.address)
+
         if not client:
             client = Client(
                 first_name=first_name,
                 last_name=last_name,
                 phone=booking.phone,
                 email=booking.email if booking.email else None,
+                address=service_location or None,
                 user_id=None
             )
             db.add(client)
             db.flush()
+        elif service_location and not client.address:
+            client.address = service_location
 
         prop = db.query(Property).filter(
             Property.client_id == client.id,
@@ -239,7 +250,8 @@ async def create_booking(
             symptoms=[booking.issue],
             description=f"Online booking - {booking.appliance} issue: {booking.issue}. Service address: {booking.address}. Customer preferred time: {booking.time_preference}.",
             priority="medium",
-            status="pending"
+            status="pending",
+            service_location=service_location or None,
         )
         db.add(work_order)
         db.commit()
