@@ -17,9 +17,23 @@ import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../.
 import {
   sumDriveTimeBetweenStops,
   estimateRouteDriveTime,
+  estimateDriveSecondsToAppointment,
   formatDriveDuration,
 } from '../../utils/routeDriveTime';
+import {
+  pickEnRouteSmsPhone,
+  buildEnRouteSmsBody,
+  buildSmsUrl,
+} from '../../utils/enRouteSms';
 import { useUserRole } from '../../utils/auth0-helpers';
+
+const NEXT_JOB_CONTACT_BTN_STYLE = {
+  background: 'rgba(13, 21, 37, 0.25)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+  border: '1px solid rgba(34,211,238,0.3)',
+  color: '#22D3EE',
+};
 
 /** Fractal noise texture for outer tactical HUD shell (low-opacity overlay) */
 const TECHBOARD_TACTICAL_NOISE_BG =
@@ -324,11 +338,13 @@ function CriticalMassCard({ count }) {
 }
 
 // ── Next Job Card (flat spotlight + link to work order mobile + sweep on tap) ───────────────
-function NextJobCard({ job, onAppointmentStatusChange }) {
+function NextJobCard({ job, onAppointmentStatusChange, techFirstName, driveSecondsToJob }) {
   const jobStatus = normalizeWorkOrderStatus(job.status);
   const [sweeping, setSweeping] = useState(false);
   const [showCallOptions, setShowCallOptions] = useState(false);
   const router = useRouter();
+  const textPhone = pickEnRouteSmsPhone(job);
+  const showEnRouteText = jobStatus === 'scheduled' && Boolean(textPhone);
 
   const handleCardClick = (e) => {
     e.preventDefault();
@@ -342,29 +358,26 @@ function NextJobCard({ job, onAppointmentStatusChange }) {
     e.stopPropagation();
     const hasClientPhone = Boolean(job.client_phone);
     const hasTenantPhone = Boolean(job.tenant_phone);
-    
-    console.log('[Call Button] Debug:', {
-      client_phone: job.client_phone,
-      tenant_phone: job.tenant_phone,
-      tenant_name: job.tenant_name,
-      hasClientPhone,
-      hasTenantPhone,
-      property: job.property
-    });
-    
-    // If both phones available, show options
+
     if (hasClientPhone && hasTenantPhone) {
-      console.log('[Call Button] Showing options modal');
       setShowCallOptions(true);
     } else if (hasClientPhone) {
-      // Call client directly
-      console.log('[Call Button] Calling client directly');
       window.location.href = `tel:${job.client_phone}`;
     } else if (hasTenantPhone) {
-      // Call tenant directly
-      console.log('[Call Button] Calling tenant directly');
       window.location.href = `tel:${job.tenant_phone}`;
     }
+  };
+
+  const handleTextClick = (e) => {
+    e.stopPropagation();
+    if (!textPhone) return;
+    const body = buildEnRouteSmsBody({
+      clientName: job.client_name,
+      techName: techFirstName,
+      driveSeconds: driveSecondsToJob,
+    });
+    const url = buildSmsUrl(textPhone, body);
+    if (url) window.location.href = url;
   };
 
   return (
@@ -431,18 +444,34 @@ function NextJobCard({ job, onAppointmentStatusChange }) {
                   setShowCallOptions(false);
                 }
               }}>
-                <button
-                  type="button"
-                  onClick={handleCallClick}
-                  className="tech-btn-glow flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium overflow-hidden relative"
-                  style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.3)', color: '#22D3EE' }}
-                >
-                  <span className="tech-btn-sweep" />
-                  <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4A2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                  <span className="relative z-10">Call</span>
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCallClick}
+                    className={`tech-btn-glow flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium overflow-hidden relative ${showEnRouteText ? 'flex-1 min-w-0' : 'w-full'}`}
+                    style={NEXT_JOB_CONTACT_BTN_STYLE}
+                  >
+                    <span className="tech-btn-sweep" />
+                    <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10 shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4A2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    <span className="relative z-10">Call</span>
+                  </button>
+                  {showEnRouteText && (
+                    <button
+                      type="button"
+                      onClick={handleTextClick}
+                      className="tech-btn-glow flex flex-1 min-w-0 items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium overflow-hidden relative"
+                      style={NEXT_JOB_CONTACT_BTN_STYLE}
+                    >
+                      <span className="tech-btn-sweep" />
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10 shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                      </svg>
+                      <span className="relative z-10">Text</span>
+                    </button>
+                  )}
+                </div>
                 
                 {/* Call options modal */}
                 {showCallOptions && (
@@ -711,6 +740,7 @@ export default function TechDashboardTest() {
     legCount: 0,
     stopCount: 0,
   });
+  const [nextJobDriveSec, setNextJobDriveSec] = useState(null);
 
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
@@ -864,6 +894,34 @@ export default function TechDashboardTest() {
   }, [todayAppts, isOnline]);
 
   const nextJob = pickNextJobToday(todayAppts);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!nextJob) {
+      setNextJobDriveSec(null);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    (async () => {
+      try {
+        const sec = await estimateDriveSecondsToAppointment(nextJob, todayAppts);
+        if (!cancelled) setNextJobDriveSec(sec);
+      } catch (err) {
+        console.warn('Next job drive estimate failed:', err);
+        if (!cancelled) setNextJobDriveSec(null);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [nextJob, todayAppts]);
+
+  const techFirstName = headerReady
+    ? (user?.given_name || user?.name?.split(' ')[0] || 'your technician')
+    : 'your technician';
 
   const driveTimeLabel = formatDriveDuration(routeDrive.totalSeconds);
 
@@ -1231,6 +1289,8 @@ export default function TechDashboardTest() {
           {nextJob ? (
             <NextJobCard
               job={nextJob}
+              techFirstName={techFirstName}
+              driveSecondsToJob={nextJobDriveSec}
               onAppointmentStatusChange={(job, status) => {
                 setSchedule((prev) =>
                   prev.map((a) =>

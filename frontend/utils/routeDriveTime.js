@@ -1,6 +1,7 @@
 /** Today's route drive time: shop → stops → shop (seconds). */
 
 import { calculateTravelTime, DEFAULT_SHOP_ADDRESS } from './google-maps-service';
+import { resolveAppointmentLocation } from './appointment-scheduling';
 
 const AVG_MPH = 35;
 
@@ -27,8 +28,7 @@ export function sortAppointmentsByTime(appointments = []) {
 }
 
 function getStopAddress(appt) {
-  const addr = (appt?.service_address || appt?.client_address || '').trim();
-  return addr || null;
+  return resolveAppointmentLocation(appt);
 }
 
 function legFromStored(timeSec, distM) {
@@ -141,6 +141,46 @@ export async function estimateRouteDriveTime(
     legCount,
     stopCount: sorted.length,
   };
+}
+
+/** Drive time in seconds from shop (first stop) or previous stop to this appointment. */
+export async function estimateDriveSecondsToAppointment(
+  targetAppt,
+  appointments = [],
+  shopAddress = DEFAULT_SHOP_ADDRESS
+) {
+  if (!targetAppt) return null;
+
+  const sorted = sortAppointmentsByTime(appointments);
+  const idx = sorted.findIndex(
+    (a) =>
+      (targetAppt.id && a.id === targetAppt.id)
+      || (targetAppt.work_order_id && a.work_order_id === targetAppt.work_order_id)
+  );
+  if (idx < 0) return null;
+
+  const shop = shopAddress || DEFAULT_SHOP_ADDRESS;
+  const target = sorted[idx];
+  const targetAddr = getStopAddress(target);
+
+  if (idx === 0) {
+    if (targetAddr) {
+      const { travelTime } = await calculateTravelTime(shop, targetAddr);
+      if (travelTime > 0) return travelTime;
+    }
+    const fallback = legFromStored(target.travel_time_before, target.travel_distance_before);
+    return fallback?.seconds ?? null;
+  }
+
+  const stored = legFromStored(target.travel_time_before, target.travel_distance_before);
+  if (stored?.seconds) return stored.seconds;
+
+  const prevAddr = getStopAddress(sorted[idx - 1]);
+  if (prevAddr && targetAddr) {
+    const { travelTime } = await calculateTravelTime(prevAddr, targetAddr);
+    if (travelTime > 0) return travelTime;
+  }
+  return null;
 }
 
 export function formatDriveDuration(totalSeconds) {
