@@ -803,13 +803,6 @@ export default function TechDashboardTest() {
   const nextJob = pickNextJobToday(todayAppts);
 
   const driveTimeLabel = formatDriveDuration(routeDrive.totalSeconds);
-  const driveTimeSub = (() => {
-    if (routeDrive.stopCount === 0) return 'no stops today';
-    const legs = `${routeDrive.legCount} leg${routeDrive.legCount !== 1 ? 's' : ''}`;
-    const est = routeDrive.hasEstimate ? ' · incl. estimates' : '';
-    if (routeDrive.stopCount === 1) return `shop out & back · ${legs}${est}`;
-    return `${routeDrive.stopCount} stops · ${legs}${est}`;
-  })();
 
   const titleplateFirstName = headerReady
     ? (user?.given_name || user?.name?.split(' ')[0] || 'Tech')
@@ -1224,7 +1217,7 @@ export default function TechDashboardTest() {
             <StatCard
               label="Route"
               valueNode={<DurationStatValue text={driveTimeLabel} />}
-              sub={driveTimeSub}
+              sub="drive time"
               borderColor="rgba(255,122,0,0.25)"
               sweepColor="orange"
               href="/techdashboard/route"
