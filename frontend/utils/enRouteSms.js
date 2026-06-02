@@ -28,7 +28,8 @@ export function buildEnRouteSmsBody({ clientName, techName, driveSeconds }) {
   const tech = (techName || 'your technician').trim();
   return (
     `Hi ${client}, this is ${tech} with Atomic Repair. I'm en route to your appointment ` +
-    `and expect to arrive in about ${low}-${high} minutes. Please reply if you need anything.`
+    `and expect to arrive in about ${low}-${high} minutes. Please reply if you need anything. ` +
+    `Thank you, and see you soon!`
   );
 }
 
