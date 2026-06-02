@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
+import MapsAddressLink from '../../../components/ui/MapsAddressLink';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import Button from '../../../components/ui/Button';
@@ -785,7 +786,7 @@ function WorkOrderDetail() {
                     
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Location</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">{resolvedServiceAddress || 'No location specified'}</p>
+                      <MapsAddressLink address={resolvedServiceAddress} />
                     </div>
                     
                     <div className="md:col-span-2">
@@ -1206,10 +1207,10 @@ function WorkOrderDetail() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
                       <div className="md:col-span-2">
                         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Address</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.property.address || 'N/A'}
-                          {workOrder.property.unit_number && ` - Unit ${workOrder.property.unit_number}`}
-                        </p>
+                        <MapsAddressLink
+                          address={resolvedServiceAddress}
+                          emptyLabel="N/A"
+                        />
                       </div>
                       {workOrder.property.property_type && (
                         <div>

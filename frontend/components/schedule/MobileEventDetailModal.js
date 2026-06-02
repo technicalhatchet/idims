@@ -4,6 +4,8 @@ import { format, parseISO } from 'date-fns';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUser, FaTasks, FaTimes, FaWrench } from 'react-icons/fa';
 import Link from 'next/link';
 import StatusBadge from '../ui/StatusBadge';
+import MapsNavigateButton from '../ui/MapsNavigateButton';
+import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 
 function DetailRow({ icon: Icon, label, children }) {
   return (
@@ -46,6 +48,7 @@ export default function MobileEventDetailModal({ event, onClose }) {
     ? `WO #${event.order_number}`
     : event.title || 'Untitled';
   const typeLabel = formatAppointmentType(event.appointment_type);
+  const serviceAddress = resolveAppointmentLocation(event) || event.location || null;
 
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
@@ -78,14 +81,17 @@ export default function MobileEventDetailModal({ event, onClose }) {
                 )}
               </div>
             </div>
-            <button
-              type="button"
-              onClick={onClose}
-              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/12 bg-[#0D1525] text-gray-400 active:bg-white/5"
-              aria-label="Close"
-            >
-              <FaTimes className="h-3.5 w-3.5" />
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <MapsNavigateButton address={serviceAddress} />
+              <button
+                type="button"
+                onClick={onClose}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/12 bg-[#0D1525] text-gray-400 active:bg-white/5"
+                aria-label="Close"
+              >
+                <FaTimes className="h-3.5 w-3.5" />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -99,9 +105,9 @@ export default function MobileEventDetailModal({ event, onClose }) {
             {event.end ? ` – ${format(parseISO(event.end), 'h:mm a')}` : ' – TBD'}
           </DetailRow>
 
-          {event.location && (
+          {serviceAddress && (
             <DetailRow icon={FaMapMarkerAlt} label="Location">
-              {event.location}
+              {serviceAddress}
             </DetailRow>
           )}
 

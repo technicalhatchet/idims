@@ -26,6 +26,7 @@ import {
   buildSmsUrl,
 } from '../../utils/enRouteSms';
 import { useUserRole } from '../../utils/auth0-helpers';
+import MapsNavigateButton from '../../components/ui/MapsNavigateButton';
 
 const NEXT_JOB_CONTACT_BTN_STYLE = {
   background: 'rgba(13, 21, 37, 0.25)',
@@ -220,49 +221,6 @@ function pickNextJobToday(sortedTodayAppts) {
   return incomplete[0] ?? null;
 }
 
-function NextJobNavigateButton({ address }) {
-  const dest = (address || '').trim();
-  if (!dest) return null;
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={handleClick}
-      aria-label="Navigate to next job in Google Maps"
-      className="tech-btn-glow flex items-center justify-center w-8 h-8 rounded-md shrink-0 overflow-hidden relative active:scale-95 transition-transform"
-      style={{
-        background: 'rgba(13, 21, 37, 0.25)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(34,211,238,0.3)',
-      }}
-    >
-      <span className="tech-btn-sweep" />
-      <svg
-        viewBox="0 0 24 24"
-        className="w-3.5 h-3.5 relative z-10"
-        style={{
-          stroke: '#22D3EE',
-          strokeWidth: 1.75,
-          fill: 'none',
-          strokeLinecap: 'round',
-          strokeLinejoin: 'round',
-          filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))',
-        }}
-      >
-        <polygon points="3 11 22 2 13 21 11 13 3 11" />
-      </svg>
-    </button>
-  );
-}
-
 // ── Critical Mass Card with Glass Effect + Sweep Animation ───────────────
 function CriticalMassCard({ count }) {
   const [sweeping, setSweeping] = useState(false);
@@ -402,8 +360,9 @@ function NextJobCard({ job, onAppointmentStatusChange, techFirstName, driveSecon
           <div className="flex justify-between items-center mb-3 gap-2">
             <p className="text-xs font-medium text-cyan-400 tracking-wider uppercase">Next Job</p>
             <div className="flex items-center gap-2 shrink-0">
-              <NextJobNavigateButton
+              <MapsNavigateButton
                 address={job.service_address || resolveAppointmentLocation(job)}
+                ariaLabel="Navigate to next job in Google Maps"
               />
               <StatusBadge status={job.status} />
             </div>

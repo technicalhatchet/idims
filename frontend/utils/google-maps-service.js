@@ -9,6 +9,13 @@ const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 // TEMPORARY HARDCODING FOR DEBUGGING:
 //const DEFAULT_SHOP_ADDRESS = "641 Barclay Drive, Toledo, OH 43609, USA";
 export const DEFAULT_SHOP_ADDRESS = process.env.NEXT_PUBLIC_DEFAULT_SHOP_ADDRESS || "641 Barclay Drive, Toledo, OH 43609, USA";
+
+/** Open Google Maps directions to an address (mobile-friendly). */
+export function buildGoogleMapsDestinationUrl(address) {
+  const dest = (address || '').trim();
+  if (!dest) return null;
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
+}
 // Original line commented out:
 // const DEFAULT_SHOP_ADDRESS = process.env.NEXT_PUBLIC_DEFAULT_SHOP_ADDRESS || "YOUR_DEFAULT_SHOP_ADDRESS_HERE"; 
 
