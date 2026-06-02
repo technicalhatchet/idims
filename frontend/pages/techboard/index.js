@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import { format, isToday, isFuture } from 'date-fns';
+import { format, isToday } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
@@ -14,6 +14,8 @@ import { useOfflineSchedule, useOfflineWorkOrders } from '../../hooks/useOffline
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
+import { sumDriveTimeBetweenStops, formatDriveDuration } from '../../utils/routeDriveTime';
+import { useUserRole } from '../../utils/auth0-helpers';
 
 /** Fractal noise texture for outer tactical HUD shell (low-opacity overlay) */
 const TECHBOARD_TACTICAL_NOISE_BG =
@@ -66,8 +68,32 @@ function ApplianceIcon({ equipmentType, equipmentSubtype, size = 'md' }) {
   );
 }
 
+function DurationStatValue({ text }) {
+  const tokens = String(text || '').split(' ').filter(Boolean);
+  return (
+    <p className="text-white leading-tight">
+      {tokens.map((token, i) => {
+        const isUnit = token === 'min' || token === 'hr';
+        return (
+          <span
+            key={`${token}-${i}`}
+            className={
+              isUnit
+                ? 'text-sm font-normal text-gray-400 align-baseline'
+                : 'text-2xl font-bold align-baseline'
+            }
+          >
+            {token}
+            {i < tokens.length - 1 ? '\u00a0' : ''}
+          </span>
+        );
+      })}
+    </p>
+  );
+}
+
 // ── Stat Card with Glass Effect + Sweep Animation ─────────────────────────
-function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href }) {
+function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href }) {
   const [sweeping, setSweeping] = useState(false);
   const router = useRouter();
 
@@ -125,7 +151,7 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
         </div>
         <div className="flex-1 min-w-0 relative z-10">
           <p className="text-xs text-gray-400 mb-0.5">{label}</p>
-          <p className="text-2xl font-bold text-white">{value}</p>
+          {valueNode ?? <p className="text-2xl font-bold text-white">{value}</p>}
           {sub && <p className="text-xs mt-0.5" style={{ color: subColor }}>{sub}</p>}
         </div>
         <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0 text-gray-600 relative z-10" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
@@ -176,43 +202,45 @@ function pickNextJobToday(sortedTodayAppts) {
   return incomplete[0] ?? null;
 }
 
-// ── Route Button with Glass Effect + Sweep Animation ─────────────────────
-function RouteButton() {
-  const [sweeping, setSweeping] = useState(false);
-  const router = useRouter();
+function NextJobNavigateButton({ address }) {
+  const dest = (address || '').trim();
+  if (!dest) return null;
 
   const handleClick = (e) => {
     e.preventDefault();
-    setSweeping(true);
-    setTimeout(() => {
-      router.push('/techdashboard/route');
-    }, 600);
+    e.stopPropagation();
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div
-      className={`tech-glass-card tech-hover-lift ${sweeping ? 'tech-sweep-active' : ''}`}
+    <button
+      type="button"
       onClick={handleClick}
-      style={{ cursor: 'pointer' }}
-      data-techboard-card
+      aria-label="Navigate to next job in Google Maps"
+      className="flex items-center justify-center w-9 h-9 rounded-lg shrink-0 active:scale-95 transition-transform"
+      style={{
+        background: 'rgba(13, 21, 37, 0.25)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(34,211,238,0.4)',
+      }}
     >
-      <div
-        className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium relative overflow-hidden"
+      <svg
+        viewBox="0 0 24 24"
+        className="w-4 h-4"
         style={{
-          background: 'rgba(13, 21, 37, 0.25)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(34,211,238,0.4)',
-          color: '#22D3EE',
+          stroke: '#22D3EE',
+          strokeWidth: 1.75,
+          fill: 'none',
+          strokeLinecap: 'round',
+          strokeLinejoin: 'round',
+          filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))',
         }}
       >
-        <div className="tech-sweep-overlay" />
-        <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
-          <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-        </svg>
-        <span className="relative z-10">Route</span>
-      </div>
-    </div>
+        <polygon points="3 11 22 2 13 21 11 13 3 11" />
+      </svg>
+    </button>
   );
 }
 
@@ -352,9 +380,14 @@ function NextJobCard({ job }) {
         />
         
         <div className="block p-4 relative z-10">
-          <div className="flex justify-between items-start mb-3">
+          <div className="flex justify-between items-center mb-3 gap-2">
             <p className="text-xs font-medium text-cyan-400 tracking-wider uppercase">Next Job</p>
-            <StatusBadge status={job.status} />
+            <div className="flex items-center gap-2 shrink-0">
+              <NextJobNavigateButton
+                address={job.service_address || resolveAppointmentLocation(job)}
+              />
+              <StatusBadge status={job.status} />
+            </div>
           </div>
           <div className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 tech-icon-wrap" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
@@ -600,6 +633,7 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
 // ── Main Page ─────────────────────────────────────────────────────────────
 export default function TechDashboardTest() {
   const { user } = useUser();
+  const { isAdmin } = useUserRole();
   const gridTapLayerRef = useHudGridDoubleTapRail();
   const [schedule, setSchedule] = useState([]);
   const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0, partsWaiting: 0 });
@@ -662,6 +696,8 @@ export default function TechDashboardTest() {
       client_name: a.client_name || a.client?.name || '',
       tenant_phone: a.property?.tenant_phone || a.tenant_phone || '',
       tenant_name: a.property?.tenant_name || a.tenant_name || '',
+      travel_time_before: a.travel_time_before ?? null,
+      travel_distance_before: a.travel_distance_before ?? null,
       equipment_type: a.equipment_type || '',
       equipment_subtype: a.equipment_subtype || '',
       equipment_make: a.equipment_make || '',
@@ -723,16 +759,15 @@ export default function TechDashboardTest() {
       return ida.localeCompare(idb);
     });
 
-  const upcomingAppts = schedule.filter(a => {
-    const startField = a.scheduled_start || a.start;
-    if (!startField) return false;
-    const ms = parseScheduleUtcMs(startField);
-    if (!Number.isFinite(ms)) return false;
-    const d = new Date(ms);
-    return isFuture(d) && !isToday(d);
-  }).sort((a, b) => appointmentStartMs(a) - appointmentStartMs(b));
-
   const nextJob = pickNextJobToday(todayAppts);
+
+  const driveTime = sumDriveTimeBetweenStops(todayAppts);
+  const driveTimeLabel = formatDriveDuration(driveTime.totalSeconds);
+  const driveTimeSub = driveTime.stopCount < 2
+    ? 'add stops to estimate'
+    : driveTime.hasEstimate
+      ? `${driveTime.legCount} leg${driveTime.legCount !== 1 ? 's' : ''} · incl. estimates`
+      : `${driveTime.legCount} leg${driveTime.legCount !== 1 ? 's' : ''} between stops`;
 
   const titleplateFirstName = headerReady
     ? (user?.given_name || user?.name?.split(' ')[0] || 'Tech')
@@ -1074,26 +1109,21 @@ export default function TechDashboardTest() {
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-[1]" />
               <div className="absolute bottom-0 left-4 right-4 md:left-8 md:right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent pointer-events-none z-[1]" />
 
-              <div className="relative z-[2] flex justify-between items-start gap-3 min-w-0">
-                <div className="min-w-0 flex-1">
-                  <p className="techboard-titleplate-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.28em] text-cyan-300/95 mb-1.5 font-semibold leading-tight">
-                    Good {titleplateGreeting},
-                  </p>
-                  <h1 className="techboard-titleplate-orbitron techboard-titleplate-title-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
-                    {titleplateFirstName}
-                  </h1>
-                  <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
-                    <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
-                    <span
-                      className="techboard-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase min-h-[1em]"
-                      suppressHydrationWarning
-                    >
-                      {titleplateDateLabel}
-                    </span>
-                  </div>
-                </div>
-                <div className="shrink-0 pt-0.5">
-                  <RouteButton />
+              <div className="relative z-[2] min-w-0">
+                <p className="techboard-titleplate-orbitron text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.28em] text-cyan-300/95 mb-1.5 font-semibold leading-tight">
+                  Good {titleplateGreeting},
+                </p>
+                <h1 className="techboard-titleplate-orbitron techboard-titleplate-title-glow text-[1.0625rem] sm:text-xl md:text-2xl font-black uppercase tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.14em] leading-none text-white">
+                  {titleplateFirstName}
+                </h1>
+                <div className="mt-2 md:mt-2.5 flex flex-wrap items-center gap-2">
+                  <div className="h-px w-10 md:w-16 shrink-0 bg-gradient-to-r from-cyan-300 to-transparent" />
+                  <span
+                    className="techboard-titleplate-orbitron text-white/45 text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase min-h-[1em]"
+                    suppressHydrationWarning
+                  >
+                    {titleplateDateLabel}
+                  </span>
                 </div>
               </div>
             </div>
@@ -1123,15 +1153,14 @@ export default function TechDashboardTest() {
               }
             />
             <StatCard
-              label="Work Orders"
-              value={workOrderStats.total}
-              sub={`+${workOrderStats.today} today`}
-              borderColor="rgba(255,122,0,0.25)"
-              sweepColor="orange"
-              href="/work_orders/test"
+              label="OPS Board"
+              value={todayAppts.length}
+              sub={nextJob?.scheduled_start ? `next at ${formatScheduleTime(nextJob.scheduled_start)}` : 'none remaining'}
+              borderColor="rgba(34,211,238,0.25)"
+              href="/schedule-test"
               icon={
-                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#FF7A00', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' }}>
-                  <rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8" y="2.5" width="8" height="4" rx="1.5"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="16" x2="13" y2="16"/>
+                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
+                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
               }
             />
@@ -1151,14 +1180,15 @@ export default function TechDashboardTest() {
               }
             />
             <StatCard
-              label="OPS Board"
-              value={todayAppts.length}
-              sub={nextJob?.scheduled_start ? `next at ${formatScheduleTime(nextJob.scheduled_start)}` : 'none remaining'}
-              borderColor="rgba(34,211,238,0.25)"
-              href="/schedule-test"
+              label="Route"
+              valueNode={<DurationStatValue text={driveTimeLabel} />}
+              sub={driveTimeSub}
+              borderColor="rgba(255,122,0,0.25)"
+              sweepColor="orange"
+              href="/techdashboard/route"
               icon={
-                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
-                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#FF7A00', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' }}>
+                  <polygon points="3 11 22 2 13 21 11 13 3 11"/>
                 </svg>
               }
             />
@@ -1188,26 +1218,28 @@ export default function TechDashboardTest() {
             )}
           </div>
 
-          {/* ── UPCOMING APPOINTMENTS ── */}
-          <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-base font-bold text-white">Upcoming Appointments</h2>
-              <Link href="/schedule-test" className="text-xs text-cyan-400 flex items-center gap-1">
-                View all
-                <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
+          {/* ── MASTER OPS LIST (admin only) ── */}
+          {isAdmin && (
+            <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
+              <div className="flex justify-between items-center mb-2">
+                <h2 className="text-base font-bold text-white">Master Ops List</h2>
+                <Link href="/work_orders/test" className="text-xs text-cyan-400 flex items-center gap-1">
+                  Open list
+                  <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
+                </Link>
+              </div>
+              <Link
+                href="/work_orders/test"
+                className="block rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4 active:bg-white/[0.06] transition-colors"
+              >
+                <p className="text-2xl font-bold text-white">{workOrderStats.total}</p>
+                <p className="text-xs text-gray-400 mt-1">open work orders · tap for full ops board</p>
+                {workOrderStats.today > 0 && (
+                  <p className="text-xs text-cyan-400/80 mt-1">+{workOrderStats.today} scheduled today</p>
+                )}
               </Link>
             </div>
-            {upcomingAppts.length === 0 ? (
-              <div className="py-6 text-center">
-                <svg viewBox="0 0 24 24" className="w-10 h-10 mx-auto mb-2" style={{ stroke: '#374151', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                <p className="text-sm text-gray-500">No upcoming appointments</p>
-              </div>
-            ) : (
-              upcomingAppts.slice(0, 3).map((a, i) => <TodayJobRow key={a.id || i} appt={a} />)
-            )}
-          </div>
+          )}
         </div>
       </div>
 
