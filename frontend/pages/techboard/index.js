@@ -222,17 +222,18 @@ function NextJobNavigateButton({ address }) {
       type="button"
       onClick={handleClick}
       aria-label="Navigate to next job in Google Maps"
-      className="flex items-center justify-center w-9 h-9 rounded-lg shrink-0 active:scale-95 transition-transform"
+      className="tech-btn-glow flex items-center justify-center w-8 h-8 rounded-md shrink-0 overflow-hidden relative active:scale-95 transition-transform"
       style={{
         background: 'rgba(13, 21, 37, 0.25)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(34,211,238,0.4)',
+        border: '1px solid rgba(34,211,238,0.3)',
       }}
     >
+      <span className="tech-btn-sweep" />
       <svg
         viewBox="0 0 24 24"
-        className="w-4 h-4"
+        className="w-3.5 h-3.5 relative z-10"
         style={{
           stroke: '#22D3EE',
           strokeWidth: 1.75,
