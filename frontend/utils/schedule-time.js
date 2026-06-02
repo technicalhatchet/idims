@@ -109,6 +109,13 @@ export function isCanceledAppointment(appointment) {
   return CANCELED_APPOINTMENT_STATUSES.has(getAppointmentStatusValue(appointment));
 }
 
+/** All appointments sorted by scheduled_start ascending (for work order detail lists). */
+export function sortAppointmentsChronologically(appointments = []) {
+  return [...(appointments || [])].sort(
+    (a, b) => appointmentStartMs(a) - appointmentStartMs(b)
+  );
+}
+
 /** Latest non-canceled appointment by scheduled_start (work order detail display). */
 export function getMostRecentActiveAppointment(appointments = []) {
   const active = (appointments || []).filter((a) => !isCanceledAppointment(a));

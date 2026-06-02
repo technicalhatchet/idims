@@ -22,10 +22,7 @@ import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebrie
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import { formatAppointmentStatus, hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
-import {
-  getWorkOrderDisplaySchedule,
-  formatWorkOrderDisplayScheduleRange,
-} from '../../../utils/schedule-time';
+import WorkOrderDetailsAppointmentsList from '../../../components/work_orders/WorkOrderDetailsAppointmentsList';
 
 // Tabs for the detail page
 const TABS = {
@@ -84,15 +81,6 @@ function WorkOrderDetail() {
     () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
     [workOrder]
   );
-  const displaySchedule = useMemo(
-    () => getWorkOrderDisplaySchedule(workOrder),
-    [workOrder]
-  );
-  const displayScheduleLabel = useMemo(
-    () => (displaySchedule ? formatWorkOrderDisplayScheduleRange(displaySchedule) : null),
-    [displaySchedule]
-  );
-  
   // Handle payment success/cancel URLs
   useEffect(() => {
     const { payment } = router.query;
@@ -387,21 +375,9 @@ function WorkOrderDetail() {
                       </p>
                     </div>
                     
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Scheduled Time</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white flex items-center">
-                        {displayScheduleLabel ? (
-                          <>
-                            <span className="mr-2 inline-block w-2 h-2 rounded-full bg-green-500"></span>
-                            {displayScheduleLabel}
-                          </>
-                        ) : (
-                          <>
-                            <span className="mr-2 inline-block w-2 h-2 rounded-full bg-gray-400"></span>
-                            Not scheduled
-                          </>
-                        )}
-                      </p>
+                    <div className="md:col-span-2">
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Appointments</h3>
+                      <WorkOrderDetailsAppointmentsList appointments={workOrder.appointments} />
                     </div>
                     
                     {workOrder.priority && workOrder.priority !== 'medium' && (
@@ -497,68 +473,6 @@ function WorkOrderDetail() {
               
               <WorkOrderPerformancePanel workOrderId={workOrder.id} />
 
-              {workOrder.appointments && workOrder.appointments.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Appointments</h3>
-                  <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-                    <div className="px-6 py-4">
-                      <div className="space-y-2 max-h-60 overflow-y-auto">
-                        {workOrder.appointments.map((appointment, index) => (
-                          <div
-                            key={index}
-                            className="p-2 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700"
-                          >
-                                <div className="flex justify-between items-center">
-                                  <div>
-                                    <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                                      {appointment.appointment_type.charAt(0).toUpperCase() + appointment.appointment_type.slice(1)}
-                                      {appointment.services?.length > 0 && (
-                                        <span className="ml-2 text-xs text-cyan-500 dark:text-cyan-400 font-normal">
-                                          — {appointment.services.map(s => s.name).join(', ')}
-                                        </span>
-                                      )}
-                                    </div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400">
-                                      {new Date(appointment.scheduled_start).toLocaleDateString()} {new Date(appointment.scheduled_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                      {appointment.scheduled_end && (
-                                        <span> - {new Date(appointment.scheduled_end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                      )}
-                                    </div>
-                                    {appointment.notes && (
-                                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 italic">
-                                        {appointment.notes}
-                                      </div>
-                                    )}
-                                  </div>
-                                  <div>
-                                    <span className={`inline-block px-2 py-1 text-xs rounded-full ${
-                                      appointment.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                                      appointment.status === 'canceled' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
-                                      appointment.status === 'reschedule' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' :
-                                      appointment.status === 'en_route' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-                                      appointment.status === 'in_progress' ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200' :
-                                      appointment.status === 'completed_pending_payment' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
-                                      appointment.status === 'unreachable' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
-                                      appointment.status === 'failed' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200' :
-                                      'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                    }`}>
-                                      {formatAppointmentStatus(appointment.status)}
-                                    </span>
-                                  </div>
-                                </div>
-                                {appointment.assigned_technician_id && (
-                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    Technician: {appointment.technician_name || "Unassigned"}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              
               {/* Services and Items */}
               {(allServices?.length > 0 || workOrder.parts?.length > 0) && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
