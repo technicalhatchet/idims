@@ -707,9 +707,9 @@ function DeployButton({ workOrderId, appointmentId, onSuccess }) {
           <img
             src="/artechwalk.png"
             alt=""
-            width={48}
-            height={48}
-            className="absolute right-0 top-1/2 h-12 w-12 max-w-none -translate-y-1/2 object-contain object-right"
+            width={36}
+            height={36}
+            className="absolute right-0 top-1/2 h-9 w-9 max-w-none -translate-y-1/2 translate-x-1.5 object-contain object-right"
             style={{ filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.75))' }}
             aria-hidden
           />
