@@ -16,6 +16,17 @@ export function buildGoogleMapsDestinationUrl(address) {
   if (!dest) return null;
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
 }
+
+/**
+ * Open Maps in the current tab — avoids a blank Safari tab on iOS when the Maps app takes over.
+ * (window.open + _blank often leaves an empty background tab on return.)
+ */
+export function openGoogleMapsDestination(address) {
+  const url = buildGoogleMapsDestinationUrl(address);
+  if (!url) return false;
+  window.location.assign(url);
+  return true;
+}
 // Original line commented out:
 // const DEFAULT_SHOP_ADDRESS = process.env.NEXT_PUBLIC_DEFAULT_SHOP_ADDRESS || "YOUR_DEFAULT_SHOP_ADDRESS_HERE"; 
 

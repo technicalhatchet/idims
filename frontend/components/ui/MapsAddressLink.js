@@ -1,4 +1,4 @@
-import { buildGoogleMapsDestinationUrl } from '../../utils/google-maps-service';
+import { buildGoogleMapsDestinationUrl, openGoogleMapsDestination } from '../../utils/google-maps-service';
 
 /**
  * Clickable service address — opens Google Maps directions (same pattern as techboard nav).
@@ -18,9 +18,11 @@ export default function MapsAddressLink({
   return (
     <a
       href={mapsUrl}
-      target="_blank"
-      rel="noopener noreferrer"
       className={className}
+      onClick={(e) => {
+        e.preventDefault();
+        openGoogleMapsDestination(dest);
+      }}
     >
       {dest}
     </a>

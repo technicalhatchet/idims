@@ -1,4 +1,4 @@
-import { buildGoogleMapsDestinationUrl } from '../../utils/google-maps-service';
+import { openGoogleMapsDestination } from '../../utils/google-maps-service';
 
 /** Icon-only button — opens Google Maps directions to an address (techboard / schedule modal). */
 export default function MapsNavigateButton({
@@ -12,8 +12,7 @@ export default function MapsNavigateButton({
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const url = buildGoogleMapsDestinationUrl(dest);
-    if (url) window.open(url, '_blank', 'noopener,noreferrer');
+    openGoogleMapsDestination(dest);
   };
 
   return (
