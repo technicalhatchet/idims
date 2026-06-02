@@ -324,7 +324,8 @@ function CriticalMassCard({ count }) {
 }
 
 // ── Next Job Card (flat spotlight + link to work order mobile + sweep on tap) ───────────────
-function NextJobCard({ job }) {
+function NextJobCard({ job, onAppointmentStatusChange }) {
+  const jobStatus = normalizeWorkOrderStatus(job.status);
   const [sweeping, setSweeping] = useState(false);
   const [showCallOptions, setShowCallOptions] = useState(false);
   const router = useRouter();
@@ -420,7 +421,7 @@ function NextJobCard({ job }) {
           </div>
         </div>
 
-        {(job.client_phone || job.tenant_phone || job.status === 'scheduled') && (
+        {(job.client_phone || job.tenant_phone || jobStatus === 'scheduled' || jobStatus === 'en_route') && (
           <div className="px-4 pb-4 pt-2 space-y-3 relative z-10" onClick={(e) => e.stopPropagation()}>
             {(job.client_phone || job.tenant_phone) && (
               <div className="relative" onClick={(e) => {
@@ -503,24 +504,21 @@ function NextJobCard({ job }) {
                 )}
               </div>
             )}
-            {job.status === 'scheduled' && (
+            {jobStatus === 'scheduled' && (
               <div onClick={(e) => e.stopPropagation()}>
                 <EnRouteButton
                   workOrderId={job.work_order_id}
                   appointmentId={job.id}
-                  onSuccess={(result) => {
-                    if (result?.queued) {
-                      setSchedule((prev) =>
-                        prev.map((a) =>
-                          a.id === job.id || a.work_order_id === job.work_order_id
-                            ? { ...a, status: 'en_route' }
-                            : a
-                        )
-                      );
-                      return;
-                    }
-                    window.location.reload();
-                  }}
+                  onSuccess={() => onAppointmentStatusChange?.(job, 'en_route')}
+                />
+              </div>
+            )}
+            {jobStatus === 'en_route' && (
+              <div onClick={(e) => e.stopPropagation()}>
+                <DeployButton
+                  workOrderId={job.work_order_id}
+                  appointmentId={job.id}
+                  onSuccess={() => onAppointmentStatusChange?.(job, 'in_progress')}
                 />
               </div>
             )}
@@ -630,6 +628,70 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
         <span style={{ color: '#FF7A00', textShadow: '0 0 8px rgba(255,122,0,0.45)' }}>
           {loading ? 'Updating...' : 'En Route'}
         </span>
+      </span>
+    </button>
+  );
+}
+
+// ── Deploy Button (on site → in progress) ─────────────────────────────────
+function DeployButton({ workOrderId, appointmentId, onSuccess }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleDeploy = async () => {
+    setLoading(true);
+    try {
+      let id = appointmentId;
+      if (!id && workOrderId) {
+        const apptRes = await apiClient(`work-orders/${workOrderId}/appointments`);
+        id = apptRes?.items?.[0]?.id;
+      }
+      if (!id) {
+        alert('Could not find an appointment to update.');
+        return;
+      }
+      const result = await updateAppointmentStatus({ appointmentId: id, status: 'in_progress' });
+      onSuccess?.(result);
+    } catch (e) {
+      alert('Failed to update appointment status: ' + e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleDeploy}
+      disabled={loading}
+      className="tech-btn-glow tech-btn-glow-orange flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-sm font-medium overflow-hidden relative disabled:opacity-60"
+      style={{
+        background: 'rgba(13, 21, 37, 0.25)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255,122,0,0.35)',
+        color: '#FF7A00',
+      }}
+    >
+      <span className="tech-btn-sweep tech-btn-sweep-orange" />
+      <svg
+        viewBox="0 0 24 24"
+        className="w-4 h-4 relative z-10"
+        style={{
+          stroke: '#FF7A00',
+          strokeWidth: 1.75,
+          fill: 'none',
+          strokeLinecap: 'round',
+          strokeLinejoin: 'round',
+          filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.75))',
+        }}
+        aria-hidden
+      >
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+        <polyline points="10 17 15 12 10 7" />
+        <line x1="15" y1="12" x2="3" y2="12" />
+      </svg>
+      <span className="relative z-10" style={{ color: '#FF7A00', textShadow: '0 0 8px rgba(255,122,0,0.45)' }}>
+        {loading ? 'Updating...' : 'Deploy'}
       </span>
     </button>
   );
@@ -1167,7 +1229,18 @@ export default function TechDashboardTest() {
 
           {/* ── NEXT JOB CARD ── */}
           {nextJob ? (
-            <NextJobCard job={nextJob} />
+            <NextJobCard
+              job={nextJob}
+              onAppointmentStatusChange={(job, status) => {
+                setSchedule((prev) =>
+                  prev.map((a) =>
+                    a.id === job.id || a.work_order_id === job.work_order_id
+                      ? { ...a, status }
+                      : a
+                  )
+                );
+              }}
+            />
           ) : (
             <div className="rounded-lg p-4 mb-4 text-center" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.2)' }} data-techboard-card>
               <p className="text-sm text-gray-400">No upcoming jobs today</p>
