@@ -22,6 +22,10 @@ import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebrie
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import { formatAppointmentStatus, hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
+import {
+  getWorkOrderDisplaySchedule,
+  formatWorkOrderDisplayScheduleRange,
+} from '../../../utils/schedule-time';
 
 // Tabs for the detail page
 const TABS = {
@@ -79,6 +83,14 @@ function WorkOrderDetail() {
   const resolvedServiceAddress = useMemo(
     () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
     [workOrder]
+  );
+  const displaySchedule = useMemo(
+    () => getWorkOrderDisplaySchedule(workOrder),
+    [workOrder]
+  );
+  const displayScheduleLabel = useMemo(
+    () => (displaySchedule ? formatWorkOrderDisplayScheduleRange(displaySchedule) : null),
+    [displaySchedule]
   );
   
   // Handle payment success/cancel URLs
@@ -378,12 +390,10 @@ function WorkOrderDetail() {
                     <div>
                       <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Scheduled Time</h3>
                       <p className="mt-1 text-sm text-gray-900 dark:text-white flex items-center">
-                        {workOrder.scheduled_start ? (
+                        {displayScheduleLabel ? (
                           <>
                             <span className="mr-2 inline-block w-2 h-2 rounded-full bg-green-500"></span>
-                            {format(new Date(workOrder.scheduled_start), 'MMM d, yyyy h:mm a')}
-                            {workOrder.scheduled_end && 
-                              ` - ${format(new Date(workOrder.scheduled_end), 'h:mm a')}`}
+                            {displayScheduleLabel}
                           </>
                         ) : (
                           <>

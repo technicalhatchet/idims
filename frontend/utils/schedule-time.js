@@ -96,3 +96,55 @@ export function appointmentStartMs(apptOrStartField) {
       : apptOrStartField?.scheduled_start || apptOrStartField?.start || '';
   return parseScheduleUtcMs(raw);
 }
+
+const CANCELED_APPOINTMENT_STATUSES = new Set(['canceled', 'cancelled']);
+
+export function getAppointmentStatusValue(appointment) {
+  if (!appointment) return '';
+  const status = appointment.status?.value ?? appointment.status ?? '';
+  return String(status).toLowerCase();
+}
+
+export function isCanceledAppointment(appointment) {
+  return CANCELED_APPOINTMENT_STATUSES.has(getAppointmentStatusValue(appointment));
+}
+
+/** Latest non-canceled appointment by scheduled_start (work order detail display). */
+export function getMostRecentActiveAppointment(appointments = []) {
+  const active = (appointments || []).filter((a) => !isCanceledAppointment(a));
+  if (!active.length) return null;
+  return [...active].sort((a, b) => appointmentStartMs(b) - appointmentStartMs(a))[0];
+}
+
+/**
+ * Prefer the most recent appointment's window; fall back to work order scheduled_* fields.
+ */
+export function getWorkOrderDisplaySchedule(workOrder) {
+  if (!workOrder) return null;
+  const appt = getMostRecentActiveAppointment(workOrder.appointments);
+  if (appt?.scheduled_start) {
+    return { start: appt.scheduled_start, end: appt.scheduled_end ?? null };
+  }
+  if (workOrder.scheduled_start) {
+    return { start: workOrder.scheduled_start, end: workOrder.scheduled_end ?? null };
+  }
+  return null;
+}
+
+/** e.g. "May 21, 2025 2:00 PM - 2:45 PM" in field-service timezone */
+export function formatWorkOrderDisplayScheduleRange({ start, end } = {}) {
+  const startMs = parseScheduleUtcMs(start);
+  if (!Number.isFinite(startMs)) return null;
+
+  const dateOnly = new Date(startMs).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: FIELD_SERVICE_TIMEZONE,
+  });
+  const startTime = formatScheduleTime(start);
+  if (!end) return `${dateOnly} ${startTime}`.trim();
+
+  const endTime = formatScheduleTime(end);
+  return `${dateOnly} ${startTime} - ${endTime}`.trim();
+}
