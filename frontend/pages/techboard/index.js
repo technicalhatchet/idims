@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react';
+import { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -14,7 +14,11 @@ import { useOfflineSchedule, useOfflineWorkOrders } from '../../hooks/useOffline
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
-import { sumDriveTimeBetweenStops, formatDriveDuration } from '../../utils/routeDriveTime';
+import {
+  sumDriveTimeBetweenStops,
+  estimateRouteDriveTime,
+  formatDriveDuration,
+} from '../../utils/routeDriveTime';
 import { useUserRole } from '../../utils/auth0-helpers';
 
 /** Fractal noise texture for outer tactical HUD shell (low-opacity overlay) */
@@ -638,6 +642,12 @@ export default function TechDashboardTest() {
   const [schedule, setSchedule] = useState([]);
   const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0, partsWaiting: 0 });
   const [isLoading, setIsLoading] = useState(true);
+  const [routeDrive, setRouteDrive] = useState({
+    totalSeconds: 0,
+    hasEstimate: false,
+    legCount: 0,
+    stopCount: 0,
+  });
 
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
@@ -698,6 +708,8 @@ export default function TechDashboardTest() {
       tenant_name: a.property?.tenant_name || a.tenant_name || '',
       travel_time_before: a.travel_time_before ?? null,
       travel_distance_before: a.travel_distance_before ?? null,
+      travel_time_after: a.travel_time_after ?? null,
+      travel_distance_after: a.travel_distance_after ?? null,
       equipment_type: a.equipment_type || '',
       equipment_subtype: a.equipment_subtype || '',
       equipment_make: a.equipment_make || '',
@@ -738,36 +750,66 @@ export default function TechDashboardTest() {
     if (!scheduleLoading && !woLoading) setIsLoading(false);
   }, [workOrdersData, scheduleLoading, woLoading]);
 
-  const todayAppts = schedule
-    .filter((a) => {
-      const startField = a.scheduled_start || a.start;
-      if (!startField) return false;
-      const ms = parseScheduleUtcMs(startField);
-      if (!Number.isFinite(ms)) return false;
-      return isToday(new Date(ms));
-    })
-    .sort((a, b) => {
-      const ta = appointmentStartMs(a);
-      const tb = appointmentStartMs(b);
-      const aOk = Number.isFinite(ta);
-      const bOk = Number.isFinite(tb);
-      if (aOk && bOk && ta !== tb) return ta - tb;
-      if (aOk && !bOk) return -1;
-      if (!aOk && bOk) return 1;
-      const ida = String(a.work_order_id || a.id || '');
-      const idb = String(b.work_order_id || b.id || '');
-      return ida.localeCompare(idb);
-    });
+  const todayAppts = useMemo(
+    () =>
+      schedule
+        .filter((a) => {
+          const startField = a.scheduled_start || a.start;
+          if (!startField) return false;
+          const ms = parseScheduleUtcMs(startField);
+          if (!Number.isFinite(ms)) return false;
+          return isToday(new Date(ms));
+        })
+        .sort((a, b) => {
+          const ta = appointmentStartMs(a);
+          const tb = appointmentStartMs(b);
+          const aOk = Number.isFinite(ta);
+          const bOk = Number.isFinite(tb);
+          if (aOk && bOk && ta !== tb) return ta - tb;
+          if (aOk && !bOk) return -1;
+          if (!aOk && bOk) return 1;
+          const ida = String(a.work_order_id || a.id || '');
+          const idb = String(b.work_order_id || b.id || '');
+          return ida.localeCompare(idb);
+        }),
+    [schedule]
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    const sync = sumDriveTimeBetweenStops(todayAppts);
+    setRouteDrive(sync);
+
+    if (!isOnline || todayAppts.length === 0) {
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    (async () => {
+      try {
+        const estimated = await estimateRouteDriveTime(todayAppts);
+        if (!cancelled) setRouteDrive(estimated);
+      } catch (err) {
+        console.warn('Route drive time estimate failed:', err);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [todayAppts, isOnline]);
 
   const nextJob = pickNextJobToday(todayAppts);
 
-  const driveTime = sumDriveTimeBetweenStops(todayAppts);
-  const driveTimeLabel = formatDriveDuration(driveTime.totalSeconds);
-  const driveTimeSub = driveTime.stopCount < 2
-    ? 'add stops to estimate'
-    : driveTime.hasEstimate
-      ? `${driveTime.legCount} leg${driveTime.legCount !== 1 ? 's' : ''} · incl. estimates`
-      : `${driveTime.legCount} leg${driveTime.legCount !== 1 ? 's' : ''} between stops`;
+  const driveTimeLabel = formatDriveDuration(routeDrive.totalSeconds);
+  const driveTimeSub = (() => {
+    if (routeDrive.stopCount === 0) return 'no stops today';
+    const legs = `${routeDrive.legCount} leg${routeDrive.legCount !== 1 ? 's' : ''}`;
+    const est = routeDrive.hasEstimate ? ' · incl. estimates' : '';
+    if (routeDrive.stopCount === 1) return `shop out & back · ${legs}${est}`;
+    return `${routeDrive.stopCount} stops · ${legs}${est}`;
+  })();
 
   const titleplateFirstName = headerReady
     ? (user?.given_name || user?.name?.split(' ')[0] || 'Tech')
