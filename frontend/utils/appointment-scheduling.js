@@ -4,12 +4,21 @@
 import { calculateTravelTime } from './google-maps-service';
 import { DEFAULT_SHOP_ADDRESS } from './google-maps-service'; // Import shop address
 
-/** Statuses that still occupy the technician calendar when finding slots */
+/**
+ * Legacy subset — prefer isSchedulingConflict (all statuses except canceled).
+ * Kept for any code that still imports SCHEDULE_CONFLICT_STATUSES.
+ */
 export const SCHEDULE_CONFLICT_STATUSES = new Set([
   'scheduled',
   'en_route',
   'in_progress',
   'reschedule',
+  'completed',
+  'completed_pending_payment',
+  'phone_payment',
+  'failed',
+  'unreachable',
+  'refund',
 ]);
 
 export function getAppointmentStatusValue(appointment) {
@@ -18,8 +27,25 @@ export function getAppointmentStatusValue(appointment) {
   return String(status).toLowerCase();
 }
 
+/** Calendar blocks always occupy the technician schedule. */
+export function isCalendarBlockScheduleItem(item) {
+  if (!item) return false;
+  return (
+    item.source === 'calendar_block' ||
+    item.appointment_type === 'calendar_block' ||
+    item.block_type != null
+  );
+}
+
+/**
+ * Occupies the schedule: any appointment except canceled, plus active calendar blocks.
+ * Matches backend scheduling_constraints_service rules.
+ */
 export function isSchedulingConflict(appointment) {
-  return SCHEDULE_CONFLICT_STATUSES.has(getAppointmentStatusValue(appointment));
+  if (isCalendarBlockScheduleItem(appointment)) return true;
+  const status = getAppointmentStatusValue(appointment);
+  if (!status) return Boolean(appointment?.scheduled_start);
+  return status !== 'canceled';
 }
 
 export function filterSchedulingConflicts(appointments) {

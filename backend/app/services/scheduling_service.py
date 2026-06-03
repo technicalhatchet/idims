@@ -118,28 +118,14 @@ class SchedulingService:
                 if technician.status != "active":
                     raise ValidationException(f"Technician is not active and cannot be scheduled")
                 
-                # Check for conflicts with existing appointments
-                conflicts = db.query(WorkOrder).filter(
-                    WorkOrder.assigned_technician_id == schedule_data.technician_id,
-                    WorkOrder.id != work_order.id,  # Exclude current work order
-                    WorkOrder.status.in_(["scheduled", "in_progress"]),
-                    (
-                        # New appointment starts during existing appointment
-                        (WorkOrder.scheduled_start <= schedule_data.start_time) & 
-                        (WorkOrder.scheduled_end > schedule_data.start_time)
-                    ) | (
-                        # New appointment ends during existing appointment
-                        (WorkOrder.scheduled_start < schedule_data.end_time) & 
-                        (WorkOrder.scheduled_end >= schedule_data.end_time)
-                    ) | (
-                        # New appointment completely contains existing appointment
-                        (WorkOrder.scheduled_start >= schedule_data.start_time) & 
-                        (WorkOrder.scheduled_end <= schedule_data.end_time)
-                    )
-                ).first()
-                
-                if conflicts:
-                    raise ConflictException("This scheduling would create a conflict with another appointment")
+                from app.services.scheduling_constraints_service import assert_technician_available
+
+                assert_technician_available(
+                    db,
+                    schedule_data.technician_id,
+                    schedule_data.start_time,
+                    schedule_data.end_time,
+                )
                 
                 # Update the work order with technician assignment
                 work_order.assigned_technician_id = schedule_data.technician_id
@@ -236,110 +222,18 @@ class SchedulingService:
             # Get all active technicians
             technicians = db.query(Technician).filter(Technician.status == "active").all()
         
-        # Get all booked appointments for the date
-        booked_appointments = {}
-        for tech in technicians:
-            if tech:
-                tech_appointments = db.query(WorkOrder).filter(
-                    WorkOrder.assigned_technician_id == tech.id,
-                    WorkOrder.status.in_(["scheduled", "in_progress"]),
-                    WorkOrder.scheduled_start >= start_datetime,
-                    WorkOrder.scheduled_start <= end_datetime
-                ).all()
-                
-                booked_appointments[str(tech.id)] = tech_appointments
-        
-        # Generate available slots
-        available_slots = []
-        
-        for tech in technicians:
-            if not tech:
-                continue
-                
-            tech_booked = booked_appointments.get(str(tech.id), [])
-            
-            # Check technician availability for this day
-            technician_available = True
-            working_hours = {
-                "start": f"{business_start_hour:02d}:00",
-                "end": f"{business_end_hour:02d}:00"
-            }
-            
-            if tech.availability:
-                # Get day of week
-                day_of_week = date_value.strftime("%A").lower()
-                
-                # Check if technician works this day
-                if "workDays" in tech.availability and day_of_week not in tech.availability["workDays"]:
-                    technician_available = False
-                
-                # Check for exceptions
-                if "exceptions" in tech.availability:
-                    for exception in tech.availability["exceptions"]:
-                        try:
-                            exception_date = datetime.fromisoformat(exception["date"]).date()
-                            if exception_date == date_value.date():
-                                # Check if technician is available on this exception date
-                                technician_available = exception.get("available", False)
-                                
-                                # If available with custom hours, use those
-                                if technician_available and "workingHours" in exception:
-                                    working_hours = exception["workingHours"]
-                                break
-                        except (ValueError, KeyError):
-                            # Skip invalid exception format
-                            continue
-                
-                # Use technician's working hours
-                if "workHours" in tech.availability and technician_available:
-                    working_hours = tech.availability["workHours"]
-            
-            # Skip if technician is not available this day
-            if not technician_available:
-                continue
-            
-            # Parse working hours
-            try:
-                start_hour, start_minute = map(int, working_hours["start"].split(':'))
-                end_hour, end_minute = map(int, working_hours["end"].split(':'))
-                
-                # Generate all possible slots during business hours
-                current_slot_start = datetime.combine(date_value.date(), time(start_hour, start_minute))
-                day_end = datetime.combine(date_value.date(), time(end_hour, end_minute))
-                
-                while current_slot_start + timedelta(minutes=duration_minutes) <= day_end:
-                    slot_end = current_slot_start + timedelta(minutes=duration_minutes)
-                    
-                    # Check if this slot conflicts with any booked appointments
-                    is_available = True
-                    for appointment in tech_booked:
-                        # Skip if appointment doesn't have scheduled times
-                        if not appointment.scheduled_start or not appointment.scheduled_end:
-                            continue
-                            
-                        # Check for conflict
-                        if (current_slot_start < appointment.scheduled_end and 
-                            slot_end > appointment.scheduled_start):
-                            is_available = False
-                            break
-                    
-                    if is_available:
-                        available_slots.append({
-                            "start_time": current_slot_start.isoformat(),
-                            "end_time": slot_end.isoformat(),
-                            "technician_id": str(tech.id),
-                            "technician_name": tech.name
-                        })
-                    
-                    # Move to next slot
-                    current_slot_start += timedelta(minutes=slot_interval)
-                    
-            except (ValueError, KeyError):
-                # Skip if working hours format is invalid
-                logger.warning(f"Invalid working hours format for technician {tech.id}")
-                continue
-        
-        return available_slots
+        from app.services.scheduling_constraints_service import generate_available_slots
+
+        on_date = date_value.date() if hasattr(date_value, "date") else date_value
+        return generate_available_slots(
+            db,
+            on_date,
+            [t for t in technicians if t],
+            duration_minutes,
+            business_start_hour=business_start_hour,
+            business_end_hour=business_end_hour,
+            slot_interval_minutes=slot_interval,
+        )
     
     @staticmethod
     async def get_technician_availability(

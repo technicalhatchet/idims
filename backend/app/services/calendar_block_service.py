@@ -27,7 +27,9 @@ BLOCK_TYPE_LABELS = {
 
 
 def intervals_overlap(start_a: datetime, end_a: datetime, start_b: datetime, end_b: datetime) -> bool:
-    return start_a < end_b and end_a > start_b
+    from app.services.scheduling_constraints_service import intervals_overlap as _overlap
+
+    return _overlap(start_a, end_a, start_b, end_b)
 
 
 def _enum_val(value) -> str:

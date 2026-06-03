@@ -1221,6 +1221,8 @@ async def create_work_order_appointment(
         
         return appointment_dict
     
+    except ConflictException as e:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
     except ValidationException as e:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -1235,7 +1237,7 @@ async def create_work_order_appointment(
 
 @router.get(
     "/appointments/schedule",
-    response_model=List[WorkOrderAppointmentResponse],
+    response_model=List[Dict[str, Any]],
     summary="Get Technician Schedule for a Date",
     tags=["appointments", "technicians", "schedule"]
 )
@@ -1263,10 +1265,13 @@ def get_technician_schedule(
 
         logger.info(f"Attempting to fetch appointments for technician {technician_id} on {schedule_date}")
         
+        from app.services.scheduling_constraints_service import (
+            calendar_block_to_schedule_item,
+            get_busy_calendar_blocks,
+        )
+
         start_of_day = datetime.combine(schedule_date, datetime.min.time())
         end_of_day = datetime.combine(schedule_date, datetime.max.time())
-
-        blocking_statuses = ("scheduled", "en_route", "in_progress", "reschedule")
 
         stmt = (
             select(WorkOrderAppointment)
@@ -1274,20 +1279,32 @@ def get_technician_schedule(
                 joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrderModel.property_ref)
             )
             .where(WorkOrderAppointment.assigned_technician_id == technician_id)
-            .where(WorkOrderAppointment.scheduled_start >= start_of_day)
-            .where(WorkOrderAppointment.scheduled_start <= end_of_day)
-            .where(WorkOrderAppointment.status.in_(blocking_statuses))
+            .where(WorkOrderAppointment.scheduled_start < end_of_day)
+            .where(WorkOrderAppointment.scheduled_end > start_of_day)
+            .where(WorkOrderAppointment.status != "canceled")
             .order_by(WorkOrderAppointment.scheduled_start)
         )
         result = db.execute(stmt)
         appointments = result.scalars().all()
+        blocks = get_busy_calendar_blocks(db, technician_id, start_of_day, end_of_day)
 
-        logger.info(f"Found {len(appointments)} appointments for technician {technician_id} on {schedule_date}.")
-        
-        response_appointments = []
+        logger.info(
+            "Found %s appointments and %s calendar blocks for technician %s on %s",
+            len(appointments),
+            len(blocks),
+            technician_id,
+            schedule_date,
+        )
+
+        response_items: List[Dict[str, Any]] = []
         for appt in appointments:
             appt_response = WorkOrderAppointmentResponse.model_validate(appt)
-            # Inject service location from work order (property fallback) for inter-stop travel
+            payload = (
+                appt_response.model_dump()
+                if hasattr(appt_response, "model_dump")
+                else appt_response.dict()
+            )
+            payload["source"] = "appointment"
             if appt.work_order:
                 wo = appt.work_order
                 loc = wo.service_location
@@ -1300,10 +1317,16 @@ def get_technician_schedule(
                         parts.append(f"Unit {wo.property_ref.unit_number}")
                     address = ", ".join(parts)
                 if address:
-                    appt_response.location = address
-            response_appointments.append(appt_response)
-            
-        return response_appointments
+                    payload["location"] = address
+            response_items.append(payload)
+
+        for block in blocks:
+            response_items.append(calendar_block_to_schedule_item(block))
+
+        response_items.sort(
+            key=lambda x: x.get("scheduled_start") or "",
+        )
+        return response_items
         
     except HTTPException: 
         raise
@@ -1541,6 +1564,8 @@ async def update_work_order_appointment(
         
         return result
     
+    except ConflictException as e:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
     except NotFoundException as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

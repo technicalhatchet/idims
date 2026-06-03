@@ -269,45 +269,22 @@ async def schedule_appointment(
         if not work_order:
             raise NotFoundException(f"Work order with ID {appointment_data.work_order_id} not found")
         
+        from app.services.scheduling_constraints_service import assert_technician_available
+
         # Check for scheduling conflicts if a technician is assigned
         if appointment_data.technician_id:
-            # Convert to datetime objects
             start_time = appointment_data.start_time
             end_time = appointment_data.end_time
-            
-            # Check if the technician is available
+
             technician = db.query(Technician).filter(Technician.id == appointment_data.technician_id).first()
             if not technician:
                 raise NotFoundException(f"Technician with ID {appointment_data.technician_id} not found")
-            
-            # Check technician status
+
             if technician.status != "active":
-                raise ValidationException(f"Technician is not active and cannot be scheduled")
-            
-            # Check for conflicts with existing appointments
-            conflicts = db.query(WorkOrder).filter(
-                WorkOrder.assigned_technician_id == appointment_data.technician_id,
-                WorkOrder.id != work_order.id,  # Exclude current work order
-                WorkOrder.status.in_(["scheduled", "in_progress"]),
-                (
-                    # New appointment starts during existing appointment
-                    (WorkOrder.scheduled_start <= start_time) & 
-                    (WorkOrder.scheduled_end > start_time)
-                ) | (
-                    # New appointment ends during existing appointment
-                    (WorkOrder.scheduled_start < end_time) & 
-                    (WorkOrder.scheduled_end >= end_time)
-                ) | (
-                    # New appointment completely contains existing appointment
-                    (WorkOrder.scheduled_start >= start_time) & 
-                    (WorkOrder.scheduled_end <= end_time)
-                )
-            ).first()
-            
-            if conflicts:
-                raise ConflictException("This scheduling would create a conflict with another appointment")
-            
-            # Update the work order with scheduling information
+                raise ValidationException("Technician is not active and cannot be scheduled")
+
+            assert_technician_available(db, appointment_data.technician_id, start_time, end_time)
+
             work_order.assigned_technician_id = appointment_data.technician_id
         
         # Update scheduling info
@@ -412,60 +389,17 @@ async def get_available_slots(
                 raise NotFoundException("Technician profile not found")
             technicians = [technician]
     
-    # Get all booked appointments for the date
-    booked_appointments = {}
-    for tech in technicians:
-        if tech:
-            tech_appointments = db.query(WorkOrder).filter(
-                WorkOrder.assigned_technician_id == tech.id,
-                WorkOrder.status.in_(["scheduled", "in_progress"]),
-                WorkOrder.scheduled_start >= start_datetime,
-                WorkOrder.scheduled_start <= end_datetime
-            ).all()
-            
-            booked_appointments[str(tech.id)] = tech_appointments
-    
-    # Generate available slots
-    available_slots = []
-    
-    for tech in technicians:
-        if not tech:
-            continue
-            
-        tech_booked = booked_appointments.get(str(tech.id), [])
-        
-        # Generate all possible slots during business hours
-        current_slot_start = datetime.combine(date, datetime.min.time().replace(hour=business_start_hour))
-        day_end = datetime.combine(date, datetime.min.time().replace(hour=business_end_hour))
-        
-        while current_slot_start + timedelta(minutes=duration_minutes) <= day_end:
-            slot_end = current_slot_start + timedelta(minutes=duration_minutes)
-            
-            # Check if this slot conflicts with any booked appointments
-            is_available = True
-            for appointment in tech_booked:
-                # Skip if appointment doesn't have scheduled times
-                if not appointment.scheduled_start or not appointment.scheduled_end:
-                    continue
-                    
-                # Check for conflict
-                if (current_slot_start < appointment.scheduled_end and 
-                    slot_end > appointment.scheduled_start):
-                    is_available = False
-                    break
-            
-            if is_available:
-                available_slots.append({
-                    "start_time": current_slot_start.isoformat(),
-                    "end_time": slot_end.isoformat(),
-                    "technician_id": str(tech.id),
-                    "technician_name": tech.name
-                })
-            
-            # Move to next slot
-            current_slot_start += timedelta(minutes=slot_interval)
-    
-    return available_slots
+    from app.services.scheduling_constraints_service import generate_available_slots
+
+    return generate_available_slots(
+        db,
+        date,
+        [t for t in technicians if t],
+        duration_minutes,
+        business_start_hour=business_start_hour,
+        business_end_hour=business_end_hour,
+        slot_interval_minutes=slot_interval,
+    )
 
 
 @router.get("/appointment-preview-slots", response_model=AppointmentPreviewResponse)
@@ -527,53 +461,17 @@ async def get_appointment_preview_slots(
                 )
             technicians = [technician]
 
-    booked_by_tech: Dict[str, List[WorkOrderAppointment]] = {}
-    for tech in technicians:
-        if not tech:
-            continue
-        q = (
-            db.query(WorkOrderAppointment)
-            .filter(
-                WorkOrderAppointment.assigned_technician_id == tech.id,
-                WorkOrderAppointment.scheduled_start <= end_datetime,
-                WorkOrderAppointment.scheduled_end >= start_datetime,
-                WorkOrderAppointment.status != "canceled",
-            )
-            .order_by(WorkOrderAppointment.scheduled_start)
-        )
-        booked_by_tech[str(tech.id)] = q.all()
+    from app.services.scheduling_constraints_service import generate_available_slots
 
-    available_slots: List[dict] = []
-    for tech in technicians:
-        if not tech:
-            continue
-        tech_busy = booked_by_tech.get(str(tech.id), [])
-        current_slot_start = datetime.combine(
-            on_date, datetime.min.time().replace(hour=business_start_hour)
-        )
-        day_end = datetime.combine(
-            on_date, datetime.min.time().replace(hour=business_end_hour)
-        )
-
-        while current_slot_start + timedelta(minutes=resolved_duration) <= day_end:
-            slot_end = current_slot_start + timedelta(minutes=resolved_duration)
-            is_available = True
-            for appt in tech_busy:
-                if not appt.scheduled_start or not appt.scheduled_end:
-                    continue
-                if current_slot_start < appt.scheduled_end and slot_end > appt.scheduled_start:
-                    is_available = False
-                    break
-            if is_available:
-                available_slots.append(
-                    {
-                        "start_time": current_slot_start.isoformat(),
-                        "end_time": slot_end.isoformat(),
-                        "technician_id": str(tech.id),
-                        "technician_name": tech.name,
-                    }
-                )
-            current_slot_start += timedelta(minutes=slot_interval)
+    available_slots = generate_available_slots(
+        db,
+        on_date,
+        [t for t in technicians if t],
+        resolved_duration,
+        business_start_hour=business_start_hour,
+        business_end_hour=business_end_hour,
+        slot_interval_minutes=slot_interval,
+    )
 
     return AppointmentPreviewResponse(
         date=on_date.isoformat(),

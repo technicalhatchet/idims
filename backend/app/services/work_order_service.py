@@ -765,6 +765,16 @@ class WorkOrderService:
             
             calculated_scheduled_end = appointment_data.scheduled_start + timedelta(minutes=estimated_duration_minutes)
 
+            if appointment_data.assigned_technician_id:
+                from app.services.scheduling_constraints_service import assert_technician_available
+
+                assert_technician_available(
+                    self.db,
+                    appointment_data.assigned_technician_id,
+                    appointment_data.scheduled_start,
+                    calculated_scheduled_end,
+                )
+
             db_appointment = WorkOrderAppointment(
                 work_order_id=appointment_data.work_order_id,
                 appointment_type=appointment_data.appointment_type,
@@ -955,6 +965,12 @@ class WorkOrderService:
             self.db.flush()
             self.db.refresh(db_appointment)
             return db_appointment
+        except ConflictException:
+            self.db.rollback()
+            raise
+        except ValidationException:
+            self.db.rollback()
+            raise
         except Exception as e:
             self.db.rollback()
             logger.error(f"Error creating work order appointment: {str(e)}", exc_info=True)
@@ -1157,6 +1173,25 @@ class WorkOrderService:
                     invoice.update_balance()
 
         self.db.flush() # Flush to apply updates before travel calculations
+
+        if (
+            appointment.assigned_technician_id
+            and appointment.scheduled_start
+            and appointment.scheduled_end
+        ):
+            from app.services.scheduling_constraints_service import (
+                appointment_status_occupies_schedule,
+                assert_technician_available,
+            )
+
+            if appointment_status_occupies_schedule(appointment.status):
+                assert_technician_available(
+                    self.db,
+                    appointment.assigned_technician_id,
+                    appointment.scheduled_start,
+                    appointment.scheduled_end,
+                    exclude_appointment_id=appointment.id,
+                )
 
         # Check if technician assignment or time changed, which would require updating travel info
         if (original_technician_id != appointment.assigned_technician_id or 
