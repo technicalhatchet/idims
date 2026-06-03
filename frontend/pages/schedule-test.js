@@ -9,6 +9,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import PullToRefresh from '../components/ui/PullToRefresh';
 import ErrorAlert from '../components/ui/ErrorAlert';
 import MobileEventDetailModal from '../components/schedule/MobileEventDetailModal';
+import CalendarBlockModal from '../components/schedule/CalendarBlockModal';
 import ScheduleTestTimeline, {
   AppointmentCardBadgeStack,
   NEON_RAILS,
@@ -17,6 +18,12 @@ import ScheduleTestTimeline, {
 import { useSchedule } from '../hooks/useSchedule';
 import { useTechnicians } from '../hooks/useTechnicians';
 import { useAuthRedirect } from '../hooks/useAuthRedirect';
+import { useUserRole } from '../utils/auth0-helpers';
+import {
+  CALENDAR_BLOCK_ACCENT,
+  calendarBlockTypeLabel,
+  isCalendarBlockEvent,
+} from '../utils/calendarBlockTypes';
 
 /** Fractal noise + field grid constants (aligned with partswait / opsboard tactical column). */
 const SCHED_TACTICAL_PAGE_BG = '#0A0F1E';
@@ -134,6 +141,34 @@ function Segment({ active, children, disabled, ...rest }) {
 }
 
 function GlassAppointmentCard({ appointment, techColorMap, idx, onOpen }) {
+  if (isCalendarBlockEvent(appointment)) {
+    const accent = CALENDAR_BLOCK_ACCENT[appointment.block_type] || CALENDAR_BLOCK_ACCENT.other;
+    const headline = appointment.title || calendarBlockTypeLabel(appointment.block_type);
+    const start = appointment.start ? parseISO(appointment.start) : null;
+    return (
+      <motion.button
+        type="button"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.18, delay: Math.min(idx * 0.03, 0.2) }}
+        onClick={() => onOpen?.(appointment)}
+        className="relative w-full text-left rounded-[14px] mb-5 px-4 py-3 border border-dashed focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+        style={{
+          borderColor: `${accent}66`,
+          background: `linear-gradient(180deg, ${accent}14, rgba(6,12,22,0.95))`,
+        }}
+      >
+        <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: accent }}>
+          {calendarBlockTypeLabel(appointment.block_type)}
+        </p>
+        <p className="text-sm font-semibold text-white/90 mt-0.5">{headline}</p>
+        {start && (
+          <p className="text-[11px] text-white/45 mt-1">{format(start, 'h:mm a')}</p>
+        )}
+      </motion.button>
+    );
+  }
+
   const rail = appointment.technician_id
     ? techColorMap[appointment.technician_id] || NEON_RAILS[0]
     : 'rgba(100,116,139,0.9)';
@@ -243,7 +278,11 @@ function ScheduleTestInner() {
   const [endDate, setEndDate] = useState(initialEndDate);
   const [selectedTechnicianId, setSelectedTechnicianId] = useState('');
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [blockModalMode, setBlockModalMode] = useState('create');
+  const [blockModalEvent, setBlockModalEvent] = useState(null);
 
+  const { isManager } = useUserRole();
   useAuthRedirect();
 
   useEffect(() => {
@@ -267,8 +306,18 @@ function ScheduleTestInner() {
   const { data: techniciansData, isLoading: isLoadingTechnicians, refetch: refetchTechnicians } = useTechnicians();
 
   const appointments = scheduleData?.appointments || [];
+  const calendarBlocks = scheduleData?.calendar_blocks || [];
 
-  const { map: technicianRailMap, orderedIds } = useTechnicianRails(techniciansData, appointments);
+  const scheduleEvents = useMemo(() => {
+    const merged = [...appointments, ...calendarBlocks];
+    return merged.sort((a, b) => {
+      const ta = a.start ? parseISO(a.start).getTime() : 0;
+      const tb = b.start ? parseISO(b.start).getTime() : 0;
+      return ta - tb;
+    });
+  }, [appointments, calendarBlocks]);
+
+  const { map: technicianRailMap, orderedIds } = useTechnicianRails(techniciansData, scheduleEvents);
   const techNames = useMemo(() => techNameLookup(techniciansData), [techniciansData]);
   const techLegendFirstNames = useMemo(() => techFirstNameLegendLookup(techniciansData), [techniciansData]);
 
@@ -388,6 +437,13 @@ function ScheduleTestInner() {
   }, [refetchSchedule, refetchTechnicians]);
 
   const handleEventClick = (ev) => {
+    if (isCalendarBlockEvent(ev)) {
+      if (!isManager) return;
+      setBlockModalEvent(ev);
+      setBlockModalMode('edit');
+      setShowBlockModal(true);
+      return;
+    }
     const enhanced = {
       ...ev,
       work_order_id: ev.work_order_id || (ev.source === 'work_order' ? ev.id : null),
@@ -395,15 +451,21 @@ function ScheduleTestInner() {
     setSelectedEvent(enhanced);
   };
 
-  /** Filter appointments to current range for list */
+  const openCreateBlockModal = () => {
+    setBlockModalEvent(null);
+    setBlockModalMode('create');
+    setShowBlockModal(true);
+  };
+
+  /** Filter appointments and blocks to current range for list / timeline */
   const filteredAppointments = useMemo(() => {
-    const list = (appointments || []).filter((a) => {
+    const list = (scheduleEvents || []).filter((a) => {
       if (!a.start) return false;
       const t = parseISO(a.start).getTime();
       return t >= startDate.getTime() && t <= endDate.getTime();
     });
     return list.sort((a, b) => parseISO(a.start) - parseISO(b.start));
-  }, [appointments, startDate, endDate]);
+  }, [scheduleEvents, startDate, endDate]);
 
   const groupedByDay = useMemo(() => {
     const buckets = {};
@@ -857,6 +919,22 @@ function ScheduleTestInner() {
                   <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-cyan-400/60">▾</span>
                 </div>
               </div>
+
+              {isManager && (
+                <button
+                  type="button"
+                  onClick={openCreateBlockModal}
+                  className="w-full mt-3 rounded-xl px-3 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] duration-[180ms]"
+                  style={{
+                    border: '1px dashed rgba(167,139,250,0.45)',
+                    color: 'rgba(216,180,254,0.95)',
+                    background: 'linear-gradient(180deg, rgba(167,139,250,0.12), rgba(8,14,26,0.9))',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
+                  }}
+                >
+                  + Add time block
+                </button>
+              )}
             </div>
           </motion.div>
 
@@ -982,7 +1060,7 @@ function ScheduleTestInner() {
                     </p>
                   ) : filteredAppointments.length === 0 ? (
                     <p className="text-center py-16 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                      No appointments in this range.
+                      No appointments or blocks in this range.
                     </p>
                   ) : viewType === 'day' ? (
                     filteredAppointments.map((a, i) => (
@@ -1061,6 +1139,22 @@ function ScheduleTestInner() {
         </div>
 
         {selectedEvent && <MobileEventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />}
+
+        {isManager && (
+          <CalendarBlockModal
+            isOpen={showBlockModal}
+            onClose={() => {
+              setShowBlockModal(false);
+              setBlockModalEvent(null);
+            }}
+            mode={blockModalMode}
+            event={blockModalEvent}
+            anchorDate={startDate}
+            technicianId={selectedTechnicianId}
+            technicians={techniciansData?.items || []}
+            onSaved={() => refetchSchedule()}
+          />
+        )}
       </div>
       </PullToRefresh>
     </>

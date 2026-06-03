@@ -24,7 +24,7 @@ from app.db.database import engine, get_db
 from app.core.auth import get_auth_handler
 from app.core.logger import setup_logging
 from app.routers import (
-    auth, clients, work_orders, scheduling, invoices, payments,
+    auth, clients, work_orders, scheduling, calendar_blocks, invoices, payments,
     #inventory,
     quotes, technicians, notifications, reports, public,
     media, mobile, admin, chat, dashboard, properties, app_settings,
@@ -723,6 +723,7 @@ from app.services.google_drive_service import log_drive_status_on_startup
 
 log_drive_status_on_startup()
 app.include_router(scheduling.router, prefix="/api/scheduling", tags=["scheduling"])
+app.include_router(calendar_blocks.router, prefix="/api/scheduling", tags=["scheduling"])
 app.include_router(invoices.router, prefix="/api/invoices", tags=["invoices"])
 app.include_router(payments.router, prefix="/api/payments", tags=["payments"])
 #app.include_router(inventory.router, prefix="/api/inventory", tags=["inventory"])

@@ -869,8 +869,23 @@ async def get_combined_schedule(
                         "name": f"{tech.user.first_name} {tech.user.last_name}",
                     })
 
+        from app.services import calendar_block_service as block_svc
+
+        calendar_blocks = [
+            block_svc.format_block_for_schedule(b)
+            for b in block_svc.list_blocks(
+                db,
+                start_datetime=start_datetime,
+                end_datetime=end_datetime,
+                technician_id=technician_id,
+                current_user=current_user,
+                active_only=True,
+            )
+        ]
+
         return ScheduleResponse(
             appointments=formatted_appointments,
+            calendar_blocks=calendar_blocks,
             date_range={
                 "start": start_date.isoformat(),
                 "end": end_date.isoformat()

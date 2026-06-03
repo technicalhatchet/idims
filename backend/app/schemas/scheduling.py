@@ -95,6 +95,7 @@ class AppointmentResponse(BaseModel):
 class ScheduleResponse(BaseModel):
     """Schema for full schedule response"""
     appointments: List[Dict[str, Any]]
+    calendar_blocks: Optional[List[Dict[str, Any]]] = None
     date_range: Dict[str, str]
     view_type: str
     available_technicians: Optional[List[Dict[str, str]]] = None

@@ -3,6 +3,11 @@ import { motion } from 'framer-motion';
 import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
 import LoadingSpinner from '../ui/LoadingSpinner';
+import {
+  CALENDAR_BLOCK_ACCENT,
+  calendarBlockTypeLabel,
+  isCalendarBlockEvent,
+} from '../../utils/calendarBlockTypes';
 
 /** Business window start (hour) — labels + grid reference this clock hour. */
 const START_HOUR = 8;
@@ -707,8 +712,14 @@ export default function ScheduleTestTimeline({
       const endM = clamp(minsFromMidnight(a._end), startM + 15, END_HOUR * 60);
       const topPct = ((startM - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
       const heightPct = Math.max(4, ((endM - startM) / TIMELINE_DAY_TOTAL_MINS) * 100);
-      const rail = a.technician_id ? technicianRailMap[a.technician_id] || NEON_RAILS[0] : '#64748B';
-      return { ...a, topPct, heightPct, rail };
+      const isBlock = isCalendarBlockEvent(a);
+      const blockAccent = isBlock ? CALENDAR_BLOCK_ACCENT[a.block_type] || CALENDAR_BLOCK_ACCENT.other : null;
+      const rail = isBlock
+        ? blockAccent
+        : a.technician_id
+          ? technicianRailMap[a.technician_id] || NEON_RAILS[0]
+          : '#64748B';
+      return { ...a, topPct, heightPct, rail, isBlock, blockAccent };
     });
   }, [appointments, dayStart, technicianRailMap]);
 
@@ -717,6 +728,7 @@ export default function ScheduleTestTimeline({
     for (let i = 0; i < prepared.length - 1; i += 1) {
       const a = prepared[i];
       const b = prepared[i + 1];
+      if (isCalendarBlockEvent(a) || isCalendarBlockEvent(b)) continue;
       if (a.technician_id && a.technician_id === b.technician_id) {
         const gap = differenceInMinutes(b._start, a._end);
         const travelMins = gap > 0 ? gap : 0;
@@ -1169,6 +1181,52 @@ export default function ScheduleTestTimeline({
           )}
 
           {prepared.map((apt, idx) => {
+            if (apt.isBlock) {
+              const typeLabel = calendarBlockTypeLabel(apt.block_type);
+              const headline = (apt.title || typeLabel).trim();
+              return (
+                <motion.button
+                  key={apt.id ?? `block-${apt.start}-${idx}`}
+                  type="button"
+                  className="sched-hud-apt absolute left-3 text-left rounded-[12px] overflow-hidden z-[5] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/25 group"
+                  style={{
+                    top: `${apt.topPct}%`,
+                    height: `${apt.heightPct}%`,
+                    minHeight: Math.max(52, Math.round(MIN_PX_PER_HOUR * 0.55)),
+                    right: `calc(0.5rem + ${HUD_APPOINTMENT_CARD_RIGHT_INSET})`,
+                  }}
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.16, delay: Math.min(idx * 0.03, 0.18), ease: HUD_EASE }}
+                  onClick={() => onSelectEvent?.(apt)}
+                >
+                  <div
+                    className="relative flex h-full w-full rounded-[11px] px-2.5 py-2 gap-2 items-center border border-dashed"
+                    style={{
+                      background: `linear-gradient(180deg, ${apt.blockAccent}18, rgba(8,12,22,0.92))`,
+                      borderColor: `${apt.blockAccent}55`,
+                      boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 0 12px ${apt.blockAccent}22`,
+                    }}
+                  >
+                    <div
+                      className="w-1 self-stretch rounded-full shrink-0"
+                      style={{ background: apt.blockAccent, boxShadow: `0 0 10px ${apt.blockAccent}` }}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] truncate" style={{ color: apt.blockAccent }}>
+                        {typeLabel}
+                      </p>
+                      <p className="text-[12px] font-semibold truncate text-white/90">{headline}</p>
+                      <p className="text-[10px] text-white/50">
+                        {format(apt._start, 'h:mm a')}
+                        {apt._end ? ` – ${format(apt._end, 'h:mm a')}` : ''}
+                      </p>
+                    </div>
+                  </div>
+                </motion.button>
+              );
+            }
+
             const orderLabel = apt.order_number ? String(apt.order_number).trim() : apt.title || 'Job';
             const clientLine = apt.client_name || 'Client';
             const typeIsDiagnostic = /diagnostic/i.test(serviceTypeLabel(apt));
@@ -1258,7 +1316,7 @@ export default function ScheduleTestTimeline({
           {prepared.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center z-[3] px-6 text-center">
               <p className="text-sm tracking-wide" style={{ color: 'rgba(255,255,255,0.36)' }}>
-                No jobs in this window — adjust date or filters.
+                No jobs or blocks in this window — adjust date or filters.
               </p>
             </div>
           )}
