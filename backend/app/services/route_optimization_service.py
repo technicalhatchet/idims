@@ -18,6 +18,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
 from app.models.work_order import WorkOrder, WorkOrderAppointment
+from app.utils.technician_assignment import appointment_matches_technician_filter
 from app.services.scheduling_constraints_service import (
     block_db_utc_naive_to_local,
     get_busy_calendar_blocks,
@@ -107,11 +108,12 @@ def load_day_stops(
 
     stmt = (
         select(WorkOrderAppointment)
+        .join(WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id)
         .options(
             joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrder.property_ref),
             joinedload(WorkOrderAppointment.services),
         )
-        .where(WorkOrderAppointment.assigned_technician_id == technician_id)
+        .where(appointment_matches_technician_filter(technician_id))
         .where(WorkOrderAppointment.scheduled_start < day_end)
         .where(WorkOrderAppointment.scheduled_end > day_start)
         .where(WorkOrderAppointment.status.in_(["scheduled", "reschedule"]))

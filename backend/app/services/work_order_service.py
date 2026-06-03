@@ -765,22 +765,28 @@ class WorkOrderService:
             
             calculated_scheduled_end = appointment_data.scheduled_start + timedelta(minutes=estimated_duration_minutes)
 
-            if appointment_data.assigned_technician_id and not appointment_data.is_forced_schedule:
+            resolved_technician_id = (
+                appointment_data.assigned_technician_id or work_order.assigned_technician_id
+            )
+            if resolved_technician_id and not appointment_data.is_forced_schedule:
                 from app.services.scheduling_constraints_service import assert_technician_available
 
                 assert_technician_available(
                     self.db,
-                    appointment_data.assigned_technician_id,
+                    resolved_technician_id,
                     appointment_data.scheduled_start,
                     calculated_scheduled_end,
                 )
+
+            if resolved_technician_id and work_order.assigned_technician_id != resolved_technician_id:
+                work_order.assigned_technician_id = resolved_technician_id
 
             db_appointment = WorkOrderAppointment(
                 work_order_id=appointment_data.work_order_id,
                 appointment_type=appointment_data.appointment_type,
                 scheduled_start=appointment_data.scheduled_start,
                 scheduled_end=calculated_scheduled_end, # Use the calculated end time
-                assigned_technician_id=appointment_data.assigned_technician_id,
+                assigned_technician_id=resolved_technician_id,
                 status="scheduled",  # Default status
                 created_by=user_id, # Make sure current_user_id is available in this scope
                 travel_time_before=appointment_data.travel_time_before,

@@ -33,6 +33,10 @@ from app.utils.work_order_display import (
     primary_appointments_by_work_order_ids,
     technician_display_name_from_appointment,
 )
+from app.utils.technician_assignment import (
+    appointment_matches_technician_filter,
+    effective_technician_id,
+)
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -649,55 +653,47 @@ async def get_combined_schedule(
         # Convert dates to datetime for query
         start_datetime = datetime.combine(start_date, datetime.min.time())
         end_datetime = datetime.combine(end_date, datetime.max.time())
-        
-        # Get work order IDs for filtering appointments - Use OVERLAP logic
-        work_order_query = db.query(WorkOrder.id).filter(
-            WorkOrder.scheduled_start.isnot(None),
-            WorkOrder.scheduled_end.isnot(None),
-            WorkOrder.scheduled_start < end_datetime,  # NEW: Overlap check
-            WorkOrder.scheduled_end > start_datetime   # NEW: Overlap check
-        )
 
-        # Apply filters based on parameters and user roles
-        if technician_id:
-            work_order_query = work_order_query.filter(WorkOrder.assigned_technician_id == technician_id)
-        
-        if client_id:
-            work_order_query = work_order_query.filter(WorkOrder.client_id == client_id)
-
-        # Apply role-based filtering
-        if "technician" in current_user.roles:
-            # Find technician ID for the current user
-            technician = db.query(Technician).filter(Technician.user_id == current_user.id).first()
-            if technician:
-                work_order_query = work_order_query.filter(WorkOrder.assigned_technician_id == technician.id)
-        elif "client" in current_user.roles:
-            # Find client ID for the current user
-            from app.models.client import Client
-            client = db.query(Client).filter(Client.user_id == current_user.id).first()
-            if client:
-                work_order_query = work_order_query.filter(WorkOrder.client_id == client.id)
-
-        # Get work order IDs only
-        work_order_ids = [wo_id for (wo_id,) in work_order_query.all()]
-        
-        # Now get appointments for these work orders - Use OVERLAP logic
+        # Query by appointment times (source of truth for the calendar)
         appointment_query = (
             db.query(WorkOrderAppointment)
+            .join(WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id)
+            .options(
+                joinedload(WorkOrderAppointment.technician),
+                joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrder.client),
+                joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrder.property_ref),
+                joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrder.technician),
+            )
             .filter(
-                WorkOrderAppointment.work_order_id.in_(work_order_ids),
+                WorkOrderAppointment.scheduled_start.isnot(None),
+                WorkOrderAppointment.scheduled_end.isnot(None),
                 WorkOrderAppointment.scheduled_start < end_datetime,
                 WorkOrderAppointment.scheduled_end > start_datetime,
             )
             .order_by(WorkOrderAppointment.scheduled_start.asc())
         )
-        
-        # Apply technician filter to appointments if specified
-        if technician_id:
-            appointment_query = appointment_query.filter(WorkOrderAppointment.assigned_technician_id == technician_id)
-        
-        # Get appointments
+
+        if client_id:
+            appointment_query = appointment_query.filter(WorkOrder.client_id == client_id)
+
+        filter_technician_id = technician_id
+        if "technician" in current_user.roles:
+            technician = db.query(Technician).filter(Technician.user_id == current_user.id).first()
+            if technician:
+                filter_technician_id = technician.id
+        elif "client" in current_user.roles:
+            from app.models.client import Client
+            client = db.query(Client).filter(Client.user_id == current_user.id).first()
+            if client:
+                appointment_query = appointment_query.filter(WorkOrder.client_id == client.id)
+
+        if filter_technician_id:
+            appointment_query = appointment_query.filter(
+                appointment_matches_technician_filter(filter_technician_id)
+            )
+
         appointments = appointment_query.all()
+        work_order_ids = list({appt.work_order_id for appt in appointments})
         
         # Load work orders for these appointments to avoid N+1 queries
         work_order_dict = {}
@@ -721,10 +717,13 @@ async def get_combined_schedule(
                 # Include client phone if available
                 client_phone = work_order.client.phone
             
-            # Get technician name
+            # Get technician name (appointment row, else work order assignment)
             technician_name = "Unassigned"
+            tech_id = effective_technician_id(appt, work_order)
             if appt.technician:
                 technician_name = appt.technician.name
+            elif work_order.technician:
+                technician_name = work_order.technician.name
             
             # Get property and tenant information
             property_data = None
@@ -743,7 +742,7 @@ async def get_combined_schedule(
                 "start": appt.scheduled_start.isoformat() if appt.scheduled_start else None,
                 "end": appt.scheduled_end.isoformat() if appt.scheduled_end else None,
                 "status": appt.status or work_order.status,
-                "technician_id": str(appt.assigned_technician_id) if appt.assigned_technician_id else None,
+                "technician_id": str(tech_id) if tech_id else None,
                 "technician_name": technician_name,
                 "client_id": str(work_order.client_id) if work_order.client_id else None,
                 "client_name": client_name,
