@@ -27,6 +27,12 @@ function fromLocalDatetimeInputValue(value) {
   return Number.isNaN(d.getTime()) ? null : d.toISOString();
 }
 
+function eventRangeIso(event, which) {
+  if (!event) return null;
+  if (which === 'start') return event.start || event.start_at;
+  return event.end || event.end_at;
+}
+
 export default function CalendarBlockModal({
   isOpen,
   onClose,
@@ -55,8 +61,8 @@ export default function CalendarBlockModal({
       setTitle(event.title || '');
       setNotes(event.notes || '');
       setTechId(event.technician_id || technicianId || '');
-      setStartLocal(toLocalDatetimeInputValue(event.start));
-      setEndLocal(toLocalDatetimeInputValue(event.end));
+      setStartLocal(toLocalDatetimeInputValue(eventRangeIso(event, 'start')));
+      setEndLocal(toLocalDatetimeInputValue(eventRangeIso(event, 'end')));
       return;
     }
     setBlockType('lunch');
@@ -149,9 +155,9 @@ export default function CalendarBlockModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={modalTitle}>
       <form onSubmit={handleSubmit} className="p-4 space-y-4">
-        {isEdit && event?.start && (
+        {isEdit && eventRangeIso(event, 'start') && (
           <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
-            {format(parseISO(event.start), 'EEE MMM d')} · {event.technician_name || 'Technician'}
+            {format(parseISO(eventRangeIso(event, 'start')), 'EEE MMM d')} · {event.technician_name || 'Technician'}
           </p>
         )}
 

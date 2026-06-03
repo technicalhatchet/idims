@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import { parseISO, format, addDays } from 'date-fns';
@@ -9,10 +9,17 @@ import ErrorAlert from '../../components/ui/ErrorAlert';
 import StatusBadge from '../../components/ui/StatusBadge';
 import TimelineView from '../../components/schedule/TimelineView';
 import EventDetailModal from '../../components/schedule/EventDetailModal';
+import CalendarBlockModal from '../../components/schedule/CalendarBlockModal';
 import { useSchedule } from '../../hooks/useSchedule';
 import { useTechnicians } from '../../hooks/useTechnicians';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUser, FaClipboardList } from 'react-icons/fa';
 import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+import { useUserRole } from '../../utils/auth0-helpers';
+import {
+  CALENDAR_BLOCK_ACCENT,
+  calendarBlockTypeLabel,
+  isCalendarBlockEvent,
+} from '../../utils/calendarBlockTypes';
 
 // Helper function to format Date object to YYYY-MM-DD for input value
 function formatDateForInput(date) {
@@ -51,7 +58,12 @@ function SchedulePage() {
   const [endDate, setEndDate] = useState(initialEndDate);
   const [selectedTechnicianId, setSelectedTechnicianId] = useState('');
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [blockModalMode, setBlockModalMode] = useState('create');
+  const [blockModalEvent, setBlockModalEvent] = useState(null);
   const router = useRouter();
+
+  const { isManager } = useUserRole();
   
   useAuthRedirect();
   
@@ -73,6 +85,18 @@ function SchedulePage() {
     data: techniciansData,
     isLoading: isLoadingTechnicians
   } = useTechnicians();
+
+  const appointments = scheduleData?.appointments || [];
+  const calendarBlocks = scheduleData?.calendar_blocks || [];
+
+  const scheduleEvents = useMemo(() => {
+    const merged = [...appointments, ...calendarBlocks];
+    return merged.sort((a, b) => {
+      const ta = (a.start || a.start_at) ? parseISO(a.start || a.start_at).getTime() : 0;
+      const tb = (b.start || b.start_at) ? parseISO(b.start || b.start_at).getTime() : 0;
+      return ta - tb;
+    });
+  }, [appointments, calendarBlocks]);
   
   // Handle auth errors by redirecting to token refresh
   useEffect(() => {
@@ -253,16 +277,24 @@ function SchedulePage() {
   
   // Handle event click in list view
   const handleEventClick = (event) => {
-    // Ensure work_order_id is set if it's present in any form
+    if (isCalendarBlockEvent(event)) {
+      if (!isManager) return;
+      setBlockModalEvent(event);
+      setBlockModalMode('edit');
+      setShowBlockModal(true);
+      return;
+    }
     const enhancedEvent = {
       ...event,
-      // If this is an appointment, work_order_id is already set
-      // If this is a work order, the id is the work_order_id
       work_order_id: event.work_order_id || (event.source === 'work_order' ? event.id : null)
     };
-    
-    console.log("Event clicked:", enhancedEvent);
     setSelectedEvent(enhancedEvent);
+  };
+
+  const openCreateBlockModal = () => {
+    setBlockModalEvent(null);
+    setBlockModalMode('create');
+    setShowBlockModal(true);
   };
 
   // Close event detail modal
@@ -271,47 +303,54 @@ function SchedulePage() {
   };
   
   const renderAppointments = () => {
-    if (!scheduleData?.appointments) return <LoadingSpinner />;
+    if (!scheduleData) return <LoadingSpinner />;
     
-    // Filter appointments specifically for the selected start date when in day view
     const appointmentsToRender = viewType === 'day'
-      ? scheduleData.appointments.filter(apt => {
-          if (!apt.start) return false;
-          // Use parseISO to handle the ISO string format reliably
-          const aptStartDate = parseISO(apt.start); 
-          // Compare year, month, and day components
+      ? scheduleEvents.filter(apt => {
+          const startRaw = apt.start || apt.start_at;
+          if (!startRaw) return false;
+          const aptStartDate = parseISO(startRaw);
           return aptStartDate.getFullYear() === startDate.getFullYear() &&
                  aptStartDate.getMonth() === startDate.getMonth() &&
                  aptStartDate.getDate() === startDate.getDate();
         })
-      : scheduleData.appointments; // Show all fetched for week/month view
+      : scheduleEvents;
 
-    console.log("[renderAppointments] Rendering data after filtering:", appointmentsToRender);
-
-    if (appointmentsToRender.length === 0) return <p>No appointments found for the selected date range.</p>;
+    if (appointmentsToRender.length === 0) {
+      return <p>No appointments or time blocks found for the selected date range.</p>;
+    }
 
     return (
       <div className="space-y-4">
         {appointmentsToRender.map((appointment, index) => {
-          const techColor = getTechnicianColor(appointment.technician_id);
+          const isBlock = isCalendarBlockEvent(appointment);
+          const blockAccent = isBlock
+            ? CALENDAR_BLOCK_ACCENT[appointment.block_type] || CALENDAR_BLOCK_ACCENT.other
+            : null;
+          const techColor = isBlock ? '' : getTechnicianColor(appointment.technician_id);
           const isWorkOrderSource = appointment.source === 'work_order';
           const isAppointmentSource = appointment.source === 'appointment';
+          const startRaw = appointment.start || appointment.start_at;
+          const endRaw = appointment.end || appointment.end_at;
           
           return (
             <div
-              key={index}
-              className={`p-4 rounded-lg shadow-md border-l-4 ${techColor} bg-white dark:bg-gray-800 cursor-pointer hover:shadow-lg transition-shadow`}
+              key={appointment.id || index}
+              className={`p-4 rounded-lg shadow-md border-l-4 ${isBlock ? '' : techColor} bg-white dark:bg-gray-800 cursor-pointer hover:shadow-lg transition-shadow`}
+              style={isBlock ? { borderLeftColor: blockAccent, borderLeftWidth: 4 } : undefined}
               onClick={() => handleEventClick(appointment)}
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h3 className="font-medium text-gray-900 dark:text-white">
-                    {appointment.title || (isWorkOrderSource ? 'Work Order' : 'Appointment')}
+                    {isBlock
+                      ? (appointment.title || calendarBlockTypeLabel(appointment.block_type))
+                      : (appointment.title || (isWorkOrderSource ? 'Work Order' : 'Appointment'))}
                     {getSourceBadge(appointment)}
                   </h3>
                   <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {format(parseISO(appointment.start), 'h:mm a')} - 
-                    {appointment.end ? format(parseISO(appointment.end), ' h:mm a') : ' TBD'}
+                    {startRaw ? format(parseISO(startRaw), 'h:mm a') : '—'} -
+                    {endRaw ? format(parseISO(endRaw), ' h:mm a') : ' TBD'}
                   </div>
                 </div>
                 <StatusBadge status={appointment.status} />
@@ -367,6 +406,16 @@ function SchedulePage() {
 
   // Function to get a badge for appointment source
   const getSourceBadge = (appointment) => {
+    if (isCalendarBlockEvent(appointment)) {
+      return (
+        <span
+          className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
+          style={{ backgroundColor: `${CALENDAR_BLOCK_ACCENT[appointment.block_type] || CALENDAR_BLOCK_ACCENT.other}22`, color: CALENDAR_BLOCK_ACCENT[appointment.block_type] || CALENDAR_BLOCK_ACCENT.other }}
+        >
+          {calendarBlockTypeLabel(appointment.block_type)}
+        </span>
+      );
+    }
     if (appointment.source === 'appointment') {
       return (
         <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
@@ -579,6 +628,15 @@ function SchedulePage() {
                   ))}
                 </select>
                 </div>
+              {isManager && (
+                <button
+                  type="button"
+                  onClick={openCreateBlockModal}
+                  className="mt-3 w-full px-4 py-2 text-sm font-medium rounded-md border border-dashed border-violet-400/60 text-violet-700 bg-violet-50 hover:bg-violet-100 dark:text-violet-200 dark:bg-violet-900/20 dark:hover:bg-violet-900/35 dark:border-violet-500/50"
+                >
+                  + Add time block
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -654,15 +712,15 @@ function SchedulePage() {
                 Retry
               </button>
             </div>
-          ) : scheduleData?.appointments?.length === 0 ? (
+          ) : scheduleEvents.length === 0 ? (
             <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               <FaCalendarAlt className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" />
-              <p className="text-lg dark:text-gray-300">No appointments scheduled</p>
-              <p className="mt-2">No appointments are scheduled for the selected filters.</p>
+              <p className="text-lg dark:text-gray-300">Nothing scheduled</p>
+              <p className="mt-2">No appointments or time blocks match the selected filters.</p>
             </div>
           ) : displayMode === 'timeline' ? (
             <TimelineView 
-              appointments={scheduleData?.appointments} 
+              appointments={scheduleEvents} 
               date={startDate}
               onEventClick={handleEventClick}
               viewType={viewType}
@@ -678,6 +736,22 @@ function SchedulePage() {
           <EventDetailModal 
             event={selectedEvent} 
             onClose={handleCloseEventDetail} 
+          />
+        )}
+
+        {isManager && (
+          <CalendarBlockModal
+            isOpen={showBlockModal}
+            onClose={() => {
+              setShowBlockModal(false);
+              setBlockModalEvent(null);
+            }}
+            mode={blockModalMode}
+            event={blockModalEvent}
+            anchorDate={startDate}
+            technicianId={selectedTechnicianId}
+            technicians={techniciansData?.items || []}
+            onSaved={() => refetchSchedule()}
           />
         )}
       </div>

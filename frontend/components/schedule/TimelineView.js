@@ -4,6 +4,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { parseISO, format } from 'date-fns';
+import {
+  CALENDAR_BLOCK_ACCENT,
+  calendarBlockTypeLabel,
+  isCalendarBlockEvent,
+} from '../../utils/calendarBlockTypes';
 
 // CSS for the timeline view content
 import styles from '../../styles/TimelineView.module.css';
@@ -84,9 +89,13 @@ const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading })
         order_number: appointment.order_number
       });
       
+      const isBlock = isCalendarBlockEvent(appointment);
+
       // Validate and fix start/end times
-      let startTime = appointment.start ? new Date(appointment.start) : null;
-      let endTime = appointment.end ? new Date(appointment.end) : null;
+      const startRaw = appointment.start || appointment.start_at;
+      const endRaw = appointment.end || appointment.end_at;
+      let startTime = startRaw ? new Date(startRaw) : null;
+      let endTime = endRaw ? new Date(endRaw) : null;
       
       // Skip invalid appointments
       if (!startTime) {
@@ -108,7 +117,11 @@ const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading })
       // Determine the color based on whether we're viewing multiple technicians
       let backgroundColor, borderColor;
       
-      if (multipleTechnicians && appointment.technician_id) {
+      if (isBlock) {
+        const accent = CALENDAR_BLOCK_ACCENT[appointment.block_type] || CALENDAR_BLOCK_ACCENT.other;
+        backgroundColor = accent;
+        borderColor = accent;
+      } else if (multipleTechnicians && appointment.technician_id) {
         backgroundColor = technicianColors[appointment.technician_id];
         borderColor = backgroundColor;
       } else {
@@ -116,12 +129,17 @@ const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading })
         borderColor = backgroundColor;
       }
 
+      const blockTitle = isBlock
+        ? `${calendarBlockTypeLabel(appointment.block_type)}${appointment.title ? `: ${appointment.title}` : ''}`
+        : null;
+
       // Create a single event for this appointment
       const event = {
         id: appointment.id,
-        title: appointment.order_number 
-          ? `WO #${appointment.order_number} - ${appointment.appointment_type || 'Appointment'}`
-          : appointment.title || 'Appointment',
+        title: blockTitle
+          || (appointment.order_number
+            ? `WO #${appointment.order_number} - ${appointment.appointment_type || 'Appointment'}`
+            : appointment.title || 'Appointment'),
         start: startTime.toISOString(),
         end: endTime.toISOString(),
         extendedProps: {

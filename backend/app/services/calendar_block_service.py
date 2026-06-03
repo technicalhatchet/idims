@@ -36,29 +36,37 @@ def _enum_val(value) -> str:
     return value.value if hasattr(value, "value") else str(value)
 
 
-def format_block_for_schedule(block: TechnicianCalendarBlock) -> Dict[str, Any]:
+def format_block_response(block: TechnicianCalendarBlock) -> Dict[str, Any]:
+    """API / CRUD shape (start_at / end_at)."""
     tech_name = block.technician.name if block.technician else "Technician"
     block_type = _enum_val(block.block_type)
     label = (block.title or "").strip() or BLOCK_TYPE_LABELS.get(block_type, "Block")
+    start_iso = block.start_at.isoformat() if block.start_at else None
+    end_iso = block.end_at.isoformat() if block.end_at else None
     return {
         "id": str(block.id),
-        "title": label,
-        "start": block.start_at.isoformat() if block.start_at else None,
-        "end": block.end_at.isoformat() if block.end_at else None,
-        "status": _enum_val(block.status),
         "technician_id": str(block.technician_id),
         "technician_name": tech_name,
         "block_type": block_type,
+        "title": label,
         "notes": block.notes,
+        "start_at": start_iso,
+        "end_at": end_iso,
+        "status": _enum_val(block.status),
         "source": "calendar_block",
+        "created_at": block.created_at.isoformat() if block.created_at else None,
+        "updated_at": block.updated_at.isoformat() if block.updated_at else None,
     }
 
 
-def format_block_response(block: TechnicianCalendarBlock) -> Dict[str, Any]:
-    payload = format_block_for_schedule(block)
-    payload["created_at"] = block.created_at.isoformat() if block.created_at else None
-    payload["updated_at"] = block.updated_at.isoformat() if block.updated_at else None
-    return payload
+def format_block_for_schedule(block: TechnicianCalendarBlock) -> Dict[str, Any]:
+    """Combined schedule feed — same fields as appointments (start / end)."""
+    payload = format_block_response(block)
+    return {
+        **payload,
+        "start": payload["start_at"],
+        "end": payload["end_at"],
+    }
 
 
 def _resolve_actor_user_id(current_user) -> uuid.UUID:
