@@ -154,8 +154,20 @@ export default function AppointmentScheduler({
 
   const handleClearForceSchedule = async () => {
     if (!currentAppointment?.id || !isAdmin) return;
+
+    const conflictReason = checkProposedScheduleConflict(
+      formData.scheduled_start,
+      formData.scheduled_end
+    );
+    if (conflictReason) {
+      setError(
+        `Cannot clear force schedule while this time still conflicts: ${conflictReason} Change the start/end to an open slot, save, then restore normal scheduling.`
+      );
+      return;
+    }
+
     if (!window.confirm(
-      'Restore normal scheduling rules for this appointment? Future saves will be blocked if they overlap other jobs or time blocks.'
+      'Restore normal scheduling rules for this appointment? The current time must not overlap other jobs or time blocks (already verified for the times shown).'
     )) {
       return;
     }
@@ -183,6 +195,8 @@ export default function AppointmentScheduler({
         {currentAppointment?.is_forced_schedule && (
           <p className="text-sm text-amber-200">
             This appointment is <strong>force scheduled</strong> — it may overlap other jobs or calendar blocks.
+            To restore normal rules, first move it to a time that does not conflict, save, then use{' '}
+            <em>Restore normal scheduling</em> (or save with force schedule unchecked).
           </p>
         )}
         {proposedScheduleConflicts.length > 0 && !formData.is_forced_schedule && (
@@ -219,8 +233,13 @@ export default function AppointmentScheduler({
           <button
             type="button"
             onClick={handleClearForceSchedule}
-            disabled={isSubmitting}
-            className="text-sm font-medium text-amber-200 underline hover:text-amber-100 disabled:opacity-50"
+            disabled={isSubmitting || proposedScheduleConflicts.length > 0}
+            title={
+              proposedScheduleConflicts.length > 0
+                ? 'Change date/time so this slot no longer overlaps a block or appointment, then clear force.'
+                : 'Clear the force-schedule flag'
+            }
+            className="text-sm font-medium text-amber-200 underline hover:text-amber-100 disabled:opacity-50 disabled:no-underline disabled:cursor-not-allowed"
           >
             Restore normal scheduling (admin)
           </button>
