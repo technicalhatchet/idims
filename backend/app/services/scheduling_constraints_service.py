@@ -12,9 +12,11 @@ Free:
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Sequence
+from zoneinfo import ZoneInfo
 import uuid
 
 from sqlalchemy.orm import Session
@@ -25,6 +27,9 @@ from app.services import calendar_block_service as block_svc
 
 APPOINTMENT_STATUS_CANCELED = "canceled"
 BLOCK_STATUS_ACTIVE = "active"
+
+# Appointments use naive local wall-clock; blocks are saved from browser ISO (UTC) as naive UTC.
+SHOP_TIMEZONE = ZoneInfo(os.getenv("SHOP_TIMEZONE", "America/Detroit"))
 
 
 def _status_str(value) -> str:
@@ -40,6 +45,26 @@ def appointment_status_occupies_schedule(status) -> bool:
 
 def block_status_occupies_schedule(status) -> bool:
     return _status_str(status) == BLOCK_STATUS_ACTIVE
+
+
+def appointment_local_naive(dt: datetime) -> datetime:
+    """Work-order appointment times: naive = shop wall clock."""
+    if dt.tzinfo is not None:
+        return dt.astimezone(SHOP_TIMEZONE).replace(tzinfo=None)
+    return dt
+
+
+def block_db_utc_naive_to_local(dt: datetime) -> datetime:
+    """Calendar block columns: naive values are UTC instants from frontend ISO."""
+    if dt.tzinfo is not None:
+        return dt.astimezone(SHOP_TIMEZONE).replace(tzinfo=None)
+    return dt.replace(tzinfo=timezone.utc).astimezone(SHOP_TIMEZONE).replace(tzinfo=None)
+
+
+def local_naive_to_block_db_utc(dt: datetime) -> datetime:
+    """Convert shop-local naive bounds to naive UTC for block SQL filters."""
+    local = appointment_local_naive(dt)
+    return local.replace(tzinfo=SHOP_TIMEZONE).astimezone(timezone.utc).replace(tzinfo=None)
 
 
 def intervals_overlap(
@@ -100,13 +125,15 @@ def get_busy_calendar_blocks(
     range_start: datetime,
     range_end: datetime,
 ) -> List[TechnicianCalendarBlock]:
+    block_range_start = local_naive_to_block_db_utc(range_start)
+    block_range_end = local_naive_to_block_db_utc(range_end)
     return (
         db.query(TechnicianCalendarBlock)
         .filter(
             TechnicianCalendarBlock.technician_id == technician_id,
             TechnicianCalendarBlock.status == BLOCK_STATUS_ACTIVE,
-            TechnicianCalendarBlock.start_at < range_end,
-            TechnicianCalendarBlock.end_at > range_start,
+            TechnicianCalendarBlock.start_at < block_range_end,
+            TechnicianCalendarBlock.end_at > block_range_start,
         )
         .order_by(TechnicianCalendarBlock.start_at.asc())
         .all()
@@ -122,11 +149,16 @@ def find_occupancy_conflicts(
     exclude_appointment_id: Optional[uuid.UUID] = None,
 ) -> List[OccupancyConflict]:
     conflicts: List[OccupancyConflict] = []
+    slot_start = appointment_local_naive(start)
+    slot_end = appointment_local_naive(end)
     for appt in get_busy_appointments(
         db, technician_id, start, end, exclude_appointment_id=exclude_appointment_id
     ):
         if appt.scheduled_start and appt.scheduled_end and intervals_overlap(
-            start, end, appt.scheduled_start, appt.scheduled_end
+            slot_start,
+            slot_end,
+            appointment_local_naive(appt.scheduled_start),
+            appointment_local_naive(appt.scheduled_end),
         ):
             conflicts.append(
                 OccupancyConflict(
@@ -138,7 +170,12 @@ def find_occupancy_conflicts(
                 )
             )
     for block in get_busy_calendar_blocks(db, technician_id, start, end):
-        if intervals_overlap(start, end, block.start_at, block.end_at):
+        if intervals_overlap(
+            slot_start,
+            slot_end,
+            block_db_utc_naive_to_local(block.start_at),
+            block_db_utc_naive_to_local(block.end_at),
+        ):
             block_type = _status_str(block.block_type)
             label = (block.title or "").strip() or block_svc.BLOCK_TYPE_LABELS.get(block_type, "Block")
             conflicts.append(
@@ -218,8 +255,12 @@ def calendar_block_to_schedule_item(block: TechnicianCalendarBlock) -> Dict[str,
         "work_order_id": None,
         "appointment_type": "calendar_block",
         "status": BLOCK_STATUS_ACTIVE,
-        "scheduled_start": block.start_at.isoformat() if block.start_at else None,
-        "scheduled_end": block.end_at.isoformat() if block.end_at else None,
+        "scheduled_start": (
+            block_db_utc_naive_to_local(block.start_at).isoformat() if block.start_at else None
+        ),
+        "scheduled_end": (
+            block_db_utc_naive_to_local(block.end_at).isoformat() if block.end_at else None
+        ),
         "assigned_technician_id": str(block.technician_id),
         "source": "calendar_block",
         "block_type": block_type,
