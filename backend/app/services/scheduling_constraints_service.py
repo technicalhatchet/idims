@@ -199,6 +199,16 @@ def assert_technician_available(
     )
 
 
+def schedule_item_sort_key(item: Dict[str, Any]) -> str:
+    """Normalize scheduled_start for sorting appointment + block rows together."""
+    raw = item.get("scheduled_start")
+    if raw is None:
+        return ""
+    if isinstance(raw, datetime):
+        return raw.isoformat()
+    return str(raw)
+
+
 def calendar_block_to_schedule_item(block: TechnicianCalendarBlock) -> Dict[str, Any]:
     """Shape calendar blocks like appointments for technician day schedule APIs."""
     block_type = _status_str(block.block_type)

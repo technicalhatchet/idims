@@ -1268,6 +1268,7 @@ def get_technician_schedule(
         from app.services.scheduling_constraints_service import (
             calendar_block_to_schedule_item,
             get_busy_calendar_blocks,
+            schedule_item_sort_key,
         )
 
         start_of_day = datetime.combine(schedule_date, datetime.min.time())
@@ -1323,9 +1324,7 @@ def get_technician_schedule(
         for block in blocks:
             response_items.append(calendar_block_to_schedule_item(block))
 
-        response_items.sort(
-            key=lambda x: x.get("scheduled_start") or "",
-        )
+        response_items.sort(key=schedule_item_sort_key)
         return response_items
         
     except HTTPException: 
