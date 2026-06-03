@@ -53,6 +53,181 @@ export function filterSchedulingConflicts(appointments) {
   return appointments.filter(isSchedulingConflict);
 }
 
+/** Default minimum open slot length when picking a morning/afternoon window. */
+export const DEFAULT_MIN_SLOT_MINUTES = 45;
+
+/**
+ * Parse API / form schedule timestamps into local Date objects.
+ */
+export function parseScheduleInstant(value) {
+  if (!value) return null;
+  const d = value instanceof Date ? new Date(value.getTime()) : new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+export function intervalsOverlap(startA, endA, startB, endB) {
+  return startA < endB && endA > startB;
+}
+
+export function normalizeCalendarDay(date) {
+  if (!date) return null;
+  if (typeof date === 'string') {
+    const [datePart] = date.split('T');
+    const [year, month, day] = datePart.split('-').map(Number);
+    return new Date(year, month - 1, day, 12, 0, 0, 0);
+  }
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0);
+}
+
+export function isSameCalendarDay(a, b) {
+  const dayA = normalizeCalendarDay(a);
+  const dayB = normalizeCalendarDay(b);
+  if (!dayA || !dayB) return false;
+  return (
+    dayA.getFullYear() === dayB.getFullYear() &&
+    dayA.getMonth() === dayB.getMonth() &&
+    dayA.getDate() === dayB.getDate()
+  );
+}
+
+function getScheduleItemInterval(item) {
+  const start = parseScheduleInstant(item?.scheduled_start);
+  const end = parseScheduleInstant(item?.scheduled_end);
+  if (!start || !end || end <= start) return null;
+  return { start, end };
+}
+
+function mergeBusyIntervals(intervals) {
+  if (!intervals.length) return [];
+  const sorted = [...intervals].sort((a, b) => a.start - b.start);
+  const merged = [{ ...sorted[0] }];
+  for (let i = 1; i < sorted.length; i += 1) {
+    const current = sorted[i];
+    const last = merged[merged.length - 1];
+    if (current.start <= last.end) {
+      last.end = new Date(Math.max(last.end.getTime(), current.end.getTime()));
+    } else {
+      merged.push({ ...current });
+    }
+  }
+  return merged;
+}
+
+/**
+ * True when [rangeStart, rangeEnd] contains a contiguous open segment >= minSlotMinutes.
+ */
+export function hasOpenSlotInRange(rangeStart, rangeEnd, busyIntervals, minSlotMinutes) {
+  const minMs = minSlotMinutes * 60 * 1000;
+  const clipped = busyIntervals
+    .filter(({ start, end }) => intervalsOverlap(start, end, rangeStart, rangeEnd))
+    .map(({ start, end }) => ({
+      start: new Date(Math.max(start.getTime(), rangeStart.getTime())),
+      end: new Date(Math.min(end.getTime(), rangeEnd.getTime())),
+    }))
+    .filter(({ start, end }) => end > start);
+
+  const merged = mergeBusyIntervals(clipped);
+  let cursor = rangeStart.getTime();
+
+  for (const busy of merged) {
+    if (busy.start.getTime() - cursor >= minMs) return true;
+    cursor = Math.max(cursor, busy.end.getTime());
+  }
+  return rangeEnd.getTime() - cursor >= minMs;
+}
+
+export function getBlockingIntervalsForTechnician(
+  items,
+  technicianId,
+  day,
+  { excludeAppointmentId = null } = {}
+) {
+  if (!technicianId || !Array.isArray(items)) return [];
+
+  return items
+    .filter((item) => {
+      if (!isSchedulingConflict(item)) return false;
+      if (item.assigned_technician_id !== technicianId) return false;
+      if (excludeAppointmentId && item.id === excludeAppointmentId) return false;
+      if (!isSameCalendarDay(item.scheduled_start, day)) return false;
+      return true;
+    })
+    .map((item) => {
+      const interval = getScheduleItemInterval(item);
+      if (!interval) return null;
+      return { ...interval, item };
+    })
+    .filter(Boolean);
+}
+
+export function describeScheduleConflict(item) {
+  if (isCalendarBlockScheduleItem(item)) {
+    const label = item.title || item.block_type || 'Time block';
+    return `Time block (${label})`;
+  }
+  const status = getAppointmentStatusValue(item);
+  return status ? `Appointment (${status})` : 'Appointment';
+}
+
+/**
+ * Conflicts for a proposed [start, end] on a technician's day (appointments + blocks).
+ */
+export function findScheduleConflictsForInterval(
+  items,
+  technicianId,
+  start,
+  end,
+  { excludeAppointmentId = null } = {}
+) {
+  const proposedStart = parseScheduleInstant(start);
+  const proposedEnd = parseScheduleInstant(end);
+  if (!proposedStart || !proposedEnd || proposedEnd <= proposedStart || !technicianId) {
+    return [];
+  }
+
+  return getBlockingIntervalsForTechnician(items, technicianId, proposedStart, {
+    excludeAppointmentId,
+  }).filter(({ start: busyStart, end: busyEnd, item }) => {
+    if (!intervalsOverlap(proposedStart, proposedEnd, busyStart, busyEnd)) return false;
+    return true;
+  }).map(({ item, start: busyStart, end: busyEnd }) => ({
+    item,
+    label: describeScheduleConflict(item),
+    start: busyStart,
+    end: busyEnd,
+  }));
+}
+
+export function isProposedSlotAvailable(
+  items,
+  technicianId,
+  start,
+  end,
+  options = {}
+) {
+  const conflicts = findScheduleConflictsForInterval(
+    items,
+    technicianId,
+    start,
+    end,
+    options
+  );
+  if (conflicts.length === 0) {
+    return { available: true };
+  }
+  const first = conflicts[0];
+  return {
+    available: false,
+    reason: `Conflicts with ${first.label} (${formatConflictRange(first.start, first.end)})`,
+    conflicts,
+  };
+}
+
+function formatConflictRange(start, end) {
+  const opts = { hour: 'numeric', minute: '2-digit' };
+  return `${start.toLocaleTimeString([], opts)} – ${end.toLocaleTimeString([], opts)}`;
+}
+
 /** Build a geocodable address from work order service_location JSONB */
 export function formatServiceLocationAddress(serviceLocation) {
   if (!serviceLocation) return null;
@@ -200,146 +375,104 @@ export function getTimeWindowBoundaries(date, windowName) {
 }
 
 /**
- * Check if a time slot is available based on existing appointments and technician schedule
- * @param {Date|string} date - The date to check
- * @param {string} windowName - 'morning' or 'afternoon'
- * @param {Array} existingAppointments - Array of existing appointments
- * @param {string} technicianId - ID of the technician
- * @returns {Object} { available: boolean, reason: string }
+ * Check if a time window has capacity for scheduling.
+ * With a technician: requires an open slot (interval overlap + blocks), not a simple job count.
+ * @param {Object} [options]
+ * @param {string} [options.excludeAppointmentId] - When editing, ignore this appointment
+ * @param {number} [options.minSlotMinutes] - Minimum contiguous free minutes needed in the window
  */
-export function isTimeWindowAvailable(date, windowName, existingAppointments, technicianId) {
-  const blockingAppointments = filterSchedulingConflicts(existingAppointments);
-  console.log(`[isTimeWindowAvailable] Checking availability for date: ${date}, window: ${windowName}, technicianId: ${technicianId || 'none'}`);
-  console.log(`[isTimeWindowAvailable] Blocking appointments received:`, blockingAppointments);
-  
-  // Define limits at the top level of the function
-  const MAX_APPOINTMENTS_PER_TECHNICIAN = 6; 
-  const MAX_APPOINTMENTS_PER_WINDOW = 18; // Kept the user's change to 18
+export function isTimeWindowAvailable(
+  date,
+  windowName,
+  existingAppointments,
+  technicianId,
+  options = {}
+) {
+  const {
+    excludeAppointmentId = null,
+    minSlotMinutes = DEFAULT_MIN_SLOT_MINUTES,
+  } = options;
+
+  const blockingItems = filterSchedulingConflicts(existingAppointments);
+  const MAX_APPOINTMENTS_PER_WINDOW = 18;
 
   if (!date || !windowName) {
-    console.warn('[isTimeWindowAvailable] Invalid date or time window');
     return { available: false, reason: 'Invalid date or time window' };
   }
 
-  // Make sure we're working with a normalized date (noon to avoid any timezone issues)
-  let normalizedDate;
-  if (typeof date === 'string') {
-    // Parse date string in format YYYY-MM-DDThh:mm
-    const [datePart] = date.split('T');
-    const [year, month, day] = datePart.split('-').map(Number);
-    normalizedDate = new Date(year, month-1, day, 12, 0, 0, 0); // noon to avoid timezone issues
-  } else {
-    normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0);
+  const normalizedDate = normalizeCalendarDay(date);
+  if (!normalizedDate) {
+    return { available: false, reason: 'Invalid date or time window' };
   }
-  
-  // If checking today's date, gray out windows that have already passed
+
   const now = new Date();
-  const isToday = normalizedDate.getFullYear() === now.getFullYear() &&
-                  normalizedDate.getMonth() === now.getMonth() &&
-                  normalizedDate.getDate() === now.getDate();
+  const isToday = isSameCalendarDay(normalizedDate, now);
 
   if (isToday) {
     const { endTime: windowEnd } = getTimeWindowBoundaries(normalizedDate, windowName);
-    // Add buffer — need enough time to actually get there
-    const bufferMs = 30 * 60 * 1000; // 30 min buffer
+    const bufferMs = 30 * 60 * 1000;
     if (now.getTime() + bufferMs >= windowEnd.getTime()) {
       return { available: false, reason: 'This time window has already passed' };
     }
   }
-  
+
   const { startTime, endTime } = getTimeWindowBoundaries(normalizedDate, windowName);
-  
-  console.log(`[isTimeWindowAvailable] Calculated Boundaries: ${startTime.toLocaleString()} - ${endTime.toLocaleString()}`);
-  
-  // Get all appointments for this date, regardless of technician
-  const appointmentsForDate = blockingAppointments.filter(apt => {
-    // Skip appointments without scheduled times
-    if (!apt.scheduled_start || !apt.scheduled_end) return false;
-    
-    const aptStart = new Date(apt.scheduled_start);
-    
-    // Normalize the appointment date to avoid timezone issues
-    const aptDate = new Date(aptStart.getFullYear(), aptStart.getMonth(), aptStart.getDate(), 12, 0, 0);
-    
-    // Check if appointment date matches by comparing year, month, and day
-    return aptDate.getFullYear() === normalizedDate.getFullYear() && 
-           aptDate.getMonth() === normalizedDate.getMonth() && 
-           aptDate.getDate() === normalizedDate.getDate();
+
+  const appointmentsInWindow = blockingItems.filter((item) => {
+    const interval = getScheduleItemInterval(item);
+    if (!interval || !isSameCalendarDay(interval.start, normalizedDate)) return false;
+    return intervalsOverlap(interval.start, interval.end, startTime, endTime);
   });
-  
-  console.log(`[isTimeWindowAvailable] Found ${appointmentsForDate.length} total appointments for this date:`, appointmentsForDate.map(a => ({id: a.id, start: a.scheduled_start, tech: a.assigned_technician_id })));
-  
-  // Filter appointments for this time window
-  const appointmentsInWindow = appointmentsForDate.filter(apt => {
-    const aptStart = new Date(apt.scheduled_start);
-    const aptEnd = new Date(apt.scheduled_end);
-    
-    // Check if appointment overlaps with the window
-    const overlapsWindow = (
-      (aptStart >= startTime && aptStart <= endTime) || 
-      (aptEnd >= startTime && aptEnd <= endTime) ||
-      (aptStart <= startTime && aptEnd >= endTime)
-    );
-    
-    if (overlapsWindow) {
-      console.log(`[isTimeWindowAvailable] Appointment ${apt.id} overlaps window: ${apt.scheduled_start} - ${apt.scheduled_end}, technician: ${apt.assigned_technician_id || 'unassigned'}`);
-    }
-    
-    return overlapsWindow;
-  });
-  
-  console.log(`[isTimeWindowAvailable] Found ${appointmentsInWindow.length} appointments in this time window:`, appointmentsInWindow.map(a => ({id: a.id, start: a.scheduled_start, tech: a.assigned_technician_id })));
-  
-  // If a specific technician is selected, check if they are already booked in this window
-  if (technicianId) {
-    const technicianAppointmentsInWindow = appointmentsInWindow.filter(apt => 
-      apt.assigned_technician_id === technicianId
-    );
-    
-    console.log(`[isTimeWindowAvailable] Technician ${technicianId} has ${technicianAppointmentsInWindow.length} appointments in this window:`, technicianAppointmentsInWindow.map(a => ({id: a.id, start: a.scheduled_start })));
-    
-    // Technicians can have multiple appointments per time window if they fit
-    if (technicianAppointmentsInWindow.length >= MAX_APPOINTMENTS_PER_TECHNICIAN) {
-      const result = { 
-        available: false, 
-        reason: `Technician already has ${technicianAppointmentsInWindow.length} appointment(s) in this time window (Max ${MAX_APPOINTMENTS_PER_TECHNICIAN})` // Updated reason
-      };
-      console.log('[isTimeWindowAvailable] Result:', result);
-      return result;
-    }
-  }
-  
-  // Check total capacity for all appointments in this window
-  const currentAppointmentCount = appointmentsInWindow.length;
-  
-  if (currentAppointmentCount >= MAX_APPOINTMENTS_PER_WINDOW) {
-    const result = { 
-      available: false, 
-      reason: `Maximum window capacity reached (${currentAppointmentCount}/${MAX_APPOINTMENTS_PER_WINDOW} appointments)` // Updated reason
+
+  if (appointmentsInWindow.length >= MAX_APPOINTMENTS_PER_WINDOW) {
+    return {
+      available: false,
+      reason: `Maximum window capacity reached (${appointmentsInWindow.length}/${MAX_APPOINTMENTS_PER_WINDOW} appointments)`,
     };
-    console.log('[isTimeWindowAvailable] Result:', result);
-    return result;
   }
 
-  // Determine the relevant count and max to return based on whether a technician is selected
-  let displayCount = currentAppointmentCount;
-  let displayMax = MAX_APPOINTMENTS_PER_WINDOW;
-  
   if (technicianId) {
-    // If checking for a specific tech, use the technician-specific limit
-    const technicianAppointmentsInWindow = appointmentsInWindow.filter(apt => apt.assigned_technician_id === technicianId);
-    displayCount = technicianAppointmentsInWindow.length;
-    displayMax = MAX_APPOINTMENTS_PER_TECHNICIAN; // Use the technician limit here
+    const busyIntervals = getBlockingIntervalsForTechnician(
+      blockingItems,
+      technicianId,
+      normalizedDate,
+      { excludeAppointmentId }
+    );
+
+    const blockInWindow = busyIntervals.find(({ item }) => isCalendarBlockScheduleItem(item));
+    const hasOpenSlot = hasOpenSlotInRange(startTime, endTime, busyIntervals, minSlotMinutes);
+
+    if (!hasOpenSlot) {
+      if (blockInWindow) {
+        const label = describeScheduleConflict(blockInWindow.item);
+        return {
+          available: false,
+          reason: `No open slot — ${label} overlaps this window`,
+        };
+      }
+      return {
+        available: false,
+        reason: `No open ${minSlotMinutes}-minute slot for this technician in this window`,
+      };
+    }
+
+    const techOverlaps = appointmentsInWindow.filter(
+      (item) => item.assigned_technician_id === technicianId
+    );
+
+    return {
+      available: true,
+      appointmentCount: techOverlaps.length,
+      maxAppointments: null,
+      hasCalendarBlock: Boolean(blockInWindow),
+    };
   }
-  
-  // Window is available
-  const finalResult = { 
+
+  return {
     available: true,
-    appointmentCount: displayCount, // Return the relevant count
-    maxAppointments: displayMax      // Return the relevant max
+    appointmentCount: appointmentsInWindow.length,
+    maxAppointments: MAX_APPOINTMENTS_PER_WINDOW,
   };
-  console.log('[isTimeWindowAvailable] Result:', finalResult);
-  return finalResult;
 }
 
 /**

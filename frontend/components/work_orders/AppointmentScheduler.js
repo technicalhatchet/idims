@@ -18,7 +18,15 @@ import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import AutoScheduler from './AutoScheduler';
 import TravelTimeInfo from './TravelTimeInfo';
 import TimeWindowSelector from './TimeWindowSelector';
-import { findNextAvailableSlot, getTimeWindowBoundaries, resolveWorkOrderServiceAddress, resolveAppointmentLocation, filterSchedulingConflicts } from '../../utils/appointment-scheduling';
+import {
+  findNextAvailableSlot,
+  getTimeWindowBoundaries,
+  resolveWorkOrderServiceAddress,
+  resolveAppointmentLocation,
+  filterSchedulingConflicts,
+  isProposedSlotAvailable,
+  DEFAULT_MIN_SLOT_MINUTES,
+} from '../../utils/appointment-scheduling';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
@@ -93,6 +101,31 @@ export default function AppointmentScheduler({
     ),
     [technicianDailySchedule, appointments]
   );
+
+  const estimatedServiceDurationMinutes = useMemo(() => {
+    const ids = formData.service_ids || [];
+    if (!ids.length || !allServices.length) return DEFAULT_MIN_SLOT_MINUTES;
+    let total = 0;
+    for (const id of ids) {
+      const svc = allServices.find((s) => s.id === id || String(s.id) === String(id));
+      if (svc?.duration_minutes) total += svc.duration_minutes;
+    }
+    return total > 0 ? total : DEFAULT_MIN_SLOT_MINUTES;
+  }, [formData.service_ids, allServices]);
+
+  const getScheduleItemsForConflictCheck = () => schedulingConflictAppointments;
+
+  const checkProposedScheduleConflict = (start, end) => {
+    if (!formData.assigned_technician_id || !start || !end) return null;
+    const result = isProposedSlotAvailable(
+      getScheduleItemsForConflictCheck(),
+      formData.assigned_technician_id,
+      start,
+      end,
+      { excludeAppointmentId: currentAppointment?.id ?? null }
+    );
+    return result.available ? null : result.reason;
+  };
 
   // Fetch appointments when component mounts
   useEffect(() => {
@@ -570,6 +603,14 @@ export default function AppointmentScheduler({
     if (formData.scheduled_start && formData.scheduled_end) {
       if (new Date(formData.scheduled_end) <= new Date(formData.scheduled_start)) {
         errors.scheduled_end = 'End time must be after start time.';
+      } else if (formData.assigned_technician_id) {
+        const conflictReason = checkProposedScheduleConflict(
+          formData.scheduled_start,
+          formData.scheduled_end
+        );
+        if (conflictReason) {
+          errors.scheduled_start = conflictReason;
+        }
       }
     }
     setFormErrors(errors);
@@ -1769,6 +1810,8 @@ export default function AppointmentScheduler({
                       technicianId={formData.assigned_technician_id}
                       initialValue={formData.time_window}
                       address={resolvedWorkOrderAddress}
+                      excludeAppointmentId={currentAppointment?.id ?? null}
+                      minSlotMinutes={estimatedServiceDurationMinutes}
                     />
                     {!resolvedWorkOrderAddress && (
                       <div className="mt-2 text-sm text-amber-600 dark:text-amber-400 space-y-1">
@@ -1801,10 +1844,19 @@ export default function AppointmentScheduler({
                         onChange={(e) => {
                           const date = formData.scheduled_start ? formData.scheduled_start.split('T')[0] : '';
                           const newStartDateTime = `${date}T${e.target.value}`;
-                          console.log(`Setting new start time: ${newStartDateTime}`);
+                          const conflictReason = checkProposedScheduleConflict(
+                            newStartDateTime,
+                            formData.scheduled_end
+                          );
                           setFormData({
                             ...formData,
-                            scheduled_start: newStartDateTime
+                            scheduled_start: newStartDateTime,
+                          });
+                          setFormErrors((prev) => {
+                            const next = { ...prev };
+                            if (conflictReason) next.scheduled_start = conflictReason;
+                            else delete next.scheduled_start;
+                            return next;
                           });
                         }}
                         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
@@ -1821,10 +1873,19 @@ export default function AppointmentScheduler({
                         onChange={(e) => {
                           const date = formData.scheduled_end ? formData.scheduled_end.split('T')[0] : formData.scheduled_start ? formData.scheduled_start.split('T')[0] : '';
                           const newEndDateTime = `${date}T${e.target.value}`;
-                          console.log(`Setting new end time: ${newEndDateTime}`);
+                          const conflictReason = checkProposedScheduleConflict(
+                            formData.scheduled_start,
+                            newEndDateTime
+                          );
                           setFormData({
                             ...formData,
-                            scheduled_end: newEndDateTime
+                            scheduled_end: newEndDateTime,
+                          });
+                          setFormErrors((prev) => {
+                            const next = { ...prev };
+                            if (conflictReason) next.scheduled_start = conflictReason;
+                            else delete next.scheduled_start;
+                            return next;
                           });
                         }}
                         className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"

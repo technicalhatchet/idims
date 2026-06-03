@@ -34,7 +34,9 @@ export default function TimeWindowSelector({
   existingAppointments = [],
   technicianId,
   initialValue = null,
-  address = null
+  address = null,
+  excludeAppointmentId = null,
+  minSlotMinutes = undefined,
 }) {
   const [selectedTimeWindow, setSelectedTimeWindow] = useState(initialValue);
   const [availabilities, setAvailabilities] = useState({});
@@ -61,20 +63,25 @@ export default function TimeWindowSelector({
     // Calculate availability for each time window
     const newAvailabilities = {};
     
-    // Check morning availability
+    const windowOptions = {
+      excludeAppointmentId,
+      minSlotMinutes,
+    };
+
     newAvailabilities[TIME_WINDOWS.MORNING.name] = isTimeWindowAvailable(
       workingDate,
       TIME_WINDOWS.MORNING.name,
       existingAppointments,
-      technicianId
+      technicianId,
+      windowOptions
     );
-    
-    // Check afternoon availability
+
     newAvailabilities[TIME_WINDOWS.AFTERNOON.name] = isTimeWindowAvailable(
       workingDate,
       TIME_WINDOWS.AFTERNOON.name,
       existingAppointments,
-      technicianId
+      technicianId,
+      windowOptions
     );
     
     setAvailabilities(newAvailabilities);
@@ -86,7 +93,15 @@ export default function TimeWindowSelector({
         onSelectTimeWindow(null);
       }
     }
-  }, [selectedDate, existingAppointments, technicianId, selectedTimeWindow, onSelectTimeWindow]);
+  }, [
+    selectedDate,
+    existingAppointments,
+    technicianId,
+    selectedTimeWindow,
+    onSelectTimeWindow,
+    excludeAppointmentId,
+    minSlotMinutes,
+  ]);
   
   // Handle window selection
   const handleTimeWindowSelect = (windowName) => {
