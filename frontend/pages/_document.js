@@ -8,7 +8,7 @@ export default function Document() {
         <meta name="description" content="Atomic Repair - Appliance Repair Management Portal" />
         <meta name="theme-color" content="#000000" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/icons/qrbgicon-192x192.png" />
+        {/* apple-touch-icon is set per PWA route (e.g. /techboard) — avoid a global icon overriding the manifest */}
         
         {/* Add any preconnect links if needed */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

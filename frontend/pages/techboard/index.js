@@ -897,8 +897,10 @@ export default function TechDashboardTest() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Tech Board" />
-        <link rel="manifest" href="/manifest-techboard.json" />
-        <link rel="apple-touch-icon" href="/icons/qrbgicon-192x192.png" />
+        <link rel="manifest" href="/manifest-techboard.json?v=2" />
+        {/* iOS Add to Home Screen uses apple-touch-icon, not manifest icons */}
+        <link rel="apple-touch-icon" sizes="192x192" href="/atomwrenches-192x192.png?v=2" />
+        <link rel="apple-touch-icon" href="/atomwrenches-192x192.png?v=2" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
