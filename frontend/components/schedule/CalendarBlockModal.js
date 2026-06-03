@@ -117,8 +117,15 @@ export default function CalendarBlockModal({
     }
   };
 
-  const handleCancelBlock = async () => {
+  const handleReleaseSlot = async () => {
     if (!event?.id) return;
+    const label = event.title || calendarBlockTypeLabel(event.block_type);
+    const ok = window.confirm(
+      `Release "${label}" from the schedule?\n\n` +
+        'The time slot will show as open again for booking. ' +
+        'The block is kept in the system as canceled (for history).'
+    );
+    if (!ok) return;
     setBusy(true);
     setError(null);
     try {
@@ -126,15 +133,21 @@ export default function CalendarBlockModal({
       onSaved?.();
       onClose();
     } catch (err) {
-      setError(err?.message || 'Failed to cancel block.');
+      setError(err?.message || 'Failed to release time block.');
     } finally {
       setBusy(false);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDeletePermanent = async () => {
     if (!event?.id) return;
-    if (!window.confirm('Delete this block permanently?')) return;
+    const label = event.title || calendarBlockTypeLabel(event.block_type);
+    const ok = window.confirm(
+      `Permanently delete "${label}"?\n\n` +
+        'This removes the block entirely and cannot be undone. ' +
+        'Use "Release slot" instead if you only need the time available again.'
+    );
+    if (!ok) return;
     setBusy(true);
     setError(null);
     try {
@@ -251,6 +264,15 @@ export default function CalendarBlockModal({
           />
         </div>
 
+        {isEdit && (
+          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+            <span className="font-medium text-gray-400 dark:text-gray-300">Release slot</span> — frees the
+            time for jobs (same idea as a canceled appointment).{' '}
+            <span className="font-medium text-gray-400 dark:text-gray-300">Delete permanently</span> — only
+            for mistakes; erases the record.
+          </p>
+        )}
+
         {error && (
           <p className="text-sm text-red-400" role="alert">
             {error}
@@ -259,24 +281,24 @@ export default function CalendarBlockModal({
 
         <div className="flex flex-wrap gap-2 justify-end pt-2">
           {isEdit && (
-            <>
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto sm:mr-auto">
               <button
                 type="button"
-                onClick={handleCancelBlock}
+                onClick={handleReleaseSlot}
                 disabled={busy}
-                className="btn-secondary text-amber-300/90"
+                className="btn-secondary text-amber-600 dark:text-amber-300/90"
               >
-                Cancel block
+                Release slot
               </button>
               <button
                 type="button"
-                onClick={handleDelete}
+                onClick={handleDeletePermanent}
                 disabled={busy}
-                className="btn-secondary text-red-400/90"
+                className="btn-secondary text-red-600 dark:text-red-400/90 text-sm"
               >
-                Delete
+                Delete permanently
               </button>
-            </>
+            </div>
           )}
           <button type="button" onClick={onClose} disabled={busy} className="btn-secondary">
             Close
