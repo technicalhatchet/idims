@@ -10,6 +10,7 @@ import PullToRefresh from '../components/ui/PullToRefresh';
 import ErrorAlert from '../components/ui/ErrorAlert';
 import MobileEventDetailModal from '../components/schedule/MobileEventDetailModal';
 import CalendarBlockModal from '../components/schedule/CalendarBlockModal';
+import RouteOptimizeModal from '../components/schedule/RouteOptimizeModal';
 import ScheduleTestTimeline, {
   AppointmentCardBadgeStack,
   NEON_RAILS,
@@ -281,6 +282,7 @@ function ScheduleTestInner() {
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockModalMode, setBlockModalMode] = useState('create');
   const [blockModalEvent, setBlockModalEvent] = useState(null);
+  const [showRouteOptimize, setShowRouteOptimize] = useState(false);
 
   const { isManager } = useUserRole();
   useAuthRedirect();
@@ -921,19 +923,36 @@ function ScheduleTestInner() {
               </div>
 
               {isManager && (
-                <button
-                  type="button"
-                  onClick={openCreateBlockModal}
-                  className="w-full mt-3 rounded-xl px-3 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] duration-[180ms]"
-                  style={{
-                    border: '1px dashed rgba(167,139,250,0.45)',
-                    color: 'rgba(216,180,254,0.95)',
-                    background: 'linear-gradient(180deg, rgba(167,139,250,0.12), rgba(8,14,26,0.9))',
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
-                  }}
-                >
-                  + Add time block
-                </button>
+                <div className="mt-3 flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={openCreateBlockModal}
+                    className="w-full rounded-xl px-3 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] duration-[180ms]"
+                    style={{
+                      border: '1px dashed rgba(167,139,250,0.45)',
+                      color: 'rgba(216,180,254,0.95)',
+                      background: 'linear-gradient(180deg, rgba(167,139,250,0.12), rgba(8,14,26,0.9))',
+                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
+                    }}
+                  >
+                    + Add time block
+                  </button>
+                  {viewType === 'day' && selectedTechnicianId && (
+                    <button
+                      type="button"
+                      onClick={() => setShowRouteOptimize(true)}
+                      className="w-full rounded-xl px-3 py-2.5 text-[10px] font-bold uppercase tracking-[0.14em] duration-[180ms]"
+                      style={{
+                        border: '1px solid rgba(0,217,255,0.35)',
+                        color: '#0A0F1E',
+                        background: '#00D4FF',
+                        boxShadow: '0 0 20px rgba(0,217,255,0.2), inset 0 1px 0 rgba(255,255,255,0.2)',
+                      }}
+                    >
+                      Optimize route (preview)
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </motion.div>
@@ -1153,6 +1172,24 @@ function ScheduleTestInner() {
             technicianId={selectedTechnicianId}
             technicians={techniciansData?.items || []}
             onSaved={() => refetchSchedule()}
+          />
+        )}
+
+        {isManager && (
+          <RouteOptimizeModal
+            isOpen={showRouteOptimize}
+            onClose={() => setShowRouteOptimize(false)}
+            technicianId={selectedTechnicianId}
+            technicianName={(() => {
+              const tech = techniciansData?.items?.find((t) => t.id === selectedTechnicianId);
+              if (!tech) return '';
+              return `${tech.user?.first_name || ''} ${tech.user?.last_name || ''}`.trim();
+            })()}
+            scheduleDate={formatDateForInput(startDate)}
+            onApplied={() => {
+              refetchSchedule();
+              setShowRouteOptimize(false);
+            }}
           />
         )}
       </div>

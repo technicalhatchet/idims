@@ -204,7 +204,7 @@ export default function TechDashboardLayout({ children }) {
         </button>
 
         {/* Center logo */}
-        <img src="/arpano.png" alt="Atomic Repair" className="h-8 w-auto absolute left-1/2 -translate-x-1/2" />
+        <img src="/idimslogo.png" alt="IDIMS" className="h-8 w-auto absolute left-1/2 -translate-x-1/2" />
 
         {/* Right — Notifications + Profile */}
         <div className="flex items-center gap-2">
