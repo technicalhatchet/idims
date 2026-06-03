@@ -53,6 +53,30 @@ from app.utils.work_order_display import (
 # Setup logger properly
 logger = logging.getLogger(__name__)
 
+
+def _user_role_set(user: UserModel) -> set:
+    return {str(r).lower() for r in (user.roles or [])}
+
+
+def _validate_forced_schedule_permission(
+    current_user: UserModel,
+    is_forced_schedule: Optional[bool],
+) -> None:
+    """Managers may force-schedule; only admins may clear the flag."""
+    if is_forced_schedule is None:
+        return
+    roles = _user_role_set(current_user)
+    if not roles.intersection({"admin", "manager"}):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only managers and admins can use force schedule",
+        )
+    if is_forced_schedule is False and "admin" not in roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admins can clear the force schedule flag",
+        )
+
 # Initialize auth handler
 auth_handler = get_auth_handler()
 
@@ -1195,6 +1219,9 @@ async def create_work_order_appointment(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Work order ID in the path must match the one in the request body"
         )
+
+    if appointment.is_forced_schedule:
+        _validate_forced_schedule_permission(current_user, True)
     
     try:
         # Create an instance of WorkOrderService and create the appointment
@@ -1463,6 +1490,10 @@ async def update_work_order_appointment(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Admin, manager, or technician role required"
             )
+
+        if appointment_update.is_forced_schedule is not None:
+            _validate_forced_schedule_permission(current_user, appointment_update.is_forced_schedule)
+
         # Create an instance of the WorkOrderService and update the appointment
         logger.info(f"DEBUG update_appointment: raw update data = {appointment_update.model_dump(exclude_unset=True)}")
         work_order_service = WorkOrderService(db)

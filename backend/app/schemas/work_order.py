@@ -339,6 +339,8 @@ class WorkOrderAppointmentUpdate(BaseModel):
     travel_distance_before: Optional[int] = None
     travel_distance_after: Optional[int] = None
     is_forced_schedule: Optional[bool] = None
+    scheduled_end: Optional[datetime] = None
+    time_window: Optional[str] = None
 
     @validator('status')
     def validate_status(cls, v):

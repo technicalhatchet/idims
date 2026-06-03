@@ -25,11 +25,13 @@ import {
   resolveAppointmentLocation,
   filterSchedulingConflicts,
   isProposedSlotAvailable,
+  findScheduleConflictsForInterval,
   DEFAULT_MIN_SLOT_MINUTES,
 } from '../../utils/appointment-scheduling';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
+import { useUserRole } from '../../utils/auth0-helpers';
 
 export default function AppointmentScheduler({
   workOrderId,
@@ -73,7 +75,8 @@ export default function AppointmentScheduler({
     travel_distance_before: null,
     travel_distance_after: null,
     service_ids: [],
-    time_window: null
+    time_window: null,
+    is_forced_schedule: false,
   };
   const [formData, setFormData] = useState(initialFormData);
   const [formErrors, setFormErrors] = useState({});
@@ -84,6 +87,9 @@ export default function AppointmentScheduler({
   const [showForm, setShowForm] = useState(false);
   const [displayEtaWindow, setDisplayEtaWindow] = useState(null);
   const [updatingStatus, setUpdatingStatus] = useState(null); // Track which appointment is being updated
+
+  const { isManager, isAdmin } = useUserRole();
+  const canForceSchedule = isManager;
 
   const resolvedWorkOrderAddress = useMemo(
     () => resolveWorkOrderServiceAddress({
@@ -125,6 +131,102 @@ export default function AppointmentScheduler({
       { excludeAppointmentId: currentAppointment?.id ?? null }
     );
     return result.available ? null : result.reason;
+  };
+
+  const proposedScheduleConflicts = useMemo(() => {
+    if (!formData.assigned_technician_id || !formData.scheduled_start || !formData.scheduled_end) {
+      return [];
+    }
+    return findScheduleConflictsForInterval(
+      getScheduleItemsForConflictCheck(),
+      formData.assigned_technician_id,
+      formData.scheduled_start,
+      formData.scheduled_end,
+      { excludeAppointmentId: currentAppointment?.id ?? null }
+    );
+  }, [
+    formData.assigned_technician_id,
+    formData.scheduled_start,
+    formData.scheduled_end,
+    schedulingConflictAppointments,
+    currentAppointment?.id,
+  ]);
+
+  const handleClearForceSchedule = async () => {
+    if (!currentAppointment?.id || !isAdmin) return;
+    if (!window.confirm(
+      'Restore normal scheduling rules for this appointment? Future saves will be blocked if they overlap other jobs or time blocks.'
+    )) {
+      return;
+    }
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      await updateAppointment(currentAppointment.id, { is_forced_schedule: false });
+      setSuccessMessage('Force schedule cleared. Normal conflict rules apply.');
+      await fetchAppointments();
+      setFormData((prev) => ({ ...prev, is_forced_schedule: false }));
+      setCurrentAppointment((prev) => (prev ? { ...prev, is_forced_schedule: false } : prev));
+      if (onAppointmentChange) onAppointmentChange();
+    } catch (err) {
+      setError(err?.message || 'Failed to clear force schedule');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderForceScheduleControls = () => {
+    if (!canForceSchedule && !currentAppointment?.is_forced_schedule) return null;
+
+    return (
+      <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 space-y-2">
+        {currentAppointment?.is_forced_schedule && (
+          <p className="text-sm text-amber-200">
+            This appointment is <strong>force scheduled</strong> — it may overlap other jobs or calendar blocks.
+          </p>
+        )}
+        {proposedScheduleConflicts.length > 0 && !formData.is_forced_schedule && (
+          <ul className="text-sm text-amber-100/90 list-disc list-inside space-y-0.5">
+            {proposedScheduleConflicts.map((c) => (
+              <li key={`${c.item?.id}-${c.label}`}>{c.label}</li>
+            ))}
+          </ul>
+        )}
+        {canForceSchedule && !currentAppointment?.is_forced_schedule && (
+          <label className="flex items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              className="mt-1"
+              checked={Boolean(formData.is_forced_schedule)}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                setFormData((prev) => ({ ...prev, is_forced_schedule: checked }));
+                if (checked) {
+                  setFormErrors((prev) => {
+                    const next = { ...prev };
+                    delete next.scheduled_start;
+                    return next;
+                  });
+                }
+              }}
+            />
+            <span className="text-sm text-amber-50">
+              Force schedule — allow this time even if it overlaps other appointments or time blocks
+            </span>
+          </label>
+        )}
+        {isAdmin && currentAppointment?.is_forced_schedule && (
+          <button
+            type="button"
+            onClick={handleClearForceSchedule}
+            disabled={isSubmitting}
+            className="text-sm font-medium text-amber-200 underline hover:text-amber-100 disabled:opacity-50"
+          >
+            Restore normal scheduling (admin)
+          </button>
+        )}
+      </div>
+    );
   };
 
   // Fetch appointments when component mounts
@@ -608,7 +710,7 @@ export default function AppointmentScheduler({
           formData.scheduled_start,
           formData.scheduled_end
         );
-        if (conflictReason) {
+        if (conflictReason && !(canForceSchedule && formData.is_forced_schedule)) {
           errors.scheduled_start = conflictReason;
         }
       }
@@ -660,7 +762,8 @@ export default function AppointmentScheduler({
       // Reset dynamic parts like start/end times if necessary, or rely on initialFormData
       scheduled_start: '', 
       scheduled_end: '',
-      service_ids: [], 
+      service_ids: [],
+      is_forced_schedule: false,
     });
     setFormErrors({});
     setShowForm(false);
@@ -1043,6 +1146,24 @@ export default function AppointmentScheduler({
       console.warn('[AppointmentScheduler] Form validation failed.', formErrors);
       return;
     }
+
+    const conflictReason = checkProposedScheduleConflict(
+      formData.scheduled_start,
+      formData.scheduled_end
+    );
+    let forceOnSave = Boolean(canForceSchedule && formData.is_forced_schedule);
+
+    if (conflictReason && !forceOnSave) {
+      if (!canForceSchedule) {
+        setError(conflictReason);
+        return;
+      }
+      const confirmed = window.confirm(
+        `This time overlaps the technician's schedule:\n\n${conflictReason}\n\nForce schedule anyway? The appointment will be flagged as a manager override.`
+      );
+      if (!confirmed) return;
+      forceOnSave = true;
+    }
     
     // Ensure we're not already submitting
     if (isSubmitting) {
@@ -1072,6 +1193,7 @@ export default function AppointmentScheduler({
         travel_distance_before: formData.travel_distance_before ? parseInt(formData.travel_distance_before) : null,
         travel_distance_after: formData.travel_distance_after ? parseInt(formData.travel_distance_after) : null,
         service_ids: formData.service_ids || [],
+        is_forced_schedule: forceOnSave,
       };
       
       let response;
@@ -1099,7 +1221,12 @@ export default function AppointmentScheduler({
       }
     } catch (err) {
       console.error("Error saving appointment:", err);
-      setError(`Failed to save appointment: ${err.message || 'Unknown error'}`);
+      const msg = err?.message || 'Unknown error';
+      if (canForceSchedule && /conflict|overlap|time block/i.test(msg)) {
+        setError(`${msg} — check "Force schedule" or confirm when prompted to override.`);
+      } else {
+        setError(`Failed to save appointment: ${msg}`);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -1350,8 +1477,13 @@ export default function AppointmentScheduler({
           >
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-white">
+                <p className="text-sm font-semibold text-white flex flex-wrap items-center gap-1.5">
                   {getAppointmentTypeLabel(appointment.appointment_type)}
+                  {appointment.is_forced_schedule && (
+                    <span className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-200 border border-amber-500/40">
+                      Forced
+                    </span>
+                  )}
                 </p>
                 <p className="text-xs text-cyan-300/90 mt-0.5">
                   {formatDateTime(appointment.scheduled_start)} – {formatTime(appointment.scheduled_end)}
@@ -2000,6 +2132,8 @@ export default function AppointmentScheduler({
                     )}
                   </>
                 )}
+
+                {renderForceScheduleControls()}
                 
                 <div className="flex justify-end pt-4">
                   <button
@@ -2053,6 +2187,11 @@ export default function AppointmentScheduler({
                         <div className="flex items-center">
                           <FaCalendarAlt className="text-gray-500 dark:text-gray-400 mr-2" />
                           <span className="text-sm text-gray-900 dark:text-gray-100">{getAppointmentTypeLabel(appointment.appointment_type)}</span>
+                          {appointment.is_forced_schedule && (
+                            <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-200">
+                              Forced
+                            </span>
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-4">
@@ -2330,6 +2469,8 @@ export default function AppointmentScheduler({
             rows={3}
             placeholder="Add any relevant notes for the appointment or technician..."
           />
+
+          {renderForceScheduleControls()}
           
           {/* Action Buttons */}
           <div className="flex justify-end space-x-3 pt-4 border-t dark:border-gray-700">

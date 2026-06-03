@@ -765,7 +765,7 @@ class WorkOrderService:
             
             calculated_scheduled_end = appointment_data.scheduled_start + timedelta(minutes=estimated_duration_minutes)
 
-            if appointment_data.assigned_technician_id:
+            if appointment_data.assigned_technician_id and not appointment_data.is_forced_schedule:
                 from app.services.scheduling_constraints_service import assert_technician_available
 
                 assert_technician_available(
@@ -1000,23 +1000,28 @@ class WorkOrderService:
         services_changed = 'service_ids' in update_data and set(update_data['service_ids']) != original_service_ids
         start_time_changed = 'scheduled_start' in update_data and update_data['scheduled_start'] != original_start_time
 
+        explicit_end = update_data.get('scheduled_end')
+        forced_schedule = update_data.get('is_forced_schedule', appointment.is_forced_schedule)
+
         if services_changed or start_time_changed:
             import pandas as pd
 
             new_start_time = pd.Timestamp(update_data.get('scheduled_start', original_start_time))
-            
-            current_service_ids = update_data.get('service_ids', original_service_ids)
-            if not current_service_ids: # If service_ids is None or empty list after update
-                 estimated_duration_minutes = 60 # Default to 1 hour
-            else:
-                total_service_duration = 0
-                for service_id in current_service_ids:
-                    service = self.db.query(Service).filter(Service.id == service_id).first()
-                    if service and service.duration_minutes:
-                        total_service_duration += service.duration_minutes
-                estimated_duration_minutes = total_service_duration if total_service_duration > 0 else 60
-            
-            update_data['scheduled_end'] = new_start_time + pd.Timedelta(minutes=estimated_duration_minutes)
+
+            skip_end_recalc = forced_schedule and explicit_end is not None
+            if not skip_end_recalc:
+                current_service_ids = update_data.get('service_ids', original_service_ids)
+                if not current_service_ids:
+                    estimated_duration_minutes = 60
+                else:
+                    total_service_duration = 0
+                    for service_id in current_service_ids:
+                        service = self.db.query(Service).filter(Service.id == service_id).first()
+                        if service and service.duration_minutes:
+                            total_service_duration += service.duration_minutes
+                    estimated_duration_minutes = total_service_duration if total_service_duration > 0 else 60
+
+                update_data['scheduled_end'] = new_start_time + pd.Timedelta(minutes=estimated_duration_minutes)
 
 
         for key, value in update_data.items():
@@ -1184,7 +1189,7 @@ class WorkOrderService:
                 assert_technician_available,
             )
 
-            if appointment_status_occupies_schedule(appointment.status):
+            if appointment_status_occupies_schedule(appointment.status) and not appointment.is_forced_schedule:
                 assert_technician_available(
                     self.db,
                     appointment.assigned_technician_id,
