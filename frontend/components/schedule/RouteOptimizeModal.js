@@ -90,7 +90,8 @@ export default function RouteOptimizeModal({
       });
       if (result.skipped?.length) {
         setError(
-          `Applied ${result.applied_count} stop(s). Skipped: ${result.skipped.join('; ')}`
+          `Applied ${result.applied_count} of ${changes.length} stop(s). Skipped: ${result.skipped.join('; ')}. ` +
+            'Click Refresh to rebuild the preview from the current schedule, then apply again.'
         );
       }
       onApplied?.(result);

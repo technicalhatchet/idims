@@ -29,6 +29,7 @@ from app.utils.travel_calculator import get_formatted_address, get_travel_time_a
 logger = logging.getLogger(__name__)
 
 BUFFER_MINUTES = 10
+BLOCK_GAP_MINUTES = 5
 WORK_DAY_END_HOUR = 17
 MAX_STOPS = 12
 DEFAULT_DAY_START_HOUR = int(os.getenv("ROUTE_DAY_START_HOUR", "9"))
@@ -221,9 +222,48 @@ def _advance_past_blocks(cursor: datetime, blocks: List[BlockInterval]) -> datet
         changed = False
         for block in blocks:
             if block.start <= cursor < block.end:
-                cursor = block.end + timedelta(minutes=1)
+                cursor = block.end + timedelta(minutes=BLOCK_GAP_MINUTES)
                 changed = True
     return cursor
+
+
+def _interval_hits_blocked_time(
+    start: datetime,
+    end: datetime,
+    blocks: List[BlockInterval],
+) -> Optional[BlockInterval]:
+    """True when [start, end] touches a block or its pre/post gap."""
+    for block in blocks:
+        gap_start = block.start - timedelta(minutes=BLOCK_GAP_MINUTES)
+        gap_end = block.end + timedelta(minutes=BLOCK_GAP_MINUTES)
+        if start < gap_end and end > gap_start:
+            return block
+    return None
+
+
+def _fit_appointment_around_blocks(
+    proposed_start: datetime,
+    duration_minutes: int,
+    blocks: List[BlockInterval],
+) -> Tuple[datetime, datetime, Optional[str]]:
+    """
+    Keep full job duration; shift after blocks (with gap) when the interval would
+    overlap lunch/breaks. Prevents proposals that end the minute a block starts.
+    """
+    start = appointment_local_naive(proposed_start)
+    duration = timedelta(minutes=duration_minutes)
+    end = start + duration
+    warning: Optional[str] = None
+
+    for _ in range(len(blocks) + 2):
+        hit = _interval_hits_blocked_time(start, end, blocks)
+        if not hit:
+            return start, end, warning
+        start = hit.end + timedelta(minutes=BLOCK_GAP_MINUTES)
+        end = start + duration
+        warning = f"{hit.label}: moved after calendar block"
+
+    return start, end, warning
 
 
 def build_time_chain(
@@ -264,6 +304,11 @@ def build_time_chain(
         new_end = appointment_local_naive(
             new_start + timedelta(minutes=stop.duration_minutes)
         )
+        new_start, new_end, block_warning = _fit_appointment_around_blocks(
+            new_start, stop.duration_minutes, blocks
+        )
+        if block_warning:
+            warnings.append(f"{stop.label}: {block_warning}")
 
         if new_end > work_day_end:
             warnings.append(
@@ -353,6 +398,24 @@ def build_route_preview(
     ]
     travel_after = _total_route_minutes(ordered_stops, shop, cache_after)
 
+    batch_ids = [row["appointment_id"] for row in stop_changes]
+    from app.services.scheduling_constraints_service import find_occupancy_conflicts
+
+    for row in stop_changes:
+        conflicts = find_occupancy_conflicts(
+            db,
+            technician_id,
+            row["new_start"],
+            row["new_end"],
+            exclude_appointment_ids=batch_ids,
+        )
+        if conflicts:
+            first = conflicts[0]
+            warnings.append(
+                f"{row['label']}: still conflicts with {first.label} after routing — "
+                "refresh preview or adjust blocks before applying."
+            )
+
     return {
         "technician_id": technician_id,
         "schedule_date": schedule_date,
@@ -383,6 +446,7 @@ def apply_route_preview(
     applied = 0
 
     sorted_changes = sorted(changes, key=lambda c: c["route_sequence"])
+    batch_exclude_ids = [item["appointment_id"] for item in sorted_changes]
 
     for item in sorted_changes:
         appt_id = item["appointment_id"]
@@ -414,7 +478,7 @@ def apply_route_preview(
                     technician_id,
                     new_start,
                     new_end,
-                    exclude_appointment_id=appt.id,
+                    exclude_appointment_ids=batch_exclude_ids,
                 )
             except ConflictException as exc:
                 skipped.append(f"{_appointment_label(appt)}: {exc}")

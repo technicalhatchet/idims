@@ -85,6 +85,20 @@ class OccupancyConflict:
     label: str
 
 
+def _normalize_exclude_appointment_ids(
+    exclude_appointment_id: Optional[uuid.UUID] = None,
+    exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
+) -> List[uuid.UUID]:
+    ids: List[uuid.UUID] = []
+    if exclude_appointment_id:
+        ids.append(exclude_appointment_id)
+    if exclude_appointment_ids:
+        for value in exclude_appointment_ids:
+            if value and value not in ids:
+                ids.append(value)
+    return ids
+
+
 def _busy_appointments_query(
     db: Session,
     technician_id: uuid.UUID,
@@ -92,6 +106,7 @@ def _busy_appointments_query(
     range_end: datetime,
     *,
     exclude_appointment_id: Optional[uuid.UUID] = None,
+    exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
 ):
     q = db.query(WorkOrderAppointment).filter(
         WorkOrderAppointment.assigned_technician_id == technician_id,
@@ -101,8 +116,11 @@ def _busy_appointments_query(
         WorkOrderAppointment.scheduled_end > range_start,
         WorkOrderAppointment.status != APPOINTMENT_STATUS_CANCELED,
     )
-    if exclude_appointment_id:
-        q = q.filter(WorkOrderAppointment.id != exclude_appointment_id)
+    excluded = _normalize_exclude_appointment_ids(
+        exclude_appointment_id, exclude_appointment_ids
+    )
+    if excluded:
+        q = q.filter(WorkOrderAppointment.id.notin_(excluded))
     return q.order_by(WorkOrderAppointment.scheduled_start.asc())
 
 
@@ -113,9 +131,15 @@ def get_busy_appointments(
     range_end: datetime,
     *,
     exclude_appointment_id: Optional[uuid.UUID] = None,
+    exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
 ) -> List[WorkOrderAppointment]:
     return _busy_appointments_query(
-        db, technician_id, range_start, range_end, exclude_appointment_id=exclude_appointment_id
+        db,
+        technician_id,
+        range_start,
+        range_end,
+        exclude_appointment_id=exclude_appointment_id,
+        exclude_appointment_ids=exclude_appointment_ids,
     ).all()
 
 
@@ -147,12 +171,18 @@ def find_occupancy_conflicts(
     end: datetime,
     *,
     exclude_appointment_id: Optional[uuid.UUID] = None,
+    exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
 ) -> List[OccupancyConflict]:
     conflicts: List[OccupancyConflict] = []
     slot_start = appointment_local_naive(start)
     slot_end = appointment_local_naive(end)
     for appt in get_busy_appointments(
-        db, technician_id, start, end, exclude_appointment_id=exclude_appointment_id
+        db,
+        technician_id,
+        start,
+        end,
+        exclude_appointment_id=exclude_appointment_id,
+        exclude_appointment_ids=exclude_appointment_ids,
     ):
         if appt.scheduled_start and appt.scheduled_end and intervals_overlap(
             slot_start,
@@ -197,6 +227,7 @@ def slot_is_available(
     slot_end: datetime,
     *,
     exclude_appointment_id: Optional[uuid.UUID] = None,
+    exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
 ) -> bool:
     return len(
         find_occupancy_conflicts(
@@ -205,6 +236,7 @@ def slot_is_available(
             slot_start,
             slot_end,
             exclude_appointment_id=exclude_appointment_id,
+            exclude_appointment_ids=exclude_appointment_ids,
         )
     ) == 0
 
@@ -216,6 +248,7 @@ def assert_technician_available(
     end: datetime,
     *,
     exclude_appointment_id: Optional[uuid.UUID] = None,
+    exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
 ) -> None:
     """Raise ConflictException when the interval overlaps busy time."""
     from app.core.exceptions import ConflictException
@@ -226,6 +259,7 @@ def assert_technician_available(
         start,
         end,
         exclude_appointment_id=exclude_appointment_id,
+        exclude_appointment_ids=exclude_appointment_ids,
     )
     if not conflicts:
         return
