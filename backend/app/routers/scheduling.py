@@ -21,6 +21,13 @@ from app.schemas.scheduling import (
     AvailabilityResponse,
     AppointmentPreviewResponse,
 )
+from app.schemas.route_optimization import (
+    RouteOptimizeApplyRequest,
+    RouteOptimizeApplyResponse,
+    RouteOptimizePreviewRequest,
+    RouteOptimizePreviewResponse,
+)
+from app.services.route_optimization_service import apply_route_preview, build_route_preview
 from app.core.dependencies import get_current_user, get_admin_or_manager_user
 from app.utils.work_order_display import (
     primary_appointments_by_work_order_ids,
@@ -795,3 +802,60 @@ async def get_combined_schedule(
     except Exception as e:
         logger.error(f"Error getting combined schedule: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post(
+    "/route-optimize/preview",
+    response_model=RouteOptimizePreviewResponse,
+    summary="Preview optimized route and proposed time changes",
+)
+async def preview_route_optimization(
+    body: RouteOptimizePreviewRequest = Body(...),
+    db: Session = Depends(get_db),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+):
+    """Manager/admin: reorder stops for one technician on one day and propose new times."""
+    technician = db.query(Technician).filter(Technician.id == body.technician_id).first()
+    if not technician:
+        raise HTTPException(status_code=404, detail="Technician not found")
+    try:
+        payload = build_route_preview(
+            db,
+            body.technician_id,
+            body.schedule_date,
+            day_start_hour=body.day_start_hour,
+        )
+        return RouteOptimizePreviewResponse(**payload)
+    except Exception as e:
+        logger.error("Route optimize preview failed: %s", e, exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Route preview failed: {e}")
+
+
+@router.post(
+    "/route-optimize/apply",
+    response_model=RouteOptimizeApplyResponse,
+    summary="Apply a previously previewed route optimization",
+)
+async def apply_route_optimization(
+    body: RouteOptimizeApplyRequest = Body(...),
+    db: Session = Depends(get_db),
+    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+):
+    """Persist previewed start/end times and refresh travel fields for the day."""
+    technician = db.query(Technician).filter(Technician.id == body.technician_id).first()
+    if not technician:
+        raise HTTPException(status_code=404, detail="Technician not found")
+    try:
+        changes = [c.model_dump() for c in body.changes]
+        applied, skipped = apply_route_preview(
+            db,
+            body.technician_id,
+            body.schedule_date,
+            changes,
+            current_user.id,
+        )
+        return RouteOptimizeApplyResponse(applied_count=applied, skipped=skipped)
+    except Exception as e:
+        db.rollback()
+        logger.error("Route optimize apply failed: %s", e, exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Route apply failed: {e}")

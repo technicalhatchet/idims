@@ -10,6 +10,7 @@ import StatusBadge from '../../components/ui/StatusBadge';
 import TimelineView from '../../components/schedule/TimelineView';
 import EventDetailModal from '../../components/schedule/EventDetailModal';
 import CalendarBlockModal from '../../components/schedule/CalendarBlockModal';
+import RouteOptimizeModal from '../../components/schedule/RouteOptimizeModal';
 import { useSchedule } from '../../hooks/useSchedule';
 import { useTechnicians } from '../../hooks/useTechnicians';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUser, FaClipboardList } from 'react-icons/fa';
@@ -61,6 +62,7 @@ function SchedulePage() {
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockModalMode, setBlockModalMode] = useState('create');
   const [blockModalEvent, setBlockModalEvent] = useState(null);
+  const [showRouteOptimize, setShowRouteOptimize] = useState(false);
   const router = useRouter();
 
   const { isManager } = useUserRole();
@@ -629,13 +631,25 @@ function SchedulePage() {
                 </select>
                 </div>
               {isManager && (
-                <button
-                  type="button"
-                  onClick={openCreateBlockModal}
-                  className="mt-3 w-full px-4 py-2 text-sm font-medium rounded-md border border-dashed border-violet-400/60 text-violet-700 bg-violet-50 hover:bg-violet-100 dark:text-violet-200 dark:bg-violet-900/20 dark:hover:bg-violet-900/35 dark:border-violet-500/50"
-                >
-                  + Add time block
-                </button>
+                <div className="mt-3 flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={openCreateBlockModal}
+                    className="w-full px-4 py-2 text-sm font-medium rounded-md border border-dashed border-violet-400/60 text-violet-700 bg-violet-50 hover:bg-violet-100 dark:text-violet-200 dark:bg-violet-900/20 dark:hover:bg-violet-900/35 dark:border-violet-500/50"
+                  >
+                    + Add time block
+                  </button>
+                  {viewType === 'day' && selectedTechnicianId && (
+                    <button
+                      type="button"
+                      onClick={() => setShowRouteOptimize(true)}
+                      className="w-full px-4 py-2 text-sm font-medium rounded-md border border-cyan-500/50 text-gray-900 dark:text-gray-100 hover:opacity-90"
+                      style={{ background: '#00D4FF' }}
+                    >
+                      Optimize route (preview)
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -752,6 +766,24 @@ function SchedulePage() {
             technicianId={selectedTechnicianId}
             technicians={techniciansData?.items || []}
             onSaved={() => refetchSchedule()}
+          />
+        )}
+
+        {isManager && (
+          <RouteOptimizeModal
+            isOpen={showRouteOptimize}
+            onClose={() => setShowRouteOptimize(false)}
+            technicianId={selectedTechnicianId}
+            technicianName={(() => {
+              const tech = techniciansData?.items?.find((t) => t.id === selectedTechnicianId);
+              if (!tech) return '';
+              return `${tech.user?.first_name || ''} ${tech.user?.last_name || ''}`.trim();
+            })()}
+            scheduleDate={formatDateForInput(startDate)}
+            onApplied={() => {
+              refetchSchedule();
+              setShowRouteOptimize(false);
+            }}
           />
         )}
       </div>
