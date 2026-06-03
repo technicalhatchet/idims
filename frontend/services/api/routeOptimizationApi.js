@@ -1,6 +1,6 @@
 import { apiClient } from '../../utils/api-client';
 
-export async function previewRouteOptimization({ technicianId, scheduleDate, dayStartHour = 8 }) {
+export async function previewRouteOptimization({ technicianId, scheduleDate, dayStartHour = 9 }) {
   return apiClient('api/scheduling/route-optimize/preview', {
     method: 'POST',
     body: JSON.stringify({

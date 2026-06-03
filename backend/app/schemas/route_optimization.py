@@ -12,7 +12,9 @@ from pydantic import BaseModel, Field
 class RouteOptimizePreviewRequest(BaseModel):
     technician_id: UUID
     schedule_date: date
-    day_start_hour: int = Field(8, ge=5, le=12, description="Local hour to start route from shop")
+    day_start_hour: int = Field(
+        9, ge=5, le=12, description="Shop-local hour to leave for the first stop"
+    )
 
 
 class RouteStopChange(BaseModel):
@@ -35,6 +37,8 @@ class RouteOptimizePreviewResponse(BaseModel):
     technician_id: UUID
     schedule_date: date
     shop_address: str
+    shop_departure_at: Optional[datetime] = None
+    day_start_hour: int = 9
     optimization_method: str
     stop_count: int
     warnings: List[str] = []

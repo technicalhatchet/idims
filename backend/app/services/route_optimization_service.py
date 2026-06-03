@@ -20,6 +20,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.utils.technician_assignment import appointment_matches_technician_filter
 from app.services.scheduling_constraints_service import (
+    appointment_local_naive,
     block_db_utc_naive_to_local,
     get_busy_calendar_blocks,
 )
@@ -30,6 +31,19 @@ logger = logging.getLogger(__name__)
 BUFFER_MINUTES = 10
 WORK_DAY_END_HOUR = 17
 MAX_STOPS = 12
+DEFAULT_DAY_START_HOUR = int(os.getenv("ROUTE_DAY_START_HOUR", "9"))
+
+
+def _default_day_start_hour() -> int:
+    hour = DEFAULT_DAY_START_HOUR
+    if hour < 5 or hour > 12:
+        return 9
+    return hour
+
+
+def shop_local_day_datetime(schedule_date: date, hour: int, minute: int = 0) -> datetime:
+    """Shop wall-clock naive datetime (aligned with appointment storage)."""
+    return datetime(schedule_date.year, schedule_date.month, schedule_date.day, hour, minute, 0)
 
 
 @dataclass
@@ -134,8 +148,8 @@ def load_day_stops(
                 work_order_id=appt.work_order_id,
                 label=_appointment_label(appt),
                 address=address,
-                scheduled_start=appt.scheduled_start,
-                scheduled_end=appt.scheduled_end,
+                scheduled_start=appointment_local_naive(appt.scheduled_start),
+                scheduled_end=appointment_local_naive(appt.scheduled_end),
                 duration_minutes=_appointment_duration_minutes(appt),
             )
         )
@@ -217,32 +231,39 @@ def build_time_chain(
     shop_address: str,
     schedule_date: date,
     blocks: List[BlockInterval],
-    day_start_hour: int = 8,
-) -> Tuple[List[dict], List[str]]:
-    """Assign new start/end along optimized visit order."""
+    day_start_hour: int = 9,
+) -> Tuple[List[dict], List[str], datetime]:
+    """
+    Assign new start/end along optimized visit order.
+
+    ``cursor`` is departure time from the previous location (shop at day start).
+    First appointment starts after drive time from shop, not at shop-departure time.
+    Buffer minutes apply between stops only, not before leaving the shop.
+    """
     warnings: List[str] = []
     if not ordered_stops:
-        return [], warnings
+        return [], warnings, shop_local_day_datetime(schedule_date, day_start_hour)
 
     cache: Dict[Tuple[str, str], int] = {}
-    cursor = datetime.combine(schedule_date, datetime.min.time()).replace(
-        hour=day_start_hour, minute=0, second=0, microsecond=0
-    )
-    cursor = _advance_past_blocks(cursor, blocks)
+    shop_departure = shop_local_day_datetime(schedule_date, day_start_hour)
+    shop_departure = _advance_past_blocks(shop_departure, blocks)
+    cursor = shop_departure
     previous_location = shop_address
     results: List[dict] = []
 
-    work_day_end = datetime.combine(schedule_date, datetime.min.time()).replace(
-        hour=WORK_DAY_END_HOUR, minute=0, second=0, microsecond=0
-    )
+    work_day_end = shop_local_day_datetime(schedule_date, WORK_DAY_END_HOUR)
 
     for sequence, stop in enumerate(ordered_stops, start=1):
         travel_min = _travel_minutes(previous_location, stop.address, cache)
-        cursor = cursor + timedelta(minutes=travel_min + BUFFER_MINUTES)
+        cursor = cursor + timedelta(minutes=travel_min)
+        if sequence > 1:
+            cursor = cursor + timedelta(minutes=BUFFER_MINUTES)
         cursor = _advance_past_blocks(cursor, blocks)
 
-        new_start = cursor
-        new_end = new_start + timedelta(minutes=stop.duration_minutes)
+        new_start = appointment_local_naive(cursor)
+        new_end = appointment_local_naive(
+            new_start + timedelta(minutes=stop.duration_minutes)
+        )
 
         if new_end > work_day_end:
             warnings.append(
@@ -273,15 +294,17 @@ def build_time_chain(
         cursor = new_end
         previous_location = stop.address
 
-    return results, warnings
+    return results, warnings, shop_departure
 
 
 def build_route_preview(
     db: Session,
     technician_id: uuid.UUID,
     schedule_date: date,
-    day_start_hour: int = 8,
+    day_start_hour: Optional[int] = None,
 ) -> dict:
+    if day_start_hour is None:
+        day_start_hour = _default_day_start_hour()
     shop = get_default_shop_address()
     stops, blocks, warnings = load_day_stops(db, technician_id, schedule_date)
 
@@ -309,10 +332,20 @@ def build_route_preview(
     travel_before = _total_route_minutes(original_order, shop, cache)
 
     ordered, method = optimize_stop_order(stops, shop)
-    stop_changes, chain_warnings = build_time_chain(
+    stop_changes, chain_warnings, shop_departure = build_time_chain(
         ordered, shop, schedule_date, blocks, day_start_hour
     )
     warnings.extend(chain_warnings)
+    if stop_changes:
+        first = stop_changes[0]
+        warnings.insert(
+            0,
+            (
+                f"Leave shop at {shop_departure.strftime('%I:%M %p').lstrip('0')} "
+                f"(~{first['travel_from_previous_minutes']} min drive to first stop at "
+                f"{first['new_start'].strftime('%I:%M %p').lstrip('0')})."
+            ),
+        )
 
     cache_after: Dict[Tuple[str, str], int] = {}
     ordered_stops = [
@@ -324,6 +357,8 @@ def build_route_preview(
         "technician_id": technician_id,
         "schedule_date": schedule_date,
         "shop_address": shop,
+        "shop_departure_at": shop_departure if stop_changes else None,
+        "day_start_hour": day_start_hour,
         "optimization_method": method,
         "stop_count": len(stop_changes),
         "warnings": warnings,
@@ -364,8 +399,8 @@ def apply_route_preview(
             )
             continue
 
-        new_start = item["new_start"]
-        new_end = item["new_end"]
+        new_start = appointment_local_naive(item["new_start"])
+        new_end = appointment_local_naive(item["new_end"])
         if new_end <= new_start:
             skipped.append(f"Invalid times for {appt_id}")
             continue

@@ -127,8 +127,9 @@ export default function RouteOptimizeModal({
           <strong>{technicianName || 'Technician'}</strong> · {dateLabel}
         </p>
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          Proposed visit order and times are estimated from shop start, drive time (Google Routes),
-          job duration, and calendar blocks. Review before applying.
+          Proposed times assume leaving the shop at 9:00 AM (shop local), then drive time to each
+          stop (Google Routes), job duration, 10 min between later stops, and calendar blocks.
+          The first visit is not scheduled at 9:00 — only departure from shop is. Review before applying.
         </p>
 
         {loading && (
