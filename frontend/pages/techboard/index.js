@@ -893,14 +893,15 @@ export default function TechDashboardTest() {
       <Head>
         <title>Tech Board | Atomic Repair</title>
         <meta name="description" content="Atomic Repair technician board" />
-        <meta name="theme-color" content="#22D3EE" />
+        <meta name="theme-color" content="#0A0F1E" />
+        <meta name="background-color" content="#0A0F1E" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Tech Board" />
-        <link rel="manifest" href="/manifest-techboard.json?v=2" />
+        <link rel="manifest" href="/manifest-techboard.json?v=3" />
         {/* iOS Add to Home Screen uses apple-touch-icon, not manifest icons */}
-        <link rel="apple-touch-icon" sizes="192x192" href="/atomwrenches-192x192.png?v=2" />
-        <link rel="apple-touch-icon" href="/atomwrenches-192x192.png?v=2" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/atomwrenches-192x192.png?v=3" />
+        <link rel="apple-touch-icon" href="/atomwrenches-192x192.png?v=3" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
