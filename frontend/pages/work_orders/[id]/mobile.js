@@ -2329,6 +2329,15 @@ function WorkOrderDetail() {
         className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2"
         style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
       >
+        {showCloseAction && (
+          <button
+            type="button"
+            onClick={() => setShowCloseModal(true)}
+            className="h-10 shrink-0 rounded-xl border border-emerald-500/40 bg-emerald-600/90 px-3 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
+          >
+            Close
+          </button>
+        )}
         <button
           type="button"
           onClick={() => !woClosed && setShowStatusModal(true)}
@@ -2341,15 +2350,6 @@ function WorkOrderDetail() {
         >
           Update status
         </button>
-        {showCloseAction && (
-          <button
-            type="button"
-            onClick={() => setShowCloseModal(true)}
-            className="h-10 shrink-0 rounded-xl border border-emerald-500/40 bg-emerald-600/90 px-3 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
-          >
-            Close
-          </button>
-        )}
         {activeTab === TABS.NOTES && (
           <>
             <button
