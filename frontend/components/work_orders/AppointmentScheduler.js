@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaUserClock, FaSave, FaTimes, FaCheckCircle, FaExclamationCircle, FaClock, FaCar } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaUserClock, FaSave, FaTimes, FaClock, FaCar } from 'react-icons/fa';
 import { format, addMinutes, subMinutes, parseISO, differenceInMinutes } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../ui/ErrorAlert';
+import FloatingBanner from '../ui/FloatingBanner';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 import { TextInput, SelectInput, TextareaInput } from '../ui/FormElements';
@@ -954,56 +955,46 @@ export default function AppointmentScheduler({
   // Update handleTimeWindowSelect to pass technicianDailySchedule
   const handleTimeWindowSelect = async (windowName, windowInfo) => {
     console.log('[AppointmentScheduler] handleTimeWindowSelect', { windowName, windowInfo });
-    
-    // === Add detailed logging here ===
-    console.log(`[AppointmentScheduler] Checking availability for ${windowName}. Received windowInfo:`, JSON.stringify(windowInfo, null, 2));
-    console.log(`[AppointmentScheduler] Type of windowInfo: ${typeof windowInfo}`);
-    if (windowInfo) {
-      console.log(`[AppointmentScheduler] windowInfo.available = ${windowInfo.available}`);
-      console.log(`[AppointmentScheduler] Type of windowInfo.available = ${typeof windowInfo.available}`);
-    } else {
-      console.log(`[AppointmentScheduler] windowInfo is null or undefined.`);
-    }
-    // === End of added logging ===
-    
-    if (windowInfo && windowInfo.available) {
-      if (!resolvedWorkOrderAddress) {
-        setError('This work order needs a service address before you can schedule. Edit the work order and set a property or service location.');
-        return;
-      }
-      if (!formData.assigned_technician_id) {
-        setError('Please select a technician before choosing a time window.');
-        return;
-      }
 
-      setFormData(prev => ({ ...prev, time_window: windowName }));
-      
-      if (formData.scheduled_start && !isLoadingSchedule) { // Also check isLoadingSchedule
-        // When editing, exclude the current appointment from the schedule so it doesn't block its own slot
-        const scheduleForCalc = currentAppointment
-          ? technicianDailySchedule.filter(a => a.id !== currentAppointment.id)
-          : technicianDailySchedule;
-        await calculateAppointmentTime(scheduleForCalc, windowName); 
-      } else if (isLoadingSchedule) {
-        setError("Technician schedule is loading, please wait...");
-      } else {
-        setError("Please select a date first.");
-      }
-    } else {
-      // Log the reason if available, otherwise provide a default message
-      const reason = windowInfo ? windowInfo.reason : 'Reason not provided';
-      console.error(`[AppointmentScheduler] Time window ${windowName} is considered unavailable. Reason: ${reason}`, windowInfo);
-      setError(`Time window ${windowName} is not available. Reason: ${reason || 'Availability check failed'}`);
-      
-      // Optionally clear the calculated time if the window is unavailable
-      setFormData(prev => ({
+    if (!windowName) {
+      setError(null);
+      setFormData((prev) => ({ ...prev, time_window: null }));
+      return;
+    }
+
+    if (!windowInfo?.available) {
+      const reason = windowInfo?.reason || 'Availability check failed';
+      console.error(`[AppointmentScheduler] Time window ${windowName} is unavailable. Reason: ${reason}`, windowInfo);
+      setError(`Time window ${windowName} is not available. Reason: ${reason}`);
+      setFormData((prev) => ({
         ...prev,
-        time_window: null, // Clear selection if unavailable
-        scheduled_start: null, // Maybe reset date/time if selection invalid?
-        scheduled_end: null,
+        time_window: null,
         travel_time_before: null,
-        travel_distance_before: null
+        travel_distance_before: null,
       }));
+      return;
+    }
+
+    if (!resolvedWorkOrderAddress) {
+      setError('This work order needs a service address before you can schedule. Edit the work order and set a property or service location.');
+      return;
+    }
+    if (!formData.assigned_technician_id) {
+      setError('Please select a technician before choosing a time window.');
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, time_window: windowName }));
+
+    if (formData.scheduled_start && !isLoadingSchedule) {
+      const scheduleForCalc = currentAppointment
+        ? technicianDailySchedule.filter((a) => a.id !== currentAppointment.id)
+        : technicianDailySchedule;
+      await calculateAppointmentTime(scheduleForCalc, windowName);
+    } else if (isLoadingSchedule) {
+      setError('Technician schedule is loading, please wait...');
+    } else {
+      setError('Please select a date first.');
     }
   };
 
@@ -1674,7 +1665,7 @@ export default function AppointmentScheduler({
     return <LoadingSpinner />;
   }
 
-  if (error && appointments.length === 0) {
+  if (error && appointments.length === 0 && !showForm) {
     return <ErrorAlert message={error} onRetry={fetchAppointments} />;
   }
 
@@ -1802,58 +1793,6 @@ export default function AppointmentScheduler({
       {/* List View or Calendar View - continue with existing code */}
       {viewMode !== 'auto' && viewMode !== 'window' && (
         <div className={isMobile ? 'min-w-0' : 'px-6 py-5'}>
-          {/* Success message */}
-          {successMessage && (
-            <div className="mb-4 rounded-md bg-green-50 p-4 dark:bg-green-900/30">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <FaCheckCircle className="h-5 w-5 text-green-400 dark:text-green-300" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-green-800 dark:text-green-200">{successMessage}</p>
-                </div>
-                <div className="ml-auto pl-3">
-                  <div className="-mx-1.5 -my-1.5">
-                    <button
-                      type="button"
-                      onClick={() => setSuccessMessage(null)}
-                      className="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50 dark:bg-transparent dark:text-green-300 dark:hover:bg-green-900/50"
-                    >
-                      <span className="sr-only">Dismiss</span>
-                      <FaTimes className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {/* Error message */}
-          {error && (
-            <div className="mb-4 rounded-md bg-red-50 p-4 dark:bg-red-900/30">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <FaExclamationCircle className="h-5 w-5 text-red-400 dark:text-red-300" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-red-800 dark:text-red-200">{error}</p>
-                </div>
-                <div className="ml-auto pl-3">
-                  <div className="-mx-1.5 -my-1.5">
-                    <button
-                      type="button"
-                      onClick={() => setError(null)}
-                      className="inline-flex rounded-md bg-red-50 p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-red-50 dark:bg-transparent dark:text-red-300 dark:hover:bg-red-900/50"
-                    >
-                      <span className="sr-only">Dismiss</span>
-                      <FaTimes className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
           {/* Add appointment form */}
           {showForm && (
             <div
@@ -2628,6 +2567,18 @@ export default function AppointmentScheduler({
           travelDistanceAfter={currentAppointment.travel_distance_after}
         />
       )}
+
+      <FloatingBanner
+        message={error}
+        variant="error"
+        onDismiss={() => setError(null)}
+      />
+      <FloatingBanner
+        message={successMessage}
+        variant="success"
+        onDismiss={() => setSuccessMessage(null)}
+        autoDismissMs={5000}
+      />
     </div>
   );
 } 

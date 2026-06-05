@@ -103,7 +103,7 @@ export default function TimeWindowSelector({
       newAvailabilities[selectedTimeWindow]?.available === false
     ) {
       setSelectedTimeWindow(null);
-      onSelectRef.current?.(null);
+      onSelectRef.current?.(null, null);
     }
   }, [
     selectedDate,

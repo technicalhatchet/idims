@@ -3,6 +3,7 @@ import { addDays, format, parseISO } from 'date-fns';
 import { formatScheduleForApi, formatScheduleTime } from '../../utils/schedule-time';
 import { useRouter } from 'next/router';
 import Modal from '../ui/Modal';
+import FloatingBanner from '../ui/FloatingBanner';
 import Button from '../ui/Button';
 import { TextInput } from '../ui/FormElements';
 import TimeWindowSelector from './TimeWindowSelector';
@@ -213,6 +214,7 @@ export default function WorkOrderRedoModal({
       : null;
 
   return (
+    <>
     <Modal
       isOpen={isOpen}
       onClose={onClose}
@@ -277,10 +279,6 @@ export default function WorkOrderRedoModal({
           )}
         </div>
 
-        {error && (
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-        )}
-
         <div
           className={
             isMobile
@@ -309,5 +307,13 @@ export default function WorkOrderRedoModal({
         </div>
       </div>
     </Modal>
+    {isOpen && (
+      <FloatingBanner
+        message={error}
+        variant="error"
+        onDismiss={() => setError(null)}
+      />
+    )}
+    </>
   );
 }

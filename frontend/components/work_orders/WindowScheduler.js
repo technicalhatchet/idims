@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock, FaUser, FaSave, FaTimes } from 'react-icons/fa';
 import Button from '../ui/Button';
+import FloatingBanner from '../ui/FloatingBanner';
 import TimeWindowSelector from './TimeWindowSelector';
 import TravelTimeInfo from './TravelTimeInfo';
 import { findNextAvailableSlot } from '../../utils/appointment-scheduling';
@@ -73,8 +74,10 @@ export default function WindowScheduler({
   // Handle time window selection
   const handleWindowSelect = (window) => {
     setSelectedWindow(window);
-    // Clear any previously calculated slot when window changes
     setCalculatedSlot(null);
+    if (!window) {
+      setError(null);
+    }
   };
   
   // Calculate the appointment time based on selected window
@@ -190,22 +193,6 @@ export default function WindowScheduler({
       <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-6 flex items-center">
         <FaCalendarAlt className="mr-2" /> Schedule by Time Window
       </h2>
-      
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 rounded-md">
-          <p className="flex items-center">
-            <FaTimes className="mr-2" /> {error}
-          </p>
-        </div>
-      )}
-      
-      {successMessage && (
-        <div className="mb-4 p-3 bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 rounded-md">
-          <p className="flex items-center">
-            <FaSave className="mr-2" /> {successMessage}
-          </p>
-        </div>
-      )}
       
       <div className="space-y-6">
         {/* Date Selection */}
@@ -351,6 +338,18 @@ export default function WindowScheduler({
           </div>
         )}
       </div>
+
+      <FloatingBanner
+        message={error}
+        variant="error"
+        onDismiss={() => setError(null)}
+      />
+      <FloatingBanner
+        message={successMessage}
+        variant="success"
+        onDismiss={() => setSuccessMessage(null)}
+        autoDismissMs={5000}
+      />
     </div>
   );
 } 
