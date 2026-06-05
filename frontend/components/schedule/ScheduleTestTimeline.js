@@ -744,10 +744,17 @@ export default function ScheduleTestTimeline({
 
   const connectors = useMemo(() => {
     const out = [];
-    for (let i = 0; i < prepared.length - 1; i += 1) {
+    for (let i = 0; i < prepared.length; i += 1) {
       const a = prepared[i];
-      const b = prepared[i + 1];
-      if (isCalendarBlockEvent(a) || isCalendarBlockEvent(b)) continue;
+      if (isCalendarBlockEvent(a)) continue;
+
+      let nextIdx = i + 1;
+      while (nextIdx < prepared.length && isCalendarBlockEvent(prepared[nextIdx])) {
+        nextIdx += 1;
+      }
+      if (nextIdx >= prepared.length) break;
+
+      const b = prepared[nextIdx];
       if (a.technician_id && a.technician_id === b.technician_id) {
         const gapMins = differenceInMinutes(b._start, a._end);
         const driveSec = Number(b.travel_time_before);
@@ -1213,7 +1220,7 @@ export default function ScheduleTestTimeline({
                 <motion.button
                   key={apt.id ?? `block-${apt.start}-${idx}`}
                   type="button"
-                  className="sched-hud-apt absolute left-3 text-left rounded-[12px] overflow-hidden z-[5] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/25 group"
+                  className="sched-hud-apt absolute left-3 text-left rounded-[14px] overflow-hidden z-[5] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/25 group"
                   style={{
                     top: `${apt.topPct}%`,
                     height: `${apt.heightPct}%`,
@@ -1226,18 +1233,23 @@ export default function ScheduleTestTimeline({
                   onClick={() => onSelectEvent?.(apt)}
                 >
                   <div
-                    className="relative flex h-full w-full rounded-[11px] px-2.5 py-2 gap-2 items-center border border-dashed"
+                    className="relative sched-hud-inner flex h-full w-full rounded-[13px] overflow-hidden"
                     style={{
                       background: `linear-gradient(180deg, ${apt.blockAccent}18, rgba(8,12,22,0.92))`,
-                      borderColor: `${apt.blockAccent}55`,
+                      border: `1px dashed ${apt.blockAccent}55`,
                       boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 0 12px ${apt.blockAccent}22`,
                     }}
                   >
                     <div
-                      className="w-1 self-stretch rounded-full shrink-0"
-                      style={{ background: apt.blockAccent, boxShadow: `0 0 10px ${apt.blockAccent}` }}
+                      className="flex-shrink-0 h-full self-stretch ml-1 rounded-full"
+                      style={{
+                        width: 5,
+                        minHeight: '100%',
+                        background: apt.blockAccent,
+                        boxShadow: `0 0 18px ${apt.blockAccent}, 0 0 8px ${apt.blockAccent}99`,
+                      }}
                     />
-                    <div className="min-w-0 flex-1">
+                    <div className="flex-1 min-w-0 py-2 pl-2 pr-2 flex flex-col justify-center gap-0.5">
                       <p className="text-[11px] font-bold uppercase tracking-[0.12em] truncate" style={{ color: apt.blockAccent }}>
                         {typeLabel}
                       </p>
