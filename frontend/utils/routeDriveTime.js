@@ -31,6 +31,31 @@ function getStopAddress(appt) {
   return resolveAppointmentLocation(appt);
 }
 
+/**
+ * Stable fingerprint for today's route — only changes when stops, addresses, or stored legs do.
+ */
+export function buildTodayRouteSignature(
+  appointments = [],
+  shopAddress = DEFAULT_SHOP_ADDRESS
+) {
+  const sorted = sortAppointmentsByTime(appointments);
+  const stopParts = sorted.map((a) => {
+    const id = String(a.id || a.work_order_id || '');
+    const addr = String(getStopAddress(a) || '').trim().toLowerCase();
+    const tb = a.travel_time_before ?? '';
+    const db = a.travel_distance_before ?? '';
+    const status = a.status || '';
+    return `${id}@${addr}|tb:${tb}|db:${db}|s:${status}`;
+  });
+  return `${String(shopAddress || DEFAULT_SHOP_ADDRESS).trim().toLowerCase()}::${stopParts.join('>')}`;
+}
+
+export function buildNextJobDriveSignature(routeSignature, targetAppt) {
+  if (!targetAppt) return '';
+  const id = String(targetAppt.id || targetAppt.work_order_id || '');
+  return `${routeSignature}::next:${id}`;
+}
+
 function legFromStored(timeSec, distM) {
   const time = timeSec != null ? Number(timeSec) : null;
   const dist = distM != null ? Number(distM) : null;
@@ -83,7 +108,8 @@ export function sumDriveTimeBetweenStops(appointments = []) {
  */
 export async function estimateRouteDriveTime(
   appointments = [],
-  shopAddress = DEFAULT_SHOP_ADDRESS
+  shopAddress = DEFAULT_SHOP_ADDRESS,
+  options = {}
 ) {
   const sorted = sortAppointmentsByTime(appointments);
   const addresses = sorted.map(getStopAddress);
@@ -106,8 +132,9 @@ export async function estimateRouteDriveTime(
     }
     if (!origin || !destination) return;
 
-    const { travelTime, distance } = await calculateTravelTime(origin, destination);
-    const fromApi = legFromStored(travelTime, distance);
+    const result = await calculateTravelTime(origin, destination, options);
+    if (!result) return;
+    const fromApi = legFromStored(result.travelTime, result.distance);
     if (fromApi) {
       totalSeconds += fromApi.seconds;
       legCount += 1;
@@ -147,7 +174,8 @@ export async function estimateRouteDriveTime(
 export async function estimateDriveSecondsToAppointment(
   targetAppt,
   appointments = [],
-  shopAddress = DEFAULT_SHOP_ADDRESS
+  shopAddress = DEFAULT_SHOP_ADDRESS,
+  options = {}
 ) {
   if (!targetAppt) return null;
 
@@ -165,8 +193,8 @@ export async function estimateDriveSecondsToAppointment(
 
   if (idx === 0) {
     if (targetAddr) {
-      const { travelTime } = await calculateTravelTime(shop, targetAddr);
-      if (travelTime > 0) return travelTime;
+      const result = await calculateTravelTime(shop, targetAddr, options);
+      if (result?.travelTime > 0) return result.travelTime;
     }
     const fallback = legFromStored(target.travel_time_before, target.travel_distance_before);
     return fallback?.seconds ?? null;
@@ -177,8 +205,8 @@ export async function estimateDriveSecondsToAppointment(
 
   const prevAddr = getStopAddress(sorted[idx - 1]);
   if (prevAddr && targetAddr) {
-    const { travelTime } = await calculateTravelTime(prevAddr, targetAddr);
-    if (travelTime > 0) return travelTime;
+    const result = await calculateTravelTime(prevAddr, targetAddr, options);
+    if (result?.travelTime > 0) return result.travelTime;
   }
   return null;
 }

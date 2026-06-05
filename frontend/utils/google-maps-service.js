@@ -44,17 +44,71 @@ for (const key in process.env) {
 
 // Cache for previously calculated distances/times to avoid redundant API calls
 const distanceCache = new Map();
+const inFlightRequests = new Map();
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const SESSION_STORAGE_KEY = 'idims_travel_cache_v1';
+const MAX_SESSION_ENTRIES = 80;
+let sessionCacheHydrated = false;
 
-// Helper function to encode addresses for URL parameters
-const encodeAddress = (address) => {
-  // Check if address is a string
-  if (typeof address !== 'string') {
-    console.warn('Address is not a string:', address);
-    // Convert to string if possible, or use empty string
-    address = address ? String(address) : '';
+function normalizeCacheKey(origin, destination) {
+  return `${String(origin || '').trim().toLowerCase()}|${String(destination || '').trim().toLowerCase()}`;
+}
+
+function hydrateSessionCache() {
+  if (sessionCacheHydrated || typeof sessionStorage === 'undefined') return;
+  sessionCacheHydrated = true;
+  try {
+    const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    if (!raw) return;
+    const entries = JSON.parse(raw);
+    const now = Date.now();
+    Object.entries(entries).forEach(([key, val]) => {
+      if (val?.cachedAt && now - val.cachedAt < CACHE_TTL_MS) {
+        distanceCache.set(key, val);
+      }
+    });
+  } catch {
+    // ignore corrupt session cache
   }
-  return encodeURIComponent(address.replace(/\s+/g, '+'));
-};
+}
+
+function persistSessionCache() {
+  if (typeof sessionStorage === 'undefined') return;
+  try {
+    const entries = {};
+    const sorted = [...distanceCache.entries()]
+      .sort((a, b) => (b[1].cachedAt || 0) - (a[1].cachedAt || 0))
+      .slice(0, MAX_SESSION_ENTRIES);
+    sorted.forEach(([key, val]) => {
+      entries[key] = val;
+    });
+    sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(entries));
+  } catch {
+    // quota or private mode — memory cache still works
+  }
+}
+
+function getCachedTravel(cacheKey) {
+  hydrateSessionCache();
+  const hit = distanceCache.get(cacheKey);
+  if (!hit) return null;
+  if (Date.now() - hit.cachedAt > CACHE_TTL_MS) {
+    distanceCache.delete(cacheKey);
+    return null;
+  }
+  return { travelTime: hit.travelTime, distance: hit.distance };
+}
+
+function setCachedTravel(cacheKey, result) {
+  distanceCache.set(cacheKey, { ...result, cachedAt: Date.now() });
+  persistSessionCache();
+}
+
+/** True when the browser tab is in the foreground (safe to hit Routes API). */
+export function isTravelApiAllowed() {
+  if (typeof document === 'undefined') return true;
+  return document.visibilityState === 'visible';
+}
 
 /**
  * Load the Google Maps API script dynamically
@@ -83,96 +137,90 @@ export const loadGoogleMapsAPI = () => {
 };
 
 /**
- * Generate a cache key for storing/retrieving distance calculations
- * @param {string} origin - Origin address
- * @param {string} destination - Destination address
- * @returns {string} Cache key
+ * Calculate travel time and distance between two addresses.
+ * Results are cached in memory + sessionStorage; duplicate in-flight legs share one request.
+ *
+ * @param {string} originAddress
+ * @param {string} destinationAddress
+ * @param {{ skipIfHidden?: boolean }} [options]
+ * @returns {Promise<{travelTime: number, distance: number} | null>}
  */
-const generateCacheKey = (origin, destination) => {
-  return `${origin}|${destination}`;
-};
+export async function calculateTravelTime(originAddress, destinationAddress, options = {}) {
+  const { skipIfHidden = false } = options;
 
-/**
- * Calculate travel time and distance between two addresses
- * 
- * @param {string} originAddress - The starting address
- * @param {string} destinationAddress - The destination address
- * @returns {Promise<{travelTime: number, distance: number}>} - Travel time in seconds and distance in meters
- */
-export async function calculateTravelTime(originAddress, destinationAddress) {
-  try {
-    // Check if we have API key configured
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    if (!apiKey) {
-      console.warn('Google Maps API key not configured');
-      // Return estimated values if API key is not configured
-      return {
-        travelTime: 1800, // 30 minutes in seconds
-        distance: 15000 // 15 km in meters
-      };
-    }
+  if (!originAddress || !destinationAddress) {
+    throw new Error('Origin and destination addresses are required');
+  }
 
-    if (!originAddress || !destinationAddress) {
-      throw new Error('Origin and destination addresses are required');
-    }
+  const cacheKey = normalizeCacheKey(originAddress, destinationAddress);
+  const cached = getCachedTravel(cacheKey);
+  if (cached) return cached;
 
-    // Encode addresses for URL
-    const origin = encodeAddress(originAddress);
-    const destination = encodeAddress(destinationAddress);
+  if (skipIfHidden && !isTravelApiAllowed()) {
+    return null;
+  }
 
-    // Backend uses Google Routes API (traffic-unaware drive routing)
-
-    // Define the backend API endpoint URL
-    const backendHost = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
-    const backendEndpoint = `${backendHost}/api/calculate-distance`; 
-    
-    console.log(`Calling backend proxy at: ${backendEndpoint}`);
-
-    // Make API request through our backend proxy to avoid exposing API key in browser
-    const response = await fetch(backendEndpoint, { // Use the backend endpoint
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        origin: originAddress,
-        destination: destinationAddress
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      // Handle HTTP errors (e.g., 400, 500)
-      const errorDetail = data?.detail || response.statusText;
-      console.error(`Backend error calculating travel time: ${response.status} - ${errorDetail}`);
-      throw new Error(`Failed to calculate travel time: ${errorDetail}`);
-    }
-
-    // Check if the backend returned the expected fields directly
-    if (typeof data.travelTime === 'number' && typeof data.distance === 'number') {
-      // Successfully received data from backend
-      return {
-        travelTime: data.travelTime, // Time in seconds
-        distance: data.distance    // Distance in meters
-      };
-    } else {
-      // If the backend response format is unexpected
-      console.warn('Backend proxy returned unexpected data format:', data);
-      // Fallback to default values or throw error
-      return {
-        travelTime: 1800, // 30 minutes default in seconds
-        distance: 15000 // 15 km default in meters
-      };
-    }
-  } catch (error) {
-    console.error('Error calculating travel time:', error);
-    // Return estimated values on error
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  if (!apiKey) {
+    console.warn('Google Maps API key not configured');
     return {
-      travelTime: 1800, // 30 minutes in seconds
-      distance: 15000 // 15 km in meters
+      travelTime: 1800,
+      distance: 15000,
     };
   }
+
+  const existing = inFlightRequests.get(cacheKey);
+  if (existing) return existing;
+
+  const backendHost = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
+  const backendEndpoint = `${backendHost}/api/calculate-distance`;
+
+  const request = (async () => {
+    try {
+      const response = await fetch(backendEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origin: originAddress,
+          destination: destinationAddress,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorDetail = data?.detail || response.statusText;
+        console.error(`Backend error calculating travel time: ${response.status} - ${errorDetail}`);
+        throw new Error(`Failed to calculate travel time: ${errorDetail}`);
+      }
+
+      if (typeof data.travelTime === 'number' && typeof data.distance === 'number') {
+        const result = {
+          travelTime: data.travelTime,
+          distance: data.distance,
+        };
+        setCachedTravel(cacheKey, result);
+        return result;
+      }
+
+      console.warn('Backend proxy returned unexpected data format:', data);
+      return {
+        travelTime: 1800,
+        distance: 15000,
+      };
+    } catch (error) {
+      console.error('Error calculating travel time:', error);
+      return {
+        travelTime: 1800,
+        distance: 15000,
+      };
+    } finally {
+      inFlightRequests.delete(cacheKey);
+    }
+  })();
+
+  inFlightRequests.set(cacheKey, request);
+  return request;
 }
 
 /**

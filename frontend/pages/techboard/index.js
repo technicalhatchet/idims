@@ -18,8 +18,13 @@ import {
   sumDriveTimeBetweenStops,
   estimateRouteDriveTime,
   estimateDriveSecondsToAppointment,
+  buildTodayRouteSignature,
+  buildNextJobDriveSignature,
   formatDriveDuration,
 } from '../../utils/routeDriveTime';
+import { isTravelApiAllowed } from '../../utils/google-maps-service';
+
+const ROUTE_DRIVE_DEBOUNCE_MS = 500;
 import {
   pickEnRouteSmsPhone,
   buildEnRouteSmsBody,
@@ -823,6 +828,29 @@ export default function TechDashboardTest() {
     [schedule]
   );
 
+  const routeSignature = useMemo(
+    () => buildTodayRouteSignature(todayAppts),
+    [todayAppts]
+  );
+
+  const nextJob = pickNextJobToday(todayAppts);
+
+  const nextJobDriveSignature = useMemo(
+    () => buildNextJobDriveSignature(routeSignature, nextJob),
+    [routeSignature, nextJob]
+  );
+
+  const [visibilityTick, setVisibilityTick] = useState(0);
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        setVisibilityTick((t) => t + 1);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     const sync = sumDriveTimeBetweenStops(todayAppts);
@@ -834,45 +862,57 @@ export default function TechDashboardTest() {
       };
     }
 
-    (async () => {
-      try {
-        const estimated = await estimateRouteDriveTime(todayAppts);
-        if (!cancelled) setRouteDrive(estimated);
-      } catch (err) {
-        console.warn('Route drive time estimate failed:', err);
-      }
-    })();
+    const timeoutId = setTimeout(() => {
+      if (!isTravelApiAllowed()) return;
+
+      (async () => {
+        try {
+          const estimated = await estimateRouteDriveTime(todayAppts, undefined, {
+            skipIfHidden: true,
+          });
+          if (!cancelled && estimated) setRouteDrive(estimated);
+        } catch (err) {
+          console.warn('Route drive time estimate failed:', err);
+        }
+      })();
+    }, ROUTE_DRIVE_DEBOUNCE_MS);
 
     return () => {
       cancelled = true;
+      clearTimeout(timeoutId);
     };
-  }, [todayAppts, isOnline]);
-
-  const nextJob = pickNextJobToday(todayAppts);
+  }, [routeSignature, isOnline, visibilityTick]);
 
   useEffect(() => {
     let cancelled = false;
-    if (!nextJob) {
+    if (!nextJob || !nextJobDriveSignature) {
       setNextJobDriveSec(null);
       return () => {
         cancelled = true;
       };
     }
 
-    (async () => {
-      try {
-        const sec = await estimateDriveSecondsToAppointment(nextJob, todayAppts);
-        if (!cancelled) setNextJobDriveSec(sec);
-      } catch (err) {
-        console.warn('Next job drive estimate failed:', err);
-        if (!cancelled) setNextJobDriveSec(null);
-      }
-    })();
+    const timeoutId = setTimeout(() => {
+      if (!isTravelApiAllowed()) return;
+
+      (async () => {
+        try {
+          const sec = await estimateDriveSecondsToAppointment(nextJob, todayAppts, undefined, {
+            skipIfHidden: true,
+          });
+          if (!cancelled) setNextJobDriveSec(sec);
+        } catch (err) {
+          console.warn('Next job drive estimate failed:', err);
+          if (!cancelled) setNextJobDriveSec(null);
+        }
+      })();
+    }, ROUTE_DRIVE_DEBOUNCE_MS);
 
     return () => {
       cancelled = true;
+      clearTimeout(timeoutId);
     };
-  }, [nextJob, todayAppts]);
+  }, [nextJobDriveSignature, isOnline, visibilityTick]);
 
   const techFirstName = headerReady
     ? (user?.given_name || user?.name?.split(' ')[0] || 'your technician')
