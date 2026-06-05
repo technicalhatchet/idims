@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import MapsAddressLink from '../../../components/ui/MapsAddressLink';
@@ -25,8 +25,10 @@ import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
-import WorkOrderLifecycleBar from '../../../components/work_orders/WorkOrderLifecycleBar';
 import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
+import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
+import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
+import { reopenWorkOrder } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
 import WorkOrderExpensesPanel from '../../../components/work_orders/WorkOrderExpensesPanel';
@@ -44,7 +46,7 @@ import {
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import { useUserRole } from '../../../utils/auth0-helpers';
-import { isWorkOrderClosed, canEditWorkOrderBilling } from '../../../utils/workOrderPermissions';
+import { isWorkOrderClosed, canEditWorkOrderBilling, canShowCloseOrderAction, canReopenWorkOrder } from '../../../utils/workOrderPermissions';
 
 // Tabs for the detail page
 const TABS = {
@@ -124,6 +126,8 @@ function WorkOrderDetail() {
   const [showRepairOutcomePrompt, setShowRepairOutcomePrompt] = useState(false);
   const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const [showCloseModal, setShowCloseModal] = useState(false);
+  const [lifecycleBusy, setLifecycleBusy] = useState(false);
   const { theme } = useTheme();
 
   // Fetch work order details
@@ -131,6 +135,14 @@ function WorkOrderDetail() {
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
   const billingEditable = useMemo(
     () => canEditWorkOrderBilling({ role, workOrder }),
+    [role, workOrder]
+  );
+  const showCloseAction = useMemo(
+    () => canShowCloseOrderAction({ role, workOrder }),
+    [role, workOrder]
+  );
+  const showReopenAction = useMemo(
+    () => canReopenWorkOrder({ role, workOrder }),
     [role, workOrder]
   );
   const { isOnline } = useOnlineStatus();
@@ -372,6 +384,20 @@ function WorkOrderDetail() {
       );
     }
   };
+
+  const handleReopen = async () => {
+    if (!window.confirm('Reopen this work order for admin edits?')) return;
+    setMobileMoreOpen(false);
+    setLifecycleBusy(true);
+    try {
+      await reopenWorkOrder(id);
+      await refetch();
+    } catch (err) {
+      window.alert(err.message || 'Reopen failed');
+    } finally {
+      setLifecycleBusy(false);
+    }
+  };
   
   // Handle status update
   const handleStatusUpdate = async () => {
@@ -569,6 +595,7 @@ function WorkOrderDetail() {
                           #{workOrder.order_number}
                         </h1>
                         <StatusBadge status={workOrder.is_closed ? 'closed' : workOrder.status} />
+                        <WorkOrderRedoParentLink workOrder={workOrder} variant="mobile" />
                         {user && (
                           <WorkOrderRedoBar
                             compact
@@ -629,6 +656,16 @@ function WorkOrderDetail() {
                     <FaExclamationTriangle className="opacity-70" /> Update status
                   </button>
                   )}
+                  {showReopenAction && (
+                    <button
+                      type="button"
+                      className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5 disabled:opacity-50"
+                      disabled={lifecycleBusy}
+                      onClick={handleReopen}
+                    >
+                      <FaLock className="opacity-70" /> Reopen order
+                    </button>
+                  )}
                   {isManager && (
                     <button
                       type="button"
@@ -649,14 +686,17 @@ function WorkOrderDetail() {
 
                   {/* Desktop actions */}
                   <div className="hidden md:flex flex-wrap gap-2">
+                    {!woClosed && (
                     <Link href={`/work_orders/${id}/womobile_edit`} className="btn-primary flex items-center h-10" title="Edit work order">
                       <FaEdit className="mr-2" />
                       Edit
                     </Link>
+                    )}
                     <button type="button" onClick={() => window.print()} className="btn-white flex items-center h-10" title="Print work order">
                       <FaPrint className="mr-2" />
                       Print
                     </button>
+                    {!woClosed && (
                     <button
                       type="button"
                       onClick={() => setShowStatusModal(true)}
@@ -665,6 +705,28 @@ function WorkOrderDetail() {
                     >
                       Update Status
                     </button>
+                    )}
+                    {showCloseAction && (
+                      <button
+                        type="button"
+                        onClick={() => setShowCloseModal(true)}
+                        className="btn-primary flex items-center h-10"
+                        title="Close work order"
+                      >
+                        Close Order
+                      </button>
+                    )}
+                    {showReopenAction && (
+                      <button
+                        type="button"
+                        onClick={handleReopen}
+                        disabled={lifecycleBusy}
+                        className="btn-secondary flex items-center h-10"
+                        title="Reopen for admin edits"
+                      >
+                        Reopen
+                      </button>
+                    )}
                     {isManager && (
                       <button
                         type="button"
@@ -683,13 +745,6 @@ function WorkOrderDetail() {
           </div>
         </div>
 
-        <WorkOrderLifecycleBar
-          variant="mobile"
-          workOrder={workOrder}
-          workOrderId={id}
-          user={user}
-          onRefresh={refetch}
-        />
 
         {user && (
           <WorkOrderRedoBar
@@ -2276,11 +2331,25 @@ function WorkOrderDetail() {
       >
         <button
           type="button"
-          onClick={() => setShowStatusModal(true)}
-          className="flex-1 h-10 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_0_20px_rgba(34,211,238,0.25)] active:scale-[0.98]"
+          onClick={() => !woClosed && setShowStatusModal(true)}
+          disabled={woClosed}
+          className={`flex-1 h-10 rounded-xl text-xs font-semibold uppercase tracking-wide active:scale-[0.98] ${
+            woClosed
+              ? 'bg-white/5 text-gray-500 cursor-not-allowed'
+              : 'bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-[0_0_20px_rgba(34,211,238,0.25)]'
+          }`}
         >
           Update status
         </button>
+        {showCloseAction && (
+          <button
+            type="button"
+            onClick={() => setShowCloseModal(true)}
+            className="h-10 shrink-0 rounded-xl border border-emerald-500/40 bg-emerald-600/90 px-3 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
+          >
+            Close
+          </button>
+        )}
         {activeTab === TABS.NOTES && (
           <>
             <button
@@ -2332,6 +2401,15 @@ function WorkOrderDetail() {
         open={showRepairOutcomePrompt}
         onClose={() => setShowRepairOutcomePrompt(false)}
         onAddOutcome={openRepairOutcomeNote}
+        variant="mobile"
+      />
+
+      <WorkOrderCloseModal
+        isOpen={showCloseModal}
+        onClose={() => setShowCloseModal(false)}
+        workOrderId={id}
+        isClosed={Boolean(workOrder?.is_closed)}
+        onSuccess={refetch}
         variant="mobile"
       />
 

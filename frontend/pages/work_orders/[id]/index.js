@@ -23,14 +23,21 @@ import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrder
 import { formatAppointmentStatus, hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
 import WorkOrderDetailsAppointmentsList from '../../../components/work_orders/WorkOrderDetailsAppointmentsList';
-import WorkOrderLifecycleBar from '../../../components/work_orders/WorkOrderLifecycleBar';
 import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
+import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
+import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
+import { reopenWorkOrder } from '../../../services/api/workOrdersApi';
 import {
   computeWorkOrderDueToday,
   isPartLinePaid,
   round2,
 } from '../../../utils/workOrderBilling';
-import { isWorkOrderClosed, canEditWorkOrderBilling } from '../../../utils/workOrderPermissions';
+import {
+  isWorkOrderClosed,
+  canEditWorkOrderBilling,
+  canShowCloseOrderAction,
+  canReopenWorkOrder,
+} from '../../../utils/workOrderPermissions';
 import { useUserRole } from '../../../utils/auth0-helpers';
 
 // Tabs for the detail page
@@ -67,6 +74,8 @@ function WorkOrderDetail() {
   const [isSavingPrice, setIsSavingPrice] = useState(false);
   const [showServiceProperty, setShowServiceProperty] = useState(false);
   const [showAllProperties, setShowAllProperties] = useState(false);
+  const [showCloseModal, setShowCloseModal] = useState(false);
+  const [lifecycleBusy, setLifecycleBusy] = useState(false);
   const { theme } = useTheme();
   const { role } = useUserRole();
   
@@ -85,6 +94,14 @@ function WorkOrderDetail() {
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
   const billingEditable = useMemo(
     () => canEditWorkOrderBilling({ role, workOrder }),
+    [role, workOrder]
+  );
+  const showCloseAction = useMemo(
+    () => canShowCloseOrderAction({ role, workOrder }),
+    [role, workOrder]
+  );
+  const showReopenAction = useMemo(
+    () => canReopenWorkOrder({ role, workOrder }),
     [role, workOrder]
   );
 
@@ -174,6 +191,19 @@ function WorkOrderDetail() {
     } catch (error) {
       console.error('Error deleting work order:', error);
       // Error is shown by the mutation hook
+    }
+  };
+
+  const handleReopen = async () => {
+    if (!window.confirm('Reopen this work order for admin edits?')) return;
+    setLifecycleBusy(true);
+    try {
+      await reopenWorkOrder(id);
+      await refetch();
+    } catch (err) {
+      window.alert(err.message || 'Reopen failed');
+    } finally {
+      setLifecycleBusy(false);
     }
   };
   
@@ -268,6 +298,7 @@ function WorkOrderDetail() {
             <div className="flex items-center">
               <h1 className="text-2xl font-bold mr-3 text-gray-900 dark:text-white">Work Order: {workOrder.order_number}</h1>
               <StatusBadge status={workOrder.is_closed ? 'closed' : workOrder.status} />
+              <WorkOrderRedoParentLink workOrder={workOrder} />
               {user && (
                 <WorkOrderRedoBar
                   compact
@@ -303,17 +334,31 @@ function WorkOrderDetail() {
               </button>
             </div>
             )}
+            {showCloseAction && (
+              <button
+                type="button"
+                onClick={() => setShowCloseModal(true)}
+                className="btn-primary flex items-center"
+                title="Close work order"
+              >
+                Close Order
+              </button>
+            )}
+            {showReopenAction && (
+              <button
+                type="button"
+                onClick={handleReopen}
+                disabled={lifecycleBusy}
+                className="btn-secondary flex items-center"
+                title="Reopen for admin edits"
+              >
+                Reopen
+              </button>
+            )}
           </div>
         </div>
 
         {/* {woClosed && <WorkOrderReadOnlyBanner className="mb-4" />} */}
-
-        <WorkOrderLifecycleBar
-          workOrder={workOrder}
-          workOrderId={id}
-          user={user}
-          onRefresh={refetch}
-        />
 
         {user && (
           <WorkOrderRedoBar
@@ -1502,6 +1547,14 @@ function WorkOrderDetail() {
             </div>
           </div>
         </Modal>
+
+        <WorkOrderCloseModal
+          isOpen={showCloseModal}
+          onClose={() => setShowCloseModal(false)}
+          workOrderId={id}
+          isClosed={Boolean(workOrder?.is_closed)}
+          onSuccess={refetch}
+        />
       </div>
     </>
   );

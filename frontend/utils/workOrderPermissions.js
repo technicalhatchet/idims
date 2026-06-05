@@ -94,3 +94,39 @@ export function canCloseWorkOrder({ role, workOrder }) {
   if (String(workOrder.status || '').toLowerCase() !== 'completed') return false;
   return isManagerOrAdminRole(role) || role === 'technician';
 }
+
+const TERMINAL_APPOINTMENT_STATUSES = new Set([
+  'completed',
+  'completed_pending_payment',
+  'failed',
+  'redo',
+  'refund',
+  'unreachable',
+  'canceled',
+  'cancelled',
+]);
+
+/** Non-canceled visits are in a terminal state (done, redo, refund, etc.). */
+export function allAppointmentsTerminal(workOrder) {
+  const appts = workOrder?.appointments || [];
+  const active = appts.filter((a) => {
+    const s = String(a.status || '').toLowerCase();
+    return s !== 'canceled' && s !== 'cancelled';
+  });
+  if (active.length === 0) return true;
+  return active.every((a) =>
+    TERMINAL_APPOINTMENT_STATUSES.has(String(a.status || '').toLowerCase())
+  );
+}
+
+/** Show Close when WO is completed, not closed, role allowed, and visits are wrapped up. */
+export function canShowCloseOrderAction({ role, workOrder }) {
+  if (!canCloseWorkOrder({ role, workOrder })) return false;
+  return allAppointmentsTerminal(workOrder);
+}
+
+export function canReopenWorkOrder({ role, workOrder }) {
+  if (role !== 'admin') return false;
+  if (!workOrder?.is_closed || workOrder?.is_redo) return false;
+  return true;
+}
