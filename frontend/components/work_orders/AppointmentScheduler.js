@@ -363,14 +363,16 @@ export default function AppointmentScheduler({
     // allowing manual selection to persist.
   }, [currentAppointment, allServices, formData.service_ids]);
 
-  // Re-fetch appointments when returning to the tab
+  // Re-fetch appointments when returning to the tab (visibility only — initial load is workOrderId effect above)
   useEffect(() => {
-    // Check if we already have the component mounted and workOrderId
-    if (workOrderId && !isLoading) {
-      console.log("Component is already mounted, refreshing appointments data");
-      fetchAppointments();
-    }
-  }, []); // Empty dependency array means this runs once when component mounts
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && workOrderId) {
+        fetchAppointments();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [workOrderId]);
 
   // Effect to recalculate time when dependencies change (date, window, technician)
   useEffect(() => {

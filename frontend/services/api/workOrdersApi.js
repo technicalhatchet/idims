@@ -92,7 +92,6 @@ export async function deleteWorkOrder(id) {
  * Update work order status
  */
 export async function updateWorkOrderStatus({ id, status, notes }) {
-  console.log('updateWorkOrderStatus called with:', { id, status, notes });
   const result = await updateWorkOrderStatusOffline({ id, status, notes });
   if (result?.queued) {
     return { id, status, notes, queued: true };

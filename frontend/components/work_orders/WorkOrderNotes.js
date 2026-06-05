@@ -21,7 +21,20 @@ const NOTE_TYPES = {
   FOLLOW_UP: 'Follow Up',
   REDO: 'Redo',
   REPAIR_OUTCOME: REPAIR_OUTCOME_NOTE_TYPE,
+  /** System-generated when work order status is updated with optional notes */
+  STATUS_UPDATE: 'Status Update',
+  /** System-generated when an appointment is created with optional notes */
+  APPOINTMENT_INFO: 'Appointment Info',
 };
+
+/** Types users pick manually in the add-note form (excludes system-generated). */
+const MANUAL_NOTE_TYPES = [
+  NOTE_TYPES.GENERAL,
+  NOTE_TYPES.PRE_CALL,
+  NOTE_TYPES.FOLLOW_UP,
+  NOTE_TYPES.REDO,
+  NOTE_TYPES.REPAIR_OUTCOME,
+];
 
 // Define field structure for each note type
 const NOTE_FIELDS = {
@@ -500,7 +513,7 @@ export default function WorkOrderNotes({
         id="noteType"
         value={newNote.type}
         onChange={handleNoteTypeChange}
-        options={Object.values(NOTE_TYPES).map(type => ({ value: type, label: type }))}
+        options={MANUAL_NOTE_TYPES.map(type => ({ value: type, label: type }))}
       />
 
       {renderNoteFields(newNote.type, newNote.fieldValues)}

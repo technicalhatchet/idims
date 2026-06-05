@@ -48,6 +48,52 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+NOTE_TYPE_STATUS_UPDATE = "Status Update"
+NOTE_TYPE_APPOINTMENT_INFO = "Appointment Info"
+
+_SYSTEM_STATUS_NOTE_PREFIXES = (
+    "Assigned to technician ",
+    "Status synced:",
+)
+
+
+def _format_status_label(status) -> str:
+    if status is None:
+        return "unknown"
+    return status.value if hasattr(status, "value") else str(status)
+
+
+def _is_user_status_note(notes: Optional[str]) -> bool:
+    if not notes or not str(notes).strip():
+        return False
+    text = str(notes).strip()
+    if text == "Status updated":
+        return False
+    return not any(text.startswith(prefix) for prefix in _SYSTEM_STATUS_NOTE_PREFIXES)
+
+
+def _add_work_order_typed_note(
+    db: Session,
+    *,
+    work_order_id: uuid.UUID,
+    user_id: uuid.UUID,
+    note_type: str,
+    body: str,
+    is_private: bool = False,
+) -> None:
+    text = (body or "").strip()
+    if not text:
+        return
+    db.add(
+        WorkOrderNote(
+            work_order_id=work_order_id,
+            user_id=user_id,
+            note=f"[{note_type}]\n{text}",
+            is_private=is_private,
+        )
+    )
+
+
 class WorkOrderService:
     """Enhanced service for handling work order operations"""
     
@@ -341,6 +387,21 @@ class WorkOrderService:
                     activity._status_val(previous_status),
                     activity._status_val(update_data["status"]),
                 )
+                status_notes_raw = update_data.get("status_notes")
+                if _is_user_status_note(status_notes_raw):
+                    actor_id = update_data.get("updated_by", work_order.created_by)
+                    if actor_id:
+                        _add_work_order_typed_note(
+                            db,
+                            work_order_id=work_order.id,
+                            user_id=actor_id,
+                            note_type=NOTE_TYPE_STATUS_UPDATE,
+                            body=(
+                                f"Status changed: {_format_status_label(previous_status)}"
+                                f" → {_format_status_label(update_data['status'])}\n\n"
+                                f"{str(status_notes_raw).strip()}"
+                            ),
+                        )
                 
                 # Set timestamps based on status
                 if update_data["status"] == "in_progress" and not work_order.actual_start:
@@ -792,6 +853,7 @@ class WorkOrderService:
                 assigned_technician_id=resolved_technician_id,
                 status="scheduled",  # Default status
                 created_by=user_id, # Make sure current_user_id is available in this scope
+                notes=appointment_data.notes,
                 travel_time_before=appointment_data.travel_time_before,
                 travel_time_after=appointment_data.travel_time_after,
                 travel_distance_before=appointment_data.travel_distance_before,
@@ -943,6 +1005,28 @@ class WorkOrderService:
                 db_appointment.scheduled_start,
                 db_appointment.appointment_type,
             )
+
+            if appointment_data.notes and str(appointment_data.notes).strip():
+                appt_type = appointment_data.appointment_type or "visit"
+                start = db_appointment.scheduled_start
+                end = db_appointment.scheduled_end
+                schedule_line = ""
+                if start:
+                    schedule_line = f"Scheduled: {start.strftime('%b %d, %Y %I:%M %p')}"
+                    if end:
+                        schedule_line += f" – {end.strftime('%I:%M %p')}"
+                body_lines = [f"Appointment added ({appt_type})."]
+                if schedule_line:
+                    body_lines.append(schedule_line)
+                body_lines.append("")
+                body_lines.append(str(appointment_data.notes).strip())
+                _add_work_order_typed_note(
+                    self.db,
+                    work_order_id=appointment_data.work_order_id,
+                    user_id=user_id,
+                    note_type=NOTE_TYPE_APPOINTMENT_INFO,
+                    body="\n".join(body_lines),
+                )
 
             if commit:
                 self.db.commit()

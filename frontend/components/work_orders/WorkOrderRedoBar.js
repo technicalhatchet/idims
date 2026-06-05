@@ -29,7 +29,7 @@ export default function WorkOrderRedoBar({
   const isMobile = variant === 'mobile';
   const [activeAppointment, setActiveAppointment] = useState(null);
 
-  const role = user ? getUserRole(user) : null;
+  const role = useMemo(() => (user ? getUserRole(user) : null), [user]);
   const canCreate = canCreateRedoWorkOrder({ role });
   const pendingRedos = useMemo(
     () => getPendingRedoAppointments(workOrder),

@@ -98,6 +98,15 @@ CLOSED_WO_APPOINTMENT_STATUS_ONLY = frozenset({
     "completed",
 })
 
+# Field technicians may set any WO status manually except these (completed via visit/payment; recall = office).
+TECHNICIAN_MANUAL_WO_STATUS_FORBIDDEN = frozenset({
+    "completed",
+    "completed_pending_payment",
+    "recall",
+    "closed",
+    "refunded",
+})
+
 
 def _technician_record_for_user(db: Session, current_user: UserModel) -> Technician:
     technician = UserService.get_technician_by_user_id(db, current_user.id)
@@ -145,8 +154,10 @@ async def can_view_work_order(work_order_id: uuid.UUID, current_user: UserModel,
 
 async def can_access_work_order(work_order_id: uuid.UUID, current_user: UserModel, db: Session) -> bool:
     """
-    Mutation access (legacy name). Technicians may only mutate work orders assigned
-    at the work-order header; appointment-level edit rules are enforced separately.
+    Mutation access for work-order-level actions (status, notes, photos, payments, etc.).
+
+    Technicians may mutate when they are the header assignee OR assigned to any
+    non-canceled appointment on the work order (typical field-tech case).
     """
     try:
         if any(role in ["admin", "manager"] for role in (current_user.roles or [])):
@@ -166,7 +177,18 @@ async def can_access_work_order(work_order_id: uuid.UUID, current_user: UserMode
             if not technician:
                 logger.warning(f"Technician record not found for user {current_user.id}")
                 return False
-            return work_order.assigned_technician_id == technician.id
+            if work_order.assigned_technician_id == technician.id:
+                return True
+            has_visit = (
+                db.query(WorkOrderAppointment.id)
+                .filter(
+                    WorkOrderAppointment.work_order_id == work_order_id,
+                    WorkOrderAppointment.assigned_technician_id == technician.id,
+                    WorkOrderAppointment.status != "canceled",
+                )
+                .first()
+            )
+            return has_visit is not None
 
         return False
     except Exception as e:
@@ -815,24 +837,19 @@ async def update_work_order_status(
     
     work_order = await WorkOrderService.get_work_order(db, work_order_id)
     
-    # Additional permissions check based on role and status change
-    if "technician" in current_user.roles:
-        # Technicians can only change status to certain states
-        allowed_status_changes = {
-            "scheduled": ["in_progress"],
-            "in_progress": ["on_hold", "completed"],
-            "on_hold": ["in_progress"],
-        }
-        
-        if (
-            work_order.status not in allowed_status_changes or
-            status_update.status not in allowed_status_changes.get(work_order.status, [])
-        ):
+    # Technicians: any status except system-only values (completed, recall, etc.)
+    roles = current_user.roles or []
+    is_field_technician = "technician" in roles and not any(r in ("admin", "manager") for r in roles)
+    if is_field_technician:
+        if status_update.status in TECHNICIAN_MANUAL_WO_STATUS_FORBIDDEN:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Technicians cannot change status from {work_order.status} to {status_update.status}"
+                detail=(
+                    "Technicians cannot set this status manually. Completed statuses are applied "
+                    "when a visit is finished or payment is recorded. Recall is office-only."
+                ),
             )
-    elif "client" in current_user.roles:
+    elif "client" in roles:
         # Clients cannot update work order status
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

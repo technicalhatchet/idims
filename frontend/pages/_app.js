@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import '../styles/fullcalendar.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { UserRoleProvider } from '../context/UserRoleContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -105,6 +106,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <UserProvider>
+      <UserRoleProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <ServiceWorkerMigration />
@@ -119,6 +121,7 @@ function MyApp({ Component, pageProps }) {
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ThemeProvider>
+      </UserRoleProvider>
     </UserProvider>
   );
 }

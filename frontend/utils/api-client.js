@@ -65,7 +65,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/"
  * @returns {string} The complete URL
  */
 export function buildApiUrl(endpoint, tryBothPrefixes = false) {
-  const debug = process.env.NODE_ENV !== "production"
+  const debug = process.env.NEXT_PUBLIC_API_DEBUG === 'true'
 
   // Handle the case where no endpoint is provided
   if (!endpoint) return API_BASE_URL
@@ -292,7 +292,7 @@ export async function apiClient(endpoint, options = {}) {
     ...fetchableOptions
   } = options
 
-  const debug = process.env.NODE_ENV !== "production"
+  const debug = process.env.NEXT_PUBLIC_API_DEBUG === 'true'
 
   if (debug) {
     console.log("apiClient called with endpoint:", endpoint)

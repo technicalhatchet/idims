@@ -62,12 +62,13 @@ export const getUserRole = (user) => {
   // Standardize role to lowercase for consistency
   if (userRole) {
     userRole = userRole.toLowerCase();
-  } else {
+  } else if (process.env.NODE_ENV !== 'production') {
     console.warn('No role found for user, using default "client" role');
     userRole = 'client';
+  } else {
+    userRole = 'client';
   }
-  
-  console.log('getUserRole function detected role:', userRole);
+
   return userRole;
 };
 
@@ -125,49 +126,10 @@ export const getUserRoleFromSession = (user) => {
   if (userRole) {
     userRole = userRole.toLowerCase();
   } else {
-    userRole = 'client'; // Default to client role
+    userRole = 'client';
   }
-  
-  // Log server-side role detection
-  console.log('Server-side role detection:', userRole);
-  return userRole;
-};
 
-/**
- * Custom hook to get user role information
- */
-export const useUserRole = () => {
-  const { user, isLoading, error } = useUser();
-  const [role, setRole] = useState(null);
-  
-  useEffect(() => {
-    if (user) {
-      setRole(getUserRole(user));
-    }
-  }, [user]);
-  
-  return { 
-    user, 
-    isLoading, 
-    error, 
-    role,
-    // Helper methods for role checking
-    isAdmin: role === 'admin',
-    isManager: role === 'manager' || role === 'admin',
-    isTechnician: role === 'technician' || role === 'manager' || role === 'admin',
-    isClient: role === 'client' || role === 'technician' || role === 'manager' || role === 'admin',
-    // General role check method
-    hasRole: (requiredRole) => {
-      const roleHierarchy = {
-        'client': ['client'],
-        'technician': ['technician', 'client'],
-        'manager': ['manager', 'technician', 'client'],
-        'admin': ['admin', 'manager', 'technician', 'client']
-      };
-      
-      return role ? roleHierarchy[role]?.includes(requiredRole) : false;
-    }
-  };
+  return userRole;
 };
 
 /**
@@ -281,4 +243,5 @@ export const getStaticPropsWithFallback = () => {
 };
 
 // Export the hooks and components
-export { useUser, Auth0Provider }; 
+export { useUser, Auth0Provider };
+export { useUserRole } from '../context/UserRoleContext'; 

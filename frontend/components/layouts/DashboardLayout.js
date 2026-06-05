@@ -53,19 +53,6 @@ export default function DashboardLayout({ children }) {
     }
   }, [user, isLoading, router]);
 
-  // Fourth useEffect - debug user info
-  useEffect(() => {
-    if (user) {
-      console.log('AUTH USER OBJECT:', user);
-      console.log('User roles property:', user['https://idimsapi/roles']);
-      console.log('User app_metadata:', user['https://idimsapi/app_metadata']);
-      
-      // Check role using the shared function
-      const detectedRole = getUserRole(user);
-      console.log('Role detected by getUserRole():', detectedRole);
-    }
-  }, [user]);
-
   // Ensure dark mode applies correctly on page load and after navigation
   useEffect(() => {
     if (mounted) {
