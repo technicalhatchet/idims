@@ -762,6 +762,8 @@ async def get_combined_schedule(
                 "equipment_subtype": work_order.equipment_subtype,
                 "equipment_make": work_order.equipment_make,
                 "equipment_model": work_order.equipment_model,
+                "travel_time_before": appt.travel_time_before,
+                "travel_distance_before": appt.travel_distance_before,
             })
 
         # Get available technicians (for admin/manager)

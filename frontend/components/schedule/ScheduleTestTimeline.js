@@ -217,15 +217,37 @@ export function formatEquipmentSubtypeLabel(apt) {
 }
 
 const SCHEDULE_STATUS_BADGE_WRAP_CLASS =
-  'sched-hud-status inline-flex [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]';
+  'sched-hud-status inline-flex max-w-[9.5rem] [&>span]:!max-w-full [&>span]:!truncate [&>span]:!text-[8px] [&>span]:!leading-[1.1] [&>span]:!font-bold [&>span]:!tracking-[0.07em] [&>span]:!uppercase [&>span]:!rounded [&>span]:!px-[5px] [&>span]:!py-[1px] [&>span]:!border-[0.5px] [&>span]:!border-solid [&>span]:!border-[rgba(168,85,247,0.42)] [&>span]:!bg-[rgba(168,85,247,0.12)] [&>span]:!text-[#E9D5FF] [&>span]:!shadow-[0_0_10px_rgba(168,85,247,0.1)]';
+
+/** Only status long enough to blow the card layout — everything else uses StatusBadge as-is. */
+const SCHEDULE_STATUS_COMPACT_LABEL = {
+  completed_pending_payment: { label: 'Pending Pay', title: 'Completed Pending Payment' },
+};
+
+function normalizeScheduleStatusKey(status) {
+  return String(status || '')
+    .toLowerCase()
+    .replace(/ /g, '_');
+}
 
 /** Status (top), appointment type (mid), equipment subtype (bottom) — right column */
 export function AppointmentCardBadgeStack({ status = 'scheduled', appointmentTypeLabel, typeIsDiagnostic, equipLabel }) {
+  const compact = SCHEDULE_STATUS_COMPACT_LABEL[normalizeScheduleStatusKey(status)];
+
   return (
     <div className="flex flex-col items-end gap-0.5 flex-shrink-0 text-right">
-      <span className={SCHEDULE_STATUS_BADGE_WRAP_CLASS}>
-        <StatusBadge status={status} />
-      </span>
+      {compact ? (
+        <span
+          className="inline-flex justify-end max-w-[9.5rem] truncate text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight border-[0.5px] border-solid border-[rgba(168,85,247,0.42)] bg-[rgba(168,85,247,0.12)] text-[#E9D5FF] shadow-[0_0_10px_rgba(168,85,247,0.1)]"
+          title={compact.title}
+        >
+          {compact.label}
+        </span>
+      ) : (
+        <span className={SCHEDULE_STATUS_BADGE_WRAP_CLASS}>
+          <StatusBadge status={status} />
+        </span>
+      )}
       <span
         className="inline-flex justify-end max-w-[9.5rem] truncate text-[8px] font-bold px-[5px] py-[1px] rounded tracking-[0.05em] uppercase leading-tight"
         style={{
@@ -294,9 +316,6 @@ const TRAVEL_VAN_NEON_NUDGE_X = 4;
 /** Minutes label on travel van — warm orange (readable on cyan + dark HUD) */
 const TRAVEL_CHIP_MINUTES_COLOR = '#F5A524';
 
-/** Subtracted from raw calendar gap **only** for the “NN MIN” label (route math unchanged). */
-const TRAVEL_CHIP_LABEL_SUBTRACT_MINS = 10;
-
 /** Stroke van icon for travel chip; uses currentColor from parent */
 function TravelVanGlyph({
   className,
@@ -359,7 +378,7 @@ function TravelVanGlyph({
 /** Badge-only travel chip; sits in track right gutter; vertical route in SVG layer */
 function TravelChip({ travelMins, topPct }) {
   if (!travelMins || travelMins < 8) return null;
-  const labelMins = Math.max(0, travelMins - TRAVEL_CHIP_LABEL_SUBTRACT_MINS);
+  const labelMins = Math.round(travelMins);
   const mid = topPct;
   return (
     <div
@@ -730,16 +749,22 @@ export default function ScheduleTestTimeline({
       const b = prepared[i + 1];
       if (isCalendarBlockEvent(a) || isCalendarBlockEvent(b)) continue;
       if (a.technician_id && a.technician_id === b.technician_id) {
-        const gap = differenceInMinutes(b._start, a._end);
-        const travelMins = gap > 0 ? gap : 0;
+        const gapMins = differenceInMinutes(b._start, a._end);
+        const driveSec = Number(b.travel_time_before);
+        const travelMins =
+          Number.isFinite(driveSec) && driveSec > 0 ? Math.round(driveSec / 60) : 0;
         const y0 = a.topPct + a.heightPct;
         const y1 = b.topPct;
-        const midPct = y0 + (y1 - y0) / 2;
+        const spanPct = Math.max(y1 - y0, 0.05);
+        let topPct = y0 + spanPct / 2;
+        if (gapMins > 0 && travelMins > 0 && travelMins < gapMins) {
+          topPct = y0 + (travelMins / gapMins) * spanPct * 0.5;
+        }
         out.push({
           key: `rt-${a.id ?? a.start}-${b.id ?? b.start}-${i}`,
           y0,
           y1,
-          topPct: midPct,
+          topPct,
           travelMins,
         });
       }
