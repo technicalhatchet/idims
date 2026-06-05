@@ -147,7 +147,7 @@ export function getBlockingIntervalsForTechnician(
   return items
     .filter((item) => {
       if (!isSchedulingConflict(item)) return false;
-      if (item.assigned_technician_id !== technicianId) return false;
+      if (String(item.assigned_technician_id) !== String(technicianId)) return false;
       if (excludeAppointmentId && item.id === excludeAppointmentId) return false;
       if (!isSameCalendarDay(item.scheduled_start, day)) return false;
       return true;
@@ -457,7 +457,7 @@ export function isTimeWindowAvailable(
     }
 
     const techOverlaps = appointmentsInWindow.filter(
-      (item) => item.assigned_technician_id === technicianId
+      (item) => String(item.assigned_technician_id) === String(technicianId)
     );
 
     return {
@@ -531,7 +531,13 @@ export async function findNextAvailableSlot(
 
   // --- Filter and Sort Technician's Appointments for the Day ---
   const technicianAppointments = allExistingAppointments.filter(apt => {
-    if (!apt.scheduled_start || !apt.scheduled_end || apt.assigned_technician_id !== technicianId) return false;
+    if (
+      !apt.scheduled_start ||
+      !apt.scheduled_end ||
+      String(apt.assigned_technician_id) !== String(technicianId)
+    ) {
+      return false;
+    }
     const aptDate = new Date(apt.scheduled_start);
     // Check if appointment is on the normalized date
     return aptDate.toDateString() === dateStr;

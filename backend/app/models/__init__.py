@@ -14,6 +14,7 @@ from app.models.service import Service, ServiceCategory, ServiceBundle, ServiceS
 from app.models.skill import Skill
 from app.models.technician_skill import TechnicianSkill
 from app.models.property import Property
+from app.models.job_economics import ExpenseVendor, WorkOrderExpense, ExpenseReceipt
 
 # Export all models
 __all__ = [
@@ -46,5 +47,9 @@ __all__ = [
     'EquipmentType',
     'ServiceSkillLevel',
     'Skill',
-    'TechnicianSkill'
-] 
+    'TechnicianSkill',
+    'Property',
+    'ExpenseVendor',
+    'WorkOrderExpense',
+    'ExpenseReceipt',
+]

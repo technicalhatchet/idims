@@ -48,6 +48,8 @@ WORK_ORDER_STATUS_LABELS = {
     "unreachable": "Unreachable",
     "recall": "Recall",
     "redo": "Redo",
+    "refunded": "Refunded",
+    "closed": "Closed",
 }
 
 
@@ -247,6 +249,65 @@ def log_appointment_rescheduled(
         metadata={
             "previous_start": previous_start.isoformat() if previous_start else None,
             "new_start": new_start.isoformat() if new_start else None,
+        },
+    )
+
+
+def log_order_closed(
+    db: Session,
+    *,
+    work_order_id: uuid.UUID,
+    user_id: uuid.UUID,
+    order_number: str,
+    invoice_total: float,
+    amount_previously_paid: float,
+) -> None:
+    log_work_order_activity(
+        db,
+        work_order_id=work_order_id,
+        user_id=user_id,
+        event_type="order_closed",
+        headline=f"Order Closed ({order_number})",
+        actor_label="Closed by",
+        metadata={
+            "order_number": order_number,
+            "invoice_total": invoice_total,
+            "amount_previously_paid": amount_previously_paid,
+        },
+    )
+
+
+def log_order_reopened(db: Session, *, work_order_id: uuid.UUID, user_id: uuid.UUID) -> None:
+    log_work_order_activity(
+        db,
+        work_order_id=work_order_id,
+        user_id=user_id,
+        event_type="order_reopened",
+        headline="Order Reopened",
+        actor_label="Reopened by",
+    )
+
+
+def log_order_reclosed(
+    db: Session,
+    *,
+    work_order_id: uuid.UUID,
+    user_id: uuid.UUID,
+    order_number: str,
+    invoice_total: float,
+    amount_previously_paid: float,
+) -> None:
+    log_work_order_activity(
+        db,
+        work_order_id=work_order_id,
+        user_id=user_id,
+        event_type="order_reclosed",
+        headline=f"Order Reclosed ({order_number})",
+        actor_label="Closed by",
+        metadata={
+            "order_number": order_number,
+            "invoice_total": invoice_total,
+            "amount_previously_paid": amount_previously_paid,
         },
     )
 

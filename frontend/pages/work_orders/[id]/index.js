@@ -23,6 +23,15 @@ import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrder
 import { formatAppointmentStatus, hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
 import WorkOrderDetailsAppointmentsList from '../../../components/work_orders/WorkOrderDetailsAppointmentsList';
+import WorkOrderLifecycleBar from '../../../components/work_orders/WorkOrderLifecycleBar';
+import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
+import {
+  computeWorkOrderDueToday,
+  isPartLinePaid,
+  round2,
+} from '../../../utils/workOrderBilling';
+import { isWorkOrderClosed, canEditWorkOrderBilling } from '../../../utils/workOrderPermissions';
+import { useUserRole } from '../../../utils/auth0-helpers';
 
 // Tabs for the detail page
 const TABS = {
@@ -33,8 +42,6 @@ const TABS = {
   CLIENT: 'client',
   INVOICES: 'invoices',
 };
-
-const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 
 function WorkOrderDetail() {
   const router = useRouter();
@@ -61,6 +68,7 @@ function WorkOrderDetail() {
   const [showServiceProperty, setShowServiceProperty] = useState(false);
   const [showAllProperties, setShowAllProperties] = useState(false);
   const { theme } = useTheme();
+  const { role } = useUserRole();
   
   // Ensure dark mode applies correctly on page load
   useEffect(() => {
@@ -74,9 +82,18 @@ function WorkOrderDetail() {
 
   // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+  const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
+  const billingEditable = useMemo(
+    () => canEditWorkOrderBilling({ role, workOrder }),
+    [role, workOrder]
+  );
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
+  const billingTotals = useMemo(
+    () => computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticDiscount),
+    [workOrder, allServices, halfDiagnosticDiscount]
+  );
   const resolvedServiceAddress = useMemo(
     () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
     [workOrder]
@@ -250,20 +267,32 @@ function WorkOrderDetail() {
           <div>
             <div className="flex items-center">
               <h1 className="text-2xl font-bold mr-3 text-gray-900 dark:text-white">Work Order: {workOrder.order_number}</h1>
-              <StatusBadge status={workOrder.status} />
+              <StatusBadge status={workOrder.is_closed ? 'closed' : workOrder.status} />
+              {user && (
+                <WorkOrderRedoBar
+                  compact
+                  workOrder={workOrder}
+                  workOrderId={id}
+                  user={user}
+                  onRefresh={refetch}
+                />
+              )}
             </div>
             <p className="text-gray-500 dark:text-gray-400 mt-1">Created on {format(new Date(workOrder.created_at), 'MMMM d, yyyy')}</p>
           </div>
           
           <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
-            <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center" title="Edit work order">
-              <FaEdit className="mr-2" />
-              Edit
-            </Link>
+            {!workOrder.is_closed && (
+              <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center" title="Edit work order">
+                <FaEdit className="mr-2" />
+                Edit
+              </Link>
+            )}
             <button onClick={() => window.print()} className="btn-white flex items-center" title="Print work order">
               <FaPrint className="mr-2" />
               Print
             </button>
+            {!woClosed && (
             <div className="relative">
               <button 
                 onClick={() => setShowStatusModal(true)} 
@@ -273,8 +302,27 @@ function WorkOrderDetail() {
                 Update Status
               </button>
             </div>
+            )}
           </div>
         </div>
+
+        {/* {woClosed && <WorkOrderReadOnlyBanner className="mb-4" />} */}
+
+        <WorkOrderLifecycleBar
+          workOrder={workOrder}
+          workOrderId={id}
+          user={user}
+          onRefresh={refetch}
+        />
+
+        {user && (
+          <WorkOrderRedoBar
+            workOrder={workOrder}
+            workOrderId={id}
+            user={user}
+            onRefresh={refetch}
+          />
+        )}
         
         {/* Tabs Navigation */}
         <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
@@ -563,7 +611,8 @@ function WorkOrderDetail() {
           {activeTab === TABS.APPOINTMENTS && (
             <>
               <AppointmentScheduler 
-                workOrderId={id} 
+                workOrderId={id}
+                workOrder={workOrder}
                 workOrderAddress={workOrder.service_location?.address}
                 serviceLocation={workOrder.service_location}
                 workOrderProperty={workOrder.property}
@@ -983,13 +1032,13 @@ function WorkOrderDetail() {
                                             className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
                                           >Cancel</button>
                                         </div>
-                                      ) : (
+                                      ) : billingEditable ? (
                                         <button
                                           onClick={() => setEditingServicePrice({ id: item.id, name: item.name, unit_price: item.unit_price, price: item.price })}
                                           className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
                                           title="Edit price"
                                         >✏️</button>
-                                      )}
+                                      ) : null}
                                     </td>
                                   </tr>
                                 );
@@ -1024,8 +1073,8 @@ function WorkOrderDetail() {
                                 const price = parseFloat(part.price || 0);
                                 const remainingDue = isInstalled ? price - upfrontCollected : isUpfront50 ? price * 0.5 : isPhonePayment ? 0 : null;
                                 const isBillable = isPhonePayment || isUpfront50 || isInstalled;
-                                const isPaid = isPhonePayment;
-                                const isPartial = isUpfront50 || (isInstalled && upfrontCollected > 0);
+                                const isPaid = isPartLinePaid(part, billingTotals.dueToday);
+                                const isPartial = !isPaid && (isUpfront50 || (isInstalled && upfrontCollected > 0));
                                 
                                 return (
                                   <tr key={part.id || index} className={isBillable && !isPaid ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}>
@@ -1091,13 +1140,13 @@ function WorkOrderDetail() {
                                             className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
                                           >Cancel</button>
                                         </div>
-                                      ) : (
+                                      ) : billingEditable ? (
                                         <button
                                           onClick={() => setEditingPartPrice({ id: part.id, price: price })}
                                           className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
                                           title="Edit price"
                                         >✏️</button>
-                                      )}
+                                      ) : null}
                                     </td>
                                   </tr>
                                 );
@@ -1243,7 +1292,7 @@ function WorkOrderDetail() {
                           </div>
 
                           {/* Pay button */}
-                          {dueToday > 0 && (
+                          {!woClosed && dueToday > 0 && (
                             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
                               <div className="flex justify-center">
                                 <button

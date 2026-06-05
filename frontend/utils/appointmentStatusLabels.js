@@ -22,6 +22,8 @@ export const APPOINTMENT_STATUS_LABELS = {
   completed_pending_payment: 'Completed — Pending Payment',
   unreachable: 'Unreachable',
   failed: 'APR',
+  redo: 'Redo',
+  refund: 'Refund',
 };
 
 export const APPOINTMENT_STATUS_DESCRIPTIONS = {

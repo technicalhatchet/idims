@@ -9,8 +9,12 @@ from sqlalchemy.orm import Session, joinedload
 from app.models.work_order import (
     WorkOrder,
     WorkOrderAppointment,
+    WorkOrderPart,
     WorkOrderService as WorkOrderServiceModel,
 )
+
+# Settled at checkout but keep installed/upfront_50 for close disposition (installed | not_installed).
+PART_STATUSES_MARK_PAID_ON_CHECKOUT = frozenset({"installed", "upfront_50"})
 from app.services.work_order_completion_service import try_auto_complete_after_payment
 from app.models.work_order_payment import WorkOrderPayment
 from app.models.user import User
@@ -81,6 +85,34 @@ def complete_pending_payment_appointments(
     return len(pending)
 
 
+def mark_billable_parts_paid_after_checkout(db: Session, work_order: WorkOrder) -> int:
+    """
+    After a lump-sum payment, align part collection fields with services marked paid.
+    Status stays installed/upfront_50 so close readiness (disposition) is unchanged.
+    """
+    tax_rate = float(work_order.tax_rate or 0.0775)
+    parts = (
+        db.query(WorkOrderPart)
+        .filter(
+            WorkOrderPart.work_order_id == work_order.id,
+            WorkOrderPart.status.in_(PART_STATUSES_MARK_PAID_ON_CHECKOUT),
+        )
+        .all()
+    )
+    for part in parts:
+        price = float(part.price or 0)
+        part.amount_upfront_collected = price
+        part.tax_collected = round(price * tax_rate, 2)
+        part.updated_at = datetime.utcnow()
+        logger.info(
+            "Part %s marked paid at checkout (status=%s, collected=%s)",
+            part.id,
+            part.status,
+            price,
+        )
+    return len(parts)
+
+
 def apply_payment_to_work_order(
     db: Session,
     work_order: WorkOrder,
@@ -109,6 +141,7 @@ def apply_payment_to_work_order(
         for service in billable_services:
             service.billing_status = "paid"
             logger.info("Marked service %s as paid", service.id)
+        mark_billable_parts_paid_after_checkout(db, work_order)
 
     complete_pending_payment_appointments(
         db, work_order.id, user_id=user_id or work_order.updated_by or work_order.created_by

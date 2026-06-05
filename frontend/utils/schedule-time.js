@@ -77,6 +77,18 @@ export function parseScheduleUtcMs(raw) {
   );
 }
 
+/**
+ * Serialize a Date for appointment API fields (naive wall time, no UTC offset).
+ * Matches AppointmentScheduler submit format; backend treats these as Eastern local.
+ */
+export function formatScheduleForApi(date) {
+  if (!date) return null;
+  const d = date instanceof Date ? date : new Date(date);
+  if (Number.isNaN(d.getTime())) return null;
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
 export function formatScheduleTime(raw, options = {}) {
   const ms = parseScheduleUtcMs(raw);
   if (!Number.isFinite(ms)) return '';

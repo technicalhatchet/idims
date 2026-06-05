@@ -157,6 +157,7 @@ export default function EquipmentDetailsMobile({
   closePartModal,
   updatePartStatus,
   generateSearchLink,
+  readOnly = false,
 }) {
   const [confirmDeletePart, setConfirmDeletePart] = useState(false);
 
@@ -246,9 +247,11 @@ export default function EquipmentDetailsMobile({
           placeholder="Enter model number"
           required={!modelNumber}
         />
+        {!readOnly && (
         <Button onClick={saveEquipmentDetails} disabled={loading} color="blue" className="w-full h-9">
           {loading ? 'Saving…' : 'Save equipment'}
         </Button>
+        )}
         {saveFeedback}
       </MobileAccordionSection>
 
@@ -278,9 +281,11 @@ export default function EquipmentDetailsMobile({
             onChange={(e) => setIsWallMounted(e.target.checked)}
           />
         )}
+        {!readOnly && (
         <Button onClick={saveEquipmentDetails} disabled={loading} color="blue" className="w-full h-9">
           {loading ? 'Saving…' : 'Save equipment'}
         </Button>
+        )}
         {saveFeedback}
       </MobileAccordionSection>
 
@@ -297,9 +302,11 @@ export default function EquipmentDetailsMobile({
           className="w-full h-28 p-3 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm"
           placeholder="Equipment notes…"
         />
+        {!readOnly && (
         <Button onClick={saveEquipmentDetails} disabled={loading} color="blue" className="w-full h-9">
           {loading ? 'Saving…' : 'Save equipment'}
         </Button>
+        )}
         {saveFeedback}
       </MobileAccordionSection>
 
@@ -335,7 +342,7 @@ export default function EquipmentDetailsMobile({
 
         <div className="flex items-center justify-between gap-2 pt-2">
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Parts list</p>
-          {!showPartForm && (
+          {!readOnly && !showPartForm && (
             <button
               type="button"
               onClick={() => setShowPartForm(true)}
@@ -498,10 +505,11 @@ export default function EquipmentDetailsMobile({
                   <div className="flex items-center mt-2 gap-2" onClick={(e) => e.stopPropagation()}>
                     <span className="text-sm font-medium text-cyan-300 shrink-0">${part.price}</span>
                     <select
-                      className="flex-1 min-w-0 text-xs bg-[#0B1120] border border-white/15 rounded px-2 py-1.5 text-gray-300"
+                      className={`flex-1 min-w-0 text-xs bg-[#0B1120] border border-white/15 rounded px-2 py-1.5 text-gray-300 ${readOnly ? 'opacity-50 cursor-not-allowed' : ''}`}
                       value={part.status}
                       onChange={(e) => updatePartStatus(index, e.target.value)}
-                      title="Status"
+                      disabled={readOnly}
+                      title={readOnly ? 'Work order is closed' : 'Status'}
                     >
                       {PART_STATUSES.map((status) => (
                         <option key={status.value} value={status.value}>

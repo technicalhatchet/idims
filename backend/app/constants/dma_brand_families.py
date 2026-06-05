@@ -1,5 +1,7 @@
 """Canonical appliance brands and field aliases for DMA error code lookup."""
 
+from __future__ import annotations
+
 CANONICAL_MANUFACTURERS = (
     "Whirlpool",
     "Samsung",

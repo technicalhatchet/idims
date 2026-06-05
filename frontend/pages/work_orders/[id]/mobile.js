@@ -25,6 +25,8 @@ import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
+import WorkOrderLifecycleBar from '../../../components/work_orders/WorkOrderLifecycleBar';
+import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
 import WorkOrderExpensesPanel from '../../../components/work_orders/WorkOrderExpensesPanel';
@@ -34,9 +36,15 @@ import PropertyServiceHistory from '../../../components/work_orders/PropertyServ
 import { getWorkOrderOutcomeStatus } from '../../../services/api/dmaApi';
 import { REPAIR_OUTCOME_NOTE_TYPE } from '../../../constants/dmaCodes';
 import { hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
+import {
+  computeWorkOrderDueToday,
+  isPartLinePaid,
+  round2,
+} from '../../../utils/workOrderBilling';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import { useUserRole } from '../../../utils/auth0-helpers';
+import { isWorkOrderClosed, canEditWorkOrderBilling } from '../../../utils/workOrderPermissions';
 
 // Tabs for the detail page
 const TABS = {
@@ -59,41 +67,8 @@ const TAB_ITEMS = [
   { id: TABS.COSTS, label: 'Costs', Icon: FaReceipt },
 ];
 
-const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
-
 function computeMobileBillingTotals(workOrder, allServices, halfDiagnosticDiscount) {
-  if (!workOrder) {
-    return { dueToday: 0, taxOnBillableParts: 0, totalWorkOrder: 0, previouslyPaid: 0 };
-  }
-  const taxRate = parseFloat(workOrder.tax_rate || 0.0775);
-  const hasRepairSku = (allServices || []).some(
-    (s) => s.name?.toLowerCase().includes('repair') || s.service_definition?.service_type === 'repair'
-  );
-  const repairCompleted = hasCompletedRepairAppointment(workOrder.appointments);
-  const discountAmt =
-    hasRepairSku && workOrder?.diagnostic_discount_amount > 0
-      ? halfDiagnosticDiscount
-        ? round2(workOrder.diagnostic_discount_amount * 0.5)
-        : round2(workOrder.diagnostic_discount_amount)
-      : 0;
-  const billableServices = (allServices || [])
-    .filter((s) => s.billing_status === 'billable')
-    .reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
-  const billableParts = (workOrder.parts || [])
-    .filter((p) => ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'].includes(p.status))
-    .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
-  const taxOnBillableParts = round2(billableParts * taxRate);
-  const previouslyPaid = round2(parseFloat(workOrder.amount_previously_paid || 0));
-  const dueTodayDiscount = repairCompleted ? discountAmt : 0;
-  const dueToday = Math.max(0, round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount));
-  const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
-  const PART_BILLABLE = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed'];
-  const partsSubtotal = (workOrder.parts || [])
-    .filter((p) => PART_BILLABLE.includes(p.status))
-    .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
-  const taxOnParts = round2(partsSubtotal * taxRate);
-  const totalWorkOrder = round2(servicesSubtotal + partsSubtotal + taxOnParts - (repairCompleted ? discountAmt : 0));
-  return { dueToday, taxOnBillableParts, totalWorkOrder, previouslyPaid };
+  return computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticDiscount);
 }
 
 /** Fractal noise texture for tactical HUD background */
@@ -121,7 +96,7 @@ function WorkOrderDetail() {
   const { user } = useUser();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteModalError, setDeleteModalError] = useState(null);
-  const { isManager } = useUserRole();
+  const { isManager, role } = useUserRole();
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [newStatus, setNewStatus] = useState('');
   const [statusNotes, setStatusNotes] = useState('');
@@ -153,6 +128,11 @@ function WorkOrderDetail() {
 
   // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+  const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
+  const billingEditable = useMemo(
+    () => canEditWorkOrderBilling({ role, workOrder }),
+    [role, workOrder]
+  );
   const { isOnline } = useOnlineStatus();
 
   useEffect(() => {
@@ -588,7 +568,17 @@ function WorkOrderDetail() {
                         <h1 className="text-lg md:text-2xl font-bold text-white truncate max-w-[12rem] sm:max-w-none">
                           #{workOrder.order_number}
                         </h1>
-                        <StatusBadge status={workOrder.status} />
+                        <StatusBadge status={workOrder.is_closed ? 'closed' : workOrder.status} />
+                        {user && (
+                          <WorkOrderRedoBar
+                            compact
+                            variant="mobile"
+                            workOrder={workOrder}
+                            workOrderId={id}
+                            user={user}
+                            onRefresh={refetch}
+                          />
+                        )}
                       </div>
                       <p className="text-xs md:text-sm text-gray-400 mt-1">
                         Created {format(new Date(workOrder.created_at), 'MMM d, yyyy')}
@@ -607,6 +597,7 @@ function WorkOrderDetail() {
               </button>
               {mobileMoreOpen && (
                 <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-white/10 bg-[#0D1525] py-1 shadow-xl z-[1198] ring-1 ring-black/40">
+                  {!woClosed && (
                   <Link
                     href={`/work_orders/${id}/womobile_edit`}
                     className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 active:bg-white/10"
@@ -614,6 +605,7 @@ function WorkOrderDetail() {
                   >
                     <FaEdit className="opacity-70" /> Edit work order
                   </Link>
+                  )}
                   <button
                     type="button"
                     className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5"
@@ -624,6 +616,7 @@ function WorkOrderDetail() {
                   >
                     <FaPrint className="opacity-70" /> Print
                   </button>
+                  {!woClosed && (
                   <button
                     type="button"
                     className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5"
@@ -635,6 +628,7 @@ function WorkOrderDetail() {
                   >
                     <FaExclamationTriangle className="opacity-70" /> Update status
                   </button>
+                  )}
                   {isManager && (
                     <button
                       type="button"
@@ -688,6 +682,26 @@ function WorkOrderDetail() {
             </div>
           </div>
         </div>
+
+        <WorkOrderLifecycleBar
+          variant="mobile"
+          workOrder={workOrder}
+          workOrderId={id}
+          user={user}
+          onRefresh={refetch}
+        />
+
+        {user && (
+          <WorkOrderRedoBar
+            variant="mobile"
+            workOrder={workOrder}
+            workOrderId={id}
+            user={user}
+            onRefresh={refetch}
+          />
+        )}
+
+        {/* {woClosed && <WorkOrderReadOnlyBanner className="mb-4" />} */}
 
         {/* Content card container */}
         <div className="rounded-lg p-3 overflow-visible" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
@@ -1004,6 +1018,7 @@ function WorkOrderDetail() {
             <div className="px-1 py-2 md:p-6 min-w-0">
               <AppointmentScheduler
                 workOrderId={id}
+                workOrder={workOrder}
                 workOrderAddress={workOrder.service_location?.address}
                 serviceLocation={workOrder.service_location}
                 workOrderProperty={workOrder.property}
@@ -1504,7 +1519,7 @@ function WorkOrderDetail() {
                                         Cancel
                                       </button>
                                     </div>
-                                  ) : (
+                                  ) : billingEditable ? (
                                     <button
                                       type="button"
                                       onClick={() => setEditingServicePrice({ id: item.id, name: item.name, unit_price: item.unit_price, price: item.price })}
@@ -1512,7 +1527,7 @@ function WorkOrderDetail() {
                                     >
                                       Edit price
                                     </button>
-                                  )}
+                                  ) : null}
                                 </div>
                               </div>
                             );
@@ -1619,13 +1634,13 @@ function WorkOrderDetail() {
                                             className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
                                           >Cancel</button>
                                         </div>
-                                      ) : (
+                                      ) : billingEditable ? (
                                         <button
                                           onClick={() => setEditingServicePrice({ id: item.id, name: item.name, unit_price: item.unit_price, price: item.price })}
                                           className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
                                           title="Edit price"
                                         >✏️</button>
-                                      )}
+                                      ) : null}
                                     </td>
                                   </tr>
                                 );
@@ -1651,8 +1666,8 @@ function WorkOrderDetail() {
                             const price = parseFloat(part.price || 0);
                             const remainingDue = isInstalled ? price - upfrontCollected : isUpfront50 ? price * 0.5 : isPhonePayment ? 0 : null;
                             const isBillable = isPhonePayment || isUpfront50 || isInstalled;
-                            const isPaid = isPhonePayment;
-                            const isPartial = isUpfront50 || (isInstalled && upfrontCollected > 0);
+                            const isPaid = isPartLinePaid(part, billingTotals.dueToday);
+                            const isPartial = !isPaid && (isUpfront50 || (isInstalled && upfrontCollected > 0));
                             const statusLabel = isPaid
                               ? 'Paid in Full'
                               : isUpfront50
@@ -1739,7 +1754,7 @@ function WorkOrderDetail() {
                                           Cancel
                                         </button>
                                       </>
-                                    ) : (
+                                    ) : billingEditable ? (
                                       <button
                                         type="button"
                                         onClick={() => setEditingPartPrice({ id: part.id, price })}
@@ -1747,7 +1762,7 @@ function WorkOrderDetail() {
                                       >
                                         Edit
                                       </button>
-                                    )}
+                                    ) : null}
                                   </div>
                                 </div>
                               </div>
@@ -1774,8 +1789,8 @@ function WorkOrderDetail() {
                                 const price = parseFloat(part.price || 0);
                                 const remainingDue = isInstalled ? price - upfrontCollected : isUpfront50 ? price * 0.5 : isPhonePayment ? 0 : null;
                                 const isBillable = isPhonePayment || isUpfront50 || isInstalled;
-                                const isPaid = isPhonePayment;
-                                const isPartial = isUpfront50 || (isInstalled && upfrontCollected > 0);
+                                const isPaid = isPartLinePaid(part, billingTotals.dueToday);
+                                const isPartial = !isPaid && (isUpfront50 || (isInstalled && upfrontCollected > 0));
                                 
                                 return (
                                   <tr key={part.id || index} className={isBillable && !isPaid ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}>
@@ -1841,13 +1856,13 @@ function WorkOrderDetail() {
                                             className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
                                           >Cancel</button>
                                         </div>
-                                      ) : (
+                                      ) : billingEditable ? (
                                         <button
                                           onClick={() => setEditingPartPrice({ id: part.id, price: price })}
                                           className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
                                           title="Edit price"
                                         >✏️</button>
-                                      )}
+                                      ) : null}
                                     </td>
                                   </tr>
                                 );
@@ -1993,7 +2008,7 @@ function WorkOrderDetail() {
                           </div>
 
                           {/* Pay / record payment */}
-                          {(billingTotals.dueToday > 0 || billingTotals.totalWorkOrder > billingTotals.previouslyPaid) && (
+                          {!woClosed && (billingTotals.dueToday > 0 || billingTotals.totalWorkOrder > billingTotals.previouslyPaid) && (
                             <div className="mt-4 md:mt-6 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700">
                               {billingTotals.dueToday > 0 ? (
                                 <>

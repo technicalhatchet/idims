@@ -284,9 +284,9 @@ class WorkOrderService:
         """Update an existing work order"""
         work_order = await WorkOrderService.get_work_order(db, work_order_id)
         
-        # Prevent updating completed or cancelled work orders
-        if work_order.status in ["completed", "cancelled"]:
-            raise ConflictException(f"Cannot update a work order with status {work_order.status}")
+        from app.services.work_order_lifecycle_service import assert_work_order_mutable
+
+        assert_work_order_mutable(work_order)
         
         # Validate technician if assigned
         if work_order_data.assigned_technician_id:
@@ -746,6 +746,9 @@ class WorkOrderService:
             if not work_order:
                 raise NotFoundException(f"Work order with ID {appointment_data.work_order_id} not found.")
 
+            from app.services.work_order_lifecycle_service import assert_work_order_mutable
+
+            assert_work_order_mutable(work_order)
 
             # Calculate scheduled_end based on services or default to 1 hour
             # scheduled_end is not expected in WorkOrderAppointmentCreate schema, so we calculate it here.
@@ -992,6 +995,16 @@ class WorkOrderService:
         appointment = self.db.query(WorkOrderAppointment).filter(WorkOrderAppointment.id == appointment_id).first()
         if not appointment:
             raise NotFoundException(f"Appointment with ID {appointment_id} not found")
+
+        work_order = await WorkOrderService.get_work_order(self.db, appointment.work_order_id)
+        update_data_preview = appointment_data.model_dump(exclude_unset=True)
+        from app.services.work_order_lifecycle_service import assert_appointment_update_allowed
+
+        assert_appointment_update_allowed(
+            work_order,
+            set(update_data_preview.keys()),
+            update_data_preview.get("status"),
+        )
         
         # Store original start and technician to check for changes
         original_start_time = appointment.scheduled_start

@@ -19,7 +19,12 @@ class Skill(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     
     # Relationships
-    technician_skills = relationship("TechnicianSkill", back_populates="skill", cascade="all, delete-orphan", lazy="joined")
+    technician_skills = relationship(
+        "TechnicianSkill",
+        back_populates="skill",
+        cascade="all, delete-orphan",
+        lazy="select",
+    )
     
     def __repr__(self):
         return f"<Skill {self.name}>"

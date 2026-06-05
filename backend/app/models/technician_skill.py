@@ -19,8 +19,8 @@ class TechnicianSkill(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
     # Relationships
-    technician = relationship("Technician", back_populates="technician_skills", lazy="joined")
-    skill = relationship("Skill", back_populates="technician_skills", lazy="joined")
+    technician = relationship("Technician", back_populates="technician_skills", lazy="select")
+    skill = relationship("Skill", back_populates="technician_skills", lazy="select")
 
     def to_dict(self) -> dict:
         """Convert technician skill to dictionary"""

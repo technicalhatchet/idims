@@ -115,4 +115,42 @@ export async function assignWorkOrder(id, technicianId) {
  */
 export async function getWorkOrderTimeline(id) {
   return apiClient(`work-orders/${id}/timeline`);
+}
+
+export async function getWorkOrderCloseReadiness(workOrderId) {
+  return apiClient(`work-orders/${workOrderId}/close-readiness`);
+}
+
+export async function closeWorkOrder(workOrderId) {
+  return apiClient(`work-orders/${workOrderId}/close`, { method: 'POST' });
+}
+
+export async function reopenWorkOrder(workOrderId) {
+  return apiClient(`work-orders/${workOrderId}/reopen`, { method: 'POST' });
+}
+
+export async function recloseWorkOrder(workOrderId) {
+  return apiClient(`work-orders/${workOrderId}/reclose`, { method: 'POST' });
+}
+
+export async function createRedoWorkOrder(
+  workOrderId,
+  { appointment_id, scheduled_start, scheduled_end, time_window } = {}
+) {
+  return apiClient(`work-orders/${workOrderId}/create-redo`, {
+    method: 'POST',
+    body: JSON.stringify({
+      appointment_id,
+      ...(scheduled_start ? { scheduled_start } : {}),
+      ...(scheduled_end ? { scheduled_end } : {}),
+      ...(time_window ? { time_window } : {}),
+    }),
+  });
+}
+
+export async function updateAppointmentStatus(appointmentId, status) {
+  return apiClient(`work-orders/appointments/${appointmentId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ status }),
+  });
 } 

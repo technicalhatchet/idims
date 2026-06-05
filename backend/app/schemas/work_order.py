@@ -170,7 +170,7 @@ class WorkOrderUpdate(BaseModel):
             allowed_statuses = ["pending", "scheduled", "en_route", "waiting_on_parts", "in_progress", "on_hold",
                               "completed", "completed_pending_payment", "pending_estimate_approval",
                               "cancelled", "parts_on_order", "reschedule", "need_to_contact",
-                              "unreachable", "recall", "redo"]
+                              "unreachable", "recall", "redo", "refunded", "closed"]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -226,6 +226,15 @@ class WorkOrderResponse(WorkOrderBase):
     diagnostic_discount_amount: Optional[float] = None
     tax_rate: Optional[float] = 0.0775
     tax_collected: Optional[float] = 0.00
+
+    is_closed: bool = False
+    closed_at: Optional[datetime] = None
+    parent_work_order_id: Optional[UUID] = None
+    parent_order_number: Optional[str] = None
+    is_redo: bool = False
+    redo_source_appointment_id: Optional[UUID] = None
+    has_redo_appointments: bool = False
+    child_redo_work_order_ids: List[UUID] = []
 
     # Service items
     service_items: List[WorkOrderServiceResponse] = []
@@ -357,6 +366,7 @@ class WorkOrderAppointmentUpdate(BaseModel):
                 "completed_pending_payment",
                 "unreachable",
                 "failed",
+                "redo",
             ]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
@@ -590,3 +600,19 @@ class WorkOrderPhotoListResponse(BaseModel):
     items: List[WorkOrderPhotoResponse]
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class WorkOrderCloseReadinessResponse(BaseModel):
+    work_order_id: str
+    is_closed: bool
+    can_close: bool
+    blockers: List[str]
+    checks: Dict[str, bool]
+    snapshot_preview: Dict[str, Any]
+
+
+class RedoWorkOrderCreateRequest(BaseModel):
+    appointment_id: UUID
+    scheduled_start: Optional[datetime] = None
+    scheduled_end: Optional[datetime] = None
+    time_window: Optional[str] = None

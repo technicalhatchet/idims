@@ -15,7 +15,7 @@ from app.models.work_order import (
 
 logger = logging.getLogger(__name__)
 
-CLOSED_WORK_ORDER_STATUSES = frozenset({"completed", "cancelled"})
+CLOSED_WORK_ORDER_STATUSES = frozenset({"completed", "cancelled", "closed"})
 
 
 def _is_repair_service_line(item: WorkOrderServiceModel) -> bool:
@@ -65,7 +65,11 @@ def work_order_needs_repair_outcome(db: Session, work_order_id: uuid.UUID) -> bo
 def load_work_order_for_completion_check(db: Session, work_order_id: uuid.UUID) -> Optional[WorkOrder]:
     return (
         db.query(WorkOrder)
-        .options(joinedload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service))
+        .options(
+            joinedload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service),
+            joinedload(WorkOrder.parts),
+            joinedload(WorkOrder.appointments),
+        )
         .filter(WorkOrder.id == work_order_id)
         .first()
     )
@@ -93,7 +97,7 @@ def try_auto_complete_after_payment(
     if not actor_id:
         return result
 
-    if work_order.status in CLOSED_WORK_ORDER_STATUSES:
+    if getattr(work_order, "is_closed", False) or work_order.status in CLOSED_WORK_ORDER_STATUSES:
         result["needs_repair_outcome"] = work_order_needs_repair_outcome(db, work_order.id)
         return result
 

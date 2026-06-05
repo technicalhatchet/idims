@@ -32,9 +32,38 @@ import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
 import { useUserRole } from '../../utils/auth0-helpers';
+import useCurrentTechnicianId from '../../hooks/useCurrentTechnicianId';
+import {
+  canCreateOrDeleteAppointments,
+  canEditAppointment,
+  canUpdateAppointmentStatus,
+  isWorkOrderClosed,
+} from '../../utils/workOrderPermissions';
+
+const OPEN_APPOINTMENT_STATUS_OPTIONS = [
+  { value: 'scheduled', label: 'Scheduled' },
+  { value: 'en_route', label: 'En Route' },
+  { value: 'in_progress', label: 'In Progress' },
+  { value: 'completed_pending_payment', label: 'Pending Pay' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'reschedule', label: 'Reschedule' },
+  { value: 'refund', label: 'Refund' },
+  { value: 'phone_payment', label: 'Phone Pay' },
+  { value: 'unreachable', label: 'Unreachable' },
+  { value: 'failed', label: 'APR — Additional Parts Required' },
+  { value: 'canceled', label: 'Canceled' },
+];
+
+const CLOSED_APPOINTMENT_STATUS_OPTIONS = [
+  { value: 'redo', label: 'Redo' },
+  { value: 'refund', label: 'Refund' },
+  { value: 'completed', label: 'Completed' },
+];
+import { formatAppointmentStatus } from '../../utils/appointmentStatusLabels';
 
 export default function AppointmentScheduler({
   workOrderId,
+  workOrder,
   workOrderAddress,
   serviceLocation,
   workOrderProperty,
@@ -88,7 +117,15 @@ export default function AppointmentScheduler({
   const [displayEtaWindow, setDisplayEtaWindow] = useState(null);
   const [updatingStatus, setUpdatingStatus] = useState(null); // Track which appointment is being updated
 
-  const { isManager, isAdmin } = useUserRole();
+  const { role, isManager, isAdmin } = useUserRole();
+  const currentTechnicianId = useCurrentTechnicianId();
+  const woClosed = isWorkOrderClosed(workOrder);
+  const canManageAppts = canCreateOrDeleteAppointments({ role, workOrder });
+  const appointmentPermCtx = { role, currentTechnicianId, workOrder };
+  const canEditAppt = (appointment) =>
+    canEditAppointment({ appointment, ...appointmentPermCtx });
+  const canStatusAppt = (appointment) =>
+    canUpdateAppointmentStatus({ appointment, ...appointmentPermCtx });
   const canForceSchedule = isManager;
 
   const resolvedWorkOrderAddress = useMemo(
@@ -792,6 +829,7 @@ export default function AppointmentScheduler({
 
   // Add openForm function
   const openForm = async () => {
+    if (!canManageAppts) return;
     fetchServices(); // Fetch services
 
     let techList = technicians;
@@ -846,6 +884,7 @@ export default function AppointmentScheduler({
 
   // Function to set up form for editing an existing appointment
   const editAppointment = (appointment) => {
+    if (!canEditAppt(appointment)) return;
     console.log('[EditAppointment] Appointment received:', JSON.parse(JSON.stringify(appointment)));
     fetchServices(); // Ensures services are fetched or being fetched
     setCurrentAppointment(appointment);
@@ -1166,6 +1205,16 @@ export default function AppointmentScheduler({
       return;
     }
 
+    if (currentAppointment) {
+      if (!canEditAppt(currentAppointment)) {
+        setError('You cannot edit this appointment.');
+        return;
+      }
+    } else if (!canManageAppts) {
+      setError('You cannot create appointments on this work order.');
+      return;
+    }
+
     const conflictReason = checkProposedScheduleConflict(
       formData.scheduled_start,
       formData.scheduled_end
@@ -1253,6 +1302,7 @@ export default function AppointmentScheduler({
 
   // Delete appointment
   const handleDelete = async (appointmentId) => {
+    if (!canManageAppts) return;
     if (!window.confirm('Are you sure you want to delete this appointment?')) {
       return;
     }
@@ -1333,6 +1383,12 @@ export default function AppointmentScheduler({
 
   // Handle status update
   const handleStatusUpdate = async (appointmentId, newStatus) => {
+    const target = appointments.find((a) => a.id === appointmentId);
+    if (!target || !canStatusAppt(target)) {
+      setError('You cannot change status on this appointment.');
+      return;
+    }
+
     setUpdatingStatus(appointmentId);
     setError(null);
     
@@ -1408,6 +1464,7 @@ export default function AppointmentScheduler({
       case 'unreachable':
       case 'canceled': return 'border-l-red-500/80';
       case 'failed': return 'border-l-amber-500/80';
+      case 'redo': return 'border-l-indigo-400';
       default: return 'border-l-gray-500';
     }
   };
@@ -1426,6 +1483,7 @@ export default function AppointmentScheduler({
       case 'unreachable': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       case 'failed': return 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300';
       case 'canceled': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      case 'redo': return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
   };
@@ -1485,10 +1543,39 @@ export default function AppointmentScheduler({
     return `Technician #${techId}`;
   };
 
+  const statusOptionsForAppointment = (appointment, statusEditable) => {
+    const current = appointment?.status;
+    const transitionOptions =
+      woClosed && statusEditable
+        ? CLOSED_APPOINTMENT_STATUS_OPTIONS
+        : OPEN_APPOINTMENT_STATUS_OPTIONS;
+
+    if (!current || transitionOptions.some((opt) => opt.value === current)) {
+      return transitionOptions;
+    }
+
+    // Keep the stored status in the list so the <select> never coerces to the first option.
+    return [
+      {
+        value: current,
+        label: formatAppointmentStatus(current, { long: current === 'failed' }),
+        disabled: true,
+      },
+      ...transitionOptions,
+    ];
+  };
+
+  const handleStatusSelect = (appointmentId, currentStatus, newStatus) => {
+    if (newStatus === currentStatus) return;
+    handleStatusUpdate(appointmentId, newStatus);
+  };
+
   const renderMobileAppointmentCards = () => (
     <div className="space-y-3">
       {appointments.map((appointment) => {
         const duration = getDurationLabel(appointment.scheduled_start, appointment.scheduled_end);
+        const statusEditable = canStatusAppt(appointment);
+        const appointmentEditable = canEditAppt(appointment);
         return (
           <article
             key={appointment.id}
@@ -1513,23 +1600,20 @@ export default function AppointmentScheduler({
               </div>
               <select
                 value={appointment.status}
-                onChange={(e) => handleStatusUpdate(appointment.id, e.target.value)}
-                disabled={updatingStatus === appointment.id}
-                className={`shrink-0 max-w-[7.5rem] px-2 py-1 rounded text-[10px] font-semibold border-0 cursor-pointer ${getStatusColor(appointment.status)} ${
-                  updatingStatus === appointment.id ? 'opacity-50 cursor-not-allowed' : ''
+                onChange={(e) => handleStatusSelect(appointment.id, appointment.status, e.target.value)}
+                disabled={!statusEditable || updatingStatus === appointment.id}
+                title={!statusEditable ? 'You cannot change status on this appointment' : undefined}
+                className={`shrink-0 max-w-[7.5rem] px-2 py-1 rounded text-[10px] font-semibold border-0 ${getStatusColor(appointment.status)} ${
+                  !statusEditable || updatingStatus === appointment.id
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer'
                 }`}
               >
-                <option value="scheduled">Scheduled</option>
-                <option value="en_route">En Route</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed_pending_payment">Pending Pay</option>
-                <option value="completed">Completed</option>
-                <option value="reschedule">Reschedule</option>
-                <option value="refund">Refund</option>
-                <option value="phone_payment">Phone Pay</option>
-                <option value="unreachable">Unreachable</option>
-                <option value="failed">APR — Additional Parts Required</option>
-                <option value="canceled">Canceled</option>
+                {statusOptionsForAppointment(appointment, statusEditable).map((opt) => (
+                  <option key={opt.value} value={opt.value} disabled={Boolean(opt.disabled)}>
+                    {opt.label}
+                  </option>
+                ))}
               </select>
             </div>
             <p className="text-xs text-gray-400 mt-2 flex items-center gap-1.5 min-w-0">
@@ -1558,22 +1642,28 @@ export default function AppointmentScheduler({
                 />
               </div>
             )}
+            {(appointmentEditable || canManageAppts) && (
             <div className="flex gap-2 mt-3 pt-2 border-t border-white/10">
-              <button
-                type="button"
-                onClick={() => editAppointment(appointment)}
-                className="flex-1 h-9 rounded-lg border border-cyan-500/35 text-xs font-semibold uppercase tracking-wide text-cyan-300"
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDelete(appointment.id)}
-                className="h-9 px-3 rounded-lg border border-red-500/30 text-xs font-semibold uppercase tracking-wide text-red-300"
-              >
-                Delete
-              </button>
+              {appointmentEditable && (
+                <button
+                  type="button"
+                  onClick={() => editAppointment(appointment)}
+                  className="flex-1 h-9 rounded-lg border border-cyan-500/35 text-xs font-semibold uppercase tracking-wide text-cyan-300"
+                >
+                  Edit
+                </button>
+              )}
+              {canManageAppts && (
+                <button
+                  type="button"
+                  onClick={() => handleDelete(appointment.id)}
+                  className="h-9 px-3 rounded-lg border border-red-500/30 text-xs font-semibold uppercase tracking-wide text-red-300"
+                >
+                  Delete
+                </button>
+              )}
             </div>
+            )}
           </article>
         );
       })}
@@ -1589,13 +1679,16 @@ export default function AppointmentScheduler({
   }
 
   return (
-    <div
-      className={
-        isMobile
-          ? 'min-w-0 overflow-x-hidden'
-          : 'bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden'
-      }
-    >
+      <div
+        className={
+          isMobile
+            ? 'min-w-0 overflow-x-hidden'
+            : 'bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden'
+        }
+      >
+      {/* {woClosed && (
+        <WorkOrderReadOnlyBanner className={isMobile ? 'mb-3' : 'mx-6 mt-4'} />
+      )} */}
       <div
         className={
           isMobile
@@ -1655,7 +1748,7 @@ export default function AppointmentScheduler({
             Time Windows
           </Button>
           */}
-          {isMobile ? (
+          {canManageAppts && (isMobile ? (
             <button
               type="button"
               onClick={openForm}
@@ -1673,7 +1766,7 @@ export default function AppointmentScheduler({
             >
               Add Appointment
             </Button>
-          )}
+          ))}
         </div>
       </div>
       
@@ -2099,7 +2192,8 @@ export default function AppointmentScheduler({
                     name="assigned_technician_id"
                     value={formData.assigned_technician_id}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                    disabled={!isManager}
+                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white ${!isManager ? 'opacity-60 cursor-not-allowed' : ''}`}
                   >
                     <option value="">Select a technician</option>
                     {technicians.map(tech => {
@@ -2200,7 +2294,10 @@ export default function AppointmentScheduler({
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {appointments.map(appointment => (
+                  {appointments.map(appointment => {
+                    const statusEditable = canStatusAppt(appointment);
+                    const appointmentEditable = canEditAppt(appointment);
+                    return (
                     <tr key={appointment.id} className="dark:hover:bg-gray-750">
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -2237,23 +2334,20 @@ export default function AppointmentScheduler({
                       <td className="px-4 py-4 whitespace-nowrap">
                         <select
                           value={appointment.status}
-                          onChange={(e) => handleStatusUpdate(appointment.id, e.target.value)}
-                          disabled={updatingStatus === appointment.id}
-                          className={`px-2 py-1 rounded text-xs font-medium border-0 cursor-pointer focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${getStatusColor(appointment.status)} ${
-                            updatingStatus === appointment.id ? 'opacity-50 cursor-not-allowed' : ''
+                          onChange={(e) => handleStatusSelect(appointment.id, appointment.status, e.target.value)}
+                          disabled={!statusEditable || updatingStatus === appointment.id}
+                          title={!statusEditable ? 'You cannot change status on this appointment' : undefined}
+                          className={`px-2 py-1 rounded text-xs font-medium border-0 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${getStatusColor(appointment.status)} ${
+                            !statusEditable || updatingStatus === appointment.id
+                              ? 'opacity-50 cursor-not-allowed'
+                              : 'cursor-pointer'
                           }`}
                         >
-                          <option value="scheduled">Scheduled</option>
-                          <option value="en_route">En Route</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="completed_pending_payment">Completed — Pending Payment</option>  
-                          <option value="completed">Completed</option>                                                                
-                          <option value="reschedule">Reschedule</option>
-                          <option value="refund">Refund</option> 
-                          <option value="phone_payment">Phone Payment</option>
-                          <option value="unreachable">Unreachable</option>
-                          <option value="failed">APR — Additional Parts Required</option>                        
-                          <option value="canceled">Canceled</option>
+                          {statusOptionsForAppointment(appointment, statusEditable).map((opt) => (
+                            <option key={opt.value} value={opt.value} disabled={Boolean(opt.disabled)}>
+                              {opt.label}
+                            </option>
+                          ))}
                         </select>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
@@ -2263,21 +2357,30 @@ export default function AppointmentScheduler({
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button
-                          onClick={() => editAppointment(appointment)}
-                          className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 mr-3"
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(appointment.id)}
-                          className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
-                        >
-                          <FaTrash />
-                        </button>
+                        {appointmentEditable && (
+                          <button
+                            onClick={() => editAppointment(appointment)}
+                            className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 mr-3"
+                            title="Edit appointment"
+                          >
+                            <FaEdit />
+                          </button>
+                        )}
+                        {canManageAppts && (
+                          <button
+                            onClick={() => handleDelete(appointment.id)}
+                            className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
+                            title="Delete appointment"
+                          >
+                            <FaTrash />
+                          </button>
+                        )}
+                        {!appointmentEditable && !canManageAppts && (
+                          <span className="text-xs text-gray-400">View only</span>
+                        )}
                       </td>
                     </tr>
-                  ))}
+                  );})}
                 </tbody>
               </table>
             </div>
@@ -2326,12 +2429,14 @@ export default function AppointmentScheduler({
                             </div>
                           </div>
                           <div className="flex">
-                            <button
-                              onClick={() => editAppointment(appointment)}
-                              className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 p-1"
-                            >
-                              <FaEdit />
-                            </button>
+                            {canEditAppt(appointment) && (
+                              <button
+                                onClick={() => editAppointment(appointment)}
+                                className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 p-1"
+                              >
+                                <FaEdit />
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -2427,6 +2532,7 @@ export default function AppointmentScheduler({
             value={formData.assigned_technician_id}
             onChange={handleInputChange}
             error={formErrors.assigned_technician_id}
+            disabled={!isManager}
           >
             <option value="">Select a technician</option>
             {technicians.map(tech => {

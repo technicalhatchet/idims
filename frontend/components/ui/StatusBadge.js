@@ -11,6 +11,8 @@ export default function StatusBadge({ status }) {
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
       case 'completed':
         return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
+      case 'closed':
+        return 'bg-slate-600 text-white dark:bg-slate-700 dark:text-slate-100';
       case 'cancelled':
       case 'canceled':
         return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
@@ -52,6 +54,8 @@ export default function StatusBadge({ status }) {
         return 'bg-red-600 text-white dark:bg-red-700 dark:text-white';
       case 'redo':
         return 'bg-indigo-600 text-white dark:bg-indigo-700 dark:text-white';
+      case 'refunded':
+        return 'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400';
       case 'draft':
         return 'bg-gray-100 text-gray-800 dark:bg-gray-800/50 dark:text-gray-300';
       case 'sent':
@@ -88,6 +92,10 @@ export default function StatusBadge({ status }) {
 
     if (status.toLowerCase() === 'failed') {
       return 'APR';
+    }
+
+    if (status.toLowerCase() === 'closed') {
+      return 'Closed';
     }
     
     // Convert snake_case to Title Case

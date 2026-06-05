@@ -28,7 +28,7 @@ class WorkOrder(Base):
     status = Column(Enum("pending", "scheduled", "en_route", "waiting_on_parts", "in_progress", "on_hold",
                         "completed", "completed_pending_payment", "pending_estimate_approval",
                         "cancelled", "parts_on_order", "reschedule", "need_to_contact",
-                        "unreachable", "recall", "redo",
+                        "unreachable", "recall", "redo", "refunded", "closed",
                         name="work_order_status_enum"), default="pending")
     property_id = Column(UUID(as_uuid=True), ForeignKey('properties.id', ondelete='SET NULL'), nullable=True)
     service_location = Column(JSONB, nullable=True)  # Address and location details
@@ -67,7 +67,13 @@ class WorkOrder(Base):
     status_history = relationship("WorkOrderStatusHistory", back_populates="work_order", cascade="all, delete-orphan")
     activity_log = relationship("WorkOrderActivityLog", back_populates="work_order", cascade="all, delete-orphan")
     performance_metrics = relationship("WorkOrderPerformanceMetric", back_populates="work_order", cascade="all, delete-orphan")
-    appointments = relationship("WorkOrderAppointment", back_populates="work_order", cascade="all, delete-orphan")
+    appointments = relationship(
+        "WorkOrderAppointment",
+        back_populates="work_order",
+        foreign_keys="WorkOrderAppointment.work_order_id",
+        primaryjoin="WorkOrder.id == WorkOrderAppointment.work_order_id",
+        cascade="all, delete-orphan",
+    )
     invoices = relationship("Invoice", back_populates="work_order")
     documents = relationship("Document", back_populates="work_order")
     quote = relationship("Quote", back_populates="work_order")
@@ -93,6 +99,38 @@ class WorkOrder(Base):
     # Tax tracking
     tax_rate = Column(Numeric(5, 4), nullable=False, default=0.0775)  # e.g. 0.0775 = 7.75%
     tax_collected = Column(Numeric(10, 2), nullable=False, default=0.00)  # Running total of tax actually collected
+
+    # Administrative close (separate from status=completed / operational complete)
+    is_closed = Column(Boolean, nullable=False, default=False)
+    closed_at = Column(DateTime, nullable=True)
+    closed_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    parent_work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id", ondelete="SET NULL"), nullable=True)
+    is_redo = Column(Boolean, nullable=False, default=False)
+    redo_source_appointment_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("work_order_appointments.id", ondelete="SET NULL"),
+        nullable=True,
+        unique=True,
+    )
+    parent_work_order = relationship(
+        "WorkOrder",
+        remote_side=[id],
+        foreign_keys=[parent_work_order_id],
+        back_populates="child_redo_work_orders",
+    )
+    child_redo_work_orders = relationship(
+        "WorkOrder",
+        foreign_keys=[parent_work_order_id],
+        back_populates="parent_work_order",
+    )
+    redo_source_appointment = relationship(
+        "WorkOrderAppointment",
+        foreign_keys=[redo_source_appointment_id],
+        primaryjoin="WorkOrder.redo_source_appointment_id == WorkOrderAppointment.id",
+        uselist=False,
+        post_update=True,
+    )
+    closed_by_user = relationship("User", foreign_keys=[closed_by])
     
     def __repr__(self):
         return f"<WorkOrder {self.order_number}>" # Removed title from repr
@@ -106,8 +144,8 @@ class WorkOrder(Base):
     
     @property
     def is_completed(self):
-        """Check if work order is completed"""
-        return self.status == "completed"
+        """Check if work order is completed or administratively closed"""
+        return self.status in ("completed", "closed")
     
     @property
     def is_overdue(self):
@@ -151,22 +189,23 @@ class WorkOrder(Base):
                     # Full price or remaining balance due
                     parts_subtotal += price
         
-        # Apply diagnostic discount if both diagnostic and repair services exist
+        # Apply diagnostic discount when diagnostic + repair SKUs exist
         discount_amount = Decimal('0.00')
-        if diagnostic_price > 0 and repair_price > 0 and not self.diagnostic_discount_applied:
-            # Apply diagnostic discount to repair price
-            discount_amount = diagnostic_price
-            self.diagnostic_discount_applied = True
-            self.diagnostic_discount_amount = discount_amount
-            # Subtract discount from services subtotal
+        if diagnostic_price > 0 and repair_price > 0:
+            if self.diagnostic_discount_applied and self.diagnostic_discount_amount:
+                discount_amount = Decimal(str(self.diagnostic_discount_amount))
+            elif not self.diagnostic_discount_applied:
+                discount_amount = diagnostic_price
+                self.diagnostic_discount_applied = True
+                self.diagnostic_discount_amount = discount_amount
             services_subtotal -= discount_amount
-        
-        # Total subtotal (after discount)
+
+        # Total subtotal (services after discount + parts)
         subtotal = services_subtotal + parts_subtotal
-        
-        # Basic tax calculation (e.g. 0% for now, can be configurable)
-        tax_rate = Decimal('0.00')
-        tax = subtotal * tax_rate
+
+        # Tax on parts only (matches invoice tab)
+        tax_rate = Decimal(str(self.tax_rate or 0))
+        tax = (parts_subtotal * tax_rate).quantize(Decimal('0.01'))
         total = subtotal + tax
 
         self.invoice_subtotal = subtotal
@@ -401,7 +440,7 @@ class WorkOrderAppointment(Base):
     work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id"), nullable=False)
     appointment_type = Column(String(50), nullable=False)  # 'diagnostic', 'repair', 'follow-up', etc.
     status = Column(Enum("scheduled", "reschedule", "completed", "canceled", "phone_payment", "refund",
-                    "en_route", "in_progress", "completed_pending_payment", "unreachable", "failed",
+                    "en_route", "in_progress", "completed_pending_payment", "unreachable", "failed", "redo",
                     name="appointment_status_enum"), default="scheduled")
     scheduled_start = Column(DateTime, nullable=False)
     scheduled_end = Column(DateTime, nullable=False)
@@ -425,7 +464,12 @@ class WorkOrderAppointment(Base):
     mileage = relationship("AppointmentMileage", back_populates="appointment", uselist=False, cascade="all, delete-orphan")
     
     # Relationships
-    work_order = relationship("WorkOrder", back_populates="appointments")
+    work_order = relationship(
+        "WorkOrder",
+        back_populates="appointments",
+        foreign_keys=[work_order_id],
+        primaryjoin="WorkOrderAppointment.work_order_id == WorkOrder.id",
+    )
     technician = relationship("Technician", foreign_keys=[assigned_technician_id])
     services = relationship(
         "Service", 

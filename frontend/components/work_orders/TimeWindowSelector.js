@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { TIME_WINDOWS, isTimeWindowAvailable } from '../../utils/appointment-scheduling';
 
@@ -37,9 +37,19 @@ export default function TimeWindowSelector({
   address = null,
   excludeAppointmentId = null,
   minSlotMinutes = undefined,
+  allowUnavailableSelection = false,
 }) {
   const [selectedTimeWindow, setSelectedTimeWindow] = useState(initialValue);
   const [availabilities, setAvailabilities] = useState({});
+  const onSelectRef = useRef(onSelectTimeWindow);
+
+  useEffect(() => {
+    onSelectRef.current = onSelectTimeWindow;
+  }, [onSelectTimeWindow]);
+
+  useEffect(() => {
+    setSelectedTimeWindow(initialValue);
+  }, [initialValue]);
   
   // Check availability when selectedDate, appointments, or technician changes
   useEffect(() => {
@@ -87,38 +97,38 @@ export default function TimeWindowSelector({
     setAvailabilities(newAvailabilities);
     
     // If the previously selected window is now unavailable, reset selection
-    if (selectedTimeWindow && newAvailabilities[selectedTimeWindow]?.available === false) {
+    if (
+      !allowUnavailableSelection &&
+      selectedTimeWindow &&
+      newAvailabilities[selectedTimeWindow]?.available === false
+    ) {
       setSelectedTimeWindow(null);
-      if (onSelectTimeWindow) {
-        onSelectTimeWindow(null);
-      }
+      onSelectRef.current?.(null);
     }
   }, [
     selectedDate,
     existingAppointments,
     technicianId,
     selectedTimeWindow,
-    onSelectTimeWindow,
     excludeAppointmentId,
     minSlotMinutes,
+    allowUnavailableSelection,
   ]);
   
   // Handle window selection
   const handleTimeWindowSelect = (windowName) => {
-    // Only allow selection of available time windows
-    const availabilityInfo = availabilities[windowName]; // Get the full availability info
-    
-    if (availabilityInfo?.available) {
-      const newValue = selectedTimeWindow === windowName ? null : windowName;
-      setSelectedTimeWindow(newValue);
-      if (onSelectTimeWindow) {
-        // Pass the availability object directly as the second argument
-        onSelectTimeWindow(newValue, availabilityInfo);
-      }
-    } else {
-      // Optionally handle clicking an unavailable window (e.g., show an alert)
+    const availabilityInfo = availabilities[windowName];
+    const canSelect =
+      allowUnavailableSelection || availabilityInfo?.available === true;
+
+    if (!canSelect) {
       console.warn(`Attempted to select unavailable window: ${windowName}`);
+      return;
     }
+
+    const newValue = selectedTimeWindow === windowName ? null : windowName;
+    setSelectedTimeWindow(newValue);
+    onSelectRef.current?.(newValue, availabilityInfo);
   };
   
   const renderCapacityIndicator = (windowName) => {
@@ -178,18 +188,22 @@ export default function TimeWindowSelector({
       {/* Replace Grid container with div and apply Tailwind grid classes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {timeWindowsUI.map((window) => {
-          const isAvailable = availabilities[window.id]?.available === true;
+          const availability = availabilities[window.id];
+          const isKnownUnavailable = availability?.available === false;
+          const isSelectable = allowUnavailableSelection || availability?.available === true;
           const isSelected = selectedTimeWindow === window.id;
           
-          // Combine classes conditionally (could use clsx library for more complex cases)
           const buttonClasses = `
-            border rounded-lg p-3 w-full flex items-start transition-colors duration-150 
-            ${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}
+            border rounded-lg p-3 w-full flex items-start transition-colors duration-150 text-left
+            ${isSelectable ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}
             ${isSelected
               ? 'border-blue-500 bg-blue-50 dark:bg-blue-900 dark:border-blue-700' 
               : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800'}
-            ${isAvailable && !isSelected 
+            ${isSelectable && !isSelected 
               ? 'hover:bg-gray-100 dark:hover:bg-gray-700' 
+              : ''}
+            ${isKnownUnavailable && allowUnavailableSelection && !isSelected
+              ? 'border-amber-300 dark:border-amber-700'
               : ''}
           `;
 
@@ -204,10 +218,12 @@ export default function TimeWindowSelector({
             // Replace Grid item with div
             <div key={window.id}>
               {/* Replace Paper/Tooltip with div, apply classes and title */}
-              <div
+              <button
+                type="button"
                 className={buttonClasses}
-                title={!isAvailable ? (availabilities[window.id]?.reason || 'Unavailable') : ''}
-                onClick={() => isAvailable && handleTimeWindowSelect(window.id)}
+                title={!isSelectable ? (availability?.reason || 'Unavailable') : ''}
+                disabled={!isSelectable}
+                onClick={() => handleTimeWindowSelect(window.id)}
               >
                 {/* Icon container */}
                 <div className={iconContainerClasses}>
@@ -219,7 +235,7 @@ export default function TimeWindowSelector({
                   <p className="text-sm text-gray-600 dark:text-gray-300">{window.description}</p>
                   {renderCapacityIndicator(window.id)}
                 </div>
-              </div>
+              </button>
             </div>
           );
         })}

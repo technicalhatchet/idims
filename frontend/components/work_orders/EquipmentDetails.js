@@ -7,6 +7,7 @@ import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
 import Image from 'next/image';
 import EquipmentDetailsMobile from './EquipmentDetailsMobile';
+import { isWorkOrderClosed } from '../../utils/workOrderPermissions';
 
 // Equipment types
 const EQUIPMENT_TYPES = [
@@ -94,8 +95,9 @@ const PART_LOOKUP_LOGOS = {
   encompass: <Image src="/images/logos/encompass.png" alt="Encompass" width={100} height={50} className="w-24 h-12 object-contain" />
 };
 
-export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop' }) {
+export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false }) {
   const isMobile = variant === 'mobile';
+  const structuralReadOnly = readOnly || isWorkOrderClosed(workOrder);
   const [openSection, setOpenSection] = useState(null);
   // Equipment details
   const [equipmentType, setEquipmentType] = useState(workOrder?.equipment_type || '');
@@ -172,6 +174,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   };
 
   const saveEquipmentDetails = async () => {
+    if (structuralReadOnly) return;
     try {
       setLoading(true);
       setError(null);
@@ -239,6 +242,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   };
 
   const addOrUpdatePart = async () => {
+    if (structuralReadOnly) return;
     setLoading(true);
     try {
       // Prepare data for API - handle vendor field
@@ -299,12 +303,14 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   };
 
   const startEditPart = (index) => {
+    if (structuralReadOnly) return;
     setCurrentPart({ ...parts[index] });
     setEditingPartIndex(index);
     setShowPartForm(true);
   };
 
   const deletePart = async (index) => {
+    if (structuralReadOnly) return;
     const part = parts[index];
     if (!part) return;
 
@@ -378,6 +384,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   // Add a function to update just the part status
   const updatePartStatus = async (partIndex, newStatus) => {
+    if (structuralReadOnly) return;
     try {
       const part = parts[partIndex];
       const price = parseFloat(part.price || 0);
@@ -492,6 +499,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
         openPartModal={openPartModal}
         closePartModal={closePartModal}
         updatePartStatus={updatePartStatus}
+        readOnly={structuralReadOnly}
         generateSearchLink={generateSearchLink}
       />
     );
@@ -561,6 +569,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
             )}
             
             <div className="pt-2">
+              {!structuralReadOnly && (
               <Button 
                 onClick={saveEquipmentDetails} 
                 disabled={loading}
@@ -569,6 +578,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
               >
                 {loading ? 'Saving...' : 'Save Equipment Details'}
               </Button>
+              )}
               
               {error && (
                 <div className="mt-2 text-red-600 dark:text-red-400 text-sm">
@@ -745,7 +755,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Parts List</h3>
               
-              {!showPartForm && (
+              {!structuralReadOnly && !showPartForm && (
                 <Button 
                   onClick={() => setShowPartForm(true)} 
                   color="green" 
@@ -877,7 +887,9 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium" onClick={e => e.stopPropagation()}>
-                            <div className="flex space-x-2">
+                            <div className="flex space-x-2 items-center">
+                              {!structuralReadOnly ? (
+                                <>
                               <button 
                                 className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                                 onClick={(e) => {
@@ -898,16 +910,6 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                               >
                                 <FaTrash className="h-4 w-4" />
                               </button>
-                              <button 
-                                className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  openPartModal(part);
-                                }}
-                                title="View details"
-                              >
-                                <FaInfoCircle className="h-4 w-4" />
-                              </button>
                               <div className="relative ml-2">
                                 <select
                                   className="appearance-none w-24 text-xs bg-transparent border border-gray-300 dark:border-gray-600 rounded px-2 py-1 cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -926,6 +928,20 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                                   ))}
                                 </select>
                               </div>
+                                </>
+                              ) : (
+                                <span className="text-xs text-gray-400">Read-only</span>
+                              )}
+                              <button 
+                                className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openPartModal(part);
+                                }}
+                                title="View details"
+                              >
+                                <FaInfoCircle className="h-4 w-4" />
+                              </button>
                             </div>
                           </td>
                         </tr>

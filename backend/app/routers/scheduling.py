@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Body, Path, status, Request
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session, joinedload, noload
 from sqlalchemy import or_
 from typing import List, Optional, Dict, Any
 import uuid
@@ -649,7 +649,7 @@ async def get_combined_schedule(
     """
     try:
         from app.models.work_order import WorkOrderAppointment
-        
+
         # Convert dates to datetime for query
         start_datetime = datetime.combine(start_date, datetime.min.time())
         end_datetime = datetime.combine(end_date, datetime.max.time())
@@ -659,10 +659,12 @@ async def get_combined_schedule(
             db.query(WorkOrderAppointment)
             .join(WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id)
             .options(
-                joinedload(WorkOrderAppointment.technician),
+                joinedload(WorkOrderAppointment.technician).noload(Technician.technician_skills),
                 joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrder.client),
                 joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrder.property_ref),
-                joinedload(WorkOrderAppointment.work_order).joinedload(WorkOrder.technician),
+                joinedload(WorkOrderAppointment.work_order)
+                .joinedload(WorkOrder.technician)
+                .noload(Technician.technician_skills),
             )
             .filter(
                 WorkOrderAppointment.scheduled_start.isnot(None),

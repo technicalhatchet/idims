@@ -30,6 +30,7 @@ from app.schemas.work_order import (
     WorkOrderPartCreate, WorkOrderPartUpdate, WorkOrderPartResponse,
     BillingStatusUpdate, WorkOrderBillingSummary, AdminBillingOverride,
     WorkOrderWithInitialAppointmentCreate, WorkOrderWithInitialAppointmentResponse,
+    WorkOrderCloseReadinessResponse, RedoWorkOrderCreateRequest,
 )
 from app.schemas.work_order_payment import (
     RecordWorkOrderPaymentRequest,
@@ -40,10 +41,9 @@ from app.services.work_order_payment_service import record_work_order_payment, l
 from app.services import work_order_photos_service as photos_svc
 from app.schemas.service import ServiceResponse
 from app.services.work_order_service import WorkOrderService
-from app.core.dependencies import get_current_user, get_admin_or_manager_user
+from app.core.dependencies import get_current_user, get_admin_or_manager_user, get_admin_user
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException, BadRequestException
 from app.services.user_service import UserService
-from app.dependencies import require_role
 from app import schemas
 from app.utils.work_order_display import (
     primary_appointments_by_work_order_ids,
@@ -66,6 +66,9 @@ def _validate_forced_schedule_permission(
     if is_forced_schedule is None:
         return
     roles = _user_role_set(current_user)
+    if is_forced_schedule is False and not roles.intersection({"admin", "manager"}):
+        # Technicians submit is_forced_schedule=false from the form default — not an admin clear.
+        return
     if not roles.intersection({"admin", "manager"}):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -77,59 +80,95 @@ def _validate_forced_schedule_permission(
             detail="Only admins can clear the force schedule flag",
         )
 
+
+TECH_APPOINTMENT_STATUS_ONLY_UPDATES = frozenset({
+    "scheduled",
+    "en_route",
+    "in_progress",
+    "reschedule",
+    "completed",
+    "completed_pending_payment",
+    "unreachable",
+    "failed",
+})
+
+CLOSED_WO_APPOINTMENT_STATUS_ONLY = frozenset({
+    "redo",
+    "refund",
+    "completed",
+})
+
+
+def _technician_record_for_user(db: Session, current_user: UserModel) -> Technician:
+    technician = UserService.get_technician_by_user_id(db, current_user.id)
+    if not technician:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Technician profile not found",
+        )
+    return technician
+
+
+def _assert_technician_owns_appointment(appointment: WorkOrderAppointment, technician: Technician) -> None:
+    if appointment.assigned_technician_id != technician.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Technicians can only update their own appointments",
+        )
+
 # Initialize auth handler
 auth_handler = get_auth_handler()
 
 router = APIRouter()
 
-# Helper function for checking work order access
-async def can_access_work_order(work_order_id: uuid.UUID, current_user: UserModel, db: Session) -> bool:
-    """
-    Check if the current user can access a specific work order.
-    
-    Args:
-        work_order_id: The ID of the work order
-        current_user: The current user
-        db: Database session
-        
-    Returns:
-        bool: True if the user can access the work order, False otherwise
-    """
+async def can_view_work_order(work_order_id: uuid.UUID, current_user: UserModel, db: Session) -> bool:
+    """Any technician may view any work order; clients only their own."""
     try:
-        # Admins and managers can access all work orders
-        if any(role in ["admin", "manager"] for role in current_user.roles):
+        roles = current_user.roles or []
+        if any(role in ["admin", "manager", "technician"] for role in roles):
             return True
-            
-        # Get the work order
+
         work_order = await WorkOrderService.get_work_order(db, work_order_id)
-        
-        # Calculate totals before returning the work order
-        work_order.calculate_totals()
-        logging.info(f"DEBUG: Work order {work_order_id} fetched - services: {len(work_order.services)}")
-        logging.info(f"DEBUG: Services billing status: {[(s.name, s.billing_status) for s in work_order.services]}")
-        
-        
-        # Clients can only access their own work orders
-        if "client" in current_user.roles:
+
+        if "client" in roles:
             client = UserService.get_client_by_user_id(db, current_user.id)
             if not client:
                 logger.warning(f"Client record not found for user {current_user.id}")
                 return False
-                
             return work_order.client_id == client.id
-            
-        # Technicians can only access work orders assigned to them
-        elif "technician" in current_user.roles:
+
+        return False
+    except Exception as e:
+        logger.error(f"Error checking work order view access: {str(e)}")
+        return False
+
+
+async def can_access_work_order(work_order_id: uuid.UUID, current_user: UserModel, db: Session) -> bool:
+    """
+    Mutation access (legacy name). Technicians may only mutate work orders assigned
+    at the work-order header; appointment-level edit rules are enforced separately.
+    """
+    try:
+        if any(role in ["admin", "manager"] for role in (current_user.roles or [])):
+            return True
+
+        work_order = await WorkOrderService.get_work_order(db, work_order_id)
+
+        if "client" in (current_user.roles or []):
+            client = UserService.get_client_by_user_id(db, current_user.id)
+            if not client:
+                logger.warning(f"Client record not found for user {current_user.id}")
+                return False
+            return work_order.client_id == client.id
+
+        if "technician" in (current_user.roles or []):
             technician = UserService.get_technician_by_user_id(db, current_user.id)
             if not technician:
                 logger.warning(f"Technician record not found for user {current_user.id}")
                 return False
-                
             return work_order.assigned_technician_id == technician.id
-            
-        # By default, deny access
+
         return False
-        
     except Exception as e:
         logger.error(f"Error checking work order access: {str(e)}")
         return False
@@ -150,8 +189,7 @@ async def list_work_orders(
     """
     List work orders with filtering options.
     
-    Admins and managers can see all work orders.
-    Technicians can only see their assigned work orders.
+    Admins, managers, and technicians can see all work orders.
     Clients can only see their own work orders.
     """
     request_id = str(uuid.uuid4())
@@ -204,19 +242,11 @@ async def list_work_orders(
         client_uuid = client.id
         
     elif "technician" in current_user.roles:
-        # Technicians can only see work orders assigned to them
-        logger.info(f"[REQUEST-{request_id}] Filtering work orders for technician: {current_user.id}")
-        technician = UserService.get_technician_by_user_id(db, current_user.id)
-        if not technician:
-            logger.warning(f"[REQUEST-{request_id}] Technician record not found for user {current_user.id}")
-            return {
-                "total": 0,
-                "page": page,
-                "pages": 0,
-                "items": []
-            }
-        technician_uuid = technician.id
-        
+        logger.info(
+            f"[REQUEST-{request_id}] Technician {current_user.id} — listing all work orders "
+            f"(optional technician_id query filter: {technician_uuid})"
+        )
+
     else:
         # Admins and managers can see all work orders
         logger.info(f"[REQUEST-{request_id}] User has roles {current_user.roles} - showing all work orders")
@@ -401,7 +431,7 @@ async def get_work_order(
     """
     try:
         # Check if user can access this work order
-        can_access = await can_access_work_order(work_order_id, current_user, db)
+        can_access = await can_view_work_order(work_order_id, current_user, db)
         if not can_access:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
@@ -616,6 +646,40 @@ async def get_work_order(
             appointment_list.append(appointment_dict)
         
         response_dict["appointments"] = appointment_list
+
+        response_dict["is_closed"] = bool(getattr(work_order, "is_closed", False))
+        response_dict["is_redo"] = bool(getattr(work_order, "is_redo", False))
+        response_dict["parent_work_order_id"] = (
+            str(work_order.parent_work_order_id) if work_order.parent_work_order_id else None
+        )
+        if work_order.parent_work_order_id:
+            parent_wo = (
+                db.query(WorkOrderModel)
+                .filter(WorkOrderModel.id == work_order.parent_work_order_id)
+                .first()
+            )
+            response_dict["parent_order_number"] = parent_wo.order_number if parent_wo else None
+        else:
+            response_dict["parent_order_number"] = None
+        response_dict["has_redo_appointments"] = any(
+            (a.status.value if hasattr(a.status, "value") else str(a.status)) == "redo"
+            for a in appointments
+        )
+        child_redos = (
+            db.query(WorkOrderModel)
+            .filter(WorkOrderModel.parent_work_order_id == work_order_id)
+            .all()
+        )
+        response_dict["child_redo_work_orders"] = [
+            {
+                "id": str(c.id),
+                "order_number": c.order_number,
+                "redo_source_appointment_id": (
+                    str(c.redo_source_appointment_id) if c.redo_source_appointment_id else None
+                ),
+            }
+            for c in child_redos
+        ]
 
         # Effective status when DB still has pending but non-canceled appointment(s) exist
         if appointments:
@@ -858,7 +922,7 @@ async def get_work_order_timeline(
 ):
     """Get the timeline of events for a work order"""
     # Check permissions directly
-    can_access = await can_access_work_order(work_order_id, current_user, db)
+    can_access = await can_view_work_order(work_order_id, current_user, db)
     if not can_access:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -883,7 +947,7 @@ async def get_work_order_performance(
     current_user: UserModel = Depends(get_current_user)
 ):
     """On-site time and other stored performance metrics for a work order."""
-    can_access = await can_access_work_order(work_order_id, current_user, db)
+    can_access = await can_view_work_order(work_order_id, current_user, db)
     if not can_access:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -1127,7 +1191,7 @@ async def list_work_order_appointments(
     List appointments for a specific work order with optional status filtering.
     """
     # Check if user can access this work order
-    can_access = await can_access_work_order(work_order_id, current_user, db)
+    can_access = await can_view_work_order(work_order_id, current_user, db)
     if not can_access:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -1272,13 +1336,22 @@ def get_technician_schedule(
     technician_id: UUID4 = Query(..., description="ID of the technician whose schedule is being requested"),
     schedule_date: py_date = Query(..., description="The specific date for the schedule (YYYY-MM-DD)"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_admin_or_manager_user)
+    current_user: UserModel = Depends(get_current_user),
 ):
     """
     Get all appointments for a technician on a specific date across all work orders.
     This is used for schedule planning and conflict checking.
     """
     logger.info(f"Fetching schedule for technician {technician_id} on date {schedule_date} by user {current_user.email}")
+
+    roles = current_user.roles or []
+    if "technician" in roles and not any(r in roles for r in ("admin", "manager")):
+        own_technician = _technician_record_for_user(db, current_user)
+        if own_technician.id != technician_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Technicians can only view their own schedule",
+            )
     
     try:
         # Validate technician_id
@@ -1383,7 +1456,7 @@ async def get_work_order_appointment(
         appointment = await WorkOrderService.get_work_order_appointment(db, appointment_id)
         
         # Check if user can access the related work order
-        can_access = await can_access_work_order(appointment.work_order_id, current_user, db)
+        can_access = await can_view_work_order(appointment.work_order_id, current_user, db)
         if not can_access:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
@@ -1429,67 +1502,87 @@ async def update_work_order_appointment(
     """
     Update an existing appointment.
     Administrators and managers can update all appointment fields.
-    Technicians may only update the status field on their own appointments,
-    to: en_route, in_progress, reschedule, completed, completed_pending_payment, or unreachable.
+    Technicians may update appointments assigned to them (scheduling, notes, status, etc.)
+    but cannot reassign or force-schedule.
     """
     try:
-        # Allowed appointment statuses for technician-only status updates (field day workflow)
-        TECH_APPOINTMENT_STATUS_UPDATES = frozenset({
-            "en_route",
-            "in_progress",
-            "reschedule",
-            "completed",
-            "completed_pending_payment",
-            "unreachable",
-            "failed",
-        })
-        # Check permissions based on user role
-        if "technician" in current_user.roles:
-            # Technicians may only update status on their own appointments
-            appointment = db.query(WorkOrderAppointment).filter(WorkOrderAppointment.id == appointment_id).first()
+        roles = current_user.roles or []
+        is_staff_tech = "technician" in roles and not any(r in roles for r in ("admin", "manager"))
+
+        if is_staff_tech:
+            appointment = db.query(WorkOrderAppointment).filter(
+                WorkOrderAppointment.id == appointment_id
+            ).first()
             if not appointment:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"Appointment with ID {appointment_id} not found"
+                    detail=f"Appointment with ID {appointment_id} not found",
                 )
-            
-            # Get technician record for current user
-            technician = db.query(Technician).filter(Technician.user_id == current_user.id).first()
-            if not technician:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Technician profile not found"
-                )
-            
-            # Check if this is the technician's appointment
-            if appointment.assigned_technician_id != technician.id:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Technicians can only update their own appointments"
-                )
-            
+
+            technician = _technician_record_for_user(db, current_user)
+            _assert_technician_owns_appointment(appointment, technician)
+
             update_data = appointment_update.model_dump(exclude_unset=True)
-            if len(update_data) > 1:
+
+            if update_data.get("is_forced_schedule") is True:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Technicians can only update appointment status on this endpoint"
+                    detail="Only managers and admins can use force schedule",
                 )
-            if "status" not in update_data:
+
+            new_tech_id = update_data.get("assigned_technician_id")
+            if new_tech_id is not None and new_tech_id != technician.id:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Technicians must specify status when updating an appointment"
+                    detail="Technicians cannot reassign appointments",
                 )
-            if update_data["status"] not in TECH_APPOINTMENT_STATUS_UPDATES:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Technicians can only set appointment status to: en_route, in_progress, reschedule, completed, completed_pending_payment, unreachable, or APR (failed)"
-                )
-        
-        elif not any(role in ["admin", "manager"] for role in current_user.roles):
+
+            # Quick field-day status button: status-only updates use a narrower allow-list.
+            if set(update_data.keys()) == {"status"}:
+                parent_wo = db.query(WorkOrderModel).filter(
+                    WorkOrderModel.id == appointment.work_order_id
+                ).first()
+                if parent_wo and getattr(parent_wo, "is_closed", False):
+                    if update_data["status"] not in CLOSED_WO_APPOINTMENT_STATUS_ONLY:
+                        raise HTTPException(
+                            status_code=status.HTTP_403_FORBIDDEN,
+                            detail=(
+                                "Closed work orders only allow appointment status changes to "
+                                "redo, refund, or completed"
+                            ),
+                        )
+                elif update_data["status"] not in TECH_APPOINTMENT_STATUS_ONLY_UPDATES:
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail=(
+                            "Technicians can only set appointment status to: scheduled, en_route, "
+                            "in_progress, reschedule, completed, completed_pending_payment, "
+                            "unreachable, or APR (failed)"
+                        ),
+                    )
+
+        elif not any(role in ["admin", "manager"] for role in roles):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Admin, manager, or technician role required"
             )
+
+        appt_for_guard = db.query(WorkOrderAppointment).filter(
+            WorkOrderAppointment.id == appointment_id
+        ).first()
+        if appt_for_guard:
+            wo_for_guard = db.query(WorkOrderModel).filter(
+                WorkOrderModel.id == appt_for_guard.work_order_id
+            ).first()
+            if wo_for_guard:
+                from app.services.work_order_lifecycle_service import assert_appointment_update_allowed
+
+                update_keys = set(appointment_update.model_dump(exclude_unset=True).keys())
+                assert_appointment_update_allowed(
+                    wo_for_guard,
+                    update_keys,
+                    appointment_update.status,
+                )
 
         if appointment_update.is_forced_schedule is not None:
             _validate_forced_schedule_permission(current_user, appointment_update.is_forced_schedule)
@@ -1550,16 +1643,18 @@ async def update_work_order_appointment(
                             service.billing_status = 'billable'
                 
                 elif new_status == 'refund':
-                    # Refund → Revert: Revert paid services back to billable, billable services to not_billable
-                    logging.info(f"DEBUG: Status changed to refund, reverting billing statuses")
-                    
-                    for service in services:
-                        if service.billing_status == 'paid':
-                            logging.info(f"DEBUG: Reverting paid service {service.id} back to billable")
-                            service.billing_status = 'billable'
-                        elif service.billing_status == 'billable':
-                            logging.info(f"DEBUG: Reverting billable service {service.id} back to not_billable")
-                            service.billing_status = 'not_billable'
+                    if work_order and getattr(work_order, "is_closed", False):
+                        work_order.status = "refunded"
+                        logging.info("Closed work order marked refunded (billing history unchanged)")
+                    else:
+                        logging.info(f"DEBUG: Status changed to refund, reverting billing statuses")
+                        for service in services:
+                            if service.billing_status == 'paid':
+                                logging.info(f"DEBUG: Reverting paid service {service.id} back to billable")
+                                service.billing_status = 'billable'
+                            elif service.billing_status == 'billable':
+                                logging.info(f"DEBUG: Reverting billable service {service.id} back to not_billable")
+                                service.billing_status = 'not_billable'
                 
                 else:
                     # Any other status change → Revert: Revert billable services to not_billable (not paid ones)
@@ -1606,8 +1701,10 @@ async def update_work_order_appointment(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=str(e)
         )
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"Error updating work order appointment: {str(e)}")
+        logger.error(f"Error updating work order appointment: {str(e)}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error updating appointment: {str(e)}"
@@ -1664,7 +1761,7 @@ async def list_work_order_notes_v2(
     Private notes are only visible to staff (admins, managers, and technicians).
     """
     # Check if user can access this work order
-    can_access = await can_access_work_order(work_order_id, current_user, db)
+    can_access = await can_view_work_order(work_order_id, current_user, db)
     if not can_access:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -1841,7 +1938,7 @@ async def list_work_order_photos(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
-    can_access = await can_access_work_order(work_order_id, current_user, db)
+    can_access = await can_view_work_order(work_order_id, current_user, db)
     if not can_access:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You don't have permission to access this work order")
 
@@ -1901,7 +1998,7 @@ async def download_work_order_photo(
 ):
     try:
         row = photos_svc.get_photo(db, photo_id)
-        can_access = await can_access_work_order(row.work_order_id, current_user, db)
+        can_access = await can_view_work_order(row.work_order_id, current_user, db)
         if not can_access:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You don't have permission to access this work order")
         content, mime = photos_svc.read_photo_bytes(row)
@@ -2076,6 +2173,12 @@ async def get_work_order_parts(
     current_user: UserModel = Depends(get_current_user)
 ):
     """Get all parts for a work order"""
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You don't have permission to access this work order",
+        )
+
     # Check if work order exists
     work_order = await WorkOrderService.get_work_order(db, work_order_id)
     
@@ -2128,7 +2231,7 @@ async def get_work_order_estimate_pdf(
     """Generate and stream an estimate PDF."""
     from app.services.pdf_service import PDFService
     from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart
-    if not await can_access_work_order(work_order_id, current_user, db):
+    if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
     # Direct DB query instead of service to avoid NotFoundException masking real errors
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
@@ -2178,7 +2281,7 @@ async def get_work_order_invoice_pdf(
     """Generate and stream an invoice PDF."""
     from app.services.pdf_service import PDFService
     from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart, WorkOrderNote
-    if not await can_access_work_order(work_order_id, current_user, db):
+    if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
     if not work_order:
@@ -2445,8 +2548,8 @@ async def get_work_order_billing_summary(
     Get billing summary for a work order including due today calculation.
     """
     try:
-        # Check if user can access this work order
-        if not await can_access_work_order(work_order_id, current_user, db):
+        # Check if user can view this work order
+        if not await can_view_work_order(work_order_id, current_user, db):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Access denied to this work order"
@@ -2598,7 +2701,7 @@ async def get_work_order_payments(
     current_user: UserModel = Depends(get_current_user),
 ):
     """List field-recorded payments for a work order."""
-    if not await can_access_work_order(work_order_id, current_user, db):
+    if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
     items = list_work_order_payments(db, work_order_id)
     return WorkOrderPaymentListResponse(items=items, total=len(items))
@@ -2712,3 +2815,106 @@ async def admin_billing_override(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error applying override: {str(e)}"
         )
+
+
+@router.get(
+    "/{work_order_id}/close-readiness",
+    response_model=WorkOrderCloseReadinessResponse,
+)
+async def get_work_order_close_readiness(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    from app.services.work_order_lifecycle_service import build_close_readiness
+
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to view this work order",
+        )
+
+    return build_close_readiness(db, work_order_id)
+
+
+@router.post("/{work_order_id}/close", response_model=WorkOrderResponse)
+async def close_work_order_endpoint(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    from app.services.work_order_lifecycle_service import close_work_order
+
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to close this work order",
+        )
+
+    try:
+        close_work_order(db, work_order_id, current_user.id)
+        db.commit()
+        return await WorkOrderService.get_work_order(db, work_order_id)
+    except ValidationException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.post("/{work_order_id}/reopen", response_model=WorkOrderResponse)
+async def reopen_work_order_endpoint(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_user),
+):
+    from app.services.work_order_lifecycle_service import reopen_work_order
+
+    try:
+        reopen_work_order(db, work_order_id, current_user.id)
+        db.commit()
+        return await WorkOrderService.get_work_order(db, work_order_id)
+    except ValidationException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.post("/{work_order_id}/reclose", response_model=WorkOrderResponse)
+async def reclose_work_order_endpoint(
+    work_order_id: uuid.UUID = Path(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_or_manager_user),
+):
+    from app.services.work_order_lifecycle_service import reclose_work_order
+
+    try:
+        reclose_work_order(db, work_order_id, current_user.id)
+        db.commit()
+        return await WorkOrderService.get_work_order(db, work_order_id)
+    except ValidationException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.post("/{work_order_id}/create-redo")
+async def create_redo_work_order_endpoint(
+    work_order_id: uuid.UUID = Path(...),
+    body: RedoWorkOrderCreateRequest = Body(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    from app.services.work_order_redo_service import create_redo_from_appointment
+
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to create a redo for this work order",
+        )
+
+    try:
+        return await create_redo_from_appointment(
+            db,
+            parent_work_order_id=work_order_id,
+            appointment_id=body.appointment_id,
+            user_id=current_user.id,
+            scheduled_start=body.scheduled_start,
+            scheduled_end=body.scheduled_end,
+            time_window=body.time_window,
+        )
+    except (ValidationException, ConflictException) as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
