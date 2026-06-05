@@ -104,10 +104,14 @@ export async function fetchWorkOrderWithCache(id) {
 
   try {
     const data = await getWorkOrder(id);
-    if (data) {
-      await cacheWorkOrderBundle(data);
+    const transformed = transformWorkOrderRecord(data);
+    if (transformed) {
+      // Persist in background — don't block the UI on IndexedDB writes
+      void cacheWorkOrderBundle(transformed).catch((err) => {
+        console.warn('[fetchWorkOrderWithCache] Background cache failed:', err);
+      });
     }
-    return transformWorkOrderRecord(data);
+    return transformed;
   } catch (err) {
     const cached = await getCachedWorkOrderEnriched(id);
     if (cached) return cached;
@@ -175,23 +179,32 @@ export async function warmWorkOrderCache(id) {
   if (isOffline() || !id) return;
 
   try {
-    const wo = await getWorkOrder(id);
-    if (wo) await cacheWorkOrderBundle(wo);
-
-    const parts = await apiClient(`work-orders/${id}/parts`);
-    const partItems = Array.isArray(parts) ? parts : parts?.items || [];
-    if (partItems.length) {
-      await PartStore.putAll(partItems.map((p) => ({ ...p, work_order_id: id })));
+    const cached = await getCachedWorkOrderEnriched(id);
+    if (cached?.parts?.length && cached?.appointments?.length) {
+      return;
     }
 
-    const appts = await apiClient(`work-orders/${id}/appointments`);
-    const apptItems = (appts?.items || appts || []).map((a) => ({
-      ...a,
-      work_order_id: id,
-      date: (a.scheduled_start || a.start || '').substring(0, 10),
-    }));
-    if (apptItems.length) {
-      await AppointmentStore.putAll(apptItems);
+    const wo = cached || (await getWorkOrder(id));
+    if (wo) await cacheWorkOrderBundle(wo);
+
+    if (!cached?.parts?.length) {
+      const parts = await apiClient(`work-orders/${id}/parts`);
+      const partItems = Array.isArray(parts) ? parts : parts?.items || [];
+      if (partItems.length) {
+        await PartStore.putAll(partItems.map((p) => ({ ...p, work_order_id: id })));
+      }
+    }
+
+    if (!cached?.appointments?.length) {
+      const appts = await apiClient(`work-orders/${id}/appointments`);
+      const apptItems = (appts?.items || appts || []).map((a) => ({
+        ...a,
+        work_order_id: id,
+        date: (a.scheduled_start || a.start || '').substring(0, 10),
+      }));
+      if (apptItems.length) {
+        await AppointmentStore.putAll(apptItems);
+      }
     }
   } catch (err) {
     console.warn('[warmWorkOrderCache] Failed:', err);

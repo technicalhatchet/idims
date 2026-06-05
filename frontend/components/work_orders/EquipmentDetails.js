@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { apiClient } from '../../utils/api-client';
 import { updatePartStatusOffline } from '../../lib/offlineWrites';
 import { fetchWorkOrderPartsWithCache } from '../../lib/offlineReads';
+
+function getWorkOrderPartsSeed(workOrder) {
+  return Array.isArray(workOrder?.parts) ? workOrder.parts : [];
+}
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
@@ -115,7 +119,8 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   const [successMessage, setSuccessMessage] = useState(null);
 
   // Parts management
-  const [parts, setParts] = useState([]);
+  const seedParts = getWorkOrderPartsSeed(workOrder);
+  const [parts, setParts] = useState(seedParts);
   const [showPartForm, setShowPartForm] = useState(false);
   const [editingPartIndex, setEditingPartIndex] = useState(null);
   const [currentPart, setCurrentPart] = useState({
@@ -149,16 +154,27 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   useEffect(() => {
     if (workOrderId) {
-      fetchParts();
+      const hasSeed = getWorkOrderPartsSeed(workOrder).length > 0;
+      fetchParts({ silent: hasSeed });
     }
   }, [workOrderId]);
 
-  const fetchParts = async () => {
+  useEffect(() => {
+    const seeded = getWorkOrderPartsSeed(workOrder);
+    if (seeded.length > 0) {
+      setParts(seeded);
+    }
+  }, [workOrder?.parts]);
+
+  const fetchParts = async ({ silent = false } = {}) => {
     try {
       const response = await fetchWorkOrderPartsWithCache(workOrderId);
       setParts(Array.isArray(response) ? response : []);
     } catch (err) {
       console.error('Error fetching parts:', err);
+      if (!silent) {
+        setParts([]);
+      }
     }
   };
 

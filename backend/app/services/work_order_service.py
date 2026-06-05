@@ -176,6 +176,42 @@ class WorkOrderService:
             raise NotFoundException(f"Work order with ID {work_order_id} not found")
         
         return work_order
+
+    @staticmethod
+    def get_work_order_detail(db: Session, work_order_id: uuid.UUID) -> WorkOrder:
+        """Load a work order with related rows for the detail API (avoids N+1 queries)."""
+        from sqlalchemy.orm import selectinload, joinedload
+        from app.models.client import Client
+        from app.models.technician import Technician
+        from app.models.work_order import (
+            WorkOrderAppointment,
+            WorkOrderNote,
+            WorkOrderService as WorkOrderServiceModel,
+        )
+
+        work_order = (
+            db.query(WorkOrder)
+            .options(
+                joinedload(WorkOrder.client).selectinload(Client.properties),
+                joinedload(WorkOrder.client).joinedload(Client.user),
+                joinedload(WorkOrder.technician).joinedload(Technician.user),
+                selectinload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service),
+                selectinload(WorkOrder.items),
+                selectinload(WorkOrder.parts),
+                selectinload(WorkOrder.appointments).selectinload(WorkOrderAppointment.services),
+                selectinload(WorkOrder.appointments)
+                .joinedload(WorkOrderAppointment.technician)
+                .joinedload(Technician.user),
+                selectinload(WorkOrder.notes).joinedload(WorkOrderNote.user),
+            )
+            .filter(WorkOrder.id == work_order_id)
+            .first()
+        )
+
+        if not work_order:
+            raise NotFoundException(f"Work order with ID {work_order_id} not found")
+
+        return work_order
     
     @staticmethod
     async def create_work_order(

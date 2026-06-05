@@ -10,14 +10,15 @@ import {
   getWorkOrderReceipts,
   uploadWorkOrderReceipt,
 } from '../../services/api/jobEconomicsApi';
+import { useExpenseCategories, useExpenseVendors } from '../../hooks/useJobEconomicsReferenceData';
 import ReceiptViewerModal from './ReceiptViewerModal';
 
 const fmt = (n) => `$${Number(n || 0).toFixed(2)}`;
 
 export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile' }) {
   const isMobile = variant === 'mobile';
-  const [categories, setCategories] = useState([]);
-  const [vendors, setVendors] = useState([]);
+  const { data: categories = [] } = useExpenseCategories();
+  const { data: vendors = [] } = useExpenseVendors();
   const [expenses, setExpenses] = useState([]);
   const [receipts, setReceipts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,14 +48,10 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
     setLoading(true);
     setError(null);
     try {
-      const [cat, ven, exp, rec] = await Promise.all([
-        getExpenseCategories(),
-        getExpenseVendors(),
+      const [exp, rec] = await Promise.all([
         getWorkOrderExpenses(workOrderId),
         getWorkOrderReceipts(workOrderId),
       ]);
-      setCategories(cat?.items || []);
-      setVendors(ven?.items || []);
       setExpenses(exp?.items || []);
       setReceipts(rec?.items || []);
     } catch (err) {
@@ -66,10 +63,13 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
 
   useEffect(() => {
     load();
+  }, [workOrderId]);
+
+  useEffect(() => {
     getDriveStorageStatus()
       .then(setDriveStatus)
       .catch(() => setDriveStatus(null));
-  }, [workOrderId]);
+  }, []);
 
   const handleAdd = async (e) => {
     e.preventDefault();

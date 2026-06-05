@@ -150,6 +150,10 @@ const EMPTY_NOTE = {
   isPrivate: false,
 };
 
+function getWorkOrderNotesSeed(workOrder) {
+  return Array.isArray(workOrder?.notes) ? workOrder.notes : [];
+}
+
 export default function WorkOrderNotes({
   workOrderId,
   workOrder = null,
@@ -161,8 +165,9 @@ export default function WorkOrderNotes({
   onPhotoSheetOpenChange = null,
 }) {
   const isMobile = variant === 'mobile';
-  const [notes, setNotes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const seedNotes = getWorkOrderNotesSeed(workOrder);
+  const [notes, setNotes] = useState(seedNotes);
+  const [isLoading, setIsLoading] = useState(seedNotes.length === 0);
   const [error, setError] = useState(null);
   const [selectedNote, setSelectedNote] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -209,9 +214,18 @@ export default function WorkOrderNotes({
 
   useEffect(() => {
     if (workOrderId) {
-      fetchNotes();
+      const hasSeed = getWorkOrderNotesSeed(workOrder).length > 0;
+      fetchNotes({ silent: hasSeed });
     }
   }, [workOrderId]);
+
+  useEffect(() => {
+    const seeded = getWorkOrderNotesSeed(workOrder);
+    if (seeded.length > 0) {
+      setNotes(seeded);
+      setIsLoading(false);
+    }
+  }, [workOrder?.notes]);
 
   useEffect(() => {
     if (NOTE_FIELDS[newNote.type]) {
@@ -247,15 +261,19 @@ export default function WorkOrderNotes({
     viewPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [isMobile, selectedNote]);
 
-  const fetchNotes = async () => {
+  const fetchNotes = async ({ silent = false } = {}) => {
     try {
-      setIsLoading(true);
+      if (!silent) {
+        setIsLoading(true);
+      }
       const response = await fetchWorkOrderNotes(workOrderId);
       setNotes(response);
       setError(null);
     } catch (err) {
       console.error('Error fetching notes:', err);
-      setError('Failed to load notes');
+      if (!silent) {
+        setError('Failed to load notes');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -400,7 +418,7 @@ export default function WorkOrderNotes({
     }
   };
 
-  if (isLoading) {
+  if (isLoading && notes.length === 0) {
     return <div className="text-center py-8">Loading notes...</div>;
   }
 

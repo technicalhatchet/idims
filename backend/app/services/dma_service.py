@@ -313,12 +313,15 @@ def _fetch_work_order_outcome_items(
     error_code: Optional[str],
     tags: Optional[List[str]],
     repair_successful: Optional[bool],
+    max_rows: Optional[int] = None,
+    load_tags: bool = True,
 ) -> List[Dict[str, Any]]:
     query = (
         db.query(DmaRepairOutcome, WorkOrder)
         .join(WorkOrder, DmaRepairOutcome.work_order_id == WorkOrder.id)
-        .options(joinedload(DmaRepairOutcome.tags))
     )
+    if load_tags:
+        query = query.options(joinedload(DmaRepairOutcome.tags))
 
     if repair_successful is not None:
         query = query.filter(DmaRepairOutcome.repair_successful == repair_successful)
@@ -350,7 +353,10 @@ def _fetch_work_order_outcome_items(
             )
         )
 
-    rows = query.order_by(DmaRepairOutcome.updated_at.desc()).all()
+    rows = query.order_by(DmaRepairOutcome.updated_at.desc())
+    if max_rows is not None:
+        rows = rows.limit(max(1, max_rows))
+    rows = rows.all()
     items = []
     for outcome, work_order in rows:
         items.append(
@@ -396,8 +402,12 @@ def _fetch_field_record_items(
     error_code: Optional[str],
     tags: Optional[List[str]],
     repair_successful: Optional[bool],
+    max_rows: Optional[int] = None,
+    load_tags: bool = True,
 ) -> List[Dict[str, Any]]:
-    query = db.query(DmaRepairRecord).options(joinedload(DmaRepairRecord.tags))
+    query = db.query(DmaRepairRecord)
+    if load_tags:
+        query = query.options(joinedload(DmaRepairRecord.tags))
 
     if repair_successful is not None:
         query = query.filter(DmaRepairRecord.repair_successful == repair_successful)
@@ -427,7 +437,10 @@ def _fetch_field_record_items(
             )
         )
 
-    rows = query.order_by(DmaRepairRecord.updated_at.desc()).all()
+    rows = query.order_by(DmaRepairRecord.updated_at.desc())
+    if max_rows is not None:
+        rows = rows.limit(max(1, max_rows))
+    rows = rows.all()
     return [_field_record_to_search_item(record) for record in rows]
 
 
@@ -609,6 +622,38 @@ def _aggregate_common_fixes(items: List[Dict[str, Any]], limit: int = 3) -> List
     return ranked[:limit]
 
 
+SUGGESTION_ROWS_PER_SOURCE = 25
+
+
+def _fetch_suggestion_items(
+    db: Session,
+    *,
+    equipment_make: str,
+    equipment_subtype: str,
+    error_code: Optional[str] = None,
+) -> List[Dict[str, Any]]:
+    """Lightweight fetch for in-context suggestions (SQL-limited, no tag hydration)."""
+    shared = {
+        "q": None,
+        "equipment_make": equipment_make,
+        "equipment_subtype": equipment_subtype,
+        "problem_code": None,
+        "resolution_code": None,
+        "error_code": error_code,
+        "tags": None,
+        "repair_successful": True,
+        "max_rows": SUGGESTION_ROWS_PER_SOURCE,
+        "load_tags": False,
+    }
+    wo_items = _fetch_work_order_outcome_items(db, **shared)
+    field_items = _fetch_field_record_items(db, **shared)
+    return sorted(
+        wo_items + field_items,
+        key=lambda row: row["updated_at"],
+        reverse=True,
+    )
+
+
 def get_dma_suggestions(
     db: Session,
     *,
@@ -642,27 +687,17 @@ def get_dma_suggestions(
         if work_order:
             detected_codes = extract_error_codes_from_text(_work_order_context_text(work_order))
 
-    baseline_items = search_repair_outcomes(
-        db,
-        equipment_make=make,
-        equipment_subtype=subtype,
-        repair_successful=True,
-        page=1,
-        limit=100,
-    )["items"]
+    baseline_items = _fetch_suggestion_items(db, equipment_make=make, equipment_subtype=subtype)
 
     items = baseline_items
     applied_error_code: Optional[str] = None
     if detected_codes:
-        error_filtered = search_repair_outcomes(
+        error_filtered = _fetch_suggestion_items(
             db,
             equipment_make=make,
             equipment_subtype=subtype,
             error_code=detected_codes[0],
-            repair_successful=True,
-            page=1,
-            limit=100,
-        )["items"]
+        )
         if error_filtered:
             items = error_filtered
             applied_error_code = detected_codes[0]

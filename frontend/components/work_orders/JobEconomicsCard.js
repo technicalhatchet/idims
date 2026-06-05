@@ -1,27 +1,15 @@
-import { useEffect, useState } from 'react';
-import { getJobEconomics } from '../../services/api/jobEconomicsApi';
+import { useJobEconomics } from '../../hooks/useJobEconomicsReferenceData';
 import { formatMoney } from './WorkOrderExpensesPanel';
 
 export default function JobEconomicsCard({ workOrderId, variant = 'mobile' }) {
   const isMobile = variant === 'mobile';
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error } = useJobEconomics(workOrderId);
 
-  useEffect(() => {
-    if (!workOrderId) return;
-    setLoading(true);
-    getJobEconomics(workOrderId)
-      .then(setData)
-      .catch((err) => setError(err.message || 'Unable to load job economics'))
-      .finally(() => setLoading(false));
-  }, [workOrderId]);
-
-  if (loading) {
+  if (isLoading && !data) {
     return <p className="text-xs text-gray-500">Loading job economics…</p>;
   }
-  if (error) {
-    return <p className="text-xs text-amber-400">{error}</p>;
+  if (error && !data) {
+    return <p className="text-xs text-amber-400">{error.message || 'Unable to load job economics'}</p>;
   }
   if (!data) return null;
 

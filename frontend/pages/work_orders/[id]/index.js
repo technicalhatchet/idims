@@ -16,6 +16,7 @@ import { useWorkOrder, useWorkOrderMutations } from '../../../hooks/useWorkOrder
 import { apiClient } from '../../../utils/api-client';
 import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
+import WorkOrderTabPanel from '../../../components/work_orders/WorkOrderTabPanel';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
@@ -40,6 +41,11 @@ import {
 } from '../../../utils/workOrderPermissions';
 import { useUserRole } from '../../../utils/auth0-helpers';
 import { workOrderStatusOptionsForUser } from '../../../utils/workOrderStatusOptions';
+import { usePrefetchTechnicians } from '../../../hooks/usePrefetchTechnicians';
+import useCurrentTechnicianId from '../../../hooks/useCurrentTechnicianId';
+import { useWorkOrderMountedTabs } from '../../../hooks/useWorkOrderMountedTabs';
+import { useExpenseCategories, useExpenseVendors } from '../../../hooks/useJobEconomicsReferenceData';
+import { usePrefetchDmaSuggestions } from '../../../hooks/useDmaSuggestions';
 
 // Tabs for the detail page
 const TABS = {
@@ -64,6 +70,7 @@ function WorkOrderDetail() {
     router.query.tab === 'details' ? TABS.DETAILS :
     TABS.DETAILS
   );
+  const { isTabMounted, markTabMounted } = useWorkOrderMountedTabs(activeTab);
   const [statusModalError, setStatusModalError] = useState(null);
   const [paymentAmount, setPaymentAmount] = useState('');
   const [isApplyingPayment, setIsApplyingPayment] = useState(false);
@@ -96,6 +103,7 @@ function WorkOrderDetail() {
 
   // Fetch work order details
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+  const showInitialLoader = isLoading && !workOrder;
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
   const billingEditable = useMemo(
     () => canEditWorkOrderBilling({ role, workOrder }),
@@ -109,6 +117,16 @@ function WorkOrderDetail() {
     () => canReopenWorkOrder({ role, workOrder }),
     [role, workOrder]
   );
+
+  usePrefetchTechnicians();
+  useCurrentTechnicianId();
+  useExpenseCategories();
+  useExpenseVendors();
+  usePrefetchDmaSuggestions(workOrder);
+
+  useEffect(() => {
+    markTabMounted(activeTab);
+  }, [activeTab, markTabMounted]);
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
@@ -271,7 +289,7 @@ function WorkOrderDetail() {
     }
   };
   
-  if (isLoading) {
+  if (showInitialLoader) {
     return (
       <div className="px-4 py-6">
         <LoadingSpinner size="large" />
@@ -279,7 +297,7 @@ function WorkOrderDetail() {
     );
   }
 
-  if (error) {
+  if (error && !workOrder) {
     return (
       <div className="px-4 py-6">
         <ErrorAlert 
@@ -454,7 +472,7 @@ function WorkOrderDetail() {
         {/* Tab Content */}
         <div>
           {/* Details Tab */}
-          {activeTab === TABS.DETAILS && (
+          <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)}>
             <>
               {/* Work Order Detail Card */}
               <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
@@ -655,11 +673,10 @@ function WorkOrderDetail() {
 
               <WorkOrderDebriefing workOrderId={workOrder.id} />
             </>
-          )}
+          </WorkOrderTabPanel>
           
-          {/* Appointments Tab */}
-          {activeTab === TABS.APPOINTMENTS && (
-            <>
+          {workOrder && (
+            <WorkOrderTabPanel tab={TABS.APPOINTMENTS} activeTab={activeTab} isMounted={isTabMounted(TABS.APPOINTMENTS)}>
               <AppointmentScheduler 
                 workOrderId={id}
                 workOrder={workOrder}
@@ -671,35 +688,26 @@ function WorkOrderDetail() {
                 editWorkOrderHref={`/work_orders/${id}/edit`}
                 key={`appointments-${id}`}
                 onAppointmentChange={() => {
-                  console.log("Appointment changed, refreshing work order data");
-                  refetch(); // Refresh the work order details to get updated schedule
+                  refetch();
                 }}
               />
-            </>
+            </WorkOrderTabPanel>
           )}
           
-          {/* Notes Tab */}
-          {activeTab === TABS.NOTES && (
-            <div className="p-6">
+          <WorkOrderTabPanel tab={TABS.NOTES} activeTab={activeTab} isMounted={isTabMounted(TABS.NOTES)} className="p-6">
               <WorkOrderNotes workOrderId={workOrder.id} workOrder={workOrder} />
-            </div>
-          )}
+          </WorkOrderTabPanel>
           
-          {/* Model Tab */}
-          {activeTab === TABS.MODEL && (
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+          <WorkOrderTabPanel tab={TABS.MODEL} activeTab={activeTab} isMounted={isTabMounted(TABS.MODEL)} className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
               <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Equipment Details</h2>
               </div>
               <div className="px-6 py-5">
                 <EquipmentDetails workOrderId={workOrder.id} workOrder={workOrder} onUpdate={refetch} />
               </div>
-            </div>
-          )}
+          </WorkOrderTabPanel>
           
-          {/* Client Tab */}
-          {activeTab === TABS.CLIENT && (
-            <div className="space-y-6">
+          <WorkOrderTabPanel tab={TABS.CLIENT} activeTab={activeTab} isMounted={isTabMounted(TABS.CLIENT)} className="space-y-6">
               {/* Client Info Card */}
               <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
                 <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
@@ -926,12 +934,9 @@ function WorkOrderDetail() {
                   )}
                 </div>
               </div>
-            </div>
-          )}
+          </WorkOrderTabPanel>
           
-          {/* Invoices Tab */}
-          {activeTab === TABS.INVOICES && (
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
+          <WorkOrderTabPanel tab={TABS.INVOICES} activeTab={activeTab} isMounted={isTabMounted(TABS.INVOICES)} className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
               <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-between items-center">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
                 <div className="flex gap-2">
@@ -1452,8 +1457,7 @@ function WorkOrderDetail() {
                   </p>
                 )}
               </div>
-            </div>
-          )}
+          </WorkOrderTabPanel>
         </div>
         
         {/* Status Update Modal */}

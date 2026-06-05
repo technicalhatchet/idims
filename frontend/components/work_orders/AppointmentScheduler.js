@@ -34,6 +34,7 @@ import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
 import { useUserRole } from '../../utils/auth0-helpers';
 import useCurrentTechnicianId from '../../hooks/useCurrentTechnicianId';
+import { useTechnicians } from '../../hooks/useTechnicians';
 import {
   canCreateOrDeleteAppointments,
   canEditAppointment,
@@ -62,6 +63,10 @@ const CLOSED_APPOINTMENT_STATUS_OPTIONS = [
 ];
 import { formatAppointmentStatus } from '../../utils/appointmentStatusLabels';
 
+function getWorkOrderAppointmentsSeed(workOrder) {
+  return Array.isArray(workOrder?.appointments) ? workOrder.appointments : [];
+}
+
 export default function AppointmentScheduler({
   workOrderId,
   workOrder,
@@ -76,13 +81,18 @@ export default function AppointmentScheduler({
 }) {
   const isMobile = variant === 'mobile';
   console.log("AppointmentScheduler received workOrderId:", workOrderId);
-  
-  const [appointments, setAppointments] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const seedAppointments = getWorkOrderAppointmentsSeed(workOrder);
+  const [appointments, setAppointments] = useState(seedAppointments);
+  const [isLoading, setIsLoading] = useState(seedAppointments.length === 0);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentAppointment, setCurrentAppointment] = useState(null);
-  const [technicians, setTechnicians] = useState([]);
+  const { data: techniciansData } = useTechnicians();
+  const technicians = useMemo(
+    () => (Array.isArray(techniciansData?.items) ? techniciansData.items : []),
+    [techniciansData],
+  );
   const [technicianDailySchedule, setTechnicianDailySchedule] = useState([]);
   const [isLoadingSchedule, setIsLoadingSchedule] = useState(false);
 
@@ -286,14 +296,24 @@ export default function AppointmentScheduler({
     );
   };
 
-  // Fetch appointments when component mounts
+  // Fetch appointments when component mounts (background refresh if WO already has data)
   useEffect(() => {
     if (workOrderId) {
       console.log(`Initializing AppointmentScheduler for workOrderId: ${workOrderId}`);
-      fetchAppointments();
-      fetchTechnicians();
+      const hasSeed = getWorkOrderAppointmentsSeed(workOrder).length > 0;
+      fetchAppointments({ silent: hasSeed });
     }
   }, [workOrderId]);
+
+  // Keep list in sync when parent WO refetches (skip while editing)
+  useEffect(() => {
+    if (showForm) return;
+    const seeded = getWorkOrderAppointmentsSeed(workOrder);
+    if (seeded.length > 0) {
+      setAppointments(seeded);
+      setIsLoading(false);
+    }
+  }, [workOrder?.appointments, showForm]);
 
   useEffect(() => {
     if (allServices.length > 0) {
@@ -479,8 +499,10 @@ export default function AppointmentScheduler({
   };
 
   // Fetch appointments from API
-  const fetchAppointments = async () => {
-    setIsLoading(true);
+  const fetchAppointments = async ({ silent = false } = {}) => {
+    if (!silent) {
+      setIsLoading(true);
+    }
     setError(null);
     try {
       console.log(`Fetching appointments for workOrderId: ${workOrderId}`);
@@ -521,7 +543,9 @@ export default function AppointmentScheduler({
     } catch (err) {
       console.error('Error fetching appointments:', err);
       setError(`Failed to load appointments: ${err.message || 'Unknown error'}`);
-      setAppointments([]);
+      if (!silent) {
+        setAppointments([]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -546,36 +570,16 @@ export default function AppointmentScheduler({
     return techList.find((t) => t.status === 'active' || !t.status) || techList[0];
   };
 
-  // Fetch technicians for assignment
-  const fetchTechnicians = async () => {
-    try {
-      console.log("Fetching technicians...");
-      const response = await apiClient('api/technicians');
-      console.log("Technicians API response:", response);
-      
-      if (response && response.items && Array.isArray(response.items)) {
-        console.log(`Found ${response.items.length} technicians`);
-        setTechnicians(response.items);
-
-        // Auto-select default technician if none is selected
-        setFormData(prev => {
-          if (prev.assigned_technician_id) return prev; // already set, don't override
-          const defaultTech = pickDefaultTechnician(response.items);
-          if (defaultTech) {
-            console.log('Auto-selecting default technician:', defaultTech.id);
-            return { ...prev, assigned_technician_id: defaultTech.id };
-          }
-          return prev;
-        });
-      } else {
-        console.error("Invalid technicians data format:", response);
-        setTechnicians([]);
-      }
-    } catch (err) {
-      console.error('Error fetching technicians:', err);
-      setTechnicians([]);
-    }
-  };
+  // Auto-select default technician once the shared technicians cache loads
+  useEffect(() => {
+    if (!technicians.length) return;
+    setFormData((prev) => {
+      if (prev.assigned_technician_id) return prev;
+      const defaultTech = pickDefaultTechnician(technicians);
+      if (!defaultTech) return prev;
+      return { ...prev, assigned_technician_id: defaultTech.id };
+    });
+  }, [technicians]);
 
   // Open modal for creating or editing appointment
   const openAppointmentModal = (appointment = null) => {
@@ -833,22 +837,9 @@ export default function AppointmentScheduler({
   // Add openForm function
   const openForm = async () => {
     if (!canManageAppts) return;
-    fetchServices(); // Fetch services
+    fetchServices();
 
-    let techList = technicians;
-    if (techList.length === 0) {
-      try {
-        const response = await apiClient('api/technicians');
-        if (response?.items && Array.isArray(response.items)) {
-          techList = response.items;
-          setTechnicians(response.items);
-        }
-      } catch (err) {
-        console.error('Error fetching technicians for new appointment form:', err);
-      }
-    }
-
-    // Set default start and end time to business hours, defaulting to 9 AM
+    const techList = technicians;
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Strip time part
     

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { 
   getWorkOrders, 
   createWorkOrder, 
@@ -12,6 +12,7 @@ import {
 } from '../services/api/workOrdersApi';
 import {
   fetchWorkOrderWithCache,
+  getCachedWorkOrderEnriched,
   transformWorkOrderRecord,
 } from '../lib/offlineReads';
 import { WorkOrderStore } from '../lib/db';
@@ -75,10 +76,29 @@ export function useWorkOrders(params = {}, options = {}) {
  * Hook for single work order by ID
  */
 export function useWorkOrder(id, options = {}) {
+  const queryClient = useQueryClient();
+
+  // Show last cached WO instantly while the network request runs
+  useEffect(() => {
+    if (!id) return undefined;
+    const key = ['workOrder', id];
+    if (queryClient.getQueryData(key)) return undefined;
+
+    let cancelled = false;
+    getCachedWorkOrderEnriched(id).then((cached) => {
+      if (cancelled || !cached) return;
+      queryClient.setQueryData(key, (existing) => existing ?? cached);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [id, queryClient]);
+
   return useQuery({
     queryKey: ['workOrder', id],
     queryFn: () => fetchWorkOrderWithCache(id),
     enabled: !!id,
+    staleTime: 60_000,
     retry: (count) => !isOffline() && count < 1,
     ...options,
   });

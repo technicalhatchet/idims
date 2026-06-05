@@ -17,12 +17,13 @@ import {
 /**
  * Hook to fetch technicians with optional filtering
  */
-export function useTechnicians(params = {}) {
+export function useTechnicians(params = {}, options = {}) {
   return useQuery({
     queryKey: ['technicians', params],
     queryFn: () => getTechnicians(params),
     keepPreviousData: true,
-    staleTime: 30000
+    staleTime: 5 * 60 * 1000,
+    ...options,
   });
 }
 

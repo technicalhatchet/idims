@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { getDmaSuggestions } from '../../services/api/dmaApi';
 import { formatDmaSubtype } from '../../constants/dmaErrorCodes';
+import { useDmaSuggestions } from '../../hooks/useDmaSuggestions';
 
 function buildRepairMemoryHref(searchParams) {
   const query = new URLSearchParams();
@@ -13,59 +13,48 @@ function buildRepairMemoryHref(searchParams) {
   return `/techdashboard/dma${qs ? `?${qs}` : ''}`;
 }
 
+function DmaSuggestionsLoading() {
+  return (
+    <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/[0.04] px-4 py-3">
+      <p className="text-sm font-semibold text-cyan-100/80">Repair Memory</p>
+      <p className="text-xs text-gray-500 mt-0.5 animate-pulse">Checking past fixes…</p>
+    </div>
+  );
+}
+
 export default function DmaSuggestionsAccordion({
   workOrderId,
   equipmentMake,
   equipmentSubtype,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const make = (equipmentMake || '').trim();
+  const subtype = (equipmentSubtype || '').trim();
+  const canSuggest = Boolean(make && subtype);
 
-  const canSuggest = Boolean(equipmentMake?.trim() && equipmentSubtype?.trim());
-
-  useEffect(() => {
-    if (!canSuggest) {
-      setSuggestions(null);
-      return undefined;
-    }
-
-    let cancelled = false;
-    const timer = setTimeout(async () => {
-      setIsLoading(true);
-      try {
-        const data = await getDmaSuggestions({
-          equipment_make: equipmentMake.trim(),
-          equipment_subtype: equipmentSubtype.trim(),
-          work_order_id: workOrderId || undefined,
-        });
-        if (!cancelled) setSuggestions(data);
-      } catch (err) {
-        console.error('Failed to load DMA suggestions', err);
-        if (!cancelled) setSuggestions(null);
-      } finally {
-        if (!cancelled) setIsLoading(false);
-      }
-    }, 300);
-
-    return () => {
-      cancelled = true;
-      clearTimeout(timer);
-    };
-  }, [canSuggest, equipmentMake, equipmentSubtype, workOrderId]);
+  const { data: suggestions, isLoading, isFetching } = useDmaSuggestions({
+    equipmentMake: make,
+    equipmentSubtype: subtype,
+    workOrderId,
+    enabled: canSuggest,
+  });
 
   const repairMemoryHref = useMemo(
     () => buildRepairMemoryHref(suggestions?.search_params),
     [suggestions?.search_params],
   );
 
-  if (!canSuggest || isLoading) {
+  if (!canSuggest) {
     return null;
+  }
+
+  if ((isLoading || isFetching) && !suggestions) {
+    return <DmaSuggestionsLoading />;
   }
 
   const referenceCount = suggestions?.error_code_references?.length || 0;
   const historyCount = suggestions?.total_count || 0;
-  if (!historyCount && !referenceCount) {
+  if (!suggestions || (!historyCount && !referenceCount)) {
     return null;
   }
 

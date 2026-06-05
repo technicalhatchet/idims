@@ -460,8 +460,8 @@ async def get_work_order(
                 detail="You don't have permission to access this work order"
             )
                 
-        # Get the work order details using the service
-        work_order = await WorkOrderService.get_work_order(db, work_order_id)
+        # Get the work order details using the service (eager-loaded for detail view)
+        work_order = WorkOrderService.get_work_order_detail(db, work_order_id)
         
         # Calculate totals before returning the work order
         work_order.calculate_totals()
@@ -474,97 +474,87 @@ async def get_work_order(
             response_dict.pop("_sa_instance_state")
         
         # Add client name
-        if work_order.client_id:
-            client = db.query(Client).filter(Client.id == work_order.client_id).first()
-            if client:
-                response_dict["client_name"] = client.display_name
-                response_dict["client"] = {
-                    "first_name": client.first_name,
-                    "last_name": client.last_name,
-                    "company_name": client.company_name,
-                    "phone": client.phone,
-                    "mobile": client.mobile,
-                    "email": client.email,
+        client = work_order.client
+        if client:
+            response_dict["client_name"] = client.display_name
+            response_dict["client"] = {
+                "first_name": client.first_name,
+                "last_name": client.last_name,
+                "company_name": client.company_name,
+                "phone": client.phone,
+                "mobile": client.mobile,
+                "email": client.email,
+            }
+            
+            properties = client.properties or []
+            response_dict["client_properties"] = [
+                {
+                    "id": str(p.id),
+                    "address": p.address,
+                    "unit_number": p.unit_number,
+                    "property_type": p.property_type,
+                    "gate_code": p.gate_code,
+                    "access_instructions": p.access_instructions,
+                    "tenant_name": p.tenant_name,
+                    "tenant_phone": p.tenant_phone,
+                    "tenant_email": p.tenant_email,
                 }
-                
-                # Include all properties for this client
-                from app.models.property import Property
-                properties = db.query(Property).filter(Property.client_id == client.id).all()
-                response_dict["client_properties"] = [
-                    {
-                        "id": str(p.id),
-                        "address": p.address,
-                        "unit_number": p.unit_number,
-                        "property_type": p.property_type,
-                        "gate_code": p.gate_code,
-                        "access_instructions": p.access_instructions,
-                        "tenant_name": p.tenant_name,
-                        "tenant_phone": p.tenant_phone,
-                        "tenant_email": p.tenant_email,
-                    }
-                    for p in properties
-                ]
+                for p in properties
+            ]
 
-                # Include the specific property for this work order if set
-                if work_order.property_id:
-                    matched = next((p for p in properties if p.id == work_order.property_id), None)
-                    if matched:
-                        response_dict["property"] = {
-                            "id": str(matched.id),
-                            "address": matched.address,
-                            "unit_number": matched.unit_number,
-                            "property_type": matched.property_type,
-                            "gate_code": matched.gate_code,
-                            "access_instructions": matched.access_instructions,
-                            "tenant_name": matched.tenant_name,
-                            "tenant_phone": matched.tenant_phone,
-                            "tenant_email": matched.tenant_email,
-                        }
-                        # Backfill service_location for older work orders that only have property_id set
-                        existing_loc = response_dict.get("service_location") or {}
-                        if not (isinstance(existing_loc, dict) and existing_loc.get("address")):
-                            addr_parts = [matched.address]
-                            if matched.unit_number:
-                                addr_parts.append(f"Unit {matched.unit_number}")
-                            formatted = ", ".join(p for p in addr_parts if p)
-                            if formatted:
-                                response_dict["service_location"] = {
-                                    **(existing_loc if isinstance(existing_loc, dict) else {}),
-                                    "address": formatted,
-                                }
-                
-                # Also include the related User data if available
-                if client.user_id:
-                    user = db.query(UserModel).filter(UserModel.id == client.user_id).first()
-                    if user:
-                        response_dict["client_user"] = {
-                            "id": str(user.id),
-                            "email": user.email,
-                            "first_name": user.first_name,
-                            "last_name": user.last_name,
-                            "phone": user.phone
-                        }
+            if work_order.property_id:
+                matched = next((p for p in properties if p.id == work_order.property_id), None)
+                if matched:
+                    response_dict["property"] = {
+                        "id": str(matched.id),
+                        "address": matched.address,
+                        "unit_number": matched.unit_number,
+                        "property_type": matched.property_type,
+                        "gate_code": matched.gate_code,
+                        "access_instructions": matched.access_instructions,
+                        "tenant_name": matched.tenant_name,
+                        "tenant_phone": matched.tenant_phone,
+                        "tenant_email": matched.tenant_email,
+                    }
+                    existing_loc = response_dict.get("service_location") or {}
+                    if not (isinstance(existing_loc, dict) and existing_loc.get("address")):
+                        addr_parts = [matched.address]
+                        if matched.unit_number:
+                            addr_parts.append(f"Unit {matched.unit_number}")
+                        formatted = ", ".join(p for p in addr_parts if p)
+                        if formatted:
+                            response_dict["service_location"] = {
+                                **(existing_loc if isinstance(existing_loc, dict) else {}),
+                                "address": formatted,
+                            }
+            
+            if client.user_id and client.user:
+                user = client.user
+                response_dict["client_user"] = {
+                    "id": str(user.id),
+                    "email": user.email,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "phone": user.phone
+                }
         
         # Add technician name
-        if work_order.assigned_technician_id:
-            technician = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
-            if technician and technician.user_id:
-                user = db.query(UserModel).filter(UserModel.id == technician.user_id).first()
-                if user:
-                    response_dict["technician_name"] = f"{user.first_name} {user.last_name}"
-                    response_dict["technician_user"] = {
-                        "id": str(user.id),
-                        "email": user.email,
-                        "first_name": user.first_name,
-                        "last_name": user.last_name,
-                        "phone": user.phone
-                    }
+        technician = work_order.technician
+        if technician and technician.user:
+            user = technician.user
+            response_dict["technician_name"] = f"{user.first_name} {user.last_name}"
+            response_dict["technician_user"] = {
+                "id": str(user.id),
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "phone": user.phone
+            }
         
-        # Get the work order services, items, and parts
         from app.models.work_order import WorkOrderService as WorkOrderServiceModel, WorkOrderItem, WorkOrderPart
-        services = db.query(WorkOrderServiceModel).filter(WorkOrderServiceModel.work_order_id == work_order_id).all()
-        items = db.query(WorkOrderItem).filter(WorkOrderItem.work_order_id == work_order_id).all()
-        parts = db.query(WorkOrderPart).filter(WorkOrderPart.work_order_id == work_order_id).all()
+        services = work_order.service_items or []
+        items = work_order.items or []
+        parts = work_order.parts or []
         
         # Add services, items, and parts to response
         response_dict["services"] = [
@@ -618,9 +608,8 @@ async def get_work_order(
             for part in parts
         ]
         
-        # Get and add appointments to response
-        from app.models.work_order import WorkOrderAppointment
-        appointments = db.query(WorkOrderAppointment).filter(WorkOrderAppointment.work_order_id == work_order_id).all()
+        # Appointments (already eager-loaded on work_order)
+        appointments = work_order.appointments or []
         
         appointment_list = []
         for appointment in appointments:
@@ -632,12 +621,10 @@ async def get_work_order(
                 appointment_dict.pop("_sa_instance_state")
             
             # Add technician name if assigned
-            if appointment.assigned_technician_id:
-                technician = db.query(Technician).filter(Technician.id == appointment.assigned_technician_id).first()
-                if technician and technician.user_id:
-                    user = db.query(UserModel).filter(UserModel.id == technician.user_id).first()
-                    if user:
-                        appointment_dict["technician_name"] = f"{user.first_name} {user.last_name}"
+            appt_technician = appointment.technician
+            if appt_technician and appt_technician.user:
+                user = appt_technician.user
+                appointment_dict["technician_name"] = f"{user.first_name} {user.last_name}"
             
             # Add services from the eagerly loaded relationship
             appointment_dict["services"] = [
@@ -652,13 +639,6 @@ async def get_work_order(
             ]
             
             # Convert UUID and datetime for JSON serialization
-            for key, value in appointment_dict.items():
-                if isinstance(value, uuid.UUID):
-                    appointment_dict[key] = str(value)
-                elif isinstance(value, datetime):
-                    appointment_dict[key] = value.isoformat()
-            
-            # Convert UUID objects to strings for JSON serialization
             for key, value in appointment_dict.items():
                 if isinstance(value, uuid.UUID):
                     appointment_dict[key] = str(value)
@@ -718,9 +698,8 @@ async def get_work_order(
                 if wo_st == "pending":
                     response_dict["status"] = "scheduled"
         
-        # Get and add notes to response
-        from app.models.work_order import WorkOrderNote
-        notes = db.query(WorkOrderNote).filter(WorkOrderNote.work_order_id == work_order_id).all()
+        # Notes (already eager-loaded on work_order)
+        notes = work_order.notes or []
         
         notes_list = []
         for note in notes:
@@ -732,10 +711,9 @@ async def get_work_order(
                 note_dict.pop("_sa_instance_state")
             
             # Add user name
-            if note.user_id:
-                user = db.query(UserModel).filter(UserModel.id == note.user_id).first()
-                if user:
-                    note_dict["user_name"] = f"{user.first_name} {user.last_name}"
+            if note.user_id and note.user:
+                user = note.user
+                note_dict["user_name"] = f"{user.first_name} {user.last_name}"
             
             # Convert UUID objects to strings for JSON serialization
             for key, value in note_dict.items():
