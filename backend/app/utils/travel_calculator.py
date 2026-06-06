@@ -1,5 +1,6 @@
 import math
 import logging
+import os
 import requests
 from typing import Dict, Any, Tuple, Optional, Union
 from datetime import datetime, date, time
@@ -8,6 +9,30 @@ from app.config import settings
 from app.models.work_order import WorkOrderAppointment
 
 logger = logging.getLogger(__name__)
+
+METERS_PER_MILE = 1609.34
+
+
+def get_default_shop_address() -> str:
+    return (
+        os.getenv("DEFAULT_SHOP_ADDRESS")
+        or os.getenv("NEXT_PUBLIC_DEFAULT_SHOP_ADDRESS")
+        or "641 Barclay Drive, Toledo, OH 43609, USA"
+    )
+
+
+def _travel_api_to_storage(
+    travel_time_minutes: Optional[Union[int, float]],
+    travel_distance_miles: Optional[Union[int, float]],
+) -> Tuple[Optional[int], Optional[int]]:
+    """Convert calculator output (minutes, miles) to DB units (seconds, meters)."""
+    seconds = int(round(travel_time_minutes * 60)) if travel_time_minutes is not None else None
+    meters = (
+        int(round(float(travel_distance_miles) * METERS_PER_MILE))
+        if travel_distance_miles is not None
+        else None
+    )
+    return seconds, meters
 
 
 def _calendar_day_bounds(day: Union[datetime, date]) -> Tuple[datetime, datetime]:
@@ -252,11 +277,14 @@ def update_appointment_travel_info(db: Session, appointment_id: str) -> bool:
         
         # Get this technician's previous and next appointments
         if appointment.assigned_technician_id:
-            # Get technician's appointments on the same day, ordered by time
+            day_start, day_end = _calendar_day_bounds(appointment.scheduled_start)
+            # Same calendar day only — avoid chaining travel from a prior day's last stop
             tech_appointments = db.query(WorkOrderAppointment).filter(
                 WorkOrderAppointment.assigned_technician_id == appointment.assigned_technician_id,
                 WorkOrderAppointment.id != appointment.id,
-                WorkOrderAppointment.status != 'canceled'
+                WorkOrderAppointment.status != 'canceled',
+                WorkOrderAppointment.scheduled_start >= day_start,
+                WorkOrderAppointment.scheduled_start <= day_end,
             ).order_by(WorkOrderAppointment.scheduled_start).all()
             
             # Find previous appointment (before this one)
@@ -275,22 +303,27 @@ def update_appointment_travel_info(db: Session, appointment_id: str) -> bool:
                 else:
                     break
                     
-            # Update travel time before if there's a previous appointment
+            # Travel to this stop: from previous job or from shop when first stop of the day
             if prev_appointment:
                 prev_work_order = prev_appointment.work_order
                 if prev_work_order:
                     prev_address = get_formatted_address(prev_work_order.service_location)
                     if prev_address:
                         travel_time, travel_distance = get_travel_time_and_distance(prev_address, service_address)
-                        
-                        appointment.travel_time_before = travel_time
-                        appointment.travel_distance_before = travel_distance
-                        
-                        # Also update the previous appointment's "after" fields
-                        prev_appointment.travel_time_after = travel_time
-                        prev_appointment.travel_distance_after = travel_distance
+                        travel_secs, travel_meters = _travel_api_to_storage(travel_time, travel_distance)
+                        appointment.travel_time_before = travel_secs
+                        appointment.travel_distance_before = travel_meters
+                        prev_appointment.travel_time_after = travel_secs
+                        prev_appointment.travel_distance_after = travel_meters
                         db.add(prev_appointment)
-            
+            else:
+                shop_address = get_default_shop_address()
+                travel_time, travel_distance = get_travel_time_and_distance(shop_address, service_address)
+                travel_secs, travel_meters = _travel_api_to_storage(travel_time, travel_distance)
+                if travel_secs is not None:
+                    appointment.travel_time_before = travel_secs
+                    appointment.travel_distance_before = travel_meters
+
             # Update travel time after if there's a next appointment
             if next_appointment:
                 next_work_order = next_appointment.work_order
@@ -298,13 +331,11 @@ def update_appointment_travel_info(db: Session, appointment_id: str) -> bool:
                     next_address = get_formatted_address(next_work_order.service_location)
                     if next_address:
                         travel_time, travel_distance = get_travel_time_and_distance(service_address, next_address)
-                        
-                        appointment.travel_time_after = travel_time
-                        appointment.travel_distance_after = travel_distance
-                        
-                        # Also update the next appointment's "before" fields
-                        next_appointment.travel_time_before = travel_time
-                        next_appointment.travel_distance_before = travel_distance
+                        travel_secs, travel_meters = _travel_api_to_storage(travel_time, travel_distance)
+                        appointment.travel_time_after = travel_secs
+                        appointment.travel_distance_after = travel_meters
+                        next_appointment.travel_time_before = travel_secs
+                        next_appointment.travel_distance_before = travel_meters
                         db.add(next_appointment)
         
         # Save the appointment with updated travel info (caller owns commit)
@@ -340,7 +371,21 @@ def update_technician_day_travel_info(db: Session, technician_id: str, day: Unio
         # Skip if no appointments
         if not tech_appointments:
             return True
-            
+
+        # First stop of the day: travel from shop
+        first_appt = tech_appointments[0]
+        first_wo = first_appt.work_order
+        if first_wo:
+            first_address = get_formatted_address(first_wo.service_location)
+            if first_address:
+                shop_address = get_default_shop_address()
+                travel_time, travel_distance = get_travel_time_and_distance(shop_address, first_address)
+                travel_secs, travel_meters = _travel_api_to_storage(travel_time, travel_distance)
+                if travel_secs is not None:
+                    first_appt.travel_time_before = travel_secs
+                    first_appt.travel_distance_before = travel_meters
+                    db.add(first_appt)
+
         # Process each adjacent pair of appointments
         for i in range(len(tech_appointments) - 1):
             current_appt = tech_appointments[i]
@@ -356,14 +401,12 @@ def update_technician_day_travel_info(db: Session, technician_id: str, day: Unio
                 next_address = get_formatted_address(next_wo.service_location)
                 
                 if current_address and next_address:
-                    # Calculate travel time and distance
                     travel_time, travel_distance = get_travel_time_and_distance(current_address, next_address)
-                    
-                    # Update both appointments
-                    current_appt.travel_time_after = travel_time
-                    current_appt.travel_distance_after = travel_distance
-                    next_appt.travel_time_before = travel_time
-                    next_appt.travel_distance_before = travel_distance
+                    travel_secs, travel_meters = _travel_api_to_storage(travel_time, travel_distance)
+                    current_appt.travel_time_after = travel_secs
+                    current_appt.travel_distance_after = travel_meters
+                    next_appt.travel_time_before = travel_secs
+                    next_appt.travel_distance_before = travel_meters
                     
                     db.add(current_appt)
                     db.add(next_appt)

@@ -1,6 +1,7 @@
 /**
  * Utility functions for appointment scheduling with time windows
  */
+import { format, addMinutes, subMinutes } from 'date-fns';
 import { calculateTravelTime } from './google-maps-service';
 import { DEFAULT_SHOP_ADDRESS } from './google-maps-service'; // Import shop address
 
@@ -324,6 +325,110 @@ const TECHNICIAN_WORK_END_HOUR = 17; // 5 PM
 const BUFFER_TIME_MINUTES = 10; // Buffer between appointments
 const BUFFER_TIME_MS = BUFFER_TIME_MINUTES * 60 * 1000;
 
+/** Prep time before dispatch when scheduling same-day ASAP (not a hard commitment). */
+export const PREP_BUFFER_MINUTES = 15;
+const PREP_BUFFER_MS = PREP_BUFFER_MINUTES * 60 * 1000;
+
+/** Client-facing afternoon ETA must not start before noon. */
+export const CLIENT_ETA_AFTERNOON_FLOOR = { hour: 12, minute: 0 };
+
+/** Client-facing morning ETA must not start before 8:45 AM. */
+export const CLIENT_ETA_MORNING_FLOOR = { hour: 8, minute: 45 };
+
+function applyClientEtaFloor(rawEtaStart, scheduledStartTime, timeWindow) {
+  if (timeWindow === 'afternoon') {
+    const floor = new Date(scheduledStartTime);
+    floor.setHours(
+      CLIENT_ETA_AFTERNOON_FLOOR.hour,
+      CLIENT_ETA_AFTERNOON_FLOOR.minute,
+      0,
+      0
+    );
+    if (rawEtaStart < floor) return floor;
+  }
+  if (timeWindow === 'morning') {
+    const floor = new Date(scheduledStartTime);
+    floor.setHours(
+      CLIENT_ETA_MORNING_FLOOR.hour,
+      CLIENT_ETA_MORNING_FLOOR.minute,
+      0,
+      0
+    );
+    if (rawEtaStart < floor) return floor;
+  }
+  return rawEtaStart;
+}
+
+export function roundToNearestQuarterHour(date, direction) {
+  const minutes = date.getMinutes();
+  let roundedMinutes;
+
+  if (direction === 'down') {
+    roundedMinutes = minutes - (minutes % 15);
+  } else if (direction === 'up') {
+    const remainder = minutes % 15;
+    roundedMinutes = remainder === 0 ? minutes : minutes + (15 - remainder);
+  } else {
+    roundedMinutes = minutes;
+  }
+
+  const newDate = new Date(date.getTime());
+  newDate.setMinutes(roundedMinutes, 0, 0);
+
+  if (roundedMinutes >= 60) {
+    newDate.setHours(newDate.getHours() + Math.floor(roundedMinutes / 60));
+    newDate.setMinutes(roundedMinutes % 60);
+  } else if (roundedMinutes < 0) {
+    newDate.setHours(newDate.getHours() + Math.floor(roundedMinutes / 60));
+    newDate.setMinutes((roundedMinutes % 60 + 60) % 60);
+  }
+
+  return newDate;
+}
+
+/**
+ * Same-day ASAP when the anchor time falls inside the selected customer window.
+ * Future dates or planning before the window opens use first-slot mode.
+ */
+export function resolveSchedulingMode(date, windowName, anchorTime = new Date()) {
+  const normalizedDate = normalizeCalendarDay(date);
+  if (!normalizedDate || !windowName) return 'first-slot';
+
+  const anchor = parseScheduleInstant(anchorTime) || new Date();
+  if (!isSameCalendarDay(normalizedDate, anchor)) return 'first-slot';
+
+  const { startTime: windowStart, endTime: windowEnd } = getTimeWindowBoundaries(
+    normalizedDate,
+    windowName
+  );
+  return anchor >= windowStart && anchor < windowEnd ? 'asap' : 'first-slot';
+}
+
+/**
+ * Estimated arrival window shown to the client (±90 min, quarter-hour rounding).
+ * Morning ETAs never start before 8:45 AM; afternoon never before 12:00 PM.
+ */
+export function computeClientEtaWindow(scheduledStart, timeWindow) {
+  const scheduledStartTime = parseScheduleInstant(scheduledStart);
+  if (!scheduledStartTime) return null;
+
+  let rawEtaStart = subMinutes(scheduledStartTime, 90);
+  const rawEtaEnd = addMinutes(scheduledStartTime, 90);
+
+  rawEtaStart = applyClientEtaFloor(rawEtaStart, scheduledStartTime, timeWindow);
+
+  const roundedEtaStart = roundToNearestQuarterHour(rawEtaStart, 'down');
+  const roundedEtaEnd = roundToNearestQuarterHour(rawEtaEnd, 'up');
+
+  return {
+    display: `${format(roundedEtaStart, 'h:mm a')} - ${format(roundedEtaEnd, 'h:mm a')}`,
+    rawEtaStart,
+    rawEtaEnd,
+    roundedEtaStart,
+    roundedEtaEnd,
+  };
+}
+
 /**
  * Create a date object for a specific time
  * @param {Date} baseDate - Base date to use
@@ -475,6 +580,17 @@ export function isTimeWindowAvailable(
   };
 }
 
+/** When the tech leaves the shop for the first stop in a window (not from a prior job). */
+function resolveShopDispatchTime(windowStartTime, anchorTime, normalizedDate) {
+  let dispatch = new Date(windowStartTime);
+  if (isSameCalendarDay(normalizedDate, anchorTime)) {
+    dispatch = new Date(
+      Math.max(windowStartTime.getTime(), anchorTime.getTime() + PREP_BUFFER_MS)
+    );
+  }
+  return dispatch;
+}
+
 /**
  * Find the next available slot for a technician on a given date,
  * considering their full schedule, travel time, and work hours.
@@ -494,8 +610,14 @@ export async function findNextAvailableSlot(
   technicianId,
   fromAddress, // Note: This might be overridden based on previous appointment
   toAddress,
-  duration = 60
+  duration = DEFAULT_MIN_SLOT_MINUTES,
+  options = {}
 ) {
+  const {
+    schedulingAnchorTime,
+    schedulingMode: explicitSchedulingMode,
+  } = options;
+
   console.log(`[findNextAvailableSlot V2] Finding slot for date: ${date}, window: ${windowName}, technician: ${technicianId}, duration: ${duration} min`);
   console.log(`[findNextAvailableSlot V2] To Address: ${toAddress}`);
   
@@ -529,6 +651,14 @@ export async function findNextAvailableSlot(
   const workDayEndTime = new Date(normalizedDate); workDayEndTime.setHours(TECHNICIAN_WORK_END_HOUR, 0, 0, 0);
   const durationMs = duration * 60 * 1000;
 
+  const anchorTime = parseScheduleInstant(schedulingAnchorTime) || new Date();
+  const schedulingMode =
+    explicitSchedulingMode || resolveSchedulingMode(normalizedDate, windowName, anchorTime);
+  const isAsap = schedulingMode === 'asap';
+  console.log(
+    `[findNextAvailableSlot V2] Scheduling mode: ${schedulingMode} (anchor ${anchorTime.toLocaleTimeString()})`
+  );
+
   // --- Filter and Sort Technician's Appointments for the Day ---
   const technicianAppointments = allExistingAppointments.filter(apt => {
     if (
@@ -553,21 +683,66 @@ export async function findNextAvailableSlot(
              );
 
   // --- Determine Starting Point for Search ---
-  let lastEventEndTime = workDayStartTime;
-  let lastEventLocation = fromAddress || DEFAULT_SHOP_ADDRESS; // Use provided fromAddress or default shop
+  const inProgressBeforeAnchor = technicianAppointments.filter(
+    (apt) => apt.startTime <= anchorTime && apt.endTime > anchorTime
+  );
+  const endedBeforeAnchor = technicianAppointments.filter(
+    (apt) => apt.endTime <= anchorTime
+  );
+  const previousBeforeWindow = technicianAppointments.filter(
+    (apt) => apt.endTime <= windowStartTime
+  );
 
-  // Find the last appointment ending *before* the target window starts
-  const previousAppointments = technicianAppointments.filter(apt => apt.endTime <= windowStartTime);
-  if (previousAppointments.length > 0) {
-      const lastPreviousAppt = previousAppointments[previousAppointments.length - 1]; // Already sorted
-      lastEventEndTime = lastPreviousAppt.endTime;
-      lastEventLocation = lastPreviousAppt.location || lastEventLocation || DEFAULT_SHOP_ADDRESS;
-      console.log(`[findNextAvailableSlot V2] Last event before window: Appt ${lastPreviousAppt.id} ending at ${lastEventEndTime.toLocaleTimeString()}, Loc: ${lastEventLocation}`);
+  const isDepartingFromShop = isAsap
+    ? inProgressBeforeAnchor.length === 0 && endedBeforeAnchor.length === 0
+    : previousBeforeWindow.length === 0;
+
+  let shopDispatchTime = resolveShopDispatchTime(windowStartTime, anchorTime, normalizedDate);
+  let lastEventEndTime = workDayStartTime;
+  let lastEventLocation = fromAddress || DEFAULT_SHOP_ADDRESS;
+
+  if (isAsap) {
+    if (inProgressBeforeAnchor.length > 0) {
+      const active = inProgressBeforeAnchor[inProgressBeforeAnchor.length - 1];
+      lastEventEndTime = active.endTime;
+      lastEventLocation = active.location || lastEventLocation || DEFAULT_SHOP_ADDRESS;
+      console.log(
+        `[findNextAvailableSlot V2] ASAP: in-progress appt ${active.id} until ${lastEventEndTime.toLocaleTimeString()}`
+      );
+    } else if (endedBeforeAnchor.length > 0) {
+      const last = endedBeforeAnchor[endedBeforeAnchor.length - 1];
+      lastEventEndTime = last.endTime;
+      lastEventLocation = last.location || lastEventLocation || DEFAULT_SHOP_ADDRESS;
+      console.log(
+        `[findNextAvailableSlot V2] ASAP: last completed appt ended ${lastEventEndTime.toLocaleTimeString()}`
+      );
+    } else {
+      lastEventEndTime = new Date(anchorTime);
+      lastEventLocation = fromAddress || DEFAULT_SHOP_ADDRESS;
+      console.log('[findNextAvailableSlot V2] ASAP: dispatching from shop after prep buffer');
+    }
+
+    const dispatchFloor = new Date(anchorTime.getTime() + PREP_BUFFER_MS);
+    lastEventEndTime = new Date(Math.max(lastEventEndTime.getTime(), dispatchFloor.getTime()));
+    if (isDepartingFromShop) {
+      shopDispatchTime = new Date(lastEventEndTime);
+    }
+  } else if (previousBeforeWindow.length > 0) {
+    const lastPreviousAppt = previousBeforeWindow[previousBeforeWindow.length - 1];
+    lastEventEndTime = lastPreviousAppt.endTime;
+    lastEventLocation = lastPreviousAppt.location || lastEventLocation || DEFAULT_SHOP_ADDRESS;
+    console.log(
+      `[findNextAvailableSlot V2] Last event before window: Appt ${lastPreviousAppt.id} ending at ${lastEventEndTime.toLocaleTimeString()}, Loc: ${lastEventLocation}`
+    );
   } else {
-      console.log(`[findNextAvailableSlot V2] No appointments before window. Starting from WorkDayStart ${workDayStartTime.toLocaleTimeString()}, Loc: ${lastEventLocation}`);
-      // Ensure lastEventEndTime is not before the workday start
-      lastEventEndTime = lastEventEndTime < workDayStartTime ? workDayStartTime : lastEventEndTime;
+    lastEventLocation = fromAddress || DEFAULT_SHOP_ADDRESS;
+    lastEventEndTime = shopDispatchTime;
+    console.log(
+      `[findNextAvailableSlot V2] First stop from shop; depart ${lastEventEndTime.toLocaleTimeString()} (window opens ${windowStartTime.toLocaleTimeString()})`
+    );
   }
+
+  const gapBeforeTravelMs = isDepartingFromShop ? 0 : BUFFER_TIME_MS;
 
   // --- Calculate Initial Travel Time ---
   let initialTravelTimeSecs = 0;
@@ -576,8 +751,10 @@ export async function findNextAvailableSlot(
       if (lastEventLocation && normalizedToAddress) {
           console.log(`[findNextAvailableSlot V2] Calculating initial travel from ${lastEventLocation} to ${normalizedToAddress}`);
           const travelResult = await calculateTravelTime(lastEventLocation, normalizedToAddress);
-          initialTravelTimeSecs = travelResult.travelTime;
-          initialTravelDistMeters = travelResult.distance;
+          if (travelResult) {
+            initialTravelTimeSecs = travelResult.travelTime;
+            initialTravelDistMeters = travelResult.distance;
+          }
           console.log(`[findNextAvailableSlot V2] Initial travel: ${initialTravelTimeSecs}s, ${initialTravelDistMeters}m`);
       } else {
           console.warn(`[findNextAvailableSlot V2] Missing location for initial travel calculation.`, {lastEventLocation, toAddress});
@@ -588,12 +765,27 @@ export async function findNextAvailableSlot(
   const initialTravelTimeMs = initialTravelTimeSecs * 1000;
   
   // --- Determine Earliest Possible Start Time ---
-  // Add buffer AFTER the last event ends
-  const earliestArrival = new Date(lastEventEndTime.getTime() + BUFFER_TIME_MS + initialTravelTimeMs);
-  // Cannot start before the window starts OR before arrival time OR before workday starts
-  let currentTryStartTime = new Date(Math.max(windowStartTime.getTime(), earliestArrival.getTime(), workDayStartTime.getTime()));
+  const earliestArrival = new Date(
+    lastEventEndTime.getTime() + gapBeforeTravelMs + initialTravelTimeMs
+  );
+  let currentTryStartTime;
+  if (isAsap) {
+    currentTryStartTime = new Date(
+      Math.max(earliestArrival.getTime(), workDayStartTime.getTime())
+    );
+  } else {
+    currentTryStartTime = new Date(
+      Math.max(
+        earliestArrival.getTime(),
+        windowStartTime.getTime(),
+        workDayStartTime.getTime()
+      )
+    );
+  }
 
-  console.log(`[findNextAvailableSlot V2] Initial Try Start Time: ${currentTryStartTime.toLocaleTimeString()} (max of windowStart ${windowStartTime.toLocaleTimeString()}, earliestArrival ${earliestArrival.toLocaleTimeString()}, workDayStart ${workDayStartTime.toLocaleTimeString()})`);
+  console.log(
+    `[findNextAvailableSlot V2] Initial Try Start Time: ${currentTryStartTime.toLocaleTimeString()} (mode ${schedulingMode}, shop depart ${isDepartingFromShop ? lastEventEndTime.toLocaleTimeString() : 'n/a'}, drive ${Math.round(initialTravelTimeSecs / 60)} min, earliestArrival ${earliestArrival.toLocaleTimeString()})`
+  );
 
   // --- Iterative Slot Checking Loop ---
   let iterationCount = 0;
@@ -670,6 +862,7 @@ export async function findNextAvailableSlot(
       );
       let travelFromLocation = fromAddress || DEFAULT_SHOP_ADDRESS;
       let travelFromEndTime = workDayStartTime;
+      let slotGapBeforeTravelMs = BUFFER_TIME_MS;
 
       if (priorAppointments.length > 0) {
         const lastPrior = priorAppointments[priorAppointments.length - 1];
@@ -680,7 +873,8 @@ export async function findNextAvailableSlot(
         );
       } else {
         travelFromLocation = lastEventLocation || travelFromLocation;
-        travelFromEndTime = lastEventEndTime;
+        travelFromEndTime = shopDispatchTime;
+        slotGapBeforeTravelMs = 0;
       }
 
       let slotTravelTimeSecs = 0;
@@ -691,21 +885,23 @@ export async function findNextAvailableSlot(
             `[findNextAvailableSlot V2] Final travel from ${travelFromLocation} to ${normalizedToAddress}`
           );
           const travelResult = await calculateTravelTime(travelFromLocation, normalizedToAddress);
-          slotTravelTimeSecs = travelResult.travelTime;
-          slotTravelDistMeters = travelResult.distance;
+          if (travelResult) {
+            slotTravelTimeSecs = travelResult.travelTime;
+            slotTravelDistMeters = travelResult.distance;
+          }
         }
       } catch (err) {
         console.error('[findNextAvailableSlot V2] Final travel calculation failed:', err);
       }
 
       const minStartFromPrior = new Date(
-        travelFromEndTime.getTime() + BUFFER_TIME_MS + slotTravelTimeSecs * 1000
+        travelFromEndTime.getTime() + slotGapBeforeTravelMs + slotTravelTimeSecs * 1000
       );
       let finalStartTime = currentTryStartTime;
       if (finalStartTime.getTime() < minStartFromPrior.getTime()) {
         finalStartTime = minStartFromPrior;
         console.log(
-          `[findNextAvailableSlot V2] Adjusted start to ${finalStartTime.toLocaleTimeString()} to allow drive time from prior stop`
+          `[findNextAvailableSlot V2] Adjusted start to ${finalStartTime.toLocaleTimeString()} (${priorAppointments.length ? 'drive from prior stop' : 'drive from shop'})`
         );
       }
 
@@ -726,8 +922,10 @@ export async function findNextAvailableSlot(
         continue;
       }
 
+      const exceedsCustomerWindow = finalEndTime > windowEndTime;
+
       console.log(
-        `[findNextAvailableSlot V2 - Loop ${iterationCount}] Successfully found slot: [${finalStartTime.toLocaleTimeString()}-${finalEndTime.toLocaleTimeString()}], travel ${slotTravelTimeSecs}s`
+        `[findNextAvailableSlot V2 - Loop ${iterationCount}] Successfully found slot: [${finalStartTime.toLocaleTimeString()}-${finalEndTime.toLocaleTimeString()}], travel ${slotTravelTimeSecs}s, exceedsCustomerWindow=${exceedsCustomerWindow}`
       );
       return {
         startTime: finalStartTime,
@@ -736,6 +934,9 @@ export async function findNextAvailableSlot(
         travelDistanceBefore: slotTravelDistMeters,
         travelTime: slotTravelTimeSecs,
         travelDistance: slotTravelDistMeters,
+        exceedsCustomerWindow,
+        windowEndTime,
+        schedulingMode,
       };
     }
   } // End while loop

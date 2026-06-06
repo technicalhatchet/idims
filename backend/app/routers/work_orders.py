@@ -1266,17 +1266,51 @@ async def create_work_order_appointment(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     appointment: WorkOrderAppointmentCreate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_admin_or_manager_user)
+    current_user: UserModel = Depends(get_current_user)
 ):
     """
     Create a new appointment for a work order.
-    Only administrators and managers can create appointments.
+    Managers and admins can create for any technician.
+    Technicians can create appointments assigned to themselves (typical on-site scheduling).
     """
     # Ensure the work_order_id in the path matches the one in the request body
     if appointment.work_order_id != work_order_id:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Work order ID in the path must match the one in the request body"
+        )
+
+    roles = current_user.roles or []
+    is_staff_tech = "technician" in roles and not any(r in roles for r in ("admin", "manager"))
+
+    if is_staff_tech:
+        if not await can_view_work_order(work_order_id, current_user, db):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You don't have permission to schedule on this work order",
+            )
+
+        if appointment.is_forced_schedule:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Only managers and admins can use force schedule",
+            )
+
+        technician = _technician_record_for_user(db, current_user)
+        if (
+            appointment.assigned_technician_id is not None
+            and appointment.assigned_technician_id != technician.id
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Technicians can only create appointments assigned to themselves",
+            )
+
+        appointment = appointment.model_copy(update={"assigned_technician_id": technician.id})
+    elif not any(role in ["admin", "manager"] for role in roles):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin, manager, or technician role required",
         )
 
     if appointment.is_forced_schedule:

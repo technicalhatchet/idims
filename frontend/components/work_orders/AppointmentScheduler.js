@@ -1,8 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaUserClock, FaSave, FaTimes, FaClock, FaCar } from 'react-icons/fa';
-import { format, addMinutes, subMinutes, parseISO, differenceInMinutes } from 'date-fns';
+import { format, addMinutes, addDays, parseISO, differenceInMinutes } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
-import ErrorAlert from '../ui/ErrorAlert';
 import FloatingBanner from '../ui/FloatingBanner';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
@@ -27,6 +26,7 @@ import {
   filterSchedulingConflicts,
   isProposedSlotAvailable,
   findScheduleConflictsForInterval,
+  computeClientEtaWindow,
   DEFAULT_MIN_SLOT_MINUTES,
 } from '../../utils/appointment-scheduling';
 import WindowScheduler from './WindowScheduler';
@@ -36,7 +36,8 @@ import { useUserRole } from '../../utils/auth0-helpers';
 import useCurrentTechnicianId from '../../hooks/useCurrentTechnicianId';
 import { useTechnicians } from '../../hooks/useTechnicians';
 import {
-  canCreateOrDeleteAppointments,
+  canCreateAppointments,
+  canDeleteAppointments,
   canEditAppointment,
   canUpdateAppointmentStatus,
   isWorkOrderClosed,
@@ -65,6 +66,32 @@ import { formatAppointmentStatus } from '../../utils/appointmentStatusLabels';
 
 function getWorkOrderAppointmentsSeed(workOrder) {
   return Array.isArray(workOrder?.appointments) ? workOrder.appointments : [];
+}
+
+function serviceIdsMatch(a, b) {
+  return String(a) === String(b);
+}
+
+/** SKUs may live on service_ids or nested services[] depending on API source. */
+function resolveAppointmentServiceIds(appointment) {
+  if (!appointment) return [];
+  if (Array.isArray(appointment.service_ids) && appointment.service_ids.length > 0) {
+    return appointment.service_ids.map((id) => String(id));
+  }
+  if (Array.isArray(appointment.services) && appointment.services.length > 0) {
+    return appointment.services.map((s) => String(s.id)).filter(Boolean);
+  }
+  return [];
+}
+
+function formIncludesServiceId(serviceIds, candidateId) {
+  return (serviceIds || []).some((id) => serviceIdsMatch(id, candidateId));
+}
+
+function parseTravelInt(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const n = parseInt(value, 10);
+  return Number.isNaN(n) ? null : n;
 }
 
 export default function AppointmentScheduler({
@@ -126,12 +153,17 @@ export default function AppointmentScheduler({
   const [isCalculating, setIsCalculating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [displayEtaWindow, setDisplayEtaWindow] = useState(null);
+  const [windowOverflowPrompt, setWindowOverflowPrompt] = useState(null);
   const [updatingStatus, setUpdatingStatus] = useState(null); // Track which appointment is being updated
+  const schedulingAnchorRef = useRef(null);
+  const windowOverflowAcceptedRef = useRef(false);
+  const travelRecalculatedRef = useRef(false);
 
   const { role, isManager, isAdmin } = useUserRole();
   const currentTechnicianId = useCurrentTechnicianId();
   const woClosed = isWorkOrderClosed(workOrder);
-  const canManageAppts = canCreateOrDeleteAppointments({ role, workOrder });
+  const canCreateAppts = canCreateAppointments({ role, workOrder });
+  const canDeleteAppts = canDeleteAppointments({ role, workOrder });
   const appointmentPermCtx = { role, currentTechnicianId, workOrder };
   const canEditAppt = (appointment) =>
     canEditAppointment({ appointment, ...appointmentPermCtx });
@@ -161,7 +193,9 @@ export default function AppointmentScheduler({
     if (!ids.length || !allServices.length) return DEFAULT_MIN_SLOT_MINUTES;
     let total = 0;
     for (const id of ids) {
-      const svc = allServices.find((s) => s.id === id || String(s.id) === String(id));
+      const svc = allServices.find(
+        (s) => serviceIdsMatch(s.id, id)
+      );
       if (svc?.duration_minutes) total += svc.duration_minutes;
     }
     return total > 0 ? total : DEFAULT_MIN_SLOT_MINUTES;
@@ -363,7 +397,7 @@ export default function AppointmentScheduler({
     if (currentAppointment) {
       if (formData.service_ids && formData.service_ids.length > 0 && allServices.length > 0) {
         const firstServiceId = formData.service_ids[0];
-        const serviceDetails = allServices.find(s => s.id === firstServiceId);
+        const serviceDetails = allServices.find((s) => serviceIdsMatch(s.id, firstServiceId));
         console.log('[useEffect for Category PRE-SELECT] In Edit Mode - firstServiceId:', firstServiceId, 'serviceDetails:', serviceDetails);
         if (serviceDetails && serviceDetails.service_type) {
           setSelectedServiceCategory(serviceDetails.service_type);
@@ -423,30 +457,25 @@ export default function AppointmentScheduler({
       }
     };
     recalculate();
-  }, [formData.time_window, formData.assigned_technician_id, resolvedWorkOrderAddress, technicianDailySchedule]); // Removed formData.scheduled_start from here
+  }, [formData.time_window, formData.assigned_technician_id, resolvedWorkOrderAddress, technicianDailySchedule, estimatedServiceDurationMinutes]); // Recalc when SKU duration changes
 
-  // Effect to update ETA window when scheduled_start or travel_time_before changes
+  // Effect to update client ETA window when scheduled_start or time_window changes
   useEffect(() => {
     if (formData.scheduled_start && formData.time_window) {
       try {
-        const scheduledStartTime = parseISO(formData.scheduled_start);
-        const rawEtaStart = subMinutes(scheduledStartTime, 90);
-        const rawEtaEnd = addMinutes(scheduledStartTime, 90);
-
-        const roundedEtaStart = roundToNearestQuarterHour(rawEtaStart, 'down');
-        const roundedEtaEnd = roundToNearestQuarterHour(rawEtaEnd, 'up');
-
-        setDisplayEtaWindow(`${format(roundedEtaStart, 'h:mm a')} - ${format(roundedEtaEnd, 'h:mm a')}`);
-        console.log(`[AppointmentScheduler ETA Effect] Raw ETA: ${format(rawEtaStart, 'h:mm a')} - ${format(rawEtaEnd, 'h:mm a')}`);
-        console.log(`[AppointmentScheduler ETA Effect] Rounded ETA: ${format(roundedEtaStart, 'h:mm a')} - ${format(roundedEtaEnd, 'h:mm a')}`);
+        const eta = computeClientEtaWindow(formData.scheduled_start, formData.time_window);
+        setDisplayEtaWindow(eta?.display ?? null);
+        if (eta) {
+          console.log(`[AppointmentScheduler ETA Effect] Client ETA: ${eta.display}`);
+        }
       } catch (e) {
-        console.error("[AppointmentScheduler ETA Effect] Error formatting ETA window:", e);
-        setDisplayEtaWindow("Error calculating ETA");
+        console.error('[AppointmentScheduler ETA Effect] Error formatting ETA window:', e);
+        setDisplayEtaWindow('Error calculating ETA');
       }
     } else {
-      setDisplayEtaWindow(null); // Clear if no start time or not in window mode
+      setDisplayEtaWindow(null);
     }
-  }, [formData.scheduled_start, formData.time_window]); // Depends on scheduled_start and time_window
+  }, [formData.scheduled_start, formData.time_window]);
 
   // useEffect hook to fetch the technician's full daily schedule when date or technician changes
   useEffect(() => {
@@ -565,6 +594,10 @@ export default function AppointmentScheduler({
 
   const pickDefaultTechnician = (techList) => {
     if (!Array.isArray(techList) || techList.length === 0) return null;
+    if (role === 'technician' && currentTechnicianId) {
+      const self = techList.find((t) => String(t.id) === String(currentTechnicianId));
+      if (self) return self;
+    }
     const byName = techList.find((t) => getTechnicianDisplayName(t) === DEFAULT_TECHNICIAN_NAME);
     if (byName) return byName;
     return techList.find((t) => t.status === 'active' || !t.status) || techList[0];
@@ -602,15 +635,15 @@ export default function AppointmentScheduler({
         travel_time_after: appointment.travel_time_after,
         travel_distance_before: appointment.travel_distance_before,
         travel_distance_after: appointment.travel_distance_after,
-        service_ids: appointment.services ? appointment.services.map(s => s.id) : [],
+        service_ids: resolveAppointmentServiceIds(appointment),
         time_window: appointment.time_window || null,
       });
-      // If appointment has services, try to pre-select category
-      if (appointment.services && appointment.services.length > 0 && allServices.length > 0) {
-        const firstServiceId = appointment.services[0].id;
-        const service = allServices.find(s => s.id === firstServiceId);
-        if (service && service.type) {
-          setSelectedServiceCategory(service.type);
+      const resolvedIds = resolveAppointmentServiceIds(appointment);
+      if (resolvedIds.length > 0 && allServices.length > 0) {
+        const firstServiceId = resolvedIds[0];
+        const service = allServices.find((s) => serviceIdsMatch(s.id, firstServiceId));
+        if (service?.service_type) {
+          setSelectedServiceCategory(service.service_type);
         } else {
           setSelectedServiceCategory('');
         }
@@ -619,14 +652,23 @@ export default function AppointmentScheduler({
       }
     } else {
       setCurrentAppointment(null);
-      const now = new Date();
-      // Default to next day at 9 AM if current time is past 9 AM today
-      const defaultStartHour = 9;
-      let defaultStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), defaultStartHour, 0, 0);
-      if (now.getHours() >= defaultStartHour) {
-          defaultStart.setDate(defaultStart.getDate() + 1);
+      schedulingAnchorRef.current = new Date();
+      windowOverflowAcceptedRef.current = false;
+      const now = schedulingAnchorRef.current;
+      let defaultDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const workDayEnd = new Date(defaultDay);
+      workDayEnd.setHours(17, 0, 0, 0);
+      if (now >= workDayEnd) {
+        defaultDay = addDays(defaultDay, 1);
       }
-      const defaultEnd = addMinutes(defaultStart, 60); // Default 1 hour duration
+
+      const defaultStart = new Date(defaultDay);
+      if (defaultDay.toDateString() === now.toDateString()) {
+        defaultStart.setHours(now.getHours(), now.getMinutes(), 0, 0);
+      } else {
+        defaultStart.setHours(9, 0, 0, 0);
+      }
+      const defaultEnd = addMinutes(defaultStart, DEFAULT_MIN_SLOT_MINUTES);
 
       setFormData({
         ...initialFormData,
@@ -716,46 +758,28 @@ export default function AppointmentScheduler({
 
   const handleServiceChange = (selectedOptions) => {
     console.log('[handleServiceChange] selectedOptions:', selectedOptions);
-    setFormData(prev => ({
-      ...prev,
-      service_ids: selectedOptions ? selectedOptions.map(opt => opt.value) : []
-    }));
-    // Potentially auto-update scheduled_end based on selected services duration
-    if (selectedOptions && selectedOptions.length > 0 && formData.scheduled_start) {
-        const totalDuration = selectedOptions.reduce((sum, opt) => {
-            const service = servicesForSelectedCategory.find(s => s.id === opt.value);
-            return sum + (service?.duration_minutes || 0);
-        }, 0);
-        console.log('[handleServiceChange] totalDuration calculated:', totalDuration, 'from servicesForSelectedCategory:', servicesForSelectedCategory);
+    const newServiceIds = selectedOptions ? selectedOptions.map((opt) => opt.value) : [];
+    setFormData((prev) => {
+      const next = { ...prev, service_ids: newServiceIds };
+      if (!prev.scheduled_start) return next;
 
-        if (totalDuration > 0) {
-            try {
-                const startDate = parseISO(formData.scheduled_start);
-                const endDate = addMinutes(startDate, totalDuration);
-                console.log('[handleServiceChange] Calculated endDate:', endDate, 'from startDate:', startDate);
-                setFormData(prev => ({
-                    ...prev,
-                    scheduled_end: formatDateTimeForInput(endDate)
-                }));
-            } catch (error) {
-                console.error("[handleServiceChange] Error calculating end date from service duration:", error);
-            }
-        }
-    } else if ((!selectedOptions || selectedOptions.length === 0) && formData.scheduled_start) {
-        console.log('[handleServiceChange] No services selected or no start date. Calculating default end time.');
-        // If no services selected, or start time changes, reset end time or set to default 1 hr
-        try {
-            const startDate = parseISO(formData.scheduled_start);
-            const endDate = addMinutes(startDate, 60); // Default to 1 hour if no services
-            console.log('[handleServiceChange] Calculated default endDate:', endDate, 'from startDate:', startDate);
-             setFormData(prev => ({
-                ...prev,
-                scheduled_end: formatDateTimeForInput(endDate)
-            }));
-        } catch (error) {
-            console.error("[handleServiceChange] Error calculating default end date:", error);
-        }
-    }
+      let totalDuration = 0;
+      for (const id of newServiceIds) {
+        const service = allServices.find((s) => serviceIdsMatch(s.id, id));
+        if (service?.duration_minutes) totalDuration += service.duration_minutes;
+      }
+
+      const durationMinutes =
+        totalDuration > 0 ? totalDuration : DEFAULT_MIN_SLOT_MINUTES;
+
+      try {
+        const startDate = parseISO(prev.scheduled_start);
+        next.scheduled_end = formatDateTimeForInput(addMinutes(startDate, durationMinutes));
+      } catch (error) {
+        console.error('[handleServiceChange] Error calculating end date from service duration:', error);
+      }
+      return next;
+    });
   };
 
   // Validate form before submission
@@ -782,39 +806,116 @@ export default function AppointmentScheduler({
     return Object.keys(errors).length === 0;
   };
 
-  // Helper function to round date to nearest quarter hour
-  const roundToNearestQuarterHour = (date, direction) => {
-    const minutes = date.getMinutes();
-    let roundedMinutes;
+  const applyCalculatedSlot = (slot) => {
+    travelRecalculatedRef.current = true;
+    setFormData((prev) => ({
+      ...prev,
+      scheduled_start: formatDateTimeForInput(slot.startTime),
+      scheduled_end: formatDateTimeForInput(slot.endTime),
+      travel_time_before: slot.travelTimeBefore ?? slot.travelTime ?? null,
+      travel_distance_before: slot.travelDistanceBefore ?? slot.travelDistance ?? null,
+    }));
+  };
 
-    if (direction === 'down') {
-      roundedMinutes = minutes - (minutes % 15);
-    } else if (direction === 'up') {
-      const remainder = minutes % 15;
-      if (remainder === 0) {
-        roundedMinutes = minutes;
-      } else {
-        roundedMinutes = minutes + (15 - remainder);
+  const buildSlotFinderOptions = (overrides = {}) => ({
+    schedulingAnchorTime: schedulingAnchorRef.current || new Date(),
+    ...overrides,
+  });
+
+  const promptWindowOverflow = (slot, windowName, dailySchedule) =>
+    new Promise((resolve) => {
+      setWindowOverflowPrompt({
+        slot,
+        windowName,
+        dailySchedule,
+        resolve,
+      });
+    });
+
+  const handleWindowOverflowAccept = () => {
+    if (!windowOverflowPrompt?.slot) return;
+    windowOverflowAcceptedRef.current = true;
+    applyCalculatedSlot(windowOverflowPrompt.slot);
+    windowOverflowPrompt.resolve?.(true);
+    setWindowOverflowPrompt(null);
+  };
+
+  const handleWindowOverflowCancel = () => {
+    windowOverflowPrompt?.resolve?.(false);
+    setWindowOverflowPrompt(null);
+  };
+
+  const handleWindowOverflowNextDay = async () => {
+    const prompt = windowOverflowPrompt;
+    if (!prompt) return;
+
+    const {
+      windowName,
+      dailySchedule,
+      resolve: resolvePrompt,
+    } = prompt;
+    setWindowOverflowPrompt(null);
+    resolvePrompt?.(false);
+
+    const selectedDateStr = formData.scheduled_start.split('T')[0];
+    const [year, month, day] = selectedDateStr.split('-').map(Number);
+    let tryDate = new Date(year, month - 1, day, 12, 0, 0, 0);
+    const toAddress = resolvedWorkOrderAddress;
+    const duration = estimatedServiceDurationMinutes;
+    const previousAppointment = getPreviousAppointment(
+      tryDate,
+      windowName,
+      formData.assigned_technician_id,
+      dailySchedule
+    );
+    const fromAddress =
+      previousAppointment?.address ||
+      DEFAULT_SHOP_ADDRESS ||
+      '641 Barclay Drive, Toledo, OH 43609, USA';
+
+    setIsCalculating(true);
+    setError(null);
+
+    try {
+      for (let offset = 1; offset <= 14; offset += 1) {
+        const candidateDate = addDays(tryDate, offset);
+        const slot = await findNextAvailableSlot(
+          candidateDate,
+          windowName,
+          dailySchedule,
+          formData.assigned_technician_id,
+          fromAddress,
+          toAddress,
+          duration,
+          buildSlotFinderOptions({ schedulingMode: 'first-slot' })
+        );
+
+        if (slot && !slot.exceedsCustomerWindow) {
+          windowOverflowAcceptedRef.current = false;
+          applyCalculatedSlot(slot);
+          setSuccessMessage(
+            `Moved to ${format(candidateDate, 'MM/dd/yyyy')} — first open slot in the ${windowName} window.`
+          );
+          return;
+        }
       }
-    } else {
-      // Should not happen, but as a fallback, don't change minutes
-      roundedMinutes = minutes; 
+      setError(
+        'No slot found in the next two weeks that fits within the customer time window. Try another window or date.'
+      );
+    } catch (err) {
+      console.error('[AppointmentScheduler] Error finding next-day slot:', err);
+      setError(err.message || 'Could not find a slot on a later date.');
+    } finally {
+      setIsCalculating(false);
     }
+  };
 
-    const newDate = new Date(date.getTime());
-    newDate.setMinutes(roundedMinutes, 0, 0); // Set minutes, reset seconds and ms
-    
-    // Handle hour overflow if roundedMinutes >= 60 (for 'up' direction)
-    if (roundedMinutes >= 60) {
-        newDate.setHours(newDate.getHours() + Math.floor(roundedMinutes / 60));
-        newDate.setMinutes(roundedMinutes % 60);
-    } else if (roundedMinutes < 0) { // Handle hour underflow for 'down' direction
-        newDate.setHours(newDate.getHours() + Math.floor(roundedMinutes / 60)); // e.g. -15/60 floor is -1
-        newDate.setMinutes((roundedMinutes % 60 + 60) % 60); // Ensure positive minutes
-    }
-
-
-    return newDate;
+  const slotExceedsCustomerWindow = (start, end, windowName) => {
+    if (!start || !end || !windowName) return false;
+    const startDate = parseISO(String(start));
+    const endDate = parseISO(String(end));
+    const { endTime: windowEnd } = getTimeWindowBoundaries(startDate, windowName);
+    return endDate > windowEnd;
   };
 
   // Add resetForm function
@@ -831,29 +932,39 @@ export default function AppointmentScheduler({
     setFormErrors({});
     setShowForm(false);
     setCurrentAppointment(null);
-    setSelectedServiceCategory(''); // Reset category
+    setSelectedServiceCategory('');
+    setWindowOverflowPrompt(null);
+    schedulingAnchorRef.current = null;
+    windowOverflowAcceptedRef.current = false;
+    travelRecalculatedRef.current = false;
   };
 
   // Add openForm function
   const openForm = async () => {
-    if (!canManageAppts) return;
+    if (!canCreateAppts) return;
     fetchServices();
 
+    schedulingAnchorRef.current = new Date();
+    windowOverflowAcceptedRef.current = false;
+    travelRecalculatedRef.current = false;
+
     const techList = technicians;
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Strip time part
-    
-    // Default start time at 9 AM
-    const startTime = new Date(today);
-    startTime.setHours(9, 0, 0, 0); // Always set to 9 AM
-    
-    // Make sure we're not setting a time in the past
-    if (startTime < now) {
-      startTime.setDate(startTime.getDate() + 1); // Move to tomorrow if 9 AM today is in the past
+    const now = schedulingAnchorRef.current;
+    let defaultDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const workDayEnd = new Date(defaultDay);
+    workDayEnd.setHours(17, 0, 0, 0);
+    if (now >= workDayEnd) {
+      defaultDay = addDays(defaultDay, 1);
     }
-        
-    // Create end time 1 hour after start time (will be auto-adjusted by services later)
-    const endTime = addMinutes(startTime, 60);
+
+    const startTime = new Date(defaultDay);
+    if (defaultDay.toDateString() === now.toDateString()) {
+      startTime.setHours(now.getHours(), now.getMinutes(), 0, 0);
+    } else {
+      startTime.setHours(9, 0, 0, 0);
+    }
+
+    const endTime = addMinutes(startTime, DEFAULT_MIN_SLOT_MINUTES);
 
     const defaultTech = pickDefaultTechnician(techList);
     
@@ -879,10 +990,11 @@ export default function AppointmentScheduler({
   // Function to set up form for editing an existing appointment
   const editAppointment = (appointment) => {
     if (!canEditAppt(appointment)) return;
+    travelRecalculatedRef.current = false;
     console.log('[EditAppointment] Appointment received:', JSON.parse(JSON.stringify(appointment)));
     fetchServices(); // Ensures services are fetched or being fetched
     setCurrentAppointment(appointment);
-    const servicesFromAppointment = appointment.service_ids || []; 
+    const servicesFromAppointment = resolveAppointmentServiceIds(appointment);
     console.log('[EditAppointment] servicesFromAppointment (IDs):', servicesFromAppointment);
     
     const newFormData = {
@@ -906,8 +1018,16 @@ export default function AppointmentScheduler({
     console.log('[EditAppointment] formData set to:', JSON.parse(JSON.stringify(newFormData)));
     setFormData(newFormData);
 
-    // The useEffect depending on [currentAppointment, allServices, formData.service_ids]
-    // will handle setting the selectedServiceCategory once all data is ready.
+    if (servicesFromAppointment.length > 0 && allServices.length > 0) {
+      const serviceDetails = allServices.find((s) =>
+        serviceIdsMatch(s.id, servicesFromAppointment[0])
+      );
+      if (serviceDetails?.service_type) {
+        setSelectedServiceCategory(serviceDetails.service_type);
+      }
+    }
+
+    // Category/SKU select also sync via useEffect when allServices loads after fetchServices().
 
     setFormErrors({});
     setShowForm(true);
@@ -1056,27 +1176,19 @@ export default function AppointmentScheduler({
       
       console.log(`Calculating travel from ${fromAddress} to ${toAddress}`);
       
-      // Set the appointment duration based on appointment type
-      let duration = 60; // Default duration 60 minutes
-      if (formData.appointment_type === 'diagnostic') {
-        duration = 60;
-      } else if (formData.appointment_type === 'repair') {
-        duration = 120;
-      } else if (formData.appointment_type === 'follow-up') {
-        duration = 30;
-      }
-      
-      console.log(`Appointment type: ${formData.appointment_type}, duration: ${duration} minutes`);
-      
-      // Find the next available slot in the selected time window using the passed list and windowName
+      const duration = estimatedServiceDurationMinutes;
+
+      console.log(`Selected services duration: ${duration} minutes`);
+
       const slot = await findNextAvailableSlot(
         selectedDate,
-        windowName, 
-        dailySchedule, // Pass the full daily schedule here
+        windowName,
+        dailySchedule,
         formData.assigned_technician_id,
         fromAddress,
         toAddress,
-        duration
+        duration,
+        buildSlotFinderOptions()
       );
       
       console.log(`[AppointmentScheduler] findNextAvailableSlot result:`, slot);
@@ -1105,7 +1217,6 @@ export default function AppointmentScheduler({
         distance: slot.travelDistanceBefore
       });
       
-      // Verify the slot is within the correct time window
       if (slot.startTime < startTime || slot.startTime >= endTime) {
         console.error('Error: Calculated slot is outside the selected time window!');
         console.log(`Slot start: ${slot.startTime.toLocaleString()}, Window: ${startTime.toLocaleString()} - ${endTime.toLocaleString()}`);
@@ -1113,16 +1224,15 @@ export default function AppointmentScheduler({
         setIsCalculating(false);
         return false;
       }
-      
-      // Update form data with calculated times
-      setFormData(prev => ({
-        ...prev,
-        scheduled_start: formatDateTimeForInput(slot.startTime),
-        scheduled_end: formatDateTimeForInput(slot.endTime),
-        travel_time_before: slot.travelTimeBefore ?? slot.travelTime ?? null,
-        travel_distance_before: slot.travelDistanceBefore ?? slot.travelDistance ?? null
-      }));
-      
+
+      if (slot.exceedsCustomerWindow && !windowOverflowAcceptedRef.current) {
+        setIsCalculating(false);
+        return promptWindowOverflow(slot, windowName, dailySchedule);
+      }
+
+      windowOverflowAcceptedRef.current = false;
+      applyCalculatedSlot(slot);
+
       setIsCalculating(false);
       return true;
     } catch (error) {
@@ -1194,7 +1304,7 @@ export default function AppointmentScheduler({
         setError('You cannot edit this appointment.');
         return;
       }
-    } else if (!canManageAppts) {
+    } else if (!canCreateAppts) {
       setError('You cannot create appointments on this work order.');
       return;
     }
@@ -1216,7 +1326,35 @@ export default function AppointmentScheduler({
       if (!confirmed) return;
       forceOnSave = true;
     }
-    
+
+    if (
+      formData.time_window &&
+      slotExceedsCustomerWindow(
+        formData.scheduled_start,
+        formData.scheduled_end,
+        formData.time_window
+      ) &&
+      !windowOverflowAcceptedRef.current
+    ) {
+      const { endTime: windowEnd } = getTimeWindowBoundaries(
+        parseISO(formData.scheduled_start),
+        formData.time_window
+      );
+      const accepted = await promptWindowOverflow(
+        {
+          startTime: parseISO(formData.scheduled_start),
+          endTime: parseISO(formData.scheduled_end),
+          travelTimeBefore: formData.travel_time_before,
+          travelDistanceBefore: formData.travel_distance_before,
+          windowEndTime: windowEnd,
+          exceedsCustomerWindow: true,
+        },
+        formData.time_window,
+        technicianDailySchedule
+      );
+      if (!accepted) return;
+    }
+
     // Ensure we're not already submitting
     if (isSubmitting) {
       return;
@@ -1240,13 +1378,20 @@ export default function AppointmentScheduler({
         ...formData,
         appointment_type: currentAppointmentType,
         work_order_id: workOrderId,
-        travel_time_before: formData.travel_time_before ? parseInt(formData.travel_time_before) : null,
-        travel_time_after: formData.travel_time_after ? parseInt(formData.travel_time_after) : null,
-        travel_distance_before: formData.travel_distance_before ? parseInt(formData.travel_distance_before) : null,
-        travel_distance_after: formData.travel_distance_after ? parseInt(formData.travel_distance_after) : null,
+        travel_time_before: parseTravelInt(formData.travel_time_before),
+        travel_time_after: parseTravelInt(formData.travel_time_after),
+        travel_distance_before: parseTravelInt(formData.travel_distance_before),
+        travel_distance_after: parseTravelInt(formData.travel_distance_after),
         service_ids: formData.service_ids || [],
         is_forced_schedule: forceOnSave,
       };
+
+      if (currentAppointment && !travelRecalculatedRef.current) {
+        delete appointmentData.travel_time_before;
+        delete appointmentData.travel_time_after;
+        delete appointmentData.travel_distance_before;
+        delete appointmentData.travel_distance_after;
+      }
       
       let response;
       
@@ -1266,6 +1411,7 @@ export default function AppointmentScheduler({
       await fetchAppointments();
       resetForm();
       setShowForm(false);
+      windowOverflowAcceptedRef.current = false;
       
       // Notify parent component
       if (onAppointmentChange) {
@@ -1286,7 +1432,7 @@ export default function AppointmentScheduler({
 
   // Delete appointment
   const handleDelete = async (appointmentId) => {
-    if (!canManageAppts) return;
+    if (!canDeleteAppts) return;
     if (!window.confirm('Are you sure you want to delete this appointment?')) {
       return;
     }
@@ -1626,7 +1772,7 @@ export default function AppointmentScheduler({
                 />
               </div>
             )}
-            {(appointmentEditable || canManageAppts) && (
+            {(appointmentEditable || canDeleteAppts) && (
             <div className="flex gap-2 mt-3 pt-2 border-t border-white/10">
               {appointmentEditable && (
                 <button
@@ -1637,7 +1783,7 @@ export default function AppointmentScheduler({
                   Edit
                 </button>
               )}
-              {canManageAppts && (
+              {canDeleteAppts && (
                 <button
                   type="button"
                   onClick={() => handleDelete(appointment.id)}
@@ -1654,13 +1800,26 @@ export default function AppointmentScheduler({
     </div>
   );
 
-  if (isLoading && appointments.length === 0) {
-    return <LoadingSpinner />;
-  }
-
-  if (error && appointments.length === 0 && !showForm) {
-    return <ErrorAlert message={error} onRetry={fetchAppointments} />;
-  }
+  const renderAddAppointmentButton = (size = 'sm') => {
+    if (!canCreateAppts) return null;
+    if (isMobile) {
+      return (
+        <button
+          type="button"
+          onClick={openForm}
+          className="inline-flex items-center gap-1 rounded-lg border border-cyan-500/35 px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
+        >
+          <FaPlus className="h-3 w-3" />
+          Add
+        </button>
+      );
+    }
+    return (
+      <Button onClick={openForm} variant="primary" size={size} Icon={FaPlus}>
+        Add Appointment
+      </Button>
+    );
+  };
 
   return (
       <div
@@ -1732,25 +1891,7 @@ export default function AppointmentScheduler({
             Time Windows
           </Button>
           */}
-          {canManageAppts && (isMobile ? (
-            <button
-              type="button"
-              onClick={openForm}
-              className="inline-flex items-center gap-1 rounded-lg border border-cyan-500/35 px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
-            >
-              <FaPlus className="h-3 w-3" />
-              Add
-            </button>
-          ) : (
-            <Button 
-              onClick={openForm} 
-              variant="primary" 
-              size="sm" 
-              Icon={FaPlus}
-            >
-              Add Appointment
-            </Button>
-          ))}
+          {renderAddAppointmentButton()}
         </div>
       </div>
       
@@ -1866,9 +2007,11 @@ export default function AppointmentScheduler({
                         ${service.duration_minutes || 0} min - $${(service.base_price || 0).toFixed(2)}`
                       }))}
                       value={servicesForSelectedCategory
-                        .filter(service => formData.service_ids.includes(service.id))
-                        .map(s => ({ value: s.id, label: `${s.name} (${s.sku_code || 'N/A'}) - ${s.duration_minutes || 0} min` }))
-                      }
+                        .filter((service) => formIncludesServiceId(formData.service_ids, service.id))
+                        .map((s) => ({
+                          value: s.id,
+                          label: `${s.name}${s.sku_code ? ` (${s.sku_code})` : ''} - ${s.duration_minutes || 0} min - $${(s.base_price || 0).toFixed(2)}`,
+                        }))}
                       onFocus={() => console.log('[Services/SKUs Select] formData.service_ids onFocus:', JSON.parse(JSON.stringify(formData.service_ids)))}
                       onChange={handleServiceChange}
                       className="basic-multi-select"
@@ -2206,6 +2349,9 @@ export default function AppointmentScheduler({
           ) : appointments.length === 0 ? (
             <div className="py-12 text-center text-gray-500 dark:text-gray-400">
               <p className="text-sm">No appointments scheduled yet.</p>
+              {canCreateAppts && (
+                <div className="mt-4 flex justify-center">{renderAddAppointmentButton('md')}</div>
+              )}
             </div>
           ) : viewMode === 'list' ? (
             isMobile ? (
@@ -2298,7 +2444,7 @@ export default function AppointmentScheduler({
                             <FaEdit />
                           </button>
                         )}
-                        {canManageAppts && (
+                        {canDeleteAppts && (
                           <button
                             onClick={() => handleDelete(appointment.id)}
                             className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
@@ -2307,7 +2453,7 @@ export default function AppointmentScheduler({
                             <FaTrash />
                           </button>
                         )}
-                        {!appointmentEditable && !canManageAppts && (
+                        {!appointmentEditable && !canDeleteAppts && (
                           <span className="text-xs text-gray-400">View only</span>
                         )}
                       </td>
@@ -2560,6 +2706,50 @@ export default function AppointmentScheduler({
           travelDistanceAfter={currentAppointment.travel_distance_after}
         />
       )}
+
+      <Modal
+        isOpen={Boolean(windowOverflowPrompt)}
+        onClose={handleWindowOverflowCancel}
+        title="Appointment extends past customer window"
+        size="sm"
+        actions={
+          <>
+            <Button variant="secondary" onClick={handleWindowOverflowCancel}>
+              Cancel
+            </Button>
+            <Button variant="secondary" onClick={handleWindowOverflowNextDay}>
+              Next available date
+            </Button>
+            <Button variant="primary" onClick={handleWindowOverflowAccept}>
+              Schedule anyway
+            </Button>
+          </>
+        }
+      >
+        {windowOverflowPrompt?.slot && (
+          <div className="space-y-3 text-sm text-gray-700 dark:text-gray-200">
+            <p>
+              This job is scheduled to run past the{' '}
+              <strong>{windowOverflowPrompt.windowName}</strong> customer window
+              {windowOverflowPrompt.slot.windowEndTime
+                ? ` (ends ${format(windowOverflowPrompt.slot.windowEndTime, 'h:mm a')})`
+                : ''}
+              .
+            </p>
+            <p>
+              Scheduled:{' '}
+              <strong>
+                {format(windowOverflowPrompt.slot.startTime, 'h:mm a')} –{' '}
+                {format(windowOverflowPrompt.slot.endTime, 'h:mm a')}
+              </strong>
+            </p>
+            <p className="text-gray-600 dark:text-gray-400">
+              The client was told afternoon (not before 12 PM). Continuing may set expectations
+              that you will work past their window unless you have confirmed on a phone call.
+            </p>
+          </div>
+        )}
+      </Modal>
 
       <FloatingBanner
         message={error}

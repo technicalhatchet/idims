@@ -323,6 +323,7 @@ class WorkOrderAppointmentCreate(BaseModel):
     # scheduled_end: datetime # Will be calculated based on services
     assigned_technician_id: Optional[UUID] = None
     service_ids: Optional[List[UUID]] = Field(None, description="List of service IDs for this appointment")
+    notes: Optional[str] = None
     travel_time_before: Optional[int] = None
     travel_time_after: Optional[int] = None
     travel_distance_before: Optional[int] = None

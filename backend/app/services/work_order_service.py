@@ -48,6 +48,18 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+
+def _normalize_appointment_start(dt: Optional[datetime]) -> Optional[datetime]:
+    if dt is None:
+        return None
+    if dt.tzinfo is not None:
+        dt = dt.replace(tzinfo=None)
+    return dt.replace(second=0, microsecond=0)
+
+
+def _appointment_starts_equal(a: Optional[datetime], b: Optional[datetime]) -> bool:
+    return _normalize_appointment_start(a) == _normalize_appointment_start(b)
+
 NOTE_TYPE_STATUS_UPDATE = "Status Update"
 NOTE_TYPE_APPOINTMENT_INFO = "Appointment Info"
 
@@ -849,7 +861,7 @@ class WorkOrderService:
 
             # Calculate scheduled_end based on services or default to 1 hour
             # scheduled_end is not expected in WorkOrderAppointmentCreate schema, so we calculate it here.
-            estimated_duration_minutes = 60 # Default to 1 hour
+            estimated_duration_minutes = 45  # Default slot length when no SKU duration
             if appointment_data.service_ids:
                 total_service_duration = 0
                 for service_id in appointment_data.service_ids:
@@ -1137,7 +1149,10 @@ class WorkOrderService:
         
         # Recalculate scheduled_end if start_time or services change
         services_changed = 'service_ids' in update_data and set(update_data['service_ids']) != original_service_ids
-        start_time_changed = 'scheduled_start' in update_data and update_data['scheduled_start'] != original_start_time
+        start_time_changed = (
+            'scheduled_start' in update_data
+            and not _appointment_starts_equal(original_start_time, update_data['scheduled_start'])
+        )
 
         explicit_end = update_data.get('scheduled_end')
         forced_schedule = update_data.get('is_forced_schedule', appointment.is_forced_schedule)
@@ -1151,14 +1166,14 @@ class WorkOrderService:
             if not skip_end_recalc:
                 current_service_ids = update_data.get('service_ids', original_service_ids)
                 if not current_service_ids:
-                    estimated_duration_minutes = 60
+                    estimated_duration_minutes = 45
                 else:
                     total_service_duration = 0
                     for service_id in current_service_ids:
                         service = self.db.query(Service).filter(Service.id == service_id).first()
                         if service and service.duration_minutes:
                             total_service_duration += service.duration_minutes
-                    estimated_duration_minutes = total_service_duration if total_service_duration > 0 else 60
+                    estimated_duration_minutes = total_service_duration if total_service_duration > 0 else 45
 
                 update_data['scheduled_end'] = new_start_time + pd.Timedelta(minutes=estimated_duration_minutes)
 
@@ -1337,26 +1352,37 @@ class WorkOrderService:
                     exclude_appointment_id=appointment.id,
                 )
 
-        # Check if technician assignment or time changed, which would require updating travel info
-        if (original_technician_id != appointment.assigned_technician_id or 
-            original_start_time != appointment.scheduled_start or # Re-check actual start time after potential updates
-            services_changed): # Also consider if services changed as it affects duration and thus potentially subsequent travel for others
-            
-            if appointment.assigned_technician_id: # Only update if a tech is assigned
-                logger.info(f"Technician, start time, or services changed for appointment {appointment_id}. Updating travel info.")
-                # Update travel time and distance for this appointment
-                travel_calculator.update_appointment_travel_info(self.db, str(appointment.id))
-            
-            # If technician changed, also update the old technician's schedule
-            if original_technician_id and original_technician_id != appointment.assigned_technician_id:
-                # Get the date from the scheduled start (use original_start_time for the old technician context)
-                appointment_date = original_start_time.date() # Ensure it's a date object
-                logger.info(f"Technician changed from {original_technician_id} to {appointment.assigned_technician_id} for appointment {appointment_id}. Updating old tech's schedule for date {appointment_date}.")
-                travel_calculator.update_technician_day_travel_info(
-                    self.db, 
-                    str(original_technician_id), 
-                    appointment_date
+        # Recalculate travel only when technician or start time changes (not SKU-only edits)
+        schedule_affects_travel = (
+            original_technician_id != appointment.assigned_technician_id
+            or not _appointment_starts_equal(original_start_time, appointment.scheduled_start)
+        )
+
+        if schedule_affects_travel:
+            if appointment.assigned_technician_id:
+                logger.info(
+                    f"Technician or start time changed for appointment {appointment_id}. Updating travel info."
                 )
+                travel_calculator.update_appointment_travel_info(self.db, str(appointment.id))
+
+            if original_technician_id and original_technician_id != appointment.assigned_technician_id:
+                appointment_date = original_start_time.date()
+                logger.info(
+                    f"Technician changed from {original_technician_id} to "
+                    f"{appointment.assigned_technician_id} for appointment {appointment_id}. "
+                    f"Updating old tech's schedule for date {appointment_date}."
+                )
+                travel_calculator.update_technician_day_travel_info(
+                    self.db,
+                    str(original_technician_id),
+                    appointment_date,
+                )
+                if appointment.scheduled_start:
+                    travel_calculator.update_technician_day_travel_info(
+                        self.db,
+                        str(appointment.assigned_technician_id),
+                        appointment.scheduled_start,
+                    )
         
         # After updating an appointment, sync the work order's schedule with appointments
         await self.sync_work_order_schedule_with_appointments(

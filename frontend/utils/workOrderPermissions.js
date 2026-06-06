@@ -73,9 +73,20 @@ export function getPendingRedoAppointments(workOrder) {
   );
 }
 
-export function canCreateOrDeleteAppointments({ role, workOrder }) {
+/** Field techs schedule follow-ups on site; managers/admins schedule from office. */
+export function canCreateAppointments({ role, workOrder }) {
+  if (isWorkOrderClosed(workOrder)) return false;
+  return isManagerOrAdminRole(role) || role === 'technician';
+}
+
+export function canDeleteAppointments({ role, workOrder }) {
   if (isWorkOrderClosed(workOrder)) return false;
   return isManagerOrAdminRole(role);
+}
+
+/** @deprecated Prefer canCreateAppointments / canDeleteAppointments */
+export function canCreateOrDeleteAppointments({ role, workOrder }) {
+  return canCreateAppointments({ role, workOrder });
 }
 
 export function canEditWorkOrderBilling({ role, workOrder }) {
