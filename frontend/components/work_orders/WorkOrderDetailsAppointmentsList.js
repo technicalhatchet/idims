@@ -60,7 +60,7 @@ export default function WorkOrderDetailsAppointmentsList({ appointments = [] }) 
               </div>
               {appointment.status && (
                 <div className="shrink-0">
-                  <StatusBadge status={appointment.status} />
+                  <StatusBadge status={appointment.status} variant="appointment" />
                 </div>
               )}
             </div>

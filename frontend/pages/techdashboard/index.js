@@ -353,7 +353,7 @@ function TodayJobRow({ appt }) {
       </div>
       {/* Status */}
       <div className="flex-shrink-0">
-        <StatusBadge status={appt.status} />
+        <StatusBadge status={appt.status} variant="appointment" />
       </div>
     </Link>
   );

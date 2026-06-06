@@ -14,7 +14,7 @@ export const WORK_ORDER_STATUS_OPTIONS = [
   { value: 'reschedule', label: 'Reschedule' },
   { value: 'need_to_contact', label: 'Need to Contact' },
   { value: 'unreachable', label: 'Unreachable' },
-  { value: 'failed', label: 'APR — Additional Parts Required' },
+  { value: 'failed', label: 'Failed' },
   { value: 'recall', label: 'Recall / Warranty Return' },
   { value: 'redo', label: 'Redo' },
   { value: 'refunded', label: 'Refunded' },

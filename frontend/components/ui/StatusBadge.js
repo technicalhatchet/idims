@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function StatusBadge({ status }) {
+export default function StatusBadge({ status, variant = 'default' }) {
   const getStatusStyles = (status) => {
     switch (status?.toLowerCase()) {
       case 'active':
@@ -91,7 +91,7 @@ export default function StatusBadge({ status }) {
     }
 
     if (status.toLowerCase() === 'failed') {
-      return 'APR';
+      return variant === 'appointment' ? 'APR' : 'Failed';
     }
 
     if (status.toLowerCase() === 'closed') {

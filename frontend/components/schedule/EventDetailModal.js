@@ -27,7 +27,7 @@ export default function EventDetailModal({ event, onClose }) {
         <div className="space-y-4">
           <div className="flex justify-between">
             <div className="flex items-center text-gray-700 dark:text-gray-300">
-              <StatusBadge status={event.status} />
+              <StatusBadge status={event.status} variant="appointment" />
             </div>
             {event.order_number && (
               <div className="text-sm text-gray-500 dark:text-gray-400">

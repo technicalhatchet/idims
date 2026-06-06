@@ -96,6 +96,22 @@ def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, An
     }
 
 
+def apply_work_order_status_change(
+    db: Session,
+    work_order: WorkOrder,
+    new_status: str,
+    user_id: uuid.UUID,
+    *,
+    notes: str,
+) -> bool:
+    """Apply a work order status change with history, metrics, and activity log."""
+    previous_status = activity._status_val(work_order.status)
+    if previous_status == new_status:
+        return False
+    _set_work_order_status(db, work_order, new_status, user_id, notes=notes)
+    return True
+
+
 def _set_work_order_status(
     db: Session,
     work_order: WorkOrder,

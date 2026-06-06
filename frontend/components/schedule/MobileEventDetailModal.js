@@ -73,7 +73,7 @@ export default function MobileEventDetailModal({ event, onClose }) {
               </p>
               <h2 className="text-base font-bold text-white truncate">{headline}</h2>
               <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                <StatusBadge status={event.status} />
+                <StatusBadge status={event.status} variant="appointment" />
                 {isAppointment && (
                   <span className="inline-flex items-center rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-cyan-300">
                     {typeLabel}

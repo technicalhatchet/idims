@@ -1185,6 +1185,8 @@ class WorkOrderService:
 
         if "status" in update_data:
             from app.services.work_order_performance_service import handle_appointment_status_timing
+            from app.services.work_order_status_sync_service import sync_work_order_status_from_appointment
+
             if not appointment.services:
                 self.db.refresh(appointment)
             handle_appointment_status_timing(
@@ -1192,6 +1194,12 @@ class WorkOrderService:
                 appointment=appointment,
                 previous_status=original_status,
                 user_id=user_id,
+            )
+            sync_work_order_status_from_appointment(
+                self.db,
+                appointment,
+                user_id,
+                previous_appointment_status=original_status,
             )
         
         appointment.updated_at = datetime.utcnow()

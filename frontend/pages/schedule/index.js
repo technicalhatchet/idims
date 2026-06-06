@@ -355,7 +355,7 @@ function SchedulePage() {
                     {endRaw ? format(parseISO(endRaw), ' h:mm a') : ' TBD'}
                   </div>
                 </div>
-                <StatusBadge status={appointment.status} />
+                <StatusBadge status={appointment.status} variant="appointment" />
               </div>
               
               <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
