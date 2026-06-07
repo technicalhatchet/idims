@@ -86,7 +86,6 @@ TECH_APPOINTMENT_STATUS_ONLY_UPDATES = frozenset({
     "en_route",
     "in_progress",
     "reschedule",
-    "completed",
     "completed_pending_payment",
     "unreachable",
     "failed",
@@ -1585,7 +1584,7 @@ async def update_work_order_appointment(
                         status_code=status.HTTP_403_FORBIDDEN,
                         detail=(
                             "Technicians can only set appointment status to: scheduled, en_route, "
-                            "in_progress, reschedule, completed, completed_pending_payment, "
+                            "in_progress, reschedule, completed_pending_payment (visit done), "
                             "unreachable, or APR (failed)"
                         ),
                     )
@@ -1699,7 +1698,23 @@ async def update_work_order_appointment(
                 if work_order:
                     logging.info(f"DEBUG: Recalculating totals for work order {work_order.id}")
                     work_order.calculate_totals()
-                
+
+                # Phase 2: sync WO completion/payment status after billable flags are set
+                from app.services.work_order_status_sync_service import (
+                    COMPLETION_APPOINTMENT_STATUSES,
+                    sync_work_order_status_from_appointment,
+                )
+
+                if new_status in COMPLETION_APPOINTMENT_STATUSES and appointment and work_order:
+                    db.refresh(work_order)
+                    appointment.work_order = work_order
+                    sync_work_order_status_from_appointment(
+                        db,
+                        appointment,
+                        current_user.id,
+                        after_billing=True,
+                    )
+
                 db.commit()
                 logging.info(f"DEBUG: Successfully updated billing statuses and committed changes")
             else:

@@ -20,6 +20,21 @@ APPOINTMENT_TO_WORK_ORDER_STATUS: Dict[str, str] = {
     "unreachable": "unreachable",
 }
 
+# Phase 2: completion / payment — synced after billing flags are applied
+COMPLETION_APPOINTMENT_STATUSES = frozenset({
+    "completed",
+    "completed_pending_payment",
+    "phone_payment",
+})
+
+# Visit done / awaiting payment → job board pending payment.
+# ``completed`` on appointments is only set by the payment flow, not manual updates.
+PHASE2_DIRECT_APPOINTMENT_TO_WO: Dict[str, str] = {
+    "completed": "completed_pending_payment",
+    "completed_pending_payment": "completed_pending_payment",
+    "phone_payment": "completed_pending_payment",
+}
+
 # Office / terminal WO statuses — do not overwrite from a field visit update
 WO_STATUSES_SKIP_APPOINTMENT_SYNC = frozenset({
     "cancelled",
@@ -30,12 +45,77 @@ WO_STATUSES_SKIP_APPOINTMENT_SYNC = frozenset({
 })
 
 
-def resolve_work_order_status_for_appointment(appointment_status: str) -> Optional[str]:
+def normalize_appointment_status_for_update(
+    status: str,
+    *,
+    work_order_closed: bool = False,
+) -> str:
+    """
+    Guard ``completed`` behind payment: manual updates become pending payment.
+    Closed jobs may still set completed directly (admin/redo flows).
+    """
+    key = activity._status_val(status)
+    if not key:
+        return status
+    if key == "completed" and not work_order_closed:
+        return "completed_pending_payment"
+    return key
+
+
+def _resolve_canceled_work_order_status(
+    db: Session,
+    work_order_id: uuid.UUID,
+    canceled_appointment_id: uuid.UUID,
+) -> Optional[str]:
+    """When the only active visit is canceled, the job needs rescheduling."""
+    other_active = (
+        db.query(WorkOrderAppointment)
+        .filter(
+            WorkOrderAppointment.work_order_id == work_order_id,
+            WorkOrderAppointment.id != canceled_appointment_id,
+            WorkOrderAppointment.status != "canceled",
+        )
+        .count()
+    )
+    return "reschedule" if other_active == 0 else None
+
+
+def resolve_work_order_status_for_appointment(
+    appointment_status: str,
+    *,
+    db: Optional[Session] = None,
+    work_order: Optional[WorkOrder] = None,
+    appointment_id: Optional[uuid.UUID] = None,
+) -> Optional[str]:
     """Map an appointment status to the corresponding work order status, if any."""
     key = activity._status_val(appointment_status)
     if not key:
         return None
-    return APPOINTMENT_TO_WORK_ORDER_STATUS.get(key)
+
+    if key in APPOINTMENT_TO_WORK_ORDER_STATUS:
+        return APPOINTMENT_TO_WORK_ORDER_STATUS[key]
+
+    if key in PHASE2_DIRECT_APPOINTMENT_TO_WO:
+        return PHASE2_DIRECT_APPOINTMENT_TO_WO[key]
+
+    if key == "canceled":
+        if db is not None and work_order is not None and appointment_id is not None:
+            return _resolve_canceled_work_order_status(
+                db, work_order.id, appointment_id
+            )
+        return None
+
+    return None
+
+
+def _build_sync_note(appt_label: str, target_wo_status: str) -> str:
+    if appt_label == "failed":
+        return "Status synced from appointment APR → waiting on parts"
+    if appt_label in ("completed", "completed_pending_payment") and target_wo_status == "completed_pending_payment":
+        return "Status synced from appointment visit complete → completed pending payment"
+    if appt_label == "phone_payment":
+        return "Status synced from appointment phone payment → completed pending payment"
+    return f"Status synced from appointment ({appt_label} → {target_wo_status})"
 
 
 def sync_work_order_status_from_appointment(
@@ -44,20 +124,23 @@ def sync_work_order_status_from_appointment(
     user_id: uuid.UUID,
     *,
     previous_appointment_status: Optional[str] = None,
+    after_billing: bool = False,
 ) -> bool:
     """
     Update the parent work order status when an appointment status changes.
+
+    Completion statuses (completed / payment) are resolved after billing updates
+    unless ``after_billing=True``.
 
     Returns True if the work order status was updated.
     """
     new_appt_status = activity._status_val(appointment.status)
     if previous_appointment_status is not None:
         prev_appt_status = activity._status_val(previous_appointment_status)
-        if prev_appt_status == new_appt_status:
+        if prev_appt_status == new_appt_status and not after_billing:
             return False
 
-    target_wo_status = resolve_work_order_status_for_appointment(new_appt_status)
-    if not target_wo_status:
+    if new_appt_status in COMPLETION_APPOINTMENT_STATUSES and not after_billing:
         return False
 
     work_order = appointment.work_order
@@ -68,6 +151,15 @@ def sync_work_order_status_from_appointment(
             .first()
         )
     if not work_order:
+        return False
+
+    target_wo_status = resolve_work_order_status_for_appointment(
+        new_appt_status,
+        db=db,
+        work_order=work_order,
+        appointment_id=appointment.id,
+    )
+    if not target_wo_status:
         return False
 
     if getattr(work_order, "is_closed", False):
@@ -81,11 +173,7 @@ def sync_work_order_status_from_appointment(
         return False
 
     appt_label = activity._status_val(new_appt_status)
-    note = (
-        f"Status synced from appointment ({appt_label} → {target_wo_status})"
-    )
-    if appt_label == "failed":
-        note = "Status synced from appointment APR → waiting on parts"
+    note = _build_sync_note(appt_label, target_wo_status)
 
     return apply_work_order_status_change(
         db,

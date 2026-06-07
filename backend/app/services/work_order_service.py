@@ -1146,6 +1146,14 @@ class WorkOrderService:
 
         # Update fields from appointment_data
         update_data = appointment_data.model_dump(exclude_unset=True)
+
+        if "status" in update_data:
+            from app.services.work_order_status_sync_service import normalize_appointment_status_for_update
+
+            update_data["status"] = normalize_appointment_status_for_update(
+                update_data["status"],
+                work_order_closed=bool(getattr(work_order, "is_closed", False)),
+            )
         
         # Recalculate scheduled_end if start_time or services change
         services_changed = 'service_ids' in update_data and set(update_data['service_ids']) != original_service_ids

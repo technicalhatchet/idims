@@ -47,8 +47,7 @@ const OPEN_APPOINTMENT_STATUS_OPTIONS = [
   { value: 'scheduled', label: 'Scheduled' },
   { value: 'en_route', label: 'En Route' },
   { value: 'in_progress', label: 'In Progress' },
-  { value: 'completed_pending_payment', label: 'Pending Pay' },
-  { value: 'completed', label: 'Completed' },
+  { value: 'completed_pending_payment', label: 'Done — Pending Payment' },
   { value: 'reschedule', label: 'Reschedule' },
   { value: 'refund', label: 'Refund' },
   { value: 'phone_payment', label: 'Phone Pay' },
@@ -92,6 +91,11 @@ function parseTravelInt(value) {
   if (value === null || value === undefined || value === '') return null;
   const n = parseInt(value, 10);
   return Number.isNaN(n) ? null : n;
+}
+
+function isVisitCompleteStatus(status) {
+  const s = String(status || '').toLowerCase();
+  return s === 'completed' || s === 'completed_pending_payment';
 }
 
 export default function AppointmentScheduler({
@@ -2295,7 +2299,7 @@ export default function AppointmentScheduler({
                 </div>
                 
                 {/* Actual Start/End (only for edit and if status is 'in_progress' or 'completed') */}
-                {currentAppointment && (formData.status === 'reschedule' || formData.status === 'completed') && (
+                {currentAppointment && (formData.status === 'reschedule' || isVisitCompleteStatus(formData.status)) && (
                   <>
                     <TextInput
                       id="actual_start"
@@ -2307,7 +2311,7 @@ export default function AppointmentScheduler({
                       error={formErrors.actual_start}
                     />
                     
-                    {formData.status === 'completed' && (
+                    {isVisitCompleteStatus(formData.status) && (
                       <TextInput
                         id="actual_end"
                         name="actual_end"
@@ -2636,7 +2640,7 @@ export default function AppointmentScheduler({
           </SelectInput>
           
           {/* Actual Start/End (only for edit and if status is 'in_progress' or 'completed') */}
-          {currentAppointment && (formData.status === 'reschedule' || formData.status === 'completed') && (
+          {currentAppointment && (formData.status === 'reschedule' || isVisitCompleteStatus(formData.status)) && (
             <>
               <TextInput
                 id="actual_start"
@@ -2648,7 +2652,7 @@ export default function AppointmentScheduler({
                 error={formErrors.actual_start}
               />
               
-              {formData.status === 'completed' && (
+              {isVisitCompleteStatus(formData.status) && (
                 <TextInput
                   id="actual_end"
                   name="actual_end"

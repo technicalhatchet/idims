@@ -1,4 +1,4 @@
-"""Tests for appointment → work order status sync (phase 1)."""
+"""Tests for appointment → work order status sync."""
 
 import uuid
 from unittest.mock import MagicMock, patch
@@ -7,6 +7,8 @@ import pytest
 
 from app.services.work_order_status_sync_service import (
     APPOINTMENT_TO_WORK_ORDER_STATUS,
+    COMPLETION_APPOINTMENT_STATUSES,
+    normalize_appointment_status_for_update,
     resolve_work_order_status_for_appointment,
     sync_work_order_status_from_appointment,
 )
@@ -20,15 +22,56 @@ from app.services.work_order_status_sync_service import (
         ("reschedule", "reschedule"),
         ("failed", "waiting_on_parts"),
         ("unreachable", "unreachable"),
+        ("completed", "completed_pending_payment"),
+        ("completed_pending_payment", "completed_pending_payment"),
+        ("phone_payment", "completed_pending_payment"),
         ("scheduled", None),
-        ("completed", None),
     ],
 )
-def test_resolve_work_order_status_for_appointment(appointment_status, expected_wo_status):
-    assert resolve_work_order_status_for_appointment(appointment_status) == expected_wo_status
+def test_resolve_work_order_status_for_appointment_direct(
+    appointment_status, expected_wo_status
+):
+    assert (
+        resolve_work_order_status_for_appointment(appointment_status)
+        == expected_wo_status
+    )
 
 
-def test_phase1_mapping_includes_all_field_visit_statuses():
+def test_normalize_completed_to_pending_payment_on_open_job():
+    assert normalize_appointment_status_for_update("completed") == "completed_pending_payment"
+
+
+def test_normalize_completed_allowed_on_closed_job():
+    assert (
+        normalize_appointment_status_for_update("completed", work_order_closed=True)
+        == "completed"
+    )
+
+
+def test_normalize_leaves_other_statuses_unchanged():
+    assert normalize_appointment_status_for_update("in_progress") == "in_progress"
+
+
+def test_resolve_canceled_only_visit_moves_to_reschedule():
+    db = MagicMock()
+    db.query.return_value.filter.return_value.count.return_value = 0
+    wo_id = uuid.uuid4()
+    appt_id = uuid.uuid4()
+    wo = MagicMock()
+    wo.id = wo_id
+
+    assert (
+        resolve_work_order_status_for_appointment(
+            "canceled",
+            db=db,
+            work_order=wo,
+            appointment_id=appt_id,
+        )
+        == "reschedule"
+    )
+
+
+def test_phase1_mapping_keys():
     assert set(APPOINTMENT_TO_WORK_ORDER_STATUS.keys()) == {
         "en_route",
         "in_progress",
@@ -38,56 +81,31 @@ def test_phase1_mapping_includes_all_field_visit_statuses():
     }
 
 
-@patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
-def test_sync_updates_work_order_from_failed_apr(mock_apply):
-    mock_apply.return_value = True
-    user_id = uuid.uuid4()
-    wo_id = uuid.uuid4()
+def test_completion_statuses_set():
+    assert COMPLETION_APPOINTMENT_STATUSES == frozenset({
+        "completed",
+        "completed_pending_payment",
+        "phone_payment",
+    })
 
+
+@patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
+def test_sync_skips_completion_status_before_billing(mock_apply):
     work_order = MagicMock()
-    work_order.id = wo_id
     work_order.status = "in_progress"
     work_order.is_closed = False
 
     appointment = MagicMock()
-    appointment.status = "failed"
+    appointment.status = "completed_pending_payment"
     appointment.work_order = work_order
-    appointment.work_order_id = wo_id
-
-    db = MagicMock()
-
-    result = sync_work_order_status_from_appointment(
-        db,
-        appointment,
-        user_id,
-        previous_appointment_status="in_progress",
-    )
-
-    assert result is True
-    mock_apply.assert_called_once_with(
-        db,
-        work_order,
-        "waiting_on_parts",
-        user_id,
-        notes="Status synced from appointment APR → waiting on parts",
-    )
-
-
-@patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
-def test_sync_skips_closed_work_order(mock_apply):
-    work_order = MagicMock()
-    work_order.status = "scheduled"
-    work_order.is_closed = True
-
-    appointment = MagicMock()
-    appointment.status = "en_route"
-    appointment.work_order = work_order
+    appointment.id = uuid.uuid4()
 
     result = sync_work_order_status_from_appointment(
         MagicMock(),
         appointment,
         uuid.uuid4(),
-        previous_appointment_status="scheduled",
+        previous_appointment_status="in_progress",
+        after_billing=False,
     )
 
     assert result is False
@@ -95,38 +113,46 @@ def test_sync_skips_closed_work_order(mock_apply):
 
 
 @patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
-def test_sync_skips_protected_work_order_statuses(mock_apply):
+def test_sync_completion_after_billing(mock_apply):
+    mock_apply.return_value = True
     work_order = MagicMock()
-    work_order.status = "on_hold"
+    work_order.status = "in_progress"
     work_order.is_closed = False
 
     appointment = MagicMock()
-    appointment.status = "in_progress"
+    appointment.status = "completed_pending_payment"
     appointment.work_order = work_order
+    appointment.id = uuid.uuid4()
 
     result = sync_work_order_status_from_appointment(
         MagicMock(),
         appointment,
         uuid.uuid4(),
-        previous_appointment_status="en_route",
+        after_billing=True,
     )
 
-    assert result is False
-    mock_apply.assert_not_called()
+    assert result is True
+    assert mock_apply.call_args[0][2] == "completed_pending_payment"
 
 
 @patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
-def test_sync_no_op_when_appointment_status_unchanged(mock_apply):
+def test_sync_phone_payment_to_completed_pending_payment(mock_apply):
+    mock_apply.return_value = True
+    work_order = MagicMock()
+    work_order.status = "in_progress"
+    work_order.is_closed = False
+
     appointment = MagicMock()
-    appointment.status = "en_route"
-    appointment.work_order = MagicMock(is_closed=False, status="scheduled")
+    appointment.status = "phone_payment"
+    appointment.work_order = work_order
+    appointment.id = uuid.uuid4()
 
     result = sync_work_order_status_from_appointment(
         MagicMock(),
         appointment,
         uuid.uuid4(),
-        previous_appointment_status="en_route",
+        after_billing=True,
     )
 
-    assert result is False
-    mock_apply.assert_not_called()
+    assert result is True
+    assert mock_apply.call_args[0][2] == "completed_pending_payment"
