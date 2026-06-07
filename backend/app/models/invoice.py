@@ -24,7 +24,7 @@ class Invoice(Base):
             "paid",
             "partially_paid",
             "overdue",
-            "cancelled",
+            "canceled",
             name="invoice_status_enum"
     ),
     default="draft"

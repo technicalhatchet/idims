@@ -471,6 +471,17 @@ class WorkOrderService:
                     previous_status=activity._status_val(previous_status),
                     user_id=actor_id,
                 )
+                from app.services.work_order_status_sync_service import (
+                    sync_appointments_from_work_order_status,
+                )
+
+                sync_appointments_from_work_order_status(
+                    db,
+                    work_order,
+                    actor_id,
+                    previous_work_order_status=activity._status_val(previous_status),
+                    new_work_order_status=activity._status_val(update_data["status"]),
+                )
 
             if (
                 "assigned_technician_id" in update_data
@@ -497,6 +508,9 @@ class WorkOrderService:
             db.rollback()
             logger.error(f"Database error updating work order: {str(e)}")
             raise ConflictException(f"Failed to update work order: {str(e)}")
+        except (ConflictException, BadRequestException, ValidationException, NotFoundException):
+            db.rollback()
+            raise
         except Exception as e:
             db.rollback()
             logger.error(f"Error updating work order: {str(e)}")
@@ -707,10 +721,10 @@ class WorkOrderService:
         
         # Validate status transition
         valid_transitions = {
-            "scheduled": ["in_progress", "cancelled"],
-            "in_progress": ["completed", "cancelled"],
+            "scheduled": ["in_progress", "canceled"],
+            "in_progress": ["completed", "canceled"],
             "completed": ["billed"],
-            "cancelled": ["scheduled"]
+            "canceled": ["scheduled"]
         }
         
         if status not in valid_transitions.get(work_order.status, []):

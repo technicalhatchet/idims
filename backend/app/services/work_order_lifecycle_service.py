@@ -28,7 +28,7 @@ CLOSED_APPOINTMENT_STATUS_ONLY = frozenset({
     "completed",
 })
 
-IMMUTABLE_WO_STATUSES = frozenset({"cancelled", "refunded"})
+IMMUTABLE_WO_STATUSES = frozenset({"canceled", "refunded"})
 
 
 def _decimal(value: Any) -> Decimal:

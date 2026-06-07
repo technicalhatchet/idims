@@ -31,7 +31,7 @@ const StripePaymentButton = ({
           client_email: clientEmail,
           client_name: clientName,
           success_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=success`,
-          cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=cancelled`,
+          cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=canceled`,
           metadata: {
             work_order_number: workOrder.order_number || workOrder.id.slice(0, 8)
           }

@@ -226,7 +226,7 @@ class InvoiceService:
         invoice = await InvoiceService.get_invoice(db, invoice_id)
         
         # Prevent updating if invoice is already paid or sent
-        if invoice.status in ["paid", "partially_paid"] and invoice_data.status != "cancelled":
+        if invoice.status in ["paid", "partially_paid"] and invoice_data.status != "canceled":
             raise ConflictException("Cannot update an invoice that has been paid")
         
         try:
@@ -323,11 +323,11 @@ class InvoiceService:
         
         # Check valid status transitions
         valid_transitions = {
-            "draft": ["sent", "cancelled"],
-            "sent": ["paid", "partially_paid", "overdue", "cancelled"],
-            "partially_paid": ["paid", "overdue", "cancelled"],
-            "overdue": ["paid", "partially_paid", "cancelled"],
-            "cancelled": ["draft"]
+            "draft": ["sent", "canceled"],
+            "sent": ["paid", "partially_paid", "overdue", "canceled"],
+            "partially_paid": ["paid", "overdue", "canceled"],
+            "overdue": ["paid", "partially_paid", "canceled"],
+            "canceled": ["draft"]
         }
         
         if status not in valid_transitions.get(invoice.status, []):

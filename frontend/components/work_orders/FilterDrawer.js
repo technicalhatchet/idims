@@ -81,7 +81,7 @@ export default function FilterDrawer({ isOpen, onClose, filters, onFilterChange 
                       { value: 'on_hold', label: 'On Hold' },
                       { value: 'redo', label: 'REDO' },
                       { value: 'completed', label: 'Completed' },
-                      { value: 'cancelled', label: 'Cancelled' }
+                      { value: 'canceled', label: 'Canceled' }
                     ]}
                     emptyOption="Any Status"
                   />

@@ -8,6 +8,7 @@ import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import StatusBadge from '../../components/ui/StatusBadge';
+import { normalizeStatusKey } from '../../utils/workOrderPermissions';
 import { apiClient } from '../../utils/api-client';
 import { getUserRole } from '../../utils/auth0-helpers';
 import { FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaChevronDown, FaChevronUp, FaClock, FaUser } from 'react-icons/fa';
@@ -157,7 +158,7 @@ function AppointmentCard({ appointment, onStatusChange, railColor }) {
 
   const statusForUi = typeof currentStatus === 'string' ? currentStatus : currentStatus?.value || 'scheduled';
   const completedTint = statusForUi === 'completed';
-  const canceledTint = statusForUi === 'canceled' || statusForUi === 'cancelled';
+  const canceledTint = normalizeStatusKey(statusForUi) === 'canceled';
 
   return (
     <div

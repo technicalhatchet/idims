@@ -3,7 +3,7 @@ import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import { format, addMinutes } from 'date-fns';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
-import { apiClient } from '../../utils/api-client';
+import { normalizeStatusKey } from '../../utils/workOrderPermissions';
 import { FaCalendarAlt, FaUser, FaClock, FaSearch } from 'react-icons/fa';
 
 const TIME_WINDOWS = [
@@ -75,7 +75,7 @@ function AvailabilityChecker() {
       const busy = techSchedule
         .filter(apt => {
           const s = apt.status?.value || apt.status;
-          return s !== 'canceled' && s !== 'cancelled';
+          return normalizeStatusKey(s) !== 'canceled';
         })
         .map(apt => ({ start: new Date(apt.scheduled_start), end: new Date(apt.scheduled_end) }))
         .sort((a, b) => a.start - b.start);
@@ -216,7 +216,7 @@ function AvailabilityChecker() {
                   const status = apt.status?.value || apt.status;
                   return (
                     <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-md text-sm ${
-                      status === 'canceled' || status === 'cancelled'
+                      normalizeStatusKey(status) === 'canceled'
                         ? 'bg-gray-100 dark:bg-gray-700 opacity-50'
                         : 'bg-blue-50 dark:bg-blue-900/30'
                     }`}>

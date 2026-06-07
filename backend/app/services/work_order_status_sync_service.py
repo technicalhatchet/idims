@@ -1,9 +1,10 @@
-"""Sync work order status from appointment status changes (field visit → job board)."""
+"""Sync work order and appointment statuses (field visit ↔ job board)."""
 
 from __future__ import annotations
 
 import uuid
-from typing import Dict, Optional
+from datetime import datetime, time
+from typing import Dict, List, Optional, Sequence
 
 from sqlalchemy.orm import Session
 
@@ -37,12 +38,228 @@ PHASE2_DIRECT_APPOINTMENT_TO_WO: Dict[str, str] = {
 
 # Office / terminal WO statuses — do not overwrite from a field visit update
 WO_STATUSES_SKIP_APPOINTMENT_SYNC = frozenset({
-    "cancelled",
+    "canceled",
     "refunded",
     "closed",
     "on_hold",
     "pending_estimate_approval",
 })
+
+# Phase 3: manual work order status → appointment updates (office / dispatch)
+WO_STATUSES_SYNC_TO_APPOINTMENTS = frozenset({
+    "reschedule",
+    "canceled",
+    "en_route",
+    "in_progress",
+})
+
+# Parts / contact queue statuses intentionally do not change visits (office-only signal).
+WO_STATUSES_LEAVE_APPOINTMENTS_UNCHANGED = frozenset({
+    "waiting_on_parts",
+    "parts_on_order",
+    "need_to_contact",
+})
+
+APPOINTMENT_TERMINAL_STATUSES = frozenset({
+    "completed",
+    "completed_pending_payment",
+    "canceled",
+    "refund",
+    "redo",
+})
+
+FIELD_APPOINTMENT_TARGET_BY_WO = {
+    "en_route": "en_route",
+    "in_progress": "in_progress",
+}
+
+
+def _calendar_day_bounds_utc(day: datetime) -> tuple[datetime, datetime]:
+    d = day.date()
+    start = datetime.combine(d, time.min)
+    end = datetime.combine(d, time(23, 59, 59, 999999))
+    return start, end
+
+
+def _active_appointments_for_work_order(
+    db: Session,
+    work_order_id: uuid.UUID,
+) -> List[WorkOrderAppointment]:
+    return (
+        db.query(WorkOrderAppointment)
+        .filter(
+            WorkOrderAppointment.work_order_id == work_order_id,
+            WorkOrderAppointment.status != "canceled",
+        )
+        .order_by(WorkOrderAppointment.scheduled_start.asc())
+        .all()
+    )
+
+
+def _future_appointments(
+    appointments: Sequence[WorkOrderAppointment],
+    *,
+    now: Optional[datetime] = None,
+) -> List[WorkOrderAppointment]:
+    now = now or datetime.utcnow()
+    return [a for a in appointments if a.scheduled_start and a.scheduled_start > now]
+
+
+def _today_appointments(
+    appointments: Sequence[WorkOrderAppointment],
+    *,
+    now: Optional[datetime] = None,
+) -> List[WorkOrderAppointment]:
+    now = now or datetime.utcnow()
+    day_start, day_end = _calendar_day_bounds_utc(now)
+    return [
+        a
+        for a in appointments
+        if a.scheduled_start and day_start <= a.scheduled_start <= day_end
+    ]
+
+
+def _pick_driver_appointment_today(
+    appointments: Sequence[WorkOrderAppointment],
+    *,
+    now: Optional[datetime] = None,
+) -> Optional[WorkOrderAppointment]:
+    today = _today_appointments(appointments, now=now)
+    if not today:
+        return None
+
+    for preferred in ("in_progress", "en_route", "scheduled", "reschedule"):
+        for appt in today:
+            if activity._status_val(appt.status) == preferred:
+                return appt
+
+    for appt in today:
+        if activity._status_val(appt.status) not in APPOINTMENT_TERMINAL_STATUSES:
+            return appt
+    return None
+
+
+def _apply_appointment_status_change(
+    db: Session,
+    appointment: WorkOrderAppointment,
+    new_status: str,
+    user_id: uuid.UUID,
+    *,
+    work_order_id: uuid.UUID,
+    sync_note: str,
+) -> bool:
+    previous_status = activity._status_val(appointment.status)
+    if previous_status == new_status:
+        return False
+
+    appointment.status = new_status
+    appointment.updated_at = datetime.utcnow()
+    appointment.updated_by = user_id
+    db.add(appointment)
+
+    from app.services.work_order_performance_service import handle_appointment_status_timing
+
+    handle_appointment_status_timing(
+        db,
+        appointment=appointment,
+        previous_status=previous_status,
+        user_id=user_id,
+    )
+    activity.log_appointment_status_changed(
+        db,
+        work_order_id=work_order_id,
+        user_id=user_id,
+        previous_status=previous_status,
+        new_status=new_status,
+        scheduled_start=appointment.scheduled_start,
+    )
+    return True
+
+
+def sync_appointments_from_work_order_status(
+    db: Session,
+    work_order: WorkOrder,
+    user_id: uuid.UUID,
+    *,
+    previous_work_order_status: str,
+    new_work_order_status: str,
+) -> int:
+    """
+    Phase 3: propagate a manual work order status change to the relevant visit(s).
+
+    Returns the number of appointments updated.
+    """
+    prev_wo = activity._status_val(previous_work_order_status)
+    new_wo = activity._status_val(new_work_order_status)
+    if not new_wo or prev_wo == new_wo:
+        return 0
+
+    if new_wo in WO_STATUSES_LEAVE_APPOINTMENTS_UNCHANGED:
+        return 0
+
+    if new_wo not in WO_STATUSES_SYNC_TO_APPOINTMENTS:
+        return 0
+
+    if getattr(work_order, "is_closed", False):
+        return 0
+
+    appointments = _active_appointments_for_work_order(db, work_order.id)
+    if not appointments:
+        return 0
+
+    now = datetime.utcnow()
+    updated = 0
+
+    if new_wo == "reschedule":
+        future = _future_appointments(appointments, now=now)
+        if not future:
+            return 0
+        target = future[0]
+        if _apply_appointment_status_change(
+            db,
+            target,
+            "reschedule",
+            user_id,
+            work_order_id=work_order.id,
+            sync_note="Status synced from work order reschedule",
+        ):
+            updated += 1
+        return updated
+
+    if new_wo == "canceled":
+        for appt in _future_appointments(appointments, now=now):
+            if activity._status_val(appt.status) in APPOINTMENT_TERMINAL_STATUSES:
+                continue
+            if _apply_appointment_status_change(
+                db,
+                appt,
+                "canceled",
+                user_id,
+                work_order_id=work_order.id,
+                sync_note="Status synced from work order canceled",
+            ):
+                updated += 1
+        return updated
+
+    if new_wo in FIELD_APPOINTMENT_TARGET_BY_WO:
+        driver = _pick_driver_appointment_today(appointments, now=now)
+        if not driver:
+            return 0
+        target_status = FIELD_APPOINTMENT_TARGET_BY_WO[new_wo]
+        if activity._status_val(driver.status) in APPOINTMENT_TERMINAL_STATUSES:
+            return 0
+        if _apply_appointment_status_change(
+            db,
+            driver,
+            target_status,
+            user_id,
+            work_order_id=work_order.id,
+            sync_note=f"Status synced from work order {new_wo}",
+        ):
+            updated += 1
+        return updated
+
+    return updated
 
 
 def normalize_appointment_status_for_update(

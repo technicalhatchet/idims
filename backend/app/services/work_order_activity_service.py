@@ -41,7 +41,7 @@ WORK_ORDER_STATUS_LABELS = {
     "completed": "Completed",
     "completed_pending_payment": "Completed — Pending Payment",
     "pending_estimate_approval": "Pending Estimate Approval",
-    "cancelled": "Cancelled",
+    "canceled": "Canceled",
     "parts_on_order": "Parts on Order",
     "reschedule": "Reschedule",
     "need_to_contact": "Need to Contact",
@@ -56,7 +56,10 @@ WORK_ORDER_STATUS_LABELS = {
 def _status_val(status) -> str:
     if status is None:
         return ""
-    return status.value if hasattr(status, "value") else str(status)
+    val = status.value if hasattr(status, "value") else str(status)
+    if val == "cancelled":
+        return "canceled"
+    return val
 
 
 def format_est_datetime(dt: Optional[datetime]) -> str:

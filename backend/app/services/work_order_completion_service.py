@@ -15,7 +15,7 @@ from app.models.work_order import (
 
 logger = logging.getLogger(__name__)
 
-CLOSED_WORK_ORDER_STATUSES = frozenset({"completed", "cancelled", "closed"})
+CLOSED_WORK_ORDER_STATUSES = frozenset({"completed", "canceled", "closed"})
 
 
 def _is_repair_service_line(item: WorkOrderServiceModel) -> bool:

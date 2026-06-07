@@ -232,7 +232,7 @@ async def update_quote(
             raise NotFoundException(f"Quote with ID {quote_id} not found")
         
         # Prevent updating if quote is already accepted or rejected
-        if quote.status in ["accepted", "rejected"] and quote_data.status not in ["cancelled", "expired"]:
+        if quote.status in ["accepted", "rejected"] and quote_data.status not in ["canceled", "expired"]:
             raise ConflictException(f"Cannot update a quote with status {quote.status}")
         
         # Update quote with provided fields
@@ -350,11 +350,11 @@ async def update_quote_status(
         else:
             # Check valid transitions
             valid_transitions = {
-                "draft": ["sent", "cancelled"],
-                "sent": ["accepted", "rejected", "expired", "cancelled"],
-                "accepted": ["cancelled"],
-                "rejected": ["cancelled"],
-                "expired": ["cancelled"]
+                "draft": ["sent", "canceled"],
+                "sent": ["accepted", "rejected", "expired", "canceled"],
+                "accepted": ["canceled"],
+                "rejected": ["canceled"],
+                "expired": ["canceled"]
             }
             
             if status_update.status not in valid_transitions.get(quote.status, []):

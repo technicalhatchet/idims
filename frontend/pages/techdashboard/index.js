@@ -105,10 +105,11 @@ function StatCard({ icon, label, value, sub, subColor = '#22D3EE', borderColor =
 }
 
 function normalizeWorkOrderStatus(status) {
-  return String(status || '')
+  const n = String(status || '')
     .toLowerCase()
     .trim()
     .replace(/\s+/g, '_');
+  return n === 'cancelled' ? 'canceled' : n;
 }
 
 /** Work-order statuses that mean the job is waiting on parts (list API rarely includes nested `parts[]`). */
@@ -119,7 +120,6 @@ function isAppointmentDoneStatus(status) {
   const n = normalizeWorkOrderStatus(status);
   return (
     n === 'completed'
-    || n === 'cancelled'
     || n === 'canceled'
     || n === 'completed_pending_payment'
     || n === 'paid'

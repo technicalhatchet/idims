@@ -223,9 +223,6 @@ async def get_technician_schedule(
             loc = wo.service_location.get("address")
 
         st = _appointment_status_str(appt.status)
-        # Frontend badge uses "cancelled" in one branch; normalize for display
-        if st == "canceled":
-            st = "cancelled"
 
         entry: Dict[str, Any] = {
             "id": str(appt.id),

@@ -131,7 +131,7 @@ CREATE TABLE work_orders (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     priority VARCHAR(20) NOT NULL DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
-    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'scheduled', 'in_progress', 'on_hold', 'completed', 'cancelled')),
+    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'scheduled', 'in_progress', 'on_hold', 'completed', 'canceled')),
     service_location JSONB NOT NULL,
     scheduled_start TIMESTAMPTZ,
     scheduled_end TIMESTAMPTZ,
@@ -400,7 +400,7 @@ CREATE TABLE email_campaigns (
     name VARCHAR(255) NOT NULL,
     subject VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'scheduled', 'sending', 'sent', 'cancelled')),
+    status VARCHAR(20) NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'scheduled', 'sending', 'sent', 'canceled')),
     scheduled_at TIMESTAMPTZ,
     sent_at TIMESTAMPTZ,
     target_segment JSONB, -- Criteria for target audience

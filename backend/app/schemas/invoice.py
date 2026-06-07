@@ -58,7 +58,7 @@ class InvoiceCreate(InvoiceBase):
     
     @validator('status')
     def validate_status(cls, v):
-        allowed_statuses = ["draft", "sent", "paid", "partially_paid", "overdue", "cancelled"]
+        allowed_statuses = ["draft", "sent", "paid", "partially_paid", "overdue", "canceled"]
         if v not in allowed_statuses:
             raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -89,7 +89,7 @@ class InvoiceUpdate(BaseModel):
     @validator('status')
     def validate_status(cls, v):
         if v is not None:
-            allowed_statuses = ["draft", "sent", "paid", "partially_paid", "overdue", "cancelled"]
+            allowed_statuses = ["draft", "sent", "paid", "partially_paid", "overdue", "canceled"]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -130,7 +130,7 @@ class InvoiceStatusUpdate(BaseModel):
     
     @validator('status')
     def validate_status(cls, v):
-        allowed_statuses = ["draft", "sent", "paid", "partially_paid", "overdue", "cancelled"]
+        allowed_statuses = ["draft", "sent", "paid", "partially_paid", "overdue", "canceled"]
         if v not in allowed_statuses:
             raise ValueError(f"Status must be one of {allowed_statuses}")
         return v

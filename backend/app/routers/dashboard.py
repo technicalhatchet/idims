@@ -72,7 +72,7 @@ async def get_dashboard_stats(request: Request, db: Session = Depends(get_db), c
 
         # Count open work orders
         open_work_orders_count = db.query(func.count(WorkOrder.id)).filter(
-            WorkOrder.status.notin_(['completed', 'cancelled', 'redo'])
+            WorkOrder.status.notin_(['completed', 'canceled', 'redo'])
         ).scalar() or 0
 
         # Count appointments scheduled for today

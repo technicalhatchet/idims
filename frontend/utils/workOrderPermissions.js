@@ -10,6 +10,20 @@ export function isWorkOrderClosed(workOrder) {
   return Boolean(workOrder.is_closed) || String(workOrder.status || '').toLowerCase() === 'closed';
 }
 
+/** Cancelled/refunded work orders cannot be edited (mirror backend IMMUTABLE_WO_STATUSES). */
+const IMMUTABLE_WO_STATUSES = new Set(['canceled', 'refunded']);
+
+/** Accept legacy API/DB spelling until migration completes. */
+export function normalizeStatusKey(status) {
+  const s = String(status || '').toLowerCase();
+  return s === 'cancelled' ? 'canceled' : s;
+}
+
+export function isWorkOrderImmutable(workOrder) {
+  if (!workOrder) return false;
+  return IMMUTABLE_WO_STATUSES.has(normalizeStatusKey(workOrder.status));
+}
+
 export function isManagerOrAdminRole(role) {
   return role === 'admin' || role === 'manager';
 }
@@ -114,19 +128,15 @@ const TERMINAL_APPOINTMENT_STATUSES = new Set([
   'refund',
   'unreachable',
   'canceled',
-  'cancelled',
 ]);
 
 /** Non-canceled visits are in a terminal state (done, redo, refund, etc.). */
 export function allAppointmentsTerminal(workOrder) {
   const appts = workOrder?.appointments || [];
-  const active = appts.filter((a) => {
-    const s = String(a.status || '').toLowerCase();
-    return s !== 'canceled' && s !== 'cancelled';
-  });
+  const active = appts.filter((a) => normalizeStatusKey(a.status) !== 'canceled');
   if (active.length === 0) return true;
   return active.every((a) =>
-    TERMINAL_APPOINTMENT_STATUSES.has(String(a.status || '').toLowerCase())
+    TERMINAL_APPOINTMENT_STATUSES.has(normalizeStatusKey(a.status))
   );
 }
 

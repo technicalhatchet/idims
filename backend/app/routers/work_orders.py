@@ -13,6 +13,7 @@ import logging
 from pydantic import BaseModel, UUID4, Field
 from sqlalchemy import cast, Date
 
+from app.core.exceptions import ServiceBusinessException
 from app.db.database import get_db
 from app.core.auth import get_auth_handler
 from app.models.work_order import WorkOrder as WorkOrderModel
@@ -842,8 +843,12 @@ async def update_work_order_status(
         )
         
         return await WorkOrderService.update_work_order(db, work_order_id, update_data)
+    except HTTPException:
+        raise
+    except ServiceBusinessException:
+        raise
     except Exception as e:
-        logger.error(f"Error updating work order status: {str(e)}")
+        logger.error(f"Error updating work order status: {str(e)}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error updating work order status"

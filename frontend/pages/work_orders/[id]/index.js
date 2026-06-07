@@ -149,9 +149,9 @@ function WorkOrderDetail() {
       
       // Remove the payment parameter from URL
       router.replace(`/work-orders/${id}`, undefined, { shallow: true });
-    } else if (payment === 'cancelled') {
+    } else if (payment === 'canceled' || payment === 'cancelled') {
       // Show cancellation message
-      alert('Payment was cancelled. You can try again anytime.');
+      alert('Payment was canceled. You can try again anytime.');
       
       // Remove the payment parameter from URL
       router.replace(`/work-orders/${id}`, undefined, { shallow: true });
@@ -1364,7 +1364,7 @@ function WorkOrderDetail() {
                                           client_name: clientName,
                                           amount: dueToday,
                                           success_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=success`,
-                                          cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=cancelled`,
+                                          cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=canceled`,
                                           metadata: { work_order_number: workOrder.order_number || workOrder.id.slice(0, 8) }
                                         })
                                       });

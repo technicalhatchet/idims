@@ -14,7 +14,7 @@ const CHECK_LABELS = {
   paid_in_full: 'Paid in full (no outstanding billable SKUs)',
   status_completed: 'Work order status is completed',
   not_already_closed: 'Not already administratively closed',
-  not_immutable_status: 'Work order is not cancelled or refunded',
+  not_immutable_status: 'Work order is not canceled or refunded',
 };
 
 export default function WorkOrderCloseModal({

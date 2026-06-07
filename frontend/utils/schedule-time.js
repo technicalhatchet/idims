@@ -109,7 +109,7 @@ export function appointmentStartMs(apptOrStartField) {
   return parseScheduleUtcMs(raw);
 }
 
-const CANCELED_APPOINTMENT_STATUSES = new Set(['canceled', 'cancelled']);
+const CANCELED_APPOINTMENT_STATUSES = new Set(['canceled']);
 
 export function getAppointmentStatusValue(appointment) {
   if (!appointment) return '';

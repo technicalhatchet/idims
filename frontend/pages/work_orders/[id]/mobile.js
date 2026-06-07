@@ -45,7 +45,7 @@ import {
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import { useUserRole } from '../../../utils/auth0-helpers';
-import { isWorkOrderClosed, canEditWorkOrderBilling, canShowCloseOrderAction, canReopenWorkOrder } from '../../../utils/workOrderPermissions';
+import { isWorkOrderClosed, isWorkOrderImmutable, canEditWorkOrderBilling, canShowCloseOrderAction, canReopenWorkOrder } from '../../../utils/workOrderPermissions';
 import { workOrderStatusOptionsForUser } from '../../../utils/workOrderStatusOptions';
 import { usePrefetchTechnicians } from '../../../hooks/usePrefetchTechnicians';
 import useCurrentTechnicianId from '../../../hooks/useCurrentTechnicianId';
@@ -144,6 +144,8 @@ function WorkOrderDetail() {
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
   const showInitialLoader = isLoading && !workOrder;
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
+  const woImmutable = useMemo(() => isWorkOrderImmutable(workOrder), [workOrder]);
+  const woReadOnly = woClosed || woImmutable;
   const billingEditable = useMemo(
     () => canEditWorkOrderBilling({ role, workOrder }),
     [role, workOrder]
@@ -342,8 +344,8 @@ function WorkOrderDetail() {
         }
         router.replace(`/work_orders/${id}/mobile`, undefined, { shallow: true });
       })();
-    } else if (payment === 'cancelled') {
-      alert('Payment was cancelled. You can try again anytime.');
+    } else if (payment === 'canceled' || payment === 'cancelled') {
+      alert('Payment was canceled. You can try again anytime.');
       router.replace(`/work_orders/${id}/mobile`, undefined, { shallow: true });
     }
   }, [router.query, router, id, refetch]);
@@ -638,7 +640,7 @@ function WorkOrderDetail() {
               </button>
               {mobileMoreOpen && (
                 <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-white/10 bg-[#0D1525] py-1 shadow-xl z-[1198] ring-1 ring-black/40">
-                  {!woClosed && (
+                  {!woReadOnly && (
                   <Link
                     href={`/work_orders/${id}/womobile_edit`}
                     className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 active:bg-white/10"
@@ -657,7 +659,7 @@ function WorkOrderDetail() {
                   >
                     <FaPrint className="opacity-70" /> Print
                   </button>
-                  {!woClosed && (
+                  {!woReadOnly && (
                   <button
                     type="button"
                     className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5"
@@ -700,7 +702,7 @@ function WorkOrderDetail() {
 
                   {/* Desktop actions */}
                   <div className="hidden md:flex flex-wrap gap-2">
-                    {!woClosed && (
+                    {!woReadOnly && (
                     <Link href={`/work_orders/${id}/womobile_edit`} className="btn-primary flex items-center h-10" title="Edit work order">
                       <FaEdit className="mr-2" />
                       Edit
@@ -710,7 +712,7 @@ function WorkOrderDetail() {
                       <FaPrint className="mr-2" />
                       Print
                     </button>
-                    {!woClosed && (
+                    {!woReadOnly && (
                     <button
                       type="button"
                       onClick={() => setShowStatusModal(true)}
@@ -2109,7 +2111,7 @@ function WorkOrderDetail() {
                                           client_name: clientName,
                                           amount: billingTotals.dueToday,
                                           success_url: `${window.location.origin}/work_orders/${workOrder.id}/mobile?payment=success`,
-                                          cancel_url: `${window.location.origin}/work_orders/${workOrder.id}/mobile?payment=cancelled`,
+                                          cancel_url: `${window.location.origin}/work_orders/${workOrder.id}/mobile?payment=canceled`,
                                           metadata: { work_order_number: workOrder.order_number || workOrder.id.slice(0, 8) }
                                         })
                                       });
@@ -2352,10 +2354,10 @@ function WorkOrderDetail() {
         )}
         <button
           type="button"
-          onClick={() => !woClosed && setShowStatusModal(true)}
-          disabled={woClosed}
+          onClick={() => !woReadOnly && setShowStatusModal(true)}
+          disabled={woReadOnly}
           className={`flex-1 h-10 rounded-xl text-xs font-semibold uppercase tracking-wide active:scale-[0.98] ${
-            woClosed
+            woReadOnly
               ? 'bg-white/5 text-gray-500 cursor-not-allowed'
               : 'bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-[0_0_20px_rgba(34,211,238,0.25)]'
           }`}
