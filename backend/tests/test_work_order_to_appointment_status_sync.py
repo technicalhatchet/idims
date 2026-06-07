@@ -80,6 +80,41 @@ def test_wo_canceled_cancels_future_visits(mock_apply, mock_load):
     "app.services.work_order_status_sync_service._active_appointments_for_work_order"
 )
 @patch("app.services.work_order_status_sync_service._apply_appointment_status_change")
+def test_wo_canceled_cancels_en_route_visit_today(mock_apply, mock_load):
+    mock_apply.return_value = True
+    now = datetime.utcnow()
+    en_route_today = _appt(
+        uuid.uuid4(),
+        now.replace(hour=10, minute=0, second=0, microsecond=0),
+        "en_route",
+    )
+    mock_load.return_value = [
+        _appt(uuid.uuid4(), now - timedelta(days=1), "completed"),
+        en_route_today,
+    ]
+
+    wo = MagicMock()
+    wo.id = uuid.uuid4()
+    wo.is_closed = False
+
+    count = sync_appointments_from_work_order_status(
+        MagicMock(),
+        wo,
+        uuid.uuid4(),
+        previous_work_order_status="scheduled",
+        new_work_order_status="canceled",
+    )
+
+    assert count == 1
+    mock_apply.assert_called_once()
+    assert mock_apply.call_args[0][1] is en_route_today
+    assert mock_apply.call_args[0][2] == "canceled"
+
+
+@patch(
+    "app.services.work_order_status_sync_service._active_appointments_for_work_order"
+)
+@patch("app.services.work_order_status_sync_service._apply_appointment_status_change")
 def test_wo_waiting_on_parts_leaves_visits_alone(mock_apply, mock_load):
     mock_load.return_value = [_appt(uuid.uuid4(), datetime.utcnow() + timedelta(days=1))]
 

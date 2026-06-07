@@ -22,6 +22,16 @@ from app.services.work_order_completion_service import load_work_order_for_compl
 
 PARTS_CLOSE_STATUSES = frozenset({"installed", "not_installed"})
 
+# Every visit must be canceled or fully completed before administrative close.
+# completed_pending_payment and phone_payment require payment → completed first.
+CLOSE_ELIGIBLE_APPOINTMENT_STATUSES = frozenset({
+    "canceled",
+    "completed",
+    "refund",
+    "redo",
+    "unreachable",
+})
+
 CLOSED_APPOINTMENT_STATUS_ONLY = frozenset({
     "redo",
     "refund",
@@ -45,10 +55,25 @@ def all_parts_dispositioned(work_order: WorkOrder) -> bool:
     return all(p.status in PARTS_CLOSE_STATUSES for p in parts)
 
 
+def all_appointments_close_eligible(work_order: WorkOrder) -> bool:
+    """Each visit must be canceled or completed — not pending payment or open."""
+    appts = work_order.appointments or []
+    if not appts:
+        return True
+    for appt in appts:
+        status = activity._status_val(appt.status)
+        if status not in CLOSE_ELIGIBLE_APPOINTMENT_STATUSES:
+            return False
+    return True
+
+
 def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, Any]:
     work_order = (
         db.query(WorkOrder)
-        .options(joinedload(WorkOrder.parts))
+        .options(
+            joinedload(WorkOrder.parts),
+            joinedload(WorkOrder.appointments),
+        )
         .filter(WorkOrder.id == work_order_id)
         .first()
     )
@@ -63,6 +88,7 @@ def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, An
         "parts_dispositioned": all_parts_dispositioned(work_order),
         "paid_in_full": is_work_order_paid_in_full(wo_for_billing),
         "status_completed": work_order.status == "completed",
+        "appointments_close_eligible": all_appointments_close_eligible(work_order),
         "not_already_closed": not work_order.is_closed,
         "not_immutable_status": work_order.status not in IMMUTABLE_WO_STATUSES,
     }
@@ -79,6 +105,11 @@ def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, An
         blockers.append("All parts must be marked installed or not installed.")
     if not checks["paid_in_full"]:
         blockers.append("Work order must be paid in full with no outstanding billable SKUs.")
+    if not checks["appointments_close_eligible"]:
+        blockers.append(
+            "Every visit must be canceled or completed "
+            "(pending payment and phone payment do not count)."
+        )
 
     return {
         "work_order_id": str(work_order_id),

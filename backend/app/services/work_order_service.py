@@ -990,6 +990,7 @@ class WorkOrderService:
                         work_order_service_entry = WorkOrderServiceModel(
                             work_order_id=db_appointment.work_order_id,
                             service_id=main_service.id,
+                            appointment_id=db_appointment.id,
                             name=main_service.name,
                             quantity=1,
                             unit_price=Decimal(main_service.base_price),
@@ -1000,6 +1001,8 @@ class WorkOrderService:
                         logger.info(f"Created WorkOrderService entry {work_order_service_entry.id} with price {work_order_service_entry.price}.")
                     else:
                         logger.info(f"Found existing WorkOrderService entry {work_order_service_entry.id} with price {work_order_service_entry.price}.")
+                        if work_order_service_entry.appointment_id is None:
+                            work_order_service_entry.appointment_id = db_appointment.id
                     
                     existing_invoice_item = self.db.query(InvoiceItem).filter(
                         InvoiceItem.invoice_id == invoice.id,
@@ -1059,6 +1062,16 @@ class WorkOrderService:
             except Exception as sync_error:
                 logger.error(f"Error syncing work order schedule: {str(sync_error)}", exc_info=True)
                 raise # Re-raise the exception to be caught by the main handler
+
+            from app.services.work_order_status_sync_service import (
+                sync_work_order_status_from_appointment,
+            )
+
+            sync_work_order_status_from_appointment(
+                self.db,
+                db_appointment,
+                user_id,
+            )
 
             activity.log_appointment_added(
                 self.db,
@@ -1207,10 +1220,15 @@ class WorkOrderService:
 
         if "status" in update_data:
             from app.services.work_order_performance_service import handle_appointment_status_timing
-            from app.services.work_order_status_sync_service import sync_work_order_status_from_appointment
+            from app.services.work_order_status_sync_service import (
+                COMPLETION_APPOINTMENT_STATUSES,
+                sync_work_order_status_from_appointment,
+            )
+            from app.services.work_order_billing_helpers import apply_appointment_status_billing
 
             if not appointment.services:
                 self.db.refresh(appointment)
+            normalized_status = activity._status_val(update_data["status"])
             handle_appointment_status_timing(
                 self.db,
                 appointment=appointment,
@@ -1223,6 +1241,20 @@ class WorkOrderService:
                 user_id,
                 previous_appointment_status=original_status,
             )
+            apply_appointment_status_billing(
+                self.db,
+                work_order=work_order,
+                appointment_id=appointment.id,
+                new_status=normalized_status,
+            )
+            if normalized_status in COMPLETION_APPOINTMENT_STATUSES:
+                sync_work_order_status_from_appointment(
+                    self.db,
+                    appointment,
+                    user_id,
+                    previous_appointment_status=original_status,
+                    after_billing=True,
+                )
         
         appointment.updated_at = datetime.utcnow()
         appointment.updated_by = user_id
@@ -1325,6 +1357,7 @@ class WorkOrderService:
                             wos_entry = WorkOrderServiceModel(
                                 work_order_id=appointment.work_order_id,
                                 service_id=main_service.id,
+                                appointment_id=appointment.id,
                                 name=main_service.name,
                                 quantity=1,
                                 unit_price=Decimal(main_service.base_price),
@@ -1581,10 +1614,11 @@ class WorkOrderService:
             work_order.scheduled_end = latest_end
 
             # List and dashboards key off work_orders.status; keep it aligned when visits exist
-            if _status_val(work_order.status) == "pending":
+            if _status_val(work_order.status) in ("pending", "reschedule"):
+                previous = _status_val(work_order.status)
                 work_order.status = "scheduled"
                 _record_status_sync(
-                    "pending",
+                    previous,
                     "scheduled",
                     "Status synced: work order has active appointment(s)",
                     appointments,

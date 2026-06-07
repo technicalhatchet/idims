@@ -45,6 +45,12 @@ WO_STATUSES_SKIP_APPOINTMENT_SYNC = frozenset({
     "pending_estimate_approval",
 })
 
+# When a visit is scheduled, promote the job board from these statuses only.
+WO_STATUSES_PROMOTE_TO_SCHEDULED = frozenset({
+    "pending",
+    "reschedule",
+})
+
 # Phase 3: manual work order status → appointment updates (office / dispatch)
 WO_STATUSES_SYNC_TO_APPOINTMENTS = frozenset({
     "reschedule",
@@ -67,6 +73,9 @@ APPOINTMENT_TERMINAL_STATUSES = frozenset({
     "refund",
     "redo",
 })
+
+# When a work order is canceled, also cancel active field visits (even if not "future").
+WO_CANCEL_ACTIVE_VISIT_STATUSES = frozenset({"en_route", "in_progress"})
 
 FIELD_APPOINTMENT_TARGET_BY_WO = {
     "en_route": "en_route",
@@ -103,6 +112,31 @@ def _future_appointments(
 ) -> List[WorkOrderAppointment]:
     now = now or datetime.utcnow()
     return [a for a in appointments if a.scheduled_start and a.scheduled_start > now]
+
+
+def _appointments_to_cancel_on_work_order_cancel(
+    appointments: Sequence[WorkOrderAppointment],
+    *,
+    now: Optional[datetime] = None,
+) -> List[WorkOrderAppointment]:
+    """Future non-terminal visits plus any en route / in progress visit."""
+    now = now or datetime.utcnow()
+    to_cancel: List[WorkOrderAppointment] = []
+    seen_ids: set = set()
+    for appt in appointments:
+        st = activity._status_val(appt.status)
+        if st in APPOINTMENT_TERMINAL_STATUSES:
+            continue
+        if appt.id in seen_ids:
+            continue
+        if st in WO_CANCEL_ACTIVE_VISIT_STATUSES:
+            to_cancel.append(appt)
+            seen_ids.add(appt.id)
+            continue
+        if appt.scheduled_start and appt.scheduled_start > now:
+            to_cancel.append(appt)
+            seen_ids.add(appt.id)
+    return to_cancel
 
 
 def _today_appointments(
@@ -227,9 +261,7 @@ def sync_appointments_from_work_order_status(
         return updated
 
     if new_wo == "canceled":
-        for appt in _future_appointments(appointments, now=now):
-            if activity._status_val(appt.status) in APPOINTMENT_TERMINAL_STATUSES:
-                continue
+        for appt in _appointments_to_cancel_on_work_order_cancel(appointments, now=now):
             if _apply_appointment_status_change(
                 db,
                 appt,
@@ -322,6 +354,10 @@ def resolve_work_order_status_for_appointment(
             )
         return None
 
+    if key == "scheduled" and work_order is not None:
+        if activity._status_val(work_order.status) in WO_STATUSES_PROMOTE_TO_SCHEDULED:
+            return "scheduled"
+
     return None
 
 
@@ -332,6 +368,8 @@ def _build_sync_note(appt_label: str, target_wo_status: str) -> str:
         return "Status synced from appointment visit complete → completed pending payment"
     if appt_label == "phone_payment":
         return "Status synced from appointment phone payment → completed pending payment"
+    if appt_label == "scheduled" and target_wo_status == "scheduled":
+        return "Status synced from appointment scheduled → work order scheduled"
     return f"Status synced from appointment ({appt_label} → {target_wo_status})"
 
 

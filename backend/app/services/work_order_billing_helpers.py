@@ -30,6 +30,12 @@ REPAIR_COMPLETE_APPOINTMENT_STATUSES = frozenset({
     "completed_pending_payment",
 })
 
+PAYMENT_READY_APPOINTMENT_STATUSES = frozenset({
+    "phone_payment",
+    "completed",
+    "completed_pending_payment",
+})
+
 
 def _decimal(value: Any) -> Decimal:
     if value is None:
@@ -146,3 +152,101 @@ def is_work_order_paid_in_full(work_order: WorkOrder) -> bool:
     if has_unpaid_scheduled_repair(work_order):
         return False
     return compute_balance_due(work_order) <= Decimal("0.01")
+
+
+def work_order_services_for_appointment(db, work_order_id, appointment_id):
+    """SKUs billed for a visit: linked via appointment_id and/or M2M association."""
+    import uuid
+
+    from sqlalchemy import or_
+    from sqlalchemy.orm import joinedload
+
+    from app.models.work_order import (
+        WorkOrderAppointment,
+        WorkOrderService as WorkOrderServiceModel,
+        appointment_services_association,
+    )
+
+    if isinstance(work_order_id, uuid.UUID):
+        wo_id = work_order_id
+    else:
+        wo_id = uuid.UUID(str(work_order_id))
+    if isinstance(appointment_id, uuid.UUID):
+        appt_id = appointment_id
+    else:
+        appt_id = uuid.UUID(str(appointment_id))
+
+    linked_rows = db.execute(
+        appointment_services_association.select().where(
+            appointment_services_association.c.appointment_id == appt_id
+        )
+    ).fetchall()
+    linked_service_ids = {row.service_id for row in linked_rows}
+
+    appt = (
+        db.query(WorkOrderAppointment)
+        .options(joinedload(WorkOrderAppointment.services))
+        .filter(WorkOrderAppointment.id == appt_id)
+        .first()
+    )
+    if appt and appt.services:
+        linked_service_ids.update(s.id for s in appt.services)
+
+    clauses = [WorkOrderServiceModel.appointment_id == appt_id]
+    if linked_service_ids:
+        clauses.append(WorkOrderServiceModel.service_id.in_(linked_service_ids))
+
+    return (
+        db.query(WorkOrderServiceModel)
+        .filter(
+            WorkOrderServiceModel.work_order_id == wo_id,
+            or_(*clauses),
+        )
+        .all()
+    )
+
+
+def apply_appointment_status_billing(
+    db,
+    *,
+    work_order: WorkOrder,
+    appointment_id,
+    new_status: str,
+) -> int:
+    """
+    Flip WorkOrderService billing_status when visit status changes.
+    Returns count of line items updated.
+    """
+    from app.services import work_order_activity_service as activity
+
+    status = activity._status_val(new_status)
+    services = work_order_services_for_appointment(db, work_order.id, appointment_id)
+    updated = 0
+
+    if status in PAYMENT_READY_APPOINTMENT_STATUSES:
+        for line in services:
+            if line.billing_status == "not_billable":
+                line.billing_status = "billable"
+                if line.appointment_id is None:
+                    line.appointment_id = appointment_id
+                updated += 1
+    elif status == "refund":
+        if getattr(work_order, "is_closed", False):
+            work_order.status = "refunded"
+        else:
+            for line in services:
+                if line.billing_status == "paid":
+                    line.billing_status = "billable"
+                    updated += 1
+                elif line.billing_status == "billable":
+                    line.billing_status = "not_billable"
+                    updated += 1
+    else:
+        for line in services:
+            if line.billing_status == "billable":
+                line.billing_status = "not_billable"
+                updated += 1
+
+    if updated:
+        work_order.calculate_totals()
+    return updated

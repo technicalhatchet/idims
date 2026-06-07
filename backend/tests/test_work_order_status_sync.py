@@ -71,6 +71,59 @@ def test_resolve_canceled_only_visit_moves_to_reschedule():
     )
 
 
+def test_resolve_scheduled_promotes_pending_work_order():
+    wo = MagicMock()
+    wo.status = "pending"
+    assert (
+        resolve_work_order_status_for_appointment(
+            "scheduled",
+            work_order=wo,
+        )
+        == "scheduled"
+    )
+
+
+def test_resolve_scheduled_promotes_reschedule_work_order():
+    wo = MagicMock()
+    wo.status = "reschedule"
+    assert (
+        resolve_work_order_status_for_appointment(
+            "scheduled",
+            work_order=wo,
+        )
+        == "scheduled"
+    )
+
+
+def test_resolve_scheduled_does_not_override_waiting_on_parts():
+    wo = MagicMock()
+    wo.status = "waiting_on_parts"
+    assert (
+        resolve_work_order_status_for_appointment(
+            "scheduled",
+            work_order=wo,
+        )
+        is None
+    )
+
+
+@patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
+def test_sync_scheduled_visit_promotes_pending_work_order(mock_apply):
+    mock_apply.return_value = True
+    wo = MagicMock()
+    wo.status = "pending"
+    wo.is_closed = False
+    appt = MagicMock()
+    appt.status = "scheduled"
+    appt.work_order = wo
+    appt.work_order_id = uuid.uuid4()
+    appt.id = uuid.uuid4()
+
+    assert sync_work_order_status_from_appointment(MagicMock(), appt, uuid.uuid4()) is True
+    mock_apply.assert_called_once()
+    assert mock_apply.call_args[0][2] == "scheduled"
+
+
 def test_phase1_mapping_keys():
     assert set(APPOINTMENT_TO_WORK_ORDER_STATUS.keys()) == {
         "en_route",

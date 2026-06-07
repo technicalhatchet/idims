@@ -20,6 +20,7 @@ from app.models.work_order import (
     appointment_services_association,
 )
 from app.services import work_order_activity_service as activity
+from app.services.work_order_lifecycle_service import apply_work_order_status_change
 from app.services.work_order_service import WorkOrderService
 
 
@@ -185,6 +186,15 @@ async def create_redo_from_appointment(
             "source_appointment_id": str(appointment.id),
         },
     )
+
+    if activity._status_val(parent.status) != "redo":
+        apply_work_order_status_change(
+            db,
+            parent,
+            "redo",
+            user_id,
+            notes=f"Redo child work order {child.order_number} created",
+        )
 
     db.commit()
     db.refresh(child)

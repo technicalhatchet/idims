@@ -13,6 +13,7 @@ const CHECK_LABELS = {
   parts_dispositioned: 'All parts marked installed or not installed',
   paid_in_full: 'Paid in full (no outstanding billable SKUs)',
   status_completed: 'Work order status is completed',
+  appointments_close_eligible: 'Every visit canceled or completed',
   not_already_closed: 'Not already administratively closed',
   not_immutable_status: 'Work order is not canceled or refunded',
 };

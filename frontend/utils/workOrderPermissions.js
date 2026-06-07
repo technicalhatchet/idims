@@ -120,30 +120,32 @@ export function canCloseWorkOrder({ role, workOrder }) {
   return isManagerOrAdminRole(role) || role === 'technician';
 }
 
-const TERMINAL_APPOINTMENT_STATUSES = new Set([
-  'completed',
-  'completed_pending_payment',
-  'failed',
-  'redo',
-  'refund',
-  'unreachable',
+const CLOSE_ELIGIBLE_APPOINTMENT_STATUSES = new Set([
   'canceled',
+  'completed',
+  'refund',
+  'redo',
+  'unreachable',
 ]);
 
-/** Non-canceled visits are in a terminal state (done, redo, refund, etc.). */
-export function allAppointmentsTerminal(workOrder) {
+/** Every visit canceled or completed — pending payment / phone payment block close. */
+export function allAppointmentsCloseEligible(workOrder) {
   const appts = workOrder?.appointments || [];
-  const active = appts.filter((a) => normalizeStatusKey(a.status) !== 'canceled');
-  if (active.length === 0) return true;
-  return active.every((a) =>
-    TERMINAL_APPOINTMENT_STATUSES.has(normalizeStatusKey(a.status))
+  if (!appts.length) return true;
+  return appts.every((a) =>
+    CLOSE_ELIGIBLE_APPOINTMENT_STATUSES.has(normalizeStatusKey(a.status))
   );
+}
+
+/** @deprecated Use allAppointmentsCloseEligible — failed/APR is not close-eligible. */
+export function allAppointmentsTerminal(workOrder) {
+  return allAppointmentsCloseEligible(workOrder);
 }
 
 /** Show Close when WO is completed, not closed, role allowed, and visits are wrapped up. */
 export function canShowCloseOrderAction({ role, workOrder }) {
   if (!canCloseWorkOrder({ role, workOrder })) return false;
-  return allAppointmentsTerminal(workOrder);
+  return allAppointmentsCloseEligible(workOrder);
 }
 
 export function canReopenWorkOrder({ role, workOrder }) {
