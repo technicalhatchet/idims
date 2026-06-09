@@ -1001,7 +1001,7 @@ class WorkOrderService:
                         logger.info(f"Created WorkOrderService entry {work_order_service_entry.id} with price {work_order_service_entry.price}.")
                     else:
                         logger.info(f"Found existing WorkOrderService entry {work_order_service_entry.id} with price {work_order_service_entry.price}.")
-                        if work_order_service_entry.appointment_id is None:
+                        if work_order_service_entry.billing_status == "not_billable":
                             work_order_service_entry.appointment_id = db_appointment.id
                     
                     existing_invoice_item = self.db.query(InvoiceItem).filter(
@@ -1182,7 +1182,8 @@ class WorkOrderService:
                 work_order_closed=bool(getattr(work_order, "is_closed", False)),
             )
         
-        # Recalculate scheduled_end if start_time or services change
+        # Calendar block (scheduled_end - scheduled_start) is fixed at book time unless start moves
+        # or the client explicitly extends the block after adding SKUs.
         services_changed = 'service_ids' in update_data and set(update_data['service_ids']) != original_service_ids
         start_time_changed = (
             'scheduled_start' in update_data
@@ -1191,26 +1192,49 @@ class WorkOrderService:
 
         explicit_end = update_data.get('scheduled_end')
         forced_schedule = update_data.get('is_forced_schedule', appointment.is_forced_schedule)
+        extend_calendar_block = bool(update_data.pop('extend_calendar_block', False))
 
-        if services_changed or start_time_changed:
+        original_block_minutes = 45
+        if original_start_time and appointment.scheduled_end:
+            delta = appointment.scheduled_end - original_start_time
+            original_block_minutes = max(1, int(delta.total_seconds() / 60))
+
+        if start_time_changed:
             import pandas as pd
 
             new_start_time = pd.Timestamp(update_data.get('scheduled_start', original_start_time))
 
             skip_end_recalc = forced_schedule and explicit_end is not None
             if not skip_end_recalc:
-                current_service_ids = update_data.get('service_ids', original_service_ids)
-                if not current_service_ids:
-                    estimated_duration_minutes = 45
-                else:
-                    total_service_duration = 0
-                    for service_id in current_service_ids:
-                        service = self.db.query(Service).filter(Service.id == service_id).first()
-                        if service and service.duration_minutes:
-                            total_service_duration += service.duration_minutes
-                    estimated_duration_minutes = total_service_duration if total_service_duration > 0 else 45
+                update_data['scheduled_end'] = new_start_time + pd.Timedelta(
+                    minutes=original_block_minutes
+                )
+        elif services_changed:
+            import pandas as pd
 
-                update_data['scheduled_end'] = new_start_time + pd.Timedelta(minutes=estimated_duration_minutes)
+            current_service_ids = update_data.get('service_ids', original_service_ids)
+            planned_minutes = 45
+            if current_service_ids:
+                total_service_duration = 0
+                for service_id in current_service_ids:
+                    service = self.db.query(Service).filter(Service.id == service_id).first()
+                    if service and service.duration_minutes:
+                        total_service_duration += service.duration_minutes
+                if total_service_duration > 0:
+                    planned_minutes = total_service_duration
+
+            skip_end_recalc = forced_schedule and explicit_end is not None
+            if not skip_end_recalc:
+                anchor_start = update_data.get('scheduled_start', original_start_time)
+                if extend_calendar_block:
+                    block_minutes = max(original_block_minutes, planned_minutes)
+                    update_data['scheduled_end'] = pd.Timestamp(anchor_start) + pd.Timedelta(
+                        minutes=block_minutes
+                    )
+                elif planned_minutes < original_block_minutes:
+                    update_data['scheduled_end'] = pd.Timestamp(anchor_start) + pd.Timedelta(
+                        minutes=planned_minutes
+                    )
 
 
         for key, value in update_data.items():
@@ -1365,6 +1389,8 @@ class WorkOrderService:
                             )
                             self.db.add(wos_entry)
                             self.db.flush()
+                        elif wos_entry.billing_status == "not_billable":
+                            wos_entry.appointment_id = appointment.id
 
                         existing_item = self.db.query(InvoiceItem).filter(
                             InvoiceItem.invoice_id == invoice.id,

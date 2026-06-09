@@ -29,6 +29,15 @@ import {
   computeClientEtaWindow,
   DEFAULT_MIN_SLOT_MINUTES,
 } from '../../utils/appointment-scheduling';
+import {
+  deriveVisitDisplayLabel,
+  deriveLegacyAppointmentType,
+  formatVisitSkuChipLabel,
+  sumPlannedDurationMinutes,
+  calendarBlockMinutes,
+  resolveAppointmentServiceIds,
+} from '../../utils/visitSku';
+import VisitSkuAccordion from './VisitSkuAccordion';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
 import Select from 'react-select';
@@ -69,18 +78,6 @@ function getWorkOrderAppointmentsSeed(workOrder) {
 
 function serviceIdsMatch(a, b) {
   return String(a) === String(b);
-}
-
-/** SKUs may live on service_ids or nested services[] depending on API source. */
-function resolveAppointmentServiceIds(appointment) {
-  if (!appointment) return [];
-  if (Array.isArray(appointment.service_ids) && appointment.service_ids.length > 0) {
-    return appointment.service_ids.map((id) => String(id));
-  }
-  if (Array.isArray(appointment.services) && appointment.services.length > 0) {
-    return appointment.services.map((s) => String(s.id)).filter(Boolean);
-  }
-  return [];
 }
 
 function formIncludesServiceId(serviceIds, candidateId) {
@@ -158,6 +155,9 @@ export default function AppointmentScheduler({
   const [showForm, setShowForm] = useState(false);
   const [displayEtaWindow, setDisplayEtaWindow] = useState(null);
   const [windowOverflowPrompt, setWindowOverflowPrompt] = useState(null);
+  const [skuBlockWarning, setSkuBlockWarning] = useState(null);
+  const [expandedVisitIds, setExpandedVisitIds] = useState({});
+  const pendingMoveSkuRef = useRef(null);
   const [updatingStatus, setUpdatingStatus] = useState(null); // Track which appointment is being updated
   const schedulingAnchorRef = useRef(null);
   const windowOverflowAcceptedRef = useRef(false);
@@ -191,6 +191,40 @@ export default function AppointmentScheduler({
     ),
     [technicianDailySchedule, appointments]
   );
+
+  const sortedAppointments = useMemo(
+    () =>
+      [...appointments].sort(
+        (a, b) => new Date(a.scheduled_start).getTime() - new Date(b.scheduled_start).getTime()
+      ),
+    [appointments]
+  );
+
+  const visitSkuOptions = useMemo(
+    () => ({
+      catalogServices: allServices,
+      workOrderServices: workOrder?.services || [],
+    }),
+    [allServices, workOrder?.services]
+  );
+
+  const toggleVisitSkuPanel = (appointmentId) => {
+    setExpandedVisitIds((prev) => ({
+      ...prev,
+      [appointmentId]: !prev[appointmentId],
+    }));
+  };
+
+  const getVisitLabel = (appointment, visitIndex) =>
+    deriveVisitDisplayLabel(appointment, visitIndex, visitSkuOptions);
+
+  const currentVisitIndex = currentAppointment
+    ? Math.max(0, sortedAppointments.findIndex((a) => a.id === currentAppointment.id))
+    : sortedAppointments.length;
+
+  const currentVisitLabel = currentAppointment
+    ? getVisitLabel(currentAppointment, currentVisitIndex)
+    : null;
 
   const estimatedServiceDurationMinutes = useMemo(() => {
     const ids = formData.service_ids || [];
@@ -355,7 +389,11 @@ export default function AppointmentScheduler({
 
   useEffect(() => {
     if (allServices.length > 0) {
-      const categories = [...new Set(allServices.map(service => service.service_type).filter(type => type))]; // Changed service.type to service.service_type
+      const categories = [
+        ...new Set(
+          allServices.map((service) => service.service_type || 'other').filter(Boolean)
+        ),
+      ];
       setServiceCategories(categories.sort());
     } else {
       setServiceCategories([]);
@@ -363,18 +401,14 @@ export default function AppointmentScheduler({
   }, [allServices]);
 
   useEffect(() => {
-    console.log('[useEffect for ServicesList] Triggered. Deps:', {
-      selectedServiceCategory,
-      allServicesLength: allServices.length,
-      // currentAppointment: currentAppointment ? 'Set' : 'Null' // Removed currentAppointment
-    });
     if (selectedServiceCategory && allServices.length > 0) {
-      const filteredServices = allServices.filter(service => service.service_type === selectedServiceCategory);
+      const filteredServices = allServices.filter((service) => {
+        const type = service.service_type || 'other';
+        return type === selectedServiceCategory;
+      });
       setServicesForSelectedCategory(filteredServices);
-      console.log('[useEffect for ServicesList] setServicesForSelectedCategory with:', filteredServices);
     } else {
       setServicesForSelectedCategory([]);
-      console.log('[useEffect for ServicesList] setServicesForSelectedCategory to EMPTY.');
     }
     // The logic to clear formData.service_ids has been moved to handleServiceCategoryChange
     // and to form initialization/reset logic.
@@ -750,47 +784,136 @@ export default function AppointmentScheduler({
     const newCategory = e.target.value;
     setSelectedServiceCategory(newCategory);
     if (!newCategory) {
-      console.log('[handleServiceCategoryChange] Category cleared by user, clearing service_ids.');
-      setFormData(prev => ({ ...prev, service_ids: [] }));
-    } else {
-      // Auto-set appointment_type from service category, but don't clear service_ids here
-      const validTypes = ['diagnostic', 'repair', 'follow-up', 'inspection', 'maintenance'];
-      const mappedType = validTypes.includes(newCategory.toLowerCase()) ? newCategory.toLowerCase() : formData.appointment_type;
-      setFormData(prev => ({ ...prev, appointment_type: mappedType }));
+      setFormData((prev) => ({ ...prev, service_ids: [] }));
     }
   };
 
-  const handleServiceChange = (selectedOptions) => {
-    console.log('[handleServiceChange] selectedOptions:', selectedOptions);
-    const newServiceIds = selectedOptions ? selectedOptions.map((opt) => opt.value) : [];
-    setFormData((prev) => {
-      const next = { ...prev, service_ids: newServiceIds };
-      if (!prev.scheduled_start) return next;
+  const formatSkuPickerOption = (service) => ({
+    value: service.id,
+    label: `${service.name}${service.sku_code ? ` (${service.sku_code})` : ''} — ${service.duration_minutes || 0} min — $${Number(service.base_price || 0).toFixed(2)}`,
+  });
 
-      let totalDuration = 0;
-      for (const id of newServiceIds) {
-        const service = allServices.find((s) => serviceIdsMatch(s.id, id));
-        if (service?.duration_minutes) totalDuration += service.duration_minutes;
-      }
+  const reconcileVisitEndForSkus = (prev, serviceIds) => {
+    const next = { ...prev, service_ids: serviceIds };
+    let skuWarning = null;
 
-      const durationMinutes =
-        totalDuration > 0 ? totalDuration : DEFAULT_MIN_SLOT_MINUTES;
+    if (!prev.scheduled_start) {
+      return { next, skuWarning };
+    }
 
+    const plannedMinutes = sumPlannedDurationMinutes(serviceIds, allServices);
+    const blockMinutes = calendarBlockMinutes(prev.scheduled_start, prev.scheduled_end);
+
+    const shouldSyncEnd =
+      !currentAppointment || plannedMinutes !== blockMinutes;
+
+    if (shouldSyncEnd) {
       try {
         const startDate = parseISO(prev.scheduled_start);
-        next.scheduled_end = formatDateTimeForInput(addMinutes(startDate, durationMinutes));
+        if (!currentAppointment || plannedMinutes <= blockMinutes) {
+          next.scheduled_end = formatDateTimeForInput(addMinutes(startDate, plannedMinutes));
+          skuWarning = null;
+        } else {
+          skuWarning = { planned: plannedMinutes, block: blockMinutes };
+        }
       } catch (error) {
-        console.error('[handleServiceChange] Error calculating end date from service duration:', error);
+        console.error('[reconcileVisitEndForSkus] Error updating end time:', error);
       }
+    } else if (plannedMinutes > blockMinutes) {
+      skuWarning = { planned: plannedMinutes, block: blockMinutes };
+    }
+
+    return { next, skuWarning };
+  };
+
+  const removeSkuFromVisit = (serviceId) => {
+    setFormData((prev) => {
+      const newServiceIds = (prev.service_ids || []).filter((id) => !serviceIdsMatch(id, serviceId));
+      const { next, skuWarning } = reconcileVisitEndForSkus(prev, newServiceIds);
+      setSkuBlockWarning(skuWarning);
       return next;
     });
+  };
+
+  const handleServiceChange = (selectedOptions) => {
+    const selectedInCategory = selectedOptions ? selectedOptions.map((opt) => String(opt.value)) : [];
+    const categoryIds = new Set(servicesForSelectedCategory.map((s) => String(s.id)));
+
+    setFormData((prev) => {
+      const keptFromOtherCategories = (prev.service_ids || []).filter(
+        (id) => !categoryIds.has(String(id))
+      );
+      const newServiceIds = [...keptFromOtherCategories, ...selectedInCategory];
+      const { next, skuWarning } = reconcileVisitEndForSkus(prev, newServiceIds);
+      setSkuBlockWarning(skuWarning);
+      return next;
+    });
+  };
+
+  const handleMoveSkuToNewVisit = (sourceAppointment, serviceId) => {
+    if (!canEditAppt(sourceAppointment)) return;
+    pendingMoveSkuRef.current = {
+      fromAppointmentId: sourceAppointment.id,
+      serviceId: String(serviceId),
+    };
+    travelRecalculatedRef.current = false;
+    fetchServices();
+    setCurrentAppointment(null);
+    setFormData({
+      ...initialFormData,
+      work_order_id: workOrderId,
+      appointment_type: deriveLegacyAppointmentType([serviceId], allServices),
+      service_ids: [String(serviceId)],
+      assigned_technician_id: sourceAppointment.assigned_technician_id || '',
+      time_window: sourceAppointment.time_window || null,
+    });
+    setSkuBlockWarning(null);
+    setFormErrors({});
+    setShowForm(true);
+    setSuccessMessage(null);
+    setError(null);
+  };
+
+  const finalizeSkuMoveFromSource = async (fromAppointmentId, serviceId) => {
+    const source = appointments.find((a) => a.id === fromAppointmentId);
+    if (!source) return;
+    const remaining = resolveAppointmentServiceIds(source).filter(
+      (id) => !serviceIdsMatch(id, serviceId)
+    );
+    await updateAppointment(fromAppointmentId, {
+      service_ids: remaining,
+      appointment_type: deriveLegacyAppointmentType(remaining, allServices),
+    });
+  };
+
+  const handleExtendCalendarBlock = () => {
+    setFormData((prev) => {
+      if (!prev.scheduled_start) return prev;
+      const plannedMinutes = sumPlannedDurationMinutes(prev.service_ids, allServices);
+      try {
+        const startDate = parseISO(prev.scheduled_start);
+        return {
+          ...prev,
+          scheduled_end: formatDateTimeForInput(addMinutes(startDate, plannedMinutes)),
+        };
+      } catch (error) {
+        console.error('[handleExtendCalendarBlock] Error extending block:', error);
+        return prev;
+      }
+    });
+    setSkuBlockWarning(null);
   };
 
   // Validate form before submission
   const validateForm = () => {
     const errors = {};
     
-    if (!formData.appointment_type) errors.appointment_type = 'Appointment type is required';
+    if (!selectedServiceCategory && !formData.service_ids?.length) {
+      errors.service_category = 'Select a service category.';
+    }
+    if (!formData.service_ids?.length) {
+      errors.service_ids = 'Select at least one SKU for this visit.';
+    }
     if (!formData.status) errors.status = 'Status is required';
     if (!formData.scheduled_start) errors.scheduled_start = 'Scheduled start time is required';
     if (formData.scheduled_start && formData.scheduled_end) {
@@ -941,6 +1064,8 @@ export default function AppointmentScheduler({
     schedulingAnchorRef.current = null;
     windowOverflowAcceptedRef.current = false;
     travelRecalculatedRef.current = false;
+    pendingMoveSkuRef.current = null;
+    setSkuBlockWarning(null);
   };
 
   // Add openForm function
@@ -1034,6 +1159,7 @@ export default function AppointmentScheduler({
     // Category/SKU select also sync via useEffect when allServices loads after fetchServices().
 
     setFormErrors({});
+    setSkuBlockWarning(null);
     setShowForm(true);
     console.log('[EditAppointment] Form shown.');
   };
@@ -1371,16 +1497,14 @@ export default function AppointmentScheduler({
     try {
       // Ensure the data being submitted is up-to-date from state
       // (The state should have been updated when the window was selected)
-      const appointmentTypeEl = document.getElementById('appointment_type');
-      const currentAppointmentType = appointmentTypeEl ? appointmentTypeEl.value : formData.appointment_type;
-      console.log("[AppointmentScheduler] appointment_type from DOM:", currentAppointmentType);
-      console.log("[AppointmentScheduler] appointment_type at submit time:", formData.appointment_type);
-      console.log("[AppointmentScheduler] Submitting final appointment form data (check scheduled_start/end):", formData);
+      const legacyAppointmentType = deriveLegacyAppointmentType(formData.service_ids, allServices);
+      const moveCtx = pendingMoveSkuRef.current;
+      console.log("[AppointmentScheduler] Submitting appointment:", formData);
       
       // Prepare appointment data
       const appointmentData = {
         ...formData,
-        appointment_type: currentAppointmentType,
+        appointment_type: legacyAppointmentType,
         work_order_id: workOrderId,
         travel_time_before: parseTravelInt(formData.travel_time_before),
         travel_time_after: parseTravelInt(formData.travel_time_after),
@@ -1405,10 +1529,14 @@ export default function AppointmentScheduler({
         console.log("Appointment updated:", response);
         setSuccessMessage("Appointment updated successfully!");
       } else {
-        // Create new appointment
         response = await createWorkOrderAppointment(workOrderId, appointmentData);
         console.log("Appointment created:", response);
-        setSuccessMessage("Appointment created successfully!");
+        if (moveCtx) {
+          await finalizeSkuMoveFromSource(moveCtx.fromAppointmentId, moveCtx.serviceId);
+          setSuccessMessage('SKU moved to new visit.');
+        } else {
+          setSuccessMessage('Appointment created successfully!');
+        }
       }
       
       // Refresh appointments
@@ -1706,7 +1834,7 @@ export default function AppointmentScheduler({
 
   const renderMobileAppointmentCards = () => (
     <div className="space-y-3">
-      {appointments.map((appointment) => {
+      {sortedAppointments.map((appointment, visitIndex) => {
         const duration = getDurationLabel(appointment.scheduled_start, appointment.scheduled_end);
         const statusEditable = canStatusAppt(appointment);
         const appointmentEditable = canEditAppt(appointment);
@@ -1718,7 +1846,7 @@ export default function AppointmentScheduler({
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-white flex flex-wrap items-center gap-1.5">
-                  {getAppointmentTypeLabel(appointment.appointment_type)}
+                  {getVisitLabel(appointment, visitIndex)}
                   {appointment.is_forced_schedule && (
                     <span className="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-200 border border-amber-500/40">
                       Forced
@@ -1757,11 +1885,16 @@ export default function AppointmentScheduler({
             {resolvedWorkOrderAddress && (
               <p className="text-xs text-gray-500 mt-1 line-clamp-2">{resolvedWorkOrderAddress}</p>
             )}
-            {appointment.services?.length > 0 && (
-              <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                {appointment.services.map((s) => s.name).join(', ')}
-              </p>
-            )}
+            <VisitSkuAccordion
+              appointment={appointment}
+              catalogServices={allServices}
+              workOrderServices={workOrder?.services || []}
+              expanded={Boolean(expandedVisitIds[appointment.id])}
+              onToggle={() => toggleVisitSkuPanel(appointment.id)}
+              onMoveSku={handleMoveSkuToNewVisit}
+              canEdit={appointmentEditable}
+              compact
+            />
             {appointment.notes && (
               <p className="text-xs text-gray-500 mt-1 line-clamp-2">{appointment.notes}</p>
             )}
@@ -1942,7 +2075,7 @@ export default function AppointmentScheduler({
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                  {currentAppointment ? `Edit Appointment (${getAppointmentTypeLabel(currentAppointment.appointment_type)})` : 'New Appointment'}
+                  {currentAppointment ? `Edit Appointment (${currentVisitLabel})` : 'New Appointment'}
                 </h3>
                 <button
                   type="button"
@@ -1954,128 +2087,166 @@ export default function AppointmentScheduler({
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Appointment Type - auto-set from service category */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Appointment Type
-                  </label>
-                  <div className="mt-1 px-3 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm text-gray-800 dark:text-gray-200 capitalize">
-                    {formData.appointment_type || 'Select a service category above'}
-                  </div>
-                  <input type="hidden" name="appointment_type" value={formData.appointment_type} />
-                </div>
+                {pendingMoveSkuRef.current && (
+                  <p className="text-sm text-cyan-700 dark:text-cyan-300 rounded-md border border-cyan-500/30 bg-cyan-500/10 px-3 py-2">
+                    Scheduling a new visit for a moved SKU. The SKU will be removed from the previous visit when you save.
+                  </p>
+                )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                <div className="space-y-4">
                   <div>
-                  <label htmlFor="service_category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Service Category *
-                  </label>
-                  <select
-                    id="service_category"
-                    name="service_category"
-                    value={selectedServiceCategory}
-                    onFocus={() => console.log('[ServiceCategory Select] Value onFocus:', selectedServiceCategory)}
-                    onChange={handleServiceCategoryChange}
-                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white ${
-                      formErrors.service_category ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''
-                    }`}
-                    required
-                  >
-                    <option value="">Select service category...</option>
-                    {serviceCategories.map(category => (
-                      <option key={category} value={category}>
-                        {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}
-                      </option>
-                    ))}
-                  </select>
-                  {formErrors.service_category && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.service_category}</p>}
+                    <label htmlFor="service_category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Service Category *
+                    </label>
+                    <select
+                      id="service_category"
+                      name="service_category"
+                      value={selectedServiceCategory}
+                      onChange={handleServiceCategoryChange}
+                      className={`block w-full rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white ${
+                        formErrors.service_category ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''
+                      }`}
+                      required
+                    >
+                      <option value="">Select service category...</option>
+                      {serviceCategories.map((category) => (
+                        <option key={category} value={category}>
+                          {category === 'other'
+                            ? 'Other'
+                            : `${category.charAt(0).toUpperCase()}${category.slice(1).toLowerCase()}`}
+                        </option>
+                      ))}
+                    </select>
+                    {formErrors.service_category && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.service_category}</p>
+                    )}
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      Switch category to add SKUs from another type.
+                    </p>
                   </div>
-                
+
                   <div>
-                  <label htmlFor="service_ids" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Services/SKUs {formData.service_ids.length > 0 ? `(${formData.service_ids.length} selected)` : ''}
-                  </label>
-                  {servicesLoading && !selectedServiceCategory ? (
-                    <LoadingSpinner size="small" />
-                  ) : !selectedServiceCategory ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">Please select a service category first.</p>
-                  ) : servicesForSelectedCategory.length === 0 && selectedServiceCategory ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">No services found for this category.</p>
-                  ) : (
-                    <Select
-                      id="service_ids"
-                      isMulti
-                      options={servicesForSelectedCategory.map(service => ({ 
-                        value: service.id, 
-                        label: `${service.name}${service.sku_code ? ` (${service.sku_code})` : ''} - 
-                        ${service.duration_minutes || 0} min - $${(service.base_price || 0).toFixed(2)}`
-                      }))}
-                      value={servicesForSelectedCategory
-                        .filter((service) => formIncludesServiceId(formData.service_ids, service.id))
-                        .map((s) => ({
-                          value: s.id,
-                          label: `${s.name}${s.sku_code ? ` (${s.sku_code})` : ''} - ${s.duration_minutes || 0} min - $${(s.base_price || 0).toFixed(2)}`,
-                        }))}
-                      onFocus={() => console.log('[Services/SKUs Select] formData.service_ids onFocus:', JSON.parse(JSON.stringify(formData.service_ids)))}
-                      onChange={handleServiceChange}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
-                      placeholder="Select services..."
-                      isDisabled={!selectedServiceCategory || servicesLoading || servicesForSelectedCategory.length === 0}
-                      // Basic styling for react-select to somewhat match Tailwind forms
-                      styles={{
-                        control: (base, state) => ({
-                          ...base,
-                          backgroundColor: 'var(--color-bg-input, #1f2937)', // dark:bg-gray-800
-                          borderColor: state.isFocused ? 'var(--color-ring-focus, #3b82f6)' : 'var(--color-border-input, #4b5563)', // dark:border-gray-700
-                          boxShadow: state.isFocused ? '0 0 0 1px var(--color-ring-focus, #3b82f6)' : 'none',
-                          '&:hover': {
-                            borderColor: 'var(--color-border-input-hover, #6b7280)', // dark:border-gray-600
-                          },
-                          borderRadius: '0.375rem', // rounded-md
-                          minHeight: '38px',
-                        }),
-                        valueContainer: (base) => ({
-                          ...base,
-                          padding: '2px 8px',
-                        }),
-                        multiValue: (base) => ({
-                          ...base,
-                          backgroundColor: 'var(--color-bg-multivalue, #374151)', // dark:bg-gray-700
-                        }),
-                        multiValueLabel: (base) => ({
-                          ...base,
-                          color: 'var(--color-text-multivalue, #e5e7eb)', // dark:text-gray-200
-                        }),
-                        menu: (base) => ({
+                    <label htmlFor="service_ids" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Services / SKUs *
+                    </label>
+                    {servicesLoading && !selectedServiceCategory ? (
+                      <LoadingSpinner size="small" />
+                    ) : !selectedServiceCategory ? (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+                        Select a service category first.
+                      </p>
+                    ) : servicesForSelectedCategory.length === 0 ? (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+                        No services in this category.
+                      </p>
+                    ) : (
+                      <Select
+                        id="service_ids"
+                        isMulti
+                        controlShouldRenderValue={false}
+                        options={servicesForSelectedCategory.map(formatSkuPickerOption)}
+                        value={servicesForSelectedCategory
+                          .filter((service) => formIncludesServiceId(formData.service_ids, service.id))
+                          .map(formatSkuPickerOption)}
+                        onChange={handleServiceChange}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        placeholder="Add services from this category..."
+                        isDisabled={!selectedServiceCategory || servicesLoading || servicesForSelectedCategory.length === 0}
+                        styles={{
+                          control: (base, state) => ({
                             ...base,
-                            backgroundColor: 'var(--color-bg-menu, #1f2937)', // dark:bg-gray-800
-                            zIndex: 50, // Ensure dropdown is on top
-                        }),
-                        option: (base, state) => ({
-                            ...base,
-                            backgroundColor: state.isSelected ? 'var(--color-bg-option-selected, #3b82f6)' : state.isFocused ? 'var(--color-bg-option-focused, #374151)' : 'transparent', // dark:bg-gray-700 for focused
-                            color: state.isSelected ? 'white' : 'var(--color-text-default, #d1d5db)', // dark:text-gray-300
-                             '&:hover': {
-                                backgroundColor: 'var(--color-bg-option-hover, #374151)', // dark:bg-gray-600
+                            backgroundColor: 'var(--color-bg-input, #1f2937)',
+                            borderColor: state.isFocused ? 'var(--color-ring-focus, #3b82f6)' : 'var(--color-border-input, #4b5563)',
+                            boxShadow: state.isFocused ? '0 0 0 1px var(--color-ring-focus, #3b82f6)' : 'none',
+                            '&:hover': {
+                              borderColor: 'var(--color-border-input-hover, #6b7280)',
                             },
-                        }),
-                        placeholder: (base) => ({
+                            borderRadius: '0.375rem',
+                            minHeight: '38px',
+                          }),
+                          valueContainer: (base) => ({
                             ...base,
-                            color: 'var(--color-text-placeholder, #9ca3af)', // dark:text-gray-400
-                        }),
-                        input: (base) => ({
+                            padding: '2px 8px',
+                          }),
+                          menu: (base) => ({
                             ...base,
-                            color: 'var(--color-text-input, #e5e7eb)', // dark:text-gray-200
-                        }),
-                        indicatorSeparator: () => ({
+                            backgroundColor: 'var(--color-bg-menu, #1f2937)',
+                            zIndex: 50,
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isSelected
+                              ? 'var(--color-bg-option-selected, #3b82f6)'
+                              : state.isFocused
+                                ? 'var(--color-bg-option-focused, #374151)'
+                                : 'transparent',
+                            color: state.isSelected ? 'white' : 'var(--color-text-default, #d1d5db)',
+                            '&:hover': {
+                              backgroundColor: 'var(--color-bg-option-hover, #374151)',
+                            },
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: 'var(--color-text-placeholder, #9ca3af)',
+                          }),
+                          input: (base) => ({
+                            ...base,
+                            color: 'var(--color-text-input, #e5e7eb)',
+                          }),
+                          indicatorSeparator: () => ({
                             display: 'none',
-                        }),
-                        // Add more styles as needed
-                      }}
-                    />
-                  )}
-                  {formErrors.service_ids && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.service_ids}</p>}
+                          }),
+                        }}
+                      />
+                    )}
+
+                    {formData.service_ids?.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {formData.service_ids.map((id) => {
+                          const service = allServices.find((s) => serviceIdsMatch(s.id, id));
+                          if (!service) return null;
+                          return (
+                            <span
+                              key={id}
+                              className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium border-blue-200 bg-blue-50 text-blue-900 dark:border-cyan-500/30 dark:bg-cyan-500/10 dark:text-cyan-100"
+                            >
+                              <span className="max-w-[12rem] truncate">
+                                {formatVisitSkuChipLabel(service)}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => removeSkuFromVisit(id)}
+                                className="shrink-0 rounded-full p-0.5 text-blue-600 hover:bg-blue-100 dark:text-cyan-300/80 dark:hover:bg-cyan-500/20 dark:hover:text-white"
+                                aria-label={`Remove ${service.name}`}
+                              >
+                                <FaTimes className="h-3 w-3" />
+                              </button>
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {formErrors.service_ids && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.service_ids}</p>
+                    )}
+                    {skuBlockWarning && (
+                      <div className="mt-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-100">
+                        <p>
+                          Planned work ({skuBlockWarning.planned} min) exceeds the calendar block (
+                          {skuBlockWarning.block} min). The slot will not grow automatically.
+                        </p>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          className="mt-2"
+                          onClick={handleExtendCalendarBlock}
+                        >
+                          Extend calendar block to {skuBlockWarning.planned} min
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -2376,7 +2547,7 @@ export default function AppointmentScheduler({
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {appointments.map(appointment => {
+                  {sortedAppointments.map((appointment, visitIndex) => {
                     const statusEditable = canStatusAppt(appointment);
                     const appointmentEditable = canEditAppt(appointment);
                     return (
@@ -2384,7 +2555,7 @@ export default function AppointmentScheduler({
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <FaCalendarAlt className="text-gray-500 dark:text-gray-400 mr-2" />
-                          <span className="text-sm text-gray-900 dark:text-gray-100">{getAppointmentTypeLabel(appointment.appointment_type)}</span>
+                          <span className="text-sm text-gray-900 dark:text-gray-100">{getVisitLabel(appointment, visitIndex)}</span>
                           {appointment.is_forced_schedule && (
                             <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-200">
                               Forced
@@ -2396,12 +2567,19 @@ export default function AppointmentScheduler({
                         <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {formatDateTime(appointment.scheduled_start)} - {formatTime(appointment.scheduled_end)}
                         </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {appointment.services?.length > 0 && (
-                            <span className="text-cyan-500 dark:text-cyan-400">{appointment.services.map(s => s.name).join(', ')}</span>
-                          )}
-                          {appointment.notes && <span className="ml-1">• {appointment.notes}</span>}
-                        </div>
+                        <VisitSkuAccordion
+                          appointment={appointment}
+                          catalogServices={allServices}
+                          workOrderServices={workOrder?.services || []}
+                          expanded={Boolean(expandedVisitIds[appointment.id])}
+                          onToggle={() => toggleVisitSkuPanel(appointment.id)}
+                          onMoveSku={handleMoveSkuToNewVisit}
+                          canEdit={appointmentEditable}
+                          theme="light"
+                        />
+                        {appointment.notes && (
+                          <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">{appointment.notes}</div>
+                        )}
                         {/* Add travel time info in compact mode */}
                         {(appointment.travel_time_before || appointment.travel_distance_before) && (
                           <TravelTimeInfo
@@ -2486,11 +2664,12 @@ export default function AppointmentScheduler({
               <div className="mt-6">
                 <h3 className="text-md font-medium text-gray-900 dark:text-white mb-3">Upcoming Appointments</h3>
                 <div className="space-y-3">
-                  {appointments
+                  {sortedAppointments
                     .filter(appt => new Date(appt.scheduled_start) > new Date() && appt.status !== 'canceled')
-                    .sort((a, b) => new Date(a.scheduled_start) - new Date(b.scheduled_start))
                     .slice(0, 3)
-                    .map(appointment => (
+                    .map((appointment) => {
+                      const visitIndex = sortedAppointments.findIndex((a) => a.id === appointment.id);
+                      return (
                       <div 
                         key={appointment.id} 
                         className={`p-3 rounded-lg border-l-4 ${
@@ -2501,7 +2680,7 @@ export default function AppointmentScheduler({
                         <div className="flex justify-between items-start">
                           <div>
                             <div className="font-medium text-gray-900 dark:text-white">
-                              {getAppointmentTypeLabel(appointment.appointment_type)}
+                              {getVisitLabel(appointment, visitIndex)}
                             </div>
                             <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                               {formatDateTime(appointment.scheduled_start)} - {formatTime(appointment.scheduled_end)}
@@ -2522,8 +2701,9 @@ export default function AppointmentScheduler({
                           </div>
                         </div>
                       </div>
-                    ))}
-                  {appointments.filter(appt => new Date(appt.scheduled_start) > new Date() && appt.status !== 'canceled').length === 0 && (
+                    );
+                    })}
+                  {sortedAppointments.filter(appt => new Date(appt.scheduled_start) > new Date() && appt.status !== 'canceled').length === 0 && (
                     <div className="text-center py-3">
                       <p className="text-gray-500 dark:text-gray-400">No upcoming appointments.</p>
                     </div>
@@ -2539,30 +2719,9 @@ export default function AppointmentScheduler({
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={currentAppointment ? `Edit Appointment (${getAppointmentTypeLabel(currentAppointment.appointment_type)})` : "Create New Appointment"}
+        title={currentAppointment ? `Edit Appointment (${currentVisitLabel})` : "Create New Appointment"}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Appointment Type */}
-          <SelectInput
-            id="appointment_type"
-            name="appointment_type"
-            label="Appointment Type"
-            value={formData.appointment_type}
-            onChange={handleInputChange}
-            error={formErrors.appointment_type}
-            required
-          >
-            <option value="">Select type...</option>
-            <option value="diagnostic">Diagnostic</option>
-            <option value="repair">Repair</option>
-            <option value="maintenance">Maintenance</option>
-            <option value="installation">Installation</option>
-            <option value="quote">Quote</option>
-            <option value="follow-up">Follow-up</option>
-            <option value="inspection">Inspection</option>
-            {/* Add other types as necessary */}
-          </SelectInput>
-          
           {/* Status */}
           <SelectInput
             id="status"

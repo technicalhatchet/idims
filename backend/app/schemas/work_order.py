@@ -355,6 +355,10 @@ class WorkOrderAppointmentUpdate(BaseModel):
     is_forced_schedule: Optional[bool] = None
     scheduled_end: Optional[datetime] = None
     time_window: Optional[str] = None
+    extend_calendar_block: Optional[bool] = Field(
+        None,
+        description="When adding SKUs, extend scheduled_end to fit planned SKU duration (does not happen automatically).",
+    )
 
     @validator('status')
     def validate_status(cls, v):

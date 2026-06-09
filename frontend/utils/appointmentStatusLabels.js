@@ -1,13 +1,8 @@
-/** Appointment statuses that count as repair done for billing (incl. diagnostic discount). */
-export const REPAIR_COMPLETE_APPOINTMENT_STATUSES = ['completed', 'completed_pending_payment'];
-
-export function hasCompletedRepairAppointment(appointments = []) {
-  return (appointments || []).some(
-    (a) =>
-      a.appointment_type === 'repair' &&
-      REPAIR_COMPLETE_APPOINTMENT_STATUSES.includes(a.status)
-  );
-}
+export {
+  REPAIR_COMPLETE_APPOINTMENT_STATUSES,
+  hasCompletedRepairAppointment,
+  hasCompletedVisitWithRepairSku,
+} from './visitSku';
 
 /** Display labels for appointment_status_enum values (DB value unchanged). */
 export const APPOINTMENT_STATUS_LABELS = {

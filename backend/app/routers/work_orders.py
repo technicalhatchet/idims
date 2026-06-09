@@ -1182,7 +1182,7 @@ async def list_work_order_appointments(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     status_filter: Optional[str] = Query(None, description="Filter by appointment status"),
     page: int = Query(1, ge=1, description="Page number"),
-    limit: int = Query(10, ge=1, le=100, description="Items per page"),
+    limit: int = Query(100, ge=1, le=500, description="Items per page"),
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):

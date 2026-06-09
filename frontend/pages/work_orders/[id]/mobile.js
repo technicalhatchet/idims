@@ -1982,7 +1982,10 @@ function WorkOrderDetail() {
                         s.name?.toLowerCase().includes('repair') ||
                         s.service_definition?.service_type === 'repair'
                       );
-                      const repairCompleted = hasCompletedRepairAppointment(workOrder.appointments);
+                      const repairCompleted = hasCompletedRepairAppointment(workOrder.appointments, {
+                        catalogServices: allServices,
+                        workOrderServices: allServices,
+                      });
                       const discountAmt = hasRepairSku && workOrder?.diagnostic_discount_amount > 0
                         ? (halfDiagnosticDiscount
                             ? round2(workOrder.diagnostic_discount_amount * 0.5)

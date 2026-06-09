@@ -8,7 +8,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
  */
 export async function getWorkOrderAppointments(workOrderId) {
   try {
-    return await apiClient(`api/work-orders/${workOrderId}/appointments`);
+    return await apiClient(`api/work-orders/${workOrderId}/appointments?limit=500`);
   } catch (error) {
     console.error('Error fetching work order appointments:', error);
     throw error;

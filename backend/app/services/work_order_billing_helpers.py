@@ -57,9 +57,58 @@ def _service_line_total(item: Any) -> Decimal:
     return Decimal("0")
 
 
+def _service_type_str(item: Any) -> str | None:
+    if getattr(item, "service", None) is not None:
+        raw = getattr(item.service, "service_type", None)
+        return raw.value if hasattr(raw, "value") else raw
+    return None
+
+
+def is_repair_service_line(item: Any) -> bool:
+    if _service_type_str(item) == "repair":
+        return True
+    return "repair" in (getattr(item, "name", None) or "").lower()
+
+
+def _linked_service_ids_for_appointment(appt: Any) -> set:
+    linked = set()
+    for svc in getattr(appt, "services", None) or []:
+        sid = getattr(svc, "id", None)
+        if sid is not None:
+            linked.add(sid)
+    return linked
+
+
+def appointment_has_repair_sku(work_order: WorkOrder, appointment: Any) -> bool:
+    """True when this visit includes a repair SKU (catalog or work-order line)."""
+    appt_id = getattr(appointment, "id", None)
+    linked_service_ids = _linked_service_ids_for_appointment(appointment)
+
+    for item in work_order.service_items or []:
+        on_appt = getattr(item, "appointment_id", None) == appt_id
+        if not on_appt and getattr(item, "service_id", None) in linked_service_ids:
+            on_appt = True
+        if on_appt and is_repair_service_line(item):
+            return True
+
+    for svc in getattr(appointment, "services", None) or []:
+        raw = getattr(svc, "service_type", None)
+        st = raw.value if hasattr(raw, "value") else raw
+        if st == "repair":
+            return True
+
+    return False
+
+
 def has_completed_repair_appointment(work_order: WorkOrder) -> bool:
+    """
+    True when a visit with repair SKU(s) reached a terminal paid-complete status.
+    Replaces appointment_type == 'repair' (supports one-stop diag + repair visits).
+    """
     for appt in work_order.appointments or []:
-        if appt.appointment_type == "repair" and _status_str(appt.status) in REPAIR_COMPLETE_APPOINTMENT_STATUSES:
+        if _status_str(appt.status) not in REPAIR_COMPLETE_APPOINTMENT_STATUSES:
+            continue
+        if appointment_has_repair_sku(work_order, appt):
             return True
     return False
 
