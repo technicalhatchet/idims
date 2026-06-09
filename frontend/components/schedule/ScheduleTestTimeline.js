@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { format, parseISO, differenceInMinutes, isSameDay } from 'date-fns';
+import { format, parseISO, isSameDay } from 'date-fns';
 import StatusBadge from '../ui/StatusBadge';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import {
@@ -291,6 +291,9 @@ const ROUTE_TRUNK_STROKE_PX = 2;
 /** Arm diagonal: earlier-job connector tilts one way, later-job the other (see `TravelRouteOrthoLayer`). */
 const ROUTE_ARM_TILT_DEG = 28;
 
+/** Hide van + route arms only when stored drive rounds to 0 minutes (< 1 min). */
+const MIN_TRAVEL_DISPLAY_MINS = 1;
+
 /** Fraction of inter-job span for van cutout (scaled up on long gaps); floored by min gap */
 const ROUTE_TRUNK_VAN_CLEAR_FRAC = 0.36;
 
@@ -377,7 +380,7 @@ function TravelVanGlyph({
 
 /** Badge-only travel chip; sits in track right gutter; vertical route in SVG layer */
 function TravelChip({ travelMins, topPct }) {
-  if (!travelMins || travelMins < 8) return null;
+  if (!travelMins || travelMins < MIN_TRAVEL_DISPLAY_MINS) return null;
   const labelMins = Math.round(travelMins);
   const mid = topPct;
   return (
@@ -418,7 +421,7 @@ function TravelChip({ travelMins, topPct }) {
 }
 
 function travelMinsInvalid(tm) {
-  return !tm || tm < 8;
+  return !tm || tm < MIN_TRAVEL_DISPLAY_MINS;
 }
 
 /**
@@ -756,17 +759,14 @@ export default function ScheduleTestTimeline({
 
       const b = prepared[nextIdx];
       if (a.technician_id && a.technician_id === b.technician_id) {
-        const gapMins = differenceInMinutes(b._start, a._end);
         const driveSec = Number(b.travel_time_before);
         const travelMins =
           Number.isFinite(driveSec) && driveSec > 0 ? Math.round(driveSec / 60) : 0;
         const y0 = a.topPct + a.heightPct;
         const y1 = b.topPct;
         const spanPct = Math.max(y1 - y0, 0.05);
-        let topPct = y0 + spanPct / 2;
-        if (gapMins > 0 && travelMins > 0 && travelMins < gapMins) {
-          topPct = y0 + (travelMins / gapMins) * spanPct * 0.5;
-        }
+        // Van + trunk cutout always sit at the geometric gap midpoint (arms anchor at y0 / y1).
+        const topPct = y0 + spanPct / 2;
         out.push({
           key: `rt-${a.id ?? a.start}-${b.id ?? b.start}-${i}`,
           y0,
