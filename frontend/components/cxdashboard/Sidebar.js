@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { id: 'repairs', label: 'My Repairs', icon: FaTools, href: '/cxdashboard/repairs' },
   { id: 'invoices', label: 'Invoices & Payments', icon: FaFileInvoiceDollar, href: '/cxdashboard/invoices' },
   { id: 'warranty', label: 'Warranty', icon: FaShieldAlt, href: '/cxdashboard/warranty' },
-  { id: 'documents', label: 'Documents', icon: FaFolder, href: '/cxdashboard/documents' },
+  /*{ id: 'documents', label: 'Documents', icon: FaFolder, href: '/cxdashboard/documents' },*/
   { id: 'messages', label: 'Messages', icon: FaEnvelope, href: '/cxdashboard/messages', badge: 2 },
   { id: 'devices', label: 'My Devices', icon: FaLaptop, href: '/cxdashboard/devices' },
   { id: 'settings', label: 'Account Settings', icon: FaCog, href: '/cxdashboard/settings' },

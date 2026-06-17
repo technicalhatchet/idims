@@ -153,26 +153,12 @@ export default function WarrantyPage() {
     load();
   }, []);
 
-  // All completed WOs get a warranty_expires 90 days out
-  // Add it client-side for ones that don't have it from backend
-  const withWarranty = workOrders.map(wo => {
-    if (!wo.warranty_expires && wo.created_at) {
-      const expiry = new Date(parseISO(wo.created_at));
-      expiry.setDate(expiry.getDate() + 90);
-      return { ...wo, warranty_expires: expiry.toISOString() };
-    }
-    return wo;
-  });
+  // Labor warranty from backend (service date + 90 days)
+  const warrantyJobs = workOrders.filter(wo => wo.warranty_expires);
 
-  const active = withWarranty.filter(wo => {
-    if (!wo.warranty_expires) return false;
-    return !isPast(parseISO(wo.warranty_expires));
-  });
+  const active = warrantyJobs.filter(wo => !isPast(parseISO(wo.warranty_expires)));
 
-  const expired = withWarranty.filter(wo => {
-    if (!wo.warranty_expires) return true;
-    return isPast(parseISO(wo.warranty_expires));
-  });
+  const expired = warrantyJobs.filter(wo => isPast(parseISO(wo.warranty_expires)));
 
   const displayed = tab === 'active' ? active : expired;
 
@@ -200,7 +186,7 @@ export default function WarrantyPage() {
               <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '0 0 0.5rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <FaTools style={{ color: '#6b7280' }} /> Total Services
               </p>
-              <p style={{ color: '#fff', fontSize: '1.75rem', fontWeight: '700', margin: 0 }}>{workOrders.length}</p>
+              <p style={{ color: '#fff', fontSize: '1.75rem', fontWeight: '700', margin: 0 }}>{warrantyJobs.length}</p>
             </div>
           </div>
         )}

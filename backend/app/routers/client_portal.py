@@ -26,6 +26,52 @@ security = HTTPBearer()
 
 router = APIRouter(tags=["client-portal"])
 
+WARRANTY_DAYS = 90
+WARRANTY_ELIGIBLE_STATUSES = frozenset({
+    "completed",
+    "closed",
+    "completed_pending_payment",
+})
+
+
+def _warranty_service_date(wo: WorkOrder, db: Session) -> Optional[datetime]:
+    """Best-effort service completion date for labor warranty."""
+    if wo.actual_end:
+        return wo.actual_end
+    if getattr(wo, "closed_at", None):
+        return wo.closed_at
+    latest_completed = (
+        db.query(WorkOrderAppointment)
+        .filter(
+            WorkOrderAppointment.work_order_id == wo.id,
+            WorkOrderAppointment.status == "completed",
+        )
+        .order_by(desc(WorkOrderAppointment.scheduled_start))
+        .first()
+    )
+    if latest_completed and latest_completed.scheduled_start:
+        return latest_completed.scheduled_start
+    if wo.status in WARRANTY_ELIGIBLE_STATUSES and wo.created_at:
+        return wo.created_at
+    return None
+
+
+def _warranty_expires_at(wo: WorkOrder, db: Session) -> Optional[datetime]:
+    if wo.status not in WARRANTY_ELIGIBLE_STATUSES:
+        return None
+    service_date = _warranty_service_date(wo, db)
+    if not service_date:
+        return None
+    return service_date + timedelta(days=WARRANTY_DAYS)
+
+
+def _warranty_is_active(wo: WorkOrder, db: Session, now: Optional[datetime] = None) -> bool:
+    expiry = _warranty_expires_at(wo, db)
+    if not expiry:
+        return False
+    now = now or datetime.utcnow()
+    return expiry > now
+
 
 class LinkAccountRequest(BaseModel):
     invite_token: Optional[str] = None
@@ -137,14 +183,13 @@ async def get_portal_profile(
     db: Session = Depends(get_db)
 ):
     now = datetime.utcnow()
-    ninety_days_ago = now - timedelta(days=90)
 
     work_orders_list = db.query(WorkOrder).filter(
         WorkOrder.client_id == client.id
     ).all()
 
     active = [w for w in work_orders_list if w.status not in ("completed", "cancelled", "closed")]
-    completed = [w for w in work_orders_list if w.status == "completed"]
+    warranty_active_count = sum(1 for w in work_orders_list if _warranty_is_active(w, db, now))
 
     upcoming_appts = db.query(WorkOrderAppointment).join(
         WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id
@@ -153,11 +198,6 @@ async def get_portal_profile(
         WorkOrderAppointment.scheduled_start > now,
         WorkOrderAppointment.status.notin_(["canceled", "reschedule"])
     ).order_by(WorkOrderAppointment.scheduled_start).all()
-
-    warranty_active = [
-        w for w in completed
-        if w.updated_at and w.updated_at >= ninety_days_ago
-    ]
 
     properties_list = db.query(Property).filter(
         Property.client_id == client.id
@@ -175,7 +215,7 @@ async def get_portal_profile(
             "next_appointment": upcoming_appts[0].scheduled_start.isoformat() if upcoming_appts else None,
             "active_repairs": len(active),
             "total_work_orders": len(work_orders_list),
-            "warranty_active": len(warranty_active),
+            "warranty_active": warranty_active_count,
             "property_count": len(properties_list),
         }
     }
@@ -250,10 +290,8 @@ async def get_portal_work_orders(
             WorkOrderAppointment.work_order_id == wo.id
         ).order_by(desc(WorkOrderAppointment.scheduled_start)).first()
 
-        warranty_expires = None
-        if wo.status in ("completed", "closed") and wo.updated_at:
-            expiry = wo.updated_at + timedelta(days=90)
-            warranty_expires = expiry.isoformat()
+        warranty_expires = _warranty_expires_at(wo, db)
+        warranty_expires_iso = warranty_expires.isoformat() if warranty_expires else None
 
         result.append({
             "id": str(wo.id),
@@ -268,7 +306,8 @@ async def get_portal_work_orders(
             "description": wo.description,
             "symptoms": wo.symptoms or [],
             "invoice_total": float(wo.invoice_total) if wo.invoice_total else None,
-            "warranty_expires": warranty_expires,
+            "warranty_expires": warranty_expires_iso,
+            "warranty_active": _warranty_is_active(wo, db),
             "property": {
                 "id": str(prop.id),
                 "address": prop.address,
@@ -312,12 +351,9 @@ async def get_portal_work_order_detail(
         WorkOrderAppointment.work_order_id == wo.id
     ).order_by(WorkOrderAppointment.scheduled_start).all()
 
-    warranty_expires = None
-    warranty_active_flag = False
-    if wo.status == "completed" and wo.updated_at:
-        expiry = wo.updated_at + timedelta(days=90)
-        warranty_expires = expiry.isoformat()
-        warranty_active_flag = expiry > datetime.utcnow()
+    warranty_expires = _warranty_expires_at(wo, db)
+    warranty_expires_iso = warranty_expires.isoformat() if warranty_expires else None
+    warranty_active_flag = _warranty_is_active(wo, db)
 
     return {
         "id": str(wo.id),
@@ -352,7 +388,7 @@ async def get_portal_work_order_detail(
         "invoice_subtotal": float(wo.invoice_subtotal) if wo.invoice_subtotal else None,
         "invoice_tax": float(wo.invoice_tax) if wo.invoice_tax else None,
         "invoice_total": float(wo.invoice_total) if wo.invoice_total else None,
-        "warranty_expires": warranty_expires,
+        "warranty_expires": warranty_expires_iso,
         "warranty_active": warranty_active_flag,
         "property": {
             "address": prop.address,
@@ -381,7 +417,6 @@ async def get_portal_properties(
     ).all()
 
     now = datetime.utcnow()
-    ninety_days_ago = now - timedelta(days=90)
 
     result = []
     for prop in properties_list:
@@ -389,12 +424,8 @@ async def get_portal_properties(
             WorkOrder.property_id == prop.id
         ).order_by(desc(WorkOrder.created_at)).all()
 
-        active_wo = [w for w in work_orders_list if w.status not in ("completed", "cancelled")]
-        completed_wo = [w for w in work_orders_list if w.status == "completed"]
-        warranty_active = any(
-            w.updated_at and w.updated_at >= ninety_days_ago
-            for w in completed_wo
-        )
+        active_wo = [w for w in work_orders_list if w.status not in ("completed", "cancelled", "closed")]
+        warranty_active = any(_warranty_is_active(w, db, now) for w in work_orders_list)
 
         result.append({
             "id": str(prop.id),

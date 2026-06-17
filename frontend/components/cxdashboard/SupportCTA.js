@@ -17,7 +17,7 @@ export default function SupportCTA() {
       <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4 p-6">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
-            <FaPhone className="w-5 h-5 text-cyan-400" />
+            <FaPhone className="w-5 h-5 text-cyan-400 -scale-x-100" />
           </div>
           <div>
             <h4 className="text-white font-semibold">Have a question about your repair?</h4>
