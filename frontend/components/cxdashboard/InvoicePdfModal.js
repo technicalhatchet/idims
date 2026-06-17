@@ -11,6 +11,7 @@ import {
   triggerBlobDownload,
   emailPortalInvoice,
 } from '../../utils/portalInvoicePdf';
+import PortalPdfViewer from './PortalPdfViewer';
 
 const ZOOM_OPTIONS = [75, 100, 125, 150];
 const TOOLBAR_SIZE = 32;
@@ -349,24 +350,7 @@ export default function InvoicePdfModal({ invoice, onClose }) {
               {error}
             </div>
           ) : blobUrl ? (
-            <div style={{
-              minHeight: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              padding: '0.5rem',
-            }}>
-              <div style={{
-                width: `${zoom}%`,
-                maxWidth: '100%',
-                minHeight: '100%',
-              }}>
-                <iframe
-                  src={pdfViewerSrc(blobUrl)}
-                  title="Invoice PDF"
-                  style={{ width: '100%', minHeight: 'calc(100dvh - 120px)', border: 'none', display: 'block' }}
-                />
-              </div>
-            </div>
+            <PortalPdfViewer blobUrl={blobUrl} zoom={zoom} />
           ) : null}
         </div>
       </div>
