@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBell, FaChevronDown, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaBell, FaChevronDown, FaUser, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-export default function Topbar({ user: userProp }) {
+export default function Topbar({ user: userProp, onMenuClick }) {
   const { user: auth0User } = useUser();
   const [portalName, setPortalName] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -17,6 +17,7 @@ export default function Topbar({ user: userProp }) {
 
   const displayName = userProp?.name || portalName
     || (auth0User ? `${auth0User.given_name || ''} ${auth0User.family_name || ''}`.trim() || auth0User.name : 'Guest');
+  const firstName = displayName.split(' ')[0] || 'there';
   const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
   const user = { name: displayName, initials };
   const notifications = [
@@ -27,22 +28,37 @@ export default function Topbar({ user: userProp }) {
   const unreadCount = notifications.filter(n => n.unread).length;
 
   return (
-    <div className="h-16 flex items-center justify-between px-8 border-b border-white/5 bg-[#0a0e17]/50 backdrop-blur-xl">
-      {/* Welcome Message */}
-      <div>
-        <h1 className="text-2xl font-bold text-white">
-          Welcome back, {user.name.split(' ')[0]}! 👋
-        </h1>
-        <p className="text-gray-500 text-sm">Here's what's happening with your services.</p>
+    <header
+      className="sticky top-0 z-30 flex min-h-[3.5rem] sm:min-h-16 items-center justify-between gap-3 border-b border-white/5 bg-[#0a0e17]/80 backdrop-blur-xl px-4 sm:px-6 lg:px-8"
+      style={{ paddingTop: 'max(0px, env(safe-area-inset-top))' }}
+    >
+      <div className="flex items-center gap-3 min-w-0 flex-1">
+        <button
+          type="button"
+          onClick={onMenuClick}
+          className="lg:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/10 transition-all shrink-0"
+          aria-label="Open menu"
+        >
+          <FaBars className="w-5 h-5" />
+        </button>
+
+        <div className="min-w-0">
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white truncate">
+            Welcome back, {firstName}!
+          </h1>
+          <p className="text-gray-500 text-xs sm:text-sm truncate hidden sm:block">
+            Here&apos;s what&apos;s happening with your services.
+          </p>
+        </div>
       </div>
 
-      {/* Right Side */}
-      <div className="flex items-center gap-4">
-        {/* Notifications */}
+      <div className="flex items-center gap-2 sm:gap-4 shrink-0">
         <div className="relative">
           <button
+            type="button"
             onClick={() => setShowNotifications(!showNotifications)}
             className="relative w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+            aria-label="Notifications"
           >
             <FaBell className="w-5 h-5" />
             {unreadCount > 0 && (
@@ -58,7 +74,7 @@ export default function Topbar({ user: userProp }) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="absolute right-0 top-12 w-80 rounded-2xl bg-[#0d1117] border border-white/10 shadow-xl overflow-hidden z-50"
+                className="absolute right-0 top-12 w-[min(20rem,calc(100vw-2rem))] rounded-2xl bg-[#0d1117] border border-white/10 shadow-xl overflow-hidden z-50"
               >
                 <div className="p-4 border-b border-white/5">
                   <h3 className="text-white font-semibold">Notifications</h3>
@@ -73,7 +89,7 @@ export default function Topbar({ user: userProp }) {
                     >
                       <div className="flex items-start gap-3">
                         {notification.unread && (
-                          <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2" />
+                          <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2 shrink-0" />
                         )}
                         <div className={notification.unread ? '' : 'ml-5'}>
                           <p className="text-white text-sm font-medium">{notification.title}</p>
@@ -84,27 +100,23 @@ export default function Topbar({ user: userProp }) {
                     </div>
                   ))}
                 </div>
-                <div className="p-3 border-t border-white/5">
-                  <button className="w-full text-center text-cyan-400 text-sm hover:text-cyan-300">
-                    View All Notifications
-                  </button>
-                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* User Menu */}
         <div className="relative">
           <button
+            type="button"
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-white/5 transition-all"
+            className="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-xl hover:bg-white/5 transition-all"
+            aria-label="User menu"
           >
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
               {user.initials}
             </div>
-            <span className="text-white text-sm font-medium hidden sm:block">{user.name}</span>
-            <FaChevronDown className="w-3 h-3 text-gray-400" />
+            <span className="text-white text-sm font-medium hidden md:block max-w-[8rem] truncate">{user.name}</span>
+            <FaChevronDown className="w-3 h-3 text-gray-400 hidden sm:block" />
           </button>
 
           <AnimatePresence>
@@ -141,6 +153,6 @@ export default function Topbar({ user: userProp }) {
           </AnimatePresence>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

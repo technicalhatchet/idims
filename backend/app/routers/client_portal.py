@@ -516,6 +516,121 @@ async def get_portal_invoices(
         })
     return result
 
+def _device_key(wo: WorkOrder) -> str:
+    """Stable identity key for grouping a client's work orders into one physical appliance."""
+    serial = (wo.equipment_serial or "").strip().lower()
+    if serial:
+        return f"serial:{serial}"
+    parts = [
+        (wo.equipment_make or "").strip().lower(),
+        (wo.equipment_model or "").strip().lower(),
+        (wo.equipment_subtype or wo.equipment_type or "").strip().lower(),
+        str(wo.property_id or wo.client_id),
+    ]
+    return "combo:" + "|".join(parts)
+
+
+@router.get("/portal/devices")
+async def get_portal_devices(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db)
+):
+    """Group the client's work orders into distinct appliances/devices."""
+    work_orders_list = db.query(WorkOrder).filter(
+        WorkOrder.client_id == client.id
+    ).order_by(desc(WorkOrder.created_at)).all()
+
+    now = datetime.utcnow()
+    groups: dict = {}
+    for wo in work_orders_list:
+        groups.setdefault(_device_key(wo), []).append(wo)
+
+    result = []
+    for key, wos in groups.items():
+        wos_sorted = sorted(wos, key=lambda w: w.created_at or datetime.min, reverse=True)
+        latest = wos_sorted[0]
+        prop = db.query(Property).filter(Property.id == latest.property_id).first() if latest.property_id else None
+        warranty_active = any(_warranty_is_active(w, db, now) for w in wos_sorted)
+        active_repair = any(_work_order_status(w) not in ("completed", "cancelled", "closed") for w in wos_sorted)
+
+        result.append({
+            "device_key": key,
+            "equipment_make": latest.equipment_make,
+            "equipment_model": latest.equipment_model,
+            "equipment_subtype": latest.equipment_subtype,
+            "equipment_type": latest.equipment_type,
+            "equipment_serial": latest.equipment_serial,
+            "property": {
+                "address": prop.address if prop else (latest.service_location or {}).get("address"),
+                "unit_number": prop.unit_number if prop else None,
+            } if (prop or latest.service_location) else None,
+            "service_count": len(wos_sorted),
+            "last_service_date": latest.created_at.isoformat() if latest.created_at else None,
+            "last_status": _work_order_status(latest),
+            "warranty_active": warranty_active,
+            "active_repair": active_repair,
+        })
+
+    result.sort(key=lambda d: d["last_service_date"] or "", reverse=True)
+    return result
+
+
+@router.get("/portal/devices/{device_key}")
+async def get_portal_device_detail(
+    device_key: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db)
+):
+    """Full repair history for one device, identified by its device_key."""
+    work_orders_list = db.query(WorkOrder).filter(
+        WorkOrder.client_id == client.id
+    ).order_by(desc(WorkOrder.created_at)).all()
+
+    matching = [w for w in work_orders_list if _device_key(w) == device_key]
+    if not matching:
+        raise HTTPException(status_code=404, detail="Device not found")
+
+    now = datetime.utcnow()
+    latest = matching[0]
+    prop = db.query(Property).filter(Property.id == latest.property_id).first() if latest.property_id else None
+
+    history = []
+    for wo in matching:
+        warranty_expires = _warranty_expires_at(wo, db)
+        history.append({
+            "id": str(wo.id),
+            "order_number": wo.order_number,
+            "status": _work_order_status(wo),
+            "created_at": wo.created_at.isoformat() if wo.created_at else None,
+            "description": wo.description,
+            "symptoms": wo.symptoms or [],
+            "invoice_total": float(wo.invoice_total) if wo.invoice_total else None,
+            "warranty_expires": warranty_expires.isoformat() if warranty_expires else None,
+            "warranty_active": _warranty_is_active(wo, db, now),
+            "parts": [
+                {"name": p.description, "part_number": p.number, "status": p.status}
+                for p in (wo.parts or [])
+            ],
+        })
+
+    return {
+        "device_key": device_key,
+        "equipment_make": latest.equipment_make,
+        "equipment_model": latest.equipment_model,
+        "equipment_subtype": latest.equipment_subtype,
+        "equipment_type": latest.equipment_type,
+        "equipment_serial": latest.equipment_serial,
+        "equipment_version": latest.equipment_version,
+        "property": {
+            "address": prop.address if prop else (latest.service_location or {}).get("address"),
+            "unit_number": prop.unit_number if prop else None,
+        } if (prop or latest.service_location) else None,
+        "service_count": len(matching),
+        "warranty_active": any(_warranty_is_active(w, db, now) for w in matching),
+        "history": history,
+    }
+
+
 @router.get("/portal/work-orders/{work_order_id}/invoice.pdf")
 async def get_portal_invoice_pdf(
     work_order_id: str,
