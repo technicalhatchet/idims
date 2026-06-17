@@ -126,19 +126,33 @@ export default function InvoicePdfModal({ invoice, onClose }) {
         }}
       >
         <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem',
-          padding: '0.75rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.07)', flexShrink: 0, flexWrap: 'wrap',
+          display: 'flex', flexDirection: 'column', gap: '0.5rem',
+          padding: '0.75rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.07)', flexShrink: 0,
         }}>
-          <div style={{ minWidth: 0 }}>
-            <p style={{ color: '#fff', fontWeight: '700', margin: 0, fontSize: '0.9375rem' }}>
-              Invoice #{invoice?.order_number}
-            </p>
-            <p style={{ color: '#6b7280', fontSize: '0.75rem', margin: '2px 0 0' }}>
-              {invoice?.created_at ? format(parseISO(invoice.created_at), 'MMM d, yyyy') : ''}
-            </p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem' }}>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <p style={{ color: '#fff', fontWeight: '700', margin: 0, fontSize: '0.9375rem' }}>
+                Invoice #{invoice?.order_number}
+              </p>
+              <p style={{ color: '#6b7280', fontSize: '0.75rem', margin: '2px 0 0' }}>
+                {invoice?.created_at ? format(parseISO(invoice.created_at), 'MMM d, yyyy') : ''}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleClose}
+              style={{ ...toolbarBtn, width: '32px', height: '32px', padding: 0, justifyContent: 'center', flexShrink: 0 }}
+              aria-label="Close"
+            >
+              <FaTimes />
+            </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '0.5rem',
+            overflowX: 'auto', WebkitOverflowScrolling: 'touch', flexWrap: 'nowrap',
+          }}>
             <label style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', ...toolbarBtn, padding: '6px 8px' }}>
               <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Zoom</span>
               <select
@@ -212,16 +226,13 @@ export default function InvoicePdfModal({ invoice, onClose }) {
                 href={pdfViewerSrc(blobUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="hidden sm:inline-flex"
                 style={{ ...accentBtn, textDecoration: 'none' }}
               >
                 <FaExternalLinkAlt style={{ fontSize: '11px' }} />
                 Open
               </a>
             )}
-
-            <button type="button" onClick={handleClose} style={{ ...toolbarBtn, width: '32px', padding: 0, justifyContent: 'center' }}>
-              <FaTimes />
-            </button>
           </div>
         </div>
 

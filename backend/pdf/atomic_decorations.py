@@ -28,10 +28,28 @@ from pdf.atomic_theme import (
     text_width,
 )
 
-# Default brand assets (frontend/public — resolved from backend/pdf/)
-_REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DEFAULT_HEADER_LOGO_PATH = os.path.join(_REPO_ROOT, "frontend", "public", "arblockdetail.png")
-DEFAULT_WATERMARK_LOGO_PATH = os.path.join(_REPO_ROOT, "frontend", "public", "atomwrenches.png")
+# Brand assets — bundled under backend/pdf/assets for production deploys (Railway
+# builds from backend/ only; frontend/public is not available there).
+_PDF_DIR = os.path.dirname(__file__)
+_ASSETS_DIR = os.path.join(_PDF_DIR, "assets")
+_REPO_ROOT = os.path.normpath(os.path.join(_PDF_DIR, "..", ".."))
+
+
+def _resolve_asset(bundled_name: str, repo_relative: str) -> str:
+    bundled = os.path.join(_ASSETS_DIR, bundled_name)
+    if os.path.isfile(bundled):
+        return bundled
+    return os.path.join(_REPO_ROOT, repo_relative)
+
+
+DEFAULT_HEADER_LOGO_PATH = _resolve_asset(
+    "arblockdetail.png",
+    os.path.join("frontend", "public", "arblockdetail.png"),
+)
+DEFAULT_WATERMARK_LOGO_PATH = _resolve_asset(
+    "atomwrenches.png",
+    os.path.join("frontend", "public", "atomwrenches.png"),
+)
 HEADER_LOGO_FILL_FRAC = 0.80
 HEADER_LOGO_SCALE = 1.70
 # ReportLab uses points (pt), not screen px — ~6pt left, ~8pt up
