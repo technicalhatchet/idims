@@ -29,8 +29,7 @@ export default function Topbar({ user: userProp, onMenuClick }) {
 
   return (
     <header
-      className="sticky top-0 z-30 flex min-h-[3.5rem] sm:min-h-16 items-center justify-between gap-3 border-b border-white/5 bg-[#0a0e17]/80 backdrop-blur-xl px-4 sm:px-6 lg:px-8"
-      style={{ paddingTop: 'max(0px, env(safe-area-inset-top))' }}
+      className="sticky top-0 z-30 flex min-h-[3.5rem] sm:min-h-16 items-center justify-between gap-3 border-b border-white/5 bg-[#0a0e17]/80 backdrop-blur-xl px-4 sm:px-6 lg:px-8 pt-[env(safe-area-inset-top)] -mt-[env(safe-area-inset-top)]"
     >
       <div className="flex items-center gap-3 min-w-0 flex-1">
         <button

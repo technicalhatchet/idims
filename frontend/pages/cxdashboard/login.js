@@ -3,12 +3,31 @@
  * /cxdashboard/login
  */
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import ClientPwaHead from '../../components/cxdashboard/ClientPwaHead';
+
+const PORTAL_SHELL = '#0B0F1A';
 
 export default function PortalLogin() {
   const router = useRouter();
   const { returnTo } = router.query;
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtmlBg = html.style.backgroundColor;
+    const prevBodyBg = body.style.backgroundColor;
+
+    html.style.backgroundColor = PORTAL_SHELL;
+    body.style.backgroundColor = PORTAL_SHELL;
+
+    return () => {
+      html.style.backgroundColor = prevHtmlBg;
+      body.style.backgroundColor = prevBodyBg;
+    };
+  }, []);
 
   const handleLogin = () => {
     const params = new URLSearchParams();
@@ -18,8 +37,10 @@ export default function PortalLogin() {
 
   return (
     <>
+      <ClientPwaHead />
       <Head>
         <title>Client Portal | Atomic Repair</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </Head>
       <div style={{
         minHeight: '100vh',

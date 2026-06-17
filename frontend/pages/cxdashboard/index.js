@@ -368,7 +368,6 @@ export default function ClientDashboard() {
     <>
       <Head>
         <title>{isAdmin ? `Portal Preview: ${selectedClient?.first_name} ${selectedClient?.last_name}` : 'Client Portal'} | Atomic Repair</title>
-        <link rel="manifest" href="/manifest-client.json" />
       </Head>
       <div className="space-y-8">
         {isAdmin && selectedClient && (

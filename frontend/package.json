@@ -9,7 +9,8 @@
     "lint": "next lint",
     "clean": "rm -rf .next",
     "dev:clean": "npm run clean && npm run dev",
-    "pwa:icons:techboard": "node scripts/flatten-techboard-pwa-icons.mjs"
+    "pwa:icons:techboard": "node scripts/flatten-techboard-pwa-icons.mjs",
+    "pwa:icons:portal": "node scripts/flatten-portal-pwa-icons.mjs"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.1",
