@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { format, parseISO } from 'date-fns';
 import {
   FaTimes, FaExternalLinkAlt, FaDownload, FaPrint, FaChevronDown, FaEnvelope,
@@ -12,23 +13,33 @@ import {
 } from '../../utils/portalInvoicePdf';
 
 const ZOOM_OPTIONS = [75, 100, 125, 150];
+const TOOLBAR_SIZE = 32;
 
 const toolbarBtn = {
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '6px',
+  justifyContent: 'center',
+  gap: '4px',
   background: 'rgba(255,255,255,0.06)',
   color: '#d1d5db',
   border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: '6px',
-  padding: '6px 10px',
+  height: `${TOOLBAR_SIZE}px`,
+  padding: '0 8px',
   fontSize: '0.8125rem',
   fontWeight: '600',
   cursor: 'pointer',
+  flexShrink: 0,
+};
+
+const iconBtn = {
+  ...toolbarBtn,
+  width: `${TOOLBAR_SIZE}px`,
+  padding: 0,
 };
 
 const accentBtn = {
-  ...toolbarBtn,
+  ...iconBtn,
   background: 'rgba(0,212,255,0.1)',
   color: '#22d3ee',
   border: '1px solid rgba(0,212,255,0.2)',
@@ -42,6 +53,23 @@ export default function InvoicePdfModal({ invoice, onClose }) {
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [emailStatus, setEmailStatus] = useState(null);
+  const downloadRef = useRef(null);
+  const downloadMenuRef = useRef(null);
+  const [downloadMenuPos, setDownloadMenuPos] = useState(null);
+
+  const updateDownloadMenuPos = useCallback(() => {
+    const el = downloadRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const menuHeight = 88;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const openUp = spaceBelow < menuHeight + 12;
+    setDownloadMenuPos({
+      top: openUp ? rect.top - menuHeight - 6 : rect.bottom + 6,
+      left: Math.max(8, rect.right - 140),
+      width: 140,
+    });
+  }, []);
 
   useEffect(() => {
     let revoked = false;
@@ -110,129 +138,186 @@ export default function InvoicePdfModal({ invoice, onClose }) {
     }
   }
 
+  useEffect(() => {
+    if (!downloadOpen) {
+      setDownloadMenuPos(null);
+      return undefined;
+    }
+    updateDownloadMenuPos();
+    const close = (e) => {
+      if (downloadRef.current?.contains(e.target)) return;
+      if (downloadMenuRef.current?.contains(e.target)) return;
+      setDownloadOpen(false);
+    };
+    const onLayout = () => updateDownloadMenuPos();
+    document.addEventListener('mousedown', close);
+    window.addEventListener('resize', onLayout);
+    window.addEventListener('scroll', onLayout, true);
+    return () => {
+      document.removeEventListener('mousedown', close);
+      window.removeEventListener('resize', onLayout);
+      window.removeEventListener('scroll', onLayout, true);
+    };
+  }, [downloadOpen, updateDownloadMenuPos]);
+
   return (
     <div
       onClick={handleClose}
-      style={{
-        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)',
-        zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
-      }}
+      className="fixed inset-0 z-[200] flex items-stretch sm:items-center justify-center p-0 sm:p-4"
+      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
     >
       <div
         onClick={e => e.stopPropagation()}
+        className="w-full sm:max-w-[920px] h-[100dvh] sm:h-[92vh] rounded-none sm:rounded-2xl"
         style={{
-          background: '#0A0F1E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px',
-          width: '100%', maxWidth: '920px', height: '92vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+          background: '#0A0F1E', border: '1px solid rgba(255,255,255,0.1)',
+          display: 'flex', flexDirection: 'column',
         }}
       >
-        <div style={{
-          display: 'flex', flexDirection: 'column', gap: '0.5rem',
-          padding: '0.75rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.07)', flexShrink: 0,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem' }}>
-            <div style={{ minWidth: 0, flex: 1 }}>
-              <p style={{ color: '#fff', fontWeight: '700', margin: 0, fontSize: '0.9375rem' }}>
-                Invoice #{invoice?.order_number}
-              </p>
-              <p style={{ color: '#6b7280', fontSize: '0.75rem', margin: '2px 0 0' }}>
-                {invoice?.created_at ? format(parseISO(invoice.created_at), 'MMM d, yyyy') : ''}
-              </p>
-            </div>
+        <div
+          className="relative z-20 shrink-0 rounded-none sm:rounded-t-2xl"
+          style={{
+            padding: 'max(0.75rem, env(safe-area-inset-top)) 1rem 0.75rem',
+            borderBottom: '1px solid rgba(255,255,255,0.07)',
+            background: '#0A0F1A',
+          }}
+        >
+          <div className="flex flex-col gap-2">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1 pt-0.5">
+                <p style={{ color: '#fff', fontWeight: '700', margin: 0, fontSize: '0.9375rem' }}>
+                  Invoice #{invoice?.order_number}
+                </p>
+                <p style={{ color: '#6b7280', fontSize: '0.75rem', margin: '2px 0 0' }}>
+                  {invoice?.created_at ? format(parseISO(invoice.created_at), 'MMM d, yyyy') : ''}
+                </p>
+              </div>
 
-            <button
-              type="button"
-              onClick={handleClose}
-              style={{ ...toolbarBtn, width: '32px', height: '32px', padding: 0, justifyContent: 'center', flexShrink: 0 }}
-              aria-label="Close"
-            >
-              <FaTimes />
-            </button>
-          </div>
-
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '0.5rem',
-            overflowX: 'auto', WebkitOverflowScrolling: 'touch', flexWrap: 'nowrap',
-          }}>
-            <label style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', ...toolbarBtn, padding: '6px 8px' }}>
-              <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Zoom</span>
-              <select
-                value={zoom}
-                onChange={e => setZoom(Number(e.target.value))}
-                style={{
-                  background: 'transparent', border: 'none', color: '#e5e7eb',
-                  fontSize: '0.8125rem', fontWeight: '600', cursor: 'pointer', outline: 'none',
-                }}
-              >
-                {ZOOM_OPTIONS.map(z => (
-                  <option key={z} value={z} style={{ color: '#111' }}>{z}%</option>
-                ))}
-              </select>
-            </label>
-
-            <button
-              type="button"
-              onClick={handleEmail}
-              disabled={busy || loading}
-              style={accentBtn}
-              title="Email light PDF copy to you"
-            >
-              <FaEnvelope style={{ fontSize: '12px' }} />
-              Email
-            </button>
-
-            <button type="button" onClick={handlePrint} disabled={busy || loading} style={toolbarBtn} title="Print (light)">
-              <FaPrint style={{ fontSize: '12px' }} />
-            </button>
-
-            <div style={{ position: 'relative' }}>
               <button
                 type="button"
-                onClick={() => setDownloadOpen(v => !v)}
-                disabled={busy || loading}
-                style={toolbarBtn}
-                title="Download"
+                onClick={handleClose}
+                style={{ ...iconBtn }}
+                aria-label="Close"
               >
-                <FaDownload style={{ fontSize: '12px' }} />
-                <FaChevronDown style={{ fontSize: '9px', opacity: 0.7 }} />
+                <FaTimes style={{ fontSize: '13px' }} />
               </button>
-              {downloadOpen && (
-                <div style={{
-                  position: 'absolute', top: 'calc(100% + 4px)', right: 0, zIndex: 10,
-                  background: '#111827', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px',
-                  overflow: 'hidden', minWidth: '140px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-                }}>
-                  {['light', 'dark'].map(v => (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => handleDownload(v)}
-                      style={{
-                        display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px',
-                        background: 'none', border: 'none', color: '#e5e7eb', fontSize: '0.8125rem',
-                        cursor: 'pointer',
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,212,255,0.08)'; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = 'none'; }}
-                    >
-                      {v === 'light' ? 'Light PDF' : 'Dark PDF'}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
-            {blobUrl && (
-              <a
-                href={pdfViewerSrc(blobUrl)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden sm:inline-flex"
-                style={{ ...accentBtn, textDecoration: 'none' }}
-              >
-                <FaExternalLinkAlt style={{ fontSize: '11px' }} />
-                Open
-              </a>
-            )}
+            <div className="flex items-center justify-end gap-2 flex-wrap sm:flex-nowrap">
+                <label
+                  style={{
+                    ...toolbarBtn,
+                    padding: '0 6px',
+                    gap: '2px',
+                  }}
+                  title="Zoom"
+                >
+                  <select
+                    value={zoom}
+                    onChange={e => setZoom(Number(e.target.value))}
+                    aria-label="Zoom"
+                    style={{
+                      background: 'transparent', border: 'none', color: '#e5e7eb',
+                      fontSize: '0.75rem', fontWeight: '600', cursor: 'pointer', outline: 'none',
+                      lineHeight: 1, padding: 0, height: '100%',
+                    }}
+                  >
+                    {ZOOM_OPTIONS.map(z => (
+                      <option key={z} value={z} style={{ color: '#111' }}>{z}%</option>
+                    ))}
+                  </select>
+                </label>
+
+                <button
+                  type="button"
+                  onClick={handleEmail}
+                  disabled={busy || loading}
+                  style={accentBtn}
+                  title="Email light PDF copy to you"
+                  aria-label="Email invoice"
+                >
+                  <FaEnvelope style={{ fontSize: '13px' }} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handlePrint}
+                  disabled={busy || loading}
+                  style={iconBtn}
+                  title="Print (light)"
+                  aria-label="Print invoice"
+                >
+                  <FaPrint style={{ fontSize: '13px' }} />
+                </button>
+
+                <div
+                  ref={downloadRef}
+                  style={{ position: 'relative', flexShrink: 0 }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setDownloadOpen(v => !v)}
+                    disabled={busy || loading}
+                    style={{ ...toolbarBtn, width: 'auto', minWidth: `${TOOLBAR_SIZE}px`, padding: '0 6px' }}
+                    title="Download"
+                    aria-label="Download invoice"
+                    aria-expanded={downloadOpen}
+                  >
+                    <FaDownload style={{ fontSize: '13px' }} />
+                    <FaChevronDown style={{ fontSize: '8px', opacity: 0.7 }} />
+                  </button>
+                  {downloadOpen && downloadMenuPos && typeof document !== 'undefined' && createPortal(
+                    <div
+                      ref={downloadMenuRef}
+                      role="menu"
+                      style={{
+                        position: 'fixed',
+                        top: downloadMenuPos.top,
+                        left: downloadMenuPos.left,
+                        width: downloadMenuPos.width,
+                        zIndex: 10000,
+                        background: '#111827',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        boxShadow: '0 12px 32px rgba(0,0,0,0.55)',
+                      }}
+                    >
+                      {['light', 'dark'].map(v => (
+                        <button
+                          key={v}
+                          type="button"
+                          role="menuitem"
+                          onClick={() => handleDownload(v)}
+                          style={{
+                            display: 'block', width: '100%', textAlign: 'left', padding: '10px 12px',
+                            background: 'none', border: 'none', color: '#e5e7eb', fontSize: '0.8125rem',
+                            cursor: 'pointer',
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,212,255,0.08)'; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = 'none'; }}
+                        >
+                          {v === 'light' ? 'Light PDF' : 'Dark PDF'}
+                        </button>
+                      ))}
+                    </div>,
+                    document.body,
+                  )}
+                </div>
+
+                {blobUrl && (
+                  <a
+                    href={pdfViewerSrc(blobUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ ...accentBtn, textDecoration: 'none' }}
+                    title="Open in new tab"
+                    aria-label="Open in new tab"
+                  >
+                    <FaExternalLinkAlt style={{ fontSize: '13px' }} />
+                  </a>
+                )}
+            </div>
           </div>
         </div>
 
@@ -248,7 +333,13 @@ export default function InvoicePdfModal({ invoice, onClose }) {
           </div>
         )}
 
-        <div style={{ flex: 1, minHeight: 0, background: '#1a1a1a', overflow: 'auto' }}>
+        <div
+          className="flex-1 min-h-0 overflow-auto rounded-none sm:rounded-b-2xl"
+          style={{
+            background: '#1a1a1a',
+            paddingBottom: 'env(safe-area-inset-bottom)',
+          }}
+        >
           {loading ? (
             <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280' }}>
               <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
@@ -269,11 +360,10 @@ export default function InvoicePdfModal({ invoice, onClose }) {
                 maxWidth: '100%',
                 minHeight: '100%',
               }}>
-                <embed
+                <iframe
                   src={pdfViewerSrc(blobUrl)}
-                  type="application/pdf"
                   title="Invoice PDF"
-                  style={{ width: '100%', minHeight: 'calc(92vh - 56px)', border: 'none', display: 'block' }}
+                  style={{ width: '100%', minHeight: 'calc(100dvh - 120px)', border: 'none', display: 'block' }}
                 />
               </div>
             </div>
