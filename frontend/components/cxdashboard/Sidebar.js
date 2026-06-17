@@ -27,31 +27,10 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="p-6 border-b border-white/5">
         <Link href="/cxdashboard" className="flex items-center gap-3">
-          <div className="relative w-10 h-10">
-            <svg viewBox="0 0 40 40" className="w-10 h-10">
-              <circle cx="20" cy="20" r="4" fill="url(#sidebarAtomGrad)" />
-              <ellipse cx="20" cy="20" rx="14" ry="5" fill="none" stroke="url(#sidebarOrbitGrad)" strokeWidth="1.5" transform="rotate(-30 20 20)" />
-              <ellipse cx="20" cy="20" rx="14" ry="5" fill="none" stroke="url(#sidebarOrbitGrad)" strokeWidth="1.5" transform="rotate(30 20 20)" />
-              <ellipse cx="20" cy="20" rx="14" ry="5" fill="none" stroke="url(#sidebarOrbitGrad)" strokeWidth="1.5" transform="rotate(90 20 20)" />
-              <defs>
-                <linearGradient id="sidebarAtomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#22d3ee" />
-                  <stop offset="100%" stopColor="#f97316" />
-                </linearGradient>
-                <linearGradient id="sidebarOrbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#22d3ee" />
-                  <stop offset="50%" stopColor="#f97316" />
-                  <stop offset="100%" stopColor="#22d3ee" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div>
-            <span className="text-white font-bold text-sm">QUANTUM</span>
-            <br />
-            <span className="text-orange-500 font-bold text-xs">REPAIR</span>
-            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Client Portal</p>
-          </div>
+        <img src="/arblock.png" alt="Atomic Repair" style={{ height: '48px', objectFit: 'contain' }} />
+        <div>
+          <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Client Portal</p>
+        </div>
         </Link>
       </div>
 

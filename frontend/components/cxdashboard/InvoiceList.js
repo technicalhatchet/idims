@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaFileInvoice, FaDownload, FaArrowRight } from 'react-icons/fa';
+import { FaFileInvoice, FaPrint, FaArrowRight } from 'react-icons/fa';
+import InvoiceDownloadMenu from './InvoiceDownloadMenu';
+import { printPortalInvoicePdf } from '../../utils/portalInvoicePdf';
 
 const SAMPLE_INVOICES = [
   {
@@ -55,7 +57,7 @@ export default function InvoiceList({ invoices = SAMPLE_INVOICES }) {
             </div>
             
             <div className="flex-1 min-w-0">
-              <p className="text-white font-medium text-sm">Invoice #{invoice.id}</p>
+              <p className="text-white font-medium text-sm">Invoice #{invoice.number || invoice.id}</p>
               <p className="text-gray-400 text-xs">{invoice.date}</p>
             </div>
 
@@ -68,9 +70,15 @@ export default function InvoiceList({ invoices = SAMPLE_INVOICES }) {
                 </span>
                 <p className="text-white font-semibold">{invoice.amount}</p>
               </div>
-              <button className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:bg-white/10 transition-colors">
-                <FaDownload className="w-3 h-3" />
+              <button
+                type="button"
+                title="Print invoice (light)"
+                onClick={() => printPortalInvoicePdf(invoice.id).catch(e => alert(e.message))}
+                className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:bg-white/10 transition-colors"
+              >
+                <FaPrint className="w-3 h-3" />
               </button>
+              <InvoiceDownloadMenu invoice={invoice} />
             </div>
           </motion.div>
         ))}

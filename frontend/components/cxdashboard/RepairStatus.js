@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import ApplianceIcon from './ApplianceIcon';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaPhone, FaCheckCircle } from 'react-icons/fa';
@@ -42,7 +42,7 @@ export default function RepairStatus({ repair }) {
       {/* Repair Info */}
       <div className="flex items-start gap-4 mb-6">
         <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/10 to-orange-500/10 border border-white/10 flex items-center justify-center">
-          <Image src={icon} alt={service} width={35} height={35} className="object-contain" />
+          <ApplianceIcon type={icon} className="w-8 h-8" />
         </div>
         <div>
           <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${statusColors[status]}`}>

@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import ApplianceIcon from './ApplianceIcon';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
@@ -12,7 +12,7 @@ export default function AppointmentCard({ appointment }) {
     service = 'Refrigerator Repair',
     address = '123 Main St.',
     city = 'Toledo, OH 43604',
-    image = '/applianceicons/neon/neonfridge.png'
+    icon = '/applianceicons/neon/neonfridge.png'
   } = appointment || {};
 
   const statusColors = {
@@ -22,6 +22,12 @@ export default function AppointmentCard({ appointment }) {
     Cancelled: 'bg-red-500/20 text-red-400 border-red-500/30'
   };
 
+  /*
+  console.log('Appointment:', appointment);
+  console.log('Icon prop:', icon);
+  console.log('Service:', service);
+  */
+ 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -39,13 +45,7 @@ export default function AppointmentCard({ appointment }) {
       <div className="flex gap-5">
         {/* Appliance Image */}
         <div className="relative w-32 h-32 rounded-xl bg-gradient-to-br from-cyan-500/10 to-orange-500/10 border border-white/10 flex items-center justify-center overflow-hidden flex-shrink-0">
-          <Image
-            src={image}
-            alt={service}
-            width={70}
-            height={70}
-            className="object-contain"
-          />
+        <ApplianceIcon type={service} className="w-16 h-16" />
         </div>
 
         {/* Details */}

@@ -949,7 +949,7 @@ function WorkOrderDetail() {
                           const headers = await getAuthHeaders();
                           const rawBase = process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app';
                           const baseUrl = rawBase.replace(/\/api\/?$/, '').replace(/\/$/, '');
-                          const pdfUrl = `${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf`;
+                          const pdfUrl = `${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf?variant=light`;
                           const res = await fetch(pdfUrl, { headers });
                           if (!res.ok) {
                             const err = await res.json().catch(() => ({ detail: res.statusText }));

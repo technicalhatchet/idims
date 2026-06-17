@@ -196,15 +196,18 @@ function ClientDetail() {
   };
 
   const handleSendRegistrationEmail = async () => {
-    if (!client || !client.email) return;
+    if (!client || !client.email) {
+      setEmailError('This client has no email address on file.');
+      return;
+    }
     setEmailSending(true);
     setEmailError(null);
     try {
-      await sendRegistrationEmail({ clientId: id, data: { name: `${client.first_name} ${client.last_name}`, company: client.company_name } });
+      await apiClient(`clients/${id}/invite`, { method: 'POST' });
       setEmailSent(true);
       setTimeout(() => setEmailSent(false), 5000);
     } catch (error) {
-      setEmailError(error.message || 'Failed to send registration email');
+      setEmailError(error.message || 'Failed to send invite email');
     } finally {
       setEmailSending(false);
     }

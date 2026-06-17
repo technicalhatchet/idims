@@ -5,6 +5,9 @@ import uuid
 from datetime import datetime
 import logging
 from pydantic import BaseModel
+import jwt
+import os
+from datetime import datetime, timedelta
 
 from app.db.database import get_db
 from app.core.auth import AuthUser, get_auth_handler
@@ -339,3 +342,67 @@ async def send_registration_email_alias(
         current_user=current_user,
         db=db
     )
+    
+@router.post("/{client_id}/invite")
+async def send_portal_invite(
+    client_id: str,
+    db: Session = Depends(get_db),
+    current_user: AuthUser = Depends(get_admin_dependency),
+):
+    """Generate a signed invite token and send registration email to client."""
+
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    if not client.email:
+        raise HTTPException(status_code=400, detail="Client has no email address on file")
+
+    # Generate signed JWT invite token — expires in 7 days
+    secret = settings.PORTAL_INVITE_SECRET
+    payload = {
+        "client_id": str(client.id),
+        "first_name": client.first_name,
+        "last_name": client.last_name,
+        "company_name": client.company_name,
+        "email": client.email,
+        "exp": datetime.utcnow() + timedelta(days=7),
+        "iat": datetime.utcnow(),
+    }
+    token = jwt.encode(payload, secret, algorithm="HS256")
+    invite_url = f"{os.getenv('FRONTEND_URL', 'https://v0-idims.vercel.app')}/cxdashboard/register?token={token}"
+
+    # Send email via Resend
+    import httpx
+
+    html = f"""
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0A0F1E;padding:2rem;border-radius:12px;">
+      <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair" style="height:40px;margin-bottom:1.5rem;" />
+      <h2 style="color:#fff;">You&apos;re invited to the Atomic Repair Client Portal</h2>
+      <p style="color:#9ca3af;">Hi {client.first_name},</p>
+      <p style="color:#9ca3af;">You can now access your service history, upcoming appointments, and invoices online.</p>
+      <a href="{invite_url}" style="display:inline-block;background:#00D4FF;color:#0A0F1E;padding:0.875rem 2rem;border-radius:8px;font-weight:700;text-decoration:none;margin:1.5rem 0;">
+        Create My Account
+      </a>
+      <p style="color:#6b7280;font-size:0.75rem;">This link expires in 7 days. If you didn&apos;t expect this email, you can ignore it.</p>
+    </div>
+    """
+
+    response = httpx.post(
+        "https://api.resend.com/emails",
+        headers={
+            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "from": "Atomic Repair <service@atomicrepair419.com>",
+            "to": client.email,
+            "subject": "Your Atomic Repair Client Portal Invite",
+            "html": html,
+        }
+    )
+
+    if response.status_code not in (200, 201):
+        raise HTTPException(status_code=500, detail="Failed to send invite email")
+
+    return {"success": True, "message": f"Invite sent to {client.email}"}

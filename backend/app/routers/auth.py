@@ -149,6 +149,10 @@ class Auth0CallbackRequest(BaseModel):
     state: str = None
     user_profile: Optional[Dict[str, Any]] = None  # Add field for user profile
 
+class IdentifyUserRequest(BaseModel):
+    email: str
+    auth0_user_id: str
+
 @router.post("/auth/auth0-callback", response_model=Dict[str, Any])
 async def auth0_callback(
     request: Auth0CallbackRequest,
@@ -533,3 +537,55 @@ async def set_user_role(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error setting user role"
         )
+        
+
+
+@router.post("/auth/identify-user")
+async def identify_user(
+    body: IdentifyUserRequest,
+    db: Session = Depends(get_db),
+):
+    from app.models.client import Client
+    from app.models.technician import Technician
+
+    email = body.email.lower().strip()
+    auth0_user_id = body.auth0_user_id
+
+    # Determine role based on matching record
+    role_id = None
+    record_id = None
+
+    client = db.query(Client).filter(Client.email == email).first()
+    if client:
+        role_id = 'rol_okGmH3pkFUu0YXWi'  # client role
+        record_id = str(client.id)
+        if not client.auth0_user_id:
+            client.auth0_user_id = auth0_user_id
+            db.commit()
+
+    if not role_id:
+        technician = db.query(Technician).filter(Technician.email == email).first()
+        if technician:
+            role_id = 'rol_KIVgWHYL1p8smVsc'  # technician role
+            record_id = str(technician.id)
+
+    if not role_id:
+        return {"role": None}
+
+    # Assign role via Management API — same pattern as set_user_role
+    try:
+        management_token = get_auth_handler().get_client_credentials_token()
+        auth0_api_url = f"https://{settings.AUTH0_DOMAIN}/api/v2/users/{auth0_user_id}/roles"
+        headers = {
+            "Authorization": f"Bearer {management_token}",
+            "Content-Type": "application/json"
+        }
+        response = requests.post(auth0_api_url, headers=headers, json={"roles": [role_id]})
+        response.raise_for_status()
+        logger.info(f"[IdentifyUser] Assigned role {role_id} to {auth0_user_id}")
+    except Exception as e:
+        logger.error(f"[IdentifyUser] Role assignment failed: {str(e)}")
+        # Still return success — role can be assigned manually
+
+    role_name = 'client' if 'okGm' in role_id else 'technician'
+    return {"role": role_name, "record_id": record_id}

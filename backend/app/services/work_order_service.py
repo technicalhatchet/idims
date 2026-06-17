@@ -91,11 +91,13 @@ def _add_work_order_typed_note(
     user_id: uuid.UUID,
     note_type: str,
     body: str,
-    is_private: bool = False,
+    is_private: Optional[bool] = None,
 ) -> None:
     text = (body or "").strip()
     if not text:
         return
+    if is_private is None:
+        is_private = note_type in (NOTE_TYPE_STATUS_UPDATE, NOTE_TYPE_APPOINTMENT_INFO)
     db.add(
         WorkOrderNote(
             work_order_id=work_order_id,

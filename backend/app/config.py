@@ -359,6 +359,7 @@ class Settings(BaseModel):
     MAILGUN_API_KEY: str = ""
     MAILGUN_DOMAIN: str = ""
     RESEND_API_KEY: str = Field(default_factory=lambda: os.getenv("RESEND_API_KEY", ""))
+    PORTAL_INVITE_SECRET: str = Field(default_factory=lambda: os.getenv("PORTAL_INVITE_SECRET", ""))
 
     # Company/Site Information for emails
     SITE_NAME: str = "Atomic Repair"

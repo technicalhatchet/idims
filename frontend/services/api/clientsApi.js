@@ -154,13 +154,13 @@ export const deleteClientPaymentMethod = async (clientId, methodId) => {
  */
 export async function sendRegistrationEmail({ clientId, data }) {
   try {
-    const response = await apiClient(`/clients/${clientId}/send-registration-email`, {
+    const response = await apiClient(`/clients/${clientId}/invite`, {
       method: 'POST',
       body: JSON.stringify(data)
     });
     return response;
   } catch (error) {
-    console.error('Error sending registration email:', error);
+    console.error('Error sending portal invite:', error);
     throw error;
   }
 }

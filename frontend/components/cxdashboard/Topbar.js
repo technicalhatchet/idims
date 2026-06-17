@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBell, FaChevronDown, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
-export default function Topbar({ user = { name: 'John Doe', initials: 'JD' } }) {
+export default function Topbar({ user: userProp }) {
+  const { user: auth0User } = useUser();
+  const [portalName, setPortalName] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
+  useEffect(() => {
+    const stored = sessionStorage.getItem('portal_client_name');
+    if (stored) setPortalName(stored);
+  }, []);
+
+  const displayName = userProp?.name || portalName
+    || (auth0User ? `${auth0User.given_name || ''} ${auth0User.family_name || ''}`.trim() || auth0User.name : 'Guest');
+  const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+  const user = { name: displayName, initials };
   const notifications = [
     { id: 1, title: 'Appointment Confirmed', message: 'Your repair is scheduled for May 24', time: '2 hours ago', unread: true },
     { id: 2, title: 'Invoice Ready', message: 'Invoice #INV-1023 is ready for download', time: '1 day ago', unread: false },
@@ -116,12 +128,13 @@ export default function Topbar({ user = { name: 'John Doe', initials: 'JD' } }) 
                   </div>
                 </Link>
                 <div className="border-t border-white/5">
-                  <Link href="/api/auth/logout">
-                    <div className="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 cursor-pointer">
-                      <FaSignOutAlt className="w-4 h-4" />
-                      <span className="text-sm">Sign Out</span>
-                    </div>
-                  </Link>
+                  <div
+                    onClick={() => { window.location.href = '/api/auth/logout?returnTo=' + encodeURIComponent(window.location.origin + '/cxdashboard/login'); }}
+                    className="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 cursor-pointer"
+                  >
+                    <FaSignOutAlt className="w-4 h-4" />
+                    <span className="text-sm">Sign Out</span>
+                  </div>
                 </div>
               </motion.div>
             )}

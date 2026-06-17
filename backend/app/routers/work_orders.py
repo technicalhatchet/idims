@@ -2178,11 +2178,13 @@ async def create_work_order_part(
 @router.get("/{work_order_id}/estimate.pdf")
 async def get_work_order_estimate_pdf(
     work_order_id: uuid.UUID = Path(...),
+    variant: str = Query("light", pattern="^(dark|light)$"),
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
     """Generate and stream an estimate PDF."""
-    from app.services.pdf_service import PDFService
+    from pdf import build_estimate_pdf
+    from pdf.work_order_adapter import work_order_to_estimate
     from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart
     if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
@@ -2216,7 +2218,7 @@ async def get_work_order_estimate_pdf(
         if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
         elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
     try:
-        pdf_bytes = PDFService.generate_work_order_estimate(rd)
+        pdf_bytes = build_estimate_pdf(work_order_to_estimate(rd), variant=variant)
     except Exception as e:
         import traceback
         logger.error(f'Estimate PDF error: {e}\n{traceback.format_exc()}')
@@ -2228,96 +2230,21 @@ async def get_work_order_estimate_pdf(
 @router.get("/{work_order_id}/invoice.pdf")
 async def get_work_order_invoice_pdf(
     work_order_id: uuid.UUID = Path(...),
+    variant: str = Query("light", pattern="^(dark|light)$"),
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
     """Generate and stream an invoice PDF."""
-    from app.services.pdf_service import PDFService
-    from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart, WorkOrderNote
+    from pdf import build_invoice_pdf
+    from pdf.work_order_adapter import work_order_to_invoice
+    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf
     if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
     if not work_order:
         raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
-    work_order.calculate_totals()
-    rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
-    if work_order.client_id:
-        c = db.query(Client).filter(Client.id == work_order.client_id).first()
-        if c:
-            rd['client_name'] = c.display_name
-            if c.user_id:
-                u = db.query(UserModel).filter(UserModel.id == c.user_id).first()
-                if u: rd['client_user'] = {'first_name': u.first_name, 'last_name': u.last_name, 'email': u.email, 'phone': u.phone}
-    if work_order.assigned_technician_id:
-        t = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
-        if t and t.user_id:
-            tu = db.query(UserModel).filter(UserModel.id == t.user_id).first()
-            if tu: rd['technician_name'] = f'{tu.first_name} {tu.last_name}'
-    svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order_id).all()
-    rd['services'] = [{'id': str(s.id), 'name': s.name, 'quantity': s.quantity, 'unit_price': float(s.unit_price or 0), 'price': float(s.price or 0), 'billing_status': s.billing_status} for s in svcs]
-    parts = db.query(WOPart).filter(WOPart.work_order_id == work_order_id).all()
-    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
-    rd['tax_rate'] = float(work_order.tax_rate or 0.0775)
-    rd['diagnostic_discount_amount'] = float(work_order.diagnostic_discount_amount or 0)
-    rd['amount_previously_paid'] = float(work_order.amount_previously_paid or 0)
-    rd['service_location'] = work_order.service_location
-    appts = db.query(WorkOrderAppointment).filter(WorkOrderAppointment.work_order_id == work_order_id).all()
-    rd['appointments'] = [{'appointment_type': a.appointment_type, 'status': a.status.value if hasattr(a.status, 'value') else a.status, 'scheduled_start': a.scheduled_start.isoformat() if a.scheduled_start else None} for a in appts]
-    for k in list(rd.keys()):
-        if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
-        elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
-    notes = db.query(WorkOrderNote).filter(WorkOrderNote.work_order_id == work_order_id, WorkOrderNote.is_private == False).order_by(WorkOrderNote.created_at.asc()).all()
-    import re, json as _json
-    NOTE_FIELDS = {
-        'Pre-Call': [
-            ('clientContactStatus', 'Client Contact Status'),
-            ('appointmentTime', 'Appointment Time'),
-            ('detailsReviewed', 'Work Order Details Reviewed'),
-            ('toolsReady', 'Tools and Parts Prepared'),
-            ('additionalNotes', 'Additional Notes'),
-        ],
-        'Follow Up': [
-            ('servicePerformed', 'Service Performed'),
-            ('partsUsed', 'Parts Used'),
-            ('clientFeedback', 'Client Feedback'),
-            ('nextSteps', 'Next Steps'),
-            ('additionalNotes', 'Additional Notes'),
-        ],
-        'Redo': [
-            ('originalIssue', 'Original Issue'),
-            ('previousAttempts', 'Previous Attempts'),
-            ('newApproach', 'New Approach'),
-            ('requiredParts', 'Required Parts'),
-            ('additionalNotes', 'Additional Notes'),
-        ],
-    }
-    note_texts = []
-    for n in notes:
-        raw = n.note or ''
-        # Extract type prefix e.g. [Pre-Call]
-        match = re.match(r'^\[(.*?)\]\n?', raw)
-        note_type = match.group(1) if match else None
-        content = raw[match.end():].strip() if match else raw.strip()
-        if not content:
-            continue
-        # Try to parse as JSON for structured note types
-        if note_type and note_type in NOTE_FIELDS:
-            try:
-                data = _json.loads(content)
-                lines = [f'{note_type}:']
-                for field_id, label in NOTE_FIELDS[note_type]:
-                    val = data.get(field_id, '')
-                    if isinstance(val, bool):
-                        val = '✓' if val else '✗'
-                    if val:
-                        lines.append(f'  {label}: {val}')
-                note_texts.append('\n'.join(lines))
-            except Exception:
-                note_texts.append(f'{note_type}: {content}')
-        else:
-            note_texts.append(f'{note_type}: {content}' if note_type else content)
     try:
-        pdf_bytes = PDFService.generate_work_order_invoice(rd, notes=note_texts)
+        pdf_bytes = generate_work_order_invoice_pdf(db, work_order, variant=variant)
     except Exception as e:
         import traceback
         logger.error(f'Invoice PDF error: {e}\n{traceback.format_exc()}')

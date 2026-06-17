@@ -195,7 +195,7 @@ export default function WorkOrderNotes({
       type,
       content: '',
       fieldValues,
-      isPrivate: false,
+      isPrivate: type === NOTE_TYPES.REPAIR_OUTCOME,
     };
   }, [workOrder]);
 

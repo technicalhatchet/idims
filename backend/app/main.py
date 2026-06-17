@@ -545,6 +545,7 @@ async def direct_work_order_detail(work_order_id: str, request: Request, authori
 async def api_work_order_estimate_pdf(
     work_order_id: str,
     request: Request,
+    variant: str = Query("light", pattern="^(dark|light)$"),
     authorization: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
@@ -552,13 +553,14 @@ async def api_work_order_estimate_pdf(
     auth = authorization or request.headers.get('Authorization') or request.headers.get('authorization')
     current_user = await get_current_user(request, auth, db=db)
     return await work_orders.get_work_order_estimate_pdf(
-        work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
+        work_order_id=uuid.UUID(work_order_id), variant=variant, db=db, current_user=current_user
     )
 
 @app.get("/api/work-orders/{work_order_id}/invoice.pdf")
 async def api_work_order_invoice_pdf(
     work_order_id: str,
     request: Request,
+    variant: str = Query("light", pattern="^(dark|light)$"),
     authorization: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
@@ -566,7 +568,7 @@ async def api_work_order_invoice_pdf(
     auth = authorization or request.headers.get('Authorization') or request.headers.get('authorization')
     current_user = await get_current_user(request, auth, db=db)
     return await work_orders.get_work_order_invoice_pdf(
-        work_order_id=uuid.UUID(work_order_id), db=db, current_user=current_user
+        work_order_id=uuid.UUID(work_order_id), variant=variant, db=db, current_user=current_user
     )
 
 # API prefixed version of the work order detail endpoint
@@ -744,6 +746,8 @@ app.include_router(stripe.router, prefix="/api/stripe", tags=["stripe"])
 app.include_router(properties.router, prefix="/api/properties", tags=["properties"])
 app.include_router(public.router, prefix="/api/public", tags=["public"])
 app.include_router(app_settings.router, prefix="/api/settings", tags=["settings"])
+from app.routers import client_portal
+app.include_router(client_portal.router, prefix="/api", tags=["client-portal"])
 # Mock endpoints for clients, technicians, and services
 # NOTE: These mock endpoints have been replaced with real database-backed endpoints in the router files.
 # The include_router() calls above now handle these endpoints.
