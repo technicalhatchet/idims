@@ -3,7 +3,7 @@ Client Portal API Router
 All endpoints are scoped to the authenticated client only.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
@@ -34,12 +34,31 @@ WARRANTY_ELIGIBLE_STATUSES = frozenset({
 })
 
 
+def _enum_value(value) -> str:
+    if value is None:
+        return ""
+    return value.value if hasattr(value, "value") else str(value)
+
+
+def _as_utc_naive(dt: Optional[datetime]) -> Optional[datetime]:
+    if dt is None:
+        return None
+    if dt.tzinfo is not None:
+        return dt.replace(tzinfo=None)
+    return dt
+
+
+def _work_order_status(wo: WorkOrder) -> str:
+    return _enum_value(wo.status)
+
+
 def _warranty_service_date(wo: WorkOrder, db: Session) -> Optional[datetime]:
     """Best-effort service completion date for labor warranty."""
     if wo.actual_end:
-        return wo.actual_end
-    if getattr(wo, "closed_at", None):
-        return wo.closed_at
+        return _as_utc_naive(wo.actual_end)
+    closed_at = getattr(wo, "closed_at", None)
+    if closed_at:
+        return _as_utc_naive(closed_at)
     latest_completed = (
         db.query(WorkOrderAppointment)
         .filter(
@@ -50,14 +69,14 @@ def _warranty_service_date(wo: WorkOrder, db: Session) -> Optional[datetime]:
         .first()
     )
     if latest_completed and latest_completed.scheduled_start:
-        return latest_completed.scheduled_start
-    if wo.status in WARRANTY_ELIGIBLE_STATUSES and wo.created_at:
-        return wo.created_at
+        return _as_utc_naive(latest_completed.scheduled_start)
+    if _work_order_status(wo) in WARRANTY_ELIGIBLE_STATUSES and wo.created_at:
+        return _as_utc_naive(wo.created_at)
     return None
 
 
 def _warranty_expires_at(wo: WorkOrder, db: Session) -> Optional[datetime]:
-    if wo.status not in WARRANTY_ELIGIBLE_STATUSES:
+    if _work_order_status(wo) not in WARRANTY_ELIGIBLE_STATUSES:
         return None
     service_date = _warranty_service_date(wo, db)
     if not service_date:
@@ -69,7 +88,7 @@ def _warranty_is_active(wo: WorkOrder, db: Session, now: Optional[datetime] = No
     expiry = _warranty_expires_at(wo, db)
     if not expiry:
         return False
-    now = now or datetime.utcnow()
+    now = _as_utc_naive(now or datetime.utcnow())
     return expiry > now
 
 
@@ -86,7 +105,7 @@ async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(sec
 async def get_portal_client(
     token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
-    admin_client_id: Optional[str] = None,
+    admin_client_id: Optional[str] = Query(None),
 ) -> Client:
     roles = getattr(token_data, 'roles', []) or []
     is_admin = 'admin' in roles
@@ -188,7 +207,7 @@ async def get_portal_profile(
         WorkOrder.client_id == client.id
     ).all()
 
-    active = [w for w in work_orders_list if w.status not in ("completed", "cancelled", "closed")]
+    active = [w for w in work_orders_list if _work_order_status(w) not in ("completed", "cancelled", "closed")]
     warranty_active_count = sum(1 for w in work_orders_list if _warranty_is_active(w, db, now))
 
     upcoming_appts = db.query(WorkOrderAppointment).join(
@@ -257,7 +276,7 @@ async def get_portal_appointments(
                 "equipment_make": wo.equipment_make,
                 "equipment_model": wo.equipment_model,
                 "description": wo.description,
-                "status": wo.status,
+                "status": _work_order_status(wo),
             },
             "property": {
                 "address": prop.address if prop else (wo.service_location or {}).get("address"),
@@ -296,7 +315,7 @@ async def get_portal_work_orders(
         result.append({
             "id": str(wo.id),
             "order_number": wo.order_number,
-            "status": wo.status,
+            "status": _work_order_status(wo),
             "created_at": wo.created_at.isoformat() if wo.created_at else None,
             "equipment_type": wo.equipment_type,
             "equipment_subtype": wo.equipment_subtype,

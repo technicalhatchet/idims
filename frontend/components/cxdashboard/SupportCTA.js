@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { FaPhone, FaComments } from 'react-icons/fa';
-import Link from 'next/link';
 
 export default function SupportCTA() {
   return (
@@ -25,7 +24,7 @@ export default function SupportCTA() {
           </div>
         </div>
 
-        <Link href="/cxdashboard/messages">
+        <a href="tel:4197941689">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -33,9 +32,9 @@ export default function SupportCTA() {
             style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
           >
             <FaComments className="w-4 h-4" />
-            Message Us
+            Call Us
           </motion.button>
-        </Link>
+        </a>
       </div>
     </motion.div>
   );

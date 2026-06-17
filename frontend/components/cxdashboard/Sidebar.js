@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import {
   FaHome, FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt,
-  FaFolder, FaEnvelope, FaLaptop, FaCog, FaHeadset
+  FaEnvelope, FaLaptop, FaCog, FaHeadset
 } from 'react-icons/fa';
 
 const NAV_ITEMS = [
@@ -12,8 +12,7 @@ const NAV_ITEMS = [
   { id: 'repairs', label: 'My Repairs', icon: FaTools, href: '/cxdashboard/repairs' },
   { id: 'invoices', label: 'Invoices & Payments', icon: FaFileInvoiceDollar, href: '/cxdashboard/invoices' },
   { id: 'warranty', label: 'Warranty', icon: FaShieldAlt, href: '/cxdashboard/warranty' },
-  /*{ id: 'documents', label: 'Documents', icon: FaFolder, href: '/cxdashboard/documents' },*/
-  { id: 'messages', label: 'Messages', icon: FaEnvelope, href: '/cxdashboard/messages', badge: 2 },
+  { id: 'messages', label: 'Messages', icon: FaEnvelope, href: '/cxdashboard/messages' },
   { id: 'devices', label: 'My Devices', icon: FaLaptop, href: '/cxdashboard/devices' },
   { id: 'settings', label: 'Account Settings', icon: FaCog, href: '/cxdashboard/settings' },
 ];
@@ -76,9 +75,9 @@ export default function Sidebar() {
               <p className="text-gray-500 text-xs">Our support team is here for you.</p>
             </div>
           </div>
-          <button className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 text-white text-sm font-semibold hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all">
+          <a href="tel:4197941689" className="block w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 text-white text-sm font-semibold hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all text-center">
             Contact Support
-          </button>
+          </a>
         </div>
       </div>
     </div>
