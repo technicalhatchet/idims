@@ -516,26 +516,25 @@ async def get_portal_invoices(
         })
     return result
 
-def _device_key(wo: WorkOrder) -> str:
-    """Stable identity key for grouping a client's work orders into one physical appliance."""
+def _device_key(wo: WorkOrder) -> Optional[str]:
+    """
+    Stable identity key for grouping a client's work orders into one physical appliance.
+    Returns the serial number (lowercased) if present, otherwise None.
+    We only track appliances that have a serial number on file.
+    """
     serial = (wo.equipment_serial or "").strip().lower()
-    if serial:
-        return f"serial:{serial}"
-    parts = [
-        (wo.equipment_make or "").strip().lower(),
-        (wo.equipment_model or "").strip().lower(),
-        (wo.equipment_subtype or wo.equipment_type or "").strip().lower(),
-        str(wo.property_id or wo.client_id),
-    ]
-    return "combo:" + "|".join(parts)
+    return serial if serial else None
 
 
-@router.get("/portal/devices")
-async def get_portal_devices(
+@router.get("/portal/appliances")
+async def get_portal_appliances(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db)
 ):
-    """Group the client's work orders into distinct appliances/devices."""
+    """
+    Group the client's work orders into distinct appliances.
+    Only includes appliances that have a serial number on file.
+    """
     work_orders_list = db.query(WorkOrder).filter(
         WorkOrder.client_id == client.id
     ).order_by(desc(WorkOrder.created_at)).all()
@@ -543,10 +542,12 @@ async def get_portal_devices(
     now = datetime.utcnow()
     groups: dict = {}
     for wo in work_orders_list:
-        groups.setdefault(_device_key(wo), []).append(wo)
+        key = _device_key(wo)
+        if key:  # Only include work orders with a serial number
+            groups.setdefault(key, []).append(wo)
 
     result = []
-    for key, wos in groups.items():
+    for serial, wos in groups.items():
         wos_sorted = sorted(wos, key=lambda w: w.created_at or datetime.min, reverse=True)
         latest = wos_sorted[0]
         prop = db.query(Property).filter(Property.id == latest.property_id).first() if latest.property_id else None
@@ -554,12 +555,11 @@ async def get_portal_devices(
         active_repair = any(_work_order_status(w) not in ("completed", "cancelled", "closed") for w in wos_sorted)
 
         result.append({
-            "device_key": key,
-            "equipment_make": latest.equipment_make,
-            "equipment_model": latest.equipment_model,
-            "equipment_subtype": latest.equipment_subtype,
-            "equipment_type": latest.equipment_type,
-            "equipment_serial": latest.equipment_serial,
+            "serial": latest.equipment_serial,  # Original casing
+            "make": latest.equipment_make,
+            "model": latest.equipment_model,
+            "subtype": latest.equipment_subtype,
+            "type": latest.equipment_type,
             "property": {
                 "address": prop.address if prop else (latest.service_location or {}).get("address"),
                 "unit_number": prop.unit_number if prop else None,
@@ -575,20 +575,21 @@ async def get_portal_devices(
     return result
 
 
-@router.get("/portal/devices/{device_key}")
-async def get_portal_device_detail(
-    device_key: str,
+@router.get("/portal/appliances/{serial}")
+async def get_portal_appliance_detail(
+    serial: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db)
 ):
-    """Full repair history for one device, identified by its device_key."""
+    """Full repair history for one appliance, identified by its serial number."""
+    serial_lower = serial.strip().lower()
     work_orders_list = db.query(WorkOrder).filter(
         WorkOrder.client_id == client.id
     ).order_by(desc(WorkOrder.created_at)).all()
 
-    matching = [w for w in work_orders_list if _device_key(w) == device_key]
+    matching = [w for w in work_orders_list if _device_key(w) == serial_lower]
     if not matching:
-        raise HTTPException(status_code=404, detail="Device not found")
+        raise HTTPException(status_code=404, detail="Appliance not found")
 
     now = datetime.utcnow()
     latest = matching[0]
@@ -614,13 +615,12 @@ async def get_portal_device_detail(
         })
 
     return {
-        "device_key": device_key,
-        "equipment_make": latest.equipment_make,
-        "equipment_model": latest.equipment_model,
-        "equipment_subtype": latest.equipment_subtype,
-        "equipment_type": latest.equipment_type,
-        "equipment_serial": latest.equipment_serial,
-        "equipment_version": latest.equipment_version,
+        "serial": latest.equipment_serial,
+        "make": latest.equipment_make,
+        "model": latest.equipment_model,
+        "subtype": latest.equipment_subtype,
+        "type": latest.equipment_type,
+        "version": latest.equipment_version,
         "property": {
             "address": prop.address if prop else (latest.service_location or {}).get("address"),
             "unit_number": prop.unit_number if prop else None,

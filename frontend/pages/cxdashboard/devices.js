@@ -1,17 +1,12 @@
-import { FaLaptop } from 'react-icons/fa';
-import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
-import PortalComingSoon from '../../components/cxdashboard/PortalComingSoon';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-export default function DevicesPage() {
-  return (
-    <PortalComingSoon
-      title="My Devices"
-      description="A list of your registered appliances and TVs will appear here soon, including service history and warranty status for each device."
-      icon={FaLaptop}
-    />
-  );
+export default function DevicesRedirect() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/cxdashboard/appliances');
+  }, [router]);
+
+  return null;
 }
-
-DevicesPage.getLayout = function getLayout(page) {
-  return <DashboardLayout title="My Devices">{page}</DashboardLayout>;
-};

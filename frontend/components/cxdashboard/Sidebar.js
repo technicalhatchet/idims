@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaHome, FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt,
-  FaEnvelope, FaLaptop, FaCog, FaHeadset, FaTimes,
+  FaEnvelope, FaCog, FaHeadset, FaTimes, FaBoxOpen,
 } from 'react-icons/fa';
 
 const NAV_ITEMS = [
@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { id: 'invoices', label: 'Invoices & Payments', icon: FaFileInvoiceDollar, href: '/cxdashboard/invoices' },
   { id: 'warranty', label: 'Warranty', icon: FaShieldAlt, href: '/cxdashboard/warranty' },
   { id: 'messages', label: 'Messages', icon: FaEnvelope, href: '/cxdashboard/messages' },
-  { id: 'devices', label: 'My Devices', icon: FaLaptop, href: '/cxdashboard/devices' },
+  { id: 'appliances', label: 'My Appliances', icon: FaBoxOpen, href: '/cxdashboard/appliances' },
   { id: 'settings', label: 'Account Settings', icon: FaCog, href: '/cxdashboard/settings' },
 ];
 
