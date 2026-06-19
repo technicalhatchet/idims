@@ -654,7 +654,13 @@ export default function BookService() {
       </div>
 
       {/* Mobile Sticky CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 backdrop-blur-md border-t border-white/5 sm:hidden z-40" style={{ backgroundColor: 'rgba(0, 2, 8, 0.95)' }}>
+      <div 
+        className="fixed bottom-0 left-0 right-0 px-4 pt-4 backdrop-blur-md border-t border-white/5 sm:hidden z-40" 
+        style={{ 
+          backgroundColor: 'rgba(0, 2, 8, 0.95)',
+          paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))'
+        }}
+      >
         <div className="flex gap-3">
           {currentStep > 1 && !isComplete && (
             <button
