@@ -15,6 +15,7 @@ const APPLIANCES = [
   { id: 'refrigerator', name: 'Refrigerator', icon: '/applianceicons/neon/neonfridge.png' },
   { id: 'washer', name: 'Washer', icon: '/applianceicons/neon/neonwasher.png' },
   { id: 'dryer', name: 'Dryer', icon: '/applianceicons/neon/neondryer.png' },
+  { id: 'aiolaundry', name: 'AIO Laundry', icon: '/aiolaundry.svg' },
   { id: 'oven', name: 'Oven', icon: '/applianceicons/neon/neonrange.png' },
   { id: 'dishwasher', name: 'Dishwasher', icon: '/applianceicons/neon/neondishwasher.png' },
   { id: 'microwave', name: 'Microwave', icon: '/applianceicons/neon/neonmicrowave.png' },

@@ -12,6 +12,7 @@ export const NEON_ICON_DEFAULT_COLOR = {
   dishwasher: 'cyan',
   microwave: 'orange',
   freezer: 'cyan',
+  aiolaundry: 'cyan',
   tv: 'orange',
   wrench: 'cyan',
 };
@@ -76,6 +77,16 @@ export const NEON_ICON_GLYPHS = {
       <rect x="3" y="6" width="18" height="14" rx="2" />
       <line x1="3" y1="10" x2="21" y2="10" />
       <line x1="12" y1="6" x2="12" y2="10" />
+    </>
+  ),
+  aiolaundry: (
+    <>
+      <rect x="4" y="2" width="16" height="20" rx="2" />
+      <line x1="4" y1="7" x2="20" y2="7" />
+      <rect x="6" y="4" width="3" height="2" rx="0.5" />
+      <circle cx="16" cy="5" r="1" />
+      <circle cx="12" cy="14" r="5" />
+      <circle cx="12" cy="14" r="2" />
     </>
   ),
   tv: (

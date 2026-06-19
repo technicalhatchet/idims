@@ -15,10 +15,11 @@ const APPLIANCES = [
   { id: 'refrigerator', name: 'Refrigerator', icon: 'refrigerator', color: 'cyan' },
   { id: 'washer', name: 'Washer', icon: 'washer', color: 'cyan' },
   { id: 'dryer', name: 'Dryer', icon: 'dryer', color: 'orange' },
+  { id: 'aiolaundry', name: 'AIO Laundry', icon: 'aiolaundry', color: 'cyan' },
   { id: 'oven', name: 'Oven', icon: 'oven', color: 'orange' },
   { id: 'dishwasher', name: 'Dishwasher', icon: 'dishwasher', color: 'cyan' },
   { id: 'microwave', name: 'Microwave', icon: 'microwave', color: 'orange' },
-  // { id: 'freezer', name: 'Freezer', icon: 'freezer', color: 'cyan' },
+  { id: 'freezer', name: 'Freezer', icon: 'freezer', color: 'cyan' },
   { id: 'tv', name: 'TV', icon: 'tv', color: 'orange' },
   { id: 'other', name: 'Other', icon: 'wrench', color: 'cyan', allowCustom: true },
 ];
@@ -148,18 +149,18 @@ export default function BookService() {
   };
 
   const slideVariants = {
-    enter: (direction) => ({
-      x: direction > 0 ? 100 : -100,
+    enter: {
       opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
+      y: 10,
     },
-    exit: (direction) => ({
-      x: direction < 0 ? 100 : -100,
+    center: {
+      opacity: 1,
+      y: 0,
+    },
+    exit: {
       opacity: 0,
-    }),
+      y: -10,
+    },
   };
 
   const getSelectedAppliance = () => {
@@ -273,7 +274,6 @@ export default function BookService() {
             
             {/* Card Content */}
             <div className="relative bg-[#0d1117]/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex flex-col">
-			  <div className="relative h-[420px] overflow-hidden">
 			  <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentStep}
@@ -283,19 +283,17 @@ export default function BookService() {
                   animate="center"
                   exit="exit"
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  className="absolute inset-0 p-6 sm:p-8 overflow-y-auto"
+                  className="p-6 sm:p-8"
                 >
                   {/* Step Header */}
                   <div className="mb-6">
-                    <p className="text-cyan-400 text-sm font-medium mb-1">STEP {currentStep} OF 5</p>
-                    <h2 className="text-2xl font-bold text-white">{STEPS[currentStep - 1].title}</h2>
-                    <p className="text-gray-400 text-sm mt-1">
-                      {currentStep === 1 && 'What appliance do you need help with?'}
-                      {currentStep === 2 && 'Select the issue you\'re experiencing.'}
-                      {currentStep === 3 && 'When would you like us to come by?'}
-                      {currentStep === 4 && 'Please enter your details so we can confirm your appointment.'}
-                      {currentStep === 5 && (isComplete ? 'We\'ve received your booking and will contact you shortly to confirm.' : 'Review your booking details.')}
-                    </p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white">
+                      {currentStep === 1 && 'What appliance can we help you with?'}
+                      {currentStep === 2 && 'What issue are you experiencing?'}
+                      {currentStep === 3 && 'When would you prefer us to come by?'}
+                      {currentStep === 4 && 'Your Information'}
+                      {currentStep === 5 && (isComplete ? 'You\'re all set!' : 'Review your booking')}
+                    </h2>
                   </div>
 
                   {/* Step 1: Appliance Selection */}
@@ -563,10 +561,9 @@ export default function BookService() {
                   )}
                 </motion.div>
               </AnimatePresence>
-			  </div>
 
-              {/* Navigation Buttons */}
-              <div className="flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
+              {/* Navigation Buttons - hidden on mobile, using sticky footer instead */}
+              <div className="hidden sm:flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
                 {currentStep > 1 && !isComplete && (
                   <motion.button
                     onClick={prevStep}

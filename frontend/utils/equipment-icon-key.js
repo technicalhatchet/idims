@@ -26,6 +26,7 @@ export function getEquipmentIconKey(equipmentType, equipmentSubtype) {
 
   const subNorm = normalizeEquipmentSegment(equipmentSubtype);
   if (subNorm) {
+    if (subNorm === 'aiolaundry') return 'aiolaundry';
     return subNorm;
   }
 

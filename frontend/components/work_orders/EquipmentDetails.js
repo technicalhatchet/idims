@@ -25,9 +25,11 @@ const EQUIPMENT_SUBTYPES = {
   appliance: [
     { value: '', label: 'Select Appliance Type' },
     { value: 'refrigerator', label: 'Refrigerator' },
+    { value: 'freezer', label: 'Freezer' },
     { value: 'dishwasher', label: 'Dishwasher' },
     { value: 'washing_machine', label: 'Washing Machine' },
     { value: 'dryer', label: 'Dryer' },
+    { value: 'aio_laundry', label: 'AIO Laundry' },
     { value: 'oven', label: 'Oven' },
     { value: 'microwave', label: 'Microwave' },
     { value: 'cooktop', label: 'Cooktop' },
