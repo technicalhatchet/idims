@@ -35,6 +35,8 @@ import {
 } from '../../../utils/workOrderBilling';
 import {
   isWorkOrderClosed,
+  isWorkOrderImmutable,
+  isWorkOrderReadOnly,
   canEditWorkOrderBilling,
   canShowCloseOrderAction,
   canReopenWorkOrder,
@@ -105,6 +107,9 @@ function WorkOrderDetail() {
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
   const showInitialLoader = isLoading && !workOrder;
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
+  const woImmutable = useMemo(() => isWorkOrderImmutable(workOrder), [workOrder]);
+  const woRedoReadOnly = useMemo(() => isWorkOrderReadOnly(workOrder), [workOrder]);
+  const woReadOnly = woClosed || woImmutable || woRedoReadOnly;
   const billingEditable = useMemo(
     () => canEditWorkOrderBilling({ role, workOrder }),
     [role, workOrder]
@@ -320,7 +325,7 @@ function WorkOrderDetail() {
           <div>
             <div className="flex items-center">
               <h1 className="text-2xl font-bold mr-3 text-gray-900 dark:text-white">Work Order: {workOrder.order_number}</h1>
-              <StatusBadge status={workOrder.is_closed ? 'closed' : workOrder.status} />
+              <StatusBadge status={workOrder.status === 'redo' ? 'redo' : (workOrder.is_closed ? 'closed' : workOrder.status)} />
               <WorkOrderRedoParentLink workOrder={workOrder} />
               {user && (
                 <WorkOrderRedoBar
@@ -336,7 +341,7 @@ function WorkOrderDetail() {
           </div>
           
           <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
-            {!workOrder.is_closed && (
+            {!woReadOnly && (
               <Link href={`/work_orders/${id}/edit`} className="btn-primary flex items-center" title="Edit work order">
                 <FaEdit className="mr-2" />
                 Edit
@@ -346,7 +351,7 @@ function WorkOrderDetail() {
               <FaPrint className="mr-2" />
               Print
             </button>
-            {!woClosed && (
+            {!woReadOnly && (
             <div className="relative">
               <button 
                 onClick={() => setShowStatusModal(true)} 
@@ -1350,7 +1355,7 @@ function WorkOrderDetail() {
                           </div>
 
                           {/* Pay button */}
-                          {!woClosed && dueToday > 0 && (
+                          {!woReadOnly && dueToday > 0 && (
                             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
                               <div className="flex justify-center">
                                 <button

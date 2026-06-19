@@ -45,7 +45,7 @@ import {
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import { useUserRole } from '../../../utils/auth0-helpers';
-import { isWorkOrderClosed, isWorkOrderImmutable, canEditWorkOrderBilling, canShowCloseOrderAction, canReopenWorkOrder } from '../../../utils/workOrderPermissions';
+import { isWorkOrderClosed, isWorkOrderImmutable, isWorkOrderReadOnly, canEditWorkOrderBilling, canShowCloseOrderAction, canReopenWorkOrder } from '../../../utils/workOrderPermissions';
 import { workOrderStatusOptionsForUser } from '../../../utils/workOrderStatusOptions';
 import { usePrefetchTechnicians } from '../../../hooks/usePrefetchTechnicians';
 import useCurrentTechnicianId from '../../../hooks/useCurrentTechnicianId';
@@ -145,7 +145,8 @@ function WorkOrderDetail() {
   const showInitialLoader = isLoading && !workOrder;
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
   const woImmutable = useMemo(() => isWorkOrderImmutable(workOrder), [workOrder]);
-  const woReadOnly = woClosed || woImmutable;
+  const woRedoReadOnly = useMemo(() => isWorkOrderReadOnly(workOrder), [workOrder]);
+  const woReadOnly = woClosed || woImmutable || woRedoReadOnly;
   const billingEditable = useMemo(
     () => canEditWorkOrderBilling({ role, workOrder }),
     [role, workOrder]
@@ -610,7 +611,7 @@ function WorkOrderDetail() {
                         <h1 className="text-lg md:text-2xl font-bold text-white truncate max-w-[12rem] sm:max-w-none">
                           #{workOrder.order_number}
                         </h1>
-                        <StatusBadge status={workOrder.is_closed ? 'closed' : workOrder.status} />
+                        <StatusBadge status={workOrder.status === 'redo' ? 'redo' : (workOrder.is_closed ? 'closed' : workOrder.status)} />
                         <WorkOrderRedoParentLink workOrder={workOrder} variant="mobile" />
                         {user && (
                           <WorkOrderRedoBar

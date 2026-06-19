@@ -26,7 +26,9 @@ export default function WorkOrderLifecycleBar({
 
   const isClosed = Boolean(workOrder?.is_closed);
   const isRedoChild = Boolean(workOrder?.is_redo);
-  const canShowCloseAction = !isClosed && workOrder?.status === 'completed';
+  const woStatus = (workOrder?.status || '').toLowerCase();
+  const isCloseEligibleStatus = woStatus === 'completed' || woStatus === 'redo';
+  const canShowCloseAction = !isClosed && isCloseEligibleStatus;
 
   const handleReopen = async () => {
     if (!window.confirm('Reopen this work order for admin edits?')) return;
@@ -44,7 +46,7 @@ export default function WorkOrderLifecycleBar({
 
   const hasAdminClosedActions = isClosed && (isAdmin || isManagerOrAdmin);
   const hasIncompleteHint =
-    !isClosed && canCloseWorkOrder && workOrder?.status !== 'completed';
+    !isClosed && canCloseWorkOrder && !isCloseEligibleStatus;
 
   const showLifecycleBar =
     isRedoChild || canShowCloseAction || hasAdminClosedActions || hasIncompleteHint;
@@ -94,9 +96,9 @@ export default function WorkOrderLifecycleBar({
                 Close order
               </Button>
             )}
-            {!isClosed && workOrder.status !== 'completed' && (
+            {!isClosed && !isCloseEligibleStatus && (
               <p className={hintClass}>
-                Work order must be <strong className={isMobile ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}>completed</strong> before you can close it.
+                Work order must be <strong className={isMobile ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}>completed</strong> (or redo) before you can close it.
               </p>
             )}
             {isClosed && isAdmin && (

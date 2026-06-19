@@ -19,6 +19,7 @@ APPOINTMENT_TO_WORK_ORDER_STATUS: Dict[str, str] = {
     "reschedule": "reschedule",
     "failed": "waiting_on_parts",  # APR on visit → waiting on parts on job
     "unreachable": "unreachable",
+    "redo": "redo",  # Appointment redo → work order redo (triggers redo workflow)
 }
 
 # Phase 2: completion / payment — synced after billing flags are applied
@@ -414,14 +415,19 @@ def sync_work_order_status_from_appointment(
         work_order=work_order,
         appointment_id=appointment.id,
     )
+    
     if not target_wo_status:
         return False
 
-    if getattr(work_order, "is_closed", False):
+    is_closed = getattr(work_order, "is_closed", False)
+    # Special case: allow "redo" status sync on closed work orders
+    # When an appointment is marked redo on a closed WO, the WO status should change to redo
+    if is_closed and target_wo_status != "redo":
         return False
 
     current_wo_status = activity._status_val(work_order.status)
-    if current_wo_status in WO_STATUSES_SKIP_APPOINTMENT_SYNC:
+    # Allow redo status change even if current status is in skip list (e.g., "closed")
+    if current_wo_status in WO_STATUSES_SKIP_APPOINTMENT_SYNC and target_wo_status != "redo":
         return False
 
     if current_wo_status == target_wo_status:

@@ -27,6 +27,7 @@ PARTS_CLOSE_STATUSES = frozenset({"installed", "not_installed"})
 CLOSE_ELIGIBLE_APPOINTMENT_STATUSES = frozenset({
     "canceled",
     "completed",
+    "failed",
     "refund",
     "redo",
     "unreachable",
@@ -37,6 +38,10 @@ CLOSED_APPOINTMENT_STATUS_ONLY = frozenset({
     "refund",
     "completed",
 })
+
+# Work order statuses that are considered "done" and eligible for administrative close.
+# "redo" means original work completed but a redo child was created.
+CLOSE_ELIGIBLE_WO_STATUSES = frozenset({"completed", "redo"})
 
 IMMUTABLE_WO_STATUSES = frozenset({"canceled", "refunded"})
 
@@ -83,22 +88,23 @@ def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, An
     wo_for_billing = load_work_order_for_completion_check(db, work_order_id) or work_order
     dma = get_outcome_for_work_order(db, work_order_id)
 
+    wo_status = activity._status_val(work_order.status)
     checks = {
         "has_dma_outcome": dma is not None,
         "parts_dispositioned": all_parts_dispositioned(work_order),
         "paid_in_full": is_work_order_paid_in_full(wo_for_billing),
-        "status_completed": work_order.status == "completed",
+        "status_close_eligible": wo_status in CLOSE_ELIGIBLE_WO_STATUSES,
         "appointments_close_eligible": all_appointments_close_eligible(work_order),
         "not_already_closed": not work_order.is_closed,
-        "not_immutable_status": work_order.status not in IMMUTABLE_WO_STATUSES,
+        "not_immutable_status": wo_status not in IMMUTABLE_WO_STATUSES,
     }
     blockers: List[str] = []
     if work_order.is_closed:
         blockers.append("Work order is already closed.")
-    if work_order.status in IMMUTABLE_WO_STATUSES:
-        blockers.append(f"Work order status is {work_order.status}.")
-    if not checks["status_completed"]:
-        blockers.append("Work order must be completed before closing.")
+    if wo_status in IMMUTABLE_WO_STATUSES:
+        blockers.append(f"Work order status is {wo_status}.")
+    if not checks["status_close_eligible"]:
+        blockers.append("Work order must be completed (or redo) before closing.")
     if not checks["has_dma_outcome"]:
         blockers.append("DMA repair outcome is required.")
     if not checks["parts_dispositioned"]:

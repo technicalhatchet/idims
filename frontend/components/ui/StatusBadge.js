@@ -80,22 +80,33 @@ export default function StatusBadge({ status, variant = 'default' }) {
   const formatStatus = (status) => {
     if (!status) return 'Unknown';
     
+    const lower = status.toLowerCase();
+    
     // Special case for CONTACT
-    if (status.toLowerCase() === 'need_to_contact' || status.toLowerCase() === 'need to contact') {
+    if (lower === 'need_to_contact' || lower === 'need to contact') {
       return 'CONTACT';
     }
     
     // Special case for REDO - display in all caps
-    if (status.toLowerCase() === 'redo') {
+    if (lower === 'redo') {
       return 'REDO';
     }
 
-    if (status.toLowerCase() === 'failed') {
+    if (lower === 'failed') {
       return variant === 'appointment' ? 'APR' : 'Failed';
     }
 
-    if (status.toLowerCase() === 'closed') {
+    if (lower === 'closed') {
       return 'Closed';
+    }
+    
+    // Shortened labels for long statuses
+    if (lower === 'pending_estimate_approval' || lower === 'pending estimate approval') {
+      return 'Estimate';
+    }
+    
+    if (lower === 'completed_pending_payment' || lower === 'completed pending payment') {
+      return 'Payment';
     }
     
     // Convert snake_case to Title Case

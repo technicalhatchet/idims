@@ -70,6 +70,9 @@ async def create_redo_from_appointment(
     if activity._status_val(appointment.status) != "redo":
         raise ValidationException("Appointment must be marked redo before creating a redo work order.")
 
+    if not getattr(parent, "is_closed", False):
+        raise ValidationException("Parent work order must be closed before creating a redo.")
+
     existing_child = (
         db.query(WorkOrder)
         .filter(WorkOrder.redo_source_appointment_id == appointment_id)

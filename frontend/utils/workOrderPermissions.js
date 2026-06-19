@@ -13,6 +13,12 @@ export function isWorkOrderClosed(workOrder) {
 /** Cancelled/refunded work orders cannot be edited (mirror backend IMMUTABLE_WO_STATUSES). */
 const IMMUTABLE_WO_STATUSES = new Set(['canceled', 'refunded']);
 
+/**
+ * Work order statuses that make the order read-only for editing purposes.
+ * "redo" = work has moved to a child order, parent should be frozen.
+ */
+const READ_ONLY_WO_STATUSES = new Set(['redo']);
+
 /** Accept legacy API/DB spelling until migration completes. */
 export function normalizeStatusKey(status) {
   const s = String(status || '').toLowerCase();
@@ -22,6 +28,16 @@ export function normalizeStatusKey(status) {
 export function isWorkOrderImmutable(workOrder) {
   if (!workOrder) return false;
   return IMMUTABLE_WO_STATUSES.has(normalizeStatusKey(workOrder.status));
+}
+
+/**
+ * True when the work order should be treated as read-only for editing.
+ * Includes: redo status (work moved to child), but NOT immutable statuses
+ * (which are handled separately and also block closing).
+ */
+export function isWorkOrderReadOnly(workOrder) {
+  if (!workOrder) return false;
+  return READ_ONLY_WO_STATUSES.has(normalizeStatusKey(workOrder.status));
 }
 
 export function isManagerOrAdminRole(role) {
@@ -113,16 +129,21 @@ export function canEditWorkOrderParts({ role, workOrder }) {
   return isManagerOrAdminRole(role) || role === 'technician';
 }
 
-/** Technicians may administratively close completed orders they can view. */
+/** Statuses eligible for administrative close (mirrors backend CLOSE_ELIGIBLE_WO_STATUSES). */
+const CLOSE_ELIGIBLE_WO_STATUSES = new Set(['completed', 'redo']);
+
+/** Technicians may administratively close completed or redo orders they can view. */
 export function canCloseWorkOrder({ role, workOrder }) {
   if (!workOrder || isWorkOrderClosed(workOrder)) return false;
-  if (String(workOrder.status || '').toLowerCase() !== 'completed') return false;
+  const status = normalizeStatusKey(workOrder.status);
+  if (!CLOSE_ELIGIBLE_WO_STATUSES.has(status)) return false;
   return isManagerOrAdminRole(role) || role === 'technician';
 }
 
 const CLOSE_ELIGIBLE_APPOINTMENT_STATUSES = new Set([
   'canceled',
   'completed',
+  'failed',
   'refund',
   'redo',
   'unreachable',
