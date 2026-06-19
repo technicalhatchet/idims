@@ -1,5 +1,6 @@
 import { getSession } from '@auth0/nextjs-auth0';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import WorkOrderForm from '../../components/work_orders/WorkOrderForm';
 import WorkOrderMobileShell from '../../components/work_orders/WorkOrderMobileShell';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
@@ -9,6 +10,7 @@ import { useTheme } from '../../context/ThemeContext';
 function NewWorkOrderMobile() {
   useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
   const { theme } = useTheme();
+  const router = useRouter();
 
   useEffect(() => {
     if (theme.mode === 'dark') {
@@ -18,6 +20,18 @@ function NewWorkOrderMobile() {
     }
   }, [theme.mode]);
 
+  // Build initialData from query params
+  const initialData = useMemo(() => {
+    const { client_id, address, property_id } = router.query;
+    if (!client_id && !address && !property_id) return undefined;
+    
+    return {
+      client_id: client_id || '',
+      service_location: address ? { address } : undefined,
+      property_id: property_id || undefined,
+    };
+  }, [router.query]);
+
   return (
     <WorkOrderMobileShell
       title="Create Work Order"
@@ -25,7 +39,7 @@ function NewWorkOrderMobile() {
       backHref="/work_orders/test"
       scanKey="wo-new-mobile"
     >
-      <WorkOrderForm variant="mobile" cancelHref="/work_orders/test" />
+      <WorkOrderForm variant="mobile" cancelHref="/work_orders/test" initialData={initialData} />
     </WorkOrderMobileShell>
   );
 }

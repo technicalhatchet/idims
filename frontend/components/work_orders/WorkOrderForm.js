@@ -957,12 +957,28 @@ useEffect(() => {
     .finally(() => setLoadingProperties(false));
 }, [values.client_id]);
 
-// Initialize selectedPropertyId from initialData when editing
+// Track if we've applied the initial property selection
+const initialPropertyAppliedRef = useRef(false);
+
+// Apply initial property_id once properties have loaded
 useEffect(() => {
-  if (initialData?.property_id) {
-    setSelectedPropertyId(initialData.property_id);
+  // Only run if we have a property_id to set and properties are loaded
+  if (!initialData?.property_id || clientProperties.length === 0) return;
+  // Only run once
+  if (initialPropertyAppliedRef.current) return;
+  
+  const property = clientProperties.find(p => String(p.id) === String(initialData.property_id));
+  if (property) {
+    initialPropertyAppliedRef.current = true;
+    setSelectedPropertyId(property.id);
+    setFieldValue('property_id', property.id);
+    // Auto-fill address from property
+    const addr = [property.address, property.unit_number ? `Unit ${property.unit_number}` : ''].filter(Boolean).join(', ');
+    if (addr) {
+      setFieldValue('service_location', { address: addr });
+    }
   }
-}, [initialData?.property_id]);
+}, [clientProperties, initialData?.property_id, setFieldValue]);
 
 // When properties load, sync service location from the linked property if address is empty
 useEffect(() => {

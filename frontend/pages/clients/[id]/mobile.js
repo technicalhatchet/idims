@@ -617,7 +617,7 @@ function ClientDetail() {
                 Edit
               </Link>
               <Link
-                href={`/work_orders/new?client_id=${id}`}
+                href={`/work_orders/womobile_new?client_id=${id}`}
                 className="flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
                 style={{
                   background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.15))',
@@ -895,7 +895,7 @@ function ClientDetail() {
 
                               <div className="flex items-center gap-2 mt-3 pt-3 border-t border-cyan-500/20">
                                 <Link 
-                                  href={`/work_orders/new?client_id=${id}&address=${encodeURIComponent(property.address + (property.unit_number ? ` Unit ${property.unit_number}` : ''))}&property_id=${property.id}`} 
+                                  href={`/work_orders/womobile_new?client_id=${id}&address=${encodeURIComponent(property.address + (property.unit_number ? ` Unit ${property.unit_number}` : ''))}&property_id=${property.id}`} 
                                   className="flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-xs font-bold uppercase tracking-wide transition-all active:opacity-70"
                                   style={{
                                     background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.1))',
@@ -1051,7 +1051,7 @@ function ClientDetail() {
                     <FaTools className="mx-auto text-gray-600 text-3xl mb-3" />
                     <p className="text-gray-400 mb-4 text-sm">No work orders found for this client.</p>
                     <Link 
-                      href={`/work_orders/new?client_id=${id}`} 
+                      href={`/work_orders/womobile_new?client_id=${id}`} 
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-bold uppercase tracking-wide"
                       style={{
                         background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.1))',

@@ -1,5 +1,6 @@
 import { getSession } from '@auth0/nextjs-auth0';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import WorkOrderForm from '../../components/work_orders/WorkOrderForm';
@@ -10,6 +11,7 @@ function NewWorkOrder() {
   // Only allow admins and managers to create work orders
   useAuthRedirect({ allowedRoles: ['admin', 'manager'] });
   const { theme } = useTheme();
+  const router = useRouter();
   
   // Ensure dark mode applies correctly on page load
   useEffect(() => {
@@ -20,6 +22,18 @@ function NewWorkOrder() {
       document.documentElement.classList.remove('dark');
     }
   }, [theme.mode]);
+
+  // Build initialData from query params
+  const initialData = useMemo(() => {
+    const { client_id, address, property_id } = router.query;
+    if (!client_id && !address && !property_id) return undefined;
+    
+    return {
+      client_id: client_id || '',
+      service_location: address ? { address } : undefined,
+      property_id: property_id || undefined,
+    };
+  }, [router.query]);
 
   return (
     <>
@@ -33,7 +47,7 @@ function NewWorkOrder() {
         </div>
 
         <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-          <WorkOrderForm />
+          <WorkOrderForm initialData={initialData} />
         </div>
       </div>
     </>
