@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FaBars, FaTimes, FaUser, FaPhone } from 'react-icons/fa';
-import { HiOutlinePhone } from 'react-icons/hi';
+import { FaBars, FaTimes } from 'react-icons/fa';
+import SecretServiceMode from '../ui/SecretServiceMode';
 
-export default function Header({ user, isLoading }) {
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
@@ -46,12 +46,14 @@ export default function Header({ user, isLoading }) {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center group">
-            <img
-              src="/arpano.png"
-              alt="Atomic Repair"
-              className="w-auto object-contain"
-              style={{ height: '72px' }}
-            />
+            <SecretServiceMode>
+              <img
+                src="/arpano.png"
+                alt="Atomic Repair"
+                className="w-auto object-contain"
+                style={{ height: '72px' }}
+              />
+            </SecretServiceMode>
           </Link>
 
           {/* Desktop Navigation */}
@@ -79,25 +81,6 @@ export default function Header({ user, isLoading }) {
             >
               Client Portal
             </Link>
-            {isLoading ? (
-              <div className="h-5 w-5 border-t-2 border-cyan-400 rounded-full animate-spin" />
-            ) : user ? (
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                <FaUser className="w-4 h-4" />
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                href="/api/auth/login"
-                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                <FaUser className="w-4 h-4" />
-                Login
-              </Link>
-            )}
             <Link
               href="/book"
               className="book-btn-header relative group px-5 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all duration-300"
@@ -156,15 +139,6 @@ export default function Header({ user, isLoading }) {
               <Link href="/cxdashboard" className="text-cyan-400 hover:text-cyan-300 text-sm font-medium">
                 Client Portal
               </Link>
-              {user ? (
-                <Link href="/dashboard" className="text-gray-400 hover:text-white text-sm">
-                  Dashboard
-                </Link>
-              ) : (
-                <Link href="/api/auth/login" className="text-gray-400 hover:text-white text-sm">
-                  Login
-                </Link>
-              )}
               <Link
                 href="/book"
                 className="book-btn-header flex items-center justify-center gap-2 text-white text-center py-3 rounded-lg font-semibold text-sm"

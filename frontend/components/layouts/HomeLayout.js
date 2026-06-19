@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 // Global Atomic theme colors
 const ATOMIC_THEME = {
@@ -17,7 +16,6 @@ const ATOMIC_THEME = {
 };
 
 export default function HomeLayout({ children, title = 'Quantum Repair | Appliance Repair Toledo' }) {
-  const { user, isLoading } = useUser();
   return (
     <div 
       className="min-h-screen flex flex-col relative"
@@ -43,7 +41,7 @@ export default function HomeLayout({ children, title = 'Quantum Repair | Applian
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header user={user} isLoading={isLoading} />
+      <Header />
 
       <main className="flex-grow relative z-10">
         {children}

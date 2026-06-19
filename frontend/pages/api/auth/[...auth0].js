@@ -92,7 +92,8 @@ export default handleAuth({
     authorizationParams: {
       scope: 'openid profile email offline_access',
     },
-    returnTo: req.query.returnTo || '/techdashboard',
+    // If returnTo is specified, use it; otherwise use auth-router for role-based redirect
+    returnTo: req.query.returnTo || '/auth-router',
   })),
 
   callback: handleCallback({

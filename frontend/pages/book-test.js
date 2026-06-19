@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
 import NeonIcon from '../components/ui/NeonIcon';
+import SecretServiceMode from '../components/ui/SecretServiceMode';
 
 /** Cyan vs orange — same mapping as neon PNGs / ApplianceIcon */
 const APPLIANCES = [
@@ -209,14 +210,16 @@ export default function BookService() {
             animate={{ opacity: 1 }}
             className="flex items-center justify-start gap-4 mb-6"
           >
-
-            <Image
-              src="/wrenches.png"
-              alt="Atomic Repair"
-              width={70}
-              height={70}
-              className="drop-shadow-[0_0_25px_rgba(249,115,22,0.6)] flex-shrink-0"
-            />
+            {/* Tap logo 5 times to reveal Service Mode */}
+            <SecretServiceMode>
+              <Image
+                src="/wrenches.png"
+                alt="Atomic Repair"
+                width={70}
+                height={70}
+                className="drop-shadow-[0_0_25px_rgba(249,115,22,0.6)] flex-shrink-0"
+              />
+            </SecretServiceMode>
             <div className="text-left">
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
                 BOOK <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300">YOUR SERVICE</span>

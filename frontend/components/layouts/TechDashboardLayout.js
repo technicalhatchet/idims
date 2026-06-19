@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useRef, useEffect, useCallback } f
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { getUserRole } from '../../utils/auth0-helpers';
 
 import {
   TECH_ICON_ASPECT,
@@ -88,7 +89,20 @@ export default function TechDashboardLayout({ children }) {
   const [sweepingItem, setSweepingItem] = useState(null);
   const profileRef = useRef(null);
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
+
+  // Role-based access control - redirect clients to their portal
+  useEffect(() => {
+    if (isLoading || !user) return;
+    
+    const role = getUserRole(user);
+    const allowedRoles = ['admin', 'manager', 'technician'];
+    
+    if (!allowedRoles.includes(role)) {
+      console.log('[TechDashboardLayout] Client role detected, redirecting to portal');
+      router.replace('/cxdashboard');
+    }
+  }, [user, isLoading, router]);
 
   const railWidth = expanded ? RAIL_WIDTH_EXPANDED : RAIL_WIDTH_COLLAPSED;
   const railSlideTransition = `transform ${RAIL_SLIDE_MS}ms ${RAIL_EASE}`;
