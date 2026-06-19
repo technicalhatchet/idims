@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session, selectinload
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text, select, cast, Date, or_
 from typing import Optional, List, Dict, Any, Union, Tuple
+import re
 import uuid
 from uuid import UUID
 from datetime import datetime, timezone, date as py_date, timedelta
@@ -62,6 +63,14 @@ def _appointment_starts_equal(a: Optional[datetime], b: Optional[datetime]) -> b
 
 NOTE_TYPE_STATUS_UPDATE = "Status Update"
 NOTE_TYPE_APPOINTMENT_INFO = "Appointment Info"
+NOTE_TYPE_REPAIR_OUTCOME = "Repair Outcome"
+
+# Note types that should default to private (not shown to clients)
+PRIVATE_NOTE_TYPES = frozenset({
+    NOTE_TYPE_STATUS_UPDATE,
+    NOTE_TYPE_APPOINTMENT_INFO,
+    NOTE_TYPE_REPAIR_OUTCOME,
+})
 
 _SYSTEM_STATUS_NOTE_PREFIXES = (
     "Assigned to technician ",
@@ -97,7 +106,7 @@ def _add_work_order_typed_note(
     if not text:
         return
     if is_private is None:
-        is_private = note_type in (NOTE_TYPE_STATUS_UPDATE, NOTE_TYPE_APPOINTMENT_INFO)
+        is_private = note_type in PRIVATE_NOTE_TYPES
     db.add(
         WorkOrderNote(
             work_order_id=work_order_id,
@@ -1668,6 +1677,13 @@ class WorkOrderService:
         try:
             # Verify work order exists
             work_order = await WorkOrderService.get_work_order(db, work_order_id)
+            
+            # Auto-detect note type and default certain types to private
+            match = re.match(r"^\[(.*?)\]", note_text or "")
+            if match:
+                note_type = match.group(1)
+                if note_type in PRIVATE_NOTE_TYPES:
+                    is_private = True
             
             # Create the note
             note = WorkOrderNote(
