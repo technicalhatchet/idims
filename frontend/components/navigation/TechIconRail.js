@@ -186,18 +186,35 @@ function RailBackground({ height, dashboardCenterY, dashboardActive }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+        <filter id="edgeGlow" x="-100%" y="-10%" width="300%" height="120%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
       
       {/* Main rail shape - smooth arc widening at dashboard */}
       <path d={path} fill="url(#railGradient)" />
+      
+      {/* Subtle glow on the arc (matches left edge glow) */}
+      <path
+        d={arcOutline}
+        fill="none"
+        stroke={ACCENT_CYAN}
+        strokeWidth="2"
+        opacity="0.15"
+        filter="url(#edgeGlow)"
+      />
       
       {/* Accent line on the arc edge - brighter when dashboard is active */}
       <path
         d={arcOutline}
         fill="none"
         stroke={ACCENT_CYAN}
-        strokeWidth={dashboardActive ? 2.5 : 1}
-        opacity={dashboardActive ? 0.9 : 0.3}
+        strokeWidth={dashboardActive ? 2 : 1}
+        opacity={dashboardActive ? 0.7 : 0.25}
         filter={dashboardActive ? 'url(#arcGlow)' : 'none'}
       />
     </svg>
@@ -272,7 +289,7 @@ export default function TechIconRail({ isOpen, onClose }) {
           filter: drop-shadow(0 0 4px currentColor);
         }
         .tech-rail-glow-dashboard {
-          filter: drop-shadow(0 0 2px ${ACCENT_CYAN}) drop-shadow(0 0 18px ${ACCENT_CYAN});
+          filter: drop-shadow(0 0 1px ${ACCENT_CYAN}) drop-shadow(0 0 18px ${ACCENT_CYAN});
         }
         .rail-nav-sweep {
           position: absolute;
