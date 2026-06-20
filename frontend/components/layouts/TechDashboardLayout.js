@@ -1,9 +1,10 @@
-// TechDashboardLayout v2
+// TechDashboardLayout v3 - Right-side Icon Rail
 import { createContext, useContext, useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { getUserRole } from '../../utils/auth0-helpers';
+import TechIconRail from '../navigation/TechIconRail';
 
 import {
   TECH_ICON_ASPECT,
@@ -300,8 +301,8 @@ export default function TechDashboardLayout({ children }) {
         </div>
       </header>
 
-      {/* ── OVERLAY (backdrop) — opacity fade, always mounted ── */}
-      <div
+      {/* ── LEFT-SIDE RAIL (Original) - Commented out while working on new rail ── */}
+      {false && (<div
         className="fixed inset-0 z-[1190]"
         style={{
           background: 'rgba(0,0,0,0.5)',
@@ -311,10 +312,9 @@ export default function TechDashboardLayout({ children }) {
         }}
         onClick={() => setRailOpen(false)}
         aria-hidden={!railOpen}
-      />
+      />)}
 
-      {/* ── ICON RAIL — GPU translateX, fixed width (no width:0 animation) ── */}
-      <div
+      {false && (<div
         className="fixed left-0 bottom-0 flex flex-col z-[1195]"
         style={{
           top: 0,
@@ -433,9 +433,8 @@ export default function TechDashboardLayout({ children }) {
           })}
         </nav>
 
-        {/* Expand/collapse arrow + logout */}
+        {/* Expand/collapse arrow */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-          {/* Expand arrow */}
           <button
             onClick={() => setExpanded(e => !e)}
             className="flex items-center justify-center w-full min-h-[52px] py-3.5 active:opacity-70 transition-opacity"
@@ -461,10 +460,18 @@ export default function TechDashboardLayout({ children }) {
             {expanded && <span className="text-sm text-gray-500">Collapse</span>}
           </button>
         </div>
-      </div>
+      </div>)}
+
+      {/* ── RIGHT-SIDE ICON RAIL (New) ── */}
+      <TechIconRail 
+        isOpen={railOpen} 
+        onClose={() => setRailOpen(false)} 
+      />
 
       {/* ── PAGE CONTENT ── */}
-      <main style={{ paddingTop: 'calc(72px + env(safe-area-inset-top, 0px))' }}>
+      <main style={{ 
+        paddingTop: 'calc(72px + env(safe-area-inset-top, 0px))',
+      }}>
         {children}
       </main>
     </div>
