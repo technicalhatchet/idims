@@ -272,7 +272,7 @@ export default function TechIconRail({ isOpen, onClose }) {
           filter: drop-shadow(0 0 4px currentColor);
         }
         .tech-rail-glow-dashboard {
-          filter: drop-shadow(0 0 4px ${ACCENT_CYAN}) drop-shadow(0 0 8px ${ACCENT_CYAN});
+          filter: drop-shadow(0 0 2px ${ACCENT_CYAN}) drop-shadow(0 0 18px ${ACCENT_CYAN});
         }
         .rail-nav-sweep {
           position: absolute;
