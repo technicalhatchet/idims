@@ -186,9 +186,10 @@ function RailBackground({ height, dashboardCenterY, dashboardActive }) {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <filter id="edgeGlow" x="-100%" y="-10%" width="300%" height="120%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+        <filter id="edgeGlow" x="-200%" y="-20%" width="500%" height="140%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
           <feMerge>
+            <feMergeNode in="blur" />
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
@@ -198,25 +199,26 @@ function RailBackground({ height, dashboardCenterY, dashboardActive }) {
       {/* Main rail shape - smooth arc widening at dashboard */}
       <path d={path} fill="url(#railGradient)" />
       
-      {/* Subtle glow on the arc (matches left edge glow) */}
+      {/* Soft glow on arc edge - matches left edge */}
       <path
         d={arcOutline}
         fill="none"
         stroke={ACCENT_CYAN}
-        strokeWidth="2"
-        opacity="0.15"
+        strokeWidth="4"
+        opacity="0.20"
         filter="url(#edgeGlow)"
       />
       
-      {/* Accent line on the arc edge - brighter when dashboard is active */}
-      <path
-        d={arcOutline}
-        fill="none"
-        stroke={ACCENT_CYAN}
-        strokeWidth={dashboardActive ? 2 : 1}
-        opacity={dashboardActive ? 0.7 : 0.25}
-        filter={dashboardActive ? 'url(#arcGlow)' : 'none'}
-      />
+      {/* Brighter accent when dashboard is active */}
+      {dashboardActive && (
+        <path
+          d={arcOutline}
+          fill="none"
+          stroke={ACCENT_CYAN}
+          strokeWidth={1}
+          opacity={0.35}
+        />
+      )}
     </svg>
   );
 }
@@ -282,14 +284,11 @@ export default function TechIconRail({ isOpen, onClose }) {
         .tech-rail-item:hover {
           opacity: 1;
         }
-        .tech-rail-item.active {
-          background: rgba(34, 211, 238, 0.08);
-        }
         .tech-rail-glow {
           filter: drop-shadow(0 0 4px currentColor);
         }
         .tech-rail-glow-dashboard {
-          filter: drop-shadow(0 0 1px ${ACCENT_CYAN}) drop-shadow(0 0 18px ${ACCENT_CYAN});
+          filter: drop-shadow(0 0 0.3px ${ACCENT_CYAN}) drop-shadow(0px 0px 3px ${ACCENT_CYAN});
         }
         .rail-nav-sweep {
           position: absolute;
@@ -333,8 +332,8 @@ export default function TechIconRail({ isOpen, onClose }) {
           paddingTop: 'env(safe-area-inset-top, 0px)',
           background: 'transparent',
           overflow: 'visible',
-          borderLeft: `2px solid ${ACCENT_CYAN}30`,
-          boxShadow: `-4px 0 12px ${ACCENT_CYAN}20, -1px 0 4px ${ACCENT_CYAN}15`,
+          borderLeft: `1px solid ${ACCENT_CYAN}50`,
+          boxShadow: `-8px 0 20px ${ACCENT_CYAN}30, -2px 0 8px ${ACCENT_CYAN}40, 0 0 4px ${ACCENT_CYAN}25`,
           transform: railSlideTransform,
           transition: `transform ${RAIL_SLIDE_MS}ms ${RAIL_EASE}`,
           willChange: 'transform',
@@ -386,11 +385,14 @@ export default function TechIconRail({ isOpen, onClose }) {
                 key={item.id}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item)}
-                className={`tech-rail-item ${active && !isDashboard ? 'active' : ''} ${isSweeping ? 'sweeping' : ''} flex items-center justify-center relative`}
+                className={`tech-rail-item ${isSweeping ? 'sweeping' : ''} flex items-center justify-center relative`}
                 style={{
-                  width: ICON_SIZE + 16,
+                  width: RAIL_WIDTH,
                   height: ICON_SIZE + 16,
-                  borderRadius: 10,
+                  borderRadius: 0,
+                  background: active && !isDashboard 
+                    ? 'rgba(34, 211, 238, 0.08)' 
+                    : 'transparent',
                 }}
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
@@ -404,11 +406,11 @@ export default function TechIconRail({ isOpen, onClose }) {
                   <div
                     style={{
                       position: 'absolute',
-                      right: -0.7,
-                      top: 1,
-                      bottom: 1,
-                      width: 3.3,
-                      borderRadius: 1,
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: 3,
+                      borderRadius: 0,
                       background: itemColor,
                       boxShadow: `0 0 6px ${itemColor}, 0 0 6px ${itemColor}`,
                     }}
