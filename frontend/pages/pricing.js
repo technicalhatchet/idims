@@ -179,9 +179,9 @@ export default function Pricing() {
                     Book Your Service
                   </motion.button>
                 </Link>
-                <a href="tel:4195551234" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                <a href="tel:4195153394" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
                   <span>or call</span>
-                  <span className="text-orange-400 font-semibold">(419) 555-1234</span>
+                  <span className="text-orange-400 font-semibold">(419) 515-3394</span>
                 </a>
               </div>
             </motion.div>
@@ -544,8 +544,8 @@ export default function Pricing() {
                 </Link>
                 <p className="text-gray-400 text-sm">
                   or call{' '}
-                  <a href="tel:4195551234" className="text-orange-400 hover:text-orange-300 font-medium">
-                    (419) 555-1234
+                  <a href="tel:4195153394" className="text-orange-400 hover:text-orange-300 font-medium">
+                    (419) 515-3394
                   </a>
                 </p>
               </div>

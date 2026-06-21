@@ -119,7 +119,7 @@ export default function Home() {
                   </motion.button>
                 </Link>
 
-                <a href="tel:4190000000">
+                <a href="tel:4195153394">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -385,7 +385,7 @@ export default function Home() {
                 </motion.button>
               </Link>
 
-              <a href="tel:4190000000">
+              <a href="tel:4195153394">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}

@@ -5,7 +5,7 @@ export const serviceAreas = {
     state: 'OH',
     region: 'NW Ohio',
     description: 'Fast, reliable appliance repair from local experts. Same-day service available.',
-    phone: '(419) 555-1234',
+    phone: '(419) 515-3394',
     coverageRadius: 25,
     stats: {
       rating: 4.9,
@@ -66,7 +66,7 @@ export const serviceAreas = {
     state: 'OH',
     region: 'NW Ohio',
     description: 'Expert appliance repair serving Sylvania and surrounding neighborhoods.',
-    phone: '(419) 555-1234',
+    phone: '(419) 515-3394',
     coverageRadius: 25,
     stats: {
       rating: 4.9,
@@ -117,7 +117,7 @@ export const serviceAreas = {
     state: 'OH',
     region: 'NW Ohio',
     description: 'Trusted appliance repair serving Maumee residents with fast, reliable service.',
-    phone: '(419) 555-1234',
+    phone: '(419) 515-3394',
     coverageRadius: 25,
     stats: {
       rating: 4.9,
@@ -162,7 +162,7 @@ export const serviceAreas = {
     state: 'OH',
     region: 'NW Ohio',
     description: 'Professional appliance repair for Perrysburg homes and businesses.',
-    phone: '(419) 555-1234',
+    phone: '(419) 515-3394',
     coverageRadius: 25,
     stats: {
       rating: 4.9,

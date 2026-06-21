@@ -215,8 +215,8 @@ function RailBackground({ height, dashboardCenterY, dashboardActive }) {
           d={arcOutline}
           fill="none"
           stroke={ACCENT_CYAN}
-          strokeWidth={1}
-          opacity={0.35}
+          strokeWidth={3}
+          opacity={1.0}
         />
       )}
     </svg>
@@ -401,12 +401,12 @@ export default function TechIconRail({ isOpen, onClose }) {
                 {/* Sweep overlay */}
                 <div className={`rail-nav-sweep ${item.color === 'orange' ? 'orange' : ''}`} />
                 
-                {/* Active glow bar on right inside edge */}
+                {/* Active glow bar on left edge */}
                 {active && !isDashboard && (
                   <div
                     style={{
                       position: 'absolute',
-                      right: 0,
+                      left: 0,
                       top: 0,
                       bottom: 0,
                       width: 3,
