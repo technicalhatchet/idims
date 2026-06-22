@@ -1,14 +1,16 @@
 """
-Settings router for application-wide configuration
+Settings router for application-wide configuration and user preferences
 """
 
 import logging
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
-from typing import Dict, Any
+from typing import Dict, Any, Optional
+from pydantic import BaseModel
 
 from app.db.database import get_db
 from app.core.dependencies import get_admin_or_manager_user
+from app.core.auth import AuthHandler, get_auth_handler
 from app.models.user import User
 from app.services.settings_service import SettingsService
 from app.schemas.settings import (
@@ -21,6 +23,140 @@ from app.schemas.settings import (
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+
+# ── User Preferences ──────────────────────────────────────────────────────────
+
+class UIPreferences(BaseModel):
+    """Schema for UI preferences"""
+    railPosition: Optional[str] = None  # 'left' | 'right'
+
+class UserPreferencesUpdate(BaseModel):
+    """Schema for updating user preferences"""
+    ui_preferences: Optional[UIPreferences] = None
+
+class UserPreferencesResponse(BaseModel):
+    """Schema for user preferences response"""
+    ui_preferences: Optional[Dict[str, Any]] = None
+
+
+@router.get("/user", response_model=UserPreferencesResponse)
+async def get_user_settings(
+    request: Request,
+    auth_handler: AuthHandler = Depends(get_auth_handler),
+    db: Session = Depends(get_db),
+):
+    """
+    Get the current user's preferences.
+    """
+    auth_header = request.headers.get('Authorization') or request.headers.get('authorization')
+    
+    if not auth_header or not auth_header.startswith('Bearer '):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication required"
+        )
+    
+    token = auth_header.replace('Bearer ', '')
+    
+    try:
+        user = await auth_handler.get_current_user(token)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid authentication credentials"
+            )
+        
+        # Always query fresh from current session
+        user_auth_id = getattr(user, 'auth_id', None) or getattr(user, 'sub', None)
+        db_user = db.query(User).filter(User.auth_id == user_auth_id).first()
+        
+        if not db_user:
+            # Return empty preferences if user not in DB yet
+            return UserPreferencesResponse(ui_preferences={})
+        
+        preferences = db_user.preferences or {}
+        return UserPreferencesResponse(
+            ui_preferences=preferences.get('ui_preferences', {})
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error retrieving user settings: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error retrieving user settings: {str(e)}"
+        )
+
+
+@router.put("/user", response_model=UserPreferencesResponse)
+async def update_user_settings(
+    update_data: UserPreferencesUpdate,
+    request: Request,
+    auth_handler: AuthHandler = Depends(get_auth_handler),
+    db: Session = Depends(get_db),
+):
+    """
+    Update the current user's preferences.
+    """
+    auth_header = request.headers.get('Authorization') or request.headers.get('authorization')
+    
+    if not auth_header or not auth_header.startswith('Bearer '):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication required"
+        )
+    
+    token = auth_header.replace('Bearer ', '')
+    
+    try:
+        user = await auth_handler.get_current_user(token)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid authentication credentials"
+            )
+        
+        # Always query fresh from current session to avoid detached instance errors
+        user_auth_id = getattr(user, 'auth_id', None) or getattr(user, 'sub', None)
+        db_user = db.query(User).filter(User.auth_id == user_auth_id).first()
+        
+        if not db_user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+        
+        # Merge with existing preferences
+        current_prefs = db_user.preferences or {}
+        
+        if update_data.ui_preferences:
+            ui_prefs = current_prefs.get('ui_preferences', {})
+            # Update only provided fields
+            if update_data.ui_preferences.railPosition is not None:
+                ui_prefs['railPosition'] = update_data.ui_preferences.railPosition
+            current_prefs['ui_preferences'] = ui_prefs
+        
+        # Save to database
+        db_user.preferences = current_prefs
+        db.commit()
+        db.refresh(db_user)
+        
+        logger.info(f"Updated preferences for user {db_user.id}")
+        
+        return UserPreferencesResponse(
+            ui_preferences=current_prefs.get('ui_preferences', {})
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating user settings: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating user settings: {str(e)}"
+        )
 
 @router.get("", response_model=SettingsListResponse)
 @router.get("/", response_model=SettingsListResponse, include_in_schema=False)

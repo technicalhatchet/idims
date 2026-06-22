@@ -1,9 +1,10 @@
-// TechDashboardLayout v3 - Right-side Icon Rail
+// TechDashboardLayout v4 - Switchable Rail Position
 import { createContext, useContext, useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { getUserRole } from '../../utils/auth0-helpers';
+import { useUIPreferences } from '../../context/UIPreferencesContext';
 import TechIconRail from '../navigation/TechIconRail';
 
 import {
@@ -91,6 +92,11 @@ export default function TechDashboardLayout({ children }) {
   const profileRef = useRef(null);
   const router = useRouter();
   const { user, isLoading } = useUser();
+  const { preferences } = useUIPreferences();
+  
+  // Rail position from user preferences (default: 'right')
+  const railPosition = preferences.railPosition || 'right';
+  const isRailOnRight = railPosition === 'right';
 
   // Role-based access control - redirect clients to their portal
   useEffect(() => {
@@ -195,7 +201,7 @@ export default function TechDashboardLayout({ children }) {
 
       {/* ── HEADER ── */}
       <header 
-        className="fixed left-0 right-0 flex items-center justify-between px-4" 
+        className={`fixed left-0 right-0 flex items-center justify-between px-4 ${isRailOnRight ? 'flex-row-reverse' : ''}`}
         style={{ 
           top: 0,
           paddingTop: 'env(safe-area-inset-top, 0px)',
@@ -206,10 +212,10 @@ export default function TechDashboardLayout({ children }) {
           zIndex: 1200
         }}
       >
-        {/* Hamburger */}
+        {/* Hamburger - position flips with rail */}
         <button
           onClick={() => { setRailOpen(true); setExpanded(false); }}
-          className="-ml-2 w-14 h-14 flex items-center justify-center rounded-lg active:opacity-70 transition-opacity"
+          className={`w-14 h-14 flex items-center justify-center rounded-lg active:opacity-70 transition-opacity ${isRailOnRight ? '-mr-2' : '-ml-2'}`}
           style={{ background: railOpen ? 'rgba(34,211,238,0.1)' : 'transparent' }}
           aria-label="Open navigation menu"
         >
@@ -221,7 +227,7 @@ export default function TechDashboardLayout({ children }) {
         {/* Center logo */}
         <img src="/idimslogo.png" alt="IDIMS" className="h-8 w-auto absolute left-1/2 -translate-x-1/2" />
 
-        {/* Right — Notifications + Profile */}
+        {/* Notifications + Profile - position flips with rail */}
         <div className="flex items-center gap-2">
           {/* Notifications Bell */}
           <button
@@ -256,7 +262,7 @@ export default function TechDashboardLayout({ children }) {
             {/* Dropdown Menu */}
             {profileOpen && (
               <div 
-                className="absolute right-0 mt-2 w-56 rounded-lg shadow-lg overflow-hidden"
+                className={`absolute mt-2 w-56 rounded-lg shadow-lg overflow-hidden ${isRailOnRight ? 'left-0' : 'right-0'}`}
                 style={{ 
                   background: '#0D1525', 
                   border: '1px solid rgba(34,211,238,0.3)',
@@ -301,8 +307,8 @@ export default function TechDashboardLayout({ children }) {
         </div>
       </header>
 
-      {/* ── LEFT-SIDE RAIL (Original) - Commented out while working on new rail ── */}
-      {false && (<div
+      {/* ── LEFT-SIDE RAIL (Original) ── */}
+      {!isRailOnRight && (<div
         className="fixed inset-0 z-[1190]"
         style={{
           background: 'rgba(0,0,0,0.5)',
@@ -314,7 +320,7 @@ export default function TechDashboardLayout({ children }) {
         aria-hidden={!railOpen}
       />)}
 
-      {false && (<div
+      {!isRailOnRight && (<div
         className="fixed left-0 bottom-0 flex flex-col z-[1195]"
         style={{
           top: 0,
@@ -463,10 +469,12 @@ export default function TechDashboardLayout({ children }) {
       </div>)}
 
       {/* ── RIGHT-SIDE ICON RAIL (New) ── */}
-      <TechIconRail 
-        isOpen={railOpen} 
-        onClose={() => setRailOpen(false)} 
-      />
+      {isRailOnRight && (
+        <TechIconRail 
+          isOpen={railOpen} 
+          onClose={() => setRailOpen(false)} 
+        />
+      )}
 
       {/* ── PAGE CONTENT ── */}
       <main style={{ 

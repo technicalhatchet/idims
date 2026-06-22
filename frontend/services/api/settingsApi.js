@@ -33,14 +33,14 @@ export async function updateSetting(key, value) {
  * Get user profile settings
  */
 export async function getUserSettings() {
-  return apiClient(`${API_URL}/api/settings/user`);
+  return apiClient('/api/settings/user');
 }
 
 /**
  * Update user profile settings
  */
 export async function updateUserSettings(settingsData) {
-  return apiClient(`${API_URL}/api/settings/user`, {
+  return apiClient('/api/settings/user', {
     method: 'PUT',
     body: JSON.stringify(settingsData),
   });

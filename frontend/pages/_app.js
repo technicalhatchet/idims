@@ -3,6 +3,7 @@ import '../styles/fullcalendar.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { UserRoleProvider } from '../context/UserRoleContext';
 import { ThemeProvider } from '../context/ThemeContext';
+import { UIPreferencesProvider } from '../context/UIPreferencesContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
@@ -108,6 +109,7 @@ function MyApp({ Component, pageProps }) {
     <UserProvider>
       <UserRoleProvider>
       <ThemeProvider>
+      <UIPreferencesProvider>
         <QueryClientProvider client={queryClient}>
           <ServiceWorkerMigration />
           <SyncBanner />
@@ -120,6 +122,7 @@ function MyApp({ Component, pageProps }) {
           <Toaster position="top-right" />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
+      </UIPreferencesProvider>
       </ThemeProvider>
       </UserRoleProvider>
     </UserProvider>
