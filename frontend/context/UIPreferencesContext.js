@@ -27,6 +27,8 @@ export function UIPreferencesProvider({ children }) {
           ? localStorage.getItem('ui_railPosition') 
           : null;
         
+        console.log('[UIPreferences] localStorage cached value:', cachedRailPosition);
+        
         if (cachedRailPosition) {
           setPreferences(prev => ({
             ...prev,
@@ -36,19 +38,39 @@ export function UIPreferencesProvider({ children }) {
 
         // Then try to load from database
         const response = await getUserSettings();
+        console.log('[UIPreferences] API response:', response);
+        
         if (response?.ui_preferences) {
           const dbPrefs = response.ui_preferences;
+          const newPosition = dbPrefs.railPosition || 'right'; // Default to 'right' if not set
+          console.log('[UIPreferences] Setting rail position to:', newPosition);
+          
           setPreferences(prev => ({
             ...prev,
-            railPosition: dbPrefs.railPosition || prev.railPosition,
+            railPosition: newPosition,
           }));
-          // Update localStorage cache
-          if (typeof window !== 'undefined' && dbPrefs.railPosition) {
-            localStorage.setItem('ui_railPosition', dbPrefs.railPosition);
+          // Always update localStorage cache with the resolved value
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('ui_railPosition', newPosition);
+          }
+        } else {
+          // No ui_preferences from API, ensure we default to 'right'
+          console.log('[UIPreferences] No ui_preferences from API, defaulting to right');
+          setPreferences(prev => ({
+            ...prev,
+            railPosition: 'right',
+          }));
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('ui_railPosition', 'right');
           }
         }
       } catch (error) {
         console.log('[UIPreferences] Could not load from API, using cached/default:', error.message);
+        // On error, still ensure we have a valid default
+        setPreferences(prev => ({
+          ...prev,
+          railPosition: prev.railPosition || 'right',
+        }));
       } finally {
         setIsLoading(false);
       }
@@ -61,6 +83,8 @@ export function UIPreferencesProvider({ children }) {
   const setRailPosition = useCallback(async (position) => {
     const newPosition = position === 'left' ? 'left' : 'right';
     
+    console.log('[UIPreferences] Setting rail position to:', newPosition);
+    
     // Optimistically update local state
     setPreferences(prev => ({
       ...prev,
@@ -70,15 +94,17 @@ export function UIPreferencesProvider({ children }) {
     // Update localStorage cache
     if (typeof window !== 'undefined') {
       localStorage.setItem('ui_railPosition', newPosition);
+      console.log('[UIPreferences] Saved to localStorage:', newPosition);
     }
 
     // Persist to database
     try {
-      await updateUserSettings({
+      const result = await updateUserSettings({
         ui_preferences: {
           railPosition: newPosition,
         },
       });
+      console.log('[UIPreferences] Saved to database, response:', result);
     } catch (error) {
       console.error('[UIPreferences] Failed to save to database:', error);
     }
