@@ -35,23 +35,42 @@ class SettingsListResponse(BaseModel):
 
 # Specific setting value schemas for validation
 
+def validate_time_format(v):
+    """Validate HH:MM time format"""
+    if v is not None:
+        try:
+            hour, minute = v.split(':')
+            h, m = int(hour), int(minute)
+            if not (0 <= h <= 23 and 0 <= m <= 59):
+                raise ValueError
+        except (ValueError, AttributeError):
+            raise ValueError(f"Time must be in HH:MM format (00:00 to 23:59)")
+    return v
+
+class ShopHoursPeriod(BaseModel):
+    """Schema for a time period (regular or evening)"""
+    enabled: bool = Field(False, description="Whether this period is enabled")
+    start: Optional[str] = Field(None, description="Start time in HH:MM format")
+    end: Optional[str] = Field(None, description="End time in HH:MM format")
+    
+    @validator('start', 'end')
+    def validate_time(cls, v):
+        return validate_time_format(v)
+
 class ShopHoursDay(BaseModel):
-    """Schema for a single day's shop hours"""
-    enabled: bool = Field(..., description="Whether the shop is open this day")
-    open: Optional[str] = Field(None, description="Opening time in HH:MM format")
-    close: Optional[str] = Field(None, description="Closing time in HH:MM format")
+    """Schema for a single day's shop hours - supports both old and new format"""
+    # New format fields
+    regular: Optional[ShopHoursPeriod] = Field(None, description="Regular business hours")
+    evening: Optional[ShopHoursPeriod] = Field(None, description="Evening extended hours")
+    
+    # Old format fields (for backward compatibility)
+    enabled: Optional[bool] = Field(None, description="(Legacy) Whether the shop is open this day")
+    open: Optional[str] = Field(None, description="(Legacy) Opening time in HH:MM format")
+    close: Optional[str] = Field(None, description="(Legacy) Closing time in HH:MM format")
     
     @validator('open', 'close')
-    def validate_time_format(cls, v):
-        if v is not None:
-            try:
-                hour, minute = v.split(':')
-                h, m = int(hour), int(minute)
-                if not (0 <= h <= 23 and 0 <= m <= 59):
-                    raise ValueError
-            except (ValueError, AttributeError):
-                raise ValueError(f"Time must be in HH:MM format (00:00 to 23:59)")
-        return v
+    def validate_time(cls, v):
+        return validate_time_format(v)
 
 class ShopHours(BaseModel):
     """Schema for shop hours setting"""

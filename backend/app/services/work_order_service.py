@@ -1539,6 +1539,26 @@ class WorkOrderService:
             appointment_type,
         )
         
+        # Delete any services associated with this appointment
+        # First, get the service IDs so we can delete linked invoice items
+        from app.models.work_order import WorkOrderService as WorkOrderServiceModel
+        from app.models.invoice import InvoiceItem
+        
+        service_ids = [s.id for s in self.db.query(WorkOrderServiceModel.id).filter(
+            WorkOrderServiceModel.appointment_id == appointment_id
+        ).all()]
+        
+        if service_ids:
+            # Delete invoice items that reference these services
+            self.db.query(InvoiceItem).filter(
+                InvoiceItem.work_order_service_id.in_(service_ids)
+            ).delete(synchronize_session=False)
+            
+            # Now delete the services
+            self.db.query(WorkOrderServiceModel).filter(
+                WorkOrderServiceModel.appointment_id == appointment_id
+            ).delete(synchronize_session=False)
+        
         # Delete the appointment
         self.db.delete(appointment)
         self.db.flush()

@@ -3,6 +3,7 @@ import { format, parseISO } from 'date-fns';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
 import TimelineView from '../schedule/TimelineView';
 import EventDetailModal from '../schedule/EventDetailModal';
+import { useShopHours } from '../../hooks/useShopHours';
 
 const btnInactive =
   'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600';
@@ -87,6 +88,7 @@ export default function TechnicianSchedule({
 }) {
   const [displayMode, setDisplayMode] = useState('list'); // list | timeline
   const [timelineView, setTimelineView] = useState('week'); // day | week (timeline only)
+  const { shopHours } = useShopHours();
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const technicianName = technician?.user
@@ -301,6 +303,7 @@ export default function TechnicianSchedule({
             onEventClick={handleTimelineEventClick}
             viewType={timelineView}
             isLoading={!!isLoadingSchedule}
+            shopHours={shopHours}
           />
         </div>
 

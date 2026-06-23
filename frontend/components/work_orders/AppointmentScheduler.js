@@ -18,6 +18,7 @@ import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import AutoScheduler from './AutoScheduler';
 import TravelTimeInfo from './TravelTimeInfo';
 import TimeWindowSelector from './TimeWindowSelector';
+import { useShopHours } from '../../hooks/useShopHours';
 import {
   findNextAvailableSlot,
   getTimeWindowBoundaries,
@@ -123,6 +124,9 @@ export default function AppointmentScheduler({
   );
   const [technicianDailySchedule, setTechnicianDailySchedule] = useState([]);
   const [isLoadingSchedule, setIsLoadingSchedule] = useState(false);
+  
+  // Load shop hours for time window filtering
+  const { shopHours } = useShopHours();
 
   const [allServices, setAllServices] = useState([]);
   const [servicesLoading, setServicesLoading] = useState(false);
@@ -946,6 +950,7 @@ export default function AppointmentScheduler({
 
   const buildSlotFinderOptions = (overrides = {}) => ({
     schedulingAnchorTime: schedulingAnchorRef.current || new Date(),
+    shopHours,
     ...overrides,
   });
 
@@ -1333,7 +1338,7 @@ export default function AppointmentScheduler({
       
       // Debugging to help diagnose time window issues
       // Use passed windowName to get boundaries
-      const { startTime, endTime } = getTimeWindowBoundaries(selectedDate, windowName);
+      const { startTime, endTime } = getTimeWindowBoundaries(selectedDate, windowName, shopHours);
       console.log('Time window boundaries:', {
         window: windowName, // Use passed windowName
         windowStart: startTime.toLocaleString(),
@@ -2306,6 +2311,7 @@ export default function AppointmentScheduler({
                       address={resolvedWorkOrderAddress}
                       excludeAppointmentId={currentAppointment?.id ?? null}
                       minSlotMinutes={estimatedServiceDurationMinutes}
+                      shopHours={shopHours}
                     />
                     {!resolvedWorkOrderAddress && (
                       <div className="mt-2 text-sm text-amber-600 dark:text-amber-400 space-y-1">

@@ -18,6 +18,7 @@ import ScheduleTestTimeline, {
 } from '../components/schedule/ScheduleTestTimeline';
 import { useSchedule } from '../hooks/useSchedule';
 import { useTechnicians } from '../hooks/useTechnicians';
+import { useShopHours } from '../hooks/useShopHours';
 import { useAuthRedirect } from '../hooks/useAuthRedirect';
 import { useUserRole } from '../utils/auth0-helpers';
 import {
@@ -286,6 +287,8 @@ function ScheduleTestInner() {
 
   const { isManager } = useUserRole();
   useAuthRedirect();
+  
+  const { shopHours } = useShopHours();
 
   useEffect(() => {
     if (viewType !== 'day' && displayMode === 'timeline') {
@@ -989,6 +992,7 @@ function ScheduleTestInner() {
                 blockingStatus={
                   scheduleError ? 'error' : isLoadingSchedule || isLoadingTechnicians ? 'loading' : undefined
                 }
+                shopHours={shopHours}
               />
             </div>
           ) : (

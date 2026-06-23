@@ -100,9 +100,10 @@ class SettingsService:
             raise ValueError(f"Setting '{setting_data.key}' already exists")
         
         # Insert into database
+        # Use CAST instead of :: to avoid SQLAlchemy parameter parsing issues
         query = text("""
             INSERT INTO settings (key, value, description, updated_by)
-            VALUES (:key, :value::jsonb, :description, :user_id)
+            VALUES (:key, CAST(:value AS jsonb), :description, :user_id)
             RETURNING key, value, description, updated_at, updated_by
         """)
         
@@ -110,7 +111,7 @@ class SettingsService:
             "key": setting_data.key,
             "value": json.dumps(setting_data.value),
             "description": setting_data.description,
-            "user_id": user_id,
+            "user_id": str(user_id),
         }).fetchone()
         
         db.commit()
@@ -146,9 +147,10 @@ class SettingsService:
         SettingsService._validate_setting_value(key, value)
         
         # Update in database
+        # Use CAST instead of :: to avoid SQLAlchemy parameter parsing issues
         query = text("""
             UPDATE settings
-            SET value = :value::jsonb, updated_at = NOW(), updated_by = :user_id
+            SET value = CAST(:value AS jsonb), updated_at = NOW(), updated_by = :user_id
             WHERE key = :key
             RETURNING key, value, description, updated_at, updated_by
         """)
@@ -156,7 +158,7 @@ class SettingsService:
         result = db.execute(query, {
             "key": key,
             "value": json.dumps(value),
-            "user_id": user_id,
+            "user_id": str(user_id),
         }).fetchone()
         
         db.commit()

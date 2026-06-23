@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,11 +9,12 @@ import {
   calendarBlockTypeLabel,
   isCalendarBlockEvent,
 } from '../../utils/calendarBlockTypes';
+import { getShopHoursForDate } from '../../hooks/useShopHours';
 
 // CSS for the timeline view content
 import styles from '../../styles/TimelineView.module.css';
 
-const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading }) => {
+const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading, shopHours }) => {
   const [events, setEvents] = useState([]);
   const [tooltipContent, setTooltipContent] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -32,6 +33,46 @@ const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading })
         return 'timeGridDay';
     }
   };
+
+  // Calculate dynamic time boundaries based on shop hours
+  const { slotMinTime, slotMaxTime, scrollTime } = useMemo(() => {
+    if (!shopHours || !date) {
+      return { slotMinTime: '08:00:00', slotMaxTime: '20:00:00', scrollTime: '08:00:00' };
+    }
+
+    const dayHours = getShopHoursForDate(shopHours, date);
+    
+    // Find earliest start and latest end from regular and evening hours
+    let earliestStart = '08:00';
+    let latestEnd = '17:00';
+    
+    if (dayHours.regular?.enabled) {
+      earliestStart = dayHours.regular.start || '09:00';
+      latestEnd = dayHours.regular.end || '17:00';
+    }
+    
+    if (dayHours.evening?.enabled) {
+      const eveningEnd = dayHours.evening.end || '21:00';
+      // Compare times as numbers
+      const [latestH, latestM] = latestEnd.split(':').map(Number);
+      const [eveningEndH, eveningEndM] = eveningEnd.split(':').map(Number);
+      if (eveningEndH > latestH || (eveningEndH === latestH && eveningEndM > latestM)) {
+        latestEnd = eveningEnd;
+      }
+    }
+    
+    // Add padding: start 1 hour earlier, end 1 hour later for visibility
+    const [startH] = earliestStart.split(':').map(Number);
+    const [endH] = latestEnd.split(':').map(Number);
+    const paddedStart = String(Math.max(0, startH - 1)).padStart(2, '0') + ':00:00';
+    const paddedEnd = String(Math.min(23, endH + 1)).padStart(2, '0') + ':00:00';
+    
+    return {
+      slotMinTime: paddedStart,
+      slotMaxTime: paddedEnd,
+      scrollTime: earliestStart + ':00',
+    };
+  }, [shopHours, date]);
 
   // Process appointments into events only when not loading and data is available
   useEffect(() => {
@@ -258,9 +299,9 @@ const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading })
           meridiem: 'short'
         }}
         allDaySlot={false}
-        slotMinTime="08:00:00"
-        slotMaxTime="20:00:00"
-        scrollTime="08:00:00"
+        slotMinTime={slotMinTime}
+        slotMaxTime={slotMaxTime}
+        scrollTime={scrollTime}
         expandRows={true}
         eventClick={handleEventClick}
         eventContent={renderEventContent}

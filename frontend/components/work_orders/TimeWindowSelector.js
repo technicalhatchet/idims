@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { TIME_WINDOWS, isTimeWindowAvailable } from '../../utils/appointment-scheduling';
+import { getShopHoursForDate, getAvailableWindowsForDate } from '../../hooks/useShopHours';
 
 /**
  * Creates a normalized date object for display to avoid timezone issues
@@ -38,6 +39,7 @@ export default function TimeWindowSelector({
   excludeAppointmentId = null,
   minSlotMinutes = undefined,
   allowUnavailableSelection = false,
+  shopHours = null, // NEW: Shop hours configuration
 }) {
   const [selectedTimeWindow, setSelectedTimeWindow] = useState(initialValue);
   const [availabilities, setAvailabilities] = useState({});
@@ -50,6 +52,19 @@ export default function TimeWindowSelector({
   useEffect(() => {
     setSelectedTimeWindow(initialValue);
   }, [initialValue]);
+  
+  // Determine which windows are enabled for this date based on shop hours
+  const enabledWindows = useMemo(() => {
+    if (!selectedDate) return ['morning', 'afternoon']; // Default if no date
+    if (!shopHours) return ['morning', 'afternoon']; // Default if no shop hours configured
+    return getAvailableWindowsForDate(shopHours, selectedDate);
+  }, [selectedDate, shopHours]);
+  
+  // Get the day's shop hours for evening time customization
+  const dayShopHours = useMemo(() => {
+    if (!selectedDate || !shopHours) return null;
+    return getShopHoursForDate(shopHours, selectedDate);
+  }, [selectedDate, shopHours]);
   
   // Check availability when selectedDate, appointments, or technician changes
   useEffect(() => {
@@ -76,23 +91,39 @@ export default function TimeWindowSelector({
     const windowOptions = {
       excludeAppointmentId,
       minSlotMinutes,
+      shopHours: dayShopHours,
     };
 
-    newAvailabilities[TIME_WINDOWS.MORNING.name] = isTimeWindowAvailable(
-      workingDate,
-      TIME_WINDOWS.MORNING.name,
-      existingAppointments,
-      technicianId,
-      windowOptions
-    );
+    // Check availability for each enabled window
+    if (enabledWindows.includes('morning')) {
+      newAvailabilities[TIME_WINDOWS.MORNING.name] = isTimeWindowAvailable(
+        workingDate,
+        TIME_WINDOWS.MORNING.name,
+        existingAppointments,
+        technicianId,
+        windowOptions
+      );
+    }
 
-    newAvailabilities[TIME_WINDOWS.AFTERNOON.name] = isTimeWindowAvailable(
-      workingDate,
-      TIME_WINDOWS.AFTERNOON.name,
-      existingAppointments,
-      technicianId,
-      windowOptions
-    );
+    if (enabledWindows.includes('afternoon')) {
+      newAvailabilities[TIME_WINDOWS.AFTERNOON.name] = isTimeWindowAvailable(
+        workingDate,
+        TIME_WINDOWS.AFTERNOON.name,
+        existingAppointments,
+        technicianId,
+        windowOptions
+      );
+    }
+    
+    if (enabledWindows.includes('evening')) {
+      newAvailabilities[TIME_WINDOWS.EVENING.name] = isTimeWindowAvailable(
+        workingDate,
+        TIME_WINDOWS.EVENING.name,
+        existingAppointments,
+        technicianId,
+        windowOptions
+      );
+    }
     
     setAvailabilities(newAvailabilities);
     
@@ -113,6 +144,8 @@ export default function TimeWindowSelector({
     excludeAppointmentId,
     minSlotMinutes,
     allowUnavailableSelection,
+    enabledWindows,
+    dayShopHours,
   ]);
   
   // Handle window selection
@@ -157,21 +190,44 @@ export default function TimeWindowSelector({
     }
   };
   
-  // Define the time windows for the UI
-  const timeWindowsUI = [
+  // Helper to format time for display
+  const formatWindowTime = (hour, minute) => {
+    const h = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+    const m = minute === 0 ? '00' : minute.toString().padStart(2, '0');
+    const period = hour >= 12 ? 'PM' : 'AM';
+    return `${h}:${m} ${period}`;
+  };
+  
+  // Get evening times from shop hours or defaults
+  const eveningStart = dayShopHours?.evening?.start || '17:00';
+  const eveningEnd = dayShopHours?.evening?.end || '21:00';
+  const [eveningStartH, eveningStartM] = eveningStart.split(':').map(Number);
+  const [eveningEndH, eveningEndM] = eveningEnd.split(':').map(Number);
+  
+  // Define the time windows for the UI - only include enabled ones
+  const allTimeWindows = [
     {
       id: TIME_WINDOWS.MORNING.name,
       label: 'Morning',
-      description: `${TIME_WINDOWS.MORNING.startHour}:${TIME_WINDOWS.MORNING.startMinute === 0 ? '00' : TIME_WINDOWS.MORNING.startMinute} AM - ${TIME_WINDOWS.MORNING.endHour}:${TIME_WINDOWS.MORNING.endMinute === 0 ? '00' : TIME_WINDOWS.MORNING.endMinute} PM`,
-      icon: <FaSun />
+      description: `${formatWindowTime(TIME_WINDOWS.MORNING.startHour, TIME_WINDOWS.MORNING.startMinute)} - ${formatWindowTime(TIME_WINDOWS.MORNING.endHour, TIME_WINDOWS.MORNING.endMinute)}`,
+      icon: <FaSun className="text-yellow-500" />
     },
     {
       id: TIME_WINDOWS.AFTERNOON.name,
       label: 'Afternoon',
-      description: `${TIME_WINDOWS.AFTERNOON.startHour > 12 ? TIME_WINDOWS.AFTERNOON.startHour - 12 : TIME_WINDOWS.AFTERNOON.startHour}:${TIME_WINDOWS.AFTERNOON.startMinute === 0 ? '00' : TIME_WINDOWS.AFTERNOON.startMinute} PM - ${TIME_WINDOWS.AFTERNOON.endHour - 12}:${TIME_WINDOWS.AFTERNOON.endMinute === 0 ? '00' : TIME_WINDOWS.AFTERNOON.endMinute} PM`,
-      icon: <FaMoon />
+      description: `${formatWindowTime(TIME_WINDOWS.AFTERNOON.startHour, TIME_WINDOWS.AFTERNOON.startMinute)} - ${formatWindowTime(TIME_WINDOWS.AFTERNOON.endHour, TIME_WINDOWS.AFTERNOON.endMinute)}`,
+      icon: <FaSun className="text-orange-500" />
+    },
+    {
+      id: TIME_WINDOWS.EVENING.name,
+      label: 'Evening',
+      description: `${formatWindowTime(eveningStartH, eveningStartM)} - ${formatWindowTime(eveningEndH, eveningEndM)}`,
+      icon: <FaMoon className="text-indigo-400" />
     }
   ];
+  
+  // Filter to only show enabled windows
+  const timeWindowsUI = allTimeWindows.filter(w => enabledWindows.includes(w.id));
   
   return (
     // Replace Box with div and apply Tailwind classes

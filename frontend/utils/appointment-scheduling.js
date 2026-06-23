@@ -299,7 +299,7 @@ export function resolveWorkOrderServiceAddress(workOrder = {}) {
   return null;
 }
 
-// Define time window boundaries
+// Define time window boundaries (defaults - can be overridden by shop_hours)
 export const TIME_WINDOWS = {
   MORNING: {
     name: 'morning',
@@ -311,10 +311,18 @@ export const TIME_WINDOWS = {
   },
   AFTERNOON: {
     name: 'afternoon',
-    label: 'Afternoon (12:30 PM - 4:00 PM)',
+    label: 'Afternoon (12:30 PM - 5:00 PM)',
     startHour: 12,
     startMinute: 30,
-    endHour: 16,
+    endHour: 17,
+    endMinute: 0
+  },
+  EVENING: {
+    name: 'evening',
+    label: 'Evening (5:00 PM - 9:00 PM)',
+    startHour: 17,
+    startMinute: 0,
+    endHour: 21,
     endMinute: 0
   }
 };
@@ -445,11 +453,60 @@ export function createTimeForDate(baseDate, hours, minutes) {
 /**
  * Get the time window start and end times for a specific date
  * @param {Date|string} date - The date to get time window for
- * @param {string} windowName - 'morning' or 'afternoon'
+ * @param {string} windowName - 'morning', 'afternoon', or 'evening'
+ * @param {Object} [shopHours] - Optional shop hours config for the day
  * @returns {Object} { startTime, endTime } as Date objects
  */
-export function getTimeWindowBoundaries(date, windowName) {
-  const window = windowName === 'morning' ? TIME_WINDOWS.MORNING : TIME_WINDOWS.AFTERNOON;
+export function getTimeWindowBoundaries(date, windowName, shopHours = null) {
+  // Get the base window definition
+  let window;
+  if (windowName === 'morning') {
+    window = TIME_WINDOWS.MORNING;
+  } else if (windowName === 'evening') {
+    window = TIME_WINDOWS.EVENING;
+  } else {
+    window = TIME_WINDOWS.AFTERNOON;
+  }
+  
+  // Determine day-specific hours
+  // shopHours can be either:
+  // 1. Full object with day keys: { monday: { regular, evening }, tuesday: {...}, ... }
+  // 2. Day-specific object passed directly: { regular, evening }
+  let dayHours = null;
+  if (shopHours) {
+    // Check if this is a full shop hours object (has day keys like 'monday')
+    const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const hasDayKeys = DAYS_OF_WEEK.some(day => shopHours[day] !== undefined);
+    
+    if (hasDayKeys) {
+      // Full shop hours object - extract day-specific hours
+      let dayOfWeek;
+      if (typeof date === 'string') {
+        const [datePart] = date.split('T');
+        const [year, month, day] = datePart.split('-').map(Number);
+        dayOfWeek = DAYS_OF_WEEK[new Date(year, month - 1, day).getDay()];
+      } else {
+        dayOfWeek = DAYS_OF_WEEK[date.getDay()];
+      }
+      dayHours = shopHours[dayOfWeek];
+    } else if (shopHours.regular !== undefined || shopHours.evening !== undefined) {
+      // Day-specific object passed directly
+      dayHours = shopHours;
+    }
+  }
+  
+  // If shop hours provided, use custom times for evening window
+  if (dayHours?.evening?.enabled && windowName === 'evening') {
+    const [startH, startM] = (dayHours.evening.start || '17:00').split(':').map(Number);
+    const [endH, endM] = (dayHours.evening.end || '21:00').split(':').map(Number);
+    window = {
+      ...window,
+      startHour: startH,
+      startMinute: startM || 0,
+      endHour: endH,
+      endMinute: endM || 0,
+    };
+  }
   
   // Make sure we're working with a clean date to avoid timezone issues
   let cleanDate;
@@ -485,6 +542,7 @@ export function getTimeWindowBoundaries(date, windowName) {
  * @param {Object} [options]
  * @param {string} [options.excludeAppointmentId] - When editing, ignore this appointment
  * @param {number} [options.minSlotMinutes] - Minimum contiguous free minutes needed in the window
+ * @param {Object} [options.shopHours] - Shop hours config for the day (for evening window customization)
  */
 export function isTimeWindowAvailable(
   date,
@@ -496,6 +554,7 @@ export function isTimeWindowAvailable(
   const {
     excludeAppointmentId = null,
     minSlotMinutes = DEFAULT_MIN_SLOT_MINUTES,
+    shopHours = null,
   } = options;
 
   const blockingItems = filterSchedulingConflicts(existingAppointments);
@@ -514,14 +573,14 @@ export function isTimeWindowAvailable(
   const isToday = isSameCalendarDay(normalizedDate, now);
 
   if (isToday) {
-    const { endTime: windowEnd } = getTimeWindowBoundaries(normalizedDate, windowName);
+    const { endTime: windowEnd } = getTimeWindowBoundaries(normalizedDate, windowName, shopHours);
     const bufferMs = 30 * 60 * 1000;
     if (now.getTime() + bufferMs >= windowEnd.getTime()) {
       return { available: false, reason: 'This time window has already passed' };
     }
   }
 
-  const { startTime, endTime } = getTimeWindowBoundaries(normalizedDate, windowName);
+  const { startTime, endTime } = getTimeWindowBoundaries(normalizedDate, windowName, shopHours);
 
   const appointmentsInWindow = blockingItems.filter((item) => {
     const interval = getScheduleItemInterval(item);
@@ -616,6 +675,7 @@ export async function findNextAvailableSlot(
   const {
     schedulingAnchorTime,
     schedulingMode: explicitSchedulingMode,
+    shopHours,
   } = options;
 
   console.log(`[findNextAvailableSlot V2] Finding slot for date: ${date}, window: ${windowName}, technician: ${technicianId}, duration: ${duration} min`);
@@ -646,9 +706,16 @@ export async function findNextAvailableSlot(
   const dateStr = normalizedDate.toDateString(); // For comparison
   console.log(`[findNextAvailableSlot V2] Normalized Date: ${dateStr}`);
 
-  const { startTime: windowStartTime, endTime: windowEndTime } = getTimeWindowBoundaries(normalizedDate, windowName);
+  const { startTime: windowStartTime, endTime: windowEndTime } = getTimeWindowBoundaries(normalizedDate, windowName, shopHours);
   const workDayStartTime = new Date(normalizedDate); workDayStartTime.setHours(TECHNICIAN_WORK_START_HOUR, 0, 0, 0);
-  const workDayEndTime = new Date(normalizedDate); workDayEndTime.setHours(TECHNICIAN_WORK_END_HOUR, 0, 0, 0);
+  // For evening windows, extend work day end to the window end time
+  const workDayEndTime = new Date(normalizedDate);
+  if (windowName === 'evening') {
+    // Use the evening window end time as the work day end
+    workDayEndTime.setTime(windowEndTime.getTime());
+  } else {
+    workDayEndTime.setHours(TECHNICIAN_WORK_END_HOUR, 0, 0, 0);
+  }
   const durationMs = duration * 60 * 1000;
 
   const anchorTime = parseScheduleInstant(schedulingAnchorTime) || new Date();

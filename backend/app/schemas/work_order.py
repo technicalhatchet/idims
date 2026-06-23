@@ -104,7 +104,7 @@ class InitialAppointmentCreate(BaseModel):
     @validator("time_window")
     def validate_time_window(cls, v):
         if v is not None:
-            allowed_windows = ["morning", "afternoon"]
+            allowed_windows = ["morning", "afternoon", "evening"]
             if v not in allowed_windows:
                 raise ValueError(f"Time window must be one of {allowed_windows}")
         return v
@@ -314,7 +314,7 @@ class WorkOrderAppointmentBase(BaseModel):
     @validator('time_window')
     def validate_time_window(cls, v):
         if v is not None:
-            allowed_windows = ["morning", "afternoon"]
+            allowed_windows = ["morning", "afternoon", "evening"]
             if v not in allowed_windows:
                 raise ValueError(f"Time window must be one of {allowed_windows}")
         return v

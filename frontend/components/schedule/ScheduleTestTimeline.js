@@ -8,6 +8,7 @@ import {
   calendarBlockTypeLabel,
   isCalendarBlockEvent,
 } from '../../utils/calendarBlockTypes';
+import { getShopHoursForDate } from '../../hooks/useShopHours';
 
 /** Business window start (hour) — labels + grid reference this clock hour. */
 const START_HOUR = 8;
@@ -700,6 +701,7 @@ export default function ScheduleTestTimeline({
   hudDateISO,
   onHudDateChange,
   blockingStatus,
+  shopHours,
 }) {
   const [nowTick, setNowTick] = useState(() => new Date());
   const scrollAnchorRef = useRef(null);
@@ -715,10 +717,45 @@ export default function ScheduleTestTimeline({
     return d;
   }, [anchorDate]);
 
-  /** Scales strip height to real minutes (8:40→6pm ≈ 9.33h, slightly shorter than 10h). */
-  const timelineMinHeight = (TIMELINE_DAY_TOTAL_MINS / 60) * MIN_PX_PER_HOUR;
+  // Calculate dynamic timeline bounds based on shop hours
+  const { dynamicStartHour, dynamicEndHour } = useMemo(() => {
+    if (!shopHours || !anchorDate) {
+      return { dynamicStartHour: START_HOUR, dynamicEndHour: END_HOUR };
+    }
+    
+    const dayHours = getShopHoursForDate(shopHours, anchorDate);
+    let startH = START_HOUR;
+    let endH = END_HOUR;
+    
+    if (dayHours.regular?.enabled) {
+      const [regStartH] = (dayHours.regular.start || '09:00').split(':').map(Number);
+      const [regEndH] = (dayHours.regular.end || '17:00').split(':').map(Number);
+      startH = Math.min(startH, regStartH - 1); // 1 hour padding
+      endH = Math.max(endH, regEndH);
+    }
+    
+    if (dayHours.evening?.enabled) {
+      const [eveningEndH] = (dayHours.evening.end || '21:00').split(':').map(Number);
+      endH = Math.max(endH, eveningEndH + 1); // 1 hour padding
+    }
+    
+    return { dynamicStartHour: Math.max(0, startH), dynamicEndHour: Math.min(24, endH) };
+  }, [shopHours, anchorDate]);
+
+  // Compute dynamic timeline parameters based on shop hours
+  const timelineParams = useMemo(() => {
+    const startHour = dynamicStartHour;
+    const endHour = dynamicEndHour;
+    const dayStartMins = startHour * 60 + TIMELINE_START_OFFSET_MINS;
+    const dayTotalMins = endHour * 60 - dayStartMins;
+    return { startHour, endHour, dayStartMins, dayTotalMins };
+  }, [dynamicStartHour, dynamicEndHour]);
+
+  /** Scales strip height to real minutes based on dynamic hours. */
+  const timelineMinHeight = (timelineParams.dayTotalMins / 60) * MIN_PX_PER_HOUR;
 
   const prepared = useMemo(() => {
+    const { dayStartMins, dayTotalMins, endHour } = timelineParams;
     const list = (appointments || [])
       .filter((a) => a.start)
       .map((a) => {
@@ -730,10 +767,10 @@ export default function ScheduleTestTimeline({
       .sort((a, b) => a._start - b._start);
 
     return list.map((a) => {
-      const startM = clamp(minsFromMidnight(a._start), TIMELINE_DAY_START_MINS, END_HOUR * 60);
-      const endM = clamp(minsFromMidnight(a._end), startM + 15, END_HOUR * 60);
-      const topPct = ((startM - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
-      const heightPct = Math.max(4, ((endM - startM) / TIMELINE_DAY_TOTAL_MINS) * 100);
+      const startM = clamp(minsFromMidnight(a._start), dayStartMins, endHour * 60);
+      const endM = clamp(minsFromMidnight(a._end), startM + 15, endHour * 60);
+      const topPct = ((startM - dayStartMins) / dayTotalMins) * 100;
+      const heightPct = Math.max(4, ((endM - startM) / dayTotalMins) * 100);
       const isBlock = isCalendarBlockEvent(a);
       const blockAccent = isBlock ? CALENDAR_BLOCK_ACCENT[a.block_type] || CALENDAR_BLOCK_ACCENT.other : null;
       const rail = isBlock
@@ -743,7 +780,7 @@ export default function ScheduleTestTimeline({
           : '#64748B';
       return { ...a, topPct, heightPct, rail, isBlock, blockAccent };
     });
-  }, [appointments, dayStart, technicianRailMap]);
+  }, [appointments, dayStart, technicianRailMap, timelineParams]);
 
   const connectors = useMemo(() => {
     const out = [];
@@ -785,11 +822,12 @@ export default function ScheduleTestTimeline({
   );
 
   const nowLinePct = useMemo(() => {
+    const { dayStartMins, dayTotalMins, endHour } = timelineParams;
     if (!isSameDay(nowTick, dayStart)) return null;
     const m = minsFromMidnight(nowTick);
-    if (m < TIMELINE_DAY_START_MINS || m > END_HOUR * 60) return null;
-    return ((m - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
-  }, [nowTick, dayStart]);
+    if (m < dayStartMins || m > endHour * 60) return null;
+    return ((m - dayStartMins) / dayTotalMins) * 100;
+  }, [nowTick, dayStart, timelineParams]);
 
   /** Scroll so the 9 AM band (see `TIMELINE_SCROLL_ANCHOR_HOUR`) sits near the top. */
   useEffect(() => {
@@ -1120,11 +1158,11 @@ export default function ScheduleTestTimeline({
             className="pointer-events-none w-full overflow-hidden select-none"
             style={{ height: timelineMinHeight }}
           />
-          {Array.from({ length: END_HOUR - START_HOUR }, (_, i) => {
-            const h = START_HOUR + 1 + i;
-            const rawPct = ((h * 60 - TIMELINE_DAY_START_MINS) / TIMELINE_DAY_TOTAL_MINS) * 100;
+          {Array.from({ length: timelineParams.endHour - timelineParams.startHour }, (_, i) => {
+            const h = timelineParams.startHour + 1 + i;
+            const rawPct = ((h * 60 - timelineParams.dayStartMins) / timelineParams.dayTotalMins) * 100;
             const topPct = Math.max(0, Math.min(100, rawPct));
-            const isLast = h === END_HOUR;
+            const isLast = h === timelineParams.endHour;
             const labelTransform = isLast ? 'translateY(-100%)' : 'translateY(-50%)';
             return (
               <div

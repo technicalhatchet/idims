@@ -13,6 +13,7 @@ import CalendarBlockModal from '../../components/schedule/CalendarBlockModal';
 import RouteOptimizeModal from '../../components/schedule/RouteOptimizeModal';
 import { useSchedule } from '../../hooks/useSchedule';
 import { useTechnicians } from '../../hooks/useTechnicians';
+import { useShopHours } from '../../hooks/useShopHours';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUser, FaClipboardList } from 'react-icons/fa';
 import { useAuthRedirect } from '../../hooks/useAuthRedirect';
 import { useUserRole } from '../../utils/auth0-helpers';
@@ -68,6 +69,9 @@ function SchedulePage() {
   const { isManager } = useUserRole();
   
   useAuthRedirect();
+  
+  // Load shop hours for schedule display
+  const { shopHours } = useShopHours();
   
   // Fetch schedule data
   const {
@@ -739,6 +743,7 @@ function SchedulePage() {
               onEventClick={handleEventClick}
               viewType={viewType}
               isLoading={isLoadingSchedule}
+              shopHours={shopHours}
             />
           ) : (
             renderAppointments()
