@@ -2,6 +2,7 @@
 Settings router for application-wide configuration and user preferences
 """
 
+import copy
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
@@ -129,7 +130,8 @@ async def update_user_settings(
             )
         
         # Merge with existing preferences
-        current_prefs = db_user.preferences or {}
+        # IMPORTANT: Make a copy to ensure SQLAlchemy detects the change
+        current_prefs = copy.deepcopy(db_user.preferences) if db_user.preferences else {}
         
         if update_data.ui_preferences:
             ui_prefs = current_prefs.get('ui_preferences', {})
@@ -138,12 +140,12 @@ async def update_user_settings(
                 ui_prefs['railPosition'] = update_data.ui_preferences.railPosition
             current_prefs['ui_preferences'] = ui_prefs
         
-        # Save to database
+        # Save to database - assign new dict so SQLAlchemy detects the change
         db_user.preferences = current_prefs
         db.commit()
         db.refresh(db_user)
         
-        logger.info(f"Updated preferences for user {db_user.id}")
+        logger.info(f"Updated preferences for user {db_user.id}: {db_user.preferences}")
         
         return UserPreferencesResponse(
             ui_preferences=current_prefs.get('ui_preferences', {})

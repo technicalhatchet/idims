@@ -14,19 +14,19 @@ database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
 engine = create_engine(
     database_url,
     pool_pre_ping=True,  # Check connection health before each use
-    pool_size=5,  # Smaller pool to reduce stale connections
-    max_overflow=10,
+    pool_size=10,  # Increased from 5
+    max_overflow=20,  # Increased from 10
     pool_timeout=30,
-    pool_recycle=60,  # Recycle connections every 60 seconds (was 300)
+    pool_recycle=60,  # Recycle connections every 60 seconds
     pool_reset_on_return='rollback',
     connect_args={
         'keepalives': 1,
-        'keepalives_idle': 10,  # Start keepalive after 10s idle (was 30)
-        'keepalives_interval': 5,  # Send keepalive every 5s (was 10)
-        'keepalives_count': 3,  # Fail after 3 missed keepalives (was 5)
+        'keepalives_idle': 10,  # Start keepalive after 10s idle
+        'keepalives_interval': 5,  # Send keepalive every 5s
+        'keepalives_count': 3,  # Fail after 3 missed keepalives
         'connect_timeout': 10,
     },
-    echo=False  # Never log SQL queries in production — causes massive overhead
+    echo=False  # Never log SQL queries in production
 )
 
 # Create session factory
