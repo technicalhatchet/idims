@@ -254,6 +254,24 @@ export function formatPropertyAddress(property) {
   return parts.length ? parts.join(', ') : null;
 }
 
+/** Higher score = more likely to geocode correctly (city/state/zip present). */
+function addressGeocodeScore(address) {
+  if (!address) return 0;
+  const trimmed = String(address).trim();
+  let score = trimmed.length;
+  if (/,/.test(trimmed)) score += 20;
+  if (/\b[A-Z]{2}\b/.test(trimmed)) score += 15;
+  if (/\b\d{5}(?:-\d{4})?\b/.test(trimmed)) score += 25;
+  return score;
+}
+
+/** Pick the best geocodable address when service_location is incomplete. */
+function pickBestGeocodableAddress(...candidates) {
+  const unique = [...new Set(candidates.filter(Boolean).map((a) => String(a).trim()))];
+  if (!unique.length) return null;
+  return unique.sort((a, b) => addressGeocodeScore(b) - addressGeocodeScore(a))[0];
+}
+
 /** Best-effort address for an appointment record (schedule API, local list, etc.) */
 export function resolveAppointmentLocation(appointment) {
   if (!appointment) return null;
@@ -282,21 +300,21 @@ export function resolveAppointmentLocation(appointment) {
 
 export function resolveWorkOrderServiceAddress(workOrder = {}) {
   const fromServiceLocation = formatServiceLocationAddress(workOrder.service_location);
-  if (fromServiceLocation) return fromServiceLocation;
 
   const fromProperty = formatPropertyAddress(workOrder.property);
-  if (fromProperty) return fromProperty;
 
+  let fromClientProperty = null;
   const propertyId = workOrder.property_id;
   if (propertyId && Array.isArray(workOrder.client_properties)) {
     const matched = workOrder.client_properties.find(
       (p) => p.id === propertyId || String(p.id) === String(propertyId)
     );
-    const fromClientProperty = formatPropertyAddress(matched);
-    if (fromClientProperty) return fromClientProperty;
+    fromClientProperty = formatPropertyAddress(matched);
   }
 
-  return null;
+  // Prefer the most complete address — bare street lines (e.g. "242 1/2 Main Street")
+  // geocode poorly without city/state/zip even when property has the full address.
+  return pickBestGeocodableAddress(fromServiceLocation, fromProperty, fromClientProperty);
 }
 
 // Define time window boundaries (defaults - can be overridden by shop_hours)

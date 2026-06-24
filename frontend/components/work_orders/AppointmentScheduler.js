@@ -1330,7 +1330,7 @@ export default function AppointmentScheduler({
       
       if (!slot) {
         setError(
-          `No open slots in the ${windowName} window on this date — the technician's active schedule is full. Try another date or window, or check for overlapping appointments.`
+          `No open slots in the ${windowName} window on this date. The drive from shop may exceed this window, or the service address may not geocode correctly (check city/state/zip — "1/2" addresses often need a full address). Try another date or window, or use Force Schedule.`
         );
         setIsCalculating(false);
         return false;
