@@ -122,3 +122,83 @@ def validate_invoice_terms(value: str) -> str:
     if value not in VALID_INVOICE_TERMS:
         raise ValueError(f"Invoice terms must be one of {VALID_INVOICE_TERMS}")
     return value
+
+
+# ── Trip/Service Zone Schemas ────────────────────────────────────────────────
+
+class TripZone(BaseModel):
+    """Schema for a single service zone"""
+    name: str = Field(..., description="Zone display name (e.g., 'Local', 'Extended')")
+    tripCharge: float = Field(..., ge=0, description="Trip charge amount for this zone")
+    zipCodes: List[str] = Field(default_factory=list, description="Zip codes explicitly in this zone")
+    color: Optional[str] = Field(None, description="Optional color for UI display")
+
+
+class DriveTimeRange(BaseModel):
+    """Schema for drive time-based zone fallback"""
+    maxMinutes: Optional[int] = Field(None, description="Max drive time in minutes for this range (null = unlimited)")
+    charge: Optional[float] = Field(None, description="Trip charge (null = custom/manual)")
+    zone: str = Field(..., description="Zone key this range maps to")
+
+
+class TripZonesSettings(BaseModel):
+    """Schema for trip/service zones setting"""
+    zones: Dict[str, TripZone] = Field(
+        ..., 
+        description="Zone definitions keyed by zone ID (local, extended, far, custom)"
+    )
+    driveTimeFallback: Dict[str, Any] = Field(
+        default_factory=lambda: {
+            "enabled": True,
+            "shopAddress": None,
+            "ranges": []
+        },
+        description="Drive time-based fallback for zip codes not in explicit lists"
+    )
+    defaultTripChargeSku: Optional[str] = Field(
+        None, 
+        description="SKU code for trip charge service (auto-added to work orders)"
+    )
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "zones": {
+                    "local": {
+                        "name": "Local",
+                        "tripCharge": 0,
+                        "zipCodes": ["43609", "43604", "43605"],
+                        "color": "#22c55e"
+                    },
+                    "extended": {
+                        "name": "Extended",
+                        "tripCharge": 29,
+                        "zipCodes": [],
+                        "color": "#eab308"
+                    },
+                    "far": {
+                        "name": "Far",
+                        "tripCharge": 50,
+                        "zipCodes": [],
+                        "color": "#f97316"
+                    },
+                    "custom": {
+                        "name": "Custom",
+                        "tripCharge": 0,
+                        "zipCodes": [],
+                        "color": "#ef4444"
+                    }
+                },
+                "driveTimeFallback": {
+                    "enabled": True,
+                    "shopAddress": "641 Barclay Drive, Toledo, OH 43609",
+                    "ranges": [
+                        {"maxMinutes": 20, "charge": 0, "zone": "local"},
+                        {"maxMinutes": 35, "charge": 29, "zone": "extended"},
+                        {"maxMinutes": 50, "charge": 50, "zone": "far"},
+                        {"maxMinutes": None, "charge": None, "zone": "custom"}
+                    ]
+                },
+                "defaultTripChargeSku": "TRIP-CHARGE"
+            }
+        }

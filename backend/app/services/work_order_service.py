@@ -1063,6 +1063,57 @@ class WorkOrderService:
                 db_appointment.travel_distance_before is None):
                 # Update travel time and distance for this appointment
                 travel_calculator.update_appointment_travel_info(self.db, str(db_appointment.id))
+                # Refresh to get the updated travel info
+                self.db.refresh(db_appointment)
+            
+            # Auto-add trip charge based on zone (zip code lookup)
+            try:
+                from app.services.zone_service import get_zone_service
+                import re
+                zone_service = get_zone_service(self.db)
+                
+                # Get service address from work order
+                service_address = None
+                property_zip = None
+                
+                if work_order.service_location and isinstance(work_order.service_location, dict):
+                    service_address = work_order.service_location.get('address')
+                    # Try to extract zip from address string (5-digit zip at end)
+                    if service_address:
+                        zip_match = re.search(r'\b(\d{5})(?:-\d{4})?\s*$', service_address)
+                        if zip_match:
+                            property_zip = zip_match.group(1)
+                
+                # Calculate drive time from SHOP to service location
+                shop_to_property_drive_time = None
+                if service_address:
+                    shop_address = travel_calculator.get_default_shop_address()
+                    travel_time, _ = travel_calculator.get_travel_time_and_distance(shop_address, service_address)
+                    if travel_time is not None:
+                        shop_to_property_drive_time = float(travel_time)  # Already in minutes
+                
+                logger.info(f"Zone lookup: zip={property_zip}, shop_drive_time={shop_to_property_drive_time} minutes, address={service_address}")
+                
+                zone_result = zone_service.determine_zone(
+                    zip_code=property_zip,
+                    drive_time_minutes=shop_to_property_drive_time
+                )
+                
+                if zone_result and zone_result.get('tripCharge') is not None:
+                    zone_service.add_trip_charge_to_work_order(
+                        work_order_id=db_appointment.work_order_id,
+                        zone_key=zone_result['zoneKey'],
+                        trip_charge=zone_result['tripCharge'],
+                        appointment_id=db_appointment.id
+                    )
+                    logger.info(f"Added trip charge for zone '{zone_result['zoneKey']}' (method: {zone_result.get('method')}): ${zone_result['tripCharge']}")
+                elif zone_result:
+                    logger.info(f"Zone '{zone_result['zoneKey']}' requires manual trip charge (method: {zone_result.get('method')})")
+                else:
+                    logger.info("No zone determined for trip charge")
+            except Exception as zone_error:
+                logger.warning(f"Failed to add trip charge: {zone_error}", exc_info=True)
+                # Don't fail appointment creation if trip charge fails
             
             logger.info(f"Syncing work order schedule for work_order_id: {appointment_data.work_order_id} post-appointment creation.")
             try:

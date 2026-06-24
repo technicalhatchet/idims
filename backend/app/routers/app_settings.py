@@ -319,3 +319,73 @@ async def invalidate_settings_cache(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error invalidating cache: {str(e)}"
         )
+
+
+# ── Zone/Trip Charge Endpoints ───────────────────────────────────────────────
+
+from app.services.zone_service import ZoneService
+
+
+class ZoneLookupRequest(BaseModel):
+    """Request schema for zone lookup"""
+    zipCode: Optional[str] = None
+    driveTimeMinutes: Optional[float] = None
+    address: Optional[str] = None
+
+
+class ZoneLookupResponse(BaseModel):
+    """Response schema for zone lookup"""
+    zoneKey: str
+    zoneName: str
+    tripCharge: Optional[float]
+    method: str
+    driveTimeMinutes: Optional[float] = None
+    color: Optional[str] = None
+    isCustom: bool = False
+
+
+@router.get("/zones/config")
+async def get_zone_config(
+    db: Session = Depends(get_db),
+):
+    """
+    Get the full zone configuration.
+    """
+    try:
+        zone_service = ZoneService(db)
+        return zone_service.get_all_zones()
+    except Exception as e:
+        logger.error(f"Error retrieving zone config: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error retrieving zone config: {str(e)}"
+        )
+
+
+@router.post("/zones/lookup", response_model=ZoneLookupResponse)
+async def lookup_zone(
+    request: ZoneLookupRequest,
+    db: Session = Depends(get_db),
+):
+    """
+    Determine the service zone for a given location.
+    
+    Provide either:
+    - zipCode: For explicit zip code mapping
+    - driveTimeMinutes: For drive time-based lookup (if already calculated)
+    - Both: Zip code is checked first, then drive time fallback
+    """
+    try:
+        zone_service = ZoneService(db)
+        result = zone_service.determine_zone(
+            zip_code=request.zipCode,
+            drive_time_minutes=request.driveTimeMinutes,
+            address=request.address
+        )
+        return ZoneLookupResponse(**result)
+    except Exception as e:
+        logger.error(f"Error looking up zone: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error looking up zone: {str(e)}"
+        )

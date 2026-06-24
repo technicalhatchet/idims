@@ -248,6 +248,57 @@ def get_formatted_address(service_location):
         
     return ', '.join(filter(None, address_parts))
 
+def get_shop_to_property_drive_time(db: Session, property_obj) -> Optional[float]:
+    """
+    Calculate drive time from shop to a property (in minutes).
+    Used for trip charge zone determination.
+    
+    Args:
+        db: Database session
+        property_obj: Property model object with address fields
+        
+    Returns:
+        Drive time in minutes, or None if calculation fails
+    """
+    try:
+        shop_address = get_default_shop_address()
+        
+        # Build property address
+        if hasattr(property_obj, 'formatted_address') and property_obj.formatted_address:
+            property_address = property_obj.formatted_address
+        else:
+            # Build from individual fields
+            address_parts = []
+            if hasattr(property_obj, 'street_address') and property_obj.street_address:
+                address_parts.append(property_obj.street_address)
+            if hasattr(property_obj, 'city') and property_obj.city:
+                address_parts.append(property_obj.city)
+            if hasattr(property_obj, 'state') and property_obj.state:
+                address_parts.append(property_obj.state)
+            if hasattr(property_obj, 'zip_code') and property_obj.zip_code:
+                address_parts.append(property_obj.zip_code)
+            
+            if not address_parts:
+                logger.warning("No address available for property")
+                return None
+            
+            property_address = ', '.join(address_parts)
+        
+        logger.info(f"Calculating shop-to-property drive time: {shop_address} -> {property_address}")
+        
+        travel_time, travel_distance = get_travel_time_and_distance(shop_address, property_address)
+        
+        if travel_time is not None:
+            logger.info(f"Shop-to-property drive time: {travel_time} minutes")
+            return float(travel_time)
+        
+        return None
+        
+    except Exception as e:
+        logger.error(f"Error calculating shop-to-property drive time: {str(e)}")
+        return None
+
+
 def update_appointment_travel_info(db: Session, appointment_id: str) -> bool:
     """
     Update the travel time and distance fields for an appointment.
