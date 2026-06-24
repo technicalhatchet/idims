@@ -282,20 +282,22 @@ export function resolveAppointmentLocation(appointment) {
     return appointment.service_address.trim();
   }
   const fromServiceLocation = formatServiceLocationAddress(appointment.service_location);
-  if (fromServiceLocation) return fromServiceLocation;
-
   const fromAppointmentProperty = formatPropertyAddress(appointment.property);
-  if (fromAppointmentProperty) return fromAppointmentProperty;
 
   const workOrder = appointment.work_order;
+  let fromWorkOrder = null;
+  let fromWorkOrderProperty = null;
   if (workOrder) {
-    const fromWorkOrder = formatServiceLocationAddress(workOrder.service_location);
-    if (fromWorkOrder) return fromWorkOrder;
-    const fromProperty = formatPropertyAddress(workOrder.property);
-    if (fromProperty) return fromProperty;
+    fromWorkOrder = formatServiceLocationAddress(workOrder.service_location);
+    fromWorkOrderProperty = formatPropertyAddress(workOrder.property);
   }
 
-  return null;
+  return pickBestGeocodableAddress(
+    fromServiceLocation,
+    fromAppointmentProperty,
+    fromWorkOrder,
+    fromWorkOrderProperty
+  );
 }
 
 export function resolveWorkOrderServiceAddress(workOrder = {}) {
@@ -312,8 +314,8 @@ export function resolveWorkOrderServiceAddress(workOrder = {}) {
     fromClientProperty = formatPropertyAddress(matched);
   }
 
-  // Prefer the most complete address — bare street lines (e.g. "242 1/2 Main Street")
-  // geocode poorly without city/state/zip even when property has the full address.
+  // Prefer the most complete address. Work orders often store only the street line in
+  // service_location while the linked property has "242 1/2 Main St, Luckey, OH 43443".
   return pickBestGeocodableAddress(fromServiceLocation, fromProperty, fromClientProperty);
 }
 

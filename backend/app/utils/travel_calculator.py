@@ -1,6 +1,7 @@
 import math
 import logging
 import os
+import re
 import requests
 from typing import Dict, Any, Tuple, Optional, Union
 from datetime import datetime, date, time
@@ -11,6 +12,27 @@ from app.models.work_order import WorkOrderAppointment
 logger = logging.getLogger(__name__)
 
 METERS_PER_MILE = 1609.34
+
+# Fractional house numbers (e.g. "242 1/2") often fail Google geocoding — strip for routing only.
+_FRACTION_IN_ADDRESS = re.compile(
+    r"\s*-\s*\d+/\d+"  # 242-1/2
+    r"|\s+\d+/\d+"     # 242 1/2
+    r"|\s+[½¼¾]",      # unicode fractions
+    re.IGNORECASE,
+)
+
+
+def sanitize_address_for_routing(address: Optional[str]) -> Optional[str]:
+    """Remove fractional house numbers so Maps can route (display address unchanged elsewhere)."""
+    if not address:
+        return address
+    original = str(address).strip()
+    cleaned = _FRACTION_IN_ADDRESS.sub("", original)
+    cleaned = re.sub(r"\s{2,}", " ", cleaned)
+    cleaned = re.sub(r",\s*,", ",", cleaned).strip()
+    if cleaned != original:
+        logger.info("Sanitized address for routing: %r -> %r", original, cleaned)
+    return cleaned or original
 
 
 def get_default_shop_address() -> str:
@@ -200,6 +222,9 @@ def get_travel_time_and_distance(origin: str, destination: str) -> Tuple[Optiona
     
     Uses Google Routes API (traffic-unaware), then falls back to Haversine + geocoding.
     """
+    origin = sanitize_address_for_routing(origin) or origin
+    destination = sanitize_address_for_routing(destination) or destination
+
     try:
         if settings.MAPS_API_KEY:
             travel_time, travel_distance = _fetch_google_routes_travel(origin, destination)

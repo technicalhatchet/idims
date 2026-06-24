@@ -54,6 +54,20 @@ function normalizeCacheKey(origin, destination) {
   return `${String(origin || '').trim().toLowerCase()}|${String(destination || '').trim().toLowerCase()}`;
 }
 
+/** Drop fractional house numbers (242 1/2 → 242) for Maps routing only. */
+export function sanitizeAddressForRouting(address) {
+  if (!address) return address;
+  const original = String(address).trim();
+  const cleaned = original
+    .replace(/\s*-\s*\d+\/\d+/g, '')
+    .replace(/\s+\d+\/\d+/g, '')
+    .replace(/\s+[½¼¾]/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/,\s*,/g, ',')
+    .trim();
+  return cleaned || original;
+}
+
 function hydrateSessionCache() {
   if (sessionCacheHydrated || typeof sessionStorage === 'undefined') return;
   sessionCacheHydrated = true;
@@ -152,7 +166,10 @@ export async function calculateTravelTime(originAddress, destinationAddress, opt
     throw new Error('Origin and destination addresses are required');
   }
 
-  const cacheKey = normalizeCacheKey(originAddress, destinationAddress);
+  const origin = sanitizeAddressForRouting(originAddress);
+  const destination = sanitizeAddressForRouting(destinationAddress);
+
+  const cacheKey = normalizeCacheKey(origin, destination);
   const cached = getCachedTravel(cacheKey);
   if (cached) return cached;
 
@@ -181,8 +198,8 @@ export async function calculateTravelTime(originAddress, destinationAddress, opt
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          origin: originAddress,
-          destination: destinationAddress,
+          origin,
+          destination,
         }),
       });
 
