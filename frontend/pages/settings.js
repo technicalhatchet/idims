@@ -70,6 +70,48 @@ const PRICE_BOOK_TYPES = [
   { key: 'custom', label: 'Custom' },
 ];
 
+const SKU_FORM_TYPES = [
+  ...PRICE_BOOK_TYPES,
+  { key: 'additional_time', label: 'Additional Time' },
+  { key: 'network', label: 'Network' },
+];
+
+const EQUIPMENT_TYPES = [
+  { key: '', label: 'Any / N/A' },
+  { key: 'washer', label: 'Washer' },
+  { key: 'dryer', label: 'Dryer' },
+  { key: 'stacked_laundry', label: 'Stacked Laundry' },
+  { key: 'aio_laundry', label: 'All-In-One Laundry' },
+  { key: 'refrigerator', label: 'Refrigerator' },
+  { key: 'dishwasher', label: 'Dishwasher' },
+  { key: 'range', label: 'Range' },
+  { key: 'wall_oven', label: 'Wall Oven' },
+  { key: 'tv', label: 'TV' },
+  { key: 'network', label: 'Network' },
+  { key: 'other', label: 'Other' },
+];
+
+const SKILL_LEVELS = [
+  { key: '', label: 'Not specified' },
+  { key: 'basic', label: 'Basic' },
+  { key: 'intermediate', label: 'Intermediate' },
+  { key: 'advanced', label: 'Advanced' },
+];
+
+const EMPTY_SKU_FORM = {
+  sku_code: '',
+  name: '',
+  description: '',
+  service_type: 'repair',
+  equipment_type: '',
+  skill_level: '',
+  base_price: '0.00',
+  duration_minutes: '',
+  is_custom_price: false,
+  requires_diagnostic: false,
+  is_active: true,
+};
+
 function normalizeServiceType(service) {
   const raw = service?.service_type;
   const value = (typeof raw === 'string' ? raw : raw?.value || '').toLowerCase();
@@ -153,6 +195,18 @@ export default function Settings() {
   const [catalogSearch, setCatalogSearch] = useState('');
   const [savingServiceId, setSavingServiceId] = useState(null);
   const [priceDrafts, setPriceDrafts] = useState({});
+  const [skuModalOpen, setSkuModalOpen] = useState(false);
+  const [skuModalMode, setSkuModalMode] = useState('create');
+  const [editingServiceId, setEditingServiceId] = useState(null);
+  const [skuForm, setSkuForm] = useState(EMPTY_SKU_FORM);
+  const [skuFormErrors, setSkuFormErrors] = useState({});
+  const [savingSku, setSavingSku] = useState(false);
+  const [generatingSku, setGeneratingSku] = useState(false);
+  const [bulkScope, setBulkScope] = useState('all');
+  const [bulkMode, setBulkMode] = useState('percent');
+  const [bulkAmount, setBulkAmount] = useState('');
+  const [applyingBulk, setApplyingBulk] = useState(false);
+  const [bulkPanelOpen, setBulkPanelOpen] = useState(false);
 
   const loadCatalog = async () => {
     setLoadingCatalog(true);
@@ -190,6 +244,12 @@ export default function Settings() {
       setCatalogServices((prev) =>
         prev.map((svc) => (svc.id === serviceId ? { ...svc, ...updated } : svc))
       );
+      if (payload.base_price !== undefined) {
+        setPriceDrafts((prev) => ({
+          ...prev,
+          [serviceId]: Number(updated.base_price ?? payload.base_price ?? 0).toFixed(2),
+        }));
+      }
       return updated;
     } catch (err) {
       console.error('Error updating service:', err);
@@ -197,6 +257,204 @@ export default function Settings() {
       throw err;
     } finally {
       setSavingServiceId(null);
+    }
+  };
+
+  const createService = async (payload) => {
+    const created = await apiClient('/api/services/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    setCatalogServices((prev) => [...prev, created]);
+    setPriceDrafts((prev) => ({
+      ...prev,
+      [created.id]: Number(created.base_price ?? 0).toFixed(2),
+    }));
+    return created;
+  };
+
+  const openCreateSku = () => {
+    setSkuModalMode('create');
+    setEditingServiceId(null);
+    setSkuForm({ ...EMPTY_SKU_FORM });
+    setSkuFormErrors({});
+    setSkuModalOpen(true);
+  };
+
+  const openEditSku = (service) => {
+    setSkuModalMode('edit');
+    setEditingServiceId(service.id);
+    setSkuForm({
+      sku_code: service.sku_code || '',
+      name: service.name || '',
+      description: service.description || '',
+      service_type: (typeof service.service_type === 'string'
+        ? service.service_type
+        : service.service_type?.value || 'repair').toLowerCase(),
+      equipment_type: service.equipment_type?.value || service.equipment_type || '',
+      skill_level: service.skill_level?.value || service.skill_level || '',
+      base_price: Number(service.base_price ?? 0).toFixed(2),
+      duration_minutes: service.duration_minutes != null ? String(service.duration_minutes) : '',
+      is_custom_price: Boolean(service.is_custom_price),
+      requires_diagnostic: Boolean(service.requires_diagnostic),
+      is_active: service.is_active !== false,
+    });
+    setSkuFormErrors({});
+    setSkuModalOpen(true);
+  };
+
+  const closeSkuModal = () => {
+    if (savingSku) return;
+    setSkuModalOpen(false);
+    setSkuFormErrors({});
+  };
+
+  const handleSkuField = (field, value) => {
+    setSkuForm((prev) => ({ ...prev, [field]: value }));
+    if (skuFormErrors[field]) {
+      setSkuFormErrors((prev) => ({ ...prev, [field]: null }));
+    }
+  };
+
+  const generateSkuCode = async () => {
+    if (!skuForm.service_type) {
+      setSkuFormErrors((prev) => ({ ...prev, service_type: 'Select a type first' }));
+      return;
+    }
+    setGeneratingSku(true);
+    try {
+      const params = new URLSearchParams({ service_type: skuForm.service_type });
+      if (skuForm.equipment_type) params.append('equipment_type', skuForm.equipment_type);
+      const code = await apiClient(`/api/services/generate-sku?${params.toString()}`, {
+        method: 'POST',
+      });
+      if (typeof code === 'string' && code.trim()) {
+        handleSkuField('sku_code', code.trim().toUpperCase());
+      }
+    } catch (err) {
+      console.error('Error generating SKU:', err);
+      toast.error('Could not generate SKU code');
+    } finally {
+      setGeneratingSku(false);
+    }
+  };
+
+  const validateSkuForm = () => {
+    const errors = {};
+    if (!skuForm.sku_code.trim()) errors.sku_code = 'SKU code is required';
+    if (!skuForm.name.trim()) errors.name = 'Name is required';
+    if (!skuForm.service_type) errors.service_type = 'Type is required';
+    if (!skuForm.is_custom_price) {
+      const price = parseFloat(skuForm.base_price);
+      if (!Number.isFinite(price) || price < 0) errors.base_price = 'Enter a valid price';
+    }
+    if (skuForm.duration_minutes !== '') {
+      const mins = parseInt(skuForm.duration_minutes, 10);
+      if (!Number.isFinite(mins) || mins < 0) errors.duration_minutes = 'Enter valid minutes';
+    }
+    setSkuFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const buildSkuPayload = () => {
+    const payload = {
+      sku_code: skuForm.sku_code.trim().toUpperCase(),
+      name: skuForm.name.trim(),
+      description: skuForm.description.trim() || null,
+      service_type: skuForm.service_type,
+      base_price: skuForm.is_custom_price ? 0 : parseFloat(skuForm.base_price),
+      unit: 'job',
+      is_custom_price: skuForm.is_custom_price,
+      requires_diagnostic: skuForm.requires_diagnostic,
+      is_active: skuForm.is_active,
+    };
+    if (skuForm.equipment_type) payload.equipment_type = skuForm.equipment_type;
+    if (skuForm.skill_level) payload.skill_level = skuForm.skill_level;
+    if (skuForm.duration_minutes !== '') {
+      payload.duration_minutes = parseInt(skuForm.duration_minutes, 10);
+    }
+    return payload;
+  };
+
+  const saveSku = async () => {
+    if (!validateSkuForm()) return;
+    setSavingSku(true);
+    try {
+      const payload = buildSkuPayload();
+      if (skuModalMode === 'create') {
+        const created = await createService(payload);
+        toast.success(`${created.sku_code} created`);
+      } else {
+        await updateService(editingServiceId, payload);
+        toast.success(`${payload.sku_code} updated`);
+      }
+      setSkuModalOpen(false);
+    } catch {
+      /* toast from api layer */
+    } finally {
+      setSavingSku(false);
+    }
+  };
+
+  const bulkTargetServices = catalogServices.filter((svc) => {
+    if (svc.is_custom_price) return false;
+    if (bulkScope === 'all') return true;
+    if (bulkScope === 'other') return normalizeServiceType(svc) === 'other';
+    return normalizeServiceType(svc) === bulkScope;
+  });
+
+  const applyBulkPriceUpdate = async () => {
+    const amount = parseFloat(bulkAmount);
+    if (!Number.isFinite(amount)) {
+      toast.error('Enter a valid adjustment amount');
+      return;
+    }
+    if (bulkMode === 'percent' && amount === 0) {
+      toast.error('Enter a non-zero percentage');
+      return;
+    }
+    if (bulkTargetServices.length === 0) {
+      toast.error('No fixed-price SKUs in this scope');
+      return;
+    }
+
+    const label = bulkMode === 'percent'
+      ? `${amount > 0 ? '+' : ''}${amount}%`
+      : `${amount >= 0 ? '+' : ''}$${amount.toFixed(2)}`;
+    if (!window.confirm(`Apply ${label} to ${bulkTargetServices.length} SKU(s)? Variable-price SKUs are skipped.`)) {
+      return;
+    }
+
+    setApplyingBulk(true);
+    let updated = 0;
+    let failed = 0;
+    try {
+      for (const svc of bulkTargetServices) {
+        const current = Number(svc.base_price ?? 0);
+        let next = bulkMode === 'percent'
+          ? current * (1 + amount / 100)
+          : current + amount;
+        next = Math.max(0, Math.round(next * 100) / 100);
+        if (Math.abs(next - current) < 0.001) continue;
+        try {
+          await updateService(svc.id, { base_price: next });
+          updated += 1;
+        } catch {
+          failed += 1;
+        }
+      }
+      if (updated > 0) {
+        toast.success(`Updated ${updated} price${updated === 1 ? '' : 's'}`);
+      }
+      if (failed > 0) {
+        toast.error(`${failed} update${failed === 1 ? '' : 's'} failed`);
+      }
+      if (updated === 0 && failed === 0) {
+        toast('No prices changed', { icon: 'ℹ️' });
+      }
+      setBulkAmount('');
+    } finally {
+      setApplyingBulk(false);
     }
   };
 
@@ -987,6 +1245,10 @@ export default function Settings() {
   );
 
   const renderPriceBookTab = () => {
+    const inputClass =
+      'w-full px-3 py-2 text-sm rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none disabled:opacity-50';
+    const labelClass = 'block text-xs font-medium text-gray-400 mb-1';
+
     const renderSkuRow = (service) => {
       const isSaving = savingServiceId === service.id;
       const isVariable = service.is_custom_price;
@@ -1037,6 +1299,14 @@ export default function Settings() {
             />
             <span className="text-xs text-gray-400">Active</span>
           </label>
+          <button
+            type="button"
+            onClick={() => openEditSku(service)}
+            disabled={isSaving}
+            className="text-xs px-2 py-1 rounded border border-gray-600 text-gray-300 hover:text-white hover:border-gray-500 disabled:opacity-50"
+          >
+            Edit
+          </button>
           {isSaving && (
             <span className="text-xs text-cyan-400/80">Saving…</span>
           )}
@@ -1044,27 +1314,246 @@ export default function Settings() {
       );
     };
 
+    const renderSkuModal = () => {
+      if (!skuModalOpen) return null;
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <button
+            type="button"
+            aria-label="Close"
+            className="absolute inset-0 bg-black/60"
+            onClick={closeSkuModal}
+          />
+          <div
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl p-5 shadow-xl"
+            style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.1)' }}
+          >
+            <h3 className="text-lg font-semibold text-white mb-4">
+              {skuModalMode === 'create' ? 'Add SKU' : 'Edit SKU'}
+            </h3>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>SKU code</label>
+                  <div className="flex gap-2">
+                    <input
+                      className={inputClass}
+                      value={skuForm.sku_code}
+                      onChange={(e) => handleSkuField('sku_code', e.target.value.toUpperCase())}
+                      disabled={savingSku}
+                      placeholder="REP-WSH-001"
+                    />
+                    {skuModalMode === 'create' && (
+                      <button
+                        type="button"
+                        onClick={generateSkuCode}
+                        disabled={savingSku || generatingSku || !skuForm.service_type}
+                        className="flex-shrink-0 px-3 py-2 text-xs font-medium rounded-lg disabled:opacity-50"
+                        style={{ background: 'rgba(255,255,255,0.06)', color: '#9CA3AF', border: '1px solid rgba(255,255,255,0.1)' }}
+                      >
+                        {generatingSku ? '…' : 'Generate'}
+                      </button>
+                    )}
+                  </div>
+                  {skuFormErrors.sku_code && (
+                    <p className="text-xs text-red-400 mt-1">{skuFormErrors.sku_code}</p>
+                  )}
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>Name</label>
+                  <input
+                    className={inputClass}
+                    value={skuForm.name}
+                    onChange={(e) => handleSkuField('name', e.target.value)}
+                    disabled={savingSku}
+                  />
+                  {skuFormErrors.name && (
+                    <p className="text-xs text-red-400 mt-1">{skuFormErrors.name}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className={labelClass}>Type</label>
+                  <select
+                    className={inputClass}
+                    value={skuForm.service_type}
+                    onChange={(e) => handleSkuField('service_type', e.target.value)}
+                    disabled={savingSku}
+                  >
+                    {SKU_FORM_TYPES.map((t) => (
+                      <option key={t.key} value={t.key}>{t.label}</option>
+                    ))}
+                  </select>
+                  {skuFormErrors.service_type && (
+                    <p className="text-xs text-red-400 mt-1">{skuFormErrors.service_type}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className={labelClass}>Equipment</label>
+                  <select
+                    className={inputClass}
+                    value={skuForm.equipment_type}
+                    onChange={(e) => handleSkuField('equipment_type', e.target.value)}
+                    disabled={savingSku}
+                  >
+                    {EQUIPMENT_TYPES.map((t) => (
+                      <option key={t.key || 'any'} value={t.key}>{t.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className={labelClass}>Base price ($)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    className={inputClass}
+                    value={skuForm.base_price}
+                    onChange={(e) => handleSkuField('base_price', e.target.value)}
+                    disabled={savingSku || skuForm.is_custom_price}
+                  />
+                  {skuFormErrors.base_price && (
+                    <p className="text-xs text-red-400 mt-1">{skuFormErrors.base_price}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className={labelClass}>Duration (min)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    className={inputClass}
+                    value={skuForm.duration_minutes}
+                    onChange={(e) => handleSkuField('duration_minutes', e.target.value)}
+                    disabled={savingSku}
+                    placeholder="Optional"
+                  />
+                  {skuFormErrors.duration_minutes && (
+                    <p className="text-xs text-red-400 mt-1">{skuFormErrors.duration_minutes}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className={labelClass}>Skill level</label>
+                  <select
+                    className={inputClass}
+                    value={skuForm.skill_level}
+                    onChange={(e) => handleSkuField('skill_level', e.target.value)}
+                    disabled={savingSku}
+                  >
+                    {SKILL_LEVELS.map((t) => (
+                      <option key={t.key || 'none'} value={t.key}>{t.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>Description</label>
+                  <textarea
+                    rows={2}
+                    className={inputClass}
+                    value={skuForm.description}
+                    onChange={(e) => handleSkuField('description', e.target.value)}
+                    disabled={savingSku}
+                    placeholder="Optional"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={skuForm.is_custom_price}
+                    onChange={(e) => handleSkuField('is_custom_price', e.target.checked)}
+                    disabled={savingSku}
+                    className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500"
+                  />
+                  <span className="text-xs text-gray-400">Variable pricing</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={skuForm.requires_diagnostic}
+                    onChange={(e) => handleSkuField('requires_diagnostic', e.target.checked)}
+                    disabled={savingSku}
+                    className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500"
+                  />
+                  <span className="text-xs text-gray-400">Requires diagnostic</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={skuForm.is_active}
+                    onChange={(e) => handleSkuField('is_active', e.target.checked)}
+                    disabled={savingSku}
+                    className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500"
+                  />
+                  <span className="text-xs text-gray-400">Active</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-white/10">
+              <button
+                type="button"
+                onClick={closeSkuModal}
+                disabled={savingSku}
+                className="px-4 py-2 text-sm rounded-lg text-gray-400 hover:text-white disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={saveSku}
+                disabled={savingSku}
+                className="px-4 py-2 text-sm font-medium rounded-lg disabled:opacity-50"
+                style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
+              >
+                {savingSku ? 'Saving…' : skuModalMode === 'create' ? 'Create SKU' : 'Save changes'}
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
     return (
       <div className="space-y-6">
+        {renderSkuModal()}
         <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
           <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
               <TabIcon type="price" className="w-5 h-5 stroke-cyan-400" />
               Price Book
             </h2>
-            <button
-              type="button"
-              onClick={loadCatalog}
-              disabled={loadingCatalog}
-              className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all disabled:opacity-50"
-              style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
-            >
-              {loadingCatalog ? 'Loading…' : 'Refresh'}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={openCreateSku}
+                className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all"
+                style={{ background: 'rgba(34, 211, 238, 0.2)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.4)' }}
+              >
+                Add SKU
+              </button>
+              <button
+                type="button"
+                onClick={loadCatalog}
+                disabled={loadingCatalog}
+                className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all disabled:opacity-50"
+                style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
+              >
+                {loadingCatalog ? 'Loading…' : 'Refresh'}
+              </button>
+            </div>
           </div>
 
           <p className="text-xs text-gray-500 mb-4">
-            Edit catalog prices for new work order line items. Changes apply to new SKUs added on jobs — not existing line items.
+            Manage catalog SKUs and prices for new work order line items. Changes apply to new line items only — not existing jobs.
           </p>
 
           <input
@@ -1072,8 +1561,83 @@ export default function Settings() {
             placeholder="Search name, SKU, or equipment…"
             value={catalogSearch}
             onChange={(e) => setCatalogSearch(e.target.value)}
-            className="w-full mb-5 px-3 py-2 text-sm rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none"
+            className="w-full mb-4 px-3 py-2 text-sm rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none"
           />
+
+          <div className="mb-5 rounded-lg border border-white/5 overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setBulkPanelOpen((v) => !v)}
+              className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-left text-gray-300 hover:bg-white/[0.03]"
+            >
+              <span className="font-medium">Bulk price update</span>
+              <span className="text-xs text-gray-500">
+                {bulkPanelOpen ? 'Hide' : 'Show'}
+                {bulkTargetServices.length > 0 && ` · ${bulkTargetServices.length} eligible`}
+              </span>
+            </button>
+            {bulkPanelOpen && (
+              <div className="px-3 pb-3 pt-1 border-t border-white/5 space-y-3">
+                <p className="text-xs text-gray-500">
+                  Adjust fixed-price SKUs by category. Variable-price SKUs are always skipped.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className={labelClass}>Category</label>
+                    <select
+                      className={inputClass}
+                      value={bulkScope}
+                      onChange={(e) => setBulkScope(e.target.value)}
+                      disabled={applyingBulk}
+                    >
+                      <option value="all">All categories</option>
+                      {PRICE_BOOK_TYPES.map((t) => (
+                        <option key={t.key} value={t.key}>{t.label}</option>
+                      ))}
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Adjustment</label>
+                    <select
+                      className={inputClass}
+                      value={bulkMode}
+                      onChange={(e) => setBulkMode(e.target.value)}
+                      disabled={applyingBulk}
+                    >
+                      <option value="percent">Percent change (%)</option>
+                      <option value="fixed">Dollar change ($)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>
+                      {bulkMode === 'percent' ? 'Percent (e.g. 5 or -10)' : 'Dollars (e.g. 10 or -5)'}
+                    </label>
+                    <input
+                      type="number"
+                      step={bulkMode === 'percent' ? '0.1' : '0.01'}
+                      className={inputClass}
+                      value={bulkAmount}
+                      onChange={(e) => setBulkAmount(e.target.value)}
+                      disabled={applyingBulk}
+                      placeholder={bulkMode === 'percent' ? '5' : '10.00'}
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={applyBulkPriceUpdate}
+                  disabled={applyingBulk || bulkTargetServices.length === 0}
+                  className="px-3 py-1.5 text-sm font-medium rounded-lg disabled:opacity-50"
+                  style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
+                >
+                  {applyingBulk
+                    ? 'Applying…'
+                    : `Apply to ${bulkTargetServices.length} SKU${bulkTargetServices.length === 1 ? '' : 's'}`}
+                </button>
+              </div>
+            )}
+          </div>
 
           {loadingCatalog ? (
             <div className="text-gray-500 text-sm py-6 text-center">Loading catalog…</div>

@@ -149,49 +149,6 @@ class ServiceService:
             logger.error(f"Database error creating service: {str(e)}")
             raise ConflictException(f"Error creating service: {str(e)}")
     
-    async def create_service(self, service_data: dict) -> Service:
-        """Create a new service from dict data"""
-        try:
-            # Check if SKU code already exists
-            existing_sku = self.db.query(Service).filter(Service.sku_code == service_data["sku_code"]).first()
-            if existing_sku:
-                raise ConflictException(f"Service with SKU code {service_data['sku_code']} already exists")
-            
-            # Create service with fields from service_data
-            service = Service(
-                sku_code=service_data["sku_code"],
-                name=service_data["name"],
-                description=service_data.get("description"),
-                category=service_data.get("category"),
-                base_price=service_data["base_price"],
-                unit="service",
-                service_type=service_data.get("service_type"),
-                equipment_type=service_data.get("equipment_type"),
-                skill_level=service_data.get("skill_level"),
-                duration_minutes=service_data.get("duration_minutes"),
-                is_bundle=service_data.get("is_bundle", False),
-                is_custom_price=service_data.get("is_custom_price", False),
-                requires_diagnostic=service_data.get("requires_diagnostic", False),
-                is_active=True,
-                created_at=datetime.utcnow(),
-                updated_at=datetime.utcnow()
-            )
-            
-            self.db.add(service)
-            self.db.commit()
-            self.db.refresh(service)
-            
-            logger.info(f"Created new service: {service.name} with SKU: {service.sku_code}")
-            return service
-            
-        except ConflictException as e:
-            # Re-raise conflict exceptions
-            raise e
-        except SQLAlchemyError as e:
-            self.db.rollback()
-            logger.error(f"Database error creating service: {str(e)}")
-            raise ConflictException(f"Error creating service: {str(e)}")
-    
     @staticmethod
     async def update_service(db: Session, service_id: uuid.UUID, service_update: ServiceUpdate) -> Service:
         """Update a service"""
