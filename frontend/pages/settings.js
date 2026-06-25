@@ -59,7 +59,29 @@ const TABS = [
   { id: 'availability', label: 'Availability', icon: 'calendar' },
   { id: 'service-areas', label: 'Service Areas', icon: 'map' },
   { id: 'tax', label: 'Tax', icon: 'tax' },
+  { id: 'price-book', label: 'Price Book', icon: 'price' },
 ];
+
+const PRICE_BOOK_TYPES = [
+  { key: 'diagnostic', label: 'Diagnostic' },
+  { key: 'repair', label: 'Repair' },
+  { key: 'installation', label: 'Installation' },
+  { key: 'remote', label: 'Remote' },
+  { key: 'custom', label: 'Custom' },
+];
+
+function normalizeServiceType(service) {
+  const raw = service?.service_type;
+  const value = (typeof raw === 'string' ? raw : raw?.value || '').toLowerCase();
+  if (PRICE_BOOK_TYPES.some((t) => t.key === value)) return value;
+  return 'other';
+}
+
+function formatEquipmentLabel(equipmentType) {
+  const raw = typeof equipmentType === 'string' ? equipmentType : equipmentType?.value;
+  if (!raw) return '—';
+  return String(raw).replace(/_/g, ' ');
+}
 
 function TabIcon({ type, className }) {
   const icons = {
@@ -91,6 +113,14 @@ function TabIcon({ type, className }) {
         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
       </svg>
     ),
+    price: (
+      <svg viewBox="0 0 24 24" className={className} style={{ strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+        <path d="M4 7h16" />
+        <path d="M4 12h16" />
+        <path d="M4 17h10" />
+        <rect x="2" y="3" width="20" height="18" rx="2" />
+      </svg>
+    ),
   };
   return icons[type] || null;
 }
@@ -117,6 +147,113 @@ export default function Settings() {
   const [savingTax, setSavingTax] = useState(false);
   const [newTaxZip, setNewTaxZip] = useState('');
   const [taxZipCounty, setTaxZipCounty] = useState('lucas');
+
+  const [catalogServices, setCatalogServices] = useState([]);
+  const [loadingCatalog, setLoadingCatalog] = useState(false);
+  const [catalogSearch, setCatalogSearch] = useState('');
+  const [savingServiceId, setSavingServiceId] = useState(null);
+  const [priceDrafts, setPriceDrafts] = useState({});
+
+  const loadCatalog = async () => {
+    setLoadingCatalog(true);
+    try {
+      const response = await apiClient('/api/services?limit=500');
+      const items = response?.items || [];
+      setCatalogServices(items);
+      const drafts = {};
+      items.forEach((svc) => {
+        drafts[svc.id] = Number(svc.base_price ?? 0).toFixed(2);
+      });
+      setPriceDrafts(drafts);
+    } catch (err) {
+      console.error('Error loading price book:', err);
+      toast.error('Failed to load price book');
+    } finally {
+      setLoadingCatalog(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'price-book') {
+      loadCatalog();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
+
+  const updateService = async (serviceId, payload) => {
+    setSavingServiceId(serviceId);
+    try {
+      const updated = await apiClient(`/api/services/${serviceId}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      });
+      setCatalogServices((prev) =>
+        prev.map((svc) => (svc.id === serviceId ? { ...svc, ...updated } : svc))
+      );
+      return updated;
+    } catch (err) {
+      console.error('Error updating service:', err);
+      toast.error(err.message || 'Failed to update SKU');
+      throw err;
+    } finally {
+      setSavingServiceId(null);
+    }
+  };
+
+  const handlePriceBlur = async (service) => {
+    if (service.is_custom_price) return;
+    const draft = priceDrafts[service.id];
+    const parsed = parseFloat(draft);
+    if (!Number.isFinite(parsed) || parsed < 0) {
+      setPriceDrafts((prev) => ({
+        ...prev,
+        [service.id]: Number(service.base_price ?? 0).toFixed(2),
+      }));
+      toast.error('Enter a valid price');
+      return;
+    }
+    if (Math.abs(parsed - Number(service.base_price ?? 0)) < 0.001) return;
+    try {
+      await updateService(service.id, { base_price: parsed });
+      toast.success(`${service.sku_code} updated`);
+    } catch {
+      setPriceDrafts((prev) => ({
+        ...prev,
+        [service.id]: Number(service.base_price ?? 0).toFixed(2),
+      }));
+    }
+  };
+
+  const handleActiveToggle = async (service) => {
+    const next = !service.is_active;
+    try {
+      await updateService(service.id, { is_active: next });
+      toast.success(next ? `${service.sku_code} activated` : `${service.sku_code} deactivated`);
+    } catch {
+      /* state unchanged on failure */
+    }
+  };
+
+  const filteredCatalog = catalogServices.filter((svc) => {
+    if (!catalogSearch.trim()) return true;
+    const q = catalogSearch.trim().toLowerCase();
+    return (
+      svc.name?.toLowerCase().includes(q)
+      || svc.sku_code?.toLowerCase().includes(q)
+      || formatEquipmentLabel(svc.equipment_type).toLowerCase().includes(q)
+    );
+  });
+
+  const catalogByType = PRICE_BOOK_TYPES.map((type) => ({
+    ...type,
+    items: filteredCatalog
+      .filter((svc) => normalizeServiceType(svc) === type.key)
+      .sort((a, b) => (a.name || '').localeCompare(b.name || '')),
+  }));
+
+  const otherCatalogItems = filteredCatalog
+    .filter((svc) => normalizeServiceType(svc) === 'other')
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
   // Load settings on mount
   useEffect(() => {
@@ -849,6 +986,135 @@ export default function Settings() {
     </div>
   );
 
+  const renderPriceBookTab = () => {
+    const renderSkuRow = (service) => {
+      const isSaving = savingServiceId === service.id;
+      const isVariable = service.is_custom_price;
+
+      return (
+        <div
+          key={service.id}
+          className={`flex flex-wrap items-center gap-x-3 gap-y-2 py-2.5 px-3 rounded-lg border border-white/5 ${
+            service.is_active ? 'bg-white/[0.02]' : 'bg-white/[0.01] opacity-60'
+          }`}
+        >
+          <div className="flex-1 min-w-[140px]">
+            <p className="text-sm text-white font-medium leading-tight">{service.name}</p>
+            <p className="text-xs text-gray-500 font-mono mt-0.5">{service.sku_code}</p>
+          </div>
+          <span className="text-xs text-gray-500 capitalize min-w-[72px]">
+            {formatEquipmentLabel(service.equipment_type)}
+          </span>
+          <div className="flex items-center gap-1">
+            {isVariable ? (
+              <span className="text-xs text-amber-400/90 italic px-2">Variable</span>
+            ) : (
+              <>
+                <span className="text-gray-400 text-sm">$</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  disabled={isSaving}
+                  value={priceDrafts[service.id] ?? ''}
+                  onChange={(e) =>
+                    setPriceDrafts((prev) => ({ ...prev, [service.id]: e.target.value }))
+                  }
+                  onBlur={() => handlePriceBlur(service)}
+                  onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+                  className="w-20 px-2 py-1 text-sm rounded border border-gray-600 bg-gray-800 text-white focus:border-cyan-500 focus:outline-none disabled:opacity-50"
+                />
+              </>
+            )}
+          </div>
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={Boolean(service.is_active)}
+              disabled={isSaving}
+              onChange={() => handleActiveToggle(service)}
+              className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-gray-900"
+            />
+            <span className="text-xs text-gray-400">Active</span>
+          </label>
+          {isSaving && (
+            <span className="text-xs text-cyan-400/80">Saving…</span>
+          )}
+        </div>
+      );
+    };
+
+    return (
+      <div className="space-y-6">
+        <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+              <TabIcon type="price" className="w-5 h-5 stroke-cyan-400" />
+              Price Book
+            </h2>
+            <button
+              type="button"
+              onClick={loadCatalog}
+              disabled={loadingCatalog}
+              className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all disabled:opacity-50"
+              style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
+            >
+              {loadingCatalog ? 'Loading…' : 'Refresh'}
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-500 mb-4">
+            Edit catalog prices for new work order line items. Changes apply to new SKUs added on jobs — not existing line items.
+          </p>
+
+          <input
+            type="search"
+            placeholder="Search name, SKU, or equipment…"
+            value={catalogSearch}
+            onChange={(e) => setCatalogSearch(e.target.value)}
+            className="w-full mb-5 px-3 py-2 text-sm rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none"
+          />
+
+          {loadingCatalog ? (
+            <div className="text-gray-500 text-sm py-6 text-center">Loading catalog…</div>
+          ) : (
+            <div className="space-y-5">
+              {catalogByType.map((group) =>
+                group.items.length > 0 ? (
+                  <div key={group.key}>
+                    <h3 className="text-sm font-semibold text-cyan-400/90 mb-2 uppercase tracking-wide">
+                      {group.label}
+                      <span className="text-gray-500 font-normal normal-case ml-2">
+                        ({group.items.length})
+                      </span>
+                    </h3>
+                    <div className="space-y-2">{group.items.map(renderSkuRow)}</div>
+                  </div>
+                ) : null
+              )}
+
+              {otherCatalogItems.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                    Other
+                    <span className="text-gray-500 font-normal normal-case ml-2">
+                      ({otherCatalogItems.length})
+                    </span>
+                  </h3>
+                  <div className="space-y-2">{otherCatalogItems.map(renderSkuRow)}</div>
+                </div>
+              )}
+
+              {filteredCatalog.length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-6">No SKUs match your search.</p>
+              )}
+            </div>
+          )}
+        </section>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen p-4 sm:p-6" style={{ background: '#0B0F1A' }}>
       <div className="max-w-2xl mx-auto">
@@ -859,12 +1125,12 @@ export default function Settings() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 p-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)' }}>
+        <div className="flex gap-1 mb-6 p-1 rounded-lg overflow-x-auto" style={{ background: 'rgba(255,255,255,0.03)' }}>
           {TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
+              className={`flex-shrink-0 flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
                 activeTab === tab.id 
                   ? 'bg-cyan-500/10 text-cyan-400' 
                   : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
@@ -882,6 +1148,7 @@ export default function Settings() {
           {activeTab === 'availability' && renderAvailabilityTab()}
           {activeTab === 'service-areas' && renderServiceAreasTab()}
           {activeTab === 'tax' && renderTaxTab()}
+          {activeTab === 'price-book' && renderPriceBookTab()}
         </div>
       </div>
     </div>

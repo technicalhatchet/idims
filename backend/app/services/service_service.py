@@ -232,39 +232,6 @@ class ServiceService:
             logger.error(f"Database error updating service: {str(e)}")
             raise ConflictException(f"Error updating service: {str(e)}")
     
-    async def update_service(self, service_id: uuid.UUID, service_data: dict) -> Service:
-        """Update a service from dict data"""
-        # First get the service
-        service = await self.get_service(service_id)
-        
-        try:
-            # Check if SKU code is being updated and if it already exists
-            if "sku_code" in service_data and service_data["sku_code"] != service.sku_code:
-                existing_sku = self.db.query(Service).filter(Service.sku_code == service_data["sku_code"]).first()
-                if existing_sku and existing_sku.id != service_id:
-                    raise ConflictException(f"Service with SKU code {service_data['sku_code']} already exists")
-            
-            # Update fields from service_data
-            for key, value in service_data.items():
-                if hasattr(service, key):
-                    setattr(service, key, value)
-                
-            service.updated_at = datetime.utcnow()
-            
-            self.db.commit()
-            self.db.refresh(service)
-            
-            logger.info(f"Updated service: {service.id}")
-            return service
-            
-        except ConflictException as e:
-            # Re-raise conflict exceptions
-            raise e
-        except SQLAlchemyError as e:
-            self.db.rollback()
-            logger.error(f"Database error updating service: {str(e)}")
-            raise ConflictException(f"Error updating service: {str(e)}")
-    
     @staticmethod
     async def delete_service(db: Session, service_id: uuid.UUID) -> None:
         """Delete a service"""
