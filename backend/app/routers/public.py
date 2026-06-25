@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 import logging
+import re
 import httpx
 
 from app.config import settings
@@ -10,6 +11,13 @@ from app.db.database import get_db
 from app.models.client import Client
 from app.models.property import Property
 from app.models.work_order import WorkOrder
+from app.models.service import Service, ServiceType, EquipmentType
+from app.services.zone_service import ZoneService
+from app.utils.travel_calculator import (
+    get_travel_time_and_distance,
+    get_default_shop_address,
+    sanitize_address_for_routing,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +32,152 @@ class BookingRequest(BaseModel):
     appliance: str
     issue: str
     time_preference: str
+
+
+# Booking flow appliance ids → service catalog equipment_type
+_BOOKING_APPLIANCE_EQUIPMENT = {
+    "refrigerator": EquipmentType.refrigerator,
+    "washer": EquipmentType.washer,
+    "dryer": EquipmentType.dryer,
+    "aiolaundry": EquipmentType.aio_laundry,
+    "oven": EquipmentType.range,
+    "dishwasher": EquipmentType.dishwasher,
+    "tv": EquipmentType.tv,
+    "other": EquipmentType.other,
+}
+
+# Appliances without a dedicated equipment_type enum — match diagnostic by name
+_BOOKING_APPLIANCE_NAME_KEYWORD = {
+    "microwave": "microwave",
+    "freezer": "freezer",
+}
+
+
+class BookingEstimateRequest(BaseModel):
+    appliance: str = Field(..., description="Booking flow appliance id (e.g. washer, refrigerator)")
+    address: str = Field(..., min_length=5)
+    custom_appliance: Optional[str] = None
+
+
+class DiagnosticEstimate(BaseModel):
+    name: str
+    price: float
+    sku_code: Optional[str] = None
+
+
+class TripChargeEstimate(BaseModel):
+    zone_key: str
+    zone_name: str
+    amount: Optional[float]
+    is_custom: bool
+    method: str
+
+
+class BookingEstimateResponse(BaseModel):
+    diagnostic: Optional[DiagnosticEstimate] = None
+    trip_charge: TripChargeEstimate
+    estimated_total: Optional[float] = None
+    note: Optional[str] = None
+    serviceable: bool = True
+    service_area_message: Optional[str] = None
+
+
+OUT_OF_SERVICE_AREA_MESSAGE = (
+    "This address is outside our online booking area. "
+    "We serve the greater Toledo and northwest Ohio region. "
+    "If you think this is a mistake, call (419) 515-3394."
+)
+
+
+def _extract_zip_code(address: str) -> Optional[str]:
+    if not address:
+        return None
+    match = re.search(r"\b(\d{5})(?:-\d{4})?\b", address)
+    return match.group(1) if match else None
+
+
+def _lookup_diagnostic_service(db: Session, appliance: str) -> Optional[Service]:
+    """Resolve the diagnostic SKU for a public booking appliance selection."""
+    appliance_key = (appliance or "").strip().lower()
+
+    equipment_type = _BOOKING_APPLIANCE_EQUIPMENT.get(appliance_key)
+    if equipment_type is not None:
+        service = (
+            db.query(Service)
+            .filter(
+                Service.is_active.is_(True),
+                Service.service_type == ServiceType.diagnostic,
+                Service.equipment_type == equipment_type,
+            )
+            .order_by(Service.base_price.desc())
+            .first()
+        )
+        if service:
+            return service
+
+    keyword = _BOOKING_APPLIANCE_NAME_KEYWORD.get(appliance_key)
+    if keyword:
+        service = (
+            db.query(Service)
+            .filter(
+                Service.is_active.is_(True),
+                Service.service_type == ServiceType.diagnostic,
+                Service.name.ilike(f"%{keyword}%"),
+            )
+            .order_by(Service.base_price.desc())
+            .first()
+        )
+        if service:
+            return service
+
+    # Last resort: generic diagnostic for miscellaneous appliances
+    return (
+        db.query(Service)
+        .filter(
+            Service.is_active.is_(True),
+            Service.service_type == ServiceType.diagnostic,
+            Service.equipment_type == EquipmentType.other,
+        )
+        .order_by(Service.base_price.asc())
+        .first()
+    )
+
+
+def _estimate_trip_charge(db: Session, address: str) -> dict:
+    """Zone + trip charge for a service address (zip list first, then shop drive time)."""
+    zone_service = ZoneService(db)
+    property_zip = _extract_zip_code(address)
+    drive_time_minutes = None
+
+    if address and (not property_zip or not zone_service.get_zone_by_zip(property_zip)):
+        shop_address = get_default_shop_address()
+        routed_address = sanitize_address_for_routing(address) or address
+        travel_time, _ = get_travel_time_and_distance(shop_address, routed_address)
+        if travel_time is not None:
+            drive_time_minutes = float(travel_time)
+
+    zone_result = zone_service.determine_zone(
+        zip_code=property_zip,
+        drive_time_minutes=drive_time_minutes,
+        address=address,
+    )
+
+    return {
+        "zone_key": zone_result.get("zoneKey", "custom"),
+        "zone_name": zone_result.get("zoneName", "Custom"),
+        "amount": zone_result.get("tripCharge"),
+        "is_custom": bool(zone_result.get("isCustom")),
+        "method": zone_result.get("method", "default"),
+    }
+
+
+def _is_address_serviceable(trip: dict) -> bool:
+    """Custom zone (typically 50+ min drive) is not bookable online."""
+    if trip.get("zone_key") == "custom":
+        return False
+    if trip.get("is_custom") and trip.get("amount") is None:
+        return False
+    return True
 
 
 def _booking_address_to_location(address: str) -> dict:
@@ -179,6 +333,54 @@ def send_booking_notification(
         logger.warning(f"Booking notification email failed: {e}")
 
 
+@router.post("/booking/estimate", response_model=BookingEstimateResponse)
+async def estimate_booking_pricing(
+    request: BookingEstimateRequest,
+    db: Session = Depends(get_db),
+):
+    """
+    Public upfront pricing for the booking confirmation step.
+    Returns diagnostic fee for the selected appliance and trip charge for the address.
+    """
+    address = (request.address or "").strip()
+    if not address:
+        raise HTTPException(status_code=400, detail="Address is required")
+
+    diagnostic_service = _lookup_diagnostic_service(db, request.appliance)
+    diagnostic = None
+    diagnostic_price = None
+    if diagnostic_service:
+        diagnostic_price = float(diagnostic_service.base_price)
+        diagnostic = DiagnosticEstimate(
+            name=diagnostic_service.name,
+            price=diagnostic_price,
+            sku_code=diagnostic_service.sku_code,
+        )
+
+    trip = _estimate_trip_charge(db, address)
+    trip_charge = TripChargeEstimate(**trip)
+    serviceable = _is_address_serviceable(trip)
+
+    estimated_total = None
+    if serviceable and diagnostic_price is not None and trip_charge.amount is not None:
+        estimated_total = round(diagnostic_price + trip_charge.amount, 2)
+
+    note = "Diagnostic fee is applied toward repair if you proceed."
+    service_area_message = None
+    if not serviceable:
+        note = None
+        service_area_message = OUT_OF_SERVICE_AREA_MESSAGE
+
+    return BookingEstimateResponse(
+        diagnostic=diagnostic,
+        trip_charge=trip_charge,
+        estimated_total=estimated_total,
+        note=note,
+        serviceable=serviceable,
+        service_area_message=service_area_message,
+    )
+
+
 @router.post("/booking")
 async def create_booking(
     booking: BookingRequest,
@@ -188,6 +390,14 @@ async def create_booking(
     """Public endpoint for booking service - no auth required"""
 
     try:
+        address = (booking.address or "").strip()
+        if not address:
+            raise HTTPException(status_code=400, detail="Service address is required")
+
+        trip = _estimate_trip_charge(db, address)
+        if not _is_address_serviceable(trip):
+            raise HTTPException(status_code=403, detail=OUT_OF_SERVICE_AREA_MESSAGE)
+
         name_parts = booking.name.strip().split(maxsplit=1)
         first_name = name_parts[0]
         last_name = name_parts[1] if len(name_parts) > 1 else ""
@@ -275,6 +485,9 @@ async def create_booking(
             "message": "Booking received! We'll contact you shortly to confirm your appointment."
         }
 
+    except HTTPException:
+        db.rollback()
+        raise
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Booking failed: {str(e)}")

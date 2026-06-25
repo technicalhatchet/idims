@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -65,6 +65,38 @@ export default function BookService() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [pricingEstimate, setPricingEstimate] = useState(null);
+  const [pricingLoading, setPricingLoading] = useState(false);
+  const [pricingError, setPricingError] = useState(null);
+
+  const fetchPricingEstimate = useCallback(async (signal) => {
+    const response = await fetch('/api/public/booking-estimate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal,
+      body: JSON.stringify({
+        appliance: formData.appliance,
+        address: formData.address.trim(),
+        custom_appliance: formData.appliance === 'other' ? formData.customAppliance : undefined,
+      }),
+    });
+
+    if (!response.ok) {
+      const errBody = await response.json().catch(() => ({}));
+      const detail = errBody.detail;
+      const message = Array.isArray(detail)
+        ? detail.map((d) => d.msg || d).join(', ')
+        : detail || errBody.message || 'Could not load pricing';
+      throw new Error(message);
+    }
+
+    return response.json();
+  }, [formData.appliance, formData.address, formData.customAppliance]);
+
+  const isOutOfServiceArea = pricingEstimate?.serviceable === false;
+  const canConfirmBooking = Boolean(
+    pricingEstimate?.serviceable === true && !pricingLoading && !pricingError
+  );
 
   useEffect(() => {
     if (router.isReady) {
@@ -78,8 +110,72 @@ export default function BookService() {
     }
   }, [router.isReady, router.query]);
 
+  // Upfront pricing on confirmation step
+  useEffect(() => {
+    if (currentStep !== 5 || isComplete || !formData.address?.trim() || !formData.appliance) {
+      return undefined;
+    }
+
+    const controller = new AbortController();
+
+    const loadEstimate = async () => {
+      setPricingLoading(true);
+      setPricingError(null);
+      try {
+        const data = await fetchPricingEstimate(controller.signal);
+        setPricingEstimate(data);
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.error('Pricing estimate error:', err);
+        setPricingError(err.message || 'Could not load pricing');
+        setPricingEstimate(null);
+      } finally {
+        if (!controller.signal.aborted) {
+          setPricingLoading(false);
+        }
+      }
+    };
+
+    loadEstimate();
+    return () => controller.abort();
+  }, [currentStep, isComplete, formData.appliance, formData.address, formData.customAppliance, fetchPricingEstimate]);
+
+  // Early service-area check while entering address (step 4)
+  useEffect(() => {
+    if (currentStep !== 4 || !formData.address?.trim() || !formData.appliance) {
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      setPricingLoading(true);
+      setPricingError(null);
+      try {
+        const data = await fetchPricingEstimate(controller.signal);
+        setPricingEstimate(data);
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        setPricingError(err.message || 'Could not verify service area');
+        setPricingEstimate(null);
+      } finally {
+        if (!controller.signal.aborted) {
+          setPricingLoading(false);
+        }
+      }
+    }, 800);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [currentStep, formData.address, formData.appliance, formData.customAppliance, fetchPricingEstimate]);
+
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    if (field === 'address') {
+      setPricingEstimate(null);
+      setPricingError(null);
+    }
   };
 
   const canProceed = () => {
@@ -95,17 +191,37 @@ export default function BookService() {
         }
         return formData.issue !== '';
       case 3: return formData.time !== '';
-      case 4: return formData.name !== '' && formData.phone !== '' && formData.address !== '';
+      case 4: {
+        if (!formData.name || !formData.phone || !formData.address) return false;
+        if (pricingLoading) return false;
+        if (isOutOfServiceArea) return false;
+        return true;
+      }
       case 5: return true;
       default: return false;
     }
   };
 
-  const nextStep = () => {
-    if (currentStep < 5 && canProceed()) {
-      setDirection(1);
-      setCurrentStep(prev => prev + 1);
+  const nextStep = async () => {
+    if (currentStep >= 5 || !canProceed()) return;
+
+    if (currentStep === 4) {
+      setPricingLoading(true);
+      setPricingError(null);
+      try {
+        const data = await fetchPricingEstimate();
+        setPricingEstimate(data);
+        if (!data.serviceable) return;
+      } catch (err) {
+        setPricingError(err.message || 'Could not verify service area');
+        return;
+      } finally {
+        setPricingLoading(false);
+      }
     }
+
+    setDirection(1);
+    setCurrentStep((prev) => prev + 1);
   };
 
   const prevStep = () => {
@@ -116,6 +232,8 @@ export default function BookService() {
   };
 
   const handleSubmit = async () => {
+    if (!canConfirmBooking) return;
+
     setIsSubmitting(true);
     try {
       const response = await fetch('/api/public/booking', {
@@ -134,16 +252,19 @@ export default function BookService() {
         })
       });
   
-      // Show success regardless of email issues — if we got any 2xx back, it worked
       if (response.ok) {
         setIsComplete(true);
       } else {
-        const text = await response.text();
-        throw new Error(text);
+        const errBody = await response.json().catch(() => ({}));
+        const detail = errBody.detail;
+        const message = Array.isArray(detail)
+          ? detail.map((d) => d.msg || d).join(', ')
+          : detail || errBody.message || 'Booking failed';
+        throw new Error(message);
       }
     } catch (error) {
       console.error('Booking error:', error);
-      alert(`Booking failed: ${error.message}`);
+      alert(error.message || 'Booking failed');
     } finally {
       setIsSubmitting(false);
     }
@@ -177,6 +298,20 @@ export default function BookService() {
     return ISSUES.find(i => i.id === formData.issue);
   };
   const getSelectedTime = () => TIME_OPTIONS.find(t => t.id === formData.time);
+
+  const formatCurrency = (amount) => {
+    if (amount == null || Number.isNaN(Number(amount))) return null;
+    return `$${Number(amount).toFixed(2)}`;
+  };
+
+  const formatTripCharge = (tripCharge) => {
+    if (!tripCharge) return '—';
+    if (tripCharge.is_custom && tripCharge.amount == null) {
+      return 'Outside service area';
+    }
+    const formatted = formatCurrency(tripCharge.amount);
+    return formatted != null ? formatted : '—';
+  };
 
   return (
     <>
@@ -492,6 +627,20 @@ export default function BookService() {
                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                           />
                         </div>
+                        {pricingLoading && formData.address.trim() && (
+                          <p className="mt-2 text-xs text-gray-500">Checking service area…</p>
+                        )}
+                        {isOutOfServiceArea && (
+                          <div className="mt-3 rounded-xl border border-orange-500/40 bg-orange-500/10 p-3 text-sm text-orange-200/90">
+                            <p className="font-medium text-orange-300 mb-1">Outside our service area</p>
+                            <p className="text-xs leading-relaxed text-orange-200/80">
+                              {pricingEstimate?.service_area_message || (
+                                'Online booking is only available in our northwest Ohio service area. '
+                                + 'Call (419) 515-3394 if you need help.'
+                              )}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -520,6 +669,25 @@ export default function BookService() {
                               We've received your booking and will contact you shortly to confirm.
                             </p>
                           </motion.div>
+                        ) : isOutOfServiceArea ? (
+                          <div className="space-y-4">
+                            <div className="rounded-xl border border-orange-500/40 bg-orange-500/10 p-4">
+                              <p className="font-semibold text-orange-300 mb-2">We can&apos;t book this address online</p>
+                              <p className="text-sm text-orange-200/80 leading-relaxed">
+                                {pricingEstimate?.service_area_message || (
+                                  'This location is outside our standard service area. '
+                                  + 'Please double-check your address or call (419) 515-3394.'
+                                )}
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={prevStep}
+                              className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                            >
+                              ← Go back and update your address
+                            </button>
+                          </div>
                         ) : (
                           <div className="space-y-4">
                             <div className="flex items-center gap-3 text-cyan-400">
@@ -558,6 +726,67 @@ export default function BookService() {
                             <span className="text-gray-500 flex-shrink-0">Address</span>
                             <span className="text-white font-medium text-right line-clamp-2">{formData.address || '-'}</span>
                           </div>
+
+                          <div className="border-t border-white/10 my-3" />
+                          <p className="text-xs font-semibold uppercase tracking-wide text-cyan-400/80">
+                            Upfront pricing
+                          </p>
+
+                          {pricingLoading && (
+                            <div className="flex items-center gap-2 text-sm text-gray-400 py-1">
+                              <div className="w-4 h-4 border-2 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin" />
+                              Calculating estimate…
+                            </div>
+                          )}
+
+                          {pricingError && !pricingLoading && (
+                            <p className="text-sm text-amber-400/90">
+                              {pricingError}
+                            </p>
+                          )}
+
+                          {isOutOfServiceArea && !pricingLoading && (
+                            <p className="text-sm text-orange-300/90">
+                              Online booking is not available for this address.
+                            </p>
+                          )}
+
+                          {pricingEstimate && !pricingLoading && !isOutOfServiceArea && (
+                            <>
+                              <div className="flex justify-between text-sm gap-2">
+                                <span className="text-gray-500 flex-shrink-0">Diagnostic</span>
+                                <span className="text-white font-medium text-right">
+                                  {pricingEstimate.diagnostic
+                                    ? `${formatCurrency(pricingEstimate.diagnostic.price)} · ${pricingEstimate.diagnostic.name}`
+                                    : 'Contact for quote'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between text-sm gap-2">
+                                <span className="text-gray-500 flex-shrink-0">Trip charge</span>
+                                <span className="text-white font-medium text-right">
+                                  {formatTripCharge(pricingEstimate.trip_charge)}
+                                  {pricingEstimate.trip_charge?.zone_name && (
+                                    <span className="block text-xs text-gray-500 font-normal">
+                                      {pricingEstimate.trip_charge.zone_name} area
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                              {pricingEstimate.estimated_total != null && (
+                                <div className="flex justify-between text-sm gap-2 pt-1">
+                                  <span className="text-gray-400 font-medium">Est. due at visit</span>
+                                  <span className="text-cyan-300 font-semibold">
+                                    {formatCurrency(pricingEstimate.estimated_total)}
+                                  </span>
+                                </div>
+                              )}
+                              {pricingEstimate.note && (
+                                <p className="text-xs text-gray-500 leading-relaxed pt-1">
+                                  {pricingEstimate.note}
+                                </p>
+                              )}
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -597,17 +826,25 @@ export default function BookService() {
                 ) : !isComplete ? (
                   <motion.button
                     onClick={handleSubmit}
-                    disabled={isSubmitting}
-                    className="flex-1 py-3 px-6 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)] flex items-center justify-center gap-2 transition-all"
-                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    disabled={isSubmitting || !canConfirmBooking}
+                    className={`flex-1 py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all ${
+                      canConfirmBooking && !isSubmitting
+                        ? 'text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)]'
+                        : 'bg-white/10 text-gray-500 cursor-not-allowed'
+                    }`}
+                    style={canConfirmBooking && !isSubmitting ? { background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' } : undefined}
+                    whileHover={canConfirmBooking && !isSubmitting ? { scale: 1.02 } : {}}
+                    whileTap={canConfirmBooking && !isSubmitting ? { scale: 0.98 } : {}}
                   >
                     {isSubmitting ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         Confirming...
                       </>
+                    ) : pricingLoading ? (
+                      'Checking service area…'
+                    ) : isOutOfServiceArea ? (
+                      'Outside service area'
                     ) : (
                       <>
                         Confirm Appointment
@@ -688,11 +925,21 @@ export default function BookService() {
           ) : !isComplete ? (
             <button
               onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="flex-1 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2"
-              style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
+              disabled={isSubmitting || !canConfirmBooking}
+              className={`flex-1 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+                canConfirmBooking && !isSubmitting
+                  ? 'text-white'
+                  : 'bg-white/10 text-gray-500 cursor-not-allowed'
+              }`}
+              style={canConfirmBooking && !isSubmitting ? { background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' } : undefined}
             >
-              {isSubmitting ? 'Confirming...' : 'Confirm'}
+              {isSubmitting
+                ? 'Confirming...'
+                : pricingLoading
+                  ? 'Checking…'
+                  : isOutOfServiceArea
+                    ? 'Outside area'
+                    : 'Confirm'}
             </button>
           ) : (
             <Link href="/" className="flex-1">
