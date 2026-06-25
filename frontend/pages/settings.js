@@ -204,7 +204,7 @@ export default function Settings() {
     } catch (err) {
       if (err.message?.includes('404') || err.message?.includes('not found')) {
         try {
-          await apiClient('/api/settings', {
+          await apiClient('/api/settings/', {
             method: 'POST',
             body: JSON.stringify({ 
               key: 'shop_hours',
@@ -312,7 +312,7 @@ export default function Settings() {
     } catch (err) {
       if (err.message?.includes('404') || err.message?.includes('not found')) {
         try {
-          await apiClient('/api/settings', {
+          await apiClient('/api/settings/', {
             method: 'POST',
             body: JSON.stringify({ 
               key: 'trip_zones',
@@ -397,7 +397,7 @@ export default function Settings() {
     } catch (err) {
       if (err.message?.includes('404') || err.message?.includes('not found')) {
         try {
-          await apiClient('/api/settings', {
+          await apiClient('/api/settings/', {
             method: 'POST',
             body: JSON.stringify({
               key: 'tax_jurisdictions',

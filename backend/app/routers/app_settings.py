@@ -205,6 +205,7 @@ async def get_setting(
             detail=f"Error retrieving setting: {str(e)}"
         )
 
+@router.post("", response_model=SettingResponse, status_code=status.HTTP_201_CREATED, include_in_schema=False)
 @router.post("/", response_model=SettingResponse, status_code=status.HTTP_201_CREATED)
 async def create_setting(
     setting_data: SettingCreate,

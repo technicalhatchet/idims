@@ -15,6 +15,8 @@ from app.schemas.settings import (
     SettingCreate,
     ShopHours,
     NotificationPreferences,
+    TripZonesSettings,
+    TaxJurisdictionsSettings,
     validate_accent_color,
     validate_diagnostic_behavior,
     validate_invoice_terms,
@@ -243,6 +245,10 @@ class SettingsService:
             elif key == "extended_hours_enabled":
                 if not isinstance(value, bool):
                     raise ValueError("extended_hours_enabled must be a boolean")
+            elif key == "trip_zones":
+                TripZonesSettings(**value)
+            elif key == "tax_jurisdictions":
+                TaxJurisdictionsSettings(**value)
             # Add more validations as needed
         except Exception as e:
             raise ValueError(f"Invalid value for setting '{key}': {str(e)}")
