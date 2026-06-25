@@ -1036,7 +1036,14 @@ const handleCreateProperty = async () => {
   }
   
   return (
-    <form onSubmit={submitForm} className={`${isMobile ? 'wo-mobile-form space-y-4 text-gray-100' : 'space-y-6 text-gray-900 dark:text-gray-100'}`}>
+    <form
+      onSubmit={submitForm}
+      className={`${
+        isMobile
+          ? 'wo-mobile-form space-y-4 text-gray-100 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]'
+          : 'space-y-6 text-gray-900 dark:text-gray-100'
+      }`}
+    >
       {/* Success message */}
       {success && (
         <div className={isMobile
@@ -1507,6 +1514,15 @@ const handleCreateProperty = async () => {
         </div>
       )}
       
+      {/* Reserve space so content isn't hidden behind the fixed mobile action bar */}
+      {isMobile && (
+        <div
+          className="shrink-0"
+          style={{ height: 'calc(3.5rem + max(10px, env(safe-area-inset-bottom, 0px)))' }}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Form actions */}
       {isMobile ? (
         <div
