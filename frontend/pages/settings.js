@@ -38,10 +38,27 @@ const DEFAULT_ZONES = {
   },
 };
 
+const DEFAULT_TAX = {
+  defaultCounty: 'lucas',
+  counties: {
+    lucas: { name: 'Lucas County', rate: 0.0775, zipCodes: [] },
+    wood: { name: 'Wood County', rate: 0.0675, zipCodes: [] },
+    fulton: { name: 'Fulton County', rate: 0.0725, zipCodes: [] },
+    henry: { name: 'Henry County', rate: 0.0725, zipCodes: [] },
+    ottawa: { name: 'Ottawa County', rate: 0.07, zipCodes: [] },
+    sandusky: { name: 'Sandusky County', rate: 0.0725, zipCodes: [] },
+    erie: { name: 'Erie County', rate: 0.0675, zipCodes: [] },
+    hancock: { name: 'Hancock County', rate: 0.0675, zipCodes: [] },
+    putnam: { name: 'Putnam County', rate: 0.07, zipCodes: [] },
+    seneca: { name: 'Seneca County', rate: 0.0725, zipCodes: [] },
+  },
+};
+
 const TABS = [
   { id: 'interface', label: 'Interface', icon: 'layout' },
   { id: 'availability', label: 'Availability', icon: 'calendar' },
   { id: 'service-areas', label: 'Service Areas', icon: 'map' },
+  { id: 'tax', label: 'Tax', icon: 'tax' },
 ];
 
 function TabIcon({ type, className }) {
@@ -68,6 +85,12 @@ function TabIcon({ type, className }) {
         <line x1="16" y1="6" x2="16" y2="22" />
       </svg>
     ),
+    tax: (
+      <svg viewBox="0 0 24 24" className={className} style={{ strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+    ),
   };
   return icons[type] || null;
 }
@@ -89,6 +112,11 @@ export default function Settings() {
   const [loadingZones, setLoadingZones] = useState(true);
   const [savingZones, setSavingZones] = useState(false);
   const [newZipCode, setNewZipCode] = useState('');
+  const [taxSettings, setTaxSettings] = useState(DEFAULT_TAX);
+  const [loadingTax, setLoadingTax] = useState(true);
+  const [savingTax, setSavingTax] = useState(false);
+  const [newTaxZip, setNewTaxZip] = useState('');
+  const [taxZipCounty, setTaxZipCounty] = useState('lucas');
 
   // Load settings on mount
   useEffect(() => {
@@ -121,11 +149,26 @@ export default function Settings() {
         if (zones) {
           setZoneSettings(zones);
         }
+
+        const tax = response?.settings?.tax_jurisdictions;
+        if (tax?.counties) {
+          setTaxSettings(tax);
+        } else {
+          try {
+            const taxConfig = await apiClient('/api/settings/tax/config');
+            if (taxConfig?.counties) {
+              setTaxSettings(taxConfig);
+            }
+          } catch (taxErr) {
+            console.warn('Could not load tax config defaults:', taxErr);
+          }
+        }
       } catch (err) {
         console.error('Error loading settings:', err);
       } finally {
         setLoadingHours(false);
         setLoadingZones(false);
+        setLoadingTax(false);
       }
     }
     loadSettings();
@@ -288,6 +331,91 @@ export default function Settings() {
       }
     } finally {
       setSavingZones(false);
+    }
+  };
+
+  const updateCountyRate = (countyKey, percentValue) => {
+    const parsed = parseFloat(percentValue);
+    setTaxSettings((prev) => ({
+      ...prev,
+      counties: {
+        ...prev.counties,
+        [countyKey]: {
+          ...prev.counties[countyKey],
+          rate: Number.isFinite(parsed) ? parsed / 100 : 0,
+        },
+      },
+    }));
+  };
+
+  const addTaxZipCode = (countyKey) => {
+    const zip = newTaxZip.trim();
+    if (!zip || zip.length !== 5 || !/^\d+$/.test(zip)) {
+      toast.error('Enter a valid 5-digit zip code');
+      return;
+    }
+    for (const [key, county] of Object.entries(taxSettings.counties || {})) {
+      if (county.zipCodes?.includes(zip)) {
+        toast.error(`Zip already assigned to ${county.name || key}`);
+        return;
+      }
+    }
+    setTaxSettings((prev) => ({
+      ...prev,
+      counties: {
+        ...prev.counties,
+        [countyKey]: {
+          ...prev.counties[countyKey],
+          zipCodes: [...(prev.counties[countyKey]?.zipCodes || []), zip],
+        },
+      },
+    }));
+    setNewTaxZip('');
+  };
+
+  const removeTaxZipCode = (countyKey, zip) => {
+    setTaxSettings((prev) => ({
+      ...prev,
+      counties: {
+        ...prev.counties,
+        [countyKey]: {
+          ...prev.counties[countyKey],
+          zipCodes: (prev.counties[countyKey]?.zipCodes || []).filter((z) => z !== zip),
+        },
+      },
+    }));
+  };
+
+  const saveTaxSettings = async () => {
+    setSavingTax(true);
+    try {
+      await apiClient('/api/settings/tax_jurisdictions', {
+        method: 'PATCH',
+        body: JSON.stringify({ value: taxSettings }),
+      });
+      toast.success('Tax settings saved');
+    } catch (err) {
+      if (err.message?.includes('404') || err.message?.includes('not found')) {
+        try {
+          await apiClient('/api/settings', {
+            method: 'POST',
+            body: JSON.stringify({
+              key: 'tax_jurisdictions',
+              value: taxSettings,
+              description: 'County sales tax rates and zip mappings',
+            }),
+          });
+          toast.success('Tax settings saved');
+        } catch (createErr) {
+          console.error('Error creating tax settings:', createErr);
+          toast.error('Failed to save tax settings');
+        }
+      } else {
+        console.error('Error saving tax settings:', err);
+        toast.error('Failed to save tax settings');
+      }
+    } finally {
+      setSavingTax(false);
     }
   };
 
@@ -616,6 +744,111 @@ export default function Settings() {
     </div>
   );
 
+  const renderTaxTab = () => (
+    <div className="space-y-6">
+      <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <TabIcon type="tax" className="w-5 h-5 stroke-cyan-400" />
+            County Tax Rates
+          </h2>
+          <button
+            onClick={saveTaxSettings}
+            disabled={savingTax || loadingTax}
+            className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all disabled:opacity-50"
+            style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
+          >
+            {savingTax ? 'Saving...' : 'Save Tax'}
+          </button>
+        </div>
+
+        <p className="text-xs text-gray-500 mb-4">
+          Parts tax rate is set from the job zip code. Unknown zips default to{' '}
+          {taxSettings.counties?.[taxSettings.defaultCounty || 'lucas']?.name || 'Lucas County'}.
+        </p>
+
+        {loadingTax ? (
+          <div className="text-gray-500 text-sm py-4">Loading...</div>
+        ) : (
+          <div className="space-y-4">
+            {Object.entries(taxSettings.counties || {}).map(([countyKey, county]) => (
+              <div
+                key={countyKey}
+                className="rounded-lg p-4"
+                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+                  <span className="font-medium text-white">{county.name}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-400">Rate:</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max="20"
+                      step="0.01"
+                      value={((county.rate ?? 0) * 100).toFixed(2)}
+                      onChange={(e) => updateCountyRate(countyKey, e.target.value)}
+                      className="w-20 px-2 py-1 text-sm rounded border border-gray-600 bg-gray-800 text-white focus:border-cyan-500 focus:outline-none"
+                    />
+                    <span className="text-sm text-gray-400">%</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-3 max-h-24 overflow-y-auto">
+                  {(county.zipCodes || []).map((zip) => (
+                    <span
+                      key={zip}
+                      className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md bg-cyan-500/10 text-cyan-300"
+                    >
+                      {zip}
+                      <button type="button" onClick={() => removeTaxZipCode(countyKey, zip)} className="hover:opacity-70">
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                  {(county.zipCodes || []).length === 0 && (
+                    <span className="text-xs text-gray-500 italic">No zips — uses default county if unmatched</span>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            <div className="rounded-lg p-4 border border-dashed border-gray-600">
+              <p className="text-xs text-gray-500 mb-2">Add zip to county</p>
+              <div className="flex flex-wrap gap-2">
+                <select
+                  value={taxZipCounty}
+                  onChange={(e) => setTaxZipCounty(e.target.value)}
+                  className="px-3 py-1.5 text-sm rounded border border-gray-600 bg-gray-800 text-white focus:border-cyan-500 focus:outline-none"
+                >
+                  {Object.entries(taxSettings.counties || {}).map(([key, county]) => (
+                    <option key={key} value={key}>{county.name}</option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  placeholder="Zip code"
+                  maxLength={5}
+                  value={newTaxZip}
+                  onChange={(e) => setNewTaxZip(e.target.value.replace(/\D/g, ''))}
+                  onKeyDown={(e) => e.key === 'Enter' && addTaxZipCode(taxZipCounty)}
+                  className="flex-1 min-w-[120px] px-3 py-1.5 text-sm rounded border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => addTaxZipCode(taxZipCounty)}
+                  className="px-3 py-1.5 text-sm rounded border border-gray-600 bg-gray-700 text-white hover:bg-gray-600 transition-colors"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+
   return (
     <div className="min-h-screen p-4 sm:p-6" style={{ background: '#0B0F1A' }}>
       <div className="max-w-2xl mx-auto">
@@ -648,6 +881,7 @@ export default function Settings() {
           {activeTab === 'interface' && renderInterfaceTab()}
           {activeTab === 'availability' && renderAvailabilityTab()}
           {activeTab === 'service-areas' && renderServiceAreasTab()}
+          {activeTab === 'tax' && renderTaxTab()}
         </div>
       </div>
     </div>

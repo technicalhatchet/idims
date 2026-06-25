@@ -202,3 +202,24 @@ class TripZonesSettings(BaseModel):
                 "defaultTripChargeSku": "TRIP-CHARGE"
             }
         }
+
+
+# ── County Tax Jurisdiction Schemas ────────────────────────────────────────────
+
+class TaxCounty(BaseModel):
+    """Sales tax rate for a county"""
+    name: str = Field(..., description="County display name")
+    rate: float = Field(..., ge=0, le=0.2, description="Tax rate as decimal (0.0775 = 7.75%)")
+    zipCodes: List[str] = Field(default_factory=list, description="Zip codes in this county")
+
+
+class TaxJurisdictionsSettings(BaseModel):
+    """County tax configuration keyed by county id"""
+    defaultCounty: str = Field(
+        "lucas",
+        description="County key used when zip is unknown",
+    )
+    counties: Dict[str, TaxCounty] = Field(
+        ...,
+        description="County definitions (lucas, wood, fulton, etc.)",
+    )

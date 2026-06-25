@@ -324,6 +324,31 @@ class WorkOrderService:
             db.add(status_history)
 
             activity.log_work_order_created(db, work_order.id, work_order_data["created_by"])
+
+            # County tax rate from service address / property
+            try:
+                from app.services.tax_service import get_tax_service
+                from app.models.property import Property
+
+                service_address = None
+                sl = work_order_data.get("service_location")
+                if isinstance(sl, dict):
+                    service_address = sl.get("address")
+                elif isinstance(sl, str):
+                    service_address = sl
+
+                if not service_address and work_order_data.get("property_id"):
+                    prop = db.query(Property).filter(
+                        Property.id == work_order_data["property_id"]
+                    ).first()
+                    if prop:
+                        service_address = prop.address
+
+                get_tax_service(db).apply_tax_rate_to_work_order(
+                    work_order, address=service_address
+                )
+            except Exception as tax_err:
+                logger.warning("Could not auto-set tax rate: %s", tax_err)
             
             if commit:
                 db.commit()

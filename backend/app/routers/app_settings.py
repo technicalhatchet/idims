@@ -389,3 +389,58 @@ async def lookup_zone(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error looking up zone: {str(e)}"
         )
+
+
+# ── County Tax Endpoints ───────────────────────────────────────────────────────
+
+from app.services.tax_service import TaxService
+
+
+class TaxLookupRequest(BaseModel):
+    address: Optional[str] = None
+    zipCode: Optional[str] = None
+
+
+class TaxLookupResponse(BaseModel):
+    rate: float
+    countyKey: str
+    countyName: str
+    zipCode: Optional[str] = None
+    method: str
+
+
+@router.get("/tax/config")
+async def get_tax_config(
+    db: Session = Depends(get_db),
+):
+    """Get county tax jurisdiction configuration."""
+    try:
+        tax_service = TaxService(db)
+        return tax_service.get_all_jurisdictions()
+    except Exception as e:
+        logger.error(f"Error retrieving tax config: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error retrieving tax config: {str(e)}"
+        )
+
+
+@router.post("/tax/lookup", response_model=TaxLookupResponse)
+async def lookup_tax_rate(
+    request: TaxLookupRequest,
+    db: Session = Depends(get_db),
+):
+    """Resolve sales tax rate for an address or zip code."""
+    try:
+        tax_service = TaxService(db)
+        result = tax_service.resolve_tax_rate(
+            address=request.address,
+            zip_code=request.zipCode,
+        )
+        return TaxLookupResponse(**result)
+    except Exception as e:
+        logger.error(f"Error looking up tax rate: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error looking up tax rate: {str(e)}"
+        )

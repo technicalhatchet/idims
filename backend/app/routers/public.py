@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from typing import Optional
 import logging
-import re
 import httpx
 
 from app.config import settings
@@ -13,6 +12,8 @@ from app.models.property import Property
 from app.models.work_order import WorkOrder
 from app.models.service import Service, ServiceType, EquipmentType
 from app.services.zone_service import ZoneService
+from app.services.tax_service import get_tax_service
+from app.utils.address_utils import extract_zip_code
 from app.utils.travel_calculator import (
     get_travel_time_and_distance,
     get_default_shop_address,
@@ -89,13 +90,6 @@ OUT_OF_SERVICE_AREA_MESSAGE = (
 )
 
 
-def _extract_zip_code(address: str) -> Optional[str]:
-    if not address:
-        return None
-    match = re.search(r"\b(\d{5})(?:-\d{4})?\b", address)
-    return match.group(1) if match else None
-
-
 def _lookup_diagnostic_service(db: Session, appliance: str) -> Optional[Service]:
     """Resolve the diagnostic SKU for a public booking appliance selection."""
     appliance_key = (appliance or "").strip().lower()
@@ -146,7 +140,7 @@ def _lookup_diagnostic_service(db: Session, appliance: str) -> Optional[Service]
 def _estimate_trip_charge(db: Session, address: str) -> dict:
     """Zone + trip charge for a service address (zip list first, then shop drive time)."""
     zone_service = ZoneService(db)
-    property_zip = _extract_zip_code(address)
+    property_zip = extract_zip_code(address)
     drive_time_minutes = None
 
     if address and (not property_zip or not zone_service.get_zone_by_zip(property_zip)):
@@ -463,6 +457,7 @@ async def create_booking(
             status="pending",
             service_location=service_location or None,
         )
+        get_tax_service(db).apply_tax_rate_to_work_order(work_order, address=address)
         db.add(work_order)
         db.commit()
         db.refresh(work_order)
