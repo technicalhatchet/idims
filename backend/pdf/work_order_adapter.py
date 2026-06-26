@@ -124,12 +124,19 @@ def _map_parts(parts: List[dict], *, billable_only: bool) -> List[dict]:
         rows.append(
             {
                 "part_number": part.get("number") or part.get("part_number") or "—",
-                "description": part.get("description") or "—",
+                "description": _part_description_with_warranty(part),
                 "price": float(part.get("price") or 0),
                 "status": _part_status_label(status),
             }
         )
     return rows
+
+
+def _part_description_with_warranty(part: dict) -> str:
+    desc = part.get("description") or "—"
+    if part.get("part_source") == "oem":
+        return f"{desc} (OEM — 1 yr parts warranty)"
+    return desc
 
 
 def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:

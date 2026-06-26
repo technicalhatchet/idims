@@ -12,6 +12,12 @@ import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
 import Image from 'next/image';
 import EquipmentDetailsMobile from './EquipmentDetailsMobile';
 import { isWorkOrderClosed } from '../../utils/workOrderPermissions';
+import {
+  PART_SOURCE_OPTIONS,
+  formatPartSourceLabel,
+  formatPartWarrantySummary,
+  isValidPartSource,
+} from '../../utils/partWarranty';
 
 // Equipment types
 const EQUIPMENT_TYPES = [
@@ -131,6 +137,8 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
     cost: '',
     price: '',
     status: 'needed',
+    part_source: '',
+    warranty_days_override: '',
     vendor: '',
     tracking_number: '',
     notes: ''
@@ -261,18 +269,36 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   const addOrUpdatePart = async () => {
     if (structuralReadOnly) return;
+    if (!isValidPartSource(currentPart.part_source)) {
+      setError('Select OEM or Aftermarket for this part');
+      return;
+    }
     setLoading(true);
     try {
+      let warranty_days_override = null;
+      const overrideRaw = currentPart.warranty_days_override;
+      if (overrideRaw !== '' && overrideRaw !== null && overrideRaw !== undefined) {
+        const parsed = parseInt(overrideRaw, 10);
+        if (!Number.isFinite(parsed) || parsed < 0) {
+          setError('Custom warranty must be a non-negative number of days');
+          setLoading(false);
+          return;
+        }
+        warranty_days_override = parsed;
+      }
+
       // Prepare data for API - handle vendor field
       const partData = {
         number: currentPart.number,
         description: currentPart.description,
         cost: parseFloat(currentPart.cost),
         price: parseFloat(currentPart.price),
+        part_source: currentPart.part_source,
         status: currentPart.status,
         vendor: currentPart.vendor === '' ? null : currentPart.vendor,
         tracking_number: currentPart.tracking_number || '',
         notes: currentPart.notes || '',
+        warranty_days_override,
         // Auto-set amount_upfront_collected based on status
         amount_upfront_collected: currentPart.status === 'phone_payment'
           ? parseFloat(currentPart.price)  // full price collected
@@ -322,7 +348,13 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   const startEditPart = (index) => {
     if (structuralReadOnly) return;
-    setCurrentPart({ ...parts[index] });
+    const part = parts[index];
+    setCurrentPart({
+      ...part,
+      part_source: part.part_source || '',
+      warranty_days_override:
+        part.warranty_days_override != null ? String(part.warranty_days_override) : '',
+    });
     setEditingPartIndex(index);
     setShowPartForm(true);
   };
@@ -362,6 +394,8 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
       cost: '',
       price: '',
       status: 'needed',
+      part_source: '',
+      warranty_days_override: '',
       vendor: '',
       tracking_number: '',
       notes: ''
@@ -831,6 +865,14 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                     onChange={(e) => handlePartChange('status', e.target.value)}
                     options={PART_STATUSES.map(status => ({ value: status.value, label: status.label }))}
                   />
+
+                  <SelectInput
+                    label="Part source"
+                    value={currentPart.part_source}
+                    onChange={(e) => handlePartChange('part_source', e.target.value)}
+                    options={PART_SOURCE_OPTIONS}
+                    required
+                  />
                   
                   <SelectInput 
                     label="Vendor" 
@@ -845,7 +887,30 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                     onChange={(e) => handlePartChange('tracking_number', e.target.value.toUpperCase())}
                     placeholder="Enter tracking number"
                   />
+
+                  <TextInput
+                    label="Custom warranty (days)"
+                    value={currentPart.warranty_days_override}
+                    onChange={(e) => handlePartChange('warranty_days_override', e.target.value)}
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="Default: 365 OEM / none AM"
+                  />
                 </div>
+
+                {isValidPartSource(currentPart.part_source) && (
+                  <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                    Parts warranty: {formatPartWarrantySummary({
+                      ...currentPart,
+                      warranty_days_override: currentPart.warranty_days_override === ''
+                        ? null
+                        : currentPart.warranty_days_override,
+                    })}
+                    {!currentPart.warranty_days_override && currentPart.part_source === 'oem' && ' (1 year default)'}
+                    {!currentPart.warranty_days_override && currentPart.part_source === 'aftermarket' && ' (none by default)'}
+                  </p>
+                )}
                 
                 <div className="mt-4">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -879,6 +944,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                     <tr>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Part #</th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Description</th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Source</th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Price</th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Status</th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Actions</th>
@@ -887,7 +953,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                   <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                     {parts.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No parts added yet</td>
+                        <td colSpan="6" className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No parts added yet</td>
                       </tr>
                     ) : (
                       parts.map((part) => (
@@ -898,6 +964,9 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                         >
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{part.number}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{part.description}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                            {formatPartSourceLabel(part.part_source)}
+                          </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${part.price}</td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${PART_STATUSES.find(status => status.value === part.status)?.color || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'}`}>
@@ -1020,6 +1089,20 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                 <div>
                   <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Price</p>
                   <p className="mt-1 text-sm text-gray-900 dark:text-white">${selectedPart.price}</p>
+                </div>
+                
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Part source</p>
+                  <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                    {formatPartSourceLabel(selectedPart.part_source)}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Parts warranty</p>
+                  <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                    {formatPartWarrantySummary(selectedPart)}
+                  </p>
                 </div>
                 
                 <div>

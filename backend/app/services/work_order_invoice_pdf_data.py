@@ -167,6 +167,7 @@ def build_work_order_invoice_rd(db: Session, work_order) -> Dict[str, Any]:
             "description": p.description,
             "price": float(p.price or 0),
             "status": p.status,
+            "part_source": p.part_source,
             "amount_upfront_collected": float(p.amount_upfront_collected or 0),
             "tax_collected": float(p.tax_collected or 0),
         }

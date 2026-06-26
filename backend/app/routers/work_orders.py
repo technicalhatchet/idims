@@ -2159,14 +2159,19 @@ async def create_work_order_part(
         description=part.description,
         cost=part.cost,
         price=part.price,
+        part_source=part.part_source,
         vendor=part.vendor,
         status=part.status,
         tracking_number=part.tracking_number,
         notes=part.notes,
+        warranty_days_override=part.warranty_days_override,
         created_by=current_user.id,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
+
+    from app.utils.part_warranty import apply_part_warranty_fields
+    apply_part_warranty_fields(new_part, previous_status=None)
     
     db.add(new_part)
     db.commit()
@@ -2209,7 +2214,7 @@ async def get_work_order_estimate_pdf(
     svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order_id).all()
     rd['services'] = [{'id': str(s.id), 'name': s.name, 'quantity': s.quantity, 'unit_price': float(s.unit_price or 0), 'price': float(s.price or 0), 'billing_status': s.billing_status} for s in svcs]
     parts = db.query(WOPart).filter(WOPart.work_order_id == work_order_id).all()
-    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
+    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'part_source': p.part_source, 'warranty_expires_at': p.warranty_expires_at.isoformat() if p.warranty_expires_at else None, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
     rd['tax_rate'] = float(work_order.tax_rate or 0.0775)
     rd['diagnostic_discount_amount'] = float(work_order.diagnostic_discount_amount or 0)
     rd['amount_previously_paid'] = float(work_order.amount_previously_paid or 0)
@@ -2261,13 +2266,16 @@ async def update_work_order_part(
     current_user: UserModel = Depends(get_current_user)
 ):
     """Update a part for a work order"""
+    from app.utils.part_warranty import apply_part_warranty_fields
+
     part = db.query(WorkOrderPart).filter(WorkOrderPart.id == part_id).first()
     if not part:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Part with ID {part_id} not found"
         )
-    
+
+    previous_status = part.status
     update_data = part_update.dict(exclude_unset=True)
     new_status = update_data.get('status', part.status)
     price = float(update_data.get('price', part.price or 0))
@@ -2313,6 +2321,8 @@ async def update_work_order_part(
     
     for key, value in update_data.items():
         setattr(part, key, value)
+
+    apply_part_warranty_fields(part, previous_status=previous_status)
     
     part.updated_by = current_user.id
     part.updated_at = datetime.utcnow()

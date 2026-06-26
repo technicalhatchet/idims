@@ -470,13 +470,22 @@ class WorkOrderPartBase(BaseModel):
     description: str
     cost: float
     price: float
+    part_source: str = Field(..., description="oem or aftermarket")
     vendor: Optional[str] = None
     status: str = "needed"  # 'needed', 'ordered', 'received', 'installed', 'not_installed', 'completed', 'phone_payment', 'up_front'
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
+    warranty_days_override: Optional[int] = Field(None, ge=0, description="Custom warranty length in days")
     
     amount_upfront_collected: float = 0.00
     tax_collected: float = 0.00
+
+    @validator('part_source')
+    def validate_part_source(cls, v):
+        allowed = ["oem", "aftermarket"]
+        if v not in allowed:
+            raise ValueError(f"part_source must be one of {allowed}")
+        return v
 
     @validator('status')
     def validate_status(cls, v):
@@ -503,12 +512,22 @@ class WorkOrderPartUpdate(BaseModel):
     description: Optional[str] = None
     cost: Optional[float] = None
     price: Optional[float] = None
+    part_source: Optional[str] = None
     vendor: Optional[str] = None
     status: Optional[str] = None
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
+    warranty_days_override: Optional[int] = Field(None, ge=0)
     amount_upfront_collected: Optional[float] = None
     tax_collected: Optional[float] = None
+
+    @validator('part_source')
+    def validate_part_source(cls, v):
+        if v is not None:
+            allowed = ["oem", "aftermarket"]
+            if v not in allowed:
+                raise ValueError(f"part_source must be one of {allowed}")
+        return v
     
     @validator('status')
     def validate_status(cls, v):
@@ -534,6 +553,8 @@ class WorkOrderPartResponse(WorkOrderPartBase):
     work_order_id: UUID
     amount_upfront_collected: float = 0.00
     tax_collected: float = 0.00
+    installed_at: Optional[datetime] = None
+    warranty_expires_at: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
     created_by: Optional[UUID] = None

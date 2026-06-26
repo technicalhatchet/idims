@@ -517,6 +517,10 @@ class WorkOrderPart(Base):
     notes = Column(Text, nullable=True)
     amount_upfront_collected = Column(Numeric(10, 2), nullable=False, default=0.00)
     tax_collected = Column(Numeric(10, 2), nullable=False, default=0.00)  # Tax collected on this part
+    part_source = Column(String(20), nullable=False, default="aftermarket")  # oem | aftermarket
+    warranty_days_override = Column(Integer, nullable=True)
+    installed_at = Column(DateTime, nullable=True)
+    warranty_expires_at = Column(DateTime, nullable=True)
     
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

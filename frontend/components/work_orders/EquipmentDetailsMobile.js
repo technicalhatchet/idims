@@ -4,6 +4,11 @@ import { FaTrash, FaTimes, FaChevronDown, FaChevronUp, FaPlus } from 'react-icon
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import DmaSuggestionsAccordion from '../dma/DmaSuggestionsAccordion';
+import {
+  PART_SOURCE_OPTIONS,
+  formatPartSourceLabel,
+  formatPartWarrantySummary,
+} from '../../utils/partWarranty';
 
 const EQUIPMENT_TYPES = [
   { value: '', label: 'Select Equipment Type' },
@@ -400,6 +405,13 @@ export default function EquipmentDetailsMobile({
               options={PART_STATUSES.map((status) => ({ value: status.value, label: status.label }))}
             />
             <SelectInput
+              label="Part source"
+              value={currentPart.part_source || ''}
+              onChange={(e) => handlePartChange('part_source', e.target.value)}
+              options={PART_SOURCE_OPTIONS}
+              required
+            />
+            <SelectInput
               label="Vendor"
               value={currentPart.vendor}
               onChange={(e) => handlePartChange('vendor', e.target.value)}
@@ -410,6 +422,15 @@ export default function EquipmentDetailsMobile({
               value={currentPart.tracking_number}
               onChange={(e) => handlePartChange('tracking_number', e.target.value.toUpperCase())}
               placeholder="Enter tracking number"
+            />
+            <TextInput
+              label="Custom warranty (days)"
+              value={currentPart.warranty_days_override || ''}
+              onChange={(e) => handlePartChange('warranty_days_override', e.target.value)}
+              type="number"
+              min="0"
+              step="1"
+              placeholder="Default: 365 OEM / none AM"
             />
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Notes</label>
@@ -504,6 +525,9 @@ export default function EquipmentDetailsMobile({
                     </span>
                   </div>
                   <p className="text-xs text-gray-400 mt-1 line-clamp-2">{part.description}</p>
+                  <p className="text-[10px] text-gray-500 mt-1">
+                    {formatPartSourceLabel(part.part_source)}
+                  </p>
                   <div className="flex items-center mt-2 gap-2" onClick={(e) => e.stopPropagation()}>
                     <span className="text-sm font-medium text-cyan-300 shrink-0">${part.price}</span>
                     <select
@@ -569,6 +593,14 @@ export default function EquipmentDetailsMobile({
                 <div>
                   <p className="text-gray-500 text-xs">Price</p>
                   <p className="text-white">${selectedPart.price}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Source</p>
+                  <p className="text-white">{formatPartSourceLabel(selectedPart.part_source)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Parts warranty</p>
+                  <p className="text-white">{formatPartWarrantySummary(selectedPart)}</p>
                 </div>
               </div>
               {selectedPart.notes && (
