@@ -602,6 +602,10 @@ async def get_work_order(
                 "markup_percentage": part.markup_percentage,
                 "amount_upfront_collected": float(part.amount_upfront_collected or 0),
                 "tax_collected": float(part.tax_collected or 0),
+                "part_source": part.part_source,
+                "warranty_days_override": part.warranty_days_override,
+                "installed_at": part.installed_at.isoformat() if part.installed_at else None,
+                "warranty_expires_at": part.warranty_expires_at.isoformat() if part.warranty_expires_at else None,
                 "created_at": part.created_at.isoformat() if hasattr(part, "created_at") else None,
                 "updated_at": part.updated_at.isoformat() if hasattr(part, "updated_at") else None
             }

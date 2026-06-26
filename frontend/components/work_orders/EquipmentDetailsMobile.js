@@ -8,6 +8,7 @@ import {
   PART_SOURCE_OPTIONS,
   formatPartSourceLabel,
   formatPartWarrantySummary,
+  normalizePartSource,
 } from '../../utils/partWarranty';
 
 const EQUIPMENT_TYPES = [
@@ -406,10 +407,9 @@ export default function EquipmentDetailsMobile({
             />
             <SelectInput
               label="Part source"
-              value={currentPart.part_source || ''}
+              value={normalizePartSource(currentPart.part_source)}
               onChange={(e) => handlePartChange('part_source', e.target.value)}
               options={PART_SOURCE_OPTIONS}
-              required
             />
             <SelectInput
               label="Vendor"

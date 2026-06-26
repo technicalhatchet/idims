@@ -17,6 +17,9 @@ import {
   formatPartSourceLabel,
   formatPartWarrantySummary,
   isValidPartSource,
+  partToFormState,
+  emptyPartFormState,
+  normalizePartSource,
 } from '../../utils/partWarranty';
 
 // Equipment types
@@ -131,18 +134,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   const [parts, setParts] = useState(seedParts);
   const [showPartForm, setShowPartForm] = useState(false);
   const [editingPartIndex, setEditingPartIndex] = useState(null);
-  const [currentPart, setCurrentPart] = useState({
-    number: '',
-    description: '',
-    cost: '',
-    price: '',
-    status: 'needed',
-    part_source: '',
-    warranty_days_override: '',
-    vendor: '',
-    tracking_number: '',
-    notes: ''
-  });
+  const [currentPart, setCurrentPart] = useState(emptyPartFormState());
 
   // Modal state
   const [showPartModal, setShowPartModal] = useState(false);
@@ -171,15 +163,25 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   useEffect(() => {
     const seeded = getWorkOrderPartsSeed(workOrder);
-    if (seeded.length > 0) {
-      setParts(seeded);
-    }
+    if (seeded.length === 0) return;
+    setParts((prev) => {
+      const prevById = new Map(prev.map((p) => [p.id, p]));
+      return seeded.map((p) => {
+        const existing = prevById.get(p.id);
+        const merged = existing ? { ...existing, ...p } : p;
+        return {
+          ...merged,
+          part_source: normalizePartSource(merged.part_source ?? existing?.part_source),
+        };
+      });
+    });
   }, [workOrder?.parts]);
 
   const fetchParts = async ({ silent = false } = {}) => {
     try {
       const response = await fetchWorkOrderPartsWithCache(workOrderId);
-      setParts(Array.isArray(response) ? response : []);
+      const items = Array.isArray(response) ? response : [];
+      setParts(items.map((p) => ({ ...p, part_source: normalizePartSource(p.part_source) })));
     } catch (err) {
       console.error('Error fetching parts:', err);
       if (!silent) {
@@ -269,7 +271,8 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   const addOrUpdatePart = async () => {
     if (structuralReadOnly) return;
-    if (!isValidPartSource(currentPart.part_source)) {
+    const partSource = normalizePartSource(currentPart.part_source);
+    if (!isValidPartSource(partSource)) {
       setError('Select OEM or Aftermarket for this part');
       return;
     }
@@ -293,7 +296,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
         description: currentPart.description,
         cost: parseFloat(currentPart.cost),
         price: parseFloat(currentPart.price),
-        part_source: currentPart.part_source,
+        part_source: partSource,
         status: currentPart.status,
         vendor: currentPart.vendor === '' ? null : currentPart.vendor,
         tracking_number: currentPart.tracking_number || '',
@@ -348,13 +351,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
   const startEditPart = (index) => {
     if (structuralReadOnly) return;
-    const part = parts[index];
-    setCurrentPart({
-      ...part,
-      part_source: part.part_source || '',
-      warranty_days_override:
-        part.warranty_days_override != null ? String(part.warranty_days_override) : '',
-    });
+    setCurrentPart(partToFormState(parts[index]));
     setEditingPartIndex(index);
     setShowPartForm(true);
   };
@@ -388,18 +385,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   };
 
   const resetPartForm = () => {
-    setCurrentPart({
-      number: '',
-      description: '',
-      cost: '',
-      price: '',
-      status: 'needed',
-      part_source: '',
-      warranty_days_override: '',
-      vendor: '',
-      tracking_number: '',
-      notes: ''
-    });
+    setCurrentPart(emptyPartFormState());
     setEditingPartIndex(null);
     setShowPartForm(false);
   };
@@ -868,10 +854,9 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
 
                   <SelectInput
                     label="Part source"
-                    value={currentPart.part_source}
+                    value={normalizePartSource(currentPart.part_source)}
                     onChange={(e) => handlePartChange('part_source', e.target.value)}
                     options={PART_SOURCE_OPTIONS}
-                    required
                   />
                   
                   <SelectInput 
@@ -899,16 +884,17 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                   />
                 </div>
 
-                {isValidPartSource(currentPart.part_source) && (
+                {isValidPartSource(normalizePartSource(currentPart.part_source)) && (
                   <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                     Parts warranty: {formatPartWarrantySummary({
                       ...currentPart,
+                      part_source: normalizePartSource(currentPart.part_source),
                       warranty_days_override: currentPart.warranty_days_override === ''
                         ? null
                         : currentPart.warranty_days_override,
                     })}
-                    {!currentPart.warranty_days_override && currentPart.part_source === 'oem' && ' (1 year default)'}
-                    {!currentPart.warranty_days_override && currentPart.part_source === 'aftermarket' && ' (none by default)'}
+                    {!currentPart.warranty_days_override && normalizePartSource(currentPart.part_source) === 'oem' && ' (1 year default)'}
+                    {!currentPart.warranty_days_override && normalizePartSource(currentPart.part_source) === 'aftermarket' && ' (none by default)'}
                   </p>
                 )}
                 

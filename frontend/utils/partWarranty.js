@@ -1,10 +1,39 @@
 import { format, parseISO, isValid } from 'date-fns';
 
 export const PART_SOURCE_OPTIONS = [
-  { value: '', label: 'Select source…' },
   { value: 'oem', label: 'OEM' },
   { value: 'aftermarket', label: 'Aftermarket' },
 ];
+
+export const DEFAULT_PART_SOURCE = 'aftermarket';
+
+export function normalizePartSource(value) {
+  return value === 'oem' ? 'oem' : 'aftermarket';
+}
+
+export function partToFormState(part = {}) {
+  return {
+    ...part,
+    part_source: normalizePartSource(part.part_source),
+    warranty_days_override:
+      part.warranty_days_override != null ? String(part.warranty_days_override) : '',
+  };
+}
+
+export function emptyPartFormState() {
+  return {
+    number: '',
+    description: '',
+    cost: '',
+    price: '',
+    status: 'needed',
+    part_source: DEFAULT_PART_SOURCE,
+    warranty_days_override: '',
+    vendor: '',
+    tracking_number: '',
+    notes: '',
+  };
+}
 
 export const OEM_WARRANTY_DAYS = 365;
 
