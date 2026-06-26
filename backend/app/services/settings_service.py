@@ -17,6 +17,7 @@ from app.schemas.settings import (
     NotificationPreferences,
     TripZonesSettings,
     TaxJurisdictionsSettings,
+    PartsSettings,
     validate_accent_color,
     validate_diagnostic_behavior,
     validate_invoice_terms,
@@ -249,6 +250,8 @@ class SettingsService:
                 TripZonesSettings(**value)
             elif key == "tax_jurisdictions":
                 TaxJurisdictionsSettings(**value)
+            elif key == "parts_settings":
+                PartsSettings(**value)
             # Add more validations as needed
         except Exception as e:
             raise ValueError(f"Invalid value for setting '{key}': {str(e)}")

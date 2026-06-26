@@ -223,9 +223,9 @@ app.add_middleware(RequestLoggingMiddleware)
 # if redis_client:
 #     app.add_middleware(RateLimitingMiddleware, redis_client=redis_client)
 
-# Mount static files
-if os.path.exists("static"):
-    app.mount("/static", StaticFiles(directory="static"), name="static")
+# Mount static files (parts logos, etc.)
+os.makedirs("static", exist_ok=True)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Health check endpoint at root level
 @app.get("/health")

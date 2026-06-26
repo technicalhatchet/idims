@@ -223,3 +223,64 @@ class TaxJurisdictionsSettings(BaseModel):
         ...,
         description="County definitions (lucas, wood, fulton, etc.)",
     )
+
+
+# ── Parts Tab Settings ─────────────────────────────────────────────────────────
+
+class PartsLookupProvider(BaseModel):
+    """External parts lookup tile (logo link on Model/Parts tab)."""
+    id: str = Field(..., min_length=1, max_length=50)
+    name: str = Field(..., min_length=1, max_length=100)
+    logoPath: str = Field(..., description="Public path to logo image")
+    urlTemplate: str = Field(
+        ...,
+        description="URL with {model}, {manufacturer}, and/or {search} placeholders",
+    )
+    equipmentTypes: List[str] = Field(
+        default_factory=list,
+        description="Equipment types that show this provider (appliance, tv)",
+    )
+    enabled: bool = True
+
+    @validator("logoPath")
+    def valid_logo_path(cls, value: str) -> str:
+        path = (value or "").strip()
+        if not path or path.endswith("/"):
+            raise ValueError("logoPath must be a file path (e.g. /images/logos/google.png), not a directory")
+        filename = path.rsplit("/", 1)[-1]
+        if not filename or filename in (".", ".."):
+            raise ValueError("logoPath must include a filename")
+        return path
+
+
+class PartsVendorOption(BaseModel):
+    """Vendor option on part line items."""
+    id: str = Field(..., min_length=1, max_length=50)
+    label: str = Field(..., min_length=1, max_length=100)
+    enabled: bool = True
+
+
+class PartsSettings(BaseModel):
+    """Parts tab configuration."""
+    lookupEnabled: bool = Field(True, description="Show parts lookup logo links")
+    markupPercent: float = Field(28, ge=0, le=500, description="Default cost-to-price markup %")
+    oemWarrantyDays: int = Field(365, ge=0, description="Default OEM parts warranty days")
+    aftermarketWarrantyDays: int = Field(0, ge=0, description="Default aftermarket warranty days")
+    lookupProviders: List[PartsLookupProvider] = Field(default_factory=list)
+    partVendors: List[PartsVendorOption] = Field(default_factory=list)
+
+    @validator("lookupProviders")
+    def unique_provider_ids(cls, providers):
+        ids = [p.id for p in providers]
+        if len(ids) != len(set(ids)):
+            raise ValueError("lookupProviders ids must be unique")
+        return providers
+
+    @validator("partVendors")
+    def unique_vendor_ids(cls, vendors):
+        ids = [v.id for v in vendors]
+        if len(ids) != len(set(ids)):
+            raise ValueError("partVendors ids must be unique")
+        if not any(v.id == "Other" for v in vendors):
+            raise ValueError("partVendors must include an Other option")
+        return vendors

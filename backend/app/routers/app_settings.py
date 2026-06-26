@@ -4,7 +4,7 @@ Settings router for application-wide configuration and user preferences
 
 import copy
 import logging
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, status, Request, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from typing import Dict, Any, Optional
 from pydantic import BaseModel
@@ -423,6 +423,44 @@ async def get_tax_config(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error retrieving tax config: {str(e)}"
+        )
+
+
+@router.get("/parts/config")
+async def get_parts_config(
+    db: Session = Depends(get_db),
+):
+    """Get parts tab configuration (vendors + lookup providers)."""
+    try:
+        from app.services.parts_settings_service import PartsSettingsService
+
+        return PartsSettingsService(db).get_settings()
+    except Exception as e:
+        logger.error(f"Error retrieving parts config: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error retrieving parts config: {str(e)}"
+        )
+
+
+@router.post("/parts/logo")
+async def upload_parts_lookup_logo(
+    file: UploadFile = File(...),
+    provider_id: Optional[str] = Form(None),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    """Upload a logo image for a parts lookup provider (admin/manager)."""
+    try:
+        from app.services.parts_logo_service import save_parts_lookup_logo
+
+        return await save_parts_lookup_logo(file, provider_id=provider_id)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error uploading parts logo: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error uploading parts logo: {str(e)}"
         )
 
 

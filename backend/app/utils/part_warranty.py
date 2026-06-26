@@ -15,16 +15,25 @@ WARRANTY_RESET_STATUSES = frozenset({"needed", "ordered", "received", "not_insta
 def effective_warranty_days(
     part_source: str,
     warranty_days_override: Optional[int] = None,
+    *,
+    oem_default: int = OEM_WARRANTY_DAYS,
+    aftermarket_default: int = AFTERMARKET_WARRANTY_DAYS,
 ) -> int:
     if warranty_days_override is not None:
         return max(0, int(warranty_days_override))
     if part_source == "oem":
-        return OEM_WARRANTY_DAYS
-    return AFTERMARKET_WARRANTY_DAYS
+        return max(0, int(oem_default))
+    return max(0, int(aftermarket_default))
 
 
-def apply_part_warranty_fields(part, *, previous_status: Optional[str] = None) -> None:
+def apply_part_warranty_fields(part, *, previous_status: Optional[str] = None, warranty_defaults: Optional[dict] = None) -> None:
     """Set installed_at and warranty_expires_at from status, source, and overrides."""
+    oem_default = OEM_WARRANTY_DAYS
+    aftermarket_default = AFTERMARKET_WARRANTY_DAYS
+    if warranty_defaults:
+        oem_default = int(warranty_defaults.get("oemWarrantyDays", oem_default))
+        aftermarket_default = int(warranty_defaults.get("aftermarketWarrantyDays", aftermarket_default))
+
     if part.status in WARRANTY_RESET_STATUSES:
         part.installed_at = None
         part.warranty_expires_at = None
@@ -33,7 +42,12 @@ def apply_part_warranty_fields(part, *, previous_status: Optional[str] = None) -
     if part.status == "installed":
         if previous_status != "installed" or not part.installed_at:
             part.installed_at = datetime.utcnow()
-        days = effective_warranty_days(part.part_source, part.warranty_days_override)
+        days = effective_warranty_days(
+            part.part_source,
+            part.warranty_days_override,
+            oem_default=oem_default,
+            aftermarket_default=aftermarket_default,
+        )
         if days > 0 and part.installed_at:
             part.warranty_expires_at = part.installed_at + timedelta(days=days)
         else:

@@ -2153,8 +2153,15 @@ async def create_work_order_part(
     current_user: UserModel = Depends(get_current_user)
 ):
     """Create a new part for a work order"""
+    from app.services.parts_settings_service import PartsSettingsService
+
     # Check if work order exists
     work_order = await WorkOrderService.get_work_order(db, work_order_id)
+
+    try:
+        PartsSettingsService(db).validate_vendor(part.vendor)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
     
     # Create part
     new_part = WorkOrderPart(
@@ -2175,7 +2182,7 @@ async def create_work_order_part(
     )
 
     from app.utils.part_warranty import apply_part_warranty_fields
-    apply_part_warranty_fields(new_part, previous_status=None)
+    apply_part_warranty_fields(new_part, previous_status=None, warranty_defaults=PartsSettingsService(db).get_settings())
     
     db.add(new_part)
     db.commit()
@@ -2271,6 +2278,7 @@ async def update_work_order_part(
 ):
     """Update a part for a work order"""
     from app.utils.part_warranty import apply_part_warranty_fields
+    from app.services.parts_settings_service import PartsSettingsService
 
     part = db.query(WorkOrderPart).filter(WorkOrderPart.id == part_id).first()
     if not part:
@@ -2281,6 +2289,13 @@ async def update_work_order_part(
 
     previous_status = part.status
     update_data = part_update.dict(exclude_unset=True)
+
+    if "vendor" in update_data:
+        try:
+            PartsSettingsService(db).validate_vendor(update_data.get("vendor"))
+        except ValueError as e:
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+    
     new_status = update_data.get('status', part.status)
     price = float(update_data.get('price', part.price or 0))
     
@@ -2326,7 +2341,7 @@ async def update_work_order_part(
     for key, value in update_data.items():
         setattr(part, key, value)
 
-    apply_part_warranty_fields(part, previous_status=previous_status)
+    apply_part_warranty_fields(part, previous_status=previous_status, warranty_defaults=PartsSettingsService(db).get_settings())
     
     part.updated_by = current_user.id
     part.updated_at = datetime.utcnow()

@@ -496,10 +496,8 @@ class WorkOrderPartBase(BaseModel):
     
     @validator('vendor')
     def validate_vendor(cls, v):
-        if v is not None:
-            allowed_vendors = ["Tribles", "ShopJimmy", "Encompass", "Sears", "Amazon", "PartsSelect", "AppliancePartsPros", "Other"]
-            if v not in allowed_vendors:
-                raise ValueError(f"Vendor must be one of {allowed_vendors}")
+        if v is not None and len(v) > 50:
+            raise ValueError("Vendor must be 50 characters or fewer")
         return v
 
 class WorkOrderPartCreate(WorkOrderPartBase):
@@ -539,10 +537,8 @@ class WorkOrderPartUpdate(BaseModel):
     
     @validator('vendor')
     def validate_vendor(cls, v):
-        if v is not None:
-            allowed_vendors = ["Tribles", "ShopJimmy", "Encompass", "Sears", "Amazon", "PartsSelect", "AppliancePartsPros", "Other"]
-            if v not in allowed_vendors:
-                raise ValueError(f"Vendor must be one of {allowed_vendors}")
+        if v is not None and len(v) > 50:
+            raise ValueError("Vendor must be 50 characters or fewer")
         return v
         
     model_config = ConfigDict(from_attributes=True)

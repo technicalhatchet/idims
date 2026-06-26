@@ -3,6 +3,13 @@ import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
 import { useUIPreferences } from '../context/UIPreferencesContext';
 import { apiClient } from '../utils/api-client';
 import toast from 'react-hot-toast';
+import {
+  normalizePartsSettings,
+  slugifyProviderId,
+  resolvePartsLogoUrl,
+  isValidPartsLogoPath,
+} from '../utils/partsSettings';
+import { uploadPartsLookupLogo } from '../services/api/partsSettingsApi';
 
 const DAYS = [
   { key: 'monday', label: 'Monday' },
@@ -59,6 +66,7 @@ const TABS = [
   { id: 'availability', label: 'Availability', icon: 'calendar' },
   { id: 'service-areas', label: 'Service Areas', icon: 'map' },
   { id: 'tax', label: 'Tax', icon: 'tax' },
+  { id: 'parts', label: 'Parts', icon: 'parts' },
   { id: 'price-book', label: 'Price Book', icon: 'price' },
 ];
 
@@ -163,6 +171,13 @@ function TabIcon({ type, className }) {
         <rect x="2" y="3" width="20" height="18" rx="2" />
       </svg>
     ),
+    parts: (
+      <svg viewBox="0 0 24 24" className={className} style={{ strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+        <line x1="12" y1="22.08" x2="12" y2="12" />
+      </svg>
+    ),
   };
   return icons[type] || null;
 }
@@ -189,6 +204,19 @@ export default function Settings() {
   const [savingTax, setSavingTax] = useState(false);
   const [newTaxZip, setNewTaxZip] = useState('');
   const [taxZipCounty, setTaxZipCounty] = useState('lucas');
+
+  const [partsSettings, setPartsSettings] = useState(() => normalizePartsSettings(null));
+  const [loadingParts, setLoadingParts] = useState(true);
+  const [savingParts, setSavingParts] = useState(false);
+  const [newProvider, setNewProvider] = useState({
+    name: '',
+    logoPath: '',
+    urlTemplate: '',
+    equipmentTypes: ['appliance'],
+  });
+  const [newVendorLabel, setNewVendorLabel] = useState('');
+  const [newVendorId, setNewVendorId] = useState('');
+  const [uploadingLogoKey, setUploadingLogoKey] = useState(null);
 
   const [catalogServices, setCatalogServices] = useState([]);
   const [loadingCatalog, setLoadingCatalog] = useState(false);
@@ -558,12 +586,25 @@ export default function Settings() {
             console.warn('Could not load tax config defaults:', taxErr);
           }
         }
+
+        const parts = response?.settings?.parts_settings;
+        if (parts) {
+          setPartsSettings(normalizePartsSettings(parts));
+        } else {
+          try {
+            const partsConfig = await apiClient('/api/settings/parts/config');
+            setPartsSettings(normalizePartsSettings(partsConfig));
+          } catch (partsErr) {
+            console.warn('Could not load parts config defaults:', partsErr);
+          }
+        }
       } catch (err) {
         console.error('Error loading settings:', err);
       } finally {
         setLoadingHours(false);
         setLoadingZones(false);
         setLoadingTax(false);
+        setLoadingParts(false);
       }
     }
     loadSettings();
@@ -811,6 +852,167 @@ export default function Settings() {
       }
     } finally {
       setSavingTax(false);
+    }
+  };
+
+  const updatePartsField = (field, value) => {
+    setPartsSettings((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateLookupProvider = (index, field, value) => {
+    setPartsSettings((prev) => ({
+      ...prev,
+      lookupProviders: (prev.lookupProviders || []).map((provider, i) =>
+        i === index ? { ...provider, [field]: value } : provider,
+      ),
+    }));
+  };
+
+  const toggleProviderEquipmentType = (index, equipmentType) => {
+    setPartsSettings((prev) => ({
+      ...prev,
+      lookupProviders: (prev.lookupProviders || []).map((provider, i) => {
+        if (i !== index) return provider;
+        const types = provider.equipmentTypes || [];
+        const next = types.includes(equipmentType)
+          ? types.filter((t) => t !== equipmentType)
+          : [...types, equipmentType];
+        return { ...provider, equipmentTypes: next };
+      }),
+    }));
+  };
+
+  const removeLookupProvider = (index) => {
+    setPartsSettings((prev) => ({
+      ...prev,
+      lookupProviders: (prev.lookupProviders || []).filter((_, i) => i !== index),
+    }));
+  };
+
+  const addLookupProvider = () => {
+    const name = newProvider.name.trim();
+    const urlTemplate = newProvider.urlTemplate.trim();
+    const logoPath = newProvider.logoPath.trim();
+    if (!name || !urlTemplate || !isValidPartsLogoPath(logoPath)) {
+      toast.error('Provider name, logo, and URL template are required');
+      return;
+    }
+    if (!(newProvider.equipmentTypes || []).length) {
+      toast.error('Select at least one equipment type');
+      return;
+    }
+    const id = slugifyProviderId(name);
+    if ((partsSettings.lookupProviders || []).some((p) => p.id === id)) {
+      toast.error('A provider with a similar name already exists');
+      return;
+    }
+    setPartsSettings((prev) => ({
+      ...prev,
+      lookupProviders: [
+        ...(prev.lookupProviders || []),
+        {
+          id,
+          name,
+          logoPath,
+          urlTemplate,
+          equipmentTypes: [...newProvider.equipmentTypes],
+          enabled: true,
+        },
+      ],
+    }));
+    setNewProvider({
+      name: '',
+      logoPath: '',
+      urlTemplate: '',
+      equipmentTypes: ['appliance'],
+    });
+  };
+
+  const updatePartVendor = (index, field, value) => {
+    setPartsSettings((prev) => ({
+      ...prev,
+      partVendors: (prev.partVendors || []).map((vendor, i) =>
+        i === index ? { ...vendor, [field]: value } : vendor,
+      ),
+    }));
+  };
+
+  const removePartVendor = (index) => {
+    const vendor = partsSettings.partVendors?.[index];
+    if (vendor?.id === 'Other') {
+      toast.error('The Other vendor option cannot be removed');
+      return;
+    }
+    setPartsSettings((prev) => ({
+      ...prev,
+      partVendors: (prev.partVendors || []).filter((_, i) => i !== index),
+    }));
+  };
+
+  const addPartVendor = () => {
+    const label = newVendorLabel.trim();
+    const id = (newVendorId.trim() || label.replace(/\s+/g, ''));
+    if (!label || !id) {
+      toast.error('Vendor label is required');
+      return;
+    }
+    if ((partsSettings.partVendors || []).some((v) => v.id === id)) {
+      toast.error('Vendor ID already exists');
+      return;
+    }
+    setPartsSettings((prev) => ({
+      ...prev,
+      partVendors: [...(prev.partVendors || []), { id, label, enabled: true }],
+    }));
+    setNewVendorLabel('');
+    setNewVendorId('');
+  };
+
+  const handleLogoUpload = async (file, { uploadKey, providerId, onLogoPath }) => {
+    if (!file) return;
+    setUploadingLogoKey(uploadKey);
+    try {
+      const result = await uploadPartsLookupLogo(file, { providerId });
+      onLogoPath(result.logoPath);
+      toast.success('Logo uploaded — save parts settings to keep changes');
+    } catch (err) {
+      console.error('Logo upload failed:', err);
+      toast.error(err.message || 'Logo upload failed');
+    } finally {
+      setUploadingLogoKey(null);
+    }
+  };
+
+  const savePartsSettings = async () => {
+    setSavingParts(true);
+    try {
+      await apiClient('/api/settings/parts_settings', {
+        method: 'PATCH',
+        body: JSON.stringify({ value: partsSettings }),
+      });
+      toast.success('Parts settings saved');
+    } catch (err) {
+      if (err.message?.includes('404') || err.message?.includes('not found')) {
+        try {
+          await apiClient('/api/settings/', {
+            method: 'POST',
+            body: JSON.stringify({
+              key: 'parts_settings',
+              value: partsSettings,
+              description: 'Parts tab vendors, lookup providers, and defaults',
+            }),
+          });
+          toast.success('Parts settings saved');
+        } catch (createErr) {
+          console.error('Error creating parts settings:', createErr);
+          toast.error('Failed to save parts settings');
+        }
+      } else {
+        console.error('Error saving parts settings:', err);
+        toast.error(err.message || 'Failed to save parts settings');
+      }
+    } finally {
+      setSavingParts(false);
     }
   };
 
@@ -1243,6 +1445,362 @@ export default function Settings() {
       </section>
     </div>
   );
+
+  const renderPartsTab = () => {
+    const inputClass =
+      'w-full px-3 py-2 text-sm rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none';
+    const smallInputClass =
+      'px-2 py-1 text-sm rounded border border-gray-600 bg-gray-800 text-white focus:border-cyan-500 focus:outline-none';
+
+    const renderLogoField = ({ logoPath, providerId, uploadKey, onLogoPathChange }) => {
+      const isUploading = uploadingLogoKey === uploadKey;
+      const previewUrl = resolvePartsLogoUrl(logoPath);
+      return (
+        <div className="md:col-span-2 flex flex-col sm:flex-row items-start gap-3">
+          <div className="flex-shrink-0 w-[120px] h-[60px] rounded-lg border border-white/10 bg-white/[0.03] flex items-center justify-center overflow-hidden">
+            {previewUrl ? (
+              <img
+                src={previewUrl}
+                alt=""
+                className="max-w-full max-h-full object-contain p-1"
+              />
+            ) : (
+              <span className="text-xs text-gray-500 px-2 text-center">No logo</span>
+            )}
+          </div>
+          <div className="flex-1 w-full space-y-2">
+            <input
+              type="text"
+              value={logoPath || ''}
+              onChange={(e) => onLogoPathChange(e.target.value)}
+              placeholder="/images/logos/... or uploaded /static/parts-logos/..."
+              className={`${smallInputClass} w-full`}
+            />
+            <label className="inline-flex items-center gap-2 cursor-pointer">
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                className="hidden"
+                disabled={isUploading}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleLogoUpload(file, { uploadKey, providerId, onLogoPath: onLogoPathChange });
+                  }
+                  e.target.value = '';
+                }}
+              />
+              <span
+                className={`px-3 py-1.5 text-xs rounded-lg border ${
+                  isUploading
+                    ? 'border-gray-600 text-gray-500'
+                    : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10'
+                }`}
+              >
+                {isUploading ? 'Uploading…' : 'Upload logo'}
+              </span>
+            </label>
+            <p className="text-xs text-gray-500">PNG, JPG, WebP, or SVG up to 2 MB.</p>
+          </div>
+        </div>
+      );
+    };
+
+    return (
+      <div className="space-y-6">
+        <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+              <TabIcon type="parts" className="w-5 h-5 stroke-cyan-400" />
+              Parts Settings
+            </h2>
+            <button
+              type="button"
+              onClick={savePartsSettings}
+              disabled={savingParts || loadingParts}
+              className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all disabled:opacity-50"
+              style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
+            >
+              {savingParts ? 'Saving...' : 'Save Parts'}
+            </button>
+          </div>
+
+          {loadingParts ? (
+            <div className="text-gray-500 text-sm py-4">Loading...</div>
+          ) : (
+            <div className="space-y-5">
+              <label className="flex items-center gap-3 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={Boolean(partsSettings.lookupEnabled)}
+                  onChange={(e) => updatePartsField('lookupEnabled', e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-gray-900"
+                />
+                <span className="text-sm text-white">Show parts lookup links on work orders</span>
+              </label>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-400 mb-1">Cost markup %</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="500"
+                    step="0.1"
+                    value={partsSettings.markupPercent ?? 28}
+                    onChange={(e) => updatePartsField('markupPercent', parseFloat(e.target.value) || 0)}
+                    className={inputClass}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Auto-fills sell price from cost on new parts. This replaces the legacy
+                    {' '}
+                    <code className="text-gray-400">parts_markup_percentage</code>
+                    {' '}
+                    setting (old settings page only).
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-400 mb-1">Default OEM warranty (days)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={partsSettings.oemWarrantyDays ?? 365}
+                    onChange={(e) => updatePartsField('oemWarrantyDays', parseInt(e.target.value, 10) || 0)}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-400 mb-1">Default aftermarket warranty (days)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={partsSettings.aftermarketWarrantyDays ?? 0}
+                    onChange={(e) => updatePartsField('aftermarketWarrantyDays', parseInt(e.target.value, 10) || 0)}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {!loadingParts && (
+          <>
+            <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <h3 className="text-md font-semibold text-white mb-2">Lookup providers</h3>
+              <p className="text-xs text-gray-500 mb-4">
+                Logo tiles on the Model/Parts tab. Upload a logo or use a path under
+                {' '}
+                <code className="text-gray-400">/images/logos/</code>
+                . URL placeholders: {'{model}'}, {'{manufacturer}'}, {'{search}'}.
+              </p>
+
+              <div className="space-y-3">
+                {(partsSettings.lookupProviders || []).map((provider, index) => (
+                  <div
+                    key={provider.id}
+                    className="rounded-lg p-4 space-y-3"
+                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  >
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <span className="text-sm font-medium text-white">{provider.name}</span>
+                      <div className="flex items-center gap-3">
+                        <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={provider.enabled !== false}
+                            onChange={(e) => updateLookupProvider(index, 'enabled', e.target.checked)}
+                            className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500"
+                          />
+                          Enabled
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => removeLookupProvider(index)}
+                          className="text-xs text-red-400 hover:text-red-300"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <input
+                        type="text"
+                        value={provider.name}
+                        onChange={(e) => updateLookupProvider(index, 'name', e.target.value)}
+                        placeholder="Display name"
+                        className={smallInputClass}
+                      />
+                    </div>
+                    {renderLogoField({
+                      logoPath: provider.logoPath,
+                      providerId: provider.id,
+                      uploadKey: `edit-${index}`,
+                      onLogoPathChange: (value) => updateLookupProvider(index, 'logoPath', value),
+                    })}
+                    <input
+                      type="text"
+                      value={provider.urlTemplate}
+                      onChange={(e) => updateLookupProvider(index, 'urlTemplate', e.target.value)}
+                      placeholder="https://example.com/search?q={model}"
+                      className={`${smallInputClass} w-full`}
+                    />
+                    <div className="flex gap-4 text-sm">
+                      {['appliance', 'tv'].map((eqType) => (
+                        <label key={eqType} className="flex items-center gap-2 text-gray-400 cursor-pointer capitalize">
+                          <input
+                            type="checkbox"
+                            checked={(provider.equipmentTypes || []).includes(eqType)}
+                            onChange={() => toggleProviderEquipmentType(index, eqType)}
+                            className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500"
+                          />
+                          {eqType}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
+                <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">Add provider</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    value={newProvider.name}
+                    onChange={(e) => setNewProvider((p) => ({ ...p, name: e.target.value }))}
+                    placeholder="Name"
+                    className={smallInputClass}
+                  />
+                </div>
+                {renderLogoField({
+                  logoPath: newProvider.logoPath,
+                  providerId: slugifyProviderId(newProvider.name),
+                  uploadKey: 'new',
+                  onLogoPathChange: (value) => setNewProvider((p) => ({ ...p, logoPath: value })),
+                })}
+                <input
+                  type="text"
+                  value={newProvider.urlTemplate}
+                  onChange={(e) => setNewProvider((p) => ({ ...p, urlTemplate: e.target.value }))}
+                  placeholder="URL template"
+                  className={`${smallInputClass} w-full`}
+                />
+                <div className="flex items-center gap-4">
+                  {['appliance', 'tv'].map((eqType) => (
+                    <label key={eqType} className="flex items-center gap-2 text-gray-400 cursor-pointer capitalize text-sm">
+                      <input
+                        type="checkbox"
+                        checked={(newProvider.equipmentTypes || []).includes(eqType)}
+                        onChange={() => {
+                          setNewProvider((p) => {
+                            const types = p.equipmentTypes || [];
+                            const next = types.includes(eqType)
+                              ? types.filter((t) => t !== eqType)
+                              : [...types, eqType];
+                            return { ...p, equipmentTypes: next };
+                          });
+                        }}
+                        className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500"
+                      />
+                      {eqType}
+                    </label>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addLookupProvider}
+                    className="ml-auto px-3 py-1.5 text-sm rounded-lg text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10"
+                  >
+                    Add provider
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <h3 className="text-md font-semibold text-white mb-2">Part vendors</h3>
+              <p className="text-xs text-gray-500 mb-4">
+                Options in the vendor dropdown when adding parts. &quot;Other&quot; must remain in the list.
+              </p>
+
+              <div className="space-y-2">
+                {(partsSettings.partVendors || []).map((vendor, index) => (
+                  <div
+                    key={vendor.id}
+                    className="flex flex-wrap items-center gap-3 py-2 px-3 rounded-lg"
+                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  >
+                    <input
+                      type="text"
+                      value={vendor.label}
+                      onChange={(e) => updatePartVendor(index, 'label', e.target.value)}
+                      className={`${smallInputClass} flex-1 min-w-[120px]`}
+                    />
+                    <span className="text-xs text-gray-500 font-mono">{vendor.id}</span>
+                    <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={vendor.enabled !== false}
+                        onChange={(e) => updatePartVendor(index, 'enabled', e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-cyan-500"
+                      />
+                      Enabled
+                    </label>
+                    {vendor.id !== 'Other' && (
+                      <button
+                        type="button"
+                        onClick={() => removePartVendor(index)}
+                        className="text-xs text-red-400 hover:text-red-300"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-end gap-3">
+                <div className="flex-1 min-w-[140px]">
+                  <label className="block text-xs text-gray-400 mb-1">Label</label>
+                  <input
+                    type="text"
+                    value={newVendorLabel}
+                    onChange={(e) => {
+                      setNewVendorLabel(e.target.value);
+                      if (!newVendorId) {
+                        setNewVendorId(e.target.value.replace(/\s+/g, ''));
+                      }
+                    }}
+                    placeholder="Vendor name"
+                    className={smallInputClass + ' w-full'}
+                  />
+                </div>
+                <div className="flex-1 min-w-[140px]">
+                  <label className="block text-xs text-gray-400 mb-1">ID (stored on parts)</label>
+                  <input
+                    type="text"
+                    value={newVendorId}
+                    onChange={(e) => setNewVendorId(e.target.value)}
+                    placeholder="VendorId"
+                    className={smallInputClass + ' w-full'}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={addPartVendor}
+                  className="px-3 py-1.5 text-sm rounded-lg text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10"
+                >
+                  Add vendor
+                </button>
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+    );
+  };
 
   const renderPriceBookTab = () => {
     const inputClass =
@@ -1712,6 +2270,7 @@ export default function Settings() {
           {activeTab === 'availability' && renderAvailabilityTab()}
           {activeTab === 'service-areas' && renderServiceAreasTab()}
           {activeTab === 'tax' && renderTaxTab()}
+          {activeTab === 'parts' && renderPartsTab()}
           {activeTab === 'price-book' && renderPriceBookTab()}
         </div>
       </div>

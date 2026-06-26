@@ -37,12 +37,14 @@ export function emptyPartFormState() {
 
 export const OEM_WARRANTY_DAYS = 365;
 
-export function effectiveWarrantyDays(partSource, warrantyDaysOverride) {
+export function effectiveWarrantyDays(partSource, warrantyDaysOverride, defaults = {}) {
   if (warrantyDaysOverride !== null && warrantyDaysOverride !== undefined && warrantyDaysOverride !== '') {
     const parsed = parseInt(warrantyDaysOverride, 10);
     if (Number.isFinite(parsed)) return Math.max(0, parsed);
   }
-  return partSource === 'oem' ? OEM_WARRANTY_DAYS : 0;
+  const oemDays = defaults.oemWarrantyDays ?? OEM_WARRANTY_DAYS;
+  const amDays = defaults.aftermarketWarrantyDays ?? 0;
+  return partSource === 'oem' ? oemDays : amDays;
 }
 
 export function formatPartSourceLabel(partSource) {
@@ -51,9 +53,9 @@ export function formatPartSourceLabel(partSource) {
   return '—';
 }
 
-export function formatPartWarrantySummary(part) {
+export function formatPartWarrantySummary(part, warrantyDefaults = {}) {
   if (!part) return '—';
-  const days = effectiveWarrantyDays(part.part_source, part.warranty_days_override);
+  const days = effectiveWarrantyDays(part.part_source, part.warranty_days_override, warrantyDefaults);
   if (days <= 0) return 'No parts warranty';
 
   if (part.warranty_expires_at) {

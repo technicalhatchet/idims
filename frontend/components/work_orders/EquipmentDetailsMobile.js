@@ -10,6 +10,10 @@ import {
   formatPartWarrantySummary,
   normalizePartSource,
 } from '../../utils/partWarranty';
+import {
+  resolvePartsLogoUrl,
+  isBackendHostedPartsLogo,
+} from '../../utils/partsSettings';
 
 const EQUIPMENT_TYPES = [
   { value: '', label: 'Select Equipment Type' },
@@ -73,27 +77,6 @@ const PART_STATUSES = [
   { value: 'installed', label: 'Installed', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' },
   { value: 'not_installed', label: 'Not Installed', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' },
 ];
-
-const PART_VENDORS = [
-  { value: '', label: 'Select Vendor' },
-  { value: 'Tribles', label: 'Tribles' },
-  { value: 'ShopJimmy', label: 'ShopJimmy' },
-  { value: 'Encompass', label: 'Encompass' },
-  { value: 'Sears', label: 'Sears' },
-  { value: 'Amazon', label: 'Amazon' },
-  { value: 'PartsSelect', label: 'Parts Select' },
-  { value: 'AppliancePartsPros', label: 'Appliance Parts Pros' },
-  { value: 'Other', label: 'Other' },
-];
-
-const PART_LOOKUP_LOGOS = {
-  google: <Image src="/images/logos/google.png" alt="Google" width={100} height={50} className="w-24 h-12 object-contain" />,
-  tribles: <Image src="/images/logos/tribles.png" alt="Tribles" width={100} height={50} className="w-24 h-12 object-contain" />,
-  sears: <Image src="/images/logos/sears.png" alt="Sears Parts Direct" width={100} height={50} className="w-24 h-12 object-contain" />,
-  shopjimmy: <Image src="/images/logos/shopjimmy.png" alt="ShopJimmy" width={100} height={50} className="w-24 h-12 object-contain" />,
-  encompass: <Image src="/images/logos/encompass.png" alt="Encompass" width={100} height={50} className="w-24 h-12 object-contain" />,
-  apppartspros: <Image src="/images/logos/app_parts_pros.png" alt="Appliance Parts Pros" width={100} height={50} className="w-24 h-12 object-contain" />,
-};
 
 function MobileAccordionSection({ id, title, summary, isOpen, onToggle, children }) {
   return (
@@ -167,6 +150,10 @@ export default function EquipmentDetailsMobile({
   closePartModal,
   updatePartStatus,
   generateSearchLink,
+  lookupProviders = [],
+  vendorSelectOptions = [{ value: '', label: 'Select Vendor' }],
+  getVendorLabel = (vendorId) => vendorId || '—',
+  partsWarrantyDefaults = { oemWarrantyDays: 365, aftermarketWarrantyDays: 0 },
   readOnly = false,
 }) {
   const [confirmDeletePart, setConfirmDeletePart] = useState(false);
@@ -189,14 +176,17 @@ export default function EquipmentDetailsMobile({
         : 'border-white/5 bg-white/[0.02] opacity-40 cursor-not-allowed'
     }`;
 
-  const renderLookupTile = (service) => {
+  const renderLookupTile = (provider) => {
     const enabled = Boolean(manufacturer && modelNumber);
+    const logoSrc = resolvePartsLogoUrl(provider.logoPath);
+    const useNativeImg = isBackendHostedPartsLogo(provider.logoPath);
     return (
       <a
-        key={service}
-        href={generateSearchLink(service)}
+        key={provider.id}
+        href={generateSearchLink(provider)}
         target="_blank"
         rel="noopener noreferrer"
+        title={`Search ${provider.name} for parts`}
         className={lookupTileClass(enabled)}
         onClick={(e) => {
           if (!enabled) {
@@ -205,7 +195,25 @@ export default function EquipmentDetailsMobile({
           }
         }}
       >
-        <span className="scale-75 origin-center">{PART_LOOKUP_LOGOS[service]}</span>
+        {logoSrc ? (
+          useNativeImg ? (
+            <img
+              src={logoSrc}
+              alt={provider.name}
+              className="w-24 h-12 object-contain scale-75 origin-center"
+            />
+          ) : (
+            <Image
+              src={logoSrc}
+              alt={provider.name}
+              width={100}
+              height={50}
+              className="w-24 h-12 object-contain scale-75 origin-center"
+            />
+          )
+        ) : (
+          <span className="text-[10px] text-center text-gray-500 px-1 leading-tight">{provider.name}</span>
+        )}
       </a>
     );
   };
@@ -331,22 +339,11 @@ export default function EquipmentDetailsMobile({
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Parts lookup</p>
           {!equipmentType ? (
             <p className="text-sm text-gray-500">Select an equipment type to see lookup links.</p>
+          ) : lookupProviders.length === 0 ? (
+            <p className="text-sm text-gray-500">No lookup providers configured.</p>
           ) : (
             <div className="grid grid-cols-2 gap-2">
-              {equipmentType === 'appliance' ? (
-                <>
-                  {renderLookupTile('google')}
-                  {renderLookupTile('tribles')}
-                  {renderLookupTile('sears')}
-                  {renderLookupTile('apppartspros')}
-                </>
-              ) : (
-                <>
-                  {renderLookupTile('google')}
-                  {renderLookupTile('shopjimmy')}
-                  {renderLookupTile('encompass')}
-                </>
-              )}
+              {lookupProviders.map(renderLookupTile)}
             </div>
           )}
         </div>
@@ -418,7 +415,7 @@ export default function EquipmentDetailsMobile({
               label="Vendor"
               value={currentPart.vendor}
               onChange={(e) => handlePartChange('vendor', e.target.value)}
-              options={PART_VENDORS}
+              options={vendorSelectOptions}
             />
             <TextInput
               label="Tracking Number"
@@ -433,7 +430,7 @@ export default function EquipmentDetailsMobile({
               type="number"
               min="0"
               step="1"
-              placeholder="Default: 365 OEM / none AM"
+              placeholder={`Default: ${partsWarrantyDefaults.oemWarrantyDays ?? 365} OEM / ${partsWarrantyDefaults.aftermarketWarrantyDays ?? 0} AM`}
             />
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Notes</label>
@@ -603,7 +600,7 @@ export default function EquipmentDetailsMobile({
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs">Parts warranty</p>
-                  <p className="text-white">{formatPartWarrantySummary(selectedPart)}</p>
+                  <p className="text-white">{formatPartWarrantySummary(selectedPart, partsWarrantyDefaults)}</p>
                 </div>
               </div>
               {selectedPart.notes && (

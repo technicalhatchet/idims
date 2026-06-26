@@ -1,0 +1,68 @@
+"""Default parts tab configuration (vendors + lookup providers)."""
+
+DEFAULT_PARTS_SETTINGS = {
+    "lookupEnabled": True,
+    "markupPercent": 28,
+    "oemWarrantyDays": 365,
+    "aftermarketWarrantyDays": 0,
+    "lookupProviders": [
+        {
+            "id": "google",
+            "name": "Google",
+            "logoPath": "/images/logos/google.png",
+            "urlTemplate": "https://www.google.com/search?q={search}",
+            "equipmentTypes": ["appliance", "tv"],
+            "enabled": True,
+        },
+        {
+            "id": "tribles",
+            "name": "Tribles",
+            "logoPath": "/images/logos/tribles.png",
+            "urlTemplate": "https://www.tribles.com/search?q={model}",
+            "equipmentTypes": ["appliance"],
+            "enabled": True,
+        },
+        {
+            "id": "sears",
+            "name": "Sears Parts Direct",
+            "logoPath": "/images/logos/sears.png",
+            "urlTemplate": "https://www.searspartsdirect.com/search?q={model}",
+            "equipmentTypes": ["appliance"],
+            "enabled": True,
+        },
+        {
+            "id": "apppartspros",
+            "name": "Appliance Parts Pros",
+            "logoPath": "/images/logos/app_parts_pros.png",
+            "urlTemplate": "https://appliancepartspros.com/search.aspx?model={model}",
+            "equipmentTypes": ["appliance"],
+            "enabled": True,
+        },
+        {
+            "id": "shopjimmy",
+            "name": "ShopJimmy",
+            "logoPath": "/images/logos/shopjimmy.png",
+            "urlTemplate": "https://www.shopjimmy.com/search.php?search_query={model}",
+            "equipmentTypes": ["tv"],
+            "enabled": True,
+        },
+        {
+            "id": "encompass",
+            "name": "Encompass",
+            "logoPath": "/images/logos/encompass.png",
+            "urlTemplate": "https://www.encompass.com/search?q={model}",
+            "equipmentTypes": ["tv"],
+            "enabled": True,
+        },
+    ],
+    "partVendors": [
+        {"id": "Tribles", "label": "Tribles", "enabled": True},
+        {"id": "ShopJimmy", "label": "ShopJimmy", "enabled": True},
+        {"id": "Encompass", "label": "Encompass", "enabled": True},
+        {"id": "Sears", "label": "Sears", "enabled": True},
+        {"id": "Amazon", "label": "Amazon", "enabled": True},
+        {"id": "PartsSelect", "label": "Parts Select", "enabled": True},
+        {"id": "AppliancePartsPros", "label": "Appliance Parts Pros", "enabled": True},
+        {"id": "Other", "label": "Other", "enabled": True},
+    ],
+}

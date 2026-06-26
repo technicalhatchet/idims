@@ -21,6 +21,15 @@ import {
   emptyPartFormState,
   normalizePartSource,
 } from '../../utils/partWarranty';
+import {
+  normalizePartsSettings,
+  getVendorSelectOptions,
+  getVendorLabel,
+  getLookupProvidersForEquipment,
+  buildPartLookupUrl,
+  resolvePartsLogoUrl,
+  isBackendHostedPartsLogo,
+} from '../../utils/partsSettings';
 
 // Equipment types
 const EQUIPMENT_TYPES = [
@@ -89,29 +98,6 @@ const PART_STATUSES = [
   { value: 'not_installed', label: 'Not Installed', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }
 ];
 
-// Part vendors
-const PART_VENDORS = [
-  { value: '', label: 'Select Vendor' },
-  { value: 'Tribles', label: 'Tribles' },
-  { value: 'ShopJimmy', label: 'ShopJimmy' },
-  { value: 'Encompass', label: 'Encompass' },
-  { value: 'Sears', label: 'Sears' },
-  { value: 'Amazon', label: 'Amazon' },
-  { value: 'PartsSelect', label: 'Parts Select' },
-  { value: 'AppliancePartsPros', label: 'Appliance Parts Pros' },
-  { value: 'Other', label: 'Other' }
-];
-
-// Parts lookup icons/logos using actual images
-const PART_LOOKUP_LOGOS = {
-  google: <Image src="/images/logos/google.png" alt="Google" width={100} height={50} className="w-24 h-12 object-contain" />,
-  tribles: <Image src="/images/logos/tribles.png" alt="Tribles" width={100} height={50} className="w-24 h-12 object-contain" />,
-  sears: <Image src="/images/logos/sears.png" alt="Sears Parts Direct" width={100} height={50} className="w-24 h-12 object-contain" />,
-  shopjimmy: <Image src="/images/logos/shopjimmy.png" alt="ShopJimmy" width={100} height={50} className="w-24 h-12 object-contain" />,
-  encompass: <Image src="/images/logos/encompass.png" alt="Encompass" width={100} height={50} className="w-24 h-12 object-contain" />,
-  apppartspros: <Image src="/images/logos/app_parts_pros.png" alt="Appliance Parts Pros" width={100} height={50} className="w-24 h-12 object-contain" />
-};
-
 export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false }) {
   const isMobile = variant === 'mobile';
   const structuralReadOnly = readOnly || isWorkOrderClosed(workOrder);
@@ -141,6 +127,13 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   // Modal state
   const [showPartModal, setShowPartModal] = useState(false);
   const [selectedPart, setSelectedPart] = useState(null);
+  const [partsSettings, setPartsSettings] = useState(() => normalizePartsSettings(null));
+
+  useEffect(() => {
+    apiClient('/api/settings/parts/config')
+      .then((cfg) => setPartsSettings(normalizePartsSettings(cfg)))
+      .catch(() => setPartsSettings(normalizePartsSettings(null)));
+  }, []);
 
   useEffect(() => {
     if (workOrder) {
@@ -264,7 +257,8 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
     if (field === 'cost') {
       const cost = parseFloat(value);
       if (!isNaN(cost)) {
-        updated.price = (cost * 1.28).toFixed(2);
+        const markupPct = Number(partsSettings.markupPercent) || 28;
+        updated.price = (cost * (1 + markupPct / 100)).toFixed(2);
       }
     }
     
@@ -392,26 +386,67 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
     setShowPartForm(false);
   };
 
-  const generateSearchLink = (service) => {
-    const searchTerm = `${manufacturer} ${modelNumber} parts`;
-    const encodedSearch = encodeURIComponent(searchTerm);
-    
-    switch (service) {
-      case 'google':
-        return `https://www.google.com/search?q=${encodedSearch}`;
-      case 'tribles':
-        return `https://www.tribles.com/search?q=${modelNumber}`;
-      case 'sears':
-        return `https://www.searspartsdirect.com/search?q=${modelNumber}`;
-      case 'shopjimmy':
-        return `https://www.shopjimmy.com/search.php?search_query=${modelNumber}`;
-      case 'encompass':
-        return `https://www.encompass.com/search?q=${modelNumber}`;
-      case 'apppartspros':
-        return `https://appliancepartspros.com/search.aspx?model=${encodeURIComponent(modelNumber)}`;
-      default:
-        return `https://www.google.com/search?q=${encodedSearch}`;
-    }
+  const generateSearchLink = (provider) => {
+    const template = typeof provider === 'string'
+      ? (partsSettings.lookupProviders || []).find((p) => p.id === provider)?.urlTemplate
+      : provider?.urlTemplate;
+    return buildPartLookupUrl(template || '', { manufacturer, modelNumber });
+  };
+
+  const vendorSelectOptions = getVendorSelectOptions(partsSettings);
+  const lookupProviders = equipmentType
+    ? getLookupProvidersForEquipment(partsSettings, equipmentType)
+    : [];
+  const warrantyDefaults = {
+    oemWarrantyDays: partsSettings.oemWarrantyDays,
+    aftermarketWarrantyDays: partsSettings.aftermarketWarrantyDays,
+  };
+
+  const renderLookupLink = (provider) => {
+    const enabled = Boolean(manufacturer && modelNumber);
+    const logoSrc = resolvePartsLogoUrl(provider.logoPath);
+    const useNativeImg = isBackendHostedPartsLogo(provider.logoPath);
+    return (
+      <a
+        key={provider.id}
+        href={generateSearchLink(provider)}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={`Search ${provider.name} for parts`}
+        className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
+          enabled
+            ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 dark:bg-gray-800 dark:hover:bg-gray-700'
+            : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
+        }`}
+        style={{ width: '140px', height: '70px' }}
+        onClick={(e) => {
+          if (!enabled) {
+            e.preventDefault();
+            alert('Please fill in manufacturer and model number to use this link');
+          }
+        }}
+      >
+        {logoSrc ? (
+          useNativeImg ? (
+            <img
+              src={logoSrc}
+              alt={provider.name}
+              className="w-24 h-12 object-contain"
+            />
+          ) : (
+            <Image
+              src={logoSrc}
+              alt={provider.name}
+              width={100}
+              height={50}
+              className="w-24 h-12 object-contain"
+            />
+          )
+        ) : (
+          <span className="text-xs text-center text-gray-500 dark:text-gray-400 px-2">{provider.name}</span>
+        )}
+      </a>
+    );
   };
 
   const openPartModal = (part) => {
@@ -543,6 +578,13 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
         updatePartStatus={updatePartStatus}
         readOnly={structuralReadOnly}
         generateSearchLink={generateSearchLink}
+        lookupProviders={lookupProviders}
+        vendorSelectOptions={vendorSelectOptions}
+        getVendorLabel={(vendorId) => getVendorLabel(partsSettings, vendorId)}
+        partsWarrantyDefaults={{
+          oemWarrantyDays: partsSettings.oemWarrantyDays,
+          aftermarketWarrantyDays: partsSettings.aftermarketWarrantyDays,
+        }}
       />
     );
   }
@@ -654,163 +696,24 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
         
         <div className="md:col-span-2">
           {/* Parts Lookup Links */}
+          {partsSettings.lookupEnabled && (
           <div className="mb-6">
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Parts Lookup</h3>
-            
             <div className="flex flex-wrap gap-4">
-              {equipmentType === 'appliance' ? (
-                <>
-                  <a 
-                    href={generateSearchLink('google')} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    title="Search Google for parts"
-                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
-                      manufacturer && modelNumber 
-                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
-                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
-                    }`}
-                    style={{ width: '140px', height: '70px' }}
-                    onClick={(e) => {
-                      if (!manufacturer || !modelNumber) {
-                        e.preventDefault();
-                        alert('Please fill in manufacturer and model number to use this link');
-                      }
-                    }}
-                  >
-                    {PART_LOOKUP_LOGOS.google}
-                  </a>
-                  <a 
-                    href={generateSearchLink('tribles')} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    title="Search Tribles for parts"
-                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
-                      manufacturer && modelNumber 
-                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
-                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
-                    }`}
-                    style={{ width: '140px', height: '70px' }}
-                    onClick={(e) => {
-                      if (!manufacturer || !modelNumber) {
-                        e.preventDefault();
-                        alert('Please fill in manufacturer and model number to use this link');
-                      }
-                    }}
-                  >
-                    {PART_LOOKUP_LOGOS.tribles}
-                  </a>
-                  <a 
-                    href={generateSearchLink('sears')} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    title="Search Sears Parts Direct"
-                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
-                      manufacturer && modelNumber 
-                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
-                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
-                    }`}
-                    style={{ width: '140px', height: '70px' }}
-                    onClick={(e) => {
-                      if (!manufacturer || !modelNumber) {
-                        e.preventDefault();
-                        alert('Please fill in manufacturer and model number to use this link');
-                      }
-                    }}
-                  >
-                    {PART_LOOKUP_LOGOS.sears}
-                  </a>
-                  <a 
-                    href={generateSearchLink('apppartspros')} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    title="Search Appliance Parts Pros"
-                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
-                      manufacturer && modelNumber 
-                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
-                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
-                    }`}
-                    style={{ width: '140px', height: '70px' }}
-                    onClick={(e) => {
-                      if (!manufacturer || !modelNumber) {
-                        e.preventDefault();
-                        alert('Please fill in manufacturer and model number to use this link');
-                      }
-                    }}
-                  >
-                    {PART_LOOKUP_LOGOS.apppartspros}
-                  </a>
-                </>
-              ) : equipmentType === 'tv' ? (
-                <>
-                  <a 
-                    href={generateSearchLink('google')} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    title="Search Google for parts"
-                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
-                      manufacturer && modelNumber 
-                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
-                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
-                    }`}
-                    style={{ width: '140px', height: '70px' }}
-                    onClick={(e) => {
-                      if (!manufacturer || !modelNumber) {
-                        e.preventDefault();
-                        alert('Please fill in manufacturer and model number to use this link');
-                      }
-                    }}
-                  >
-                    {PART_LOOKUP_LOGOS.google}
-                  </a>
-                  <a 
-                    href={generateSearchLink('shopjimmy')} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    title="Search ShopJimmy for parts"
-                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
-                      manufacturer && modelNumber 
-                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
-                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
-                    }`}
-                    style={{ width: '140px', height: '70px' }}
-                    onClick={(e) => {
-                      if (!manufacturer || !modelNumber) {
-                        e.preventDefault();
-                        alert('Please fill in manufacturer and model number to use this link');
-                      }
-                    }}
-                  >
-                    {PART_LOOKUP_LOGOS.shopjimmy}
-                  </a>
-                  <a 
-                    href={generateSearchLink('encompass')} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    title="Search Encompass for parts"
-                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
-                      manufacturer && modelNumber 
-                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
-                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
-                    }`}
-                    style={{ width: '140px', height: '70px' }}
-                    onClick={(e) => {
-                      if (!manufacturer || !modelNumber) {
-                        e.preventDefault();
-                        alert('Please fill in manufacturer and model number to use this link');
-                      }
-                    }}
-                  >
-                    {PART_LOOKUP_LOGOS.encompass}
-                  </a>
-                </>
-              ) : (
+              {!equipmentType ? (
                 <div className="text-gray-500 dark:text-gray-400">
                   Please select an equipment type to see parts lookup options
                 </div>
+              ) : lookupProviders.length === 0 ? (
+                <div className="text-gray-500 dark:text-gray-400">
+                  No lookup providers configured for this equipment type.
+                </div>
+              ) : (
+                lookupProviders.map(renderLookupLink)
               )}
             </div>
           </div>
+          )}
 
           {/* Parts Management */}
           <div>
@@ -887,7 +790,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                     label="Vendor" 
                     value={currentPart.vendor} 
                     onChange={(e) => handlePartChange('vendor', e.target.value)}
-                    options={PART_VENDORS}
+                    options={vendorSelectOptions}
                   />
                   
                   <TextInput 
@@ -904,7 +807,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                     type="number"
                     min="0"
                     step="1"
-                    placeholder="Default: 365 OEM / none AM"
+                    placeholder={`Default: ${partsSettings.oemWarrantyDays ?? 365} OEM / ${partsSettings.aftermarketWarrantyDays ?? 0} AM`}
                   />
                 </div>
 
@@ -916,7 +819,7 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                       warranty_days_override: currentPart.warranty_days_override === ''
                         ? null
                         : currentPart.warranty_days_override,
-                    })}
+                    }, warrantyDefaults)}
                     {!currentPart.warranty_days_override && normalizePartSource(currentPart.part_source) === 'oem' && ' (1 year default)'}
                     {!currentPart.warranty_days_override && normalizePartSource(currentPart.part_source) === 'aftermarket' && ' (none by default)'}
                   </p>
@@ -1111,14 +1014,14 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                 <div>
                   <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Parts warranty</p>
                   <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                    {formatPartWarrantySummary(selectedPart)}
+                    {formatPartWarrantySummary(selectedPart, warrantyDefaults)}
                   </p>
                 </div>
                 
                 <div>
                   <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Vendor</p>
                   <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                    {PART_VENDORS.find(v => v.value === selectedPart.vendor)?.label || selectedPart.vendor || '-'}
+                    {getVendorLabel(partsSettings, selectedPart.vendor)}
                   </p>
                 </div>
                 
