@@ -497,7 +497,7 @@ class WorkOrderPartBase(BaseModel):
     @validator('vendor')
     def validate_vendor(cls, v):
         if v is not None:
-            allowed_vendors = ["Tribles", "ShopJimmy", "Encompass", "Sears", "Amazon", "PartsSelect", "Other"]
+            allowed_vendors = ["Tribles", "ShopJimmy", "Encompass", "Sears", "Amazon", "PartsSelect", "AppliancePartsPros", "Other"]
             if v not in allowed_vendors:
                 raise ValueError(f"Vendor must be one of {allowed_vendors}")
         return v
@@ -540,7 +540,7 @@ class WorkOrderPartUpdate(BaseModel):
     @validator('vendor')
     def validate_vendor(cls, v):
         if v is not None:
-            allowed_vendors = ["Tribles", "ShopJimmy", "Encompass", "Sears", "Amazon", "PartsSelect", "Other"]
+            allowed_vendors = ["Tribles", "ShopJimmy", "Encompass", "Sears", "Amazon", "PartsSelect", "AppliancePartsPros", "Other"]
             if v not in allowed_vendors:
                 raise ValueError(f"Vendor must be one of {allowed_vendors}")
         return v

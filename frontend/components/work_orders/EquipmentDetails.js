@@ -98,6 +98,7 @@ const PART_VENDORS = [
   { value: 'Sears', label: 'Sears' },
   { value: 'Amazon', label: 'Amazon' },
   { value: 'PartsSelect', label: 'Parts Select' },
+  { value: 'AppliancePartsPros', label: 'Appliance Parts Pros' },
   { value: 'Other', label: 'Other' }
 ];
 
@@ -107,7 +108,8 @@ const PART_LOOKUP_LOGOS = {
   tribles: <Image src="/images/logos/tribles.png" alt="Tribles" width={100} height={50} className="w-24 h-12 object-contain" />,
   sears: <Image src="/images/logos/sears.png" alt="Sears Parts Direct" width={100} height={50} className="w-24 h-12 object-contain" />,
   shopjimmy: <Image src="/images/logos/shopjimmy.png" alt="ShopJimmy" width={100} height={50} className="w-24 h-12 object-contain" />,
-  encompass: <Image src="/images/logos/encompass.png" alt="Encompass" width={100} height={50} className="w-24 h-12 object-contain" />
+  encompass: <Image src="/images/logos/encompass.png" alt="Encompass" width={100} height={50} className="w-24 h-12 object-contain" />,
+  apppartspros: <Image src="/images/logos/app_parts_pros.png" alt="Appliance Parts Pros" width={100} height={50} className="w-24 h-12 object-contain" />
 };
 
 export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false }) {
@@ -405,6 +407,8 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
         return `https://www.shopjimmy.com/search.php?search_query=${modelNumber}`;
       case 'encompass':
         return `https://www.encompass.com/search?q=${modelNumber}`;
+      case 'apppartspros':
+        return `https://appliancepartspros.com/search.aspx?model=${encodeURIComponent(modelNumber)}`;
       default:
         return `https://www.google.com/search?q=${encodedSearch}`;
     }
@@ -715,6 +719,26 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
                     }}
                   >
                     {PART_LOOKUP_LOGOS.sears}
+                  </a>
+                  <a 
+                    href={generateSearchLink('apppartspros')} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    title="Search Appliance Parts Pros"
+                    className={`inline-flex items-center justify-center p-3 border border-transparent rounded-md shadow-sm ${
+                      manufacturer && modelNumber 
+                        ? 'bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:bg-gray-800 dark:hover:bg-gray-700' 
+                        : 'bg-gray-100 cursor-not-allowed dark:bg-gray-800'
+                    }`}
+                    style={{ width: '140px', height: '70px' }}
+                    onClick={(e) => {
+                      if (!manufacturer || !modelNumber) {
+                        e.preventDefault();
+                        alert('Please fill in manufacturer and model number to use this link');
+                      }
+                    }}
+                  >
+                    {PART_LOOKUP_LOGOS.apppartspros}
                   </a>
                 </>
               ) : equipmentType === 'tv' ? (

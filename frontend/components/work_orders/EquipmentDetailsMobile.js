@@ -82,6 +82,7 @@ const PART_VENDORS = [
   { value: 'Sears', label: 'Sears' },
   { value: 'Amazon', label: 'Amazon' },
   { value: 'PartsSelect', label: 'Parts Select' },
+  { value: 'AppliancePartsPros', label: 'Appliance Parts Pros' },
   { value: 'Other', label: 'Other' },
 ];
 
@@ -91,6 +92,7 @@ const PART_LOOKUP_LOGOS = {
   sears: <Image src="/images/logos/sears.png" alt="Sears Parts Direct" width={100} height={50} className="w-24 h-12 object-contain" />,
   shopjimmy: <Image src="/images/logos/shopjimmy.png" alt="ShopJimmy" width={100} height={50} className="w-24 h-12 object-contain" />,
   encompass: <Image src="/images/logos/encompass.png" alt="Encompass" width={100} height={50} className="w-24 h-12 object-contain" />,
+  apppartspros: <Image src="/images/logos/app_parts_pros.png" alt="Appliance Parts Pros" width={100} height={50} className="w-24 h-12 object-contain" />,
 };
 
 function MobileAccordionSection({ id, title, summary, isOpen, onToggle, children }) {
@@ -336,6 +338,7 @@ export default function EquipmentDetailsMobile({
                   {renderLookupTile('google')}
                   {renderLookupTile('tribles')}
                   {renderLookupTile('sears')}
+                  {renderLookupTile('apppartspros')}
                 </>
               ) : (
                 <>
