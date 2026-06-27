@@ -3,7 +3,7 @@ import { FaEnvelope, FaFilePdf } from 'react-icons/fa';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import { useTheme } from '../../context/ThemeContext';
-import { emailWorkOrderDocument, openWorkOrderPdf } from '../../utils/workOrderPdf';
+import { emailWorkOrderDocument, openWorkOrderPdf, DOCUMENT_LINE_PRESETS } from '../../utils/workOrderPdf';
 
 const DOC_TYPES = [
   { id: 'invoice', label: 'Invoice' },
@@ -92,6 +92,7 @@ export default function WorkOrderDocumentPdfSheet({
   const isMobile = variant === 'mobile';
   const { theme } = useTheme();
   const [docType, setDocType] = useState('invoice');
+  const [linePreset, setLinePreset] = useState('full');
   const [pdfVariant, setPdfVariant] = useState('light');
   const [showPayments, setShowPayments] = useState(true);
   const [showPaymentMessage, setShowPaymentMessage] = useState(true);
@@ -103,6 +104,7 @@ export default function WorkOrderDocumentPdfSheet({
 
   const pdfOptions = () => ({
     docType,
+    linePreset: docType === 'invoice' ? 'full' : linePreset,
     variant: pdfVariant,
     showPayments,
     showPaymentMessage,
@@ -112,6 +114,7 @@ export default function WorkOrderDocumentPdfSheet({
   useEffect(() => {
     if (!open) return;
     setDocType('invoice');
+    setLinePreset('full');
     setPdfVariant(theme?.mode === 'dark' ? 'dark' : 'light');
     setShowPayments(hasPayments);
     setShowPaymentMessage(true);
@@ -134,6 +137,7 @@ export default function WorkOrderDocumentPdfSheet({
       const opts = pdfOptions();
       await openWorkOrderPdf(workOrderId, orderNumber, `${opts.docType}-v2.pdf`, {
         variant: opts.variant,
+        line_preset: opts.linePreset,
         show_payments: String(opts.showPayments),
         show_payment_message: String(opts.showPaymentMessage),
         show_technician: String(opts.showTechnician),
@@ -177,20 +181,72 @@ export default function WorkOrderDocumentPdfSheet({
       <div>
         <p className={sectionLabelClass}>Document</p>
         <div className="grid grid-cols-2 gap-2">
-          {DOC_TYPES.map((type) => (
-            <SegmentButton
-              key={type.id}
-              active={docType === type.id}
-              onClick={() => setDocType(type.id)}
-              variant={variant}
-            >
-              {type.label}
-            </SegmentButton>
-          ))}
-        </div>
-      </div>
+              {DOC_TYPES.map((type) => (
+                <SegmentButton
+                  key={type.id}
+                  active={docType === type.id}
+                  onClick={() => {
+                    setDocType(type.id);
+                    if (type.id === 'invoice') setLinePreset('full');
+                  }}
+                  variant={variant}
+                >
+                  {type.label}
+                </SegmentButton>
+              ))}
+            </div>
+          </div>
 
-      <div>
+          {docType === 'estimate' ? (
+            <div>
+              <p className={sectionLabelClass}>Line items</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                {DOCUMENT_LINE_PRESETS.map((preset) => (
+                  <button
+                    key={preset.id}
+                    type="button"
+                    onClick={() => setLinePreset(preset.id)}
+                    className={`rounded-lg border px-3 py-2.5 text-left transition-colors ${
+                      linePreset === preset.id
+                        ? isMobile
+                          ? 'border-orange-500/50 bg-orange-500/10'
+                          : 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
+                        : isMobile
+                          ? 'border-white/10 bg-white/[0.03] hover:border-white/20'
+                          : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-500'
+                    }`}
+                  >
+                    <span
+                      className={`block text-sm font-semibold ${
+                        linePreset === preset.id
+                          ? isMobile
+                            ? 'text-orange-200'
+                            : 'text-orange-700 dark:text-orange-200'
+                          : isMobile
+                            ? 'text-gray-200'
+                            : 'text-gray-900 dark:text-white'
+                      }`}
+                    >
+                      {preset.label}
+                    </span>
+                    <span
+                      className={`block text-xs mt-1 ${
+                        isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'
+                      }`}
+                    >
+                      {preset.description}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <p className={`text-sm ${isMobile ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'}`}>
+              Invoices always include all billable services and parts.
+            </p>
+          )}
+
+          <div>
         <p className={sectionLabelClass}>Theme</p>
         <div className="grid grid-cols-2 gap-2">
           {['light', 'dark'].map((v) => (

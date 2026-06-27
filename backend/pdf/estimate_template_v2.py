@@ -81,15 +81,17 @@ class TotalsPanelFlowable(Flowable):
             self._row(canvas, label, value, y)
             y -= 14
 
-        canvas.setFont(FONT_BOLD, 9)
-        canvas.setFillColor(CYAN)
-        canvas.drawString(16, y + 4, "Diagnostic Discount")
-        canvas.setFont(FONT_REGULAR, 6.5)
-        canvas.setFillColor(theme.MUTED)
-        canvas.drawString(16, y - 6, "(pending repair approval)")
-        canvas.setFont(FONT_REGULAR, 9)
-        canvas.setFillColor(theme.INK)
-        canvas.drawRightString(self.width - 16, y, money(t.get("discount")))
+        discount = t.get("discount")
+        if discount not in (None, 0, 0.0, "0", "0.00"):
+            canvas.setFont(FONT_BOLD, 9)
+            canvas.setFillColor(CYAN)
+            canvas.drawString(16, y + 4, "Diagnostic Discount")
+            canvas.setFont(FONT_REGULAR, 6.5)
+            canvas.setFillColor(theme.MUTED)
+            canvas.drawString(16, y - 6, "(pending repair approval)")
+            canvas.setFont(FONT_REGULAR, 9)
+            canvas.setFillColor(theme.INK)
+            canvas.drawRightString(self.width - 16, y, money(discount))
         y -= 26
 
         box_w = 118

@@ -143,16 +143,15 @@ def generate_work_order_invoice_pdf(
     *,
     variant: str = "light",
 ) -> bytes:
-    """Render invoice PDF bytes for a work order."""
-    from pdf import build_invoice_pdf
-    from pdf.work_order_adapter import work_order_to_invoice
-
-    rd = build_work_order_invoice_rd(db, work_order)
-    note_texts = get_public_invoice_note_texts(db, work_order.id)
-    safe_variant = "dark" if variant == "dark" else "light"
-    return build_invoice_pdf(
-        work_order_to_invoice(rd, notes=note_texts),
-        variant=safe_variant,
+    """Render invoice PDF bytes (v2 layout with default full-invoice options)."""
+    return generate_work_order_invoice_pdf_v2(
+        db,
+        work_order,
+        variant=variant,
+        show_payments=True,
+        show_payment_message=True,
+        show_technician=True,
+        line_preset="full",
     )
 
 
@@ -190,6 +189,7 @@ def generate_work_order_invoice_pdf_v2(
     show_payments: bool = True,
     show_payment_message: bool = True,
     show_technician: bool = True,
+    line_preset: str = "full",
 ) -> bytes:
     """Render invoice PDF v2 bytes (optional payment ledger)."""
     from pdf.invoice_template_v2 import build_invoice_pdf_v2
@@ -197,7 +197,7 @@ def generate_work_order_invoice_pdf_v2(
 
     rd = build_work_order_invoice_rd(db, work_order)
     note_texts = get_public_invoice_note_texts(db, work_order.id)
-    invoice = work_order_to_invoice(rd, notes=note_texts)
+    invoice = work_order_to_invoice(rd, notes=note_texts, line_preset=line_preset)
     if show_payments:
         invoice["payments"] = get_work_order_payment_ledger(db, work_order.id)
     else:
@@ -219,13 +219,14 @@ def generate_work_order_estimate_pdf_v2(
     show_payments: bool = True,
     show_payment_message: bool = True,
     show_technician: bool = True,
+    line_preset: str = "full",
 ) -> bytes:
     """Render estimate PDF v2 bytes (optional payment ledger)."""
     from pdf.estimate_template_v2 import build_estimate_pdf_v2
     from pdf.work_order_adapter import work_order_to_estimate
 
     rd = build_work_order_invoice_rd(db, work_order)
-    estimate = work_order_to_estimate(rd)
+    estimate = work_order_to_estimate(rd, line_preset=line_preset)
     if show_payments:
         estimate["payments"] = get_work_order_payment_ledger(db, work_order.id)
     else:
@@ -248,8 +249,12 @@ def generate_work_order_document_pdf_v2(
     show_payments: bool = True,
     show_payment_message: bool = True,
     show_technician: bool = True,
+    line_preset: str = "full",
 ) -> bytes:
     """Render invoice or estimate PDF v2 bytes."""
+    from pdf.document_presets import normalize_line_preset
+
+    effective_preset = normalize_line_preset(line_preset, doc_type=doc_type)
     if doc_type == "estimate":
         return generate_work_order_estimate_pdf_v2(
             db,
@@ -258,6 +263,7 @@ def generate_work_order_document_pdf_v2(
             show_payments=show_payments,
             show_payment_message=show_payment_message,
             show_technician=show_technician,
+            line_preset=effective_preset,
         )
     return generate_work_order_invoice_pdf_v2(
         db,
@@ -266,6 +272,7 @@ def generate_work_order_document_pdf_v2(
         show_payments=show_payments,
         show_payment_message=show_payment_message,
         show_technician=show_technician,
+        line_preset=effective_preset,
     )
 
 
@@ -302,6 +309,7 @@ def build_work_order_invoice_rd(db: Session, work_order) -> Dict[str, Any]:
         WorkOrderService as WOSvcModel,
     )
     from app.utils.work_order_display import resolve_technician_contact_for_work_order
+    from sqlalchemy.orm import joinedload
 
     work_order.calculate_totals()
     rd = {k: v for k, v in work_order.__dict__.items() if k != "_sa_instance_state"}
@@ -332,18 +340,34 @@ def build_work_order_invoice_rd(db: Session, work_order) -> Dict[str, Any]:
         rd["technician_name"] = tech_contact["name"]
         rd["technician"] = tech_contact
 
-    svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order.id).all()
-    rd["services"] = [
-        {
-            "id": str(s.id),
-            "name": s.name,
-            "quantity": s.quantity,
-            "unit_price": float(s.unit_price or 0),
-            "price": float(s.price or 0),
-            "billing_status": s.billing_status,
-        }
-        for s in svcs
-    ]
+    svcs = (
+        db.query(WOSvcModel)
+        .options(joinedload(WOSvcModel.service))
+        .filter(WOSvcModel.work_order_id == work_order.id)
+        .all()
+    )
+    rd["services"] = []
+    for s in svcs:
+        svc_def = s.service
+        service_type = None
+        if svc_def and svc_def.service_type is not None:
+            service_type = (
+                svc_def.service_type.value
+                if hasattr(svc_def.service_type, "value")
+                else str(svc_def.service_type)
+            )
+        rd["services"].append(
+            {
+                "id": str(s.id),
+                "name": s.name,
+                "sku_code": svc_def.sku_code if svc_def else None,
+                "service_type": service_type,
+                "quantity": s.quantity,
+                "unit_price": float(s.unit_price or 0),
+                "price": float(s.price or 0),
+                "billing_status": s.billing_status,
+            }
+        )
 
     parts = db.query(WOPart).filter(WOPart.work_order_id == work_order.id).all()
     rd["parts"] = [

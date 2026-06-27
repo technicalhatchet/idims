@@ -43,16 +43,37 @@ export async function openWorkOrderPdf(workOrderId, orderNumber, endpoint, query
   setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
 }
 
+export const DOCUMENT_LINE_PRESETS = [
+  {
+    id: 'diagnostic',
+    label: 'Diagnostic',
+    description: 'Trip charge and diagnostic services only',
+  },
+  {
+    id: 'repair',
+    label: 'Repair',
+    description: 'Repair services and parts (no trip charge)',
+  },
+  {
+    id: 'full',
+    label: 'Full',
+    description: 'All billable services and parts',
+  },
+];
+
 function buildDocumentQueryParams({
   docType = 'invoice',
   variant = 'light',
   showPayments = true,
   showPaymentMessage = true,
   showTechnician = true,
+  linePreset = 'full',
 } = {}) {
+  const preset = docType === 'invoice' ? 'full' : linePreset;
   return {
     doc_type: docType,
     variant,
+    line_preset: preset,
     show_payments: String(showPayments),
     show_payment_message: String(showPaymentMessage),
     show_technician: String(showTechnician),
@@ -75,24 +96,3 @@ export async function emailWorkOrderDocument(workOrderId, options = {}) {
   }
   return data;
 }
-
-export const WORK_ORDER_PDF_ACTIONS = [
-  { id: 'estimate', label: 'Estimate', endpoint: 'estimate.pdf', mobileLabel: 'Estimate' },
-  {
-    id: 'estimate-v2',
-    label: 'Estimate v2',
-    endpoint: 'estimate-v2.pdf',
-    mobileLabel: 'Est v2',
-    queryParams: { show_payments: 'true' },
-    test: true,
-  },
-  { id: 'invoice', label: 'Invoice', endpoint: 'invoice.pdf', mobileLabel: 'Invoice' },
-  {
-    id: 'invoice-v2',
-    label: 'Invoice v2',
-    endpoint: 'invoice-v2.pdf',
-    mobileLabel: 'Inv v2',
-    queryParams: { show_payments: 'true' },
-    test: true,
-  },
-];

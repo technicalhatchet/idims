@@ -5,6 +5,12 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
+from pdf.document_presets import (
+    apply_line_preset_to_rd,
+    diagnostic_discount_applies,
+    normalize_line_preset,
+)
+
 BILLABLE_PART_STATUSES = ("phone_payment", "paid_not_installed", "upfront_50", "installed")
 
 COMPANY = {
@@ -157,13 +163,11 @@ def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
     tax = round(parts_subtotal * tax_rate, 2)
     gross_total = round(subtotal + tax, 2)
 
-    has_repair = any("repair" in (s.get("name") or "").lower() for s in services)
+    apply_discount = diagnostic_discount_applies(rd, services)
     diag_discount = float(rd.get("diagnostic_discount_amount") or 0)
-    discount = round(diag_discount, 2) if has_repair and diag_discount > 0 else 0.0
-    if is_estimate and has_repair and diag_discount > 0:
-        total = round(gross_total - discount, 2)
-    elif is_estimate:
-        total = gross_total
+    discount = round(diag_discount, 2) if apply_discount else 0.0
+    if is_estimate:
+        total = round(gross_total - discount, 2) if discount else gross_total
     else:
         total = round(gross_total - discount, 2) if discount else gross_total
 
@@ -221,35 +225,46 @@ def _service_meta(rd: dict) -> dict:
     }
 
 
-def work_order_to_estimate(rd: dict) -> dict:
-    order_number = rd.get("order_number") or "—"
+def work_order_to_estimate(rd: dict, *, line_preset: str = "full") -> dict:
+    preset = normalize_line_preset(line_preset, doc_type="estimate")
+    filtered_rd = apply_line_preset_to_rd(rd, preset, billable_part_statuses=frozenset(BILLABLE_PART_STATUSES))
+    order_number = filtered_rd.get("order_number") or "—"
     return {
         "estimate_number": order_number,
         "date": _format_date(),
         "company": dict(COMPANY),
-        "customer": _customer(rd),
-        "technician": _technician(rd),
-        "equipment": _equipment(rd),
-        "services": _map_services(rd.get("services") or []),
-        "parts": _map_parts(rd.get("parts") or [], billable_only=True),
-        "totals": compute_totals(rd, is_estimate=True),
+        "customer": _customer(filtered_rd),
+        "technician": _technician(filtered_rd),
+        "equipment": _equipment(filtered_rd),
+        "services": _map_services(filtered_rd.get("services") or []),
+        "parts": _map_parts(filtered_rd.get("parts") or [], billable_only=True),
+        "totals": compute_totals(filtered_rd, is_estimate=True),
+        "line_preset": preset,
     }
 
 
-def work_order_to_invoice(rd: dict, notes: Optional[List[str]] = None) -> dict:
-    order_number = rd.get("order_number") or "—"
+def work_order_to_invoice(
+    rd: dict,
+    notes: Optional[List[str]] = None,
+    *,
+    line_preset: str = "full",
+) -> dict:
+    preset = normalize_line_preset(line_preset, doc_type="invoice")
+    filtered_rd = apply_line_preset_to_rd(rd, preset, billable_part_statuses=frozenset(BILLABLE_PART_STATUSES))
+    order_number = filtered_rd.get("order_number") or "—"
     return {
         "invoice_number": order_number,
         "date": _format_date(),
         "company": dict(COMPANY),
-        "customer": _customer(rd),
-        "technician": _technician(rd),
-        "equipment": _equipment(rd),
-        "service_meta": _service_meta(rd),
-        "services": _map_services(rd.get("services") or []),
-        "parts": _map_parts(rd.get("parts") or [], billable_only=True),
+        "customer": _customer(filtered_rd),
+        "technician": _technician(filtered_rd),
+        "equipment": _equipment(filtered_rd),
+        "service_meta": _service_meta(filtered_rd),
+        "services": _map_services(filtered_rd.get("services") or []),
+        "parts": _map_parts(filtered_rd.get("parts") or [], billable_only=True),
         "notes": list(notes or []),
         "terms": None,
         "payment_instructions": f"Pay online or call {COMPANY['phone']}.",
-        "totals": compute_totals(rd, is_estimate=False),
+        "totals": compute_totals(filtered_rd, is_estimate=False),
+        "line_preset": preset,
     }

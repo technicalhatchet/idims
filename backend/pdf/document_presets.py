@@ -1,0 +1,119 @@
+"""Line-item presets for work-order invoice / estimate PDFs."""
+
+from __future__ import annotations
+
+from typing import Any, Dict, List, Literal
+
+LinePreset = Literal["diagnostic", "repair", "full"]
+
+BILLABLE_SERVICE_STATUSES = frozenset({"billable", "paid"})
+TRIP_SKU_PREFIX = "TRIP-"
+
+
+def _norm(value: Any) -> str:
+    return str(value or "").strip().lower()
+
+
+def is_trip_service(service: dict) -> bool:
+    sku = str(service.get("sku_code") or "").upper()
+    return sku.startswith(TRIP_SKU_PREFIX) or sku == "TRIP-CHARGE"
+
+
+def is_diagnostic_service(service: dict) -> bool:
+    if is_trip_service(service):
+        return True
+    if _norm(service.get("service_type")) == "diagnostic":
+        return True
+    name = _norm(service.get("name"))
+    return "diagnostic" in name and "repair" not in name
+
+
+def is_repair_service(service: dict) -> bool:
+    if is_trip_service(service):
+        return False
+    if _norm(service.get("service_type")) == "diagnostic":
+        return False
+    if _norm(service.get("service_type")) == "repair":
+        return True
+    return "repair" in _norm(service.get("name"))
+
+
+def is_billable_service(service: dict) -> bool:
+    return _norm(service.get("billing_status")) in BILLABLE_SERVICE_STATUSES
+
+
+def has_billable_repair_service(services: List[dict]) -> bool:
+    """True when a repair SKU line is billable or paid (diagnostic discount gate)."""
+    return any(is_repair_service(s) and is_billable_service(s) for s in services or [])
+
+
+def diagnostic_discount_applies(rd: dict, services: List[dict]) -> bool:
+    """
+  Diagnostic credit applies only on the full document view.
+
+  Repair-only and diagnostic-only presets omit the discount so totals match
+  the lines shown on that PDF.
+    """
+    preset = _norm(rd.get("line_preset")) or "full"
+    if preset != "full":
+        return False
+    diag = float(rd.get("diagnostic_discount_amount") or 0)
+    return diag > 0 and has_billable_repair_service(services)
+
+
+def service_matches_preset(service: dict, preset: LinePreset) -> bool:
+    if not is_billable_service(service):
+        return False
+    if preset == "full":
+        return True
+    if preset == "diagnostic":
+        return is_diagnostic_service(service)
+    if preset == "repair":
+        return is_repair_service(service)
+    return True
+
+
+def part_matches_preset(part: dict, preset: LinePreset, *, billable_statuses: frozenset) -> bool:
+    if preset == "diagnostic":
+        return False
+    return part.get("status") in billable_statuses
+
+
+def filter_services_for_preset(services: List[dict], preset: LinePreset) -> List[dict]:
+    return [s for s in (services or []) if service_matches_preset(s, preset)]
+
+
+def filter_parts_for_preset(
+    parts: List[dict],
+    preset: LinePreset,
+    *,
+    billable_statuses: frozenset,
+) -> List[dict]:
+    return [
+        p
+        for p in (parts or [])
+        if part_matches_preset(p, preset, billable_statuses=billable_statuses)
+    ]
+
+
+def apply_line_preset_to_rd(rd: dict, preset: LinePreset, *, billable_part_statuses: frozenset) -> dict:
+    """Return a shallow copy of ``rd`` with services/parts filtered for the preset."""
+    out = dict(rd)
+    out["services"] = filter_services_for_preset(rd.get("services") or [], preset)
+    out["parts"] = filter_parts_for_preset(
+        rd.get("parts") or [],
+        preset,
+        billable_statuses=billable_part_statuses,
+    )
+    out["line_preset"] = preset
+    return out
+
+
+def normalize_line_preset(value: str | None, *, doc_type: str = "estimate") -> LinePreset:
+    """Invoice documents always use the full billable line set."""
+    if doc_type == "invoice":
+        return "full"
+    key = _norm(value)
+    if key in ("diagnostic", "repair", "full"):
+        return key  # type: ignore[return-value]
+    return "full"

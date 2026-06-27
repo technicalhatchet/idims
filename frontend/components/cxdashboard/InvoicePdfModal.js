@@ -6,12 +6,32 @@ import {
 } from 'react-icons/fa';
 import {
   fetchPortalInvoicePdfBlob,
+  fetchPortalEstimatePdfBlob,
   pdfViewerSrc,
   printPortalInvoicePdf,
+  printPortalEstimatePdf,
   triggerBlobDownload,
   emailPortalInvoice,
+  emailPortalEstimate,
 } from '../../utils/portalInvoicePdf';
 import PortalPdfViewer from './PortalPdfViewer';
+
+const DOC_CONFIG = {
+  invoice: {
+    label: 'Invoice',
+    fetchBlob: fetchPortalInvoicePdfBlob,
+    email: emailPortalInvoice,
+    print: printPortalInvoicePdf,
+    filePrefix: 'invoice',
+  },
+  estimate: {
+    label: 'Estimate',
+    fetchBlob: fetchPortalEstimatePdfBlob,
+    email: emailPortalEstimate,
+    print: printPortalEstimatePdf,
+    filePrefix: 'estimate',
+  },
+};
 
 const ZOOM_OPTIONS = [75, 100, 125, 150];
 const TOOLBAR_SIZE = 32;
@@ -46,7 +66,8 @@ const accentBtn = {
   border: '1px solid rgba(0,212,255,0.2)',
 };
 
-export default function InvoicePdfModal({ invoice, onClose }) {
+export default function InvoicePdfModal({ invoice, docType = 'invoice', onClose }) {
+  const config = DOC_CONFIG[docType] || DOC_CONFIG.invoice;
   const [blobUrl, setBlobUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -79,12 +100,13 @@ export default function InvoicePdfModal({ invoice, onClose }) {
     async function load() {
       setLoading(true);
       setError(null);
+      const cfg = DOC_CONFIG[docType] || DOC_CONFIG.invoice;
       try {
-        const blob = await fetchPortalInvoicePdfBlob(invoice.id, 'dark');
+        const blob = await cfg.fetchBlob(invoice.id, 'dark');
         url = URL.createObjectURL(blob);
         if (!revoked) setBlobUrl(url);
       } catch (e) {
-        if (!revoked) setError(`Failed to load invoice: ${e.message}`);
+        if (!revoked) setError(`Failed to load ${cfg.label.toLowerCase()}: ${e.message}`);
       } finally {
         if (!revoked) setLoading(false);
       }
@@ -95,7 +117,7 @@ export default function InvoicePdfModal({ invoice, onClose }) {
       revoked = true;
       if (url) URL.revokeObjectURL(url);
     };
-  }, [invoice?.id]);
+  }, [invoice?.id, docType]);
 
   function handleClose() {
     if (blobUrl) URL.revokeObjectURL(blobUrl);
@@ -106,8 +128,8 @@ export default function InvoicePdfModal({ invoice, onClose }) {
     setDownloadOpen(false);
     setBusy(true);
     try {
-      const blob = await fetchPortalInvoicePdfBlob(invoice.id, variant);
-      triggerBlobDownload(blob, `invoice-${invoice.order_number}-${variant}.pdf`);
+      const blob = await config.fetchBlob(invoice.id, variant);
+      triggerBlobDownload(blob, `${config.filePrefix}-${invoice.order_number}-${variant}.pdf`);
     } catch (e) {
       alert(`Download failed: ${e.message}`);
     } finally {
@@ -119,8 +141,8 @@ export default function InvoicePdfModal({ invoice, onClose }) {
     setEmailStatus(null);
     setBusy(true);
     try {
-      const result = await emailPortalInvoice(invoice.id);
-      setEmailStatus({ ok: true, message: result.message || 'Invoice sent.' });
+      const result = await config.email(invoice.id);
+      setEmailStatus({ ok: true, message: result.message || `${config.label} sent.` });
     } catch (e) {
       setEmailStatus({ ok: false, message: e.message });
     } finally {
@@ -131,7 +153,7 @@ export default function InvoicePdfModal({ invoice, onClose }) {
   async function handlePrint() {
     setBusy(true);
     try {
-      await printPortalInvoicePdf(invoice.id);
+      await config.print(invoice.id);
     } catch (e) {
       alert(`Print failed: ${e.message}`);
     } finally {
@@ -187,10 +209,13 @@ export default function InvoicePdfModal({ invoice, onClose }) {
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1 pt-0.5">
                 <p style={{ color: '#fff', fontWeight: '700', margin: 0, fontSize: '0.9375rem' }}>
-                  Invoice #{invoice?.order_number}
+                  {config.label} #{invoice?.order_number}
                 </p>
                 <p style={{ color: '#6b7280', fontSize: '0.75rem', margin: '2px 0 0' }}>
                   {invoice?.created_at ? format(parseISO(invoice.created_at), 'MMM d, yyyy') : ''}
+                  {docType === 'estimate' && invoice?.estimate_expires_at ? (
+                    <> · Valid through {format(parseISO(invoice.estimate_expires_at), 'MMM d, yyyy')}</>
+                  ) : null}
                 </p>
               </div>
 
@@ -235,7 +260,7 @@ export default function InvoicePdfModal({ invoice, onClose }) {
                   disabled={busy || loading}
                   style={accentBtn}
                   title="Email light PDF copy to you"
-                  aria-label="Email invoice"
+                  aria-label={`Email ${config.label.toLowerCase()}`}
                 >
                   <FaEnvelope style={{ fontSize: '13px' }} />
                 </button>
@@ -246,7 +271,7 @@ export default function InvoicePdfModal({ invoice, onClose }) {
                   disabled={busy || loading}
                   style={iconBtn}
                   title="Print (light)"
-                  aria-label="Print invoice"
+                  aria-label={`Print ${config.label.toLowerCase()}`}
                 >
                   <FaPrint style={{ fontSize: '13px' }} />
                 </button>
@@ -261,7 +286,7 @@ export default function InvoicePdfModal({ invoice, onClose }) {
                     disabled={busy || loading}
                     style={{ ...toolbarBtn, width: 'auto', minWidth: `${TOOLBAR_SIZE}px`, padding: '0 6px' }}
                     title="Download"
-                    aria-label="Download invoice"
+                    aria-label={`Download ${config.label.toLowerCase()}`}
                     aria-expanded={downloadOpen}
                   >
                     <FaDownload style={{ fontSize: '13px' }} />

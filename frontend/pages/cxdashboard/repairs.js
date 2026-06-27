@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { format, parseISO, addDays, isPast } from 'date-fns';
-import { FaTools, FaShieldAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaTools, FaShieldAlt, FaChevronDown, FaChevronUp, FaFileAlt } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
+import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 
@@ -41,7 +42,7 @@ function StatusBadge({ status }) {
   );
 }
 
-function RepairCard({ wo }) {
+function RepairCard({ wo, onViewEstimate }) {
   const [expanded, setExpanded] = useState(false);
   const warrantyExpiry = wo.warranty_expires ? parseISO(wo.warranty_expires) : null;
   const warrantyActive = warrantyExpiry && !isPast(warrantyExpiry);
@@ -138,6 +139,29 @@ function RepairCard({ wo }) {
               <p style={{ color: '#d1d5db', fontSize: '0.875rem' }}>{wo.property.address}{wo.property.unit_number ? ` Unit ${wo.property.unit_number}` : ''}</p>
             </div>
           )}
+
+          {wo.estimate_available && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem' }}>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); onViewEstimate?.(wo); }}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  background: 'rgba(139,92,246,0.12)', color: '#c4b5fd',
+                  border: '1px solid rgba(139,92,246,0.25)', borderRadius: '8px',
+                  padding: '8px 14px', fontSize: '0.8125rem', fontWeight: '600', cursor: 'pointer',
+                }}
+              >
+                <FaFileAlt style={{ fontSize: '12px' }} />
+                View Estimate
+              </button>
+              {wo.estimate_expires_at && (
+                <span style={{ color: '#6b7280', fontSize: '0.75rem' }}>
+                  Valid through {format(parseISO(wo.estimate_expires_at), 'MMM d, yyyy')}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -149,6 +173,7 @@ export default function RepairsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tab, setTab] = useState('active');
+  const [viewerEstimate, setViewerEstimate] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -199,10 +224,20 @@ export default function RepairsPage() {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {displayed.map(wo => <RepairCard key={wo.id} wo={wo} />)}
+            {displayed.map(wo => (
+              <RepairCard key={wo.id} wo={wo} onViewEstimate={setViewerEstimate} />
+            ))}
           </div>
         )}
       </div>
+
+      {viewerEstimate && (
+        <InvoicePdfModal
+          invoice={viewerEstimate}
+          docType="estimate"
+          onClose={() => setViewerEstimate(null)}
+        />
+      )}
     </>
   );
 }

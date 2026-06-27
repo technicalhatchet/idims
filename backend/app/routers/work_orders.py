@@ -2198,19 +2198,24 @@ async def get_work_order_estimate_pdf(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    """Generate and stream an estimate PDF."""
-    from pdf import build_estimate_pdf
-    from pdf.work_order_adapter import work_order_to_estimate
-    from app.services.work_order_invoice_pdf_data import build_work_order_invoice_rd
+    """Legacy URL — same as estimate-v2.pdf with default display options."""
+    from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
+
     if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
-    # Direct DB query instead of service to avoid NotFoundException masking real errors
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
     if not work_order:
         raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
-    rd = build_work_order_invoice_rd(db, work_order)
     try:
-        pdf_bytes = build_estimate_pdf(work_order_to_estimate(rd), variant=variant)
+        pdf_bytes = generate_work_order_estimate_pdf_v2(
+            db,
+            work_order,
+            variant=variant,
+            show_payments=True,
+            show_payment_message=True,
+            show_technician=True,
+            line_preset="full",
+        )
     except Exception as e:
         import traceback
         logger.error(f'Estimate PDF error: {e}\n{traceback.format_exc()}')
@@ -2226,10 +2231,15 @@ async def get_work_order_estimate_pdf_v2(
     show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
     show_payment_message: bool = Query(True, description="Include payment / terms message panel"),
     show_technician: bool = Query(True, description="Include technician contact panel"),
+    line_preset: str = Query(
+        "full",
+        pattern="^(diagnostic|repair|full)$",
+        description="Line filter: diagnostic (trip/diag), repair (+ parts), or full billable",
+    ),
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
-    """Generate and stream estimate PDF v2 (payment ledger; v1 endpoint unchanged)."""
+    """Generate and stream estimate PDF v2 (payment ledger, line presets)."""
     from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
 
     if not await can_view_work_order(work_order_id, current_user, db):
@@ -2245,6 +2255,7 @@ async def get_work_order_estimate_pdf_v2(
             show_payments=show_payments,
             show_payment_message=show_payment_message,
             show_technician=show_technician,
+            line_preset=line_preset,
         )
     except Exception as e:
         import traceback
@@ -2269,17 +2280,24 @@ async def get_work_order_invoice_pdf(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    """Generate and stream an invoice PDF."""
-    from pdf import build_invoice_pdf
-    from pdf.work_order_adapter import work_order_to_invoice
-    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf
+    """Legacy URL — same as invoice-v2.pdf with default full-invoice options."""
+    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
+
     if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
     if not work_order:
         raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
     try:
-        pdf_bytes = generate_work_order_invoice_pdf(db, work_order, variant=variant)
+        pdf_bytes = generate_work_order_invoice_pdf_v2(
+            db,
+            work_order,
+            variant=variant,
+            show_payments=True,
+            show_payment_message=True,
+            show_technician=True,
+            line_preset="full",
+        )
     except Exception as e:
         import traceback
         logger.error(f'Invoice PDF error: {e}\n{traceback.format_exc()}')
@@ -2295,10 +2313,15 @@ async def get_work_order_invoice_pdf_v2(
     show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
     show_payment_message: bool = Query(True, description="Include payment terms message panel"),
     show_technician: bool = Query(True, description="Include technician contact panel"),
+    line_preset: str = Query(
+        "full",
+        pattern="^(diagnostic|repair|full)$",
+        description="Line filter (invoices always use full billable lines)",
+    ),
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
-    """Generate and stream invoice PDF v2 (payment ledger; v1 endpoint unchanged)."""
+    """Generate and stream invoice PDF v2 (payment ledger, line presets)."""
     from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
 
     if not await can_view_work_order(work_order_id, current_user, db):
@@ -2314,6 +2337,7 @@ async def get_work_order_invoice_pdf_v2(
             show_payments=show_payments,
             show_payment_message=show_payment_message,
             show_technician=show_technician,
+            line_preset=line_preset,
         )
     except Exception as e:
         import traceback
@@ -2339,6 +2363,11 @@ async def email_work_order_document_v2(
     show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
     show_payment_message: bool = Query(True, description="Include payment / terms message panel"),
     show_technician: bool = Query(True, description="Include technician contact panel"),
+    line_preset: str = Query(
+        "full",
+        pattern="^(diagnostic|repair|full)$",
+        description="Line filter: diagnostic (trip/diag), repair (+ parts), or full billable",
+    ),
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
@@ -2368,6 +2397,7 @@ async def email_work_order_document_v2(
             show_payments=show_payments,
             show_payment_message=show_payment_message,
             show_technician=show_technician,
+            line_preset=line_preset,
         )
     except Exception as e:
         import traceback

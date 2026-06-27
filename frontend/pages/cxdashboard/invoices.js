@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { format, parseISO } from 'date-fns';
-import { FaFileInvoiceDollar, FaCheckCircle, FaExclamationCircle, FaPrint } from 'react-icons/fa';
+import { FaFileInvoiceDollar, FaCheckCircle, FaExclamationCircle, FaPrint, FaFileAlt } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
 import InvoiceDownloadMenu from '../../components/cxdashboard/InvoiceDownloadMenu';
@@ -45,6 +45,7 @@ export default function InvoicesPage() {
   const [error, setError] = useState(null);
   const [tab, setTab] = useState('all');
   const [viewerInvoice, setViewerInvoice] = useState(null);
+  const [viewerEstimate, setViewerEstimate] = useState(null);
   const [printingId, setPrintingId] = useState(null);
 
   useEffect(() => {
@@ -158,7 +159,23 @@ export default function InvoicesPage() {
                         ${Number(inv.total || 0).toFixed(2)}
                       </p>
                       <PaymentBadge status={inv.payment_status} />
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '8px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
+                        {inv.estimate_available && (
+                          <button
+                            type="button"
+                            title="View estimate"
+                            onClick={() => setViewerEstimate(inv)}
+                            style={{
+                              height: '32px', display: 'inline-flex', alignItems: 'center', gap: '4px',
+                              padding: '0 10px', background: 'rgba(139,92,246,0.12)', color: '#c4b5fd',
+                              border: '1px solid rgba(139,92,246,0.25)', borderRadius: '6px',
+                              fontSize: '0.75rem', fontWeight: '600', cursor: 'pointer',
+                            }}
+                          >
+                            <FaFileAlt style={{ fontSize: '11px' }} />
+                            Estimate
+                          </button>
+                        )}
                         <button
                           type="button"
                           title="Print invoice (light)"
@@ -210,6 +227,14 @@ export default function InvoicesPage() {
         <InvoicePdfModal
           invoice={viewerInvoice}
           onClose={() => setViewerInvoice(null)}
+        />
+      )}
+
+      {viewerEstimate && (
+        <InvoicePdfModal
+          invoice={viewerEstimate}
+          docType="estimate"
+          onClose={() => setViewerEstimate(null)}
         />
       )}
     </>

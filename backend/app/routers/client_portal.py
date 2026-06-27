@@ -19,6 +19,7 @@ from app.core.auth import get_auth_handler
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.models.property import Property
+from app.utils.portal_estimate import portal_estimate_meta
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +91,22 @@ def _warranty_is_active(wo: WorkOrder, db: Session, now: Optional[datetime] = No
         return False
     now = _as_utc_naive(now or datetime.utcnow())
     return expiry > now
+
+
+def _estimate_fields(wo: WorkOrder, db: Session) -> dict:
+    return portal_estimate_meta(wo, db)
+
+
+def _require_portal_estimate(wo: WorkOrder, db: Session) -> None:
+    meta = portal_estimate_meta(wo, db)
+    if meta["estimate_available"]:
+        return
+    if meta["diagnostic_completed_at"] and meta["estimate_expires_at"]:
+        raise HTTPException(
+            status_code=403,
+            detail="This estimate has expired. Estimates are valid for 30 days after your diagnostic visit.",
+        )
+    raise HTTPException(status_code=403, detail="Estimate is not available for this work order.")
 
 
 class LinkAccountRequest(BaseModel):
@@ -347,6 +364,7 @@ async def get_portal_work_orders(
                 }
                 for p in (wo.parts or [])
             ],
+            **_estimate_fields(wo, db),
         })
     return result
 
@@ -423,6 +441,7 @@ async def get_portal_work_order_detail(
             }
             for a in appointments
         ],
+        **_estimate_fields(wo, db),
     }
 
 
@@ -513,6 +532,7 @@ async def get_portal_invoices(
             "amount_paid": paid,
             "payment_status": payment_status,
             "work_order_status": wo.status,
+            **_estimate_fields(wo, db),
         })
     return result
 
@@ -636,11 +656,12 @@ async def get_portal_invoice_pdf(
     work_order_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
-    variant: str = "light"
+    variant: str = Query("light", pattern="^(dark|light)$"),
 ):
+    """Client invoice PDF (v2 layout, full billable lines — no staff document options)."""
     from fastapi.responses import StreamingResponse
     from io import BytesIO
-    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf
+    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
 
     wo = db.query(WorkOrder).filter(
         WorkOrder.id == work_order_id,
@@ -650,7 +671,15 @@ async def get_portal_invoice_pdf(
         raise HTTPException(status_code=404, detail="Work order not found")
 
     try:
-        pdf_bytes = generate_work_order_invoice_pdf(db, wo, variant=variant)
+        pdf_bytes = generate_work_order_invoice_pdf_v2(
+            db,
+            wo,
+            variant=variant,
+            show_payments=True,
+            show_payment_message=True,
+            show_technician=True,
+            line_preset="full",
+        )
     except Exception as e:
         logger.error(f"[Portal PDF] Error: {e}")
         raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
@@ -668,9 +697,9 @@ async def email_portal_invoice(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
-    """Email the client a light PDF copy of their invoice from service@atomicrepair419.com."""
+    """Email the client a light PDF copy of their invoice (v2 layout, full billable lines)."""
     from app.services.email_service import EmailService
-    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf
+    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
 
     if not client.email:
         raise HTTPException(status_code=400, detail="No email address on file for this account")
@@ -683,7 +712,15 @@ async def email_portal_invoice(
         raise HTTPException(status_code=404, detail="Work order not found")
 
     try:
-        pdf_bytes = generate_work_order_invoice_pdf(db, wo, variant="light")
+        pdf_bytes = generate_work_order_invoice_pdf_v2(
+            db,
+            wo,
+            variant="light",
+            show_payments=True,
+            show_payment_message=True,
+            show_technician=True,
+            line_preset="full",
+        )
     except Exception as e:
         logger.error(f"[Portal email invoice] PDF error: {e}")
         raise HTTPException(status_code=500, detail="Failed to generate invoice PDF")
@@ -698,3 +735,94 @@ async def email_portal_invoice(
         raise HTTPException(status_code=503, detail="Unable to send email right now. Please try again later.")
 
     return {"success": True, "message": f"Invoice emailed to {client.email}"}
+
+
+@router.get("/portal/work-orders/{work_order_id}/estimate.pdf")
+async def get_portal_estimate_pdf(
+    work_order_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    variant: str = Query("light", pattern="^(dark|light)$"),
+):
+    """Client estimate PDF (v2, valid 30 days after completed diagnostic)."""
+    from fastapi.responses import StreamingResponse
+    from io import BytesIO
+    from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+
+    _require_portal_estimate(wo, db)
+
+    try:
+        pdf_bytes = generate_work_order_estimate_pdf_v2(
+            db,
+            wo,
+            variant=variant,
+            show_payments=True,
+            show_payment_message=True,
+            show_technician=True,
+            line_preset="full",
+        )
+    except Exception as e:
+        logger.error(f"[Portal estimate PDF] Error: {e}")
+        raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
+
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'inline; filename="estimate-{wo.order_number}.pdf"'},
+    )
+
+
+@router.post("/portal/work-orders/{work_order_id}/email-estimate")
+async def email_portal_estimate(
+    work_order_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    """Email the client a light PDF copy of their estimate (30-day window after diagnostic)."""
+    from app.services.email_service import EmailService
+    from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
+
+    if not client.email:
+        raise HTTPException(status_code=400, detail="No email address on file for this account")
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+
+    _require_portal_estimate(wo, db)
+
+    try:
+        pdf_bytes = generate_work_order_estimate_pdf_v2(
+            db,
+            wo,
+            variant="light",
+            show_payments=True,
+            show_payment_message=True,
+            show_technician=True,
+            line_preset="full",
+        )
+    except Exception as e:
+        logger.error(f"[Portal email estimate] PDF error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to generate estimate PDF")
+
+    sent = await EmailService.send_work_order_document_pdf_email(
+        to_email=client.email,
+        recipient_name=client.first_name or client.display_name,
+        order_number=wo.order_number,
+        pdf_bytes=pdf_bytes,
+        doc_type="estimate",
+    )
+    if not sent:
+        raise HTTPException(status_code=503, detail="Unable to send email right now. Please try again later.")
+
+    return {"success": True, "message": f"Estimate emailed to {client.email}"}
