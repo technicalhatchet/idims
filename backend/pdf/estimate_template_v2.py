@@ -1,10 +1,7 @@
 """
-Atomic Repair cyberpunk estimate PDF — experimental template.
+Atomic Repair cyberpunk estimate PDF v2 — payment ledger + footer layout parity with invoice v2.
 
-Standalone from app.services.pdf_service. Build with:
-
-    from pdf.estimate_template import build_estimate_pdf
-    pdf_bytes = build_estimate_pdf(estimate_dict)
+Copy of estimate_template.py; v1 remains unchanged.
 """
 
 from __future__ import annotations
@@ -20,6 +17,10 @@ from reportlab.platypus import BaseDocTemplate, Flowable, Frame, PageTemplate, S
 from pdf.atomic_decorations import draw_estimate_header, draw_page_decorations
 from pdf.atomic_panels import SideBySidePanelsFlowable, TermsPanelFlowable, draw_panel
 from pdf.atomic_tables import parts_section_flowables, services_section_flowables
+from pdf.invoice_template_v2 import (
+    InvoicePaymentsPanelFlowable,
+    _footer_column_widths,
+)
 from pdf import atomic_theme as theme
 from pdf.atomic_theme import (
     CONTENT_WIDTH,
@@ -157,17 +158,93 @@ class EstimateDocTemplate(BaseDocTemplate):
         draw_estimate_header(canvas, self.estimate_data, self.header_logo_path)
 
 
+class EstimatePaymentsTotalsRowFlowable(Flowable):
+    """Payments ledger (left) + estimate totals (right)."""
+
+    def __init__(
+        self,
+        left_width: float,
+        right_width: float,
+        content_width: float,
+        payments: List[dict],
+        totals: dict,
+    ):
+        Flowable.__init__(self)
+        self.left_width = left_width
+        self.right_width = right_width
+        self.content_width = content_width
+        self.payments_panel = InvoicePaymentsPanelFlowable(left_width, payments)
+        self.totals = TotalsPanelFlowable(right_width, totals)
+        self.height = 0.0
+
+    def _compute_layout(self):
+        _, payments_h = self.payments_panel.wrap(self.left_width, 10000)
+        _, totals_h = self.totals.wrap(self.right_width, 10000)
+        self.height = max(payments_h, totals_h)
+        return payments_h, totals_h
+
+    def wrap(self, availWidth, availHeight):
+        self._compute_layout()
+        return self.content_width, min(self.height, availHeight)
+
+    def draw(self):
+        payments_h, totals_h = self._compute_layout()
+        canvas = self.canv
+        self.payments_panel.drawOn(canvas, 0, self.height - payments_h)
+        x_totals = self.content_width - self.right_width
+        self.totals.drawOn(canvas, x_totals, self.height - totals_h)
+
+
+class EstimateFooterRowFlowable(Flowable):
+    """Estimate terms (left) and totals panel (right) on one row."""
+
+    def __init__(
+        self,
+        terms_width: float,
+        totals_width: float,
+        content_width: float,
+        totals: dict,
+        show_estimate_terms: bool = True,
+    ):
+        Flowable.__init__(self)
+        self.left_width = terms_width
+        self.right_width = totals_width
+        self.content_width = content_width
+        self.terms = TermsPanelFlowable(terms_width) if show_estimate_terms else None
+        self.totals = TotalsPanelFlowable(totals_width, totals)
+        self.height = 0.0
+
+    def wrap(self, availWidth, availHeight):
+        terms_h = 0.0
+        if self.terms:
+            _, terms_h = self.terms.wrap(self.left_width, availHeight)
+        _, totals_h = self.totals.wrap(self.right_width, availHeight)
+        self.height = max(terms_h, totals_h)
+        return self.content_width, self.height
+
+    def draw(self):
+        terms_h = 0.0
+        if self.terms:
+            self.terms.drawOn(self.canv, 0, self.height - self.terms.height)
+            terms_h = self.terms.height
+        x_totals = self.content_width - self.right_width
+        self.totals.drawOn(self.canv, x_totals, self.height - self.totals.height)
+
+
 def _build_story(estimate: dict) -> List[Any]:
     totals = estimate.get("totals") or {}
     story: List[Any] = []
 
     story.append(Spacer(1, 4))
+    show_technician = estimate.get("show_technician", True)
+    technician = (estimate.get("technician") or {"name": "—", "phone": "", "email": ""}) if show_technician else None
     story.append(
         SideBySidePanelsFlowable(
             CONTENT_WIDTH,
             estimate.get("customer") or {},
             estimate.get("equipment") or {},
-            technician=estimate.get("technician"),
+            technician=technician,
+            middle_panel=show_technician,
         )
     )
     story.append(Spacer(1, 6))
@@ -190,47 +267,44 @@ def _build_story(estimate: dict) -> List[Any]:
     )
     story.append(Spacer(1, 6))
 
-    terms_w = CONTENT_WIDTH * 0.56
-    totals_w = CONTENT_WIDTH - terms_w - 12
-    story.append(FooterRowFlowable(terms_w, totals_w, totals))
+    payments = estimate.get("payments") or []
+    left_w, right_w, content_w = _footer_column_widths()
+    show_payment_message = estimate.get("show_payment_message", True)
+
+    if payments:
+        story.append(
+            EstimatePaymentsTotalsRowFlowable(
+                left_w,
+                right_w,
+                content_w,
+                payments,
+                totals,
+            )
+        )
+    else:
+        story.append(
+            EstimateFooterRowFlowable(
+                left_w,
+                right_w,
+                content_w,
+                totals,
+                show_estimate_terms=show_payment_message,
+            )
+        )
     story.append(Spacer(1, 8))
     return story
 
 
-class FooterRowFlowable(Flowable):
-    """Terms (left) and totals panel (right) on one row."""
-
-    def __init__(self, terms_width: float, totals_width: float, totals: dict):
-        Flowable.__init__(self)
-        self.terms = TermsPanelFlowable(terms_width)
-        self.totals = TotalsPanelFlowable(totals_width, totals)
-        self.width = terms_width + 12 + totals_width
-        self.height = 0.0
-
-    def wrap(self, availWidth, availHeight):
-        tw, th_t = self.terms.wrap(self.terms.width, availHeight)
-        sw, th_s = self.totals.wrap(self.totals.width, availHeight)
-        self.height = max(th_t, th_s)
-        return self.width, self.height
-
-    def draw(self):
-        self.terms.drawOn(self.canv, 0, self.height - self.terms.height)
-        x_totals = self.terms.width + 12
-        self.totals.drawOn(self.canv, x_totals, self.height - self.totals.height)
-
-
-def build_estimate_pdf(
+def build_estimate_pdf_v2(
     estimate: dict,
     header_logo_path: Optional[str] = None,
     watermark_logo_path: Optional[str] = None,
     variant: PdfVariant = "dark",
 ) -> bytes:
     """
-    Render a complete estimate PDF from the estimate data model.
+    Render estimate PDF v2 (payment ledger when ``estimate['payments']`` is set).
 
     ``variant`` is ``"dark"`` (default) or ``"light"`` (white background, dark text).
-
-    Returns PDF bytes suitable for HTTP response or file write.
     """
     set_pdf_variant(variant)
     buffer = BytesIO()
@@ -322,13 +396,24 @@ def sample_estimate() -> dict:
             "total": 477.94,
             "amount_paid": 89.00,
         },
+        "payments": [
+            {
+                "date": "June 8, 2026",
+                "method": "Venmo",
+                "amount": 89.00,
+                "reference": "Diagnostic",
+            },
+        ],
     }
 
 
 if __name__ == "__main__":
     base = os.path.dirname(__file__)
-    for name, variant in (("sample_estimate_preview.pdf", "dark"), ("sample_estimate_preview_light.pdf", "light")):
+    for name, variant in (
+        ("sample_estimate_v2_preview.pdf", "dark"),
+        ("sample_estimate_v2_preview_light.pdf", "light"),
+    ):
         out = os.path.join(base, name)
         with open(out, "wb") as fh:
-            fh.write(build_estimate_pdf(sample_estimate(), variant=variant))
+            fh.write(build_estimate_pdf_v2(sample_estimate(), variant=variant))
         print(f"Wrote {out}")

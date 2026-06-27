@@ -27,6 +27,7 @@ import WorkOrderDetailsAppointmentsList from '../../../components/work_orders/Wo
 import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
+import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
 import { reopenWorkOrder } from '../../../services/api/workOrdersApi';
 import {
   computeWorkOrderDueToday,
@@ -85,6 +86,8 @@ function WorkOrderDetail() {
   const [showServiceProperty, setShowServiceProperty] = useState(false);
   const [showAllProperties, setShowAllProperties] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
+  const [showDocumentPdf, setShowDocumentPdf] = useState(false);
+  const [fieldPayments, setFieldPayments] = useState([]);
   const [lifecycleBusy, setLifecycleBusy] = useState(false);
   const { theme } = useTheme();
   const { role, isManager } = useUserRole();
@@ -143,6 +146,14 @@ function WorkOrderDetail() {
     () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
     [workOrder]
   );
+
+  useEffect(() => {
+    if (!workOrder?.id || activeTab !== TABS.INVOICES) return;
+    apiClient(`work-orders/${workOrder.id}/payments`)
+      .then((res) => setFieldPayments(res?.items || []))
+      .catch(() => setFieldPayments([]));
+  }, [workOrder?.id, activeTab]);
+
   // Handle payment success/cancel URLs
   useEffect(() => {
     const { payment } = router.query;
@@ -944,46 +955,14 @@ function WorkOrderDetail() {
           <WorkOrderTabPanel tab={TABS.INVOICES} activeTab={activeTab} isMounted={isTabMounted(TABS.INVOICES)} className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
               <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-between items-center">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
-                <div className="flex gap-2">
-                  {['estimate', 'invoice'].map(type => (
-                    <button
-                      key={type}
-                      onClick={async () => {
-                        try {
-                          const { getAuthHeaders } = await import('../../../utils/api-client');
-                          const headers = await getAuthHeaders();
-                          const rawBase = process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app';
-                          const baseUrl = rawBase.replace(/\/api\/?$/, '').replace(/\/$/, '');
-                          const pdfUrl = `${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf?variant=light`;
-                          const res = await fetch(pdfUrl, { headers });
-                          if (!res.ok) {
-                            const err = await res.json().catch(() => ({ detail: res.statusText }));
-                            throw new Error(err.detail || res.statusText);
-                          }
-                          const blob = await res.blob();
-                          const blobUrl = URL.createObjectURL(blob);
-                          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                          if (isMobile) {
-                            const a = document.createElement('a');
-                            a.href = blobUrl;
-                            a.download = `${type}-${workOrder.order_number}.pdf`;
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                          } else {
-                            window.open(blobUrl, '_blank');
-                          }
-                          setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-                        } catch(e) { alert(`Failed to generate ${type}: ` + e.message); }
-                      }}
-                      className={`px-3 py-1.5 text-sm text-white rounded transition-colors ${
-                        type === 'estimate' ? 'bg-cyan-600 hover:bg-cyan-700' : 'bg-orange-600 hover:bg-orange-700'
-                      }`}
-                    >
-                      {type === 'estimate' ? '📋 Estimate' : '📄 Invoice'}
-                    </button>
-                  ))}
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowDocumentPdf(true)}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 rounded transition-colors"
+                >
+                  <FaFileInvoiceDollar className="opacity-90" />
+                  PDF
+                </button>
               </div>
               <div className="px-6 py-5">
                 {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
@@ -1557,6 +1536,17 @@ function WorkOrderDetail() {
           workOrderId={id}
           isClosed={Boolean(workOrder?.is_closed)}
           onSuccess={refetch}
+        />
+
+        <WorkOrderDocumentPdfSheet
+          open={showDocumentPdf}
+          onClose={() => setShowDocumentPdf(false)}
+          workOrderId={workOrder?.id}
+          orderNumber={workOrder?.order_number}
+          clientEmail={workOrder?.client_user?.email || workOrder?.client?.email || ''}
+          hasPayments={fieldPayments.length > 0}
+          isPaidInFull={billingTotals.dueToday <= 0 && billingTotals.previouslyPaid > 0}
+          variant="desktop"
         />
       </div>
     </>

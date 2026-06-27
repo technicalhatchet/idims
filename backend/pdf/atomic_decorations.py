@@ -17,11 +17,13 @@ from pdf.atomic_theme import (
     CYAN,
     FONT_BOLD,
     FONT_REGULAR,
+    GREEN,
     HEADER_HEIGHT,
     MARGIN_BOTTOM,
     MARGIN_LEFT,
     MARGIN_RIGHT,
     MARGIN_TOP,
+    ORANGE,
     PAGE_HEIGHT,
     PAGE_WIDTH,
     safe_text,
@@ -328,6 +330,41 @@ DOC_BADGE_CHAMFER = 3
 DOC_BADGE_GLOW = 1.5
 DOC_BADGE_TEXT_DROP = 4
 
+HEADER_STATUS_FONT_SIZE = 9.5
+HEADER_STATUS_PAD_X = 14
+HEADER_STATUS_PAD_Y = 7
+HEADER_STATUS_CHAMFER = 4
+HEADER_STATUS_GLOW = 1.5
+
+
+def _draw_header_status_banner(canvas, top_y: float, message: str, tone: str = "due"):
+    """Centered chip between logo and document title (paid vs due)."""
+    message = safe_text(message)
+    if not message:
+        return
+
+    accent = GREEN if tone == "paid" else ORANGE
+    font_size = HEADER_STATUS_FONT_SIZE
+    canvas.setFont(FONT_BOLD, font_size)
+    text_w = canvas.stringWidth(message, FONT_BOLD, font_size)
+    chip_w = text_w + HEADER_STATUS_PAD_X * 2
+    chip_h = font_size + HEADER_STATUS_PAD_Y * 2
+    chip_x = (PAGE_WIDTH - chip_w) / 2
+    chip_y = top_y - HEADER_HEIGHT + (HEADER_HEIGHT - chip_h) / 2
+
+    draw_plain_panel(
+        canvas,
+        chip_x,
+        chip_y,
+        chip_w,
+        chip_h,
+        accent,
+        chamfer=HEADER_STATUS_CHAMFER,
+        glow_width=HEADER_STATUS_GLOW,
+    )
+    canvas.setFillColor(accent)
+    canvas.drawCentredString(PAGE_WIDTH / 2, chip_y + HEADER_STATUS_PAD_Y + 1, message)
+
 
 def _draw_document_title_block(canvas, right_x: float, top_y: float, title: str, doc_no: str, doc_date: str):
     """Right-aligned title with a right-aligned meta badge tucked underneath."""
@@ -419,6 +456,12 @@ def draw_document_header(
     right_x = PAGE_WIDTH - MARGIN_RIGHT
     doc_no = safe_text(doc.get(number_key), "—")
     doc_date = safe_text(doc.get(date_key), "—")
+    _draw_header_status_banner(
+        canvas,
+        top_y,
+        doc.get("header_status_message"),
+        tone=safe_text(doc.get("header_status_tone")) or "due",
+    )
     _draw_document_title_block(canvas, right_x, top_y, title, doc_no, doc_date)
 
     return content_bottom

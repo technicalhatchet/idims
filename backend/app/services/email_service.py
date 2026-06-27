@@ -175,3 +175,71 @@ class EmailService:
         except Exception as e:
             logger.exception("Error sending invoice email: %s", e)
             return False
+
+    @staticmethod
+    async def send_work_order_document_pdf_email(
+        to_email: str,
+        recipient_name: str,
+        order_number: str,
+        pdf_bytes: bytes,
+        *,
+        doc_type: str = "invoice",
+        filename: Optional[str] = None,
+    ) -> bool:
+        """Email a work-order invoice or estimate PDF via Resend."""
+        import base64
+
+        import httpx
+
+        from app.config import settings
+
+        if not settings.RESEND_API_KEY:
+            logger.warning("RESEND_API_KEY not configured; cannot send document email")
+            return False
+
+        if not to_email:
+            return False
+
+        doc_label = "Invoice" if doc_type == "invoice" else "Estimate"
+        doc_lower = doc_label.lower()
+        from_addr = settings.CONTACT_EMAIL or "service@atomicrepair419.com"
+        safe_name = recipient_name.strip() or "there"
+        attach_name = filename or f"{doc_lower}-{order_number}.pdf"
+        html = f"""
+        <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0A0F1E;padding:2rem;border-radius:12px;">
+          <h2 style="color:#fff;margin:0 0 1rem;">Your Atomic Repair {doc_label}</h2>
+          <p style="color:#9ca3af;">Hi {safe_name},</p>
+          <p style="color:#9ca3af;">Attached is {doc_lower} <strong style="color:#22d3ee;">#{order_number}</strong> for your recent service.</p>
+          <p style="color:#6b7280;font-size:0.875rem;">Questions? Reply to this email or call (419) 794-1689.</p>
+          <p style="color:#6b7280;font-size:0.75rem;margin-top:1.5rem;">Thank you for choosing Atomic Repair.</p>
+        </div>
+        """
+
+        try:
+            response = httpx.post(
+                "https://api.resend.com/emails",
+                headers={
+                    "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "from": f"Atomic Repair <{from_addr}>",
+                    "to": [to_email],
+                    "subject": f"Atomic Repair {doc_label} #{order_number}",
+                    "html": html,
+                    "attachments": [
+                        {
+                            "filename": attach_name,
+                            "content": base64.b64encode(pdf_bytes).decode("ascii"),
+                        }
+                    ],
+                },
+                timeout=30.0,
+            )
+            if response.status_code in (200, 201):
+                return True
+            logger.error("Resend document email failed: %s %s", response.status_code, response.text)
+            return False
+        except Exception as e:
+            logger.exception("Error sending document email: %s", e)
+            return False

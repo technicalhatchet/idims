@@ -255,6 +255,30 @@ def build_bill_to_panel(width: float, customer: dict) -> PanelFlowable:
     )
 
 
+def build_technician_panel(width: float, technician: dict) -> PanelFlowable:
+    """Assigned technician name, phone, and email."""
+    name = safe_text(technician.get("name"), "—")
+    phone = safe_text(technician.get("phone"))
+    email = safe_text(technician.get("email"))
+
+    body = theme.STYLE_PANEL_BODY_COMPACT
+    lines: List[Flowable] = [Paragraph(name, body)]
+    if phone:
+        lines.append(Paragraph(phone, body))
+    if email:
+        lines.append(Paragraph(email, body))
+
+    return PanelFlowable(
+        width,
+        "Technician",
+        lines,
+        accent="cyan",
+        min_height=HEADER_PANEL_MIN_HEIGHT,
+        padding=HEADER_PANEL_PADDING,
+        title_height=HEADER_PANEL_TITLE_HEIGHT,
+    )
+
+
 def build_service_meta_panel(width: float, meta: dict) -> PanelFlowable:
     """Work order, service date, and technician stacked vertically."""
     rows = [
@@ -324,17 +348,32 @@ class HeaderPanelsFlowable(Flowable):
         customer: dict,
         equipment: dict,
         service_meta: Optional[dict] = None,
+        technician: Optional[dict] = None,
         *,
         middle_panel: bool = True,
     ):
         Flowable.__init__(self)
-        left_w, meta_w, right_w = _header_column_widths(width)
         self.middle_panel = middle_panel
-        self._slots: List[tuple[Optional[PanelFlowable], float]] = [
-            (build_bill_to_panel(left_w, customer), left_w),
-            (build_service_meta_panel(meta_w, service_meta or {}) if middle_panel else None, meta_w),
-            (build_equipment_panel(right_w, equipment), right_w),
-        ]
+        has_middle = technician is not None or middle_panel
+
+        if has_middle:
+            left_w, meta_w, right_w = _header_column_widths(width)
+            if technician is not None:
+                middle = build_technician_panel(meta_w, technician)
+            else:
+                middle = build_service_meta_panel(meta_w, service_meta or {})
+            self._slots: List[tuple[Optional[PanelFlowable], float]] = [
+                (build_bill_to_panel(left_w, customer), left_w),
+                (middle, meta_w),
+                (build_equipment_panel(right_w, equipment), right_w),
+            ]
+        else:
+            avail = width - PANEL_GAP
+            side_w = avail / 2
+            self._slots = [
+                (build_bill_to_panel(side_w, customer), side_w),
+                (build_equipment_panel(side_w, equipment), side_w),
+            ]
         self.width = width
         self.height = 0.0
 
@@ -367,6 +406,7 @@ class SideBySidePanelsFlowable(HeaderPanelsFlowable):
         customer: dict,
         equipment: dict,
         service_meta: Optional[dict] = None,
+        technician: Optional[dict] = None,
         *,
         middle_panel: bool = True,
     ):
@@ -376,6 +416,7 @@ class SideBySidePanelsFlowable(HeaderPanelsFlowable):
             customer,
             equipment,
             service_meta=service_meta,
+            technician=technician,
             middle_panel=middle_panel,
         )
 

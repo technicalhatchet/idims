@@ -45,3 +45,47 @@ def technician_display_name_from_appointment(appt: WorkOrderAppointment) -> Opti
     if not appt.technician:
         return None
     return appt.technician.name
+
+
+def resolve_technician_contact_for_work_order(
+    db: Session, work_order
+) -> Optional[Dict[str, str]]:
+    """
+    Technician name/phone/email for client-facing PDFs.
+
+    Uses work_orders.assigned_technician_id when set; otherwise the earliest
+    non-canceled appointment's assignee (same rule as list/schedule display).
+    """
+    technician_id = work_order.assigned_technician_id
+
+    if not technician_id:
+        primary = primary_appointments_by_work_order_ids(db, [work_order.id])
+        appt = primary.get(work_order.id)
+        if appt:
+            technician_id = appt.assigned_technician_id
+
+    if not technician_id:
+        return None
+
+    t = (
+        db.query(Technician)
+        .options(joinedload(Technician.user))
+        .filter(Technician.id == technician_id)
+        .first()
+    )
+    if not t:
+        return None
+
+    if t.user:
+        name = f"{t.user.first_name or ''} {t.user.last_name or ''}".strip() or t.name
+        return {
+            "name": name or "—",
+            "phone": t.user.phone or "",
+            "email": t.user.email or "",
+        }
+
+    return {
+        "name": t.name or "—",
+        "phone": t.phone or "",
+        "email": t.email or "",
+    }

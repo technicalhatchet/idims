@@ -29,6 +29,7 @@ import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRe
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
 import { reopenWorkOrder } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
+import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
 import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
 import WorkOrderExpensesPanel from '../../../components/work_orders/WorkOrderExpensesPanel';
 import WorkOrderMileageSection from '../../../components/work_orders/WorkOrderMileageSection';
@@ -127,6 +128,7 @@ function WorkOrderDetail() {
   const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
   const [isSavingPrice, setIsSavingPrice] = useState(false);
   const [showRecordPayment, setShowRecordPayment] = useState(false);
+  const [showDocumentPdf, setShowDocumentPdf] = useState(false);
   const [fieldPayments, setFieldPayments] = useState([]);
   const [showServiceProperty, setShowServiceProperty] = useState(false);
   const [showAllProperties, setShowAllProperties] = useState(false);
@@ -1433,48 +1435,13 @@ function WorkOrderDetail() {
                 <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500 md:text-lg md:font-medium md:normal-case md:tracking-normal md:text-gray-900 md:dark:text-white">
                   Billing
                 </h2>
-                <div className="flex gap-2">
-                  {['estimate', 'invoice'].map(type => (
-                    <button
-                      key={type}
-                      onClick={async () => {
-                        try {
-                          const { getAuthHeaders } = await import('../../../utils/api-client');
-                          const headers = await getAuthHeaders();
-                          const rawBase = process.env.NEXT_PUBLIC_API_URL || 'https://idims-production.up.railway.app';
-                          const baseUrl = rawBase.replace(/\/api\/?$/, '').replace(/\/$/, '');
-                          const pdfUrl = `${baseUrl}/api/work-orders/${workOrder.id}/${type}.pdf?variant=light`;
-                          const res = await fetch(pdfUrl, { headers });
-                          if (!res.ok) {
-                            const err = await res.json().catch(() => ({ detail: res.statusText }));
-                            throw new Error(err.detail || res.statusText);
-                          }
-                          const blob = await res.blob();
-                          const blobUrl = URL.createObjectURL(blob);
-                          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                          if (isMobile) {
-                            const a = document.createElement('a');
-                            a.href = blobUrl;
-                            a.download = `${type}-${workOrder.order_number}.pdf`;
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                          } else {
-                            window.open(blobUrl, '_blank');
-                          }
-                          setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-                        } catch(e) { alert(`Failed to generate ${type}: ` + e.message); }
-                      }}
-                      className={`px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide rounded-lg border transition-colors md:px-3 md:py-1.5 md:text-sm md:normal-case md:tracking-normal md:rounded ${
-                        type === 'estimate'
-                          ? 'border-cyan-500/35 text-cyan-300 md:border-0 md:bg-cyan-600 md:text-white md:hover:bg-cyan-700'
-                          : 'border-orange-500/35 text-orange-200 md:border-0 md:bg-orange-600 md:text-white md:hover:bg-orange-700'
-                      }`}
-                    >
-                      {type === 'estimate' ? 'Estimate' : 'Invoice'}
-                    </button>
-                  ))}
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowDocumentPdf(true)}
+                  className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide rounded-lg border border-cyan-500/35 text-cyan-300 transition-colors md:px-3 md:py-1.5 md:text-sm md:normal-case md:tracking-normal md:rounded md:border-0 md:bg-cyan-600 md:text-white md:hover:bg-cyan-700"
+                >
+                  PDF
+                </button>
               </div>
               <div className="min-w-0 px-0.5 py-2 md:px-6 md:py-5">
                 {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
@@ -2413,6 +2380,16 @@ function WorkOrderDetail() {
           refreshOutcomeStatus();
         }}
         variant="mobile"
+      />
+
+      <WorkOrderDocumentPdfSheet
+        open={showDocumentPdf}
+        onClose={() => setShowDocumentPdf(false)}
+        workOrderId={workOrder?.id}
+        orderNumber={workOrder?.order_number}
+        clientEmail={workOrder?.client_user?.email || workOrder?.client?.email || ''}
+        hasPayments={fieldPayments.length > 0}
+        isPaidInFull={billingTotals.dueToday <= 0 && billingTotals.previouslyPaid > 0}
       />
 
       <RepairOutcomePromptSheet

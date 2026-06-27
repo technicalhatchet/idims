@@ -6,9 +6,20 @@ import json
 import re
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from sqlalchemy.orm import Session
+
+PAYMENT_METHOD_LABELS = {
+    "cash": "Cash",
+    "check": "Check",
+    "credit_card": "Credit card",
+    "bank_transfer": "Bank transfer",
+    "paypal": "PayPal",
+    "stripe": "Stripe",
+    "venmo": "Venmo",
+    "other": "Other",
+}
 
 NOTE_FIELDS = {
     "Pre-Call": [
@@ -87,6 +98,45 @@ def get_public_invoice_note_texts(db: Session, work_order_id) -> List[str]:
     return format_public_notes_for_invoice(notes)
 
 
+def format_payment_method_label(method: Optional[str]) -> str:
+    if not method:
+        return "—"
+    key = str(method).lower()
+    if hasattr(method, "value"):
+        key = str(method.value).lower()
+    return PAYMENT_METHOD_LABELS.get(key, key.replace("_", " ").title())
+
+
+def format_payment_date(value: Optional[datetime]) -> str:
+    if not value:
+        return "—"
+    try:
+        return value.strftime("%b %d, %Y")
+    except (TypeError, ValueError):
+        return "—"
+
+
+def get_work_order_payment_ledger(db: Session, work_order_id) -> List[Dict[str, Any]]:
+    """Payment rows for invoice v2 ledger (oldest first)."""
+    from app.models.work_order_payment import WorkOrderPayment
+
+    payments = (
+        db.query(WorkOrderPayment)
+        .filter(WorkOrderPayment.work_order_id == work_order_id)
+        .order_by(WorkOrderPayment.payment_date.asc(), WorkOrderPayment.created_at.asc())
+        .all()
+    )
+    return [
+        {
+            "date": format_payment_date(p.payment_date),
+            "method": format_payment_method_label(p.payment_method),
+            "amount": float(p.amount or 0),
+            "reference": (p.reference_number or "").strip() or "—",
+        }
+        for p in payments
+    ]
+
+
 def generate_work_order_invoice_pdf(
     db: Session,
     work_order,
@@ -106,19 +156,156 @@ def generate_work_order_invoice_pdf(
     )
 
 
+def enrich_document_pdf_payload(
+    doc: dict,
+    *,
+    show_payment_message: bool = True,
+    show_technician: bool = True,
+) -> dict:
+    """Attach render flags and header status chip derived from totals."""
+    doc["show_payment_message"] = show_payment_message
+    doc["show_technician"] = show_technician
+
+    totals = doc.get("totals") or {}
+    amount_paid = float(totals.get("amount_paid") or 0)
+    if totals.get("balance_due") is not None:
+        balance = float(totals.get("balance_due") or 0)
+    else:
+        balance = max(0.0, float(totals.get("total") or 0) - amount_paid)
+
+    if amount_paid > 0 and balance <= 0.01:
+        doc["header_status_message"] = "PAID IN FULL"
+        doc["header_status_tone"] = "paid"
+    else:
+        doc["header_status_message"] = "DUE ON RECEIPT"
+        doc["header_status_tone"] = "due"
+    return doc
+
+
+def generate_work_order_invoice_pdf_v2(
+    db: Session,
+    work_order,
+    *,
+    variant: str = "light",
+    show_payments: bool = True,
+    show_payment_message: bool = True,
+    show_technician: bool = True,
+) -> bytes:
+    """Render invoice PDF v2 bytes (optional payment ledger)."""
+    from pdf.invoice_template_v2 import build_invoice_pdf_v2
+    from pdf.work_order_adapter import work_order_to_invoice
+
+    rd = build_work_order_invoice_rd(db, work_order)
+    note_texts = get_public_invoice_note_texts(db, work_order.id)
+    invoice = work_order_to_invoice(rd, notes=note_texts)
+    if show_payments:
+        invoice["payments"] = get_work_order_payment_ledger(db, work_order.id)
+    else:
+        invoice["payments"] = []
+    enrich_document_pdf_payload(
+        invoice,
+        show_payment_message=show_payment_message,
+        show_technician=show_technician,
+    )
+    safe_variant = "dark" if variant == "dark" else "light"
+    return build_invoice_pdf_v2(invoice, variant=safe_variant)
+
+
+def generate_work_order_estimate_pdf_v2(
+    db: Session,
+    work_order,
+    *,
+    variant: str = "light",
+    show_payments: bool = True,
+    show_payment_message: bool = True,
+    show_technician: bool = True,
+) -> bytes:
+    """Render estimate PDF v2 bytes (optional payment ledger)."""
+    from pdf.estimate_template_v2 import build_estimate_pdf_v2
+    from pdf.work_order_adapter import work_order_to_estimate
+
+    rd = build_work_order_invoice_rd(db, work_order)
+    estimate = work_order_to_estimate(rd)
+    if show_payments:
+        estimate["payments"] = get_work_order_payment_ledger(db, work_order.id)
+    else:
+        estimate["payments"] = []
+    enrich_document_pdf_payload(
+        estimate,
+        show_payment_message=show_payment_message,
+        show_technician=show_technician,
+    )
+    safe_variant = "dark" if variant == "dark" else "light"
+    return build_estimate_pdf_v2(estimate, variant=safe_variant)
+
+
+def generate_work_order_document_pdf_v2(
+    db: Session,
+    work_order,
+    *,
+    doc_type: str = "invoice",
+    variant: str = "light",
+    show_payments: bool = True,
+    show_payment_message: bool = True,
+    show_technician: bool = True,
+) -> bytes:
+    """Render invoice or estimate PDF v2 bytes."""
+    if doc_type == "estimate":
+        return generate_work_order_estimate_pdf_v2(
+            db,
+            work_order,
+            variant=variant,
+            show_payments=show_payments,
+            show_payment_message=show_payment_message,
+            show_technician=show_technician,
+        )
+    return generate_work_order_invoice_pdf_v2(
+        db,
+        work_order,
+        variant=variant,
+        show_payments=show_payments,
+        show_payment_message=show_payment_message,
+        show_technician=show_technician,
+    )
+
+
+def resolve_work_order_client_email(db: Session, work_order) -> tuple[Optional[str], str]:
+    """Client email and display name for document delivery."""
+    from app.models.client import Client
+    from app.models.user import User as UserModel
+
+    if not work_order.client_id:
+        return None, ""
+    client = db.query(Client).filter(Client.id == work_order.client_id).first()
+    if not client:
+        return None, ""
+
+    name = client.display_name or f"{client.first_name or ''} {client.last_name or ''}".strip()
+    email = client.email
+    if client.user_id:
+        user = db.query(UserModel).filter(UserModel.id == client.user_id).first()
+        if user:
+            email = user.email or client.email
+            user_name = f"{user.first_name or ''} {user.last_name or ''}".strip()
+            if user_name:
+                name = user_name
+    return email, name or "Customer"
+
+
 def build_work_order_invoice_rd(db: Session, work_order) -> Dict[str, Any]:
     """Build the work-order dict consumed by ``work_order_to_invoice``."""
     from app.models.client import Client
-    from app.models.technician import Technician
     from app.models.user import User as UserModel
     from app.models.work_order import (
         WorkOrderAppointment,
         WorkOrderPart as WOPart,
         WorkOrderService as WOSvcModel,
     )
+    from app.utils.work_order_display import resolve_technician_contact_for_work_order
 
     work_order.calculate_totals()
     rd = {k: v for k, v in work_order.__dict__.items() if k != "_sa_instance_state"}
+    rd.pop("technician", None)
 
     if work_order.client_id:
         c = db.query(Client).filter(Client.id == work_order.client_id).first()
@@ -140,12 +327,10 @@ def build_work_order_invoice_rd(db: Session, work_order) -> Dict[str, Any]:
                         "phone": u.phone or c.phone or c.mobile,
                     }
 
-    if work_order.assigned_technician_id:
-        t = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
-        if t and t.user_id:
-            tu = db.query(UserModel).filter(UserModel.id == t.user_id).first()
-            if tu:
-                rd["technician_name"] = f"{tu.first_name} {tu.last_name}"
+    tech_contact = resolve_technician_contact_for_work_order(db, work_order)
+    if tech_contact:
+        rd["technician_name"] = tech_contact["name"]
+        rd["technician"] = tech_contact
 
     svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order.id).all()
     rd["services"] = [

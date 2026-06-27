@@ -185,6 +185,27 @@ def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
     return result
 
 
+def _technician(rd: dict) -> dict:
+    tech = rd.get("technician")
+    if isinstance(tech, dict):
+        return {
+            "name": tech.get("name") or rd.get("technician_name") or "—",
+            "phone": tech.get("phone") or "",
+            "email": tech.get("email") or "",
+        }
+    if tech is not None and hasattr(tech, "name"):
+        return {
+            "name": tech.name or rd.get("technician_name") or "—",
+            "phone": getattr(tech, "phone", None) or "",
+            "email": getattr(tech, "email", None) or "",
+        }
+    return {
+        "name": rd.get("technician_name") or "—",
+        "phone": rd.get("technician_phone") or "",
+        "email": rd.get("technician_email") or "",
+    }
+
+
 def _service_meta(rd: dict) -> dict:
     appointments = rd.get("appointments") or []
     completed = [a for a in appointments if a.get("status") == "completed"]
@@ -207,6 +228,7 @@ def work_order_to_estimate(rd: dict) -> dict:
         "date": _format_date(),
         "company": dict(COMPANY),
         "customer": _customer(rd),
+        "technician": _technician(rd),
         "equipment": _equipment(rd),
         "services": _map_services(rd.get("services") or []),
         "parts": _map_parts(rd.get("parts") or [], billable_only=True),
@@ -221,6 +243,7 @@ def work_order_to_invoice(rd: dict, notes: Optional[List[str]] = None) -> dict:
         "date": _format_date(),
         "company": dict(COMPANY),
         "customer": _customer(rd),
+        "technician": _technician(rd),
         "equipment": _equipment(rd),
         "service_meta": _service_meta(rd),
         "services": _map_services(rd.get("services") or []),

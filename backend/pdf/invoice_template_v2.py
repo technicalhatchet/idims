@@ -1,10 +1,10 @@
 """
-Atomic Repair cyberpunk invoice PDF — experimental template.
+Atomic Repair cyberpunk invoice PDF v2 — payment ledger + future document options.
 
-Standalone from app.services.pdf_service. Build with:
+Copy of invoice_template.py; v1 remains unchanged. Build with:
 
-    from pdf.invoice_template import build_invoice_pdf
-    pdf_bytes = build_invoice_pdf(invoice_dict)
+    from pdf.invoice_template_v2 import build_invoice_pdf_v2
+    pdf_bytes = build_invoice_pdf_v2(invoice_dict, variant="light")
 """
 
 from __future__ import annotations
@@ -57,6 +57,84 @@ TOTAL_LABEL_SIZE = 11
 BALANCE_LABEL_SIZE = 10
 TOTAL_CHIP_GAP_ABOVE = 6
 TOTAL_CHIP_GAP_BELOW = 6
+
+PAYMENT_ROW_HEIGHT = 14
+PAYMENTS_PANEL_PAD_TOP = 40
+FOOTER_LEFT_RATIO = 0.56
+FOOTER_COL_GAP = 12
+
+
+def _footer_column_widths() -> tuple[float, float, float]:
+    """Left column, right column (totals), and full content width."""
+    left_w = CONTENT_WIDTH * FOOTER_LEFT_RATIO
+    right_w = CONTENT_WIDTH - left_w - FOOTER_COL_GAP
+    return left_w, right_w, CONTENT_WIDTH
+
+
+class InvoicePaymentsPanelFlowable(Flowable):
+    """Ledger of field-recorded payments (cash, Venmo, check, etc.)."""
+
+    def __init__(self, width: float, payments: List[dict]):
+        Flowable.__init__(self)
+        self.width = width
+        self.payments = [p for p in (payments or []) if p]
+        self.height = 0.0
+
+    def _calc_height(self) -> float:
+        if not self.payments:
+            return 0.0
+        return PAYMENTS_PANEL_PAD_TOP + len(self.payments) * PAYMENT_ROW_HEIGHT + 22
+
+    def wrap(self, availWidth, availHeight):
+        self.width = min(self.width, availWidth)
+        self.height = self._calc_height()
+        return self.width, self.height
+
+    def draw(self):
+        if not self.payments:
+            return
+
+        canvas = self.canv
+        draw_panel(canvas, 0, 0, self.width, self.height, "Payments Received", CYAN)
+
+        pad = 14
+        date_w = max(52, self.width * 0.26)
+        method_w = max(48, self.width * 0.28)
+        x_date = pad
+        x_method = x_date + date_w
+        x_amount_right = self.width - pad
+        show_ref = self.width >= 300
+        x_ref = x_method + method_w
+        y = self.height - PAYMENTS_PANEL_PAD_TOP
+
+        canvas.setFont(FONT_BOLD, 8)
+        canvas.setFillColor(theme.MUTED)
+        canvas.drawString(x_date, y, "Date")
+        canvas.drawString(x_method, y, "Method")
+        canvas.drawString(x_amount_right - 42, y, "Amount")
+        if show_ref:
+            canvas.drawString(x_ref, y, "Ref")
+        y -= PAYMENT_ROW_HEIGHT
+
+        canvas.setFont(FONT_REGULAR, 8.5)
+        total = 0.0
+        for payment in self.payments:
+            canvas.setFillColor(theme.INK)
+            canvas.drawString(x_date, y, safe_text(payment.get("date"))[:12])
+            canvas.drawString(x_method, y, safe_text(payment.get("method"))[:14])
+            amount = float(payment.get("amount") or 0)
+            total += amount
+            canvas.drawRightString(x_amount_right, y, money(amount))
+            if show_ref:
+                ref = safe_text(payment.get("reference")) or "—"
+                canvas.drawString(x_ref, y, ref[:16])
+            y -= PAYMENT_ROW_HEIGHT
+
+        canvas.setFont(FONT_BOLD, 8.5)
+        canvas.setFillColor(CYAN)
+        canvas.drawString(x_date, y, "Total received")
+        canvas.setFillColor(theme.INK)
+        canvas.drawRightString(x_amount_right, y, money(total))
 
 
 class InvoiceTotalsPanelFlowable(Flowable):
@@ -125,13 +203,23 @@ class InvoiceTotalsPanelFlowable(Flowable):
         canvas.drawRightString(self.width - 16, y, money(t.get("amount_paid")))
         y -= 16
 
+        balance_due = float(t.get("balance_due") or 0)
+        amount_paid = float(t.get("amount_paid") or 0)
+        balance_label = "BALANCE DUE"
+        balance_accent = ORANGE
+        balance_fill = colors.Color(1, 0.6, 0, alpha=0.08)
+        if balance_due <= 0 and amount_paid > 0:
+            balance_label = "PAID IN FULL"
+            balance_accent = colors.Color(0.2, 0.85, 0.45)
+            balance_fill = colors.Color(0.2, 0.85, 0.45, alpha=0.1)
+
         self._draw_amount_chip(
             canvas,
             y,
-            "BALANCE DUE",
-            money(t.get("balance_due")),
-            ORANGE,
-            colors.Color(1, 0.6, 0, alpha=0.08),
+            balance_label,
+            money(balance_due),
+            balance_accent,
+            balance_fill,
             label_size=BALANCE_LABEL_SIZE,
         )
 
@@ -294,6 +382,113 @@ def _layout_wrapped_notes(
     return lines_out, span
 
 
+def _layout_footer_notes(
+    notes: List[str],
+    *,
+    left_panel_height: float,
+    left_column_width: float,
+    content_width: float,
+    totals_height: float,
+    footer_height: float,
+) -> tuple[List[tuple[str, float, float]], float]:
+    """Notes under the left column, wrapping beside totals."""
+    cleaned = [safe_text(n) for n in notes if safe_text(n)]
+    if not cleaned:
+        return [], footer_height
+
+    for _ in range(6):
+        first_line_y = (
+            footer_height
+            - left_panel_height
+            - NOTES_UNDER_PAYMENT_GAP
+            - NOTES_TITLE_GAP
+            - NOTES_FONT_SIZE
+        )
+        lines, span = _layout_wrapped_notes(
+            cleaned,
+            narrow_width=left_column_width,
+            wide_width=content_width,
+            footer_height=footer_height,
+            totals_height=totals_height,
+            first_line_y=first_line_y,
+        )
+        notes_block_h = 0.0
+        if lines:
+            notes_block_h = (
+                NOTES_UNDER_PAYMENT_GAP
+                + NOTES_TITLE_GAP
+                + NOTES_FONT_SIZE
+                + span
+            )
+        new_h = max(totals_height, left_panel_height + notes_block_h)
+        if abs(new_h - footer_height) < 0.5:
+            return lines, new_h
+        footer_height = new_h
+    return lines, footer_height
+
+
+class InvoicePaymentsTotalsRowFlowable(Flowable):
+    """Payments ledger (left) + totals (right), notes below left column."""
+
+    def __init__(
+        self,
+        left_width: float,
+        right_width: float,
+        content_width: float,
+        payments: List[dict],
+        totals: dict,
+        notes: Optional[List[str]] = None,
+    ):
+        Flowable.__init__(self)
+        self.left_width = left_width
+        self.right_width = right_width
+        self.content_width = content_width
+        self.payments_panel = InvoicePaymentsPanelFlowable(left_width, payments)
+        self.totals = InvoiceTotalsPanelFlowable(right_width, totals)
+        self.notes = [safe_text(n) for n in (notes or []) if safe_text(n)]
+        self._note_lines: List[tuple[str, float, float]] = []
+        self.height = 0.0
+
+    def _compute_layout(self):
+        _, payments_h = self.payments_panel.wrap(self.left_width, 10000)
+        _, totals_h = self.totals.wrap(self.right_width, 10000)
+        left_h = payments_h
+        footer_h = max(totals_h, left_h)
+        self._note_lines, footer_h = _layout_footer_notes(
+            self.notes,
+            left_panel_height=left_h,
+            left_column_width=self.left_width,
+            content_width=self.content_width,
+            totals_height=totals_h,
+            footer_height=footer_h,
+        )
+        self.height = footer_h
+        return left_h, totals_h
+
+    def wrap(self, availWidth, availHeight):
+        self._compute_layout()
+        return self.content_width, min(self.height, availHeight)
+
+    def draw(self):
+        left_h, totals_h = self._compute_layout()
+        canvas = self.canv
+        self.payments_panel.drawOn(canvas, 0, self.height - left_h)
+        x_totals = self.content_width - self.right_width
+        self.totals.drawOn(canvas, x_totals, self.height - totals_h)
+
+        if not self._note_lines:
+            return
+
+        header_y = self.height - left_h - NOTES_UNDER_PAYMENT_GAP - NOTES_FONT_SIZE
+        canvas.setFont(FONT_BOLD, NOTES_FONT_SIZE)
+        canvas.setFillColor(CYAN)
+        canvas.drawString(0, header_y, "NOTES")
+        canvas.setFont(FONT_REGULAR, NOTES_FONT_SIZE)
+        canvas.setFillColor(theme.INK)
+        for text, x, y in self._note_lines:
+            canvas.drawString(x, y, text)
+
+
 class InvoiceFooterRowFlowable(Flowable):
     """Payment panel top-left, totals bottom-right, notes wrap around totals."""
 
@@ -305,74 +500,57 @@ class InvoiceFooterRowFlowable(Flowable):
         terms: Optional[str] = None,
         payment_instructions: Optional[str] = None,
         notes: Optional[List[str]] = None,
+        show_payment_terms: bool = True,
+        content_width: Optional[float] = None,
     ):
         Flowable.__init__(self)
-        self.terms_width = terms_width
+        self.left_slot_width = terms_width
         self.totals_width = totals_width
-        self.full_width = terms_width + 12 + totals_width
+        self.content_width = content_width or (terms_width + FOOTER_COL_GAP + totals_width)
+        gap = FOOTER_COL_GAP if show_payment_terms and terms_width > 0 else 0
+        self.full_width = self.content_width
         self.totals_data = totals
-        self.terms = InvoiceTermsPanelFlowable(terms_width, terms, payment_instructions)
+        self.show_payment_terms = show_payment_terms
+        self.terms = (
+            InvoiceTermsPanelFlowable(terms_width, terms, payment_instructions)
+            if show_payment_terms and terms_width > 0
+            else None
+        )
         self.totals = InvoiceTotalsPanelFlowable(totals_width, totals)
         self.notes = [safe_text(n) for n in (notes or []) if safe_text(n)]
         self._note_lines: List[tuple[str, float, float]] = []
         self.height = 0.0
 
     def _compute_layout(self):
-        _, terms_h = self.terms.wrap(self.terms_width, 10000)
+        terms_h = 0.0
+        if self.terms:
+            _, terms_h = self.terms.wrap(self.left_slot_width, 10000)
         _, totals_h = self.totals.wrap(self.totals.width, 10000)
 
-        footer_h = max(totals_h, terms_h)
-        self._note_lines = []
-
-        if self.notes:
-            for _ in range(6):
-                first_line_y = (
-                    footer_h
-                    - terms_h
-                    - NOTES_UNDER_PAYMENT_GAP
-                    - NOTES_TITLE_GAP
-                    - NOTES_FONT_SIZE
-                )
-                lines, span = _layout_wrapped_notes(
-                    self.notes,
-                    narrow_width=self.terms_width,
-                    wide_width=self.full_width,
-                    footer_height=footer_h,
-                    totals_height=totals_h,
-                    first_line_y=first_line_y,
-                )
-                notes_block_h = 0.0
-                if lines:
-                    notes_block_h = (
-                        NOTES_UNDER_PAYMENT_GAP
-                        + NOTES_TITLE_GAP
-                        + NOTES_FONT_SIZE
-                        + span
-                    )
-                new_h = max(totals_h, terms_h + notes_block_h)
-                if abs(new_h - footer_h) < 0.5:
-                    self._note_lines = lines
-                    footer_h = new_h
-                    break
-                footer_h = new_h
-            else:
-                self._note_lines = lines
-        else:
-            footer_h = max(totals_h, terms_h)
-
+        left_h = terms_h
+        footer_h = max(totals_h, left_h)
+        self._note_lines, footer_h = _layout_footer_notes(
+            self.notes,
+            left_panel_height=left_h,
+            left_column_width=self.left_slot_width if left_h > 0 else self.totals_width,
+            content_width=self.content_width,
+            totals_height=totals_h,
+            footer_height=footer_h,
+        )
         self.height = footer_h
         return terms_h, totals_h
 
     def wrap(self, availWidth, availHeight):
         self._compute_layout()
-        return self.full_width, min(self.height, availHeight)
+        return self.content_width, min(self.height, availHeight)
 
     def draw(self):
         terms_h, totals_h = self._compute_layout()
         canvas = self.canv
 
-        self.terms.drawOn(canvas, 0, self.height - terms_h)
-        x_totals = self.terms_width + 12
+        if self.terms:
+            self.terms.drawOn(canvas, 0, self.height - terms_h)
+        x_totals = self.content_width - self.totals_width
         self.totals.drawOn(canvas, x_totals, self.height - totals_h)
 
         if not self._note_lines:
@@ -428,12 +606,15 @@ def _build_story(invoice: dict) -> List[Any]:
     story: List[Any] = []
 
     story.append(Spacer(1, 4))
+    show_technician = invoice.get("show_technician", True)
+    technician = (invoice.get("technician") or {"name": "—", "phone": "", "email": ""}) if show_technician else None
     story.append(
         SideBySidePanelsFlowable(
             CONTENT_WIDTH,
             invoice.get("customer") or {},
             invoice.get("equipment") or {},
-            technician=invoice.get("technician"),
+            technician=technician,
+            middle_panel=show_technician,
         )
     )
     story.append(Spacer(1, 6))
@@ -455,31 +636,54 @@ def _build_story(invoice: dict) -> List[Any]:
     )
     story.append(Spacer(1, 6))
 
-    terms_w = CONTENT_WIDTH * 0.56
-    totals_w = CONTENT_WIDTH - terms_w - 12
-    story.append(
-        InvoiceFooterRowFlowable(
-            terms_w,
-            totals_w,
-            totals,
-            terms=invoice.get("terms"),
-            payment_instructions=invoice.get("payment_instructions"),
-            notes=invoice.get("notes") or [],
-        )
+    payments = invoice.get("payments") or []
+    balance_due = float(totals.get("balance_due") or 0)
+    amount_paid = float(totals.get("amount_paid") or 0)
+    show_payment_message = invoice.get("show_payment_message", True)
+    show_payment_terms = show_payment_message and not payments and not (
+        amount_paid > 0 and balance_due <= 0
     )
+    notes = invoice.get("notes") or []
+
+    left_w, right_w, content_w = _footer_column_widths()
+
+    if payments:
+        story.append(
+            InvoicePaymentsTotalsRowFlowable(
+                left_w,
+                right_w,
+                content_w,
+                payments,
+                totals,
+                notes=notes,
+            )
+        )
+    else:
+        story.append(
+            InvoiceFooterRowFlowable(
+                left_w,
+                right_w,
+                totals,
+                terms=invoice.get("terms"),
+                payment_instructions=invoice.get("payment_instructions"),
+                notes=notes,
+                show_payment_terms=show_payment_terms,
+                content_width=content_w,
+            )
+        )
 
     story.append(Spacer(1, 8))
     return story
 
 
-def build_invoice_pdf(
+def build_invoice_pdf_v2(
     invoice: dict,
     header_logo_path: Optional[str] = None,
     watermark_logo_path: Optional[str] = None,
     variant: PdfVariant = "dark",
 ) -> bytes:
     """
-    Render a complete invoice PDF from the invoice data model.
+    Render invoice PDF v2 (payment ledger when ``invoice['payments']`` is set).
 
     ``variant`` is ``"dark"`` (default) or ``"light"`` (white background, dark text).
 
@@ -527,6 +731,15 @@ def sample_invoice() -> dict:
             "make": "Samsung",
             "model": "DW80R5060UG",
             "serial": "SN-44821-A",
+        },
+        "header_status_message": "PAID IN FULL",
+        "header_status_tone": "paid",
+        "show_technician": True,
+        "show_payment_message": True,
+        "technician": {
+            "name": "Mike Rodriguez",
+            "phone": "(419) 555-0142",
+            "email": "mike@atomicrepair.com",
         },
         "service_meta": {
             "technician": "Mike Rodriguez",
@@ -587,13 +800,24 @@ def sample_invoice() -> dict:
             "amount_paid": 89.00,
             "balance_due": 388.94,
         },
+        "payments": [
+            {
+                "date": "June 8, 2026",
+                "method": "Venmo",
+                "amount": 89.00,
+                "reference": "WO CT-001028",
+            },
+        ],
     }
 
 
 if __name__ == "__main__":
     base = os.path.dirname(__file__)
-    for name, variant in (("sample_invoice_preview.pdf", "dark"), ("sample_invoice_preview_light.pdf", "light")):
+    for name, variant in (
+        ("sample_invoice_v2_preview.pdf", "dark"),
+        ("sample_invoice_v2_preview_light.pdf", "light"),
+    ):
         out = os.path.join(base, name)
         with open(out, "wb") as fh:
-            fh.write(build_invoice_pdf(sample_invoice(), variant=variant))
+            fh.write(build_invoice_pdf_v2(sample_invoice(), variant=variant))
         print(f"Wrote {out}")

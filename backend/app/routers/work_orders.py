@@ -2201,38 +2201,14 @@ async def get_work_order_estimate_pdf(
     """Generate and stream an estimate PDF."""
     from pdf import build_estimate_pdf
     from pdf.work_order_adapter import work_order_to_estimate
-    from app.models.work_order import WorkOrderService as WOSvcModel, WorkOrderPart as WOPart
+    from app.services.work_order_invoice_pdf_data import build_work_order_invoice_rd
     if not await can_view_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=403, detail="Access denied")
     # Direct DB query instead of service to avoid NotFoundException masking real errors
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
     if not work_order:
         raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
-    work_order.calculate_totals()
-    rd = {k: v for k, v in work_order.__dict__.items() if k != '_sa_instance_state'}
-    if work_order.client_id:
-        c = db.query(Client).filter(Client.id == work_order.client_id).first()
-        if c:
-            rd['client_name'] = c.display_name
-            if c.user_id:
-                u = db.query(UserModel).filter(UserModel.id == c.user_id).first()
-                if u: rd['client_user'] = {'first_name': u.first_name, 'last_name': u.last_name, 'email': u.email, 'phone': u.phone}
-    if work_order.assigned_technician_id:
-        t = db.query(Technician).filter(Technician.id == work_order.assigned_technician_id).first()
-        if t and t.user_id:
-            tu = db.query(UserModel).filter(UserModel.id == t.user_id).first()
-            if tu: rd['technician_name'] = f'{tu.first_name} {tu.last_name}'
-    svcs = db.query(WOSvcModel).filter(WOSvcModel.work_order_id == work_order_id).all()
-    rd['services'] = [{'id': str(s.id), 'name': s.name, 'quantity': s.quantity, 'unit_price': float(s.unit_price or 0), 'price': float(s.price or 0), 'billing_status': s.billing_status} for s in svcs]
-    parts = db.query(WOPart).filter(WOPart.work_order_id == work_order_id).all()
-    rd['parts'] = [{'number': p.number, 'description': p.description, 'price': float(p.price or 0), 'status': p.status, 'part_source': p.part_source, 'warranty_expires_at': p.warranty_expires_at.isoformat() if p.warranty_expires_at else None, 'amount_upfront_collected': float(p.amount_upfront_collected or 0), 'tax_collected': float(p.tax_collected or 0)} for p in parts]
-    rd['tax_rate'] = float(work_order.tax_rate or 0.0775)
-    rd['diagnostic_discount_amount'] = float(work_order.diagnostic_discount_amount or 0)
-    rd['amount_previously_paid'] = float(work_order.amount_previously_paid or 0)
-    rd['service_location'] = work_order.service_location
-    for k in list(rd.keys()):
-        if isinstance(rd[k], uuid.UUID): rd[k] = str(rd[k])
-        elif isinstance(rd[k], datetime): rd[k] = rd[k].isoformat()
+    rd = build_work_order_invoice_rd(db, work_order)
     try:
         pdf_bytes = build_estimate_pdf(work_order_to_estimate(rd), variant=variant)
     except Exception as e:
@@ -2241,6 +2217,49 @@ async def get_work_order_estimate_pdf(
         raise HTTPException(status_code=500, detail=f'PDF generation failed: {type(e).__name__}: {str(e)}')
     return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
         headers={'Content-Disposition': f'inline; filename="estimate-{work_order.order_number}.pdf"'})
+
+
+@router.get("/{work_order_id}/estimate-v2.pdf")
+async def get_work_order_estimate_pdf_v2(
+    work_order_id: uuid.UUID = Path(...),
+    variant: str = Query("light", pattern="^(dark|light)$"),
+    show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
+    show_payment_message: bool = Query(True, description="Include payment / terms message panel"),
+    show_technician: bool = Query(True, description="Include technician contact panel"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Generate and stream estimate PDF v2 (payment ledger; v1 endpoint unchanged)."""
+    from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
+
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
+    try:
+        pdf_bytes = generate_work_order_estimate_pdf_v2(
+            db,
+            work_order,
+            variant=variant,
+            show_payments=show_payments,
+            show_payment_message=show_payment_message,
+            show_technician=show_technician,
+        )
+    except Exception as e:
+        import traceback
+        logger.error(f'Estimate v2 PDF error: {e}\n{traceback.format_exc()}')
+        raise HTTPException(
+            status_code=500,
+            detail=f'PDF generation failed: {type(e).__name__}: {str(e)}',
+        )
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type='application/pdf',
+        headers={
+            'Content-Disposition': f'inline; filename="estimate-v2-{work_order.order_number}.pdf"',
+        },
+    )
 
 
 @router.get("/{work_order_id}/invoice.pdf")
@@ -2267,6 +2286,113 @@ async def get_work_order_invoice_pdf(
         raise HTTPException(status_code=500, detail=f'PDF generation failed: {type(e).__name__}: {str(e)}')
     return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf',
         headers={'Content-Disposition': f'inline; filename="invoice-{work_order.order_number}.pdf"'})
+
+
+@router.get("/{work_order_id}/invoice-v2.pdf")
+async def get_work_order_invoice_pdf_v2(
+    work_order_id: uuid.UUID = Path(...),
+    variant: str = Query("light", pattern="^(dark|light)$"),
+    show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
+    show_payment_message: bool = Query(True, description="Include payment terms message panel"),
+    show_technician: bool = Query(True, description="Include technician contact panel"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Generate and stream invoice PDF v2 (payment ledger; v1 endpoint unchanged)."""
+    from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
+
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
+    try:
+        pdf_bytes = generate_work_order_invoice_pdf_v2(
+            db,
+            work_order,
+            variant=variant,
+            show_payments=show_payments,
+            show_payment_message=show_payment_message,
+            show_technician=show_technician,
+        )
+    except Exception as e:
+        import traceback
+        logger.error(f'Invoice v2 PDF error: {e}\n{traceback.format_exc()}')
+        raise HTTPException(
+            status_code=500,
+            detail=f'PDF generation failed: {type(e).__name__}: {str(e)}',
+        )
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type='application/pdf',
+        headers={
+            'Content-Disposition': f'inline; filename="invoice-v2-{work_order.order_number}.pdf"',
+        },
+    )
+
+
+@router.post("/{work_order_id}/email-document-v2")
+async def email_work_order_document_v2(
+    work_order_id: uuid.UUID = Path(...),
+    doc_type: str = Query("invoice", pattern="^(invoice|estimate)$"),
+    variant: str = Query("light", pattern="^(dark|light)$"),
+    show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
+    show_payment_message: bool = Query(True, description="Include payment / terms message panel"),
+    show_technician: bool = Query(True, description="Include technician contact panel"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Email the client an invoice or estimate PDF v2 with the selected display options."""
+    from app.services.email_service import EmailService
+    from app.services.work_order_invoice_pdf_data import (
+        generate_work_order_document_pdf_v2,
+        resolve_work_order_client_email,
+    )
+
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
+
+    client_email, client_name = resolve_work_order_client_email(db, work_order)
+    if not client_email:
+        raise HTTPException(status_code=400, detail="No email address on file for this client")
+
+    try:
+        pdf_bytes = generate_work_order_document_pdf_v2(
+            db,
+            work_order,
+            doc_type=doc_type,
+            variant=variant,
+            show_payments=show_payments,
+            show_payment_message=show_payment_message,
+            show_technician=show_technician,
+        )
+    except Exception as e:
+        import traceback
+        logger.error(f'Email document v2 PDF error: {e}\n{traceback.format_exc()}')
+        raise HTTPException(
+            status_code=500,
+            detail=f'PDF generation failed: {type(e).__name__}: {str(e)}',
+        )
+
+    sent = await EmailService.send_work_order_document_pdf_email(
+        to_email=client_email,
+        recipient_name=client_name,
+        order_number=work_order.order_number,
+        pdf_bytes=pdf_bytes,
+        doc_type=doc_type,
+    )
+    if not sent:
+        raise HTTPException(status_code=503, detail="Unable to send email right now. Please try again later.")
+
+    doc_label = "Invoice" if doc_type == "invoice" else "Estimate"
+    return {
+        "success": True,
+        "message": f"{doc_label} emailed to {client_email}",
+        "email": client_email,
+    }
 
 
 @router.put("/parts/{part_id}", response_model=WorkOrderPartResponse)
