@@ -11,31 +11,13 @@ import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { formatPropertyAddress } from '../../utils/appointment-scheduling';
+import {
+  SYMPTOMS_BY_TYPE,
+  SUBTYPE_TO_SYMPTOM_KEY,
+} from '../../constants/applianceSymptoms';
 
 
-// Constants for equipment types
-const SYMPTOMS_BY_TYPE = {
-  refrigerator: ['Not Cooling', 'Not Freezing', 'Ice Maker Broken', 'Leaking', 'Loud Noise', 'Won\'t Start', 'Frost Buildup', 'Door Seal Issue', 'Water Dispenser Broken', 'Temperature Fluctuating'],
-  washing_machine: ['Won\'t Start', 'Won\'t Spin', 'Won\'t Drain', 'Leaking', 'Loud Noise', 'Won\'t Fill', 'Door Won\'t Lock', 'Shaking/Vibrating', 'Error Code', 'Won\'t Complete Cycle'],
-  dryer: ['Won\'t Heat', 'Won\'t Start', 'Takes Too Long', 'Loud Noise', 'Won\'t Turn', 'Overheating', 'No Power', 'Shuts Off Early', 'Error Code', 'Door Won\'t Latch'],
-  dishwasher: ['Won\'t Drain', 'Won\'t Fill', 'Not Cleaning', 'Leaking', 'Won\'t Start', 'Door Won\'t Latch', 'Loud Noise', 'Error Code', 'Not Drying', 'Cloudy Dishes'],
-  oven: ['Won\'t Heat', 'Won\'t Ignite', 'Uneven Cooking', 'Door Won\'t Close', 'Error Code', 'Won\'t Self-Clean', 'Temperature Off', 'Burner Issue', 'Control Panel Issue', 'Won\'t Turn On'],
-  microwave: ['Won\'t Heat', 'Sparking', 'Turntable Not Spinning', 'Door Won\'t Close', 'Loud Noise', 'Won\'t Start', 'Display Issue', 'Buttons Not Working'],
-  freezer: ['Not Freezing', 'Frost Buildup', 'Loud Noise', 'Leaking', 'Won\'t Start', 'Door Seal Issue', 'Temperature Fluctuating'],
-  tv: ['No Picture', 'No Sound', 'Won\'t Turn On', 'Remote Not Working', 'Lines on Screen', 'Flickering', 'No Signal', 'Cracked Screen', 'Backlight Issue', 'HDMI Not Working'],
-};
-
-// Map equipment_subtype to symptom keys
-const SUBTYPE_TO_SYMPTOM_KEY = {
-  refrigerator: 'refrigerator',
-  washing_machine: 'washing_machine',
-  dryer: 'dryer',
-  dishwasher: 'dishwasher',
-  oven: 'oven',
-  range: 'oven',
-  microwave: 'microwave',
-  freezer: 'freezer',
-};
+// Constants for equipment types — SYMPTOMS_BY_TYPE imported from applianceSymptoms.js
 
 const EQUIPMENT_TYPES = [
   { value: '', label: 'Select Equipment Type' },

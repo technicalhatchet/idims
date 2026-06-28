@@ -10,6 +10,7 @@ import {
 import HomeLayout from '../components/layouts/HomeLayout';
 import NeonIcon from '../components/ui/NeonIcon';
 import SecretServiceMode from '../components/ui/SecretServiceMode';
+import { getBookingSymptomsForAppliance } from '../constants/applianceSymptoms';
 
 /** Cyan vs orange — same mapping as neon PNGs / ApplianceIcon */
 const APPLIANCES = [
@@ -23,15 +24,6 @@ const APPLIANCES = [
   { id: 'freezer', name: 'Freezer', icon: 'freezer', color: 'cyan' },
   { id: 'tv', name: 'TV', icon: 'tv', color: 'orange' },
   { id: 'other', name: 'Other', icon: 'wrench', color: 'cyan', allowCustom: true },
-];
-
-const ISSUES = [
-  { id: 'not-working', name: 'Not working at all', icon: 'powerOff' },
-  { id: 'not-cooling-heating', name: 'Not cooling/heating', icon: 'thermometer' },
-  { id: 'leaking', name: 'Leaking water', icon: 'droplet' },
-  { id: 'making-noise', name: 'Making strange noise', icon: 'volume' },
-  { id: 'error-code', name: 'Showing error code', icon: 'zap' },
-  { id: 'other', name: 'Other issue', icon: 'zap', allowCustom: true },
 ];
 
 const TIME_OPTIONS = [
@@ -171,12 +163,21 @@ export default function BookService() {
   }, [currentStep, formData.address, formData.appliance, formData.customAppliance, fetchPricingEstimate]);
 
   const updateFormData = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (field === 'address') {
-      setPricingEstimate(null);
-      setPricingError(null);
-    }
+    setFormData((prev) => {
+      const next = { ...prev, [field]: value };
+      if (field === 'appliance') {
+        next.issue = '';
+        next.customIssue = '';
+      }
+      if (field === 'address') {
+        setPricingEstimate(null);
+        setPricingError(null);
+      }
+      return next;
+    });
   };
+
+  const symptomOptions = getBookingSymptomsForAppliance(formData.appliance);
 
   const canProceed = () => {
     switch (currentStep) {
@@ -295,7 +296,10 @@ export default function BookService() {
     if (formData.issue === 'other' && formData.customIssue) {
       return { name: formData.customIssue };
     }
-    return ISSUES.find(i => i.id === formData.issue);
+    if (formData.issue && formData.issue !== 'other') {
+      return { name: formData.issue };
+    }
+    return null;
   };
   const getSelectedTime = () => TIME_OPTIONS.find(t => t.id === formData.time);
 
@@ -427,7 +431,9 @@ export default function BookService() {
                   <div className="mb-6">
                     <h2 className="text-xl sm:text-2xl font-bold text-white">
                       {currentStep === 1 && 'What appliance can we help you with?'}
-                      {currentStep === 2 && 'What issue are you experiencing?'}
+                      {currentStep === 2 && (getSelectedAppliance()?.name
+                        ? `What's going on with your ${getSelectedAppliance().name}?`
+                        : 'What issue are you experiencing?')}
                       {currentStep === 3 && 'When would you prefer us to come by?'}
                       {currentStep === 4 && 'Your Information'}
                       {currentStep === 5 && (isComplete ? 'You\'re all set!' : 'Review your booking')}
@@ -498,34 +504,41 @@ export default function BookService() {
                   {/* Step 2: Issue Selection */}
                   {currentStep === 2 && (
                     <div className="space-y-3">
-                      {ISSUES.map((issue) => (
-                          <motion.button
-                            key={issue.id}
-                            onClick={() => updateFormData('issue', issue.id)}
-                            className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center gap-4 ${
-                              formData.issue === issue.id
-                                ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
-                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                            }`}
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
-                          >
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              formData.issue === issue.id ? 'bg-cyan-500/20' : 'bg-white/5'
-                            }`}>
-                              <NeonIcon
-                                name={issue.icon}
-                                className="w-5 h-5"
-                                variant="cyan"
-                              />
-                            </div>
-                            <span className="text-white font-medium">{issue.name}</span>
-                            {formData.issue === issue.id && (
-                              <FaCheckCircle className="w-5 h-5 text-cyan-400 ml-auto" />
-                            )}
-                          </motion.button>
-                      ))}
-                      
+                      <div className="flex flex-wrap gap-2">
+                        {symptomOptions.map((symptom) => {
+                          const selected = formData.issue === symptom;
+                          return (
+                            <motion.button
+                              key={symptom}
+                              type="button"
+                              onClick={() => updateFormData('issue', symptom)}
+                              className={`px-3.5 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                                selected
+                                  ? 'bg-cyan-500/20 text-cyan-100 border-cyan-500/50 shadow-[0_0_16px_rgba(34,211,238,0.15)]'
+                                  : 'bg-white/5 text-gray-200 border-white/10 hover:bg-white/10 hover:border-white/20'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {symptom}
+                            </motion.button>
+                          );
+                        })}
+                        <motion.button
+                          type="button"
+                          onClick={() => updateFormData('issue', 'other')}
+                          className={`px-3.5 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                            formData.issue === 'other'
+                              ? 'bg-cyan-500/20 text-cyan-100 border-cyan-500/50 shadow-[0_0_16px_rgba(34,211,238,0.15)]'
+                              : 'bg-white/5 text-gray-200 border-white/10 hover:bg-white/10 hover:border-white/20'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          Other issue
+                        </motion.button>
+                      </div>
+
                       {/* Custom issue input when "Other" is selected */}
                       <AnimatePresence>
                         {formData.issue === 'other' && (
