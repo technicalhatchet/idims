@@ -12,6 +12,27 @@ import NeonIcon from '../components/ui/NeonIcon';
 import SecretServiceMode from '../components/ui/SecretServiceMode';
 import { getBookingSymptomsForAppliance } from '../constants/applianceSymptoms';
 
+function isErrorCodeSymptom(issue) {
+  return typeof issue === 'string' && issue !== 'other' && /error code/i.test(issue);
+}
+
+function buildBookingIssueText({ issue, customIssue, errorCode, issueDescription }) {
+  const base = issue === 'other' ? customIssue.trim() : issue;
+  if (!base) return '';
+
+  const extras = [];
+  if (isErrorCodeSymptom(issue) && errorCode?.trim()) {
+    extras.push(`Code: ${errorCode.trim().toUpperCase()}`);
+  }
+  if (issueDescription?.trim()) {
+    extras.push(issueDescription.trim());
+  }
+  return extras.length ? `${base} — ${extras.join(' — ')}` : base;
+}
+
+const issueFieldClass =
+  'w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-3 text-white text-sm placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all';
+
 /** Cyan vs orange — same mapping as neon PNGs / ApplianceIcon */
 const APPLIANCES = [
   { id: 'refrigerator', name: 'Refrigerator', icon: 'refrigerator', color: 'cyan' },
@@ -50,6 +71,8 @@ export default function BookService() {
     customAppliance: '',
     issue: '',
     customIssue: '',
+    errorCode: '',
+    issueDescription: '',
     time: '',
     name: '',
     phone: '',
@@ -168,6 +191,11 @@ export default function BookService() {
       if (field === 'appliance') {
         next.issue = '';
         next.customIssue = '';
+        next.errorCode = '';
+        next.issueDescription = '';
+      }
+      if (field === 'issue' && !isErrorCodeSymptom(value)) {
+        next.errorCode = '';
       }
       if (field === 'address') {
         setPricingEstimate(null);
@@ -248,7 +276,7 @@ export default function BookService() {
           email: '',
           address: formData.address,
           appliance: formData.appliance === 'other' ? formData.customAppliance : formData.appliance,
-          issue: formData.issue === 'other' ? formData.customIssue : formData.issue,
+          issue: buildBookingIssueText(formData),
           time_preference: formData.time,
         })
       });
@@ -293,13 +321,8 @@ export default function BookService() {
     return APPLIANCES.find(a => a.id === formData.appliance);
   };
   const getSelectedIssue = () => {
-    if (formData.issue === 'other' && formData.customIssue) {
-      return { name: formData.customIssue };
-    }
-    if (formData.issue && formData.issue !== 'other') {
-      return { name: formData.issue };
-    }
-    return null;
+    const summary = buildBookingIssueText(formData);
+    return summary ? { name: summary } : null;
   };
   const getSelectedTime = () => TIME_OPTIONS.find(t => t.id === formData.time);
 
@@ -557,6 +580,58 @@ export default function BookService() {
                                 rows={3}
                                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none"
                                 autoFocus
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <AnimatePresence>
+                        {formData.issue && formData.issue !== 'other' && isErrorCodeSymptom(formData.issue) && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pt-1">
+                              <label className="block text-xs text-gray-400 mb-1.5">
+                                Error code <span className="text-gray-600">(optional)</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.errorCode}
+                                onChange={(e) => updateFormData('errorCode', e.target.value)}
+                                placeholder="e.g. F9E1, E24"
+                                maxLength={32}
+                                className={`${issueFieldClass} max-w-[200px] uppercase tracking-wide`}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <AnimatePresence>
+                        {formData.issue && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pt-1">
+                              <label className="block text-xs text-gray-400 mb-1.5">
+                                {formData.issue === 'other' ? 'Additional details' : 'Description'}
+                                {' '}
+                                <span className="text-gray-600">(optional)</span>
+                              </label>
+                              <textarea
+                                value={formData.issueDescription}
+                                onChange={(e) => updateFormData('issueDescription', e.target.value)}
+                                placeholder="Anything else we should know?"
+                                rows={2}
+                                maxLength={500}
+                                className={`${issueFieldClass} resize-none`}
                               />
                             </div>
                           </motion.div>
