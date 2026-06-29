@@ -35,7 +35,7 @@ class BookingRequest(BaseModel):
     time_preference: str
 
 
-# Booking flow appliance ids → service catalog equipment_type
+# Booking flow appliance ids → service catalog equipment_type (single-type fallback)
 _BOOKING_APPLIANCE_EQUIPMENT = {
     "refrigerator": EquipmentType.refrigerator,
     "washer": EquipmentType.washer,
@@ -45,6 +45,20 @@ _BOOKING_APPLIANCE_EQUIPMENT = {
     "dishwasher": EquipmentType.dishwasher,
     "tv": EquipmentType.tv,
     "other": EquipmentType.other,
+}
+
+# Washer/dryer share the laundry diagnostic; AIO is a separate heat-pump combo SKU (not stacked).
+_BOOKING_EQUIPMENT_TYPE_CHAIN = {
+    "washer": (EquipmentType.washer, EquipmentType.stacked_laundry),
+    "dryer": (EquipmentType.washer, EquipmentType.stacked_laundry),
+    "aiolaundry": (EquipmentType.aio_laundry,),
+}
+
+# Name fallbacks after equipment_type chain misses (per appliance — not shared across types).
+_BOOKING_NAME_KEYWORD_FALLBACKS = {
+    "washer": ("laundry",),
+    "dryer": ("laundry",),
+    "aiolaundry": ("aio", "all-in-one"),
 }
 
 # Appliances without a dedicated equipment_type enum — match diagnostic by name
@@ -90,37 +104,56 @@ OUT_OF_SERVICE_AREA_MESSAGE = (
 )
 
 
+def _query_diagnostic_by_equipment(db: Session, equipment_type: EquipmentType) -> Optional[Service]:
+    return (
+        db.query(Service)
+        .filter(
+            Service.is_active.is_(True),
+            Service.service_type == ServiceType.diagnostic,
+            Service.equipment_type == equipment_type,
+        )
+        .order_by(Service.base_price.desc())
+        .first()
+    )
+
+
+def _query_diagnostic_by_name_keyword(db: Session, keyword: str) -> Optional[Service]:
+    return (
+        db.query(Service)
+        .filter(
+            Service.is_active.is_(True),
+            Service.service_type == ServiceType.diagnostic,
+            Service.name.ilike(f"%{keyword}%"),
+        )
+        .order_by(Service.base_price.desc())
+        .first()
+    )
+
+
 def _lookup_diagnostic_service(db: Session, appliance: str) -> Optional[Service]:
     """Resolve the diagnostic SKU for a public booking appliance selection."""
     appliance_key = (appliance or "").strip().lower()
 
-    equipment_type = _BOOKING_APPLIANCE_EQUIPMENT.get(appliance_key)
-    if equipment_type is not None:
-        service = (
-            db.query(Service)
-            .filter(
-                Service.is_active.is_(True),
-                Service.service_type == ServiceType.diagnostic,
-                Service.equipment_type == equipment_type,
-            )
-            .order_by(Service.base_price.desc())
-            .first()
-        )
-        if service:
-            return service
+    chain = _BOOKING_EQUIPMENT_TYPE_CHAIN.get(appliance_key)
+    if chain:
+        for equipment_type in chain:
+            service = _query_diagnostic_by_equipment(db, equipment_type)
+            if service:
+                return service
+        for keyword in _BOOKING_NAME_KEYWORD_FALLBACKS.get(appliance_key, ()):
+            service = _query_diagnostic_by_name_keyword(db, keyword)
+            if service:
+                return service
+    else:
+        equipment_type = _BOOKING_APPLIANCE_EQUIPMENT.get(appliance_key)
+        if equipment_type is not None:
+            service = _query_diagnostic_by_equipment(db, equipment_type)
+            if service:
+                return service
 
     keyword = _BOOKING_APPLIANCE_NAME_KEYWORD.get(appliance_key)
     if keyword:
-        service = (
-            db.query(Service)
-            .filter(
-                Service.is_active.is_(True),
-                Service.service_type == ServiceType.diagnostic,
-                Service.name.ilike(f"%{keyword}%"),
-            )
-            .order_by(Service.base_price.desc())
-            .first()
-        )
+        service = _query_diagnostic_by_name_keyword(db, keyword)
         if service:
             return service
 

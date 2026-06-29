@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FaUser, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft,
+  FaUser, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft, FaEnvelope,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
 import NeonIcon from '../components/ui/NeonIcon';
@@ -76,6 +76,7 @@ export default function BookService() {
     time: '',
     name: '',
     phone: '',
+    email: '',
     address: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -273,7 +274,7 @@ export default function BookService() {
         body: JSON.stringify({
           name: formData.name,
           phone: formData.phone,
-          email: '',
+          email: formData.email.trim() || undefined,
           address: formData.address,
           appliance: formData.appliance === 'other' ? formData.customAppliance : formData.appliance,
           issue: buildBookingIssueText(formData),
@@ -704,6 +705,22 @@ export default function BookService() {
                         </div>
                       </div>
                       <div>
+                        <label className="block text-sm text-gray-400 mb-2">
+                          Email <span className="text-gray-600">(optional)</span>
+                        </label>
+                        <div className="relative">
+                          <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+                          <input
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => updateFormData('email', e.target.value)}
+                            placeholder="you@example.com"
+                            autoComplete="email"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                          />
+                        </div>
+                      </div>
+                      <div>
                         <label className="block text-sm text-gray-400 mb-2">Address</label>
                         <div className="relative">
                           <FaMapMarkerAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
@@ -807,9 +824,19 @@ export default function BookService() {
                           </div>
                           <div className="border-t border-white/10 my-3" />
                           <div className="flex justify-between text-sm gap-2">
-                            <span className="text-gray-500 flex-shrink-0">Contact</span>
+                            <span className="text-gray-500 flex-shrink-0">Name</span>
+                            <span className="text-white font-medium text-right">{formData.name || '-'}</span>
+                          </div>
+                          <div className="flex justify-between text-sm gap-2">
+                            <span className="text-gray-500 flex-shrink-0">Phone</span>
                             <span className="text-white font-medium">{formData.phone || '-'}</span>
                           </div>
+                          {formData.email?.trim() && (
+                            <div className="flex justify-between text-sm gap-2">
+                              <span className="text-gray-500 flex-shrink-0">Email</span>
+                              <span className="text-white font-medium text-right break-all">{formData.email.trim()}</span>
+                            </div>
+                          )}
                           <div className="flex justify-between text-sm gap-2">
                             <span className="text-gray-500 flex-shrink-0">Address</span>
                             <span className="text-white font-medium text-right line-clamp-2">{formData.address || '-'}</span>
