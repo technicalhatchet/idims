@@ -31,7 +31,11 @@ import {
   buildSmsUrl,
 } from '../../utils/enRouteSms';
 import { useUserRole } from '../../utils/auth0-helpers';
-import MapsNavigateButton from '../../components/ui/MapsNavigateButton';
+import {
+  ensureWebPushSubscription,
+  processDeployReminders,
+  reportDeployProximity,
+} from '../../utils/webPush';
 
 const NEXT_JOB_CONTACT_BTN_STYLE = {
   background: 'rgba(13, 21, 37, 0.25)',
@@ -579,6 +583,7 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
       }
       const result = await updateAppointmentStatus({ appointmentId: id, status: 'en_route' });
       onSuccess?.(result);
+      reportDeployProximity(apiClient, id);
     } catch (e) {
       alert('Failed to update appointment status: ' + e.message);
     } finally {
@@ -704,6 +709,7 @@ export default function TechDashboardTest() {
 
   const tacticalColumnRef = useRef(null);
   const titleplateRef = useRef(null);
+  const proximityCheckedRef = useRef(new Set());
   const [hudGridShift, setHudGridShift] = useState({ x: 0, y: 0 });
   /** Avoid SSR/client mismatch on greeting, date, and Auth0 name (React #425/#418). */
   const [headerReady, setHeaderReady] = useState(false);
@@ -740,6 +746,31 @@ export default function TechDashboardTest() {
   const { isOnline } = useOnlineStatus();
   const { data: scheduleData, isLoading: scheduleLoading } = useOfflineSchedule();
   const { data: workOrdersData, isLoading: woLoading } = useOfflineWorkOrders(200);
+
+  useEffect(() => {
+    if (!isOnline || !user) return undefined;
+    ensureWebPushSubscription(apiClient);
+    return undefined;
+  }, [isOnline, user]);
+
+  useEffect(() => {
+    if (!isOnline) return undefined;
+    processDeployReminders(apiClient);
+    const timer = setInterval(() => processDeployReminders(apiClient), 60000);
+    return () => clearInterval(timer);
+  }, [isOnline]);
+
+  useEffect(() => {
+    if (!isOnline || !schedule.length) return undefined;
+    schedule
+      .filter((a) => (a.status || '').toLowerCase() === 'en_route' && a.id)
+      .forEach((a) => {
+        if (proximityCheckedRef.current.has(a.id)) return;
+        proximityCheckedRef.current.add(a.id);
+        reportDeployProximity(apiClient, a.id);
+      });
+    return undefined;
+  }, [isOnline, schedule]);
 
   useEffect(() => {
     const appts = Array.isArray(scheduleData) ? scheduleData : [];

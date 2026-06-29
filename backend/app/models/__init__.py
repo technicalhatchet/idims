@@ -15,6 +15,7 @@ from app.models.skill import Skill
 from app.models.technician_skill import TechnicianSkill
 from app.models.property import Property
 from app.models.job_economics import ExpenseVendor, WorkOrderExpense, ExpenseReceipt
+from app.models.push_subscription import PushSubscription, DeployReminder
 
 # Export all models
 __all__ = [
@@ -52,4 +53,6 @@ __all__ = [
     'ExpenseVendor',
     'WorkOrderExpense',
     'ExpenseReceipt',
+    'PushSubscription',
+    'DeployReminder',
 ]

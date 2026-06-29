@@ -316,17 +316,41 @@ class NotificationService:
         body: str,
         data: Optional[Dict[str, Any]] = None,
         badge: Optional[int] = None,
-        sound: Optional[str] = None
+        sound: Optional[str] = None,
+        db: Optional[Session] = None,
     ) -> bool:
-        """Send a push notification with enhanced options"""
-        logger.info(f"Sending push notification to user {user_id}: {title}")
-        
-        # This would be implemented with Firebase Cloud Messaging or similar
-        # Here we just simulate success
+        """Send a web push notification to all browser subscriptions for the user."""
+        from app.services.web_push_service import send_push_to_user
+
+        url = (data or {}).get("url")
+        tag = (data or {}).get("tag")
         try:
-            # Simulate push notification delivery
-            await cache_service.increment("push_notifications_sent")
-            return True
+            if db is None:
+                from app.db.database import SessionLocal
+                db = SessionLocal()
+                try:
+                    count = send_push_to_user(
+                        db,
+                        uuid.UUID(str(user_id)),
+                        title=title,
+                        body=body,
+                        url=url,
+                        tag=tag,
+                    )
+                finally:
+                    db.close()
+            else:
+                count = send_push_to_user(
+                    db,
+                    uuid.UUID(str(user_id)),
+                    title=title,
+                    body=body,
+                    url=url,
+                    tag=tag,
+                )
+            if count:
+                await cache_service.increment("push_notifications_sent")
+            return count > 0
         except Exception as e:
             logger.error(f"Push notification error: {str(e)}")
             return False

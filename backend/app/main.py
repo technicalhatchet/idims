@@ -28,7 +28,7 @@ from app.routers import (
     #inventory,
     quotes, technicians, notifications, reports, public,
     media, mobile, admin, chat, dashboard, properties, app_settings,
-    health, users, debug, services, skills, stripe, distance, dma, job_economics
+    health, users, debug, services, skills, stripe, distance, dma, job_economics, push
 )
 from app.core.middleware import (
     RequestLoggingMiddleware, 
@@ -745,6 +745,7 @@ app.include_router(skills.router, prefix="/api/skills", tags=["skills"])
 app.include_router(stripe.router, prefix="/api/stripe", tags=["stripe"])
 app.include_router(properties.router, prefix="/api/properties", tags=["properties"])
 app.include_router(public.router, prefix="/api/public", tags=["public"])
+app.include_router(push.router, prefix="/api/push", tags=["push"])
 app.include_router(app_settings.router, prefix="/api/settings", tags=["settings"])
 from app.routers import client_portal
 app.include_router(client_portal.router, prefix="/api", tags=["client-portal"])

@@ -213,6 +213,28 @@ def _booking_address_to_location(address: str) -> dict:
     return {"address": trimmed} if trimmed else {}
 
 
+def _push_pending_work_order(work_order_id: str) -> None:
+    """Background task: notify staff via web push for a new pending work order."""
+    import uuid as uuid_mod
+
+    from app.db.database import SessionLocal
+    from app.services.web_push_service import notify_pending_work_order
+
+    db = SessionLocal()
+    try:
+        wo = (
+            db.query(WorkOrder)
+            .filter(WorkOrder.id == uuid_mod.UUID(work_order_id))
+            .first()
+        )
+        if wo:
+            notify_pending_work_order(db, wo)
+    except Exception as exc:
+        logger.warning("Push for pending work order %s failed: %s", work_order_id, exc)
+    finally:
+        db.close()
+
+
 def send_booking_notification(
     booking_name: str,
     booking_phone: str,
@@ -494,6 +516,8 @@ async def create_booking(
         db.add(work_order)
         db.commit()
         db.refresh(work_order)
+
+        background_tasks.add_task(_push_pending_work_order, str(work_order.id))
 
         background_tasks.add_task(
             send_booking_notification,

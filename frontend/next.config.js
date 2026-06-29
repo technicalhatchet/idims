@@ -4,6 +4,7 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
+  customWorkerDir: 'worker',
   // Offline data lives in IndexedDB (prefetch.js + useOfflineData), NOT in the SW.
   // The SW only caches the app shell + static assets so techboard loads with no network.
   // Do NOT add Railway / Auth0 / any API URL to runtimeCaching — Workbox intercept breaks CORS.

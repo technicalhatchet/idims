@@ -89,6 +89,13 @@ class Settings(BaseModel):
     MAPS_API_KEY: Optional[str] = Field(default_factory=lambda: os.getenv("MAPS_API_KEY", ""))
     MAPS_PROVIDER: str = "google"
     MAPS_CACHE_TTL: int = 86400
+
+    # Web Push (VAPID) — generate with: npx web-push generate-vapid-keys
+    VAPID_PUBLIC_KEY: str = Field(default_factory=lambda: os.getenv("VAPID_PUBLIC_KEY", ""))
+    VAPID_PRIVATE_KEY: str = Field(default_factory=lambda: os.getenv("VAPID_PRIVATE_KEY", ""))
+    VAPID_SUBJECT: str = Field(
+        default_factory=lambda: os.getenv("VAPID_SUBJECT", "mailto:service@atomicrepair.com")
+    )
     
     # Security settings
     PASSWORD_HASH_ALGORITHM: str = "bcrypt"
@@ -275,6 +282,11 @@ class Settings(BaseModel):
     MAPS_API_KEY: Optional[str] = Field(default=os.getenv("MAPS_API_KEY", ""))
     MAPS_PROVIDER: str = "google"  # google, mapbox, here, etc.
     MAPS_CACHE_TTL: int = 86400  # 24 hours in seconds
+
+    # Web Push (VAPID)
+    VAPID_PUBLIC_KEY: str = Field(default=os.getenv("VAPID_PUBLIC_KEY", ""))
+    VAPID_PRIVATE_KEY: str = Field(default=os.getenv("VAPID_PRIVATE_KEY", ""))
+    VAPID_SUBJECT: str = Field(default=os.getenv("VAPID_SUBJECT", "mailto:service@atomicrepair.com"))
     
     # Security settings
     PASSWORD_HASH_ALGORITHM: str = "bcrypt"

@@ -736,6 +736,11 @@ class WorkOrderService:
                             scheduled_time=work_order.scheduled_start.isoformat(),
                             hours_before=1
                         )
+
+            if (work_order.status or "").lower() == "pending":
+                from app.services.web_push_service import notify_pending_work_order
+
+                notify_pending_work_order(db, work_order)
         except Exception as e:
             # Log error but don't fail the work order creation
             logger.error(f"Error scheduling notifications: {str(e)}")
@@ -1256,6 +1261,7 @@ class WorkOrderService:
         original_start_time = appointment.scheduled_start
         original_technician_id = appointment.assigned_technician_id
         original_status = activity._status_val(appointment.status)
+        push_status_change = None
         original_service_ids = set(s.id for s in appointment.services) # Assuming 'services' relationship exists
 
         # Update fields from appointment_data
@@ -1366,6 +1372,7 @@ class WorkOrderService:
                     previous_appointment_status=original_status,
                     after_billing=True,
                 )
+            push_status_change = (original_status, normalized_status)
         
         appointment.updated_at = datetime.utcnow()
         appointment.updated_by = user_id
@@ -1587,6 +1594,13 @@ class WorkOrderService:
         
         self.db.commit()
         self.db.refresh(appointment)
+
+        if push_status_change:
+            from app.services.web_push_service import handle_appointment_status_push
+
+            handle_appointment_status_push(
+                self.db, appointment, push_status_change[0], push_status_change[1]
+            )
         
         return appointment
     

@@ -64,6 +64,12 @@ def setup_background_tasks():
                         "task": "app.background.tasks.maintenance.perform_db_maintenance",
                         "schedule": 604800,  # 7 days
                     },
+
+                    # Deploy reminders (en_route → in_progress nudge) — every minute
+                    "process-deploy-reminders": {
+                        "task": "app.background.tasks.push.process_deploy_reminders",
+                        "schedule": 60,
+                    },
                 }
             )
 
