@@ -219,7 +219,7 @@ def _send_deploy_nudge(
         return False
 
     order_label = work_order.order_number or str(work_order.id)[:8]
-    url = f"/techboard?wo={work_order.id}"
+    url = f"/work_orders/{work_order.id}/mobile"
     tag = f"deploy-{appointment.id}"
     count = send_push_to_user(
         db,
@@ -330,7 +330,7 @@ def check_deploy_proximity(
         notify_user,
         title="Tap In Progress",
         body=f"You're at the job site for #{order_label}. Mark the visit in progress.",
-        url=f"/techboard?wo={work_order.id}",
+        url=f"/work_orders/{work_order.id}/mobile",
         tag=f"deploy-{appointment.id}",
     )
     reminder.sent_at = datetime.utcnow()
@@ -363,7 +363,7 @@ def notify_pending_work_order(db: Session, work_order: WorkOrder) -> int:
         return 0
 
     order_label = work_order.order_number or str(work_order.id)[:8]
-    url = f"/work-orders/{work_order.id}"
+    url = f"/work_orders/{work_order.id}/mobile"
     total = 0
     for user in recipients:
         total += send_push_to_user(
