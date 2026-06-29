@@ -7,6 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import StatusBadge from '../../components/ui/StatusBadge';
+import MapsNavigateButton from '../../components/ui/MapsNavigateButton';
 import { apiClient } from '../../utils/api-client';
 import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
