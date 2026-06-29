@@ -294,17 +294,13 @@ function WorkOrderDetail() {
   }, [theme.mode]);
 
   useEffect(() => {
+    if (!mobileMoreOpen) return undefined;
     function onPointerDown(e) {
-      if (!mobileMoreOpen) return;
       if (mobileMoreRef.current?.contains(e.target)) return;
       setMobileMoreOpen(false);
     }
-    document.addEventListener('mousedown', onPointerDown);
-    document.addEventListener('touchstart', onPointerDown);
-    return () => {
-      document.removeEventListener('mousedown', onPointerDown);
-      document.removeEventListener('touchstart', onPointerDown);
-    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
   }, [mobileMoreOpen]);
 
 
@@ -631,71 +627,71 @@ function WorkOrderDetail() {
                       </p>
                     </div>
             {/* Mobile ⋯ */}
-            <div className="relative shrink-0 md:hidden" ref={mobileMoreRef}>
+            <div className="relative shrink-0 md:hidden z-[20]" ref={mobileMoreRef}>
               <button
                 type="button"
                 onClick={() => setMobileMoreOpen((o) => !o)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/12 bg-[#0D1525] text-gray-300 active:bg-white/5"
+                className="touch-target inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/12 bg-[#0D1525] text-gray-300 active:bg-white/5"
                 aria-expanded={mobileMoreOpen}
                 aria-label="More actions"
               >
                 <FaEllipsisH className="text-lg" />
               </button>
               {mobileMoreOpen && (
-                <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-white/10 bg-[#0D1525] py-1 shadow-xl z-[1198] ring-1 ring-black/40">
+                <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-white/10 bg-[#0D1525] py-1 shadow-xl z-[1300] ring-1 ring-black/40">
                   {!woReadOnly && (
                   <Link
                     href={`/work_orders/${id}/womobile_edit`}
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 active:bg-white/10"
+                    className="flex min-h-[48px] items-center gap-2 px-4 py-3 text-base text-gray-200 hover:bg-white/5 active:bg-white/10 touch-manipulation"
                     onClick={() => setMobileMoreOpen(false)}
                   >
-                    <FaEdit className="opacity-70" /> Edit work order
+                    <FaEdit className="opacity-70 shrink-0" /> Edit work order
                   </Link>
                   )}
                   <button
                     type="button"
-                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5"
+                    className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-gray-200 hover:bg-white/5 touch-manipulation"
                     onClick={() => {
                       setMobileMoreOpen(false);
                       window.print();
                     }}
                   >
-                    <FaPrint className="opacity-70" /> Print
+                    <FaPrint className="opacity-70 shrink-0" /> Print
                   </button>
                   {!woReadOnly && (
                   <button
                     type="button"
-                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5"
+                    className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-gray-200 hover:bg-white/5 touch-manipulation"
                     onClick={() => {
                       setMobileMoreOpen(false);
                       setDeleteModalError(null);
                       setShowStatusModal(true);
                     }}
                   >
-                    <FaExclamationTriangle className="opacity-70" /> Update status
+                    <FaExclamationTriangle className="opacity-70 shrink-0" /> Update status
                   </button>
                   )}
                   {showReopenAction && (
                     <button
                       type="button"
-                      className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-200 hover:bg-white/5 disabled:opacity-50"
+                      className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-gray-200 hover:bg-white/5 touch-manipulation"
                       disabled={lifecycleBusy}
                       onClick={handleReopen}
                     >
-                      <FaLock className="opacity-70" /> Reopen order
+                      <FaLock className="opacity-70 shrink-0" /> Reopen order
                     </button>
                   )}
                   {isManager && (
                     <button
                       type="button"
-                      className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-red-400 hover:bg-white/5"
+                      className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-red-400 hover:bg-white/5 touch-manipulation"
                       onClick={() => {
                         setMobileMoreOpen(false);
                         setDeleteModalError(null);
                         setShowDeleteModal(true);
                       }}
                     >
-                      Delete…
+                      Delete work order
                     </button>
                   )}
                 </div>
@@ -2243,18 +2239,18 @@ function WorkOrderDetail() {
               />
             </div>
             
-            <div className="flex justify-end space-x-2">
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setShowStatusModal(false)}
-                className="btn-secondary"
+                className="btn-secondary w-full sm:w-auto touch-manipulation"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleStatusUpdate}
-                className="btn-primary"
+                className="btn-primary w-full sm:w-auto touch-manipulation"
                 disabled={!newStatus || isMutating}
               >
                 {isMutating ? 'Updating...' : 'Update Status'}
@@ -2280,18 +2276,18 @@ function WorkOrderDetail() {
               <ErrorAlert message={deleteModalError} />
             )}
             
-            <div className="flex justify-end space-x-2">
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setShowDeleteModal(false)}
-                className="btn-secondary"
+                className="btn-secondary w-full sm:w-auto touch-manipulation"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleDelete}
-                className="btn-danger"
+                className="btn-danger w-full sm:w-auto touch-manipulation"
                 disabled={isMutating}
               >
                 {isMutating ? 'Deleting...' : 'Delete Work Order'}

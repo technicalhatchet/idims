@@ -109,8 +109,16 @@
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .btn-primary, .btn-secondary, .btn-danger, .btn-success, .btn-outline {
-    @apply px-3 py-1.5 text-sm;
+    @apply px-4 py-3 text-base min-h-[48px];
   }
+}
+
+/* Reliable mobile taps — 44px+ targets, no double-tap zoom delay */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Neon glow utilities */

@@ -33,15 +33,15 @@ export default function Modal({
   if (!isOpen || typeof document === 'undefined') return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-0 sm:p-6 touch-manipulation">
       <div
-        className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity touch-none"
         onClick={preventClose ? () => {} : onClose}
         aria-hidden="true"
       />
 
       <div
-        className={`relative z-[1] w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl`}
+        className={`relative z-[1] w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-lg text-left overflow-hidden shadow-xl max-h-[90vh] overflow-y-auto`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
@@ -50,19 +50,19 @@ export default function Modal({
           <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-gray-200 dark:border-gray-700 sm:px-6 flex justify-between items-center">
             <h3
               id="modal-title"
-              className="text-lg leading-6 font-medium text-gray-900 dark:text-white"
+              className="text-lg leading-6 font-medium text-gray-900 dark:text-white pr-2"
             >
               {title}
             </h3>
             {!preventClose && (
               <button
                 type="button"
-                className="text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
+                className="touch-target inline-flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300 shrink-0"
                 onClick={onClose}
                 ref={cancelButtonRef}
                 aria-label="Close"
               >
-                <FaTimes />
+                <FaTimes className="h-5 w-5" />
               </button>
             )}
           </div>
