@@ -31,6 +31,11 @@ const withPWA = require('next-pwa')({
         },
       },
     },
+    // Never cache Next.js data routes — build ID changes every deploy; stale cache = 404 spam
+    {
+      urlPattern: /\/_next\/data\/.*/i,
+      handler: 'NetworkOnly',
+    },
     // Next.js static assets — cache first, they have content hashes so safe to cache forever
     {
       urlPattern: /\/_next\/static\/.*/i,

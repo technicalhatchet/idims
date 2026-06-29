@@ -110,6 +110,8 @@ class ClientUpdate(BaseModel):
 
 class ClientResponse(ClientBase):
     """Client response schema"""
+    # Allow legacy/non-RFC emails already stored in DB (EmailStr would 500 the list endpoint).
+    email: Optional[str] = None
     id: UUID
     created_at: datetime
     updated_at: datetime

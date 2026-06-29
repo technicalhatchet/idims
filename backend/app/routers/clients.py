@@ -27,8 +27,54 @@ logger = logging.getLogger(__name__)
 STAFF_ROLES = frozenset({"admin", "manager", "technician"})
 
 
-def _is_staff_user(roles: Optional[List[str]]) -> bool:
-    return bool(roles and any(r in STAFF_ROLES for r in roles))
+def _normalize_roles(roles) -> List[str]:
+    if not roles:
+        return []
+    if isinstance(roles, list):
+        return [str(r) for r in roles]
+    if isinstance(roles, str):
+        try:
+            import json
+            parsed = json.loads(roles)
+            if isinstance(parsed, list):
+                return [str(r) for r in parsed]
+        except (json.JSONDecodeError, TypeError):
+            pass
+        return [part.strip() for part in roles.split(",") if part.strip()]
+    return [str(roles)]
+
+
+def _serialize_client_for_list(client: Client) -> dict:
+    status = client.status.value if hasattr(client.status, "value") else client.status
+    return {
+        "id": client.id,
+        "company_name": client.company_name,
+        "first_name": client.first_name,
+        "last_name": client.last_name,
+        "email": client.email or None,
+        "phone": client.phone,
+        "mobile": client.mobile,
+        "address": client.address,
+        "billing_address": client.billing_address,
+        "shipping_address": client.shipping_address,
+        "notes": client.notes,
+        "status": status,
+        "source": client.source,
+        "tags": client.tags,
+        "custom_fields": client.custom_fields,
+        "tax_id": client.tax_id,
+        "payment_terms": client.payment_terms,
+        "credit_limit": client.credit_limit,
+        "created_at": client.created_at,
+        "updated_at": client.updated_at,
+        "created_by": client.created_by,
+        "updated_by": getattr(client, "updated_by", None),
+    }
+
+
+def _is_staff_user(roles) -> bool:
+    normalized = _normalize_roles(roles)
+    return bool(normalized and any(r in STAFF_ROLES for r in normalized))
 
 # New schema for registration email
 class RegistrationEmailData(BaseModel):
@@ -114,24 +160,33 @@ async def list_clients(
     List clients with filtering and pagination.
     Permissions: All authenticated users can access, but regular clients only see themselves.
     """
-    user_roles = current_user.roles or []
+    user_roles = _normalize_roles(getattr(current_user, "roles", None))
     if "client" in user_roles and not _is_staff_user(user_roles):
         # Clients can only view their own data
         client = db.query(Client).filter(Client.user_id == current_user.id).first()
         if not client:
             raise NotFoundException("Client profile not found")
-        
-        # Return only this client's data
+
         return {
             "total": 1,
-            "items": [client],
+            "items": [_serialize_client_for_list(client)],
             "page": 1,
-            "pages": 1
+            "pages": 1,
         }
-    
+
     # For staff, get all clients with filters
     skip = (page - 1) * limit
-    return await ClientService.get_clients(db, search=search, status=status, skip=skip, limit=limit)
+    try:
+        result = await ClientService.get_clients(db, search=search, status=status, skip=skip, limit=limit)
+        return {
+            "total": result["total"],
+            "items": [_serialize_client_for_list(c) for c in result["items"]],
+            "page": result["page"],
+            "pages": result["pages"],
+        }
+    except Exception as e:
+        logger.exception("list_clients failed")
+        raise HTTPException(status_code=500, detail=f"Failed to load clients: {e}")
 
 @router.post("", response_model=ClientResponse, status_code=status.HTTP_201_CREATED, include_in_schema=False)
 @router.post("/", response_model=ClientResponse, status_code=status.HTTP_201_CREATED)
@@ -161,7 +216,7 @@ async def get_client(
     Get a specific client by ID.
     Permissions: Staff can access any client, clients can only access themselves.
     """
-    user_roles = current_user.roles or []
+    user_roles = _normalize_roles(getattr(current_user, "roles", None))
     if "client" in user_roles and not _is_staff_user(user_roles):
         # Clients can only view their own data
         client = db.query(Client).filter(Client.user_id == current_user.id).first()

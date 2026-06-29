@@ -318,11 +318,17 @@ export default function ClientDashboard() {
     setInvoices([]);
   };
 
-  // Admin with no client selected — show picker
+  // Admin with no client selected — show picker (or load error)
   if (isAdmin && !selectedClient) {
     return (
       <>
         <Head><title>Client Portal Preview | Atomic Repair</title></Head>
+        {error && (
+          <div className="max-w-lg mx-auto mt-8 mb-4 p-4 rounded-lg border border-red-500/30 bg-red-500/10 text-red-300 text-sm">
+            <p className="font-medium mb-1">Could not load client list</p>
+            <p className="text-red-200/80">{error}</p>
+          </div>
+        )}
         <ClientPicker clients={clients} onSelect={handleSelectClient} loading={clientsLoading} />
       </>
     );
