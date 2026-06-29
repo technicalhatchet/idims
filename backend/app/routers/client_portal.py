@@ -15,6 +15,7 @@ import os
 import jwt
 import requests
 import uuid
+from urllib.parse import quote
 
 from app.db.database import get_db
 from app.core.auth import get_auth_handler
@@ -124,25 +125,58 @@ async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(sec
     return await auth_handler.verify_token(credentials.credentials)
 
 
-def _assign_client_role(auth0_user_id: str) -> None:
-    """Assign Auth0 client role so portal JWT includes https://idimsapi/app_metadata.roles."""
+def _assign_client_role(auth0_user_id: str) -> bool:
+    """Assign Auth0 client role so Post-Login Action can add https://idimsapi/app_metadata.roles."""
     try:
         auth_handler = get_auth_handler()
         management_token = auth_handler.get_client_credentials_token()
-        auth0_api_url = f"https://{auth_handler.domain}/api/v2/users/{auth0_user_id}/roles"
+        encoded_user_id = quote(auth0_user_id, safe="")
+        roles_url = f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}/roles"
+        headers = {
+            "Authorization": f"Bearer {management_token}",
+            "Content-Type": "application/json",
+        }
+
+        existing = requests.get(roles_url, headers=headers, timeout=15)
+        existing.raise_for_status()
+        for role in existing.json() or []:
+            if role.get("id") == CLIENT_ROLE_ID or role.get("name") == "client":
+                logger.info(f"[LinkAccount] User {auth0_user_id} already has client role")
+                return True
+
         response = requests.post(
-            auth0_api_url,
-            headers={
-                "Authorization": f"Bearer {management_token}",
-                "Content-Type": "application/json",
-            },
+            roles_url,
+            headers=headers,
             json={"roles": [CLIENT_ROLE_ID]},
             timeout=15,
         )
         response.raise_for_status()
         logger.info(f"[LinkAccount] Assigned client role to {auth0_user_id}")
+        return True
     except Exception as e:
-        logger.error(f"[LinkAccount] Client role assignment failed: {e}")
+        logger.error(f"[LinkAccount] Client role assignment failed for {auth0_user_id}: {e}")
+        return False
+
+
+def _link_account_response(
+    *,
+    client: Client,
+    already_linked: bool,
+    role_assigned: bool,
+) -> dict:
+    payload = {
+        "success": True,
+        "already_linked": already_linked,
+        "role_assigned": role_assigned,
+        "client_id": str(client.id),
+        "client_name": f"{client.first_name} {client.last_name}",
+    }
+    if not role_assigned:
+        payload["role_warning"] = (
+            "Account linked but Auth0 client role could not be assigned. "
+            "Check AUTH0_MGMT_CLIENT_ID/SECRET on the API and Management API scopes."
+        )
+    return payload
 
 
 async def get_portal_client(
@@ -213,12 +247,12 @@ async def link_portal_account(
 
     existing = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
     if existing:
-        return {
-            "success": True,
-            "already_linked": True,
-            "client_id": str(existing.id),
-            "client_name": f"{existing.first_name} {existing.last_name}",
-        }
+        role_assigned = _assign_client_role(auth0_user_id)
+        return _link_account_response(
+            client=existing,
+            already_linked=True,
+            role_assigned=role_assigned,
+        )
 
     client = None
 
@@ -251,25 +285,23 @@ async def link_portal_account(
         )
 
     if client.auth0_user_id == auth0_user_id:
-        return {
-            "success": True,
-            "already_linked": True,
-            "client_id": str(client.id),
-            "client_name": f"{client.first_name} {client.last_name}",
-        }
+        role_assigned = _assign_client_role(auth0_user_id)
+        return _link_account_response(
+            client=client,
+            already_linked=True,
+            role_assigned=role_assigned,
+        )
 
     client.auth0_user_id = auth0_user_id
     db.commit()
     db.refresh(client)
 
-    _assign_client_role(auth0_user_id)
-
-    return {
-        "success": True,
-        "already_linked": False,
-        "client_id": str(client.id),
-        "client_name": f"{client.first_name} {client.last_name}",
-    }
+    role_assigned = _assign_client_role(auth0_user_id)
+    return _link_account_response(
+        client=client,
+        already_linked=False,
+        role_assigned=role_assigned,
+    )
 
 
 @router.get("/portal/me")

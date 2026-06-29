@@ -1,5 +1,5 @@
 // Enhanced API client with improved token handling and debugging
-import { getSession } from './auth';
+import { isPublicPath } from '../lib/routeAccess';
 
 // Error types for better error handling
 export const ErrorTypes = {
@@ -289,6 +289,7 @@ export async function apiClient(endpoint, options = {}) {
     timeoutMs = DEFAULT_API_TIMEOUT_MS,
     signal: callerSignal,
     auth: authOption,
+    redirectOnUnauthorized,
     ...fetchableOptions
   } = options
 
@@ -350,15 +351,20 @@ export async function apiClient(endpoint, options = {}) {
 
     // Handle errors
     if (!response.ok) {
-    if (response.status === 401) {
-    console.warn("Unauthorized API request - redirecting to login");
-    tokenCache = { token: null, expiresAt: null };
-      if (isBrowser) {
-            const returnTo = encodeURIComponent(window.location.pathname + window.location.search);
-            window.location.href = `/api/auth/login?returnTo=${returnTo}`;
-            return null;
-          }
-        } else if (response.status === 405) {
+      if (response.status === 401) {
+        tokenCache = { token: null, expiresAt: null };
+        const onPublicPage = isBrowser && isPublicPath(window.location.pathname);
+        const shouldRedirect =
+          redirectOnUnauthorized === true ||
+          (redirectOnUnauthorized !== false && !onPublicPage);
+
+        if (shouldRedirect && isBrowser) {
+          console.warn('Unauthorized API request — redirecting to login');
+          const returnTo = encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href = `/api/auth/login?returnTo=${returnTo}`;
+          return null;
+        }
+      } else if (response.status === 405) {
         console.error("Method Not Allowed - the endpoint exists but doesn't support this HTTP method")
       } else if (response.status === 404) {
         console.error(`Endpoint not found: ${url}`)

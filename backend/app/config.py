@@ -46,6 +46,8 @@ class Settings(BaseModel):
     AUTH0_API_AUDIENCE: str = Field(default_factory=lambda: os.getenv("AUTH0_API_AUDIENCE", "https://idimsapi"))
     AUTH0_ISSUER: Optional[str] = None
     AUTH0_ALGORITHMS: List[str] = ["RS256"]
+    AUTH0_MGMT_CLIENT_ID: str = Field(default_factory=lambda: os.getenv("AUTH0_MGMT_CLIENT_ID", ""))
+    AUTH0_MGMT_CLIENT_SECRET: str = Field(default_factory=lambda: os.getenv("AUTH0_MGMT_CLIENT_SECRET", ""))
     
     # CORS settings
     CORS_ORIGINS: List[str] = ["*"]
@@ -240,6 +242,8 @@ class Settings(BaseModel):
     AUTH0_API_AUDIENCE: str = Field(default="https://idimsapi")
     AUTH0_ISSUER: Optional[str] = None
     AUTH0_ALGORITHMS: List[str] = ["RS256"]
+    AUTH0_MGMT_CLIENT_ID: str = Field(default_factory=lambda: os.getenv("AUTH0_MGMT_CLIENT_ID", ""))
+    AUTH0_MGMT_CLIENT_SECRET: str = Field(default_factory=lambda: os.getenv("AUTH0_MGMT_CLIENT_SECRET", ""))
     
     # CORS settings
     CORS_ORIGINS: List[str] = ["*"]

@@ -117,6 +117,9 @@ class TokenData(BaseModel):
 
 class AuthHandler:
     """Auth0 Authentication Handler for verifying JWTs"""
+
+    _mgmt_token_cache: Optional[str] = None
+    _mgmt_token_expires_at: Optional[datetime] = None
     
     def __init__(self, domain: str, audience: str):
         self.domain = domain
@@ -125,6 +128,45 @@ class AuthHandler:
         self.jwks = None
         self.jwks_last_updated = None
         self.algorithm = "RS256"  # Auth0 uses RS256 by default
+
+    def get_client_credentials_token(self) -> str:
+        """Auth0 Management API token (client credentials)."""
+        now = datetime.utcnow()
+        if (
+            AuthHandler._mgmt_token_cache
+            and AuthHandler._mgmt_token_expires_at
+            and now < AuthHandler._mgmt_token_expires_at
+        ):
+            return AuthHandler._mgmt_token_cache
+
+        mgmt_client_id = settings.AUTH0_MGMT_CLIENT_ID or settings.AUTH0_CLIENT_ID
+        mgmt_client_secret = settings.AUTH0_MGMT_CLIENT_SECRET or settings.AUTH0_CLIENT_SECRET
+        if not mgmt_client_id or not mgmt_client_secret:
+            raise ValueError(
+                "Auth0 Management API credentials missing "
+                "(set AUTH0_MGMT_CLIENT_ID and AUTH0_MGMT_CLIENT_SECRET)"
+            )
+
+        response = requests.post(
+            f"https://{self.domain}/oauth/token",
+            json={
+                "grant_type": "client_credentials",
+                "client_id": mgmt_client_id,
+                "client_secret": mgmt_client_secret,
+                "audience": f"https://{self.domain}/api/v2/",
+            },
+            timeout=15,
+        )
+        response.raise_for_status()
+        data = response.json()
+        token = data.get("access_token")
+        if not token:
+            raise ValueError("Auth0 Management API token response missing access_token")
+
+        expires_in = int(data.get("expires_in") or 3600)
+        AuthHandler._mgmt_token_cache = token
+        AuthHandler._mgmt_token_expires_at = now + timedelta(seconds=max(expires_in - 60, 60))
+        return token
         
     async def get_jwks(self) -> Dict[str, Any]:
         """Fetch the JWKS from Auth0"""
