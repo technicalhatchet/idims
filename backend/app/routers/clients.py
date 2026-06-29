@@ -19,7 +19,7 @@ from app.services.client_service import ClientService
 from app.services.notification_service import NotificationService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 from app.core.dependencies import get_admin_or_manager_user
-from app.config import settings
+from app.config import settings, get_portal_invite_secret
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -359,7 +359,12 @@ async def send_portal_invite(
         raise HTTPException(status_code=400, detail="Client has no email address on file")
 
     # Generate signed JWT invite token — expires in 7 days
-    secret = settings.PORTAL_INVITE_SECRET
+    secret = get_portal_invite_secret()
+    if not secret:
+        raise HTTPException(
+            status_code=500,
+            detail="Portal invite signing is not configured. Set PORTAL_INVITE_SECRET (or SECRET_KEY) on the server.",
+        )
     payload = {
         "client_id": str(client.id),
         "first_name": client.first_name,
@@ -370,7 +375,7 @@ async def send_portal_invite(
         "iat": datetime.utcnow(),
     }
     token = jwt.encode(payload, secret, algorithm="HS256")
-    invite_url = f"{os.getenv('FRONTEND_URL', 'https://v0-idims.vercel.app')}/cxdashboard/register?token={token}"
+    invite_url = f"{settings.FRONTEND_URL.rstrip('/')}/cxdashboard/register?token={token}"
 
     # Send email via Resend
     import httpx

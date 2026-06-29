@@ -38,11 +38,16 @@ export default function PortalRegister() {
   }, [token]);
 
   const handleRegister = () => {
-    // Store token in sessionStorage so it survives the Auth0 redirect
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('portal_invite_token', token);
+    if (typeof window === 'undefined') return;
+    sessionStorage.setItem('portal_invite_token', token);
+    const params = new URLSearchParams({
+      returnTo: '/cxdashboard',
+      screen_hint: 'signup',
+    });
+    if (clientInfo?.email) {
+      params.set('login_hint', clientInfo.email);
     }
-    window.location.href = `/api/auth/login?returnTo=/cxdashboard`;
+    window.location.href = `/api/auth/login?${params.toString()}`;
   };
 
   return (
@@ -134,7 +139,8 @@ export default function PortalRegister() {
               </button>
 
               <p style={{ color: '#6b7280', fontSize: '0.75rem', textAlign: 'center', marginTop: '1rem' }}>
-                By creating an account you agree to receive service updates from Atomic Repair.
+                Use the email shown above when creating your account.
+                Signing in with a different Google or Apple email will not link to this client record.
               </p>
             </div>
           )}

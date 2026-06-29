@@ -13,15 +13,19 @@ from pydantic import BaseModel
 import logging
 import os
 import jwt
+import requests
 
 from app.db.database import get_db
 from app.core.auth import get_auth_handler
+from app.config import get_portal_invite_secret
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.models.property import Property
 from app.utils.portal_estimate import portal_estimate_meta
 
 logger = logging.getLogger(__name__)
+
+CLIENT_ROLE_ID = "rol_okGmH3pkFUu0YXWi"
 
 security = HTTPBearer()
 
@@ -119,6 +123,27 @@ async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(sec
     return await auth_handler.verify_token(credentials.credentials)
 
 
+def _assign_client_role(auth0_user_id: str) -> None:
+    """Assign Auth0 client role so portal JWT includes https://idimsapi/app_metadata.roles."""
+    try:
+        auth_handler = get_auth_handler()
+        management_token = auth_handler.get_client_credentials_token()
+        auth0_api_url = f"https://{auth_handler.domain}/api/v2/users/{auth0_user_id}/roles"
+        response = requests.post(
+            auth0_api_url,
+            headers={
+                "Authorization": f"Bearer {management_token}",
+                "Content-Type": "application/json",
+            },
+            json={"roles": [CLIENT_ROLE_ID]},
+            timeout=15,
+        )
+        response.raise_for_status()
+        logger.info(f"[LinkAccount] Assigned client role to {auth0_user_id}")
+    except Exception as e:
+        logger.error(f"[LinkAccount] Client role assignment failed: {e}")
+
+
 async def get_portal_client(
     token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
@@ -146,6 +171,15 @@ async def get_portal_client(
     if is_client:
         auth0_user_id = token_data.sub
         client = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
+        if not client:
+            email = (token_data.email or "").lower().strip()
+            if email:
+                client = db.query(Client).filter(Client.email == email).first()
+                if client and not client.auth0_user_id:
+                    client.auth0_user_id = auth0_user_id
+                    db.commit()
+                    db.refresh(client)
+                    logger.info(f"[Portal] Auto-linked client {client.id} to {auth0_user_id} via email")
         if not client:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -181,14 +215,15 @@ async def link_portal_account(
     client = None
 
     if body.invite_token:
-        secret = os.getenv("PORTAL_INVITE_SECRET")
-        try:
-            payload = jwt.decode(body.invite_token, secret, algorithms=["HS256"])
-            client_id = payload.get("client_id")
-            if client_id:
-                client = db.query(Client).filter(Client.id == client_id).first()
-        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as e:
-            logger.warning(f"[LinkAccount] Token error: {e}")
+        secret = get_portal_invite_secret()
+        if secret:
+            try:
+                payload = jwt.decode(body.invite_token, secret, algorithms=["HS256"])
+                client_id = payload.get("client_id")
+                if client_id:
+                    client = db.query(Client).filter(Client.id == client_id).first()
+            except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as e:
+                logger.warning(f"[LinkAccount] Token error: {e}")
 
     if not client and body.email:
         client = db.query(Client).filter(
@@ -201,9 +236,25 @@ async def link_portal_account(
             detail="No client record found. Please contact Atomic Repair to get access."
         )
 
+    if client.auth0_user_id and client.auth0_user_id != auth0_user_id:
+        raise HTTPException(
+            status_code=409,
+            detail="This client record is already linked to a different login.",
+        )
+
+    if client.auth0_user_id == auth0_user_id:
+        return {
+            "success": True,
+            "already_linked": True,
+            "client_id": str(client.id),
+            "client_name": f"{client.first_name} {client.last_name}",
+        }
+
     client.auth0_user_id = auth0_user_id
     db.commit()
     db.refresh(client)
+
+    _assign_client_role(auth0_user_id)
 
     return {
         "success": True,

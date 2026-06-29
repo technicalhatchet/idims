@@ -88,13 +88,21 @@ async function autoAssignRole(user, accessToken) {
 }
 
 export default handleAuth({
-  login: handleLogin((req) => ({
-    authorizationParams: {
+  login: handleLogin((req) => {
+    const authorizationParams = {
       scope: 'openid profile email offline_access',
-    },
-    // If returnTo is specified, use it; otherwise use auth-router for role-based redirect
-    returnTo: req.query.returnTo || '/auth-router',
-  })),
+    };
+    if (req.query.login_hint) {
+      authorizationParams.login_hint = String(req.query.login_hint);
+    }
+    if (req.query.screen_hint) {
+      authorizationParams.screen_hint = String(req.query.screen_hint);
+    }
+    return {
+      authorizationParams,
+      returnTo: req.query.returnTo || '/auth-router',
+    };
+  }),
 
   callback: handleCallback({
     async onError(req, res, error) {

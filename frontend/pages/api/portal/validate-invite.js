@@ -17,7 +17,13 @@ export default function handler(req, res) {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.PORTAL_INVITE_SECRET);
+    const secret = process.env.PORTAL_INVITE_SECRET || process.env.SECRET_KEY;
+    if (!secret) {
+      console.error('PORTAL_INVITE_SECRET is not configured');
+      return res.status(500).json({ valid: false, message: 'Invite validation is not configured on the server.' });
+    }
+
+    const payload = jwt.verify(token, secret);
 
     // Token is valid — return client info (non-sensitive)
     return res.status(200).json({

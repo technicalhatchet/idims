@@ -418,3 +418,8 @@ def get_settings():
 
 # Initialize settings
 settings = get_settings()
+
+
+def get_portal_invite_secret() -> str:
+    """Shared secret for signing client portal invite JWTs (backend + Next validate-invite)."""
+    return (settings.PORTAL_INVITE_SECRET or settings.SECRET_KEY or "").strip()

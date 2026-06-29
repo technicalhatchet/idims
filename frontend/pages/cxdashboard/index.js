@@ -25,7 +25,11 @@ async function portalFetch(endpoint, accessToken, impersonateClientId = null) {
       'Content-Type': 'application/json',
     },
   });
-  if (!res.ok) throw new Error(`Portal API error: ${res.status}`);
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    const detail = body.detail || res.statusText;
+    throw new Error(detail || `Portal API error: ${res.status}`);
+  }
   return res.json();
 }
 
@@ -184,13 +188,32 @@ export default function ClientDashboard() {
         if (storedInviteToken) {
           sessionStorage.removeItem('portal_invite_token');
           try {
-            await fetch(`${BACKEND}/api/portal/link-account`, {
+            const linkRes = await fetch(`${BACKEND}/api/portal/link-account`, {
               method: 'POST',
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify({ invite_token: storedInviteToken, email: session.user?.email }),
             });
+            if (!linkRes.ok) {
+              const err = await linkRes.json().catch(() => ({}));
+              console.error('[Portal] Link account failed:', err.detail || linkRes.status);
+            } else {
+              // Re-login so the session picks up the newly assigned client role
+              window.location.href = '/api/auth/login?returnTo=/cxdashboard';
+              return;
+            }
           } catch (e) {
             console.error('[Portal] Link account error:', e);
+          }
+        } else if (!adminUser && session.user?.email) {
+          // Heal missing auth0_user_id for returning clients (idempotent if already linked)
+          try {
+            await fetch(`${BACKEND}/api/portal/link-account`, {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: session.user.email }),
+            });
+          } catch (e) {
+            console.warn('[Portal] Auto link-account skipped:', e);
           }
         }
 
