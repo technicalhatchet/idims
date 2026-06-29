@@ -24,6 +24,12 @@ from app.config import settings, get_portal_invite_secret
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
+STAFF_ROLES = frozenset({"admin", "manager", "technician"})
+
+
+def _is_staff_user(roles: Optional[List[str]]) -> bool:
+    return bool(roles and any(r in STAFF_ROLES for r in roles))
+
 # New schema for registration email
 class RegistrationEmailData(BaseModel):
     name: Optional[str] = None
@@ -108,7 +114,8 @@ async def list_clients(
     List clients with filtering and pagination.
     Permissions: All authenticated users can access, but regular clients only see themselves.
     """
-    if "client" in current_user.roles:
+    user_roles = current_user.roles or []
+    if "client" in user_roles and not _is_staff_user(user_roles):
         # Clients can only view their own data
         client = db.query(Client).filter(Client.user_id == current_user.id).first()
         if not client:
@@ -154,7 +161,8 @@ async def get_client(
     Get a specific client by ID.
     Permissions: Staff can access any client, clients can only access themselves.
     """
-    if "client" in current_user.roles:
+    user_roles = current_user.roles or []
+    if "client" in user_roles and not _is_staff_user(user_roles):
         # Clients can only view their own data
         client = db.query(Client).filter(Client.user_id == current_user.id).first()
         if not client or client.id != client_id:

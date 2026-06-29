@@ -12,8 +12,16 @@ import InvoiceList from '../../components/cxdashboard/InvoiceList';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
+const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function isValidClientId(id) {
+  return typeof id === 'string' && CLIENT_ID_RE.test(id);
+}
 
 async function portalFetch(endpoint, accessToken, impersonateClientId = null) {
+  if (impersonateClientId && !isValidClientId(impersonateClientId)) {
+    throw new Error('Invalid client preview selection. Please pick a client again.');
+  }
   const sep = endpoint.includes('?') ? '&' : '?';
   const url = impersonateClientId
     ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateClientId}`
@@ -181,6 +189,7 @@ export default function ClientDashboard() {
         // Check roles
         const roles = session.user?.['https://idimsapi/app_metadata']?.roles || [];
         const adminUser = roles.includes('admin');
+        const staffUser = roles.some((r) => ['admin', 'manager', 'technician'].includes(r));
         setIsAdmin(adminUser);
 
         // If coming from registration, link the account using stored invite token
@@ -204,7 +213,7 @@ export default function ClientDashboard() {
           } catch (e) {
             console.error('[Portal] Link account error:', e);
           }
-        } else if (!adminUser && session.user?.email) {
+        } else if (!staffUser && session.user?.email) {
           // Heal missing auth0_user_id for returning clients (idempotent if already linked)
           try {
             await fetch(`${BACKEND}/api/portal/link-account`, {
@@ -218,16 +227,39 @@ export default function ClientDashboard() {
         }
 
         if (adminUser) {
+          const savedClientId = sessionStorage.getItem('portal_impersonate_client_id');
+          if (savedClientId && !isValidClientId(savedClientId)) {
+            sessionStorage.removeItem('portal_impersonate_client_id');
+            sessionStorage.removeItem('portal_impersonate_client_name');
+          }
+
           // Load client list for picker
           setClientsLoading(true);
           try {
             const res = await fetch(`${BACKEND}/api/clients?page=1&limit=100`, {
               headers: { 'Authorization': `Bearer ${token}` }
             });
+            if (!res.ok) {
+              const err = await res.json().catch(() => ({}));
+              throw new Error(err.detail || `Failed to load clients (${res.status})`);
+            }
             const data = await res.json();
             setClients(data.items || []);
+
+            const validSavedId = sessionStorage.getItem('portal_impersonate_client_id');
+            if (validSavedId && isValidClientId(validSavedId)) {
+              const savedClient = (data.items || []).find((c) => c.id === validSavedId);
+              if (savedClient) {
+                setSelectedClient(savedClient);
+                await loadPortalData(token, savedClient.id);
+                return;
+              }
+              sessionStorage.removeItem('portal_impersonate_client_id');
+              sessionStorage.removeItem('portal_impersonate_client_name');
+            }
           } catch (e) {
             console.error('Failed to load clients:', e);
+            setError(e.message || 'Failed to load clients');
           } finally {
             setClientsLoading(false);
           }

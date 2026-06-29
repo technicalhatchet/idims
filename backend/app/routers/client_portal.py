@@ -14,6 +14,7 @@ import logging
 import os
 import jwt
 import requests
+import uuid
 
 from app.db.database import get_db
 from app.core.auth import get_auth_handler
@@ -153,15 +154,22 @@ async def get_portal_client(
     is_admin = 'admin' in roles
     is_client = 'client' in roles
 
+    parsed_admin_client_id = None
+    if admin_client_id:
+        try:
+            parsed_admin_client_id = uuid.UUID(admin_client_id)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid admin_client_id")
+
     # Admin impersonating a client
-    if is_admin and admin_client_id:
-        client = db.query(Client).filter(Client.id == admin_client_id).first()
+    if is_admin and parsed_admin_client_id:
+        client = db.query(Client).filter(Client.id == parsed_admin_client_id).first()
         if not client:
             raise HTTPException(status_code=404, detail="Client not found")
         return client
 
     # Admin with no client selected — can't use portal endpoints directly
-    if is_admin and not admin_client_id:
+    if is_admin and not parsed_admin_client_id:
         raise HTTPException(
             status_code=400,
             detail="Admin must specify admin_client_id to preview portal"
