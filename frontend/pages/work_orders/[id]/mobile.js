@@ -13,6 +13,7 @@ import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import Button from '../../../components/ui/Button';
 import Modal from '../../../components/ui/Modal';
+import MobileActionSheet, { MobileActionSheetButton } from '../../../components/ui/MobileActionSheet';
 import { useWorkOrder, useWorkOrderMutations } from '../../../hooks/useWorkOrders';
 import { apiClient } from '../../../utils/api-client';
 import { useTheme } from '../../../context/ThemeContext';
@@ -205,6 +206,7 @@ function WorkOrderDetail() {
   }, []);
 
   const mobileMoreRef = useRef(null);
+  const moreButtonRef = useRef(null);
 
   /** HUD grid double-tap for icon rail - attach after data loads */
   const tacticalColumnRef = useRef(null);
@@ -295,12 +297,11 @@ function WorkOrderDetail() {
 
   useEffect(() => {
     if (!mobileMoreOpen) return undefined;
-    function onPointerDown(e) {
-      if (mobileMoreRef.current?.contains(e.target)) return;
-      setMobileMoreOpen(false);
+    function onKeyDown(e) {
+      if (e.key === 'Escape') setMobileMoreOpen(false);
     }
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [mobileMoreOpen]);
 
 
@@ -626,78 +627,20 @@ function WorkOrderDetail() {
                         Created {format(new Date(workOrder.created_at), 'MMM d, yyyy')}
                       </p>
                     </div>
-            {/* Mobile ⋯ */}
-            <div className="relative shrink-0 md:hidden z-[20]" ref={mobileMoreRef}>
+            {/* Mobile ⋯ — opens portaled action sheet (avoids hud-grid pointer-events traps) */}
+            <div className="relative shrink-0 md:hidden" ref={mobileMoreRef}>
               <button
+                ref={moreButtonRef}
                 type="button"
-                onClick={() => setMobileMoreOpen((o) => !o)}
+                onClick={() => setMobileMoreOpen(true)}
                 className="touch-target inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/12 bg-[#0D1525] text-gray-300 active:bg-white/5"
                 aria-expanded={mobileMoreOpen}
                 aria-label="More actions"
               >
                 <FaEllipsisH className="text-lg" />
               </button>
-              {mobileMoreOpen && (
-                <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-white/10 bg-[#0D1525] py-1 shadow-xl z-[1300] ring-1 ring-black/40">
-                  {!woReadOnly && (
-                  <Link
-                    href={`/work_orders/${id}/womobile_edit`}
-                    className="flex min-h-[48px] items-center gap-2 px-4 py-3 text-base text-gray-200 hover:bg-white/5 active:bg-white/10 touch-manipulation"
-                    onClick={() => setMobileMoreOpen(false)}
-                  >
-                    <FaEdit className="opacity-70 shrink-0" /> Edit work order
-                  </Link>
-                  )}
-                  <button
-                    type="button"
-                    className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-gray-200 hover:bg-white/5 touch-manipulation"
-                    onClick={() => {
-                      setMobileMoreOpen(false);
-                      window.print();
-                    }}
-                  >
-                    <FaPrint className="opacity-70 shrink-0" /> Print
-                  </button>
-                  {!woReadOnly && (
-                  <button
-                    type="button"
-                    className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-gray-200 hover:bg-white/5 touch-manipulation"
-                    onClick={() => {
-                      setMobileMoreOpen(false);
-                      setDeleteModalError(null);
-                      setShowStatusModal(true);
-                    }}
-                  >
-                    <FaExclamationTriangle className="opacity-70 shrink-0" /> Update status
-                  </button>
-                  )}
-                  {showReopenAction && (
-                    <button
-                      type="button"
-                      className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-gray-200 hover:bg-white/5 touch-manipulation"
-                      disabled={lifecycleBusy}
-                      onClick={handleReopen}
-                    >
-                      <FaLock className="opacity-70 shrink-0" /> Reopen order
-                    </button>
-                  )}
-                  {isManager && (
-                    <button
-                      type="button"
-                      className="flex min-h-[48px] w-full items-center gap-2 px-4 py-3 text-left text-base text-red-400 hover:bg-white/5 touch-manipulation"
-                      onClick={() => {
-                        setMobileMoreOpen(false);
-                        setDeleteModalError(null);
-                        setShowDeleteModal(true);
-                      }}
-                    >
-                      Delete work order
-                    </button>
-                  )}
-                </div>
-              )}
+            </div>
                     </div>
-                  </div>
 
                   {/* Desktop actions */}
                   <div className="hidden md:flex flex-wrap gap-2">
@@ -780,6 +723,7 @@ function WorkOrderDetail() {
         <div 
           className="md:hidden sticky z-[1100] -mx-3 px-3 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80"
           style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
+          data-touch-surface
         >
         <nav className="flex gap-2 overflow-x-auto overscroll-x-contain pb-0.5 snap-x snap-mandatory touch-pan-x" aria-label="Work order sections">
             {TAB_ITEMS.map(({ id, label }) => (
@@ -2259,42 +2203,99 @@ function WorkOrderDetail() {
           </div>
         </Modal>
         
-        {/* Delete Modal */}
-        <Modal
-          isOpen={showDeleteModal}
+        {/* Delete confirmation — portaled bottom sheet (reliable taps on iOS) */}
+        <MobileActionSheet
+          open={showDeleteModal}
           onClose={() => {
             setShowDeleteModal(false);
             setDeleteModalError(null);
           }}
-          title="Delete Work Order"
+          title="Delete work order?"
+          zIndex={20100}
         >
-          <div className="p-4">
-            <p className="mb-4 text-gray-700 dark:text-gray-300">
-              Are you sure you want to delete this work order? This action cannot be undone.
-            </p>
-            {deleteModalError && (
+          <p className="text-sm text-gray-300 mb-4 leading-relaxed">
+            This permanently removes work order #{workOrder?.order_number}. This cannot be undone.
+          </p>
+          {deleteModalError && (
+            <div className="mb-4">
               <ErrorAlert message={deleteModalError} />
-            )}
-            
-            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => setShowDeleteModal(false)}
-                className="btn-secondary w-full sm:w-auto touch-manipulation"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleDelete}
-                className="btn-danger w-full sm:w-auto touch-manipulation"
-                disabled={isMutating}
-              >
-                {isMutating ? 'Deleting...' : 'Delete Work Order'}
-              </button>
             </div>
+          )}
+          <div className="space-y-3">
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isMutating}
+              className="flex w-full min-h-[56px] items-center justify-center rounded-xl bg-red-600 text-lg font-semibold text-white touch-manipulation active:scale-[0.99] disabled:opacity-60"
+            >
+              {isMutating ? 'Deleting…' : 'Delete work order'}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowDeleteModal(false);
+                setDeleteModalError(null);
+              }}
+              className="flex w-full min-h-[52px] items-center justify-center rounded-xl border border-white/15 text-base font-medium text-gray-300 touch-manipulation active:bg-white/5"
+            >
+              Cancel
+            </button>
           </div>
-        </Modal>
+        </MobileActionSheet>
+
+        <MobileActionSheet
+          open={mobileMoreOpen}
+          onClose={() => setMobileMoreOpen(false)}
+          title="Work order actions"
+          zIndex={20050}
+        >
+          <div className="space-y-2">
+            {!woReadOnly && (
+              <MobileActionSheetButton
+                href={`/work_orders/${id}/womobile_edit`}
+                onClick={() => setMobileMoreOpen(false)}
+              >
+                <FaEdit className="opacity-70 shrink-0" /> Edit work order
+              </MobileActionSheetButton>
+            )}
+            <MobileActionSheetButton
+              onClick={() => {
+                setMobileMoreOpen(false);
+                window.print();
+              }}
+            >
+              <FaPrint className="opacity-70 shrink-0" /> Print
+            </MobileActionSheetButton>
+            {!woReadOnly && (
+              <MobileActionSheetButton
+                onClick={() => {
+                  setMobileMoreOpen(false);
+                  setDeleteModalError(null);
+                  setShowStatusModal(true);
+                }}
+              >
+                <FaExclamationTriangle className="opacity-70 shrink-0" /> Update status
+              </MobileActionSheetButton>
+            )}
+            {showReopenAction && (
+              <MobileActionSheetButton disabled={lifecycleBusy} onClick={handleReopen}>
+                <FaLock className="opacity-70 shrink-0" /> Reopen order
+              </MobileActionSheetButton>
+            )}
+            {isManager && (
+              <MobileActionSheetButton
+                variant="danger"
+                onClick={() => {
+                  setMobileMoreOpen(false);
+                  setDeleteModalError(null);
+                  setShowDeleteModal(true);
+                }}
+              >
+                Delete work order
+              </MobileActionSheetButton>
+            )}
+          </div>
+        </MobileActionSheet>
 
         </div>
         {/* End content card container */}
@@ -2307,8 +2308,9 @@ function WorkOrderDetail() {
       {/* Mobile sticky action bar — hidden while photo upload sheet is open */}
       {!notesPhotoSheetOpen && (
       <div
-        className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2"
+        className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2 touch-manipulation"
         style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
+        data-touch-surface
       >
         {showCloseAction && (
           <button

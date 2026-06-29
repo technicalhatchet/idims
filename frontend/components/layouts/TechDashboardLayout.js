@@ -149,6 +149,9 @@ export default function TechDashboardLayout({ children }) {
         }
         .hud-grid-content [data-hud-card],
         .hud-grid-content [data-techboard-card],
+        .hud-grid-content [data-touch-surface],
+        .hud-grid-content [data-action-menu],
+        .hud-grid-content nav,
         .hud-grid-content a,
         .hud-grid-content button,
         .hud-grid-content input,
