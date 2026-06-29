@@ -375,7 +375,8 @@ export default function ClientDashboard() {
   const activeRepair = workOrders.find(w => !['completed', 'cancelled', 'closed'].includes(w.status));
   const repairCardData = formatRepairForCard(activeRepair);
   const recentRepairs = workOrders.slice(0, 5).map(wo => ({
-    id: wo.order_number,
+    id: wo.id,
+    orderNumber: wo.order_number,
     service: [wo.equipment_make, wo.equipment_subtype].filter(Boolean).join(' ') || wo.equipment_type || 'Service',
     date: wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : '',
     status: wo.status === 'completed' ? 'Completed' : wo.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),

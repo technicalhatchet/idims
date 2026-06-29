@@ -55,12 +55,12 @@ export default function RecentRepairs({ repairs = SAMPLE_REPAIRS }) {
               <p className="text-gray-400 text-xs">
                 {repair.date} • <span className="text-green-400">{repair.status}</span>
               </p>
-              <p className="text-gray-500 text-xs">Order #{repair.id}</p>
+              <p className="text-gray-500 text-xs">Order #{repair.orderNumber || repair.id}</p>
             </div>
 
             <div className="text-right">
               <p className="text-white font-semibold">{repair.price}</p>
-              <Link href={`/cxdashboard/repairs/${repair.id}`}>
+              <Link href={`/cxdashboard/repairs?order=${encodeURIComponent(repair.orderNumber || repair.id)}`}>
                 <button className="mt-1 px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-400 text-xs hover:text-white hover:bg-white/10 transition-colors">
                   View Details
                 </button>

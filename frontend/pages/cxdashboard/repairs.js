@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { format, parseISO, addDays, isPast } from 'date-fns';
 import { FaTools, FaShieldAlt, FaChevronDown, FaChevronUp, FaFileAlt } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
@@ -42,13 +43,21 @@ function StatusBadge({ status }) {
   );
 }
 
-function RepairCard({ wo, onViewEstimate }) {
-  const [expanded, setExpanded] = useState(false);
+function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
+  const [expanded, setExpanded] = useState(initialExpanded);
+  const cardRef = useRef(null);
   const warrantyExpiry = wo.warranty_expires ? parseISO(wo.warranty_expires) : null;
   const warrantyActive = warrantyExpiry && !isPast(warrantyExpiry);
 
+  useEffect(() => {
+    if (initialExpanded) {
+      setExpanded(true);
+      cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [initialExpanded]);
+
   return (
-    <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', overflow: 'hidden' }}>
+    <div ref={cardRef} style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', overflow: 'hidden' }}>
       {/* Header */}
       <div
         onClick={() => setExpanded(!expanded)}
@@ -169,6 +178,8 @@ function RepairCard({ wo, onViewEstimate }) {
 }
 
 export default function RepairsPage() {
+  const router = useRouter();
+  const orderParam = typeof router.query.order === 'string' ? router.query.order : null;
   const [workOrders, setWorkOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -191,6 +202,16 @@ export default function RepairsPage() {
     }
     load();
   }, []);
+
+  useEffect(() => {
+    if (!orderParam || workOrders.length === 0) return;
+    const match = workOrders.find(
+      (w) => w.order_number === orderParam || w.id === orderParam
+    );
+    if (!match) return;
+    const isCompleted = ['completed', 'closed'].includes(match.status);
+    setTab(isCompleted ? 'completed' : 'active');
+  }, [orderParam, workOrders]);
 
   const active = workOrders.filter(w => !['completed', 'canceled', 'closed'].includes(w.status));
   const completed = workOrders.filter(w => ['completed', 'closed'].includes(w.status));
@@ -225,7 +246,14 @@ export default function RepairsPage() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {displayed.map(wo => (
-              <RepairCard key={wo.id} wo={wo} onViewEstimate={setViewerEstimate} />
+              <RepairCard
+                key={wo.id}
+                wo={wo}
+                onViewEstimate={setViewerEstimate}
+                initialExpanded={Boolean(
+                  orderParam && (wo.order_number === orderParam || wo.id === orderParam)
+                )}
+              />
             ))}
           </div>
         )}
