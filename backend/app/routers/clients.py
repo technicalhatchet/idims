@@ -445,7 +445,7 @@ async def send_portal_invite(
 
     html = f"""
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0A0F1E;padding:2rem;border-radius:12px;">
-      <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair" style="height:40px;margin-bottom:1.5rem;" />
+      <img src="{settings.LOGO_URL}" alt="Atomic Repair" style="height:40px;margin-bottom:1.5rem;" />
       <h2 style="color:#fff;">You&apos;re invited to the Atomic Repair Client Portal</h2>
       <p style="color:#9ca3af;">Hi {client.first_name},</p>
       <p style="color:#9ca3af;">You can now access your service history, upcoming appointments, and invoices online.</p>

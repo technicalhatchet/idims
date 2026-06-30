@@ -274,7 +274,7 @@ def send_booking_notification(
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>
-                    <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair 419" width="300" height="62" style="display:block;">
+                    <img src="{settings.LOGO_URL}" alt="Atomic Repair 419" width="300" height="62" style="display:block;">
                   </td>
                   <td align="right">
                     <span style="background-color:#f59e0b;color:#0f0f1a;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:0.5px;">ONLINE BOOKING</span>
@@ -351,7 +351,7 @@ def send_booking_notification(
           </tr>
           <tr>
             <td style="padding:0 32px 32px;">
-              <a href="https://v0-idims.vercel.app/work_orders/{work_order_id}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View and Schedule in IDIMS</a>
+              <a href="{settings.FRONTEND_URL.rstrip('/')}/work_orders/{work_order_id}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View and Schedule in IDIMS</a>
             </td>
           </tr>
           <tr>
