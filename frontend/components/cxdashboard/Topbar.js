@@ -17,7 +17,7 @@ export default function Topbar({ user: userProp, onMenuClick }) {
 
   const displayName = userProp?.name || portalName
     || (auth0User ? `${auth0User.given_name || ''} ${auth0User.family_name || ''}`.trim() || auth0User.name : 'Guest');
-  const firstName = displayName.split(' ')[0] || 'there';
+  const firstName = userProp?.firstName || displayName.split(' ')[0] || 'there';
   const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
   const user = { name: displayName, initials };
   const notifications = [

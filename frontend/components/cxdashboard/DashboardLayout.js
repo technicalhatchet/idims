@@ -6,13 +6,52 @@ import Topbar from './Topbar';
 import ClientPwaHead from './ClientPwaHead';
 
 const PORTAL_SHELL = '#0B0F1A';
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 
-export default function DashboardLayout({ children, title = 'Client Portal', user }) {
+export default function DashboardLayout({ children, title = 'Client Portal', user: userProp }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [portalUser, setPortalUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
     setSidebarOpen(false);
+  }, [router.pathname]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadPortalUser() {
+      try {
+        const sessionRes = await fetch('/api/auth/session');
+        if (!sessionRes.ok) return;
+        const session = await sessionRes.json();
+        const token = session.accessToken;
+        if (!token) return;
+
+        const res = await fetch(`${BACKEND}/api/portal/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok || cancelled) return;
+
+        const profile = await res.json();
+        const name = `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
+        if (!name) return;
+
+        setPortalUser({
+          name,
+          firstName: profile.first_name,
+          lastName: profile.last_name,
+        });
+        sessionStorage.setItem('portal_client_name', name);
+      } catch {
+        // Topbar falls back to Auth0 profile
+      }
+    }
+
+    loadPortalUser();
+    return () => {
+      cancelled = true;
+    };
   }, [router.pathname]);
 
   useEffect(() => {
@@ -55,7 +94,7 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="min-h-screen flex flex-col lg:ml-64">
           <Topbar
-            user={user}
+            user={userProp || portalUser}
             onMenuClick={() => setSidebarOpen(true)}
           />
           <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-[max(1rem,env(safe-area-inset-bottom))]">

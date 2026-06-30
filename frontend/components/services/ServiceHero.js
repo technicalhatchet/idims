@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign, FaCalendarAlt, FaPhone } from 'react-icons/fa';
+import ApplianceIcon from '../ui/ApplianceIcon';
 
 const FEATURES = [
   { icon: FaShieldAlt, title: 'Certified Technicians' },
@@ -102,15 +102,17 @@ export default function ServiceHero({ service }) {
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/30 blur-[80px]" />
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/30 blur-[80px]" />
               
-              {/* Image Container */}
-              <div className="relative w-full max-w-md h-[300px] lg:h-[400px]">
-                <Image
-                  src={service.icon}
-                  alt={service.title}
-                  fill
-                  className="object-contain drop-shadow-[0_0_30px_rgba(34,211,238,0.3)]"
-                  priority
-                />
+              {/* Icon */}
+              <div className="relative w-full max-w-md h-[300px] lg:h-[400px] flex items-center justify-center">
+                <div className="relative w-40 h-40 lg:w-48 lg:h-48">
+                  <div className="absolute inset-0 bg-cyan-500/15 rounded-3xl blur-2xl" />
+                  <div className="relative w-full h-full rounded-3xl bg-[#0d1117]/80 border border-white/10 flex items-center justify-center">
+                    <ApplianceIcon
+                      equipmentType={service.applianceType}
+                      className="w-24 h-24 lg:w-28 lg:h-28"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>

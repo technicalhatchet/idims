@@ -2,11 +2,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
+import {
   FaShieldAlt, FaBolt, FaCheckCircle, FaDollarSign,
   FaCalendarAlt, FaSearch, FaTools, FaThumbsUp
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import ApplianceIcon from '../components/ui/ApplianceIcon';
 import ServiceCard from '../components/services/ServiceCard';
 import FeatureBadge from '../components/services/FeatureBadge';
 import ProcessStep from '../components/services/ProcessStep';
@@ -19,56 +20,48 @@ const SERVICES = [
     slug: 'refrigerator-repair',
     title: 'REFRIGERATOR REPAIR',
     description: 'Not cooling, leaking, ice maker issues, and more.',
-    icon: '/applianceicons/neon/neonfridge.png'
   },
   {
     id: 'washer',
     slug: 'washer-repair',
     title: 'WASHER REPAIR',
     description: "Won't spin, not draining, noisy or not starting.",
-    icon: '/applianceicons/neon/neonwasher.png'
   },
   {
     id: 'dryer',
     slug: 'dryer-repair',
     title: 'DRYER REPAIR',
     description: "Not heating, takes too long, won't start.",
-    icon: '/applianceicons/neon/neondryer.png'
   },
   {
     id: 'oven',
     slug: 'oven-repair',
     title: 'OVEN & RANGE REPAIR',
     description: 'Not heating, temperature issues, or not working.',
-    icon: '/applianceicons/neon/neonrange.png'
   },
   {
     id: 'dishwasher',
     slug: 'dishwasher-repair',
     title: 'DISHWASHER REPAIR',
     description: 'Not cleaning, leaking, not draining properly.',
-    icon: '/applianceicons/neon/neondishwasher.png'
   },
   {
     id: 'microwave',
     slug: 'microwave-repair',
     title: 'MICROWAVE REPAIR',
     description: 'Not heating, turntable issues, or not powering on.',
-    icon: '/applianceicons/neon/neonmicrowave.png'
   },
   {
     id: 'freezer',
     slug: 'freezer-repair',
     title: 'FREEZER REPAIR',
     description: 'Not freezing, frost buildup, or unusual noises.',
-    icon: '/applianceicons/neon/neonchestfreezer.png'
   },
   {
     id: 'tv',
     slug: 'tv-repair',
     title: 'TV REPAIR',
     description: 'No picture, sound issues, or connectivity problems.',
-    icon: '/applianceicons/neon/neonorangecurvedtv.png'
   },
 ];
 
@@ -105,7 +98,7 @@ const PROCESS_STEPS = [
 export default function Services() {
   const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const icons = SERVICES.map(service => service.icon);
+  const heroIcons = SERVICES.slice(0, 6);
 
   return (
     <>
@@ -209,10 +202,13 @@ export default function Services() {
                 {/* Only show fallback if image failed or hasn't loaded yet */}
                 {(imgError || !imgLoaded) && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="grid grid-cols-3 gap-4">
-                      {[...icons].map((icon, i) => (
-                        <div key={i} className="w-20 h-20 relative">
-                          <Image src={icon} alt="" fill className="object-contain" />
+                    <div className="grid grid-cols-3 gap-6">
+                      {heroIcons.map((service) => (
+                        <div
+                          key={service.id}
+                          className="w-20 h-20 rounded-xl bg-[#0d1117]/80 border border-white/10 flex items-center justify-center"
+                        >
+                          <ApplianceIcon equipmentType={service.id} className="w-11 h-11" />
                         </div>
                       ))}
                     </div>

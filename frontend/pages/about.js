@@ -51,7 +51,8 @@ export default function About() {
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#00E5FF' }}>Our Mission</h2>
             <p style={{ color: '#9FB3C8' }} className="leading-relaxed">
               To provide fast, honest, and reliable appliance repair services with transparent pricing 
-              and exceptional customer service.
+              and exceptional customer service. As a family-owned and operated business, we pride 
+              ourselves on our commitment to quality and customer satisfaction.
             </p>
           </div>
           
@@ -62,7 +63,8 @@ export default function About() {
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#FF7A1A' }}>Our Promise</h2>
             <p style={{ color: '#9FB3C8' }} className="leading-relaxed">
               Same-day service, upfront pricing, and a 90-day warranty on all repairs. 
-              If we can't fix it, you don't pay.
+              Your diagnostic fee is never wasted - if you approve the repair, it applies toward 
+              the repair cost. If a repair attempt is unsuccessful, you won't be charged labor for that repair.
             </p>
           </div>
         </div>

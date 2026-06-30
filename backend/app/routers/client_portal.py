@@ -21,6 +21,7 @@ from app.db.database import get_db
 from app.core.auth import get_auth_handler
 from app.config import get_portal_invite_secret, settings
 from app.models.client import Client
+from app.models.user import User as DBUser
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.models.property import Property
 from app.utils.portal_estimate import portal_estimate_meta
@@ -202,6 +203,81 @@ def _assign_client_role(auth0_user_id: str) -> Tuple[bool, bool, Optional[str]]:
         return False, False, str(e)
 
 
+def _sync_auth0_user_name(
+    auth0_user_id: str,
+    first_name: str,
+    last_name: str,
+) -> Tuple[bool, Optional[str]]:
+    """Push client record name onto the Auth0 user profile."""
+    first_name = (first_name or "").strip()
+    last_name = (last_name or "").strip()
+    if not first_name:
+        return False, "missing first_name"
+
+    try:
+        auth_handler = get_auth_handler()
+        management_token = auth_handler.get_client_credentials_token()
+        encoded_user_id = quote(auth0_user_id, safe="")
+        full_name = f"{first_name} {last_name}".strip()
+        response = requests.patch(
+            f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}",
+            headers={
+                "Authorization": f"Bearer {management_token}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "given_name": first_name,
+                "family_name": last_name,
+                "name": full_name,
+                "user_metadata": {
+                    "first_name": first_name,
+                    "last_name": last_name,
+                },
+            },
+            timeout=15,
+        )
+        if not response.ok:
+            detail = response.text[:500]
+            logger.error(
+                "[LinkAccount] PATCH user name failed %s: %s",
+                response.status_code,
+                detail,
+            )
+            return False, f"Auth0 PATCH user {response.status_code}: {detail}"
+
+        logger.info(
+            "[LinkAccount] Synced Auth0 name for %s -> %s",
+            auth0_user_id,
+            full_name,
+        )
+        return True, None
+    except Exception as e:
+        logger.exception("[LinkAccount] Auth0 name sync failed for %s", auth0_user_id)
+        return False, str(e)
+
+
+def _sync_client_identity(
+    auth0_user_id: str,
+    client: Client,
+    db: Session,
+) -> Tuple[bool, Optional[str]]:
+    """Use clients table as source of truth for portal display names."""
+    name_ok, name_error = _sync_auth0_user_name(
+        auth0_user_id,
+        client.first_name,
+        client.last_name,
+    )
+
+    user = db.query(DBUser).filter(DBUser.auth_id == auth0_user_id).first()
+    if user:
+        user.first_name = client.first_name
+        user.last_name = client.last_name
+        db.commit()
+        logger.info("[LinkAccount] Synced users table name for %s", auth0_user_id)
+
+    return name_ok, name_error
+
+
 def _client_summary(client: Client) -> dict:
     return {
         "id": str(client.id),
@@ -237,6 +313,32 @@ def _link_account_response(
             "Account linked but Auth0 client role could not be assigned. "
             "See role_error or call GET /api/portal/link-debug while logged in."
         )
+    return payload
+
+
+def _finalize_link_account_response(
+    *,
+    auth0_user_id: str,
+    client: Client,
+    db: Session,
+    already_linked: bool,
+    role_assigned: bool,
+    role_newly_assigned: bool = False,
+    role_error: Optional[str] = None,
+    link_method: Optional[str] = None,
+) -> dict:
+    name_synced, name_error = _sync_client_identity(auth0_user_id, client, db)
+    payload = _link_account_response(
+        client=client,
+        already_linked=already_linked,
+        role_assigned=role_assigned,
+        role_newly_assigned=role_newly_assigned,
+        role_error=role_error,
+        link_method=link_method,
+    )
+    payload["name_synced"] = name_synced
+    if name_error:
+        payload["name_sync_error"] = name_error
     return payload
 
 
@@ -399,8 +501,10 @@ async def link_portal_account(
     existing = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
     if existing:
         role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
-        return _link_account_response(
+        return _finalize_link_account_response(
+            auth0_user_id=auth0_user_id,
             client=existing,
+            db=db,
             already_linked=True,
             role_assigned=role_assigned,
             role_newly_assigned=role_newly_assigned,
@@ -459,8 +563,10 @@ async def link_portal_account(
 
     if client.auth0_user_id == auth0_user_id:
         role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
-        return _link_account_response(
+        return _finalize_link_account_response(
+            auth0_user_id=auth0_user_id,
             client=client,
+            db=db,
             already_linked=True,
             role_assigned=role_assigned,
             role_newly_assigned=role_newly_assigned,
@@ -474,8 +580,10 @@ async def link_portal_account(
     logger.info("[LinkAccount] linked client %s to %s via %s", client.id, auth0_user_id, link_method)
 
     role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
-    return _link_account_response(
+    return _finalize_link_account_response(
+        auth0_user_id=auth0_user_id,
         client=client,
+        db=db,
         already_linked=False,
         role_assigned=role_assigned,
         role_newly_assigned=role_newly_assigned,

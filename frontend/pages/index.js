@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import HomeLayout from '../components/layouts/HomeLayout';
+import ApplianceIcon from '../components/ui/ApplianceIcon';
 import { motion } from 'framer-motion';
 import { FaStar, FaShieldAlt, FaClock, FaCheckCircle, FaPhone, FaArrowRight } from 'react-icons/fa';
 import { HiLightningBolt } from 'react-icons/hi';
@@ -14,27 +15,27 @@ export default function Home() {
     {
       title: "Refrigerator Repair",
       desc: "Not cooling? Leaking? Making noise? We handle compressors, fans, seals, and more.",
-      icon: "/applianceicons/neon/neonfridge.png"
+      equipmentType: "refrigerator",
     },
     {
-      title: "Oven & Range Repair",
+      title: "Range Repair",
       desc: "Not heating or cooking unevenly? We repair igniters, elements, and control boards.",
-      icon: "/applianceicons/neon/neonrange.png"
+      equipmentType: "oven",
     },
     {
       title: "Dishwasher Repair",
-      desc: "Dishes still dirty? Water not draining? We'll get it running like new again.",
-      icon: "/applianceicons/neon/neondishwasher.png"
+      desc: "Dishes still dirty? Water not draining? We'll get it running like new again in no time.",
+      equipmentType: "dishwasher",
     },
     {
       title: "TV Repair",
       desc: "No picture? Lines on screen? Won't turn on? We diagnose and repair all major TV brands.",
-      icon: "/applianceicons/neon/neonorangecurvedtv.png"
+      equipmentType: "tv",
     },
     {
       title: "Washer & Dryer Repair",
       desc: "Won't drain, spin, or heat? We fix all common and complex laundry issues.",
-      icon: "/applianceicons/neon/neonwasher.png"
+      equipmentType: "washer",
     },
   ];
 
@@ -242,46 +243,40 @@ export default function Home() {
           </motion.div>
 
           {/* Service Cards Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {services.map((service, i) => (
               <motion.div
                 key={i}
                 {...fadeUp}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 whileHover={{ y: -8, transition: { type: 'spring', stiffness: 120, damping: 20, mass: 1.2 } }}
-                className="group relative"
+                className="group relative min-w-0"
               >
-                <div className="relative p-6 rounded-2xl bg-[#0D1117] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 h-full">
+                <div className="relative p-5 sm:p-6 rounded-2xl bg-[#0D1117] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 h-full">
                   {/* Hover Glow */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-cyan-500/5 to-orange-500/5" />
 
-                  {/* Icon + Content */}
-                  <div className="relative">
-                    {/* Icon + Title same line */}
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="relative flex-shrink-0 w-20 h-20">
-                        <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-xl group-hover:bg-cyan-500/20 transition-colors" />
-                        <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center overflow-hidden">
-                          <Image
-                            src={service.icon}
-                            alt={service.title}
-                            width={52}
-                            height={52}
-                            className="object-contain"
-                          />
-                        </div>
+                  <div className="relative min-w-0">
+                    <div className="relative w-16 h-16 mb-4">
+                      <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-xl group-hover:bg-cyan-500/20 transition-colors" />
+                      <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center">
+                        <ApplianceIcon
+                          equipmentType={service.equipmentType}
+                          className="w-11 h-11"
+                        />
                       </div>
-                      <h3 className="relative text-lg font-semibold text-white">
-                        {service.title}
-                      </h3>
                     </div>
-                    {/* Description below */}
-                    <p className="relative text-gray-400 text-sm leading-relaxed mb-4">
+
+                    <h3 className="text-base xl:text-lg font-semibold text-white leading-snug mb-3 [text-wrap:balance]">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-gray-400 text-sm leading-relaxed mb-4">
                       {service.desc}
                     </p>
                     <Link
                       href="/book"
-                      className="relative inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
+                      className="inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
                     >
                       Book Now
                       <FaArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />

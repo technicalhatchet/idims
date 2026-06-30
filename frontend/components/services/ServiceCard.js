@@ -1,12 +1,13 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
+import ApplianceIcon from '../ui/ApplianceIcon';
 
 export default function ServiceCard({ service, index }) {
   const detailHref = service.slug 
     ? `/services/${service.slug}` 
     : (service.href || '/book');
+  const equipmentType = service.applianceType || service.id;
 
   return (
     <motion.div
@@ -27,13 +28,10 @@ export default function ServiceCard({ service, index }) {
         <div className="relative mb-4">
           <div className="w-16 h-16 relative">
             <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-lg group-hover:bg-cyan-500/20 transition-colors" />
-            <div className="relative w-full h-full rounded-xl bg-[#0d1117] border border-white/10 flex items-center justify-center overflow-hidden">
-              <Image
-                src={service.icon}
-                alt={service.title}
-                width={40}
-                height={40}
-                className="object-contain"
+            <div className="relative w-full h-full rounded-xl bg-[#0d1117] border border-white/10 flex items-center justify-center">
+              <ApplianceIcon
+                equipmentType={equipmentType}
+                className="w-10 h-10"
               />
             </div>
           </div>
