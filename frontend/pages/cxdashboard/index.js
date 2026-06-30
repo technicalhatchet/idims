@@ -10,6 +10,11 @@ import RepairStatus from '../../components/cxdashboard/RepairStatus';
 import RecentRepairs from '../../components/cxdashboard/RecentRepairs';
 import InvoiceList from '../../components/cxdashboard/InvoiceList';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
+import {
+  fetchPortalLinkDebug,
+  postPortalLinkAccount,
+  logPortalLinkDiagnostics,
+} from '../../utils/portalLink';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -197,32 +202,55 @@ export default function ClientDashboard() {
         if (storedInviteToken) {
           sessionStorage.removeItem('portal_invite_token');
           try {
-            const linkRes = await fetch(`${BACKEND}/api/portal/link-account`, {
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-              body: JSON.stringify({ invite_token: storedInviteToken, email: session.user?.email }),
+            const linkResult = await postPortalLinkAccount(token, {
+              inviteToken: storedInviteToken,
+              email: session.user?.email,
             });
-            if (!linkRes.ok) {
-              const err = await linkRes.json().catch(() => ({}));
-              console.error('[Portal] Link account failed:', err.detail || linkRes.status);
+            logPortalLinkDiagnostics('link-account (invite)', linkResult);
+            if (!linkResult.ok) {
+              const msg = linkResult.data?.detail || `Link failed (${linkResult.status})`;
+              console.error('[Portal] Link account failed:', msg);
+              setError(msg);
+            } else if (!linkResult.data?.role_assigned) {
+              const warn = linkResult.data?.role_error || linkResult.data?.role_warning;
+              console.warn('[Portal] Linked but role not assigned:', warn);
+              setError(warn || 'Account linked but Auth0 client role was not assigned. Log in again after fixing Auth0 MGMT credentials.');
             } else {
-              // Re-login so the session picks up the newly assigned client role
               window.location.href = '/api/auth/login?returnTo=/cxdashboard';
               return;
             }
           } catch (e) {
             console.error('[Portal] Link account error:', e);
+            setError(e.message || 'Link account failed');
           }
         } else if (!staffUser && session.user?.email) {
-          // Heal missing auth0_user_id for returning clients (idempotent if already linked)
           try {
-            await fetch(`${BACKEND}/api/portal/link-account`, {
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: session.user.email }),
-            });
+            const linkResult = await postPortalLinkAccount(token, { email: session.user.email });
+            logPortalLinkDiagnostics('link-account (email heal)', linkResult);
+            if (!linkResult.ok) {
+              console.warn('[Portal] Auto link-account failed:', linkResult.data?.detail || linkResult.status);
+            } else if (!linkResult.data?.role_assigned) {
+              console.warn('[Portal] Auto link role issue:', linkResult.data?.role_error);
+            }
           } catch (e) {
             console.warn('[Portal] Auto link-account skipped:', e);
+          }
+        }
+
+        if (!staffUser && token) {
+          try {
+            const debug = await fetchPortalLinkDebug(token);
+            logPortalLinkDiagnostics('link-debug', debug);
+            if (!debug.has_client_role_in_auth0 && !debug.client_linked_by_auth0_id) {
+              console.warn(
+                '[Portal] Not linked yet — auth0_user_id:',
+                debug.auth0_user_id,
+                'token_roles:',
+                debug.token_roles,
+              );
+            }
+          } catch (e) {
+            console.warn('[Portal] link-debug unavailable:', e.message);
           }
         }
 

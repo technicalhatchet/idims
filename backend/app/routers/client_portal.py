@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
-from typing import Optional
+from typing import Optional, Tuple
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 import logging
@@ -19,7 +19,7 @@ from urllib.parse import quote
 
 from app.db.database import get_db
 from app.core.auth import get_auth_handler
-from app.config import get_portal_invite_secret
+from app.config import get_portal_invite_secret, settings
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.models.property import Property
@@ -125,8 +125,8 @@ async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(sec
     return await auth_handler.verify_token(credentials.credentials)
 
 
-def _assign_client_role(auth0_user_id: str) -> bool:
-    """Assign Auth0 client role so Post-Login Action can add https://idimsapi/app_metadata.roles."""
+def _assign_client_role(auth0_user_id: str) -> Tuple[bool, Optional[str]]:
+    """Assign Auth0 client role. Returns (success, error_detail)."""
     try:
         auth_handler = get_auth_handler()
         management_token = auth_handler.get_client_credentials_token()
@@ -138,11 +138,15 @@ def _assign_client_role(auth0_user_id: str) -> bool:
         }
 
         existing = requests.get(roles_url, headers=headers, timeout=15)
-        existing.raise_for_status()
+        if not existing.ok:
+            detail = existing.text[:500]
+            logger.error(f"[LinkAccount] GET roles failed {existing.status_code}: {detail}")
+            return False, f"Auth0 GET roles {existing.status_code}: {detail}"
+
         for role in existing.json() or []:
             if role.get("id") == CLIENT_ROLE_ID or role.get("name") == "client":
                 logger.info(f"[LinkAccount] User {auth0_user_id} already has client role")
-                return True
+                return True, None
 
         response = requests.post(
             roles_url,
@@ -150,12 +154,25 @@ def _assign_client_role(auth0_user_id: str) -> bool:
             json={"roles": [CLIENT_ROLE_ID]},
             timeout=15,
         )
-        response.raise_for_status()
+        if not response.ok:
+            detail = response.text[:500]
+            logger.error(f"[LinkAccount] POST roles failed {response.status_code}: {detail}")
+            return False, f"Auth0 POST roles {response.status_code}: {detail}"
+
         logger.info(f"[LinkAccount] Assigned client role to {auth0_user_id}")
-        return True
+        return True, None
     except Exception as e:
-        logger.error(f"[LinkAccount] Client role assignment failed for {auth0_user_id}: {e}")
-        return False
+        logger.exception(f"[LinkAccount] Client role assignment failed for {auth0_user_id}")
+        return False, str(e)
+
+
+def _client_summary(client: Client) -> dict:
+    return {
+        "id": str(client.id),
+        "email": client.email,
+        "name": f"{client.first_name} {client.last_name}",
+        "auth0_user_id": client.auth0_user_id,
+    }
 
 
 def _link_account_response(
@@ -163,6 +180,8 @@ def _link_account_response(
     client: Client,
     already_linked: bool,
     role_assigned: bool,
+    role_error: Optional[str] = None,
+    link_method: Optional[str] = None,
 ) -> dict:
     payload = {
         "success": True,
@@ -171,10 +190,14 @@ def _link_account_response(
         "client_id": str(client.id),
         "client_name": f"{client.first_name} {client.last_name}",
     }
+    if link_method:
+        payload["link_method"] = link_method
+    if role_error:
+        payload["role_error"] = role_error
     if not role_assigned:
         payload["role_warning"] = (
             "Account linked but Auth0 client role could not be assigned. "
-            "Check AUTH0_MGMT_CLIENT_ID/SECRET on the API and Management API scopes."
+            "See role_error or call GET /api/portal/link-debug while logged in."
         )
     return payload
 
@@ -235,6 +258,77 @@ async def get_portal_client(
     )
 
 
+@router.get("/portal/link-debug")
+async def link_account_debug(
+    token_data=Depends(get_token_data),
+    db: Session = Depends(get_db),
+):
+    """
+    Diagnostic snapshot for invite / link-account issues.
+    Call while logged into the client portal with the same Bearer token.
+    """
+    auth0_user_id = token_data.sub
+    email = (token_data.email or "").lower().strip()
+    roles = list(token_data.roles or [])
+
+    client_by_auth0 = (
+        db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
+        if auth0_user_id
+        else None
+    )
+    client_by_email = (
+        db.query(Client).filter(Client.email == email).first() if email else None
+    )
+
+    invite_secret_configured = bool(get_portal_invite_secret())
+    mgmt_configured = bool(
+        (settings.AUTH0_MGMT_CLIENT_ID or settings.AUTH0_CLIENT_ID)
+        and (settings.AUTH0_MGMT_CLIENT_SECRET or settings.AUTH0_CLIENT_SECRET)
+    )
+
+    mgmt_token_ok = False
+    mgmt_error = None
+    auth0_roles = []
+
+    try:
+        auth_handler = get_auth_handler()
+        mgmt_token = auth_handler.get_client_credentials_token()
+        mgmt_token_ok = True
+        encoded_user_id = quote(auth0_user_id, safe="")
+        roles_resp = requests.get(
+            f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}/roles",
+            headers={"Authorization": f"Bearer {mgmt_token}"},
+            timeout=15,
+        )
+        if roles_resp.ok:
+            auth0_roles = [
+                {"id": r.get("id"), "name": r.get("name")}
+                for r in (roles_resp.json() or [])
+            ]
+        else:
+            mgmt_error = f"GET roles {roles_resp.status_code}: {roles_resp.text[:300]}"
+    except Exception as e:
+        mgmt_error = str(e)
+
+    return {
+        "auth0_user_id": auth0_user_id,
+        "token_email": email or None,
+        "token_roles": roles,
+        "invite_secret_configured": invite_secret_configured,
+        "mgmt_credentials_configured": mgmt_configured,
+        "mgmt_api_token_ok": mgmt_token_ok,
+        "mgmt_error": mgmt_error,
+        "auth0_assigned_roles": auth0_roles,
+        "has_client_role_in_auth0": any(
+            r.get("id") == CLIENT_ROLE_ID or r.get("name") == "client"
+            for r in auth0_roles
+        ),
+        "client_linked_by_auth0_id": _client_summary(client_by_auth0) if client_by_auth0 else None,
+        "client_linked_by_email": _client_summary(client_by_email) if client_by_email else None,
+        "expected_client_role_id": CLIENT_ROLE_ID,
+    }
+
+
 @router.post("/portal/link-account")
 async def link_portal_account(
     body: LinkAccountRequest,
@@ -245,38 +339,66 @@ async def link_portal_account(
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
+    logger.info(
+        "[LinkAccount] start sub=%s email=%s has_invite_token=%s has_email=%s invite_secret=%s",
+        auth0_user_id,
+        token_data.email,
+        bool(body.invite_token),
+        bool(body.email),
+        bool(get_portal_invite_secret()),
+    )
+
     existing = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
     if existing:
-        role_assigned = _assign_client_role(auth0_user_id)
+        role_assigned, role_error = _assign_client_role(auth0_user_id)
         return _link_account_response(
             client=existing,
             already_linked=True,
             role_assigned=role_assigned,
+            role_error=role_error,
+            link_method="existing_auth0_user_id",
         )
 
     client = None
+    link_method = None
+    invite_error = None
 
     if body.invite_token:
         secret = get_portal_invite_secret()
-        if secret:
+        if not secret:
+            invite_error = "PORTAL_INVITE_SECRET not configured on API server"
+            logger.error(f"[LinkAccount] {invite_error}")
+        else:
             try:
                 payload = jwt.decode(body.invite_token, secret, algorithms=["HS256"])
                 client_id = payload.get("client_id")
                 if client_id:
                     client = db.query(Client).filter(Client.id == client_id).first()
-            except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as e:
-                logger.warning(f"[LinkAccount] Token error: {e}")
+                    if client:
+                        link_method = "invite_token"
+                    else:
+                        invite_error = f"client_id {client_id} not found in database"
+                else:
+                    invite_error = "invite JWT missing client_id claim"
+            except jwt.ExpiredSignatureError:
+                invite_error = "invite token expired"
+                logger.warning("[LinkAccount] invite token expired")
+            except jwt.InvalidTokenError as e:
+                invite_error = f"invite token invalid: {e}"
+                logger.warning(f"[LinkAccount] invite token invalid: {e}")
 
     if not client and body.email:
         client = db.query(Client).filter(
             Client.email == body.email.lower().strip()
         ).first()
+        if client:
+            link_method = link_method or "email"
 
     if not client:
-        raise HTTPException(
-            status_code=404,
-            detail="No client record found. Please contact Atomic Repair to get access."
-        )
+        detail = "No client record found. Please contact Atomic Repair to get access."
+        if invite_error:
+            detail = f"{detail} (invite: {invite_error})"
+        raise HTTPException(status_code=404, detail=detail)
 
     if client.auth0_user_id and client.auth0_user_id != auth0_user_id:
         raise HTTPException(
@@ -285,22 +407,27 @@ async def link_portal_account(
         )
 
     if client.auth0_user_id == auth0_user_id:
-        role_assigned = _assign_client_role(auth0_user_id)
+        role_assigned, role_error = _assign_client_role(auth0_user_id)
         return _link_account_response(
             client=client,
             already_linked=True,
             role_assigned=role_assigned,
+            role_error=role_error,
+            link_method=link_method or "already_linked_same_client",
         )
 
     client.auth0_user_id = auth0_user_id
     db.commit()
     db.refresh(client)
+    logger.info("[LinkAccount] linked client %s to %s via %s", client.id, auth0_user_id, link_method)
 
-    role_assigned = _assign_client_role(auth0_user_id)
+    role_assigned, role_error = _assign_client_role(auth0_user_id)
     return _link_account_response(
         client=client,
         already_linked=False,
         role_assigned=role_assigned,
+        role_error=role_error,
+        link_method=link_method,
     )
 
 
