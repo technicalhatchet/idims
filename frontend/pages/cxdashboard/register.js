@@ -37,6 +37,19 @@ export default function PortalRegister() {
       });
   }, [token]);
 
+  // Already logged in — link from dashboard instead of another Auth0 consent screen
+  useEffect(() => {
+    if (!token || state !== 'valid') return;
+    fetch('/api/auth/session')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((session) => {
+        if (!session?.user) return;
+        sessionStorage.setItem('portal_invite_token', token);
+        router.replace('/cxdashboard');
+      })
+      .catch(() => {});
+  }, [token, state, router]);
+
   const handleRegister = () => {
     if (typeof window === 'undefined') return;
     sessionStorage.setItem('portal_invite_token', token);

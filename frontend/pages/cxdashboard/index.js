@@ -14,6 +14,12 @@ import {
   fetchPortalLinkDebug,
   postPortalLinkAccount,
   logPortalLinkDiagnostics,
+  getSessionEmail,
+  getSessionRoles,
+  shouldRefreshPortalToken,
+  hasPortalTokenRefreshBeenAttempted,
+  clearPortalTokenRefreshAttempt,
+  redirectToRefreshPortalToken,
 } from '../../utils/portalLink';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
@@ -192,10 +198,33 @@ export default function ClientDashboard() {
         setAccessToken(token);
 
         // Check roles
-        const roles = session.user?.['https://idimsapi/app_metadata']?.roles || [];
+        const roles = getSessionRoles(session);
         const adminUser = roles.includes('admin');
         const staffUser = roles.some((r) => ['admin', 'manager', 'technician'].includes(r));
+        const hasClientRole = roles.includes('client');
         setIsAdmin(adminUser);
+
+        if (hasClientRole) {
+          clearPortalTokenRefreshAttempt();
+        }
+
+        const sessionEmail = getSessionEmail(session);
+        let linkDebug = null;
+
+        const handleLinkRefresh = (linkResult) => {
+          if (shouldRefreshPortalToken(linkResult, hasClientRole)) {
+            if (hasPortalTokenRefreshBeenAttempted()) {
+              setError(
+                'Your account is linked, but your session does not include portal access yet. '
+                + 'Log out completely, then sign in again. If it still fails, contact support.',
+              );
+              return true;
+            }
+            redirectToRefreshPortalToken();
+            return true;
+          }
+          return false;
+        };
 
         // If coming from registration, link the account using stored invite token
         const storedInviteToken = sessionStorage.getItem('portal_invite_token');
@@ -204,7 +233,7 @@ export default function ClientDashboard() {
           try {
             const linkResult = await postPortalLinkAccount(token, {
               inviteToken: storedInviteToken,
-              email: session.user?.email,
+              email: sessionEmail,
             });
             logPortalLinkDiagnostics('link-account (invite)', linkResult);
             if (!linkResult.ok) {
@@ -214,21 +243,27 @@ export default function ClientDashboard() {
             } else if (!linkResult.data?.role_assigned) {
               const warn = linkResult.data?.role_error || linkResult.data?.role_warning;
               console.warn('[Portal] Linked but role not assigned:', warn);
-              setError(warn || 'Account linked but Auth0 client role was not assigned. Log in again after fixing Auth0 MGMT credentials.');
-            } else {
-              window.location.href = '/api/auth/login?returnTo=/cxdashboard';
+              setError(warn || 'Account linked but Auth0 client role was not assigned.');
+            } else if (handleLinkRefresh(linkResult)) {
               return;
             }
           } catch (e) {
             console.error('[Portal] Link account error:', e);
             setError(e.message || 'Link account failed');
           }
-        } else if (!staffUser && session.user?.email) {
+        } else if (!staffUser) {
           try {
-            const linkResult = await postPortalLinkAccount(token, { email: session.user.email });
-            logPortalLinkDiagnostics('link-account (email heal)', linkResult);
+            const linkResult = await postPortalLinkAccount(token, { email: sessionEmail });
+            logPortalLinkDiagnostics('link-account (auto)', linkResult);
+            if (handleLinkRefresh(linkResult)) {
+              return;
+            }
             if (!linkResult.ok) {
-              console.warn('[Portal] Auto link-account failed:', linkResult.data?.detail || linkResult.status);
+              const msg = linkResult.data?.detail || `Link failed (${linkResult.status})`;
+              console.warn('[Portal] Auto link-account failed:', msg);
+              if (linkResult.status === 409) {
+                setError(msg);
+              }
             } else if (!linkResult.data?.role_assigned) {
               console.warn('[Portal] Auto link role issue:', linkResult.data?.role_error);
             }
@@ -239,14 +274,24 @@ export default function ClientDashboard() {
 
         if (!staffUser && token) {
           try {
-            const debug = await fetchPortalLinkDebug(token);
-            logPortalLinkDiagnostics('link-debug', debug);
-            if (!debug.has_client_role_in_auth0 && !debug.client_linked_by_auth0_id) {
+            linkDebug = await fetchPortalLinkDebug(token);
+            logPortalLinkDiagnostics('link-debug', linkDebug);
+            if (!linkDebug.client_linked_by_auth0_id) {
+              const hint = linkDebug.email_linked_to_other_auth0
+                ? `This login (${linkDebug.auth0_user_id}) does not match the account linked to ${linkDebug.auth0_profile_email || linkDebug.client_linked_by_email?.email}. Sign in with the original portal account or contact support to reset the link.`
+                : linkDebug.auth0_profile_email
+                  ? `Auth0 email is ${linkDebug.auth0_profile_email} — ensure it matches clients.email or use a fresh invite link.`
+                  : 'Could not resolve email from Auth0 profile.';
+              if (!linkDebug.has_client_role_in_auth0 || linkDebug.email_linked_to_other_auth0) {
+                setError((prev) => prev || `Account not linked yet. ${hint}`);
+              }
               console.warn(
-                '[Portal] Not linked yet — auth0_user_id:',
-                debug.auth0_user_id,
+                '[Portal] Not linked yet —',
+                linkDebug.auth0_user_id,
                 'token_roles:',
-                debug.token_roles,
+                linkDebug.token_roles,
+                'profile_email:',
+                linkDebug.auth0_profile_email,
               );
             }
           } catch (e) {
@@ -293,7 +338,20 @@ export default function ClientDashboard() {
           }
           setLoading(false);
         } else {
-          // Regular client — load their own data
+          if (!hasClientRole) {
+            if (linkDebug?.client_linked_by_auth0_id && linkDebug?.has_client_role_in_auth0) {
+              if (!hasPortalTokenRefreshBeenAttempted()) {
+                redirectToRefreshPortalToken();
+                return;
+              }
+              setError(
+                'Your account is linked, but your session does not include the client role. '
+                + 'Log out completely, then sign in again.',
+              );
+            }
+            setLoading(false);
+            return;
+          }
           await loadPortalData(token, null);
         }
       } catch (err) {
@@ -439,8 +497,16 @@ export default function ClientDashboard() {
         <div className="text-center max-w-md">
           <p className="text-red-400 mb-2">Unable to load dashboard</p>
           <p className="text-gray-500 text-sm">{error}</p>
-          <div className="flex gap-3 justify-center mt-4">
-            <button onClick={() => loadPortalData(accessToken, selectedClient?.id)} className="px-4 py-2 bg-cyan-600 text-white rounded-lg text-sm hover:bg-cyan-500">
+          <div className="flex gap-3 justify-center mt-4 flex-wrap">
+            {!isAdmin && (
+              <a
+                href="/api/auth/login?returnTo=/cxdashboard"
+                className="px-4 py-2 bg-cyan-600 text-white rounded-lg text-sm hover:bg-cyan-500"
+              >
+                Sign in again
+              </a>
+            )}
+            <button onClick={() => loadPortalData(accessToken, selectedClient?.id)} className="px-4 py-2 bg-gray-700 text-white rounded-lg text-sm hover:bg-gray-600">
               Retry
             </button>
             {isAdmin && (

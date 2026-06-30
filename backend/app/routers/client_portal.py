@@ -125,8 +125,44 @@ async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(sec
     return await auth_handler.verify_token(credentials.credentials)
 
 
-def _assign_client_role(auth0_user_id: str) -> Tuple[bool, Optional[str]]:
-    """Assign Auth0 client role. Returns (success, error_detail)."""
+def _fetch_auth0_user(auth0_user_id: str) -> dict:
+    """Load Auth0 user profile via Management API."""
+    auth_handler = get_auth_handler()
+    management_token = auth_handler.get_client_credentials_token()
+    encoded_user_id = quote(auth0_user_id, safe="")
+    response = requests.get(
+        f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}",
+        headers={"Authorization": f"Bearer {management_token}"},
+        timeout=15,
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def _resolve_link_email(
+    body: LinkAccountRequest,
+    token_data,
+    auth0_user_id: str,
+) -> Optional[str]:
+    """Email from request body, JWT, or Auth0 user profile."""
+    for candidate in (body.email, token_data.email):
+        if candidate:
+            normalized = str(candidate).lower().strip()
+            if normalized:
+                return normalized
+    try:
+        profile = _fetch_auth0_user(auth0_user_id)
+        auth0_email = (profile.get("email") or "").lower().strip()
+        if auth0_email:
+            logger.info(f"[LinkAccount] Resolved email from Auth0 profile: {auth0_email}")
+            return auth0_email
+    except Exception as e:
+        logger.warning(f"[LinkAccount] Could not load Auth0 profile for {auth0_user_id}: {e}")
+    return None
+
+
+def _assign_client_role(auth0_user_id: str) -> Tuple[bool, bool, Optional[str]]:
+    """Ensure Auth0 client role. Returns (has_role, newly_assigned, error_detail)."""
     try:
         auth_handler = get_auth_handler()
         management_token = auth_handler.get_client_credentials_token()
@@ -141,12 +177,12 @@ def _assign_client_role(auth0_user_id: str) -> Tuple[bool, Optional[str]]:
         if not existing.ok:
             detail = existing.text[:500]
             logger.error(f"[LinkAccount] GET roles failed {existing.status_code}: {detail}")
-            return False, f"Auth0 GET roles {existing.status_code}: {detail}"
+            return False, False, f"Auth0 GET roles {existing.status_code}: {detail}"
 
         for role in existing.json() or []:
             if role.get("id") == CLIENT_ROLE_ID or role.get("name") == "client":
                 logger.info(f"[LinkAccount] User {auth0_user_id} already has client role")
-                return True, None
+                return True, False, None
 
         response = requests.post(
             roles_url,
@@ -157,13 +193,13 @@ def _assign_client_role(auth0_user_id: str) -> Tuple[bool, Optional[str]]:
         if not response.ok:
             detail = response.text[:500]
             logger.error(f"[LinkAccount] POST roles failed {response.status_code}: {detail}")
-            return False, f"Auth0 POST roles {response.status_code}: {detail}"
+            return False, False, f"Auth0 POST roles {response.status_code}: {detail}"
 
         logger.info(f"[LinkAccount] Assigned client role to {auth0_user_id}")
-        return True, None
+        return True, True, None
     except Exception as e:
         logger.exception(f"[LinkAccount] Client role assignment failed for {auth0_user_id}")
-        return False, str(e)
+        return False, False, str(e)
 
 
 def _client_summary(client: Client) -> dict:
@@ -180,6 +216,7 @@ def _link_account_response(
     client: Client,
     already_linked: bool,
     role_assigned: bool,
+    role_newly_assigned: bool = False,
     role_error: Optional[str] = None,
     link_method: Optional[str] = None,
 ) -> dict:
@@ -187,6 +224,7 @@ def _link_account_response(
         "success": True,
         "already_linked": already_linked,
         "role_assigned": role_assigned,
+        "role_newly_assigned": role_newly_assigned,
         "client_id": str(client.id),
         "client_name": f"{client.first_name} {client.last_name}",
     }
@@ -237,7 +275,7 @@ async def get_portal_client(
         auth0_user_id = token_data.sub
         client = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
         if not client:
-            email = (token_data.email or "").lower().strip()
+            email = _resolve_link_email(LinkAccountRequest(), token_data, auth0_user_id)
             if email:
                 client = db.query(Client).filter(Client.email == email).first()
                 if client and not client.auth0_user_id:
@@ -268,7 +306,8 @@ async def link_account_debug(
     Call while logged into the client portal with the same Bearer token.
     """
     auth0_user_id = token_data.sub
-    email = (token_data.email or "").lower().strip()
+    token_email = (token_data.email or "").lower().strip() or None
+    resolved_email = _resolve_link_email(LinkAccountRequest(), token_data, auth0_user_id)
     roles = list(token_data.roles or [])
 
     client_by_auth0 = (
@@ -277,7 +316,9 @@ async def link_account_debug(
         else None
     )
     client_by_email = (
-        db.query(Client).filter(Client.email == email).first() if email else None
+        db.query(Client).filter(Client.email == resolved_email).first()
+        if resolved_email
+        else None
     )
 
     invite_secret_configured = bool(get_portal_invite_secret())
@@ -312,7 +353,8 @@ async def link_account_debug(
 
     return {
         "auth0_user_id": auth0_user_id,
-        "token_email": email or None,
+        "token_email": token_email,
+        "auth0_profile_email": resolved_email,
         "token_roles": roles,
         "invite_secret_configured": invite_secret_configured,
         "mgmt_credentials_configured": mgmt_configured,
@@ -325,6 +367,11 @@ async def link_account_debug(
         ),
         "client_linked_by_auth0_id": _client_summary(client_by_auth0) if client_by_auth0 else None,
         "client_linked_by_email": _client_summary(client_by_email) if client_by_email else None,
+        "email_linked_to_other_auth0": bool(
+            client_by_email
+            and client_by_email.auth0_user_id
+            and client_by_email.auth0_user_id != auth0_user_id
+        ),
         "expected_client_role_id": CLIENT_ROLE_ID,
     }
 
@@ -339,22 +386,24 @@ async def link_portal_account(
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
+    resolved_email = _resolve_link_email(body, token_data, auth0_user_id)
     logger.info(
-        "[LinkAccount] start sub=%s email=%s has_invite_token=%s has_email=%s invite_secret=%s",
+        "[LinkAccount] start sub=%s token_email=%s resolved_email=%s has_invite_token=%s invite_secret=%s",
         auth0_user_id,
         token_data.email,
+        resolved_email,
         bool(body.invite_token),
-        bool(body.email),
         bool(get_portal_invite_secret()),
     )
 
     existing = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
     if existing:
-        role_assigned, role_error = _assign_client_role(auth0_user_id)
+        role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
         return _link_account_response(
             client=existing,
             already_linked=True,
             role_assigned=role_assigned,
+            role_newly_assigned=role_newly_assigned,
             role_error=role_error,
             link_method="existing_auth0_user_id",
         )
@@ -387,10 +436,8 @@ async def link_portal_account(
                 invite_error = f"invite token invalid: {e}"
                 logger.warning(f"[LinkAccount] invite token invalid: {e}")
 
-    if not client and body.email:
-        client = db.query(Client).filter(
-            Client.email == body.email.lower().strip()
-        ).first()
+    if not client and resolved_email:
+        client = db.query(Client).filter(Client.email == resolved_email).first()
         if client:
             link_method = link_method or "email"
 
@@ -398,6 +445,10 @@ async def link_portal_account(
         detail = "No client record found. Please contact Atomic Repair to get access."
         if invite_error:
             detail = f"{detail} (invite: {invite_error})"
+        elif resolved_email:
+            detail = f"{detail} (no client with email {resolved_email})"
+        else:
+            detail = f"{detail} (could not determine email for this Auth0 user)"
         raise HTTPException(status_code=404, detail=detail)
 
     if client.auth0_user_id and client.auth0_user_id != auth0_user_id:
@@ -407,11 +458,12 @@ async def link_portal_account(
         )
 
     if client.auth0_user_id == auth0_user_id:
-        role_assigned, role_error = _assign_client_role(auth0_user_id)
+        role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
         return _link_account_response(
             client=client,
             already_linked=True,
             role_assigned=role_assigned,
+            role_newly_assigned=role_newly_assigned,
             role_error=role_error,
             link_method=link_method or "already_linked_same_client",
         )
@@ -421,11 +473,12 @@ async def link_portal_account(
     db.refresh(client)
     logger.info("[LinkAccount] linked client %s to %s via %s", client.id, auth0_user_id, link_method)
 
-    role_assigned, role_error = _assign_client_role(auth0_user_id)
+    role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
     return _link_account_response(
         client=client,
         already_linked=False,
         role_assigned=role_assigned,
+        role_newly_assigned=role_newly_assigned,
         role_error=role_error,
         link_method=link_method,
     )
