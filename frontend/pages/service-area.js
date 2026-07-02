@@ -381,17 +381,17 @@ export default function ServiceAreaIndex() {
                 className="text-2xl lg:text-3xl font-bold mb-4 transition-colors duration-500"
                 style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
               >
-                We Cover 25 Miles Around Toledo
+                Fast Service Across Toledo & Nearby Communities
               </h2>
               <p 
                 className="mb-6 transition-colors duration-500"
                 style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
               >
-                Our service area covers Toledo and all surrounding communities within a 25-mile radius. If you're not sure whether you're in our coverage area, just give us a call!
+                Our standard service area includes homes within approximately 20 minutes of Toledo. We also serve customers farther away with simple, flat-rate trip fees based on drive time.
               </p>
 
               <ul className="space-y-3 mb-6">
-                {['Same-day service available', 'No extra travel fees within coverage area', 'Flexible scheduling options'].map((item, i) => (
+                {['Same-day service available', 'No extra travel fees within coverage area', 'Extended service available up to 50 minutes away', 'Flexible scheduling options'].map((item, i) => (
                   <li 
                     key={i} 
                     className="flex items-center gap-3 transition-colors duration-500"
@@ -488,7 +488,7 @@ export default function ServiceAreaIndex() {
                     className="text-sm transition-colors duration-500"
                     style={{ color: theme === 'atomic' ? '#6B7C8F' : '#9ca3af' }}
                   >
-                    25-Mile Coverage Radius
+                    20-Minute Standard Service Area
                   </p>
                 </div>
               </div>
