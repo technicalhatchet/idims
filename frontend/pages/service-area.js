@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaPhone, FaCalendarAlt, FaArrowRight, FaPalette } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import CoverageRadar from '../components/coverage/CoverageRadar';
 import { allCities, serviceAreas } from '../data/serviceAreas';
 
 const THEMES = {
@@ -453,45 +454,9 @@ export default function ServiceAreaIndex() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="relative h-[350px] rounded-2xl overflow-hidden border transition-all duration-500"
-              style={{
-                backgroundColor: theme === 'atomic' ? '#000811' : 'transparent',
-                backgroundImage: theme === 'atomic' ? 'none' : 'linear-gradient(to bottom right, rgba(6,182,212,0.1), rgba(249,115,22,0.1))',
-                borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)',
-              }}
+              className="relative"
             >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div 
-                    className="w-32 h-32 rounded-full border-4 flex items-center justify-center mx-auto mb-4 relative transition-colors duration-500"
-                    style={{ 
-                      borderColor: theme === 'atomic' ? 'rgba(0, 229, 255, 0.3)' : 'rgba(6, 182, 212, 0.3)',
-                      boxShadow: theme === 'atomic' ? '0 0 30px rgba(0, 229, 255, 0.15)' : 'none'
-                    }}
-                  >
-                    <div 
-                      className="absolute inset-0 rounded-full animate-pulse transition-colors duration-500"
-                      style={{ backgroundColor: theme === 'atomic' ? 'rgba(0, 229, 255, 0.1)' : 'rgba(6, 182, 212, 0.1)' }}
-                    />
-                    <FaMapMarkerAlt 
-                      className="w-10 h-10 transition-colors duration-500"
-                      style={{ color: theme === 'atomic' ? '#FF7A1A' : '#fb923c' }}
-                    />
-                  </div>
-                  <p 
-                    className="font-bold text-lg transition-colors duration-500"
-                    style={{ color: theme === 'atomic' ? '#EAF6FF' : 'white' }}
-                  >
-                    Toledo, OH
-                  </p>
-                  <p 
-                    className="text-sm transition-colors duration-500"
-                    style={{ color: theme === 'atomic' ? '#6B7C8F' : '#9ca3af' }}
-                  >
-                    20-Minute Standard Service Area
-                  </p>
-                </div>
-              </div>
+              <CoverageRadar />
             </motion.div>
           </div>
         </div>
