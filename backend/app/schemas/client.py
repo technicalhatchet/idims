@@ -93,6 +93,7 @@ class ClientUpdate(BaseModel):
     tax_id: Optional[str] = None
     payment_terms: Optional[int] = None
     credit_limit: Optional[float] = None
+    self_scheduling_blocked: Optional[bool] = None
     
     @validator('email', pre=True)
     def empty_str_to_none(cls, v):
@@ -117,6 +118,8 @@ class ClientResponse(ClientBase):
     updated_at: datetime
     created_by: Optional[UUID] = None
     updated_by: Optional[UUID] = None
+    self_scheduling_blocked: bool = False
+    appliances_import_completed: bool = False
     model_config = ConfigDict(from_attributes=True)
 
 class ClientListResponse(BaseModel):

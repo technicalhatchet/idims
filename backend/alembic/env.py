@@ -49,6 +49,7 @@ from app.models.user import User
 from app.models.client import Client
 from app.models.technician import Technician
 from app.models.work_order import WorkOrder, WorkOrderService, WorkOrderItem, WorkOrderNote, WorkOrderStatusHistory, WorkOrderAppointment
+from app.models.client_appliance import ClientAppliance
 from app.models.payment import Payment, PaymentMethod
 from app.models.invoice import Invoice, InvoiceItem
 from app.models.notification import Notification, NotificationTemplate

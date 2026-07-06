@@ -33,6 +33,8 @@ class Client(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    self_scheduling_blocked = Column(Boolean, default=False, nullable=False)
+    appliances_import_completed = Column(Boolean, default=False, nullable=False)
     
     # Relationships
     user = relationship("User", foreign_keys=[user_id], back_populates="client")
@@ -41,6 +43,7 @@ class Client(Base):
     invoices = relationship("Invoice", back_populates="client", cascade="all, delete-orphan")
     documents = relationship("Document", back_populates="client", cascade="all, delete-orphan")
     properties = relationship("Property", back_populates="client", cascade="all, delete-orphan")
+    appliances = relationship("ClientAppliance", back_populates="client", cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<Client {self.id}: {self.company_name or f'{self.first_name} {self.last_name}'}>"

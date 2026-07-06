@@ -483,3 +483,35 @@ async def lookup_tax_rate(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error looking up tax rate: {str(e)}"
         )
+
+
+# ── Portal self-scheduling config ────────────────────────────────────────────
+
+from app.services.portal_scheduling_settings_service import (
+    default_portal_scheduling,
+    get_portal_scheduling_settings,
+)
+
+
+@router.get("/portal-scheduling/config")
+async def get_portal_scheduling_config(
+    db: Session = Depends(get_db),
+):
+    """
+    Portal scheduling settings (defaults merged with DB).
+    Used by settings UI and client portal scheduling flows.
+    """
+    try:
+        return get_portal_scheduling_settings(db)
+    except Exception as e:
+        logger.error(f"Error retrieving portal scheduling config: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error retrieving portal scheduling config: {str(e)}",
+        )
+
+
+@router.get("/portal-scheduling/defaults")
+async def get_portal_scheduling_defaults():
+    """Factory defaults for portal scheduling (no DB)."""
+    return default_portal_scheduling()

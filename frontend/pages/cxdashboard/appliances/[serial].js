@@ -6,23 +6,8 @@ import { format, parseISO, isPast } from 'date-fns';
 import { FaArrowLeft, FaShieldAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import DashboardLayout from '../../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../../components/cxdashboard/ApplianceIcon';
-
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
-
-async function portalFetch(endpoint, token) {
-  const impersonateId = typeof window !== 'undefined'
-    ? sessionStorage.getItem('portal_impersonate_client_id')
-    : null;
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
-  const res = await fetch(url, {
-    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`Portal API error: ${res.status}`);
-  return res.json();
-}
+import { applianceDisplayName } from '../../../constants/applianceEquipment';
+import { getPortalSessionToken, portalFetch } from '../../../utils/portalFetch';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -148,9 +133,7 @@ export default function ApplianceDetailPage() {
 
     async function load() {
       try {
-        const sessionRes = await fetch('/api/auth/session');
-        const session = await sessionRes.json();
-        const token = session.accessToken;
+        const token = await getPortalSessionToken();
         const data = await portalFetch(`appliances/${encodeURIComponent(serial)}`, token);
         setAppliance(data);
       } catch (err) {
@@ -162,9 +145,7 @@ export default function ApplianceDetailPage() {
     load();
   }, [serial]);
 
-  const displayName = appliance
-    ? [appliance.make, appliance.subtype?.replace(/_/g, ' ')].filter(Boolean).join(' ') || appliance.type || 'Appliance'
-    : 'Loading...';
+  const displayName = appliance ? applianceDisplayName(appliance) : 'Loading...';
 
   return (
     <>
@@ -191,7 +172,7 @@ export default function ApplianceDetailPage() {
             }}>
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                 <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '12px', padding: '12px', flexShrink: 0 }}>
-                  <ApplianceIcon type={appliance.subtype || appliance.type} className="w-10 h-10" />
+                  <ApplianceIcon type={appliance.equipment_subtype || appliance.subtype || appliance.equipment_type || appliance.type} className="w-10 h-10" />
                 </div>
 
                 <div style={{ flex: 1, minWidth: 0 }}>

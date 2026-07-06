@@ -18,6 +18,7 @@ from app.schemas.settings import (
     TripZonesSettings,
     TaxJurisdictionsSettings,
     PartsSettings,
+    PortalSchedulingSettings,
     validate_accent_color,
     validate_diagnostic_behavior,
     validate_invoice_terms,
@@ -252,6 +253,11 @@ class SettingsService:
                 TaxJurisdictionsSettings(**value)
             elif key == "parts_settings":
                 PartsSettings(**value)
+            elif key == "portal_scheduling":
+                PortalSchedulingSettings(**value)
+            elif key == "portal_self_scheduling":
+                if not isinstance(value, dict) or "enabled" not in value:
+                    raise ValueError("portal_self_scheduling must be { enabled: bool }")
             # Add more validations as needed
         except Exception as e:
             raise ValueError(f"Invalid value for setting '{key}': {str(e)}")

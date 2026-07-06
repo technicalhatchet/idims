@@ -1,35 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
-import { FaShieldAlt, FaChevronRight, FaBoxOpen, FaTools } from 'react-icons/fa';
+import { FaShieldAlt, FaChevronRight, FaBoxOpen, FaPlus } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
-
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
-
-async function portalFetch(endpoint, token) {
-  const impersonateId = typeof window !== 'undefined'
-    ? sessionStorage.getItem('portal_impersonate_client_id')
-    : null;
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
-  const res = await fetch(url, {
-    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`Portal API error: ${res.status}`);
-  return res.json();
-}
+import ApplianceImportModal from '../../components/cxdashboard/ApplianceImportModal';
+import ApplianceFormModal from '../../components/cxdashboard/ApplianceFormModal';
+import { applianceDisplayName } from '../../constants/applianceEquipment';
+import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 
 function ApplianceCard({ appliance }) {
-  const displayName = [appliance.make, appliance.subtype?.replace(/_/g, ' ')].filter(Boolean).join(' ')
-    || appliance.type
-    || 'Appliance';
+  const displayName = applianceDisplayName(appliance);
+  const detailId = appliance.id;
 
   return (
-    <Link href={`/cxdashboard/appliances/${encodeURIComponent(appliance.serial)}`}>
+    <Link href={`/cxdashboard/appliances/${encodeURIComponent(detailId)}`}>
       <div
         style={{
           background: '#0D1525',
@@ -45,7 +31,7 @@ function ApplianceCard({ appliance }) {
         className="hover:border-cyan-500/30 hover:bg-[#0f1a2e]"
       >
         <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px', flexShrink: 0 }}>
-          <ApplianceIcon type={appliance.subtype || appliance.type} className="w-8 h-8" />
+          <ApplianceIcon type={appliance.equipment_subtype || appliance.subtype || appliance.equipment_type || appliance.type} className="w-8 h-8" />
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -61,24 +47,18 @@ function ApplianceCard({ appliance }) {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
               {appliance.warranty_active && (
-                <span style={{
-                  display: 'flex', alignItems: 'center', gap: '4px',
-                  color: '#22c55e', fontSize: '0.75rem', fontWeight: '600',
-                }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#22c55e', fontSize: '0.75rem', fontWeight: '600' }}>
                   <FaShieldAlt style={{ fontSize: '10px' }} />
                   Warranty
                 </span>
               )}
               {appliance.active_repair && (
                 <span style={{
-                  background: 'rgba(245,158,11,0.1)',
-                  color: '#f59e0b',
-                  border: '1px solid rgba(245,158,11,0.2)',
-                  borderRadius: '6px',
-                  padding: '2px 8px',
-                  fontSize: '0.7rem',
-                  fontWeight: '600',
-                }}>
+                  background: 'rgba(245,158,11,0.1)', color: '#f59e0b',
+                  border: '1px solid rgba(245,158,11,0.2)', borderRadius: '6px',
+                  padding: '2px 8px', fontSize: '0.7rem', fontWeight: '600',
+                }}
+                >
                   Active
                 </span>
               )}
@@ -86,27 +66,24 @@ function ApplianceCard({ appliance }) {
             </div>
           </div>
 
-          <div style={{
-            display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.75rem',
-            fontSize: '0.8125rem', color: '#9ca3af',
-          }}>
-            <span style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '4px 8px' }}>
-              <span style={{ color: '#6b7280' }}>S/N:</span>{' '}
-              <span style={{ color: '#d1d5db', fontFamily: 'monospace' }}>{appliance.serial}</span>
-            </span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.75rem', fontSize: '0.8125rem', color: '#9ca3af' }}>
+            {appliance.serial && (
+              <span style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '4px 8px' }}>
+                <span style={{ color: '#6b7280' }}>S/N:</span>{' '}
+                <span style={{ color: '#d1d5db', fontFamily: 'monospace' }}>{appliance.serial}</span>
+              </span>
+            )}
             <span>
-              <span style={{ color: '#22d3ee', fontWeight: '600' }}>{appliance.service_count}</span> service{appliance.service_count !== 1 ? 's' : ''}
+              <span style={{ color: '#22d3ee', fontWeight: '600' }}>{appliance.service_count || 0}</span> service{(appliance.service_count || 0) !== 1 ? 's' : ''}
             </span>
             {appliance.last_service_date && (
-              <span>
-                Last: {format(parseISO(appliance.last_service_date), 'MMM d, yyyy')}
-              </span>
+              <span>Last: {format(parseISO(appliance.last_service_date), 'MMM d, yyyy')}</span>
             )}
           </div>
 
           {appliance.property && (
             <p style={{ color: '#6b7280', fontSize: '0.75rem', marginTop: '0.5rem' }}>
-              📍 {appliance.property.address}{appliance.property.unit_number ? ` Unit ${appliance.property.unit_number}` : ''}
+              {appliance.property.address}{appliance.property.unit_number ? ` Unit ${appliance.property.unit_number}` : ''}
             </p>
           )}
         </div>
@@ -117,61 +94,180 @@ function ApplianceCard({ appliance }) {
 
 export default function AppliancesPage() {
   const [appliances, setAppliances] = useState([]);
+  const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [importCandidates, setImportCandidates] = useState(null);
+  const [showAdd, setShowAdd] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const loadData = useCallback(async () => {
+    const token = await getPortalSessionToken();
+    if (!token) throw new Error('Not signed in');
+
+    const [applianceData, importData, propertyData] = await Promise.all([
+      portalFetch('appliances', token),
+      portalFetch('appliances/import/candidates', token),
+      portalFetch('properties', token).catch(() => []),
+    ]);
+
+    setAppliances(Array.isArray(applianceData) ? applianceData : []);
+    setProperties(Array.isArray(propertyData) ? propertyData : []);
+
+    if (!importData.completed && (importData.candidates || []).length > 0) {
+      setImportCandidates(importData.candidates);
+    } else {
+      setImportCandidates(null);
+    }
+  }, []);
 
   useEffect(() => {
-    async function load() {
+    (async () => {
       try {
-        const sessionRes = await fetch('/api/auth/session');
-        const session = await sessionRes.json();
-        const token = session.accessToken;
-        const data = await portalFetch('appliances', token);
-        setAppliances(Array.isArray(data) ? data : []);
+        await loadData();
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
+    })();
+  }, [loadData]);
+
+  const handleImportConfirm = async (selectedItems) => {
+    setSubmitting(true);
+    try {
+      const token = await getPortalSessionToken();
+      const payload = {
+        appliances: selectedItems.map((item) => ({
+          candidate_id: item.candidate_id,
+          property_id: item.property?.id || null,
+          nickname: item.nickname || null,
+          equipment_type: item.equipment_type || 'appliance',
+          equipment_subtype: item.equipment_subtype || null,
+          make: item.make || null,
+          model: item.model || null,
+          serial: item.serial || null,
+          equipment_version: item.equipment_version || null,
+          is_wall_mounted: !!item.is_wall_mounted,
+          work_order_ids: item.work_order_ids || [],
+        })),
+      };
+      await portalFetch('appliances/import/confirm', token, { method: 'POST', body: JSON.stringify(payload) });
+      setImportCandidates(null);
+      await loadData();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
     }
-    load();
-  }, []);
+  };
+
+  const handleImportSkip = async () => {
+    setSubmitting(true);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch('appliances/import/skip', token, { method: 'POST', body: '{}' });
+      setImportCandidates(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleAddAppliance = async (form) => {
+    setSubmitting(true);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch('appliances', token, { method: 'POST', body: JSON.stringify(form) });
+      setShowAdd(false);
+      await loadData();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
       <Head><title>My Appliances | Atomic Repair</title></Head>
       <div className="space-y-6">
-        <div>
-          <h1 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '700', margin: 0 }}>My Appliances</h1>
-          <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.25rem' }}>
-            Appliances we&apos;ve serviced with serial numbers on file
-          </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
+          <div>
+            <h1 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '700', margin: 0 }}>My Appliances</h1>
+            <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.25rem' }}>
+              Manage appliances at your properties and track service history
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowAdd(true)}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+              background: '#00D4FF', color: '#0A0F1E', border: 'none', borderRadius: '8px',
+              padding: '0.625rem 1rem', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer',
+            }}
+          >
+            <FaPlus /> Add appliance
+          </button>
         </div>
+
+        {error && (
+          <div style={{ padding: '0.75rem 1rem', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', color: '#f87171', fontSize: '0.875rem' }}>
+            {error}
+          </div>
+        )}
 
         {loading ? (
           <div style={{ textAlign: 'center', padding: '4rem', color: '#6b7280' }}>
             <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             Loading appliances...
           </div>
-        ) : error ? (
-          <div style={{ textAlign: 'center', padding: '4rem', color: '#ef4444' }}>{error}</div>
         ) : appliances.length === 0 ? (
           <div style={{
             textAlign: 'center', padding: '4rem',
-            background: '#0D1525', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.07)'
-          }}>
+            background: '#0D1525', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.07)',
+          }}
+          >
             <FaBoxOpen style={{ fontSize: '2.5rem', color: '#6b7280', marginBottom: '1rem', opacity: 0.4 }} />
-            <p style={{ color: '#9ca3af', marginBottom: '0.5rem' }}>No appliances with serial numbers on file</p>
-            <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>
-              When we service your appliances and record their serial numbers, they&apos;ll appear here with their full service history.
+            <p style={{ color: '#9ca3af', marginBottom: '0.5rem' }}>No appliances yet</p>
+            <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '1rem' }}>
+              Add your household appliances to keep model info and service history in one place.
             </p>
+            <button
+              type="button"
+              onClick={() => setShowAdd(true)}
+              style={{ background: '#00D4FF', color: '#0A0F1E', border: 'none', borderRadius: '8px', padding: '0.625rem 1.25rem', fontWeight: 700 }}
+            >
+              Add your first appliance
+            </button>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {appliances.map(a => <ApplianceCard key={a.serial} appliance={a} />)}
+            {appliances.map((a) => <ApplianceCard key={a.id} appliance={a} />)}
           </div>
         )}
       </div>
+
+      {importCandidates && (
+        <ApplianceImportModal
+          candidates={importCandidates}
+          submitting={submitting}
+          onConfirm={handleImportConfirm}
+          onSkip={handleImportSkip}
+        />
+      )}
+
+      {showAdd && (
+        <ApplianceFormModal
+          title="Add appliance"
+          properties={properties}
+          submitting={submitting}
+          onClose={() => setShowAdd(false)}
+          onSave={handleAddAppliance}
+        />
+      )}
     </>
   );
 }

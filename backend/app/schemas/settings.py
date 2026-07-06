@@ -284,3 +284,107 @@ class PartsSettings(BaseModel):
         if not any(v.id == "Other" for v in vendors):
             raise ValueError("partVendors must include an Other option")
         return vendors
+
+
+# ── Portal self-scheduling ─────────────────────────────────────────────────────
+
+class SchedulingWindowPeriod(BaseModel):
+    """Customer-facing appointment window (morning / afternoon / evening)."""
+    enabled: bool = True
+    start: str = Field("08:00", description="Start time HH:MM")
+    end: str = Field("12:00", description="End time HH:MM")
+
+    @validator("start", "end")
+    def validate_time(cls, v):
+        return validate_time_format(v)
+
+
+class PortalAutoAssignSettings(BaseModel):
+    strategy: str = Field(
+        "closest_travel",
+        description="closest_travel | round_robin | manual_only",
+    )
+    fallback_technician_id: Optional[str] = Field(
+        None,
+        description="UUID of default tech when solo or no match",
+    )
+
+    @validator("strategy")
+    def validate_strategy(cls, v):
+        allowed = {"closest_travel", "round_robin", "manual_only"}
+        if v not in allowed:
+            raise ValueError(f"strategy must be one of {allowed}")
+        return v
+
+
+class PortalPriorityServiceSettings(BaseModel):
+    enabled: bool = True
+    priority_diagnostic_multiplier: float = Field(1.5, ge=1.0, le=5.0)
+    priority_trip_multiplier: float = Field(1.0, ge=1.0, le=5.0)
+    priority_flat_fee: float = Field(75.0, ge=0)
+    emergency_diagnostic_multiplier: float = Field(2.0, ge=1.0, le=5.0)
+    emergency_trip_multiplier: float = Field(1.5, ge=1.0, le=5.0)
+    emergency_flat_fee: float = Field(125.0, ge=0)
+    request_cutoff_time: str = Field("23:59", description="Latest time for priority requests HH:MM")
+
+    @validator("request_cutoff_time")
+    def validate_cutoff(cls, v):
+        return validate_time_format(v)
+
+
+class PortalCommsSettings(BaseModel):
+    narrowing_sms: bool = True
+    narrowing_email: bool = True
+    same_day_approval_sms: bool = True
+    same_day_approval_email: bool = True
+    denial_sms: bool = True
+    denial_email: bool = True
+
+
+class PortalPaymentSettings(BaseModel):
+    requires_payment: bool = False
+    square_application_id: str = ""
+    square_location_id: str = ""
+    square_environment: str = Field("sandbox", description="sandbox | production")
+
+    @validator("square_environment")
+    def validate_env(cls, v):
+        if v not in ("sandbox", "production"):
+            raise ValueError("square_environment must be sandbox or production")
+        return v
+
+
+class PortalBookingRules(BaseModel):
+    min_days_out: int = Field(1, ge=0, le=30)
+    max_days_out: int = Field(21, ge=1, le=90)
+
+
+class PortalSchedulingSettings(BaseModel):
+    """Client portal self-scheduling configuration."""
+    self_scheduling_enabled: bool = True
+    scheduling_windows: Dict[str, SchedulingWindowPeriod] = Field(
+        default_factory=lambda: {
+            "morning": SchedulingWindowPeriod(enabled=True, start="08:00", end="12:00"),
+            "afternoon": SchedulingWindowPeriod(enabled=True, start="12:00", end="17:00"),
+            "evening": SchedulingWindowPeriod(enabled=False, start="17:00", end="21:00"),
+        }
+    )
+    same_day_lead_minutes_before_close: int = Field(60, ge=15, le=240)
+    narrowing_batch_time: str = Field("17:30", description="When to send narrowed ETA notices")
+
+    @validator("narrowing_batch_time")
+    def validate_batch_time(cls, v):
+        return validate_time_format(v)
+
+    auto_assign: PortalAutoAssignSettings = Field(default_factory=PortalAutoAssignSettings)
+    priority_service: PortalPriorityServiceSettings = Field(default_factory=PortalPriorityServiceSettings)
+    comms: PortalCommsSettings = Field(default_factory=PortalCommsSettings)
+    payment: PortalPaymentSettings = Field(default_factory=PortalPaymentSettings)
+    booking: PortalBookingRules = Field(default_factory=PortalBookingRules)
+
+    @validator("scheduling_windows")
+    def validate_windows(cls, windows):
+        for key in ("morning", "afternoon", "evening"):
+            if key not in windows:
+                raise ValueError(f"scheduling_windows must include {key}")
+        return windows

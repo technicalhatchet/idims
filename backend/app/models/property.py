@@ -26,3 +26,4 @@ class Property(Base):
     # Relationships
     client = relationship("Client", back_populates="properties")
     work_orders = relationship("WorkOrder", back_populates="property_ref")
+    appliances = relationship("ClientAppliance", back_populates="property_ref")

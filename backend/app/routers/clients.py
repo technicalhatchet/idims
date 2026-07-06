@@ -20,6 +20,8 @@ from app.services.notification_service import NotificationService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 from app.core.dependencies import get_admin_or_manager_user
 from app.config import settings, get_portal_invite_secret
+from app.schemas.client_appliance import ClientApplianceCreate, ClientApplianceUpdate, MergeAppliancesRequest
+from app.services import client_appliance_service as appliance_svc
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -69,6 +71,8 @@ def _serialize_client_for_list(client: Client) -> dict:
         "updated_at": client.updated_at,
         "created_by": client.created_by,
         "updated_by": getattr(client, "updated_by", None),
+        "self_scheduling_blocked": bool(getattr(client, "self_scheduling_blocked", False)),
+        "appliances_import_completed": bool(getattr(client, "appliances_import_completed", False)),
     }
 
 
@@ -474,3 +478,86 @@ async def send_portal_invite(
         raise HTTPException(status_code=500, detail="Failed to send invite email")
 
     return {"success": True, "message": f"Invite sent to {client.email}"}
+
+
+@router.get("/{client_id}/appliances")
+async def list_client_appliances_staff(
+    client_id: uuid.UUID,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
+    return appliance_svc.list_client_appliances(db, client_id, active_only=False)
+
+
+@router.post("/{client_id}/appliances")
+async def create_client_appliance_staff(
+    client_id: uuid.UUID,
+    payload: ClientApplianceCreate,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
+    try:
+        appliance = appliance_svc.create_client_appliance(db, client_id, payload, source="staff")
+        db.commit()
+        db.refresh(appliance)
+        return appliance_svc.serialize_appliance(appliance, db)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.put("/{client_id}/appliances/{appliance_id}")
+async def update_client_appliance_staff(
+    client_id: uuid.UUID,
+    appliance_id: uuid.UUID,
+    payload: ClientApplianceUpdate,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        appliance = appliance_svc.update_client_appliance(db, client_id, appliance_id, payload)
+        db.commit()
+        db.refresh(appliance)
+        return appliance_svc.serialize_appliance(appliance, db)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.delete("/{client_id}/appliances/{appliance_id}")
+async def delete_client_appliance_staff(
+    client_id: uuid.UUID,
+    appliance_id: uuid.UUID,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        appliance_svc.soft_delete_client_appliance(db, client_id, appliance_id)
+        db.commit()
+        return {"success": True}
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/{client_id}/appliances/merge")
+async def merge_client_appliances_staff(
+    client_id: uuid.UUID,
+    payload: MergeAppliancesRequest,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        keep = appliance_svc.merge_appliances(db, client_id, payload.keep_id, payload.merge_ids)
+        db.commit()
+        db.refresh(keep)
+        return appliance_svc.serialize_appliance(keep, db)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc

@@ -24,7 +24,15 @@ from app.models.client import Client
 from app.models.user import User as DBUser
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.models.property import Property
+from app.models.client_appliance import ClientAppliance
 from app.utils.portal_estimate import portal_estimate_meta
+from app.schemas.client_appliance import (
+    ClientApplianceCreate,
+    ClientApplianceUpdate,
+    ImportConfirmRequest,
+    MergeAppliancesRequest,
+)
+from app.services import client_appliance_service as appliance_svc
 
 logger = logging.getLogger(__name__)
 
@@ -592,6 +600,29 @@ async def link_portal_account(
     )
 
 
+@router.get("/portal/scheduling-config")
+async def get_portal_scheduling_config_for_client(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    """Read-only scheduling config for the client portal (no payment secrets)."""
+    from app.services.portal_scheduling_settings_service import get_portal_scheduling_settings
+
+    settings = get_portal_scheduling_settings(db)
+    payment = settings.get("payment") or {}
+    return {
+        "self_scheduling_allowed": appliance_svc.client_self_scheduling_allowed(client, db),
+        "self_scheduling_enabled": bool(settings.get("self_scheduling_enabled", True)),
+        "scheduling_windows": settings.get("scheduling_windows"),
+        "same_day_lead_minutes_before_close": settings.get("same_day_lead_minutes_before_close"),
+        "narrowing_batch_time": settings.get("narrowing_batch_time"),
+        "booking": settings.get("booking"),
+        "priority_service_enabled": bool((settings.get("priority_service") or {}).get("enabled")),
+        "payment_required": bool(payment.get("requires_payment")),
+        "comms": settings.get("comms"),
+    }
+
+
 @router.get("/portal/me")
 async def get_portal_profile(
     client: Client = Depends(get_portal_client),
@@ -625,6 +656,9 @@ async def get_portal_profile(
         "company_name": client.company_name,
         "phone": client.phone,
         "email": client.email,
+        "self_scheduling_allowed": appliance_svc.client_self_scheduling_allowed(client, db),
+        "self_scheduling_blocked": bool(client.self_scheduling_blocked),
+        "appliances_import_completed": bool(client.appliances_import_completed),
         "stats": {
             "upcoming_appointments": len(upcoming_appts),
             "next_appointment": upcoming_appts[0].scheduled_start.isoformat() if upcoming_appts else None,
@@ -917,9 +951,7 @@ async def get_portal_invoices(
 
 def _device_key(wo: WorkOrder) -> Optional[str]:
     """
-    Stable identity key for grouping a client's work orders into one physical appliance.
-    Returns the serial number (lowercased) if present, otherwise None.
-    We only track appliances that have a serial number on file.
+    Legacy serial-based grouping key for work orders without a registry appliance.
     """
     serial = (wo.equipment_serial or "").strip().lower()
     return serial if serial else None
@@ -928,74 +960,165 @@ def _device_key(wo: WorkOrder) -> Optional[str]:
 @router.get("/portal/appliances")
 async def get_portal_appliances(
     client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    """
-    Group the client's work orders into distinct appliances.
-    Only includes appliances that have a serial number on file.
-    """
-    work_orders_list = db.query(WorkOrder).filter(
-        WorkOrder.client_id == client.id
-    ).order_by(desc(WorkOrder.created_at)).all()
-
-    now = datetime.utcnow()
-    groups: dict = {}
-    for wo in work_orders_list:
-        key = _device_key(wo)
-        if key:  # Only include work orders with a serial number
-            groups.setdefault(key, []).append(wo)
-
-    result = []
-    for serial, wos in groups.items():
-        wos_sorted = sorted(wos, key=lambda w: w.created_at or datetime.min, reverse=True)
-        latest = wos_sorted[0]
-        prop = db.query(Property).filter(Property.id == latest.property_id).first() if latest.property_id else None
-        warranty_active = any(_warranty_is_active(w, db, now) for w in wos_sorted)
-        active_repair = any(_work_order_status(w) not in ("completed", "cancelled", "closed") for w in wos_sorted)
-
-        result.append({
-            "serial": latest.equipment_serial,  # Original casing
-            "make": latest.equipment_make,
-            "model": latest.equipment_model,
-            "subtype": latest.equipment_subtype,
-            "type": latest.equipment_type,
-            "property": {
-                "address": prop.address if prop else (latest.service_location or {}).get("address"),
-                "unit_number": prop.unit_number if prop else None,
-            } if (prop or latest.service_location) else None,
-            "service_count": len(wos_sorted),
-            "last_service_date": latest.created_at.isoformat() if latest.created_at else None,
-            "last_status": _work_order_status(latest),
-            "warranty_active": warranty_active,
-            "active_repair": active_repair,
-        })
-
-    result.sort(key=lambda d: d["last_service_date"] or "", reverse=True)
-    return result
+    """List registered client appliances."""
+    return appliance_svc.list_client_appliances(db, client.id)
 
 
-@router.get("/portal/appliances/{serial}")
-async def get_portal_appliance_detail(
-    serial: str,
+@router.get("/portal/appliances/import/candidates")
+async def get_portal_appliance_import_candidates(
     client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    """Full repair history for one appliance, identified by its serial number."""
-    serial_lower = serial.strip().lower()
-    work_orders_list = db.query(WorkOrder).filter(
-        WorkOrder.client_id == client.id
-    ).order_by(desc(WorkOrder.created_at)).all()
+    if client.appliances_import_completed:
+        return {"completed": True, "candidates": []}
+    return {
+        "completed": False,
+        "candidates": appliance_svc.build_import_candidates(db, client.id),
+    }
 
+
+@router.post("/portal/appliances/import/skip")
+async def skip_portal_appliance_import(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    client.appliances_import_completed = True
+    client.updated_at = datetime.utcnow()
+    db.commit()
+    return {"success": True}
+
+
+@router.post("/portal/appliances/import/confirm")
+async def confirm_portal_appliance_import(
+    payload: ImportConfirmRequest,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        created = appliance_svc.confirm_import(db, client, payload)
+        db.commit()
+        for appliance in created:
+            db.refresh(appliance)
+        return {
+            "imported": len(created),
+            "appliances": [appliance_svc.serialize_appliance(a, db) for a in created],
+        }
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        db.rollback()
+        logger.exception("Appliance import failed")
+        raise HTTPException(status_code=500, detail="Import failed") from exc
+
+
+@router.post("/portal/appliances/merge")
+async def merge_portal_appliances(
+    payload: MergeAppliancesRequest,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        keep = appliance_svc.merge_appliances(db, client.id, payload.keep_id, payload.merge_ids)
+        db.commit()
+        db.refresh(keep)
+        return appliance_svc.serialize_appliance(keep, db)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.post("/portal/appliances")
+async def create_portal_appliance(
+    payload: ClientApplianceCreate,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        appliance = appliance_svc.create_client_appliance(db, client.id, payload, source="portal")
+        db.commit()
+        db.refresh(appliance)
+        return appliance_svc.serialize_appliance(appliance, db)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.put("/portal/appliances/{appliance_id}")
+async def update_portal_appliance(
+    appliance_id: str,
+    payload: ClientApplianceUpdate,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        appliance = appliance_svc.update_client_appliance(
+            db, client.id, uuid.UUID(appliance_id), payload
+        )
+        db.commit()
+        db.refresh(appliance)
+        return appliance_svc.serialize_appliance(appliance, db)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.delete("/portal/appliances/{appliance_id}")
+async def delete_portal_appliance(
+    appliance_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        appliance_svc.soft_delete_client_appliance(db, client.id, uuid.UUID(appliance_id))
+        db.commit()
+        return {"success": True}
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.get("/portal/appliances/{appliance_id}")
+async def get_portal_appliance_detail(
+    appliance_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    """Appliance detail by registry id, or legacy serial number."""
+    try:
+        parsed_id = uuid.UUID(appliance_id)
+        appliance = appliance_svc.get_client_appliance(db, client.id, parsed_id)
+        return appliance_svc.serialize_appliance(appliance, db, include_history=True)
+    except ValueError:
+        pass
+
+    serial_lower = appliance_id.strip().lower()
+    appliance = (
+        db.query(ClientAppliance)
+        .filter(
+            ClientAppliance.client_id == client.id,
+            ClientAppliance.is_active.is_(True),
+            ClientAppliance.merged_into_id.is_(None),
+        )
+        .all()
+    )
+    match = next((a for a in appliance if (a.serial or "").strip().lower() == serial_lower), None)
+    if match:
+        return appliance_svc.serialize_appliance(match, db, include_history=True)
+
+    work_orders_list = db.query(WorkOrder).filter(WorkOrder.client_id == client.id).all()
     matching = [w for w in work_orders_list if _device_key(w) == serial_lower]
     if not matching:
         raise HTTPException(status_code=404, detail="Appliance not found")
 
     now = datetime.utcnow()
-    latest = matching[0]
+    latest = sorted(matching, key=lambda w: w.created_at or datetime.min, reverse=True)[0]
     prop = db.query(Property).filter(Property.id == latest.property_id).first() if latest.property_id else None
 
     history = []
-    for wo in matching:
+    for wo in sorted(matching, key=lambda w: w.created_at or datetime.min, reverse=True):
         warranty_expires = _warranty_expires_at(wo, db)
         history.append({
             "id": str(wo.id),
@@ -1014,11 +1137,15 @@ async def get_portal_appliance_detail(
         })
 
     return {
+        "id": serial_lower,
+        "legacy_serial_view": True,
         "serial": latest.equipment_serial,
         "make": latest.equipment_make,
         "model": latest.equipment_model,
         "subtype": latest.equipment_subtype,
         "type": latest.equipment_type,
+        "equipment_type": latest.equipment_type,
+        "equipment_subtype": latest.equipment_subtype,
         "version": latest.equipment_version,
         "property": {
             "address": prop.address if prop else (latest.service_location or {}).get("address"),
@@ -1028,6 +1155,16 @@ async def get_portal_appliance_detail(
         "warranty_active": any(_warranty_is_active(w, db, now) for w in matching),
         "history": history,
     }
+
+
+# Legacy route alias
+@router.get("/portal/appliances/by-serial/{serial}")
+async def get_portal_appliance_by_serial(
+    serial: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    return await get_portal_appliance_detail(serial, client, db)
 
 
 @router.get("/portal/work-orders/{work_order_id}/invoice.pdf")

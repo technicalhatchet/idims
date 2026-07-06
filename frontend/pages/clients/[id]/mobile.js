@@ -15,6 +15,7 @@ import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 import { apiClient } from '../../../utils/api-client';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
+import ClientAppliancesPanel from '../../../components/clients/ClientAppliancesPanel';
 
 const formatPhoneNumber = (phoneNumberString) => {
   if (!phoneNumberString) return '';
@@ -314,7 +315,7 @@ function ClientDetail() {
       return next;
     });
   };
-  const { sendRegistrationEmail } = useClientMutations();
+  const { sendRegistrationEmail, updateClient } = useClientMutations();
   const { data: workOrdersData, isLoading: workOrdersLoading, error: workOrdersError } =
     useWorkOrders({ client_id: id, page: 1, limit: 100 });
 
@@ -1158,6 +1159,10 @@ function ClientDetail() {
             )}
           </div>
 
+          <div className="mb-4">
+            <ClientAppliancesPanel clientId={client?.id} properties={properties} />
+          </div>
+
           <div 
             className="rounded-lg p-4"
             style={{
@@ -1175,6 +1180,24 @@ function ClientDetail() {
             <p className="text-sm text-gray-400 mb-4">
               Send an email invitation for this client to create their account in the client portal.
             </p>
+
+            <label className="flex items-center justify-between gap-3 mb-4 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div>
+                <p className="text-sm text-white font-semibold">Block self-scheduling</p>
+                <p className="text-xs text-gray-500 mt-0.5">Client must call to schedule service</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={!!client.self_scheduling_blocked}
+                onChange={async (e) => {
+                  try {
+                    await updateClient({ id: client.id, self_scheduling_blocked: e.target.checked });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              />
+            </label>
             <button 
               onClick={handleSendRegistrationEmail} 
               disabled={emailSending} 

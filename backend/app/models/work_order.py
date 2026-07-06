@@ -31,6 +31,7 @@ class WorkOrder(Base):
                         "unreachable", "recall", "redo", "refunded", "closed",
                         name="work_order_status_enum"), default="pending")
     property_id = Column(UUID(as_uuid=True), ForeignKey('properties.id', ondelete='SET NULL'), nullable=True)
+    appliance_id = Column(UUID(as_uuid=True), ForeignKey('client_appliances.id', ondelete='SET NULL'), nullable=True)
     service_location = Column(JSONB, nullable=True)  # Address and location details
     scheduled_start = Column(DateTime, nullable=True)
     scheduled_end = Column(DateTime, nullable=True)
@@ -60,6 +61,7 @@ class WorkOrder(Base):
     
     # Relationships
     client = relationship("Client", back_populates="work_orders")
+    appliance = relationship("ClientAppliance", back_populates="work_orders", foreign_keys=[appliance_id])
     technician = relationship("Technician", foreign_keys=[assigned_technician_id], back_populates="work_orders")
     service_items = relationship("WorkOrderService", back_populates="work_order", cascade="all, delete-orphan")
     items = relationship("WorkOrderItem", back_populates="work_order", cascade="all, delete-orphan")
