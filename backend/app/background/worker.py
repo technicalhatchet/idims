@@ -1,6 +1,5 @@
 from celery import Celery
 from celery.schedules import crontab
-from zoneinfo import ZoneInfo
 
 from app.config import settings
 import logging
@@ -16,9 +15,6 @@ def setup_background_tasks():
                 broker=settings.REDIS_URL,
                 backend=settings.REDIS_URL
             )
-
-            shop_tz = ZoneInfo(settings.SHOP_TIMEZONE or "America/Detroit")
-            briefing_hour = int(settings.MORNING_BRIEFING_HOUR or 7)
 
             # Configure Celery
             celery.conf.update(
@@ -77,10 +73,10 @@ def setup_background_tasks():
                         "schedule": 60,
                     },
 
-                    # Morning schedule summary — shop-local time (default 7:00 AM)
+                    # Morning schedule summary — checks shop-local hour from settings each hour
                     "send-morning-schedule-summaries": {
                         "task": "app.background.tasks.push.send_morning_schedule_summaries",
-                        "schedule": crontab(hour=briefing_hour, minute=0, tz=shop_tz),
+                        "schedule": crontab(minute="0,15,30,45"),
                     },
                 }
             )

@@ -515,3 +515,29 @@ async def get_portal_scheduling_config(
 async def get_portal_scheduling_defaults():
     """Factory defaults for portal scheduling (no DB)."""
     return default_portal_scheduling()
+
+
+from app.services.push_notification_settings_service import (
+    default_push_notifications,
+    get_push_notification_settings,
+)
+
+
+@router.get("/push-notifications/config")
+async def get_push_notifications_config(
+    db: Session = Depends(get_db),
+):
+    """Push notification toggles and recipient roles."""
+    try:
+        return get_push_notification_settings(db)
+    except Exception as e:
+        logger.error(f"Error retrieving push notification config: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error retrieving push notification config: {str(e)}",
+        )
+
+
+@router.get("/push-notifications/defaults")
+async def get_push_notifications_defaults():
+    return default_push_notifications()

@@ -11,6 +11,7 @@ import {
 } from '../utils/partsSettings';
 import { uploadPartsLookupLogo } from '../services/api/partsSettingsApi';
 import PortalSchedulingSettingsPanel from '../components/settings/PortalSchedulingSettingsPanel';
+import PushNotificationSettingsPanel from '../components/settings/PushNotificationSettingsPanel';
 
 const DAYS = [
   { key: 'monday', label: 'Monday' },
@@ -66,6 +67,7 @@ const TABS = [
   { id: 'interface', label: 'Interface', icon: 'layout' },
   { id: 'availability', label: 'Availability', icon: 'calendar' },
   { id: 'client-portal', label: 'Client Portal', icon: 'portal' },
+  { id: 'notifications', label: 'Notifications', icon: 'bell' },
   { id: 'service-areas', label: 'Service Areas', icon: 'map' },
   { id: 'tax', label: 'Tax', icon: 'tax' },
   { id: 'parts', label: 'Parts', icon: 'parts' },
@@ -186,6 +188,12 @@ function TabIcon({ type, className }) {
         <circle cx="9" cy="7" r="4" />
         <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
         <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    ),
+    bell: (
+      <svg viewBox="0 0 24 24" className={className} style={{ strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
       </svg>
     ),
   };
@@ -2279,6 +2287,7 @@ export default function Settings() {
           {activeTab === 'interface' && renderInterfaceTab()}
           {activeTab === 'availability' && renderAvailabilityTab()}
           {activeTab === 'client-portal' && <PortalSchedulingSettingsPanel />}
+          {activeTab === 'notifications' && <PushNotificationSettingsPanel />}
           {activeTab === 'service-areas' && renderServiceAreasTab()}
           {activeTab === 'tax' && renderTaxTab()}
           {activeTab === 'parts' && renderPartsTab()}

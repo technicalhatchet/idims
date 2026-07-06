@@ -19,6 +19,10 @@ from app.models.technician import Technician
 from app.models.user import User
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.models.property import Property
+from app.services.push_notification_settings_service import (
+    get_push_rule,
+    is_morning_briefing_due_now,
+)
 from app.services.scheduling_constraints_service import (
     APPOINTMENT_STATUS_CANCELED,
     appointment_local_naive,
@@ -224,6 +228,13 @@ def _send_deploy_nudge(
         db.commit()
         return False
 
+    rule = get_push_rule(db, "deploy_reminder")
+    if not rule.get("enabled", True):
+        return False
+    notify_user = db.query(User).filter(User.id == reminder.user_id).first()
+    if notify_user and not _user_matches_recipients(notify_user, rule.get("recipients") or {}):
+        return False
+
     order_label = work_order.order_number or str(work_order.id)[:8]
     url = f"/work_orders/{work_order.id}/mobile"
     tag = f"deploy-{appointment.id}"
@@ -358,15 +369,50 @@ def handle_appointment_status_push(
         cancel_deploy_reminder(db, appointment.id)
 
 
-def _admin_manager_users(db: Session) -> List[User]:
-    staff = db.query(User).filter(User.is_active == True).all()  # noqa: E712
-    return [u for u in staff if u.is_admin or u.is_manager]
+def _user_matches_recipients(user: User, recipients: Dict[str, Any]) -> bool:
+    if user.is_admin and recipients.get("admin", True):
+        return True
+    if user.is_manager and recipients.get("manager", True):
+        return True
+    if user.is_technician and recipients.get("technician", True):
+        return True
+    return False
 
 
-def _portal_staff_users(db: Session) -> List[User]:
-    """Admin, manager, and technician users who should see portal activity."""
+def _users_for_recipients(
+    db: Session,
+    recipients: Dict[str, Any],
+    *,
+    extra_user_ids: Optional[List[uuid.UUID]] = None,
+) -> List[User]:
     staff = db.query(User).filter(User.is_active == True).all()  # noqa: E712
-    return [u for u in staff if u.is_admin or u.is_manager or u.is_technician]
+    users_by_id = {u.id: u for u in staff if _user_matches_recipients(u, recipients)}
+    for user_id in extra_user_ids or []:
+        if user_id in users_by_id:
+            continue
+        user = db.query(User).filter(User.id == user_id, User.is_active == True).first()  # noqa: E712
+        if user:
+            users_by_id[user.id] = user
+    return list(users_by_id.values())
+
+
+def _notify_push_rule(
+    db: Session,
+    rule_key: str,
+    *,
+    title: str,
+    body: str,
+    url: str,
+    tag: str,
+    extra_user_ids: Optional[List[uuid.UUID]] = None,
+) -> int:
+    rule = get_push_rule(db, rule_key)
+    if not rule.get("enabled", True):
+        return 0
+    recipients = rule.get("recipients") or {}
+    extra = list(extra_user_ids or [])
+    users = _users_for_recipients(db, recipients, extra_user_ids=extra or None)
+    return _notify_users(db, users, title=title, body=body, url=url, tag=tag)
 
 
 def _notify_users(
@@ -397,51 +443,15 @@ def _notify_users(
     return total
 
 
-def _notify_admin_managers(
-    db: Session,
-    *,
-    title: str,
-    body: str,
-    url: str,
-    tag: str,
-) -> int:
-    return _notify_users(db, _admin_manager_users(db), title=title, body=body, url=url, tag=tag)
-
-
-def _notify_portal_staff(
-    db: Session,
-    *,
-    title: str,
-    body: str,
-    url: str,
-    tag: str,
-    extra_user_ids: Optional[List[uuid.UUID]] = None,
-) -> int:
-    users_by_id = {u.id: u for u in _portal_staff_users(db)}
-    for user_id in extra_user_ids or []:
-        if user_id in users_by_id:
-            continue
-        user = db.query(User).filter(User.id == user_id, User.is_active == True).first()  # noqa: E712
-        if user:
-            users_by_id[user.id] = user
-    return _notify_users(
-        db,
-        list(users_by_id.values()),
-        title=title,
-        body=body,
-        url=url,
-        tag=tag,
-    )
-
-
 def notify_pending_work_order(db: Session, work_order: WorkOrder) -> int:
     """Push to admin/manager staff when a new pending work order arrives."""
     if (work_order.status or "").lower() != "pending":
         return 0
 
     order_label = work_order.order_number or str(work_order.id)[:8]
-    return _notify_admin_managers(
+    return _notify_push_rule(
         db,
+        "pending_work_order",
         title="New pending work order",
         body=f"#{order_label} needs scheduling.",
         url=f"/work_orders/{work_order.id}/mobile",
@@ -487,8 +497,9 @@ def notify_portal_self_schedule(
     if tech_user_id:
         extra_user_ids.append(tech_user_id)
 
-    return _notify_portal_staff(
+    return _notify_push_rule(
         db,
+        "portal_self_schedule",
         title="Portal booking confirmed",
         body=body,
         url=f"/work_orders/{work_order.id}/mobile",
@@ -510,8 +521,9 @@ def notify_portal_update_request(
     if len(preview) > 100:
         preview = preview[:97] + "..."
 
-    return _notify_portal_staff(
+    return _notify_push_rule(
         db,
+        "portal_update_request",
         title="Portal update request",
         body=f"{client_name} on #{order_label}: {preview}" if preview else f"{client_name} requested an update on #{order_label}.",
         url=f"/work_orders/{work_order.id}/mobile",
@@ -548,13 +560,26 @@ def _format_shop_time(dt: Optional[datetime]) -> Optional[str]:
 
 def _morning_briefing_scope(db: Session, user: User) -> Optional[str]:
     """shop = all appointments today; technician = only assigned to this tech."""
-    if not (user.is_admin or user.is_manager or user.is_technician):
+    rule = get_push_rule(db, "morning_briefing")
+    if not rule.get("enabled", True):
         return None
-    if user.is_admin or user.is_manager:
+
+    recipients = rule.get("recipients") or {}
+    if not _user_matches_recipients(user, recipients):
+        return None
+
+    office = (user.is_admin and recipients.get("admin")) or (
+        user.is_manager and recipients.get("manager")
+    )
+    if office:
         return "shop"
-    tech = db.query(Technician).filter(Technician.user_id == user.id).first()
-    if tech:
-        return "technician"
+
+    if user.is_technician and recipients.get("technician"):
+        if rule.get("technicians_see_own_jobs_only", True):
+            tech = db.query(Technician).filter(Technician.user_id == user.id).first()
+            return "technician" if tech else None
+        return "shop"
+
     return None
 
 
@@ -673,8 +698,7 @@ def maybe_send_morning_briefing_for_user(
     if _morning_briefing_already_sent(user, today_key):
         return False
 
-    now_local = _shop_now()
-    if not force and now_local.hour < int(settings.MORNING_BRIEFING_HOUR or 7):
+    if not force and not is_morning_briefing_due_now(db):
         return False
 
     return send_morning_briefing_to_user(
@@ -689,6 +713,8 @@ def maybe_send_morning_briefing_for_user(
 def send_morning_schedule_summaries(db: Session) -> int:
     """Push today's job count + first start time to subscribed staff (once per day each)."""
     if not _vapid_configured():
+        return 0
+    if not is_morning_briefing_due_now(db):
         return 0
 
     day_start, day_end, today_key = _shop_today_bounds()

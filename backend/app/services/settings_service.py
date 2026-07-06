@@ -255,6 +255,9 @@ class SettingsService:
                 PartsSettings(**value)
             elif key == "portal_scheduling":
                 PortalSchedulingSettings(**value)
+            elif key == "push_notifications":
+                from app.schemas.push_notification_settings import PushNotificationSettings
+                PushNotificationSettings(**value)
             elif key == "portal_self_scheduling":
                 if not isinstance(value, dict) or "enabled" not in value:
                     raise ValueError("portal_self_scheduling must be { enabled: bool }")
