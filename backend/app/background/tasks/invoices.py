@@ -20,13 +20,13 @@ def check_overdue_invoices():
         # Get database session
         db = get_db_session()
         
-        # Current date
-        today = datetime.utcnow().date()
+        # Current time (due_date is DateTime)
+        now = datetime.utcnow()
         
-        # Find invoices that are due today or earlier, still in sent or partially_paid status
+        # Find invoices that are past due, still in sent or partially_paid status
         invoices = db.query(Invoice).filter(
             and_(
-                Invoice.due_date <= today,
+                Invoice.due_date < now,
                 Invoice.status.in_(["sent", "partially_paid"]),
                 Invoice.balance > 0
             )

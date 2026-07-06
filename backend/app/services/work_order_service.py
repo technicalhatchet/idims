@@ -39,6 +39,7 @@ from app.models.technician import Technician
 from app.models.technician_skill import TechnicianSkill
 from app.models.skill import Skill
 from app.models.invoice import Invoice, InvoiceItem
+from app.services.invoice_service import calculate_default_due_date, invoice_blocks_work_order_delete
 from app.schemas.work_order import WorkOrderNoteCreate, WorkOrderPartCreate, WorkOrderPartUpdate
 from app.schemas.scheduling import ScheduleRequest
 from app.services.user_service import UserService
@@ -586,19 +587,27 @@ class WorkOrderService:
                 logger.warning(f"Cannot delete work order with status {work_order.status}")
                 raise ConflictException(f"Cannot delete a work order with status {work_order.status}")
             
-            # Check if there are invoices related to this work order
-            # Using raw SQL to be safer and avoid ORM model mismatches
+            # Remove draft/canceled invoices (e.g. auto-created on appointment booking).
+            # Block delete when any invoice is sent, paid, or has payments.
             logger.info(f"Checking for associated invoices for work order {work_order_id}")
-            invoice_exists = db.execute(
-                text("SELECT COUNT(*) FROM invoices WHERE work_order_id = :work_order_id"),
-                {"work_order_id": str(work_order_id)}
-            ).scalar()
-            
-            logger.info(f"Found {invoice_exists} invoices for work order {work_order_id}")
-            
-            if invoice_exists and int(invoice_exists) > 0:
-                logger.warning(f"Work order {work_order_id} has {invoice_exists} associated invoices, cannot delete")
-                raise ConflictException("Cannot delete work order with associated invoices")
+            invoices = db.query(Invoice).filter(Invoice.work_order_id == work_order_id).all()
+            logger.info(f"Found {len(invoices)} invoices for work order {work_order_id}")
+
+            for invoice in invoices:
+                block_reason = invoice_blocks_work_order_delete(invoice)
+                if block_reason:
+                    raise ConflictException(block_reason)
+
+            for invoice in invoices:
+                logger.info(
+                    "Removing %s invoice %s before work order delete",
+                    invoice.status,
+                    invoice.invoice_number,
+                )
+                db.query(InvoiceItem).filter(InvoiceItem.invoice_id == invoice.id).delete()
+                db.delete(invoice)
+            if invoices:
+                db.flush()
             
             # Delete associated records
             try:
@@ -1023,7 +1032,11 @@ class WorkOrderService:
                         work_order_id=db_appointment.work_order_id,
                         status="draft",
                         issue_date=datetime.utcnow(),
-                        due_date=datetime.utcnow(), # Consider a proper due_date logic
+                        due_date=calculate_default_due_date(
+                            self.db,
+                            work_order.client_id,
+                            service_date=db_appointment.scheduled_start,
+                        ),
                         created_by=user_id
                     )
                     self.db.add(invoice)
@@ -1462,7 +1475,11 @@ class WorkOrderService:
                             work_order_id=appointment.work_order_id,
                             status="draft",
                             issue_date=datetime.utcnow(),
-                            due_date=datetime.utcnow(),
+                            due_date=calculate_default_due_date(
+                                self.db,
+                                work_order.client_id,
+                                service_date=appointment.scheduled_start,
+                            ),
                             created_by=user_id
                         )
                         self.db.add(invoice)

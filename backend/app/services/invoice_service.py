@@ -20,6 +20,48 @@ from app.schemas.notification import NotificationCreate
 
 logger = logging.getLogger(__name__)
 
+
+def calculate_default_due_date(
+    db: Session,
+    client_id: uuid.UUID,
+    *,
+    service_date: Optional[datetime] = None,
+) -> datetime:
+    """Payment due date anchored to the service visit, not invoice creation."""
+    client = db.query(Client).filter(Client.id == client_id).first()
+    terms = int(client.payment_terms) if client and client.payment_terms else 30
+    anchor = service_date or datetime.utcnow()
+    if getattr(anchor, "tzinfo", None) is not None:
+        anchor = anchor.replace(tzinfo=None)
+    return anchor + timedelta(days=terms)
+
+
+def invoice_blocks_work_order_delete(invoice: Invoice) -> Optional[str]:
+    """Return an error message if this invoice prevents work order deletion."""
+    if invoice.payments and len(invoice.payments) > 0:
+        return (
+            f"Cannot delete work order — invoice #{invoice.invoice_number} "
+            "has payments recorded."
+        )
+    if invoice.status in ("paid", "partially_paid"):
+        return (
+            f"Cannot delete work order — invoice #{invoice.invoice_number} "
+            f"is {invoice.status}."
+        )
+    if invoice.status == "sent":
+        return (
+            f"Cannot delete work order — invoice #{invoice.invoice_number} "
+            "has been sent to the client. Void the invoice first."
+        )
+    if invoice.status == "overdue" and float(invoice.amount_paid or 0) > 0:
+        return (
+            f"Cannot delete work order — invoice #{invoice.invoice_number} "
+            "is overdue with payments applied."
+        )
+    # draft, canceled, or overdue-with-no-payments (legacy auto-mark bug) — deletable
+    return None
+
+
 class InvoiceService:
     """Service for handling invoice operations"""
     
@@ -102,9 +144,22 @@ class InvoiceService:
         issue_date = invoice_data.issue_date or datetime.utcnow().date()
         due_date = invoice_data.due_date
         if not due_date:
-            # Use client payment terms or default to 30 days
-            payment_terms = client.payment_terms or 30
-            due_date = issue_date + timedelta(days=payment_terms)
+            service_date = None
+            if invoice_data.work_order_id:
+                from app.models.work_order import WorkOrderAppointment
+
+                appt = (
+                    db.query(WorkOrderAppointment)
+                    .filter(
+                        WorkOrderAppointment.work_order_id == invoice_data.work_order_id,
+                        WorkOrderAppointment.scheduled_start.isnot(None),
+                    )
+                    .order_by(WorkOrderAppointment.scheduled_start.asc())
+                    .first()
+                )
+                if appt:
+                    service_date = appt.scheduled_start
+            due_date = calculate_default_due_date(db, client.id, service_date=service_date)
         
         try:
             # Begin transaction

@@ -679,6 +679,15 @@ async def api_work_order_detail(
             response.headers["Access-Control-Allow-Credentials"] = "true"
             return response
             
+    except HTTPException as e:
+        response = JSONResponse(
+            status_code=e.status_code,
+            content={"detail": e.detail},
+        )
+        origin_header = request.headers.get('Origin', '*')
+        response.headers["Access-Control-Allow-Origin"] = origin_header
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        return response
     except Exception as e:
         logger.error(f"Error forwarding to work orders router: {str(e)}", exc_info=True)
         # Return a properly formatted error response with CORS headers

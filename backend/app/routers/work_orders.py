@@ -785,10 +785,10 @@ async def delete_work_order(
     try:
         await WorkOrderService.delete_work_order(db, work_order_id)
         return None
+    except HTTPException:
+        raise
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-    except ConflictException as e:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
     except Exception as e:
         logger.error(f"Error deleting work order: {str(e)}")
         raise HTTPException(

@@ -62,9 +62,30 @@ class Invoice(Base):
     
     @property
     def is_overdue(self):
-        """Check if invoice is overdue"""
-        return self.due_date < datetime.utcnow() and not self.is_paid
+        """Check if invoice is overdue (only after it has been issued)."""
+        if self.status == "draft" or self.is_paid:
+            return False
+        return self.due_date < datetime.utcnow() and self.status in ("sent", "partially_paid", "overdue")
     
+    def _repair_legacy_overdue_draft(self):
+        """Revert draft invoices that were auto-marked overdue at creation."""
+        if self.status != "overdue" or float(self.amount_paid or 0) > 0:
+            return
+        if abs((self.due_date - self.issue_date).total_seconds()) < 120:
+            self.status = "draft"
+
+    def update_balance(self):
+        """Update the invoice balance and payment status."""
+        self._repair_legacy_overdue_draft()
+        self.balance = self.total_amount - self.amount_paid
+        if self.balance <= 0:
+            self.status = "paid"
+        elif self.amount_paid > 0:
+            self.status = "partially_paid"
+        elif self.status in ("sent", "partially_paid") and self.due_date < datetime.utcnow():
+            self.status = "overdue"
+        # Draft invoices stay draft until explicitly sent.
+
     @property
     def total(self):
         """For backward compatibility, return total_amount"""
@@ -74,16 +95,6 @@ class Invoice(Base):
     def total(self, value):
         """For backward compatibility, set total_amount"""
         self.total_amount = value
-    
-    def update_balance(self):
-        """Update the invoice balance"""
-        self.balance = self.total_amount - self.amount_paid
-        if self.balance <= 0:
-            self.status = "paid"
-        elif self.amount_paid > 0:
-            self.status = "partially_paid"
-        elif self.due_date < datetime.utcnow():
-            self.status = "overdue"
 
 
 class InvoiceItem(Base):
