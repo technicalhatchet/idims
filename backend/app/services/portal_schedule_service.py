@@ -519,6 +519,20 @@ async def confirm_schedule(
     db.refresh(work_order)
     db.refresh(appointment)
 
+    try:
+        from app.services.web_push_service import notify_portal_self_schedule
+
+        notify_portal_self_schedule(
+            db,
+            work_order,
+            appointment,
+            client,
+            time_window=time_window,
+            window_display=_format_window_label(window_cfg),
+        )
+    except Exception as exc:
+        logger.warning("Push for portal self-schedule failed: %s", exc)
+
     return {
         "success": True,
         "work_order_id": str(work_order.id),
@@ -559,9 +573,9 @@ def request_update_on_appliance(
     db.commit()
 
     try:
-        from app.services.web_push_service import notify_pending_work_order
+        from app.services.web_push_service import notify_portal_update_request
 
-        notify_pending_work_order(db, open_wo)
+        notify_portal_update_request(db, open_wo, client, message)
     except Exception as exc:
         logger.warning("Push for portal update request failed: %s", exc)
 

@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from pywebpush import WebPushException, webpush
 
 from app.config import settings
+from app.models.client import Client
 from app.models.push_subscription import DeployReminder, PushSubscription
 from app.models.technician import Technician
 from app.models.user import User
@@ -352,26 +353,162 @@ def handle_appointment_status_push(
         cancel_deploy_reminder(db, appointment.id)
 
 
+def _admin_manager_users(db: Session) -> List[User]:
+    staff = db.query(User).filter(User.is_active == True).all()  # noqa: E712
+    return [u for u in staff if u.is_admin or u.is_manager]
+
+
+def _portal_staff_users(db: Session) -> List[User]:
+    """Admin, manager, and technician users who should see portal activity."""
+    staff = db.query(User).filter(User.is_active == True).all()  # noqa: E712
+    return [u for u in staff if u.is_admin or u.is_manager or u.is_technician]
+
+
+def _notify_users(
+    db: Session,
+    users: List[User],
+    *,
+    title: str,
+    body: str,
+    url: str,
+    tag: str,
+) -> int:
+    if not users:
+        return 0
+    total = 0
+    seen: set[uuid.UUID] = set()
+    for user in users:
+        if user.id in seen:
+            continue
+        seen.add(user.id)
+        total += send_push_to_user(
+            db,
+            user.id,
+            title=title,
+            body=body,
+            url=url,
+            tag=tag,
+        )
+    return total
+
+
+def _notify_admin_managers(
+    db: Session,
+    *,
+    title: str,
+    body: str,
+    url: str,
+    tag: str,
+) -> int:
+    return _notify_users(db, _admin_manager_users(db), title=title, body=body, url=url, tag=tag)
+
+
+def _notify_portal_staff(
+    db: Session,
+    *,
+    title: str,
+    body: str,
+    url: str,
+    tag: str,
+    extra_user_ids: Optional[List[uuid.UUID]] = None,
+) -> int:
+    users_by_id = {u.id: u for u in _portal_staff_users(db)}
+    for user_id in extra_user_ids or []:
+        if user_id in users_by_id:
+            continue
+        user = db.query(User).filter(User.id == user_id, User.is_active == True).first()  # noqa: E712
+        if user:
+            users_by_id[user.id] = user
+    return _notify_users(
+        db,
+        list(users_by_id.values()),
+        title=title,
+        body=body,
+        url=url,
+        tag=tag,
+    )
+
+
 def notify_pending_work_order(db: Session, work_order: WorkOrder) -> int:
     """Push to admin/manager staff when a new pending work order arrives."""
     if (work_order.status or "").lower() != "pending":
         return 0
 
-    staff = db.query(User).filter(User.is_active == True).all()  # noqa: E712
-    recipients = [u for u in staff if u.is_admin or u.is_manager]
-    if not recipients:
-        return 0
-
     order_label = work_order.order_number or str(work_order.id)[:8]
-    url = f"/work_orders/{work_order.id}/mobile"
-    total = 0
-    for user in recipients:
-        total += send_push_to_user(
-            db,
-            user.id,
-            title="New pending work order",
-            body=f"#{order_label} needs scheduling.",
-            url=url,
-            tag=f"pending-wo-{work_order.id}",
-        )
-    return total
+    return _notify_admin_managers(
+        db,
+        title="New pending work order",
+        body=f"#{order_label} needs scheduling.",
+        url=f"/work_orders/{work_order.id}/mobile",
+        tag=f"pending-wo-{work_order.id}",
+    )
+
+
+def notify_portal_self_schedule(
+    db: Session,
+    work_order: WorkOrder,
+    appointment: WorkOrderAppointment,
+    client: Client,
+    *,
+    time_window: str,
+    window_display: str,
+) -> int:
+    """Push to admin/manager/technician staff when a client self-schedules through the portal."""
+    order_label = work_order.order_number or str(work_order.id)[:8]
+    client_name = client.display_name if hasattr(client, "display_name") else f"{client.first_name} {client.last_name}"
+
+    date_part = ""
+    if appointment.scheduled_start:
+        start = appointment.scheduled_start
+        if getattr(start, "tzinfo", None) is not None:
+            start = start.replace(tzinfo=None)
+        date_part = f"{start.month}/{start.day}"
+
+    appliance_bits: List[str] = []
+    if work_order.equipment_make:
+        appliance_bits.append(str(work_order.equipment_make))
+    if work_order.equipment_subtype:
+        appliance_bits.append(str(work_order.equipment_subtype).replace("_", " "))
+    appliance_label = " ".join(appliance_bits) or "appliance"
+
+    window_label = (time_window or "").strip().capitalize() or window_display
+    when = f"{date_part} {window_label}".strip() if date_part else window_label
+    body = f"{client_name} booked #{order_label} — {when} ({appliance_label})."
+    if len(body) > 180:
+        body = body[:177] + "..."
+
+    extra_user_ids: List[uuid.UUID] = []
+    tech_user_id = _tech_user_id(db, appointment)
+    if tech_user_id:
+        extra_user_ids.append(tech_user_id)
+
+    return _notify_portal_staff(
+        db,
+        title="Portal booking confirmed",
+        body=body,
+        url=f"/work_orders/{work_order.id}/mobile",
+        tag=f"portal-schedule-{work_order.id}",
+        extra_user_ids=extra_user_ids or None,
+    )
+
+
+def notify_portal_update_request(
+    db: Session,
+    work_order: WorkOrder,
+    client: Client,
+    message: str,
+) -> int:
+    """Push when a client requests an update on an open portal work order."""
+    order_label = work_order.order_number or str(work_order.id)[:8]
+    client_name = client.display_name if hasattr(client, "display_name") else f"{client.first_name} {client.last_name}"
+    preview = (message or "").strip().replace("\n", " ")
+    if len(preview) > 100:
+        preview = preview[:97] + "..."
+
+    return _notify_portal_staff(
+        db,
+        title="Portal update request",
+        body=f"{client_name} on #{order_label}: {preview}" if preview else f"{client_name} requested an update on #{order_label}.",
+        url=f"/work_orders/{work_order.id}/mobile",
+        tag=f"portal-update-{work_order.id}",
+    )

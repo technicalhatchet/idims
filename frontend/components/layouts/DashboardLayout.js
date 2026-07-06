@@ -12,7 +12,9 @@ import NotificationsDropdown from '../notifications/NotificationsDropdown';
 import UserDropdown from '../user/UserDropdown';
 import { useTheme } from '../../context/ThemeContext';
 import ErrorBoundary from '../../context/ErrorBoundary';
-import { getUserRole } from '../../utils/auth0-helpers';
+import { getUserRole, useUserRole } from '../../utils/auth0-helpers';
+import { apiClient } from '../../utils/api-client';
+import { ensureWebPushSubscription } from '../../utils/webPush';
 
 
 // Configure which components to load dynamically
@@ -25,6 +27,7 @@ export default function DashboardLayout({ children }) {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { user, error, isLoading } = useUser();
+  const { isTechnician } = useUserRole();
   const { theme, toggleTheme } = useTheme();
   
   // First useEffect - client side detection
@@ -52,6 +55,13 @@ export default function DashboardLayout({ children }) {
       router.push('/api/auth/login');
     }
   }, [user, isLoading, router]);
+
+  // Register web push for staff (portal bookings, pending orders, etc.)
+  useEffect(() => {
+    if (!mounted || !user || !isTechnician) return undefined;
+    ensureWebPushSubscription(apiClient);
+    return undefined;
+  }, [mounted, user, isTechnician]);
 
   // Ensure dark mode applies correctly on page load and after navigation
   useEffect(() => {

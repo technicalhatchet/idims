@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { getUserRole } from '../../utils/auth0-helpers';
+import { apiClient } from '../../utils/api-client';
+import { ensureWebPushSubscription } from '../../utils/webPush';
 import { useUIPreferences } from '../../context/UIPreferencesContext';
 import TechIconRail from '../navigation/TechIconRail';
 
@@ -110,6 +112,14 @@ export default function TechDashboardLayout({ children }) {
       router.replace('/cxdashboard');
     }
   }, [user, isLoading, router]);
+
+  useEffect(() => {
+    if (isLoading || !user) return undefined;
+    const role = getUserRole(user);
+    if (!['admin', 'manager', 'technician'].includes(role)) return undefined;
+    ensureWebPushSubscription(apiClient);
+    return undefined;
+  }, [user, isLoading]);
 
   const railWidth = expanded ? RAIL_WIDTH_EXPANDED : RAIL_WIDTH_COLLAPSED;
   const railSlideTransition = `transform ${RAIL_SLIDE_MS}ms ${RAIL_EASE}`;
