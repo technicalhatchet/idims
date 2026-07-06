@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import uuid
 
 from app.db.database import Base
+from app.utils.datetime_utils import as_utc_naive, utcnow_naive
 
 class Invoice(Base):
     """Invoice model for storing invoice information"""
@@ -65,24 +66,30 @@ class Invoice(Base):
         """Check if invoice is overdue (only after it has been issued)."""
         if self.status == "draft" or self.is_paid:
             return False
-        return self.due_date < datetime.utcnow() and self.status in ("sent", "partially_paid", "overdue")
+        due = as_utc_naive(self.due_date)
+        now = utcnow_naive()
+        return due is not None and due < now and self.status in ("sent", "partially_paid", "overdue")
     
     def _repair_legacy_overdue_draft(self):
         """Revert draft invoices that were auto-marked overdue at creation."""
         if self.status != "overdue" or float(self.amount_paid or 0) > 0:
             return
-        if abs((self.due_date - self.issue_date).total_seconds()) < 120:
+        due = as_utc_naive(self.due_date)
+        issued = as_utc_naive(self.issue_date)
+        if due and issued and abs((due - issued).total_seconds()) < 120:
             self.status = "draft"
 
     def update_balance(self):
         """Update the invoice balance and payment status."""
         self._repair_legacy_overdue_draft()
         self.balance = self.total_amount - self.amount_paid
+        now = utcnow_naive()
+        due = as_utc_naive(self.due_date)
         if self.balance <= 0:
             self.status = "paid"
         elif self.amount_paid > 0:
             self.status = "partially_paid"
-        elif self.status in ("sent", "partially_paid") and self.due_date < datetime.utcnow():
+        elif self.status in ("sent", "partially_paid") and due and due < now:
             self.status = "overdue"
         # Draft invoices stay draft until explicitly sent.
 

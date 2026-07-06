@@ -8,6 +8,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from app.models.work_order import WorkOrder, WorkOrderAppointment
+from app.utils.datetime_utils import as_utc_naive, utcnow_naive
 
 ESTIMATE_VALIDITY_DAYS = 30
 ESTIMATE_BLOCKED_STATUSES = frozenset({"canceled", "cancelled", "refunded"})
@@ -17,14 +18,6 @@ def _enum_value(value) -> str:
     if value is None:
         return ""
     return value.value if hasattr(value, "value") else str(value)
-
-
-def _as_utc_naive(dt: Optional[datetime]) -> Optional[datetime]:
-    if dt is None:
-        return None
-    if dt.tzinfo is not None:
-        return dt.replace(tzinfo=None)
-    return dt
 
 
 def completed_diagnostic_date(db: Session, work_order_id) -> Optional[datetime]:
@@ -42,10 +35,10 @@ def completed_diagnostic_date(db: Session, work_order_id) -> Optional[datetime]:
     if not appt:
         return None
     if appt.actual_end:
-        return _as_utc_naive(appt.actual_end)
+        return as_utc_naive(appt.actual_end)
     if appt.actual_start:
-        return _as_utc_naive(appt.actual_start)
-    return _as_utc_naive(appt.scheduled_start)
+        return as_utc_naive(appt.actual_start)
+    return as_utc_naive(appt.scheduled_start)
 
 
 def portal_estimate_meta(
@@ -58,7 +51,7 @@ def portal_estimate_meta(
 
     Valid for ESTIMATE_VALIDITY_DAYS after the completed diagnostic visit.
     """
-    now = _as_utc_naive(now or datetime.utcnow())
+    now = as_utc_naive(now) or utcnow_naive()
     status = _enum_value(wo.status)
 
     empty = {

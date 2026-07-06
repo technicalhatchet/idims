@@ -1099,7 +1099,7 @@ async def get_portal_appliance_import_candidates(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
-    if client.appliances_import_completed:
+    if client.appliances_import_completed and appliance_svc.client_has_saved_appliances(db, client.id):
         return {"completed": True, "candidates": []}
     return {
         "completed": False,

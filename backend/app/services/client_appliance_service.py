@@ -8,6 +8,8 @@ from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 from uuid import UUID
 
+from app.utils.datetime_utils import as_utc_naive, utcnow_naive
+
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
@@ -104,10 +106,10 @@ def _work_order_status(wo: WorkOrder) -> str:
 
 def _warranty_service_date(wo: WorkOrder, db: Session) -> Optional[datetime]:
     if wo.actual_end:
-        return wo.actual_end
+        return as_utc_naive(wo.actual_end)
     closed_at = getattr(wo, "closed_at", None)
     if closed_at:
-        return closed_at
+        return as_utc_naive(closed_at)
     latest_completed = (
         db.query(WorkOrderAppointment)
         .filter(
@@ -118,9 +120,9 @@ def _warranty_service_date(wo: WorkOrder, db: Session) -> Optional[datetime]:
         .first()
     )
     if latest_completed and latest_completed.scheduled_start:
-        return latest_completed.scheduled_start
+        return as_utc_naive(latest_completed.scheduled_start)
     if _work_order_status(wo) in WARRANTY_ELIGIBLE_STATUSES and wo.created_at:
-        return wo.created_at
+        return as_utc_naive(wo.created_at)
     return None
 
 
@@ -137,7 +139,7 @@ def _warranty_is_active(wo: WorkOrder, db: Session, now: Optional[datetime] = No
     expiry = _warranty_expires_at(wo, db)
     if not expiry:
         return False
-    now = now or datetime.utcnow()
+    now = as_utc_naive(now) or utcnow_naive()
     return expiry > now
 
 
@@ -373,7 +375,7 @@ def serialize_appliance(
     if not appliance.property_id and prop:
         suggested_property_id = str(prop.id)
 
-    now = datetime.utcnow()
+    now = utcnow_naive()
 
     open_work_orders = [wo for wo in work_orders if _work_order_status(wo) in OPEN_REPAIR_STATUSES]
     active_repair = bool(open_work_orders)
@@ -537,6 +539,19 @@ def soft_delete_client_appliance(db: Session, client_id: UUID, appliance_id: UUI
     appliance.updated_at = datetime.utcnow()
 
 
+def client_has_saved_appliances(db: Session, client_id: UUID) -> bool:
+    return (
+        db.query(ClientAppliance)
+        .filter(
+            ClientAppliance.client_id == client_id,
+            ClientAppliance.is_active.is_(True),
+            ClientAppliance.merged_into_id.is_(None),
+        )
+        .count()
+        > 0
+    )
+
+
 def confirm_import(
     db: Session,
     client: Client,
@@ -565,8 +580,9 @@ def confirm_import(
         )
         created.append(appliance)
 
-    client.appliances_import_completed = True
-    client.updated_at = datetime.utcnow()
+    if created:
+        client.appliances_import_completed = True
+        client.updated_at = utcnow_naive()
     return created
 
 
