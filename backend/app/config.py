@@ -141,6 +141,10 @@ class Settings(BaseModel):
     VAPID_SUBJECT: str = Field(
         default_factory=lambda: os.getenv("VAPID_SUBJECT", "mailto:service@atomicrepair.com")
     )
+    SHOP_TIMEZONE: str = Field(default_factory=lambda: os.getenv("SHOP_TIMEZONE", "America/Detroit"))
+    MORNING_BRIEFING_HOUR: int = Field(
+        default_factory=lambda: int(os.getenv("MORNING_BRIEFING_HOUR", "7"))
+    )
     
     # Security settings
     PASSWORD_HASH_ALGORITHM: str = "bcrypt"

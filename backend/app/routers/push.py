@@ -10,9 +10,13 @@ from app.routers.auth import get_current_user_dependency
 from app.core.auth import AuthUser
 from app.config import settings
 from app.models.push_subscription import PushSubscription
+from app.models.user import User
 from app.services.web_push_service import (
     check_deploy_proximity,
+    maybe_send_morning_briefing_for_user,
     process_due_deploy_reminders,
+    send_morning_briefing_to_user,
+    _shop_today_bounds,
 )
 
 router = APIRouter()
@@ -110,6 +114,37 @@ async def process_reminders(
     current_user: AuthUser = Depends(get_current_user_dependency()),
     db: Session = Depends(get_db),
 ):
-    """Client heartbeat: fire any due deploy reminders (fallback when Celery beat is off)."""
+    """Client heartbeat: deploy nudges + morning schedule briefing fallback."""
     sent = process_due_deploy_reminders(db)
-    return {"sent": sent}
+    morning_briefing = maybe_send_morning_briefing_for_user(db, current_user.id)
+    return {"sent": sent, "morning_briefing": morning_briefing}
+
+
+@router.post("/test-morning-briefing")
+async def test_morning_briefing(
+    current_user: AuthUser = Depends(get_current_user_dependency()),
+    db: Session = Depends(get_db),
+):
+    """Send today's schedule summary to the current user (manager/admin testing)."""
+    roles = current_user.roles or []
+    if not any(r in roles for r in ("admin", "manager")):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Managers only")
+
+    user = db.query(User).filter(User.id == current_user.id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    day_start, day_end, today_key = _shop_today_bounds()
+    delivered = send_morning_briefing_to_user(
+        db,
+        user,
+        day_start=day_start,
+        day_end=day_end,
+        today_key=today_key,
+    )
+    if not delivered:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Push not delivered — check VAPID keys and browser subscription",
+        )
+    return {"delivered": delivered}

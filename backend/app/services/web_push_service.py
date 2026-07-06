@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 from typing import Any, Dict, List, Optional, Tuple
+from zoneinfo import ZoneInfo
 import uuid
 
 from sqlalchemy.orm import Session
@@ -18,6 +19,10 @@ from app.models.technician import Technician
 from app.models.user import User
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 from app.models.property import Property
+from app.services.scheduling_constraints_service import (
+    APPOINTMENT_STATUS_CANCELED,
+    appointment_local_naive,
+)
 from app.utils.travel_calculator import geocode_address, haversine_distance
 
 logger = logging.getLogger(__name__)
@@ -512,3 +517,196 @@ def notify_portal_update_request(
         url=f"/work_orders/{work_order.id}/mobile",
         tag=f"portal-update-{work_order.id}",
     )
+
+
+def _shop_timezone() -> ZoneInfo:
+    try:
+        return ZoneInfo(settings.SHOP_TIMEZONE or "America/Detroit")
+    except Exception:
+        return ZoneInfo("America/Detroit")
+
+
+def _shop_now() -> datetime:
+    return datetime.now(_shop_timezone())
+
+
+def _shop_today_bounds() -> Tuple[datetime, datetime, str]:
+    """Return naive shop-local start/end of today and ISO date key."""
+    today = _shop_now().date()
+    start = datetime.combine(today, time.min)
+    end = datetime.combine(today, time.max)
+    return start, end, today.isoformat()
+
+
+def _format_shop_time(dt: Optional[datetime]) -> Optional[str]:
+    if not dt:
+        return None
+    local = appointment_local_naive(dt)
+    label = local.strftime("%I:%M %p")
+    return label[1:] if label.startswith("0") else label
+
+
+def _morning_briefing_scope(db: Session, user: User) -> Optional[str]:
+    """shop = all appointments today; technician = only assigned to this tech."""
+    if not (user.is_admin or user.is_manager or user.is_technician):
+        return None
+    if user.is_admin or user.is_manager:
+        return "shop"
+    tech = db.query(Technician).filter(Technician.user_id == user.id).first()
+    if tech:
+        return "technician"
+    return None
+
+
+def _today_appointments_for_user(
+    db: Session,
+    user: User,
+    *,
+    day_start: datetime,
+    day_end: datetime,
+) -> List[WorkOrderAppointment]:
+    scope = _morning_briefing_scope(db, user)
+    if not scope:
+        return []
+
+    query = (
+        db.query(WorkOrderAppointment)
+        .filter(
+            WorkOrderAppointment.scheduled_start < day_end,
+            WorkOrderAppointment.scheduled_end > day_start,
+            WorkOrderAppointment.status != APPOINTMENT_STATUS_CANCELED,
+            WorkOrderAppointment.status != "completed",
+        )
+        .order_by(WorkOrderAppointment.scheduled_start.asc())
+    )
+
+    if scope == "technician":
+        tech = db.query(Technician).filter(Technician.user_id == user.id).first()
+        if not tech:
+            return []
+        query = query.filter(WorkOrderAppointment.assigned_technician_id == tech.id)
+
+    return query.all()
+
+
+def _morning_briefing_message(appointments: List[WorkOrderAppointment], *, shop_scope: bool) -> str:
+    count = len(appointments)
+    if count == 0:
+        return "No jobs on the schedule for today."
+
+    first_time = _format_shop_time(appointments[0].scheduled_start)
+    job_word = "job" if count == 1 else "jobs"
+    if shop_scope:
+        if first_time:
+            return f"{count} {job_word} on the board today. First appointment: {first_time}."
+        return f"{count} {job_word} on the board today."
+
+    if first_time:
+        return f"{count} {job_word} today. First stop: {first_time}."
+    return f"{count} {job_word} today."
+
+
+def _morning_briefing_already_sent(user: User, today_key: str) -> bool:
+    prefs = user.preferences if isinstance(user.preferences, dict) else {}
+    return prefs.get("morning_briefing_sent") == today_key
+
+
+def _mark_morning_briefing_sent(db: Session, user: User, today_key: str) -> None:
+    prefs = dict(user.preferences or {})
+    prefs["morning_briefing_sent"] = today_key
+    user.preferences = prefs
+    db.add(user)
+
+
+def send_morning_briefing_to_user(
+    db: Session,
+    user: User,
+    *,
+    day_start: datetime,
+    day_end: datetime,
+    today_key: str,
+) -> int:
+    """Send one morning schedule summary push to a user. Returns deliveries."""
+    if not user.is_active:
+        return 0
+
+    scope = _morning_briefing_scope(db, user)
+    if not scope:
+        return 0
+
+    appointments = _today_appointments_for_user(
+        db, user, day_start=day_start, day_end=day_end
+    )
+    body = _morning_briefing_message(appointments, shop_scope=(scope == "shop"))
+    url = "/techboard" if scope == "technician" else "/schedule"
+    tag = f"morning-briefing-{today_key}"
+
+    delivered = send_push_to_user(
+        db,
+        user.id,
+        title="Today's schedule",
+        body=body,
+        url=url,
+        tag=tag,
+    )
+    if delivered:
+        _mark_morning_briefing_sent(db, user, today_key)
+        db.commit()
+    return delivered
+
+
+def maybe_send_morning_briefing_for_user(
+    db: Session,
+    user_id: uuid.UUID,
+    *,
+    force: bool = False,
+) -> bool:
+    """Idempotent morning briefing for one user (heartbeat or Celery)."""
+    if not _vapid_configured():
+        return False
+
+    user = db.query(User).filter(User.id == user_id, User.is_active == True).first()  # noqa: E712
+    if not user:
+        return False
+
+    day_start, day_end, today_key = _shop_today_bounds()
+    if _morning_briefing_already_sent(user, today_key):
+        return False
+
+    now_local = _shop_now()
+    if not force and now_local.hour < int(settings.MORNING_BRIEFING_HOUR or 7):
+        return False
+
+    return send_morning_briefing_to_user(
+        db,
+        user,
+        day_start=day_start,
+        day_end=day_end,
+        today_key=today_key,
+    ) > 0
+
+
+def send_morning_schedule_summaries(db: Session) -> int:
+    """Push today's job count + first start time to subscribed staff (once per day each)."""
+    if not _vapid_configured():
+        return 0
+
+    day_start, day_end, today_key = _shop_today_bounds()
+    user_ids = [
+        row[0]
+        for row in db.query(PushSubscription.user_id).distinct().all()
+    ]
+    sent_users = 0
+    for user_id in user_ids:
+        user = db.query(User).filter(User.id == user_id, User.is_active == True).first()  # noqa: E712
+        if not user or _morning_briefing_already_sent(user, today_key):
+            continue
+        if send_morning_briefing_to_user(
+            db,
+            user,
+            day_start=day_start,
+            day_end=day_end,
+            today_key=today_key,
+        ):
+            sent_users += 1
+    return sent_users

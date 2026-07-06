@@ -23,3 +23,22 @@ def process_deploy_reminders():
         raise
     finally:
         db.close()
+
+
+@shared_task(name="app.background.tasks.push.send_morning_schedule_summaries")
+def send_morning_schedule_summaries_task():
+    """Daily morning push: job count + first appointment time for subscribed staff."""
+    from app.services.web_push_service import send_morning_schedule_summaries
+
+    logger.info("Sending morning schedule summary pushes")
+    db = SessionLocal()
+    try:
+        sent = send_morning_schedule_summaries(db)
+        if sent:
+            logger.info("Sent morning schedule summary to %s user(s)", sent)
+        return sent
+    except Exception as exc:
+        logger.error("Morning schedule summary task failed: %s", exc, exc_info=True)
+        raise
+    finally:
+        db.close()

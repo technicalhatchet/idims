@@ -14,7 +14,7 @@ import { useTheme } from '../../context/ThemeContext';
 import ErrorBoundary from '../../context/ErrorBoundary';
 import { getUserRole, useUserRole } from '../../utils/auth0-helpers';
 import { apiClient } from '../../utils/api-client';
-import { ensureWebPushSubscription } from '../../utils/webPush';
+import { ensureWebPushSubscription, processDeployReminders } from '../../utils/webPush';
 
 
 // Configure which components to load dynamically
@@ -61,6 +61,13 @@ export default function DashboardLayout({ children }) {
     if (!mounted || !user || !isTechnician) return undefined;
     ensureWebPushSubscription(apiClient);
     return undefined;
+  }, [mounted, user, isTechnician]);
+
+  useEffect(() => {
+    if (!mounted || !user || !isTechnician) return undefined;
+    processDeployReminders(apiClient);
+    const timer = setInterval(() => processDeployReminders(apiClient), 60000);
+    return () => clearInterval(timer);
   }, [mounted, user, isTechnician]);
 
   // Ensure dark mode applies correctly on page load and after navigation
