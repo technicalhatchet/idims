@@ -94,6 +94,7 @@ class ClientUpdate(BaseModel):
     payment_terms: Optional[int] = None
     credit_limit: Optional[float] = None
     self_scheduling_blocked: Optional[bool] = None
+    scheduling_zone_exempt: Optional[bool] = None
     
     @validator('email', pre=True)
     def empty_str_to_none(cls, v):
@@ -119,6 +120,7 @@ class ClientResponse(ClientBase):
     created_by: Optional[UUID] = None
     updated_by: Optional[UUID] = None
     self_scheduling_blocked: bool = False
+    scheduling_zone_exempt: bool = False
     appliances_import_completed: bool = False
     model_config = ConfigDict(from_attributes=True)
 

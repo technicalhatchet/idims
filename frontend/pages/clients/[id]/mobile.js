@@ -1181,7 +1181,7 @@ function ClientDetail() {
               Send an email invitation for this client to create their account in the client portal.
             </p>
 
-            <label className="flex items-center justify-between gap-3 mb-4 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <label className="flex items-center justify-between gap-3 mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div>
                 <p className="text-sm text-white font-semibold">Block self-scheduling</p>
                 <p className="text-xs text-gray-500 mt-0.5">Client must call to schedule service</p>
@@ -1192,6 +1192,23 @@ function ClientDetail() {
                 onChange={async (e) => {
                   try {
                     await updateClient({ id: client.id, self_scheduling_blocked: e.target.checked });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              />
+            </label>
+            <label className="flex items-center justify-between gap-3 mb-4 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div>
+                <p className="text-sm text-white font-semibold">Exempt from service area check</p>
+                <p className="text-xs text-gray-500 mt-0.5">Allow portal scheduling even without a mapped zone</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={!!client.scheduling_zone_exempt}
+                onChange={async (e) => {
+                  try {
+                    await updateClient({ id: client.id, scheduling_zone_exempt: e.target.checked });
                   } catch (err) {
                     console.error(err);
                   }

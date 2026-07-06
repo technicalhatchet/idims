@@ -153,6 +153,10 @@ def client_self_scheduling_allowed(client: Client, db: Session) -> bool:
     return get_portal_self_scheduling_enabled(db)
 
 
+def client_scheduling_zone_exempt(client: Client) -> bool:
+    return bool(getattr(client, "scheduling_zone_exempt", False))
+
+
 def _property_payload(prop: Optional[Property], wo: WorkOrder) -> Optional[Dict[str, Any]]:
     if prop:
         return {
@@ -283,6 +287,9 @@ def serialize_appliance(
     active_repair = any(_work_order_status(wo) in OPEN_REPAIR_STATUSES for wo in work_orders)
     warranty_active = any(_warranty_is_active(wo, db, now) for wo in work_orders)
     latest = work_orders[0] if work_orders else None
+    scheduling_ready = bool(
+        appliance.make and appliance.equipment_type and appliance.equipment_subtype and appliance.property_id
+    )
 
     payload = {
         "id": str(appliance.id),
@@ -311,6 +318,8 @@ def serialize_appliance(
         "warranty_active": warranty_active,
         "active_repair": active_repair,
         "open_work_order_id": str(next((wo.id for wo in work_orders if _work_order_status(wo) in OPEN_REPAIR_STATUSES), "")) or None,
+        "scheduling_ready": scheduling_ready,
+        "can_schedule": scheduling_ready and not active_repair,
     }
 
     if include_history:

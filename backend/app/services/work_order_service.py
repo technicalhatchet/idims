@@ -264,6 +264,8 @@ class WorkOrderService:
             # Create work order with mandatory fields
             work_order = WorkOrder(
                 client_id=work_order_data["client_id"],
+                property_id=work_order_data.get("property_id"),
+                appliance_id=work_order_data.get("appliance_id"),
                 # title=work_order_data["title"], # Removed title
                 description=work_order_data.get("description"),
                 priority=work_order_data.get("priority", "medium"),
@@ -291,12 +293,31 @@ class WorkOrderService:
             # Add work order services if provided
             if "services" in work_order_data and work_order_data["services"]:
                 for service in work_order_data["services"]:
+                    raw_service_id = service["service_id"]
+                    service_id = raw_service_id if isinstance(raw_service_id, uuid.UUID) else uuid.UUID(str(raw_service_id))
+
+                    main_service = db.query(Service).filter(Service.id == service_id).first()
+                    if not main_service:
+                        raise ValidationException(f"Service {service_id} not found")
+
+                    quantity = int(service.get("quantity", 1))
+                    unit_price = service.get("unit_price")
+                    if unit_price is None:
+                        unit_price = float(main_service.base_price) if main_service.base_price is not None else 0.0
+
+                    name = service.get("name") or main_service.name
+                    price = service.get("price")
+                    if price is None:
+                        price = float(unit_price) * quantity
+
                     work_order_service = WorkOrderServiceModel(
                         work_order_id=work_order.id,
-                        service_id=service["service_id"],
-                        quantity=service.get("quantity", 1.0),
-                        price=service.get("price"),
-                        notes=service.get("notes")
+                        service_id=service_id,
+                        name=name,
+                        quantity=quantity,
+                        unit_price=Decimal(str(unit_price)),
+                        price=Decimal(str(price)),
+                        notes=service.get("notes"),
                     )
                     db.add(work_order_service)
             

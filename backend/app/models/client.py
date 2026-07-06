@@ -34,6 +34,7 @@ class Client(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
     self_scheduling_blocked = Column(Boolean, default=False, nullable=False)
+    scheduling_zone_exempt = Column(Boolean, default=False, nullable=False)
     appliances_import_completed = Column(Boolean, default=False, nullable=False)
     
     # Relationships

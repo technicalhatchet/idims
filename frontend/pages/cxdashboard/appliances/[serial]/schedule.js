@@ -1,0 +1,584 @@
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { format, parseISO } from 'date-fns';
+import { FaArrowLeft, FaCalendarAlt, FaCheckCircle, FaPhone } from 'react-icons/fa';
+import DashboardLayout from '../../../../components/cxdashboard/DashboardLayout';
+import ApplianceIcon from '../../../../components/cxdashboard/ApplianceIcon';
+import { applianceDisplayName } from '../../../../constants/applianceEquipment';
+import {
+  getSymptomsForEquipmentSubtype,
+  BOOKING_GENERIC_SYMPTOMS,
+} from '../../../../constants/applianceSymptoms';
+import { getPortalSessionToken, portalFetch } from '../../../../utils/portalFetch';
+
+const STEPS = ['Issue', 'Date & Time', 'Review', 'Confirmed'];
+const SUPPORT_PHONE = '(419) 515-3394';
+const SUPPORT_TEL = 'tel:+14195153394';
+
+function formatCurrency(amount) {
+  if (amount == null || Number.isNaN(Number(amount))) return '—';
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+}
+
+const WINDOW_LABELS = {
+  morning: 'Morning',
+  afternoon: 'Afternoon',
+  evening: 'Evening',
+};
+
+function StepIndicator({ current }) {
+  return (
+    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+      {STEPS.map((label, i) => {
+        const done = i < current;
+        const active = i === current;
+        return (
+          <div
+            key={label}
+            style={{
+              flex: '1 1 0',
+              minWidth: '70px',
+              textAlign: 'center',
+              padding: '0.5rem 0.25rem',
+              borderRadius: '8px',
+              fontSize: '0.75rem',
+              fontWeight: '600',
+              background: active ? 'rgba(0,212,255,0.12)' : done ? 'rgba(34,197,94,0.08)' : 'rgba(255,255,255,0.04)',
+              color: active ? '#22d3ee' : done ? '#22c55e' : '#6b7280',
+              border: `1px solid ${active ? 'rgba(0,212,255,0.25)' : done ? 'rgba(34,197,94,0.2)' : 'rgba(255,255,255,0.06)'}`,
+            }}
+          >
+            {done ? '✓ ' : ''}{label}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function RequestUpdatePanel({ applianceId, orderNumber, onSuccess }) {
+  const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [sent, setSent] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch('schedule/request-update', token, {
+        method: 'POST',
+        body: JSON.stringify({ appliance_id: applianceId, message }),
+      });
+      setSent(true);
+      onSuccess?.();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  if (sent) {
+    return (
+      <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '10px', padding: '1rem', color: '#22c55e', fontSize: '0.9rem' }}>
+        Your update request was sent. Our team will reach out shortly.
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
+      <p style={{ color: '#9ca3af', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
+        Order #{orderNumber} is already open for this appliance. Send us a message and we&apos;ll update your request.
+      </p>
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Describe what changed or what you'd like us to know..."
+        rows={4}
+        required
+        style={{
+          width: '100%', background: '#0a0f1a', border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '8px', padding: '0.75rem', color: '#fff', fontSize: '0.875rem', resize: 'vertical',
+        }}
+      />
+      {error && <p style={{ color: '#ef4444', fontSize: '0.8125rem', marginTop: '0.5rem' }}>{error}</p>}
+      <button
+        type="submit"
+        disabled={submitting || !message.trim()}
+        style={{
+          marginTop: '0.75rem', background: '#22d3ee', color: '#0a0f1a', border: 'none',
+          borderRadius: '8px', padding: '0.625rem 1.25rem', fontWeight: '700', fontSize: '0.875rem',
+          cursor: submitting ? 'wait' : 'pointer', opacity: submitting || !message.trim() ? 0.6 : 1,
+        }}
+      >
+        {submitting ? 'Sending...' : 'Request Update'}
+      </button>
+    </form>
+  );
+}
+
+export default function ScheduleAppliancePage() {
+  const router = useRouter();
+  const { serial } = router.query;
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [appliance, setAppliance] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [schedulingStatus, setSchedulingStatus] = useState(null);
+  const [availability, setAvailability] = useState(null);
+  const [estimate, setEstimate] = useState(null);
+
+  const [step, setStep] = useState(0);
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+  const [issueDescription, setIssueDescription] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedWindow, setSelectedWindow] = useState(null);
+  const [confirming, setConfirming] = useState(false);
+  const [confirmError, setConfirmError] = useState(null);
+  const [confirmation, setConfirmation] = useState(null);
+
+  const applianceId = appliance?.id;
+
+  const symptomOptions = useMemo(() => {
+    if (!appliance) return BOOKING_GENERIC_SYMPTOMS;
+    return (
+      getSymptomsForEquipmentSubtype(appliance.equipment_subtype, appliance.equipment_type)
+      || BOOKING_GENERIC_SYMPTOMS
+    );
+  }, [appliance]);
+
+  const loadInitial = useCallback(async () => {
+    if (!serial) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const token = await getPortalSessionToken();
+      const [applianceData, me, status] = await Promise.all([
+        portalFetch(`appliances/${encodeURIComponent(serial)}`, token),
+        portalFetch('me', token),
+        portalFetch(`schedule/status/${encodeURIComponent(serial)}`, token),
+      ]);
+      setAppliance(applianceData);
+      setProfile(me);
+      setSchedulingStatus(status);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [serial]);
+
+  useEffect(() => {
+    loadInitial();
+  }, [loadInitial]);
+
+  function toggleSymptom(symptom) {
+    setSelectedSymptoms((prev) => (
+      prev.includes(symptom) ? prev.filter((s) => s !== symptom) : [...prev, symptom]
+    ));
+  }
+
+  async function reloadAvailability() {
+    const token = await getPortalSessionToken();
+    const avail = await portalFetch(`schedule/availability/${applianceId}`, token);
+    setAvailability(avail);
+    return avail;
+  }
+
+  async function goToDateStep() {
+    if (selectedSymptoms.length === 0 && !issueDescription.trim()) {
+      setConfirmError('Please select at least one symptom or describe the issue.');
+      return;
+    }
+    setConfirmError(null);
+    try {
+      const token = await getPortalSessionToken();
+      const [avail, est] = await Promise.all([
+        portalFetch(`schedule/availability/${applianceId}`, token),
+        portalFetch(`schedule/estimate/${applianceId}`, token),
+      ]);
+      setAvailability(avail);
+      setEstimate(est);
+      if (!avail.serviceable) {
+        setConfirmError(avail.service_area_message || 'This address is outside our service area.');
+        return;
+      }
+      if (!avail.days?.length) {
+        setConfirmError(`No openings available. Please call ${SUPPORT_PHONE}.`);
+        return;
+      }
+      setStep(1);
+    } catch (err) {
+      setConfirmError(err.message);
+    }
+  }
+
+  const selectedDay = availability?.days?.find((d) => d.date === selectedDate);
+  const availableWindows = selectedDay?.windows?.filter((w) => w.available) || [];
+
+  async function handleConfirm() {
+    setConfirming(true);
+    setConfirmError(null);
+    try {
+      const token = await getPortalSessionToken();
+      const result = await portalFetch('schedule/confirm', token, {
+        method: 'POST',
+        body: JSON.stringify({
+          appliance_id: applianceId,
+          scheduled_date: selectedDate,
+          time_window: selectedWindow,
+          symptoms: selectedSymptoms,
+          issue_description: issueDescription.trim() || null,
+        }),
+      });
+      setConfirmation(result);
+      setStep(3);
+    } catch (err) {
+      setConfirmError(err.message);
+      if (err.message?.includes('no longer available')) {
+        await reloadAvailability();
+        setStep(1);
+      }
+    } finally {
+      setConfirming(false);
+    }
+  }
+
+  const displayName = appliance ? applianceDisplayName(appliance) : 'Schedule Service';
+  const blocked = profile && !profile.self_scheduling_allowed;
+  const hasOpenWo = schedulingStatus && !schedulingStatus.can_schedule;
+  const notReady = appliance && !appliance.scheduling_ready;
+
+  return (
+    <>
+      <Head><title>Schedule Service | {displayName} | Atomic Repair</title></Head>
+      <div className="space-y-6">
+        <Link
+          href={`/cxdashboard/appliances/${encodeURIComponent(serial || '')}`}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#6b7280', fontSize: '0.875rem', textDecoration: 'none' }}
+          className="hover:text-white"
+        >
+          <FaArrowLeft style={{ fontSize: '12px' }} />
+          Back to Appliance
+        </Link>
+
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '4rem', color: '#6b7280' }}>
+            <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            Loading...
+          </div>
+        ) : error ? (
+          <div style={{ textAlign: 'center', padding: '4rem', color: '#ef4444' }}>{error}</div>
+        ) : (
+          <>
+            <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.25rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px' }}>
+                <ApplianceIcon type={appliance?.equipment_subtype || appliance?.equipment_type} className="w-8 h-8" />
+              </div>
+              <div>
+                <h1 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '700', margin: 0, textTransform: 'capitalize' }}>
+                  Schedule Service
+                </h1>
+                <p style={{ color: '#9ca3af', margin: '2px 0 0', fontSize: '0.875rem' }}>{displayName}</p>
+              </div>
+            </div>
+
+            {blocked ? (
+              <div style={{ background: '#0D1525', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '12px', padding: '1.5rem', textAlign: 'center' }}>
+                <FaPhone style={{ color: '#f59e0b', fontSize: '1.5rem', marginBottom: '0.75rem' }} />
+                <p style={{ color: '#fff', fontWeight: '600', marginBottom: '0.5rem' }}>Online scheduling isn&apos;t available</p>
+                <p style={{ color: '#9ca3af', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                  Please call us to schedule service for this account.
+                </p>
+                <a href={SUPPORT_TEL} style={{ color: '#22d3ee', fontWeight: '700', fontSize: '1.125rem', textDecoration: 'none' }}>
+                  {SUPPORT_PHONE}
+                </a>
+              </div>
+            ) : notReady ? (
+              <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.5rem' }}>
+                <p style={{ color: '#fff', fontWeight: '600', marginBottom: '0.5rem' }}>Appliance not ready to schedule</p>
+                <p style={{ color: '#9ca3af', fontSize: '0.9rem' }}>
+                  We need the appliance type, subtype, make, and a service address on file before you can book online.
+                </p>
+              </div>
+            ) : hasOpenWo ? (
+              <div style={{ background: '#0D1525', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '12px', padding: '1.5rem' }}>
+                <p style={{ color: '#fff', fontWeight: '600', marginBottom: '0.25rem' }}>Open service request</p>
+                <p style={{ color: '#9ca3af', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+                  {schedulingStatus.blocked_message}
+                </p>
+                <p style={{ color: '#9ca3af', fontSize: '0.875rem' }}>
+                  Need help sooner? Call{' '}
+                  <a href={SUPPORT_TEL} style={{ color: '#22d3ee', textDecoration: 'none' }}>{SUPPORT_PHONE}</a>
+                </p>
+                <RequestUpdatePanel
+                  applianceId={applianceId}
+                  orderNumber={schedulingStatus.open_work_order_number}
+                />
+              </div>
+            ) : (
+              <>
+                <StepIndicator current={step} />
+
+                {step === 0 && (
+                  <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.5rem' }}>
+                    <h2 style={{ color: '#fff', fontSize: '1rem', fontWeight: '600', marginBottom: '0.25rem' }}>What&apos;s going on?</h2>
+                    <p style={{ color: '#6b7280', fontSize: '0.8125rem', marginBottom: '1rem' }}>Select all symptoms that apply.</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+                      {symptomOptions.map((symptom) => {
+                        const selected = selectedSymptoms.includes(symptom);
+                        return (
+                          <button
+                            key={symptom}
+                            type="button"
+                            onClick={() => toggleSymptom(symptom)}
+                            style={{
+                              background: selected ? 'rgba(0,212,255,0.15)' : 'rgba(255,255,255,0.04)',
+                              border: `1px solid ${selected ? 'rgba(0,212,255,0.35)' : 'rgba(255,255,255,0.08)'}`,
+                              color: selected ? '#22d3ee' : '#d1d5db',
+                              borderRadius: '8px', padding: '0.5rem 0.75rem', fontSize: '0.8125rem', cursor: 'pointer',
+                            }}
+                          >
+                            {symptom}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <label style={{ display: 'block', color: '#6b7280', fontSize: '0.75rem', marginBottom: '0.375rem' }}>
+                      Additional details (optional)
+                    </label>
+                    <textarea
+                      value={issueDescription}
+                      onChange={(e) => setIssueDescription(e.target.value)}
+                      rows={3}
+                      placeholder="Anything else we should know?"
+                      style={{
+                        width: '100%', background: '#0a0f1a', border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '8px', padding: '0.75rem', color: '#fff', fontSize: '0.875rem', resize: 'vertical',
+                      }}
+                    />
+                    {confirmError && <p style={{ color: '#ef4444', fontSize: '0.8125rem', marginTop: '0.75rem' }}>{confirmError}</p>}
+                    <button
+                      type="button"
+                      onClick={goToDateStep}
+                      style={{
+                        marginTop: '1rem', background: '#22d3ee', color: '#0a0f1a', border: 'none',
+                        borderRadius: '8px', padding: '0.75rem 1.5rem', fontWeight: '700', cursor: 'pointer',
+                      }}
+                    >
+                      Continue
+                    </button>
+                  </div>
+                )}
+
+                {step === 1 && (
+                  <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.5rem' }}>
+                    <h2 style={{ color: '#fff', fontSize: '1rem', fontWeight: '600', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <FaCalendarAlt style={{ color: '#22d3ee' }} /> Pick a date &amp; window
+                    </h2>
+                    <p style={{ color: '#6b7280', fontSize: '0.8125rem', marginBottom: '1rem' }}>
+                      We&apos;ll confirm your appointment instantly. Arrival times are narrowed the evening before.
+                    </p>
+
+                    {!availability?.serviceable ? (
+                      <p style={{ color: '#f59e0b' }}>{availability?.service_area_message || 'Loading availability...'}</p>
+                    ) : availability.days?.length === 0 ? (
+                      <p style={{ color: '#f59e0b' }}>No openings in the next few weeks. Please call {SUPPORT_PHONE}.</p>
+                    ) : (
+                      <>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.25rem' }}>
+                          {availability.days.map((day) => {
+                            const active = selectedDate === day.date;
+                            return (
+                              <button
+                                key={day.date}
+                                type="button"
+                                onClick={() => { setSelectedDate(day.date); setSelectedWindow(null); }}
+                                style={{
+                                  background: active ? 'rgba(0,212,255,0.15)' : 'rgba(255,255,255,0.04)',
+                                  border: `1px solid ${active ? 'rgba(0,212,255,0.35)' : 'rgba(255,255,255,0.08)'}`,
+                                  color: active ? '#22d3ee' : '#d1d5db',
+                                  borderRadius: '8px', padding: '0.625rem 0.875rem', fontSize: '0.8125rem', cursor: 'pointer',
+                                }}
+                              >
+                                {format(parseISO(day.date), 'EEE, MMM d')}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {selectedDate && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <p style={{ color: '#6b7280', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Time window</p>
+                            {availableWindows.length === 0 ? (
+                              <p style={{ color: '#f59e0b', fontSize: '0.875rem' }}>No windows available this day — pick another date.</p>
+                            ) : (
+                              availableWindows.map((w) => {
+                                const active = selectedWindow === w.name;
+                                return (
+                                  <button
+                                    key={w.name}
+                                    type="button"
+                                    onClick={() => setSelectedWindow(w.name)}
+                                    style={{
+                                      textAlign: 'left', background: active ? 'rgba(0,212,255,0.12)' : 'rgba(255,255,255,0.03)',
+                                      border: `1px solid ${active ? 'rgba(0,212,255,0.3)' : 'rgba(255,255,255,0.07)'}`,
+                                      borderRadius: '10px', padding: '0.875rem 1rem', cursor: 'pointer',
+                                    }}
+                                  >
+                                    <div style={{ color: active ? '#22d3ee' : '#fff', fontWeight: '600', fontSize: '0.9rem' }}>
+                                      {WINDOW_LABELS[w.name] || w.name}
+                                      <span style={{ color: '#9ca3af', fontWeight: '400', marginLeft: '0.5rem' }}>{w.display_range}</span>
+                                    </div>
+                                    {w.narrowing_note && (
+                                      <p style={{ color: '#6b7280', fontSize: '0.75rem', margin: '4px 0 0' }}>{w.narrowing_note}</p>
+                                    )}
+                                  </button>
+                                );
+                              })
+                            )}
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.25rem' }}>
+                      <button type="button" onClick={() => setStep(0)} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', color: '#9ca3af', borderRadius: '8px', padding: '0.75rem 1.25rem', cursor: 'pointer' }}>
+                        Back
+                      </button>
+                      <button
+                        type="button"
+                        disabled={!selectedDate || !selectedWindow}
+                        onClick={() => setStep(2)}
+                        style={{
+                          background: '#22d3ee', color: '#0a0f1a', border: 'none', borderRadius: '8px',
+                          padding: '0.75rem 1.5rem', fontWeight: '700', cursor: 'pointer',
+                          opacity: !selectedDate || !selectedWindow ? 0.5 : 1,
+                        }}
+                      >
+                        Review
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 2 && estimate && (
+                  <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.5rem' }}>
+                    <h2 style={{ color: '#fff', fontSize: '1rem', fontWeight: '600', marginBottom: '1rem' }}>Review &amp; confirm</h2>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.25rem', fontSize: '0.875rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
+                        <span style={{ color: '#6b7280' }}>Date</span>
+                        <span style={{ color: '#fff', fontWeight: '600' }}>{selectedDate && format(parseISO(selectedDate), 'EEEE, MMMM d, yyyy')}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
+                        <span style={{ color: '#6b7280' }}>Window</span>
+                        <span style={{ color: '#fff', fontWeight: '600', textTransform: 'capitalize' }}>{WINDOW_LABELS[selectedWindow] || selectedWindow}</span>
+                      </div>
+                      {selectedSymptoms.length > 0 && (
+                        <div>
+                          <span style={{ color: '#6b7280', display: 'block', marginBottom: '0.375rem' }}>Symptoms</span>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+                            {selectedSymptoms.map((s) => (
+                              <span key={s} style={{ background: 'rgba(255,255,255,0.05)', color: '#d1d5db', borderRadius: '6px', padding: '2px 8px', fontSize: '0.75rem' }}>{s}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ background: 'rgba(0,212,255,0.06)', border: '1px solid rgba(0,212,255,0.15)', borderRadius: '10px', padding: '1rem', marginBottom: '1rem' }}>
+                      {estimate.diagnostic && (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+                          <span style={{ color: '#9ca3af' }}>{estimate.diagnostic.name}</span>
+                          <span style={{ color: '#fff' }}>{formatCurrency(estimate.diagnostic.price)}</span>
+                        </div>
+                      )}
+                      {estimate.trip_charge?.amount != null && (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+                          <span style={{ color: '#9ca3af' }}>Trip charge ({estimate.trip_charge.zone_name})</span>
+                          <span style={{ color: '#fff' }}>{formatCurrency(estimate.trip_charge.amount)}</span>
+                        </div>
+                      )}
+                      {estimate.estimated_total != null && (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.08)', fontWeight: '700' }}>
+                          <span style={{ color: '#22d3ee' }}>Estimated total</span>
+                          <span style={{ color: '#22d3ee', fontSize: '1.125rem' }}>{formatCurrency(estimate.estimated_total)}</span>
+                        </div>
+                      )}
+                      {estimate.note && (
+                        <p style={{ color: '#6b7280', fontSize: '0.75rem', margin: '0.75rem 0 0' }}>{estimate.note}</p>
+                      )}
+                    </div>
+
+                    {confirmError && <p style={{ color: '#ef4444', fontSize: '0.8125rem', marginBottom: '0.75rem' }}>{confirmError}</p>}
+
+                    <div style={{ display: 'flex', gap: '0.75rem' }}>
+                      <button type="button" onClick={() => setStep(1)} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', color: '#9ca3af', borderRadius: '8px', padding: '0.75rem 1.25rem', cursor: 'pointer' }}>
+                        Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleConfirm}
+                        disabled={confirming}
+                        style={{
+                          flex: 1, background: '#22c55e', color: '#0a0f1a', border: 'none', borderRadius: '8px',
+                          padding: '0.875rem 1.5rem', fontWeight: '700', cursor: confirming ? 'wait' : 'pointer',
+                          opacity: confirming ? 0.7 : 1,
+                        }}
+                      >
+                        {confirming ? 'Confirming...' : 'Confirm Appointment'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 3 && confirmation && (
+                  <div style={{ background: '#0D1525', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '12px', padding: '2rem', textAlign: 'center' }}>
+                    <FaCheckCircle style={{ color: '#22c55e', fontSize: '2.5rem', marginBottom: '1rem' }} />
+                    <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.5rem' }}>You&apos;re scheduled!</h2>
+                    <p style={{ color: '#9ca3af', marginBottom: '0.25rem' }}>
+                      Order #{confirmation.order_number}
+                    </p>
+                    <p style={{ color: '#d1d5db', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+                      {selectedDate && format(parseISO(selectedDate), 'EEEE, MMMM d, yyyy')}
+                      {confirmation.window_display && ` · ${confirmation.window_display}`}
+                    </p>
+                    {confirmation.narrowing_note && (
+                      <p style={{ color: '#6b7280', fontSize: '0.8125rem', marginBottom: '1.25rem' }}>{confirmation.narrowing_note}</p>
+                    )}
+                    {confirmation.estimated_total != null && (
+                      <p style={{ color: '#22d3ee', fontWeight: '600', marginBottom: '1.5rem' }}>
+                        Estimated total: {formatCurrency(confirmation.estimated_total)}
+                      </p>
+                    )}
+                    <Link
+                      href="/cxdashboard/repairs"
+                      style={{
+                        display: 'inline-block', background: '#22d3ee', color: '#0a0f1a',
+                        borderRadius: '8px', padding: '0.75rem 1.5rem', fontWeight: '700', textDecoration: 'none',
+                      }}
+                    >
+                      View My Repairs
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
+ScheduleAppliancePage.getLayout = function getLayout(page) {
+  return <DashboardLayout title="Schedule Service">{page}</DashboardLayout>;
+};

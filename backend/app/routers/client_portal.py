@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 import logging
@@ -33,6 +33,8 @@ from app.schemas.client_appliance import (
     MergeAppliancesRequest,
 )
 from app.services import client_appliance_service as appliance_svc
+from app.services import portal_schedule_service as schedule_svc
+from app.core.exceptions import ValidationException
 
 logger = logging.getLogger(__name__)
 
@@ -948,6 +950,117 @@ async def get_portal_invoices(
             **_estimate_fields(wo, db),
         })
     return result
+
+class PortalScheduleConfirmRequest(BaseModel):
+    appliance_id: str
+    scheduled_date: str
+    time_window: str
+    symptoms: List[str] = []
+    issue_description: Optional[str] = None
+
+
+class PortalScheduleUpdateRequest(BaseModel):
+    appliance_id: str
+    message: str
+
+
+@router.get("/portal/schedule/status/{appliance_id}")
+async def portal_schedule_status(
+    appliance_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        return schedule_svc.get_scheduling_status(
+            db, client, uuid.UUID(appliance_id)
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
+    except ValidationException as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+
+
+@router.get("/portal/schedule/availability/{appliance_id}")
+async def portal_schedule_availability(
+    appliance_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        return schedule_svc.get_availability(db, client, uuid.UUID(appliance_id))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
+    except ValidationException as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+
+
+@router.get("/portal/schedule/estimate/{appliance_id}")
+async def portal_schedule_estimate(
+    appliance_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        return schedule_svc.get_estimate(db, client, uuid.UUID(appliance_id))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
+    except ValidationException as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+
+
+@router.post("/portal/schedule/confirm")
+async def portal_schedule_confirm(
+    payload: PortalScheduleConfirmRequest,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        from datetime import date as date_type
+
+        scheduled = date_type.fromisoformat(payload.scheduled_date)
+        result = await schedule_svc.confirm_schedule(
+            db,
+            client,
+            appliance_id=uuid.UUID(payload.appliance_id),
+            scheduled_date=scheduled,
+            time_window=payload.time_window,
+            symptoms=payload.symptoms or [],
+            issue_description=payload.issue_description,
+        )
+        return result
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except ValidationException as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        db.rollback()
+        logger.exception("Portal schedule confirm failed")
+        raise HTTPException(status_code=500, detail="Scheduling failed") from exc
+
+
+@router.post("/portal/schedule/request-update")
+async def portal_schedule_request_update(
+    payload: PortalScheduleUpdateRequest,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = schedule_svc.request_update_on_appliance(
+            db,
+            client,
+            uuid.UUID(payload.appliance_id),
+            payload.message,
+        )
+        return result
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
+    except ValidationException as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
 
 def _device_key(wo: WorkOrder) -> Optional[str]:
     """

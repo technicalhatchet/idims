@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { format, parseISO, isPast } from 'date-fns';
-import { FaArrowLeft, FaShieldAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaArrowLeft, FaShieldAlt, FaChevronDown, FaChevronUp, FaCalendarPlus } from 'react-icons/fa';
 import DashboardLayout from '../../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../../components/cxdashboard/ApplianceIcon';
 import { applianceDisplayName } from '../../../constants/applianceEquipment';
@@ -125,6 +125,7 @@ export default function ApplianceDetailPage() {
   const router = useRouter();
   const { serial } = router.query;
   const [appliance, setAppliance] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -134,8 +135,12 @@ export default function ApplianceDetailPage() {
     async function load() {
       try {
         const token = await getPortalSessionToken();
-        const data = await portalFetch(`appliances/${encodeURIComponent(serial)}`, token);
+        const [data, me] = await Promise.all([
+          portalFetch(`appliances/${encodeURIComponent(serial)}`, token),
+          portalFetch('me', token),
+        ]);
         setAppliance(data);
+        setProfile(me);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -146,6 +151,8 @@ export default function ApplianceDetailPage() {
   }, [serial]);
 
   const displayName = appliance ? applianceDisplayName(appliance) : 'Loading...';
+  const showSchedule = profile?.self_scheduling_allowed && appliance?.scheduling_ready;
+  const scheduleHref = `/cxdashboard/appliances/${encodeURIComponent(serial)}/schedule`;
 
   return (
     <>
@@ -221,6 +228,33 @@ export default function ApplianceDetailPage() {
                   </div>
                 </div>
               </div>
+
+              {showSchedule && (
+                <div style={{ marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  {appliance.can_schedule ? (
+                    <Link
+                      href={scheduleHref}
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                        background: '#22d3ee', color: '#0a0f1a', borderRadius: '8px',
+                        padding: '0.75rem 1.25rem', fontWeight: '700', fontSize: '0.9rem', textDecoration: 'none',
+                      }}
+                    >
+                      <FaCalendarPlus /> Schedule Service
+                    </Link>
+                  ) : appliance.active_repair ? (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
+                      <span style={{ color: '#f59e0b', fontSize: '0.875rem', fontWeight: '600' }}>Active service request in progress</span>
+                      <Link
+                        href={scheduleHref}
+                        style={{ color: '#22d3ee', fontSize: '0.875rem', textDecoration: 'none', fontWeight: '600' }}
+                      >
+                        Request an update →
+                      </Link>
+                    </div>
+                  ) : null}
+                </div>
+              )}
             </div>
 
             {/* Repair History */}
