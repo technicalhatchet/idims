@@ -531,6 +531,54 @@ def notify_portal_update_request(
     )
 
 
+def notify_portal_scheduling_request(
+    db: Session,
+    work_order: WorkOrder,
+    client: Client,
+    *,
+    time_window: str,
+) -> int:
+    """Push when a client submits a same-day / priority scheduling request."""
+    order_label = work_order.order_number or str(work_order.id)[:8]
+    client_name = client.display_name if hasattr(client, "display_name") else f"{client.first_name} {client.last_name}"
+    meta = work_order.portal_scheduling_meta or {}
+    tier = meta.get("service_tier") or "standard"
+    tier_label = "Same-day" if tier == "standard" else tier.replace("_", " ").title()
+
+    appliance_bits: List[str] = []
+    if work_order.equipment_make:
+        appliance_bits.append(str(work_order.equipment_make))
+    if work_order.equipment_subtype:
+        appliance_bits.append(str(work_order.equipment_subtype).replace("_", " "))
+    appliance_label = " ".join(appliance_bits) or "appliance"
+    window_label = (time_window or "").strip().capitalize()
+
+    body = f"{tier_label} request: {client_name} — {appliance_label} ({window_label}). #{order_label}"
+    if len(body) > 180:
+        body = body[:177] + "..."
+
+    extra_user_ids: List[uuid.UUID] = []
+    if work_order.assigned_technician_id:
+        tech_user_id = _tech_user_id_for_technician(db, work_order.assigned_technician_id)
+        if tech_user_id:
+            extra_user_ids.append(tech_user_id)
+
+    return _notify_push_rule(
+        db,
+        "portal_same_day_request",
+        title="Scheduling approval needed",
+        body=body,
+        url=f"/work_orders/{work_order.id}/mobile",
+        tag=f"portal-request-{work_order.id}",
+        extra_user_ids=extra_user_ids or None,
+    )
+
+
+def _tech_user_id_for_technician(db: Session, technician_id: uuid.UUID) -> Optional[uuid.UUID]:
+    tech = db.query(Technician).filter(Technician.id == technician_id).first()
+    return tech.user_id if tech else None
+
+
 def _shop_timezone() -> ZoneInfo:
     try:
         return ZoneInfo(settings.SHOP_TIMEZONE or "America/Detroit")

@@ -112,7 +112,7 @@ function RuleCard({ ruleKey, rule, onPatch }) {
             />
           )}
 
-          {!isMorning && ruleKey === 'portal_self_schedule' && (
+          {!isMorning && (ruleKey === 'portal_self_schedule' || ruleKey === 'portal_same_day_request') && (
             <Toggle
               checked={!!rule.include_assigned_technician}
               onChange={(v) => onPatch(ruleKey, 'include_assigned_technician', v)}

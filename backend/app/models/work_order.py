@@ -53,6 +53,8 @@ class WorkOrder(Base):
     is_wall_mounted = Column(Boolean, default=False)
     equipment_notes = Column(Text, nullable=True)
     symptoms = Column(JSONB, nullable=True)  # List of reported symptoms
+    service_tier = Column(String(20), nullable=True)  # standard | priority | emergency
+    portal_scheduling_meta = Column(JSONB, nullable=True)
     
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
@@ -461,6 +463,9 @@ class WorkOrderAppointment(Base):
     travel_distance_after = Column(Integer, nullable=True)   # Distance in meters to next location
     is_forced_schedule = Column(Boolean, default=False)  # Flag for admin-forced scheduling
     time_window = Column(String(50), nullable=True) # Added time_window field for 'morning'/'afternoon'
+    client_eta_narrowed_at = Column(DateTime, nullable=True)
+    client_eta_start = Column(DateTime, nullable=True)
+    client_eta_end = Column(DateTime, nullable=True)
     notes = Column(Text, nullable=True)  # Notes for this appointment
     
     mileage = relationship("AppointmentMileage", back_populates="appointment", uselist=False, cascade="all, delete-orphan")

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -12,6 +12,7 @@ import {
   BOOKING_GENERIC_SYMPTOMS,
 } from '../../../../constants/applianceSymptoms';
 import { getPortalSessionToken, portalFetch } from '../../../../utils/portalFetch';
+import PortalSquarePayment from '../../../../components/cxdashboard/PortalSquarePayment';
 
 const STEPS = ['Issue', 'Date & Time', 'Review', 'Confirmed'];
 const SUPPORT_PHONE = '(419) 515-3394';
@@ -135,6 +136,8 @@ export default function ScheduleAppliancePage() {
   const [schedulingStatus, setSchedulingStatus] = useState(null);
   const [availability, setAvailability] = useState(null);
   const [estimate, setEstimate] = useState(null);
+  const [schedulingContext, setSchedulingContext] = useState(null);
+  const [schedulingConfig, setSchedulingConfig] = useState(null);
   const [prepLoading, setPrepLoading] = useState(false);
   const [prepLoadedAt, setPrepLoadedAt] = useState(null);
 
@@ -143,9 +146,11 @@ export default function ScheduleAppliancePage() {
   const [issueDescription, setIssueDescription] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedWindow, setSelectedWindow] = useState(null);
+  const [priorityRequested, setPriorityRequested] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [confirmError, setConfirmError] = useState(null);
   const [confirmation, setConfirmation] = useState(null);
+  const squarePaymentRef = useRef(null);
 
   const applianceId = appliance?.id;
 
@@ -163,14 +168,16 @@ export default function ScheduleAppliancePage() {
     setError(null);
     try {
       const token = await getPortalSessionToken();
-      const [applianceData, me, status] = await Promise.all([
+      const [applianceData, me, status, schedCfg] = await Promise.all([
         portalFetch(`appliances/${encodeURIComponent(serial)}?include_history=false`, token),
         portalFetch('me', token),
         portalFetch(`schedule/status/${encodeURIComponent(serial)}`, token),
+        portalFetch('scheduling-config', token),
       ]);
       setAppliance(applianceData);
       setProfile(me);
       setSchedulingStatus(status);
+      setSchedulingConfig(schedCfg);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -195,9 +202,10 @@ export default function ScheduleAppliancePage() {
     const prep = await portalFetch(`schedule/prep/${applianceId}`, token);
     setAvailability(prep.availability);
     setEstimate(prep.estimate);
+    setSchedulingContext(prep.scheduling_context || schedulingConfig?.scheduling_context || null);
     setPrepLoadedAt(Date.now());
     return prep;
-  }, [applianceId]);
+  }, [applianceId, schedulingConfig]);
 
   // Prefetch pricing + calendar while the client picks symptoms.
   useEffect(() => {
@@ -269,20 +277,49 @@ export default function ScheduleAppliancePage() {
   const selectedDay = availability?.days?.find((d) => d.date === selectedDate);
   const availableWindows = selectedDay?.windows?.filter((w) => w.available) || [];
 
+  const isSameDaySelected = Boolean(
+    selectedDate && schedulingContext?.shop_date && selectedDate === schedulingContext.shop_date
+  );
+  const needsApproval = isSameDaySelected;
+  const paymentRequired = Boolean(schedulingConfig?.payment_required && schedulingConfig?.square?.configured);
+  const squarePublic = schedulingConfig?.square || {};
+  const priorityAvailable = Boolean(
+    schedulingConfig?.priority_service_enabled
+    && (schedulingContext?.priority_service_open || schedulingContext?.standard_same_day_open)
+  );
+
   async function handleConfirm() {
     setConfirming(true);
     setConfirmError(null);
     try {
       const token = await getPortalSessionToken();
-      const result = await portalFetch('schedule/confirm', token, {
+      let squareSourceId = null;
+      const idempotencyKey = typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `${Date.now()}`;
+
+      if (paymentRequired) {
+        squareSourceId = await squarePaymentRef.current?.tokenize();
+      }
+
+      const body = {
+        appliance_id: applianceId,
+        scheduled_date: selectedDate,
+        time_window: selectedWindow,
+        symptoms: selectedSymptoms,
+        issue_description: issueDescription.trim() || null,
+        square_source_id: squareSourceId,
+        payment_idempotency_key: idempotencyKey,
+      };
+
+      const endpoint = needsApproval ? 'schedule/request' : 'schedule/confirm';
+      if (needsApproval) {
+        body.priority_requested = priorityRequested;
+      }
+
+      const result = await portalFetch(endpoint, token, {
         method: 'POST',
-        body: JSON.stringify({
-          appliance_id: applianceId,
-          scheduled_date: selectedDate,
-          time_window: selectedWindow,
-          symptoms: selectedSymptoms,
-          issue_description: issueDescription.trim() || null,
-        }),
+        body: JSON.stringify(body),
       });
       setConfirmation(result);
       setStep(3);
@@ -442,8 +479,13 @@ export default function ScheduleAppliancePage() {
                       <FaCalendarAlt style={{ color: '#22d3ee' }} /> Pick a date &amp; window
                     </h2>
                     <p style={{ color: '#6b7280', fontSize: '0.8125rem', marginBottom: '1rem' }}>
-                      We&apos;ll confirm your appointment instantly. Arrival times are narrowed the evening before.
+                      Pick a date and window. Tomorrow and later confirm instantly; same-day needs a quick team review.
                     </p>
+                    {schedulingContext?.message && (
+                      <p style={{ color: '#f59e0b', fontSize: '0.8125rem', marginBottom: '1rem' }}>
+                        {schedulingContext.message}
+                      </p>
+                    )}
 
                     {!availability?.serviceable ? (
                       <p style={{ color: '#f59e0b' }}>{availability?.service_area_message || 'Loading availability...'}</p>
@@ -576,6 +618,37 @@ export default function ScheduleAppliancePage() {
                       )}
                     </div>
 
+                    {isSameDaySelected && priorityAvailable && (
+                      <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1rem', cursor: 'pointer' }}>
+                        <input
+                          type="checkbox"
+                          checked={priorityRequested}
+                          onChange={(e) => setPriorityRequested(e.target.checked)}
+                          style={{ marginTop: '0.2rem' }}
+                        />
+                        <span style={{ color: '#d1d5db', fontSize: '0.875rem' }}>
+                          <strong style={{ color: '#f59e0b' }}>Priority service</strong>
+                          {' '}— higher diagnostic/trip rates. We&apos;ll review before confirming.
+                        </span>
+                      </label>
+                    )}
+
+                    {paymentRequired && (
+                      <div style={{ marginBottom: '1rem' }}>
+                        <p style={{ color: '#9ca3af', fontSize: '0.8125rem', marginBottom: '0.5rem' }}>
+                          Card required to {needsApproval ? 'submit this request' : 'confirm'}.
+                        </p>
+                        <PortalSquarePayment
+                          ref={squarePaymentRef}
+                          applicationId={squarePublic.square_application_id}
+                          locationId={squarePublic.square_location_id}
+                          environment={squarePublic.square_environment}
+                          onError={(msg) => setConfirmError(msg)}
+                          disabled={confirming}
+                        />
+                      </div>
+                    )}
+
                     {confirmError && <p style={{ color: '#ef4444', fontSize: '0.8125rem', marginBottom: '0.75rem' }}>{confirmError}</p>}
 
                     <div style={{ display: 'flex', gap: '0.75rem' }}>
@@ -592,7 +665,9 @@ export default function ScheduleAppliancePage() {
                           opacity: confirming ? 0.7 : 1,
                         }}
                       >
-                        {confirming ? 'Confirming...' : 'Confirm Appointment'}
+                        {confirming
+                          ? (needsApproval ? 'Submitting...' : 'Confirming...')
+                          : (needsApproval ? 'Submit Request' : 'Confirm Appointment')}
                       </button>
                     </div>
                   </div>
@@ -601,16 +676,26 @@ export default function ScheduleAppliancePage() {
                 {step === 3 && confirmation && (
                   <div style={{ background: '#0D1525', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '12px', padding: '2rem', textAlign: 'center' }}>
                     <FaCheckCircle style={{ color: '#22c55e', fontSize: '2.5rem', marginBottom: '1rem' }} />
-                    <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.5rem' }}>You&apos;re scheduled!</h2>
+                    <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.5rem' }}>
+                      {confirmation?.pending_approval ? 'Request submitted!' : 'You\'re scheduled!'}
+                    </h2>
                     <p style={{ color: '#9ca3af', marginBottom: '0.25rem' }}>
                       Order #{confirmation.order_number}
                     </p>
-                    <p style={{ color: '#d1d5db', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
-                      {selectedDate && format(parseISO(selectedDate), 'EEEE, MMMM d, yyyy')}
-                      {confirmation.window_display && ` · ${confirmation.window_display}`}
-                    </p>
-                    {confirmation.narrowing_note && (
-                      <p style={{ color: '#6b7280', fontSize: '0.8125rem', marginBottom: '1.25rem' }}>{confirmation.narrowing_note}</p>
+                    {confirmation?.pending_approval ? (
+                      <p style={{ color: '#d1d5db', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
+                        {confirmation.message || 'We\'ll confirm as soon as possible.'}
+                      </p>
+                    ) : (
+                      <>
+                        <p style={{ color: '#d1d5db', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+                          {selectedDate && format(parseISO(selectedDate), 'EEEE, MMMM d, yyyy')}
+                          {confirmation.window_display && ` · ${confirmation.window_display}`}
+                        </p>
+                        {confirmation.narrowing_note && (
+                          <p style={{ color: '#6b7280', fontSize: '0.8125rem', marginBottom: '1.25rem' }}>{confirmation.narrowing_note}</p>
+                        )}
+                      </>
                     )}
                     {confirmation.estimated_total != null && (
                       <p style={{ color: '#22d3ee', fontWeight: '600', marginBottom: '1.5rem' }}>

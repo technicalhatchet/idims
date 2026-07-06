@@ -78,6 +78,18 @@ def setup_background_tasks():
                         "task": "app.background.tasks.push.send_morning_schedule_summaries",
                         "schedule": crontab(minute="0,15,30,45"),
                     },
+
+                    # Portal narrowing batch — tomorrow ETA windows at configured time (default 5:30 PM)
+                    "portal-narrowing-batch": {
+                        "task": "app.background.tasks.portal_scheduling.run_narrowing_batch",
+                        "schedule": crontab(minute="0,15,30,45"),
+                    },
+
+                    # Auto-deny stale same-day scheduling requests
+                    "portal-scheduling-deadlines": {
+                        "task": "app.background.tasks.portal_scheduling.process_scheduling_deadlines",
+                        "schedule": crontab(minute="*/15"),
+                    },
                 }
             )
 

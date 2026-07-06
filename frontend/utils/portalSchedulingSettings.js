@@ -35,6 +35,7 @@ export const DEFAULT_PORTAL_SCHEDULING = {
     requires_payment: false,
     square_application_id: '',
     square_location_id: '',
+    square_access_token: '',
     square_environment: 'sandbox',
   },
   booking: {

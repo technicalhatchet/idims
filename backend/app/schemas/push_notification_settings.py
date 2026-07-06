@@ -44,6 +44,11 @@ class PushNotificationSettings(BaseModel):
         )
     )
     portal_update_request: PushNotificationRule = Field(default_factory=PushNotificationRule)
+    portal_same_day_request: PushNotificationRule = Field(
+        default_factory=lambda: PushNotificationRule(
+            include_assigned_technician=True,
+        )
+    )
     deploy_reminder: PushNotificationRule = Field(
         default_factory=lambda: PushNotificationRule(
             recipients=PushRecipients(admin=False, manager=False, technician=True),

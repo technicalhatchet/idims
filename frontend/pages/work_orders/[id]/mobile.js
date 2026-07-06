@@ -26,6 +26,7 @@ import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
 import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
+import PortalSchedulingApprovalBar from '../../../components/work_orders/PortalSchedulingApprovalBar';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
 import { reopenWorkOrder } from '../../../services/api/workOrdersApi';
@@ -713,6 +714,8 @@ function WorkOrderDetail() {
             onRefresh={refetch}
           />
         )}
+
+        <PortalSchedulingApprovalBar workOrder={workOrder} onUpdated={refetch} />
 
         {/* {woClosed && <WorkOrderReadOnlyBanner className="mb-4" />} */}
 

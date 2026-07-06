@@ -609,9 +609,12 @@ async def get_portal_scheduling_config_for_client(
 ):
     """Read-only scheduling config for the client portal (no payment secrets)."""
     from app.services.portal_scheduling_settings_service import get_portal_scheduling_settings
+    from app.services.portal_square_payment_service import public_square_config
+    from app.services.portal_scheduling_helpers import scheduling_context
 
     settings = get_portal_scheduling_settings(db)
     payment = settings.get("payment") or {}
+    square_public = public_square_config(db)
     return {
         "self_scheduling_allowed": appliance_svc.client_self_scheduling_allowed(client, db),
         "self_scheduling_enabled": bool(settings.get("self_scheduling_enabled", True)),
@@ -620,8 +623,11 @@ async def get_portal_scheduling_config_for_client(
         "narrowing_batch_time": settings.get("narrowing_batch_time"),
         "booking": settings.get("booking"),
         "priority_service_enabled": bool((settings.get("priority_service") or {}).get("enabled")),
+        "priority_service": settings.get("priority_service"),
         "payment_required": bool(payment.get("requires_payment")),
+        "square": square_public,
         "comms": settings.get("comms"),
+        "scheduling_context": scheduling_context(settings),
     }
 
 
@@ -957,6 +963,19 @@ class PortalScheduleConfirmRequest(BaseModel):
     time_window: str
     symptoms: List[str] = []
     issue_description: Optional[str] = None
+    square_source_id: Optional[str] = None
+    payment_idempotency_key: Optional[str] = None
+
+
+class PortalScheduleRequestBody(BaseModel):
+    appliance_id: str
+    scheduled_date: str
+    time_window: str
+    symptoms: List[str] = []
+    issue_description: Optional[str] = None
+    priority_requested: bool = False
+    square_source_id: Optional[str] = None
+    payment_idempotency_key: Optional[str] = None
 
 
 class PortalScheduleUpdateRequest(BaseModel):
@@ -1041,6 +1060,8 @@ async def portal_schedule_confirm(
             time_window=payload.time_window,
             symptoms=payload.symptoms or [],
             issue_description=payload.issue_description,
+            square_source_id=payload.square_source_id,
+            payment_idempotency_key=payload.payment_idempotency_key,
         )
         return result
     except ValueError as exc:
@@ -1053,6 +1074,42 @@ async def portal_schedule_confirm(
         db.rollback()
         logger.exception("Portal schedule confirm failed")
         raise HTTPException(status_code=500, detail="Scheduling failed") from exc
+
+
+@router.post("/portal/schedule/request")
+async def portal_schedule_request(
+    payload: PortalScheduleRequestBody,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    """Same-day or priority scheduling request — pending staff approval."""
+    from datetime import date as date_type
+    from app.services.portal_same_day_service import request_schedule
+
+    try:
+        scheduled = date_type.fromisoformat(payload.scheduled_date)
+        return await request_schedule(
+            db,
+            client,
+            appliance_id=uuid.UUID(payload.appliance_id),
+            scheduled_date=scheduled,
+            time_window=payload.time_window,
+            symptoms=payload.symptoms or [],
+            issue_description=payload.issue_description,
+            priority_requested=payload.priority_requested,
+            square_source_id=payload.square_source_id,
+            payment_idempotency_key=payload.payment_idempotency_key,
+        )
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except ValidationException as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        db.rollback()
+        logger.exception("Portal schedule request failed")
+        raise HTTPException(status_code=500, detail="Scheduling request failed") from exc
 
 
 @router.post("/portal/schedule/request-update")

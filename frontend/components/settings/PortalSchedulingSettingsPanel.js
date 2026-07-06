@@ -323,6 +323,17 @@ export default function PortalSchedulingSettingsPanel() {
             <label className="block text-xs text-gray-400 mb-1">Square location ID</label>
             <input value={settings.payment.square_location_id} onChange={(e) => patch('payment.square_location_id', e.target.value)} className={inputClass} />
           </div>
+          <div className="sm:col-span-2">
+            <label className="block text-xs text-gray-400 mb-1">Square access token (server only)</label>
+            <input
+              type="password"
+              autoComplete="off"
+              value={settings.payment.square_access_token || ''}
+              onChange={(e) => patch('payment.square_access_token', e.target.value)}
+              className={inputClass}
+              placeholder="EAAA... (never shown to clients)"
+            />
+          </div>
           <div>
             <label className="block text-xs text-gray-400 mb-1">Environment</label>
             <select value={settings.payment.square_environment} onChange={(e) => patch('payment.square_environment', e.target.value)} className={inputClass}>

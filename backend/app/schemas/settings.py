@@ -345,6 +345,7 @@ class PortalPaymentSettings(BaseModel):
     requires_payment: bool = False
     square_application_id: str = ""
     square_location_id: str = ""
+    square_access_token: str = Field("", description="Server-side only — never expose to portal clients")
     square_environment: str = Field("sandbox", description="sandbox | production")
 
     @validator("square_environment")

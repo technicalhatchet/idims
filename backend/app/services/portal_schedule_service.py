@@ -105,13 +105,30 @@ def _service_location_from_address(address: str) -> dict:
 
 
 def _booking_date_range(settings: dict) -> Tuple[date, date]:
-    today = date.today()
+    from app.services.portal_scheduling_helpers import (
+        is_priority_request_open,
+        is_standard_same_day_open,
+        shop_today,
+    )
+
+    today = shop_today()
     booking = settings.get("booking") or {}
     min_days = int(booking.get("min_days_out", 1))
     max_days = int(booking.get("max_days_out", 21))
-    start = today + timedelta(days=min_days)
+
+    if min_days <= 0 or is_standard_same_day_open(settings) or is_priority_request_open(settings):
+        start = today
+    else:
+        start = today + timedelta(days=min_days)
     end = today + timedelta(days=max_days)
     return start, end
+
+
+def _symptom_list(symptoms: List[str], issue_description: Optional[str] = None) -> List[str]:
+    symptom_list = [s for s in (symptoms or []) if s]
+    if issue_description and issue_description.strip():
+        symptom_list.append(issue_description.strip())
+    return symptom_list
 
 
 def _enabled_windows(settings: dict) -> List[Tuple[str, dict]]:
@@ -254,12 +271,22 @@ def _format_window_label(window_cfg: dict) -> str:
 
 
 def _narrowing_copy(on_date: date) -> Optional[str]:
-    tomorrow = date.today() + timedelta(days=1)
+    from app.services.portal_narrowing_service import narrowing_visible_for_date
+    from app.services.portal_scheduling_helpers import shop_today
+    from app.services.portal_scheduling_settings_service import get_portal_scheduling_settings
+
+    tomorrow = shop_today() + timedelta(days=1)
     if on_date == tomorrow:
         return "Your arrival window will be narrowed tonight around 5:30 PM."
     if on_date > tomorrow:
         return "Your arrival window will be narrowed the evening before your appointment."
     return None
+
+
+def _scheduling_context(settings: dict) -> dict:
+    from app.services.portal_scheduling_helpers import scheduling_context
+
+    return scheduling_context(settings)
 
 
 def get_open_work_order_for_appliance(
@@ -357,6 +384,7 @@ def get_schedule_prep(db: Session, client: Client, appliance_id: uuid.UUID) -> d
                 "service_area_message": estimate.get("service_area_message"),
                 "days": [],
             },
+            "scheduling_context": _scheduling_context(settings),
         }
 
     duration = int((estimate.get("diagnostic") or {}).get("duration_minutes") or 45)
@@ -386,6 +414,7 @@ def get_schedule_prep(db: Session, client: Client, appliance_id: uuid.UUID) -> d
             "duration_minutes": duration,
             "days": days,
         },
+        "scheduling_context": _scheduling_context(settings),
     }
 
 
@@ -407,9 +436,19 @@ async def confirm_schedule(
     time_window: str,
     symptoms: List[str],
     issue_description: Optional[str] = None,
+    square_source_id: Optional[str] = None,
+    payment_idempotency_key: Optional[str] = None,
 ) -> dict:
+    from app.services.portal_scheduling_helpers import shop_today
+    from app.services.portal_square_payment_service import charge_portal_booking, get_square_config
+
     _assert_can_schedule(db, client)
     settings = get_portal_scheduling_settings(db)
+
+    if scheduled_date == shop_today():
+        raise ValidationException(
+            "Same-day appointments require approval. Please submit a same-day request instead."
+        )
 
     if time_window not in ("morning", "afternoon", "evening"):
         raise ValidationException("Invalid time window.")
@@ -436,6 +475,19 @@ async def confirm_schedule(
     if not diagnostic:
         raise ValidationException("Unable to resolve diagnostic service for this appliance.")
 
+    square_cfg = get_square_config(db)
+    payment_meta = None
+    if square_cfg["requires_payment"]:
+        amount = estimate.get("estimated_total")
+        if amount is None:
+            raise ValidationException("Unable to determine payment amount.")
+        payment_meta = await charge_portal_booking(
+            db,
+            amount=float(amount),
+            source_id=square_source_id or "",
+            idempotency_key=payment_idempotency_key,
+        )
+
     windows = settings.get("scheduling_windows") or {}
     window_cfg = windows.get(time_window) or {}
     if not window_cfg.get("enabled"):
@@ -461,9 +513,7 @@ async def confirm_schedule(
         )
 
     actor_id = _resolve_actor_user_id(db, client)
-    symptom_list = [s for s in (symptoms or []) if s]
-    if issue_description and issue_description.strip():
-        symptom_list.append(issue_description.strip())
+    symptom_list = _symptom_list(symptoms, issue_description)
 
     description_parts = [
         f"Portal self-schedule — {appliance.make or ''} {appliance.equipment_subtype or ''}".strip(),
@@ -515,6 +565,11 @@ async def confirm_schedule(
 
     work_order.appliance_id = appliance.id
     work_order.property_id = appliance.property_id
+    if payment_meta:
+        work_order.portal_scheduling_meta = {
+            "type": "instant_confirm",
+            "payment": payment_meta,
+        }
     db.commit()
     db.refresh(work_order)
     db.refresh(appointment)

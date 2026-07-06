@@ -238,6 +238,9 @@ class WorkOrderResponse(WorkOrderBase):
     has_redo_appointments: bool = False
     child_redo_work_order_ids: List[UUID] = []
 
+    service_tier: Optional[str] = None
+    portal_scheduling_meta: Optional[Dict[str, Any]] = None
+
     # Service items
     service_items: List[WorkOrderServiceResponse] = []
     

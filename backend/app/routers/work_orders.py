@@ -2983,3 +2983,44 @@ async def create_redo_work_order_endpoint(
         )
     except (ValidationException, ConflictException) as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+class PortalSchedulingDecisionRequest(BaseModel):
+    note: Optional[str] = None
+    reason: Optional[str] = None
+
+
+@router.post("/{work_order_id}/portal-scheduling/approve")
+async def approve_portal_scheduling_request(
+    work_order_id: uuid.UUID = Path(...),
+    body: PortalSchedulingDecisionRequest = Body(default_factory=PortalSchedulingDecisionRequest),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_or_manager_user),
+):
+    from app.services.portal_same_day_service import approve_schedule_request
+
+    wo = await WorkOrderService.get_work_order(db, work_order_id)
+    try:
+        return await approve_schedule_request(
+            db, wo, actor_id=current_user.id, staff_note=body.note
+        )
+    except ValidationException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.post("/{work_order_id}/portal-scheduling/deny")
+async def deny_portal_scheduling_request(
+    work_order_id: uuid.UUID = Path(...),
+    body: PortalSchedulingDecisionRequest = Body(default_factory=PortalSchedulingDecisionRequest),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_or_manager_user),
+):
+    from app.services.portal_same_day_service import deny_schedule_request
+
+    wo = await WorkOrderService.get_work_order(db, work_order_id)
+    try:
+        return await deny_schedule_request(
+            db, wo, actor_id=current_user.id, reason=body.reason or body.note
+        )
+    except ValidationException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

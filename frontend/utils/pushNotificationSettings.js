@@ -23,6 +23,11 @@ export const DEFAULT_PUSH_NOTIFICATIONS = {
     recipients: { admin: true, manager: true, technician: true },
     include_assigned_technician: false,
   },
+  portal_same_day_request: {
+    enabled: true,
+    recipients: { admin: true, manager: true, technician: true },
+    include_assigned_technician: true,
+  },
   deploy_reminder: {
     enabled: true,
     recipients: { admin: false, manager: false, technician: true },
@@ -46,6 +51,10 @@ export const PUSH_NOTIFICATION_LABELS = {
   portal_update_request: {
     title: 'Portal update request',
     description: 'When a client messages about an open order.',
+  },
+  portal_same_day_request: {
+    title: 'Same-day scheduling approval',
+    description: 'When a client requests same-day or priority service.',
   },
   deploy_reminder: {
     title: 'Deploy / tap-in reminder',
