@@ -16,6 +16,7 @@ import { getPortalSessionToken, portalFetch } from '../../../../utils/portalFetc
 const STEPS = ['Issue', 'Date & Time', 'Review', 'Confirmed'];
 const SUPPORT_PHONE = '(419) 515-3394';
 const SUPPORT_TEL = 'tel:+14195153394';
+const PREP_STALE_MS = 5 * 60 * 1000;
 
 function formatCurrency(amount) {
   if (amount == null || Number.isNaN(Number(amount))) return '—';
@@ -134,6 +135,8 @@ export default function ScheduleAppliancePage() {
   const [schedulingStatus, setSchedulingStatus] = useState(null);
   const [availability, setAvailability] = useState(null);
   const [estimate, setEstimate] = useState(null);
+  const [prepLoading, setPrepLoading] = useState(false);
+  const [prepLoadedAt, setPrepLoadedAt] = useState(null);
 
   const [step, setStep] = useState(0);
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
@@ -161,7 +164,7 @@ export default function ScheduleAppliancePage() {
     try {
       const token = await getPortalSessionToken();
       const [applianceData, me, status] = await Promise.all([
-        portalFetch(`appliances/${encodeURIComponent(serial)}`, token),
+        portalFetch(`appliances/${encodeURIComponent(serial)}?include_history=false`, token),
         portalFetch('me', token),
         portalFetch(`schedule/status/${encodeURIComponent(serial)}`, token),
       ]);
@@ -179,6 +182,40 @@ export default function ScheduleAppliancePage() {
     loadInitial();
   }, [loadInitial]);
 
+  const canStartScheduling = Boolean(
+    applianceId
+    && !loading
+    && profile?.self_scheduling_allowed
+    && appliance?.scheduling_ready
+    && schedulingStatus?.can_schedule
+  );
+
+  const fetchSchedulePrep = useCallback(async () => {
+    const token = await getPortalSessionToken();
+    const prep = await portalFetch(`schedule/prep/${applianceId}`, token);
+    setAvailability(prep.availability);
+    setEstimate(prep.estimate);
+    setPrepLoadedAt(Date.now());
+    return prep;
+  }, [applianceId]);
+
+  // Prefetch pricing + calendar while the client picks symptoms.
+  useEffect(() => {
+    if (!canStartScheduling || !applianceId) return undefined;
+    let cancelled = false;
+    (async () => {
+      setPrepLoading(true);
+      try {
+        await fetchSchedulePrep();
+      } catch (err) {
+        if (!cancelled) console.error('Schedule prep prefetch failed:', err);
+      } finally {
+        if (!cancelled) setPrepLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [canStartScheduling, applianceId, fetchSchedulePrep]);
+
   function toggleSymptom(symptom) {
     setSelectedSymptoms((prev) => (
       prev.includes(symptom) ? prev.filter((s) => s !== symptom) : [...prev, symptom]
@@ -186,10 +223,13 @@ export default function ScheduleAppliancePage() {
   }
 
   async function reloadAvailability() {
-    const token = await getPortalSessionToken();
-    const avail = await portalFetch(`schedule/availability/${applianceId}`, token);
-    setAvailability(avail);
-    return avail;
+    setPrepLoading(true);
+    try {
+      const prep = await fetchSchedulePrep();
+      return prep.availability;
+    } finally {
+      setPrepLoading(false);
+    }
   }
 
   async function goToDateStep() {
@@ -198,26 +238,32 @@ export default function ScheduleAppliancePage() {
       return;
     }
     setConfirmError(null);
-    try {
-      const token = await getPortalSessionToken();
-      const [avail, est] = await Promise.all([
-        portalFetch(`schedule/availability/${applianceId}`, token),
-        portalFetch(`schedule/estimate/${applianceId}`, token),
-      ]);
-      setAvailability(avail);
-      setEstimate(est);
-      if (!avail.serviceable) {
-        setConfirmError(avail.service_area_message || 'This address is outside our service area.');
+
+    const prepFresh = prepLoadedAt && Date.now() - prepLoadedAt <= PREP_STALE_MS;
+    let avail = prepFresh ? availability : null;
+
+    if (!avail) {
+      setPrepLoading(true);
+      try {
+        const prep = await fetchSchedulePrep();
+        avail = prep.availability;
+      } catch (err) {
+        setConfirmError(err.message);
         return;
+      } finally {
+        setPrepLoading(false);
       }
-      if (!avail.days?.length) {
-        setConfirmError(`No openings available. Please call ${SUPPORT_PHONE}.`);
-        return;
-      }
-      setStep(1);
-    } catch (err) {
-      setConfirmError(err.message);
     }
+
+    if (!avail.serviceable) {
+      setConfirmError(avail.service_area_message || 'This address is outside our service area.');
+      return;
+    }
+    if (!avail.days?.length) {
+      setConfirmError(`No openings available. Please call ${SUPPORT_PHONE}.`);
+      return;
+    }
+    setStep(1);
   }
 
   const selectedDay = availability?.days?.find((d) => d.date === selectedDate);
@@ -365,15 +411,27 @@ export default function ScheduleAppliancePage() {
                       }}
                     />
                     {confirmError && <p style={{ color: '#ef4444', fontSize: '0.8125rem', marginTop: '0.75rem' }}>{confirmError}</p>}
+                    {prepLoading && (
+                      <p style={{ color: '#6b7280', fontSize: '0.75rem', marginTop: '0.75rem' }}>
+                        Loading available times…
+                      </p>
+                    )}
+                    {!prepLoading && availability?.days?.length > 0 && (
+                      <p style={{ color: '#22c55e', fontSize: '0.75rem', marginTop: '0.75rem' }}>
+                        Times are ready — pick Continue when you&apos;re done.
+                      </p>
+                    )}
                     <button
                       type="button"
                       onClick={goToDateStep}
+                      disabled={prepLoading}
                       style={{
                         marginTop: '1rem', background: '#22d3ee', color: '#0a0f1a', border: 'none',
-                        borderRadius: '8px', padding: '0.75rem 1.5rem', fontWeight: '700', cursor: 'pointer',
+                        borderRadius: '8px', padding: '0.75rem 1.5rem', fontWeight: '700',
+                        cursor: prepLoading ? 'wait' : 'pointer', opacity: prepLoading ? 0.7 : 1,
                       }}
                     >
-                      Continue
+                      {prepLoading ? 'Loading times…' : 'Continue'}
                     </button>
                   </div>
                 )}

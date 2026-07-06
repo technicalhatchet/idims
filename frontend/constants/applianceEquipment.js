@@ -42,6 +42,35 @@ export function subtypeLabel(equipmentType, subtype) {
   return list.find((o) => o.value === subtype)?.label || subtype.replace(/_/g, ' ');
 }
 
+export function schedulingMissingLabels(missing) {
+  const labels = {
+    equipment_type: 'Appliance type',
+    equipment_subtype: 'Subtype (e.g. Refrigerator)',
+    make: 'Manufacturer',
+    service_address: 'Service address',
+  };
+  return (missing || []).map((key) => labels[key] || key);
+}
+
+export function getSchedulingMissing(appliance) {
+  if (appliance?.scheduling_missing?.length) {
+    return appliance.scheduling_missing;
+  }
+  const missing = [];
+  if (!appliance?.equipment_type) missing.push('equipment_type');
+  if (!appliance?.equipment_subtype) missing.push('equipment_subtype');
+  if (!appliance?.make) missing.push('make');
+  if (!appliance?.property_id && !appliance?.service_address && !appliance?.property?.address) {
+    missing.push('service_address');
+  }
+  return missing;
+}
+
+export function isSchedulingReady(appliance) {
+  if (appliance?.scheduling_ready != null) return appliance.scheduling_ready;
+  return getSchedulingMissing(appliance).length === 0;
+}
+
 export function applianceDisplayName(appliance) {
   if (appliance?.nickname) return appliance.nickname;
   const make = appliance?.make || '';

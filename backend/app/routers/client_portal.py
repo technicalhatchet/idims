@@ -980,6 +980,21 @@ async def portal_schedule_status(
         raise HTTPException(status_code=403, detail=str(exc)) from exc
 
 
+@router.get("/portal/schedule/prep/{appliance_id}")
+async def portal_schedule_prep(
+    appliance_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    """Estimate + availability in one request (faster portal scheduling)."""
+    try:
+        return schedule_svc.get_schedule_prep(db, client, uuid.UUID(appliance_id))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
+    except ValidationException as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+
+
 @router.get("/portal/schedule/availability/{appliance_id}")
 async def portal_schedule_availability(
     appliance_id: str,
@@ -1196,6 +1211,7 @@ async def delete_portal_appliance(
 @router.get("/portal/appliances/{appliance_id}")
 async def get_portal_appliance_detail(
     appliance_id: str,
+    include_history: bool = Query(True),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
@@ -1203,7 +1219,9 @@ async def get_portal_appliance_detail(
     try:
         parsed_id = uuid.UUID(appliance_id)
         appliance = appliance_svc.get_client_appliance(db, client.id, parsed_id)
-        return appliance_svc.serialize_appliance(appliance, db, include_history=True)
+        return appliance_svc.serialize_appliance(
+            appliance, db, include_history=include_history
+        )
     except ValueError:
         pass
 
@@ -1219,7 +1237,9 @@ async def get_portal_appliance_detail(
     )
     match = next((a for a in appliance if (a.serial or "").strip().lower() == serial_lower), None)
     if match:
-        return appliance_svc.serialize_appliance(match, db, include_history=True)
+        return appliance_svc.serialize_appliance(
+            match, db, include_history=include_history
+        )
 
     work_orders_list = db.query(WorkOrder).filter(WorkOrder.client_id == client.id).all()
     matching = [w for w in work_orders_list if _device_key(w) == serial_lower]

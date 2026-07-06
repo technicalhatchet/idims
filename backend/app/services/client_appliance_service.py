@@ -226,19 +226,124 @@ def build_import_candidates(db: Session, client_id: UUID) -> List[Dict[str, Any]
 
 
 def _wo_matches_appliance(wo: WorkOrder, appliance: ClientAppliance) -> bool:
+    if wo.appliance_id and appliance.id:
+        return wo.appliance_id == appliance.id
+
     if appliance.serial and wo.equipment_serial:
         return _norm(appliance.serial) == _norm(wo.equipment_serial)
 
-    if appliance.property_id and wo.property_id and appliance.property_id != wo.property_id:
+    if not appliance.property_id or not wo.property_id:
+        return False
+    if appliance.property_id != wo.property_id:
         return False
 
-    checks = [
-        (_norm(appliance.equipment_type), _norm(wo.equipment_type)),
-        (_norm(appliance.equipment_subtype), _norm(wo.equipment_subtype)),
-        (_norm(appliance.make), _norm(wo.equipment_make)),
-        (_norm(appliance.model), _norm(wo.equipment_model)),
-    ]
-    return all(not expected or expected == actual for expected, actual in checks)
+    subtype_a = _norm(appliance.equipment_subtype)
+    subtype_w = _norm(wo.equipment_subtype)
+    if subtype_a and subtype_w and subtype_a != subtype_w:
+        return False
+
+    make_a = _norm(appliance.make)
+    make_w = _norm(wo.equipment_make)
+    if make_a and make_w and make_a != make_w:
+        return False
+
+    model_a = _norm(appliance.model)
+    model_w = _norm(wo.equipment_model)
+    if model_a and model_w and model_a != model_w:
+        return False
+
+    signals = 0
+    if subtype_a and subtype_w and subtype_a == subtype_w:
+        signals += 1
+    if make_a and make_w and make_a == make_w:
+        signals += 1
+    if model_a and model_w and model_a == model_w:
+        signals += 1
+
+    return signals >= 1
+
+
+def resolve_property_for_appliance(
+    db: Session,
+    appliance: ClientAppliance,
+    work_orders: Optional[List[WorkOrder]] = None,
+) -> Optional[Property]:
+    """Property on the appliance record, or from linked / matching work orders."""
+    if appliance.property_id:
+        prop = db.query(Property).filter(Property.id == appliance.property_id).first()
+        if prop:
+            return prop
+
+    orders = work_orders if work_orders is not None else work_orders_for_appliance(db, appliance)
+    for wo in orders:
+        if wo.property_id:
+            prop = db.query(Property).filter(Property.id == wo.property_id).first()
+            if prop:
+                return prop
+        loc = wo.service_location or {}
+        if isinstance(loc, dict) and (loc.get("address") or "").strip():
+            # Work order has a service address but no property row — still schedulable.
+            return None
+    return None
+
+
+def service_address_for_appliance(
+    db: Session,
+    appliance: ClientAppliance,
+    work_orders: Optional[List[WorkOrder]] = None,
+) -> Optional[str]:
+    prop = resolve_property_for_appliance(db, appliance, work_orders)
+    if prop and prop.address:
+        return prop.address.strip()
+
+    orders = work_orders if work_orders is not None else work_orders_for_appliance(db, appliance)
+    for wo in orders:
+        loc = wo.service_location or {}
+        if isinstance(loc, dict):
+            addr = (loc.get("address") or "").strip()
+            if addr:
+                return addr
+    return None
+
+
+def scheduling_missing_fields(
+    appliance: ClientAppliance,
+    *,
+    has_service_address: bool,
+) -> List[str]:
+    missing: List[str] = []
+    if not appliance.equipment_type:
+        missing.append("equipment_type")
+    if not appliance.equipment_subtype:
+        missing.append("equipment_subtype")
+    if not appliance.make:
+        missing.append("make")
+    if not has_service_address:
+        missing.append("service_address")
+    return missing
+
+
+def work_orders_for_appliance(db: Session, appliance: ClientAppliance) -> List[WorkOrder]:
+    """All work orders for an appliance: linked by id plus legacy equipment matching."""
+    seen: Dict[UUID, WorkOrder] = {}
+
+    for wo in db.query(WorkOrder).filter(WorkOrder.appliance_id == appliance.id).all():
+        seen[wo.id] = wo
+
+    for wo in (
+        db.query(WorkOrder)
+        .filter(WorkOrder.client_id == appliance.client_id)
+        .order_by(WorkOrder.created_at.desc())
+        .all()
+    ):
+        if wo.id in seen:
+            continue
+        if wo.appliance_id and wo.appliance_id != appliance.id:
+            continue
+        if _wo_matches_appliance(wo, appliance):
+            seen[wo.id] = wo
+
+    return sorted(seen.values(), key=lambda w: w.created_at or datetime.min, reverse=True)
 
 
 def link_work_orders_to_appliance(db: Session, appliance: ClientAppliance, work_order_ids: Optional[List[str]] = None) -> int:
@@ -261,40 +366,27 @@ def serialize_appliance(
     *,
     include_history: bool = False,
 ) -> Dict[str, Any]:
-    prop = (
-        db.query(Property).filter(Property.id == appliance.property_id).first()
-        if appliance.property_id
-        else None
-    )
-
-    work_orders = (
-        db.query(WorkOrder)
-        .filter(WorkOrder.appliance_id == appliance.id)
-        .order_by(WorkOrder.created_at.desc())
-        .all()
-    )
-    if not work_orders:
-        work_orders = (
-            db.query(WorkOrder)
-            .filter(WorkOrder.client_id == appliance.client_id)
-            .order_by(WorkOrder.created_at.desc())
-            .all()
-        )
-        work_orders = [wo for wo in work_orders if _wo_matches_appliance(wo, appliance)]
+    work_orders = work_orders_for_appliance(db, appliance)
+    prop = resolve_property_for_appliance(db, appliance, work_orders)
+    service_address = service_address_for_appliance(db, appliance, work_orders)
+    suggested_property_id = None
+    if not appliance.property_id and prop:
+        suggested_property_id = str(prop.id)
 
     now = datetime.utcnow()
 
-    active_repair = any(_work_order_status(wo) in OPEN_REPAIR_STATUSES for wo in work_orders)
+    open_work_orders = [wo for wo in work_orders if _work_order_status(wo) in OPEN_REPAIR_STATUSES]
+    active_repair = bool(open_work_orders)
     warranty_active = any(_warranty_is_active(wo, db, now) for wo in work_orders)
     latest = work_orders[0] if work_orders else None
-    scheduling_ready = bool(
-        appliance.make and appliance.equipment_type and appliance.equipment_subtype and appliance.property_id
-    )
+    missing = scheduling_missing_fields(appliance, has_service_address=bool(service_address))
+    scheduling_ready = len(missing) == 0
 
     payload = {
         "id": str(appliance.id),
         "client_id": str(appliance.client_id),
-        "property_id": str(appliance.property_id) if appliance.property_id else None,
+        "property_id": str(appliance.property_id) if appliance.property_id else suggested_property_id,
+        "suggested_property_id": suggested_property_id,
         "nickname": appliance.nickname,
         "equipment_type": appliance.equipment_type,
         "equipment_subtype": appliance.equipment_subtype,
@@ -311,14 +403,21 @@ def serialize_appliance(
             "id": str(prop.id),
             "address": prop.address,
             "unit_number": prop.unit_number,
-        } if prop else None,
+        } if prop else (
+            {"id": None, "address": service_address, "unit_number": None}
+            if service_address
+            else None
+        ),
+        "service_address": service_address,
         "service_count": len(work_orders),
         "last_service_date": latest.created_at.isoformat() if latest and latest.created_at else None,
         "last_status": _work_order_status(latest) if latest else None,
         "warranty_active": warranty_active,
         "active_repair": active_repair,
-        "open_work_order_id": str(next((wo.id for wo in work_orders if _work_order_status(wo) in OPEN_REPAIR_STATUSES), "")) or None,
+        "open_work_order_id": str(open_work_orders[0].id) if open_work_orders else None,
+        "open_work_order_number": open_work_orders[0].order_number if open_work_orders else None,
         "scheduling_ready": scheduling_ready,
+        "scheduling_missing": missing,
         "can_schedule": scheduling_ready and not active_repair,
     }
 

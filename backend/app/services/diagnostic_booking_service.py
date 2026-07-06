@@ -143,12 +143,16 @@ def lookup_diagnostic_service(db: Session, appliance_key: str) -> Optional[Servi
     )
 
 
-def estimate_trip_charge(db: Session, address: str) -> dict:
+def estimate_trip_charge(db: Session, address: str, *, skip_drive_time_lookup: bool = False) -> dict:
     zone_service = ZoneService(db)
     property_zip = extract_zip_code(address)
     drive_time_minutes = None
 
-    if address and (not property_zip or not zone_service.get_zone_by_zip(property_zip)):
+    if (
+        not skip_drive_time_lookup
+        and address
+        and (not property_zip or not zone_service.get_zone_by_zip(property_zip))
+    ):
         shop_address = get_default_shop_address()
         routed_address = sanitize_address_for_routing(address) or address
         travel_time, _ = get_travel_time_and_distance(shop_address, routed_address)
@@ -186,7 +190,7 @@ def build_booking_estimate(
     zone_exempt: bool = False,
 ) -> dict:
     diagnostic_service = lookup_diagnostic_service(db, appliance_key)
-    trip = estimate_trip_charge(db, address)
+    trip = estimate_trip_charge(db, address, skip_drive_time_lookup=zone_exempt)
     serviceable = is_address_serviceable(trip)
 
     if zone_exempt:

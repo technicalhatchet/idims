@@ -12,7 +12,6 @@ from sqlalchemy.orm import Session, joinedload
 from app.core.exceptions import ValidationException
 from app.models.client import Client
 from app.models.client_appliance import ClientAppliance
-from app.models.property import Property
 from app.models.technician import Technician
 from app.models.user import User
 from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderNote
@@ -23,7 +22,10 @@ from app.services.diagnostic_booking_service import (
     build_booking_estimate,
 )
 from app.services.portal_scheduling_settings_service import get_portal_scheduling_settings
-from app.services.scheduling_constraints_service import slot_is_available
+from app.services.scheduling_constraints_service import (
+    TechnicianOccupancyCache,
+    slot_is_available,
+)
 from app.services.work_order_service import WorkOrderService
 from app.utils.travel_calculator import (
     get_default_shop_address,
@@ -88,11 +90,13 @@ def _get_appliance(db: Session, client_id: uuid.UUID, appliance_id: uuid.UUID) -
 
 
 def _service_address(db: Session, appliance: ClientAppliance) -> str:
-    if appliance.property_id:
-        prop = db.query(Property).filter(Property.id == appliance.property_id).first()
-        if prop and prop.address:
-            return prop.address.strip()
-    raise ValidationException("Appliance must be linked to a property with an address.")
+    address = appliance_svc.service_address_for_appliance(db, appliance)
+    if address:
+        return address
+    raise ValidationException(
+        "Appliance must be linked to a property with an address. "
+        "Edit the appliance and select a service location."
+    )
 
 
 def _service_location_from_address(address: str) -> dict:
@@ -160,16 +164,20 @@ def _window_has_capacity(
     window_cfg: dict,
     duration_minutes: int,
     technicians: List[Technician],
+    *,
+    occupancy_cache: Optional[TechnicianOccupancyCache] = None,
 ) -> bool:
     start = _combine_date_time(on_date, window_cfg.get("start", "08:00"))
     end = _combine_date_time(on_date, window_cfg.get("end", "12:00"))
-    slot_step = 30
+    slot_step = 60
     current = start
 
     while current + timedelta(minutes=duration_minutes) <= end:
         slot_end = current + timedelta(minutes=duration_minutes)
         for tech in technicians:
-            if slot_is_available(db, tech.id, current, slot_end):
+            if slot_is_available(
+                db, tech.id, current, slot_end, occupancy_cache=occupancy_cache
+            ):
                 return True
         current += timedelta(minutes=slot_step)
     return False
@@ -183,6 +191,9 @@ def _find_best_slot(
     duration_minutes: int,
     property_address: str,
     settings: dict,
+    *,
+    occupancy_cache: Optional[TechnicianOccupancyCache] = None,
+    travel_minutes: Optional[float] = None,
 ) -> Optional[Dict[str, Any]]:
     technicians = _get_technicians(db, settings)
     if not technicians:
@@ -190,14 +201,27 @@ def _find_best_slot(
 
     start = _combine_date_time(on_date, window_cfg.get("start", "08:00"))
     end = _combine_date_time(on_date, window_cfg.get("end", "12:00"))
-    base_travel = _travel_minutes_to_address(property_address)
+    base_travel = (
+        travel_minutes
+        if travel_minutes is not None
+        else _travel_minutes_to_address(property_address)
+    )
+
+    day_cache = occupancy_cache
+    if day_cache is None:
+        day_cache = TechnicianOccupancyCache.build(
+            db,
+            [tech.id for tech in technicians],
+            datetime.combine(on_date, time.min),
+            datetime.combine(on_date, time.max),
+        )
 
     candidates: List[Tuple[float, datetime, datetime, Technician]] = []
     current = start
     while current + timedelta(minutes=duration_minutes) <= end:
         slot_end = current + timedelta(minutes=duration_minutes)
         for tech in technicians:
-            if slot_is_available(db, tech.id, current, slot_end):
+            if day_cache.slot_is_available(tech.id, current, slot_end):
                 candidates.append((base_travel, current, slot_end, tech))
         current += timedelta(minutes=30)
 
@@ -242,16 +266,12 @@ def get_open_work_order_for_appliance(
     db: Session, client_id: uuid.UUID, appliance_id: uuid.UUID
 ) -> Optional[WorkOrder]:
     open_statuses = appliance_svc.OPEN_REPAIR_STATUSES
-    work_orders = (
-        db.query(WorkOrder)
-        .filter(
-            WorkOrder.client_id == client_id,
-            WorkOrder.appliance_id == appliance_id,
-        )
-        .order_by(WorkOrder.created_at.desc())
-        .all()
-    )
-    for wo in work_orders:
+    try:
+        appliance = appliance_svc.get_client_appliance(db, client_id, appliance_id)
+    except ValueError:
+        return None
+
+    for wo in appliance_svc.work_orders_for_appliance(db, appliance):
         if _enum_value(wo.status) in open_statuses:
             return wo
     return None
@@ -281,31 +301,29 @@ def _assert_can_schedule(db: Session, client: Client) -> None:
         )
 
 
-def get_availability(db: Session, client: Client, appliance_id: uuid.UUID) -> dict:
-    _assert_can_schedule(db, client)
-    settings = get_portal_scheduling_settings(db)
-    appliance = _get_appliance(db, client.id, appliance_id)
-    address = _service_address(db, appliance)
-    booking_key = appliance_to_booking_key(appliance)
-    estimate = _portal_booking_estimate(db, client, appliance, address)
-    if not estimate.get("serviceable"):
-        return {
-            "serviceable": False,
-            "service_area_message": estimate.get("service_area_message"),
-            "days": [],
-        }
-
-    duration = int((estimate.get("diagnostic") or {}).get("duration_minutes") or 45)
-    technicians = _get_technicians(db, settings)
-    start_date, end_date = _booking_date_range(settings)
-
+def _build_availability_days(
+    db: Session,
+    *,
+    settings: dict,
+    technicians: List[Technician],
+    duration_minutes: int,
+    start_date: date,
+    end_date: date,
+    occupancy_cache: TechnicianOccupancyCache,
+) -> List[dict]:
     days: List[dict] = []
     cursor = start_date
     while cursor <= end_date:
         windows_out = []
         for name, cfg in _enabled_windows(settings):
             available = _window_has_capacity(
-                db, cursor, name, cfg, duration, technicians
+                db,
+                cursor,
+                name,
+                cfg,
+                duration_minutes,
+                technicians,
+                occupancy_cache=occupancy_cache,
             )
             windows_out.append({
                 "name": name,
@@ -319,22 +337,65 @@ def get_availability(db: Session, client: Client, appliance_id: uuid.UUID) -> di
                 "windows": windows_out,
             })
         cursor += timedelta(days=1)
+    return days
+
+
+def get_schedule_prep(db: Session, client: Client, appliance_id: uuid.UUID) -> dict:
+    """Single round-trip: pricing estimate + calendar availability."""
+    _assert_can_schedule(db, client)
+    settings = get_portal_scheduling_settings(db)
+    appliance = _get_appliance(db, client.id, appliance_id)
+    address = _service_address(db, appliance)
+    estimate = _portal_booking_estimate(db, client, appliance, address)
+    estimate["appliance_id"] = str(appliance.id)
+
+    if not estimate.get("serviceable"):
+        return {
+            "estimate": estimate,
+            "availability": {
+                "serviceable": False,
+                "service_area_message": estimate.get("service_area_message"),
+                "days": [],
+            },
+        }
+
+    duration = int((estimate.get("diagnostic") or {}).get("duration_minutes") or 45)
+    technicians = _get_technicians(db, settings)
+    start_date, end_date = _booking_date_range(settings)
+
+    occupancy_cache = TechnicianOccupancyCache.build(
+        db,
+        [tech.id for tech in technicians],
+        datetime.combine(start_date, time.min),
+        datetime.combine(end_date, time.max),
+    )
+    days = _build_availability_days(
+        db,
+        settings=settings,
+        technicians=technicians,
+        duration_minutes=duration,
+        start_date=start_date,
+        end_date=end_date,
+        occupancy_cache=occupancy_cache,
+    )
 
     return {
-        "serviceable": True,
-        "duration_minutes": duration,
-        "days": days,
+        "estimate": estimate,
+        "availability": {
+            "serviceable": True,
+            "duration_minutes": duration,
+            "days": days,
+        },
     }
 
 
+def get_availability(db: Session, client: Client, appliance_id: uuid.UUID) -> dict:
+    prep = get_schedule_prep(db, client, appliance_id)
+    return prep["availability"]
+
+
 def get_estimate(db: Session, client: Client, appliance_id: uuid.UUID) -> dict:
-    _assert_can_schedule(db, client)
-    appliance = _get_appliance(db, client.id, appliance_id)
-    address = _service_address(db, appliance)
-    booking_key = appliance_to_booking_key(appliance)
-    estimate = _portal_booking_estimate(db, client, appliance, address)
-    estimate["appliance_id"] = str(appliance.id)
-    return estimate
+    return get_schedule_prep(db, client, appliance_id)["estimate"]
 
 
 async def confirm_schedule(
@@ -381,8 +442,18 @@ async def confirm_schedule(
         raise ValidationException(f"The {time_window} window is not available.")
 
     duration = int(diagnostic.get("duration_minutes") or 45)
+    travel_minutes = None
+    if not appliance_svc.client_scheduling_zone_exempt(client):
+        travel_minutes = _travel_minutes_to_address(address)
     slot = _find_best_slot(
-        db, scheduled_date, time_window, window_cfg, duration, address, settings
+        db,
+        scheduled_date,
+        time_window,
+        window_cfg,
+        duration,
+        address,
+        settings,
+        travel_minutes=travel_minutes,
     )
     if not slot:
         raise ValidationException(

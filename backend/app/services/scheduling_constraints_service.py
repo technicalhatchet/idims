@@ -12,10 +12,11 @@ Free:
 
 from __future__ import annotations
 
+from collections import defaultdict
 import os
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 from zoneinfo import ZoneInfo
 import uuid
 
@@ -228,7 +229,10 @@ def slot_is_available(
     *,
     exclude_appointment_id: Optional[uuid.UUID] = None,
     exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
+    occupancy_cache: Optional["TechnicianOccupancyCache"] = None,
 ) -> bool:
+    if occupancy_cache is not None:
+        return occupancy_cache.slot_is_available(technician_id, slot_start, slot_end)
     return len(
         find_occupancy_conflicts(
             db,
@@ -239,6 +243,91 @@ def slot_is_available(
             exclude_appointment_ids=exclude_appointment_ids,
         )
     ) == 0
+
+
+@dataclass
+class TechnicianOccupancyCache:
+    """Pre-loaded busy intervals per technician for fast in-memory slot checks."""
+
+    _appointments: Dict[uuid.UUID, List[Tuple[datetime, datetime]]]
+    _blocks: Dict[uuid.UUID, List[Tuple[datetime, datetime]]]
+
+    @classmethod
+    def build(
+        cls,
+        db: Session,
+        technician_ids: Sequence[uuid.UUID],
+        range_start: datetime,
+        range_end: datetime,
+        *,
+        exclude_appointment_ids: Optional[Sequence[uuid.UUID]] = None,
+    ) -> "TechnicianOccupancyCache":
+        tech_ids = [tid for tid in technician_ids if tid]
+        if not tech_ids:
+            return cls({}, {})
+
+        excluded = set(exclude_appointment_ids or [])
+        appointments_by_tech: Dict[uuid.UUID, List[Tuple[datetime, datetime]]] = defaultdict(list)
+        appts = (
+            db.query(WorkOrderAppointment)
+            .filter(
+                WorkOrderAppointment.assigned_technician_id.in_(tech_ids),
+                WorkOrderAppointment.scheduled_start.isnot(None),
+                WorkOrderAppointment.scheduled_end.isnot(None),
+                WorkOrderAppointment.scheduled_start < range_end,
+                WorkOrderAppointment.scheduled_end > range_start,
+                WorkOrderAppointment.status != APPOINTMENT_STATUS_CANCELED,
+            )
+            .all()
+        )
+        for appt in appts:
+            if appt.id in excluded:
+                continue
+            appointments_by_tech[appt.assigned_technician_id].append(
+                (
+                    appointment_local_naive(appt.scheduled_start),
+                    appointment_local_naive(appt.scheduled_end),
+                )
+            )
+
+        blocks_by_tech: Dict[uuid.UUID, List[Tuple[datetime, datetime]]] = defaultdict(list)
+        block_range_start = local_naive_to_block_db_utc(range_start)
+        block_range_end = local_naive_to_block_db_utc(range_end)
+        blocks = (
+            db.query(TechnicianCalendarBlock)
+            .filter(
+                TechnicianCalendarBlock.technician_id.in_(tech_ids),
+                TechnicianCalendarBlock.status == BLOCK_STATUS_ACTIVE,
+                TechnicianCalendarBlock.start_at < block_range_end,
+                TechnicianCalendarBlock.end_at > block_range_start,
+            )
+            .all()
+        )
+        for block in blocks:
+            blocks_by_tech[block.technician_id].append(
+                (
+                    block_db_utc_naive_to_local(block.start_at),
+                    block_db_utc_naive_to_local(block.end_at),
+                )
+            )
+
+        return cls(dict(appointments_by_tech), dict(blocks_by_tech))
+
+    def slot_is_available(
+        self,
+        technician_id: uuid.UUID,
+        slot_start: datetime,
+        slot_end: datetime,
+    ) -> bool:
+        start = appointment_local_naive(slot_start)
+        end = appointment_local_naive(slot_end)
+        for busy_start, busy_end in self._appointments.get(technician_id, []):
+            if intervals_overlap(start, end, busy_start, busy_end):
+                return False
+        for busy_start, busy_end in self._blocks.get(technician_id, []):
+            if intervals_overlap(start, end, busy_start, busy_end):
+                return False
+        return True
 
 
 def assert_technician_available(

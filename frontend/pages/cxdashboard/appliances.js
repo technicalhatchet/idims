@@ -2,34 +2,92 @@ import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
-import { FaShieldAlt, FaChevronRight, FaBoxOpen, FaPlus } from 'react-icons/fa';
+import { FaShieldAlt, FaChevronRight, FaBoxOpen, FaPlus, FaCalendarPlus } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import ApplianceImportModal from '../../components/cxdashboard/ApplianceImportModal';
 import ApplianceFormModal from '../../components/cxdashboard/ApplianceFormModal';
-import { applianceDisplayName } from '../../constants/applianceEquipment';
+import { applianceDisplayName, getSchedulingMissing, isSchedulingReady, schedulingMissingLabels } from '../../constants/applianceEquipment';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 
-function ApplianceCard({ appliance }) {
+function isSchedulingReadyLocal(appliance) {
+  return isSchedulingReady(appliance);
+}
+
+function ApplianceScheduleActions({ appliance, selfSchedulingAllowed, scheduleHref, detailHref }) {
+  if (!selfSchedulingAllowed) return null;
+
+  if (appliance.active_repair) {
+    return (
+      <Link
+        href={scheduleHref}
+        style={{ color: '#22d3ee', fontSize: '0.8125rem', fontWeight: '600', textDecoration: 'none' }}
+      >
+        Active request — request an update →
+      </Link>
+    );
+  }
+
+  if (appliance.can_schedule) {
+    return (
+      <Link
+        href={scheduleHref}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+          background: '#22d3ee', color: '#0a0f1a', borderRadius: '8px',
+          padding: '0.625rem 1rem', fontWeight: '700', fontSize: '0.8125rem', textDecoration: 'none',
+        }}
+      >
+        <FaCalendarPlus /> Schedule Service
+      </Link>
+    );
+  }
+
+  if (!isSchedulingReadyLocal(appliance)) {
+    const missing = schedulingMissingLabels(getSchedulingMissing(appliance));
+    return (
+      <Link
+        href={detailHref}
+        style={{ color: '#f59e0b', fontSize: '0.8125rem', fontWeight: '600', textDecoration: 'none' }}
+      >
+        {missing.length > 0
+          ? `Missing: ${missing.join(', ')} — tap to edit →`
+          : 'Complete appliance info to schedule →'}
+      </Link>
+    );
+  }
+
+  return null;
+}
+
+function ApplianceCard({ appliance, selfSchedulingAllowed }) {
   const displayName = applianceDisplayName(appliance);
   const detailId = appliance.id;
+  const detailHref = `/cxdashboard/appliances/${encodeURIComponent(detailId)}`;
+  const scheduleHref = `/cxdashboard/appliances/${encodeURIComponent(detailId)}/schedule`;
 
   return (
-    <Link href={`/cxdashboard/appliances/${encodeURIComponent(detailId)}`}>
-      <div
-        style={{
-          background: '#0D1525',
-          border: '1px solid rgba(255,255,255,0.07)',
-          borderRadius: '12px',
-          padding: '1.25rem',
-          display: 'flex',
-          gap: '1rem',
-          alignItems: 'flex-start',
-          cursor: 'pointer',
-          transition: 'all 0.15s ease',
-        }}
-        className="hover:border-cyan-500/30 hover:bg-[#0f1a2e]"
-      >
+    <div
+      style={{
+        background: '#0D1525',
+        border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '12px',
+        padding: '1.25rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.75rem',
+      }}
+    >
+      <Link href={detailHref} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '1rem',
+            alignItems: 'flex-start',
+            cursor: 'pointer',
+          }}
+          className="hover:opacity-95"
+        >
         <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px', flexShrink: 0 }}>
           <ApplianceIcon type={appliance.equipment_subtype || appliance.subtype || appliance.equipment_type || appliance.type} className="w-8 h-8" />
         </div>
@@ -87,14 +145,27 @@ function ApplianceCard({ appliance }) {
             </p>
           )}
         </div>
-      </div>
-    </Link>
+        </div>
+      </Link>
+
+      {selfSchedulingAllowed && (
+        <div style={{ paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <ApplianceScheduleActions
+            appliance={appliance}
+            selfSchedulingAllowed={selfSchedulingAllowed}
+            scheduleHref={scheduleHref}
+            detailHref={detailHref}
+          />
+        </div>
+      )}
+    </div>
   );
 }
 
 export default function AppliancesPage() {
   const [appliances, setAppliances] = useState([]);
   const [properties, setProperties] = useState([]);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [importCandidates, setImportCandidates] = useState(null);
@@ -105,14 +176,16 @@ export default function AppliancesPage() {
     const token = await getPortalSessionToken();
     if (!token) throw new Error('Not signed in');
 
-    const [applianceData, importData, propertyData] = await Promise.all([
+    const [applianceData, importData, propertyData, me] = await Promise.all([
       portalFetch('appliances', token),
       portalFetch('appliances/import/candidates', token),
       portalFetch('properties', token).catch(() => []),
+      portalFetch('me', token).catch(() => null),
     ]);
 
     setAppliances(Array.isArray(applianceData) ? applianceData : []);
     setProperties(Array.isArray(propertyData) ? propertyData : []);
+    setProfile(me);
 
     if (!importData.completed && (importData.candidates || []).length > 0) {
       setImportCandidates(importData.candidates);
@@ -245,7 +318,13 @@ export default function AppliancesPage() {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {appliances.map((a) => <ApplianceCard key={a.id} appliance={a} />)}
+            {appliances.map((a) => (
+              <ApplianceCard
+                key={a.id}
+                appliance={a}
+                selfSchedulingAllowed={!!profile?.self_scheduling_allowed}
+              />
+            ))}
           </div>
         )}
       </div>

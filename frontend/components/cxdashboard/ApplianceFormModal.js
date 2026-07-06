@@ -36,6 +36,9 @@ export default function ApplianceFormModal({
     if (!form.equipment_type || !form.equipment_subtype || !form.make?.trim()) {
       return;
     }
+    if (properties.length > 0 && !form.property_id) {
+      return;
+    }
     onSave({
       ...form,
       property_id: form.property_id || null,
@@ -66,13 +69,16 @@ export default function ApplianceFormModal({
         <div style={{ display: 'grid', gap: '0.75rem' }}>
           {properties.length > 0 && (
             <div>
-              <label style={labelStyle}>Property</label>
-              <select value={form.property_id || ''} onChange={(e) => set({ property_id: e.target.value })} style={fieldStyle}>
+              <label style={labelStyle}>Service property *</label>
+              <select value={form.property_id || ''} onChange={(e) => set({ property_id: e.target.value })} style={fieldStyle} required>
                 <option value="">Select property</option>
                 {properties.map((p) => (
                   <option key={p.id} value={p.id}>{p.address}{p.unit_number ? ` · Unit ${p.unit_number}` : ''}</option>
                 ))}
               </select>
+              <p style={{ color: '#6b7280', fontSize: '0.7rem', marginTop: '0.35rem' }}>
+                Required for online scheduling — choose where this appliance is located.
+              </p>
             </div>
           )}
 
