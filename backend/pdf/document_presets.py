@@ -47,22 +47,41 @@ def has_billable_repair_service(services: List[dict]) -> bool:
     return any(is_repair_service(s) and is_billable_service(s) for s in services or [])
 
 
-def diagnostic_discount_applies(rd: dict, services: List[dict]) -> bool:
-    """
-  Diagnostic credit applies only on the full document view.
+def repair_line_for_discount(services: List[dict], *, for_estimate: bool = False) -> bool:
+    """Whether diagnostic credit applies — billable repair on invoices, any repair SKU on estimates."""
+    if for_estimate:
+        return any(
+            is_repair_service(s) and _norm(s.get("billing_status")) != "waived"
+            for s in services or []
+        )
+    return has_billable_repair_service(services)
 
-  Repair-only and diagnostic-only presets omit the discount so totals match
-  the lines shown on that PDF.
+
+def diagnostic_discount_applies(rd: dict, services: List[dict], *, for_estimate: bool = False) -> bool:
+    """
+    Diagnostic credit applies only on the full document view.
+
+    Repair-only and diagnostic-only presets omit the discount so totals match
+    the lines shown on that PDF.
     """
     preset = _norm(rd.get("line_preset")) or "full"
     if preset != "full":
         return False
     diag = float(rd.get("diagnostic_discount_amount") or 0)
-    return diag > 0 and has_billable_repair_service(services)
+    return diag > 0 and repair_line_for_discount(services, for_estimate=for_estimate)
 
 
-def service_matches_preset(service: dict, preset: LinePreset) -> bool:
-    if not is_billable_service(service):
+def service_matches_preset(
+    service: dict,
+    preset: LinePreset,
+    *,
+    for_estimate: bool = False,
+) -> bool:
+    status = _norm(service.get("billing_status"))
+    if not for_estimate:
+        if not is_billable_service(service):
+            return False
+    elif status == "waived":
         return False
     if preset == "full":
         return True
@@ -73,14 +92,32 @@ def service_matches_preset(service: dict, preset: LinePreset) -> bool:
     return True
 
 
-def part_matches_preset(part: dict, preset: LinePreset, *, billable_statuses: frozenset) -> bool:
+def part_matches_preset(
+    part: dict,
+    preset: LinePreset,
+    *,
+    billable_statuses: frozenset,
+    for_estimate: bool = False,
+) -> bool:
     if preset == "diagnostic":
         return False
+    if for_estimate:
+        # Estimates show quoted parts (needed, ordered, etc.) — not only billable statuses.
+        return _norm(part.get("status")) != "not_installed"
     return part.get("status") in billable_statuses
 
 
-def filter_services_for_preset(services: List[dict], preset: LinePreset) -> List[dict]:
-    return [s for s in (services or []) if service_matches_preset(s, preset)]
+def filter_services_for_preset(
+    services: List[dict],
+    preset: LinePreset,
+    *,
+    for_estimate: bool = False,
+) -> List[dict]:
+    return [
+        s
+        for s in (services or [])
+        if service_matches_preset(s, preset, for_estimate=for_estimate)
+    ]
 
 
 def filter_parts_for_preset(
@@ -88,22 +125,39 @@ def filter_parts_for_preset(
     preset: LinePreset,
     *,
     billable_statuses: frozenset,
+    for_estimate: bool = False,
 ) -> List[dict]:
     return [
         p
         for p in (parts or [])
-        if part_matches_preset(p, preset, billable_statuses=billable_statuses)
+        if part_matches_preset(
+            p,
+            preset,
+            billable_statuses=billable_statuses,
+            for_estimate=for_estimate,
+        )
     ]
 
 
-def apply_line_preset_to_rd(rd: dict, preset: LinePreset, *, billable_part_statuses: frozenset) -> dict:
+def apply_line_preset_to_rd(
+    rd: dict,
+    preset: LinePreset,
+    *,
+    billable_part_statuses: frozenset,
+    for_estimate: bool = False,
+) -> dict:
     """Return a shallow copy of ``rd`` with services/parts filtered for the preset."""
     out = dict(rd)
-    out["services"] = filter_services_for_preset(rd.get("services") or [], preset)
+    out["services"] = filter_services_for_preset(
+        rd.get("services") or [],
+        preset,
+        for_estimate=for_estimate,
+    )
     out["parts"] = filter_parts_for_preset(
         rd.get("parts") or [],
         preset,
         billable_statuses=billable_part_statuses,
+        for_estimate=for_estimate,
     )
     out["line_preset"] = preset
     return out

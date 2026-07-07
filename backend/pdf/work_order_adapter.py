@@ -22,17 +22,21 @@ COMPANY = {
 }
 
 PART_STATUS_LABELS = {
+    "needed": "Estimated",
+    "ordered": "Ordered",
+    "received": "Received",
     "phone_payment": "Paid",
     "paid_not_installed": "Pending",
     "upfront_50": "Pending",
     "installed": "Installed",
+    "not_installed": "Not installed",
 }
 
 SERVICE_STATUS_LABELS = {
     "billable": "Pending",
     "paid": "Paid",
     "waived": "Declined",
-    "not_billable": "Pending",
+    "not_billable": "Estimated",
 }
 
 
@@ -151,19 +155,19 @@ def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
     tax_rate = float(rd.get("tax_rate") or 0.0775)
 
     service_subtotal = round(sum(float(s.get("price") or 0) for s in services), 2)
+    if is_estimate:
+        taxable_parts = parts
+    else:
+        taxable_parts = [p for p in parts if p.get("status") in BILLABLE_PART_STATUSES]
     parts_subtotal = round(
-        sum(
-            float(p.get("price") or 0)
-            for p in parts
-            if p.get("status") in BILLABLE_PART_STATUSES
-        ),
+        sum(float(p.get("price") or 0) for p in taxable_parts),
         2,
     )
     subtotal = round(service_subtotal + parts_subtotal, 2)
     tax = round(parts_subtotal * tax_rate, 2)
     gross_total = round(subtotal + tax, 2)
 
-    apply_discount = diagnostic_discount_applies(rd, services)
+    apply_discount = diagnostic_discount_applies(rd, services, for_estimate=is_estimate)
     diag_discount = float(rd.get("diagnostic_discount_amount") or 0)
     discount = round(diag_discount, 2) if apply_discount else 0.0
     if is_estimate:
@@ -227,7 +231,12 @@ def _service_meta(rd: dict) -> dict:
 
 def work_order_to_estimate(rd: dict, *, line_preset: str = "full") -> dict:
     preset = normalize_line_preset(line_preset, doc_type="estimate")
-    filtered_rd = apply_line_preset_to_rd(rd, preset, billable_part_statuses=frozenset(BILLABLE_PART_STATUSES))
+    filtered_rd = apply_line_preset_to_rd(
+        rd,
+        preset,
+        billable_part_statuses=frozenset(BILLABLE_PART_STATUSES),
+        for_estimate=True,
+    )
     order_number = filtered_rd.get("order_number") or "—"
     return {
         "estimate_number": order_number,
@@ -237,7 +246,7 @@ def work_order_to_estimate(rd: dict, *, line_preset: str = "full") -> dict:
         "technician": _technician(filtered_rd),
         "equipment": _equipment(filtered_rd),
         "services": _map_services(filtered_rd.get("services") or []),
-        "parts": _map_parts(filtered_rd.get("parts") or [], billable_only=True),
+        "parts": _map_parts(filtered_rd.get("parts") or [], billable_only=False),
         "totals": compute_totals(filtered_rd, is_estimate=True),
         "line_preset": preset,
     }

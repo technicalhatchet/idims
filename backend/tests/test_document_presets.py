@@ -40,6 +40,52 @@ def test_repair_preset_excludes_trip():
     assert len(filter_services_for_preset(services, "repair")) == 1
 
 
+def test_repair_estimate_includes_not_billable_services_and_parts():
+    rd = {
+        "services": [
+            {"name": "Trip", "sku_code": "TRIP-LOCAL", "billing_status": "billable", "price": 49},
+            {"name": "Element Repair", "service_type": "repair", "billing_status": "not_billable", "price": 185},
+        ],
+        "parts": [
+            {"number": "P1", "status": "needed", "price": 40, "description": "Element"},
+            {"number": "P2", "status": "ordered", "price": 25, "description": "Bracket"},
+        ],
+        "tax_rate": 0,
+        "diagnostic_discount_amount": 0,
+    }
+    filtered = apply_line_preset_to_rd(
+        rd, "repair", billable_part_statuses=BILLABLE_PARTS, for_estimate=True
+    )
+    assert len(filtered["services"]) == 1
+    assert filtered["services"][0]["billing_status"] == "not_billable"
+    assert len(filtered["parts"]) == 2
+
+    estimate = work_order_to_estimate(rd, line_preset="repair")
+    assert len(estimate["services"]) == 1
+    assert estimate["services"][0]["billing_status"] == "Estimated"
+    assert len(estimate["parts"]) == 2
+    assert estimate["totals"]["service_subtotal"] == 185
+    assert estimate["totals"]["parts_subtotal"] == 65
+
+
+def test_invoice_repair_preset_still_billable_only():
+    rd = {
+        "services": [
+            {"name": "Repair", "service_type": "repair", "billing_status": "not_billable", "price": 185},
+            {"name": "Repair", "service_type": "repair", "billing_status": "billable", "price": 200},
+        ],
+        "parts": [
+            {"number": "P1", "status": "needed", "price": 40},
+            {"number": "P2", "status": "installed", "price": 25},
+        ],
+    }
+    filtered = apply_line_preset_to_rd(rd, "repair", billable_part_statuses=BILLABLE_PARTS, for_estimate=False)
+    assert len(filtered["services"]) == 1
+    assert filtered["services"][0]["billing_status"] == "billable"
+    assert len(filtered["parts"]) == 1
+    assert filtered["parts"][0]["status"] == "installed"
+
+
 def test_billable_repair_discount_gate():
     assert not has_billable_repair_service(
         [{"name": "Repair", "service_type": "repair", "billing_status": "not_billable"}]

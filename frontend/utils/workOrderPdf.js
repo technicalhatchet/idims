@@ -57,7 +57,7 @@ export const DOCUMENT_LINE_PRESETS = [
   {
     id: 'full',
     label: 'Full',
-    description: 'All billable services and parts',
+    description: 'All services and parts for this estimate (including quoted lines)',
   },
 ];
 
