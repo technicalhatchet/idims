@@ -308,11 +308,18 @@ export default function PortalSchedulingSettingsPanel() {
 
       <section className={sectionClass} style={sectionStyle}>
         <h3 className="text-white font-semibold mb-1">Payment (Square)</h3>
-        <p className="text-xs text-gray-500 mb-4">Stub for future card-on-file at booking. Leave off until Square is wired.</p>
+        <p className="text-xs text-gray-500 mb-4">
+          Square card + Apple Pay at booking. Apple Pay requires HTTPS and domain registration in the Square Developer Console.
+        </p>
         <Toggle
           label="Require payment to self-schedule"
           checked={settings.payment.requires_payment}
           onChange={(v) => patch('payment.requires_payment', v)}
+        />
+        <Toggle
+          label="Offer Apple Pay (Safari / iOS when available)"
+          checked={settings.payment.apple_pay_enabled !== false}
+          onChange={(v) => patch('payment.apple_pay_enabled', v)}
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/5">
           <div>

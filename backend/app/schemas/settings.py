@@ -343,6 +343,7 @@ class PortalCommsSettings(BaseModel):
 
 class PortalPaymentSettings(BaseModel):
     requires_payment: bool = False
+    apple_pay_enabled: bool = True
     square_application_id: str = ""
     square_location_id: str = ""
     square_access_token: str = Field("", description="Server-side only — never expose to portal clients")

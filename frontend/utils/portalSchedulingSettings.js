@@ -33,6 +33,7 @@ export const DEFAULT_PORTAL_SCHEDULING = {
   },
   payment: {
     requires_payment: false,
+    apple_pay_enabled: true,
     square_application_id: '',
     square_location_id: '',
     square_access_token: '',

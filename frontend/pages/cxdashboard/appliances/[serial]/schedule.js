@@ -150,7 +150,10 @@ export default function ScheduleAppliancePage() {
   const [confirming, setConfirming] = useState(false);
   const [confirmError, setConfirmError] = useState(null);
   const [confirmation, setConfirmation] = useState(null);
+  const [paymentFormReady, setPaymentFormReady] = useState(false);
   const squarePaymentRef = useRef(null);
+  const handleSquareError = useCallback((msg) => setConfirmError(msg), []);
+  const handleSquareReady = useCallback((isReady) => setPaymentFormReady(Boolean(isReady)), []);
 
   const applianceId = appliance?.id;
 
@@ -288,39 +291,75 @@ export default function ScheduleAppliancePage() {
     && (schedulingContext?.priority_service_open || schedulingContext?.standard_same_day_open)
   );
 
-  async function handleConfirm() {
-    setConfirming(true);
+  const applePayEnabled = Boolean(
+    schedulingConfig?.apple_pay_enabled !== false
+    && schedulingConfig?.payment_required
+    && schedulingConfig?.square?.configured
+  );
+
+  async function submitScheduleWithPayment(squareSourceId) {
+    const token = await getPortalSessionToken();
+    const idempotencyKey = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${Date.now()}`;
+
+    const body = {
+      appliance_id: applianceId,
+      scheduled_date: selectedDate,
+      time_window: selectedWindow,
+      symptoms: selectedSymptoms,
+      issue_description: issueDescription.trim() || null,
+      square_source_id: squareSourceId,
+      payment_idempotency_key: idempotencyKey,
+    };
+
+    const endpoint = needsApproval ? 'schedule/request' : 'schedule/confirm';
+    if (needsApproval) {
+      body.priority_requested = priorityRequested;
+    }
+
+    return portalFetch(endpoint, token, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+  }
+
+  async function handleWalletPayment(sourceId) {
     setConfirmError(null);
+    setConfirming(true);
     try {
-      const token = await getPortalSessionToken();
+      const result = await submitScheduleWithPayment(sourceId);
+      setConfirmation(result);
+      setStep(3);
+    } catch (err) {
+      setConfirmError(err.message);
+      if (err.message?.includes('no longer available')) {
+        await reloadAvailability();
+        setStep(1);
+      }
+      throw err;
+    } finally {
+      setConfirming(false);
+    }
+  }
+
+  async function handleConfirm() {
+    setConfirmError(null);
+
+    if (paymentRequired && !squarePaymentRef.current?.isReady?.()) {
+      setConfirmError('Payment form is still loading. Please wait a moment and try again.');
+      return;
+    }
+
+    try {
       let squareSourceId = null;
-      const idempotencyKey = typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : `${Date.now()}`;
 
       if (paymentRequired) {
-        squareSourceId = await squarePaymentRef.current?.tokenize();
+        squareSourceId = await squarePaymentRef.current.tokenize();
       }
 
-      const body = {
-        appliance_id: applianceId,
-        scheduled_date: selectedDate,
-        time_window: selectedWindow,
-        symptoms: selectedSymptoms,
-        issue_description: issueDescription.trim() || null,
-        square_source_id: squareSourceId,
-        payment_idempotency_key: idempotencyKey,
-      };
-
-      const endpoint = needsApproval ? 'schedule/request' : 'schedule/confirm';
-      if (needsApproval) {
-        body.priority_requested = priorityRequested;
-      }
-
-      const result = await portalFetch(endpoint, token, {
-        method: 'POST',
-        body: JSON.stringify(body),
-      });
+      setConfirming(true);
+      const result = await submitScheduleWithPayment(squareSourceId);
       setConfirmation(result);
       setStep(3);
     } catch (err) {
@@ -636,16 +675,27 @@ export default function ScheduleAppliancePage() {
                     {paymentRequired && (
                       <div style={{ marginBottom: '1rem' }}>
                         <p style={{ color: '#9ca3af', fontSize: '0.8125rem', marginBottom: '0.5rem' }}>
-                          Card required to {needsApproval ? 'submit this request' : 'confirm'}.
+                          Payment required to {needsApproval ? 'submit this request' : 'confirm'}.
+                          {applePayEnabled ? ' Use Apple Pay or enter a card below.' : ''}
                         </p>
                         <PortalSquarePayment
                           ref={squarePaymentRef}
                           applicationId={squarePublic.square_application_id}
                           locationId={squarePublic.square_location_id}
                           environment={squarePublic.square_environment}
-                          onError={(msg) => setConfirmError(msg)}
+                          amount={estimate?.estimated_total}
+                          amountLabel="Atomic Repair service"
+                          applePayEnabled={applePayEnabled}
+                          onError={handleSquareError}
+                          onReady={handleSquareReady}
+                          onWalletToken={handleWalletPayment}
                           disabled={confirming}
                         />
+                        {paymentRequired && !paymentFormReady && (
+                          <p style={{ color: '#6b7280', fontSize: '0.75rem', marginTop: '0.35rem' }}>
+                            Wait for the card form to finish loading before confirming.
+                          </p>
+                        )}
                       </div>
                     )}
 
@@ -658,11 +708,11 @@ export default function ScheduleAppliancePage() {
                       <button
                         type="button"
                         onClick={handleConfirm}
-                        disabled={confirming}
+                        disabled={confirming || (paymentRequired && !paymentFormReady)}
                         style={{
                           flex: 1, background: '#22c55e', color: '#0a0f1a', border: 'none', borderRadius: '8px',
                           padding: '0.875rem 1.5rem', fontWeight: '700', cursor: confirming ? 'wait' : 'pointer',
-                          opacity: confirming ? 0.7 : 1,
+                          opacity: confirming || (paymentRequired && !paymentFormReady) ? 0.5 : 1,
                         }}
                       >
                         {confirming

@@ -625,6 +625,7 @@ async def get_portal_scheduling_config_for_client(
         "priority_service_enabled": bool((settings.get("priority_service") or {}).get("enabled")),
         "priority_service": settings.get("priority_service"),
         "payment_required": bool(payment.get("requires_payment")),
+        "apple_pay_enabled": bool(payment.get("apple_pay_enabled", True)),
         "square": square_public,
         "comms": settings.get("comms"),
         "scheduling_context": scheduling_context(settings),
