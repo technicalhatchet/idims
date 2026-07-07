@@ -15,7 +15,7 @@ from app.models.client_appliance import ClientAppliance
 from app.models.technician import Technician
 from app.models.user import User
 from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderNote
-from app.schemas.work_order import InitialAppointmentCreate
+from app.schemas.work_order import InitialAppointmentCreate, WorkOrderAppointmentCreate
 from app.services import client_appliance_service as appliance_svc
 from app.services.diagnostic_booking_service import (
     appliance_to_booking_key,
@@ -308,6 +308,21 @@ def get_scheduling_status(db: Session, client: Client, appliance_id: uuid.UUID) 
     _assert_can_schedule(db, client)
     appliance = _get_appliance(db, client.id, appliance_id)
     open_wo = get_open_work_order_for_appliance(db, client.id, appliance_id)
+    if open_wo:
+        from app.services.portal_scheduling_helpers import reschedulable_after_denial
+
+        if reschedulable_after_denial(open_wo.portal_scheduling_meta):
+            prior_meta = open_wo.portal_scheduling_meta or {}
+            prior_payment = prior_meta.get("payment") or {}
+            return {
+                "can_schedule": True,
+                "reschedule_denied_request": True,
+                "prior_payment_captured": bool(prior_payment.get("square_payment_id")),
+                "open_work_order_id": str(open_wo.id),
+                "open_work_order_number": open_wo.order_number,
+                "blocked_message": None,
+                "call_us_phone": SCHEDULE_SUPPORT_PHONE,
+            }
     return {
         "can_schedule": open_wo is None,
         "open_work_order_id": str(open_wo.id) if open_wo else None,
@@ -459,14 +474,28 @@ async def confirm_schedule(
 
     appliance = _get_appliance(db, client.id, appliance_id)
     open_wo = get_open_work_order_for_appliance(db, client.id, appliance_id)
+    reschedule_existing = False
     if open_wo:
-        raise ValidationException(
-            "You already have an open service request for this appliance. "
-            "Please contact us or request an update on the existing order."
+        from app.services.portal_scheduling_helpers import (
+            pending_scheduling_request,
+            reschedulable_after_denial,
         )
 
+        meta = open_wo.portal_scheduling_meta or {}
+        if pending_scheduling_request(meta):
+            raise ValidationException(
+                "Your same-day request is awaiting approval. "
+                "We'll notify you when it's confirmed or if we need you to pick another day."
+            )
+        if reschedulable_after_denial(meta):
+            reschedule_existing = True
+        else:
+            raise ValidationException(
+                "You already have an open service request for this appliance. "
+                "Please contact us or request an update on the existing order."
+            )
+
     address = _service_address(db, appliance)
-    booking_key = appliance_to_booking_key(appliance)
     estimate = _portal_booking_estimate(db, client, appliance, address)
     if not estimate.get("serviceable"):
         raise ValidationException(estimate.get("service_area_message") or "Address not serviceable.")
@@ -477,16 +506,22 @@ async def confirm_schedule(
 
     square_cfg = get_square_config(db)
     payment_meta = None
+    prior_payment = None
+    if reschedule_existing:
+        prior_payment = (open_wo.portal_scheduling_meta or {}).get("payment")
     if square_cfg["requires_payment"]:
         amount = estimate.get("estimated_total")
         if amount is None:
             raise ValidationException("Unable to determine payment amount.")
-        payment_meta = await charge_portal_booking(
-            db,
-            amount=float(amount),
-            source_id=square_source_id or "",
-            idempotency_key=payment_idempotency_key,
-        )
+        if prior_payment and prior_payment.get("square_payment_id"):
+            payment_meta = prior_payment
+        else:
+            payment_meta = await charge_portal_booking(
+                db,
+                amount=float(amount),
+                source_id=square_source_id or "",
+                idempotency_key=payment_idempotency_key,
+            )
 
     windows = settings.get("scheduling_windows") or {}
     window_cfg = windows.get(time_window) or {}
@@ -523,56 +558,92 @@ async def confirm_schedule(
         description_parts.append("Issues: " + "; ".join(symptom_list))
 
     service_id = uuid.UUID(diagnostic["service_id"])
-    work_order_data = {
-        "client_id": client.id,
-        "property_id": appliance.property_id,
-        "appliance_id": appliance.id,
-        "description": ". ".join(description_parts),
-        "priority": "medium",
-        "service_location": _service_location_from_address(address),
-        "equipment_make": appliance.make,
-        "equipment_model": appliance.model,
-        "equipment_serial": appliance.serial,
-        "equipment_version": appliance.equipment_version,
-        "equipment_type": appliance.equipment_type,
-        "equipment_subtype": appliance.equipment_subtype,
-        "is_wall_mounted": appliance.is_wall_mounted,
-        "symptoms": symptom_list or None,
-        "created_by": actor_id,
-        "services": [
-            {
-                "service_id": service_id,
-                "name": diagnostic.get("name"),
-                "quantity": 1,
-                "unit_price": diagnostic.get("price"),
-                "price": diagnostic.get("price"),
-            }
-        ],
-    }
 
-    initial_appointment = InitialAppointmentCreate(
-        appointment_type="diagnostic",
-        scheduled_start=slot["scheduled_start"],
-        assigned_technician_id=slot["technician_id"],
-        service_ids=[service_id],
-        time_window=time_window,
-        travel_time_before=slot.get("travel_time_before"),
-    )
-
-    work_order, appointment = await WorkOrderService.create_work_order_with_initial_appointment(
-        db, work_order_data, initial_appointment, actor_id
-    )
-
-    work_order.appliance_id = appliance.id
-    work_order.property_id = appliance.property_id
-    if payment_meta:
+    if reschedule_existing:
+        work_order = open_wo
+        work_order.description = ". ".join(description_parts)
+        if symptom_list:
+            work_order.symptoms = symptom_list
+        work_order.status = "scheduled"
+        work_order.assigned_technician_id = slot["technician_id"]
+        prior_meta = work_order.portal_scheduling_meta or {}
         work_order.portal_scheduling_meta = {
+            **prior_meta,
             "type": "instant_confirm",
-            "payment": payment_meta,
+            "status": "rescheduled_after_denial",
+            "scheduled_date": scheduled_date.isoformat(),
+            "time_window": time_window,
+            "payment": payment_meta or prior_meta.get("payment"),
+            "rescheduled_at": datetime.utcnow().isoformat(),
         }
-    db.commit()
-    db.refresh(work_order)
-    db.refresh(appointment)
+
+        wo_svc = WorkOrderService(db)
+        appointment = await wo_svc.create_work_order_appointment(
+            WorkOrderAppointmentCreate(
+                work_order_id=work_order.id,
+                appointment_type="diagnostic",
+                scheduled_start=slot["scheduled_start"],
+                assigned_technician_id=slot["technician_id"],
+                service_ids=[service_id],
+                time_window=time_window,
+                travel_time_before=slot.get("travel_time_before"),
+            ),
+            actor_id,
+        )
+        db.commit()
+        db.refresh(work_order)
+        db.refresh(appointment)
+    else:
+        work_order_data = {
+            "client_id": client.id,
+            "property_id": appliance.property_id,
+            "appliance_id": appliance.id,
+            "description": ". ".join(description_parts),
+            "priority": "medium",
+            "service_location": _service_location_from_address(address),
+            "equipment_make": appliance.make,
+            "equipment_model": appliance.model,
+            "equipment_serial": appliance.serial,
+            "equipment_version": appliance.equipment_version,
+            "equipment_type": appliance.equipment_type,
+            "equipment_subtype": appliance.equipment_subtype,
+            "is_wall_mounted": appliance.is_wall_mounted,
+            "symptoms": symptom_list or None,
+            "created_by": actor_id,
+            "services": [
+                {
+                    "service_id": service_id,
+                    "name": diagnostic.get("name"),
+                    "quantity": 1,
+                    "unit_price": diagnostic.get("price"),
+                    "price": diagnostic.get("price"),
+                }
+            ],
+        }
+
+        initial_appointment = InitialAppointmentCreate(
+            appointment_type="diagnostic",
+            scheduled_start=slot["scheduled_start"],
+            assigned_technician_id=slot["technician_id"],
+            service_ids=[service_id],
+            time_window=time_window,
+            travel_time_before=slot.get("travel_time_before"),
+        )
+
+        work_order, appointment = await WorkOrderService.create_work_order_with_initial_appointment(
+            db, work_order_data, initial_appointment, actor_id
+        )
+
+        work_order.appliance_id = appliance.id
+        work_order.property_id = appliance.property_id
+        if payment_meta:
+            work_order.portal_scheduling_meta = {
+                "type": "instant_confirm",
+                "payment": payment_meta,
+            }
+        db.commit()
+        db.refresh(work_order)
+        db.refresh(appointment)
 
     try:
         from app.services.web_push_service import notify_portal_self_schedule

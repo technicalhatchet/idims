@@ -215,3 +215,17 @@ def pending_scheduling_request(meta: Optional[dict]) -> bool:
         meta.get("type") == "scheduling_request"
         and meta.get("status") == REQUEST_STATUS_PENDING
     )
+
+
+def denied_scheduling_request(meta: Optional[dict]) -> bool:
+    if not meta or not isinstance(meta, dict):
+        return False
+    return meta.get("type") == "scheduling_request" and meta.get("status") in (
+        REQUEST_STATUS_DENIED,
+        REQUEST_STATUS_AUTO_DENIED,
+    )
+
+
+def reschedulable_after_denial(meta: Optional[dict]) -> bool:
+    """True when a same-day request was denied but the work order should stay open for rebooking."""
+    return denied_scheduling_request(meta)

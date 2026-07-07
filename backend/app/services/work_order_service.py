@@ -714,6 +714,14 @@ class WorkOrderService:
         from app.schemas.notification import NotificationCreate
         
         try:
+            if (work_order.status or "").lower() == "pending":
+                from app.services.web_push_service import notify_pending_work_order
+
+                notify_pending_work_order(db, work_order)
+        except Exception as push_exc:
+            logger.error("Error sending pending work order push: %s", push_exc)
+
+        try:
             # Notify client about new work order
             if work_order.client_id:
                 client = db.query(Client).filter(Client.id == work_order.client_id).first()
@@ -767,10 +775,6 @@ class WorkOrderService:
                             hours_before=1
                         )
 
-            if (work_order.status or "").lower() == "pending":
-                from app.services.web_push_service import notify_pending_work_order
-
-                notify_pending_work_order(db, work_order)
         except Exception as e:
             # Log error but don't fail the work order creation
             logger.error(f"Error scheduling notifications: {str(e)}")

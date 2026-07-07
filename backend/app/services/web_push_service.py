@@ -563,7 +563,7 @@ def notify_portal_scheduling_request(
         if tech_user_id:
             extra_user_ids.append(tech_user_id)
 
-    return _notify_push_rule(
+    delivered = _notify_push_rule(
         db,
         "portal_same_day_request",
         title="Scheduling approval needed",
@@ -572,6 +572,12 @@ def notify_portal_scheduling_request(
         tag=f"portal-request-{work_order.id}",
         extra_user_ids=extra_user_ids or None,
     )
+    if delivered == 0:
+        logger.warning(
+            "portal_same_day_request push delivered 0 for WO %s — check VAPID, subscriptions, and push settings",
+            work_order.id,
+        )
+    return delivered
 
 
 def _tech_user_id_for_technician(db: Session, technician_id: uuid.UUID) -> Optional[uuid.UUID]:

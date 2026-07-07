@@ -17,6 +17,7 @@ from app.models.client import Client
 from app.models.client_appliance import ClientAppliance
 from app.models.property import Property
 from app.models.work_order import WorkOrder, WorkOrderAppointment
+from app.services.portal_scheduling_helpers import reschedulable_after_denial
 from app.schemas.client_appliance import (
     ClientApplianceCreate,
     ClientApplianceUpdate,
@@ -378,7 +379,12 @@ def serialize_appliance(
     now = utcnow_naive()
 
     open_work_orders = [wo for wo in work_orders if _work_order_status(wo) in OPEN_REPAIR_STATUSES]
-    active_repair = bool(open_work_orders)
+    blocking_work_orders = [
+        wo
+        for wo in open_work_orders
+        if not reschedulable_after_denial(wo.portal_scheduling_meta)
+    ]
+    active_repair = bool(blocking_work_orders)
     warranty_active = any(_warranty_is_active(wo, db, now) for wo in work_orders)
     latest = work_orders[0] if work_orders else None
     missing = scheduling_missing_fields(appliance, has_service_address=bool(service_address))

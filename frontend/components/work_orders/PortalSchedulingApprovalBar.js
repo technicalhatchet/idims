@@ -42,7 +42,7 @@ export default function PortalSchedulingApprovalBar({ workOrder, onUpdated }) {
         method: 'POST',
         body: JSON.stringify({ reason: denyReason.trim() || undefined }),
       });
-      toast.success('Request denied — client will be notified');
+      toast.success('Request denied — work order stays open; client can pick another day');
       setDenyOpen(false);
       onUpdated?.();
     } catch (err) {

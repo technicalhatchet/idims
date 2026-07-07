@@ -30,6 +30,7 @@ from app.services.portal_scheduling_helpers import (
     is_standard_same_day_open,
     pending_scheduling_request,
     priority_cutoff_time,
+    reschedulable_after_denial,
     resolve_service_tier,
     same_day_submission_cutoff,
     shop_today,
@@ -77,7 +78,8 @@ async def _notify_client_scheduling_decision(
         detail = f" Reason: {reason}" if reason else ""
         message = (
             f"We're unable to approve your same-day request #{order_label} at this time.{detail} "
-            f"Please call {SCHEDULE_SUPPORT_PHONE} or schedule for another day."
+            f"Your service request is still open — log in to the portal to pick another day, "
+            f"or call {SCHEDULE_SUPPORT_PHONE} for help."
         )
         subject = "Update on your service request"
 
@@ -150,9 +152,10 @@ async def request_schedule(
     appliance = svc._get_appliance(db, client.id, appliance_id)
     open_wo = svc.get_open_work_order_for_appliance(db, client.id, appliance_id)
     if open_wo:
-        raise ValidationException(
-            "You already have an open service request for this appliance."
-        )
+        if not reschedulable_after_denial(open_wo.portal_scheduling_meta):
+            raise ValidationException(
+                "You already have an open service request for this appliance."
+            )
 
     address = svc._service_address(db, appliance)
     estimate = svc._portal_booking_estimate(db, client, appliance, address)
@@ -221,28 +224,57 @@ async def request_schedule(
         ],
     }
 
-    work_order = await WorkOrderService.create_work_order(db, work_order_data)
-    work_order.appliance_id = appliance.id
-    work_order.property_id = appliance.property_id
-    work_order.service_tier = tier
-    work_order.portal_scheduling_meta = {
-        "type": "scheduling_request",
-        "status": REQUEST_STATUS_PENDING,
-        "requested_date": scheduled_date.isoformat(),
-        "time_window": time_window,
-        "service_tier": tier,
-        "estimated_total": estimate.get("estimated_total"),
-        "pricing_snapshot": estimate,
-        "payment": payment_meta,
-        "requested_at": datetime.utcnow().isoformat(),
-    }
-    db.commit()
-    db.refresh(work_order)
+    if open_wo and reschedulable_after_denial(open_wo.portal_scheduling_meta):
+        work_order = open_wo
+        work_order.description = ". ".join(description_parts)
+        work_order.priority = "high" if tier != SERVICE_TIER_STANDARD else "medium"
+        work_order.service_tier = tier
+        prior_meta = work_order.portal_scheduling_meta or {}
+        work_order.portal_scheduling_meta = {
+            "type": "scheduling_request",
+            "status": REQUEST_STATUS_PENDING,
+            "requested_date": scheduled_date.isoformat(),
+            "time_window": time_window,
+            "service_tier": tier,
+            "estimated_total": estimate.get("estimated_total"),
+            "pricing_snapshot": estimate,
+            "payment": payment_meta or prior_meta.get("payment"),
+            "requested_at": datetime.utcnow().isoformat(),
+            "previous_denial": {
+                "status": prior_meta.get("status"),
+                "denied_at": prior_meta.get("denied_at"),
+                "denial_reason": prior_meta.get("denial_reason"),
+            },
+        }
+        db.commit()
+        db.refresh(work_order)
+    else:
+        work_order = await WorkOrderService.create_work_order(db, work_order_data)
+        work_order.appliance_id = appliance.id
+        work_order.property_id = appliance.property_id
+        work_order.service_tier = tier
+        work_order.portal_scheduling_meta = {
+            "type": "scheduling_request",
+            "status": REQUEST_STATUS_PENDING,
+            "requested_date": scheduled_date.isoformat(),
+            "time_window": time_window,
+            "service_tier": tier,
+            "estimated_total": estimate.get("estimated_total"),
+            "pricing_snapshot": estimate,
+            "payment": payment_meta,
+            "requested_at": datetime.utcnow().isoformat(),
+        }
+        db.commit()
+        db.refresh(work_order)
 
     try:
         from app.services.web_push_service import notify_portal_scheduling_request
 
-        notify_portal_scheduling_request(db, work_order, client, time_window=time_window)
+        delivered = notify_portal_scheduling_request(db, work_order, client, time_window=time_window)
+        if delivered == 0:
+            from app.services.web_push_service import notify_pending_work_order
+
+            notify_pending_work_order(db, work_order)
     except Exception as exc:
         logger.warning("Push for scheduling request failed: %s", exc)
 
@@ -400,7 +432,6 @@ async def deny_schedule_request(
     client = work_order.client
     status = REQUEST_STATUS_AUTO_DENIED if auto else REQUEST_STATUS_DENIED
 
-    work_order.status = "canceled"
     work_order.portal_scheduling_meta = {
         **meta,
         "status": status,

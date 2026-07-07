@@ -171,10 +171,10 @@ export default function ScheduleAppliancePage() {
     setError(null);
     try {
       const token = await getPortalSessionToken();
-      const [applianceData, me, status, schedCfg] = await Promise.all([
-        portalFetch(`appliances/${encodeURIComponent(serial)}?include_history=false`, token),
+      const applianceData = await portalFetch(`appliances/${encodeURIComponent(serial)}?include_history=false`, token);
+      const [me, status, schedCfg] = await Promise.all([
         portalFetch('me', token),
-        portalFetch(`schedule/status/${encodeURIComponent(serial)}`, token),
+        portalFetch(`schedule/status/${encodeURIComponent(applianceData.id)}`, token),
         portalFetch('scheduling-config', token),
       ]);
       setAppliance(applianceData);
@@ -284,7 +284,11 @@ export default function ScheduleAppliancePage() {
     selectedDate && schedulingContext?.shop_date && selectedDate === schedulingContext.shop_date
   );
   const needsApproval = isSameDaySelected;
-  const paymentRequired = Boolean(schedulingConfig?.payment_required && schedulingConfig?.square?.configured);
+  const paymentRequired = Boolean(
+    schedulingConfig?.payment_required
+    && schedulingConfig?.square?.configured
+    && !(schedulingStatus?.reschedule_denied_request && schedulingStatus?.prior_payment_captured)
+  );
   const squarePublic = schedulingConfig?.square || {};
   const priorityAvailable = Boolean(
     schedulingConfig?.priority_service_enabled
@@ -447,6 +451,18 @@ export default function ScheduleAppliancePage() {
               </div>
             ) : (
               <>
+                {schedulingStatus?.reschedule_denied_request && (
+                  <div style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.25)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1rem' }}>
+                    <p style={{ color: '#93c5fd', fontWeight: '600', margin: '0 0 0.25rem', fontSize: '0.9rem' }}>
+                      Pick a new appointment day
+                    </p>
+                    <p style={{ color: '#9ca3af', margin: 0, fontSize: '0.8125rem' }}>
+                      Your same-day request wasn&apos;t approved
+                      {schedulingStatus.open_work_order_number ? ` (#${schedulingStatus.open_work_order_number})` : ''}.
+                      {' '}Choose another date below — your service request stays open.
+                    </p>
+                  </div>
+                )}
                 <StepIndicator current={step} />
 
                 {step === 0 && (
