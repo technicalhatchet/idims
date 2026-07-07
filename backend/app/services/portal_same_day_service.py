@@ -396,15 +396,13 @@ async def approve_schedule_request(
     db.refresh(appointment)
 
     window_display = svc._format_window_label(window_cfg)
-    asyncio.run(
-        _notify_client_scheduling_decision(
-            db,
-            client,
-            approved=True,
-            work_order=work_order,
-            window_display=window_display,
-            settings=settings,
-        )
+    await _notify_client_scheduling_decision(
+        db,
+        client,
+        approved=True,
+        work_order=work_order,
+        window_display=window_display,
+        settings=settings,
     )
 
     return {
@@ -452,15 +450,13 @@ async def deny_schedule_request(
     db.refresh(work_order)
 
     if client:
-        asyncio.run(
-            _notify_client_scheduling_decision(
-                db,
-                client,
-                approved=False,
-                work_order=work_order,
-                reason=reason or "",
-                settings=settings,
-            )
+        await _notify_client_scheduling_decision(
+            db,
+            client,
+            approved=False,
+            work_order=work_order,
+            reason=reason or "",
+            settings=settings,
         )
 
     return {"success": True, "work_order_id": str(work_order.id), "status": status}
