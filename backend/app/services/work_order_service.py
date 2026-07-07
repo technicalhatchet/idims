@@ -832,39 +832,40 @@ class WorkOrderService:
         return work_order
 
     @staticmethod
-    async def get_next_work_order_number(db: Session) -> str:
-        """
-        Generate the next available work order number in the sequence.
-        Format: CT-NNNNNN where NNNNNN is a 6-digit sequential number starting at 001002.
-        """
-        # Find the highest order number currently in use
-        latest_work_order = db.query(WorkOrder).filter(
-            WorkOrder.order_number.like("CT-%")
-        ).order_by(WorkOrder.order_number.desc()).first()
-        
-        if latest_work_order:
-            # Extract the number portion and increment
+    def _max_standard_work_order_sequence(db: Session) -> int:
+        """Highest numeric suffix among CT- and OB- work orders (shared sequence)."""
+        candidates = (
+            db.query(WorkOrder.order_number)
+            .filter(WorkOrder.order_number.op("~")(r"^(CT|OB)-[0-9]+$"))
+            .all()
+        )
+        highest = 1001
+        for (order_number,) in candidates:
             try:
-                # Get the number part after "CT-"
-                current_number = int(latest_work_order.order_number.split('-')[1])
-                next_number = current_number + 1
+                highest = max(highest, int(str(order_number).split("-", 1)[1]))
             except (ValueError, IndexError):
-                # If parsing fails, start from 001002
-                logger.warning(f"Could not parse order number from {latest_work_order.order_number}, starting from 001002")
-                next_number = 1002
-        else:
-            # No existing work orders, start from 001002
-            next_number = 1002
-        
-        # Format with leading zeros to ensure 6 digits
-        next_order_number = f"CT-{next_number:06d}"
-        
-        # Check if this order number already exists (in case of race conditions)
+                continue
+        return highest
+
+    @staticmethod
+    async def get_next_work_order_number(db: Session, prefix: str = "CT") -> str:
+        """
+        Generate the next available work order number in the shared CT/OB sequence.
+        Format: {PREFIX}-NNNNNN where NNNNNN is a 6-digit number starting at 001002.
+        CT = staff/internal, OB = online booking — both share one incrementing number.
+        """
+        prefix = (prefix or "CT").upper()
+        if prefix not in ("CT", "OB"):
+            raise ValidationException(f"Invalid work order prefix: {prefix}")
+
+        next_number = WorkOrderService._max_standard_work_order_sequence(db) + 1
+        next_order_number = f"{prefix}-{next_number:06d}"
+
         while db.query(WorkOrder).filter(WorkOrder.order_number == next_order_number).first():
-            logger.warning(f"Work order number {next_order_number} already exists, incrementing")
+            logger.warning("Work order number %s already exists, incrementing", next_order_number)
             next_number += 1
-            next_order_number = f"CT-{next_number:06d}"
-        
+            next_order_number = f"{prefix}-{next_number:06d}"
+
         return next_order_number
 
     @staticmethod

@@ -249,6 +249,8 @@ async def request_schedule(
         db.commit()
         db.refresh(work_order)
     else:
+        order_number = await WorkOrderService.get_next_work_order_number(db, prefix="OB")
+        work_order_data["order_number"] = order_number
         work_order = await WorkOrderService.create_work_order(db, work_order_data)
         work_order.appliance_id = appliance.id
         work_order.property_id = appliance.property_id

@@ -13,6 +13,7 @@ from app.models.work_order import WorkOrder
 from app.models.service import Service, ServiceType, EquipmentType
 from app.services.zone_service import ZoneService
 from app.services.tax_service import get_tax_service
+from app.services.work_order_service import WorkOrderService
 from app.utils.address_utils import extract_zip_code
 from app.utils.travel_calculator import (
     get_travel_time_and_distance,
@@ -483,23 +484,7 @@ async def create_booking(
             db.add(prop)
             db.flush()
 
-        # Generate sequential OB- number checking ALL prefixes to avoid conflicts
-        latest = db.query(WorkOrder).filter(
-            WorkOrder.order_number.op('~')(r'^(CT|OB)-[0-9]+$')
-        ).order_by(WorkOrder.created_at.desc()).first()
-
-        if latest:
-            try:
-                next_num = int(latest.order_number.split('-')[1]) + 1
-            except (ValueError, IndexError):
-                next_num = 1002
-        else:
-            next_num = 1002
-
-        order_number = f"OB-{next_num:06d}"
-        while db.query(WorkOrder).filter(WorkOrder.order_number == order_number).first():
-            next_num += 1
-            order_number = f"OB-{next_num:06d}"
+        order_number = await WorkOrderService.get_next_work_order_number(db, prefix="OB")
 
         work_order = WorkOrder(
             client_id=client.id,

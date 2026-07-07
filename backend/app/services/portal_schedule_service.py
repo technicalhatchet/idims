@@ -620,6 +620,9 @@ async def confirm_schedule(
                 }
             ],
         }
+        work_order_data["order_number"] = await WorkOrderService.get_next_work_order_number(
+            db, prefix="OB"
+        )
 
         initial_appointment = InitialAppointmentCreate(
             appointment_type="diagnostic",
