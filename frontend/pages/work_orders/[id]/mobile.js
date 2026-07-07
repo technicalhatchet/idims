@@ -482,7 +482,6 @@ function WorkOrderDetail() {
     <>
       <Head>
         <title>{workOrder?.order_number || 'Work Order'} | Work Order | Atomic Repair 419</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <style>{`
           @keyframes wo-mobile-tactical-scan {
             0% { left: -48%; }
@@ -580,7 +579,7 @@ function WorkOrderDetail() {
           </button>
         )}
         {/* Header card */}
-        <div className="relative mb-4 z-[1200]">
+        <div className="relative mb-4">
           <div
             ref={headerCardRef}
             data-hud-card

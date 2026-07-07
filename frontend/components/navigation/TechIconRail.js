@@ -14,6 +14,18 @@ const ICON_SPACING = 24; // Tighter spacing to fit all icons
 
 const RAIL_SLIDE_MS = 280;
 const RAIL_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
+const HEADER_HEIGHT = 72;
+
+function readSafeAreaTop() {
+  if (typeof document === 'undefined') return 0;
+  const probe = document.createElement('div');
+  probe.style.cssText =
+    'position:fixed;top:0;left:0;padding-top:env(safe-area-inset-top,0px);visibility:hidden;pointer-events:none;';
+  document.body.appendChild(probe);
+  const top = probe.getBoundingClientRect().height;
+  document.body.removeChild(probe);
+  return top;
+}
 
 const ACCENT_CYAN = '#22D3EE';
 const ACCENT_ORANGE = '#FF7A1A';
@@ -227,15 +239,21 @@ export default function TechIconRail({ isOpen, onClose }) {
   const router = useRouter();
   const [hoveredItem, setHoveredItem] = useState(null);
   const [railHeight, setRailHeight] = useState(0);
+  const [safeAreaTop, setSafeAreaTop] = useState(0);
   const [sweepingItem, setSweepingItem] = useState(null);
 
   useEffect(() => {
-    const updateHeight = () => {
+    const updateLayout = () => {
       setRailHeight(window.innerHeight);
+      setSafeAreaTop(readSafeAreaTop());
     };
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    window.visualViewport?.addEventListener('resize', updateLayout);
+    return () => {
+      window.removeEventListener('resize', updateLayout);
+      window.visualViewport?.removeEventListener('resize', updateLayout);
+    };
   }, []);
 
   const isActive = useCallback((href) => {
@@ -247,10 +265,10 @@ export default function TechIconRail({ isOpen, onClose }) {
   const dashboardIndex = NAV_ITEMS.findIndex(item => item.isPrimary);
   const itemHeight = ICON_SIZE + ICON_SPACING * 2;
   const totalNavHeight = totalIcons * itemHeight;
-  
-  const headerOffset = 72;
-  const availableHeight = railHeight - headerOffset;
-  const navStartY = headerOffset + (availableHeight - totalNavHeight) / 2;
+
+  const headerTotal = HEADER_HEIGHT + safeAreaTop;
+  const availableHeight = Math.max(0, railHeight - headerTotal);
+  const navStartY = headerTotal + Math.max(0, (availableHeight - totalNavHeight) / 2);
   const dashboardCenterY = navStartY + (dashboardIndex + 0.5) * itemHeight;
 
   // Handle nav item click - sweep effect then navigate
@@ -329,7 +347,6 @@ export default function TechIconRail({ isOpen, onClose }) {
         className="tech-icon-rail fixed top-0 bottom-0 right-0 z-[1195] flex flex-col"
         style={{
           width: RAIL_WIDTH,
-          paddingTop: 'env(safe-area-inset-top, 0px)',
           background: 'transparent',
           overflow: 'visible',
           borderLeft: `1px solid ${ACCENT_CYAN}50`,
