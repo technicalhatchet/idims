@@ -49,11 +49,14 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
   );
 
   const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
-  const PART_BILLABLE = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed'];
-  const partsSubtotal = (workOrder.parts || [])
-    .filter((p) => PART_BILLABLE.includes(p.status))
+  const partsSubtotal = (workOrder.parts || []).reduce(
+    (sum, p) => sum + parseFloat(p.price || 0),
+    0,
+  );
+  const taxablePartsSubtotal = (workOrder.parts || [])
+    .filter((p) => PART_DUE_STATUSES.includes(p.status))
     .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
-  const taxOnParts = round2(partsSubtotal * taxRate);
+  const taxOnParts = round2(taxablePartsSubtotal * taxRate);
   const totalWorkOrder = round2(
     servicesSubtotal + partsSubtotal + taxOnParts - (repairCompleted ? discountAmt : 0)
   );

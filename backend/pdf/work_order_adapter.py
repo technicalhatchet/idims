@@ -155,16 +155,16 @@ def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
     tax_rate = float(rd.get("tax_rate") or 0.0775)
 
     service_subtotal = round(sum(float(s.get("price") or 0) for s in services), 2)
+    parts_subtotal = round(sum(float(p.get("price") or 0) for p in parts), 2)
     if is_estimate:
         taxable_parts = parts
     else:
         taxable_parts = [p for p in parts if p.get("status") in BILLABLE_PART_STATUSES]
-    parts_subtotal = round(
-        sum(float(p.get("price") or 0) for p in taxable_parts),
+    tax = round(
+        sum(float(p.get("price") or 0) for p in taxable_parts) * tax_rate,
         2,
     )
     subtotal = round(service_subtotal + parts_subtotal, 2)
-    tax = round(parts_subtotal * tax_rate, 2)
     gross_total = round(subtotal + tax, 2)
 
     apply_discount = diagnostic_discount_applies(rd, services, for_estimate=is_estimate)
@@ -270,7 +270,7 @@ def work_order_to_invoice(
         "equipment": _equipment(filtered_rd),
         "service_meta": _service_meta(filtered_rd),
         "services": _map_services(filtered_rd.get("services") or []),
-        "parts": _map_parts(filtered_rd.get("parts") or [], billable_only=True),
+        "parts": _map_parts(filtered_rd.get("parts") or [], billable_only=False),
         "notes": list(notes or []),
         "terms": None,
         "payment_instructions": f"Pay online or call {COMPANY['phone']}.",

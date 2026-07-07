@@ -101,8 +101,10 @@ def part_matches_preset(
 ) -> bool:
     if preset == "diagnostic":
         return False
+    if preset == "full":
+        # Full estimate/invoice shows quoted parts (needed, ordered, etc.), not only billable statuses.
+        return _norm(part.get("status")) != "not_installed"
     if for_estimate:
-        # Estimates show quoted parts (needed, ordered, etc.) — not only billable statuses.
         return _norm(part.get("status")) != "not_installed"
     return part.get("status") in billable_statuses
 

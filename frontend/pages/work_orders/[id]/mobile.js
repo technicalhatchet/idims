@@ -1875,16 +1875,18 @@ function WorkOrderDetail() {
                       // All services regardless of billing status
                       const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
 
-                      // All billable parts (any payment-triggering status)
-                      const PART_BILLABLE = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed'];
+                      // All parts on the work order (matches services subtotal behavior)
                       const partsSubtotal = (workOrder.parts || [])
-                        .filter(p => PART_BILLABLE.includes(p.status))
                         .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
 
                       const subtotal = servicesSubtotal + partsSubtotal;
 
                       // Tax only on billable parts
-                      const taxOnParts = round2(partsSubtotal * taxRate);
+                      const PART_BILLABLE = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed'];
+                      const taxablePartsSubtotal = (workOrder.parts || [])
+                        .filter((p) => PART_BILLABLE.includes(p.status))
+                        .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
+                      const taxOnParts = round2(taxablePartsSubtotal * taxRate);
                       const grossTotal = round2(subtotal + taxOnParts);
 
                       // Diagnostic discount — shown always if repair SKU exists, grayed if repair not yet completed

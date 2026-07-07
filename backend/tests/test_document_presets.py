@@ -120,6 +120,26 @@ def test_full_preset_applies_diagnostic_discount():
     assert diagnostic_discount_applies(rd, rd["services"])
 
 
+def test_invoice_full_includes_quoted_parts():
+    rd = {
+        "order_number": "CT-1",
+        "tax_rate": 0,
+        "diagnostic_discount_amount": 0,
+        "services": [
+            {"name": "Repair", "service_type": "repair", "billing_status": "billable", "price": 200},
+        ],
+        "parts": [
+            {"number": "P1", "status": "needed", "price": 40, "description": "Element"},
+            {"number": "P2", "status": "installed", "price": 25, "description": "Bracket"},
+        ],
+    }
+    from pdf.work_order_adapter import work_order_to_invoice
+
+    invoice = work_order_to_invoice(rd, line_preset="full")
+    assert len(invoice["parts"]) == 2
+    assert invoice["totals"]["parts_subtotal"] == 65
+
+
 def test_repair_estimate_total_excludes_discount():
     rd = {
         "order_number": "WO-1",
