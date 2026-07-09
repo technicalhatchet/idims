@@ -123,7 +123,7 @@ def test_full_preset_applies_diagnostic_discount():
 def test_invoice_full_includes_quoted_parts():
     rd = {
         "order_number": "CT-1",
-        "tax_rate": 0,
+        "tax_rate": 0.0775,
         "diagnostic_discount_amount": 0,
         "services": [
             {"name": "Repair", "service_type": "repair", "billing_status": "billable", "price": 200},
@@ -138,6 +138,8 @@ def test_invoice_full_includes_quoted_parts():
     invoice = work_order_to_invoice(rd, line_preset="full")
     assert len(invoice["parts"]) == 2
     assert invoice["totals"]["parts_subtotal"] == 65
+    assert invoice["totals"]["tax"] == round(65 * 0.0775, 2)
+    assert "7.75%" in invoice["totals"]["tax_label"]
 
 
 def test_repair_estimate_total_excludes_discount():

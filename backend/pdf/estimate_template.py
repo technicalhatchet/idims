@@ -73,7 +73,7 @@ class TotalsPanelFlowable(Flowable):
             ("Services Subtotal", money(t.get("service_subtotal"))),
             ("Parts Subtotal", money(t.get("parts_subtotal"))),
             ("Subtotal", money(t.get("subtotal"))),
-            ("Sales Tax (7.75% on parts only)", money(t.get("tax"))),
+            (t.get("tax_label") or "Sales Tax (on parts only)", money(t.get("tax"))),
             ("Gross Total", money(t.get("gross_total"))),
         ]
         for label, value in rows:

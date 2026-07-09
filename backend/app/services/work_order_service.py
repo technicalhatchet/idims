@@ -520,6 +520,14 @@ class WorkOrderService:
                 if key not in ["updated_by", "status_notes"]:
                     setattr(work_order, key, value)
 
+            if "service_location" in update_data or "property_id" in update_data:
+                try:
+                    from app.services.tax_service import get_tax_service
+
+                    get_tax_service(db).apply_tax_rate_to_work_order(work_order)
+                except Exception as tax_err:
+                    logger.warning("Could not refresh county tax rate: %s", tax_err)
+
             actor_id = update_data.get("updated_by", work_order.updated_by or work_order.created_by)
             if "status" in update_data and activity._status_val(update_data["status"]) != activity._status_val(previous_status):
                 from app.services.work_order_performance_service import handle_work_order_status_timing

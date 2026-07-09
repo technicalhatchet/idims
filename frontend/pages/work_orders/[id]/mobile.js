@@ -42,8 +42,11 @@ import { REPAIR_OUTCOME_NOTE_TYPE } from '../../../constants/dmaCodes';
 import { hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import {
   computeWorkOrderDueToday,
+  formatTaxPercent,
   isPartLinePaid,
+  resolveWorkOrderTaxRate,
   round2,
+  taxablePartsSubtotal,
 } from '../../../utils/workOrderBilling';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
@@ -1869,8 +1872,8 @@ function WorkOrderDetail() {
 
                     {/* Invoice Totals */}
                     {(() => {
-                      const taxRate = parseFloat(workOrder.tax_rate || 0.0775);
-                      const taxPct = (taxRate * 100).toFixed(2);
+                      const taxRate = resolveWorkOrderTaxRate(workOrder);
+                      const taxPct = formatTaxPercent(taxRate);
 
                       // All services regardless of billing status
                       const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
@@ -1881,12 +1884,9 @@ function WorkOrderDetail() {
 
                       const subtotal = servicesSubtotal + partsSubtotal;
 
-                      // Tax only on billable parts
-                      const PART_BILLABLE = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed'];
-                      const taxablePartsSubtotal = (workOrder.parts || [])
-                        .filter((p) => PART_BILLABLE.includes(p.status))
-                        .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
-                      const taxOnParts = round2(taxablePartsSubtotal * taxRate);
+                      // Tax on quoted parts (excludes not_installed)
+                      const taxableParts = taxablePartsSubtotal(workOrder);
+                      const taxOnParts = round2(taxableParts * taxRate);
                       const grossTotal = round2(subtotal + taxOnParts);
 
                       // Diagnostic discount — shown always if repair SKU exists, grayed if repair not yet completed
@@ -1923,7 +1923,9 @@ function WorkOrderDetail() {
                           <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.03] p-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700 space-y-1.5">
                             {/* Tax rate control */}
                             <div className="flex justify-between md:justify-end items-center gap-2 mb-3">
-                              <span className="text-xs text-gray-500">Tax Rate</span>
+                              <span className="text-xs text-gray-500">
+                                Tax Rate{workOrder.tax_county_name ? ` (${workOrder.tax_county_name})` : ''}
+                              </span>
                               <div className="flex items-center gap-1">
                                 <input
                                   type="number" step="0.01" min="0" max="20"

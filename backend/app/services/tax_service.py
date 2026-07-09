@@ -184,9 +184,12 @@ class TaxService:
             "method": "default",
         }
 
-    def apply_tax_rate_to_work_order(self, work_order, address: Optional[str] = None) -> Dict[str, Any]:
-        """Set work_order.tax_rate from service address. Returns resolve result."""
-        if not address and work_order.service_location:
+    def resolve_work_order_address(self, work_order, address: Optional[str] = None) -> Optional[str]:
+        """Best-effort service address for tax zip lookup."""
+        if address:
+            return address
+
+        if work_order.service_location:
             loc = work_order.service_location
             if isinstance(loc, dict):
                 address = loc.get("address") or loc.get("formatted_address")
@@ -197,6 +200,22 @@ class TaxService:
             prop = work_order.property_ref
             address = getattr(prop, "address", None)
 
+        if not address and getattr(work_order, "property_id", None):
+            from app.models.property import Property
+
+            prop = (
+                self.db.query(Property)
+                .filter(Property.id == work_order.property_id)
+                .first()
+            )
+            if prop:
+                address = prop.address
+
+        return address
+
+    def apply_tax_rate_to_work_order(self, work_order, address: Optional[str] = None) -> Dict[str, Any]:
+        """Set work_order.tax_rate from service address. Returns resolve result."""
+        address = self.resolve_work_order_address(work_order, address=address)
         tax_result = self.resolve_tax_rate(address=address)
         work_order.tax_rate = Decimal(str(tax_result["rate"]))
         logger.info(
@@ -207,6 +226,24 @@ class TaxService:
             tax_result.get("zipCode"),
             getattr(work_order, "id", "new"),
         )
+        return tax_result
+
+    def ensure_work_order_tax_rate(self, work_order, *, apply_when_missing: bool = True) -> Dict[str, Any]:
+        """
+        Resolve county tax for a work order.
+
+        When ``apply_when_missing`` is True and the stored rate is zero, persist the
+        county rate from the service address / property zip.
+        """
+        address = self.resolve_work_order_address(work_order)
+        tax_result = self.resolve_tax_rate(address=address)
+        stored = float(work_order.tax_rate or 0)
+        if apply_when_missing and stored == 0:
+            work_order.tax_rate = Decimal(str(tax_result["rate"]))
+            tax_result["applied"] = True
+        else:
+            tax_result["applied"] = False
+            tax_result["rate"] = stored if stored > 0 else tax_result["rate"]
         return tax_result
 
 

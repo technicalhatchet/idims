@@ -462,6 +462,19 @@ async def get_work_order(
                 
         # Get the work order details using the service (eager-loaded for detail view)
         work_order = WorkOrderService.get_work_order_detail(db, work_order_id)
+
+        tax_result = None
+        try:
+            from app.services.tax_service import get_tax_service
+
+            tax_service = get_tax_service(db)
+            address = tax_service.resolve_work_order_address(work_order)
+            tax_result = tax_service.apply_tax_rate_to_work_order(work_order, address=address)
+            db.commit()
+            db.refresh(work_order)
+        except Exception as tax_err:
+            logger.warning("Could not resolve county tax rate: %s", tax_err)
+            tax_result = None
         
         # Calculate totals before returning the work order
         work_order.calculate_totals()
@@ -729,6 +742,21 @@ async def get_work_order(
             notes_list.append(note_dict)
         
         response_dict["notes"] = notes_list
+
+        if tax_result is None:
+            try:
+                from app.services.tax_service import get_tax_service
+
+                tax_result = get_tax_service(db).resolve_tax_rate(
+                    address=get_tax_service(db).resolve_work_order_address(work_order),
+                )
+            except Exception:
+                tax_result = {}
+        if tax_result:
+            response_dict["tax_county_name"] = tax_result.get("countyName")
+            response_dict["tax_county_key"] = tax_result.get("countyKey")
+            response_dict["tax_zip_code"] = tax_result.get("zipCode")
+        response_dict["tax_rate"] = float(work_order.tax_rate or 0)
         
         # Convert any remaining UUID objects to strings for JSON serialization
         for key, value in response_dict.items():

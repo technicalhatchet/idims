@@ -3,6 +3,23 @@ import { hasCompletedRepairAppointment } from './appointmentStatusLabels';
 export const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 
 const PART_DUE_STATUSES = ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'];
+const PART_NON_TAXABLE_STATUSES = ['not_installed'];
+
+export function resolveWorkOrderTaxRate(workOrder) {
+  const raw = parseFloat(workOrder?.tax_rate);
+  return Number.isFinite(raw) && raw > 0 ? raw : 0.0775;
+}
+
+export function formatTaxPercent(taxRate) {
+  return (taxRate * 100).toFixed(2);
+}
+
+/** Parts that count toward sales tax on invoice / billing totals (quoted parts, not scrapped). */
+export function taxablePartsSubtotal(workOrder) {
+  return (workOrder?.parts || [])
+    .filter((p) => !PART_NON_TAXABLE_STATUSES.includes(p.status))
+    .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
+}
 
 /**
  * Mirrors invoice-tab due-today math (services + billable parts + part tax − paid − discount).
@@ -17,7 +34,7 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
     };
   }
 
-  const taxRate = parseFloat(workOrder.tax_rate || 0.0775);
+  const taxRate = resolveWorkOrderTaxRate(workOrder);
   const hasRepairSku = (allServices || []).some(
     (s) =>
       s.name?.toLowerCase().includes('repair') ||
@@ -53,10 +70,8 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
     (sum, p) => sum + parseFloat(p.price || 0),
     0,
   );
-  const taxablePartsSubtotal = (workOrder.parts || [])
-    .filter((p) => PART_DUE_STATUSES.includes(p.status))
-    .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
-  const taxOnParts = round2(taxablePartsSubtotal * taxRate);
+  const taxableParts = taxablePartsSubtotal(workOrder);
+  const taxOnParts = round2(taxableParts * taxRate);
   const totalWorkOrder = round2(
     servicesSubtotal + partsSubtotal + taxOnParts - (repairCompleted ? discountAmt : 0)
   );

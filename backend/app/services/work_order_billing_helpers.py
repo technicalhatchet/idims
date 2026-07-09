@@ -149,12 +149,21 @@ def compute_net_invoice_total(work_order: WorkOrder) -> Decimal:
         Decimal("0"),
     )
 
-    parts_subtotal = Decimal("0")
-    for part in work_order.parts or []:
-        if part.price is not None and part.status in PART_BILLABLE_STATUSES:
-            parts_subtotal += _decimal(part.price)
+    parts_subtotal = sum(
+        (_decimal(part.price) for part in (work_order.parts or []) if part.price is not None),
+        Decimal("0"),
+    )
 
-    tax_on_parts = (parts_subtotal * tax_rate).quantize(Decimal("0.01"))
+    taxable_parts = sum(
+        (
+            _decimal(part.price)
+            for part in (work_order.parts or [])
+            if part.price is not None and part.status not in {"not_installed"}
+        ),
+        Decimal("0"),
+    )
+
+    tax_on_parts = (taxable_parts * tax_rate).quantize(Decimal("0.01"))
 
     discount = Decimal("0")
     if has_completed_repair_appointment(work_order):

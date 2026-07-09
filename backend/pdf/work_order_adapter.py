@@ -12,6 +12,21 @@ from pdf.document_presets import (
 )
 
 BILLABLE_PART_STATUSES = ("phone_payment", "paid_not_installed", "upfront_50", "installed")
+NON_TAXABLE_PART_STATUSES = frozenset({"not_installed"})
+
+
+def format_sales_tax_label(tax_rate: float) -> str:
+    pct = tax_rate * 100
+    pct_text = f"{pct:.2f}".rstrip("0").rstrip(".")
+    return f"Sales Tax ({pct_text}% on parts only)"
+
+
+def _taxable_parts(parts: List[dict]) -> List[dict]:
+    return [
+        p
+        for p in (parts or [])
+        if str(p.get("status") or "").lower() not in NON_TAXABLE_PART_STATUSES
+    ]
 
 COMPANY = {
     "name": "Atomic Repair",
@@ -156,10 +171,7 @@ def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
 
     service_subtotal = round(sum(float(s.get("price") or 0) for s in services), 2)
     parts_subtotal = round(sum(float(p.get("price") or 0) for p in parts), 2)
-    if is_estimate:
-        taxable_parts = parts
-    else:
-        taxable_parts = [p for p in parts if p.get("status") in BILLABLE_PART_STATUSES]
+    taxable_parts = _taxable_parts(parts)
     tax = round(
         sum(float(p.get("price") or 0) for p in taxable_parts) * tax_rate,
         2,
@@ -183,6 +195,8 @@ def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
         "parts_subtotal": parts_subtotal,
         "subtotal": subtotal,
         "tax": tax,
+        "tax_rate": tax_rate,
+        "tax_label": format_sales_tax_label(tax_rate),
         "gross_total": gross_total,
         "discount": discount,
         "total": total,
