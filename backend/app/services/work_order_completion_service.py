@@ -33,13 +33,47 @@ def has_outstanding_billable_skus(work_order: WorkOrder) -> bool:
     return any(item.billing_status == "billable" for item in (work_order.service_items or []))
 
 
+def _appointment_status_str(appointment) -> str:
+    raw = getattr(appointment, "status", None)
+    if hasattr(raw, "value"):
+        return str(raw.value).lower()
+    return str(raw or "").lower()
+
+
+def _repair_line_awaiting_visit(work_order: WorkOrder, item: WorkOrderServiceModel) -> bool:
+    """
+    True when a not_billable repair SKU still belongs to an open visit.
+
+    Canceled visits waive their SKUs; completed diagnostics with a canceled repair
+    attempt must not block close.
+    """
+    appointments = work_order.appointments or []
+    appointments_by_id = {a.id: a for a in appointments}
+
+    appt_id = getattr(item, "appointment_id", None)
+    if appt_id and appt_id in appointments_by_id:
+        return _appointment_status_str(appointments_by_id[appt_id]) in {
+            "scheduled",
+            "reschedule",
+            "en_route",
+            "in_progress",
+        }
+
+    return any(
+        _appointment_status_str(appt) in {"scheduled", "reschedule", "en_route", "in_progress"}
+        for appt in appointments
+    )
+
+
 def has_unpaid_scheduled_repair(work_order: WorkOrder) -> bool:
     """
-    True when a repair SKU exists on the order but has not been paid yet.
-    Covers diagnostic-only visits where repair was added for a future appointment.
+    True when a repair SKU exists on the order but has not been paid yet and still
+    belongs to a scheduled/open visit.
     """
     return any(
-        _is_repair_service_line(item) and item.billing_status == "not_billable"
+        _is_repair_service_line(item)
+        and item.billing_status == "not_billable"
+        and _repair_line_awaiting_visit(work_order, item)
         for item in (work_order.service_items or [])
     )
 

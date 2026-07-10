@@ -299,6 +299,11 @@ def apply_appointment_status_billing(
                 elif line.billing_status == "billable":
                     line.billing_status = "not_billable"
                     updated += 1
+    elif status == "canceled":
+        for line in services:
+            if line.billing_status in ("billable", "not_billable"):
+                line.billing_status = "waived"
+                updated += 1
     else:
         for line in services:
             if line.billing_status == "billable":
