@@ -132,6 +132,47 @@ export async function recloseWorkOrder(workOrderId) {
   return apiClient(`work-orders/${workOrderId}/reclose`, { method: 'POST' });
 }
 
+export async function updateServiceBillingStatus(serviceId, billingStatus) {
+  return apiClient(`work-orders/services/${serviceId}/billing-status`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      service_id: serviceId,
+      billing_status: billingStatus,
+    }),
+  });
+}
+
+export async function updateWorkOrderServicePrice(serviceId, { name, unit_price, price }) {
+  return apiClient(`work-orders/services/${serviceId}/price`, {
+    method: 'PUT',
+    body: JSON.stringify({ name, unit_price, price }),
+  });
+}
+
+export async function saveWorkOrderServiceLineEdits(
+  serviceId,
+  { name, unit_price, price, billing_status, previousBillingStatus },
+) {
+  const tasks = [
+    updateWorkOrderServicePrice(serviceId, {
+      name,
+      unit_price: parseFloat(unit_price),
+      price: parseFloat(price),
+    }),
+  ];
+  if (billing_status && billing_status !== previousBillingStatus) {
+    tasks.push(updateServiceBillingStatus(serviceId, billing_status));
+  }
+  await Promise.all(tasks);
+}
+
+export async function waiveWorkOrderDiagnosticFee(workOrderId) {
+  return apiClient(`work-orders/${workOrderId}/admin-override`, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'waive_diagnostic' }),
+  });
+}
+
 export async function createRedoWorkOrder(
   workOrderId,
   { appointment_id, scheduled_start, scheduled_end, time_window } = {}

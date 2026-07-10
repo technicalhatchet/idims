@@ -2,8 +2,15 @@ import { hasCompletedRepairAppointment } from './appointmentStatusLabels';
 
 export const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 
-const PART_DUE_STATUSES = ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'];
-const PART_NON_TAXABLE_STATUSES = ['not_installed'];
+export const PART_DUE_STATUSES = ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'];
+export const PART_NON_TAXABLE_STATUSES = ['not_installed'];
+
+export const SERVICE_BILLING_STATUS_OPTIONS = [
+  { value: 'not_billable', label: 'Not Billable' },
+  { value: 'billable', label: 'Billable' },
+  { value: 'paid', label: 'Paid' },
+  { value: 'waived', label: 'Waived' },
+];
 
 export function resolveWorkOrderTaxRate(workOrder) {
   const raw = parseFloat(workOrder?.tax_rate);

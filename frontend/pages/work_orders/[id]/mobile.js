@@ -29,7 +29,7 @@ import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
 import PortalSchedulingApprovalBar from '../../../components/work_orders/PortalSchedulingApprovalBar';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
-import { reopenWorkOrder } from '../../../services/api/workOrdersApi';
+import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
 import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
@@ -46,6 +46,7 @@ import {
   isPartLinePaid,
   resolveWorkOrderTaxRate,
   round2,
+  SERVICE_BILLING_STATUS_OPTIONS,
   taxablePartsSubtotal,
 } from '../../../utils/workOrderBilling';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
@@ -129,9 +130,12 @@ function WorkOrderDetail() {
   const [clientWorkOrders, setClientWorkOrders] = useState([]);
   const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
   const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(false);
-  const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name }
+  const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name, billing_status }
   const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
   const [isSavingPrice, setIsSavingPrice] = useState(false);
+  const [adminBillingServiceId, setAdminBillingServiceId] = useState('');
+  const [adminBillingStatus, setAdminBillingStatus] = useState('waived');
+  const [isUpdatingBillingStatus, setIsUpdatingBillingStatus] = useState(false);
   const [showRecordPayment, setShowRecordPayment] = useState(false);
   const [showDocumentPdf, setShowDocumentPdf] = useState(false);
   const [fieldPayments, setFieldPayments] = useState([]);
@@ -1482,6 +1486,27 @@ function WorkOrderDetail() {
                                     )}
                                   </div>
                                 </div>
+                                {isEditingThis ? (
+                                  <div className="mt-3">
+                                    <label className="block text-[10px] uppercase tracking-wide text-gray-500 mb-1">
+                                      Billing status
+                                    </label>
+                                    <select
+                                      className="w-full px-2 py-1.5 text-sm border border-cyan-500/40 rounded-lg bg-[#0B1120] text-white"
+                                      value={editingServicePrice.billing_status}
+                                      onChange={(e) =>
+                                        setEditingServicePrice((prev) => ({
+                                          ...prev,
+                                          billing_status: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      {SERVICE_BILLING_STATUS_OPTIONS.map((opt) => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                ) : null}
                                 <div className="mt-3 pt-2 border-t border-white/10 flex justify-end">
                                   {isEditingThis ? (
                                     <div className="flex gap-2 w-full">
@@ -1491,13 +1516,12 @@ function WorkOrderDetail() {
                                         onClick={async () => {
                                           setIsSavingPrice(true);
                                           try {
-                                            await apiClient(`api/work-orders/services/${item.id}/price`, {
-                                              method: 'PUT',
-                                              body: JSON.stringify({
-                                                unit_price: parseFloat(editingServicePrice.unit_price),
-                                                price: parseFloat(editingServicePrice.price),
-                                                name: editingServicePrice.name,
-                                              }),
+                                            await saveWorkOrderServiceLineEdits(item.id, {
+                                              name: editingServicePrice.name,
+                                              unit_price: editingServicePrice.unit_price,
+                                              price: editingServicePrice.price,
+                                              billing_status: editingServicePrice.billing_status,
+                                              previousBillingStatus: item.billing_status,
                                             });
                                             setEditingServicePrice(null);
                                             refetch();
@@ -1519,10 +1543,16 @@ function WorkOrderDetail() {
                                   ) : billingEditable ? (
                                     <button
                                       type="button"
-                                      onClick={() => setEditingServicePrice({ id: item.id, name: item.name, unit_price: item.unit_price, price: item.price })}
+                                      onClick={() => setEditingServicePrice({
+                                        id: item.id,
+                                        name: item.name,
+                                        unit_price: item.unit_price,
+                                        price: item.price,
+                                        billing_status: item.billing_status || 'not_billable',
+                                      })}
                                       className="text-xs font-semibold uppercase tracking-wide text-cyan-300"
                                     >
-                                      Edit price
+                                      Edit line
                                     </button>
                                   ) : null}
                                 </div>
@@ -1593,6 +1623,22 @@ function WorkOrderDetail() {
                                       )}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
+                                      {isEditingThis ? (
+                                        <select
+                                          className="w-full min-w-[8rem] px-2 py-1 text-xs border border-blue-400 rounded dark:bg-gray-700 dark:text-white"
+                                          value={editingServicePrice.billing_status}
+                                          onChange={(e) =>
+                                            setEditingServicePrice((prev) => ({
+                                              ...prev,
+                                              billing_status: e.target.value,
+                                            }))
+                                          }
+                                        >
+                                          {SERVICE_BILLING_STATUS_OPTIONS.map((opt) => (
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                          ))}
+                                        </select>
+                                      ) : (
                                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                                         isPaid ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
                                         isBillable ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
@@ -1601,6 +1647,7 @@ function WorkOrderDetail() {
                                       }`}>
                                         {isPaid ? 'Paid' : isBillable ? 'Due Today' : isWaived ? 'Waived' : 'Not Billable'}
                                       </span>
+                                      )}
                                     </td>
                                     {/* Admin price edit controls */}
                                     <td className="px-4 py-4 whitespace-nowrap text-right">
@@ -1611,13 +1658,12 @@ function WorkOrderDetail() {
                                             onClick={async () => {
                                               setIsSavingPrice(true);
                                               try {
-                                                await apiClient(`api/work-orders/services/${item.id}/price`, {
-                                                  method: 'PUT',
-                                                  body: JSON.stringify({
-                                                    unit_price: parseFloat(editingServicePrice.unit_price),
-                                                    price: parseFloat(editingServicePrice.price),
-                                                    name: editingServicePrice.name
-                                                  })
+                                                await saveWorkOrderServiceLineEdits(item.id, {
+                                                  name: editingServicePrice.name,
+                                                  unit_price: editingServicePrice.unit_price,
+                                                  price: editingServicePrice.price,
+                                                  billing_status: editingServicePrice.billing_status,
+                                                  previousBillingStatus: item.billing_status,
                                                 });
                                                 setEditingServicePrice(null);
                                                 refetch();
@@ -1633,9 +1679,15 @@ function WorkOrderDetail() {
                                         </div>
                                       ) : billingEditable ? (
                                         <button
-                                          onClick={() => setEditingServicePrice({ id: item.id, name: item.name, unit_price: item.unit_price, price: item.price })}
+                                          onClick={() => setEditingServicePrice({
+                                            id: item.id,
+                                            name: item.name,
+                                            unit_price: item.unit_price,
+                                            price: item.price,
+                                            billing_status: item.billing_status || 'not_billable',
+                                          })}
                                           className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
-                                          title="Edit price"
+                                          title="Edit line"
                                         >✏️</button>
                                       ) : null}
                                     </td>
@@ -2088,15 +2140,19 @@ function WorkOrderDetail() {
                     })()}
 
                     {/* Admin Controls */}
-                    {user?.roles?.includes('admin') && (
+                    {billingEditable && (
                       <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.03] p-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700">
                         <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3 md:text-sm md:font-medium md:normal-case md:tracking-normal md:text-gray-700 md:dark:text-gray-300">
-                          Admin Controls
+                          Billing Overrides
                         </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Service Billing Status</label>
-                            <select className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900">
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Service line</label>
+                            <select
+                              className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900"
+                              value={adminBillingServiceId}
+                              onChange={(e) => setAdminBillingServiceId(e.target.value)}
+                            >
                               <option value="">Select service...</option>
                               {allServices?.map(service => (
                                 <option key={service.id} value={service.id}>
@@ -2106,22 +2162,56 @@ function WorkOrderDetail() {
                             </select>
                           </div>
                           <div>
-                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">New Billing Status</label>
-                            <select className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900">
-                              <option value="not_billable">Not Billable</option>
-                              <option value="billable">Billable</option>
-                              <option value="paid">Paid</option>
-                              <option value="waived">Waived</option>
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">New billing status</label>
+                            <select
+                              className="w-full px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900"
+                              value={adminBillingStatus}
+                              onChange={(e) => setAdminBillingStatus(e.target.value)}
+                            >
+                              {SERVICE_BILLING_STATUS_OPTIONS.map((opt) => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                              ))}
                             </select>
                           </div>
                           <div>
-                            <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
-                              Update Service Status
+                            <button
+                              type="button"
+                              disabled={!adminBillingServiceId || isUpdatingBillingStatus}
+                              onClick={async () => {
+                                setIsUpdatingBillingStatus(true);
+                                try {
+                                  await updateServiceBillingStatus(adminBillingServiceId, adminBillingStatus);
+                                  setAdminBillingServiceId('');
+                                  refetch();
+                                } catch (err) {
+                                  alert(err.message || 'Failed to update billing status');
+                                } finally {
+                                  setIsUpdatingBillingStatus(false);
+                                }
+                              }}
+                              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm"
+                            >
+                              {isUpdatingBillingStatus ? 'Updating…' : 'Update service status'}
                             </button>
                           </div>
                           <div>
-                            <button className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
-                              Waive Diagnostic Fee
+                            <button
+                              type="button"
+                              disabled={isUpdatingBillingStatus}
+                              onClick={async () => {
+                                setIsUpdatingBillingStatus(true);
+                                try {
+                                  await waiveWorkOrderDiagnosticFee(workOrder.id);
+                                  refetch();
+                                } catch (err) {
+                                  alert(err.message || 'Failed to waive diagnostic fee');
+                                } finally {
+                                  setIsUpdatingBillingStatus(false);
+                                }
+                              }}
+                              className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 text-sm"
+                            >
+                              Waive diagnostic fee
                             </button>
                           </div>
                         </div>
