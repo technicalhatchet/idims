@@ -8,6 +8,7 @@ DMA_PROBLEM_CODES = {
     "noisy": "Noisy / vibration",
     "wont_start": "Won't start / no power",
     "wont_spin": "Won't spin / agitate",
+    "wont_stop_spinning": "Won't stop spinning",
     "ice_maker": "Ice maker issue",
     "door_seal": "Door seal / gasket",
     "error_code_display": "Error code on display",

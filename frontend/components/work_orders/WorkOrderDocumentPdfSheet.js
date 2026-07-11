@@ -97,6 +97,7 @@ export default function WorkOrderDocumentPdfSheet({
   const [showPayments, setShowPayments] = useState(true);
   const [showPaymentMessage, setShowPaymentMessage] = useState(true);
   const [showTechnician, setShowTechnician] = useState(true);
+  const [showNotes, setShowNotes] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isEmailing, setIsEmailing] = useState(false);
   const [error, setError] = useState(null);
@@ -109,6 +110,7 @@ export default function WorkOrderDocumentPdfSheet({
     showPayments,
     showPaymentMessage,
     showTechnician,
+    showNotes,
   });
 
   useEffect(() => {
@@ -119,6 +121,7 @@ export default function WorkOrderDocumentPdfSheet({
     setShowPayments(hasPayments);
     setShowPaymentMessage(true);
     setShowTechnician(true);
+    setShowNotes(false);
     setError(null);
     setEmailStatus(null);
   }, [open, theme?.mode, hasPayments]);
@@ -141,6 +144,7 @@ export default function WorkOrderDocumentPdfSheet({
         show_payments: String(opts.showPayments),
         show_payment_message: String(opts.showPaymentMessage),
         show_technician: String(opts.showTechnician),
+        show_notes: String(opts.showNotes),
       });
       onClose();
     } catch (err) {
@@ -290,6 +294,15 @@ export default function WorkOrderDocumentPdfSheet({
           }
           variant={variant}
         />
+        {docType === 'invoice' ? (
+          <CheckboxRow
+            checked={showNotes}
+            onChange={setShowNotes}
+            label="Work-order notes"
+            description="Public notes (Pre-Call, Follow Up, etc.) in the PDF footer"
+            variant={variant}
+          />
+        ) : null}
       </div>
 
       {error ? (

@@ -18,7 +18,7 @@ import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import AutoScheduler from './AutoScheduler';
 import TravelTimeInfo from './TravelTimeInfo';
 import TimeWindowSelector from './TimeWindowSelector';
-import { useShopHours } from '../../hooks/useShopHours';
+import { useShopHours, isDayOpen } from '../../hooks/useShopHours';
 import {
   findNextAvailableSlot,
   getTimeWindowBoundaries,
@@ -52,6 +52,8 @@ import {
   canUpdateAppointmentStatus,
   isWorkOrderClosed,
 } from '../../utils/workOrderPermissions';
+
+const SHOP_CLOSED_DATE_MESSAGE = 'Shop is closed on this day. Select another date.';
 
 const OPEN_APPOINTMENT_STATUS_OPTIONS = [
   { value: 'scheduled', label: 'Scheduled' },
@@ -920,6 +922,9 @@ export default function AppointmentScheduler({
     }
     if (!formData.status) errors.status = 'Status is required';
     if (!formData.scheduled_start) errors.scheduled_start = 'Scheduled start time is required';
+    if (formData.scheduled_start && shopHours && !isDayOpen(shopHours, formData.scheduled_start)) {
+      errors.scheduled_start = SHOP_CLOSED_DATE_MESSAGE;
+    }
     if (formData.scheduled_start && formData.scheduled_end) {
       if (new Date(formData.scheduled_end) <= new Date(formData.scheduled_start)) {
         errors.scheduled_end = 'End time must be after start time.';
@@ -2266,6 +2271,21 @@ export default function AppointmentScheduler({
                     onFocus={() => console.log('[Date Input] formData.scheduled_start onFocus:', formData.scheduled_start)}
                     onChange={(e) => {
                       const newDate = e.target.value; // Just the date YYYY-MM-DD
+                      if (shopHours && newDate && !isDayOpen(shopHours, newDate)) {
+                        const newStartDateTime = `${newDate}T09:00`;
+                        setFormData((prev) => ({
+                          ...prev,
+                          scheduled_start: newStartDateTime,
+                          scheduled_end: `${newDate}T10:00`,
+                          time_window: null,
+                        }));
+                        setFormErrors((prev) => ({
+                          ...prev,
+                          scheduled_start: SHOP_CLOSED_DATE_MESSAGE,
+                        }));
+                        return;
+                      }
+
                       // Preserve the time part from the existing scheduled_start
                       const currentTime = formData.scheduled_start 
                         ? formData.scheduled_start.split('T')[1] 
@@ -2284,6 +2304,12 @@ export default function AppointmentScheduler({
                         scheduled_start: newStartDateTime,
                         scheduled_end: `${newDate}T${currentEndTime}`,
                         time_window: null // Reset time window when manually selecting date
+                      });
+                      setFormErrors((prev) => {
+                        if (prev.scheduled_start !== SHOP_CLOSED_DATE_MESSAGE) return prev;
+                        const next = { ...prev };
+                        delete next.scheduled_start;
+                        return next;
                       });
                     }}
                     className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"

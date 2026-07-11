@@ -25,7 +25,19 @@ METRIC_CALLBACK_REDO = "callback_redo"
 METRIC_ACCESS_FAILURE = "access_failure"
 
 ON_TIME_GRACE_MINUTES = 15
+# Late only when arrival is more than grace minutes after scheduled start.
+# Early arrivals count as on-time for adherence rate (field days slip early often).
 COMPLETED_APPT_STATUSES = frozenset({"completed", "completed_pending_payment"})
+
+def classify_schedule_adherence_delta(delta_minutes: float) -> tuple[bool, str]:
+    """Return (on_time, direction) for minutes between scheduled start and actual arrival."""
+    if delta_minutes > ON_TIME_GRACE_MINUTES:
+        return False, "late"
+    if delta_minutes < 0:
+        return True, "early"
+    return True, "on_time"
+
+
 FOLLOW_UP_APPT_TYPES = frozenset({"repair", "follow-up", "follow_up", "recall", "redo", "callback"})
 ACCESS_FAILURE_STATUSES = frozenset({"unreachable"})
 WO_COMPLETED_STATUSES = frozenset({"completed", "completed_pending_payment"})
@@ -302,8 +314,7 @@ def _record_schedule_adherence(
         return None
 
     delta = (actual_arrival - appointment.scheduled_start).total_seconds() / 60.0
-    on_time = abs(delta) <= ON_TIME_GRACE_MINUTES
-    direction = "on_time" if on_time else ("late" if delta > 0 else "early")
+    on_time, direction = classify_schedule_adherence_delta(delta)
 
     metric = _upsert_metric(
         db,

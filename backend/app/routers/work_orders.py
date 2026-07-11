@@ -2339,8 +2339,9 @@ async def get_work_order_invoice_pdf_v2(
     work_order_id: uuid.UUID = Path(...),
     variant: str = Query("light", pattern="^(dark|light)$"),
     show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
-    show_payment_message: bool = Query(True, description="Include payment terms message panel"),
+    show_payment_message: bool = Query(True, description="Include payment / terms message panel"),
     show_technician: bool = Query(True, description="Include technician contact panel"),
+    show_notes: bool = Query(False, description="Include public work-order notes on invoice"),
     line_preset: str = Query(
         "full",
         pattern="^(diagnostic|repair|full)$",
@@ -2365,6 +2366,7 @@ async def get_work_order_invoice_pdf_v2(
             show_payments=show_payments,
             show_payment_message=show_payment_message,
             show_technician=show_technician,
+            show_notes=show_notes,
             line_preset=line_preset,
         )
     except Exception as e:
@@ -2391,6 +2393,7 @@ async def email_work_order_document_v2(
     show_payments: bool = Query(True, description="Include payment ledger when payments exist"),
     show_payment_message: bool = Query(True, description="Include payment / terms message panel"),
     show_technician: bool = Query(True, description="Include technician contact panel"),
+    show_notes: bool = Query(False, description="Include public work-order notes on invoice"),
     line_preset: str = Query(
         "full",
         pattern="^(diagnostic|repair|full)$",
@@ -2425,6 +2428,7 @@ async def email_work_order_document_v2(
             show_payments=show_payments,
             show_payment_message=show_payment_message,
             show_technician=show_technician,
+            show_notes=show_notes,
             line_preset=line_preset,
         )
     except Exception as e:

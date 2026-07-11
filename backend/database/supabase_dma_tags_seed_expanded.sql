@@ -89,6 +89,7 @@ INSERT INTO dma_tags (slug, label, category) VALUES
   ('not_draining', 'Not draining', 'symptom'),
   ('not_heating', 'Not heating', 'symptom'),
   ('not_spinning', 'Not spinning', 'symptom'),
+  ('wont_stop_spinning', 'Won''t stop spinning', 'symptom'),
   ('intermittent', 'Intermittent', 'symptom'),
   ('noisy', 'Noisy', 'symptom'),
   ('dead', 'Dead / no power', 'symptom'),

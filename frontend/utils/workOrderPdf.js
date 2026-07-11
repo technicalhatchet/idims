@@ -67,6 +67,7 @@ function buildDocumentQueryParams({
   showPayments = true,
   showPaymentMessage = true,
   showTechnician = true,
+  showNotes = false,
   linePreset = 'full',
 } = {}) {
   const preset = docType === 'invoice' ? 'full' : linePreset;
@@ -77,6 +78,7 @@ function buildDocumentQueryParams({
     show_payments: String(showPayments),
     show_payment_message: String(showPaymentMessage),
     show_technician: String(showTechnician),
+    show_notes: String(showNotes),
   };
 }
 

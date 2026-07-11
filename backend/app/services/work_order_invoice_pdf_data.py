@@ -189,6 +189,7 @@ def generate_work_order_invoice_pdf_v2(
     show_payments: bool = True,
     show_payment_message: bool = True,
     show_technician: bool = True,
+    show_notes: bool = False,
     line_preset: str = "full",
 ) -> bytes:
     """Render invoice PDF v2 bytes (optional payment ledger)."""
@@ -196,7 +197,7 @@ def generate_work_order_invoice_pdf_v2(
     from pdf.work_order_adapter import work_order_to_invoice
 
     rd = build_work_order_invoice_rd(db, work_order)
-    note_texts = get_public_invoice_note_texts(db, work_order.id)
+    note_texts = get_public_invoice_note_texts(db, work_order.id) if show_notes else []
     invoice = work_order_to_invoice(rd, notes=note_texts, line_preset=line_preset)
     if show_payments:
         invoice["payments"] = get_work_order_payment_ledger(db, work_order.id)
@@ -249,6 +250,7 @@ def generate_work_order_document_pdf_v2(
     show_payments: bool = True,
     show_payment_message: bool = True,
     show_technician: bool = True,
+    show_notes: bool = False,
     line_preset: str = "full",
 ) -> bytes:
     """Render invoice or estimate PDF v2 bytes."""
@@ -272,6 +274,7 @@ def generate_work_order_document_pdf_v2(
         show_payments=show_payments,
         show_payment_message=show_payment_message,
         show_technician=show_technician,
+        show_notes=show_notes,
         line_preset=effective_preset,
     )
 

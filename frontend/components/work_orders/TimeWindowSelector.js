@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { TIME_WINDOWS, isTimeWindowAvailable } from '../../utils/appointment-scheduling';
-import { getShopHoursForDate, getAvailableWindowsForDate } from '../../hooks/useShopHours';
+import { getShopHoursForDate, getAvailableWindowsForDate, isDayOpen } from '../../hooks/useShopHours';
 
 /**
  * Creates a normalized date object for display to avoid timezone issues
@@ -228,6 +228,7 @@ export default function TimeWindowSelector({
   
   // Filter to only show enabled windows
   const timeWindowsUI = allTimeWindows.filter(w => enabledWindows.includes(w.id));
+  const isDayClosed = Boolean(shopHours && selectedDate && !isDayOpen(shopHours, selectedDate));
   
   return (
     // Replace Box with div and apply Tailwind classes
@@ -238,10 +239,19 @@ export default function TimeWindowSelector({
       </h6>
       
       <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-        Select a time window:
+        {isDayClosed ? 'No time windows available:' : 'Select a time window:'}
       </p>
-      
-      {/* Replace Grid container with div and apply Tailwind grid classes */}
+
+      {isDayClosed ? (
+        <div className="rounded-lg border border-amber-400/50 bg-amber-50 dark:bg-amber-900/20 p-4 mb-3">
+          <p className="text-sm font-medium text-amber-900 dark:text-amber-100">
+            Shop closed this day
+          </p>
+          <p className="text-sm text-amber-800 dark:text-amber-200 mt-1">
+            This day has no service hours. Select another date or update shop hours in Settings.
+          </p>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {timeWindowsUI.map((window) => {
           const availability = availabilities[window.id];
@@ -296,6 +306,7 @@ export default function TimeWindowSelector({
           );
         })}
       </div>
+      )}
       
       {/* Replace Box with div and apply Tailwind classes */}
       <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
