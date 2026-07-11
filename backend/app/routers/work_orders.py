@@ -1820,6 +1820,9 @@ async def update_work_order_note(
     if not is_admin and note.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="You can only edit your own notes")
     note.note = body.get('note', note.note)
+    if 'appointment_id' in body:
+        raw_appt = body.get('appointment_id')
+        note.appointment_id = uuid.UUID(str(raw_appt)) if raw_appt else None
     note.updated_at = datetime.utcnow()
     db.flush()
 
@@ -1879,7 +1882,8 @@ async def create_work_order_note_v2(
             work_order_id=work_order_id,
             user_id=current_user.id,
             note_text=note.note,
-            is_private=note.is_private
+            is_private=note.is_private,
+            appointment_id=note.appointment_id,
         )
         
         # Convert to dict to easily manipulate

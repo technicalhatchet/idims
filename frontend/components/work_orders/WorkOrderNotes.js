@@ -15,6 +15,14 @@ import {
 import { NOTE_TYPES, MANUAL_NOTE_TYPES } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
+import DiagnosticResultsForm from './DiagnosticResultsForm';
+import {
+  buildInitialDiagnosticState,
+  formatDiagnosticSummary,
+  getDiagnosticTemplate,
+  parseDiagnosticNotePayload,
+  serializeDiagnosticNotePayload,
+} from '../../constants/diagnosticTemplates';
 
 // Define field structure for each note type
 const NOTE_FIELDS = {
@@ -86,6 +94,9 @@ const getInitialFieldValues = (noteType) => {
 
 // Parse structured note content
 const parseNoteContent = (content, noteType) => {
+  if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+    return parseDiagnosticNotePayload(content);
+  }
   if (!NOTE_FIELDS[noteType]) return { text: content };
 
   try {
@@ -96,7 +107,10 @@ const parseNoteContent = (content, noteType) => {
 };
 
 // Format structured fields for display
-const formatFieldsForDisplay = (fieldValues, noteType) => {
+const formatFieldsForDisplay = (fieldValues, noteType, workOrder = null) => {
+  if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+    return formatDiagnosticSummary(fieldValues, { workOrder });
+  }
   if (!NOTE_FIELDS[noteType]) return fieldValues.text || '';
 
   return NOTE_FIELDS[noteType].map(field => {
@@ -119,9 +133,20 @@ const formatFieldsForDisplay = (fieldValues, noteType) => {
 
 // Format structured fields for API
 const formatFieldsForAPI = (fieldValues, noteType) => {
+  if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+    return serializeDiagnosticNotePayload(fieldValues);
+  }
   if (!NOTE_FIELDS[noteType]) return fieldValues.text || '';
   return JSON.stringify(fieldValues);
 };
+
+function isStructuredNoteType(noteType) {
+  return Boolean(NOTE_FIELDS[noteType] || noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS);
+}
+
+function isPrivateNoteType(noteType) {
+  return noteType === NOTE_TYPES.REPAIR_OUTCOME || noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS;
+}
 
 const EMPTY_NOTE = {
   type: NOTE_TYPES.GENERAL,
@@ -171,11 +196,14 @@ export default function WorkOrderNotes({
         customerComplaint: workOrder.description || symptomText || '',
       };
     }
+    if (type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+      fieldValues = buildInitialDiagnosticState(workOrder);
+    }
     return {
       type,
       content: '',
       fieldValues,
-      isPrivate: type === NOTE_TYPES.REPAIR_OUTCOME,
+      isPrivate: isPrivateNoteType(type),
     };
   }, [workOrder]);
 
@@ -268,15 +296,23 @@ export default function WorkOrderNotes({
         : '';
       fieldValues.customerComplaint = workOrder.description || symptomText || '';
     }
+    if (type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+      fieldValues = buildInitialDiagnosticState(workOrder);
+    }
     setNewNote({
       ...newNote,
       type,
       content: '',
       fieldValues,
+      isPrivate: isPrivateNoteType(type),
     });
   };
 
   const handleFieldChange = (fieldId, value) => {
+    if (fieldId === '__diag__') {
+      setNewNote(prev => ({ ...prev, fieldValues: value }));
+      return;
+    }
     setNewNote(prev => ({
       ...prev,
       fieldValues: {
@@ -295,11 +331,15 @@ export default function WorkOrderNotes({
 
   const startEditingNote = () => {
     if (!selectedNote) return;
-    if (NOTE_FIELDS[selectedNote.type]) {
-      setEditFieldValues({
-        ...getInitialFieldValues(selectedNote.type),
-        ...selectedNote.fieldValues,
-      });
+    if (isStructuredNoteType(selectedNote.type)) {
+      if (selectedNote.type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+        setEditFieldValues(parseDiagnosticNotePayload(selectedNote.content));
+      } else {
+        setEditFieldValues({
+          ...getInitialFieldValues(selectedNote.type),
+          ...selectedNote.fieldValues,
+        });
+      }
       setEditContent('');
     } else {
       setEditContent(selectedNote.content);
@@ -319,7 +359,8 @@ export default function WorkOrderNotes({
     setIsSaving(true);
     try {
       let noteBody;
-      if (NOTE_FIELDS[selectedNote.type]) {
+      let appointmentId = null;
+      if (isStructuredNoteType(selectedNote.type)) {
         if (selectedNote.type === NOTE_TYPES.REPAIR_OUTCOME) {
           const fix = (editFieldValues?.confirmedFix || '').trim();
           if (!fix) {
@@ -329,13 +370,20 @@ export default function WorkOrderNotes({
           }
         }
         noteBody = formatFieldsForAPI(editFieldValues, selectedNote.type);
+        if (selectedNote.type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+          appointmentId = editFieldValues?.appointmentId || null;
+        }
       } else {
         noteBody = editContent;
       }
       const updatedNote = `[${selectedNote.type}]\n${noteBody}`;
+      const putBody = { note: updatedNote };
+      if (selectedNote.type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+        putBody.appointment_id = appointmentId || null;
+      }
       await apiClient(`work-orders/${workOrderId}/notes/${selectedNote.id}`, {
         method: 'PUT',
-        body: JSON.stringify({ note: updatedNote }),
+        body: JSON.stringify(putBody),
       });
       cancelEditingNote();
       setSelectedNote(null);
@@ -352,11 +400,16 @@ export default function WorkOrderNotes({
     const noteType = match ? match[1] : NOTE_TYPES.GENERAL;
     const content = match ? note.note.substring(match[0].length) : note.note;
 
+    let fieldValues = parseNoteContent(content, noteType);
+    if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS && note.appointment_id && !fieldValues.appointmentId) {
+      fieldValues = { ...fieldValues, appointmentId: String(note.appointment_id) };
+    }
+
     setSelectedNote({
       ...note,
       type: noteType,
       content,
-      fieldValues: parseNoteContent(content, noteType)
+      fieldValues,
     });
   };
 
@@ -373,8 +426,12 @@ export default function WorkOrderNotes({
       }
 
       let noteContent;
-      if (NOTE_FIELDS[newNote.type]) {
+      let appointmentId = null;
+      if (isStructuredNoteType(newNote.type)) {
         noteContent = formatFieldsForAPI(newNote.fieldValues, newNote.type);
+        if (newNote.type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+          appointmentId = newNote.fieldValues?.appointmentId || null;
+        }
       } else {
         noteContent = newNote.content;
       }
@@ -383,6 +440,7 @@ export default function WorkOrderNotes({
         workOrderId,
         note: `[${newNote.type}]\n${noteContent}`,
         isPrivate: newNote.isPrivate,
+        appointmentId: appointmentId || undefined,
       });
 
       resetNewNoteForm();
@@ -481,6 +539,30 @@ export default function WorkOrderNotes({
   };
 
   const renderNoteFields = (noteType, fieldValues, readOnly = false, onFieldChange = handleFieldChange, idSuffix = '') => {
+    if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+      if (readOnly) {
+        return (
+          <pre className={`whitespace-pre-wrap text-sm font-sans ${isMobile ? 'text-gray-200' : 'text-gray-800 dark:text-gray-200'}`}>
+            {formatDiagnosticSummary(fieldValues, { workOrder })}
+          </pre>
+        );
+      }
+      return (
+        <DiagnosticResultsForm
+          payload={fieldValues}
+          onChange={(payload) => {
+            if (idSuffix === '-edit') {
+              setEditFieldValues(payload);
+            } else {
+              onFieldChange('__diag__', payload);
+            }
+          }}
+          workOrder={workOrder}
+          variant={variant}
+        />
+      );
+    }
+
     if (!NOTE_FIELDS[noteType]) {
       return (
         <TextareaInput
@@ -567,7 +649,7 @@ export default function WorkOrderNotes({
 
       <div className={`p-4 rounded-lg ${isMobile ? 'bg-white/5 border border-white/10' : 'bg-gray-50 dark:bg-gray-700'}`}>
         {isEditing ? (
-          NOTE_FIELDS[selectedNote.type] ? (
+          isStructuredNoteType(selectedNote.type) ? (
             renderNoteFields(
               selectedNote.type,
               editFieldValues,
@@ -638,8 +720,14 @@ export default function WorkOrderNotes({
   const renderNoteListItem = (note, asButton = false) => {
     const match = note.note.match(/^\[(.*?)\]\n/);
     const noteType = match ? match[1] : 'Note';
+    const noteBody = match ? note.note.substring(match[0].length) : note.note;
     const dateStr = note.created_at.endsWith('Z') ? note.created_at : note.created_at + 'Z';
     const noteDate = new Date(dateStr);
+    let diagLabel = '';
+    if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+      const payload = parseDiagnosticNotePayload(noteBody);
+      diagLabel = getDiagnosticTemplate(payload.templateId)?.label || '';
+    }
 
     const inner = (
       <>
@@ -647,6 +735,7 @@ export default function WorkOrderNotes({
           <div className="flex items-center gap-2 min-w-0">
             <span className={`text-sm font-medium truncate ${asButton ? 'font-semibold text-cyan-300' : 'text-blue-600 dark:text-blue-400'}`}>
               {noteType}
+              {diagLabel ? ` · ${diagLabel}` : ''}
             </span>
             {note.is_private && (
               <FaLock className="h-3 w-3 text-yellow-500 flex-shrink-0" title="Private" />

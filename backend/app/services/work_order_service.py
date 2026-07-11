@@ -65,12 +65,14 @@ def _appointment_starts_equal(a: Optional[datetime], b: Optional[datetime]) -> b
 NOTE_TYPE_STATUS_UPDATE = "Status Update"
 NOTE_TYPE_APPOINTMENT_INFO = "Appointment Info"
 NOTE_TYPE_REPAIR_OUTCOME = "Repair Outcome"
+NOTE_TYPE_DIAGNOSTIC_RESULTS = "Diagnostic Results"
 
 # Note types that should default to private (not shown to clients)
 PRIVATE_NOTE_TYPES = frozenset({
     NOTE_TYPE_STATUS_UPDATE,
     NOTE_TYPE_APPOINTMENT_INFO,
     NOTE_TYPE_REPAIR_OUTCOME,
+    NOTE_TYPE_DIAGNOSTIC_RESULTS,
 })
 
 _SYSTEM_STATUS_NOTE_PREFIXES = (
@@ -1832,7 +1834,8 @@ class WorkOrderService:
         work_order_id: uuid.UUID,
         user_id: uuid.UUID,
         note_text: str,
-        is_private: bool = False
+        is_private: bool = False,
+        appointment_id: Optional[uuid.UUID] = None,
     ) -> WorkOrderNote:
         """Create a new note for a work order"""
         try:
@@ -1851,7 +1854,8 @@ class WorkOrderService:
                 work_order_id=work_order_id,
                 user_id=user_id,
                 note=note_text,
-                is_private=is_private
+                is_private=is_private,
+                appointment_id=appointment_id,
             )
             
             db.add(note)

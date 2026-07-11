@@ -335,6 +335,7 @@ class WorkOrderNote(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     note = Column(Text, nullable=False)
     is_private = Column(Boolean, default=False)  # If true, only visible to staff
+    appointment_id = Column(UUID(as_uuid=True), ForeignKey("work_order_appointments.id"), nullable=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     
     # Relationships

@@ -50,6 +50,7 @@ INVOICE_EXCLUDED_NOTE_TYPES = frozenset({
     "Status Update",
     "Appointment Info",
     "Repair Outcome",
+    "Diagnostic Results",
 })
 
 

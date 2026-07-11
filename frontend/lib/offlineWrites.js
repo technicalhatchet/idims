@@ -101,13 +101,16 @@ function createTempNoteId() {
   return `pending-${Date.now()}`;
 }
 
-export async function createWorkOrderNoteOffline({ workOrderId, note, isPrivate = false }) {
+export async function createWorkOrderNoteOffline({ workOrderId, note, isPrivate = false, appointmentId = null }) {
   const tempNoteId = createTempNoteId();
   const payload = {
     work_order_id: workOrderId,
     note,
     is_private: isPrivate,
   };
+  if (appointmentId) {
+    payload.appointment_id = appointmentId;
+  }
 
   return executeOfflineCapableMutation({
     type: 'CREATE_NOTE',

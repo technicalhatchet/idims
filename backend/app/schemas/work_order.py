@@ -454,6 +454,7 @@ class WorkOrderNoteCreate(BaseModel):
     work_order_id: UUID
     note: str
     is_private: bool = False
+    appointment_id: Optional[UUID] = None
 
 class WorkOrderNoteResponse(BaseModel):
     """Work order note response schema"""
@@ -462,6 +463,7 @@ class WorkOrderNoteResponse(BaseModel):
     user_id: UUID
     note: str
     is_private: bool
+    appointment_id: Optional[UUID] = None
     created_at: datetime
     user_name: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
