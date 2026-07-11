@@ -540,17 +540,11 @@ export default function WorkOrderNotes({
 
   const renderNoteFields = (noteType, fieldValues, readOnly = false, onFieldChange = handleFieldChange, idSuffix = '') => {
     if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
-      if (readOnly) {
-        return (
-          <pre className={`whitespace-pre-wrap text-sm font-sans ${isMobile ? 'text-gray-200' : 'text-gray-800 dark:text-gray-200'}`}>
-            {formatDiagnosticSummary(fieldValues, { workOrder })}
-          </pre>
-        );
-      }
       return (
         <DiagnosticResultsForm
           payload={fieldValues}
           onChange={(payload) => {
+            if (readOnly) return;
             if (idSuffix === '-edit') {
               setEditFieldValues(payload);
             } else {
@@ -559,6 +553,7 @@ export default function WorkOrderNotes({
           }}
           workOrder={workOrder}
           variant={variant}
+          readOnly={readOnly}
         />
       );
     }
