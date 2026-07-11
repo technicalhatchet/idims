@@ -12,29 +12,9 @@ import {
   codeOptions,
   codeLabel,
 } from '../../constants/dmaCodes';
+import { NOTE_TYPES, MANUAL_NOTE_TYPES } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
-
-const NOTE_TYPES = {
-  GENERAL: 'General Note',
-  PRE_CALL: 'Pre-Call',
-  FOLLOW_UP: 'Follow Up',
-  REDO: 'Redo',
-  REPAIR_OUTCOME: REPAIR_OUTCOME_NOTE_TYPE,
-  /** System-generated when work order status is updated with optional notes */
-  STATUS_UPDATE: 'Status Update',
-  /** System-generated when an appointment is created with optional notes */
-  APPOINTMENT_INFO: 'Appointment Info',
-};
-
-/** Types users pick manually in the add-note form (excludes system-generated). */
-const MANUAL_NOTE_TYPES = [
-  NOTE_TYPES.GENERAL,
-  NOTE_TYPES.PRE_CALL,
-  NOTE_TYPES.FOLLOW_UP,
-  NOTE_TYPES.REDO,
-  NOTE_TYPES.REPAIR_OUTCOME,
-];
 
 // Define field structure for each note type
 const NOTE_FIELDS = {
@@ -241,15 +221,15 @@ export default function WorkOrderNotes({
   const viewPanelRef = useRef(null);
 
   useEffect(() => {
-    if (isMobile && addSheetOpen && !prevAddSheetOpen.current) {
-      if (addNoteType && NOTE_FIELDS[addNoteType]) {
+    if (addSheetOpen && !prevAddSheetOpen.current) {
+      if (addNoteType && MANUAL_NOTE_TYPES.includes(addNoteType)) {
         setNewNote(buildNewNoteState(addNoteType));
       } else {
         resetNewNoteForm();
       }
     }
     prevAddSheetOpen.current = addSheetOpen;
-  }, [addSheetOpen, isMobile, resetNewNoteForm, addNoteType, buildNewNoteState]);
+  }, [addSheetOpen, resetNewNoteForm, addNoteType, buildNewNoteState]);
 
   useEffect(() => {
     if (!isMobile || !addSheetOpen || !addPanelRef.current) return;
@@ -417,6 +397,8 @@ export default function WorkOrderNotes({
       setError('Failed to create note');
     }
   };
+
+  const chromeAddFlow = onAddSheetOpenChange != null;
 
   if (isLoading && notes.length === 0) {
     return <div className="text-center py-8">Loading notes...</div>;
@@ -726,7 +708,7 @@ export default function WorkOrderNotes({
 
         {notes.length === 0 ? (
           <div className="text-center py-10 text-gray-400 text-sm rounded-xl border border-dashed border-white/15">
-            No notes yet. Tap Add note below to create one.
+            No notes yet. Use Add note in the action bar to create one.
           </div>
         ) : (
           <div className="space-y-2 pb-4">
@@ -746,6 +728,24 @@ export default function WorkOrderNotes({
 
   return (
     <div className="space-y-6">
+      {!isMobile && addSheetOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Add note</h3>
+              <button
+                type="button"
+                onClick={closeAddSheet}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <FaTimes className="h-5 w-5" />
+              </button>
+            </div>
+            {addNoteForm}
+          </div>
+        </div>
+      )}
+
       {selectedNote && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -782,12 +782,14 @@ export default function WorkOrderNotes({
         </div>
       </div>
 
+      {!chromeAddFlow && (
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">Add New Note</h3>
         </div>
         <div className="p-6">{addNoteForm}</div>
       </div>
+      )}
 
       <WorkOrderPhotosSection workOrderId={workOrderId} variant="desktop" />
     </div>

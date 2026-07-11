@@ -26,7 +26,10 @@ export default function JobEconomicsCard({ workOrderId, variant = 'mobile' }) {
           </div>
         ))}
       </dl>
-      <p className="text-[10px] text-gray-500 mt-3">{data.disclaimer}</p>
+      <p className="text-[10px] text-gray-500 mt-3 leading-relaxed">{data.disclaimer}</p>
+      <p className="text-[10px] text-gray-500 mt-1">
+        Parts cost is derived from part lines — not from job expenses below.
+      </p>
     </div>
   );
 }

@@ -336,6 +336,12 @@ def compute_job_economics(db: Session, work_order_id: UUID) -> dict:
         "mileage_rate": rate,
         "estimated_net": estimated_net,
         "line_items": line_items,
+        "disclaimer": (
+            "Parts cost is summed from part cost fields on the Equipment tab. "
+            "Job expenses are for non-parts costs only (fuel, parking, tolls, etc.) — "
+            "do not log parts purchases here or they will be counted twice. "
+            "Operational estimate only — not tax advice."
+        ),
     }
 
 

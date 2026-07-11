@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt } from 'react-icons/fa';
 import DashboardLayout from '../../../components/layouts/DashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -18,6 +18,10 @@ import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
 import WorkOrderTabPanel from '../../../components/work_orders/WorkOrderTabPanel';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
+import WorkOrderNoteTypePicker from '../../../components/work_orders/WorkOrderNoteTypePicker';
+import WorkOrderExpensesPanel from '../../../components/work_orders/WorkOrderExpensesPanel';
+import WorkOrderMileageSection from '../../../components/work_orders/WorkOrderMileageSection';
+import JobEconomicsCard from '../../../components/work_orders/JobEconomicsCard';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
@@ -62,6 +66,7 @@ const TABS = {
   MODEL: 'model',
   CLIENT: 'client',
   INVOICES: 'invoices',
+  COSTS: 'costs',
 };
 
 function WorkOrderDetail() {
@@ -96,6 +101,9 @@ function WorkOrderDetail() {
   const [showDocumentPdf, setShowDocumentPdf] = useState(false);
   const [fieldPayments, setFieldPayments] = useState([]);
   const [lifecycleBusy, setLifecycleBusy] = useState(false);
+  const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
+  const [notesAddNoteType, setNotesAddNoteType] = useState(null);
+  const [showNoteTypePicker, setShowNoteTypePicker] = useState(false);
   const { theme } = useTheme();
   const { role, isManager } = useUserRole();
   const manualStatusOptions = useMemo(
@@ -142,6 +150,19 @@ function WorkOrderDetail() {
   useEffect(() => {
     markTabMounted(activeTab);
   }, [activeTab, markTabMounted]);
+
+  const openNoteWithType = useCallback((type) => {
+    markTabMounted(TABS.NOTES);
+    setActiveTab(TABS.NOTES);
+    setNotesAddNoteType(type);
+    setNotesAddSheetOpen(true);
+  }, [markTabMounted]);
+
+  useEffect(() => {
+    if (activeTab !== TABS.NOTES) {
+      setNotesAddSheetOpen(false);
+    }
+  }, [activeTab]);
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
@@ -370,6 +391,17 @@ function WorkOrderDetail() {
               Print
             </button>
             {!woReadOnly && (
+              <button
+                type="button"
+                onClick={() => setShowNoteTypePicker(true)}
+                className="btn-white flex items-center"
+                title="Add note"
+              >
+                <FaClipboardList className="mr-2" />
+                Add note
+              </button>
+            )}
+            {!woReadOnly && (
             <div className="relative">
               <button 
                 onClick={() => setShowStatusModal(true)} 
@@ -488,6 +520,18 @@ function WorkOrderDetail() {
             >
               <FaFileInvoiceDollar className="inline-block mr-2" />
               Invoices
+            </button>
+
+            <button
+              onClick={() => setActiveTab(TABS.COSTS)}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-md ${
+                activeTab === TABS.COSTS
+                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+              }`}
+            >
+              <FaReceipt className="inline-block mr-2" />
+              Costs
             </button>
           </nav>
         </div>
@@ -718,7 +762,24 @@ function WorkOrderDetail() {
           )}
           
           <WorkOrderTabPanel tab={TABS.NOTES} activeTab={activeTab} isMounted={isTabMounted(TABS.NOTES)} className="p-6">
-              <WorkOrderNotes workOrderId={workOrder.id} workOrder={workOrder} />
+              <WorkOrderNotes
+                workOrderId={workOrder.id}
+                workOrder={workOrder}
+                addSheetOpen={notesAddSheetOpen}
+                onAddSheetOpenChange={(open) => {
+                  setNotesAddSheetOpen(open);
+                  if (!open) setNotesAddNoteType(null);
+                }}
+                addNoteType={notesAddNoteType}
+              />
+          </WorkOrderTabPanel>
+
+          <WorkOrderTabPanel tab={TABS.COSTS} activeTab={activeTab} isMounted={isTabMounted(TABS.COSTS)} className="p-6 space-y-6">
+              {isManager && workOrder?.id && (
+                <JobEconomicsCard workOrderId={workOrder.id} variant="desktop" />
+              )}
+              <WorkOrderExpensesPanel workOrderId={workOrder.id} variant="desktop" />
+              <WorkOrderMileageSection workOrder={workOrder} variant="desktop" />
           </WorkOrderTabPanel>
           
           <WorkOrderTabPanel tab={TABS.MODEL} activeTab={activeTab} isMounted={isTabMounted(TABS.MODEL)} className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
@@ -1599,6 +1660,13 @@ function WorkOrderDetail() {
             </div>
           </div>
         </Modal>
+
+        <WorkOrderNoteTypePicker
+          open={showNoteTypePicker}
+          onClose={() => setShowNoteTypePicker(false)}
+          onSelect={openNoteWithType}
+          variant="desktop"
+        />
 
         <WorkOrderCloseModal
           isOpen={showCloseModal}

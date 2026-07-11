@@ -76,6 +76,10 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
     if (!form.amount || Number(form.amount) <= 0) return;
     setSaving(true);
     setError(null);
+    setNotice(null);
+    if (form.category === 'supplies') {
+      setNotice('Tip: parts purchases belong on the Equipment tab (part cost), not as a supplies expense.');
+    }
     try {
       await createWorkOrderExpense(workOrderId, {
         category: form.category,
@@ -195,6 +199,9 @@ export default function WorkOrderExpensesPanel({ workOrderId, variant = 'mobile'
 
       <form onSubmit={handleAdd} className={`rounded-xl p-4 space-y-3 ${isMobile ? 'border border-cyan-500/20 bg-[#0D1525]' : 'border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900'}`}>
         <h3 className={`text-sm font-semibold ${isMobile ? 'text-cyan-300' : 'text-gray-900 dark:text-white'}`}>Add expense</h3>
+        <p className="text-xs text-gray-500 leading-relaxed">
+          Fuel, parking, tolls, and other non-parts costs. Parts belong on the Equipment tab — do not duplicate part purchases here.
+        </p>
         <div className="grid grid-cols-2 gap-2">
           <div className="col-span-2 sm:col-span-1">
             <label className="block text-xs text-gray-500 mb-1">Category</label>

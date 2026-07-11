@@ -22,6 +22,7 @@ import WorkOrderTabPanel from '../../../components/work_orders/WorkOrderTabPanel
 import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
 import WorkOrderDetailsAppointmentsList from '../../../components/work_orders/WorkOrderDetailsAppointmentsList';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
+import WorkOrderNoteTypePicker from '../../../components/work_orders/WorkOrderNoteTypePicker';
 import EquipmentDetails from '../../../components/work_orders/EquipmentDetails';
 import WorkOrderDebriefing from '../../../components/work_orders/WorkOrderDebriefing';
 import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrderPerformancePanel';
@@ -143,6 +144,7 @@ function WorkOrderDetail() {
   const [showAllProperties, setShowAllProperties] = useState(false);
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
   const [notesAddNoteType, setNotesAddNoteType] = useState(null);
+  const [showNoteTypePicker, setShowNoteTypePicker] = useState(false);
   const [notesPhotoSheetOpen, setNotesPhotoSheetOpen] = useState(false);
   const [showRepairOutcomePrompt, setShowRepairOutcomePrompt] = useState(false);
   const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
@@ -206,12 +208,17 @@ function WorkOrderDetail() {
     prevNotesAddSheetOpen.current = notesAddSheetOpen;
   }, [notesAddSheetOpen, refreshOutcomeStatus]);
 
+  const openNoteWithType = useCallback((type) => {
+    markTabMounted(TABS.NOTES);
+    setActiveTab(TABS.NOTES);
+    setNotesAddNoteType(type);
+    setNotesAddSheetOpen(true);
+  }, [markTabMounted]);
+
   const openRepairOutcomeNote = useCallback(() => {
     setShowRepairOutcomePrompt(false);
-    setNotesAddNoteType(REPAIR_OUTCOME_NOTE_TYPE);
-    setActiveTab(TABS.NOTES);
-    setNotesAddSheetOpen(true);
-  }, []);
+    openNoteWithType(REPAIR_OUTCOME_NOTE_TYPE);
+  }, [openNoteWithType]);
 
   const mobileMoreRef = useRef(null);
   const moreButtonRef = useRef(null);
@@ -2354,6 +2361,16 @@ function WorkOrderDetail() {
                 <FaEdit className="opacity-70 shrink-0" /> Edit work order
               </MobileActionSheetButton>
             )}
+            {!woReadOnly && (
+              <MobileActionSheetButton
+                onClick={() => {
+                  setMobileMoreOpen(false);
+                  setShowNoteTypePicker(true);
+                }}
+              >
+                <FaClipboardList className="opacity-70 shrink-0" /> Add note
+              </MobileActionSheetButton>
+            )}
             <MobileActionSheetButton
               onClick={() => {
                 setMobileMoreOpen(false);
@@ -2430,23 +2447,23 @@ function WorkOrderDetail() {
           Update status
         </button>
         {activeTab === TABS.NOTES && (
-          <>
-            <button
-              type="button"
-              onClick={() => setNotesAddSheetOpen(true)}
-              className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
-            >
-              Add note
-            </button>
-            <button
-              type="button"
-              onClick={() => setNotesPhotoSheetOpen(true)}
-              className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300 flex items-center gap-1.5"
-            >
-              <FaCamera className="h-3.5 w-3.5" />
-              Photo
-            </button>
-          </>
+          <button
+            type="button"
+            onClick={() => setNotesPhotoSheetOpen(true)}
+            className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300 flex items-center gap-1.5"
+          >
+            <FaCamera className="h-3.5 w-3.5" />
+            Photo
+          </button>
+        )}
+        {!woReadOnly && (
+          <button
+            type="button"
+            onClick={() => setShowNoteTypePicker(true)}
+            className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
+          >
+            Add note
+          </button>
         )}
         {activeTab !== TABS.INVOICES && activeTab !== TABS.NOTES && (
           <button
@@ -2490,6 +2507,13 @@ function WorkOrderDetail() {
         open={showRepairOutcomePrompt}
         onClose={() => setShowRepairOutcomePrompt(false)}
         onAddOutcome={openRepairOutcomeNote}
+        variant="mobile"
+      />
+
+      <WorkOrderNoteTypePicker
+        open={showNoteTypePicker}
+        onClose={() => setShowNoteTypePicker(false)}
+        onSelect={openNoteWithType}
         variant="mobile"
       />
 
