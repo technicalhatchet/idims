@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SelectInput } from '../ui/FormElements';
 import { Wizard } from '../wizard';
 import {
@@ -11,6 +11,11 @@ import {
   loadDiagnosticDraft,
   persistDiagnosticDraft,
 } from '../diagnostics/diagnosticDraft';
+import ExplainRouteBanner from '../diagnostics/ExplainRouteBanner';
+import {
+  diffRouting,
+  evaluateRouting,
+} from '../diagnostics/routing/routingEngine';
 import {
   formatDiagnosticVisitLabel,
   getDiagnosticTemplate,
@@ -36,6 +41,31 @@ export default function DiagnosticResultsForm({
   const templateOptions = listDiagnosticTemplates().map((t) => ({ value: t.id, label: t.label }));
   const draftKey = getDiagnosticDraftKey(workOrderId, draftNoteId);
   const draftRestoredRef = useRef(false);
+
+  const routingResult = useMemo(
+    () => evaluateRouting(wizardDefinition, payload?.fields || {}),
+    [wizardDefinition, payload?.fields],
+  );
+
+  const prevRoutingRef = useRef(routingResult);
+  const [routeDiff, setRouteDiff] = useState(null);
+  const routeDiffDismissedRef = useRef(false);
+
+  useEffect(() => {
+    if (routeDiffDismissedRef.current) {
+      prevRoutingRef.current = routingResult;
+      return;
+    }
+    const diff = diffRouting(prevRoutingRef.current, routingResult, wizardDefinition);
+    if (diff) setRouteDiff(diff);
+    prevRoutingRef.current = routingResult;
+  }, [routingResult, wizardDefinition]);
+
+  useEffect(() => {
+    routeDiffDismissedRef.current = false;
+    setRouteDiff(null);
+    prevRoutingRef.current = evaluateRouting(wizardDefinition, payload?.fields || {});
+  }, [payload?.templateId, wizardDefinition]);
 
   const steps = useMemo(
     () => resolveWizardSteps(wizardDefinition, template),
@@ -84,7 +114,7 @@ export default function DiagnosticResultsForm({
     emitChange({
       templateId,
       appointmentId: payload?.appointmentId || '',
-      fields: getInitialDiagnosticFieldValues(templateId),
+      fields: getInitialDiagnosticFieldValues(templateId, workOrder),
     });
   };
 
@@ -110,8 +140,10 @@ export default function DiagnosticResultsForm({
       payload,
       workOrder,
       onFieldChange: handleFieldChange,
+      routing: routingResult,
+      complaintChips: wizardDefinition?.complaintChips || [],
     }),
-    [handleFieldChange, payload, workOrder],
+    [handleFieldChange, payload, routingResult, wizardDefinition?.complaintChips, workOrder],
   );
 
   const handleWizardAutoSave = useCallback(() => {
@@ -169,6 +201,17 @@ export default function DiagnosticResultsForm({
             disabled={readOnly}
           />
         </>
+      )}
+
+      {routeDiff && !readOnly && (
+        <ExplainRouteBanner
+          diff={routeDiff}
+          variant={variant}
+          onDismiss={() => {
+            routeDiffDismissedRef.current = true;
+            setRouteDiff(null);
+          }}
+        />
       )}
 
       <Wizard

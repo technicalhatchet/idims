@@ -1,7 +1,9 @@
 import type { ComponentType } from 'react';
 import TemplateSectionStep from './steps/TemplateSectionStep';
+import ComplaintStep from './steps/ComplaintStep';
 import DiagnosticReviewStep from './steps/DiagnosticReviewStep';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from './shared/createWizardDefinitionFromTemplate';
+import { isStepKeyEnabled } from './routing/routingEngine';
 import type {
   DiagnosticWizardContext,
   DiagnosticWizardStepConfig,
@@ -10,10 +12,15 @@ import type {
 } from './types';
 import type { WizardStepComponentProps } from '../wizard/types';
 
-type StepMeta = { section?: { id: string; title: string; fields: unknown[] }; sectionId?: string };
+type StepMeta = {
+  section?: { id: string; title: string; fields: unknown[] };
+  sectionId?: string;
+  stepKey?: string;
+};
 type StepComponent = ComponentType<WizardStepComponentProps<DiagnosticWizardContext, StepMeta>>;
 
 const TemplateSectionStepComponent = TemplateSectionStep as StepComponent;
+const ComplaintStepComponent = ComplaintStep as StepComponent;
 const DiagnosticReviewStepComponent = DiagnosticReviewStep as StepComponent;
 
 type DiagnosticTemplate = {
@@ -30,19 +37,44 @@ function resolveSection(
   return template.sections.find((s) => s.id === sectionId) || null;
 }
 
+function stepKeyForConfig(
+  stepConfig: DiagnosticWizardStepConfig,
+  definition?: WizardDefinition | null,
+): string {
+  if (stepConfig.sectionId === definition?.reviewStep?.id) {
+    return definition?.routing?.reviewStepKey || 'review';
+  }
+  return stepConfig.stepKey || stepConfig.sectionId;
+}
+
+function resolveStepComponent(sectionId: string): StepComponent {
+  if (sectionId === 'customer_complaint') return ComplaintStepComponent;
+  return TemplateSectionStepComponent;
+}
+
+function routingHidden(
+  stepKey: string,
+): (context: DiagnosticWizardContext) => boolean {
+  return (context) => !isStepKeyEnabled(context.routing, stepKey);
+}
+
 function toEngineStep(
   stepConfig: DiagnosticWizardStepConfig,
   section: { id: string; title: string; fields: unknown[] },
+  definition?: WizardDefinition | null,
 ): ResolvedDiagnosticWizardStep {
+  const stepKey = stepKeyForConfig(stepConfig, definition);
+  const hasRouting = Boolean(definition?.routing);
+
   return {
     id: stepConfig.id || stepConfig.sectionId,
     title: stepConfig.title || section.title,
     description: stepConfig.description,
-    component: TemplateSectionStepComponent,
+    component: resolveStepComponent(section.id),
     optional: stepConfig.optional ?? true,
     canSkip: stepConfig.canSkip ?? true,
-    hidden: stepConfig.hidden,
-    meta: { section, sectionId: section.id },
+    hidden: hasRouting ? routingHidden(stepKey) : stepConfig.hidden,
+    meta: { section, sectionId: section.id, stepKey },
   };
 }
 
@@ -80,15 +112,18 @@ export function resolveWizardSteps(
     const section = resolveSection(template, stepConfig);
     if (!section) continue;
     used.add(section.id);
-    steps.push(toEngineStep(stepConfig, section));
+    steps.push(toEngineStep(stepConfig, section, definition));
   }
 
   for (const section of template.sections) {
     if (used.has(section.id)) continue;
-    steps.push(toEngineStep({ sectionId: section.id }, section));
+    steps.push(toEngineStep({ sectionId: section.id }, section, definition));
   }
 
   const review = definition.reviewStep;
+  const reviewStepKey = definition.routing?.reviewStepKey || 'review';
+  const hasRouting = Boolean(definition.routing);
+
   steps.push({
     id: review?.id || DIAGNOSTIC_REVIEW_STEP_ID,
     title: review?.title || 'Review & Save',
@@ -96,6 +131,8 @@ export function resolveWizardSteps(
     component: DiagnosticReviewStepComponent,
     optional: true,
     canSkip: false,
+    hidden: hasRouting ? routingHidden(reviewStepKey) : undefined,
+    meta: { stepKey: reviewStepKey },
   });
 
   return steps;

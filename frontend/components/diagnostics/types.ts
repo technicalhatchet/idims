@@ -1,4 +1,5 @@
 import type { WizardStepDefinition } from '../wizard/types';
+import type { ComplaintChipDefinition, RoutingConfig, RoutingEvaluationResult } from './routing/types';
 
 /** Placeholder for Phase 4 conditional routing. */
 export interface SymptomFlowPlaceholder {
@@ -23,6 +24,8 @@ export interface WizardCompletionBehavior {
 export interface DiagnosticWizardStepConfig {
   /** Maps to diagnosticTemplates section id */
   sectionId: string;
+  /** Short routing key — aliases sectionId in routing rules (e.g. temperature → temperature_checks). */
+  stepKey?: string;
   id?: string;
   title?: string;
   description?: string;
@@ -34,7 +37,6 @@ export interface DiagnosticWizardStepConfig {
   canSkip?: boolean;
   /** Data domains this step contributes — for future DMA coverage checks */
   collects?: string[];
-  /** Phase 4+ */
   hidden?: boolean;
   experimental?: boolean;
   featureFlags?: WizardFeatureFlags;
@@ -57,8 +59,11 @@ export interface WizardDefinition {
   estimatedCompletionMinutes?: number;
   version: string;
   featureFlags?: WizardFeatureFlags;
-  /** Phase 4 — structure only in Phase 3 */
   symptomFlows?: SymptomFlowPlaceholder[];
+  /** Phase 4a — complaint chip definitions for routing pre-fill and ComplaintStep UI. */
+  complaintChips?: ComplaintChipDefinition[];
+  /** Phase 4a — enable-list routing rules (appliance-specific config). */
+  routing?: RoutingConfig;
   defaultSteps: DiagnosticWizardStepConfig[];
   reviewStep: DiagnosticReviewStepConfig;
   completionBehavior: WizardCompletionBehavior;
@@ -72,9 +77,12 @@ export interface DiagnosticWizardContext {
   };
   workOrder?: Record<string, unknown> | null;
   onFieldChange: (key: string, value: unknown) => void;
+  /** Live routing evaluation — null when appliance has no routing config. */
+  routing?: RoutingEvaluationResult | null;
+  complaintChips?: ComplaintChipDefinition[];
 }
 
 export type ResolvedDiagnosticWizardStep = WizardStepDefinition<
   DiagnosticWizardContext,
-  { section?: { id: string; title: string; fields: unknown[] }; sectionId?: string }
+  { section?: { id: string; title: string; fields: unknown[] }; sectionId?: string; stepKey?: string }
 >;

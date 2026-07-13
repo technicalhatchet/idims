@@ -1,6 +1,24 @@
 /** IDIMS diagnostic templates v1 — source: diagtemplates.pdf + field-service additions */
 
 import { format } from 'date-fns';
+import {
+  COMPLAINT_TAGS_FIELD,
+  inferComplaintChipIds,
+} from '../components/diagnostics/routing/routingEngine';
+import { REFRIGERATOR_COMPLAINT_CHIPS } from '../components/diagnostics/refrigerator/refrigeratorComplaints';
+
+const COMPLAINT_CHIPS_BY_TEMPLATE = {
+  refrigerator: REFRIGERATOR_COMPLAINT_CHIPS,
+};
+
+function applyComplaintChipInference(templateId, fields, text) {
+  const chips = COMPLAINT_CHIPS_BY_TEMPLATE[templateId];
+  if (!chips?.length || !text) return;
+  const existing = fields[COMPLAINT_TAGS_FIELD];
+  if (Array.isArray(existing) && existing.length) return;
+  const inferred = inferComplaintChipIds(text, chips);
+  if (inferred.length) fields[COMPLAINT_TAGS_FIELD] = inferred;
+}
 
 const tri = (id, label) => ({ id, label, type: 'tri' });
 const yn = (id, label) => ({ id, label, type: 'yn' });
@@ -848,7 +866,7 @@ export function listDiagnosticTemplates() {
   return DIAGNOSTIC_TEMPLATES.map(({ id, label }) => ({ id, label }));
 }
 
-export function getInitialDiagnosticFieldValues(templateId) {
+export function getInitialDiagnosticFieldValues(templateId, workOrder = null) {
   const template = getDiagnosticTemplate(templateId);
   if (!template) return {};
   const fields = {};
@@ -859,18 +877,23 @@ export function getInitialDiagnosticFieldValues(templateId) {
       else fields[key] = '';
     }
   }
+  const symptomText = Array.isArray(workOrder?.symptoms) && workOrder.symptoms.length
+    ? workOrder.symptoms.join(', ')
+    : '';
+  if (workOrder?.description || symptomText) {
+    fields['customer_complaint.complaint'] = workOrder.description || symptomText || '';
+  }
+  applyComplaintChipInference(
+    templateId,
+    fields,
+    fields['customer_complaint.complaint'] || '',
+  );
   return fields;
 }
 
 export function buildInitialDiagnosticState(workOrder) {
   const templateId = resolveDefaultDiagnosticTemplateId(workOrder);
-  const symptomText = Array.isArray(workOrder?.symptoms) && workOrder.symptoms.length
-    ? workOrder.symptoms.join(', ')
-    : '';
-  const fields = getInitialDiagnosticFieldValues(templateId);
-  if (workOrder?.description || symptomText) {
-    fields['customer_complaint.complaint'] = workOrder.description || symptomText || '';
-  }
+  const fields = getInitialDiagnosticFieldValues(templateId, workOrder);
   return {
     templateId,
     appointmentId: suggestDefaultAppointmentId(workOrder),

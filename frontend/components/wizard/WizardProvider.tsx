@@ -121,6 +121,13 @@ export function WizardProvider<TContext>({
     }
   }, [currentStepIndex, visibleSteps.length]);
 
+  useEffect(() => {
+    if (!visibleSteps.length) return;
+    const stepAtIndex = visibleSteps[currentStepIndex];
+    if (stepAtIndex) return;
+    setCurrentStepIndex(Math.min(currentStepIndex, visibleSteps.length - 1));
+  }, [visibleSteps, currentStepIndex]);
+
   const currentStep = visibleSteps[currentStepIndex];
   const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === Math.max(0, visibleSteps.length - 1);

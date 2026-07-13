@@ -1,5 +1,7 @@
 import type { WizardDefinition } from '../types';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from '../shared/createWizardDefinitionFromTemplate';
+import { REFRIGERATOR_COMPLAINT_CHIPS } from './refrigeratorComplaints';
+import { refrigeratorRoutingConfig } from './refrigeratorRouting';
 
 /**
  * Reference WizardDefinition — rich metadata for DMA / analytics (Phase 6).
@@ -14,9 +16,12 @@ export const refrigeratorWizard: WizardDefinition = {
   version: '1.0.0',
   featureFlags: {},
   symptomFlows: [],
+  complaintChips: REFRIGERATOR_COMPLAINT_CHIPS,
+  routing: refrigeratorRoutingConfig,
   defaultSteps: [
     {
       sectionId: 'commonly_missed',
+      stepKey: 'commonly_missed',
       title: 'Commonly Missed Items',
       description: 'Quick checks often overlooked on service calls.',
       icon: 'checklist',
@@ -29,6 +34,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'customer_complaint',
+      stepKey: 'complaint',
       title: 'Customer Complaint',
       description: 'Document complaint, duration, and error codes.',
       icon: 'complaint',
@@ -41,6 +47,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'temperature_checks',
+      stepKey: 'temperature',
       title: 'Temperature Checks',
       description: 'Compartment and ambient temperature readings.',
       icon: 'thermometer',
@@ -53,6 +60,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'visual_inspection',
+      stepKey: 'visual',
       title: 'Visual Inspection',
       description: 'Inspect cabinet, gaskets, condenser, and frost pattern.',
       icon: 'visual',
@@ -65,6 +73,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'functional_checks',
+      stepKey: 'functional',
       title: 'Functional Checks',
       description: 'Verify compressor, fans, defrost, and dispenser operation.',
       icon: 'functional',
@@ -77,6 +86,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'compressor_sealed_system',
+      stepKey: 'sealedSystem',
       title: 'Compressor & Sealed System Readings',
       description: 'Compressor electrical and sealed-system measurements.',
       icon: 'compressor',
@@ -89,6 +99,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'defrost_circuit',
+      stepKey: 'defrost',
       title: 'Defrost Circuit Readings',
       description: 'Defrost heater, thermostat, fuse, and thermistor.',
       icon: 'defrost',
@@ -101,6 +112,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'fans_and_electrical',
+      stepKey: 'fans',
       title: 'Fans & Electrical Readings',
       description: 'Fan amps, supply voltage, and thermistors.',
       icon: 'electrical',
@@ -113,6 +125,7 @@ export const refrigeratorWizard: WizardDefinition = {
     },
     {
       sectionId: 'diagnosis',
+      stepKey: 'diagnosis',
       title: 'Diagnosis',
       description: 'Root cause and recommended repair.',
       icon: 'diagnosis',
