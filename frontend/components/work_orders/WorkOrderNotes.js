@@ -15,7 +15,10 @@ import {
 import { NOTE_TYPES, MANUAL_NOTE_TYPES } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
-import DiagnosticResultsForm from './DiagnosticResultsForm';
+import DiagnosticResultsForm, {
+  clearDiagnosticDraft,
+  getDiagnosticDraftKey,
+} from './DiagnosticResultsForm';
 import {
   buildInitialDiagnosticState,
   formatDiagnosticSummary,
@@ -388,6 +391,7 @@ export default function WorkOrderNotes({
       cancelEditingNote();
       setSelectedNote(null);
       fetchNotes();
+      clearDiagnosticDraft(getDiagnosticDraftKey(workOrderId, selectedNote.id));
     } catch (e) {
       alert('Failed to save: ' + e.message);
     } finally {
@@ -446,6 +450,7 @@ export default function WorkOrderNotes({
       resetNewNoteForm();
       closeAddSheet();
       await fetchNotes();
+      clearDiagnosticDraft(getDiagnosticDraftKey(workOrderId));
 
       if (result?.queued) {
         setError(null);
@@ -538,7 +543,14 @@ export default function WorkOrderNotes({
     }
   };
 
-  const renderNoteFields = (noteType, fieldValues, readOnly = false, onFieldChange = handleFieldChange, idSuffix = '') => {
+  const renderNoteFields = (
+    noteType,
+    fieldValues,
+    readOnly = false,
+    onFieldChange = handleFieldChange,
+    idSuffix = '',
+    wizardProps = {},
+  ) => {
     if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
       return (
         <DiagnosticResultsForm
@@ -552,8 +564,12 @@ export default function WorkOrderNotes({
             }
           }}
           workOrder={workOrder}
+          workOrderId={workOrderId}
+          draftNoteId={wizardProps.draftNoteId || null}
           variant={variant}
           readOnly={readOnly}
+          onSave={wizardProps.onSave || null}
+          isSaving={wizardProps.isSaving || false}
         />
       );
     }
@@ -584,7 +600,7 @@ export default function WorkOrderNotes({
   };
 
   const addNoteForm = (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form id="work-order-add-note-form" onSubmit={handleSubmit} className="space-y-4">
       <SelectInput
         label="Note Type"
         id="noteType"
@@ -593,7 +609,9 @@ export default function WorkOrderNotes({
         options={MANUAL_NOTE_TYPES.map(type => ({ value: type, label: type }))}
       />
 
-      {renderNoteFields(newNote.type, newNote.fieldValues)}
+      {renderNoteFields(newNote.type, newNote.fieldValues, false, handleFieldChange, '', {
+        onSave: () => document.getElementById('work-order-add-note-form')?.requestSubmit(),
+      })}
 
       <div className="flex items-center">
         <input
@@ -614,9 +632,11 @@ export default function WorkOrderNotes({
             Cancel
           </Button>
         )}
-        <Button type="submit" variant="primary">
-          Save Note
-        </Button>
+        {newNote.type !== NOTE_TYPES.DIAGNOSTIC_RESULTS && (
+          <Button type="submit" variant="primary">
+            Save Note
+          </Button>
+        )}
       </div>
     </form>
   );
@@ -651,6 +671,11 @@ export default function WorkOrderNotes({
               false,
               handleEditFieldChange,
               '-edit',
+              {
+                draftNoteId: selectedNote.id,
+                onSave: saveEditedNote,
+                isSaving,
+              },
             )
           ) : (
             <textarea
@@ -669,13 +694,15 @@ export default function WorkOrderNotes({
         {isEditing ? (
           <div className="flex gap-2">
             <Button onClick={cancelEditingNote} variant="secondary">Cancel</Button>
-            <Button
-              variant="primary"
-              disabled={isSaving}
-              onClick={saveEditedNote}
-            >
-              {isSaving ? 'Saving...' : 'Save'}
-            </Button>
+            {selectedNote.type !== NOTE_TYPES.DIAGNOSTIC_RESULTS && (
+              <Button
+                variant="primary"
+                disabled={isSaving}
+                onClick={saveEditedNote}
+              >
+                {isSaving ? 'Saving...' : 'Save'}
+              </Button>
+            )}
           </div>
         ) : (
           <Button
