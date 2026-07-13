@@ -16,6 +16,7 @@ import {
   diffRouting,
   evaluateRouting,
 } from '../diagnostics/routing/routingEngine';
+import { evaluateRecommendations } from '../diagnostics/routing/recommendationEngine';
 import {
   formatDiagnosticVisitLabel,
   getDiagnosticTemplate,
@@ -45,6 +46,11 @@ export default function DiagnosticResultsForm({
   const routingResult = useMemo(
     () => evaluateRouting(wizardDefinition, payload?.fields || {}),
     [wizardDefinition, payload?.fields],
+  );
+
+  const activeRecommendations = useMemo(
+    () => evaluateRecommendations(wizardDefinition?.routing?.recommendations, payload?.fields || {}),
+    [wizardDefinition?.routing?.recommendations, payload?.fields],
   );
 
   const prevRoutingRef = useRef(routingResult);
@@ -142,8 +148,20 @@ export default function DiagnosticResultsForm({
       onFieldChange: handleFieldChange,
       routing: routingResult,
       complaintChips: wizardDefinition?.complaintChips || [],
+      fieldVisibilityRules: wizardDefinition?.routing?.fieldVisibility || [],
+      fieldHelp: wizardDefinition?.routing?.fieldHelp || {},
+      activeRecommendations,
     }),
-    [handleFieldChange, payload, routingResult, wizardDefinition?.complaintChips, workOrder],
+    [
+      handleFieldChange,
+      payload,
+      routingResult,
+      activeRecommendations,
+      wizardDefinition?.complaintChips,
+      wizardDefinition?.routing?.fieldVisibility,
+      wizardDefinition?.routing?.fieldHelp,
+      workOrder,
+    ],
   );
 
   const handleWizardAutoSave = useCallback(() => {

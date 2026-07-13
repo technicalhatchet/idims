@@ -1,0 +1,75 @@
+import type { FieldRecommendationRule } from '../routing/types';
+
+export const dishwasherFieldHelp: Record<string, string> = {
+  'commonly_missed.disposal_knockout':
+    'New installs — knockout plug in disposal drain causes immediate drain failure.',
+  'commonly_missed.drain_restrictions':
+    'High loop / air gap required on many installs — check before replacing pump.',
+  'commonly_missed.water_temperature':
+    'Incoming water below ~120°F causes poor wash and long cycles.',
+  'visual_inspection.spray_arms_clear':
+    'Clogged arm holes are the most common “won’t clean” fix.',
+  'visual_inspection.filter_condition':
+    'Debris in filter mimics weak circulation and drain issues.',
+  'visual_inspection.drain_path_clear':
+    'Check sump, chopper, and drain hose before condemning pump.',
+  'functional_checks.wash_operation':
+    'Weak circulation — listen for wash motor and check for debris in sump.',
+  'functional_checks.drain_operation':
+    'Pump should run audibly — silence may mean dead motor or stuck impeller.',
+  'heat_water.incoming_water_temp':
+    'Low inlet temp extends wash time and hurts drying performance.',
+  'heat_water.heater_ohms':
+    'Open heater = no dry heat. Compare to spec before board diagnosis.',
+  'motor_electrical.drain_motor_ohms':
+    'Open drain motor winding = standing water after cycle.',
+  'diagnosis.root_cause':
+    'Document fill, wash, drain, and heat findings — many complaints overlap.',
+};
+
+export const dishwasherRecommendations: FieldRecommendationRule[] = [
+  {
+    id: 'not_cleaning',
+    when: [{ type: 'chip', id: 'not_cleaning' }],
+    message: 'Poor cleaning — check spray arms, filter, inlet temp, and detergent use first.',
+    tone: 'action',
+  },
+  {
+    id: 'wont_drain',
+    when: [{ type: 'chip', id: 'wont_drain' }],
+    message: 'No drain — verify disposal knockout, air gap, then pump and drain path.',
+    tone: 'action',
+  },
+  {
+    id: 'drain_bad',
+    field: 'functional_checks.drain_operation',
+    when: [{ type: 'field', path: 'functional_checks.drain_operation', equals: 'bad' }],
+    message: 'Drain failed — inspect sump, chopper, and drain motor ohms.',
+    tone: 'tip',
+  },
+  {
+    id: 'leaking',
+    when: [{ type: 'chip', id: 'leaking' }],
+    message: 'Leak — check door gasket, inlet valve, pump seal, and float switch.',
+    tone: 'action',
+  },
+  {
+    id: 'leak_yes',
+    field: 'visual_inspection.leak_present',
+    when: [{ type: 'field', path: 'visual_inspection.leak_present', equals: 'yes' }],
+    message: 'Leak confirmed — run fill and wash to isolate source under pressure.',
+    tone: 'tip',
+  },
+  {
+    id: 'no_heat_dry',
+    when: [{ type: 'chip', id: 'no_heat_dry' }],
+    message: 'Not drying — verify inlet water temp, heater ohms, and dry cycle selection.',
+    tone: 'action',
+  },
+  {
+    id: 'no_fill',
+    when: [{ type: 'chip', id: 'no_fill' }],
+    message: 'No fill — check inlet screen, water supply, and valve coils.',
+    tone: 'action',
+  },
+];

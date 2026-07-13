@@ -1,3 +1,18 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { filterVisibleSectionFields } from './routing/fieldVisibilityEngine';
+import {
+  getFieldHelp,
+  recommendationsForField,
+  recommendationsForSection,
+} from './routing/recommendationEngine';
+import {
+  FieldHelpText,
+  FieldRecommendationNote,
+  SectionRecommendations,
+} from './FieldGuidance';
+
 const TRI_OPTIONS = [
   { value: '', label: '—' },
   { value: 'not_checked', label: 'Not Checked' },
@@ -38,8 +53,11 @@ export function isDiagnosticFieldFilled(field, value) {
   return value != null && String(value).trim() !== '';
 }
 
-export function countDiagnosticSectionFilled(section, fields = {}) {
-  return section.fields.reduce((count, field) => {
+export function countDiagnosticSectionFilled(section, fields = {}, fieldVisibilityRules = null) {
+  const visibleFields = fieldVisibilityRules?.length
+    ? filterVisibleSectionFields(section, fields, fieldVisibilityRules)
+    : section.fields;
+  return visibleFields.reduce((count, field) => {
     return count + (isDiagnosticFieldFilled(field, fields[diagnosticFieldKey(section.id, field.id)]) ? 1 : 0);
   }, 0);
 }
@@ -74,31 +92,57 @@ function ChipGroup({ value, options, onChange, disabled, variant = 'mobile' }) {
   );
 }
 
-export function DiagnosticFieldControl({ field, sectionId, value, onChange, readOnly, variant }) {
+export function DiagnosticFieldControl({
+  field,
+  sectionId,
+  value,
+  onChange,
+  readOnly,
+  variant,
+  helpText = null,
+  recommendations = [],
+}) {
   const key = diagnosticFieldKey(sectionId, field.id);
   const disabled = readOnly;
+  const labelBlock = (label) => (
+    <>
+      <p className="text-sm font-medium mb-0.5 text-gray-500">{label}</p>
+      <FieldHelpText text={helpText} variant={variant} />
+    </>
+  );
 
   if (field.type === 'check') {
     return (
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={!!value}
-          disabled={disabled}
-          onChange={(e) => onChange(key, e.target.checked)}
-          className="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
-        />
-        <span className={variant === 'mobile' ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}>
-          {field.label}
-        </span>
-      </label>
+      <div>
+        {helpText && <FieldHelpText text={helpText} variant={variant} />}
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={!!value}
+            disabled={disabled}
+            onChange={(e) => onChange(key, e.target.checked)}
+            className="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
+          />
+          <span className={variant === 'mobile' ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}>
+            {field.label}
+          </span>
+        </label>
+        {recommendations.map((rec) => (
+          <FieldRecommendationNote
+            key={rec.id}
+            message={rec.message}
+            tone={rec.tone}
+            variant={variant}
+          />
+        ))}
+      </div>
     );
   }
 
   if (field.type === 'textarea') {
     return (
       <div>
-        <label className="block text-sm font-medium mb-1 text-gray-500">{field.label}</label>
+        {labelBlock(field.label)}
         <textarea
           value={value || ''}
           disabled={disabled}
@@ -110,6 +154,14 @@ export function DiagnosticFieldControl({ field, sectionId, value, onChange, read
               : 'border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white'
           }`}
         />
+        {recommendations.map((rec) => (
+          <FieldRecommendationNote
+            key={rec.id}
+            message={rec.message}
+            tone={rec.tone}
+            variant={variant}
+          />
+        ))}
       </div>
     );
   }
@@ -117,7 +169,7 @@ export function DiagnosticFieldControl({ field, sectionId, value, onChange, read
   if (field.type === 'text') {
     return (
       <div>
-        <label className="block text-sm font-medium mb-1 text-gray-500">{field.label}</label>
+        {labelBlock(field.label)}
         <input
           type="text"
           value={value || ''}
@@ -129,6 +181,14 @@ export function DiagnosticFieldControl({ field, sectionId, value, onChange, read
               : 'border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white'
           }`}
         />
+        {recommendations.map((rec) => (
+          <FieldRecommendationNote
+            key={rec.id}
+            message={rec.message}
+            tone={rec.tone}
+            variant={variant}
+          />
+        ))}
       </div>
     );
   }
@@ -141,7 +201,7 @@ export function DiagnosticFieldControl({ field, sectionId, value, onChange, read
 
   return (
     <div>
-      <p className="text-sm font-medium mb-1.5 text-gray-500">{field.label}</p>
+      {labelBlock(field.label)}
       <ChipGroup
         value={value || ''}
         options={options}
@@ -149,13 +209,69 @@ export function DiagnosticFieldControl({ field, sectionId, value, onChange, read
         disabled={disabled}
         variant={variant}
       />
+      {recommendations.map((rec) => (
+        <FieldRecommendationNote
+          key={rec.id}
+          message={rec.message}
+          tone={rec.tone}
+          variant={variant}
+        />
+      ))}
     </div>
   );
 }
 
-export default function DiagnosticSectionFields({ section, fields, onFieldChange, readOnly, variant }) {
+export default function DiagnosticSectionFields({
+  section,
+  fields,
+  onFieldChange,
+  readOnly,
+  variant,
+  fieldVisibilityRules = null,
+  fieldHelp = null,
+  activeRecommendations = [],
+}) {
   const isMobile = variant === 'mobile';
-  const filledCount = countDiagnosticSectionFilled(section, fields);
+  const visibleFields = fieldVisibilityRules?.length
+    ? filterVisibleSectionFields(section, fields, fieldVisibilityRules)
+    : section.fields;
+  const filledCount = countDiagnosticSectionFilled(section, fields, fieldVisibilityRules);
+  const hasConditionalFields = fieldVisibilityRules?.length
+    && visibleFields.length < section.fields.length;
+  const sectionRecommendations = recommendationsForSection(section.id, activeRecommendations);
+
+  const prevVisibleKeysRef = useRef(new Set());
+  const [highlightedKeys, setHighlightedKeys] = useState(() => new Set());
+
+  useEffect(() => {
+    const currentKeys = new Set(
+      visibleFields.map((field) => diagnosticFieldKey(section.id, field.id)),
+    );
+    const prev = prevVisibleKeysRef.current;
+    const newlyShown = [...currentKeys].filter((key) => !prev.has(key));
+
+    prevVisibleKeysRef.current = currentKeys;
+
+    if (!newlyShown.length || prev.size === 0) return undefined;
+
+    setHighlightedKeys(new Set(newlyShown));
+    const timer = window.setTimeout(() => setHighlightedKeys(new Set()), 4500);
+    return () => window.clearTimeout(timer);
+  }, [section.id, visibleFields]);
+
+  if (!visibleFields.length) {
+    return (
+      <div
+        className={`rounded-xl border px-4 py-3 text-sm ${
+          isMobile
+            ? 'border-white/10 bg-white/[0.02] text-gray-400'
+            : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
+        }`}
+      >
+        No fields apply for this complaint yet. Update complaint chips or answers on earlier steps.
+      </div>
+    );
+  }
 
   return (
     <div
@@ -182,22 +298,53 @@ export default function DiagnosticSectionFields({ section, fields, onFieldChange
                 : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
           }`}
         >
-          {filledCount}/{section.fields.length}
+          {filledCount}/{visibleFields.length}
         </span>
       </div>
+      {hasConditionalFields && (
+        <p className={`text-[11px] ${isMobile ? 'text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>
+          Some follow-up fields appear below as you answer on this step.
+        </p>
+      )}
+      <SectionRecommendations recommendations={sectionRecommendations} variant={variant} />
       <div className="space-y-3">
-        {section.fields.map((field) => (
-          <div key={field.id}>
-            <DiagnosticFieldControl
-              field={field}
-              sectionId={section.id}
-              value={fields[diagnosticFieldKey(section.id, field.id)]}
-              onChange={onFieldChange}
-              readOnly={readOnly}
-              variant={variant}
-            />
-          </div>
-        ))}
+        {visibleFields.map((field) => {
+          const fieldKey = diagnosticFieldKey(section.id, field.id);
+          const isNew = highlightedKeys.has(fieldKey);
+          const fieldRecs = recommendationsForField(fieldKey, activeRecommendations);
+          return (
+            <div
+              key={field.id}
+              className={`rounded-lg transition-all duration-500 ${
+                isNew
+                  ? isMobile
+                    ? 'ring-2 ring-cyan-500/40 bg-cyan-500/[0.06] px-3 py-2 -mx-1'
+                    : 'ring-2 ring-cyan-500/30 bg-cyan-50/80 dark:bg-cyan-950/30 px-3 py-2 -mx-1'
+                  : ''
+              }`}
+            >
+              {isNew && (
+                <p
+                  className={`text-[10px] font-medium mb-1.5 ${
+                    isMobile ? 'text-cyan-300' : 'text-cyan-700 dark:text-cyan-300'
+                  }`}
+                >
+                  ↳ Shown based on your answer
+                </p>
+              )}
+              <DiagnosticFieldControl
+                field={field}
+                sectionId={section.id}
+                value={fields[fieldKey]}
+                onChange={onFieldChange}
+                readOnly={readOnly}
+                variant={variant}
+                helpText={getFieldHelp(fieldKey, fieldHelp)}
+                recommendations={fieldRecs}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

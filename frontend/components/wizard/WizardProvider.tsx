@@ -13,6 +13,7 @@ import type {
   WizardNavigationState,
   WizardProviderProps,
   WizardStepDefinition,
+  WizardStepLockArgs,
   WizardVariant,
 } from './types';
 
@@ -22,6 +23,36 @@ function isStepHidden<TContext>(
 ): boolean {
   if (typeof step.hidden === 'function') return step.hidden(context);
   return Boolean(step.hidden);
+}
+
+function buildLockArgs<TContext>(
+  context: TContext,
+  visitedStepIds: Set<string>,
+  completedStepIds: Set<string>,
+): WizardStepLockArgs<TContext> {
+  return { context, visitedStepIds, completedStepIds };
+}
+
+function isStepLocked<TContext>(
+  step: WizardStepDefinition<TContext>,
+  context: TContext,
+  visitedStepIds: Set<string>,
+  completedStepIds: Set<string>,
+): boolean {
+  if (typeof step.locked === 'function') {
+    return step.locked(buildLockArgs(context, visitedStepIds, completedStepIds));
+  }
+  return Boolean(step.locked);
+}
+
+function getStepLockMessage<TContext>(
+  step: WizardStepDefinition<TContext>,
+  context: TContext,
+  visitedStepIds: Set<string>,
+  completedStepIds: Set<string>,
+): string | null {
+  if (!step.getLockMessage) return null;
+  return step.getLockMessage(buildLockArgs(context, visitedStepIds, completedStepIds));
 }
 
 function buildNavigationState<TContext>(
@@ -58,6 +89,8 @@ export interface WizardContextValue<TContext = unknown> {
   isLastStep: boolean;
   isFirstStep: boolean;
   canJumpToStep: (index: number) => boolean;
+  isStepLockedAtIndex: (index: number) => boolean;
+  getStepLockMessageAtIndex: (index: number) => string | null;
   goToStep: (index: number) => void;
   goPrevious: () => void;
   goNext: () => Promise<boolean>;
@@ -154,14 +187,33 @@ export function WizardProvider<TContext>({
     });
   }, []);
 
+  const isStepLockedAtIndex = useCallback(
+    (index: number) => {
+      const step = visibleSteps[index];
+      if (!step) return false;
+      return isStepLocked(step, context, visitedStepIds, completedStepIds);
+    },
+    [completedStepIds, context, visitedStepIds, visibleSteps],
+  );
+
+  const getStepLockMessageAtIndex = useCallback(
+    (index: number) => {
+      const step = visibleSteps[index];
+      if (!step) return null;
+      return getStepLockMessage(step, context, visitedStepIds, completedStepIds);
+    },
+    [completedStepIds, context, visitedStepIds, visibleSteps],
+  );
+
   const canJumpToStep = useCallback(
     (index: number) => {
       if (index < 0 || index >= visibleSteps.length) return false;
+      if (isStepLockedAtIndex(index)) return false;
       if (index <= currentStepIndex) return true;
       const step = visibleSteps[index];
       return completedStepIds.has(step.id) || visitedStepIds.has(step.id);
     },
-    [completedStepIds, currentStepIndex, visitedStepIds, visibleSteps],
+    [completedStepIds, currentStepIndex, isStepLockedAtIndex, visitedStepIds, visibleSteps],
   );
 
   const goToStep = useCallback(
@@ -215,7 +267,15 @@ export function WizardProvider<TContext>({
       return true;
     }
 
-    const nextIndex = currentStepIndex + 1;
+    const nextIndex = (() => {
+      for (let i = currentStepIndex + 1; i < visibleSteps.length; i += 1) {
+        if (!isStepLocked(visibleSteps[i], context, visitedStepIds, completedStepIds)) return i;
+      }
+      return currentStepIndex;
+    })();
+
+    if (nextIndex === currentStepIndex) return false;
+
     const nextStep = visibleSteps[nextIndex];
     setCurrentStepIndex(nextIndex);
     setVisitedStepIds((prev) => {
@@ -284,6 +344,8 @@ export function WizardProvider<TContext>({
       isLastStep,
       isFirstStep,
       canJumpToStep,
+      isStepLockedAtIndex,
+      getStepLockMessageAtIndex,
       goToStep,
       goPrevious,
       goNext,
@@ -303,6 +365,8 @@ export function WizardProvider<TContext>({
       isFirstStep,
       isLastStep,
       canJumpToStep,
+      isStepLockedAtIndex,
+      getStepLockMessageAtIndex,
       goToStep,
       goPrevious,
       goNext,

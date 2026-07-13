@@ -6,9 +6,29 @@ import {
   inferComplaintChipIds,
 } from '../components/diagnostics/routing/routingEngine';
 import { REFRIGERATOR_COMPLAINT_CHIPS } from '../components/diagnostics/refrigerator/refrigeratorComplaints';
+import { ELECTRIC_RANGE_COMPLAINT_CHIPS } from '../components/diagnostics/electric_range/electricRangeComplaints';
+import { ELECTRIC_DRYER_COMPLAINT_CHIPS } from '../components/diagnostics/electric_dryer/electricDryerComplaints';
+import { GAS_RANGE_COMPLAINT_CHIPS } from '../components/diagnostics/gas_range/gasRangeComplaints';
+import { GAS_DRYER_COMPLAINT_CHIPS } from '../components/diagnostics/gas_dryer/gasDryerComplaints';
+import { MICROWAVE_COMPLAINT_CHIPS } from '../components/diagnostics/microwave/microwaveComplaints';
+import { DISHWASHER_COMPLAINT_CHIPS } from '../components/diagnostics/dishwasher/dishwasherComplaints';
+import { WASHER_COMPLAINT_CHIPS } from '../components/diagnostics/washer/washerComplaints';
+import { STACKED_LAUNDRY_COMPLAINT_CHIPS } from '../components/diagnostics/stacked_laundry/stackedLaundryComplaints';
+import { AIO_LAUNDRY_COMPLAINT_CHIPS } from '../components/diagnostics/aio_laundry/aioLaundryComplaints';
+import { STANDALONE_FREEZER_COMPLAINT_CHIPS } from '../components/diagnostics/standalone_freezer/standaloneFreezerComplaints';
 
 const COMPLAINT_CHIPS_BY_TEMPLATE = {
   refrigerator: REFRIGERATOR_COMPLAINT_CHIPS,
+  electric_range: ELECTRIC_RANGE_COMPLAINT_CHIPS,
+  gas_range: GAS_RANGE_COMPLAINT_CHIPS,
+  electric_dryer: ELECTRIC_DRYER_COMPLAINT_CHIPS,
+  gas_dryer: GAS_DRYER_COMPLAINT_CHIPS,
+  washer: WASHER_COMPLAINT_CHIPS,
+  dishwasher: DISHWASHER_COMPLAINT_CHIPS,
+  microwave: MICROWAVE_COMPLAINT_CHIPS,
+  stacked_laundry: STACKED_LAUNDRY_COMPLAINT_CHIPS,
+  aio_laundry: AIO_LAUNDRY_COMPLAINT_CHIPS,
+  standalone_freezer: STANDALONE_FREEZER_COMPLAINT_CHIPS,
 };
 
 function applyComplaintChipInference(templateId, fields, text) {
@@ -89,8 +109,8 @@ export const DIAGNOSTIC_TEMPLATES = [
           tri('gasket_condition', 'Gasket Condition'),
           tri('cabinet_condition', 'Cabinet Condition'),
           tri('condenser_condition', 'Condenser Condition'),
-          tri('evaporator_frost_pattern', 'Evaporator Frost Pattern'),
           yn('frost_present', 'Heavy Frost / Ice Buildup Present'),
+          tri('evaporator_frost_pattern', 'Evaporator Frost Pattern'),
           tri('ice_maker_visual', 'Ice Maker / Dispenser (if equipped)'),
         ],
       },

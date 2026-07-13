@@ -4,13 +4,17 @@ import ComplaintStep from './steps/ComplaintStep';
 import DiagnosticReviewStep from './steps/DiagnosticReviewStep';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from './shared/createWizardDefinitionFromTemplate';
 import { isStepKeyEnabled } from './routing/routingEngine';
+import {
+  formatPrerequisiteLockMessage,
+  getPrerequisiteStatus,
+} from './routing/prerequisiteEngine';
 import type {
   DiagnosticWizardContext,
   DiagnosticWizardStepConfig,
   ResolvedDiagnosticWizardStep,
   WizardDefinition,
 } from './types';
-import type { WizardStepComponentProps } from '../wizard/types';
+import type { WizardStepComponentProps, WizardStepLockArgs } from '../wizard/types';
 
 type StepMeta = {
   section?: { id: string; title: string; fields: unknown[] };
@@ -58,13 +62,39 @@ function routingHidden(
   return (context) => !isStepKeyEnabled(context.routing, stepKey);
 }
 
+function prerequisiteLocked(
+  stepKey: string,
+  definition: WizardDefinition,
+  reviewStepId: string,
+): (args: WizardStepLockArgs<DiagnosticWizardContext>) => boolean {
+  return ({ visitedStepIds }) => {
+    const status = getPrerequisiteStatus(stepKey, definition, visitedStepIds, reviewStepId);
+    return !status.met;
+  };
+}
+
+function prerequisiteLockMessage(
+  stepKey: string,
+  definition: WizardDefinition,
+  reviewStepId: string,
+): (args: WizardStepLockArgs<DiagnosticWizardContext>) => string | null {
+  return ({ visitedStepIds }) => {
+    const status = getPrerequisiteStatus(stepKey, definition, visitedStepIds, reviewStepId);
+    if (status.met) return null;
+    return formatPrerequisiteLockMessage(status.missingTitles);
+  };
+}
+
 function toEngineStep(
   stepConfig: DiagnosticWizardStepConfig,
   section: { id: string; title: string; fields: unknown[] },
   definition?: WizardDefinition | null,
+  reviewStepId?: string,
 ): ResolvedDiagnosticWizardStep {
   const stepKey = stepKeyForConfig(stepConfig, definition);
   const hasRouting = Boolean(definition?.routing);
+  const hasPrerequisites = Boolean(definition?.routing?.prerequisites?.[stepKey]?.length);
+  const resolvedReviewId = reviewStepId || definition?.reviewStep?.id || DIAGNOSTIC_REVIEW_STEP_ID;
 
   return {
     id: stepConfig.id || stepConfig.sectionId,
@@ -74,6 +104,12 @@ function toEngineStep(
     optional: stepConfig.optional ?? true,
     canSkip: stepConfig.canSkip ?? true,
     hidden: hasRouting ? routingHidden(stepKey) : stepConfig.hidden,
+    locked: hasPrerequisites && definition
+      ? prerequisiteLocked(stepKey, definition, resolvedReviewId)
+      : undefined,
+    getLockMessage: hasPrerequisites && definition
+      ? prerequisiteLockMessage(stepKey, definition, resolvedReviewId)
+      : undefined,
     meta: { section, sectionId: section.id, stepKey },
   };
 }
@@ -87,6 +123,8 @@ export function resolveWizardSteps(
   template: DiagnosticTemplate | null | undefined,
 ): ResolvedDiagnosticWizardStep[] {
   if (!template?.sections?.length) return [];
+
+  const reviewStepId = definition?.reviewStep?.id || DIAGNOSTIC_REVIEW_STEP_ID;
 
   if (!definition) {
     return [
@@ -104,7 +142,6 @@ export function resolveWizardSteps(
     ];
   }
 
-  const sectionById = Object.fromEntries(template.sections.map((s) => [s.id, s]));
   const used = new Set<string>();
   const steps: ResolvedDiagnosticWizardStep[] = [];
 
@@ -112,17 +149,18 @@ export function resolveWizardSteps(
     const section = resolveSection(template, stepConfig);
     if (!section) continue;
     used.add(section.id);
-    steps.push(toEngineStep(stepConfig, section, definition));
+    steps.push(toEngineStep(stepConfig, section, definition, reviewStepId));
   }
 
   for (const section of template.sections) {
     if (used.has(section.id)) continue;
-    steps.push(toEngineStep({ sectionId: section.id }, section, definition));
+    steps.push(toEngineStep({ sectionId: section.id }, section, definition, reviewStepId));
   }
 
   const review = definition.reviewStep;
   const reviewStepKey = definition.routing?.reviewStepKey || 'review';
   const hasRouting = Boolean(definition.routing);
+  const hasReviewPrerequisites = Boolean(definition.routing?.prerequisites?.[reviewStepKey]?.length);
 
   steps.push({
     id: review?.id || DIAGNOSTIC_REVIEW_STEP_ID,
@@ -132,6 +170,12 @@ export function resolveWizardSteps(
     optional: true,
     canSkip: false,
     hidden: hasRouting ? routingHidden(reviewStepKey) : undefined,
+    locked: hasReviewPrerequisites
+      ? prerequisiteLocked(reviewStepKey, definition, reviewStepId)
+      : undefined,
+    getLockMessage: hasReviewPrerequisites
+      ? prerequisiteLockMessage(reviewStepKey, definition, reviewStepId)
+      : undefined,
     meta: { stepKey: reviewStepKey },
   });
 

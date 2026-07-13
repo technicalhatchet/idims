@@ -10,6 +10,12 @@ export interface WizardStepComponentProps<TContext = unknown, TMeta = unknown> {
   variant?: WizardVariant;
 }
 
+export interface WizardStepLockArgs<TContext = unknown> {
+  context: TContext;
+  visitedStepIds: Set<string>;
+  completedStepIds: Set<string>;
+}
+
 export interface WizardStepDefinition<TContext = unknown, TMeta = unknown> {
   id: string;
   title: string;
@@ -17,6 +23,9 @@ export interface WizardStepDefinition<TContext = unknown, TMeta = unknown> {
   component: ComponentType<WizardStepComponentProps<TContext, TMeta>>;
   optional?: boolean;
   hidden?: boolean | ((context: TContext) => boolean);
+  /** When true, step is visible but not reachable until prerequisites are met. */
+  locked?: boolean | ((args: WizardStepLockArgs<TContext>) => boolean);
+  getLockMessage?: (args: WizardStepLockArgs<TContext>) => string | null;
   validate?: (context: TContext) => boolean | Promise<boolean>;
   canSkip?: boolean;
   meta?: TMeta;

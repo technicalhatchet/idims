@@ -24,11 +24,28 @@ export interface RoutingRule {
   disable?: string[];
 }
 
+/** Phase 4c — show a field only when any showWhen clause matches (OR). */
+export interface FieldVisibilityRule {
+  id?: string;
+  /** Full field key: sectionId.fieldId */
+  field: string;
+  showWhen: RoutingWhenClause[];
+}
+
 export interface ComplaintChipDefinition {
   id: string;
   label: string;
   /** Keywords used to pre-select from free-text complaint / WO description */
   keywords?: string[];
+}
+
+/** stepKey → stepKeys that must be visited before this step is reachable. */
+export type PrerequisiteMap = Record<string, string[]>;
+
+export interface PrerequisiteStatus {
+  met: boolean;
+  missingStepKeys: string[];
+  missingTitles: string[];
 }
 
 export interface RoutingConfig {
@@ -37,6 +54,32 @@ export interface RoutingConfig {
   /** Step key for review — always visible at end. */
   reviewStepKey?: string;
   rules: RoutingRule[];
+  /** Phase 4b — visit-order gates (config only). */
+  prerequisites?: PrerequisiteMap;
+  /** Phase 4c — conditional fields within steps (yn/tri/chip answers only). */
+  fieldVisibility?: FieldVisibilityRule[];
+  /** Phase 4d — static help copy keyed by sectionId.fieldId */
+  fieldHelp?: Record<string, string>;
+  /** Phase 4d — contextual tips when answers/chips match */
+  recommendations?: FieldRecommendationRule[];
+}
+
+export type RecommendationTone = 'tip' | 'action' | 'info';
+
+export interface FieldRecommendationRule {
+  id: string;
+  /** Optional — scope tip to a section field (sectionId.fieldId) */
+  field?: string;
+  when: RoutingWhenClause[];
+  message: string;
+  tone?: RecommendationTone;
+}
+
+export interface ActiveFieldRecommendation {
+  id: string;
+  field?: string;
+  message: string;
+  tone: RecommendationTone;
 }
 
 export interface RoutingExplanation {

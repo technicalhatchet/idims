@@ -1,5 +1,5 @@
 import type { WizardStepDefinition } from '../wizard/types';
-import type { ComplaintChipDefinition, RoutingConfig, RoutingEvaluationResult } from './routing/types';
+import type { ComplaintChipDefinition, FieldVisibilityRule, RoutingConfig, RoutingEvaluationResult, ActiveFieldRecommendation } from './routing/types';
 
 /** Placeholder for Phase 4 conditional routing. */
 export interface SymptomFlowPlaceholder {
@@ -80,6 +80,11 @@ export interface DiagnosticWizardContext {
   /** Live routing evaluation — null when appliance has no routing config. */
   routing?: RoutingEvaluationResult | null;
   complaintChips?: ComplaintChipDefinition[];
+  /** Phase 4c — conditional field rules for the active appliance. */
+  fieldVisibilityRules?: FieldVisibilityRule[];
+  /** Phase 4d */
+  fieldHelp?: Record<string, string>;
+  activeRecommendations?: ActiveFieldRecommendation[];
 }
 
 export type ResolvedDiagnosticWizardStep = WizardStepDefinition<

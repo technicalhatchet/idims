@@ -81,6 +81,9 @@ export default function ComplaintStep({ context, meta, readOnly, variant }) {
         onFieldChange={context.onFieldChange}
         readOnly={readOnly}
         variant={variant}
+        fieldVisibilityRules={context?.fieldVisibilityRules}
+        fieldHelp={context?.fieldHelp}
+        activeRecommendations={context?.activeRecommendations}
       />
     </div>
   );

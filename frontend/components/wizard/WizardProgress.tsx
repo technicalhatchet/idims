@@ -10,6 +10,8 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
     currentStep,
     navigation,
     canJumpToStep,
+    isStepLockedAtIndex,
+    getStepLockMessageAtIndex,
     goToStep,
     variant,
   } = useWizard();
@@ -51,19 +53,26 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
       <div className="flex flex-wrap gap-1.5">
         {visibleSteps.map((step, index) => {
           const isCurrent = index === currentStepIndex;
+          const isLocked = isStepLockedAtIndex(index);
           const canJump = canJumpToStep(index) && index !== currentStepIndex;
+          const lockMessage = isLocked ? getStepLockMessageAtIndex(index) : null;
+          const dotTitle = lockMessage || step.title;
           return (
             <button
               key={step.id}
               type="button"
-              disabled={!canJump && !isCurrent}
+              disabled={(!canJump && !isCurrent) || isLocked}
               onClick={() => canJump && goToStep(index)}
-              title={step.title}
+              title={dotTitle}
               className={`h-2 rounded-full transition-all ${
                 isCurrent
                   ? isMobile
                     ? 'w-6 bg-cyan-400'
                     : 'w-6 bg-cyan-600 dark:bg-cyan-400'
+                  : isLocked
+                    ? isMobile
+                      ? 'w-2 bg-amber-500/30 cursor-not-allowed'
+                      : 'w-2 bg-amber-300/60 dark:bg-amber-700/40 cursor-not-allowed'
                   : canJump
                     ? isMobile
                       ? 'w-2 bg-cyan-500/40 hover:bg-cyan-500/60'
@@ -72,7 +81,7 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
                       ? 'w-2 bg-white/10'
                       : 'w-2 bg-gray-300 dark:bg-gray-600'
               }`}
-              aria-label={step.title}
+              aria-label={isLocked ? `Locked: ${dotTitle}` : step.title}
               aria-current={isCurrent ? 'step' : undefined}
             />
           );

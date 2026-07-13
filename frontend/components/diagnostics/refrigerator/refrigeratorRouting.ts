@@ -1,4 +1,9 @@
 import type { RoutingRule } from '../routing/types';
+import { refrigeratorFieldVisibilityRules } from './refrigeratorFieldVisibility';
+import {
+  refrigeratorFieldHelp,
+  refrigeratorRecommendations,
+} from './refrigeratorFieldGuidance';
 
 /** Deterministic refrigerator routes — config only, no imperative branches. */
 export const refrigeratorRoutingRules: RoutingRule[] = [
@@ -50,6 +55,19 @@ export const refrigeratorRoutingConfig = {
   alwaysOnStepKeys: ['commonly_missed', 'complaint', 'diagnosis'],
   reviewStepKey: 'review',
   rules: refrigeratorRoutingRules,
+  prerequisites: {
+    temperature: ['complaint'],
+    visual: ['complaint'],
+    functional: ['visual'],
+    sealedSystem: ['visual', 'functional'],
+    defrost: ['visual'],
+    fans: ['visual'],
+    diagnosis: ['complaint'],
+    review: ['diagnosis'],
+  },
+  fieldVisibility: refrigeratorFieldVisibilityRules,
+  fieldHelp: refrigeratorFieldHelp,
+  recommendations: refrigeratorRecommendations,
 };
 
 /** Short routing keys → diagnosticTemplates section ids. */
