@@ -918,6 +918,11 @@ export function buildInitialDiagnosticState(workOrder) {
     templateId,
     appointmentId: suggestDefaultAppointmentId(workOrder),
     fields,
+    timeline: [],
+    evidenceSnapshot: null,
+    autoNoteBullets: [],
+    autoNoteEdited: false,
+    includeAutoNoteInSummary: true,
   };
 }
 
@@ -965,7 +970,16 @@ function resolveDiagnosticVisitLabel(appointmentId, appointments = []) {
 export function formatDiagnosticSummary(payload, options = {}) {
   const template = getDiagnosticTemplate(payload?.templateId);
   if (!template) return payload?.rawText || 'Diagnostic Results';
-  const lines = [`Appliance: ${template.label}`];
+  const lines = [];
+  if (payload?.includeAutoNoteInSummary !== false && payload?.autoNoteBullets?.length) {
+    lines.push('Diagnostic summary:');
+    for (const bullet of payload.autoNoteBullets) {
+      const text = String(bullet || '').trim();
+      if (text) lines.push(`• ${text}`);
+    }
+    lines.push('');
+  }
+  lines.push(`Appliance: ${template.label}`);
   const appointments = options.appointments ?? options.workOrder?.appointments ?? [];
   const visitLabel = resolveDiagnosticVisitLabel(payload?.appointmentId, appointments);
   if (visitLabel) lines.push(`Visit: ${visitLabel}`);
@@ -994,6 +1008,11 @@ export function parseDiagnosticNotePayload(content) {
         templateId: data.templateId,
         appointmentId: data.appointmentId || '',
         fields: data.fields || {},
+        timeline: Array.isArray(data.timeline) ? data.timeline : [],
+        evidenceSnapshot: data.evidenceSnapshot || null,
+        autoNoteBullets: Array.isArray(data.autoNoteBullets) ? data.autoNoteBullets : [],
+        autoNoteEdited: Boolean(data.autoNoteEdited),
+        includeAutoNoteInSummary: data.includeAutoNoteInSummary !== false,
       };
     }
   } catch {
@@ -1007,5 +1026,10 @@ export function serializeDiagnosticNotePayload(payload) {
     templateId: payload.templateId,
     appointmentId: payload.appointmentId || null,
     fields: payload.fields || {},
+    timeline: Array.isArray(payload.timeline) ? payload.timeline : [],
+    evidenceSnapshot: payload.evidenceSnapshot || null,
+    autoNoteBullets: Array.isArray(payload.autoNoteBullets) ? payload.autoNoteBullets : [],
+    autoNoteEdited: Boolean(payload.autoNoteEdited),
+    includeAutoNoteInSummary: payload.includeAutoNoteInSummary !== false,
   });
 }

@@ -5,6 +5,7 @@ import WizardFooter from './WizardFooter';
 import WizardHeader from './WizardHeader';
 import WizardNavigation from './WizardNavigation';
 import WizardProgress from './WizardProgress';
+import WizardSuggestedStep from './WizardSuggestedStep';
 import WizardStep from './WizardStep';
 import type { WizardProps } from './types';
 
@@ -45,6 +46,7 @@ export default function Wizard<TContext>({
           <WizardHeader title={headerTitle} description={headerDescription} />
         )}
         <WizardProgress />
+        <WizardSuggestedStep />
         <WizardStep />
         <WizardFooter>
           <WizardNavigation

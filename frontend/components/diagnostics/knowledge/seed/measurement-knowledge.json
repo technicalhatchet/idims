@@ -166,6 +166,61 @@
     "dmaTags": ["defrost_heater", "frost_buildup"]
   },
   {
+    "id": "defrostThermostatOhms",
+    "name": "Defrost Thermostat / Bi-Metal Continuity",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 20 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Verify defrost terminator closes at frosted/cold evaporator temp so the heater can energize.",
+    "failureModes": [
+      "Open (OL) at frosted evaporator: failed terminator — heater circuit never completes",
+      "High resistance: poor contacts or failing bi-metal switch"
+    ],
+    "testingTips": [
+      "Test at the connector with power disconnected",
+      "Best checked when evaporator is frosted/cold — terminator should be closed (near 0 Ω); opens when warm after defrost"
+    ],
+    "notes": "Some models use electronic adaptive defrost with no bi-metal — skip if not equipped",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["defrost_thermostat", "frost_buildup"]
+  },
+  {
+    "id": "defrostThermalFuseOhms",
+    "name": "Defrost Thermal Fuse Continuity",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Verify defrost thermal fuse continuity — an open fuse blocks defrost heat permanently.",
+    "failureModes": [
+      "Open (OL): blown thermal fuse — no defrost heat",
+      "Often caused by failed heater, stuck relay, or prior overheating event"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at fuse terminals",
+      "If blown, inspect heater and wiring for cause before replacing fuse only"
+    ],
+    "notes": "Not all models have an inline defrost fuse — OL may mean not equipped or open circuit upstream",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["defrost_fuse", "frost_buildup"]
+  },
+  {
     "id": "compressorRunAmps",
     "name": "Compressor Run Amperage",
     "unit": "A",

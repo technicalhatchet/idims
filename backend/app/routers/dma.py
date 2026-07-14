@@ -18,6 +18,8 @@ from app.schemas.dma import (
     DmaRepairRecordUpdate,
     DmaSearchResponse,
     DmaSuggestionsResponse,
+    DmaEvidenceNudgesResponse,
+    DmaPatternReportResponse,
     DmaErrorCodeReferenceResponse,
     DmaErrorCodeSearchResponse,
     DmaTagsResponse,
@@ -28,6 +30,8 @@ from app.services.dma_service import (
     create_repair_record,
     delete_repair_record,
     get_dma_suggestions,
+    get_dma_evidence_nudges,
+    get_dma_pattern_report,
     get_error_code_reference,
     get_outcome_for_work_order,
     get_repair_record,
@@ -123,6 +127,50 @@ async def get_dma_repair_suggestions(
         work_order_id=work_order_id,
     )
     return DmaSuggestionsResponse(**result)
+
+
+@router.get("/evidence-nudges", response_model=DmaEvidenceNudgesResponse)
+async def get_dma_evidence_nudges_route(
+    equipment_subtype: str = Query(..., description="DMA equipment subtype slug"),
+    equipment_make: Optional[str] = Query(None),
+    tags: List[str] = Query(..., description="DMA tag slug(s) to match"),
+    exclude_work_order_id: Optional[uuid.UUID] = Query(None),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Historical repair counts per tag — feeds diagnostic evidence nudges (Phase 6d)."""
+    result = get_dma_evidence_nudges(
+        db,
+        equipment_subtype=equipment_subtype,
+        equipment_make=equipment_make,
+        tags=tags,
+        exclude_work_order_id=exclude_work_order_id,
+    )
+    return DmaEvidenceNudgesResponse(**result)
+
+
+@router.get("/pattern-report", response_model=DmaPatternReportResponse)
+async def get_dma_pattern_report_route(
+    equipment_make: Optional[str] = Query(None),
+    equipment_subtype: Optional[str] = Query(None),
+    problem_code: Optional[str] = Query(None),
+    tags: Optional[List[str]] = Query(None, description="Filter by DMA tag slug(s)"),
+    min_cases: int = Query(2, ge=1, le=10),
+    limit: int = Query(10, ge=1, le=25),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Read-only repair pattern discovery (Phase 6f)."""
+    result = get_dma_pattern_report(
+        db,
+        equipment_make=equipment_make,
+        equipment_subtype=equipment_subtype,
+        problem_code=problem_code,
+        tags=tags,
+        min_cases=min_cases,
+        limit=limit,
+    )
+    return DmaPatternReportResponse(**result)
 
 
 @router.get("/search", response_model=DmaSearchResponse)

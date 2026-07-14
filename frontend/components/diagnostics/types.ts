@@ -89,6 +89,8 @@ export interface DiagnosticWizardContext {
   lastReadings?: Record<string, { value?: string; unit?: string; recordedAt?: string }>;
   /** Phase 5 — live elimination reasoning for the active appliance. */
   elimination?: import('./knowledge/types').EliminationEvaluationResult | null;
+  /** Phase 6 — category evidence scores, ledger, and auto-note bullets. */
+  intelligence?: import('./intelligence/evidenceTypes').DiagnosticIntelligenceResult | null;
 }
 
 export type ResolvedDiagnosticWizardStep = WizardStepDefinition<

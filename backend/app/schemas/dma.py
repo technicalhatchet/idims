@@ -196,6 +196,72 @@ class DmaSuggestionsResponse(BaseModel):
     error_code_references: List[DmaErrorCodeReferenceSummary] = Field(default_factory=list)
 
 
+class DmaEvidenceNudge(BaseModel):
+    tag: str
+    label: str
+    case_count: int
+
+
+class DmaEvidenceNudgesResponse(BaseModel):
+    equipment_subtype: Optional[str] = None
+    nudges: List[DmaEvidenceNudge] = Field(default_factory=list)
+
+
+class DmaPatternFixCount(BaseModel):
+    label: str
+    count: int
+
+
+class DmaPatternBucket(BaseModel):
+    total_cases: int
+    successful_repairs: int
+    success_rate_pct: float
+    callback_cases: int
+    callback_rate_pct: float
+    top_fixes: List[DmaPatternFixCount] = Field(default_factory=list)
+
+
+class DmaPatternCodeRow(DmaPatternBucket):
+    code: str
+    label: str
+
+
+class DmaPatternTagRow(DmaPatternBucket):
+    tag: str
+    label: str
+
+
+class DmaPatternEvidencePathRow(DmaPatternBucket):
+    leading_category_id: str
+    leading_category_label: str
+    problem_code: str
+    problem_label: str
+
+
+class DmaPatternReportFilters(BaseModel):
+    equipment_make: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    problem_code: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
+    min_cases: int = 2
+
+
+class DmaPatternReportSummary(DmaPatternBucket):
+    work_order_cases: int = 0
+    field_record_cases: int = 0
+    cases_with_evidence_snapshot: int = 0
+
+
+class DmaPatternReportResponse(BaseModel):
+    filters: DmaPatternReportFilters
+    summary: DmaPatternReportSummary
+    by_problem_code: List[DmaPatternCodeRow] = Field(default_factory=list)
+    by_resolution_code: List[DmaPatternCodeRow] = Field(default_factory=list)
+    by_tag: List[DmaPatternTagRow] = Field(default_factory=list)
+    common_fixes: List[DmaPatternFixCount] = Field(default_factory=list)
+    evidence_paths: List[DmaPatternEvidencePathRow] = Field(default_factory=list)
+
+
 class DmaErrorCodeReferenceResponse(BaseModel):
     id: UUID
     manufacturer: str

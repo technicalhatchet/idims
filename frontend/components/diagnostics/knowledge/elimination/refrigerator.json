@@ -13,7 +13,10 @@
   "hypotheses": [
     { "id": "defrost_heater_ok", "category": "defrost_system", "label": "Defrost heater good", "oppositeId": "defrost_heater_failed" },
     { "id": "defrost_heater_failed", "category": "defrost_system", "label": "Defrost heater failed", "oppositeId": "defrost_heater_ok" },
-    { "id": "defrost_thermostat_ok", "category": "defrost_system", "label": "Defrost termination OK" },
+    { "id": "defrost_thermostat_ok", "category": "defrost_system", "label": "Defrost termination OK", "oppositeId": "defrost_thermostat_failed" },
+    { "id": "defrost_thermostat_failed", "category": "defrost_system", "label": "Defrost thermostat / terminator failed", "oppositeId": "defrost_thermostat_ok" },
+    { "id": "defrost_fuse_ok", "category": "defrost_system", "label": "Defrost fuse good", "oppositeId": "defrost_fuse_failed" },
+    { "id": "defrost_fuse_failed", "category": "defrost_system", "label": "Defrost thermal fuse blown", "oppositeId": "defrost_fuse_ok" },
     { "id": "evap_fan_ok", "category": "airflow", "label": "Evap fan OK", "oppositeId": "evap_fan_failed" },
     { "id": "evap_fan_failed", "category": "airflow", "label": "Evap fan failed", "oppositeId": "evap_fan_ok" },
     { "id": "condenser_fan_ok", "category": "airflow", "label": "Condenser fan OK", "oppositeId": "condenser_fan_failed" },
@@ -38,6 +41,30 @@
       "when": { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["normal"] },
       "eliminate": ["defrost_heater_failed"],
       "confirm": ["defrost_heater_ok"]
+    },
+    {
+      "id": "defrost_thermostat_ol",
+      "when": { "type": "measurement", "knowledgeId": "defrostThermostatOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_thermostat_ok"],
+      "confirm": ["defrost_thermostat_failed"]
+    },
+    {
+      "id": "defrost_thermostat_good",
+      "when": { "type": "measurement", "knowledgeId": "defrostThermostatOhms", "statusIn": ["normal"] },
+      "eliminate": ["defrost_thermostat_failed"],
+      "confirm": ["defrost_thermostat_ok"]
+    },
+    {
+      "id": "defrost_fuse_ol",
+      "when": { "type": "measurement", "knowledgeId": "defrostThermalFuseOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_fuse_ok"],
+      "confirm": ["defrost_fuse_failed"]
+    },
+    {
+      "id": "defrost_fuse_good",
+      "when": { "type": "measurement", "knowledgeId": "defrostThermalFuseOhms", "statusIn": ["normal"] },
+      "eliminate": ["defrost_fuse_failed"],
+      "confirm": ["defrost_fuse_ok"]
     },
     {
       "id": "compressor_not_running",

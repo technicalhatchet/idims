@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional
 from sqlalchemy import or_, cast, String
 from sqlalchemy.orm import Session, joinedload
 
-from app.constants.dma_codes import REPAIR_OUTCOME_NOTE_TYPE
+from app.constants.dma_codes import REPAIR_OUTCOME_NOTE_TYPE, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES
 from app.constants.dma_brand_families import manufacturers_for_lookup
 from app.models.dma import (
     DmaRepairOutcome,
@@ -19,7 +19,7 @@ from app.models.dma import (
     dma_outcome_tags,
     dma_record_tags,
 )
-from app.models.work_order import WorkOrder
+from app.models.work_order import WorkOrder, WorkOrderNote
 from app.schemas.dma import DmaRepairRecordCreate, DmaRepairRecordUpdate
 
 logger = logging.getLogger(__name__)
@@ -857,3 +857,347 @@ def get_error_code_reference(
         "related_codes": [_error_code_to_summary(row) for row in related],
     }
     return payload
+
+
+def get_dma_evidence_nudges(
+    db: Session,
+    *,
+    equipment_subtype: Optional[str] = None,
+    equipment_make: Optional[str] = None,
+    tags: Optional[List[str]] = None,
+    exclude_work_order_id: Optional[uuid.UUID] = None,
+) -> Dict[str, Any]:
+    """Aggregate successful repair counts per DMA tag for diagnostic evidence nudges."""
+    subtype = (equipment_subtype or "").strip()
+    slugs = [normalize_tag_slug(tag) for tag in (tags or []) if tag and str(tag).strip()]
+    slugs = list(dict.fromkeys(slug for slug in slugs if slug))
+    if not subtype or not slugs:
+        return {"equipment_subtype": subtype or None, "nudges": []}
+
+    tag_rows = db.query(DmaTag).filter(DmaTag.slug.in_(slugs)).all()
+    tag_by_slug = {row.slug: row for row in tag_rows}
+
+    nudges: List[Dict[str, Any]] = []
+    for slug in slugs:
+        wo_items = _fetch_work_order_outcome_items(
+            db,
+            q=None,
+            equipment_make=equipment_make,
+            equipment_subtype=subtype,
+            problem_code=None,
+            resolution_code=None,
+            error_code=None,
+            tags=[slug],
+            repair_successful=True,
+            load_tags=False,
+        )
+        field_items = _fetch_field_record_items(
+            db,
+            q=None,
+            equipment_make=equipment_make,
+            equipment_subtype=subtype,
+            problem_code=None,
+            resolution_code=None,
+            error_code=None,
+            tags=[slug],
+            repair_successful=True,
+            load_tags=False,
+        )
+        combined = wo_items + field_items
+        if exclude_work_order_id:
+            combined = [
+                item
+                for item in combined
+                if str(item.get("work_order_id") or "") != str(exclude_work_order_id)
+            ]
+        case_count = len(combined)
+        if case_count <= 0:
+            continue
+        tag = tag_by_slug.get(slug)
+        nudges.append(
+            {
+                "tag": slug,
+                "label": tag.label if tag else normalize_tag_label(slug),
+                "case_count": case_count,
+            }
+        )
+
+    nudges.sort(key=lambda row: (-row["case_count"], row["label"].lower()))
+    return {"equipment_subtype": subtype, "nudges": nudges}
+
+
+_PATTERN_REPORT_MAX_ROWS = 500
+_DIAGNOSTIC_NOTE_TYPE = "Diagnostic Results"
+_DIAGNOSTIC_NOTE_PREFIX = f"[{_DIAGNOSTIC_NOTE_TYPE}]\n"
+
+
+def _parse_diagnostic_note_payload(note_text: str) -> Optional[Dict[str, Any]]:
+    if not note_text:
+        return None
+    text = str(note_text).strip()
+    if text.startswith("["):
+        match = re.match(r"^\[([^\]]+)\]\s*\n?(.*)$", text, re.DOTALL)
+        if match and match.group(1) == _DIAGNOSTIC_NOTE_TYPE:
+            text = match.group(2).strip()
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(data, dict) or not data.get("templateId"):
+        return None
+    return data
+
+
+def _rate_pct(count: int, total: int) -> float:
+    if total <= 0:
+        return 0.0
+    return round(100.0 * count / total, 1)
+
+
+def _pattern_bucket_stats(items: List[Dict[str, Any]], *, fix_limit: int = 3) -> Dict[str, Any]:
+    total = len(items)
+    successful = sum(1 for row in items if row.get("repair_successful"))
+    callbacks = sum(1 for row in items if row.get("callback_required"))
+    return {
+        "total_cases": total,
+        "successful_repairs": successful,
+        "success_rate_pct": _rate_pct(successful, total),
+        "callback_cases": callbacks,
+        "callback_rate_pct": _rate_pct(callbacks, total),
+        "top_fixes": _aggregate_common_fixes(items, limit=fix_limit),
+    }
+
+
+def _leading_category_by_work_order(
+    db: Session,
+    work_order_ids: List[uuid.UUID],
+) -> Dict[str, Dict[str, Any]]:
+    if not work_order_ids:
+        return {}
+
+    notes = (
+        db.query(WorkOrderNote)
+        .filter(
+            WorkOrderNote.work_order_id.in_(work_order_ids),
+            WorkOrderNote.note.like(f"{_DIAGNOSTIC_NOTE_PREFIX}%"),
+        )
+        .order_by(WorkOrderNote.created_at.desc())
+        .all()
+    )
+
+    result: Dict[str, Dict[str, Any]] = {}
+    for note in notes:
+        wo_key = str(note.work_order_id)
+        if wo_key in result:
+            continue
+        payload = _parse_diagnostic_note_payload(note.note)
+        if not payload:
+            continue
+        snapshot = payload.get("evidenceSnapshot")
+        if not isinstance(snapshot, dict):
+            continue
+        tops = snapshot.get("topCategories") or []
+        if not tops or not isinstance(tops[0], dict):
+            continue
+        top = tops[0]
+        result[wo_key] = {
+            "id": str(top.get("id") or "unknown"),
+            "label": str(top.get("label") or "Unknown"),
+            "evidence": top.get("evidence"),
+        }
+    return result
+
+
+def _pattern_group_by_code(
+    items: List[Dict[str, Any]],
+    field: str,
+    labels: Dict[str, str],
+    *,
+    limit: int,
+    min_cases: int,
+) -> List[Dict[str, Any]]:
+    buckets: Dict[str, List[Dict[str, Any]]] = {}
+    for item in items:
+        code = (item.get(field) or "").strip() or "unknown"
+        buckets.setdefault(code, []).append(item)
+
+    rows: List[Dict[str, Any]] = []
+    for code, bucket in buckets.items():
+        if len(bucket) < min_cases:
+            continue
+        label = labels.get(code) if code != "unknown" else "Unspecified"
+        rows.append(
+            {
+                "code": code,
+                "label": label or code.replace("_", " ").title(),
+                **_pattern_bucket_stats(bucket),
+            }
+        )
+
+    rows.sort(key=lambda row: (-row["total_cases"], row["label"].lower()))
+    return rows[:limit]
+
+
+def _pattern_group_by_tags(
+    items: List[Dict[str, Any]],
+    *,
+    limit: int,
+    min_cases: int,
+) -> List[Dict[str, Any]]:
+    buckets: Dict[str, Dict[str, Any]] = {}
+    for item in items:
+        tag_rows = item.get("tags") or []
+        if not tag_rows:
+            slug = "untagged"
+            entry = buckets.setdefault(slug, {"slug": slug, "label": "Untagged", "items": []})
+            entry["items"].append(item)
+            continue
+        for tag in tag_rows:
+            slug = str(tag.get("slug") or "").strip()
+            if not slug:
+                continue
+            entry = buckets.setdefault(
+                slug,
+                {"slug": slug, "label": tag.get("label") or normalize_tag_label(slug), "items": []},
+            )
+            entry["items"].append(item)
+
+    rows: List[Dict[str, Any]] = []
+    for entry in buckets.values():
+        bucket = entry["items"]
+        if len(bucket) < min_cases:
+            continue
+        rows.append(
+            {
+                "tag": entry["slug"],
+                "label": entry["label"],
+                **_pattern_bucket_stats(bucket),
+            }
+        )
+
+    rows.sort(key=lambda row: (-row["total_cases"], row["label"].lower()))
+    return rows[:limit]
+
+
+def _pattern_evidence_paths(
+    items: List[Dict[str, Any]],
+    leading_by_work_order: Dict[str, Dict[str, Any]],
+    *,
+    limit: int,
+    min_cases: int,
+) -> List[Dict[str, Any]]:
+    buckets: Dict[str, Dict[str, Any]] = {}
+
+    for item in items:
+        wo_id = item.get("work_order_id")
+        leading = leading_by_work_order.get(str(wo_id)) if wo_id else None
+        category_id = leading["id"] if leading else "no_snapshot"
+        category_label = leading["label"] if leading else "No evidence snapshot"
+        problem_code = (item.get("problem_code") or "").strip() or "unknown"
+        key = f"{category_id}::{problem_code}"
+        if key not in buckets:
+            buckets[key] = {
+                "leading_category_id": category_id,
+                "leading_category_label": category_label,
+                "problem_code": problem_code,
+                "problem_label": DMA_PROBLEM_CODES.get(problem_code, "Unspecified")
+                if problem_code != "unknown"
+                else "Unspecified",
+                "items": [],
+            }
+        buckets[key]["items"].append(item)
+
+    rows: List[Dict[str, Any]] = []
+    for entry in buckets.values():
+        bucket = entry["items"]
+        if len(bucket) < min_cases:
+            continue
+        rows.append(
+            {
+                "leading_category_id": entry["leading_category_id"],
+                "leading_category_label": entry["leading_category_label"],
+                "problem_code": entry["problem_code"],
+                "problem_label": entry["problem_label"],
+                **_pattern_bucket_stats(bucket, fix_limit=2),
+            }
+        )
+
+    rows.sort(key=lambda row: (-row["total_cases"], row["leading_category_label"].lower()))
+    return rows[:limit]
+
+
+def get_dma_pattern_report(
+    db: Session,
+    *,
+    equipment_make: Optional[str] = None,
+    equipment_subtype: Optional[str] = None,
+    problem_code: Optional[str] = None,
+    tags: Optional[List[str]] = None,
+    min_cases: int = 2,
+    limit: int = 10,
+) -> Dict[str, Any]:
+    """Read-only pattern discovery — callback rates, fix success, evidence paths."""
+    safe_limit = max(1, min(limit, 25))
+    safe_min = max(1, min(min_cases, 10))
+
+    shared_filters = {
+        "q": None,
+        "equipment_make": equipment_make,
+        "equipment_subtype": equipment_subtype,
+        "problem_code": problem_code,
+        "resolution_code": None,
+        "error_code": None,
+        "tags": tags,
+        "repair_successful": None,
+        "max_rows": _PATTERN_REPORT_MAX_ROWS,
+        "load_tags": True,
+    }
+
+    wo_items = _fetch_work_order_outcome_items(db, **shared_filters)
+    field_items = _fetch_field_record_items(db, **shared_filters)
+    items = wo_items + field_items
+
+    wo_ids = [row["work_order_id"] for row in wo_items if row.get("work_order_id")]
+    leading_by_work_order = _leading_category_by_work_order(db, wo_ids)
+
+    with_snapshot = sum(
+        1 for row in wo_items if leading_by_work_order.get(str(row.get("work_order_id")))
+    )
+
+    return {
+        "filters": {
+            "equipment_make": (equipment_make or "").strip() or None,
+            "equipment_subtype": (equipment_subtype or "").strip() or None,
+            "problem_code": problem_code or None,
+            "tags": tags or [],
+            "min_cases": safe_min,
+        },
+        "summary": {
+            **_pattern_bucket_stats(items, fix_limit=5),
+            "work_order_cases": len(wo_items),
+            "field_record_cases": len(field_items),
+            "cases_with_evidence_snapshot": with_snapshot,
+        },
+        "by_problem_code": _pattern_group_by_code(
+            items,
+            "problem_code",
+            DMA_PROBLEM_CODES,
+            limit=safe_limit,
+            min_cases=safe_min,
+        ),
+        "by_resolution_code": _pattern_group_by_code(
+            items,
+            "resolution_code",
+            DMA_RESOLUTION_CODES,
+            limit=safe_limit,
+            min_cases=safe_min,
+        ),
+        "by_tag": _pattern_group_by_tags(items, limit=safe_limit, min_cases=safe_min),
+        "common_fixes": _aggregate_common_fixes(items, limit=safe_limit),
+        "evidence_paths": _pattern_evidence_paths(
+            wo_items,
+            leading_by_work_order,
+            limit=safe_limit,
+            min_cases=safe_min,
+        ),
+    }

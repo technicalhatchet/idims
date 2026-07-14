@@ -1,0 +1,322 @@
+{
+  "templateId": "refrigerator",
+  "categories": [
+    { "id": "air_leak", "label": "Air Leak", "dmaTags": ["gasket", "door_alignment", "air_leak"] },
+    { "id": "defrost_system", "label": "Defrost System", "dmaTags": ["defrost", "frost_buildup", "defrost_heater"] },
+    { "id": "airflow", "label": "Airflow", "dmaTags": ["evap_fan", "condenser_fan", "airflow"] },
+    { "id": "sealed_system", "label": "Sealed System", "dmaTags": ["compressor", "refrigerant", "sealed_system"] },
+    { "id": "controls_sensors", "label": "Controls / Sensors", "dmaTags": ["thermistor", "control_board", "sensor_check"] },
+    { "id": "water_system", "label": "Water System", "dmaTags": ["water_dispenser", "inlet_valve", "filter"] },
+    { "id": "ice_maker", "label": "Ice Maker", "dmaTags": ["ice_maker", "no_ice"] }
+  ],
+  "components": [
+    { "id": "heater", "label": "Defrost heater", "categoryId": "defrost_system", "dmaTags": ["defrost_heater"] },
+    { "id": "defrost_thermostat", "label": "Defrost thermostat", "categoryId": "defrost_system", "dmaTags": ["defrost_thermostat"] },
+    { "id": "thermistor", "label": "Cabinet thermistor", "categoryId": "controls_sensors", "dmaTags": ["thermistor"] },
+    { "id": "control_board", "label": "Main control board", "categoryId": "controls_sensors", "dmaTags": ["control_board"] },
+    { "id": "evap_fan", "label": "Evaporator fan", "categoryId": "airflow", "dmaTags": ["evap_fan"] },
+    { "id": "condenser_fan", "label": "Condenser fan", "categoryId": "airflow", "dmaTags": ["condenser_fan"] },
+    { "id": "compressor", "label": "Compressor", "categoryId": "sealed_system", "dmaTags": ["compressor"] }
+  ],
+  "rules": [
+    {
+      "id": "chip_not_cooling",
+      "when": [{ "type": "chip", "id": "not_cooling" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 10 },
+      "explanation": "Complaint: not cooling — defrost failure is a common cause."
+    },
+    {
+      "id": "chip_not_cooling_sealed",
+      "when": [{ "type": "chip", "id": "not_cooling" }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 8 },
+      "explanation": "Complaint: not cooling — sealed system must be considered."
+    },
+    {
+      "id": "chip_frost_buildup",
+      "when": [{ "type": "chip", "id": "frost_buildup" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 15 },
+      "explanation": "Complaint: frost / ice buildup points to defrost system.",
+      "recommendStepKey": "defrost"
+    },
+    {
+      "id": "chip_ice_maker",
+      "when": [{ "type": "chip", "id": "ice_maker" }],
+      "target": "ice_maker",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Complaint: ice maker issue.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "chip_water_dispenser",
+      "when": [{ "type": "chip", "id": "water_dispenser" }],
+      "target": "water_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Complaint: water dispenser issue.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "ff_temp_warning",
+      "when": [{ "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Fresh food compartment above normal range.",
+      "recommendStepKey": "temperature",
+      "dmaTags": ["temperature_check"]
+    },
+    {
+      "id": "ff_temp_normal",
+      "when": [{ "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["normal"] }],
+      "target": "air_leak",
+      "targetLayer": "category",
+      "effect": { "effect": "decrease", "value": 10 },
+      "explanation": "Fresh food temperature normal — air leak less likely."
+    },
+    {
+      "id": "fz_temp_critical",
+      "when": [{ "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["critical", "warning"] }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Freezer compartment not cold enough.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["temperature_check"]
+    },
+    {
+      "id": "fz_temp_normal_ff_warm",
+      "when": [
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["normal"] },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 15 },
+      "explanation": "Freezer cold but fresh food warm — classic defrost/airflow pattern.",
+      "recommendStepKey": "defrost"
+    },
+    {
+      "id": "heavy_frost_defrost",
+      "when": [{ "type": "field", "path": "visual_inspection.frost_present", "equals": "yes" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 35 },
+      "explanation": "Heavy frost observed — defrost system failure likely.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["frost_buildup"]
+    },
+    {
+      "id": "evap_frost_clogged",
+      "when": [{ "type": "field", "path": "visual_inspection.evaporator_frost_pattern", "equals": "bad" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Poor evaporator frost pattern — possible defrost or airflow issue.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "door_good_air_leak",
+      "when": [{ "type": "field", "path": "visual_inspection.door_alignment", "equals": "good" }],
+      "target": "air_leak",
+      "targetLayer": "category",
+      "effect": { "effect": "decrease", "value": 35 },
+      "explanation": "Door alignment good — air leak less likely."
+    },
+    {
+      "id": "door_bad_air_leak",
+      "when": [{ "type": "field", "path": "visual_inspection.door_alignment", "equals": "bad" }],
+      "target": "air_leak",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 40 },
+      "explanation": "Door alignment bad — air leak likely.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["door_alignment"]
+    },
+    {
+      "id": "gasket_bad_air_leak",
+      "when": [{ "type": "field", "path": "visual_inspection.gasket_condition", "equals": "bad" }],
+      "target": "air_leak",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 30 },
+      "explanation": "Gasket in poor condition — warm air infiltration likely.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["gasket"]
+    },
+    {
+      "id": "gasket_good_air_leak",
+      "when": [{ "type": "field", "path": "visual_inspection.gasket_condition", "equals": "good" }],
+      "target": "air_leak",
+      "targetLayer": "category",
+      "effect": { "effect": "decrease", "value": 25 },
+      "explanation": "Gasket good — air leak less likely."
+    },
+    {
+      "id": "compressor_not_running",
+      "when": [{ "type": "field", "path": "functional_checks.compressor_running", "equals": "no" }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 40 },
+      "explanation": "Compressor not running — sealed system or electrical issue.",
+      "recommendStepKey": "sealedSystem"
+    },
+    {
+      "id": "compressor_not_running_confirm",
+      "when": [{ "type": "field", "path": "functional_checks.compressor_running", "equals": "no" }],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Compressor not running when called for.",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "compressor_running_ok",
+      "when": [{ "type": "field", "path": "functional_checks.compressor_running", "equals": "yes" }],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "eliminate" },
+      "explanation": "Compressor running — start device likely OK."
+    },
+    {
+      "id": "evap_fan_no",
+      "when": [{ "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 30 },
+      "explanation": "Evaporator fan not running — airflow failure.",
+      "recommendStepKey": "fans"
+    },
+    {
+      "id": "evap_fan_no_confirm",
+      "when": [{ "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" }],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Evaporator fan confirmed not running.",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "condenser_fan_no",
+      "when": [{ "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "no" }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Condenser fan not running — heat rejection compromised.",
+      "recommendStepKey": "fans"
+    },
+    {
+      "id": "condenser_fan_no_confirm",
+      "when": [{ "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "no" }],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Condenser fan confirmed not running.",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "heater_open",
+      "when": [{ "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["critical"] }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Defrost heater open (OL) — heater failure confirmed.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "heater_open_category",
+      "when": [{ "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["critical"] }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 40 },
+      "explanation": "Open defrost heater strongly supports defrost system failure."
+    },
+    {
+      "id": "heater_normal",
+      "when": [{ "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["normal"] }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "eliminate" },
+      "explanation": "Defrost heater resistance normal — heater unlikely failed."
+    },
+    {
+      "id": "heater_normal_defrost_unlikely",
+      "when": [{ "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["normal"] }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "unlikely", "value": 30 },
+      "explanation": "Heater ohms normal — full defrost failure less likely (check thermostat/board)."
+    },
+    {
+      "id": "defrost_thermostat_ol",
+      "when": [{ "type": "measurement", "knowledgeId": "defrostThermostatOhms", "statusIn": ["critical"] }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 35 },
+      "explanation": "Open defrost terminator — heater circuit cannot complete.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_thermostat"]
+    },
+    {
+      "id": "defrost_thermostat_ol_component",
+      "when": [{ "type": "measurement", "knowledgeId": "defrostThermostatOhms", "statusIn": ["critical"] }],
+      "target": "defrost_thermostat",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Defrost thermostat open at frosted evaporator — terminator failed."
+    },
+    {
+      "id": "defrost_fuse_ol",
+      "when": [{ "type": "measurement", "knowledgeId": "defrostThermalFuseOhms", "statusIn": ["critical"] }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 40 },
+      "explanation": "Blown defrost thermal fuse — no defrost heat possible.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_fuse"]
+    },
+    {
+      "id": "defrost_thermistor_bad",
+      "when": [{ "type": "measurement", "knowledgeId": "cabinetThermistorOhms", "statusIn": ["critical", "warning"] }],
+      "target": "controls_sensors",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Defrost/cabinet thermistor reading out of range.",
+      "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "defrost_thermistor_bad_component",
+      "when": [{ "type": "measurement", "knowledgeId": "cabinetThermistorOhms", "statusIn": ["critical"] }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Thermistor open or shorted — sensor failure likely."
+    },
+    {
+      "id": "compressor_amps_high",
+      "when": [{ "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["critical", "warning"] }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 30 },
+      "explanation": "Compressor run amps out of range.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "supply_voltage_bad",
+      "when": [{ "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical", "warning"] }],
+      "target": "controls_sensors",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Supply voltage out of range — check electrical supply and board.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["voltage_check"]
+    }
+  ]
+}

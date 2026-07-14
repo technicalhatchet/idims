@@ -4,6 +4,7 @@ export { default as WizardHeader } from './WizardHeader';
 export { default as WizardFooter } from './WizardFooter';
 export { default as WizardNavigation } from './WizardNavigation';
 export { default as WizardProgress } from './WizardProgress';
+export { default as WizardSuggestedStep } from './WizardSuggestedStep';
 export { default as WizardStep } from './WizardStep';
 export * from './types';
 export * from './animations';

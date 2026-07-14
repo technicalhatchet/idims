@@ -184,6 +184,7 @@ export default function WorkOrderNotes({
   const [isSaving, setIsSaving] = useState(false);
   const [internalAddSheetOpen, setInternalAddSheetOpen] = useState(false);
   const [newNote, setNewNote] = useState({ ...EMPTY_NOTE });
+  const pendingDiagPayloadRef = useRef(null);
 
   const addSheetOpen = onAddSheetOpenChange != null ? addSheetOpenProp : internalAddSheetOpen;
   const setAddSheetOpen = onAddSheetOpenChange ?? setInternalAddSheetOpen;
@@ -357,24 +358,25 @@ export default function WorkOrderNotes({
     setEditFieldValues({});
   };
 
-  const saveEditedNote = async () => {
+  const saveEditedNote = async (diagPayload) => {
     if (!selectedNote) return;
     setIsSaving(true);
     try {
+      const diagnosticValues = diagPayload || editFieldValues;
       let noteBody;
       let appointmentId = null;
       if (isStructuredNoteType(selectedNote.type)) {
         if (selectedNote.type === NOTE_TYPES.REPAIR_OUTCOME) {
-          const fix = (editFieldValues?.confirmedFix || '').trim();
+          const fix = (diagnosticValues?.confirmedFix || '').trim();
           if (!fix) {
             alert('Confirmed Fix is required for Repair Outcome notes.');
             setIsSaving(false);
             return;
           }
         }
-        noteBody = formatFieldsForAPI(editFieldValues, selectedNote.type);
+        noteBody = formatFieldsForAPI(diagnosticValues, selectedNote.type);
         if (selectedNote.type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
-          appointmentId = editFieldValues?.appointmentId || null;
+          appointmentId = diagnosticValues?.appointmentId || null;
         }
       } else {
         noteBody = editContent;
@@ -431,10 +433,12 @@ export default function WorkOrderNotes({
 
       let noteContent;
       let appointmentId = null;
+      const diagnosticValues = pendingDiagPayloadRef.current || newNote.fieldValues;
+      pendingDiagPayloadRef.current = null;
       if (isStructuredNoteType(newNote.type)) {
-        noteContent = formatFieldsForAPI(newNote.fieldValues, newNote.type);
+        noteContent = formatFieldsForAPI(diagnosticValues, newNote.type);
         if (newNote.type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
-          appointmentId = newNote.fieldValues?.appointmentId || null;
+          appointmentId = diagnosticValues?.appointmentId || null;
         }
       } else {
         noteContent = newNote.content;
@@ -610,7 +614,10 @@ export default function WorkOrderNotes({
       />
 
       {renderNoteFields(newNote.type, newNote.fieldValues, false, handleFieldChange, '', {
-        onSave: () => document.getElementById('work-order-add-note-form')?.requestSubmit(),
+        onSave: (finalPayload) => {
+          if (finalPayload) pendingDiagPayloadRef.current = finalPayload;
+          document.getElementById('work-order-add-note-form')?.requestSubmit();
+        },
       })}
 
       <div className="flex items-center">

@@ -2,6 +2,7 @@
 
 import { useWizard } from './WizardProvider';
 import type { WizardProgressProps } from './types';
+import { resolveStepKeyLabel } from '../diagnostics/intelligence/stepKeyLabels';
 
 export default function WizardProgress({ className = '' }: WizardProgressProps) {
   const {
@@ -14,6 +15,7 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
     getStepLockMessageAtIndex,
     goToStep,
     variant,
+    context,
   } = useWizard();
 
   const isMobile = variant === 'mobile';
@@ -56,7 +58,20 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
           const isLocked = isStepLockedAtIndex(index);
           const canJump = canJumpToStep(index) && index !== currentStepIndex;
           const lockMessage = isLocked ? getStepLockMessageAtIndex(index) : null;
-          const dotTitle = lockMessage || step.title;
+          const stepKey = (step.meta as { stepKey?: string } | undefined)?.stepKey;
+          const recommendedKeys =
+            (context as { intelligence?: { recommendedStepKeys?: string[] } })?.intelligence
+              ?.recommendedStepKeys || [];
+          const isRecommended = stepKey && recommendedKeys.includes(stepKey);
+          const isTopRecommended = stepKey && recommendedKeys[0] === stepKey;
+          const stepLabel = resolveStepKeyLabel(
+            stepKey,
+            (context as { intelligence?: { stepKeyLabels?: Record<string, string> } })?.intelligence
+              ?.stepKeyLabels,
+          );
+          const dotTitle = isTopRecommended && stepLabel
+            ? `${lockMessage || step.title} — Suggested next`
+            : lockMessage || step.title;
           return (
             <button
               key={step.id}
@@ -73,6 +88,14 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
                     ? isMobile
                       ? 'w-2 bg-amber-500/30 cursor-not-allowed'
                       : 'w-2 bg-amber-300/60 dark:bg-amber-700/40 cursor-not-allowed'
+                  : isTopRecommended
+                    ? isMobile
+                      ? 'w-3 ring-2 ring-emerald-400/80 bg-emerald-400/70'
+                      : 'w-3 ring-2 ring-emerald-500 bg-emerald-400 dark:ring-emerald-400'
+                  : isRecommended
+                    ? isMobile
+                      ? 'w-2.5 bg-emerald-400/60'
+                      : 'w-2.5 bg-emerald-400 dark:bg-emerald-600'
                   : canJump
                     ? isMobile
                       ? 'w-2 bg-cyan-500/40 hover:bg-cyan-500/60'

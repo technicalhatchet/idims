@@ -48,6 +48,43 @@ export async function searchDmaRepairs(params = {}) {
   return apiClient(`dma/search${qs ? `?${qs}` : ''}`);
 }
 
+export async function getDmaEvidenceNudges({
+  equipmentSubtype,
+  equipmentMake = null,
+  tags = [],
+  excludeWorkOrderId = null,
+} = {}) {
+  const subtype = String(equipmentSubtype || '').trim();
+  const tagList = (Array.isArray(tags) ? tags : []).map((tag) => String(tag).trim()).filter(Boolean);
+  if (!subtype || !tagList.length) {
+    return { equipment_subtype: subtype || null, nudges: [] };
+  }
+
+  const params = new URLSearchParams();
+  params.set('equipment_subtype', subtype);
+  if (equipmentMake) params.set('equipment_make', String(equipmentMake));
+  tagList.forEach((tag) => params.append('tags', tag));
+  if (excludeWorkOrderId) {
+    params.set('exclude_work_order_id', String(excludeWorkOrderId));
+  }
+
+  return apiClient(`dma/evidence-nudges?${params.toString()}`);
+}
+
+export async function getDmaPatternReport(params = {}) {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === '') return;
+    if (key === 'tags' && Array.isArray(value)) {
+      value.filter(Boolean).forEach((tag) => query.append('tags', tag));
+      return;
+    }
+    query.set(key, String(value));
+  });
+  const qs = query.toString();
+  return apiClient(`dma/pattern-report${qs ? `?${qs}` : ''}`);
+}
+
 export async function getWorkOrderDmaOutcome(workOrderId) {
   return apiClient(`dma/work-orders/${workOrderId}`);
 }

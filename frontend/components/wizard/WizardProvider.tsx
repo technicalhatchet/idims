@@ -133,6 +133,8 @@ export function WizardProvider<TContext>({
     if (first) initial.add(first.id);
     return initial;
   });
+  const activeStepIdRef = useRef<string | undefined>(visibleSteps[resolveInitialIndex()]?.id);
+  const backStackRef = useRef<string[]>([]);
 
   const resetTokenRef = useRef(resetKey);
 
@@ -146,7 +148,25 @@ export function WizardProvider<TContext>({
     const step = visibleSteps[index];
     if (step) visited.add(step.id);
     setVisitedStepIds(visited);
+    activeStepIdRef.current = step?.id;
+    backStackRef.current = [];
   }, [resetKey, resolveInitialIndex, visibleSteps]);
+
+  useEffect(() => {
+    const step = visibleSteps[currentStepIndex];
+    if (step?.id) activeStepIdRef.current = step.id;
+  }, [currentStepIndex, visibleSteps]);
+
+  useEffect(() => {
+    const activeId = activeStepIdRef.current;
+    if (!activeId || !visibleSteps.length) return;
+    const nextIndex = visibleSteps.findIndex((s) => s.id === activeId);
+    if (nextIndex === -1) {
+      setCurrentStepIndex((prev) => Math.min(prev, visibleSteps.length - 1));
+      return;
+    }
+    setCurrentStepIndex((prev) => (prev === nextIndex ? prev : nextIndex));
+  }, [visibleSteps]);
 
   useEffect(() => {
     if (currentStepIndex >= visibleSteps.length) {
@@ -217,10 +237,22 @@ export function WizardProvider<TContext>({
   );
 
   const goToStep = useCallback(
-    (index: number) => {
+    (index: number, options?: { fromBack?: boolean }) => {
       if (!canJumpToStep(index)) return;
       const step = visibleSteps[index];
       if (!step) return;
+
+      if (!options?.fromBack && index !== currentStepIndex) {
+        const current = visibleSteps[currentStepIndex];
+        if (current?.id && index > currentStepIndex) {
+          backStackRef.current.push(current.id);
+        }
+        if (index < currentStepIndex) {
+          backStackRef.current = [];
+        }
+      }
+
+      activeStepIdRef.current = step.id;
       setCurrentStepIndex(index);
       setVisitedStepIds((prev) => {
         if (prev.has(step.id)) return prev;
@@ -237,12 +269,20 @@ export function WizardProvider<TContext>({
         ),
       );
     },
-    [canJumpToStep, completedStepIds, emitStepChange, visitedStepIds, visibleSteps],
+    [canJumpToStep, completedStepIds, currentStepIndex, emitStepChange, visitedStepIds, visibleSteps],
   );
 
   const goPrevious = useCallback(() => {
-    goToStep(currentStepIndex - 1);
-  }, [currentStepIndex, goToStep]);
+    const prevId = backStackRef.current.pop();
+    if (prevId) {
+      const idx = visibleSteps.findIndex((s) => s.id === prevId);
+      if (idx >= 0) {
+        goToStep(idx, { fromBack: true });
+        return;
+      }
+    }
+    goToStep(currentStepIndex - 1, { fromBack: true });
+  }, [currentStepIndex, goToStep, visibleSteps]);
 
   const goNext = useCallback(async () => {
     const step = visibleSteps[currentStepIndex];
@@ -276,7 +316,12 @@ export function WizardProvider<TContext>({
 
     if (nextIndex === currentStepIndex) return false;
 
+    if (step.id) {
+      backStackRef.current.push(step.id);
+    }
+
     const nextStep = visibleSteps[nextIndex];
+    activeStepIdRef.current = nextStep?.id;
     setCurrentStepIndex(nextIndex);
     setVisitedStepIds((prev) => {
       const next = new Set(prev);

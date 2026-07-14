@@ -1,0 +1,123 @@
+[
+  {
+    "testId": "ff_cabinet_temp",
+    "label": "Fresh food cabinet temperature",
+    "templateId": "refrigerator",
+    "fieldKey": "temperature_checks.fresh_food_temp",
+    "knowledgeId": "freshFoodCabinetTemp",
+    "wizardStepKey": "temperature"
+  },
+  {
+    "testId": "fz_cabinet_temp",
+    "label": "Freezer cabinet temperature",
+    "templateId": "refrigerator",
+    "fieldKey": "temperature_checks.freezer_temp",
+    "knowledgeId": "freezerCabinetTemp",
+    "wizardStepKey": "temperature"
+  },
+  {
+    "testId": "ambient_temp",
+    "label": "Ambient room temperature",
+    "templateId": "refrigerator",
+    "fieldKey": "temperature_checks.ambient_room_temp",
+    "knowledgeId": "ambientRoomTemp",
+    "wizardStepKey": "temperature"
+  },
+  {
+    "testId": "frost_present",
+    "label": "Heavy frost / ice buildup",
+    "templateId": "refrigerator",
+    "fieldKey": "visual_inspection.frost_present",
+    "wizardStepKey": "visual"
+  },
+  {
+    "testId": "door_alignment",
+    "label": "Door alignment",
+    "templateId": "refrigerator",
+    "fieldKey": "visual_inspection.door_alignment",
+    "wizardStepKey": "visual"
+  },
+  {
+    "testId": "gasket_condition",
+    "label": "Gasket condition",
+    "templateId": "refrigerator",
+    "fieldKey": "visual_inspection.gasket_condition",
+    "wizardStepKey": "visual"
+  },
+  {
+    "testId": "evap_frost_pattern",
+    "label": "Evaporator frost pattern",
+    "templateId": "refrigerator",
+    "fieldKey": "visual_inspection.evaporator_frost_pattern",
+    "wizardStepKey": "visual"
+  },
+  {
+    "testId": "compressor_running",
+    "label": "Compressor running",
+    "templateId": "refrigerator",
+    "fieldKey": "functional_checks.compressor_running",
+    "wizardStepKey": "functional"
+  },
+  {
+    "testId": "evap_fan_running",
+    "label": "Evaporator fan running",
+    "templateId": "refrigerator",
+    "fieldKey": "functional_checks.evaporator_fan_running",
+    "wizardStepKey": "functional"
+  },
+  {
+    "testId": "condenser_fan_running",
+    "label": "Condenser fan running",
+    "templateId": "refrigerator",
+    "fieldKey": "functional_checks.condenser_fan_running",
+    "wizardStepKey": "functional"
+  },
+  {
+    "testId": "defrost_heater_ohms",
+    "label": "Defrost heater resistance",
+    "templateId": "refrigerator",
+    "fieldKey": "defrost_circuit.defrost_heater_ohms",
+    "knowledgeId": "defrostHeaterOhms",
+    "wizardStepKey": "defrost"
+  },
+  {
+    "testId": "defrost_thermostat",
+    "label": "Defrost thermostat / bi-metal",
+    "templateId": "refrigerator",
+    "fieldKey": "defrost_circuit.defrost_thermostat",
+    "knowledgeId": "defrostThermostatOhms",
+    "wizardStepKey": "defrost"
+  },
+  {
+    "testId": "defrost_fuse",
+    "label": "Defrost thermal fuse",
+    "templateId": "refrigerator",
+    "fieldKey": "defrost_circuit.defrost_fuse",
+    "knowledgeId": "defrostThermalFuseOhms",
+    "wizardStepKey": "defrost"
+  },
+  {
+    "testId": "defrost_thermistor",
+    "label": "Defrost thermistor",
+    "templateId": "refrigerator",
+    "fieldKey": "defrost_circuit.defrost_thermistor",
+    "knowledgeId": "cabinetThermistorOhms",
+    "wizardStepKey": "defrost"
+  },
+  {
+    "testId": "compressor_run_amps",
+    "label": "Compressor run amps",
+    "templateId": "refrigerator",
+    "fieldKey": "compressor_sealed_system.compressor_amps_running",
+    "knowledgeId": "compressorRunAmps",
+    "wizardStepKey": "sealedSystem"
+  },
+  {
+    "testId": "supply_voltage",
+    "label": "Supply voltage",
+    "templateId": "refrigerator",
+    "fieldKey": "fans_and_electrical.supply_voltage",
+    "knowledgeId": "supplyVoltage120",
+    "wizardStepKey": "fans"
+  }
+]
