@@ -1,0 +1,365 @@
+[
+  {
+    "id": "supplyVoltage120",
+    "name": "Supply Voltage (120 VAC)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 110, "max": 125 },
+      "warning": { "min": 105, "max": 130 },
+      "critical": { "below": 100, "above": 135 }
+    },
+    "typical": { "min": 118, "max": 122 },
+    "openCircuitCritical": false,
+    "purpose": "Verify correct line voltage at outlet or terminal block before troubleshooting downstream components.",
+    "failureModes": [
+      "Low voltage causes weak compressor start, dim lights, motor hum",
+      "No voltage indicates upstream supply issue (breaker, outlet, cord)",
+      "High voltage can indicate wiring fault or wrong circuit"
+    ],
+    "testingTips": [
+      "Measure at outlet behind unit, not through an extension cord",
+      "Check under load (unit running) vs. no-load for voltage drop"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "dishwasher", "microwave", "washer", "gas_range", "gas_dryer", "aio_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["voltage_check", "supply_issue"]
+  },
+  {
+    "id": "supplyVoltage240",
+    "name": "Supply Voltage (240 VAC)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 220, "max": 250 },
+      "warning": { "min": 210, "max": 260 },
+      "critical": { "below": 200, "above": 270 }
+    },
+    "typical": { "min": 235, "max": 245 },
+    "openCircuitCritical": false,
+    "purpose": "Verify correct line-to-line voltage for 240V appliances before assuming component failure.",
+    "failureModes": [
+      "Low voltage causes slow heat-up (dryer/range), long cycle times",
+      "Single-leg voltage (~120V present, ~240V absent) indicates open leg/breaker/blown fuse",
+      "No voltage indicates upstream supply issue"
+    ],
+    "testingTips": [
+      "Check L1-L2, L1-N, and L2-N separately to isolate a single open leg",
+      "Verify at the outlet/junction box, not just at the appliance terminal block"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "electric_dryer", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["voltage_check", "supply_issue"]
+  },
+  {
+    "id": "freezerCabinetTemp",
+    "name": "Freezer Cabinet Temperature",
+    "unit": "°F",
+    "inputKind": "temperature",
+    "ranges": {
+      "normal": { "min": -2, "max": 5 },
+      "warning": { "min": -10, "max": 10 },
+      "critical": { "below": -20, "above": 20 }
+    },
+    "typical": { "min": 0, "max": 2 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm freezer compartment is holding manufacturer target temp (industry target ~0°F).",
+    "failureModes": [
+      "High temp: sealed system issue, poor door seal, iced evaporator, low charge",
+      "Extremely low/erratic: thermostat/control board fault"
+    ],
+    "testingTips": [
+      "Use a thermometer between packages, not on an air vent",
+      "Allow 24 hrs after door open/reset before trusting reading"
+    ],
+    "notes": "Verify against specific model's target setpoint when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["temp_check", "cooling_issue"]
+  },
+  {
+    "id": "freshFoodCabinetTemp",
+    "name": "Fresh Food Cabinet Temperature",
+    "unit": "°F",
+    "inputKind": "temperature",
+    "ranges": {
+      "normal": { "min": 34, "max": 40 },
+      "warning": { "min": 30, "max": 45 },
+      "critical": { "below": 25, "above": 50 }
+    },
+    "typical": { "min": 36, "max": 38 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm fresh food compartment holds manufacturer target temp (industry target ~37°F).",
+    "failureModes": [
+      "High temp: damper/air handling fault, weak seal, sealed system issue",
+      "Below freezing: damper stuck open, thermistor/control fault"
+    ],
+    "testingTips": [
+      "Use a thermometer at mid-shelf height, away from vents",
+      "Give reading time to stabilize after door activity"
+    ],
+    "notes": "Verify against specific model's target setpoint when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": []
+    },
+    "dmaTags": ["temp_check", "cooling_issue"]
+  },
+  {
+    "id": "ambientRoomTemp",
+    "name": "Ambient Room Temperature",
+    "unit": "°F",
+    "inputKind": "temperature",
+    "ranges": {
+      "normal": { "min": 65, "max": 78 },
+      "warning": { "min": 55, "max": 85 },
+      "critical": { "below": 40, "above": 95 }
+    },
+    "typical": { "min": 68, "max": 72 },
+    "openCircuitCritical": false,
+    "purpose": "Establish install-environment baseline; out-of-range ambient affects cooling/heating performance and can mimic a component fault.",
+    "failureModes": [
+      "Garage/basement install below normal ambient can cause fridge/freezer control issues",
+      "Excess ambient heat load (near oven, direct sun, poor ventilation) drives run times up on refrigeration"
+    ],
+    "testingTips": [
+      "Measure a few feet from the unit, not right against a heat source or vent"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer", "dishwasher", "microwave", "washer", "electric_dryer", "gas_dryer", "electric_range", "gas_range", "stacked_laundry", "aio_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["environment_check"]
+  },
+  {
+    "id": "defrostHeaterOhms",
+    "name": "Defrost Heater Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 20, "max": 40 },
+      "warning": { "min": 15, "max": 50 },
+      "critical": { "below": 5, "above": 80 }
+    },
+    "typical": { "min": 26, "max": 32 },
+    "openCircuitCritical": true,
+    "purpose": "Verify defrost heater continuity and resistance value to rule out open or shorted element.",
+    "failureModes": [
+      "Open (OL) = no defrost heat, frost buildup on evaporator",
+      "Reading well outside range = shorted/damaged element or wrong part"
+    ],
+    "testingTips": [
+      "Disconnect power and unplug heater leads before testing",
+      "Compare reading against nameplate wattage using Ohm's law if spec unknown (R = V²/W)"
+    ],
+    "notes": "Verify model spec — wattage varies significantly by cabinet size (typically 300-600W on 120-240V)",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "compressorRunAmps",
+    "name": "Compressor Run Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 1.0, "max": 4.5 },
+      "warning": { "min": 0.5, "max": 6.0 },
+      "critical": { "below": 0.2, "above": 8.0 }
+    },
+    "typical": { "min": 1.5, "max": 3.0 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm compressor is drawing expected run current after startup, ruling out locked rotor or refrigerant/mechanical issues.",
+    "failureModes": [
+      "High amps: locked/dragging compressor, high head pressure, overcharge",
+      "Low/zero amps after start attempt: start relay/capacitor fault, open winding, tripped overload"
+    ],
+    "testingTips": [
+      "Use clamp meter on common wire; measure after startup surge settles (a few seconds in)",
+      "Compare to nameplate FLA/RLA rating on compressor when readable"
+    ],
+    "notes": "Verify against compressor nameplate rating — varies by model and compressor size",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["compressor_check", "cooling_issue"]
+  },
+  {
+    "id": "compressorRunWindingOhms",
+    "name": "Compressor Run Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2, "max": 30 },
+      "warning": { "min": 1, "max": 40 },
+      "critical": { "below": 0.3, "above": 60 }
+    },
+    "typical": { "min": 4, "max": 15 },
+    "openCircuitCritical": true,
+    "purpose": "Verify compressor run/start winding continuity and rule out open or shorted winding.",
+    "failureModes": [
+      "Open (OL) on any winding pair = failed compressor",
+      "Very low reading (near 0) between winding and case = grounded/shorted winding"
+    ],
+    "testingTips": [
+      "Test C-S, C-R, S-R at compressor terminals with power disconnected",
+      "S-R should roughly equal C-S + C-R; large mismatch suggests bad winding",
+      "Also megohm-test winding to case for ground fault"
+    ],
+    "notes": "Verify against compressor nameplate/spec sheet — varies widely by compressor model",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["compressor_check", "cooling_issue"]
+  },
+  {
+    "id": "condenserFanAmps",
+    "name": "Condenser Fan Motor Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 0.1, "max": 0.6 },
+      "warning": { "min": 0.05, "max": 0.9 },
+      "critical": { "below": 0.02, "above": 1.5 }
+    },
+    "typical": { "min": 0.15, "max": 0.3 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm condenser fan motor is running and drawing normal current for adequate condenser airflow.",
+    "failureModes": [
+      "Zero amps: seized bearing, open winding, failed start circuit",
+      "High amps: motor dragging/binding on debris or failing bearing"
+    ],
+    "testingTips": [
+      "Clamp on motor common lead with unit running in cooling cycle",
+      "Check for physical obstruction/dust buildup before condemning motor"
+    ],
+    "notes": "Verify against motor nameplate rating when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["fan_motor_check", "cooling_issue"]
+  },
+  {
+    "id": "evaporatorFanAmps",
+    "name": "Evaporator Fan Motor Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 0.1, "max": 0.5 },
+      "warning": { "min": 0.05, "max": 0.8 },
+      "critical": { "below": 0.02, "above": 1.2 }
+    },
+    "typical": { "min": 0.12, "max": 0.25 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm evaporator fan motor is circulating air across the coil into the cabinet.",
+    "failureModes": [
+      "Zero amps: seized motor, open winding, failed door switch signal (on models with door-off fan cutoff)",
+      "High amps: fan blade iced up/obstructed, motor bearing failure"
+    ],
+    "testingTips": [
+      "Check that door switch isn't preventing fan operation during test",
+      "Inspect for ice buildup on blade from prior defrost failure before condemning motor"
+    ],
+    "notes": "Verify against motor nameplate rating when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": []
+    },
+    "dmaTags": ["fan_motor_check", "cooling_issue"]
+  },
+  {
+    "id": "cabinetThermistorOhms",
+    "name": "Cabinet Thermistor Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0.1, "max": 0.3 },
+      "warning": { "min": 0.05, "max": 0.4 },
+      "critical": { "below": 0.02, "above": 0.5 }
+    },
+    "typical": { "min": 0.15, "max": 0.25 },
+    "openCircuitCritical": true,
+    "purpose": "Verify thermistor resistance at known ambient/cabinet temp to rule out sensor drift or failure.",
+    "failureModes": [
+      "Open (OL): sensor failure, wiring break — often triggers error code or default temp behavior",
+      "Shorted (near 0): sensor failure — often triggers different error code"
+    ],
+    "testingTips": [
+      "Test at room temp for a rough sanity check; for precision, test at a known temp (ice water ~32°F) against manufacturer's resistance table",
+      "Resistance drops as temp rises (NTC behavior) — direction of drift matters, not just magnitude"
+    ],
+    "notes": "Many models ~0.2 Ω ±0.1 at room temp — verify against manufacturer's temp/resistance table when known; values vary meaningfully by brand and sensor type",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer", "washer", "dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["sensor_check", "thermistor_check"]
+  },
+  {
+    "id": "electricDryerSupplyAmps",
+    "name": "Electric Dryer Supply Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 15, "max": 24 },
+      "warning": { "min": 10, "max": 27 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 18, "max": 22 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm dryer is drawing expected current on its dedicated 30A circuit during heat cycle.",
+    "failureModes": [
+      "At/near 30A sustained: circuit near capacity, check for undersized wire/breaker nuisance tripping",
+      "Low/no amps on heat call: open heating element, thermal fuse/limit open, control relay fault"
+    ],
+    "testingTips": [
+      "Clamp each hot leg separately during an active heat call, not just tumble/no-heat",
+      "Confirm breaker/circuit is actually rated 30A before flagging as abnormal"
+    ],
+    "notes": "Assumes standard 30A dedicated dryer circuit context — verify circuit rating on install",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["current_check", "heating_issue", "circuit_check"]
+  },
+  {
+    "id": "electricRangeSupplyAmps",
+    "name": "Electric Range Supply Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 20, "max": 40 },
+      "warning": { "min": 15, "max": 45 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 25, "max": 35 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm range is drawing expected current on its dedicated 50A circuit during bake/broil/surface element use.",
+    "failureModes": [
+      "At/near 50A sustained across multiple elements: circuit near capacity, expected under heavy multi-element load",
+      "Low/no amps on a single element call: open element, faulty infinite switch/relay, wiring fault at that element only"
+    ],
+    "testingTips": [
+      "Test one element/function at a time to isolate which circuit is drawing incorrectly",
+      "Confirm breaker/circuit is actually rated 50A before flagging as abnormal"
+    ],
+    "notes": "Assumes standard 50A dedicated range circuit context — verify circuit rating on install",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["current_check", "heating_issue", "circuit_check"]
+  }
+]

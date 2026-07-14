@@ -1,0 +1,364 @@
+[
+  {
+    "id": "bakeElementOhms",
+    "name": "Bake Element Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 40 },
+      "warning": { "min": 10, "max": 50 },
+      "critical": { "below": 3, "above": 70 }
+    },
+    "typical": { "min": 19, "max": 24 },
+    "openCircuitCritical": true,
+    "purpose": "Verify bake element continuity and resistance to rule out open or shorted element on no-bake-heat complaints.",
+    "failureModes": [
+      "Open (OL): no bake heat, common failure point (visible burn/blister often present)",
+      "Reading well outside range or grounded to chassis: shorted/damaged element"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at element terminals",
+      "Use nameplate wattage with Ohm's law (R = V²/W) to sanity-check if spec unknown — common bake elements run 2000-3000W at 240V"
+    ],
+    "notes": "Verify model spec — wattage/resistance varies by oven cavity size and element design",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "no_bake_heat_issue"]
+  },
+  {
+    "id": "broilElementOhms",
+    "name": "Broil Element Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 40 },
+      "warning": { "min": 10, "max": 50 },
+      "critical": { "below": 3, "above": 70 }
+    },
+    "typical": { "min": 19, "max": 24 },
+    "openCircuitCritical": true,
+    "purpose": "Verify broil element continuity and resistance to rule out open or shorted element on no-broil-heat complaints.",
+    "failureModes": [
+      "Open (OL): no broil heat, common failure point (visible burn/blister often present)",
+      "Reading well outside range or grounded to chassis: shorted/damaged element"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at element terminals",
+      "Use nameplate wattage with Ohm's law (R = V²/W) to sanity-check if spec unknown — common broil elements run 2500-3600W at 240V"
+    ],
+    "notes": "Verify model spec — wattage/resistance varies by oven cavity size and element design",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "no_broil_heat_issue"]
+  },
+  {
+    "id": "convectionFanMotorAmps",
+    "name": "Convection Fan Motor Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 0.3, "max": 1.2 },
+      "warning": { "min": 0.15, "max": 1.8 },
+      "critical": { "below": 0.05, "above": 2.5 }
+    },
+    "typical": { "min": 0.4, "max": 0.8 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm convection fan motor runs and draws expected current during convection bake/roast cycles.",
+    "failureModes": [
+      "Zero amps: seized motor, open winding, control not energizing motor",
+      "High amps: motor binding/dragging on debris, bearing failure"
+    ],
+    "testingTips": [
+      "Clamp meter on motor lead during an active convection cycle",
+      "Check for grease/debris buildup on fan blade before condemning motor"
+    ],
+    "notes": "Verify against motor nameplate rating when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["fan_motor_check", "convection_issue"]
+  },
+  {
+    "id": "ovenTempSensorOhms",
+    "name": "Oven Temperature Sensor (RTD) Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1000, "max": 1200 },
+      "warning": { "min": 900, "max": 1300 },
+      "critical": { "below": 500, "above": 2000 }
+    },
+    "typical": { "min": 1080, "max": 1100 },
+    "openCircuitCritical": true,
+    "purpose": "Verify oven RTD temperature probe resistance at room temp to rule out drift or failure causing temp inaccuracy or error codes.",
+    "failureModes": [
+      "Open (OL): sensor failure — often triggers an F-code and locks out bake/broil",
+      "Reading far outside range at room temp: sensor drift — can cause food to over/undercook despite display showing correct set temp"
+    ],
+    "testingTips": [
+      "Test with oven fully cooled to room temperature for the baseline reading",
+      "Resistance rises roughly linearly with temperature (PTC/RTD behavior) — many common ranges spec ~1080Ω at ~75°F rising toward ~1200Ω near 500°F, but confirm against exact model spec"
+    ],
+    "notes": "~1080-1100Ω at room temp is a common industry approximation across many electric range brands, but exact spec/curve varies — verify against manufacturer chart when precision matters",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["sensor_check", "temp_accuracy_issue"]
+  },
+  {
+    "id": "iceMakerMotorAmps",
+    "name": "Ice Maker Module Motor Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 0.3, "max": 1.5 },
+      "warning": { "min": 0.15, "max": 2.2 },
+      "critical": { "below": 0.05, "above": 3.0 }
+    },
+    "typical": { "min": 0.4, "max": 0.8 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm ice maker gear motor draws expected current during a harvest/ejection cycle.",
+    "failureModes": [
+      "Zero amps during harvest: open motor winding, failed module control board",
+      "High amps or stalling: ice jam in tray, frozen ejector, worn/stripped gears"
+    ],
+    "testingTips": [
+      "Clamp meter during a manually initiated harvest cycle (most modules have a test button/lever)",
+      "Listen/feel for stalling vs. free rotation — a stalled motor often draws higher current briefly then trips thermal protection"
+    ],
+    "notes": "Verify against module nameplate/spec when available — varies by icemaker module design",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer", "ice_maker"],
+      "templates": []
+    },
+    "dmaTags": ["ice_maker_check", "no_ice_issue"]
+  },
+  {
+    "id": "iceMakerWaterValveOhms",
+    "name": "Ice Maker Water Fill Valve Coil Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 150, "max": 400 },
+      "warning": { "min": 100, "max": 600 },
+      "critical": { "below": 20, "above": 900 }
+    },
+    "typical": { "min": 200, "max": 300 },
+    "openCircuitCritical": true,
+    "purpose": "Verify ice maker fill valve solenoid coil continuity when tray fails to fill after a harvest cycle.",
+    "failureModes": [
+      "Open (OL): failed solenoid coil, no fill water reaching tray",
+      "Very low reading: shorted coil"
+    ],
+    "testingTips": [
+      "Test at valve connector with power disconnected",
+      "Rule out low household water pressure and kinked/frozen fill tube before condemning valve"
+    ],
+    "notes": "May be a dedicated icemaker valve or a shared valve with additional dishwasher/refrigerator door dispenser circuits — confirm which coil you're testing",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer", "ice_maker"],
+      "templates": []
+    },
+    "dmaTags": ["water_valve_check", "no_ice_issue"]
+  },
+  {
+    "id": "iceMakerMoldThermostatOhms",
+    "name": "Ice Maker Mold Thermostat Continuity",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 20 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Verify mold thermostat closes (near-zero resistance) once ice reaches harvest temperature, enabling the harvest cycle.",
+    "failureModes": [
+      "Stays open (OL) even when ice is fully frozen: failed thermostat, harvest cycle never triggers",
+      "Closed at warm ambient (should be open): failed thermostat, may cause premature/incorrect harvest attempts"
+    ],
+    "testingTips": [
+      "Test at connector; for a true pass/fail check, verify state changes as tray temp crosses the rated trip point (often near 15-18°F on many designs)",
+      "Bimetal thermostats are typically not adjustable — a bad reading means replacement, not calibration"
+    ],
+    "notes": "Trip temperature and continuity behavior vary by manufacturer — verify against spec when precision matters",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer", "ice_maker"],
+      "templates": []
+    },
+    "dmaTags": ["ice_maker_check", "no_ice_issue"]
+  },
+  {
+    "id": "iceMakerHarvestHeaterOhms",
+    "name": "Ice Maker Harvest Heater Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 100, "max": 250 },
+      "warning": { "min": 70, "max": 350 },
+      "critical": { "below": 15, "above": 500 }
+    },
+    "typical": { "min": 140, "max": 190 },
+    "openCircuitCritical": true,
+    "purpose": "Verify harvest heater continuity on models that use a small heater (rather than a gear-driven twist tray) to release ice from the mold.",
+    "failureModes": [
+      "Open (OL): no release heat, ice sticks in tray/mold",
+      "Shorted/very low reading: damaged element"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at heater terminals",
+      "Confirm your unit design actually uses a harvest heater vs. a twist-tray gear motor before testing this ID"
+    ],
+    "notes": "Only applicable to heater-release style icemakers — verify design and spec by model",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer", "ice_maker"],
+      "templates": []
+    },
+    "dmaTags": ["ice_maker_check", "no_ice_issue"]
+  },
+  {
+    "id": "electricDryerHeatingElementOhms",
+    "name": "Electric Dryer Heating Element Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8, "max": 15 },
+      "warning": { "min": 5, "max": 20 },
+      "critical": { "below": 1, "above": 30 }
+    },
+    "typical": { "min": 10, "max": 12 },
+    "openCircuitCritical": true,
+    "purpose": "Verify heating element continuity and resistance to rule out open or shorted element on no-heat complaints.",
+    "failureModes": [
+      "Open (OL): no heat, most common cause of a no-heat/long-dry-time complaint on electric dryers",
+      "Reading well outside range or grounded to cabinet: shorted/damaged element"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at element terminals",
+      "Use nameplate wattage with Ohm's law (R = V²/W) to sanity-check if spec unknown — common elements run ~5000-5600W at 240V"
+    ],
+    "notes": "Verify model spec — wattage/resistance varies by brand and dryer capacity",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "no_heat_issue"]
+  },
+  {
+    "id": "dryerThermalFuseOhms",
+    "name": "Dryer Thermal Fuse Continuity",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Verify thermal fuse continuity — this is a one-time safety fuse that opens permanently if the dryer overheats.",
+    "failureModes": [
+      "Open (OL): fuse has tripped — no heat and often no tumble on some models until replaced",
+      "A tripped fuse is a symptom, not a root cause — inspect venting/lint path and cycling thermostat before replacing fuse alone"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at fuse terminals",
+      "Always diagnose and clear the airflow restriction (clogged vent, lint) that caused the trip, or the new fuse will blow again"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["safety_fuse_check", "no_heat_issue", "airflow_check"]
+  },
+  {
+    "id": "dryerCyclingThermostatOhms",
+    "name": "Dryer Cycling Thermostat Continuity",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "warning": { "min": 0, "max": 10 },
+      "critical": { "below": 0, "above": 30 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Verify cycling thermostat contacts close at room/cool temp (bimetal switch), allowing heat circuit to complete.",
+    "failureModes": [
+      "Open (OL) at room/cool temp: failed thermostat — no heat or heat cycles incorrectly",
+      "Stays closed regardless of temp: failed thermostat — can contribute to overheating/scorching complaints"
+    ],
+    "testingTips": [
+      "Test at room temperature with unit cooled down and disconnected from power",
+      "Several thermostats of different trip points may exist on one unit (operating, high-limit, cycling) — identify which one you're testing"
+    ],
+    "notes": "Trip point varies by thermostat's rated function and position in the airflow path — verify part number/spec before replacing",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["cycling_thermostat_check", "no_heat_issue", "overheat_issue"]
+  },
+  {
+    "id": "dryerDrumMotorWindingOhms",
+    "name": "Dryer Drum Motor Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1, "max": 10 },
+      "warning": { "min": 0.5, "max": 20 },
+      "critical": { "below": 0.1, "above": 40 }
+    },
+    "typical": { "min": 2, "max": 5 },
+    "openCircuitCritical": true,
+    "purpose": "Verify drum motor winding continuity when drum fails to turn or motor hums without turning.",
+    "failureModes": [
+      "Open (OL) on main or start winding: failed motor",
+      "Motor hums but drum doesn't turn: often a mechanical issue (belt, idler pulley) rather than winding — check both before replacing motor"
+    ],
+    "testingTips": [
+      "Disconnect motor connector and power before testing",
+      "Also check centrifugal switch continuity (if equipped) since a failed switch can mimic a bad winding symptom"
+    ],
+    "notes": "Universal-motor designs read low resistance and vary by brand — verify against manufacturer spec when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["motor_check", "no_tumble_issue"]
+  },
+  {
+    "id": "gasFlameSensorMicroamps",
+    "name": "Gas Flame Sensor (Rectification) Current",
+    "unit": "µA",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 2, "max": 6 },
+      "warning": { "min": 1, "max": 8 },
+      "critical": { "below": 0.3, "above": 10 }
+    },
+    "typical": { "min": 3, "max": 5 },
+    "openCircuitCritical": false,
+    "purpose": "Verify flame-sensing (flame rectification) DC microamp signal is present and adequate once burner lights, confirming the control will hold the gas valve open.",
+    "failureModes": [
+      "No microamp signal with flame present: dirty/degraded sensor rod, poor ground/bond, or failed control board sensing circuit — valve may open then shut down shortly after ignition",
+      "Low but present signal: partially degraded sensor rod (carbon buildup) or flame not fully contacting rod — often intermittent shutdown symptom"
+    ],
+    "testingTips": [
+      "Use a microamp meter in series with the sensor wire per the specific control board's test procedure — this is a live-flame, powered test, use appropriate caution",
+      "Clean the flame sensor rod of carbon/oxide buildup before condemning the control board"
+    ],
+    "notes": "This applies to flame-rectification style sensing used on some gas range/oven ignition systems — not all designs use this method; confirm ignition system type before applying",
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["flame_sensor_check", "ignition_issue"]
+  }
+]

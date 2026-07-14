@@ -1,3 +1,4 @@
+import type { MeasurementEvaluation } from '../knowledge/types';
 import type { DiagnosticWizardStepConfig, WizardDefinition } from '../types';
 import { collectClauseTriggers, ruleWhenMatches } from './conditionMatcher';
 import type {
@@ -79,6 +80,7 @@ function titleForStepKey(definition: WizardDefinition, stepKey: string): string 
 export function evaluateRouting(
   definition: WizardDefinition | null | undefined,
   fields: Record<string, unknown> = {},
+  measurementStatuses?: Map<string, MeasurementEvaluation>,
 ): RoutingEvaluationResult | null {
   if (!definition?.routing) return null;
 
@@ -93,9 +95,16 @@ export function evaluateRouting(
   const triggers = new Set<string>();
 
   for (const rule of routing.rules || []) {
-    if (!ruleWhenMatches(rule.when, complaintChipIds, complaintText, fields)) continue;
+    if (!ruleWhenMatches(rule.when, complaintChipIds, complaintText, fields, measurementStatuses)) continue;
     matchedRules.push({ ruleId: rule.id, ruleLabel: rule.label || rule.id });
-    for (const t of collectClauseTriggers(rule.when, complaintChipIds, complaintText, fields, chipLabels)) {
+    for (const t of collectClauseTriggers(
+      rule.when,
+      complaintChipIds,
+      complaintText,
+      fields,
+      chipLabels,
+      measurementStatuses,
+    )) {
       triggers.add(t);
     }
     for (const key of rule.enable || []) enabled.add(key);

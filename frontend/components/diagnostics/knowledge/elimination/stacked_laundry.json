@@ -1,0 +1,125 @@
+{
+  "templateId": "stacked_laundry",
+  "categories": [
+    { "id": "washer_drain", "label": "Washer Drain", "dmaTags": ["pump_check", "drain_issue"] },
+    { "id": "washer_drive", "label": "Washer Drive Motor", "dmaTags": ["motor_check", "spin_issue"] },
+    { "id": "dryer_heat", "label": "Dryer Heat Circuit", "dmaTags": ["heating_element_check", "safety_fuse_check"] },
+    { "id": "dryer_motor", "label": "Dryer Drum Motor", "dmaTags": ["motor_check", "no_tumble_issue"] },
+    { "id": "dryer_airflow", "label": "Dryer Airflow / Vent", "dmaTags": ["airflow_check", "vent_restriction"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "washer_drain_pump_ok", "category": "washer_drain", "label": "Washer drain pump OK", "oppositeId": "washer_drain_pump_failed" },
+    { "id": "washer_drain_pump_failed", "category": "washer_drain", "label": "Washer drain pump failed", "oppositeId": "washer_drain_pump_ok" },
+    { "id": "washer_motor_ok", "category": "washer_drive", "label": "Wash motor OK", "oppositeId": "washer_motor_failed" },
+    { "id": "washer_motor_failed", "category": "washer_drive", "label": "Wash motor failed", "oppositeId": "washer_motor_ok" },
+    { "id": "dryer_thermal_fuse_ok", "category": "dryer_heat", "label": "Dryer thermal fuse OK", "oppositeId": "dryer_thermal_fuse_failed" },
+    { "id": "dryer_thermal_fuse_failed", "category": "dryer_heat", "label": "Dryer thermal fuse open", "oppositeId": "dryer_thermal_fuse_ok" },
+    { "id": "dryer_heat_ok", "category": "dryer_heat", "label": "Dryer heat OK", "oppositeId": "dryer_heat_failed" },
+    { "id": "dryer_heat_failed", "category": "dryer_heat", "label": "Dryer heat circuit fault", "oppositeId": "dryer_heat_ok" },
+    { "id": "dryer_motor_ok", "category": "dryer_motor", "label": "Dryer drum motor OK", "oppositeId": "dryer_motor_failed" },
+    { "id": "dryer_motor_failed", "category": "dryer_motor", "label": "Dryer drum motor failed", "oppositeId": "dryer_motor_ok" },
+    { "id": "dryer_vent_ok", "category": "dryer_airflow", "label": "Dryer vent / airflow OK", "oppositeId": "dryer_vent_restricted" },
+    { "id": "dryer_vent_restricted", "category": "dryer_airflow", "label": "Dryer vent restriction", "oppositeId": "dryer_vent_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "washer_drain_pump_ol",
+      "when": { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] },
+      "eliminate": ["washer_drain_pump_ok"],
+      "confirm": ["washer_drain_pump_failed"]
+    },
+    {
+      "id": "washer_motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "washerMotorWindingOhms", "statusIn": ["critical"] },
+      "eliminate": ["washer_motor_ok"],
+      "confirm": ["washer_motor_failed"]
+    },
+    {
+      "id": "dryer_thermal_fuse_open",
+      "when": { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] },
+      "eliminate": ["dryer_thermal_fuse_ok", "dryer_heat_ok"],
+      "confirm": ["dryer_thermal_fuse_failed", "dryer_heat_failed"]
+    },
+    {
+      "id": "dryer_motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "dryerDrumMotorWindingOhms", "statusIn": ["critical"] },
+      "eliminate": ["dryer_motor_ok"],
+      "confirm": ["dryer_motor_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage240", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "washer_drain_bad",
+      "when": { "type": "field", "path": "washer_section.drain", "equals": "bad" },
+      "eliminate": ["washer_drain_pump_ok"],
+      "confirm": ["washer_drain_pump_failed"]
+    },
+    {
+      "id": "washer_spin_bad",
+      "when": { "type": "field", "path": "washer_section.spin", "equals": "bad" },
+      "eliminate": ["washer_motor_ok"],
+      "confirm": ["washer_motor_failed"]
+    },
+    {
+      "id": "washer_agitate_bad",
+      "when": { "type": "field", "path": "washer_section.agitate", "equals": "bad" },
+      "eliminate": ["washer_motor_ok"],
+      "confirm": ["washer_motor_failed"]
+    },
+    {
+      "id": "dryer_no_heat",
+      "when": { "type": "field", "path": "dryer_section.heat_present", "equals": "no" },
+      "eliminate": ["dryer_heat_ok"],
+      "confirm": ["dryer_heat_failed", "dryer_thermal_fuse_failed"]
+    },
+    {
+      "id": "dryer_no_tumble",
+      "when": { "type": "field", "path": "dryer_section.drum_turning", "equals": "no" },
+      "eliminate": ["dryer_motor_ok"],
+      "confirm": ["dryer_motor_failed"]
+    },
+    {
+      "id": "dryer_airflow_bad",
+      "when": { "type": "field", "path": "dryer_section.airflow", "equals": "bad" },
+      "eliminate": ["dryer_vent_ok"],
+      "confirm": ["dryer_vent_restricted"]
+    },
+    {
+      "id": "washer_drain_chip",
+      "when": { "type": "chip", "id": "washer_drain" },
+      "suspect": ["washer_drain_pump_failed"]
+    },
+    {
+      "id": "washer_spin_chip",
+      "when": { "type": "chip", "id": "washer_spin" },
+      "suspect": ["washer_motor_failed"]
+    },
+    {
+      "id": "washer_fill_chip",
+      "when": { "type": "chip", "id": "washer_fill" },
+      "suspect": ["supply_fault"]
+    },
+    {
+      "id": "dryer_no_heat_chip",
+      "when": { "type": "chip", "id": "dryer_no_heat" },
+      "suspect": ["dryer_heat_failed", "dryer_thermal_fuse_failed"]
+    },
+    {
+      "id": "dryer_not_drying_chip",
+      "when": { "type": "chip", "id": "dryer_not_drying" },
+      "suspect": ["dryer_vent_restricted", "dryer_heat_failed"]
+    },
+    {
+      "id": "dryer_no_tumble_chip",
+      "when": { "type": "chip", "id": "dryer_no_tumble" },
+      "suspect": ["dryer_motor_failed"]
+    }
+  ]
+}

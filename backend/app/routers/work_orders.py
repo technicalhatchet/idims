@@ -42,6 +42,7 @@ from app.services.work_order_payment_service import record_work_order_payment, l
 from app.services import work_order_photos_service as photos_svc
 from app.schemas.service import ServiceResponse
 from app.services.work_order_service import WorkOrderService
+from app.services.diagnostic_last_measurements_service import get_last_diagnostic_measurements
 from app.core.dependencies import get_current_user, get_admin_or_manager_user, get_admin_user
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException, BadRequestException
 from app.services.user_service import UserService
@@ -440,6 +441,39 @@ async def create_work_order_with_initial_appointment(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error creating work order with appointment: {str(e)}",
         )
+
+
+@router.get("/diagnostics/last-measurements", response_model=Dict[str, Any])
+async def get_diagnostic_last_measurements(
+    equipment_serial: str = Query(..., description="Equipment serial number"),
+    template_id: str = Query(..., description="Diagnostic template id (e.g. refrigerator)"),
+    exclude_work_order_id: Optional[uuid.UUID] = Query(
+        None,
+        description="Exclude notes from this work order (current WO being edited)",
+    ),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Return the most recent prior diagnostic field readings for a serial + template."""
+    if "client" in (current_user.roles or []):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Clients cannot access diagnostic measurement history",
+        )
+
+    serial = (equipment_serial or "").strip()
+    if not serial:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="equipment_serial is required",
+        )
+
+    return get_last_diagnostic_measurements(
+        db,
+        equipment_serial=serial,
+        template_id=template_id,
+        exclude_work_order_id=exclude_work_order_id,
+    )
 
 
 @router.get("/work-orders/{work_order_id}", response_model=Dict[str, Any])

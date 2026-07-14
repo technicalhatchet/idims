@@ -1,0 +1,115 @@
+{
+  "templateId": "washer",
+  "categories": [
+    { "id": "drain_pump", "label": "Drain Pump", "dmaTags": ["pump_check", "drain_issue"] },
+    { "id": "fill_supply", "label": "Fill / Water Supply", "dmaTags": ["water_valve_check", "fill_issue"] },
+    { "id": "drive_motor", "label": "Drive Motor", "dmaTags": ["motor_check", "spin_issue", "agitate_issue"] },
+    { "id": "door_lock", "label": "Door / Lid Lock", "dmaTags": ["door_lock_check", "safety_switch"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "drain_pump_ok", "category": "drain_pump", "label": "Drain pump OK", "oppositeId": "drain_pump_failed" },
+    { "id": "drain_pump_failed", "category": "drain_pump", "label": "Drain pump failed", "oppositeId": "drain_pump_ok" },
+    { "id": "inlet_valve_ok", "category": "fill_supply", "label": "Inlet valve OK", "oppositeId": "inlet_valve_failed" },
+    { "id": "inlet_valve_failed", "category": "fill_supply", "label": "Inlet valve failed", "oppositeId": "inlet_valve_ok" },
+    { "id": "drive_motor_ok", "category": "drive_motor", "label": "Drive motor OK", "oppositeId": "drive_motor_failed" },
+    { "id": "drive_motor_failed", "category": "drive_motor", "label": "Drive motor failed", "oppositeId": "drive_motor_ok" },
+    { "id": "door_lock_ok", "category": "door_lock", "label": "Door lock OK", "oppositeId": "door_lock_failed" },
+    { "id": "door_lock_failed", "category": "door_lock", "label": "Door lock failed", "oppositeId": "door_lock_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "drain_pump_ol",
+      "when": { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] },
+      "eliminate": ["drain_pump_ok"],
+      "confirm": ["drain_pump_failed"]
+    },
+    {
+      "id": "drain_pump_low_amps",
+      "when": { "type": "measurement", "knowledgeId": "washerDrainPumpAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["drain_pump_ok"],
+      "confirm": ["drain_pump_failed"]
+    },
+    {
+      "id": "inlet_valve_ol",
+      "when": { "type": "measurement", "knowledgeId": "washerWaterValveOhms", "statusIn": ["critical"] },
+      "eliminate": ["inlet_valve_ok"],
+      "confirm": ["inlet_valve_failed"]
+    },
+    {
+      "id": "drive_motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "washerMotorWindingOhms", "statusIn": ["critical"] },
+      "eliminate": ["drive_motor_ok"],
+      "confirm": ["drive_motor_failed"]
+    },
+    {
+      "id": "door_lock_open",
+      "when": { "type": "measurement", "knowledgeId": "washerDoorLockSwitchOhms", "statusIn": ["critical"] },
+      "eliminate": ["door_lock_ok"],
+      "confirm": ["door_lock_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "drain_bad",
+      "when": { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" },
+      "eliminate": ["drain_pump_ok"],
+      "confirm": ["drain_pump_failed"]
+    },
+    {
+      "id": "fill_bad",
+      "when": { "type": "field", "path": "functional_checks.fill_operation", "equals": "bad" },
+      "eliminate": ["inlet_valve_ok"],
+      "confirm": ["inlet_valve_failed"]
+    },
+    {
+      "id": "spin_bad",
+      "when": { "type": "field", "path": "functional_checks.spin_operation", "equals": "bad" },
+      "eliminate": ["drive_motor_ok"],
+      "confirm": ["drive_motor_failed"]
+    },
+    {
+      "id": "agitate_bad",
+      "when": { "type": "field", "path": "functional_checks.agitation", "equals": "bad" },
+      "eliminate": ["drive_motor_ok"],
+      "confirm": ["drive_motor_failed"]
+    },
+    {
+      "id": "lid_lock_bad",
+      "when": { "type": "field", "path": "functional_checks.lid_lock_operation", "equals": "bad" },
+      "eliminate": ["door_lock_ok"],
+      "confirm": ["door_lock_failed"]
+    },
+    {
+      "id": "wont_drain_chip",
+      "when": { "type": "chip", "id": "wont_drain" },
+      "suspect": ["drain_pump_failed"]
+    },
+    {
+      "id": "no_fill_chip",
+      "when": { "type": "chip", "id": "no_fill" },
+      "suspect": ["inlet_valve_failed"]
+    },
+    {
+      "id": "wont_spin_chip",
+      "when": { "type": "chip", "id": "wont_spin" },
+      "suspect": ["drive_motor_failed"]
+    },
+    {
+      "id": "wont_agitate_chip",
+      "when": { "type": "chip", "id": "wont_agitate" },
+      "suspect": ["drive_motor_failed"]
+    },
+    {
+      "id": "lid_lock_chip",
+      "when": { "type": "chip", "id": "lid_lock" },
+      "suspect": ["door_lock_failed"]
+    }
+  ]
+}

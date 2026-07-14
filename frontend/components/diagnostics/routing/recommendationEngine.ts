@@ -1,3 +1,4 @@
+import type { MeasurementEvaluation } from '../knowledge/types';
 import { ruleWhenMatches } from './conditionMatcher';
 import { getComplaintChipIds, getComplaintText } from './routingEngine';
 import type { ActiveFieldRecommendation, FieldRecommendationRule } from './types';
@@ -5,6 +6,7 @@ import type { ActiveFieldRecommendation, FieldRecommendationRule } from './types
 export function evaluateRecommendations(
   rules: FieldRecommendationRule[] | undefined,
   fields: Record<string, unknown> = {},
+  measurementStatuses?: Map<string, MeasurementEvaluation>,
 ): ActiveFieldRecommendation[] {
   if (!rules?.length) return [];
 
@@ -14,7 +16,7 @@ export function evaluateRecommendations(
   const active: ActiveFieldRecommendation[] = [];
 
   for (const rule of rules) {
-    if (!ruleWhenMatches(rule.when, complaintChipIds, complaintText, fields)) continue;
+    if (!ruleWhenMatches(rule.when, complaintChipIds, complaintText, fields, measurementStatuses)) continue;
     if (seen.has(rule.id)) continue;
     seen.add(rule.id);
     active.push({

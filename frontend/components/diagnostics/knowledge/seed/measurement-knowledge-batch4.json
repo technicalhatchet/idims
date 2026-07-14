@@ -1,0 +1,327 @@
+[
+  {
+    "id": "dishwasherCirculationPumpOhms",
+    "name": "Dishwasher Circulation Pump Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 80 },
+      "warning": { "min": 2, "max": 120 },
+      "critical": { "below": 0.5, "above": 200 }
+    },
+    "typical": { "min": 10, "max": 40 },
+    "openCircuitCritical": true,
+    "purpose": "Verify wash/circulation pump motor winding continuity when wash motor fails to run or hums.",
+    "failureModes": [
+      "Open (OL): failed motor winding",
+      "Very low reading: shorted winding"
+    ],
+    "testingTips": [
+      "Disconnect power and pump connector before testing",
+      "Some models use one motor for wash and drain — confirm which winding you're measuring"
+    ],
+    "notes": "Resistance varies widely by motor design (AC shaded-pole vs. DC) — verify against manufacturer spec when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["pump_check", "wash_issue"]
+  },
+  {
+    "id": "dishwasherDrainPumpOhms",
+    "name": "Dishwasher Drain Pump Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 20, "max": 200 },
+      "warning": { "min": 10, "max": 300 },
+      "critical": { "below": 2, "above": 500 }
+    },
+    "typical": { "min": 30, "max": 100 },
+    "openCircuitCritical": true,
+    "purpose": "Verify drain pump motor winding continuity on models with a dedicated drain pump.",
+    "failureModes": [
+      "Open (OL): failed drain pump motor",
+      "Very low reading: shorted winding"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at pump connector",
+      "Not all dishwashers have a separate drain pump — verify design before applying"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "dishwasherHeaterAmps",
+    "name": "Dishwasher Heating Element Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 5, "max": 12 },
+      "warning": { "min": 3, "max": 14 },
+      "critical": { "below": 1, "above": 16 }
+    },
+    "typical": { "min": 7, "max": 10 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm heating element draws expected current during heat/dry cycle on 120V.",
+    "failureModes": [
+      "Zero amps on heat call: open element, thermal fuse, relay/control fault",
+      "High amps: shorted element or wiring fault"
+    ],
+    "testingTips": [
+      "Clamp on element supply lead during active heat phase",
+      "Typical elements 700–1100W at 120V ≈ 6–9A"
+    ],
+    "notes": "Verify against element wattage/nameplate when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "dry_issue"]
+  },
+  {
+    "id": "dishwasherIncomingWaterTemp",
+    "name": "Dishwasher Incoming Hot Water Temperature",
+    "unit": "°F",
+    "inputKind": "temperature",
+    "ranges": {
+      "normal": { "min": 110, "max": 140 },
+      "warning": { "min": 100, "max": 150 },
+      "critical": { "below": 90, "above": 160 }
+    },
+    "typical": { "min": 115, "max": 130 },
+    "openCircuitCritical": false,
+    "purpose": "Verify hot water at sink/supply meets dishwasher minimum for proper wash and dry performance.",
+    "failureModes": [
+      "Below 110°F: long cycles, poor cleaning/drying, customer habit or distant water heater",
+      "Excessively high: scalding risk, may stress inlet valve seals over time"
+    ],
+    "testingTips": [
+      "Measure at nearest hot faucet after running until fully hot",
+      "Run hot water at sink 1–2 minutes before starting dishwasher test cycle"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["water_temp_check", "dry_issue", "wash_issue"]
+  },
+  {
+    "id": "dishwasherTubThermistorOhms",
+    "name": "Dishwasher Tub Thermistor / OWI Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5000, "max": 20000 },
+      "warning": { "min": 2000, "max": 40000 },
+      "critical": { "below": 500, "above": 80000 }
+    },
+    "typical": { "min": 8000, "max": 15000 },
+    "openCircuitCritical": true,
+    "purpose": "Verify tub temperature sensor or OWI probe resistance at a known baseline temp.",
+    "failureModes": [
+      "Open (OL): sensor failure, wiring break",
+      "Reading far outside range at known temp: drift or wrong sensor type"
+    ],
+    "testingTips": [
+      "Test at room temp or known water temp and compare to manufacturer chart",
+      "OWI turbidity sensors use different test procedures — confirm sensor type before applying resistance bands"
+    ],
+    "notes": "NTC tub sensors vary widely by brand — verify against manufacturer resistance table when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["sensor_check", "thermistor_check"]
+  },
+  {
+    "id": "dishwasherFloatSwitchOhms",
+    "name": "Dishwasher Float Switch / Leak Sensor Continuity",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 20 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Verify float switch or leak sensor contact state per normal (empty tub) operating position.",
+    "failureModes": [
+      "Unexpected open/closed vs. expected tub state: stuck float, failed switch, wiring fault"
+    ],
+    "testingTips": [
+      "Confirm expected switch state for an empty vs. flooded tub before judging reading",
+      "Some leak sensors are electronic probes, not mechanical floats — follow model procedure"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["float_switch_check", "leak_issue"]
+  },
+  {
+    "id": "neutralGroundVoltage",
+    "name": "Neutral-to-Ground Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "warning": { "min": 0, "max": 5 },
+      "critical": { "below": 0, "above": 8 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": false,
+    "purpose": "Detect neutral-ground potential indicating wiring fault, shared neutral issues, or improper bonding.",
+    "failureModes": [
+      "Elevated N-G voltage (>2V): loose neutral, panel bonding issue, shared neutral load",
+      "Can cause erratic control board behavior and nuisance faults on 120/240V appliances"
+    ],
+    "testingTips": [
+      "Measure at outlet or terminal block with unit powered",
+      "Investigate upstream panel bonding and neutral connections if reading is elevated"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "electric_dryer", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["voltage_check", "supply_issue", "wiring_fault"]
+  },
+  {
+    "id": "electricRangeElementAmps",
+    "name": "Electric Range Element Amperage (Single Element)",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 7, "max": 18 },
+      "warning": { "min": 4, "max": 22 },
+      "critical": { "below": 1, "above": 28 }
+    },
+    "typical": { "min": 9, "max": 14 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm a single bake or broil element draws expected current when energized.",
+    "failureModes": [
+      "Zero amps on element call: open element, relay/infinite switch fault, wiring open",
+      "Low amps: partial element failure, poor connection at terminal block"
+    ],
+    "testingTips": [
+      "Clamp one leg of the element circuit during active bake or broil call",
+      "Use element wattage with I = P/V to sanity-check (e.g. 3000W @ 240V ≈ 12.5A)"
+    ],
+    "notes": "Single-element draw — not total range circuit load; verify against element wattage when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["current_check", "heating_element_check"]
+  },
+  {
+    "id": "hotSurfaceIgniterAmps",
+    "name": "Hot Surface Igniter Amperage (Glow)",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 2.5, "max": 4.5 },
+      "warning": { "min": 1.5, "max": 5.5 },
+      "critical": { "below": 0.5, "above": 7.0 }
+    },
+    "typical": { "min": 3.0, "max": 3.6 },
+    "openCircuitCritical": false,
+    "purpose": "Verify igniter draws adequate current to glow hot enough to open the gas safety valve.",
+    "failureModes": [
+      "Low amps with visible glow: weak igniter — gas may not ignite or valve won't open",
+      "Zero amps: open igniter circuit, failed igniter, control board relay fault"
+    ],
+    "testingTips": [
+      "Clamp igniter circuit during ignition sequence",
+      "Silicon carbide igniters often need ~3.2–3.6A; silicon nitride types differ — verify igniter type"
+    ],
+    "notes": "Amp draw is often more diagnostic than cold resistance alone — verify igniter type and manufacturer spec",
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "gas_dryer"],
+      "templates": []
+    },
+    "dmaTags": ["igniter_check", "ignition_issue"]
+  },
+  {
+    "id": "gasFlameSensorContinuityOhms",
+    "name": "Gas Flame Sensor Continuity",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 20 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 2 },
+    "openCircuitCritical": true,
+    "purpose": "Verify flame sensor rod/circuit continuity per de-energized bench test procedure.",
+    "failureModes": [
+      "Open (OL): cracked sensor rod, wiring break",
+      "Note: flame-rectification systems need live-flame µA test — this is a rough continuity check only"
+    ],
+    "testingTips": [
+      "Clean carbon buildup from sensor rod before testing",
+      "For rectification-style controls, follow manufacturer microamp procedure when available"
+    ],
+    "notes": "Bench continuity check only — rectification systems require live flame µA measurement for definitive diagnosis",
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "gas_dryer"],
+      "templates": []
+    },
+    "dmaTags": ["flame_sensor_check", "ignition_issue"]
+  },
+  {
+    "id": "microwaveLineFuseOhms",
+    "name": "Microwave Line Fuse Continuity",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Verify line fuse continuity when unit is completely dead (no display, no lights).",
+    "failureModes": [
+      "Open (OL): blown fuse — find root cause (door switch fault, HV short, magnetron fault) before replacing"
+    ],
+    "testingTips": [
+      "Disconnect power before testing fuse out of circuit",
+      "A blown fuse is a symptom — inspect door switches and HV circuit before replacing fuse alone"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": []
+    },
+    "dmaTags": ["fuse_check", "no_power_issue"]
+  },
+  {
+    "id": "microwaveThermalCutoutOhms",
+    "name": "Microwave Thermal Cutout Continuity",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Verify thermal cutout / cavity thermostat continuity when unit won't heat or powers off mid-cycle.",
+    "failureModes": [
+      "Open (OL): tripped thermal cutout — often from blocked vents, failed fan, or magnetron overheating"
+    ],
+    "testingTips": [
+      "Allow unit to cool fully before testing — cutouts may reset when cooled",
+      "Clear vent path and verify cooling fan operation before replacing cutout"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": []
+    },
+    "dmaTags": ["thermal_cutout_check", "overheat_issue"]
+  }
+]

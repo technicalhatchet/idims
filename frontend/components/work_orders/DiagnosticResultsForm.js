@@ -12,11 +12,16 @@ import {
   persistDiagnosticDraft,
 } from '../diagnostics/diagnosticDraft';
 import ExplainRouteBanner from '../diagnostics/ExplainRouteBanner';
+import EliminationBanner from '../diagnostics/EliminationBanner';
+import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
+import { getEliminationConfig } from '../diagnostics/knowledge/knowledgeRegistry';
+import { evaluateElimination } from '../diagnostics/elimination/eliminationEngine';
 import {
   diffRouting,
   evaluateRouting,
 } from '../diagnostics/routing/routingEngine';
 import { evaluateRecommendations } from '../diagnostics/routing/recommendationEngine';
+import { getDiagnosticLastMeasurements } from '../../services/api/diagnosticsApi';
 import {
   formatDiagnosticVisitLabel,
   getDiagnosticTemplate,
@@ -42,16 +47,61 @@ export default function DiagnosticResultsForm({
   const templateOptions = listDiagnosticTemplates().map((t) => ({ value: t.id, label: t.label }));
   const draftKey = getDiagnosticDraftKey(workOrderId, draftNoteId);
   const draftRestoredRef = useRef(false);
+  const [lastReadings, setLastReadings] = useState({});
+
+  const measurementStatuses = useMemo(
+    () => buildMeasurementStatusMap(payload?.templateId, payload?.fields || {}),
+    [payload?.templateId, payload?.fields],
+  );
 
   const routingResult = useMemo(
-    () => evaluateRouting(wizardDefinition, payload?.fields || {}),
-    [wizardDefinition, payload?.fields],
+    () => evaluateRouting(wizardDefinition, payload?.fields || {}, measurementStatuses),
+    [wizardDefinition, payload?.fields, measurementStatuses],
   );
 
   const activeRecommendations = useMemo(
-    () => evaluateRecommendations(wizardDefinition?.routing?.recommendations, payload?.fields || {}),
-    [wizardDefinition?.routing?.recommendations, payload?.fields],
+    () => evaluateRecommendations(
+      wizardDefinition?.routing?.recommendations,
+      payload?.fields || {},
+      measurementStatuses,
+    ),
+    [wizardDefinition?.routing?.recommendations, payload?.fields, measurementStatuses],
   );
+
+  const eliminationResult = useMemo(
+    () => evaluateElimination(
+      getEliminationConfig(payload?.templateId),
+      payload?.fields || {},
+      measurementStatuses,
+    ),
+    [payload?.templateId, payload?.fields, measurementStatuses],
+  );
+
+  useEffect(() => {
+    const serial = workOrder?.equipment_serial;
+    const templateId = payload?.templateId;
+    if (!serial || !templateId || readOnly) {
+      setLastReadings({});
+      return undefined;
+    }
+
+    let cancelled = false;
+    getDiagnosticLastMeasurements({
+      equipmentSerial: serial,
+      templateId,
+      excludeWorkOrderId: workOrderId,
+    })
+      .then((result) => {
+        if (!cancelled) setLastReadings(result?.readings || {});
+      })
+      .catch(() => {
+        if (!cancelled) setLastReadings({});
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [workOrder?.equipment_serial, payload?.templateId, workOrderId, readOnly]);
 
   const prevRoutingRef = useRef(routingResult);
   const [routeDiff, setRouteDiff] = useState(null);
@@ -70,8 +120,12 @@ export default function DiagnosticResultsForm({
   useEffect(() => {
     routeDiffDismissedRef.current = false;
     setRouteDiff(null);
-    prevRoutingRef.current = evaluateRouting(wizardDefinition, payload?.fields || {});
-  }, [payload?.templateId, wizardDefinition]);
+    prevRoutingRef.current = evaluateRouting(
+      wizardDefinition,
+      payload?.fields || {},
+      measurementStatuses,
+    );
+  }, [payload?.templateId, wizardDefinition, payload?.fields, measurementStatuses]);
 
   const steps = useMemo(
     () => resolveWizardSteps(wizardDefinition, template),
@@ -151,12 +205,16 @@ export default function DiagnosticResultsForm({
       fieldVisibilityRules: wizardDefinition?.routing?.fieldVisibility || [],
       fieldHelp: wizardDefinition?.routing?.fieldHelp || {},
       activeRecommendations,
+      lastReadings,
+      elimination: eliminationResult,
     }),
     [
       handleFieldChange,
       payload,
       routingResult,
       activeRecommendations,
+      eliminationResult,
+      lastReadings,
       wizardDefinition?.complaintChips,
       wizardDefinition?.routing?.fieldVisibility,
       wizardDefinition?.routing?.fieldHelp,
@@ -230,6 +288,10 @@ export default function DiagnosticResultsForm({
             setRouteDiff(null);
           }}
         />
+      )}
+
+      {eliminationResult && (
+        <EliminationBanner result={eliminationResult} variant={variant} />
       )}
 
       <Wizard

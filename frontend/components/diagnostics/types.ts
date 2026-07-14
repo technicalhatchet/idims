@@ -85,6 +85,10 @@ export interface DiagnosticWizardContext {
   /** Phase 4d */
   fieldHelp?: Record<string, string>;
   activeRecommendations?: ActiveFieldRecommendation[];
+  /** Phase 5 — prior readings for this serial, keyed by field path or knowledge id. */
+  lastReadings?: Record<string, { value?: string; unit?: string; recordedAt?: string }>;
+  /** Phase 5 — live elimination reasoning for the active appliance. */
+  elimination?: import('./knowledge/types').EliminationEvaluationResult | null;
 }
 
 export type ResolvedDiagnosticWizardStep = WizardStepDefinition<

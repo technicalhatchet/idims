@@ -1,0 +1,92 @@
+{
+  "templateId": "gas_range",
+  "categories": [
+    { "id": "ignition", "label": "Ignition / Igniter", "dmaTags": ["igniter_check", "ignition_issue"] },
+    { "id": "gas_valve", "label": "Gas Valve", "dmaTags": ["gas_valve_check", "ignition_issue"] },
+    { "id": "flame_sensing", "label": "Flame Sensing", "dmaTags": ["flame_sensor_check", "ignition_issue"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] },
+    { "id": "surface_burners", "label": "Surface Burners", "dmaTags": ["ignition_issue", "surface_burner"] }
+  ],
+  "hypotheses": [
+    { "id": "igniter_ok", "category": "ignition", "label": "Oven igniter OK", "oppositeId": "igniter_failed" },
+    { "id": "igniter_failed", "category": "ignition", "label": "Oven igniter failed", "oppositeId": "igniter_ok" },
+    { "id": "gas_valve_ok", "category": "gas_valve", "label": "Gas valve coil OK", "oppositeId": "gas_valve_failed" },
+    { "id": "gas_valve_failed", "category": "gas_valve", "label": "Gas valve coil failed", "oppositeId": "gas_valve_ok" },
+    { "id": "flame_sensor_ok", "category": "flame_sensing", "label": "Flame sensor OK", "oppositeId": "flame_sensor_failed" },
+    { "id": "flame_sensor_failed", "category": "flame_sensing", "label": "Flame sensor fault", "oppositeId": "flame_sensor_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" },
+    { "id": "surface_ignition_ok", "category": "surface_burners", "label": "Surface ignition OK", "oppositeId": "surface_ignition_failed" },
+    { "id": "surface_ignition_failed", "category": "surface_burners", "label": "Surface burner ignition fault", "oppositeId": "surface_ignition_ok" }
+  ],
+  "rules": [
+    {
+      "id": "igniter_ol",
+      "when": { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] },
+      "eliminate": ["igniter_ok"],
+      "confirm": ["igniter_failed"]
+    },
+    {
+      "id": "igniter_normal",
+      "when": { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["normal"] },
+      "eliminate": ["igniter_failed"]
+    },
+    {
+      "id": "igniter_low_amps",
+      "when": { "type": "measurement", "knowledgeId": "hotSurfaceIgniterAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["igniter_ok"],
+      "confirm": ["igniter_failed"]
+    },
+    {
+      "id": "gas_valve_ol",
+      "when": { "type": "measurement", "knowledgeId": "gasValveCoilOhms", "statusIn": ["critical"] },
+      "eliminate": ["gas_valve_ok"],
+      "confirm": ["gas_valve_failed"]
+    },
+    {
+      "id": "flame_sensor_open",
+      "when": { "type": "measurement", "knowledgeId": "gasFlameSensorContinuityOhms", "statusIn": ["critical"] },
+      "eliminate": ["flame_sensor_ok"],
+      "confirm": ["flame_sensor_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "bake_ignition_bad",
+      "when": { "type": "field", "path": "functional_checks.oven_bake_ignition", "equals": "bad" },
+      "eliminate": ["igniter_ok", "gas_valve_ok"],
+      "confirm": ["igniter_failed"]
+    },
+    {
+      "id": "broil_ignition_bad",
+      "when": { "type": "field", "path": "functional_checks.oven_broil_ignition", "equals": "bad" },
+      "eliminate": ["igniter_ok", "gas_valve_ok"],
+      "confirm": ["igniter_failed"]
+    },
+    {
+      "id": "surface_burners_bad",
+      "when": { "type": "field", "path": "functional_checks.surface_burner_ignition", "equals": "bad" },
+      "eliminate": ["surface_ignition_ok"],
+      "confirm": ["surface_ignition_failed"]
+    },
+    {
+      "id": "no_ignition_chip",
+      "when": { "type": "chip", "id": "no_ignition" },
+      "suspect": ["igniter_failed", "gas_valve_failed", "flame_sensor_failed"]
+    },
+    {
+      "id": "no_oven_heat_chip",
+      "when": { "type": "chip", "id": "no_oven_heat" },
+      "suspect": ["igniter_failed", "gas_valve_failed"]
+    },
+    {
+      "id": "surface_burners_chip",
+      "when": { "type": "chip", "id": "surface_burners" },
+      "suspect": ["surface_ignition_failed"]
+    }
+  ]
+}

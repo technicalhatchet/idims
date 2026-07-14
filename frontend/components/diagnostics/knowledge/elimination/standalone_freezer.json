@@ -1,0 +1,117 @@
+{
+  "templateId": "standalone_freezer",
+  "categories": [
+    { "id": "defrost_system", "label": "Defrost System", "dmaTags": ["defrost", "frost_buildup", "defrost_heater"] },
+    { "id": "airflow", "label": "Airflow / Fans", "dmaTags": ["evap_fan", "condenser_fan", "airflow"] },
+    { "id": "sealed_system", "label": "Sealed System", "dmaTags": ["compressor", "refrigerant", "sealed_system"] },
+    { "id": "door_seal", "label": "Door / Gasket / Drain", "dmaTags": ["gasket", "door_alignment", "defrost_drain"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "defrost_heater_ok", "category": "defrost_system", "label": "Defrost heater good", "oppositeId": "defrost_heater_failed" },
+    { "id": "defrost_heater_failed", "category": "defrost_system", "label": "Defrost heater failed", "oppositeId": "defrost_heater_ok" },
+    { "id": "defrost_system_ok", "category": "defrost_system", "label": "Defrost system operational", "oppositeId": "defrost_system_failed" },
+    { "id": "defrost_system_failed", "category": "defrost_system", "label": "Defrost system fault", "oppositeId": "defrost_system_ok" },
+    { "id": "evap_fan_ok", "category": "airflow", "label": "Evap fan OK", "oppositeId": "evap_fan_failed" },
+    { "id": "evap_fan_failed", "category": "airflow", "label": "Evap fan failed", "oppositeId": "evap_fan_ok" },
+    { "id": "condenser_fan_ok", "category": "airflow", "label": "Condenser fan OK", "oppositeId": "condenser_fan_failed" },
+    { "id": "condenser_fan_failed", "category": "airflow", "label": "Condenser fan failed", "oppositeId": "condenser_fan_ok" },
+    { "id": "compressor_ok", "category": "sealed_system", "label": "Compressor running normally", "oppositeId": "compressor_failed" },
+    { "id": "compressor_failed", "category": "sealed_system", "label": "Compressor / start issue", "oppositeId": "compressor_ok" },
+    { "id": "sealed_system_fault", "category": "sealed_system", "label": "Sealed system restriction/leak" },
+    { "id": "door_seal_ok", "category": "door_seal", "label": "Door seal / alignment OK", "oppositeId": "door_seal_fault" },
+    { "id": "door_seal_fault", "category": "door_seal", "label": "Door seal / alignment fault", "oppositeId": "door_seal_ok" },
+    { "id": "drain_ok", "category": "door_seal", "label": "Defrost drain clear", "oppositeId": "drain_blocked" },
+    { "id": "drain_blocked", "category": "door_seal", "label": "Defrost drain blocked", "oppositeId": "drain_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_heater_ok"],
+      "confirm": ["defrost_heater_failed"]
+    },
+    {
+      "id": "heater_normal",
+      "when": { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["normal"] },
+      "eliminate": ["defrost_heater_failed"],
+      "confirm": ["defrost_heater_ok"]
+    },
+    {
+      "id": "compressor_not_running",
+      "when": { "type": "field", "path": "functional_checks.compressor_running", "equals": "no" },
+      "eliminate": ["compressor_ok", "sealed_system_fault"],
+      "confirm": ["compressor_failed"]
+    },
+    {
+      "id": "compressor_low_amps",
+      "when": { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["compressor_ok"],
+      "confirm": ["compressor_failed", "sealed_system_fault"]
+    },
+    {
+      "id": "evap_fan_no",
+      "when": { "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" },
+      "eliminate": ["evap_fan_ok"],
+      "confirm": ["evap_fan_failed"]
+    },
+    {
+      "id": "condenser_fan_no",
+      "when": { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "no" },
+      "eliminate": ["condenser_fan_ok"],
+      "confirm": ["condenser_fan_failed"]
+    },
+    {
+      "id": "defrost_not_operational",
+      "when": { "type": "field", "path": "functional_checks.defrost_operational", "equals": "no" },
+      "eliminate": ["defrost_system_ok"],
+      "confirm": ["defrost_system_failed", "defrost_heater_failed"]
+    },
+    {
+      "id": "door_bad",
+      "when": { "type": "field", "path": "visual_inspection.door_alignment", "equals": "bad" },
+      "eliminate": ["door_seal_ok"],
+      "confirm": ["door_seal_fault"]
+    },
+    {
+      "id": "gasket_bad",
+      "when": { "type": "field", "path": "visual_inspection.gasket_condition", "equals": "bad" },
+      "eliminate": ["door_seal_ok"],
+      "confirm": ["door_seal_fault"]
+    },
+    {
+      "id": "drain_not_clear",
+      "when": { "type": "field", "path": "visual_inspection.drain_clear", "equals": "no" },
+      "eliminate": ["drain_ok"],
+      "confirm": ["drain_blocked"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "frost_chip",
+      "when": { "type": "chip", "id": "frost_buildup" },
+      "suspect": ["defrost_heater_failed", "evap_fan_failed", "door_seal_fault"]
+    },
+    {
+      "id": "frost_pattern_bad",
+      "when": { "type": "field", "path": "visual_inspection.frost_pattern", "equals": "bad" },
+      "suspect": ["defrost_heater_failed", "evap_fan_failed"]
+    },
+    {
+      "id": "not_cooling_chip",
+      "when": { "type": "chip", "id": "not_cooling" },
+      "suspect": ["compressor_failed", "sealed_system_fault", "condenser_fan_failed"]
+    },
+    {
+      "id": "leaking_chip",
+      "when": { "type": "chip", "id": "leaking" },
+      "suspect": ["drain_blocked", "defrost_system_failed"]
+    }
+  ]
+}

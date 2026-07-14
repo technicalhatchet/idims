@@ -1,0 +1,99 @@
+{
+  "templateId": "refrigerator",
+  "categories": [
+    { "id": "defrost_system", "label": "Defrost System", "dmaTags": ["defrost", "frost_buildup", "defrost_heater"] },
+    { "id": "airflow", "label": "Airflow / Fans", "dmaTags": ["evap_fan", "condenser_fan", "airflow"] },
+    { "id": "sealed_system", "label": "Sealed System", "dmaTags": ["compressor", "refrigerant", "sealed_system"] },
+    { "id": "door_seal", "label": "Door / Gasket / Alignment", "dmaTags": ["gasket", "door_alignment", "air_leak"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue", "no_power"] },
+    { "id": "water_dispenser", "label": "Water / Dispenser", "dmaTags": ["water_dispenser", "inlet_valve", "filter"] },
+    { "id": "ice_maker", "label": "Ice Maker", "dmaTags": ["ice_maker", "no_ice"] },
+    { "id": "control_board", "label": "Controls / Sensors", "dmaTags": ["thermistor", "control_board", "sensor_check"] }
+  ],
+  "hypotheses": [
+    { "id": "defrost_heater_ok", "category": "defrost_system", "label": "Defrost heater good", "oppositeId": "defrost_heater_failed" },
+    { "id": "defrost_heater_failed", "category": "defrost_system", "label": "Defrost heater failed", "oppositeId": "defrost_heater_ok" },
+    { "id": "defrost_thermostat_ok", "category": "defrost_system", "label": "Defrost termination OK" },
+    { "id": "evap_fan_ok", "category": "airflow", "label": "Evap fan OK", "oppositeId": "evap_fan_failed" },
+    { "id": "evap_fan_failed", "category": "airflow", "label": "Evap fan failed", "oppositeId": "evap_fan_ok" },
+    { "id": "condenser_fan_ok", "category": "airflow", "label": "Condenser fan OK", "oppositeId": "condenser_fan_failed" },
+    { "id": "condenser_fan_failed", "category": "airflow", "label": "Condenser fan failed", "oppositeId": "condenser_fan_ok" },
+    { "id": "compressor_ok", "category": "sealed_system", "label": "Compressor running normally", "oppositeId": "compressor_failed" },
+    { "id": "compressor_failed", "category": "sealed_system", "label": "Compressor / start issue", "oppositeId": "compressor_ok" },
+    { "id": "sealed_system_fault", "category": "sealed_system", "label": "Sealed system restriction/leak" },
+    { "id": "door_seal_ok", "category": "door_seal", "label": "Door seal / alignment OK", "oppositeId": "door_seal_fault" },
+    { "id": "door_seal_fault", "category": "door_seal", "label": "Door seal / alignment fault", "oppositeId": "door_seal_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_heater_ok"],
+      "confirm": ["defrost_heater_failed"]
+    },
+    {
+      "id": "heater_normal",
+      "when": { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["normal"] },
+      "eliminate": ["defrost_heater_failed"],
+      "confirm": ["defrost_heater_ok"]
+    },
+    {
+      "id": "compressor_not_running",
+      "when": { "type": "field", "path": "functional_checks.compressor_running", "equals": "no" },
+      "eliminate": ["compressor_ok", "sealed_system_fault"],
+      "confirm": ["compressor_failed"]
+    },
+    {
+      "id": "compressor_running_low_amps",
+      "when": { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["compressor_ok"],
+      "confirm": ["compressor_failed", "sealed_system_fault"]
+    },
+    {
+      "id": "evap_fan_no",
+      "when": { "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" },
+      "eliminate": ["evap_fan_ok"],
+      "confirm": ["evap_fan_failed"]
+    },
+    {
+      "id": "condenser_fan_no",
+      "when": { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "no" },
+      "eliminate": ["condenser_fan_ok"],
+      "confirm": ["condenser_fan_failed"]
+    },
+    {
+      "id": "door_good",
+      "when": { "type": "field", "path": "visual_inspection.door_alignment", "equals": "good" },
+      "eliminate": ["door_seal_fault"]
+    },
+    {
+      "id": "door_bad",
+      "when": { "type": "field", "path": "visual_inspection.door_alignment", "equals": "bad" },
+      "eliminate": ["door_seal_ok"],
+      "confirm": ["door_seal_fault"]
+    },
+    {
+      "id": "gasket_good",
+      "when": { "type": "field", "path": "visual_inspection.gasket_condition", "equals": "good" },
+      "eliminate": ["door_seal_fault"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "frost_chip",
+      "when": { "type": "chip", "id": "frost_buildup" },
+      "suspect": ["defrost_heater_failed", "evap_fan_failed"]
+    },
+    {
+      "id": "heavy_frost_yes",
+      "when": { "type": "field", "path": "visual_inspection.frost_present", "equals": "yes" },
+      "suspect": ["evap_fan_failed", "defrost_heater_failed"]
+    }
+  ]
+}

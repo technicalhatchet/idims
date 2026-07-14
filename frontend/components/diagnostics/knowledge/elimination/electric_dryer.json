@@ -1,0 +1,105 @@
+{
+  "templateId": "electric_dryer",
+  "categories": [
+    { "id": "heat_circuit", "label": "Heat Circuit", "dmaTags": ["heating_element_check", "no_heat_issue"] },
+    { "id": "airflow", "label": "Airflow / Venting", "dmaTags": ["airflow_check", "vent_restriction"] },
+    { "id": "motor", "label": "Drum Motor / Drive", "dmaTags": ["motor_check", "no_tumble_issue"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "heating_element_ok", "category": "heat_circuit", "label": "Heating element OK", "oppositeId": "heating_element_failed" },
+    { "id": "heating_element_failed", "category": "heat_circuit", "label": "Heating element failed", "oppositeId": "heating_element_ok" },
+    { "id": "thermal_fuse_ok", "category": "heat_circuit", "label": "Thermal fuse OK", "oppositeId": "thermal_fuse_failed" },
+    { "id": "thermal_fuse_failed", "category": "heat_circuit", "label": "Thermal fuse open", "oppositeId": "thermal_fuse_ok" },
+    { "id": "cycling_thermostat_ok", "category": "heat_circuit", "label": "Cycling thermostat OK", "oppositeId": "cycling_thermostat_failed" },
+    { "id": "cycling_thermostat_failed", "category": "heat_circuit", "label": "Cycling thermostat failed", "oppositeId": "cycling_thermostat_ok" },
+    { "id": "vent_ok", "category": "airflow", "label": "Vent / airflow OK", "oppositeId": "vent_restricted" },
+    { "id": "vent_restricted", "category": "airflow", "label": "Vent restriction / poor airflow", "oppositeId": "vent_ok" },
+    { "id": "motor_ok", "category": "motor", "label": "Drum motor OK", "oppositeId": "motor_failed" },
+    { "id": "motor_failed", "category": "motor", "label": "Drum motor failed", "oppositeId": "motor_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "electricDryerHeatingElementOhms", "statusIn": ["critical"] },
+      "eliminate": ["heating_element_ok"],
+      "confirm": ["heating_element_failed"]
+    },
+    {
+      "id": "heater_normal",
+      "when": { "type": "measurement", "knowledgeId": "electricDryerHeatingElementOhms", "statusIn": ["normal"] },
+      "eliminate": ["heating_element_failed"],
+      "confirm": ["heating_element_ok"]
+    },
+    {
+      "id": "thermal_fuse_open",
+      "when": { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] },
+      "eliminate": ["thermal_fuse_ok"],
+      "confirm": ["thermal_fuse_failed"]
+    },
+    {
+      "id": "thermal_fuse_good",
+      "when": { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["normal"] },
+      "eliminate": ["thermal_fuse_failed"],
+      "confirm": ["thermal_fuse_ok"]
+    },
+    {
+      "id": "cycling_stat_open",
+      "when": { "type": "measurement", "knowledgeId": "dryerCyclingThermostatOhms", "statusIn": ["critical"] },
+      "eliminate": ["cycling_thermostat_ok"],
+      "confirm": ["cycling_thermostat_failed"]
+    },
+    {
+      "id": "motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "dryerDrumMotorWindingOhms", "statusIn": ["critical"] },
+      "eliminate": ["motor_ok"],
+      "confirm": ["motor_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage240", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "no_heat_functional",
+      "when": { "type": "field", "path": "functional_checks.heating", "equals": "no" },
+      "eliminate": ["heating_element_ok", "thermal_fuse_ok"],
+      "confirm": ["heating_element_failed", "thermal_fuse_failed"]
+    },
+    {
+      "id": "drum_not_turning",
+      "when": { "type": "field", "path": "functional_checks.drum_turning", "equals": "no" },
+      "eliminate": ["motor_ok"],
+      "confirm": ["motor_failed"]
+    },
+    {
+      "id": "airflow_bad",
+      "when": { "type": "field", "path": "functional_checks.airflow", "equals": "bad" },
+      "eliminate": ["vent_ok"],
+      "confirm": ["vent_restricted"]
+    },
+    {
+      "id": "lint_excessive",
+      "when": { "type": "field", "path": "visual_inspection.lint_accumulation", "equals": "bad" },
+      "suspect": ["vent_restricted", "thermal_fuse_failed"]
+    },
+    {
+      "id": "no_heat_chip",
+      "when": { "type": "chip", "id": "no_heat" },
+      "suspect": ["heating_element_failed", "thermal_fuse_failed"]
+    },
+    {
+      "id": "not_drying_chip",
+      "when": { "type": "chip", "id": "not_drying" },
+      "suspect": ["vent_restricted", "heating_element_failed"]
+    },
+    {
+      "id": "no_spin_chip",
+      "when": { "type": "chip", "id": "no_spin" },
+      "suspect": ["motor_failed"]
+    }
+  ]
+}

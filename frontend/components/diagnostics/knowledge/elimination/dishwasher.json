@@ -1,0 +1,129 @@
+{
+  "templateId": "dishwasher",
+  "categories": [
+    { "id": "fill_supply", "label": "Fill / Water Supply", "dmaTags": ["water_valve_check", "fill_issue"] },
+    { "id": "drain_pump", "label": "Drain Pump", "dmaTags": ["pump_check", "drain_issue"] },
+    { "id": "wash_circuit", "label": "Wash / Circulation", "dmaTags": ["pump_check", "wash_issue"] },
+    { "id": "heat_dry", "label": "Heat / Dry", "dmaTags": ["heating_element_check", "dry_issue"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] },
+    { "id": "door_seal", "label": "Door / Gasket / Leak", "dmaTags": ["door_lock_check", "leak_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "inlet_valve_ok", "category": "fill_supply", "label": "Inlet valve OK", "oppositeId": "inlet_valve_failed" },
+    { "id": "inlet_valve_failed", "category": "fill_supply", "label": "Inlet valve failed", "oppositeId": "inlet_valve_ok" },
+    { "id": "drain_pump_ok", "category": "drain_pump", "label": "Drain pump OK", "oppositeId": "drain_pump_failed" },
+    { "id": "drain_pump_failed", "category": "drain_pump", "label": "Drain pump failed", "oppositeId": "drain_pump_ok" },
+    { "id": "circulation_pump_ok", "category": "wash_circuit", "label": "Circulation pump OK", "oppositeId": "circulation_pump_failed" },
+    { "id": "circulation_pump_failed", "category": "wash_circuit", "label": "Circulation pump failed", "oppositeId": "circulation_pump_ok" },
+    { "id": "heater_ok", "category": "heat_dry", "label": "Heating element OK", "oppositeId": "heater_failed" },
+    { "id": "heater_failed", "category": "heat_dry", "label": "Heating element failed", "oppositeId": "heater_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" },
+    { "id": "door_gasket_ok", "category": "door_seal", "label": "Door gasket / seal OK", "oppositeId": "door_gasket_fault" },
+    { "id": "door_gasket_fault", "category": "door_seal", "label": "Door gasket / seal fault", "oppositeId": "door_gasket_ok" }
+  ],
+  "rules": [
+    {
+      "id": "heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "dishwasherHeatingElementOhms", "statusIn": ["critical"] },
+      "eliminate": ["heater_ok"],
+      "confirm": ["heater_failed"]
+    },
+    {
+      "id": "heater_normal",
+      "when": { "type": "measurement", "knowledgeId": "dishwasherHeatingElementOhms", "statusIn": ["normal"] },
+      "eliminate": ["heater_failed"],
+      "confirm": ["heater_ok"]
+    },
+    {
+      "id": "heater_low_amps",
+      "when": { "type": "measurement", "knowledgeId": "dishwasherHeaterAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["heater_ok"],
+      "confirm": ["heater_failed"]
+    },
+    {
+      "id": "inlet_valve_ol",
+      "when": { "type": "measurement", "knowledgeId": "dishwasherWaterValveOhms", "statusIn": ["critical"] },
+      "eliminate": ["inlet_valve_ok"],
+      "confirm": ["inlet_valve_failed"]
+    },
+    {
+      "id": "drain_pump_ol",
+      "when": { "type": "measurement", "knowledgeId": "dishwasherDrainPumpOhms", "statusIn": ["critical"] },
+      "eliminate": ["drain_pump_ok"],
+      "confirm": ["drain_pump_failed"]
+    },
+    {
+      "id": "circulation_pump_ol",
+      "when": { "type": "measurement", "knowledgeId": "dishwasherCirculationPumpOhms", "statusIn": ["critical"] },
+      "eliminate": ["circulation_pump_ok"],
+      "confirm": ["circulation_pump_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "low_incoming_water",
+      "when": { "type": "measurement", "knowledgeId": "dishwasherIncomingWaterTemp", "statusIn": ["critical", "warning"] },
+      "suspect": ["heater_failed"]
+    },
+    {
+      "id": "drain_bad",
+      "when": { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" },
+      "eliminate": ["drain_pump_ok"],
+      "confirm": ["drain_pump_failed"]
+    },
+    {
+      "id": "wash_bad",
+      "when": { "type": "field", "path": "functional_checks.wash_operation", "equals": "bad" },
+      "eliminate": ["circulation_pump_ok"],
+      "confirm": ["circulation_pump_failed"]
+    },
+    {
+      "id": "dry_bad",
+      "when": { "type": "field", "path": "functional_checks.drying_operation", "equals": "bad" },
+      "eliminate": ["heater_ok"],
+      "confirm": ["heater_failed"]
+    },
+    {
+      "id": "fill_bad",
+      "when": { "type": "field", "path": "functional_checks.fill_operation", "equals": "bad" },
+      "eliminate": ["inlet_valve_ok"],
+      "confirm": ["inlet_valve_failed"]
+    },
+    {
+      "id": "gasket_bad",
+      "when": { "type": "field", "path": "visual_inspection.door_gasket", "equals": "bad" },
+      "eliminate": ["door_gasket_ok"],
+      "confirm": ["door_gasket_fault"]
+    },
+    {
+      "id": "leak_yes",
+      "when": { "type": "field", "path": "visual_inspection.leak_present", "equals": "yes" },
+      "suspect": ["door_gasket_fault", "inlet_valve_failed"]
+    },
+    {
+      "id": "wont_drain_chip",
+      "when": { "type": "chip", "id": "wont_drain" },
+      "suspect": ["drain_pump_failed"]
+    },
+    {
+      "id": "no_heat_dry_chip",
+      "when": { "type": "chip", "id": "no_heat_dry" },
+      "suspect": ["heater_failed"]
+    },
+    {
+      "id": "no_fill_chip",
+      "when": { "type": "chip", "id": "no_fill" },
+      "suspect": ["inlet_valve_failed"]
+    },
+    {
+      "id": "not_cleaning_chip",
+      "when": { "type": "chip", "id": "not_cleaning" },
+      "suspect": ["circulation_pump_failed"]
+    }
+  ]
+}

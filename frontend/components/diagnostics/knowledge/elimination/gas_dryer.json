@@ -1,0 +1,101 @@
+{
+  "templateId": "gas_dryer",
+  "categories": [
+    { "id": "ignition", "label": "Ignition / Igniter", "dmaTags": ["igniter_check", "ignition_issue"] },
+    { "id": "gas_valve", "label": "Gas Valve", "dmaTags": ["gas_valve_check", "ignition_issue"] },
+    { "id": "heat_safety", "label": "Heat Safety", "dmaTags": ["safety_fuse_check", "no_heat_issue"] },
+    { "id": "airflow", "label": "Airflow / Venting", "dmaTags": ["airflow_check", "vent_restriction"] },
+    { "id": "motor", "label": "Drum Motor / Drive", "dmaTags": ["motor_check", "no_tumble_issue"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "igniter_ok", "category": "ignition", "label": "Igniter OK", "oppositeId": "igniter_failed" },
+    { "id": "igniter_failed", "category": "ignition", "label": "Igniter failed", "oppositeId": "igniter_ok" },
+    { "id": "gas_valve_ok", "category": "gas_valve", "label": "Gas valve coil OK", "oppositeId": "gas_valve_failed" },
+    { "id": "gas_valve_failed", "category": "gas_valve", "label": "Gas valve coil failed", "oppositeId": "gas_valve_ok" },
+    { "id": "thermal_fuse_ok", "category": "heat_safety", "label": "Thermal fuse OK", "oppositeId": "thermal_fuse_failed" },
+    { "id": "thermal_fuse_failed", "category": "heat_safety", "label": "Thermal fuse open", "oppositeId": "thermal_fuse_ok" },
+    { "id": "vent_ok", "category": "airflow", "label": "Vent / airflow OK", "oppositeId": "vent_restricted" },
+    { "id": "vent_restricted", "category": "airflow", "label": "Vent restriction / poor airflow", "oppositeId": "vent_ok" },
+    { "id": "motor_ok", "category": "motor", "label": "Drum motor OK", "oppositeId": "motor_failed" },
+    { "id": "motor_failed", "category": "motor", "label": "Drum motor failed", "oppositeId": "motor_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "igniter_ol",
+      "when": { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] },
+      "eliminate": ["igniter_ok"],
+      "confirm": ["igniter_failed"]
+    },
+    {
+      "id": "igniter_low_amps",
+      "when": { "type": "measurement", "knowledgeId": "hotSurfaceIgniterAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["igniter_ok"],
+      "confirm": ["igniter_failed"]
+    },
+    {
+      "id": "gas_valve_ol",
+      "when": { "type": "measurement", "knowledgeId": "gasValveCoilOhms", "statusIn": ["critical"] },
+      "eliminate": ["gas_valve_ok"],
+      "confirm": ["gas_valve_failed"]
+    },
+    {
+      "id": "thermal_fuse_open",
+      "when": { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] },
+      "eliminate": ["thermal_fuse_ok"],
+      "confirm": ["thermal_fuse_failed"]
+    },
+    {
+      "id": "motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "dryerDrumMotorWindingOhms", "statusIn": ["critical"] },
+      "eliminate": ["motor_ok"],
+      "confirm": ["motor_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "no_ignition",
+      "when": { "type": "field", "path": "functional_checks.ignition", "equals": "no" },
+      "eliminate": ["igniter_ok", "gas_valve_ok"],
+      "confirm": ["igniter_failed"]
+    },
+    {
+      "id": "drum_not_turning",
+      "when": { "type": "field", "path": "functional_checks.drum_turning", "equals": "no" },
+      "eliminate": ["motor_ok"],
+      "confirm": ["motor_failed"]
+    },
+    {
+      "id": "airflow_bad",
+      "when": { "type": "field", "path": "functional_checks.airflow", "equals": "bad" },
+      "eliminate": ["vent_ok"],
+      "confirm": ["vent_restricted"]
+    },
+    {
+      "id": "flame_poor",
+      "when": { "type": "field", "path": "functional_checks.flame_quality", "equals": "bad" },
+      "suspect": ["gas_valve_failed", "vent_restricted"]
+    },
+    {
+      "id": "no_heat_chip",
+      "when": { "type": "chip", "id": "no_heat" },
+      "suspect": ["igniter_failed", "gas_valve_failed", "thermal_fuse_failed"]
+    },
+    {
+      "id": "not_drying_chip",
+      "when": { "type": "chip", "id": "not_drying" },
+      "suspect": ["vent_restricted"]
+    },
+    {
+      "id": "weak_flame_chip",
+      "when": { "type": "chip", "id": "weak_flame" },
+      "suspect": ["gas_valve_failed", "vent_restricted"]
+    }
+  ]
+}

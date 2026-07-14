@@ -1,6 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import SmartMeasurementField from '../smart-fields/SmartMeasurementField';
+import { getFieldKnowledgeId } from './knowledge/fieldBindings';
+import { getMeasurementKnowledge } from './knowledge/knowledgeRegistry';
+import { evaluateFieldMeasurement } from './knowledge/measurementContext';
 import { filterVisibleSectionFields } from './routing/fieldVisibilityEngine';
 import {
   getFieldHelp,
@@ -101,6 +105,8 @@ export function DiagnosticFieldControl({
   variant,
   helpText = null,
   recommendations = [],
+  templateId = null,
+  lastReadings = {},
 }) {
   const key = diagnosticFieldKey(sectionId, field.id);
   const disabled = readOnly;
@@ -167,6 +173,27 @@ export function DiagnosticFieldControl({
   }
 
   if (field.type === 'text') {
+    const fieldKey = diagnosticFieldKey(sectionId, field.id);
+    const knowledgeId = getFieldKnowledgeId(templateId, fieldKey);
+    const definition = knowledgeId ? getMeasurementKnowledge(knowledgeId) : null;
+    if (definition) {
+      const evaluation = evaluateFieldMeasurement(templateId, fieldKey, value);
+      return (
+        <SmartMeasurementField
+          label={field.label}
+          value={value}
+          onChange={(next) => onChange(fieldKey, next)}
+          disabled={disabled}
+          variant={variant}
+          definition={definition}
+          evaluation={evaluation}
+          lastReading={lastReadings[fieldKey] || lastReadings[knowledgeId] || null}
+          helpText={helpText}
+          recommendations={recommendations}
+        />
+      );
+    }
+
     return (
       <div>
         {labelBlock(field.label)}
@@ -174,7 +201,7 @@ export function DiagnosticFieldControl({
           type="text"
           value={value || ''}
           disabled={disabled}
-          onChange={(e) => onChange(key, e.target.value)}
+          onChange={(e) => onChange(fieldKey, e.target.value)}
           className={`w-full rounded-lg border px-3 py-2 text-sm ${
             variant === 'mobile'
               ? 'border-white/10 bg-[#0A0F1E] text-white'
@@ -230,6 +257,8 @@ export default function DiagnosticSectionFields({
   fieldVisibilityRules = null,
   fieldHelp = null,
   activeRecommendations = [],
+  templateId = null,
+  lastReadings = {},
 }) {
   const isMobile = variant === 'mobile';
   const visibleFields = fieldVisibilityRules?.length
@@ -341,6 +370,8 @@ export default function DiagnosticSectionFields({
                 variant={variant}
                 helpText={getFieldHelp(fieldKey, fieldHelp)}
                 recommendations={fieldRecs}
+                templateId={templateId}
+                lastReadings={lastReadings}
               />
             </div>
           );

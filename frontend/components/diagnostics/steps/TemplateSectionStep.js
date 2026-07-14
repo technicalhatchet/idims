@@ -17,6 +17,8 @@ export default function TemplateSectionStep({ context, meta, readOnly, variant }
       fieldVisibilityRules={context?.fieldVisibilityRules}
       fieldHelp={context?.fieldHelp}
       activeRecommendations={context?.activeRecommendations}
+      templateId={context?.payload?.templateId}
+      lastReadings={context?.lastReadings || {}}
     />
   );
 }

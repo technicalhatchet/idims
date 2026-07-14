@@ -1,0 +1,449 @@
+[
+  {
+    "id": "washerDrainPumpAmps",
+    "name": "Washer Drain Pump Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 0.3, "max": 1.5 },
+      "warning": { "min": 0.15, "max": 2.2 },
+      "critical": { "below": 0.05, "above": 3.0 }
+    },
+    "typical": { "min": 0.5, "max": 1.0 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm drain pump motor draws expected current when commanded to run.",
+    "failureModes": [
+      "Zero amps on drain call: open winding, failed motor, control/relay not energizing pump",
+      "High amps: pump jammed with debris, seized bearing/impeller"
+    ],
+    "testingTips": [
+      "Clamp meter on pump lead during an active drain call, not spin",
+      "Check for coin/debris jam in pump housing before condemning motor"
+    ],
+    "notes": "Small AC drain pump motors vary by brand/model — verify against nameplate when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "aio_laundry", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "washerDrainPumpOhms",
+    "name": "Washer Drain Pump Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 20, "max": 200 },
+      "warning": { "min": 10, "max": 300 },
+      "critical": { "below": 2, "above": 500 }
+    },
+    "typical": { "min": 30, "max": 100 },
+    "openCircuitCritical": true,
+    "purpose": "Verify drain pump motor winding continuity to rule out open winding when pump doesn't run.",
+    "failureModes": [
+      "Open (OL): failed motor winding",
+      "Very low reading: shorted winding, likely trips breaker/blows fuse when energized"
+    ],
+    "testingTips": [
+      "Disconnect power and unplug pump connector before testing",
+      "Wide range across brands — treat as a continuity/sanity check, not a tight spec"
+    ],
+    "notes": "Resistance varies significantly by pump design (AC shaded-pole vs. DC) — verify against manufacturer spec when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "aio_laundry", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "washerWaterValveOhms",
+    "name": "Washer Water Inlet Valve Coil Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 150, "max": 500 },
+      "warning": { "min": 100, "max": 700 },
+      "critical": { "below": 20, "above": 1000 }
+    },
+    "typical": { "min": 200, "max": 350 },
+    "openCircuitCritical": true,
+    "purpose": "Verify hot/cold water inlet valve solenoid coil continuity when a fill issue is present on one or both circuits.",
+    "failureModes": [
+      "Open (OL): failed solenoid coil — no fill on that circuit even with good water pressure/supply",
+      "Very low reading: shorted coil"
+    ],
+    "testingTips": [
+      "Test each solenoid coil (hot/cold) separately at the valve connector",
+      "Rule out supply-side issues (screens, pressure, kinked hose) before condemning valve"
+    ],
+    "notes": "Coil resistance varies by valve design and flow rating — verify against manufacturer spec when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "aio_laundry", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "washerDoorLockSwitchOhms",
+    "name": "Washer Door Lock/Switch Continuity",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 20 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Verify door lock/switch contact closes (near-zero resistance) when door is closed and latched.",
+    "failureModes": [
+      "Open (OL) with door closed: failed switch contact, misaligned striker, wiring fault",
+      "Closed (low ohms) with door open: switch stuck closed — safety concern, do not run unit until resolved"
+    ],
+    "testingTips": [
+      "Test at the connector with door manually held closed/latched",
+      "On front-load units with a PTC heater-style lock mechanism, this is contact continuity only — the PTC heating element itself is a separate, model-specific component"
+    ],
+    "notes": "Applies to simple switch-contact style locks; PTC/heater-style lock mechanisms need manufacturer override values",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "aio_laundry", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["door_lock_check", "safety_switch"]
+  },
+  {
+    "id": "washerMotorWindingOhms",
+    "name": "Washer Drive Motor Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1, "max": 30 },
+      "warning": { "min": 0.5, "max": 45 },
+      "critical": { "below": 0.1, "above": 70 }
+    },
+    "typical": { "min": 3, "max": 15 },
+    "openCircuitCritical": true,
+    "purpose": "Verify drive motor winding continuity when motor fails to run or trips on start.",
+    "failureModes": [
+      "Open (OL) on any winding: failed motor",
+      "Very low reading between winding and frame/case: grounded winding"
+    ],
+    "testingTips": [
+      "Disconnect motor connector and power before testing",
+      "On PMDC/BLDC drive motors, phase-to-phase readings should be close to equal — large mismatch suggests a bad winding"
+    ],
+    "notes": "Resistance varies widely between belt-drive AC motors and direct-drive PMDC/BLDC motors — verify against manufacturer spec when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "aio_laundry", "stacked_laundry"],
+      "templates": []
+    },
+    "dmaTags": ["motor_check", "spin_issue", "agitate_issue"]
+  },
+  {
+    "id": "dishwasherCirculationPumpAmps",
+    "name": "Dishwasher Circulation Pump Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 0.5, "max": 3.0 },
+      "warning": { "min": 0.3, "max": 4.0 },
+      "critical": { "below": 0.1, "above": 6.0 }
+    },
+    "typical": { "min": 1.0, "max": 2.0 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm circulation/wash pump motor draws expected current during wash cycle.",
+    "failureModes": [
+      "Zero amps: open winding, failed motor, control not energizing pump",
+      "High amps: pump/impeller jammed, motor bearing failure"
+    ],
+    "testingTips": [
+      "Clamp on pump motor lead during active wash phase",
+      "Some models share one motor for wash and drain via a reversing or diverter mechanism — confirm design before isolating a fault"
+    ],
+    "notes": "Verify against motor nameplate rating — some models combine wash/drain functions on a single motor",
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["pump_check", "wash_issue"]
+  },
+  {
+    "id": "dishwasherDrainPumpAmps",
+    "name": "Dishwasher Drain Pump Amperage",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 0.3, "max": 1.5 },
+      "warning": { "min": 0.15, "max": 2.2 },
+      "critical": { "below": 0.05, "above": 3.0 }
+    },
+    "typical": { "min": 0.5, "max": 1.0 },
+    "openCircuitCritical": false,
+    "purpose": "Confirm drain pump motor draws expected current when commanded to run (on models with a dedicated drain pump).",
+    "failureModes": [
+      "Zero amps on drain call: open winding, failed motor, control not energizing pump",
+      "High amps: pump jammed with debris (food, glass, labels)"
+    ],
+    "testingTips": [
+      "Clamp meter on pump lead during an active drain call",
+      "Check air gap/check valve and drain hose routing before condemning pump on slow-drain complaints"
+    ],
+    "notes": "Not all models have a dedicated drain pump — some use a single reversible motor; verify design before applying",
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "dishwasherWaterValveOhms",
+    "name": "Dishwasher Water Inlet Valve Coil Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 200, "max": 900 },
+      "warning": { "min": 150, "max": 1200 },
+      "critical": { "below": 20, "above": 1500 }
+    },
+    "typical": { "min": 400, "max": 700 },
+    "openCircuitCritical": true,
+    "purpose": "Verify fill valve solenoid coil continuity when unit fails to fill or underfills.",
+    "failureModes": [
+      "Open (OL): failed solenoid coil, no fill",
+      "Very low reading: shorted coil"
+    ],
+    "testingTips": [
+      "Test at valve connector with power disconnected",
+      "Rule out supply-side screen/pressure issues before condemning valve"
+    ],
+    "notes": "Coil resistance varies notably by brand/valve design — verify against manufacturer spec when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "dishwasherHeatingElementOhms",
+    "name": "Dishwasher Heating Element Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 30 },
+      "warning": { "min": 10, "max": 40 },
+      "critical": { "below": 3, "above": 60 }
+    },
+    "typical": { "min": 18, "max": 24 },
+    "openCircuitCritical": true,
+    "purpose": "Verify heating element continuity and resistance to rule out open or shorted element on no-heat/no-dry complaints.",
+    "failureModes": [
+      "Open (OL): no heat for wash boost or dry cycle",
+      "Reading well outside range: shorted or damaged element"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at element terminals",
+      "Use nameplate wattage with Ohm's law (R = V²/W) to sanity-check reading if spec unknown"
+    ],
+    "notes": "Verify model spec — wattage varies by tub size, typically 700-1100W on 120V",
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "dry_issue"]
+  },
+  {
+    "id": "dishwasherDoorLatchSwitchOhms",
+    "name": "Dishwasher Door Latch Switch Continuity",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 20 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Verify door latch switch contact closes when door is closed/latched, allowing cycle to start.",
+    "failureModes": [
+      "Open (OL) with door latched: failed switch, misaligned latch",
+      "Closed with door open: switch stuck — safety concern"
+    ],
+    "testingTips": [
+      "Test at connector with door manually held closed/latched",
+      "Many models have two switches (start-enable and secondary safety) — test each separately"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": []
+    },
+    "dmaTags": ["door_lock_check", "safety_switch"]
+  },
+  {
+    "id": "microwaveMagnetronFilamentOhms",
+    "name": "Magnetron Filament Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0.1, "max": 1.0 },
+      "warning": { "min": 0.05, "max": 2.0 },
+      "critical": { "below": 0.02, "above": 5.0 }
+    },
+    "typical": { "min": 0.2, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Verify magnetron filament continuity when unit powers on but does not heat.",
+    "failureModes": [
+      "Open (OL): failed magnetron filament — unit runs but produces no heat",
+      "Reading to chassis/case (should be OL): grounded magnetron, replace"
+    ],
+    "testingTips": [
+      "DISCONNECT POWER AND DISCHARGE THE HV CAPACITOR before any testing — HV circuit can hold a lethal charge even unplugged",
+      "Use lowest ohms range; filament reads very low, near meter's zero — a good filament often just barely registers above 0",
+      "Also check filament-to-case for a short (should read open/OL)"
+    ],
+    "notes": "Standard DMMs struggle to resolve sub-1Ω readings precisely — treat as continuity pass/fail more than a precise value",
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": []
+    },
+    "dmaTags": ["magnetron_check", "no_heat_issue", "high_voltage_safety"]
+  },
+  {
+    "id": "microwaveHVCapacitanceMFD",
+    "name": "High-Voltage Capacitor Capacitance",
+    "unit": "µF",
+    "inputKind": "capacitance",
+    "ranges": {
+      "normal": { "min": 0.85, "max": 1.2 },
+      "warning": { "min": 0.7, "max": 1.4 },
+      "critical": { "below": 0.4, "above": 1.8 }
+    },
+    "typical": { "min": 0.9, "max": 1.1 },
+    "openCircuitCritical": false,
+    "purpose": "Verify HV capacitor is near its rated capacitance; a degraded cap reduces HV output to the magnetron.",
+    "failureModes": [
+      "Reading well below rating: degraded/failing capacitor, weak or no heat",
+      "Reading at 0/open: failed capacitor"
+    ],
+    "testingTips": [
+      "DISCONNECT POWER AND FULLY DISCHARGE THE CAPACITOR before touching leads — this component stores a dangerous, potentially lethal charge even with the unit unplugged",
+      "Use a capacitance meter rated for the component; a simple ohmmeter charge/discharge kick only confirms rough function, not capacitance value"
+    ],
+    "notes": "Common rated value is ~1.0 µF at ~2100V but this varies by model/wattage — treat as manufacturer override needed for exact spec",
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": []
+    },
+    "dmaTags": ["hv_capacitor_check", "no_heat_issue", "high_voltage_safety"]
+  },
+  {
+    "id": "microwaveHVDiodeCheck",
+    "name": "High-Voltage Diode Check",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "critical": { "below": 0, "above": 0 }
+    },
+    "openCircuitCritical": false,
+    "purpose": "Confirm HV diode blocks in one direction and does not read a short in either direction.",
+    "failureModes": [
+      "Reads low/near-zero in both directions: shorted diode — will damage magnetron/transformer if not replaced",
+      "Reads open (OL) in both directions: open diode — no rectification, no or weak heat"
+    ],
+    "testingTips": [
+      "DISCONNECT POWER AND FULLY DISCHARGE THE HV CAPACITOR before testing — this circuit can be lethal even unplugged",
+      "Standard ohmmeters use a low test voltage and are not fully reliable on HV diodes rated for kV-range blocking — a diode-mode reading is a rough sanity check only, not a definitive pass",
+      "When in doubt, replace as a low-cost part rather than relying solely on an ohmmeter verdict"
+    ],
+    "notes": "No standard normal/typical numeric range applies — this is a directional short/open check, not a value comparison; manufacturer test procedure should be followed when available",
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": []
+    },
+    "dmaTags": ["hv_diode_check", "no_heat_issue", "high_voltage_safety"]
+  },
+  {
+    "id": "microwaveDoorInterlockSwitchOhms",
+    "name": "Microwave Door Interlock Switch Continuity",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 20 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Verify each door interlock switch (primary, secondary/interlock, monitor) operates correctly for safe HV operation.",
+    "failureModes": [
+      "Primary/secondary open when door closed: unit won't start",
+      "Monitor switch stuck closed with door open: may blow the fuse by design (safety fail-safe) — do not defeat or bypass"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at connector",
+      "Test each switch individually — most units have 2-3 interlock switches with distinct functions, not interchangeable",
+      "Never bypass interlock switches for testing purposes; they are a safety system"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": []
+    },
+    "dmaTags": ["door_lock_check", "safety_switch", "high_voltage_safety"]
+  },
+  {
+    "id": "gasValveCoilOhms",
+    "name": "Gas Valve Safety Coil Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 900, "max": 1600 },
+      "warning": { "min": 700, "max": 2000 },
+      "critical": { "below": 100, "above": 3000 }
+    },
+    "typical": { "min": 1100, "max": 1400 },
+    "openCircuitCritical": true,
+    "purpose": "Verify gas valve solenoid coil continuity when valve fails to open on ignition call.",
+    "failureModes": [
+      "Open (OL): failed coil — valve will not open even with correct voltage present",
+      "Very low reading: shorted coil"
+    ],
+    "testingTips": [
+      "Disconnect power before testing at valve coil terminals",
+      "Confirm the valve is actually receiving voltage from the control board/igniter circuit before condemning the coil"
+    ],
+    "notes": "Coil resistance varies by valve manufacturer and design — verify against manufacturer spec when known",
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "gas_dryer"],
+      "templates": []
+    },
+    "dmaTags": ["gas_valve_check", "ignition_issue"]
+  },
+  {
+    "id": "hotSurfaceIgniterOhms",
+    "name": "Hot Surface Igniter Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40, "max": 400 },
+      "warning": { "min": 20, "max": 600 },
+      "critical": { "below": 5, "above": 1000 }
+    },
+    "typical": { "min": 50, "max": 200 },
+    "openCircuitCritical": true,
+    "purpose": "Verify igniter continuity and rough resistance when igniter fails to glow or gas doesn't ignite.",
+    "failureModes": [
+      "Open (OL): failed igniter, most common no-ignition cause",
+      "Igniter glows but gas doesn't light: igniter may be too weak to trip the safety valve current draw — check amp draw, not just resistance"
+    ],
+    "testingTips": [
+      "Disconnect power before checking resistance at igniter terminals",
+      "Silicon carbide igniters read noticeably different (generally higher cold resistance) than silicon nitride igniters — do not treat these as interchangeable specs",
+      "For a running verification, an amp-draw test (typically ~3.0-3.6A for silicon carbide type) is often more diagnostic than a static cold-resistance reading"
+    ],
+    "notes": "Silicon carbide vs. silicon nitride igniters have meaningfully different normal ranges — verify igniter type and manufacturer spec before relying on this value",
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "gas_dryer"],
+      "templates": []
+    },
+    "dmaTags": ["igniter_check", "ignition_issue"]
+  }
+]

@@ -1,4 +1,6 @@
-/** A single routing trigger — chip id, keyword, or field answer. */
+import type { MeasurementStatus } from '../knowledge/types';
+
+/** A single routing trigger — chip id, keyword, field answer, or measurement status. */
 export type RoutingWhenClause =
   | string
   | {
@@ -13,6 +15,12 @@ export type RoutingWhenClause =
       type: 'field';
       path: string;
       equals: string | boolean;
+    }
+  | {
+      type: 'measurement';
+      knowledgeId: string;
+      statusIn?: MeasurementStatus[];
+      status?: MeasurementStatus;
     };
 
 export interface RoutingRule {

@@ -1,3 +1,4 @@
+import type { MeasurementEvaluation } from '../knowledge/types';
 import type { RoutingWhenClause } from './types';
 
 function normalizeText(value: unknown): string {
@@ -16,6 +17,7 @@ function clauseMatches(
   complaintChipIds: string[],
   complaintText: string,
   fields: Record<string, unknown>,
+  measurementStatuses?: Map<string, MeasurementEvaluation>,
 ): boolean {
   if (typeof clause === 'string') {
     const needle = normalizeText(clause);
@@ -41,6 +43,13 @@ function clauseMatches(
     return normalizeText(actual) === normalizeText(clause.equals);
   }
 
+  if (clause.type === 'measurement') {
+    const evaluation = measurementStatuses?.get(clause.knowledgeId);
+    if (!evaluation) return false;
+    const allowed = clause.statusIn || (clause.status ? [clause.status] : []);
+    return allowed.includes(evaluation.status);
+  }
+
   return false;
 }
 
@@ -49,9 +58,12 @@ export function ruleWhenMatches(
   complaintChipIds: string[],
   complaintText: string,
   fields: Record<string, unknown>,
+  measurementStatuses?: Map<string, MeasurementEvaluation>,
 ): boolean {
   if (!when?.length) return false;
-  return when.some((clause) => clauseMatches(clause, complaintChipIds, complaintText, fields));
+  return when.some((clause) =>
+    clauseMatches(clause, complaintChipIds, complaintText, fields, measurementStatuses),
+  );
 }
 
 export function collectClauseTriggers(
@@ -60,10 +72,11 @@ export function collectClauseTriggers(
   complaintText: string,
   fields: Record<string, unknown>,
   chipLabels: Record<string, string>,
+  measurementStatuses?: Map<string, MeasurementEvaluation>,
 ): string[] {
   const triggers: string[] = [];
   for (const clause of when || []) {
-    if (!clauseMatches(clause, complaintChipIds, complaintText, fields)) continue;
+    if (!clauseMatches(clause, complaintChipIds, complaintText, fields, measurementStatuses)) continue;
     if (typeof clause === 'string') {
       triggers.push(chipLabels[clause] || clause);
     } else if (clause.type === 'chip') {
@@ -72,6 +85,9 @@ export function collectClauseTriggers(
       triggers.push(`Complaint mentions "${clause.match}"`);
     } else if (clause.type === 'field') {
       triggers.push(`Answer: ${clause.path} = ${String(clause.equals)}`);
+    } else if (clause.type === 'measurement') {
+      const statuses = clause.statusIn || (clause.status ? [clause.status] : []);
+      triggers.push(`Reading: ${clause.knowledgeId} = ${statuses.join('/')}`);
     }
   }
   return triggers;

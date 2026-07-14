@@ -1,0 +1,95 @@
+import batch1 from './seed/measurement-knowledge.json';
+import batch2 from './seed/measurement-knowledge-batch2.json';
+import batch3 from './seed/measurement-knowledge-batch3.json';
+import batch4 from './seed/measurement-knowledge-batch4.json';
+import refrigeratorElimination from './elimination/refrigerator.json';
+import dishwasherElimination from './elimination/dishwasher.json';
+import gasRangeElimination from './elimination/gas_range.json';
+import electricDryerElimination from './elimination/electric_dryer.json';
+import gasDryerElimination from './elimination/gas_dryer.json';
+import electricRangeElimination from './elimination/electric_range.json';
+import washerElimination from './elimination/washer.json';
+import microwaveElimination from './elimination/microwave.json';
+import standaloneFreezerElimination from './elimination/standalone_freezer.json';
+import stackedLaundryElimination from './elimination/stacked_laundry.json';
+import aioLaundryElimination from './elimination/aio_laundry.json';
+import type {
+  EliminationConfig,
+  MeasurementKnowledgeDefinition,
+} from './types';
+
+function normalizeKnowledgeEntry(
+  entry: MeasurementKnowledgeDefinition,
+): MeasurementKnowledgeDefinition {
+  const normalized = { ...entry };
+
+  if (normalized.id === 'cabinetThermistorOhms') {
+    normalized.ranges = {
+      normal: { min: 5000, max: 16000 },
+      warning: { min: 3000, max: 20000 },
+      critical: { below: 1000, above: 50000 },
+    };
+    normalized.typical = { min: 8000, max: 12000 };
+    normalized.notes =
+      'NTC thermistor at room temp — typically 5k–16k Ω. Verify against manufacturer chart when available.';
+  }
+
+  if (normalized.id === 'microwaveHVDiodeCheck') {
+    normalized.inputKind = 'diodeCheck';
+    normalized.ranges = undefined;
+  }
+
+  if (normalized.appliesTo?.equipmentSubtypes?.includes('ice_maker' as never)) {
+    normalized.appliesTo = {
+      ...normalized.appliesTo,
+      equipmentSubtypes: [
+        ...new Set(
+          normalized.appliesTo.equipmentSubtypes
+            .filter((s) => s !== 'ice_maker')
+            .concat(['refrigerator', 'freezer']),
+        ),
+      ],
+    };
+  }
+
+  return normalized;
+}
+
+const ALL_ENTRIES: MeasurementKnowledgeDefinition[] = [
+  ...(batch1 as MeasurementKnowledgeDefinition[]),
+  ...(batch2 as MeasurementKnowledgeDefinition[]),
+  ...(batch3 as MeasurementKnowledgeDefinition[]),
+  ...(batch4 as MeasurementKnowledgeDefinition[]),
+].map(normalizeKnowledgeEntry);
+
+const KNOWLEDGE_BY_ID = new Map<string, MeasurementKnowledgeDefinition>(
+  ALL_ENTRIES.map((entry) => [entry.id, entry]),
+);
+
+export function getMeasurementKnowledge(id: string | null | undefined): MeasurementKnowledgeDefinition | null {
+  if (!id) return null;
+  return KNOWLEDGE_BY_ID.get(id) || null;
+}
+
+export function listMeasurementKnowledge(): MeasurementKnowledgeDefinition[] {
+  return [...ALL_ENTRIES];
+}
+
+const ELIMINATION_BY_TEMPLATE = new Map<string, EliminationConfig>([
+  [(refrigeratorElimination as EliminationConfig).templateId, refrigeratorElimination as EliminationConfig],
+  [(dishwasherElimination as EliminationConfig).templateId, dishwasherElimination as EliminationConfig],
+  [(gasRangeElimination as EliminationConfig).templateId, gasRangeElimination as EliminationConfig],
+  [(electricDryerElimination as EliminationConfig).templateId, electricDryerElimination as EliminationConfig],
+  [(gasDryerElimination as EliminationConfig).templateId, gasDryerElimination as EliminationConfig],
+  [(electricRangeElimination as EliminationConfig).templateId, electricRangeElimination as EliminationConfig],
+  [(washerElimination as EliminationConfig).templateId, washerElimination as EliminationConfig],
+  [(microwaveElimination as EliminationConfig).templateId, microwaveElimination as EliminationConfig],
+  [(standaloneFreezerElimination as EliminationConfig).templateId, standaloneFreezerElimination as EliminationConfig],
+  [(stackedLaundryElimination as EliminationConfig).templateId, stackedLaundryElimination as EliminationConfig],
+  [(aioLaundryElimination as EliminationConfig).templateId, aioLaundryElimination as EliminationConfig],
+]);
+
+export function getEliminationConfig(templateId: string | null | undefined): EliminationConfig | null {
+  if (!templateId) return null;
+  return ELIMINATION_BY_TEMPLATE.get(templateId) || null;
+}

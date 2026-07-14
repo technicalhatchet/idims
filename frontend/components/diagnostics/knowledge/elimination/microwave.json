@@ -1,0 +1,92 @@
+{
+  "templateId": "microwave",
+  "categories": [
+    { "id": "hv_circuit", "label": "HV Circuit", "dmaTags": ["magnetron_check", "no_heat_issue", "high_voltage_safety"] },
+    { "id": "door_safety", "label": "Door / Safety Switches", "dmaTags": ["door_lock_check", "safety_switch", "high_voltage_safety"] },
+    { "id": "power_supply", "label": "Power / Fuses", "dmaTags": ["fuse_check", "no_power_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "magnetron_ok", "category": "hv_circuit", "label": "Magnetron OK", "oppositeId": "magnetron_failed" },
+    { "id": "magnetron_failed", "category": "hv_circuit", "label": "Magnetron failed", "oppositeId": "magnetron_ok" },
+    { "id": "hv_capacitor_ok", "category": "hv_circuit", "label": "HV capacitor OK", "oppositeId": "hv_capacitor_failed" },
+    { "id": "hv_capacitor_failed", "category": "hv_circuit", "label": "HV capacitor failed", "oppositeId": "hv_capacitor_ok" },
+    { "id": "door_interlock_ok", "category": "door_safety", "label": "Door interlock OK", "oppositeId": "door_interlock_failed" },
+    { "id": "door_interlock_failed", "category": "door_safety", "label": "Door interlock failed", "oppositeId": "door_interlock_ok" },
+    { "id": "line_fuse_ok", "category": "power_supply", "label": "Line fuse OK", "oppositeId": "line_fuse_failed" },
+    { "id": "line_fuse_failed", "category": "power_supply", "label": "Line fuse blown", "oppositeId": "line_fuse_ok" },
+    { "id": "thermal_cutout_ok", "category": "power_supply", "label": "Thermal cutout OK", "oppositeId": "thermal_cutout_failed" },
+    { "id": "thermal_cutout_failed", "category": "power_supply", "label": "Thermal cutout tripped", "oppositeId": "thermal_cutout_ok" },
+    { "id": "supply_ok", "category": "power_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "power_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "magnetron_open",
+      "when": { "type": "measurement", "knowledgeId": "microwaveMagnetronFilamentOhms", "statusIn": ["critical"] },
+      "eliminate": ["magnetron_ok"],
+      "confirm": ["magnetron_failed"]
+    },
+    {
+      "id": "capacitor_bad",
+      "when": { "type": "measurement", "knowledgeId": "microwaveHVCapacitanceMFD", "statusIn": ["critical", "warning"] },
+      "eliminate": ["hv_capacitor_ok"],
+      "confirm": ["hv_capacitor_failed"]
+    },
+    {
+      "id": "fuse_open",
+      "when": { "type": "measurement", "knowledgeId": "microwaveLineFuseOhms", "statusIn": ["critical"] },
+      "eliminate": ["line_fuse_ok"],
+      "confirm": ["line_fuse_failed"]
+    },
+    {
+      "id": "thermal_cutout_open",
+      "when": { "type": "measurement", "knowledgeId": "microwaveThermalCutoutOhms", "statusIn": ["critical"] },
+      "eliminate": ["thermal_cutout_ok"],
+      "confirm": ["thermal_cutout_failed"]
+    },
+    {
+      "id": "primary_switch_open",
+      "when": { "type": "measurement", "knowledgeId": "microwaveDoorInterlockSwitchOhms", "statusIn": ["critical"] },
+      "eliminate": ["door_interlock_ok"],
+      "confirm": ["door_interlock_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "no_heat_functional",
+      "when": { "type": "field", "path": "functional_checks.heats_properly", "equals": "no" },
+      "eliminate": ["magnetron_ok"],
+      "confirm": ["magnetron_failed"]
+    },
+    {
+      "id": "no_power_functional",
+      "when": { "type": "field", "path": "functional_checks.powers_on", "equals": "no" },
+      "eliminate": ["line_fuse_ok", "door_interlock_ok"],
+      "confirm": ["line_fuse_failed"]
+    },
+    {
+      "id": "no_heat_chip",
+      "when": { "type": "chip", "id": "no_heat" },
+      "suspect": ["magnetron_failed", "hv_capacitor_failed", "door_interlock_failed"]
+    },
+    {
+      "id": "no_power_chip",
+      "when": { "type": "chip", "id": "no_power" },
+      "suspect": ["line_fuse_failed", "thermal_cutout_failed", "door_interlock_failed"]
+    },
+    {
+      "id": "door_issue_chip",
+      "when": { "type": "chip", "id": "door_issue" },
+      "suspect": ["door_interlock_failed"]
+    },
+    {
+      "id": "sparking_chip",
+      "when": { "type": "chip", "id": "sparking" },
+      "suspect": ["magnetron_failed", "hv_capacitor_failed"]
+    }
+  ]
+}

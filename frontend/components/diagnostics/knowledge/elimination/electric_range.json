@@ -1,0 +1,105 @@
+{
+  "templateId": "electric_range",
+  "categories": [
+    { "id": "bake_element", "label": "Bake Element", "dmaTags": ["heating_element_check", "no_bake_heat_issue"] },
+    { "id": "broil_element", "label": "Broil Element", "dmaTags": ["heating_element_check", "no_broil_heat_issue"] },
+    { "id": "temp_sensor", "label": "Temperature Sensor", "dmaTags": ["sensor_check", "temp_accuracy_issue"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue", "wiring_fault"] },
+    { "id": "convection", "label": "Convection Fan", "dmaTags": ["fan_motor_check", "convection_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "bake_element_ok", "category": "bake_element", "label": "Bake element OK", "oppositeId": "bake_element_failed" },
+    { "id": "bake_element_failed", "category": "bake_element", "label": "Bake element failed", "oppositeId": "bake_element_ok" },
+    { "id": "broil_element_ok", "category": "broil_element", "label": "Broil element OK", "oppositeId": "broil_element_failed" },
+    { "id": "broil_element_failed", "category": "broil_element", "label": "Broil element failed", "oppositeId": "broil_element_ok" },
+    { "id": "temp_sensor_ok", "category": "temp_sensor", "label": "Oven temp sensor OK", "oppositeId": "temp_sensor_failed" },
+    { "id": "temp_sensor_failed", "category": "temp_sensor", "label": "Oven temp sensor failed", "oppositeId": "temp_sensor_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / wiring issue", "oppositeId": "supply_ok" },
+    { "id": "convection_fan_ok", "category": "convection", "label": "Convection fan OK", "oppositeId": "convection_fan_failed" },
+    { "id": "convection_fan_failed", "category": "convection", "label": "Convection fan failed", "oppositeId": "convection_fan_ok" }
+  ],
+  "rules": [
+    {
+      "id": "bake_element_ol",
+      "when": { "type": "measurement", "knowledgeId": "bakeElementOhms", "statusIn": ["critical"] },
+      "eliminate": ["bake_element_ok"],
+      "confirm": ["bake_element_failed"]
+    },
+    {
+      "id": "bake_element_normal",
+      "when": { "type": "measurement", "knowledgeId": "bakeElementOhms", "statusIn": ["normal"] },
+      "eliminate": ["bake_element_failed"],
+      "confirm": ["bake_element_ok"]
+    },
+    {
+      "id": "broil_element_ol",
+      "when": { "type": "measurement", "knowledgeId": "broilElementOhms", "statusIn": ["critical"] },
+      "eliminate": ["broil_element_ok"],
+      "confirm": ["broil_element_failed"]
+    },
+    {
+      "id": "broil_element_normal",
+      "when": { "type": "measurement", "knowledgeId": "broilElementOhms", "statusIn": ["normal"] },
+      "eliminate": ["broil_element_failed"],
+      "confirm": ["broil_element_ok"]
+    },
+    {
+      "id": "temp_sensor_bad",
+      "when": { "type": "measurement", "knowledgeId": "ovenTempSensorOhms", "statusIn": ["critical", "warning"] },
+      "eliminate": ["temp_sensor_ok"],
+      "confirm": ["temp_sensor_failed"]
+    },
+    {
+      "id": "temp_sensor_normal",
+      "when": { "type": "measurement", "knowledgeId": "ovenTempSensorOhms", "statusIn": ["normal"] },
+      "eliminate": ["temp_sensor_failed"],
+      "confirm": ["temp_sensor_ok"]
+    },
+    {
+      "id": "l1_l2_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage240", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "neutral_ground_bad",
+      "when": { "type": "measurement", "knowledgeId": "neutralGroundVoltage", "statusIn": ["critical", "warning"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "bake_bad",
+      "when": { "type": "field", "path": "functional_checks.bake_operation", "equals": "bad" },
+      "eliminate": ["bake_element_ok"],
+      "confirm": ["bake_element_failed"]
+    },
+    {
+      "id": "broil_bad",
+      "when": { "type": "field", "path": "functional_checks.broil_operation", "equals": "bad" },
+      "eliminate": ["broil_element_ok"],
+      "confirm": ["broil_element_failed"]
+    },
+    {
+      "id": "convection_bad",
+      "when": { "type": "field", "path": "functional_checks.convection_operation", "equals": "bad" },
+      "eliminate": ["convection_fan_ok"],
+      "confirm": ["convection_fan_failed"]
+    },
+    {
+      "id": "no_bake_chip",
+      "when": { "type": "chip", "id": "no_bake" },
+      "suspect": ["bake_element_failed", "temp_sensor_failed", "supply_fault"]
+    },
+    {
+      "id": "no_broil_chip",
+      "when": { "type": "chip", "id": "no_broil" },
+      "suspect": ["broil_element_failed"]
+    },
+    {
+      "id": "uneven_heat_chip",
+      "when": { "type": "chip", "id": "uneven_heat" },
+      "suspect": ["temp_sensor_failed"]
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "templateId": "aio_laundry",
+  "categories": [
+    { "id": "washer_drain", "label": "Washer Drain", "dmaTags": ["pump_check", "drain_issue"] },
+    { "id": "washer_drive", "label": "Washer Drive Motor", "dmaTags": ["motor_check", "spin_issue"] },
+    { "id": "heat_pump", "label": "Heat-Pump / Compressor", "dmaTags": ["compressor_check", "cooling_issue"] },
+    { "id": "heat_pump_airflow", "label": "Heat-Pump Airflow / Filter", "dmaTags": ["fan_motor_check", "airflow_check"] },
+    { "id": "condensate", "label": "Condensate / Drain", "dmaTags": ["pump_check", "drain_issue"] },
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+  ],
+  "hypotheses": [
+    { "id": "washer_drain_pump_ok", "category": "washer_drain", "label": "Drain pump OK", "oppositeId": "washer_drain_pump_failed" },
+    { "id": "washer_drain_pump_failed", "category": "washer_drain", "label": "Drain pump failed", "oppositeId": "washer_drain_pump_ok" },
+    { "id": "washer_motor_ok", "category": "washer_drive", "label": "Wash motor OK", "oppositeId": "washer_motor_failed" },
+    { "id": "washer_motor_failed", "category": "washer_drive", "label": "Wash motor failed", "oppositeId": "washer_motor_ok" },
+    { "id": "compressor_ok", "category": "heat_pump", "label": "Compressor running normally", "oppositeId": "compressor_failed" },
+    { "id": "compressor_failed", "category": "heat_pump", "label": "Compressor / start issue", "oppositeId": "compressor_ok" },
+    { "id": "sealed_system_fault", "category": "heat_pump", "label": "Sealed system restriction/leak" },
+    { "id": "heat_pump_fan_ok", "category": "heat_pump_airflow", "label": "Heat-pump fan OK", "oppositeId": "heat_pump_fan_failed" },
+    { "id": "heat_pump_fan_failed", "category": "heat_pump_airflow", "label": "Heat-pump / condenser fan failed", "oppositeId": "heat_pump_fan_ok" },
+    { "id": "filter_airflow_ok", "category": "heat_pump_airflow", "label": "Filter / airflow OK", "oppositeId": "filter_airflow_restricted" },
+    { "id": "filter_airflow_restricted", "category": "heat_pump_airflow", "label": "Filter clogged / poor airflow", "oppositeId": "filter_airflow_ok" },
+    { "id": "condensate_ok", "category": "condensate", "label": "Condensate drain OK", "oppositeId": "condensate_failed" },
+    { "id": "condensate_failed", "category": "condensate", "label": "Condensate / drain pump fault", "oppositeId": "condensate_ok" },
+    { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+  ],
+  "rules": [
+    {
+      "id": "drain_pump_ol",
+      "when": { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] },
+      "eliminate": ["washer_drain_pump_ok"],
+      "confirm": ["washer_drain_pump_failed"]
+    },
+    {
+      "id": "wash_motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "washerMotorWindingOhms", "statusIn": ["critical"] },
+      "eliminate": ["washer_motor_ok"],
+      "confirm": ["washer_motor_failed"]
+    },
+    {
+      "id": "compressor_low_amps",
+      "when": { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["compressor_ok"],
+      "confirm": ["compressor_failed", "sealed_system_fault"]
+    },
+    {
+      "id": "compressor_winding_ol",
+      "when": { "type": "measurement", "knowledgeId": "compressorRunWindingOhms", "statusIn": ["critical"] },
+      "eliminate": ["compressor_ok"],
+      "confirm": ["compressor_failed"]
+    },
+    {
+      "id": "heat_pump_fan_low",
+      "when": { "type": "measurement", "knowledgeId": "condenserFanAmps", "statusIn": ["critical", "warning"] },
+      "eliminate": ["heat_pump_fan_ok"],
+      "confirm": ["heat_pump_fan_failed"]
+    },
+    {
+      "id": "supply_critical",
+      "when": { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] },
+      "eliminate": ["supply_ok"],
+      "confirm": ["supply_fault"]
+    },
+    {
+      "id": "wash_drain_bad",
+      "when": { "type": "field", "path": "wash_functions.drain", "equals": "bad" },
+      "eliminate": ["washer_drain_pump_ok"],
+      "confirm": ["washer_drain_pump_failed"]
+    },
+    {
+      "id": "wash_spin_bad",
+      "when": { "type": "field", "path": "wash_functions.spin", "equals": "bad" },
+      "eliminate": ["washer_motor_ok"],
+      "confirm": ["washer_motor_failed"]
+    },
+    {
+      "id": "wash_agitate_bad",
+      "when": { "type": "field", "path": "wash_functions.agitate", "equals": "bad" },
+      "eliminate": ["washer_motor_ok"],
+      "confirm": ["washer_motor_failed"]
+    },
+    {
+      "id": "no_heat_dry",
+      "when": { "type": "field", "path": "dry_functions.heat_present", "equals": "no" },
+      "eliminate": ["compressor_ok"],
+      "confirm": ["compressor_failed", "heat_pump_fan_failed"]
+    },
+    {
+      "id": "dry_airflow_bad",
+      "when": { "type": "field", "path": "dry_functions.airflow", "equals": "bad" },
+      "eliminate": ["filter_airflow_ok", "heat_pump_fan_ok"],
+      "confirm": ["filter_airflow_restricted", "heat_pump_fan_failed"]
+    },
+    {
+      "id": "condensate_bad",
+      "when": { "type": "field", "path": "dry_functions.condensate_drain", "equals": "bad" },
+      "eliminate": ["condensate_ok"],
+      "confirm": ["condensate_failed"]
+    },
+    {
+      "id": "washer_drain_chip",
+      "when": { "type": "chip", "id": "washer_drain" },
+      "suspect": ["washer_drain_pump_failed", "condensate_failed"]
+    },
+    {
+      "id": "washer_spin_chip",
+      "when": { "type": "chip", "id": "washer_spin" },
+      "suspect": ["washer_motor_failed"]
+    },
+    {
+      "id": "dryer_no_heat_chip",
+      "when": { "type": "chip", "id": "dryer_no_heat" },
+      "suspect": ["compressor_failed", "heat_pump_fan_failed"]
+    },
+    {
+      "id": "heat_pump_dry_chip",
+      "when": { "type": "chip", "id": "heat_pump_dry" },
+      "suspect": ["filter_airflow_restricted", "compressor_failed", "heat_pump_fan_failed"]
+    },
+    {
+      "id": "condensate_chip",
+      "when": { "type": "chip", "id": "condensate" },
+      "suspect": ["condensate_failed", "washer_drain_pump_failed"]
+    },
+    {
+      "id": "compressor_chip",
+      "when": { "type": "chip", "id": "compressor" },
+      "suspect": ["compressor_failed", "sealed_system_fault"]
+    }
+  ]
+}

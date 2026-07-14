@@ -49,6 +49,30 @@ export const refrigeratorRoutingRules: RoutingRule[] = [
     when: [{ type: 'field', path: 'visual_inspection.frost_present', equals: 'yes' }],
     enable: ['defrost', 'fans'],
   },
+  {
+    id: 'defrost_heater_critical',
+    label: 'Defrost heater open / failed',
+    when: [{ type: 'measurement', knowledgeId: 'defrostHeaterOhms', statusIn: ['critical'] }],
+    enable: ['defrost', 'fans', 'temperature'],
+  },
+  {
+    id: 'compressor_amps_abnormal',
+    label: 'Compressor amps abnormal',
+    when: [{ type: 'measurement', knowledgeId: 'compressorRunAmps', statusIn: ['critical', 'warning'] }],
+    enable: ['sealedSystem', 'fans'],
+  },
+  {
+    id: 'supply_voltage_critical',
+    label: 'Supply voltage out of range',
+    when: [{ type: 'measurement', knowledgeId: 'supplyVoltage120', statusIn: ['critical'] }],
+    enable: ['fans'],
+  },
+  {
+    id: 'freezer_temp_high',
+    label: 'Freezer cabinet temp high',
+    when: [{ type: 'measurement', knowledgeId: 'freezerCabinetTemp', statusIn: ['critical', 'warning'] }],
+    enable: ['temperature', 'sealedSystem', 'defrost', 'fans'],
+  },
 ];
 
 export const refrigeratorRoutingConfig = {
