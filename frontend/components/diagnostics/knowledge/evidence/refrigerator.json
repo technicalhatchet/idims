@@ -16,7 +16,9 @@
     { "id": "control_board", "label": "Main control board", "categoryId": "controls_sensors", "dmaTags": ["control_board"] },
     { "id": "evap_fan", "label": "Evaporator fan", "categoryId": "airflow", "dmaTags": ["evap_fan"] },
     { "id": "condenser_fan", "label": "Condenser fan", "categoryId": "airflow", "dmaTags": ["condenser_fan"] },
-    { "id": "compressor", "label": "Compressor", "categoryId": "sealed_system", "dmaTags": ["compressor"] }
+    { "id": "compressor", "label": "Compressor", "categoryId": "sealed_system", "dmaTags": ["compressor"] },
+    { "id": "door_alignment", "label": "Door alignment", "categoryId": "air_leak", "dmaTags": ["door_alignment"] },
+    { "id": "door_gasket", "label": "Door gasket", "categoryId": "air_leak", "dmaTags": ["gasket"] }
   ],
   "rules": [
     {
@@ -156,6 +158,40 @@
       "targetLayer": "category",
       "effect": { "effect": "decrease", "value": 25 },
       "explanation": "Gasket good — air leak less likely."
+    },
+    {
+      "id": "door_alignment_good_component",
+      "when": [{ "type": "field", "path": "visual_inspection.door_alignment", "equals": "good" }],
+      "target": "door_alignment",
+      "targetLayer": "component",
+      "effect": { "effect": "eliminate" },
+      "explanation": "Door alignment good — ruled out as air leak cause."
+    },
+    {
+      "id": "door_alignment_bad_component",
+      "when": [{ "type": "field", "path": "visual_inspection.door_alignment", "equals": "bad" }],
+      "target": "door_alignment",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Door alignment bad — confirmed air leak path.",
+      "dmaTags": ["door_alignment"]
+    },
+    {
+      "id": "gasket_bad_component",
+      "when": [{ "type": "field", "path": "visual_inspection.gasket_condition", "equals": "bad" }],
+      "target": "door_gasket",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Gasket in poor condition — confirmed air leak path.",
+      "dmaTags": ["gasket"]
+    },
+    {
+      "id": "gasket_good_component",
+      "when": [{ "type": "field", "path": "visual_inspection.gasket_condition", "equals": "good" }],
+      "target": "door_gasket",
+      "targetLayer": "component",
+      "effect": { "effect": "eliminate" },
+      "explanation": "Gasket good — ruled out as air leak cause."
     },
     {
       "id": "compressor_not_running",

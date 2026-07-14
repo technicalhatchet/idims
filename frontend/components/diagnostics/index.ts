@@ -24,6 +24,8 @@ export * from './intelligence/stepKeyLabels';
 export * from './intelligence/timeline';
 export * from './intelligence/buildAutoNoteBullets';
 export * from './intelligence/formatAutoNoteSection';
+export * from './intelligence/buildBaselineEvidenceConfig';
+export * from './intelligence/buildTestCatalogForTemplate';
 export { refrigeratorWizard } from './refrigerator/refrigeratorWizard';
 export { electricRangeWizard } from './electric_range/electricRangeWizard';
 export { gasRangeWizard } from './gas_range/gasRangeWizard';

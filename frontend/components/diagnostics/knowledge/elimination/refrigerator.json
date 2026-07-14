@@ -24,8 +24,10 @@
     { "id": "compressor_ok", "category": "sealed_system", "label": "Compressor running normally", "oppositeId": "compressor_failed" },
     { "id": "compressor_failed", "category": "sealed_system", "label": "Compressor / start issue", "oppositeId": "compressor_ok" },
     { "id": "sealed_system_fault", "category": "sealed_system", "label": "Sealed system restriction/leak" },
-    { "id": "door_seal_ok", "category": "door_seal", "label": "Door seal / alignment OK", "oppositeId": "door_seal_fault" },
-    { "id": "door_seal_fault", "category": "door_seal", "label": "Door seal / alignment fault", "oppositeId": "door_seal_ok" },
+    { "id": "door_alignment_ok", "category": "door_seal", "label": "Door alignment OK", "oppositeId": "door_alignment_fault" },
+    { "id": "door_alignment_fault", "category": "door_seal", "label": "Door alignment fault", "oppositeId": "door_alignment_ok" },
+    { "id": "gasket_ok", "category": "door_seal", "label": "Door gasket OK", "oppositeId": "gasket_fault" },
+    { "id": "gasket_fault", "category": "door_seal", "label": "Door gasket fault", "oppositeId": "gasket_ok" },
     { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
     { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
   ],
@@ -91,20 +93,28 @@
       "confirm": ["condenser_fan_failed"]
     },
     {
-      "id": "door_good",
+      "id": "door_alignment_good",
       "when": { "type": "field", "path": "visual_inspection.door_alignment", "equals": "good" },
-      "eliminate": ["door_seal_fault"]
+      "eliminate": ["door_alignment_fault"],
+      "confirm": ["door_alignment_ok"]
     },
     {
-      "id": "door_bad",
+      "id": "door_alignment_bad",
       "when": { "type": "field", "path": "visual_inspection.door_alignment", "equals": "bad" },
-      "eliminate": ["door_seal_ok"],
-      "confirm": ["door_seal_fault"]
+      "eliminate": ["door_alignment_ok"],
+      "confirm": ["door_alignment_fault"]
     },
     {
       "id": "gasket_good",
       "when": { "type": "field", "path": "visual_inspection.gasket_condition", "equals": "good" },
-      "eliminate": ["door_seal_fault"]
+      "eliminate": ["gasket_fault"],
+      "confirm": ["gasket_ok"]
+    },
+    {
+      "id": "gasket_bad",
+      "when": { "type": "field", "path": "visual_inspection.gasket_condition", "equals": "bad" },
+      "eliminate": ["gasket_ok"],
+      "confirm": ["gasket_fault"]
     },
     {
       "id": "supply_critical",

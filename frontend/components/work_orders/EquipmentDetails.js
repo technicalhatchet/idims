@@ -47,6 +47,7 @@ const EQUIPMENT_SUBTYPES = {
     { value: 'dishwasher', label: 'Dishwasher' },
     { value: 'washing_machine', label: 'Washing Machine' },
     { value: 'dryer', label: 'Dryer (unspecified)' },
+    { value: 'electric_dryer', label: 'Electric Dryer' },
     { value: 'gas_dryer', label: 'Gas Dryer' },
     { value: 'aio_laundry', label: 'AIO Laundry' },
     { value: 'oven', label: 'Oven (unspecified)' },
