@@ -1,68 +1,46 @@
+import aioLaundryEvidence from '../knowledge/evidence/aio_laundry.json';
+import dishwasherEvidence from '../knowledge/evidence/dishwasher.json';
+import electricDryerEvidence from '../knowledge/evidence/electric_dryer.json';
+import electricRangeEvidence from '../knowledge/evidence/electric_range.json';
+import gasDryerEvidence from '../knowledge/evidence/gas_dryer.json';
+import gasRangeEvidence from '../knowledge/evidence/gas_range.json';
+import microwaveEvidence from '../knowledge/evidence/microwave.json';
 import refrigeratorEvidence from '../knowledge/evidence/refrigerator.json';
-import { getEliminationConfig } from '../knowledge/knowledgeRegistry';
-import { getWizardDefinition } from '../registry/wizardRegistry';
-import {
-  buildBaselineEvidenceConfig,
-  isHandCraftedEvidenceTemplate,
-} from './buildBaselineEvidenceConfig';
+import stackedLaundryEvidence from '../knowledge/evidence/stacked_laundry.json';
+import standaloneFreezerEvidence from '../knowledge/evidence/standalone_freezer.json';
+import washerEvidence from '../knowledge/evidence/washer.json';
 import type { EvidenceConfig } from './evidenceTypes';
 
-const HAND_CRAFTED = new Map<string, EvidenceConfig>([
-  [(refrigeratorEvidence as EvidenceConfig).templateId, refrigeratorEvidence as EvidenceConfig],
-]);
-
-const GENERATED_CACHE = new Map<string, EvidenceConfig>();
-
-function resolveEvidenceConfig(templateId: string): EvidenceConfig | null {
-  if (HAND_CRAFTED.has(templateId)) {
-    return HAND_CRAFTED.get(templateId) || null;
-  }
-
-  const cached = GENERATED_CACHE.get(templateId);
-  if (cached) return cached;
-
-  const elimination = getEliminationConfig(templateId);
-  if (!elimination?.categories?.length || !elimination.rules?.length) {
-    return null;
-  }
-
-  const config = buildBaselineEvidenceConfig(
-    templateId,
-    elimination,
-    getWizardDefinition(templateId),
-  );
-  if (!config.rules.length) return null;
-
-  GENERATED_CACHE.set(templateId, config);
-  return config;
-}
+const EVIDENCE_BY_TEMPLATE = new Map<string, EvidenceConfig>(
+  [
+    refrigeratorEvidence,
+    standaloneFreezerEvidence,
+    washerEvidence,
+    electricDryerEvidence,
+    gasDryerEvidence,
+    stackedLaundryEvidence,
+    aioLaundryEvidence,
+    dishwasherEvidence,
+    microwaveEvidence,
+    electricRangeEvidence,
+    gasRangeEvidence,
+  ].map((config) => [(config as EvidenceConfig).templateId, config as EvidenceConfig]),
+);
 
 export function getEvidenceConfig(templateId: string | null | undefined): EvidenceConfig | null {
   if (!templateId) return null;
-  return resolveEvidenceConfig(templateId);
+  return EVIDENCE_BY_TEMPLATE.get(templateId) || null;
 }
 
 export function listEvidenceTemplateIds(): string[] {
-  const ids = new Set<string>(HAND_CRAFTED.keys());
-  for (const templateId of [
-    'standalone_freezer',
-    'washer',
-    'electric_dryer',
-    'gas_dryer',
-    'stacked_laundry',
-    'aio_laundry',
-    'dishwasher',
-    'microwave',
-    'electric_range',
-    'gas_range',
-  ]) {
-    if (resolveEvidenceConfig(templateId)) ids.add(templateId);
-  }
-  return [...ids];
+  return [...EVIDENCE_BY_TEMPLATE.keys()];
 }
 
-export function getEvidenceConfigSource(templateId: string): 'hand-crafted' | 'generated' | null {
+export function getEvidenceConfigSource(templateId: string): 'hand-crafted' | null {
   if (!templateId) return null;
-  if (isHandCraftedEvidenceTemplate(templateId)) return 'hand-crafted';
-  return resolveEvidenceConfig(templateId) ? 'generated' : null;
+  return EVIDENCE_BY_TEMPLATE.has(templateId) ? 'hand-crafted' : null;
+}
+
+export function hasEvidenceConfig(templateId: string): boolean {
+  return EVIDENCE_BY_TEMPLATE.has(templateId);
 }

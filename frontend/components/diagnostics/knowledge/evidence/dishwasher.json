@@ -1,0 +1,954 @@
+{
+  "templateId": "dishwasher",
+  "categories": [
+    {
+      "id": "fill_supply",
+      "label": "Fill / Water Supply",
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "drain_pump",
+      "label": "Drain Pump",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "wash_circuit",
+      "label": "Wash / Circulation",
+      "dmaTags": [
+        "pump_check",
+        "wash_issue"
+      ]
+    },
+    {
+      "id": "heat_dry",
+      "label": "Heat / Dry",
+      "dmaTags": [
+        "heating_element_check",
+        "dry_issue"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "door_seal",
+      "label": "Door / Gasket / Leak",
+      "dmaTags": [
+        "door_lock_check",
+        "leak_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "circulation_pump",
+      "label": "Circulation pump",
+      "categoryId": "wash_circuit",
+      "dmaTags": [
+        "pump_check",
+        "wash_issue"
+      ]
+    },
+    {
+      "id": "door_gasket",
+      "label": "Door gasket / seal",
+      "categoryId": "door_seal",
+      "dmaTags": [
+        "door_lock_check",
+        "leak_issue"
+      ]
+    },
+    {
+      "id": "drain_pump",
+      "label": "Drain pump",
+      "categoryId": "drain_pump",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "heater",
+      "label": "Heating element",
+      "categoryId": "heat_dry",
+      "dmaTags": [
+        "heating_element_check",
+        "dry_issue"
+      ]
+    },
+    {
+      "id": "inlet_valve",
+      "label": "Inlet valve",
+      "categoryId": "fill_supply",
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_heater_ol_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeatingElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heating element failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_heater_ol_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeatingElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Heating element failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_heater_ol_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeatingElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heating element OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_heater_normal_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heating element OK — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_down_heater_normal_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Heating element OK — fault path less likely."
+    },
+    {
+      "id": "eliminate_heater_normal_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heating element failed ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_heater_normal_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Heating element failed ruled out — category less likely."
+    },
+    {
+      "id": "confirm_heater_low_amps_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeaterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heating element failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_heater_low_amps_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeaterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Heating element failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_heater_low_amps_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherHeaterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heating element OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_inlet_valve_ol_inlet_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherWaterValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Inlet valve failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "cat_up_inlet_valve_ol_inlet_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherWaterValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Inlet valve failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_inlet_valve_ol_inlet_valve_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherWaterValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Inlet valve OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_drain_pump_ol_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_drain_pump_ol_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Drain pump failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_drain_pump_ol_drain_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drain pump OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_circulation_pump_ol_circulation_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherCirculationPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Circulation pump failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_circulation_pump_ol_circulation_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherCirculationPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Circulation pump failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_circulation_pump_ol_circulation_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherCirculationPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Circulation pump OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "suspect_low_incoming_water_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dishwasherIncomingWaterTemp",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests heating element failed."
+    },
+    {
+      "id": "confirm_drain_bad_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_drain_bad_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Drain pump failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_drain_bad_drain_pump_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drain pump OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_wash_bad_circulation_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.wash_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Circulation pump failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_bad_circulation_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.wash_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Circulation pump failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_wash_bad_circulation_pump_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.wash_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Circulation pump OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_dry_bad_heater_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drying_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heating element failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_dry_bad_heater_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drying_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Heating element failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_dry_bad_heater_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drying_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heating element OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_fill_bad_inlet_valve_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.fill_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Inlet valve failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "cat_up_fill_bad_inlet_valve_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.fill_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Inlet valve failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_fill_bad_inlet_valve_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.fill_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Inlet valve OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_gasket_bad_door_gasket_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_gasket",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_gasket",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door gasket / seal fault — supported by diagnostic evidence.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "cat_up_gasket_bad_door_gasket_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_gasket",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Door gasket / seal fault — category evidence increased.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "eliminate_gasket_bad_door_gasket_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_gasket",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_gasket",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door gasket / seal OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "suspect_leak_yes_door_gasket_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.leak_present",
+          "equals": "yes"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests door gasket / seal fault.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "suspect_leak_yes_inlet_valve_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.leak_present",
+          "equals": "yes"
+        }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests inlet valve failed.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "chip_wont_drain_drain_pump",
+      "when": [
+        {
+          "type": "chip",
+          "id": "wont_drain"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: won't drain — points toward Drain Pump.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_no_heat_dry_heat_dry",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat_dry"
+        }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no heat dry — points toward Heat / Dry.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "heating_element_check",
+        "dry_issue"
+      ]
+    },
+    {
+      "id": "chip_no_fill_fill_supply",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_fill"
+        }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no fill — points toward Fill / Water Supply.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "chip_not_cleaning_wash_circuit",
+      "when": [
+        {
+          "type": "chip",
+          "id": "not_cleaning"
+        }
+      ],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: not cleaning dishes — points toward Wash / Circulation.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "wash_issue"
+      ]
+    }
+  ]
+}

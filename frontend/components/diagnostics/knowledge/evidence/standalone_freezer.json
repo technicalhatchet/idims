@@ -1,0 +1,1226 @@
+{
+  "templateId": "standalone_freezer",
+  "categories": [
+    {
+      "id": "defrost_system",
+      "label": "Defrost System",
+      "dmaTags": [
+        "defrost",
+        "frost_buildup",
+        "defrost_heater"
+      ]
+    },
+    {
+      "id": "airflow",
+      "label": "Airflow / Fans",
+      "dmaTags": [
+        "evap_fan",
+        "condenser_fan",
+        "airflow"
+      ]
+    },
+    {
+      "id": "sealed_system",
+      "label": "Sealed System",
+      "dmaTags": [
+        "compressor",
+        "refrigerant",
+        "sealed_system"
+      ]
+    },
+    {
+      "id": "door_seal",
+      "label": "Door / Gasket / Drain",
+      "dmaTags": [
+        "gasket",
+        "door_alignment",
+        "defrost_drain"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "compressor",
+      "label": "Compressor / start issue",
+      "categoryId": "sealed_system",
+      "dmaTags": [
+        "compressor",
+        "refrigerant"
+      ]
+    },
+    {
+      "id": "condenser_fan",
+      "label": "Condenser fan",
+      "categoryId": "airflow",
+      "dmaTags": [
+        "evap_fan",
+        "condenser_fan"
+      ]
+    },
+    {
+      "id": "defrost_heater",
+      "label": "Defrost heater",
+      "categoryId": "defrost_system",
+      "dmaTags": [
+        "defrost",
+        "frost_buildup"
+      ]
+    },
+    {
+      "id": "defrost_system",
+      "label": "Defrost system",
+      "categoryId": "defrost_system",
+      "dmaTags": [
+        "defrost",
+        "frost_buildup"
+      ]
+    },
+    {
+      "id": "door_alignment",
+      "label": "Door alignment",
+      "categoryId": "door_seal",
+      "dmaTags": [
+        "gasket",
+        "door_alignment"
+      ]
+    },
+    {
+      "id": "drain",
+      "label": "Defrost drain blocked",
+      "categoryId": "door_seal",
+      "dmaTags": [
+        "gasket",
+        "door_alignment"
+      ]
+    },
+    {
+      "id": "evap_fan",
+      "label": "Evap fan",
+      "categoryId": "airflow",
+      "dmaTags": [
+        "evap_fan",
+        "condenser_fan"
+      ]
+    },
+    {
+      "id": "gasket",
+      "label": "Door gasket",
+      "categoryId": "door_seal",
+      "dmaTags": [
+        "gasket",
+        "door_alignment"
+      ]
+    },
+    {
+      "id": "sealed_system",
+      "label": "Sealed system restriction/leak",
+      "categoryId": "sealed_system",
+      "dmaTags": [
+        "compressor",
+        "refrigerant"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_heater_ol_defrost_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "defrostHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Defrost heater failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "defrost"
+      ]
+    },
+    {
+      "id": "cat_up_heater_ol_defrost_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "defrostHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Defrost heater failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_heater_ol_defrost_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "defrostHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Defrost heater good ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_heater_normal_defrost_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "defrostHeaterOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Defrost heater good — supported by diagnostic evidence.",
+      "dmaTags": [
+        "defrost"
+      ]
+    },
+    {
+      "id": "cat_down_heater_normal_defrost_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "defrostHeaterOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Defrost heater good — fault path less likely."
+    },
+    {
+      "id": "eliminate_heater_normal_defrost_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "defrostHeaterOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Defrost heater failed ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_heater_normal_defrost_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "defrostHeaterOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Defrost heater failed ruled out — category less likely."
+    },
+    {
+      "id": "confirm_compressor_not_running_compressor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.compressor_running",
+          "equals": "no"
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Compressor / start issue — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "compressor"
+      ]
+    },
+    {
+      "id": "cat_up_compressor_not_running_compressor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.compressor_running",
+          "equals": "no"
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Compressor / start issue — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_compressor_not_running_compressor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.compressor_running",
+          "equals": "no"
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Compressor running normally ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_compressor_not_running_sealed_system_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.compressor_running",
+          "equals": "no"
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Sealed system restriction/leak ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "cat_unlikely_compressor_not_running_sealed_system_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.compressor_running",
+          "equals": "no"
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Sealed system restriction/leak ruled out — category less likely.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_compressor_low_amps_compressor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Compressor / start issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "compressor"
+      ]
+    },
+    {
+      "id": "cat_up_compressor_low_amps_compressor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Compressor / start issue — category evidence increased."
+    },
+    {
+      "id": "confirm_compressor_low_amps_sealed_system_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Sealed system restriction/leak — supported by diagnostic evidence.",
+      "dmaTags": [
+        "compressor"
+      ]
+    },
+    {
+      "id": "cat_up_compressor_low_amps_sealed_system_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Sealed system restriction/leak — category evidence increased."
+    },
+    {
+      "id": "eliminate_compressor_low_amps_compressor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Compressor running normally ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_evap_fan_no_evap_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.evaporator_fan_running",
+          "equals": "no"
+        }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Evap fan failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "evap_fan"
+      ]
+    },
+    {
+      "id": "cat_up_evap_fan_no_evap_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.evaporator_fan_running",
+          "equals": "no"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Evap fan failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_evap_fan_no_evap_fan_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.evaporator_fan_running",
+          "equals": "no"
+        }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Evap fan OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_condenser_fan_no_condenser_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.condenser_fan_running",
+          "equals": "no"
+        }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Condenser fan failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "evap_fan"
+      ]
+    },
+    {
+      "id": "cat_up_condenser_fan_no_condenser_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.condenser_fan_running",
+          "equals": "no"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Condenser fan failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_condenser_fan_no_condenser_fan_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.condenser_fan_running",
+          "equals": "no"
+        }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Condenser fan OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_defrost_not_operational_defrost_system_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.defrost_operational",
+          "equals": "no"
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Defrost system fault — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "defrost"
+      ]
+    },
+    {
+      "id": "cat_up_defrost_not_operational_defrost_system_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.defrost_operational",
+          "equals": "no"
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Defrost system fault — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_defrost_not_operational_defrost_heater_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.defrost_operational",
+          "equals": "no"
+        }
+      ],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Defrost heater failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "defrost"
+      ]
+    },
+    {
+      "id": "cat_up_defrost_not_operational_defrost_heater_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.defrost_operational",
+          "equals": "no"
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Defrost heater failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_defrost_not_operational_defrost_system_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.defrost_operational",
+          "equals": "no"
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Defrost system operational ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_door_alignment_bad_door_alignment_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_alignment",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_alignment",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door alignment fault — supported by diagnostic evidence.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "gasket"
+      ]
+    },
+    {
+      "id": "cat_up_door_alignment_bad_door_alignment_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_alignment",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Door alignment fault — category evidence increased.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "eliminate_door_alignment_bad_door_alignment_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_alignment",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_alignment",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door alignment OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "confirm_door_alignment_good_door_alignment_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_alignment",
+          "equals": "good"
+        }
+      ],
+      "target": "door_alignment",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door alignment OK — supported by diagnostic evidence.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "gasket"
+      ]
+    },
+    {
+      "id": "cat_down_door_alignment_good_door_alignment_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_alignment",
+          "equals": "good"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Door alignment OK — fault path less likely.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "eliminate_door_alignment_good_door_alignment_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_alignment",
+          "equals": "good"
+        }
+      ],
+      "target": "door_alignment",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door alignment fault ruled out by diagnostic evidence.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "cat_unlikely_door_alignment_good_door_alignment_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.door_alignment",
+          "equals": "good"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Door alignment fault ruled out — category less likely.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "confirm_gasket_bad_gasket_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.gasket_condition",
+          "equals": "bad"
+        }
+      ],
+      "target": "gasket",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door gasket fault — supported by diagnostic evidence.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "gasket"
+      ]
+    },
+    {
+      "id": "cat_up_gasket_bad_gasket_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.gasket_condition",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Door gasket fault — category evidence increased.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "eliminate_gasket_bad_gasket_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.gasket_condition",
+          "equals": "bad"
+        }
+      ],
+      "target": "gasket",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door gasket OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "confirm_gasket_good_gasket_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.gasket_condition",
+          "equals": "good"
+        }
+      ],
+      "target": "gasket",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door gasket OK — supported by diagnostic evidence.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "gasket"
+      ]
+    },
+    {
+      "id": "cat_down_gasket_good_gasket_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.gasket_condition",
+          "equals": "good"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Door gasket OK — fault path less likely.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "eliminate_gasket_good_gasket_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.gasket_condition",
+          "equals": "good"
+        }
+      ],
+      "target": "gasket",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door gasket fault ruled out by diagnostic evidence.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "cat_unlikely_gasket_good_gasket_fault",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.gasket_condition",
+          "equals": "good"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Door gasket fault ruled out — category less likely.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "confirm_drain_not_clear_drain_blocked",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.drain_clear",
+          "equals": "no"
+        }
+      ],
+      "target": "drain",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Defrost drain blocked — supported by diagnostic evidence.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "gasket"
+      ]
+    },
+    {
+      "id": "cat_up_drain_not_clear_drain_blocked",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.drain_clear",
+          "equals": "no"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Defrost drain blocked — category evidence increased.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "eliminate_drain_not_clear_drain_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.drain_clear",
+          "equals": "no"
+        }
+      ],
+      "target": "drain",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Defrost drain clear ruled out by diagnostic evidence.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "chip_frost_buildup_defrost_system",
+      "when": [
+        {
+          "type": "chip",
+          "id": "frost_buildup"
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: frost / ice buildup — points toward Defrost System.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "defrost",
+        "frost_buildup"
+      ]
+    },
+    {
+      "id": "chip_frost_buildup_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "frost_buildup"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: frost / ice buildup — points toward Airflow / Fans.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "evap_fan",
+        "condenser_fan"
+      ]
+    },
+    {
+      "id": "chip_frost_buildup_door_seal",
+      "when": [
+        {
+          "type": "chip",
+          "id": "frost_buildup"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: frost / ice buildup — points toward Door / Gasket / Drain.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "gasket",
+        "door_alignment"
+      ]
+    },
+    {
+      "id": "suspect_frost_pattern_bad_defrost_heater_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.frost_pattern",
+          "equals": "bad"
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests defrost heater failed.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "suspect_frost_pattern_bad_evap_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.frost_pattern",
+          "equals": "bad"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests evap fan failed.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "chip_not_cooling_sealed_system",
+      "when": [
+        {
+          "type": "chip",
+          "id": "not_cooling"
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: not cooling — points toward Sealed System.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "compressor",
+        "refrigerant"
+      ]
+    },
+    {
+      "id": "chip_not_cooling_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "not_cooling"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: not cooling — points toward Airflow / Fans.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "evap_fan",
+        "condenser_fan"
+      ]
+    },
+    {
+      "id": "chip_leaking_door_seal",
+      "when": [
+        {
+          "type": "chip",
+          "id": "leaking"
+        }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: leaking water — points toward Door / Gasket / Drain.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "gasket",
+        "door_alignment"
+      ]
+    },
+    {
+      "id": "chip_leaking_defrost_system",
+      "when": [
+        {
+          "type": "chip",
+          "id": "leaking"
+        }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: leaking water — points toward Defrost System.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "defrost",
+        "frost_buildup"
+      ]
+    }
+  ]
+}

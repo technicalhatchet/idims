@@ -1,0 +1,879 @@
+{
+  "templateId": "electric_dryer",
+  "categories": [
+    {
+      "id": "heat_circuit",
+      "label": "Heat Circuit",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "airflow",
+      "label": "Airflow / Venting",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    },
+    {
+      "id": "motor",
+      "label": "Drum Motor / Drive",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "cycling_thermostat",
+      "label": "Cycling thermostat",
+      "categoryId": "heat_circuit",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "heating_element",
+      "label": "Heating element",
+      "categoryId": "heat_circuit",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "motor",
+      "label": "Drum motor",
+      "categoryId": "motor",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "thermal_fuse",
+      "label": "Thermal fuse open",
+      "categoryId": "heat_circuit",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "vent",
+      "label": "Vent restriction / poor airflow",
+      "categoryId": "airflow",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_heater_ol_heating_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "electricDryerHeatingElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heating element failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_heater_ol_heating_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "electricDryerHeatingElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Heating element failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_heater_ol_heating_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "electricDryerHeatingElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heating element OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_heater_normal_heating_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "electricDryerHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heating element OK — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_down_heater_normal_heating_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "electricDryerHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Heating element OK — fault path less likely."
+    },
+    {
+      "id": "eliminate_heater_normal_heating_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "electricDryerHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heating element failed ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_heater_normal_heating_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "electricDryerHeatingElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Heating element failed ruled out — category less likely."
+    },
+    {
+      "id": "confirm_thermal_fuse_open_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Thermal fuse open — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_thermal_fuse_open_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Thermal fuse open — category evidence increased."
+    },
+    {
+      "id": "eliminate_thermal_fuse_open_thermal_fuse_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Thermal fuse OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_thermal_fuse_good_thermal_fuse_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Thermal fuse OK — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_down_thermal_fuse_good_thermal_fuse_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Thermal fuse OK — fault path less likely."
+    },
+    {
+      "id": "eliminate_thermal_fuse_good_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Thermal fuse open ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_thermal_fuse_good_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Thermal fuse open ruled out — category less likely."
+    },
+    {
+      "id": "confirm_cycling_stat_open_cycling_thermostat_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerCyclingThermostatOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "cycling_thermostat",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Cycling thermostat failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_cycling_stat_open_cycling_thermostat_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerCyclingThermostatOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Cycling thermostat failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_cycling_stat_open_cycling_thermostat_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerCyclingThermostatOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "cycling_thermostat",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Cycling thermostat OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_motor_ol_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drum motor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_motor_ol_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Drum motor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_motor_ol_motor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drum motor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_no_heat_functional_heating_element_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heating",
+          "equals": "no"
+        }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heating element failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_no_heat_functional_heating_element_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heating",
+          "equals": "no"
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Heating element failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_no_heat_functional_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heating",
+          "equals": "no"
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Thermal fuse open — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_no_heat_functional_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heating",
+          "equals": "no"
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Thermal fuse open — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_no_heat_functional_heating_element_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heating",
+          "equals": "no"
+        }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heating element OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_no_heat_functional_thermal_fuse_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heating",
+          "equals": "no"
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Thermal fuse OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_drum_not_turning_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drum motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_drum_not_turning_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Drum motor failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_drum_not_turning_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drum motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_airflow_bad_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Vent restriction / poor airflow — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "cat_up_airflow_bad_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Vent restriction / poor airflow — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_airflow_bad_vent_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Vent / airflow OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "suspect_lint_excessive_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.lint_accumulation",
+          "equals": "bad"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests vent restriction / poor airflow.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "suspect_lint_excessive_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.lint_accumulation",
+          "equals": "bad"
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests thermal fuse open.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "chip_no_heat_heat_circuit",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat"
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no heat — points toward Heat Circuit.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "chip_not_drying_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "not_drying"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: takes too long / damp clothes — points toward Airflow / Venting.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    },
+    {
+      "id": "chip_not_drying_heat_circuit",
+      "when": [
+        {
+          "type": "chip",
+          "id": "not_drying"
+        }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: takes too long / damp clothes — points toward Heat Circuit.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "chip_no_spin_motor",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_spin"
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: won't tumble — points toward Drum Motor / Drive.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    }
+  ]
+}

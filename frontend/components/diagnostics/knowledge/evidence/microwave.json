@@ -1,0 +1,693 @@
+{
+  "templateId": "microwave",
+  "categories": [
+    {
+      "id": "hv_circuit",
+      "label": "HV Circuit",
+      "dmaTags": [
+        "magnetron_check",
+        "no_heat_issue",
+        "high_voltage_safety"
+      ]
+    },
+    {
+      "id": "door_safety",
+      "label": "Door / Safety Switches",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch",
+        "high_voltage_safety"
+      ]
+    },
+    {
+      "id": "power_supply",
+      "label": "Power / Fuses",
+      "dmaTags": [
+        "fuse_check",
+        "no_power_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "door_interlock",
+      "label": "Door interlock",
+      "categoryId": "door_safety",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch"
+      ]
+    },
+    {
+      "id": "hv_capacitor",
+      "label": "HV capacitor",
+      "categoryId": "hv_circuit",
+      "dmaTags": [
+        "magnetron_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "line_fuse",
+      "label": "Line fuse blown",
+      "categoryId": "power_supply",
+      "dmaTags": [
+        "fuse_check",
+        "no_power_issue"
+      ]
+    },
+    {
+      "id": "magnetron",
+      "label": "Magnetron",
+      "categoryId": "hv_circuit",
+      "dmaTags": [
+        "magnetron_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "power_supply",
+      "dmaTags": [
+        "fuse_check",
+        "no_power_issue"
+      ]
+    },
+    {
+      "id": "thermal_cutout",
+      "label": "Thermal cutout tripped",
+      "categoryId": "power_supply",
+      "dmaTags": [
+        "fuse_check",
+        "no_power_issue"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_magnetron_open_magnetron_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveMagnetronFilamentOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Magnetron failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "magnetron_check"
+      ]
+    },
+    {
+      "id": "cat_up_magnetron_open_magnetron_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveMagnetronFilamentOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "hv_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Magnetron failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_magnetron_open_magnetron_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveMagnetronFilamentOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Magnetron OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_capacitor_bad_hv_capacitor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveHVCapacitanceMFD",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "hv_capacitor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "HV capacitor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "magnetron_check"
+      ]
+    },
+    {
+      "id": "cat_up_capacitor_bad_hv_capacitor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveHVCapacitanceMFD",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "hv_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "HV capacitor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_capacitor_bad_hv_capacitor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveHVCapacitanceMFD",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "hv_capacitor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "HV capacitor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_fuse_open_line_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveLineFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "line_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Line fuse blown — supported by diagnostic evidence.",
+      "dmaTags": [
+        "fuse_check"
+      ]
+    },
+    {
+      "id": "cat_up_fuse_open_line_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveLineFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "power_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Line fuse blown — category evidence increased."
+    },
+    {
+      "id": "eliminate_fuse_open_line_fuse_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveLineFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "line_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Line fuse OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_thermal_cutout_open_thermal_cutout_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveThermalCutoutOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "thermal_cutout",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Thermal cutout tripped — supported by diagnostic evidence.",
+      "dmaTags": [
+        "fuse_check"
+      ]
+    },
+    {
+      "id": "cat_up_thermal_cutout_open_thermal_cutout_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveThermalCutoutOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "power_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Thermal cutout tripped — category evidence increased."
+    },
+    {
+      "id": "eliminate_thermal_cutout_open_thermal_cutout_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveThermalCutoutOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "thermal_cutout",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Thermal cutout OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_primary_switch_open_door_interlock_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "door_interlock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door interlock failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "cat_up_primary_switch_open_door_interlock_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "door_safety",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Door interlock failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_primary_switch_open_door_interlock_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "door_interlock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door interlock OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "fuse_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "power_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_no_heat_functional_magnetron_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heats_properly",
+          "equals": "no"
+        }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Magnetron failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "magnetron_check"
+      ]
+    },
+    {
+      "id": "cat_up_no_heat_functional_magnetron_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heats_properly",
+          "equals": "no"
+        }
+      ],
+      "target": "hv_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Magnetron failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_no_heat_functional_magnetron_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.heats_properly",
+          "equals": "no"
+        }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Magnetron OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_no_power_functional_line_fuse_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.powers_on",
+          "equals": "no"
+        }
+      ],
+      "target": "line_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Line fuse blown — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "fuse_check"
+      ]
+    },
+    {
+      "id": "cat_up_no_power_functional_line_fuse_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.powers_on",
+          "equals": "no"
+        }
+      ],
+      "target": "power_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Line fuse blown — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_no_power_functional_line_fuse_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.powers_on",
+          "equals": "no"
+        }
+      ],
+      "target": "line_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Line fuse OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_no_power_functional_door_interlock_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.powers_on",
+          "equals": "no"
+        }
+      ],
+      "target": "door_interlock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door interlock OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "chip_no_heat_hv_circuit",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat"
+        }
+      ],
+      "target": "hv_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no heat — points toward HV Circuit.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "magnetron_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "chip_no_heat_door_safety",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat"
+        }
+      ],
+      "target": "door_safety",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no heat — points toward Door / Safety Switches.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch"
+      ]
+    },
+    {
+      "id": "chip_no_power_power_supply",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_power"
+        }
+      ],
+      "target": "power_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dead / won't start — points toward Power / Fuses.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "fuse_check",
+        "no_power_issue"
+      ]
+    },
+    {
+      "id": "chip_no_power_door_safety",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_power"
+        }
+      ],
+      "target": "door_safety",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dead / won't start — points toward Door / Safety Switches.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch"
+      ]
+    },
+    {
+      "id": "chip_door_issue_door_safety",
+      "when": [
+        {
+          "type": "chip",
+          "id": "door_issue"
+        }
+      ],
+      "target": "door_safety",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: door issue — points toward Door / Safety Switches.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch"
+      ]
+    },
+    {
+      "id": "chip_sparking_hv_circuit",
+      "when": [
+        {
+          "type": "chip",
+          "id": "sparking"
+        }
+      ],
+      "target": "hv_circuit",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: sparking inside — points toward HV Circuit.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "magnetron_check",
+        "no_heat_issue"
+      ]
+    }
+  ]
+}

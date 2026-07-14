@@ -1,0 +1,806 @@
+{
+  "templateId": "gas_dryer",
+  "categories": [
+    {
+      "id": "ignition",
+      "label": "Ignition / Igniter",
+      "dmaTags": [
+        "igniter_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "gas_valve",
+      "label": "Gas Valve",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "heat_safety",
+      "label": "Heat Safety",
+      "dmaTags": [
+        "safety_fuse_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "airflow",
+      "label": "Airflow / Venting",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    },
+    {
+      "id": "motor",
+      "label": "Drum Motor / Drive",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "gas_valve",
+      "label": "Gas valve coil",
+      "categoryId": "gas_valve",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "igniter",
+      "label": "Igniter",
+      "categoryId": "ignition",
+      "dmaTags": [
+        "igniter_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "motor",
+      "label": "Drum motor",
+      "categoryId": "motor",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "thermal_fuse",
+      "label": "Thermal fuse open",
+      "categoryId": "heat_safety",
+      "dmaTags": [
+        "safety_fuse_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "vent",
+      "label": "Vent restriction / poor airflow",
+      "categoryId": "airflow",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_igniter_ol_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Igniter failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "igniter_check"
+      ]
+    },
+    {
+      "id": "cat_up_igniter_ol_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Igniter failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_igniter_ol_igniter_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Igniter OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_igniter_low_amps_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Igniter failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "igniter_check"
+      ]
+    },
+    {
+      "id": "cat_up_igniter_low_amps_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Igniter failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_igniter_low_amps_igniter_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Igniter OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_gas_valve_ol_gas_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasValveCoilOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Gas valve coil failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "gas_valve_check"
+      ]
+    },
+    {
+      "id": "cat_up_gas_valve_ol_gas_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasValveCoilOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Gas valve coil failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_gas_valve_ol_gas_valve_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasValveCoilOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Gas valve coil OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_thermal_fuse_open_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Thermal fuse open — supported by diagnostic evidence.",
+      "dmaTags": [
+        "safety_fuse_check"
+      ]
+    },
+    {
+      "id": "cat_up_thermal_fuse_open_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heat_safety",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Thermal fuse open — category evidence increased."
+    },
+    {
+      "id": "eliminate_thermal_fuse_open_thermal_fuse_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Thermal fuse OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_motor_ol_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drum motor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_motor_ol_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Drum motor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_motor_ol_motor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drum motor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_no_ignition_igniter_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.ignition",
+          "equals": "no"
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Igniter failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "igniter_check"
+      ]
+    },
+    {
+      "id": "cat_up_no_ignition_igniter_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.ignition",
+          "equals": "no"
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Igniter failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_no_ignition_igniter_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.ignition",
+          "equals": "no"
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Igniter OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_no_ignition_gas_valve_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.ignition",
+          "equals": "no"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Gas valve coil OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_drum_not_turning_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drum motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_drum_not_turning_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Drum motor failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_drum_not_turning_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drum motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_airflow_bad_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Vent restriction / poor airflow — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "cat_up_airflow_bad_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Vent restriction / poor airflow — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_airflow_bad_vent_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Vent / airflow OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "suspect_flame_poor_gas_valve_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.flame_quality",
+          "equals": "bad"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests gas valve coil failed.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "suspect_flame_poor_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.flame_quality",
+          "equals": "bad"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Observation suggests vent restriction / poor airflow.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "chip_no_heat_ignition",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat"
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no heat — points toward Ignition / Igniter.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "igniter_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_no_heat_gas_valve",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no heat — points toward Gas Valve.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_no_heat_heat_safety",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat"
+        }
+      ],
+      "target": "heat_safety",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no heat — points toward Heat Safety.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "safety_fuse_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "chip_not_drying_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "not_drying"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: takes too long / damp clothes — points toward Airflow / Venting.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    },
+    {
+      "id": "chip_weak_flame_gas_valve",
+      "when": [
+        {
+          "type": "chip",
+          "id": "weak_flame"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: weak flame — points toward Gas Valve.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_weak_flame_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "weak_flame"
+        }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: weak flame — points toward Airflow / Venting.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    }
+  ]
+}

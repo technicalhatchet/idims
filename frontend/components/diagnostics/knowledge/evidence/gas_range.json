@@ -1,0 +1,749 @@
+{
+  "templateId": "gas_range",
+  "categories": [
+    {
+      "id": "ignition",
+      "label": "Ignition / Igniter",
+      "dmaTags": [
+        "igniter_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "gas_valve",
+      "label": "Gas Valve",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "flame_sensing",
+      "label": "Flame Sensing",
+      "dmaTags": [
+        "flame_sensor_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "surface_burners",
+      "label": "Surface Burners",
+      "dmaTags": [
+        "ignition_issue",
+        "surface_burner"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "flame_sensor",
+      "label": "Flame sensor",
+      "categoryId": "flame_sensing",
+      "dmaTags": [
+        "flame_sensor_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "gas_valve",
+      "label": "Gas valve coil",
+      "categoryId": "gas_valve",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "igniter",
+      "label": "Oven igniter",
+      "categoryId": "ignition",
+      "dmaTags": [
+        "igniter_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "surface_ignition",
+      "label": "Surface burner ignition",
+      "categoryId": "surface_burners",
+      "dmaTags": [
+        "ignition_issue",
+        "surface_burner"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_igniter_ol_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Oven igniter failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "igniter_check"
+      ]
+    },
+    {
+      "id": "cat_up_igniter_ol_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Oven igniter failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_igniter_ol_igniter_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Oven igniter OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "eliminate_igniter_normal_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Oven igniter failed ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_igniter_normal_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Oven igniter failed ruled out — category less likely."
+    },
+    {
+      "id": "confirm_igniter_low_amps_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Oven igniter failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "igniter_check"
+      ]
+    },
+    {
+      "id": "cat_up_igniter_low_amps_igniter_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Oven igniter failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_igniter_low_amps_igniter_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "hotSurfaceIgniterAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Oven igniter OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_gas_valve_ol_gas_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasValveCoilOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Gas valve coil failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "gas_valve_check"
+      ]
+    },
+    {
+      "id": "cat_up_gas_valve_ol_gas_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasValveCoilOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Gas valve coil failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_gas_valve_ol_gas_valve_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasValveCoilOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Gas valve coil OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_flame_sensor_open_flame_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasFlameSensorContinuityOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "flame_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Flame sensor fault — supported by diagnostic evidence.",
+      "dmaTags": [
+        "flame_sensor_check"
+      ]
+    },
+    {
+      "id": "cat_up_flame_sensor_open_flame_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasFlameSensorContinuityOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "flame_sensing",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Flame sensor fault — category evidence increased."
+    },
+    {
+      "id": "eliminate_flame_sensor_open_flame_sensor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "gasFlameSensorContinuityOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "flame_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Flame sensor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_bake_ignition_bad_igniter_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_bake_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Oven igniter failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "igniter_check"
+      ]
+    },
+    {
+      "id": "cat_up_bake_ignition_bad_igniter_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_bake_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Oven igniter failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_bake_ignition_bad_igniter_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_bake_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Oven igniter OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_bake_ignition_bad_gas_valve_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_bake_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Gas valve coil OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_broil_ignition_bad_igniter_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_broil_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Oven igniter failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "igniter_check"
+      ]
+    },
+    {
+      "id": "cat_up_broil_ignition_bad_igniter_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_broil_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Oven igniter failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_broil_ignition_bad_igniter_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_broil_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Oven igniter OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_broil_ignition_bad_gas_valve_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.oven_broil_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Gas valve coil OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_surface_burners_bad_surface_ignition_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.surface_burner_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "surface_ignition",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Surface burner ignition fault — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "cat_up_surface_burners_bad_surface_ignition_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.surface_burner_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "surface_burners",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Surface burner ignition fault — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_surface_burners_bad_surface_ignition_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.surface_burner_ignition",
+          "equals": "bad"
+        }
+      ],
+      "target": "surface_ignition",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Surface ignition OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "chip_no_ignition_ignition",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_ignition"
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no ignition — points toward Ignition / Igniter.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "igniter_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_no_ignition_gas_valve",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_ignition"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no ignition — points toward Gas Valve.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_no_ignition_flame_sensing",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_ignition"
+        }
+      ],
+      "target": "flame_sensing",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no ignition — points toward Flame Sensing.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "flame_sensor_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_no_oven_heat_ignition",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_oven_heat"
+        }
+      ],
+      "target": "ignition",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no oven heat — points toward Ignition / Igniter.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "igniter_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_no_oven_heat_gas_valve",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_oven_heat"
+        }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no oven heat — points toward Gas Valve.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ]
+    },
+    {
+      "id": "chip_surface_burners_surface_burners",
+      "when": [
+        {
+          "type": "chip",
+          "id": "surface_burners"
+        }
+      ],
+      "target": "surface_burners",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: surface burner issue — points toward Surface Burners.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "ignition_issue",
+        "surface_burner"
+      ]
+    }
+  ]
+}

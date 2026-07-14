@@ -1,0 +1,1158 @@
+{
+  "templateId": "aio_laundry",
+  "categories": [
+    {
+      "id": "washer_drain",
+      "label": "Washer Drain",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "washer_drive",
+      "label": "Washer Drive Motor",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "heat_pump",
+      "label": "Heat-Pump / Compressor",
+      "dmaTags": [
+        "compressor_check",
+        "cooling_issue"
+      ]
+    },
+    {
+      "id": "heat_pump_airflow",
+      "label": "Heat-Pump Airflow / Filter",
+      "dmaTags": [
+        "fan_motor_check",
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "condensate",
+      "label": "Condensate / Drain",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "compressor",
+      "label": "Compressor / start issue",
+      "categoryId": "heat_pump",
+      "dmaTags": [
+        "compressor_check",
+        "cooling_issue"
+      ]
+    },
+    {
+      "id": "condensate",
+      "label": "Condensate / drain pump",
+      "categoryId": "condensate",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "filter_airflow",
+      "label": "Filter clogged / poor airflow",
+      "categoryId": "heat_pump_airflow",
+      "dmaTags": [
+        "fan_motor_check",
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "heat_pump_fan",
+      "label": "Heat-pump / condenser fan",
+      "categoryId": "heat_pump_airflow",
+      "dmaTags": [
+        "fan_motor_check",
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "sealed_system",
+      "label": "Sealed system restriction/leak",
+      "categoryId": "heat_pump",
+      "dmaTags": [
+        "compressor_check",
+        "cooling_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "washer_drain_pump",
+      "label": "Drain pump",
+      "categoryId": "washer_drain",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "washer_motor",
+      "label": "Wash motor",
+      "categoryId": "washer_drive",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_drain_pump_ol_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_drain_pump_ol_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drain",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Drain pump failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_drain_pump_ol_washer_drain_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drain pump OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_wash_motor_ol_washer_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash motor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_motor_ol_washer_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Wash motor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_wash_motor_ol_washer_motor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash motor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_compressor_low_amps_compressor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Compressor / start issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "compressor_check"
+      ]
+    },
+    {
+      "id": "cat_up_compressor_low_amps_compressor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heat_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Compressor / start issue — category evidence increased."
+    },
+    {
+      "id": "confirm_compressor_low_amps_sealed_system_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Sealed system restriction/leak — supported by diagnostic evidence.",
+      "dmaTags": [
+        "compressor_check"
+      ]
+    },
+    {
+      "id": "cat_up_compressor_low_amps_sealed_system_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heat_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Sealed system restriction/leak — category evidence increased."
+    },
+    {
+      "id": "eliminate_compressor_low_amps_compressor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Compressor running normally ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_compressor_winding_ol_compressor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Compressor / start issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "compressor_check"
+      ]
+    },
+    {
+      "id": "cat_up_compressor_winding_ol_compressor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "heat_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Compressor / start issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_compressor_winding_ol_compressor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "compressorRunWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Compressor running normally ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_heat_pump_fan_low_heat_pump_fan_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "condenserFanAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heat_pump_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heat-pump / condenser fan failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "fan_motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_heat_pump_fan_low_heat_pump_fan_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "condenserFanAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heat_pump_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Heat-pump / condenser fan failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_heat_pump_fan_low_heat_pump_fan_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "condenserFanAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "heat_pump_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heat-pump fan OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_wash_drain_bad_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "recommendStepKey": "wash",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_drain_bad_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drain",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Drain pump failed — category evidence increased.",
+      "recommendStepKey": "wash"
+    },
+    {
+      "id": "eliminate_wash_drain_bad_washer_drain_pump_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drain pump OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "wash"
+    },
+    {
+      "id": "confirm_wash_spin_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.spin",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "wash",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_spin_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.spin",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Wash motor failed — category evidence increased.",
+      "recommendStepKey": "wash"
+    },
+    {
+      "id": "eliminate_wash_spin_bad_washer_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.spin",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "wash"
+    },
+    {
+      "id": "confirm_wash_agitate_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.agitate",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "wash",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_agitate_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.agitate",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Wash motor failed — category evidence increased.",
+      "recommendStepKey": "wash"
+    },
+    {
+      "id": "eliminate_wash_agitate_bad_washer_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "wash_functions.agitate",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "wash"
+    },
+    {
+      "id": "confirm_no_heat_dry_compressor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Compressor / start issue — supported by diagnostic evidence.",
+      "recommendStepKey": "dry",
+      "dmaTags": [
+        "compressor_check"
+      ]
+    },
+    {
+      "id": "cat_up_no_heat_dry_compressor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "heat_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Compressor / start issue — category evidence increased.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "confirm_no_heat_dry_heat_pump_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "heat_pump_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heat-pump / condenser fan failed — supported by diagnostic evidence.",
+      "recommendStepKey": "dry",
+      "dmaTags": [
+        "fan_motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_no_heat_dry_heat_pump_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "heat_pump_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Heat-pump / condenser fan failed — category evidence increased.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "eliminate_no_heat_dry_compressor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Compressor running normally ruled out by diagnostic evidence.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "confirm_dry_airflow_bad_filter_airflow_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "filter_airflow",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Filter clogged / poor airflow — supported by diagnostic evidence.",
+      "recommendStepKey": "dry",
+      "dmaTags": [
+        "fan_motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_dry_airflow_bad_filter_airflow_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "heat_pump_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Filter clogged / poor airflow — category evidence increased.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "confirm_dry_airflow_bad_heat_pump_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "heat_pump_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Heat-pump / condenser fan failed — supported by diagnostic evidence.",
+      "recommendStepKey": "dry",
+      "dmaTags": [
+        "fan_motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_dry_airflow_bad_heat_pump_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "heat_pump_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Heat-pump / condenser fan failed — category evidence increased.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "eliminate_dry_airflow_bad_filter_airflow_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "filter_airflow",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Filter / airflow OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "eliminate_dry_airflow_bad_heat_pump_fan_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "heat_pump_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Heat-pump fan OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "confirm_condensate_bad_condensate_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.condensate_drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "condensate",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Condensate / drain pump fault — supported by diagnostic evidence.",
+      "recommendStepKey": "dry",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_condensate_bad_condensate_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.condensate_drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "condensate",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Condensate / drain pump fault — category evidence increased.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "eliminate_condensate_bad_condensate_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "dry_functions.condensate_drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "condensate",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Condensate drain OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "dry"
+    },
+    {
+      "id": "chip_washer_drain_washer_drain",
+      "when": [
+        {
+          "type": "chip",
+          "id": "washer_drain"
+        }
+      ],
+      "target": "washer_drain",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: washer drain issue — points toward Washer Drain.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_washer_drain_condensate",
+      "when": [
+        {
+          "type": "chip",
+          "id": "washer_drain"
+        }
+      ],
+      "target": "condensate",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: washer drain issue — points toward Condensate / Drain.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_washer_spin_washer_drive",
+      "when": [
+        {
+          "type": "chip",
+          "id": "washer_spin"
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: washer spin issue — points toward Washer Drive Motor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "chip_dryer_no_heat_heat_pump",
+      "when": [
+        {
+          "type": "chip",
+          "id": "dryer_no_heat"
+        }
+      ],
+      "target": "heat_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dryer no heat — points toward Heat-Pump / Compressor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "compressor_check",
+        "cooling_issue"
+      ]
+    },
+    {
+      "id": "chip_dryer_no_heat_heat_pump_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "dryer_no_heat"
+        }
+      ],
+      "target": "heat_pump_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dryer no heat — points toward Heat-Pump Airflow / Filter.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "fan_motor_check",
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "chip_heat_pump_dry_heat_pump_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "heat_pump_dry"
+        }
+      ],
+      "target": "heat_pump_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: heat-pump dry issue — points toward Heat-Pump Airflow / Filter.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "fan_motor_check",
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "chip_heat_pump_dry_heat_pump",
+      "when": [
+        {
+          "type": "chip",
+          "id": "heat_pump_dry"
+        }
+      ],
+      "target": "heat_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: heat-pump dry issue — points toward Heat-Pump / Compressor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "compressor_check",
+        "cooling_issue"
+      ]
+    },
+    {
+      "id": "chip_condensate_condensate",
+      "when": [
+        {
+          "type": "chip",
+          "id": "condensate"
+        }
+      ],
+      "target": "condensate",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: condensate / drain issue — points toward Condensate / Drain.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_condensate_washer_drain",
+      "when": [
+        {
+          "type": "chip",
+          "id": "condensate"
+        }
+      ],
+      "target": "washer_drain",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: condensate / drain issue — points toward Washer Drain.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_compressor_heat_pump",
+      "when": [
+        {
+          "type": "chip",
+          "id": "compressor"
+        }
+      ],
+      "target": "heat_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: compressor issue — points toward Heat-Pump / Compressor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "compressor_check",
+        "cooling_issue"
+      ]
+    }
+  ]
+}

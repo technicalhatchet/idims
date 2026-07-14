@@ -1,0 +1,826 @@
+{
+  "templateId": "washer",
+  "categories": [
+    {
+      "id": "drain_pump",
+      "label": "Drain Pump",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "fill_supply",
+      "label": "Fill / Water Supply",
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "drive_motor",
+      "label": "Drive Motor",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue",
+        "agitate_issue"
+      ]
+    },
+    {
+      "id": "door_lock",
+      "label": "Door / Lid Lock",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "door_lock",
+      "label": "Door lock",
+      "categoryId": "door_lock",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch"
+      ]
+    },
+    {
+      "id": "drain_pump",
+      "label": "Drain pump",
+      "categoryId": "drain_pump",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "drive_motor",
+      "label": "Drive motor",
+      "categoryId": "drive_motor",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "inlet_valve",
+      "label": "Inlet valve",
+      "categoryId": "fill_supply",
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_drain_pump_ol_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_drain_pump_ol_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Drain pump failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_drain_pump_ol_drain_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drain pump OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_drain_pump_low_amps_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_drain_pump_low_amps_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Drain pump failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_drain_pump_low_amps_drain_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpAmps",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drain pump OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_inlet_valve_ol_inlet_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerWaterValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Inlet valve failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "cat_up_inlet_valve_ol_inlet_valve_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerWaterValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Inlet valve failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_inlet_valve_ol_inlet_valve_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerWaterValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Inlet valve OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_drive_motor_ol_drive_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drive motor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_drive_motor_ol_drive_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Drive motor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_drive_motor_ol_drive_motor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drive motor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_door_lock_open_door_lock_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDoorLockSwitchOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door lock failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "cat_up_door_lock_open_door_lock_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDoorLockSwitchOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Door lock failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_door_lock_open_door_lock_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDoorLockSwitchOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door lock OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage120",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_drain_bad_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_drain_bad_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Drain pump failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_drain_bad_drain_pump_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drain pump OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_fill_bad_inlet_valve_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.fill_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Inlet valve failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "cat_up_fill_bad_inlet_valve_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.fill_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Inlet valve failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_fill_bad_inlet_valve_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.fill_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Inlet valve OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_spin_bad_drive_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.spin_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drive motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_spin_bad_drive_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.spin_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Drive motor failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_spin_bad_drive_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.spin_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drive motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_agitate_bad_drive_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.agitation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Drive motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_agitate_bad_drive_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.agitation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Drive motor failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_agitate_bad_drive_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.agitation",
+          "equals": "bad"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Drive motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_lid_lock_bad_door_lock_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door lock failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "cat_up_lid_lock_bad_door_lock_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Door lock failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_lid_lock_bad_door_lock_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Door lock OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "chip_wont_drain_drain_pump",
+      "when": [
+        {
+          "type": "chip",
+          "id": "wont_drain"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: won't drain — points toward Drain Pump.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_no_fill_fill_supply",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_fill"
+        }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no fill — points toward Fill / Water Supply.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "chip_wont_spin_drive_motor",
+      "when": [
+        {
+          "type": "chip",
+          "id": "wont_spin"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: won't spin — points toward Drive Motor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "chip_wont_agitate_drive_motor",
+      "when": [
+        {
+          "type": "chip",
+          "id": "wont_agitate"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: won't agitate — points toward Drive Motor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "chip_lid_lock_door_lock",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: lid lock issue — points toward Door / Lid Lock.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "door_lock_check",
+        "safety_switch"
+      ]
+    }
+  ]
+}

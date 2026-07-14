@@ -14,10 +14,11 @@ import type {
   EvidenceWhenClause,
 } from './evidenceTypes';
 
-const HAND_CRAFTED_TEMPLATE_IDS = new Set(['refrigerator']);
+import { hasEvidenceConfig } from './evidenceRegistry';
 
+/** True when template has a checked-in `knowledge/evidence/<template>.json` file. */
 export function isHandCraftedEvidenceTemplate(templateId: string): boolean {
-  return HAND_CRAFTED_TEMPLATE_IDS.has(templateId);
+  return hasEvidenceConfig(templateId);
 }
 
 function isFailureHypothesis(id: string): boolean {

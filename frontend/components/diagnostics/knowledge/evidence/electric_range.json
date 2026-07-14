@@ -1,0 +1,892 @@
+{
+  "templateId": "electric_range",
+  "categories": [
+    {
+      "id": "bake_element",
+      "label": "Bake Element",
+      "dmaTags": [
+        "heating_element_check",
+        "no_bake_heat_issue"
+      ]
+    },
+    {
+      "id": "broil_element",
+      "label": "Broil Element",
+      "dmaTags": [
+        "heating_element_check",
+        "no_broil_heat_issue"
+      ]
+    },
+    {
+      "id": "temp_sensor",
+      "label": "Temperature Sensor",
+      "dmaTags": [
+        "sensor_check",
+        "temp_accuracy_issue"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue",
+        "wiring_fault"
+      ]
+    },
+    {
+      "id": "convection",
+      "label": "Convection Fan",
+      "dmaTags": [
+        "fan_motor_check",
+        "convection_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "bake_element",
+      "label": "Bake element",
+      "categoryId": "bake_element",
+      "dmaTags": [
+        "heating_element_check",
+        "no_bake_heat_issue"
+      ]
+    },
+    {
+      "id": "broil_element",
+      "label": "Broil element",
+      "categoryId": "broil_element",
+      "dmaTags": [
+        "heating_element_check",
+        "no_broil_heat_issue"
+      ]
+    },
+    {
+      "id": "convection_fan",
+      "label": "Convection fan",
+      "categoryId": "convection",
+      "dmaTags": [
+        "fan_motor_check",
+        "convection_issue"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / wiring issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "temp_sensor",
+      "label": "Oven temp sensor",
+      "categoryId": "temp_sensor",
+      "dmaTags": [
+        "sensor_check",
+        "temp_accuracy_issue"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_bake_element_ol_bake_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "bakeElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Bake element failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_bake_element_ol_bake_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "bakeElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Bake element failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_bake_element_ol_bake_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "bakeElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Bake element OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_bake_element_normal_bake_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "bakeElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Bake element OK — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_down_bake_element_normal_bake_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "bakeElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Bake element OK — fault path less likely."
+    },
+    {
+      "id": "eliminate_bake_element_normal_bake_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "bakeElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Bake element failed ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_bake_element_normal_bake_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "bakeElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Bake element failed ruled out — category less likely."
+    },
+    {
+      "id": "confirm_broil_element_ol_broil_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "broilElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Broil element failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_broil_element_ol_broil_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "broilElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Broil element failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_broil_element_ol_broil_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "broilElementOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Broil element OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_broil_element_normal_broil_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "broilElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Broil element OK — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_down_broil_element_normal_broil_element_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "broilElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Broil element OK — fault path less likely."
+    },
+    {
+      "id": "eliminate_broil_element_normal_broil_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "broilElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Broil element failed ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_broil_element_normal_broil_element_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "broilElementOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Broil element failed ruled out — category less likely."
+    },
+    {
+      "id": "confirm_temp_sensor_bad_temp_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "ovenTempSensorOhms",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Oven temp sensor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "sensor_check"
+      ]
+    },
+    {
+      "id": "cat_up_temp_sensor_bad_temp_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "ovenTempSensorOhms",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Oven temp sensor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_temp_sensor_bad_temp_sensor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "ovenTempSensorOhms",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Oven temp sensor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_temp_sensor_normal_temp_sensor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "ovenTempSensorOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Oven temp sensor OK — supported by diagnostic evidence.",
+      "dmaTags": [
+        "sensor_check"
+      ]
+    },
+    {
+      "id": "cat_down_temp_sensor_normal_temp_sensor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "ovenTempSensorOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 20
+      },
+      "explanation": "Oven temp sensor OK — fault path less likely."
+    },
+    {
+      "id": "eliminate_temp_sensor_normal_temp_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "ovenTempSensorOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Oven temp sensor failed ruled out by diagnostic evidence."
+    },
+    {
+      "id": "cat_unlikely_temp_sensor_normal_temp_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "ovenTempSensorOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "unlikely",
+        "value": 28
+      },
+      "explanation": "Oven temp sensor failed ruled out — category less likely."
+    },
+    {
+      "id": "confirm_l1_l2_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / wiring issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_l1_l2_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / wiring issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_l1_l2_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_neutral_ground_bad_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "neutralGroundVoltage",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / wiring issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_neutral_ground_bad_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "neutralGroundVoltage",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / wiring issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_neutral_ground_bad_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "neutralGroundVoltage",
+          "statusIn": [
+            "critical",
+            "warning"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_bake_bad_bake_element_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.bake_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Bake element failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_bake_bad_bake_element_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.bake_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Bake element failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_bake_bad_bake_element_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.bake_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Bake element OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_broil_bad_broil_element_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.broil_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Broil element failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_broil_bad_broil_element_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.broil_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Broil element failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_broil_bad_broil_element_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.broil_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Broil element OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "confirm_convection_bad_convection_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.convection_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "convection_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Convection fan failed — supported by diagnostic evidence.",
+      "recommendStepKey": "functional",
+      "dmaTags": [
+        "fan_motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_convection_bad_convection_fan_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.convection_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "convection",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Convection fan failed — category evidence increased.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "eliminate_convection_bad_convection_fan_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.convection_operation",
+          "equals": "bad"
+        }
+      ],
+      "target": "convection_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Convection fan OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "chip_no_bake_bake_element",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_bake"
+        }
+      ],
+      "target": "bake_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no bake heat — points toward Bake Element.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "heating_element_check",
+        "no_bake_heat_issue"
+      ]
+    },
+    {
+      "id": "chip_no_bake_temp_sensor",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_bake"
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no bake heat — points toward Temperature Sensor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "sensor_check",
+        "temp_accuracy_issue"
+      ]
+    },
+    {
+      "id": "chip_no_bake_electrical_supply",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_bake"
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no bake heat — points toward Electrical Supply.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "chip_no_broil_broil_element",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_broil"
+        }
+      ],
+      "target": "broil_element",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: no broil heat — points toward Broil Element.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "heating_element_check",
+        "no_broil_heat_issue"
+      ]
+    },
+    {
+      "id": "chip_uneven_heat_temp_sensor",
+      "when": [
+        {
+          "type": "chip",
+          "id": "uneven_heat"
+        }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: uneven oven heat — points toward Temperature Sensor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "sensor_check",
+        "temp_accuracy_issue"
+      ]
+    }
+  ]
+}

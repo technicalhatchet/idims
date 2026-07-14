@@ -1,0 +1,983 @@
+{
+  "templateId": "stacked_laundry",
+  "categories": [
+    {
+      "id": "washer_drain",
+      "label": "Washer Drain",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "washer_drive",
+      "label": "Washer Drive Motor",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "dryer_heat",
+      "label": "Dryer Heat Circuit",
+      "dmaTags": [
+        "heating_element_check",
+        "safety_fuse_check"
+      ]
+    },
+    {
+      "id": "dryer_motor",
+      "label": "Dryer Drum Motor",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    },
+    {
+      "id": "dryer_airflow",
+      "label": "Dryer Airflow / Vent",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    },
+    {
+      "id": "electrical_supply",
+      "label": "Electrical Supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "dryer_heat",
+      "label": "Dryer heat circuit",
+      "categoryId": "dryer_heat",
+      "dmaTags": [
+        "heating_element_check",
+        "safety_fuse_check"
+      ]
+    },
+    {
+      "id": "dryer_motor",
+      "label": "Dryer drum motor",
+      "categoryId": "dryer_motor",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    },
+    {
+      "id": "dryer_thermal_fuse",
+      "label": "Dryer thermal fuse open",
+      "categoryId": "dryer_heat",
+      "dmaTags": [
+        "heating_element_check",
+        "safety_fuse_check"
+      ]
+    },
+    {
+      "id": "dryer_vent",
+      "label": "Dryer vent restriction",
+      "categoryId": "dryer_airflow",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    },
+    {
+      "id": "supply",
+      "label": "Supply / voltage issue",
+      "categoryId": "electrical_supply",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "washer_drain_pump",
+      "label": "Washer drain pump",
+      "categoryId": "washer_drain",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "washer_motor",
+      "label": "Wash motor",
+      "categoryId": "washer_drive",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "confirm_washer_drain_pump_ol_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Washer drain pump failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_washer_drain_pump_ol_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drain",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Washer drain pump failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_washer_drain_pump_ol_washer_drain_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Washer drain pump OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_washer_motor_ol_washer_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash motor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_washer_motor_ol_washer_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Wash motor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_washer_motor_ol_washer_motor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash motor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_dryer_thermal_fuse_open_dryer_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Dryer thermal fuse open — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_dryer_thermal_fuse_open_dryer_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Dryer thermal fuse open — category evidence increased."
+    },
+    {
+      "id": "confirm_dryer_thermal_fuse_open_dryer_heat_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Dryer heat circuit fault — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_dryer_thermal_fuse_open_dryer_heat_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Dryer heat circuit fault — category evidence increased."
+    },
+    {
+      "id": "eliminate_dryer_thermal_fuse_open_dryer_thermal_fuse_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Dryer thermal fuse OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "eliminate_dryer_thermal_fuse_open_dryer_heat_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerThermalFuseOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Dryer heat OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_dryer_motor_ol_dryer_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Dryer drum motor failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_dryer_motor_ol_dryer_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Dryer drum motor failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_dryer_motor_ol_dryer_motor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "dryerDrumMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "dryer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Dryer drum motor OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "dmaTags": [
+        "voltage_check"
+      ]
+    },
+    {
+      "id": "cat_up_supply_critical_supply_fault",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Supply / voltage issue — category evidence increased."
+    },
+    {
+      "id": "eliminate_supply_critical_supply_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "supplyVoltage240",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Supply voltage OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_washer_drain_bad_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Washer drain pump failed — supported by diagnostic evidence.",
+      "recommendStepKey": "washer",
+      "dmaTags": [
+        "pump_check"
+      ]
+    },
+    {
+      "id": "cat_up_washer_drain_bad_washer_drain_pump_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drain",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Washer drain pump failed — category evidence increased.",
+      "recommendStepKey": "washer"
+    },
+    {
+      "id": "eliminate_washer_drain_bad_washer_drain_pump_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.drain",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Washer drain pump OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "washer"
+    },
+    {
+      "id": "confirm_washer_spin_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.spin",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "washer",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_washer_spin_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.spin",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Wash motor failed — category evidence increased.",
+      "recommendStepKey": "washer"
+    },
+    {
+      "id": "eliminate_washer_spin_bad_washer_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.spin",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "washer"
+    },
+    {
+      "id": "confirm_washer_agitate_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.agitate",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "washer",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_washer_agitate_bad_washer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.agitate",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Wash motor failed — category evidence increased.",
+      "recommendStepKey": "washer"
+    },
+    {
+      "id": "eliminate_washer_agitate_bad_washer_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "washer_section.agitate",
+          "equals": "bad"
+        }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "washer"
+    },
+    {
+      "id": "confirm_dryer_no_heat_dryer_heat_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Dryer heat circuit fault — supported by diagnostic evidence.",
+      "recommendStepKey": "dryer",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_dryer_no_heat_dryer_heat_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Dryer heat circuit fault — category evidence increased.",
+      "recommendStepKey": "dryer"
+    },
+    {
+      "id": "confirm_dryer_no_heat_dryer_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_thermal_fuse",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Dryer thermal fuse open — supported by diagnostic evidence.",
+      "recommendStepKey": "dryer",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_dryer_no_heat_dryer_thermal_fuse_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Dryer thermal fuse open — category evidence increased.",
+      "recommendStepKey": "dryer"
+    },
+    {
+      "id": "eliminate_dryer_no_heat_dryer_heat_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.heat_present",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Dryer heat OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "dryer"
+    },
+    {
+      "id": "confirm_dryer_no_tumble_dryer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Dryer drum motor failed — supported by diagnostic evidence.",
+      "recommendStepKey": "dryer",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "cat_up_dryer_no_tumble_dryer_motor_failed",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Dryer drum motor failed — category evidence increased.",
+      "recommendStepKey": "dryer"
+    },
+    {
+      "id": "eliminate_dryer_no_tumble_dryer_motor_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.drum_turning",
+          "equals": "no"
+        }
+      ],
+      "target": "dryer_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Dryer drum motor OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "dryer"
+    },
+    {
+      "id": "confirm_dryer_airflow_bad_dryer_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "dryer_vent",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Dryer vent restriction — supported by diagnostic evidence.",
+      "recommendStepKey": "dryer",
+      "dmaTags": [
+        "airflow_check"
+      ]
+    },
+    {
+      "id": "cat_up_dryer_airflow_bad_dryer_vent_restricted",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "dryer_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 35
+      },
+      "explanation": "Dryer vent restriction — category evidence increased.",
+      "recommendStepKey": "dryer"
+    },
+    {
+      "id": "eliminate_dryer_airflow_bad_dryer_vent_ok",
+      "when": [
+        {
+          "type": "field",
+          "path": "dryer_section.airflow",
+          "equals": "bad"
+        }
+      ],
+      "target": "dryer_vent",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Dryer vent / airflow OK ruled out by diagnostic evidence.",
+      "recommendStepKey": "dryer"
+    },
+    {
+      "id": "chip_washer_drain_washer_drain",
+      "when": [
+        {
+          "type": "chip",
+          "id": "washer_drain"
+        }
+      ],
+      "target": "washer_drain",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: washer drain issue — points toward Washer Drain.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_washer_spin_washer_drive",
+      "when": [
+        {
+          "type": "chip",
+          "id": "washer_spin"
+        }
+      ],
+      "target": "washer_drive",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: washer spin issue — points toward Washer Drive Motor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "chip_washer_fill_electrical_supply",
+      "when": [
+        {
+          "type": "chip",
+          "id": "washer_fill"
+        }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: washer fill issue — points toward Electrical Supply.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "voltage_check",
+        "supply_issue"
+      ]
+    },
+    {
+      "id": "chip_dryer_no_heat_dryer_heat",
+      "when": [
+        {
+          "type": "chip",
+          "id": "dryer_no_heat"
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dryer no heat — points toward Dryer Heat Circuit.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "heating_element_check",
+        "safety_fuse_check"
+      ]
+    },
+    {
+      "id": "chip_dryer_not_drying_dryer_airflow",
+      "when": [
+        {
+          "type": "chip",
+          "id": "dryer_not_drying"
+        }
+      ],
+      "target": "dryer_airflow",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dryer not drying — points toward Dryer Airflow / Vent.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "airflow_check",
+        "vent_restriction"
+      ]
+    },
+    {
+      "id": "chip_dryer_not_drying_dryer_heat",
+      "when": [
+        {
+          "type": "chip",
+          "id": "dryer_not_drying"
+        }
+      ],
+      "target": "dryer_heat",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dryer not drying — points toward Dryer Heat Circuit.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "heating_element_check",
+        "safety_fuse_check"
+      ]
+    },
+    {
+      "id": "chip_dryer_no_tumble_dryer_motor",
+      "when": [
+        {
+          "type": "chip",
+          "id": "dryer_no_tumble"
+        }
+      ],
+      "target": "dryer_motor",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Complaint: dryer drum not turning — points toward Dryer Drum Motor.",
+      "recommendStepKey": "complaint",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    }
+  ]
+}
