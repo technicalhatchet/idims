@@ -37,7 +37,24 @@ export default function DiagnosticResultsViewer({
   return (
     <div className="space-y-5">
       {canGeneratePdf ? (
-        <div className={`flex ${isMobile ? 'justify-stretch' : 'justify-end'}`}>
+        <DiagnosticPdfSheet
+          open={showPdfSheet}
+          onClose={() => setShowPdfSheet(false)}
+          workOrderId={resolvedWorkOrderId}
+          orderNumber={resolvedOrderNumber}
+          noteId={noteId}
+          variant={variant}
+        />
+      ) : null}
+
+      {canGeneratePdf ? (
+        <div
+          className={`sticky top-0 z-10 flex pb-2 ${
+            isMobile
+              ? 'justify-stretch -mx-1 px-1 pt-0.5 bg-[#0f172a]/95 backdrop-blur-sm'
+              : 'justify-end -mx-1 px-1 pt-0.5 bg-gray-50/95 dark:bg-gray-800/95 backdrop-blur-sm'
+          }`}
+        >
           <Button
             type="button"
             variant={isMobile ? 'secondary' : 'outline'}
@@ -110,17 +127,6 @@ export default function DiagnosticResultsViewer({
           {checklistText || 'No checklist readings recorded.'}
         </pre>
       </div>
-
-      {canGeneratePdf ? (
-        <DiagnosticPdfSheet
-          open={showPdfSheet}
-          onClose={() => setShowPdfSheet(false)}
-          workOrderId={resolvedWorkOrderId}
-          orderNumber={resolvedOrderNumber}
-          noteId={noteId}
-          variant={variant}
-        />
-      ) : null}
     </div>
   );
 }

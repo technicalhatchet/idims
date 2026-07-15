@@ -6,7 +6,7 @@ import { electricRangeRoutingConfig } from './electricRangeRouting';
 export const electricRangeWizard: WizardDefinition = {
   applianceType: 'electric_range',
   templateId: 'electric_range',
-  title: 'Electric Range / Oven Diagnostic',
+  title: 'Electric Range Diagnostic',
   icon: 'electric_range',
   estimatedCompletionMinutes: 18,
   version: '1.0.0',

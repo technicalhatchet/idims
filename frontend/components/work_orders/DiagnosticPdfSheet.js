@@ -205,11 +205,11 @@ export default function DiagnosticPdfSheet({
   if (isMobile) {
     return (
       <div
-        className="fixed inset-0 z-[1200] flex items-end sm:items-center justify-center bg-black/60 p-0 sm:p-4"
+        className="fixed inset-0 z-[1200] flex items-start justify-center bg-black/60 p-4 pt-6 sm:items-center sm:p-4"
         onClick={onClose}
       >
         <div
-          className="w-full max-w-lg rounded-t-2xl sm:rounded-2xl border border-white/10 bg-[#0D1525] p-4 pb-6 max-h-[90vh] overflow-y-auto"
+          className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#0D1525] p-4 pb-6 max-h-[85vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <h3 className="text-lg font-semibold text-white mb-4">Diagnostic report PDF</h3>

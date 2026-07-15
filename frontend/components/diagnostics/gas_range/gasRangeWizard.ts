@@ -6,7 +6,7 @@ import { gasRangeRoutingConfig } from './gasRangeRouting';
 export const gasRangeWizard: WizardDefinition = {
   applianceType: 'gas_range',
   templateId: 'gas_range',
-  title: 'Gas Range / Oven Diagnostic',
+  title: 'Gas Range Diagnostic',
   icon: 'gas_range',
   estimatedCompletionMinutes: 18,
   version: '1.0.0',

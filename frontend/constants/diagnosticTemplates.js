@@ -611,7 +611,7 @@ export const DIAGNOSTIC_TEMPLATES = [
   },
   {
     id: 'electric_range',
-    label: 'Electric Range / Oven',
+    label: 'Electric Range',
     equipmentKeys: ['electric_range', 'range', 'oven', 'wall_oven'],
     sections: [
       missed([
@@ -683,7 +683,7 @@ export const DIAGNOSTIC_TEMPLATES = [
   },
   {
     id: 'gas_range',
-    label: 'Gas Range / Oven',
+    label: 'Gas Range',
     equipmentKeys: ['gas_range'],
     sections: [
       missed([
