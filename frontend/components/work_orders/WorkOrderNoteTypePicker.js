@@ -1,7 +1,7 @@
 import { FaClipboardList } from 'react-icons/fa';
 import Modal from '../ui/Modal';
 import MobileActionSheet from '../ui/MobileActionSheet';
-import { MANUAL_NOTE_TYPES, NOTE_TYPE_DESCRIPTIONS } from '../../constants/workOrderNoteTypes';
+import { MANUAL_NOTE_TYPES, NOTE_TYPE_DESCRIPTIONS, getNoteTypePickerLabel } from '../../constants/workOrderNoteTypes';
 
 function TypeList({ onSelect, isMobile }) {
   return (
@@ -22,7 +22,7 @@ function TypeList({ onSelect, isMobile }) {
               isMobile ? 'text-white' : 'text-gray-900 dark:text-white'
             }`}
           >
-            {type}
+            {getNoteTypePickerLabel(type)}
           </span>
           {NOTE_TYPE_DESCRIPTIONS[type] ? (
             <span

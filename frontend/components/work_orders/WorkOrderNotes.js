@@ -12,13 +12,14 @@ import {
   codeOptions,
   codeLabel,
 } from '../../constants/dmaCodes';
-import { NOTE_TYPES, MANUAL_NOTE_TYPES } from '../../constants/workOrderNoteTypes';
+import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
 import DiagnosticResultsForm, {
   clearDiagnosticDraft,
   getDiagnosticDraftKey,
 } from './DiagnosticResultsForm';
+import DiagnosticResultsViewer from './DiagnosticResultsViewer';
 import {
   buildInitialDiagnosticState,
   formatDiagnosticSummary,
@@ -556,6 +557,15 @@ export default function WorkOrderNotes({
     wizardProps = {},
   ) => {
     if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+      if (readOnly) {
+        return (
+          <DiagnosticResultsViewer
+            payload={fieldValues}
+            workOrder={workOrder}
+            variant={variant}
+          />
+        );
+      }
       return (
         <DiagnosticResultsForm
           payload={fieldValues}
@@ -610,7 +620,10 @@ export default function WorkOrderNotes({
         id="noteType"
         value={newNote.type}
         onChange={handleNoteTypeChange}
-        options={MANUAL_NOTE_TYPES.map(type => ({ value: type, label: type }))}
+        options={MANUAL_NOTE_TYPES.map((type) => ({
+          value: type,
+          label: getNoteTypePickerLabel(type),
+        }))}
       />
 
       {renderNoteFields(newNote.type, newNote.fieldValues, false, handleFieldChange, '', {

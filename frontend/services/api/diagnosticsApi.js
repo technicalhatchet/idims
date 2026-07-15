@@ -22,3 +22,13 @@ export async function getDiagnosticLastMeasurements({
 
   return apiClient(`work-orders/diagnostics/last-measurements?${params.toString()}`);
 }
+
+/**
+ * Rewrite structured diagnostic facts into service note prose (Gemini or deterministic fallback).
+ */
+export async function generateDiagnosticNotes(facts) {
+  return apiClient('diagnostics/generate-notes', {
+    method: 'POST',
+    body: JSON.stringify(facts),
+  });
+}

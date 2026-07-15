@@ -18,7 +18,10 @@ import ComponentHealthPanel from '../diagnostics/ComponentHealthPanel';
 import DiagnosisConfidenceMeter from '../diagnostics/DiagnosisConfidenceMeter';
 import DiagnosticTimeline from '../diagnostics/DiagnosticTimeline';
 import EvidenceSnapshotPanel from '../diagnostics/EvidenceSnapshotPanel';
+import { getEvidenceConfig } from '../diagnostics/intelligence/evidenceRegistry';
+import { buildDiagnosticFacts } from '../diagnostics/intelligence/buildDiagnosticFacts';
 import { buildFieldLabelsForTemplate } from '../diagnostics/intelligence/fieldLabels';
+import { formatGeneratedServiceNote } from '../diagnostics/intelligence/formatGeneratedServiceNote';
 import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
 import { getEliminationConfig } from '../diagnostics/knowledge/knowledgeRegistry';
 import { evaluateElimination } from '../diagnostics/elimination/eliminationEngine';
@@ -39,7 +42,8 @@ import {
   evaluateRouting,
 } from '../diagnostics/routing/routingEngine';
 import { evaluateRecommendations } from '../diagnostics/routing/recommendationEngine';
-import { getDiagnosticLastMeasurements } from '../../services/api/diagnosticsApi';
+import { getDiagnosticLastMeasurements, generateDiagnosticNotes } from '../../services/api/diagnosticsApi';
+import { GUIDED_DIAGNOSTICS_LABEL } from '../../constants/workOrderNoteTypes';
 import {
   formatDiagnosticVisitLabel,
   getDiagnosticTemplate,
@@ -260,6 +264,7 @@ export default function DiagnosticResultsForm({
         evidenceSnapshot: draft.evidenceSnapshot || null,
         autoNoteBullets: draft.autoNoteBullets || [],
         autoNoteEdited: Boolean(draft.autoNoteEdited),
+        autoNoteFormat: draft.autoNoteFormat === 'prose' ? 'prose' : 'bullets',
         includeAutoNoteInSummary: draft.includeAutoNoteInSummary !== false,
       });
     }
@@ -308,11 +313,12 @@ export default function DiagnosticResultsForm({
   }, [readOnly, payload?.autoNoteEdited, payload?.autoNoteBullets, intelligenceResult?.autoNoteBullets, emitChange]);
 
   const handleAutoNoteBulletsChange = useCallback(
-    (bullets, { edited = true } = {}) => {
+    (bullets, { edited = true, format } = {}) => {
       const nextPayload = {
         ...payloadRef.current,
         autoNoteBullets: bullets,
         autoNoteEdited: edited,
+        autoNoteFormat: format || payloadRef.current?.autoNoteFormat || 'bullets',
       };
       payloadRef.current = nextPayload;
       emitChange(nextPayload);
@@ -334,8 +340,50 @@ export default function DiagnosticResultsForm({
 
   const handleRefreshAutoNote = useCallback(() => {
     if (!intelligenceResult?.autoNoteBullets?.length) return;
-    handleAutoNoteBulletsChange(intelligenceResult.autoNoteBullets, { edited: false });
+    handleAutoNoteBulletsChange(intelligenceResult.autoNoteBullets, {
+      edited: false,
+      format: 'bullets',
+    });
   }, [handleAutoNoteBulletsChange, intelligenceResult?.autoNoteBullets]);
+
+  const handleGenerateServiceNotes = useCallback(async () => {
+    if (readOnly || !payload?.templateId || !intelligenceResult) return null;
+
+    const evidenceConfig = getEvidenceConfig(payload.templateId);
+    if (!evidenceConfig) return null;
+
+    const facts = buildDiagnosticFacts({
+      templateId: payload.templateId,
+      templateLabel: template?.label || payload.templateId,
+      equipmentSubtype: workOrder?.equipment_subtype,
+      fields: payload.fields || {},
+      complaintChips: wizardDefinition?.complaintChips || [],
+      config: evidenceConfig,
+      intelligence: intelligenceResult,
+      measurementStatuses,
+      fieldLabels,
+      stepKeyLabels,
+    });
+
+    const response = await generateDiagnosticNotes(facts);
+    const bullets = formatGeneratedServiceNote(response);
+    if (bullets.length) {
+      handleAutoNoteBulletsChange(bullets, { edited: true, format: 'prose' });
+    }
+    return response;
+  }, [
+    readOnly,
+    payload?.templateId,
+    payload?.fields,
+    intelligenceResult,
+    template?.label,
+    workOrder?.equipment_subtype,
+    wizardDefinition?.complaintChips,
+    measurementStatuses,
+    fieldLabels,
+    stepKeyLabels,
+    handleAutoNoteBulletsChange,
+  ]);
 
   const handleTemplateChange = (templateId) => {
     emitChange({
@@ -346,6 +394,7 @@ export default function DiagnosticResultsForm({
       evidenceSnapshot: null,
       autoNoteBullets: [],
       autoNoteEdited: false,
+      autoNoteFormat: 'bullets',
       includeAutoNoteInSummary: true,
     });
   };
@@ -429,11 +478,13 @@ export default function DiagnosticResultsForm({
             : intelligenceResult.autoNoteBullets,
           includeAutoNoteInSummary: payload?.includeAutoNoteInSummary !== false,
           autoNoteEdited: Boolean(payload?.autoNoteEdited),
+          autoNoteFormat: payload?.autoNoteFormat || 'bullets',
         }
         : null,
       onAutoNoteBulletsChange: readOnly ? null : handleAutoNoteBulletsChange,
       onIncludeAutoNoteChange: readOnly ? null : handleIncludeAutoNoteChange,
       onRefreshAutoNote: readOnly ? null : handleRefreshAutoNote,
+      onGenerateServiceNotes: readOnly ? null : handleGenerateServiceNotes,
     }),
     [
       handleFieldChange,
@@ -453,6 +504,7 @@ export default function DiagnosticResultsForm({
       handleAutoNoteBulletsChange,
       handleIncludeAutoNoteChange,
       handleRefreshAutoNote,
+      handleGenerateServiceNotes,
     ],
   );
 
@@ -540,6 +592,31 @@ export default function DiagnosticResultsForm({
 
   return (
     <div className="space-y-4">
+      {!readOnly && (
+        <div
+          className={`rounded-xl border px-4 py-3 ${
+            variant === 'mobile'
+              ? 'border-cyan-500/20 bg-cyan-500/5'
+              : 'border-cyan-200 bg-cyan-50 dark:border-cyan-900 dark:bg-cyan-950/30'
+          }`}
+        >
+          <p
+            className={`text-sm font-semibold ${
+              variant === 'mobile' ? 'text-cyan-200' : 'text-cyan-900 dark:text-cyan-100'
+            }`}
+          >
+            {template.label} — {GUIDED_DIAGNOSTICS_LABEL}
+          </p>
+          <p
+            className={`text-xs mt-1 ${
+              variant === 'mobile' ? 'text-gray-400' : 'text-cyan-800/80 dark:text-cyan-200/70'
+            }`}
+          >
+            Walk through each section, then save a Diagnostic Results note with your summary and full checklist.
+          </p>
+        </div>
+      )}
+
       {readOnly ? (
         <div
           className={`rounded-xl border px-4 py-3 text-sm space-y-1 ${
@@ -639,9 +716,11 @@ export default function DiagnosticResultsForm({
         onAutoSave={handleWizardAutoSave}
         onStepChange={handleWizardStepChange}
         onComplete={onSave ? handleWizardComplete : undefined}
-        completeLabel="Save Note"
+        completeLabel="Save Diagnostic Results"
         isCompleting={isSaving}
         footerExtra={draftHint}
+        headerTitle={readOnly ? undefined : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`}
+        headerDescription={readOnly ? undefined : 'Complete each step, generate service notes on Review, then save.'}
       />
     </div>
   );

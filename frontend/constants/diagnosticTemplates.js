@@ -922,6 +922,7 @@ export function buildInitialDiagnosticState(workOrder) {
     evidenceSnapshot: null,
     autoNoteBullets: [],
     autoNoteEdited: false,
+    autoNoteFormat: 'bullets',
     includeAutoNoteInSummary: true,
   };
 }
@@ -967,18 +968,27 @@ function resolveDiagnosticVisitLabel(appointmentId, appointments = []) {
   return formatDiagnosticVisitLabel(appt);
 }
 
-export function formatDiagnosticSummary(payload, options = {}) {
-  const template = getDiagnosticTemplate(payload?.templateId);
-  if (!template) return payload?.rawText || 'Diagnostic Results';
-  const lines = [];
-  if (payload?.includeAutoNoteInSummary !== false && payload?.autoNoteBullets?.length) {
-    lines.push('Diagnostic summary:');
+export function formatDiagnosticNoteSummary(payload) {
+  if (payload?.includeAutoNoteInSummary === false || !payload?.autoNoteBullets?.length) {
+    return '';
+  }
+  const lines = ['Diagnostic summary:'];
+  if (payload?.autoNoteFormat === 'prose') {
+    lines.push('');
+    lines.push(payload.autoNoteBullets.join('\n\n'));
+  } else {
     for (const bullet of payload.autoNoteBullets) {
       const text = String(bullet || '').trim();
       if (text) lines.push(`• ${text}`);
     }
-    lines.push('');
   }
+  return lines.join('\n');
+}
+
+export function formatDiagnosticChecklist(payload, options = {}) {
+  const template = getDiagnosticTemplate(payload?.templateId);
+  if (!template) return '';
+  const lines = [];
   lines.push(`Appliance: ${template.label}`);
   const appointments = options.appointments ?? options.workOrder?.appointments ?? [];
   const visitLabel = resolveDiagnosticVisitLabel(payload?.appointmentId, appointments);
@@ -1000,6 +1010,15 @@ export function formatDiagnosticSummary(payload, options = {}) {
   return lines.join('\n');
 }
 
+export function formatDiagnosticSummary(payload, options = {}) {
+  const template = getDiagnosticTemplate(payload?.templateId);
+  if (!template) return payload?.rawText || 'Diagnostic Results';
+  const summary = formatDiagnosticNoteSummary(payload);
+  const checklist = formatDiagnosticChecklist(payload, options);
+  if (summary && checklist) return `${summary}\n\n${checklist}`;
+  return summary || checklist || 'Diagnostic Results';
+}
+
 export function parseDiagnosticNotePayload(content) {
   try {
     const data = JSON.parse(content);
@@ -1012,6 +1031,7 @@ export function parseDiagnosticNotePayload(content) {
         evidenceSnapshot: data.evidenceSnapshot || null,
         autoNoteBullets: Array.isArray(data.autoNoteBullets) ? data.autoNoteBullets : [],
         autoNoteEdited: Boolean(data.autoNoteEdited),
+        autoNoteFormat: data.autoNoteFormat === 'prose' ? 'prose' : 'bullets',
         includeAutoNoteInSummary: data.includeAutoNoteInSummary !== false,
       };
     }
@@ -1030,6 +1050,7 @@ export function serializeDiagnosticNotePayload(payload) {
     evidenceSnapshot: payload.evidenceSnapshot || null,
     autoNoteBullets: Array.isArray(payload.autoNoteBullets) ? payload.autoNoteBullets : [],
     autoNoteEdited: Boolean(payload.autoNoteEdited),
+    autoNoteFormat: payload.autoNoteFormat === 'prose' ? 'prose' : 'bullets',
     includeAutoNoteInSummary: payload.includeAutoNoteInSummary !== false,
   });
 }

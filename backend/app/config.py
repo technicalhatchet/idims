@@ -135,6 +135,15 @@ class Settings(BaseModel):
     MAPS_PROVIDER: str = "google"
     MAPS_CACHE_TTL: int = 86400
 
+    # Gemini (diagnostic note summarization — backend only)
+    GEMINI_API_KEY: str = Field(default_factory=lambda: os.getenv("GEMINI_API_KEY", ""))
+    GEMINI_MODEL: str = Field(
+        default_factory=lambda: os.getenv("GEMINI_MODEL", "gemini-flash-latest")
+    )
+    GEMINI_ENABLED: bool = Field(
+        default_factory=lambda: os.getenv("GEMINI_ENABLED", "true").lower() == "true"
+    )
+
     # Web Push (VAPID) — generate with: npx web-push generate-vapid-keys
     VAPID_PUBLIC_KEY: str = Field(default_factory=lambda: os.getenv("VAPID_PUBLIC_KEY", ""))
     VAPID_PRIVATE_KEY: str = Field(default_factory=lambda: os.getenv("VAPID_PRIVATE_KEY", ""))
