@@ -40,13 +40,14 @@ function formatMeasurementLine(
     ? `${evaluation.rawValue}${evaluation.displayUnit ? ` ${evaluation.displayUnit}` : ''}`
     : '—';
   const statusNote =
-    evaluation.status === 'normal'
+    evaluation.diagnosisLabel
+    || (evaluation.status === 'normal'
       ? 'normal range'
       : evaluation.status === 'warning'
         ? 'out of range'
         : evaluation.status === 'critical'
           ? evaluation.message || 'critical'
-          : evaluation.message || evaluation.status;
+          : evaluation.message || evaluation.status);
   return `${label}: ${valueText} — ${statusNote}`;
 }
 

@@ -162,7 +162,7 @@ export default function DiagnosticReviewStep({ context, readOnly, variant }) {
             stepKeyLabels={stepKeyLabels}
             fieldLabels={fieldLabels}
             variant={variant}
-            title="Session timeline"
+            title="Diagnostic Timeline"
             defaultExpanded
             maxHeightClass="max-h-56"
           />

@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   getComponentsForCategory,
   getEvidenceLedgerForCategory,
   getEvidenceLedgerForComponent,
 } from './intelligence/diagnosticIntelligenceEngine';
 import { resolveStepKeyLabel } from './intelligence/stepKeyLabels';
+import { formatLedgerTriggerLine } from './intelligence/ledgerTrigger';
+import { normalizeEvidenceShares } from './intelligence/evidenceDisplay';
 
 const COMPONENT_STATE_META = {
   confirmed: { label: 'Confirmed', symbol: '✓', tone: 'text-emerald-400' },
@@ -29,11 +31,27 @@ function EvidenceBar({ score, variant, tone = 'emerald' }) {
 
   return (
     <div
-      className={`h-1.5 rounded-full overflow-hidden flex-1 ${
+      className={`h-1.5 rounded-full overflow-hidden flex-1 max-w-[4.5rem] shrink-0 ${
         isMobile ? 'bg-white/10' : 'bg-gray-200 dark:bg-gray-700'
       }`}
     >
       <div className={`h-full transition-all ${fill}`} style={{ width: `${width}%` }} />
+    </div>
+  );
+}
+
+function CategoryShareRow({ label, sharePercent, evidence, variant, isExpanded }) {
+  return (
+    <div className="flex items-center gap-2 min-w-0">
+      <span className="min-w-[7rem] max-w-[40%] font-medium truncate">{label}</span>
+      <EvidenceBar score={sharePercent} variant={variant} />
+      <span
+        className="flex-1 min-w-[0.75rem] border-b border-dotted border-emerald-500/25 mx-0.5 mb-1"
+        aria-hidden
+      />
+      <span className="tabular-nums w-9 text-right font-medium">{sharePercent}%</span>
+      <span className="opacity-50 text-[10px] w-3 text-center">{isExpanded ? '▾' : '▸'}</span>
+      <span className="sr-only">Raw evidence score {evidence}</span>
     </div>
   );
 }
@@ -44,20 +62,35 @@ function LedgerList({ entries, variant }) {
 
   return (
     <ul
-      className={`ml-1 pl-2 border-l space-y-0.5 opacity-90 ${
+      className={`ml-1 pl-2 border-l space-y-1 opacity-90 ${
         isMobile ? 'border-emerald-500/30' : 'border-emerald-300 dark:border-emerald-700'
       }`}
     >
-      {entries.map((entry, index) => (
-        <li
-          key={`${entry.ruleId}-${index}`}
-          className={entry.source === 'dma' ? 'text-cyan-200/90' : ''}
-        >
-          {entry.delta >= 0 ? '+' : ''}
-          {entry.delta} {entry.explanation}
-          {entry.source === 'dma' ? ' (repair memory)' : ''}
-        </li>
-      ))}
+      {entries.map((entry, index) => {
+        const triggerLine = formatLedgerTriggerLine(entry.trigger);
+        return (
+          <li
+            key={`${entry.ruleId}-${index}`}
+            className={entry.source === 'dma' ? 'text-cyan-200/90' : ''}
+          >
+            <div className="flex items-baseline gap-1.5">
+              <span className="tabular-nums font-medium shrink-0">
+                {entry.delta >= 0 ? '+' : ''}
+                {entry.delta}
+              </span>
+              <span>{entry.explanation}</span>
+              {entry.source === 'dma' ? (
+                <span className="opacity-70"> (repair memory)</span>
+              ) : null}
+            </div>
+            {triggerLine ? (
+              <p className={`text-[10px] mt-0.5 pl-6 opacity-75 ${isMobile ? 'text-gray-300' : 'text-gray-600 dark:text-gray-400'}`}>
+                {triggerLine}
+              </p>
+            ) : null}
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -125,6 +158,11 @@ export default function CategoryEvidencePanel({
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
   const [expandedComponentId, setExpandedComponentId] = useState(null);
 
+  const categoryShares = useMemo(
+    () => normalizeEvidenceShares(intelligence?.topCategories || []),
+    [intelligence?.topCategories],
+  );
+
   if (!intelligence?.topCategories?.length) return null;
 
   const isMobile = variant === 'mobile';
@@ -156,7 +194,7 @@ export default function CategoryEvidencePanel({
       </div>
 
       <ul className="space-y-2">
-        {intelligence.topCategories.map((category) => {
+        {categoryShares.map((category) => {
           const ledger = getEvidenceLedgerForCategory(intelligence, category.id);
           const isExpanded = expandedCategoryId === category.id;
           const components = getComponentsForCategory(intelligence, category.id);
@@ -168,12 +206,13 @@ export default function CategoryEvidencePanel({
                 onClick={() => handleCategoryToggle(category.id)}
                 className="w-full text-left space-y-1"
               >
-                <div className="flex items-center gap-2">
-                  <span className="min-w-[7rem] font-medium truncate">{category.label}</span>
-                  <EvidenceBar score={category.evidence} variant={variant} />
-                  <span className="tabular-nums w-6 text-right">{category.evidence}</span>
-                  <span className="opacity-50 text-[10px]">{isExpanded ? '▾' : '▸'}</span>
-                </div>
+                <CategoryShareRow
+                  label={category.label}
+                  sharePercent={category.sharePercent}
+                  evidence={category.evidence}
+                  variant={variant}
+                  isExpanded={isExpanded}
+                />
               </button>
 
               {isExpanded && (

@@ -53,6 +53,12 @@ export interface MeasurementEvaluation {
   knowledgeId: string;
   status: MeasurementStatus;
   message: string;
+  /** Primary technician-facing label, e.g. "Open igniter" */
+  diagnosisLabel?: string;
+  /** Secondary severity hint, e.g. "Critical", "OK" */
+  severityLabel?: string;
+  /** Expected normal range for display, e.g. "40–400 Ω" */
+  expectedRangeLabel?: string;
   confidence: 'high' | 'medium' | 'low';
   parsedValue: number | null;
   rawValue: string;

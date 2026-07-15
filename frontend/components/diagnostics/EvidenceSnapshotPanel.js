@@ -1,6 +1,7 @@
 'use client';
 
 import { resolveStepKeyLabel } from './intelligence/stepKeyLabels';
+import { normalizeEvidenceShares } from './intelligence/evidenceDisplay';
 
 export default function EvidenceSnapshotPanel({
   snapshot,
@@ -11,8 +12,10 @@ export default function EvidenceSnapshotPanel({
   if (!snapshot?.topCategories?.length) return null;
 
   const isMobile = variant === 'mobile';
-  const categories = snapshot.topCategories
-    .map((c) => `${c.label} (${c.evidence})`)
+  const shares = normalizeEvidenceShares(snapshot.topCategories);
+  const categories = shares
+    .filter((category) => category.sharePercent > 0)
+    .map((category) => `${category.label} ${category.sharePercent}%`)
     .join(', ');
   const suggested = resolveStepKeyLabel(snapshot.recommendedStepKeys?.[0], stepKeyLabels);
 

@@ -17,7 +17,7 @@ export default function DiagnosticTimeline({
   stepKeyLabels = {},
   fieldLabels = {},
   variant = 'mobile',
-  title = 'Session timeline',
+  title = 'Diagnostic Timeline',
   emptyMessage = 'Timeline events will appear as you work through the diagnostic.',
   maxHeightClass = 'max-h-48',
   defaultExpanded = false,

@@ -38,7 +38,7 @@ export default function SmartMeasurementField({
         <p className={`text-sm font-medium ${isMobile ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}`}>
           {label}
         </p>
-        {value && <MeasurementStatusBadge status={status} variant={variant} />}
+        {value && <MeasurementStatusBadge status={status} evaluation={evaluation} variant={variant} />}
       </div>
       <FieldHelpText text={helpText} variant={variant} />
       <div className="flex items-center gap-2">

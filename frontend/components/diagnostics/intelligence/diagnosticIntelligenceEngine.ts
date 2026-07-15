@@ -7,6 +7,8 @@ import { buildAutoNoteBullets } from './buildAutoNoteBullets';
 import { rankNextWizardSteps } from './rankNextWizardSteps';
 import { collectActiveDmaTags } from './collectActiveDmaTags';
 import { applyDmaHistoricalNudges } from './applyDmaHistoricalNudges';
+import { dedupeLedgerEntries } from './ledgerDisplay';
+import { buildLedgerTrigger, isOppositeOkComponentElimination } from './ledgerTrigger';
 import type {
   ComponentEvidenceScore,
   ComponentEvidenceState,
@@ -69,8 +71,20 @@ function applyEffect(
   componentScores: Map<string, { evidence: number; state: ComponentEvidenceState }>,
   rule: EvidenceRule,
   ledger: EvidenceLedgerEntry[],
+  triggerContext?: {
+    fields: Record<string, unknown>;
+    measurementStatuses?: Map<string, MeasurementEvaluation>;
+    complaintChipLabels?: Record<string, string>;
+  },
 ): void {
   const { effect } = rule;
+
+  if (
+    isOppositeOkComponentElimination(rule.explanation, effect.effect, rule.targetLayer)
+  ) {
+    return;
+  }
+
   let delta = 0;
 
   if (rule.targetLayer === 'category') {
@@ -100,10 +114,22 @@ function applyEffect(
       delta = 100 - current.evidence;
       componentScores.set(rule.target, { evidence: 100, state: 'confirmed' });
     } else if (effect.effect === 'eliminate') {
+      if (current.state === 'confirmed') {
+        return;
+      }
       delta = -current.evidence;
       componentScores.set(rule.target, { evidence: 0, state: 'eliminated' });
     }
   }
+
+  const trigger = triggerContext
+    ? buildLedgerTrigger(
+      rule.when,
+      triggerContext.fields,
+      triggerContext.measurementStatuses,
+      triggerContext.complaintChipLabels,
+    )
+    : undefined;
 
   ledger.push({
     ruleId: rule.id,
@@ -113,6 +139,7 @@ function applyEffect(
     explanation: rule.explanation,
     effect: effect.effect,
     source: 'rule',
+    trigger,
   });
 }
 
@@ -157,6 +184,11 @@ export function evaluateDiagnosticIntelligence(
 
   const complaintChipIds = getComplaintChipIds(fields);
   const complaintText = getComplaintText(fields);
+  const complaintChipLabels = Object.fromEntries(
+    (options?.complaintChips || [])
+      .filter((chip) => complaintChipIds.includes(chip.id))
+      .map((chip) => [chip.id, chip.label]),
+  );
 
   const categoryScores = new Map<string, number>(
     config.categories.map((c) => [c.id, 0]),
@@ -170,7 +202,11 @@ export function evaluateDiagnosticIntelligence(
       continue;
     }
     matchedRules.push(rule);
-    applyEffect(categoryScores, componentScores, rule, ledger);
+    applyEffect(categoryScores, componentScores, rule, ledger, {
+      fields,
+      measurementStatuses,
+      complaintChipLabels,
+    });
   }
 
   const dmaNudgeCount = applyDmaHistoricalNudges(
@@ -244,8 +280,10 @@ export function getEvidenceLedgerForCategory(
   categoryId: string,
 ): EvidenceLedgerEntry[] {
   if (!result?.ledger?.length) return [];
-  return result.ledger.filter(
-    (entry) => entry.target === categoryId && entry.targetLayer === 'category',
+  return dedupeLedgerEntries(
+    result.ledger.filter(
+      (entry) => entry.target === categoryId && entry.targetLayer === 'category',
+    ),
   );
 }
 
@@ -254,8 +292,10 @@ export function getEvidenceLedgerForComponent(
   componentId: string,
 ): EvidenceLedgerEntry[] {
   if (!result?.ledger?.length) return [];
-  return result.ledger.filter(
-    (entry) => entry.target === componentId && entry.targetLayer === 'component',
+  return dedupeLedgerEntries(
+    result.ledger.filter(
+      (entry) => entry.target === componentId && entry.targetLayer === 'component',
+    ),
   );
 }
 

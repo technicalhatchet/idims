@@ -14,6 +14,8 @@ import {
 import ExplainRouteBanner from '../diagnostics/ExplainRouteBanner';
 import EliminationBanner from '../diagnostics/EliminationBanner';
 import CategoryEvidencePanel from '../diagnostics/CategoryEvidencePanel';
+import ComponentHealthPanel from '../diagnostics/ComponentHealthPanel';
+import DiagnosisConfidenceMeter from '../diagnostics/DiagnosisConfidenceMeter';
 import DiagnosticTimeline from '../diagnostics/DiagnosticTimeline';
 import EvidenceSnapshotPanel from '../diagnostics/EvidenceSnapshotPanel';
 import { buildFieldLabelsForTemplate } from '../diagnostics/intelligence/fieldLabels';
@@ -601,12 +603,22 @@ export default function DiagnosticResultsForm({
       )}
 
       {intelligenceResult && (
-        <CategoryEvidencePanel
-          intelligence={intelligenceResult}
-          variant={variant}
-          stepKeyLabels={stepKeyLabels}
-          dmaNudgesLoading={dmaNudgesLoading}
-        />
+        <>
+          <DiagnosisConfidenceMeter
+            intelligence={intelligenceResult}
+            variant={variant}
+          />
+          <ComponentHealthPanel
+            intelligence={intelligenceResult}
+            variant={variant}
+          />
+          <CategoryEvidencePanel
+            intelligence={intelligenceResult}
+            variant={variant}
+            stepKeyLabels={stepKeyLabels}
+            dmaNudgesLoading={dmaNudgesLoading}
+          />
+        </>
       )}
 
       <DiagnosticTimeline
@@ -614,7 +626,7 @@ export default function DiagnosticResultsForm({
         stepKeyLabels={stepKeyLabels}
         fieldLabels={fieldLabels}
         variant={variant}
-        title={readOnly ? 'Diagnostic session timeline' : 'Live session timeline'}
+        title="Diagnostic Timeline"
         defaultExpanded={readOnly}
       />
 

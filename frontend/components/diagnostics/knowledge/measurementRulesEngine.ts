@@ -8,6 +8,114 @@ import type {
   NumericRange,
 } from './types';
 
+const SEVERITY_LABELS: Record<MeasurementStatus, string> = {
+  normal: 'OK',
+  warning: 'Check',
+  critical: 'Critical',
+  unknown: '—',
+  not_tested: 'Not tested',
+};
+
+function componentShortName(measurementName: string): string {
+  return measurementName
+    .replace(/\s+(resistance|ohms|amperage|amps|current|voltage|temperature|continuity|capacitance|pressure|draw)\s*$/i, '')
+    .replace(/^hot\s+surface\s+/i, '')
+    .trim();
+}
+
+function buildDiagnosisLabels(
+  definition: MeasurementKnowledgeDefinition,
+  status: MeasurementStatus,
+  raw: string,
+  parsedValue: number | null,
+  bandMessage: string,
+): { diagnosisLabel: string; severityLabel: string } {
+  const shortName = componentShortName(definition.name);
+  const severityLabel = SEVERITY_LABELS[status] || '—';
+
+  if (isOpenCircuitReading(raw)) {
+    if (definition.openCircuitCritical) {
+      const label = shortName ? `Open ${shortName}` : 'Open circuit';
+      return { diagnosisLabel: label, severityLabel: 'Critical' };
+    }
+    return { diagnosisLabel: 'Open reading', severityLabel: 'Check' };
+  }
+
+  if (status === 'normal') {
+    return { diagnosisLabel: 'Within specification', severityLabel };
+  }
+
+  if (status === 'warning') {
+    if (definition.inputKind === 'continuity' && parsedValue != null && parsedValue > 5) {
+      return { diagnosisLabel: 'High resistance — check contacts', severityLabel };
+    }
+    if (shortName && definition.inputKind === 'resistance') {
+      return { diagnosisLabel: `Borderline ${shortName}`, severityLabel };
+    }
+    return { diagnosisLabel: 'Out of expected range', severityLabel };
+  }
+
+  if (status === 'critical') {
+    if (definition.inputKind === 'continuity') {
+      return {
+        diagnosisLabel: shortName ? `Open ${shortName}` : 'Open or high resistance',
+        severityLabel,
+      };
+    }
+    if (definition.inputKind === 'resistance' && parsedValue != null) {
+      const ranges = definition.ranges;
+      if (ranges?.critical?.below != null && parsedValue < ranges.critical.below) {
+        return {
+          diagnosisLabel: shortName ? `Shorted ${shortName}` : 'Shorted / very low resistance',
+          severityLabel,
+        };
+      }
+      if (ranges?.critical?.above != null && parsedValue > ranges.critical.above) {
+        return {
+          diagnosisLabel: shortName ? `Open ${shortName}` : 'Open / very high resistance',
+          severityLabel,
+        };
+      }
+    }
+    if (definition.inputKind === 'current' && parsedValue != null) {
+      return {
+        diagnosisLabel: bandMessage.includes('Borderline') ? `Weak ${shortName || 'current'}` : `Out of range — ${shortName || 'reading'}`,
+        severityLabel,
+      };
+    }
+    if (shortName) {
+      return { diagnosisLabel: `Out of range — ${shortName}`, severityLabel };
+    }
+    return { diagnosisLabel: 'Out of expected range', severityLabel };
+  }
+
+  if (status === 'unknown' && !raw) {
+    return { diagnosisLabel: 'Not tested', severityLabel };
+  }
+
+  return { diagnosisLabel: bandMessage || 'Reading recorded', severityLabel };
+}
+
+function withEvaluationMeta(
+  definition: MeasurementKnowledgeDefinition,
+  base: Omit<MeasurementEvaluation, 'diagnosisLabel' | 'severityLabel' | 'expectedRangeLabel'>,
+  bandMessage = base.message,
+): MeasurementEvaluation {
+  const { diagnosisLabel, severityLabel } = buildDiagnosisLabels(
+    definition,
+    base.status,
+    base.rawValue,
+    base.parsedValue,
+    bandMessage,
+  );
+  return {
+    ...base,
+    diagnosisLabel,
+    severityLabel,
+    expectedRangeLabel: formatRangeLabel(definition.ranges?.normal, definition.unit) || undefined,
+  };
+}
+
 function valueInRange(value: number, range?: NumericRange): boolean {
   if (!range) return false;
   if (range.min != null && value < range.min) return false;
@@ -79,7 +187,7 @@ export function evaluateMeasurement(
   const displayUnit = definition.unit || '';
 
   if (!raw) {
-    return {
+    return withEvaluationMeta(definition, {
       knowledgeId: definition.id,
       status: 'unknown',
       message: 'Not tested',
@@ -87,14 +195,14 @@ export function evaluateMeasurement(
       parsedValue: null,
       rawValue: raw,
       displayUnit,
-    };
+    });
   }
 
   const inputKind: MeasurementInputKind = definition.inputKind || 'generic';
 
   if (inputKind === 'diodeCheck') {
     const result = evaluateDiodeCheck(raw);
-    return {
+    return withEvaluationMeta(definition, {
       knowledgeId: definition.id,
       status: result.status,
       message: result.message,
@@ -102,12 +210,12 @@ export function evaluateMeasurement(
       parsedValue: null,
       rawValue: raw,
       displayUnit,
-    };
+    }, result.message);
   }
 
   if (inputKind === 'continuity') {
     const result = evaluateContinuity(raw);
-    return {
+    return withEvaluationMeta(definition, {
       knowledgeId: definition.id,
       status: result.status,
       message: result.message,
@@ -115,25 +223,26 @@ export function evaluateMeasurement(
       parsedValue: parseMeasurementNumber(raw),
       rawValue: raw,
       displayUnit,
-    };
+    }, result.message);
   }
 
   if (isOpenCircuitReading(raw)) {
     const status: MeasurementStatus = definition.openCircuitCritical ? 'critical' : 'warning';
-    return {
+    const message = status === 'critical' ? 'Open circuit (OL)' : 'Open reading';
+    return withEvaluationMeta(definition, {
       knowledgeId: definition.id,
       status,
-      message: status === 'critical' ? 'Open circuit (OL)' : 'Open reading',
+      message,
       confidence: 'high',
       parsedValue: null,
       rawValue: raw,
       displayUnit,
-    };
+    }, message);
   }
 
   const parsedValue = parseMeasurementNumber(raw);
   if (parsedValue == null) {
-    return {
+    return withEvaluationMeta(definition, {
       knowledgeId: definition.id,
       status: 'unknown',
       message: 'Could not parse value',
@@ -141,12 +250,12 @@ export function evaluateMeasurement(
       parsedValue: null,
       rawValue: raw,
       displayUnit,
-    };
+    });
   }
 
   const band = evaluateNumericBands(parsedValue, definition.ranges);
   const formatted = formatMeasurementDisplay(parsedValue, displayUnit);
-  return {
+  return withEvaluationMeta(definition, {
     knowledgeId: definition.id,
     status: band.status,
     message: `${band.message} (${formatted})`,
@@ -154,7 +263,7 @@ export function evaluateMeasurement(
     parsedValue,
     rawValue: raw,
     displayUnit,
-  };
+  }, band.message);
 }
 
 export function formatRangeLabel(range?: NumericRange, unit = ''): string | null {

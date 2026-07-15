@@ -13,6 +13,13 @@ export type EvidenceWhenClause =
   | RoutingWhenClause
   | { type: 'test'; testId: string; filled?: boolean };
 
+export interface EvidenceLedgerTrigger {
+  type: 'measurement' | 'field' | 'chip' | 'complaint';
+  label: string;
+  value?: string;
+  expectedRange?: string;
+}
+
 export interface EvidenceCategoryDefinition {
   id: string;
   label: string;
@@ -52,6 +59,7 @@ export interface EvidenceLedgerEntry {
   explanation: string;
   effect: EvidenceEffect['effect'];
   source?: 'rule' | 'dma';
+  trigger?: EvidenceLedgerTrigger;
 }
 
 export interface DmaEvidenceNudge {
