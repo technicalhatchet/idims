@@ -24,6 +24,7 @@ from reportlab.platypus import (
     PageTemplate,
     Paragraph,
     Spacer,
+    Table,
     TableStyle,
 )
 
@@ -142,15 +143,56 @@ def _section_prose_flowables(label: str, paragraphs: Sequence[str], *, accent: s
     ]
 
 
-def _meta_line_flowables(report: dict) -> List[Any]:
-    lines = []
+def _service_details_flowables(report: dict) -> List[Any]:
+    left_bits: List[str] = []
     template_label = safe_text(report.get("template_label"))
     if template_label and template_label != "—":
-        lines.append(f"<b>Appliance:</b> {template_label}")
+        left_bits.append(f"<b>Appliance:</b> {template_label}")
     visit_label = report.get("visit_label")
     if visit_label:
-        lines.append(f"<b>Visit:</b> {safe_text(visit_label)}")
-    return _section_prose_flowables("SERVICE DETAILS", lines, accent="cyan")
+        left_bits.append(f"<b>Visit:</b> {safe_text(visit_label)}")
+
+    client_complaint = safe_text(report.get("client_complaint")).strip()
+    if not left_bits and not client_complaint:
+        return []
+
+    items: List[Any] = [
+        SectionLabelFlowable("SERVICE DETAILS", accent="cyan"),
+        Spacer(1, SECTION_LABEL_TABLE_GAP),
+    ]
+
+    left_para = Paragraph(
+        "<br/>".join(left_bits) if left_bits else "—",
+        theme.STYLE_PANEL_BODY_COMPACT,
+    )
+    if client_complaint:
+        right_para = Paragraph(
+            f"<b>Client complaint:</b> {client_complaint.replace(chr(10), '<br/>')}",
+            theme.STYLE_PANEL_BODY_COMPACT,
+        )
+        table = Table(
+            [[left_para, right_para]],
+            colWidths=[CONTENT_WIDTH * 0.38, CONTENT_WIDTH * 0.62],
+        )
+        table.setStyle(
+            TableStyle(
+                [
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("ALIGN", (0, 0), (0, 0), "LEFT"),
+                    ("ALIGN", (1, 0), (1, 0), "RIGHT"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                    ("TOPPADDING", (0, 0), (-1, -1), 0),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                ]
+            )
+        )
+        items.append(table)
+    else:
+        items.append(left_para)
+
+    items.append(Spacer(1, 6))
+    return items
 
 
 def _checklist_table_style() -> TableStyle:
@@ -354,7 +396,7 @@ def _build_story(report: dict) -> List[Any]:
         )
     )
     story.append(Spacer(1, 6))
-    story.extend(_meta_line_flowables(report))
+    story.extend(_service_details_flowables(report))
 
     root_cause = (report.get("root_cause") or "").strip()
     recommended = (report.get("recommended_repair") or "").strip()

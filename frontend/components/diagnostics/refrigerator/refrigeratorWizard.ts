@@ -35,7 +35,7 @@ export const refrigeratorWizard: WizardDefinition = {
     {
       sectionId: 'customer_complaint',
       stepKey: 'complaint',
-      title: 'Customer Complaint',
+      title: 'Client Complaint',
       description: 'Document complaint, duration, and error codes.',
       icon: 'complaint',
       estimatedMinutes: 2,

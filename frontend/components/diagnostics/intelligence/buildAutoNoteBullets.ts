@@ -155,7 +155,7 @@ export function buildAutoNoteBullets(args: {
       .join(', ');
     bullets.push(`Customer complaint: ${labels}`);
   } else if (fields['customer_complaint.complaint']) {
-    bullets.push(`Customer complaint: ${String(fields['customer_complaint.complaint']).trim()}`);
+    bullets.push(`Client complaint: ${String(fields['customer_complaint.complaint']).trim()}`);
   }
 
   bullets.push(

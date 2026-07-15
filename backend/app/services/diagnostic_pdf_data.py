@@ -240,9 +240,12 @@ def build_diagnostic_report_dict(
     root_cause = str(fields.get("diagnosis.root_cause") or "").strip() or _extract_diagnosis_summary(prose)
     recommended_repair = str(fields.get("diagnosis.recommended_repair") or "").strip()
     what_we_found = _extract_customer_explanation(prose)
+    client_complaint = str(fields.get("customer_complaint.complaint") or "").strip()
 
     has_diagnosis_fields = bool(root_cause or recommended_repair)
-    skip_sections = {"diagnosis"} if has_diagnosis_fields else set()
+    skip_sections = {"customer_complaint"}
+    if has_diagnosis_fields:
+        skip_sections.add("diagnosis")
     checklist_sections = _build_checklist_sections(template, fields, skip_section_ids=skip_sections)
 
     evidence = payload.get("evidenceSnapshot") or {}
@@ -264,6 +267,7 @@ def build_diagnostic_report_dict(
         "show_technician": show_technician,
         "template_label": template.get("label") or payload.get("templateId") or "—",
         "visit_label": _resolve_visit_label(payload.get("appointmentId"), appointments),
+        "client_complaint": client_complaint,
         "root_cause": root_cause,
         "recommended_repair": recommended_repair,
         "what_we_found": what_we_found,

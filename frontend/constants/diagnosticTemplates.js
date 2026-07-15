@@ -54,7 +54,7 @@ function missed(fields) {
 function complaint(extra = []) {
   return {
     id: 'customer_complaint',
-    title: 'Customer Complaint',
+    title: 'Client Complaint',
     fields: [txt('complaint', 'Complaint'), ...extra],
   };
 }

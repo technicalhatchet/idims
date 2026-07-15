@@ -28,7 +28,7 @@ export const stackedLaundryWizard: WizardDefinition = {
     {
       sectionId: 'customer_complaint',
       stepKey: 'complaint',
-      title: 'Customer Complaint',
+      title: 'Client Complaint',
       estimatedMinutes: 2,
       weight: 8,
       optional: true,
