@@ -85,7 +85,7 @@ const ELECTRIC_RANGE_FIELD_KNOWLEDGE: Record<string, string> = {
   'element_sensor_readings.bake_element_amps': 'electricRangeElementAmps',
   'element_sensor_readings.broil_element_amps': 'electricRangeElementAmps',
   'element_sensor_readings.temp_sensor_ohms': 'ovenTempSensorOhms',
-  'board_readings.board_supply_voltage': 'supplyVoltage120',
+  'board_readings.board_supply_voltage': 'supplyVoltage240',
   'board_readings.bake_relay_output': 'supplyVoltage240',
   'board_readings.broil_relay_output': 'supplyVoltage240',
   'board_readings.convection_output': 'convectionFanMotorAmps',
