@@ -48,7 +48,7 @@ const area = (id, label) => ({ id, label, type: 'textarea' });
 const chk = (id, label) => ({ id, label, type: 'check' });
 
 function missed(fields) {
-  return { id: 'commonly_missed', title: 'Commonly Missed Items', fields };
+  return { id: 'commonly_missed', title: 'Pre-Checks', fields };
 }
 
 function complaint(extra = []) {

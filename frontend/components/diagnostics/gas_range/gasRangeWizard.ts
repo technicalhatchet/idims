@@ -18,7 +18,7 @@ export const gasRangeWizard: WizardDefinition = {
     {
       sectionId: 'commonly_missed',
       stepKey: 'commonly_missed',
-      title: 'Commonly Missed Items',
+      title: 'Pre-Checks',
       estimatedMinutes: 2,
       weight: 6,
       optional: true,

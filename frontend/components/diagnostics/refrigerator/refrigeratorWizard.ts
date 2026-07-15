@@ -22,7 +22,7 @@ export const refrigeratorWizard: WizardDefinition = {
     {
       sectionId: 'commonly_missed',
       stepKey: 'commonly_missed',
-      title: 'Commonly Missed Items',
+      title: 'Pre-Checks',
       description: 'Quick checks often overlooked on service calls.',
       icon: 'checklist',
       estimatedMinutes: 2,
