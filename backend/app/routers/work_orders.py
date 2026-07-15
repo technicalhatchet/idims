@@ -2423,6 +2423,51 @@ async def get_work_order_invoice_pdf_v2(
     )
 
 
+@router.get("/{work_order_id}/diagnostic-v2.pdf")
+async def get_work_order_diagnostic_pdf_v2(
+    work_order_id: uuid.UUID = Path(...),
+    variant: str = Query("light", pattern="^(dark|light)$"),
+    show_technician: bool = Query(True, description="Include technician contact panel"),
+    show_photos: bool = Query(False, description="Include work-order field photos"),
+    note_id: Optional[uuid.UUID] = Query(None, description="Specific diagnostic note (latest if omitted)"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Generate and stream diagnostic report PDF v2."""
+    from app.services.diagnostic_pdf_data import generate_work_order_diagnostic_pdf_v2
+
+    if not await can_view_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=403, detail="Access denied")
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail=f"Work order {work_order_id} not found in DB")
+    try:
+        pdf_bytes = generate_work_order_diagnostic_pdf_v2(
+            db,
+            work_order,
+            variant=variant,
+            show_technician=show_technician,
+            show_photos=show_photos,
+            note_id=note_id,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        import traceback
+        logger.error(f'Diagnostic v2 PDF error: {e}\n{traceback.format_exc()}')
+        raise HTTPException(
+            status_code=500,
+            detail=f'PDF generation failed: {type(e).__name__}: {str(e)}',
+        )
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type='application/pdf',
+        headers={
+            'Content-Disposition': f'inline; filename="diagnostic-{work_order.order_number}.pdf"',
+        },
+    )
+
+
 @router.post("/{work_order_id}/email-document-v2")
 async def email_work_order_document_v2(
     work_order_id: uuid.UUID = Path(...),

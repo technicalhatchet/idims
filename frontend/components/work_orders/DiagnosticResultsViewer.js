@@ -1,12 +1,24 @@
+import { useState } from 'react';
+import { FaFilePdf } from 'react-icons/fa';
 import {
   formatDiagnosticChecklist,
   formatDiagnosticVisitLabel,
   getDiagnosticTemplate,
 } from '../../constants/diagnosticTemplates';
 import { formatAutoNoteForTextarea } from '../diagnostics/intelligence/formatAutoNoteSection';
+import DiagnosticPdfSheet from './DiagnosticPdfSheet';
+import Button from '../ui/Button';
 
-export default function DiagnosticResultsViewer({ payload, workOrder, variant = 'desktop' }) {
+export default function DiagnosticResultsViewer({
+  payload,
+  workOrder,
+  workOrderId = null,
+  noteId = null,
+  orderNumber = null,
+  variant = 'desktop',
+}) {
   const isMobile = variant === 'mobile';
+  const [showPdfSheet, setShowPdfSheet] = useState(false);
   const template = getDiagnosticTemplate(payload?.templateId);
   const checklistText = formatDiagnosticChecklist(payload, { workOrder });
   const appointments = Array.isArray(workOrder?.appointments) ? workOrder.appointments : [];
@@ -18,8 +30,26 @@ export default function DiagnosticResultsViewer({ payload, workOrder, variant = 
     ? formatAutoNoteForTextarea(payload.autoNoteBullets, payload?.autoNoteFormat || 'bullets')
     : '';
 
+  const resolvedWorkOrderId = workOrderId || workOrder?.id;
+  const resolvedOrderNumber = orderNumber || workOrder?.order_number;
+  const canGeneratePdf = Boolean(resolvedWorkOrderId && resolvedOrderNumber);
+
   return (
     <div className="space-y-5">
+      {canGeneratePdf ? (
+        <div className={`flex ${isMobile ? 'justify-stretch' : 'justify-end'}`}>
+          <Button
+            type="button"
+            variant={isMobile ? 'secondary' : 'outline'}
+            Icon={FaFilePdf}
+            onClick={() => setShowPdfSheet(true)}
+            className={isMobile ? 'w-full' : undefined}
+          >
+            Generate PDF
+          </Button>
+        </div>
+      ) : null}
+
       <div
         className={`rounded-xl border px-4 py-3 text-sm space-y-1 ${
           isMobile
@@ -80,6 +110,17 @@ export default function DiagnosticResultsViewer({ payload, workOrder, variant = 
           {checklistText || 'No checklist readings recorded.'}
         </pre>
       </div>
+
+      {canGeneratePdf ? (
+        <DiagnosticPdfSheet
+          open={showPdfSheet}
+          onClose={() => setShowPdfSheet(false)}
+          workOrderId={resolvedWorkOrderId}
+          orderNumber={resolvedOrderNumber}
+          noteId={noteId}
+          variant={variant}
+        />
+      ) : null}
     </div>
   );
 }

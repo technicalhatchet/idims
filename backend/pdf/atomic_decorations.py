@@ -318,7 +318,10 @@ def draw_page_decorations(canvas, watermark_path: Optional[str] = None):
 
 
 DOC_TITLE_SIZE = 28
+DOC_TITLE_MIN_SIZE = 16
 DOC_TITLE_BASELINE = 26
+HEADER_LOGO_RESERVE = MARGIN_LEFT + PAGE_WIDTH * 0.37
+TITLE_SIDE_GAP = 14
 DOC_BADGE_GAP = 8
 DOC_BADGE_DROP = 3
 DOC_BADGE_PAD_X = 5
@@ -366,10 +369,21 @@ def _draw_header_status_banner(canvas, top_y: float, message: str, tone: str = "
     canvas.drawCentredString(PAGE_WIDTH / 2, chip_y + HEADER_STATUS_PAD_Y + 1, message)
 
 
+def _fit_document_title_size(title: str, max_width: float) -> float:
+    """Shrink display title so long labels (e.g. DIAGNOSTIC REPORT) clear the logo."""
+    font_name = title_display_font()
+    size = float(DOC_TITLE_SIZE)
+    while size > DOC_TITLE_MIN_SIZE and text_width(title, font_name, size) > max_width:
+        size -= 0.5
+    return size
+
+
 def _draw_document_title_block(canvas, right_x: float, top_y: float, title: str, doc_no: str, doc_date: str):
     """Right-aligned title with a right-aligned meta badge tucked underneath."""
+    title_max_w = max(120.0, right_x - HEADER_LOGO_RESERVE - TITLE_SIDE_GAP)
+    title_size = _fit_document_title_size(title, title_max_w)
     title_y = top_y - DOC_TITLE_BASELINE
-    canvas.setFont(title_display_font(), DOC_TITLE_SIZE)
+    canvas.setFont(title_display_font(), title_size)
     canvas.setFillColor(CYAN)
     canvas.drawRightString(right_x, title_y, title)
 
@@ -485,5 +499,16 @@ def draw_invoice_header(canvas, invoice: dict, header_logo_path: Optional[str] =
         invoice,
         title="INVOICE",
         number_key="invoice_number",
+        header_logo_path=header_logo_path,
+    )
+
+
+def draw_diagnostic_header(canvas, report: dict, header_logo_path: Optional[str] = None):
+    """Header band: logo + DIAGNOSIS meta (shorter title avoids logo overlap)."""
+    return draw_document_header(
+        canvas,
+        report,
+        title="DIAGNOSIS",
+        number_key="report_number",
         header_logo_path=header_logo_path,
     )

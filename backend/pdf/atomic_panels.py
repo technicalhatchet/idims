@@ -151,8 +151,11 @@ class PanelFlowable(Flowable):
         for item in self.content:
             w, h = item.wrap(inner_w, availHeight)
             total_h += h
-        self._content_height = max(total_h, self.min_height - self.title_height - self.padding)
-        self.height = self.title_height + self.padding + self._content_height + self.padding
+        min_content_h = 0.0
+        if self.min_height and self.min_height > 0:
+            min_content_h = max(0.0, self.min_height - self.title_height - 2 * self.padding)
+        self._content_height = max(total_h, min_content_h)
+        self.height = self.title_height + 2 * self.padding + self._content_height
         self.width = self.panel_width
         return self.width, self.height
 

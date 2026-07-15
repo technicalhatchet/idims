@@ -562,6 +562,9 @@ export default function WorkOrderNotes({
           <DiagnosticResultsViewer
             payload={fieldValues}
             workOrder={workOrder}
+            workOrderId={workOrderId}
+            noteId={wizardProps.noteId || null}
+            orderNumber={workOrder?.order_number}
             variant={variant}
           />
         );
@@ -706,7 +709,9 @@ export default function WorkOrderNotes({
             />
           )
         ) : (
-          renderNoteFields(selectedNote.type, selectedNote.fieldValues, true)
+          renderNoteFields(selectedNote.type, selectedNote.fieldValues, true, handleFieldChange, '', {
+            noteId: selectedNote.id,
+          })
         )}
       </div>
 

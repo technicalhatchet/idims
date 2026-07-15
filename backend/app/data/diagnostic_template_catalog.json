@@ -1,0 +1,2346 @@
+[
+  {
+    "id": "refrigerator",
+    "label": "Refrigerator",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "door_alignment",
+            "label": "Door alignment / closing",
+            "type": "check"
+          },
+          {
+            "id": "gasket_sealing",
+            "label": "Gasket sealing all doors",
+            "type": "check"
+          },
+          {
+            "id": "cabinet_damage",
+            "label": "Cabinet / hinge damage",
+            "type": "check"
+          },
+          {
+            "id": "condenser_cleanliness",
+            "label": "Condenser coil cleanliness",
+            "type": "check"
+          },
+          {
+            "id": "airflow_obstruction",
+            "label": "Condenser / toe-kick airflow clear",
+            "type": "check"
+          },
+          {
+            "id": "leveling",
+            "label": "Unit level / door swing",
+            "type": "check"
+          },
+          {
+            "id": "ice_maker_fill_tube",
+            "label": "Ice maker fill tube / filter",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "duration",
+            "label": "Duration",
+            "type": "text"
+          },
+          {
+            "id": "intermittent_or_constant",
+            "label": "Intermittent or Constant",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Display / Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "temperature_checks",
+        "title": "Temperature Checks",
+        "fields": [
+          {
+            "id": "fresh_food_temp",
+            "label": "Fresh food compartment (°F)",
+            "type": "text"
+          },
+          {
+            "id": "freezer_temp",
+            "label": "Freezer compartment (°F)",
+            "type": "text"
+          },
+          {
+            "id": "ambient_room_temp",
+            "label": "Ambient room temp (°F)",
+            "type": "text"
+          },
+          {
+            "id": "evap_air_temp",
+            "label": "Evaporator outlet air (°F, if accessible)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "door_alignment",
+            "label": "Door Alignment",
+            "type": "tri"
+          },
+          {
+            "id": "gasket_condition",
+            "label": "Gasket Condition",
+            "type": "tri"
+          },
+          {
+            "id": "cabinet_condition",
+            "label": "Cabinet Condition",
+            "type": "tri"
+          },
+          {
+            "id": "condenser_condition",
+            "label": "Condenser Condition",
+            "type": "tri"
+          },
+          {
+            "id": "frost_present",
+            "label": "Heavy Frost / Ice Buildup Present",
+            "type": "yn"
+          },
+          {
+            "id": "evaporator_frost_pattern",
+            "label": "Evaporator Frost Pattern",
+            "type": "tri"
+          },
+          {
+            "id": "ice_maker_visual",
+            "label": "Ice Maker / Dispenser (if equipped)",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "compressor_running",
+            "label": "Compressor Running",
+            "type": "yn"
+          },
+          {
+            "id": "condenser_fan_running",
+            "label": "Condenser Fan Running",
+            "type": "yn"
+          },
+          {
+            "id": "evaporator_fan_running",
+            "label": "Evaporator Fan Running",
+            "type": "yn"
+          },
+          {
+            "id": "damper_operation",
+            "label": "Fresh Food Damper / Air Tower",
+            "type": "gb"
+          },
+          {
+            "id": "defrost_cycle_observed",
+            "label": "Defrost Cycle Heard / Observed",
+            "type": "yn"
+          },
+          {
+            "id": "ice_maker_operation",
+            "label": "Ice Maker Operation (if equipped)",
+            "type": "gb"
+          },
+          {
+            "id": "water_dispenser",
+            "label": "Water Dispenser (if equipped)",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "compressor_sealed_system",
+        "title": "Compressor & Sealed System Readings",
+        "fields": [
+          {
+            "id": "compressor_amps_running",
+            "label": "Compressor amps — running",
+            "type": "text"
+          },
+          {
+            "id": "compressor_amps_startup",
+            "label": "Compressor amps — startup / LRA",
+            "type": "text"
+          },
+          {
+            "id": "run_winding_ohms",
+            "label": "Compressor run winding (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "start_winding_ohms",
+            "label": "Compressor start winding (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "common_to_run_ohms",
+            "label": "Common to run (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "common_to_start_ohms",
+            "label": "Common to start (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "compressor_voltage",
+            "label": "Voltage at compressor / relay",
+            "type": "text"
+          },
+          {
+            "id": "start_relay_overload",
+            "label": "Start relay / overload (part # or test)",
+            "type": "text"
+          },
+          {
+            "id": "start_capacitor_uf",
+            "label": "Start capacitor (µF)",
+            "type": "text"
+          },
+          {
+            "id": "suction_line_feel",
+            "label": "Suction line temp / frost pattern",
+            "type": "text"
+          },
+          {
+            "id": "discharge_line_feel",
+            "label": "Discharge line temp / feel",
+            "type": "text"
+          },
+          {
+            "id": "sealed_system_notes",
+            "label": "Sealed system / leak / restriction notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "defrost_circuit",
+        "title": "Defrost Circuit Readings",
+        "fields": [
+          {
+            "id": "defrost_heater_ohms",
+            "label": "Defrost heater resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "defrost_thermostat",
+            "label": "Defrost thermostat / bi-metal",
+            "type": "text"
+          },
+          {
+            "id": "defrost_fuse",
+            "label": "Defrost fuse / thermal fuse",
+            "type": "text"
+          },
+          {
+            "id": "defrost_thermistor",
+            "label": "Defrost thermistor (Ω or °F)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "fans_and_electrical",
+        "title": "Fans & Electrical Readings",
+        "fields": [
+          {
+            "id": "condenser_fan_amps",
+            "label": "Condenser fan motor amps",
+            "type": "text"
+          },
+          {
+            "id": "evaporator_fan_amps",
+            "label": "Evaporator fan motor amps",
+            "type": "text"
+          },
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "fresh_food_thermistor",
+            "label": "Fresh food thermistor (Ω or °F)",
+            "type": "text"
+          },
+          {
+            "id": "freezer_thermistor",
+            "label": "Freezer thermistor (Ω or °F)",
+            "type": "text"
+          },
+          {
+            "id": "board_notes",
+            "label": "Control board / sensor notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          },
+          {
+            "id": "additional_notes",
+            "label": "Additional Notes",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "standalone_freezer",
+    "label": "Standalone Freezer",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "door_sealing",
+            "label": "Door sealing",
+            "type": "check"
+          },
+          {
+            "id": "frost_source",
+            "label": "Frost accumulation source",
+            "type": "check"
+          },
+          {
+            "id": "condenser_cleanliness",
+            "label": "Condenser cleanliness",
+            "type": "check"
+          },
+          {
+            "id": "defrost_drain",
+            "label": "Defrost drain / pan",
+            "type": "check"
+          },
+          {
+            "id": "leveling",
+            "label": "Unit level",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "duration",
+            "label": "Duration",
+            "type": "text"
+          },
+          {
+            "id": "intermittent_or_constant",
+            "label": "Intermittent or Constant",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "temperature_checks",
+        "title": "Temperature Checks",
+        "fields": [
+          {
+            "id": "freezer_temp",
+            "label": "Cabinet temp (°F)",
+            "type": "text"
+          },
+          {
+            "id": "ambient_temp",
+            "label": "Ambient temp (°F)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "door_alignment",
+            "label": "Door Alignment",
+            "type": "tri"
+          },
+          {
+            "id": "gasket_condition",
+            "label": "Gasket Condition",
+            "type": "tri"
+          },
+          {
+            "id": "frost_pattern",
+            "label": "Frost Pattern",
+            "type": "gb"
+          },
+          {
+            "id": "condenser_condition",
+            "label": "Condenser Condition",
+            "type": "tri"
+          },
+          {
+            "id": "drain_clear",
+            "label": "Drain Clear",
+            "type": "yn"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "compressor_running",
+            "label": "Compressor Running",
+            "type": "yn"
+          },
+          {
+            "id": "condenser_fan_running",
+            "label": "Condenser Fan Running",
+            "type": "yn"
+          },
+          {
+            "id": "evaporator_fan_running",
+            "label": "Evaporator Fan Running",
+            "type": "yn"
+          },
+          {
+            "id": "defrost_operational",
+            "label": "Defrost System Operational",
+            "type": "yn"
+          }
+        ]
+      },
+      {
+        "id": "compressor_sealed_system",
+        "title": "Compressor & Sealed System Readings",
+        "fields": [
+          {
+            "id": "compressor_amps_running",
+            "label": "Compressor amps — running",
+            "type": "text"
+          },
+          {
+            "id": "compressor_amps_startup",
+            "label": "Compressor amps — startup / LRA",
+            "type": "text"
+          },
+          {
+            "id": "run_winding_ohms",
+            "label": "Compressor run winding (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "start_winding_ohms",
+            "label": "Compressor start winding (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "compressor_voltage",
+            "label": "Voltage at compressor / relay",
+            "type": "text"
+          },
+          {
+            "id": "suction_line_feel",
+            "label": "Suction line temp / frost pattern",
+            "type": "text"
+          },
+          {
+            "id": "discharge_line_feel",
+            "label": "Discharge line temp / feel",
+            "type": "text"
+          },
+          {
+            "id": "sealed_system_notes",
+            "label": "Sealed system notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "defrost_circuit",
+        "title": "Defrost Circuit Readings",
+        "fields": [
+          {
+            "id": "defrost_heater_ohms",
+            "label": "Defrost heater resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "defrost_thermostat",
+            "label": "Defrost thermostat / bi-metal",
+            "type": "text"
+          },
+          {
+            "id": "thermistor_reading",
+            "label": "Cabinet thermistor (Ω or °F)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "fans_and_electrical",
+        "title": "Fans & Electrical Readings",
+        "fields": [
+          {
+            "id": "condenser_fan_amps",
+            "label": "Condenser fan amps",
+            "type": "text"
+          },
+          {
+            "id": "evaporator_fan_amps",
+            "label": "Evaporator fan amps",
+            "type": "text"
+          },
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "washer",
+    "label": "Washer",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "suspension",
+            "label": "Suspension / shocks",
+            "type": "check"
+          },
+          {
+            "id": "drain_restrictions",
+            "label": "Drain / standpipe restrictions",
+            "type": "check"
+          },
+          {
+            "id": "loading_habits",
+            "label": "Customer loading habits",
+            "type": "check"
+          },
+          {
+            "id": "water_pressure",
+            "label": "House water pressure / supply",
+            "type": "check"
+          },
+          {
+            "id": "shipping_bolts",
+            "label": "Shipping bolts removed (new install)",
+            "type": "check"
+          },
+          {
+            "id": "inlet_screens",
+            "label": "Inlet hose screens clear",
+            "type": "check"
+          },
+          {
+            "id": "level",
+            "label": "Unit level",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "suspension",
+            "label": "Suspension",
+            "type": "gb"
+          },
+          {
+            "id": "tub_movement",
+            "label": "Tub Movement",
+            "type": "gb"
+          },
+          {
+            "id": "hoses_condition",
+            "label": "Hoses / Connections",
+            "type": "gb"
+          },
+          {
+            "id": "leak_present",
+            "label": "Leak Present",
+            "type": "yn"
+          },
+          {
+            "id": "drive_belt",
+            "label": "Belt / Pulley (if accessible)",
+            "type": "tri"
+          },
+          {
+            "id": "door_boot",
+            "label": "Door boot / gasket (front load)",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "fill_operation",
+            "label": "Fill Operation (hot & cold)",
+            "type": "gb"
+          },
+          {
+            "id": "agitation",
+            "label": "Agitation",
+            "type": "gb"
+          },
+          {
+            "id": "spin_operation",
+            "label": "Spin Operation",
+            "type": "gb"
+          },
+          {
+            "id": "drain_operation",
+            "label": "Drain Operation",
+            "type": "gb"
+          },
+          {
+            "id": "lid_lock_operation",
+            "label": "Lid / Door Lock Operation",
+            "type": "gb"
+          },
+          {
+            "id": "balance",
+            "label": "Balance / Vibration on spin",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "electrical_measurements",
+        "title": "Electrical Measurements",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "drive_motor_ohms",
+            "label": "Drive / wash motor resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "drive_motor_amps",
+            "label": "Drive motor amps (agitate / spin)",
+            "type": "text"
+          },
+          {
+            "id": "drain_pump_ohms",
+            "label": "Drain pump resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "drain_pump_amps",
+            "label": "Drain pump amps",
+            "type": "text"
+          },
+          {
+            "id": "inlet_valve_ohms",
+            "label": "Inlet valve coil(s) (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "water_pressure",
+            "label": "Water pressure (PSI)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "mechanical_controls",
+        "title": "Mechanical / Control Checks",
+        "fields": [
+          {
+            "id": "shift_actuator",
+            "label": "Shift actuator / transmission",
+            "type": "gb"
+          },
+          {
+            "id": "clutch",
+            "label": "Clutch / splutch",
+            "type": "gb"
+          },
+          {
+            "id": "pressure_switch",
+            "label": "Pressure switch / hose",
+            "type": "gb"
+          },
+          {
+            "id": "door_lock_ohms",
+            "label": "Door lock / latch (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "board_notes",
+            "label": "Control / MCU notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "electric_dryer",
+    "label": "Electric Dryer",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "vent_restriction",
+            "label": "Vent restriction / length",
+            "type": "check"
+          },
+          {
+            "id": "crushed_vent",
+            "label": "Crushed vent hose",
+            "type": "check"
+          },
+          {
+            "id": "poor_airflow",
+            "label": "Poor airflow at exterior hood",
+            "type": "check"
+          },
+          {
+            "id": "overloading",
+            "label": "Customer overloading",
+            "type": "check"
+          },
+          {
+            "id": "lint_trap",
+            "label": "Lint screen / housing clean",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "vent_condition",
+            "label": "Vent / Duct Condition",
+            "type": "gb"
+          },
+          {
+            "id": "lint_accumulation",
+            "label": "Lint Accumulation",
+            "type": "gb"
+          },
+          {
+            "id": "drum_condition",
+            "label": "Drum / Rollers / Glides",
+            "type": "gb"
+          },
+          {
+            "id": "element_coils",
+            "label": "Heating element (visual)",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "drum_turning",
+            "label": "Drum Turning",
+            "type": "yn"
+          },
+          {
+            "id": "heating",
+            "label": "Heating",
+            "type": "yn"
+          },
+          {
+            "id": "airflow",
+            "label": "Airflow at vent",
+            "type": "gb"
+          },
+          {
+            "id": "blower_operation",
+            "label": "Blower Operation",
+            "type": "gb"
+          },
+          {
+            "id": "moisture_sensor",
+            "label": "Moisture sensor bars (if equipped)",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "heat_circuit",
+        "title": "Heat Circuit Readings",
+        "fields": [
+          {
+            "id": "heater_ohms",
+            "label": "Heating element resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "heater_amps",
+            "label": "Heating element amps (energized)",
+            "type": "text"
+          },
+          {
+            "id": "thermal_fuse",
+            "label": "Thermal fuse / hi-limit continuity",
+            "type": "text"
+          },
+          {
+            "id": "cycling_thermostat",
+            "label": "Cycling thermostat",
+            "type": "text"
+          },
+          {
+            "id": "high_limit",
+            "label": "High-limit thermostat",
+            "type": "text"
+          },
+          {
+            "id": "exhaust_temp",
+            "label": "Exhaust air temp at vent (°F)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "motor_electrical",
+        "title": "Motor & Electrical Readings",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "motor_ohms",
+            "label": "Drive motor resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "motor_amps",
+            "label": "Motor amps (running)",
+            "type": "text"
+          },
+          {
+            "id": "belt_idler",
+            "label": "Belt / idler pulley condition",
+            "type": "text"
+          },
+          {
+            "id": "board_notes",
+            "label": "Control board / relay notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gas_dryer",
+    "label": "Gas Dryer",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "vent_restriction",
+            "label": "Vent restriction / length",
+            "type": "check"
+          },
+          {
+            "id": "gas_supply",
+            "label": "Gas supply valve on",
+            "type": "check"
+          },
+          {
+            "id": "lint_trap",
+            "label": "Lint screen / housing clean",
+            "type": "check"
+          },
+          {
+            "id": "lp_orifices",
+            "label": "LP conversion / orifices correct",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "vent_condition",
+            "label": "Vent / Duct Condition",
+            "type": "gb"
+          },
+          {
+            "id": "lint_accumulation",
+            "label": "Lint Accumulation",
+            "type": "gb"
+          },
+          {
+            "id": "igniter_condition",
+            "label": "Igniter condition",
+            "type": "tri"
+          },
+          {
+            "id": "gas_valve",
+            "label": "Gas valve / burner assembly",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "drum_turning",
+            "label": "Drum Turning",
+            "type": "yn"
+          },
+          {
+            "id": "ignition",
+            "label": "Burner Ignition",
+            "type": "yn"
+          },
+          {
+            "id": "airflow",
+            "label": "Airflow at vent",
+            "type": "gb"
+          },
+          {
+            "id": "blower_operation",
+            "label": "Blower Operation",
+            "type": "gb"
+          },
+          {
+            "id": "flame_quality",
+            "label": "Flame quality / stays lit",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "gas_ignition",
+        "title": "Gas & Ignition Readings",
+        "fields": [
+          {
+            "id": "igniter_amps",
+            "label": "Igniter amps (glow)",
+            "type": "text"
+          },
+          {
+            "id": "igniter_ohms",
+            "label": "Igniter resistance cold (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "gas_valve_coils",
+            "label": "Gas valve coil(s) (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "flame_sensor",
+            "label": "Flame sensor / radiant sensor",
+            "type": "text"
+          },
+          {
+            "id": "gas_pressure_note",
+            "label": "Gas pressure / manifold (if measured)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "motor_electrical",
+        "title": "Motor & Electrical Readings",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "motor_ohms",
+            "label": "Drive motor resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "thermal_fuse",
+            "label": "Thermal fuse / hi-limit",
+            "type": "text"
+          },
+          {
+            "id": "exhaust_temp",
+            "label": "Exhaust temp at vent (°F)",
+            "type": "text"
+          },
+          {
+            "id": "board_notes",
+            "label": "Control / radiant sensor notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stacked_laundry",
+    "label": "Laundry Center / Stacked Unit",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "shared_power",
+            "label": "Shared power / outlet load",
+            "type": "check"
+          },
+          {
+            "id": "airflow_restrictions",
+            "label": "Dryer vent / airflow",
+            "type": "check"
+          },
+          {
+            "id": "installation",
+            "label": "Installation / stacking kit / level",
+            "type": "check"
+          },
+          {
+            "id": "water_supply",
+            "label": "Washer water supply / drain",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "washer_section",
+        "title": "Washer Section",
+        "fields": [
+          {
+            "id": "fill",
+            "label": "Fill",
+            "type": "gb"
+          },
+          {
+            "id": "agitate",
+            "label": "Agitate",
+            "type": "gb"
+          },
+          {
+            "id": "drain",
+            "label": "Drain",
+            "type": "gb"
+          },
+          {
+            "id": "spin",
+            "label": "Spin",
+            "type": "gb"
+          },
+          {
+            "id": "washer_leak",
+            "label": "Leak Present",
+            "type": "yn"
+          }
+        ]
+      },
+      {
+        "id": "dryer_section",
+        "title": "Dryer Section",
+        "fields": [
+          {
+            "id": "drum_turning",
+            "label": "Drum Turning",
+            "type": "yn"
+          },
+          {
+            "id": "heat_present",
+            "label": "Heat Present",
+            "type": "yn"
+          },
+          {
+            "id": "airflow",
+            "label": "Airflow",
+            "type": "gb"
+          },
+          {
+            "id": "blower",
+            "label": "Blower Operation",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "washer_measurements",
+        "title": "Washer Electrical Readings",
+        "fields": [
+          {
+            "id": "washer_motor_ohms",
+            "label": "Wash motor (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "drain_pump_ohms",
+            "label": "Drain pump (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "water_pressure",
+            "label": "Water pressure (PSI)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "dryer_measurements",
+        "title": "Dryer Heat / Motor Readings",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "heater_ohms",
+            "label": "Heater / igniter (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "heater_or_igniter_amps",
+            "label": "Heater or igniter amps",
+            "type": "text"
+          },
+          {
+            "id": "motor_ohms",
+            "label": "Dryer motor (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "thermal_fuse",
+            "label": "Thermal fuse / hi-limit",
+            "type": "text"
+          },
+          {
+            "id": "exhaust_temp",
+            "label": "Exhaust temp at vent (°F)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aio_laundry",
+    "label": "AIO Laundry (Heat-Pump Combo)",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "heat_pump_filter",
+            "label": "Heat pump filter / condenser clean",
+            "type": "check"
+          },
+          {
+            "id": "vent_airflow",
+            "label": "Exhaust / condenser airflow",
+            "type": "check"
+          },
+          {
+            "id": "water_pressure",
+            "label": "Water pressure / inlet screens",
+            "type": "check"
+          },
+          {
+            "id": "level_install",
+            "label": "Level / installation / pedestal",
+            "type": "check"
+          },
+          {
+            "id": "drain_filter",
+            "label": "Drain pump filter / coin trap",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "wash_functions",
+        "title": "Wash Functions",
+        "fields": [
+          {
+            "id": "fill",
+            "label": "Fill",
+            "type": "gb"
+          },
+          {
+            "id": "agitate",
+            "label": "Agitate",
+            "type": "gb"
+          },
+          {
+            "id": "spin",
+            "label": "Spin",
+            "type": "gb"
+          },
+          {
+            "id": "drain",
+            "label": "Drain",
+            "type": "gb"
+          },
+          {
+            "id": "washer_leak",
+            "label": "Leak Present",
+            "type": "yn"
+          }
+        ]
+      },
+      {
+        "id": "dry_functions",
+        "title": "Dry / Heat-Pump Functions",
+        "fields": [
+          {
+            "id": "drum_turning",
+            "label": "Drum Turning",
+            "type": "yn"
+          },
+          {
+            "id": "heat_present",
+            "label": "Heat / drying present",
+            "type": "yn"
+          },
+          {
+            "id": "airflow",
+            "label": "Airflow / condenser fan",
+            "type": "gb"
+          },
+          {
+            "id": "condensate_drain",
+            "label": "Condensate / drain pump",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "wash_electrical",
+        "title": "Wash Electrical Readings",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "wash_motor_ohms",
+            "label": "Wash motor (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "drain_pump_ohms",
+            "label": "Drain pump (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "water_pressure",
+            "label": "Water pressure (PSI)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "heat_pump_readings",
+        "title": "Heat-Pump / Compressor Readings",
+        "fields": [
+          {
+            "id": "compressor_amps",
+            "label": "Compressor amps (running)",
+            "type": "text"
+          },
+          {
+            "id": "compressor_ohms",
+            "label": "Compressor windings (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "heat_pump_fan_amps",
+            "label": "Condenser / heat-pump fan amps",
+            "type": "text"
+          },
+          {
+            "id": "heater_amps",
+            "label": "Supplemental heater amps (if equipped)",
+            "type": "text"
+          },
+          {
+            "id": "refrigerant_notes",
+            "label": "Refrigerant / sealed system notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dishwasher",
+    "label": "Dishwasher",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "disposal_knockout",
+            "label": "Garbage disposal knockout",
+            "type": "check"
+          },
+          {
+            "id": "drain_restrictions",
+            "label": "Drain / air gap restrictions",
+            "type": "check"
+          },
+          {
+            "id": "detergent_usage",
+            "label": "Customer detergent / rinse aid",
+            "type": "check"
+          },
+          {
+            "id": "water_temperature",
+            "label": "Hot water at sink (120°F+)",
+            "type": "check"
+          },
+          {
+            "id": "inlet_screen",
+            "label": "Inlet valve screen",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "spray_arms_clear",
+            "label": "Spray Arms Clear",
+            "type": "yn"
+          },
+          {
+            "id": "filter_condition",
+            "label": "Filter Condition",
+            "type": "gb"
+          },
+          {
+            "id": "drain_path_clear",
+            "label": "Drain Path Clear",
+            "type": "yn"
+          },
+          {
+            "id": "leak_present",
+            "label": "Leak Present",
+            "type": "yn"
+          },
+          {
+            "id": "door_gasket",
+            "label": "Door Gasket / Tub Seal",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "fill_operation",
+            "label": "Fill Operation",
+            "type": "gb"
+          },
+          {
+            "id": "wash_operation",
+            "label": "Wash Operation (circulation)",
+            "type": "gb"
+          },
+          {
+            "id": "drain_operation",
+            "label": "Drain Operation",
+            "type": "gb"
+          },
+          {
+            "id": "drying_operation",
+            "label": "Drying / Heat Operation",
+            "type": "gb"
+          },
+          {
+            "id": "detergent_dispenser",
+            "label": "Detergent / rinse dispenser",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "heat_water",
+        "title": "Heat & Water Readings",
+        "fields": [
+          {
+            "id": "incoming_water_temp",
+            "label": "Incoming water temp (°F)",
+            "type": "text"
+          },
+          {
+            "id": "heater_ohms",
+            "label": "Heater resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "heater_amps",
+            "label": "Heater amps (energized)",
+            "type": "text"
+          },
+          {
+            "id": "thermistor",
+            "label": "Thermistor / OWI (Ω)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "motor_electrical",
+        "title": "Motor & Electrical Readings",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "wash_motor_ohms",
+            "label": "Wash / circulation motor (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "drain_motor_ohms",
+            "label": "Drain motor (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "inlet_valve_ohms",
+            "label": "Inlet valve coil(s) (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "float_switch",
+            "label": "Float switch / leak sensor",
+            "type": "text"
+          },
+          {
+            "id": "board_notes",
+            "label": "Control board / diverter notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "electric_range",
+    "label": "Electric Range / Oven",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "incoming_voltage",
+            "label": "Incoming voltage verified",
+            "type": "check"
+          },
+          {
+            "id": "miswired_outlet",
+            "label": "Miswired outlet / receptacle",
+            "type": "check"
+          },
+          {
+            "id": "terminal_burn",
+            "label": "Burnt terminal block / loose lugs",
+            "type": "check"
+          },
+          {
+            "id": "calibration",
+            "label": "Calibration / offset checked",
+            "type": "check"
+          },
+          {
+            "id": "cookware",
+            "label": "Customer cookware concerns",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "terminal_block",
+            "label": "Terminal Block Condition",
+            "type": "tri"
+          },
+          {
+            "id": "wiring_condition",
+            "label": "Wiring / Harness Condition",
+            "type": "tri"
+          },
+          {
+            "id": "door_seal",
+            "label": "Door Seal Condition",
+            "type": "tri"
+          },
+          {
+            "id": "bake_element_visible",
+            "label": "Bake Element (visible damage)",
+            "type": "tri"
+          },
+          {
+            "id": "broil_element_visible",
+            "label": "Broil Element (visible damage)",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "bake_operation",
+            "label": "Bake Operation",
+            "type": "gb"
+          },
+          {
+            "id": "broil_operation",
+            "label": "Broil Operation",
+            "type": "gb"
+          },
+          {
+            "id": "convection_operation",
+            "label": "Convection Operation",
+            "type": "gb"
+          },
+          {
+            "id": "surface_burners",
+            "label": "Surface Burners (if equipped)",
+            "type": "gb"
+          },
+          {
+            "id": "door_lock_operation",
+            "label": "Door Lock / Self-Clean Lock",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "terminal_block_readings",
+        "title": "Terminal Block / Supply Readings",
+        "fields": [
+          {
+            "id": "l1_l2_voltage",
+            "label": "L1–L2 at block (V)",
+            "type": "text"
+          },
+          {
+            "id": "l1_neutral_voltage",
+            "label": "L1–Neutral (V)",
+            "type": "text"
+          },
+          {
+            "id": "l2_neutral_voltage",
+            "label": "L2–Neutral (V)",
+            "type": "text"
+          },
+          {
+            "id": "neutral_ground_voltage",
+            "label": "Neutral–Ground (V)",
+            "type": "text"
+          },
+          {
+            "id": "supply_notes",
+            "label": "Supply / wiring notes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "element_sensor_readings",
+        "title": "Element & Sensor Readings",
+        "fields": [
+          {
+            "id": "bake_element_ohms",
+            "label": "Bake element resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "broil_element_ohms",
+            "label": "Broil element resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "bake_element_amps",
+            "label": "Bake element amps (energized)",
+            "type": "text"
+          },
+          {
+            "id": "broil_element_amps",
+            "label": "Broil element amps (energized)",
+            "type": "text"
+          },
+          {
+            "id": "temp_sensor_ohms",
+            "label": "Oven temp sensor (Ω at room)",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "board_readings",
+        "title": "Control Board Readings",
+        "fields": [
+          {
+            "id": "board_supply_voltage",
+            "label": "Board supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "bake_relay_output",
+            "label": "Bake relay output / bake leg (V when on)",
+            "type": "text"
+          },
+          {
+            "id": "broil_relay_output",
+            "label": "Broil relay output / broil leg (V when on)",
+            "type": "text"
+          },
+          {
+            "id": "convection_output",
+            "label": "Convection motor / relay (V or amps)",
+            "type": "text"
+          },
+          {
+            "id": "oven_temp_at_probe",
+            "label": "Oven temp at center probe (°F)",
+            "type": "text"
+          },
+          {
+            "id": "board_notes",
+            "label": "Board test points / relay notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gas_range",
+    "label": "Gas Range / Oven",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "gas_supply",
+            "label": "Gas supply valve on / line verified",
+            "type": "check"
+          },
+          {
+            "id": "anti_tip",
+            "label": "Anti-tip bracket installed",
+            "type": "check"
+          },
+          {
+            "id": "lp_orifices",
+            "label": "LP orifice / conversion correct",
+            "type": "check"
+          },
+          {
+            "id": "ventilation",
+            "label": "Adequate ventilation / hood",
+            "type": "check"
+          },
+          {
+            "id": "gas_odor",
+            "label": "Gas odor / leak check performed",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "burner_condition",
+            "label": "Oven burner / tube condition",
+            "type": "tri"
+          },
+          {
+            "id": "igniter_condition",
+            "label": "Oven igniter condition",
+            "type": "tri"
+          },
+          {
+            "id": "gas_valve_condition",
+            "label": "Gas valve / manifold condition",
+            "type": "tri"
+          },
+          {
+            "id": "door_seal",
+            "label": "Door Seal Condition",
+            "type": "tri"
+          },
+          {
+            "id": "surface_burners_visual",
+            "label": "Surface burner caps / ports",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "oven_bake_ignition",
+            "label": "Oven Bake Ignition",
+            "type": "gb"
+          },
+          {
+            "id": "oven_broil_ignition",
+            "label": "Oven Broil Ignition",
+            "type": "gb"
+          },
+          {
+            "id": "surface_burner_ignition",
+            "label": "Surface Burner Ignition",
+            "type": "gb"
+          },
+          {
+            "id": "convection_operation",
+            "label": "Convection Fan (if equipped)",
+            "type": "gb"
+          },
+          {
+            "id": "door_lock_operation",
+            "label": "Door Lock / Self-Clean Lock",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "electrical_at_board",
+        "title": "Electrical at Board / Valve",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage at outlet (V)",
+            "type": "text"
+          },
+          {
+            "id": "board_supply_voltage",
+            "label": "Board supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "igniter_amps",
+            "label": "Oven igniter amps (glow)",
+            "type": "text"
+          },
+          {
+            "id": "igniter_resistance",
+            "label": "Oven igniter resistance cold (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "gas_valve_coil_ohms",
+            "label": "Gas valve coil resistance (Ω)",
+            "type": "text"
+          },
+          {
+            "id": "flame_sensor_continuity",
+            "label": "Flame sensor / safety continuity",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "gas_flame_readings",
+        "title": "Gas / Flame Readings",
+        "fields": [
+          {
+            "id": "oven_flame_quality",
+            "label": "Oven Flame Quality",
+            "type": "gb"
+          },
+          {
+            "id": "surface_flame_quality",
+            "label": "Surface Flame Quality",
+            "type": "gb"
+          },
+          {
+            "id": "manifold_pressure",
+            "label": "Manifold / gas pressure (if measured)",
+            "type": "text"
+          },
+          {
+            "id": "gas_notes",
+            "label": "Gas line / regulator notes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "board_readings",
+        "title": "Control Board Readings",
+        "fields": [
+          {
+            "id": "valve_voltage_on",
+            "label": "Gas valve voltage when commanded (V)",
+            "type": "text"
+          },
+          {
+            "id": "igniter_circuit_voltage",
+            "label": "Igniter circuit voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "board_notes",
+            "label": "Board relay / safety circuit notes",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "microwave",
+    "label": "Microwave",
+    "sections": [
+      {
+        "id": "commonly_missed",
+        "title": "Commonly Missed Items",
+        "fields": [
+          {
+            "id": "door_switch",
+            "label": "Door switch operation",
+            "type": "check"
+          },
+          {
+            "id": "installation",
+            "label": "Installation / clearance",
+            "type": "check"
+          },
+          {
+            "id": "misuse",
+            "label": "Customer misuse / metal",
+            "type": "check"
+          },
+          {
+            "id": "door_latching",
+            "label": "Intermittent door latching",
+            "type": "check"
+          },
+          {
+            "id": "ventilation",
+            "label": "Over-range vent / grease filter",
+            "type": "check"
+          }
+        ]
+      },
+      {
+        "id": "customer_complaint",
+        "title": "Customer Complaint",
+        "fields": [
+          {
+            "id": "complaint",
+            "label": "Complaint",
+            "type": "text"
+          },
+          {
+            "id": "error_codes",
+            "label": "Error Codes",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "visual_inspection",
+        "title": "Visual Inspection",
+        "fields": [
+          {
+            "id": "door_condition",
+            "label": "Door Condition",
+            "type": "gb"
+          },
+          {
+            "id": "latch_condition",
+            "label": "Latch / Hooks Condition",
+            "type": "gb"
+          },
+          {
+            "id": "waveguide_condition",
+            "label": "Waveguide / Stirrer Cover",
+            "type": "gb"
+          },
+          {
+            "id": "turntable_support",
+            "label": "Turntable / support ring",
+            "type": "tri"
+          }
+        ]
+      },
+      {
+        "id": "functional_checks",
+        "title": "Functional Checks",
+        "fields": [
+          {
+            "id": "powers_on",
+            "label": "Unit Powers On",
+            "type": "yn"
+          },
+          {
+            "id": "heats_properly",
+            "label": "Heats Properly (water test)",
+            "type": "yn"
+          },
+          {
+            "id": "turntable_operation",
+            "label": "Turntable Operation",
+            "type": "gb"
+          },
+          {
+            "id": "fan_operation",
+            "label": "Cooling / stirrer Fan",
+            "type": "gb"
+          },
+          {
+            "id": "cooktop_lights",
+            "label": "Cooktop / cavity lights (if equipped)",
+            "type": "gb"
+          }
+        ]
+      },
+      {
+        "id": "door_safety",
+        "title": "Door & Safety Switch Readings",
+        "fields": [
+          {
+            "id": "primary_door_switch",
+            "label": "Primary door switch continuity",
+            "type": "text"
+          },
+          {
+            "id": "monitor_switch",
+            "label": "Monitor switch continuity",
+            "type": "text"
+          },
+          {
+            "id": "thermal_cutout",
+            "label": "Thermal cutout / thermostat",
+            "type": "text"
+          },
+          {
+            "id": "fuse_continuity",
+            "label": "Line fuse continuity",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "electrical_hv",
+        "title": "Electrical / HV Circuit (de-energized)",
+        "fields": [
+          {
+            "id": "supply_voltage",
+            "label": "Supply voltage (V)",
+            "type": "text"
+          },
+          {
+            "id": "magnetron_ohms",
+            "label": "Magnetron resistance (Ω) — if tested",
+            "type": "text"
+          },
+          {
+            "id": "hv_diode",
+            "label": "HV diode — if tested",
+            "type": "text"
+          },
+          {
+            "id": "capacitor_uf",
+            "label": "High-voltage capacitor (µF) — if tested",
+            "type": "text"
+          },
+          {
+            "id": "hv_notes",
+            "label": "HV circuit notes (capacitor discharged?)",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "id": "diagnosis",
+        "title": "Diagnosis",
+        "fields": [
+          {
+            "id": "root_cause",
+            "label": "Root Cause",
+            "type": "textarea"
+          },
+          {
+            "id": "recommended_repair",
+            "label": "Recommended Repair",
+            "type": "textarea"
+          }
+        ]
+      }
+    ]
+  }
+]

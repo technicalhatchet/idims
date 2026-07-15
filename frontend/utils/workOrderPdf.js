@@ -43,6 +43,21 @@ export async function openWorkOrderPdf(workOrderId, orderNumber, endpoint, query
   setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
 }
 
+/**
+ * Open a diagnostic report PDF v2 for a work order.
+ */
+export async function openDiagnosticPdf(workOrderId, orderNumber, options = {}) {
+  const queryParams = {
+    variant: options.variant || 'light',
+    show_technician: String(options.showTechnician !== false),
+    show_photos: String(Boolean(options.showPhotos)),
+  };
+  if (options.noteId) {
+    queryParams.note_id = String(options.noteId);
+  }
+  return openWorkOrderPdf(workOrderId, orderNumber, 'diagnostic-v2.pdf', queryParams);
+}
+
 export const DOCUMENT_LINE_PRESETS = [
   {
     id: 'diagnostic',
