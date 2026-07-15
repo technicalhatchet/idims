@@ -45,10 +45,19 @@ def format_field_value(field: Dict[str, Any], raw: Any) -> str:
     return VALUE_LABELS.get(text, text)
 
 
+def _format_appointment_type_label(value: Optional[str]) -> str:
+    if not value:
+        return "Visit"
+    text = str(value).replace("_", " ").strip()
+    if not text:
+        return "Visit"
+    return text[0].upper() + text[1:]
+
+
 def _format_visit_label(appointment: Optional[Dict[str, Any]]) -> Optional[str]:
     if not appointment:
         return None
-    appt_type = appointment.get("appointment_type") or "Visit"
+    appt_type = _format_appointment_type_label(appointment.get("appointment_type"))
     scheduled = appointment.get("scheduled_start")
     if not scheduled:
         return f"{appt_type} — Unscheduled"

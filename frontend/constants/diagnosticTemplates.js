@@ -953,9 +953,16 @@ function formatFieldValue(field, raw) {
   return VALUE_LABELS[raw] || raw;
 }
 
+export function formatAppointmentTypeLabel(type) {
+  if (!type) return 'Visit';
+  const normalized = String(type).replace(/_/g, ' ').trim();
+  if (!normalized) return 'Visit';
+  return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+}
+
 export function formatDiagnosticVisitLabel(appointment) {
   if (!appointment) return null;
-  const type = appointment.appointment_type || 'Visit';
+  const type = formatAppointmentTypeLabel(appointment.appointment_type);
   const when = appointment.scheduled_start
     ? format(new Date(appointment.scheduled_start), 'MMM d, h:mm a')
     : 'Unscheduled';
