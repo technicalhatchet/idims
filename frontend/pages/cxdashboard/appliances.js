@@ -1,165 +1,37 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
-import { format, parseISO } from 'date-fns';
-import { FaShieldAlt, FaChevronRight, FaBoxOpen, FaPlus, FaCalendarPlus } from 'react-icons/fa';
+import { FaBoxOpen, FaPlus } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
-import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import ApplianceImportModal from '../../components/cxdashboard/ApplianceImportModal';
 import ApplianceFormModal from '../../components/cxdashboard/ApplianceFormModal';
-import { applianceDisplayName, getSchedulingMissing, isSchedulingReady, schedulingMissingLabels } from '../../constants/applianceEquipment';
+import AppliancesSummaryCards from '../../components/cxdashboard/appliances/AppliancesSummaryCards';
+import AppliancesToolbar from '../../components/cxdashboard/appliances/AppliancesToolbar';
+import PropertyApplianceSection from '../../components/cxdashboard/appliances/PropertyApplianceSection';
+import {
+  computeSummary,
+  filterAppliances,
+  groupAppliancesByProperty,
+  propertyKey,
+  propertyLabel,
+  sortAppliances,
+} from '../../components/cxdashboard/appliances/appliancesPageUtils';
+import { subtypeLabel } from '../../constants/applianceEquipment';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 
-function isSchedulingReadyLocal(appliance) {
-  return isSchedulingReady(appliance);
-}
-
-function ApplianceScheduleActions({ appliance, selfSchedulingAllowed, scheduleHref, detailHref }) {
-  if (!selfSchedulingAllowed) return null;
-
-  if (appliance.active_repair) {
-    return (
-      <Link
-        href={scheduleHref}
-        style={{ color: '#22d3ee', fontSize: '0.8125rem', fontWeight: '600', textDecoration: 'none' }}
-      >
-        Active request — request an update →
-      </Link>
-    );
-  }
-
-  if (appliance.can_schedule) {
-    return (
-      <Link
-        href={scheduleHref}
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-          background: '#22d3ee', color: '#0a0f1a', borderRadius: '8px',
-          padding: '0.625rem 1rem', fontWeight: '700', fontSize: '0.8125rem', textDecoration: 'none',
-        }}
-      >
-        <FaCalendarPlus /> Schedule Service
-      </Link>
-    );
-  }
-
-  if (!isSchedulingReadyLocal(appliance)) {
-    const missing = schedulingMissingLabels(getSchedulingMissing(appliance));
-    return (
-      <Link
-        href={detailHref}
-        style={{ color: '#f59e0b', fontSize: '0.8125rem', fontWeight: '600', textDecoration: 'none' }}
-      >
-        {missing.length > 0
-          ? `Missing: ${missing.join(', ')} — tap to edit →`
-          : 'Complete appliance info to schedule →'}
-      </Link>
-    );
-  }
-
-  return null;
-}
-
-function ApplianceCard({ appliance, selfSchedulingAllowed }) {
-  const displayName = applianceDisplayName(appliance);
-  const detailId = appliance.id;
-  const detailHref = `/cxdashboard/appliances/${encodeURIComponent(detailId)}`;
-  const scheduleHref = `/cxdashboard/appliances/${encodeURIComponent(detailId)}/schedule`;
-
-  return (
-    <div
-      style={{
-        background: '#0D1525',
-        border: '1px solid rgba(255,255,255,0.07)',
-        borderRadius: '12px',
-        padding: '1.25rem',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0.75rem',
-      }}
-    >
-      <Link href={detailHref} style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'flex-start',
-            cursor: 'pointer',
-          }}
-          className="hover:opacity-95"
-        >
-        <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px', flexShrink: 0 }}>
-          <ApplianceIcon type={appliance.equipment_subtype || appliance.subtype || appliance.equipment_type || appliance.type} className="w-8 h-8" />
-        </div>
-
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
-            <div style={{ minWidth: 0, flex: 1 }}>
-              <p style={{ color: '#fff', fontWeight: '600', margin: 0, textTransform: 'capitalize' }}>
-                {displayName}
-              </p>
-              <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
-                {appliance.model && <span>{appliance.model}</span>}
-              </p>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
-              {appliance.warranty_active && (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#22c55e', fontSize: '0.75rem', fontWeight: '600' }}>
-                  <FaShieldAlt style={{ fontSize: '10px' }} />
-                  Warranty
-                </span>
-              )}
-              {appliance.active_repair && (
-                <span style={{
-                  background: 'rgba(245,158,11,0.1)', color: '#f59e0b',
-                  border: '1px solid rgba(245,158,11,0.2)', borderRadius: '6px',
-                  padding: '2px 8px', fontSize: '0.7rem', fontWeight: '600',
-                }}
-                >
-                  Active
-                </span>
-              )}
-              <FaChevronRight style={{ color: '#6b7280', fontSize: '12px' }} />
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.75rem', fontSize: '0.8125rem', color: '#9ca3af' }}>
-            {appliance.serial && (
-              <span style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '4px 8px' }}>
-                <span style={{ color: '#6b7280' }}>S/N:</span>{' '}
-                <span style={{ color: '#d1d5db', fontFamily: 'monospace' }}>{appliance.serial}</span>
-              </span>
-            )}
-            <span>
-              <span style={{ color: '#22d3ee', fontWeight: '600' }}>{appliance.service_count || 0}</span> service{(appliance.service_count || 0) !== 1 ? 's' : ''}
-            </span>
-            {appliance.last_service_date && (
-              <span>Last: {format(parseISO(appliance.last_service_date), 'MMM d, yyyy')}</span>
-            )}
-          </div>
-
-          {appliance.property && (
-            <p style={{ color: '#6b7280', fontSize: '0.75rem', marginTop: '0.5rem' }}>
-              {appliance.property.address}{appliance.property.unit_number ? ` Unit ${appliance.property.unit_number}` : ''}
-            </p>
-          )}
-        </div>
-        </div>
-      </Link>
-
-      {selfSchedulingAllowed && (
-        <div style={{ paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <ApplianceScheduleActions
-            appliance={appliance}
-            selfSchedulingAllowed={selfSchedulingAllowed}
-            scheduleHref={scheduleHref}
-            detailHref={detailHref}
-          />
-        </div>
-      )}
-    </div>
-  );
+function applianceToForm(appliance) {
+  if (!appliance) return null;
+  return {
+    property_id: appliance.property_id || appliance.property?.id || '',
+    nickname: appliance.nickname || '',
+    equipment_type: appliance.equipment_type || 'appliance',
+    equipment_subtype: appliance.equipment_subtype || '',
+    make: appliance.make || '',
+    model: appliance.model || '',
+    serial: appliance.serial || '',
+    equipment_version: appliance.equipment_version || '',
+    is_wall_mounted: !!appliance.is_wall_mounted,
+    notes: appliance.notes || '',
+  };
 }
 
 export default function AppliancesPage() {
@@ -170,7 +42,16 @@ export default function AppliancesPage() {
   const [error, setError] = useState(null);
   const [importCandidates, setImportCandidates] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
+  const [editingAppliance, setEditingAppliance] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const [search, setSearch] = useState('');
+  const [propertyFilter, setPropertyFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('property');
+  const [viewMode, setViewMode] = useState('list');
+  const [expandedProperties, setExpandedProperties] = useState(new Set());
 
   const loadData = useCallback(async () => {
     const token = await getPortalSessionToken();
@@ -205,6 +86,74 @@ export default function AppliancesPage() {
       }
     })();
   }, [loadData]);
+
+  const filteredAppliances = useMemo(
+    () => sortAppliances(
+      filterAppliances(appliances, { search, propertyFilter, statusFilter, typeFilter }),
+      sortBy,
+    ),
+    [appliances, search, propertyFilter, statusFilter, typeFilter, sortBy],
+  );
+
+  const propertyGroups = useMemo(
+    () => groupAppliancesByProperty(filteredAppliances),
+    [filteredAppliances],
+  );
+
+  const summary = useMemo(
+    () => computeSummary(appliances, groupAppliancesByProperty(appliances)),
+    [appliances],
+  );
+
+  const propertyOptions = useMemo(() => {
+    const seen = new Map();
+    appliances.forEach((appliance) => {
+      const key = propertyKey(appliance);
+      if (!seen.has(key)) {
+        seen.set(key, propertyLabel(appliance));
+      }
+    });
+    return Array.from(seen.entries())
+      .map(([value, label]) => ({ value, label }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [appliances]);
+
+  const typeOptions = useMemo(() => {
+    const seen = new Map();
+    appliances.forEach((appliance) => {
+      const value = appliance.equipment_subtype || appliance.subtype;
+      if (!value) return;
+      const label = subtypeLabel(appliance.equipment_type || appliance.type, value) || value;
+      if (!seen.has(value)) seen.set(value, label);
+    });
+    return Array.from(seen.entries())
+      .map(([value, label]) => ({ value, label }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [appliances]);
+
+  useEffect(() => {
+    if (!propertyGroups.length) {
+      setExpandedProperties(new Set());
+      return;
+    }
+    if (propertyGroups.length === 1) {
+      setExpandedProperties(new Set([propertyGroups[0].key]));
+      return;
+    }
+    setExpandedProperties((prev) => {
+      if (prev.size > 0) return prev;
+      return new Set([propertyGroups[0].key]);
+    });
+  }, [propertyGroups]);
+
+  const toggleProperty = (key) => {
+    setExpandedProperties((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
 
   const handleImportConfirm = async (selectedItems) => {
     setSubmitting(true);
@@ -262,83 +211,144 @@ export default function AppliancesPage() {
     }
   };
 
+  const handleUpdateAppliance = async (form) => {
+    if (!editingAppliance?.id) return;
+    setSubmitting(true);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch(`appliances/${editingAppliance.id}`, token, {
+        method: 'PUT',
+        body: JSON.stringify(form),
+      });
+      setEditingAppliance(null);
+      await loadData();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleRemoveAppliance = async (appliance) => {
+    const name = appliance.nickname || [appliance.make, appliance.model].filter(Boolean).join(' ') || 'this appliance';
+    if (!window.confirm(`Remove ${name} from your account?`)) return;
+
+    setSubmitting(true);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch(`appliances/${appliance.id}`, token, { method: 'DELETE' });
+      await loadData();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const singlePropertyMode = propertyGroups.length === 1;
+  const selfSchedulingAllowed = !!profile?.self_scheduling_allowed;
+
   return (
     <>
       <Head><title>My Appliances | Atomic Repair</title></Head>
-      <div className="space-y-6">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
+      <div className="space-y-5">
+        <div className="flex justify-between items-start gap-4 flex-wrap">
           <div>
-            <h1 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '700', margin: 0 }}>My Appliances</h1>
-            <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.25rem' }}>
-              Manage appliances at your properties and track service history
+            <h1 className="text-white text-2xl font-bold m-0">My Appliances</h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Manage appliances at your properties and track service history.
             </p>
           </div>
           <button
             type="button"
             onClick={() => setShowAdd(true)}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              background: '#00D4FF', color: '#0A0F1E', border: 'none', borderRadius: '8px',
-              padding: '0.625rem 1rem', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer',
-            }}
+            className="inline-flex items-center gap-2 rounded-lg bg-[#00D4FF] text-[#0A0F1E] border-0 px-4 py-2.5 text-sm font-bold cursor-pointer shrink-0"
           >
-            <FaPlus /> Add appliance
+            <FaPlus /> Add Appliance
           </button>
         </div>
 
-        {error && (
-          <div style={{ padding: '0.75rem 1rem', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', color: '#f87171', fontSize: '0.875rem' }}>
+        {error ? (
+          <div className="px-4 py-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20">
             {error}
           </div>
-        )}
+        ) : null}
+
+        {!loading && appliances.length > 0 ? (
+          <>
+            <AppliancesSummaryCards summary={summary} />
+            <AppliancesToolbar
+              search={search}
+              onSearchChange={setSearch}
+              propertyFilter={propertyFilter}
+              onPropertyFilterChange={setPropertyFilter}
+              statusFilter={statusFilter}
+              onStatusFilterChange={setStatusFilter}
+              typeFilter={typeFilter}
+              onTypeFilterChange={setTypeFilter}
+              sortBy={sortBy}
+              onSortChange={setSortBy}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+              propertyOptions={propertyOptions}
+              typeOptions={typeOptions}
+            />
+          </>
+        ) : null}
 
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '4rem', color: '#6b7280' }}>
+          <div className="text-center py-16 text-gray-500">
             <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             Loading appliances...
           </div>
         ) : appliances.length === 0 ? (
-          <div style={{
-            textAlign: 'center', padding: '4rem',
-            background: '#0D1525', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.07)',
-          }}
-          >
-            <FaBoxOpen style={{ fontSize: '2.5rem', color: '#6b7280', marginBottom: '1rem', opacity: 0.4 }} />
-            <p style={{ color: '#9ca3af', marginBottom: '0.5rem' }}>No appliances yet</p>
-            <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '1rem' }}>
+          <div className="text-center py-16 rounded-xl border border-white/[0.07] bg-[#0D1525]">
+            <FaBoxOpen className="text-4xl text-gray-600 mx-auto mb-4 opacity-40" />
+            <p className="text-gray-400 mb-1">No appliances yet</p>
+            <p className="text-gray-500 text-sm mb-4">
               Add your household appliances to keep model info and service history in one place.
             </p>
             <button
               type="button"
               onClick={() => setShowAdd(true)}
-              style={{ background: '#00D4FF', color: '#0A0F1E', border: 'none', borderRadius: '8px', padding: '0.625rem 1.25rem', fontWeight: 700 }}
+              className="rounded-lg bg-[#00D4FF] text-[#0A0F1E] border-0 px-5 py-2.5 font-bold"
             >
               Add your first appliance
             </button>
           </div>
+        ) : filteredAppliances.length === 0 ? (
+          <div className="text-center py-12 rounded-xl border border-white/[0.07] bg-[#0D1525] text-gray-400 text-sm">
+            No appliances match your filters.
+          </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {appliances.map((a) => (
-              <ApplianceCard
-                key={a.id}
-                appliance={a}
-                selfSchedulingAllowed={!!profile?.self_scheduling_allowed}
+          <div className="space-y-3">
+            {propertyGroups.map((group) => (
+              <PropertyApplianceSection
+                key={group.key}
+                group={group}
+                expanded={expandedProperties.has(group.key)}
+                onToggle={() => toggleProperty(group.key)}
+                selfSchedulingAllowed={selfSchedulingAllowed}
+                onEdit={setEditingAppliance}
+                onRemove={handleRemoveAppliance}
+                viewMode={viewMode}
+                showHeader={!singlePropertyMode}
               />
             ))}
           </div>
         )}
       </div>
 
-      {importCandidates && (
+      {importCandidates ? (
         <ApplianceImportModal
           candidates={importCandidates}
           submitting={submitting}
           onConfirm={handleImportConfirm}
           onSkip={handleImportSkip}
         />
-      )}
+      ) : null}
 
-      {showAdd && (
+      {showAdd ? (
         <ApplianceFormModal
           title="Add appliance"
           properties={properties}
@@ -346,7 +356,18 @@ export default function AppliancesPage() {
           onClose={() => setShowAdd(false)}
           onSave={handleAddAppliance}
         />
-      )}
+      ) : null}
+
+      {editingAppliance ? (
+        <ApplianceFormModal
+          title="Edit appliance"
+          initial={applianceToForm(editingAppliance)}
+          properties={properties}
+          submitting={submitting}
+          onClose={() => setEditingAppliance(null)}
+          onSave={handleUpdateAppliance}
+        />
+      ) : null}
     </>
   );
 }
