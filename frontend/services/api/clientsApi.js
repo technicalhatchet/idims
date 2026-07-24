@@ -45,6 +45,36 @@ export const getClients = async (params = {}) => {
   }
 };
 
+/** Map API client row to react-select option shape. */
+export function clientToSelectOption(client) {
+  const name = [client?.first_name, client?.last_name].filter(Boolean).join(' ').trim()
+    || client?.display_name
+    || 'Unnamed';
+  return {
+    value: client.id,
+    label: `${name} (${client.email || 'No Email'})`,
+  };
+}
+
+/** Fetch every client page (API caps at 100 per page). */
+export async function getAllClients(params = {}) {
+  const limit = 100;
+  let page = 1;
+  let pages = 1;
+  const items = [];
+
+  while (page <= pages) {
+    const data = await getClients({ ...params, page, limit });
+    const batch = Array.isArray(data?.items) ? data.items : [];
+    items.push(...batch);
+    pages = data?.pages || 1;
+    if (!batch.length) break;
+    page += 1;
+  }
+
+  return items;
+}
+
 /**
  * Create a new client
  * @param {Object} data - Client data

@@ -6,7 +6,7 @@ import { useWorkOrderMutations } from '../../hooks/useWorkOrders';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { apiClient } from '../../utils/api-client';
-import { createClient } from '../../services/api/clientsApi';
+import { createClient, getAllClients, clientToSelectOption } from '../../services/api/clientsApi';
 import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
@@ -708,29 +708,22 @@ const [newPropertyError, setNewPropertyError] = useState(null);
       setError(null);
       
       try {
-        // Fetch clients - needed for client selector
-        console.log('[DEBUG] Fetching clients from API...');
-        const clientsResponse = await apiClient('clients');
-        console.log('[DEBUG] Clients API response:', clientsResponse);
-        
-        if (clientsResponse && clientsResponse.items && Array.isArray(clientsResponse.items)) {
-          // Handle paginated response format for clients
-          const clientOptions = clientsResponse.items.map(client => ({
-          value: client.id,
-            label: `${client.first_name} ${client.last_name} (${client.email || 'No Email'})`
-          }));
-          setClients(clientOptions);
-        } else if (clientsResponse && Array.isArray(clientsResponse)) {
-          // Handle non-paginated response format for clients
-          const clientOptions = clientsResponse.map(client => ({
-            value: client.id,
-            label: `${client.first_name} ${client.last_name} (${client.email || 'No Email'})`
-          }));
-          setClients(clientOptions);
-        } else {
-          console.warn('[DEBUG] Clients response is empty or not in expected format:', clientsResponse);
-          setClients([]);
+        // Fetch all clients for the selector (API defaults to 10/page if omitted).
+        const clientRows = await getAllClients();
+        let clientOptions = clientRows.map(clientToSelectOption);
+
+        const preselectedClientId = initialData?.client_id;
+        if (preselectedClientId && !clientOptions.some((c) => String(c.value) === String(preselectedClientId))) {
+          try {
+            const client = await apiClient(`clients/${preselectedClientId}`);
+            clientOptions = [clientToSelectOption(client), ...clientOptions];
+            setClientData(client);
+          } catch (error) {
+            console.error('Error loading preselected client:', error);
+          }
         }
+
+        setClients(clientOptions);
         
         // Fetch services - these are the SKUs
         try {
@@ -907,11 +900,7 @@ const [newPropertyError, setNewPropertyError] = useState(null);
     setNewClientError(null);
     try {
       const created = await createClient(newClientData);
-      // Add to clients list and auto-select
-      const newOption = {
-        value: created.id,
-        label: `${created.first_name} ${created.last_name} (${created.email || 'No Email'})`
-      };
+      const newOption = clientToSelectOption(created);
       setClients(prev => [...prev, newOption]);
       setFormValues({ ...values, client_id: created.id });
       setClientData(created);
