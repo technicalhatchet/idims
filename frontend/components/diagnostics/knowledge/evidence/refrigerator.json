@@ -38,6 +38,77 @@
       "explanation": "Complaint: not cooling — sealed system must be considered."
     },
     {
+      "id": "chip_weak_cooling_ff",
+      "when": [{ "type": "chip", "id": "weak_cooling_ff" }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Complaint: weak fresh food cooling — airflow / damper issues common.",
+      "recommendStepKey": "fans"
+    },
+    {
+      "id": "chip_weak_cooling_ff_defrost",
+      "when": [{ "type": "chip", "id": "weak_cooling_ff" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Complaint: weak FF cooling — defrost failure can leave FZ cold and FF warm.",
+      "recommendStepKey": "defrost"
+    },
+    {
+      "id": "chip_weak_cooling_ff_air_leak",
+      "when": [{ "type": "chip", "id": "weak_cooling_ff" }],
+      "target": "air_leak",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 10 },
+      "explanation": "Complaint: weak FF cooling — check FF door gasket and alignment.",
+      "recommendStepKey": "visual"
+    },
+    {
+      "id": "chip_weak_cooling_fz",
+      "when": [{ "type": "chip", "id": "weak_cooling_fz" }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 16 },
+      "explanation": "Complaint: weak freezer cooling — sealed system is a primary suspect.",
+      "recommendStepKey": "sealedSystem"
+    },
+    {
+      "id": "chip_weak_cooling_fz_defrost",
+      "when": [{ "type": "chip", "id": "weak_cooling_fz" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Complaint: weak FZ cooling — iced evaporator from defrost failure is common.",
+      "recommendStepKey": "defrost"
+    },
+    {
+      "id": "chip_weak_cooling_fz_airflow",
+      "when": [{ "type": "chip", "id": "weak_cooling_fz" }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 10 },
+      "explanation": "Complaint: weak FZ cooling — condenser fan and coil cleanliness affect freezer first.",
+      "recommendStepKey": "fans"
+    },
+    {
+      "id": "chip_weak_cooling_general",
+      "when": [{ "type": "chip", "id": "weak_cooling" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 8 },
+      "explanation": "Complaint: weak cooling — temperature checks will split airflow vs sealed system.",
+      "recommendStepKey": "temperature"
+    },
+    {
+      "id": "chip_weak_cooling_general_sealed",
+      "when": [{ "type": "chip", "id": "weak_cooling" }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 6 },
+      "explanation": "Complaint: weak cooling — sealed system remains on the differential."
+    },
+    {
       "id": "chip_frost_buildup",
       "when": [{ "type": "chip", "id": "frost_buildup" }],
       "target": "defrost_system",

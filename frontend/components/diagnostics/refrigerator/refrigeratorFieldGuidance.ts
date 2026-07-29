@@ -75,6 +75,57 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
     tone: 'tip',
   },
   {
+    id: 'weak_ff_temp',
+    field: 'temperature_checks.fresh_food_temp',
+    when: [{ type: 'chip', id: 'weak_cooling_ff' }],
+    message:
+      'Start with fresh food temp — if freezer is still cold, suspect evap fan, defrost, damper, or FF door seal before sealed system.',
+    tone: 'action',
+  },
+  {
+    id: 'weak_ff_evap_fan',
+    field: 'functional_checks.evaporator_fan_running',
+    when: [{ type: 'chip', id: 'weak_cooling_ff' }],
+    message: 'Weak FF cooling with a cold freezer often traces to evap fan or iced air tower / damper.',
+    tone: 'tip',
+  },
+  {
+    id: 'weak_ff_gasket',
+    field: 'visual_inspection.gasket_condition',
+    when: [{ type: 'chip', id: 'weak_cooling_ff' }],
+    message: 'Check FF door gasket and alignment — warm FF only can be an air leak at the fresh food door.',
+    tone: 'tip',
+  },
+  {
+    id: 'weak_fz_temp',
+    field: 'temperature_checks.freezer_temp',
+    when: [{ type: 'chip', id: 'weak_cooling_fz' }],
+    message:
+      'Confirm freezer temp first — weak FZ often points to sealed system, defrost failure, or condenser/airflow before damper issues.',
+    tone: 'action',
+  },
+  {
+    id: 'weak_fz_condenser',
+    field: 'visual_inspection.condenser_condition',
+    when: [{ type: 'chip', id: 'weak_cooling_fz' }],
+    message: 'Inspect condenser coils and fan — poor heat rejection shows up in the freezer first.',
+    tone: 'tip',
+  },
+  {
+    id: 'weak_fz_sealed',
+    field: 'functional_checks.compressor_running',
+    when: [{ type: 'chip', id: 'weak_cooling_fz' }],
+    message: 'If compressor runs but FZ is soft, compare amp draw and frost pattern for sealed-system vs defrost.',
+    tone: 'tip',
+  },
+  {
+    id: 'weak_general_temp',
+    field: 'temperature_checks.fresh_food_temp',
+    when: [{ type: 'chip', id: 'weak_cooling' }],
+    message: 'Record both compartment temps — FF-only warm vs both warm narrows the path quickly.',
+    tone: 'tip',
+  },
+  {
     id: 'ice_maker_path',
     field: 'functional_checks.ice_maker_operation',
     when: [{ type: 'chip', id: 'ice_maker' }],
