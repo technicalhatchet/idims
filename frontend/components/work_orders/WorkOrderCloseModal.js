@@ -101,7 +101,14 @@ export default function WorkOrderCloseModal({
         {!loading && readiness && (
           <>
             <ul className="space-y-2">
-              {Object.entries(readiness.checks || {}).map(([key, ok]) => (
+              {Object.entries(readiness.checks || {})
+                .filter(([key]) => {
+                  if (key === 'has_dma_outcome' && readiness.dma_outcome_required === false) {
+                    return false;
+                  }
+                  return true;
+                })
+                .map(([key, ok]) => (
                 <li key={key} className="flex items-start gap-2 text-sm">
                   <span
                     className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${

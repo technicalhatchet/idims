@@ -91,8 +91,10 @@ def is_work_order_financially_closed(work_order: WorkOrder) -> bool:
 
 
 def work_order_needs_repair_outcome(db: Session, work_order_id: uuid.UUID) -> bool:
-    from app.services.dma_service import get_outcome_for_work_order
+    from app.services.dma_service import get_outcome_for_work_order, work_order_requires_dma_outcome
 
+    if not work_order_requires_dma_outcome(db, work_order_id):
+        return False
     return get_outcome_for_work_order(db, work_order_id) is None
 
 

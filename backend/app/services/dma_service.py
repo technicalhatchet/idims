@@ -565,6 +565,58 @@ def get_outcome_for_work_order(
     )
 
 
+DMA_EXEMPT_ACTIVITY_TYPES = frozenset({"installation", "remote"})
+
+
+def _activity_type_token(value) -> str:
+    if value is None:
+        return ""
+    raw = value.value if hasattr(value, "value") else value
+    return str(raw).strip().lower().replace("-", "_")
+
+
+def collect_work_order_activity_types(work_order: WorkOrder) -> set:
+    """Visit types and catalog service types present on the work order."""
+    types = set()
+    for appt in work_order.appointments or []:
+        token = _activity_type_token(appt.appointment_type)
+        if token:
+            types.add(token)
+    for item in work_order.service_items or []:
+        service = getattr(item, "service", None)
+        if service is not None:
+            token = _activity_type_token(getattr(service, "service_type", None))
+            if token:
+                types.add(token)
+        name = (item.name or "").lower()
+        if "diagnostic" in name:
+            types.add("diagnostic")
+        elif "repair" in name:
+            types.add("repair")
+        elif "install" in name:
+            types.add("installation")
+        elif "remote" in name:
+            types.add("remote")
+    return types
+
+
+def work_order_requires_dma_outcome(db: Session, work_order_id: uuid.UUID) -> bool:
+    """
+    DMA repair outcome is required for diagnostic/repair work.
+    Waived when the order only contains installation and/or remote activity.
+    """
+    from app.services.work_order_completion_service import load_work_order_for_completion_check
+
+    work_order = load_work_order_for_completion_check(db, work_order_id)
+    if not work_order:
+        return True
+    types = collect_work_order_activity_types(work_order)
+    if not types:
+        return True
+    non_exempt = types - DMA_EXEMPT_ACTIVITY_TYPES
+    return bool(non_exempt)
+
+
 _ERROR_CODE_PATTERN = re.compile(
     r"\b(?:"
     r"F\s*\d{1,2}\s*E\s*\d{1,2}|"

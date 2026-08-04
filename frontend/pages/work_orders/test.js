@@ -1,15 +1,72 @@
-import { useState, useCallback, useLayoutEffect, useRef } from 'react';
+import { useState, useCallback, useLayoutEffect, useRef, useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { format } from 'date-fns';
+import { useRouter } from 'next/router';
+import { format, startOfDay, endOfDay, addDays, startOfWeek, endOfWeek } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
-/* Old nav / layout — keep for quick reactivation:
-import DashboardLayout from '../../components/layouts/DashboardLayout';
-*/
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
+import { useTechnicians } from '../../hooks/useTechnicians';
+
+const NAV_SWEEP_MS = 600;
+
+const STATUS_FILTER_OPTIONS = [
+  { value: 'all', label: 'All statuses' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'scheduled', label: 'Scheduled' },
+  { value: 'en_route', label: 'En route' },
+  { value: 'in_progress', label: 'In progress' },
+  { value: 'waiting_on_parts', label: 'Waiting on parts' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'need_to_contact', label: 'Need to contact' },
+];
+
+const SCHEDULE_FILTER_OPTIONS = [
+  { value: 'all', label: 'Any schedule' },
+  { value: 'today', label: 'Today' },
+  { value: 'tomorrow', label: 'Tomorrow' },
+  { value: 'week', label: 'This week' },
+  { value: 'unscheduled', label: 'Unscheduled' },
+];
+
+function scheduleApiRange(preset) {
+  const now = new Date();
+  if (preset === 'today') {
+    return {
+      start_date: startOfDay(now).toISOString(),
+      end_date: endOfDay(now).toISOString(),
+    };
+  }
+  if (preset === 'tomorrow') {
+    const day = addDays(now, 1);
+    return {
+      start_date: startOfDay(day).toISOString(),
+      end_date: endOfDay(day).toISOString(),
+    };
+  }
+  if (preset === 'week') {
+    return {
+      start_date: startOfWeek(now, { weekStartsOn: 0 }).toISOString(),
+      end_date: endOfWeek(now, { weekStartsOn: 0 }).toISOString(),
+    };
+  }
+  return {};
+}
+
+function workOrderSearchHaystack(wo) {
+  const clientName = wo.client?.company_name || wo.client_name
+    || `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim();
+  return [
+    wo.order_number,
+    clientName,
+    wo.description,
+    wo.equipment_make,
+    wo.equipment_model,
+    wo.equipment_serial,
+  ].filter(Boolean).join(' ').toLowerCase();
+}
 
 /** Fractal noise overlay (matches techboard tactical shell) */
 const TACTICAL_NOISE_BG =
@@ -35,35 +92,110 @@ function hudGridShiftForTitleplate(dx, dy, step) {
 }
 
 function Card({ wo }) {
+  const router = useRouter();
+  const [sweeping, setSweeping] = useState(false);
   const clientName = wo.client?.company_name || wo.client_name || `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() || 'No client';
   const schedDate = wo.scheduled_start ? format(new Date(wo.scheduled_start.endsWith('Z') ? wo.scheduled_start : wo.scheduled_start + 'Z'), 'MMM d, yyyy h:mm a') : 'Not scheduled';
   const equipLabel = [wo.equipment_make, wo.equipment_model].filter(Boolean).join(' ') || (wo.equipment_type || '').replace(/_/g, ' ') || 'Unknown appliance';
 
+  const handleOpen = (e) => {
+    e.preventDefault();
+    setSweeping(true);
+    router.prefetch(`/work_orders/${wo.id}/mobile`);
+    setTimeout(() => {
+      router.push(`/work_orders/${wo.id}/mobile`);
+    }, NAV_SWEEP_MS);
+  };
+
   return (
-    <Link href={`/work_orders/${wo.id}/mobile`} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-cyan-500/30 transition-all">
-      <div className="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style={{ background: '#000000', border: '1px solid rgba(255,255,255,0.1)' }}>
-        <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-0.5">
-          <span className="text-sm font-bold text-cyan-400">{wo.order_number}</span>
-          <StatusBadge status={wo.status} />
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={handleOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleOpen(e);
+        }
+      }}
+      className={`ops-wo-card-wrap rounded-lg w-full text-left ${sweeping ? 'tech-sweep-active' : ''}`}
+      style={{ cursor: 'pointer' }}
+      data-techboard-card
+    >
+      <div
+        className="rounded-lg relative overflow-hidden flex items-center gap-3 px-4 py-3 w-full"
+        style={{
+          background: 'rgba(13, 21, 37, 0.25)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(34,211,238,0.35)',
+        }}
+      >
+        <div
+          className="tech-sweep-overlay"
+          style={{
+            background: 'linear-gradient(120deg, transparent 0%, rgba(0, 212, 255, 0.4) 50%, transparent 100%)',
+          }}
+          aria-hidden
+        />
+        <div className="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center relative z-10 tech-icon-wrap" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <ApplianceIcon equipmentType={wo.equipment_type} equipmentSubtype={wo.equipment_subtype} />
         </div>
-        <p className="text-sm font-medium text-white truncate">{clientName}</p>
-        <p className="text-xs text-gray-400 truncate">{equipLabel}</p>
-        <p className="text-xs text-gray-500 mt-0.5">{schedDate}</p>
-        {wo.description && <p className="text-xs text-gray-500 truncate mt-0.5">{wo.description}</p>}
+        <div className="flex-1 min-w-0 relative z-10">
+          <div className="flex justify-between items-start mb-0.5">
+            <span className="text-sm font-bold text-cyan-400">{wo.order_number}</span>
+            <StatusBadge status={wo.status} />
+          </div>
+          <p className="text-sm font-medium text-white truncate">{clientName}</p>
+          <p className="text-xs text-gray-400 truncate">{equipLabel}</p>
+          <p className="text-xs text-gray-500 mt-0.5">{schedDate}</p>
+          {wo.technician_name ? (
+            <p className="text-xs text-gray-500 truncate mt-0.5">Tech: {wo.technician_name}</p>
+          ) : null}
+          {wo.description && <p className="text-xs text-gray-500 truncate mt-0.5">{wo.description}</p>}
+        </div>
+        <div className="flex-shrink-0 text-gray-600 text-xl relative z-10">›</div>
       </div>
-      <div className="flex-shrink-0 text-gray-600 text-xl">›</div>
-    </Link>
+    </div>
   );
 }
 
 export default function WorkOrdersTest() {
-  const { data, isLoading, error } = useWorkOrders({ page: 1, limit: 100 });
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [scheduleFilter, setScheduleFilter] = useState('all');
+  const [technicianFilter, setTechnicianFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const PER_PAGE = 5;
+
+  const scheduleRange = useMemo(
+    () => (scheduleFilter === 'unscheduled' ? {} : scheduleApiRange(scheduleFilter)),
+    [scheduleFilter],
+  );
+
+  const listParams = useMemo(() => ({
+    page: 1,
+    limit: 100,
+    ...(statusFilter !== 'all' ? { status_filter: statusFilter } : {}),
+    ...(technicianFilter !== 'all' && technicianFilter !== 'unassigned'
+      ? { technician_id: technicianFilter }
+      : {}),
+    ...scheduleRange,
+  }), [statusFilter, technicianFilter, scheduleRange]);
+
+  const { data, isLoading, error } = useWorkOrders(listParams);
+  const { data: techniciansData } = useTechnicians({ limit: 100, is_active: true });
+
+  const technicians = techniciansData?.items || techniciansData || [];
+
+  const activeFilterCount = [
+    statusFilter !== 'all',
+    scheduleFilter !== 'all',
+    technicianFilter !== 'all',
+    searchQuery.trim().length > 0,
+  ].filter(Boolean).length;
 
   const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
@@ -95,19 +227,42 @@ export default function WorkOrdersTest() {
     };
   }, [syncHudGridAlignment]);
 
-  const sorted = [...(data?.items || [])].sort((a, b) => {
+  const filtered = useMemo(() => {
+    let items = [...(data?.items || [])];
+    if (scheduleFilter === 'unscheduled') {
+      items = items.filter((wo) => !wo.scheduled_start);
+    }
+    if (technicianFilter === 'unassigned') {
+      items = items.filter((wo) => !wo.assigned_technician_id);
+    }
+    const q = searchQuery.trim().toLowerCase();
+    if (q) {
+      items = items.filter((wo) => workOrderSearchHaystack(wo).includes(q));
+    }
+    return items;
+  }, [data?.items, scheduleFilter, technicianFilter, searchQuery]);
+
+  const sorted = useMemo(() => [...filtered].sort((a, b) => {
     if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
     if (sortBy === 'oldest') return new Date(a.created_at || 0) - new Date(b.created_at || 0);
     if (sortBy === 'status') return (a.status || '').localeCompare(b.status || '');
     return 0;
-  });
+  }), [filtered, sortBy]);
 
-  const totalPages = Math.ceil(sorted.length / PER_PAGE);
+  const totalPages = Math.ceil(sorted.length / PER_PAGE) || 1;
   const paginated = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
-  const count = data?.total || sorted.length;
+  const count = sorted.length;
 
   const handleSort = (val) => {
     setSortBy(val);
+    setPage(1);
+  };
+
+  const resetFilters = () => {
+    setStatusFilter('all');
+    setScheduleFilter('all');
+    setTechnicianFilter('all');
+    setSearchQuery('');
     setPage(1);
   };
 
@@ -183,6 +338,37 @@ export default function WorkOrdersTest() {
           }
           @keyframes sched-hud-scan {
             100% { left: 120%; }
+          }
+          /* Techboard-matched sweep (Next Job card) */
+          .ops-wo-card-wrap .tech-sweep-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+              120deg,
+              transparent 0%,
+              rgba(0, 212, 255, 0.4) 50%,
+              transparent 100%
+            );
+            opacity: 0;
+            transform: translateX(-100%);
+            pointer-events: none;
+            z-index: 5;
+            border-radius: inherit;
+          }
+          .ops-wo-card-wrap.tech-sweep-active .tech-sweep-overlay {
+            opacity: 1;
+            animation: tech-sweep 0.6s ease-out forwards;
+          }
+          .ops-wo-card-wrap.tech-sweep-active > div {
+            border-color: rgba(34, 211, 238, 0.7) !important;
+            box-shadow:
+              0 0 12px rgba(0, 212, 255, 0.6),
+              0 0 30px rgba(0, 212, 255, 0.4),
+              0 0 60px rgba(0, 212, 255, 0.2) !important;
+          }
+          @keyframes tech-sweep {
+            0% { transform: translateX(-100%); opacity: 0.8; }
+            100% { transform: translateX(100%); opacity: 0; }
           }
           /* Omit z-index; TechDashboard icon rail/header use z-index above Leaflet (~1000) */
           header, nav, .header-bar, [class*='h-16'] {
@@ -278,10 +464,10 @@ export default function WorkOrdersTest() {
           </span>
         </Link>
 
-        {/* Filter button — same glow system as New Work Order, orange chroma */}
         <button
           type="button"
-          className="relative w-full py-2.5 mb-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white bg-[#0D1525] border border-orange-400/60 shadow-[0_0_8px_rgba(255,122,0,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden"
+          onClick={() => setFiltersOpen((open) => !open)}
+          className="relative w-full py-2.5 mb-2 rounded-lg flex items-center justify-center gap-2 text-sm font-medium text-white bg-[#0D1525] border border-orange-400/60 shadow-[0_0_8px_rgba(255,122,0,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(255,122,0,0.45)] overflow-hidden"
         >
           <div
             className="absolute inset-0 rounded-lg"
@@ -310,9 +496,70 @@ export default function WorkOrdersTest() {
               textShadow: '0 0 8px rgba(255,122,0,0.6), 0 0 20px rgba(255,122,0,0.3)',
             }}
           >
-            Filters
+            Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
           </span>
         </button>
+
+        {filtersOpen ? (
+          <div className="mb-4 rounded-lg p-3 space-y-3 bg-[#0D1525] border border-white/10">
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+              placeholder="Search order #, client, model…"
+              className="w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-gray-500"
+            />
+            <label className="block">
+              <span className="text-xs text-gray-500 uppercase tracking-wide">Status</span>
+              <select
+                value={statusFilter}
+                onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
+                className="mt-1 w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-white"
+              >
+                {STATUS_FILTER_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-gray-900">{opt.label}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="text-xs text-gray-500 uppercase tracking-wide">Schedule</span>
+              <select
+                value={scheduleFilter}
+                onChange={(e) => { setScheduleFilter(e.target.value); setPage(1); }}
+                className="mt-1 w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-white"
+              >
+                {SCHEDULE_FILTER_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-gray-900">{opt.label}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="text-xs text-gray-500 uppercase tracking-wide">Technician</span>
+              <select
+                value={technicianFilter}
+                onChange={(e) => { setTechnicianFilter(e.target.value); setPage(1); }}
+                className="mt-1 w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-white"
+              >
+                <option value="all" className="bg-gray-900">All technicians</option>
+                <option value="unassigned" className="bg-gray-900">Unassigned</option>
+                {technicians.map((tech) => (
+                  <option key={tech.id} value={tech.id} className="bg-gray-900">
+                    {tech.user?.full_name || tech.name || `Tech ${tech.id?.slice(0, 8)}`}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {activeFilterCount > 0 ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="text-xs font-semibold text-orange-300 hover:text-orange-200"
+              >
+                Clear filters
+              </button>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* Cards container */}
         <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
@@ -340,7 +587,7 @@ export default function WorkOrdersTest() {
           {error && <p className="text-red-400 text-sm px-1">Error loading</p>}
 
           {!isLoading && !error && sorted.length === 0 && (
-            <p className="text-gray-500 text-sm px-1 py-4 text-center">No work orders yet.</p>
+            <p className="text-gray-500 text-sm px-1 py-4 text-center">No work orders match your filters.</p>
           )}
 
           <div className="space-y-2">

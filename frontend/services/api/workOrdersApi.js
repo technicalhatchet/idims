@@ -6,14 +6,15 @@ import { updateWorkOrderStatusOffline } from '../../lib/offlineWrites';
  */
 export async function getWorkOrders(params = {}) {
   console.log('getWorkOrders API function called with params:', params);
-  const { page = 1, limit = 10, status, client_id, technician_id, start_date, end_date } = params;
+  const { page = 1, limit = 10, status, status_filter, client_id, technician_id, start_date, end_date } = params;
   
   // Build query string
   const queryParams = new URLSearchParams();
   queryParams.append('page', page);
   queryParams.append('limit', limit);
   
-  if (status) queryParams.append('status', status);
+  const statusParam = status_filter || status;
+  if (statusParam) queryParams.append('status_filter', statusParam);
   if (client_id) queryParams.append('client_id', client_id);
   if (technician_id) queryParams.append('technician_id', technician_id);
   if (start_date) queryParams.append('start_date', start_date);

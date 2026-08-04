@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.core.exceptions import ConflictException, NotFoundException, ValidationException
 from app.models.work_order import WorkOrder, WorkOrderPart, WorkOrderStatusHistory
 from app.services import work_order_activity_service as activity
-from app.services.dma_service import get_outcome_for_work_order
+from app.services.dma_service import get_outcome_for_work_order, work_order_requires_dma_outcome
 from app.services.work_order_billing_helpers import (
     compute_balance_due,
     compute_net_invoice_total,
@@ -86,11 +86,12 @@ def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, An
         raise NotFoundException(f"Work order with ID {work_order_id} not found")
 
     wo_for_billing = load_work_order_for_completion_check(db, work_order_id) or work_order
-    dma = get_outcome_for_work_order(db, work_order_id)
+    requires_dma = work_order_requires_dma_outcome(db, work_order_id)
+    dma = get_outcome_for_work_order(db, work_order_id) if requires_dma else None
 
     wo_status = activity._status_val(work_order.status)
     checks = {
-        "has_dma_outcome": dma is not None,
+        "has_dma_outcome": dma is not None if requires_dma else True,
         "parts_dispositioned": all_parts_dispositioned(work_order),
         "paid_in_full": is_work_order_paid_in_full(wo_for_billing),
         "status_close_eligible": wo_status in CLOSE_ELIGIBLE_WO_STATUSES,
@@ -105,7 +106,7 @@ def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, An
         blockers.append(f"Work order status is {wo_status}.")
     if not checks["status_close_eligible"]:
         blockers.append("Work order must be completed (or redo) before closing.")
-    if not checks["has_dma_outcome"]:
+    if requires_dma and not checks["has_dma_outcome"]:
         blockers.append("DMA repair outcome is required.")
     if not checks["parts_dispositioned"]:
         blockers.append("All parts must be marked installed or not installed.")
@@ -120,6 +121,7 @@ def build_close_readiness(db: Session, work_order_id: uuid.UUID) -> Dict[str, An
     return {
         "work_order_id": str(work_order_id),
         "is_closed": work_order.is_closed,
+        "dma_outcome_required": requires_dma,
         "can_close": len(blockers) == 0,
         "blockers": blockers,
         "checks": checks,
