@@ -74,6 +74,14 @@ const TACTICAL_NOISE_BG =
 
 const WO_TEST_PAGE_BG = '#0A0F1E';
 
+/** Match techboard glass panels (stat cards, schedule list, etc.) */
+const TECH_GLASS_PANEL_STYLE = {
+  background: 'rgba(13, 21, 37, 0.25)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+  border: '1px solid rgba(255,255,255,0.07)',
+};
+
 /** Match tactical field grid (`bg-[size:42px_42px]`). */
 const HUD_GRID_STEP = 42;
 /** Subpixel / DPR tweak — same as mass / partswait / headertest. */
@@ -501,7 +509,7 @@ export default function WorkOrdersTest() {
         </button>
 
         {filtersOpen ? (
-          <div className="mb-4 rounded-lg p-3 space-y-3 bg-[#0D1525] border border-white/10">
+          <div className="mb-4 rounded-lg p-3 space-y-3" style={TECH_GLASS_PANEL_STYLE}>
             <input
               type="search"
               value={searchQuery}
@@ -561,8 +569,8 @@ export default function WorkOrdersTest() {
           </div>
         ) : null}
 
-        {/* Cards container */}
-        <div className="rounded-lg p-3" style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
+        {/* Cards container — techboard glass panel */}
+        <div className="rounded-lg p-4 mb-4" style={TECH_GLASS_PANEL_STYLE} data-hud-card>
           {/* Container header */}
           <div className="flex justify-between items-center mb-3 px-1">
             <span className="text-sm font-medium text-gray-300">{count} Work Orders</span>

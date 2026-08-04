@@ -305,6 +305,67 @@ function CriticalMassCard({ count }) {
   );
 }
 
+// ── Master Ops List (admin) — sweep + navigate to full ops list ─────────────
+function MasterOpsListCard({ total, today }) {
+  const [sweeping, setSweeping] = useState(false);
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setSweeping(true);
+    router.prefetch('/work_orders/test');
+    setTimeout(() => {
+      router.push('/work_orders/test');
+    }, 600);
+  };
+
+  return (
+    <div
+      className={`tech-glass-card tech-hover-lift mb-4 ${sweeping ? 'tech-sweep-active' : ''}`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+      data-techboard-card
+    >
+      <div
+        className="relative rounded-lg overflow-hidden"
+        style={{
+          background: 'rgba(13, 21, 37, 0.25)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(34,211,238,0.35)',
+        }}
+      >
+        <div
+          className="tech-sweep-overlay"
+          style={{
+            background: sweeping
+              ? 'linear-gradient(120deg, transparent 0%, rgba(0, 212, 255, 0.4) 50%, transparent 100%)'
+              : undefined,
+          }}
+        />
+        <div className="relative z-10 p-4">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-base font-bold text-white">Master Ops List</h2>
+            <span className="text-xs text-cyan-400 flex items-center gap-1">
+              Open list
+              <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </span>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4">
+            <p className="text-2xl font-bold text-white">{total}</p>
+            <p className="text-xs text-gray-400 mt-1">open work orders · tap for full ops board</p>
+            {today > 0 && (
+              <p className="text-xs text-cyan-400/80 mt-1">+{today} scheduled today</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Next Job Card (flat spotlight + link to work order mobile + sweep on tap) ───────────────
 function NextJobCard({ job, onAppointmentStatusChange, techFirstName, driveSecondsToJob }) {
   const jobStatus = normalizeWorkOrderStatus(job.status);
@@ -1419,25 +1480,7 @@ export default function TechDashboardTest() {
 
           {/* ── MASTER OPS LIST (admin only) ── */}
           {isAdmin && (
-            <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-base font-bold text-white">Master Ops List</h2>
-                <Link href="/work_orders/test" className="text-xs text-cyan-400 flex items-center gap-1">
-                  Open list
-                  <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
-                </Link>
-              </div>
-              <Link
-                href="/work_orders/test"
-                className="block rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4 active:bg-white/[0.06] transition-colors"
-              >
-                <p className="text-2xl font-bold text-white">{workOrderStats.total}</p>
-                <p className="text-xs text-gray-400 mt-1">open work orders · tap for full ops board</p>
-                {workOrderStats.today > 0 && (
-                  <p className="text-xs text-cyan-400/80 mt-1">+{workOrderStats.today} scheduled today</p>
-                )}
-              </Link>
-            </div>
+            <MasterOpsListCard total={workOrderStats.total} today={workOrderStats.today} />
           )}
         </div>
       </div>
