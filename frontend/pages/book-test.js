@@ -16,11 +16,21 @@ function isErrorCodeSymptom(issue) {
   return typeof issue === 'string' && issue !== 'other' && /error code/i.test(issue);
 }
 
-function buildBookingIssueText({ issue, customIssue, errorCode, issueDescription }) {
+function buildBookingIssueText({
+  issue,
+  customIssue,
+  errorCode,
+  issueDescription,
+  additionalIssues = [],
+}) {
   const base = issue === 'other' ? customIssue.trim() : issue;
   if (!base) return '';
 
   const extras = [];
+  const also = (additionalIssues || []).filter((s) => s && s !== base);
+  if (also.length) {
+    extras.push(`Also: ${also.join(', ')}`);
+  }
   if (isErrorCodeSymptom(issue) && errorCode?.trim()) {
     extras.push(`Code: ${errorCode.trim().toUpperCase()}`);
   }
@@ -71,6 +81,7 @@ export default function BookService() {
     customAppliance: '',
     issue: '',
     customIssue: '',
+    additionalIssues: [],
     errorCode: '',
     issueDescription: '',
     time: '',
@@ -192,11 +203,15 @@ export default function BookService() {
       if (field === 'appliance') {
         next.issue = '';
         next.customIssue = '';
+        next.additionalIssues = [];
         next.errorCode = '';
         next.issueDescription = '';
       }
-      if (field === 'issue' && !isErrorCodeSymptom(value)) {
-        next.errorCode = '';
+      if (field === 'issue') {
+        if (!isErrorCodeSymptom(value)) {
+          next.errorCode = '';
+        }
+        next.additionalIssues = (prev.additionalIssues || []).filter((s) => s !== value);
       }
       if (field === 'address') {
         setPricingEstimate(null);
@@ -207,6 +222,17 @@ export default function BookService() {
   };
 
   const symptomOptions = getBookingSymptomsForAppliance(formData.appliance);
+
+  const toggleAdditionalIssue = (symptom) => {
+    if (!symptom || symptom === formData.issue) return;
+    setFormData((prev) => {
+      const current = prev.additionalIssues || [];
+      const next = current.includes(symptom)
+        ? current.filter((s) => s !== symptom)
+        : [...current, symptom];
+      return { ...prev, additionalIssues: next };
+    });
+  };
 
   const canProceed = () => {
     switch (currentStep) {
@@ -527,8 +553,13 @@ export default function BookService() {
 
                   {/* Step 2: Issue Selection */}
                   {currentStep === 2 && (
-                    <div className="space-y-3">
-                      <div className="flex flex-wrap gap-2">
+                    <div className="space-y-4">
+                      <p className="text-sm text-gray-500 -mt-2 mb-1">
+                        Tap your <span className="text-gray-400">main</span> symptom first. Add others if needed, then use the description for anything we missed.
+                      </p>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Main symptom</p>
+                        <div className="flex flex-wrap gap-2">
                         {symptomOptions.map((symptom) => {
                           const selected = formData.issue === symptom;
                           return (
@@ -561,7 +592,45 @@ export default function BookService() {
                         >
                           Other issue
                         </motion.button>
+                        </div>
                       </div>
+
+                      <AnimatePresence>
+                        {formData.issue && formData.issue !== 'other' && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">
+                              Also noticing? <span className="normal-case font-normal text-gray-600">(optional)</span>
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {symptomOptions
+                                .filter((symptom) => symptom !== formData.issue)
+                                .map((symptom) => {
+                                  const selected = (formData.additionalIssues || []).includes(symptom);
+                                  return (
+                                    <motion.button
+                                      key={`also-${symptom}`}
+                                      type="button"
+                                      onClick={() => toggleAdditionalIssue(symptom)}
+                                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${
+                                        selected
+                                          ? 'bg-orange-500/15 text-orange-100 border-orange-400/45'
+                                          : 'bg-white/[0.03] text-gray-400 border-white/10 hover:bg-white/10 hover:border-white/20'
+                                      }`}
+                                      whileTap={{ scale: 0.98 }}
+                                    >
+                                      {selected ? '✓ ' : ''}{symptom}
+                                    </motion.button>
+                                  );
+                                })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
 
                       {/* Custom issue input when "Other" is selected */}
                       <AnimatePresence>
@@ -622,14 +691,14 @@ export default function BookService() {
                           >
                             <div className="pt-1">
                               <label className="block text-xs text-gray-400 mb-1.5">
-                                {formData.issue === 'other' ? 'Additional details' : 'Description'}
+                                {formData.issue === 'other' ? 'Additional details' : 'More in your own words'}
                                 {' '}
                                 <span className="text-gray-600">(optional)</span>
                               </label>
                               <textarea
                                 value={formData.issueDescription}
                                 onChange={(e) => updateFormData('issueDescription', e.target.value)}
-                                placeholder="Anything else we should know?"
+                                placeholder="Timing, sounds, what you’ve already tried, or anything the chips don’t cover…"
                                 rows={2}
                                 maxLength={500}
                                 className={`${issueFieldClass} resize-none`}
