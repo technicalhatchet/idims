@@ -50,6 +50,17 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+WORK_ORDER_EQUIPMENT_SYNC_FIELDS = frozenset({
+    "equipment_make",
+    "equipment_model",
+    "equipment_serial",
+    "equipment_version",
+    "equipment_type",
+    "equipment_subtype",
+    "is_wall_mounted",
+    "equipment_notes",
+})
+
 
 def _normalize_appointment_start(dt: Optional[datetime]) -> Optional[datetime]:
     if dt is None:
@@ -373,7 +384,11 @@ class WorkOrderService:
                 )
             except Exception as tax_err:
                 logger.warning("Could not auto-set tax rate: %s", tax_err)
-            
+
+            from app.services import client_appliance_service as appliance_svc
+
+            appliance_svc.sync_work_order_equipment_to_registry(db, work_order)
+
             if commit:
                 db.commit()
                 db.refresh(work_order)
@@ -566,7 +581,12 @@ class WorkOrderService:
                 if tech and tech.user:
                     tech_name = activity.get_user_display_name(tech.user)
                 activity.log_work_order_assigned(db, work_order.id, actor_id, tech_name)
-            
+
+            if WORK_ORDER_EQUIPMENT_SYNC_FIELDS & set(update_data.keys()):
+                from app.services import client_appliance_service as appliance_svc
+
+                appliance_svc.sync_work_order_equipment_to_registry(db, work_order)
+
             db.commit()
             db.refresh(work_order)
             

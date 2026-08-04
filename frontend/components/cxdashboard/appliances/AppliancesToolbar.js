@@ -1,4 +1,4 @@
-import { FaSearch, FaThList, FaTh } from 'react-icons/fa';
+import { FaSearch, FaThList, FaTh, FaHistory } from 'react-icons/fa';
 import { SORT_OPTIONS, STATUS_FILTERS } from './appliancesPageUtils';
 
 const selectClass =
@@ -19,6 +19,8 @@ export default function AppliancesToolbar({
   onViewModeChange,
   propertyOptions,
   typeOptions,
+  onFindFromHistory,
+  historySuggestionCount = 0,
 }) {
   return (
     <div className="flex flex-col lg:flex-row lg:items-center gap-3">
@@ -87,6 +89,23 @@ export default function AppliancesToolbar({
             </option>
           ))}
         </select>
+
+        {onFindFromHistory ? (
+          <button
+            type="button"
+            onClick={onFindFromHistory}
+            className="h-9 px-3 rounded-lg border border-white/10 bg-white/[0.03] text-xs font-semibold text-gray-300 hover:text-white inline-flex items-center gap-1.5 shrink-0"
+            title="Find appliances from past work orders"
+          >
+            <FaHistory className="w-3 h-3" />
+            Service history
+            {historySuggestionCount > 0 ? (
+              <span className="min-w-[1.125rem] h-[1.125rem] px-1 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-bold inline-flex items-center justify-center">
+                {historySuggestionCount}
+              </span>
+            ) : null}
+          </button>
+        ) : null}
 
         <div className="flex rounded-lg border border-white/10 overflow-hidden shrink-0">
           <button

@@ -87,7 +87,14 @@ function CandidateRow({ item, selected, onToggle, onChange }) {
   );
 }
 
-export default function ApplianceImportModal({ candidates, onConfirm, onSkip, submitting }) {
+export default function ApplianceImportModal({
+  candidates,
+  onConfirm,
+  onSkip,
+  submitting,
+  mode = 'onboarding',
+}) {
+  const isOnboarding = mode === 'onboarding';
   const [items, setItems] = useState(() => candidates.map((c) => ({ ...c, selected: true })));
 
   const mergeGroups = useMemo(() => {
@@ -139,9 +146,13 @@ export default function ApplianceImportModal({ candidates, onConfirm, onSkip, su
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <div>
-            <h2 style={{ color: '#fff', margin: 0, fontSize: '1.25rem' }}>Import your appliances</h2>
+            <h2 style={{ color: '#fff', margin: 0, fontSize: '1.25rem' }}>
+              {isOnboarding ? 'Import your appliances' : 'Add from service history'}
+            </h2>
             <p style={{ color: '#6b7280', fontSize: '0.875rem', margin: '0.25rem 0 0' }}>
-              We found these from your service history. Confirm or edit before saving.
+              {isOnboarding
+                ? 'We found these from your service history. Confirm or edit before saving.'
+                : 'These appliances were found on past work orders. Select what to add to your account.'}
             </p>
           </div>
           <button type="button" onClick={onSkip} style={{ color: '#6b7280', background: 'none', border: 'none' }}>
@@ -193,7 +204,7 @@ export default function ApplianceImportModal({ candidates, onConfirm, onSkip, su
               border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: '#9ca3af',
             }}
           >
-            Skip for now
+            {isOnboarding ? 'Skip for now' : 'Cancel'}
           </button>
           <button
             type="button"

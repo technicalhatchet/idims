@@ -2691,8 +2691,11 @@ async def update_work_order_equipment(
     work_order.updated_at = datetime.utcnow()
 
     from app.services import work_order_activity_service as activity
+    from app.services import client_appliance_service as appliance_svc
+
     activity.log_equipment_updated(db, work_order_id, current_user.id)
-    
+    appliance_svc.sync_work_order_equipment_to_registry(db, work_order)
+
     db.add(work_order)
     db.commit()
     db.refresh(work_order)

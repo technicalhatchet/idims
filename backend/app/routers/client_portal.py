@@ -1161,8 +1161,18 @@ async def get_portal_appliance_import_candidates(
         return {"completed": True, "candidates": []}
     return {
         "completed": False,
-        "candidates": appliance_svc.build_import_candidates(db, client.id),
+        "candidates": appliance_svc.build_import_suggestions(db, client.id),
     }
+
+
+@router.get("/portal/appliances/suggestions")
+async def get_portal_appliance_suggestions(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    """Net-new appliances from service history (post-onboarding)."""
+    candidates = appliance_svc.build_import_suggestions(db, client.id)
+    return {"count": len(candidates), "candidates": candidates}
 
 
 @router.post("/portal/appliances/import/skip")

@@ -7,6 +7,7 @@ import ApplianceFormModal from '../../components/cxdashboard/ApplianceFormModal'
 import AppliancesSummaryCards from '../../components/cxdashboard/appliances/AppliancesSummaryCards';
 import AppliancesToolbar from '../../components/cxdashboard/appliances/AppliancesToolbar';
 import PropertyApplianceSection from '../../components/cxdashboard/appliances/PropertyApplianceSection';
+import AppliancesSuggestionsBanner from '../../components/cxdashboard/appliances/AppliancesSuggestionsBanner';
 import {
   computeSummary,
   filterAppliances,
@@ -41,6 +42,9 @@ export default function AppliancesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [importCandidates, setImportCandidates] = useState(null);
+  const [serviceHistoryCandidates, setServiceHistoryCandidates] = useState([]);
+  const [showHistoryImport, setShowHistoryImport] = useState(false);
+  const [suggestionsBannerDismissed, setSuggestionsBannerDismissed] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [editingAppliance, setEditingAppliance] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -57,9 +61,10 @@ export default function AppliancesPage() {
     const token = await getPortalSessionToken();
     if (!token) throw new Error('Not signed in');
 
-    const [applianceData, importData, propertyData, me] = await Promise.all([
+    const [applianceData, importData, suggestionData, propertyData, me] = await Promise.all([
       portalFetch('appliances', token),
       portalFetch('appliances/import/candidates', token),
+      portalFetch('appliances/suggestions', token).catch(() => ({ count: 0, candidates: [] })),
       portalFetch('properties', token).catch(() => []),
       portalFetch('me', token).catch(() => null),
     ]);
@@ -67,6 +72,7 @@ export default function AppliancesPage() {
     setAppliances(Array.isArray(applianceData) ? applianceData : []);
     setProperties(Array.isArray(propertyData) ? propertyData : []);
     setProfile(me);
+    setServiceHistoryCandidates(Array.isArray(suggestionData?.candidates) ? suggestionData.candidates : []);
 
     if (!importData.completed && (importData.candidates || []).length > 0) {
       setImportCandidates(importData.candidates);
@@ -176,6 +182,8 @@ export default function AppliancesPage() {
       };
       await portalFetch('appliances/import/confirm', token, { method: 'POST', body: JSON.stringify(payload) });
       setImportCandidates(null);
+      setShowHistoryImport(false);
+      setSuggestionsBannerDismissed(false);
       await loadData();
     } catch (err) {
       setError(err.message);
@@ -245,6 +253,14 @@ export default function AppliancesPage() {
     }
   };
 
+  const handleFindFromHistory = () => {
+    if (serviceHistoryCandidates.length === 0) {
+      window.alert('No new appliances were found in your service history right now.');
+      return;
+    }
+    setShowHistoryImport(true);
+  };
+
   const singlePropertyMode = propertyGroups.length === 1;
   const selfSchedulingAllowed = !!profile?.self_scheduling_allowed;
 
@@ -274,6 +290,14 @@ export default function AppliancesPage() {
           </div>
         ) : null}
 
+        {!importCandidates && !suggestionsBannerDismissed && serviceHistoryCandidates.length > 0 ? (
+          <AppliancesSuggestionsBanner
+            count={serviceHistoryCandidates.length}
+            onReview={() => setShowHistoryImport(true)}
+            onDismiss={() => setSuggestionsBannerDismissed(true)}
+          />
+        ) : null}
+
         {!loading && appliances.length > 0 ? (
           <>
             <AppliancesSummaryCards summary={summary} />
@@ -292,6 +316,8 @@ export default function AppliancesPage() {
               onViewModeChange={setViewMode}
               propertyOptions={propertyOptions}
               typeOptions={typeOptions}
+              onFindFromHistory={handleFindFromHistory}
+              historySuggestionCount={serviceHistoryCandidates.length}
             />
           </>
         ) : null}
@@ -341,10 +367,21 @@ export default function AppliancesPage() {
 
       {importCandidates ? (
         <ApplianceImportModal
+          mode="onboarding"
           candidates={importCandidates}
           submitting={submitting}
           onConfirm={handleImportConfirm}
           onSkip={handleImportSkip}
+        />
+      ) : null}
+
+      {showHistoryImport && serviceHistoryCandidates.length > 0 ? (
+        <ApplianceImportModal
+          mode="suggestions"
+          candidates={serviceHistoryCandidates}
+          submitting={submitting}
+          onConfirm={handleImportConfirm}
+          onSkip={() => setShowHistoryImport(false)}
         />
       ) : null}
 

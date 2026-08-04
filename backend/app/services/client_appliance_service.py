@@ -177,6 +177,179 @@ def _property_payload(prop: Optional[Property], wo: WorkOrder) -> Optional[Dict[
     return None
 
 
+def _active_client_appliances(db: Session, client_id: UUID) -> List[ClientAppliance]:
+    return (
+        db.query(ClientAppliance)
+        .filter(
+            ClientAppliance.client_id == client_id,
+            ClientAppliance.is_active.is_(True),
+            ClientAppliance.merged_into_id.is_(None),
+        )
+        .all()
+    )
+
+
+def _candidate_covered_by_registry(
+    db: Session,
+    client_id: UUID,
+    candidate: Dict[str, Any],
+    appliances: List[ClientAppliance],
+) -> bool:
+    """True if this import candidate is already represented in the registry."""
+    serial = _norm(candidate.get("serial"))
+    if serial:
+        for appliance in appliances:
+            if _norm(appliance.serial) == serial:
+                return True
+
+    work_order_ids = candidate.get("work_order_ids") or []
+    work_orders: List[WorkOrder] = []
+    for raw_id in work_order_ids:
+        try:
+            parsed = UUID(str(raw_id))
+        except (TypeError, ValueError):
+            continue
+        wo = (
+            db.query(WorkOrder)
+            .filter(WorkOrder.id == parsed, WorkOrder.client_id == client_id)
+            .first()
+        )
+        if wo:
+            work_orders.append(wo)
+
+    if work_orders and all(wo.appliance_id for wo in work_orders):
+        return True
+
+    if work_orders:
+        latest = max(work_orders, key=lambda w: w.created_at or datetime.min)
+        for appliance in appliances:
+            if _wo_matches_appliance(latest, appliance):
+                return True
+
+    return False
+
+
+def filter_unregistered_import_candidates(
+    db: Session,
+    client_id: UUID,
+    candidates: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
+    appliances = _active_client_appliances(db, client_id)
+    if not appliances:
+        return candidates
+    return [c for c in candidates if not _candidate_covered_by_registry(db, client_id, c, appliances)]
+
+
+def build_import_suggestions(db: Session, client_id: UUID) -> List[Dict[str, Any]]:
+    """Work-order import candidates not yet in the client appliance registry."""
+    raw = build_import_candidates(db, client_id)
+    return filter_unregistered_import_candidates(db, client_id, raw)
+
+
+def _can_auto_create_registry_from_wo(wo: WorkOrder) -> bool:
+    if _norm(wo.equipment_serial):
+        return True
+    if _norm(wo.equipment_make) and _norm(wo.equipment_model):
+        return True
+    if _norm(wo.equipment_subtype) and _norm(wo.equipment_make):
+        return True
+    return False
+
+
+def _copy_wo_equipment_to_appliance(appliance: ClientAppliance, wo: WorkOrder) -> None:
+    """Refresh registry fields from work order when WO has values (do not clear registry)."""
+    if wo.equipment_type and str(wo.equipment_type).strip():
+        appliance.equipment_type = wo.equipment_type
+    if wo.equipment_subtype and str(wo.equipment_subtype).strip():
+        appliance.equipment_subtype = wo.equipment_subtype
+    if wo.equipment_make and str(wo.equipment_make).strip():
+        appliance.make = wo.equipment_make
+    if wo.equipment_model and str(wo.equipment_model).strip():
+        appliance.model = wo.equipment_model
+    if wo.equipment_serial and str(wo.equipment_serial).strip():
+        appliance.serial = wo.equipment_serial
+    if wo.equipment_version and str(wo.equipment_version).strip():
+        appliance.equipment_version = wo.equipment_version
+    appliance.is_wall_mounted = bool(wo.is_wall_mounted)
+
+
+def find_matching_appliance_for_work_order(
+    db: Session,
+    client_id: UUID,
+    wo: WorkOrder,
+) -> Optional[ClientAppliance]:
+    if wo.appliance_id:
+        linked = (
+            db.query(ClientAppliance)
+            .filter(
+                ClientAppliance.id == wo.appliance_id,
+                ClientAppliance.client_id == client_id,
+                ClientAppliance.is_active.is_(True),
+                ClientAppliance.merged_into_id.is_(None),
+            )
+            .first()
+        )
+        if linked:
+            return linked
+
+    serial = _norm(wo.equipment_serial)
+    if serial:
+        for appliance in _active_client_appliances(db, client_id):
+            if _norm(appliance.serial) == serial:
+                return appliance
+
+    for appliance in _active_client_appliances(db, client_id):
+        if _wo_matches_appliance(wo, appliance):
+            return appliance
+
+    return None
+
+
+def sync_work_order_equipment_to_registry(
+    db: Session,
+    wo: WorkOrder,
+    *,
+    create_if_missing: bool = True,
+) -> Optional[ClientAppliance]:
+    """
+    Link work order equipment to client_appliances: update matches, optionally create new rows.
+    Call after work order equipment fields are saved (same transaction).
+    """
+    if not wo.client_id or not _has_equipment_signal(wo):
+        return None
+
+    appliance = find_matching_appliance_for_work_order(db, wo.client_id, wo)
+    if appliance:
+        _copy_wo_equipment_to_appliance(appliance, wo)
+        if wo.property_id and not appliance.property_id:
+            appliance.property_id = wo.property_id
+        if not wo.appliance_id:
+            wo.appliance_id = appliance.id
+        appliance.updated_at = utcnow_naive()
+        return appliance
+
+    if not create_if_missing or not _can_auto_create_registry_from_wo(wo):
+        return None
+
+    eq_type = (wo.equipment_type or "").strip() or "appliance"
+    appliance = ClientAppliance(
+        client_id=wo.client_id,
+        property_id=wo.property_id,
+        equipment_type=eq_type,
+        equipment_subtype=wo.equipment_subtype,
+        make=wo.equipment_make,
+        model=wo.equipment_model,
+        serial=wo.equipment_serial,
+        equipment_version=wo.equipment_version,
+        is_wall_mounted=bool(wo.is_wall_mounted),
+        source="work_order_sync",
+    )
+    db.add(appliance)
+    db.flush()
+    wo.appliance_id = appliance.id
+    return appliance
+
+
 def build_import_candidates(db: Session, client_id: UUID) -> List[Dict[str, Any]]:
     work_orders = (
         db.query(WorkOrder)
