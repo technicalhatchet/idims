@@ -929,8 +929,6 @@ function WorkOrderDetail() {
                 </div>
               )}
               
-              <WorkOrderPerformancePanel workOrderId={workOrder.id} variant="mobile" />
-
               {/* Services and Items */}
               {(allServices?.length > 0 || workOrder.parts?.length > 0) && (
                 <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
@@ -1071,6 +1069,8 @@ function WorkOrderDetail() {
                   </div>
                 </div>
               )}
+
+              <WorkOrderPerformancePanel workOrderId={workOrder.id} variant="mobile" />
 
               <WorkOrderDebriefing workOrderId={workOrder.id} variant="mobile" />
             </>
