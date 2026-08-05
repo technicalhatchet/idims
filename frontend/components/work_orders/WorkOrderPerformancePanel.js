@@ -43,7 +43,7 @@ function MetricBlock({ label, value, sub, toneClass, labelClass, valueClass }) {
   );
 }
 
-export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desktop' }) {
+export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desktop', embedded = false }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -95,9 +95,11 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
     callback?.recorded ||
     accessFailures?.count > 0;
 
-  const cardClass = isMobile
-    ? 'rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden mb-4'
-    : 'bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-4';
+  const cardClass = embedded
+    ? ''
+    : isMobile
+      ? 'rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden mb-4'
+      : 'bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-4';
 
   const labelClass = isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400';
   const valueClass = isMobile ? 'text-white' : 'text-gray-900 dark:text-white';
@@ -111,26 +113,23 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
     ? 'flex justify-between items-center text-sm border border-white/10 rounded-lg px-3 py-2'
     : 'flex justify-between items-center text-sm border border-gray-200 dark:border-gray-700 rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700/50';
 
-  return (
-    <div>
-      <h3 className={`${titleClass} mb-2`}>Performance</h3>
-      <div className={cardClass}>
-        <div className="px-4 py-4 sm:px-6">
-          {loading && (
-            <p className={`text-sm ${labelClass}`}>Loading performance…</p>
-          )}
-          {!loading && error && (
-            <p className="text-sm text-red-400">{error}</p>
-          )}
-          {!loading && !error && !hasContent && (
-            <p className={`text-sm ${labelClass}`}>
-              Metrics are recorded as visits progress — on-site time, travel, schedule adherence, and outcomes.
-            </p>
-          )}
-          {!loading && !error && hasContent && (
-            <>
-              {/* On-site */}
-              <p className={`text-xs font-semibold uppercase tracking-wide mb-3 ${labelClass}`}>On-site time</p>
+  const body = (
+    <>
+      {loading && (
+        <p className={`text-sm ${labelClass}`}>Loading performance…</p>
+      )}
+      {!loading && error && (
+        <p className="text-sm text-red-400">{error}</p>
+      )}
+      {!loading && !error && !hasContent && (
+        <p className={`text-sm ${labelClass}`}>
+          Metrics are recorded as visits progress — on-site time, travel, schedule adherence, and outcomes.
+        </p>
+      )}
+      {!loading && !error && hasContent && (
+        <>
+          {/* On-site */}
+          <p className={`text-xs font-semibold uppercase tracking-wide mb-3 ${labelClass}`}>On-site time</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-3">
                 <MetricBlock
                   label="Total on-site"
@@ -312,8 +311,19 @@ export default function WorkOrderPerformancePanel({ workOrderId, variant = 'desk
               )}
             </>
           )}
+    </>
+  );
+
+  return (
+    <div>
+      {!embedded && <h3 className={`${titleClass} mb-2`}>Performance</h3>}
+      {cardClass ? (
+        <div className={cardClass}>
+          <div className="px-4 py-4 sm:px-6">{body}</div>
         </div>
-      </div>
+      ) : (
+        <div className="pt-1">{body}</div>
+      )}
     </div>
   );
 }

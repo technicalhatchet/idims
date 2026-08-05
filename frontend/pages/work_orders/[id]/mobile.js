@@ -30,6 +30,11 @@ import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
 import PortalSchedulingApprovalBar from '../../../components/work_orders/PortalSchedulingApprovalBar';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
+import WoMobileGlassSection, {
+  WO_MOBILE_FIELD_LABEL,
+  WO_MOBILE_FIELD_VALUE,
+  WO_MOBILE_SECTION_LABEL,
+} from '../../../components/work_orders/WoMobileGlassSection';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
@@ -140,8 +145,16 @@ function WorkOrderDetail() {
   const [showRecordPayment, setShowRecordPayment] = useState(false);
   const [showDocumentPdf, setShowDocumentPdf] = useState(false);
   const [fieldPayments, setFieldPayments] = useState([]);
-  const [showServiceProperty, setShowServiceProperty] = useState(false);
-  const [showAllProperties, setShowAllProperties] = useState(false);
+  const [glassSectionsOpen, setGlassSectionsOpen] = useState({
+    detailsWorkOrder: true,
+    detailsTenant: false,
+    detailsServices: false,
+    detailsPerformance: false,
+    clientInfo: true,
+    clientServiceProperty: false,
+    clientAllProperties: false,
+    clientOtherOrders: false,
+  });
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
   const [notesAddNoteType, setNotesAddNoteType] = useState(null);
   const [showNoteTypePicker, setShowNoteTypePicker] = useState(false);
@@ -354,6 +367,46 @@ function WorkOrderDetail() {
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
+
+  const toggleGlassSection = useCallback((key) => {
+    setGlassSectionsOpen((prev) => ({ ...prev, [key]: !prev[key] }));
+  }, []);
+
+  const detailsWorkOrderSummary = useMemo(() => {
+    const client =
+      workOrder?.client?.company_name ||
+      workOrder?.client_name ||
+      `${workOrder?.client?.first_name || ''} ${workOrder?.client?.last_name || ''}`.trim();
+    const addr = workOrder ? resolveWorkOrderServiceAddress(workOrder) : null;
+    return client || addr || 'Order summary';
+  }, [workOrder]);
+
+  const detailsTenantSummary = useMemo(() => {
+    const prop = workOrder?.property;
+    if (!prop) return '';
+    return (
+      [prop.unit_number && `Unit ${prop.unit_number}`, prop.gate_code && `Gate ${prop.gate_code}`, prop.tenant_name]
+        .filter(Boolean)[0] || 'Access details'
+    );
+  }, [workOrder?.property]);
+
+  const detailsServicesSummary = useMemo(() => {
+    const s = allServices?.length || 0;
+    const p = workOrder?.parts?.length || 0;
+    if (!s && !p) return 'No line items';
+    return [
+      s ? `${s} service${s === 1 ? '' : 's'}` : null,
+      p ? `${p} part${p === 1 ? '' : 's'}` : null,
+    ]
+      .filter(Boolean)
+      .join(', ');
+  }, [allServices, workOrder?.parts]);
+
+  const clientInfoSummary = useMemo(() => {
+    const name = `${workOrder?.client_user?.first_name || workOrder?.client?.first_name || ''} ${workOrder?.client_user?.last_name || workOrder?.client?.last_name || ''}`.trim();
+    return name || workOrder?.client?.company_name || 'Client profile';
+  }, [workOrder]);
+
   const billingTotals = useMemo(
     () => computeMobileBillingTotals(workOrder, allServices, halfDiagnosticDiscount),
     [workOrder, allServices, halfDiagnosticDiscount]
@@ -814,19 +867,18 @@ function WorkOrderDetail() {
         {/* Tab Content */}
         <div className="min-w-0">
           {/* Details Tab */}
-          <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)}>
+          <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)} className="px-1 py-2 space-y-3 min-w-0">
           <>
-              {/* Work Order Detail Card */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
-                <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                  <h2 className="text-lg font-medium text-gray-900 dark:text-white">Work Order Details</h2>
-                </div>
-                
-                <div className="px-6 py-5">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+              <WoMobileGlassSection
+                title="Work Order Details"
+                summary={detailsWorkOrderSummary}
+                isOpen={glassSectionsOpen.detailsWorkOrder}
+                onToggle={() => toggleGlassSection('detailsWorkOrder')}
+              >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-4">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Client</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                      <h3 className={WO_MOBILE_FIELD_LABEL}>Client</h3>
+                      <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>
                         {workOrder.client?.company_name || workOrder.client_name || 
                         `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim() || 
                         'No client assigned'}
@@ -834,58 +886,57 @@ function WorkOrderDetail() {
                     </div>
                     
                     <div className="md:col-span-2">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Appointments</h3>
+                      <h3 className={WO_MOBILE_FIELD_LABEL}>Appointments</h3>
                       <WorkOrderDetailsAppointmentsList appointments={workOrder.appointments} />
                     </div>
                     
                     {workOrder.priority && workOrder.priority !== 'medium' && (
                       <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Priority</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">{workOrder.priority}</p>
+                        <h3 className={WO_MOBILE_FIELD_LABEL}>Priority</h3>
+                        <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE} capitalize`}>{workOrder.priority}</p>
                       </div>
                     )}
                     
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Service Location</h3>
+                      <h3 className={WO_MOBILE_FIELD_LABEL}>Service Location</h3>
                       <MapsAddressLink address={resolvedServiceAddress} />
                     </div>
                     
                     <div className="md:col-span-2">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Description</h3>
-                      <p className="mt-1 text-sm text-gray-900 dark:text-white whitespace-pre-line">{workOrder.description || 'No description provided'}</p>
+                      <h3 className={WO_MOBILE_FIELD_LABEL}>Description</h3>
+                      <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE} whitespace-pre-line`}>{workOrder.description || 'No description provided'}</p>
                     </div>
                   </div>
-                </div>
-              </div>
+              </WoMobileGlassSection>
               
               {/* Tenant & Property Access */}
               {workOrder.property && (workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number || workOrder.property.gate_code || workOrder.property.access_instructions) && (
-                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
-                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Tenant & Property Access</h2>
-                  </div>
-                  
-                  <div className="px-6 py-5">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                <WoMobileGlassSection
+                  title="Tenant & Property Access"
+                  summary={detailsTenantSummary}
+                  isOpen={glassSectionsOpen.detailsTenant}
+                  onToggle={() => toggleGlassSection('detailsTenant')}
+                >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-4">
                       {/* Tenant Contact - Lead Information */}
                       {(workOrder.property.tenant_name || workOrder.property.tenant_phone) && (
                         <div className="md:col-span-2">
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Tenant / Contact at Property</h3>
+                          <h3 className={`${WO_MOBILE_SECTION_LABEL} mb-3`}>Tenant / Contact at Property</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {workOrder.property.tenant_name && (
                               <div>
-                                <h4 className="text-xs text-gray-500 dark:text-gray-400">Name</h4>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white font-medium">
+                                <h4 className={WO_MOBILE_FIELD_LABEL}>Name</h4>
+                                <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE} font-medium`}>
                                   {workOrder.property.tenant_name}
                                 </p>
                               </div>
                             )}
                             {workOrder.property.tenant_phone && (
                               <div>
-                                <h4 className="text-xs text-gray-500 dark:text-gray-400">Phone</h4>
+                                <h4 className={WO_MOBILE_FIELD_LABEL}>Phone</h4>
                                 <a 
                                   href={`tel:${workOrder.property.tenant_phone}`}
-                                  className="mt-1 text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium inline-block"
+                                  className="mt-1 text-sm text-cyan-400 hover:underline font-medium inline-block"
                                 >
                                   {workOrder.property.tenant_phone}
                                 </a>
@@ -895,52 +946,48 @@ function WorkOrderDetail() {
                         </div>
                       )}
                       
-                      {/* Unit Number */}
                       {workOrder.property.unit_number && (
-                        <div className={`${(workOrder.property.tenant_name || workOrder.property.tenant_phone) ? 'md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700' : ''}`}>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Unit Number</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        <div className={`${(workOrder.property.tenant_name || workOrder.property.tenant_phone) ? 'md:col-span-2 pt-4 border-t border-white/10' : ''}`}>
+                          <h3 className={WO_MOBILE_FIELD_LABEL}>Unit Number</h3>
+                          <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>
                             {workOrder.property.unit_number}
                           </p>
                         </div>
                       )}
                       
-                      {/* Gate Code */}
                       {workOrder.property.gate_code && (
-                        <div className={`${(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number) ? 'pt-4 border-t border-gray-200 dark:border-gray-700' : ''}`}>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Gate Code</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white font-mono bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded inline-block">
+                        <div className={`${(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number) ? 'pt-4 border-t border-white/10' : ''}`}>
+                          <h3 className={WO_MOBILE_FIELD_LABEL}>Gate Code</h3>
+                          <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE} font-mono bg-white/[0.06] px-2 py-1 rounded inline-block`}>
                             {workOrder.property.gate_code}
                           </p>
                         </div>
                       )}
                       
-                      {/* Access Instructions */}
                       {workOrder.property.access_instructions && (
-                        <div className={`md:col-span-2 ${(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number || workOrder.property.gate_code) ? 'pt-4 border-t border-gray-200 dark:border-gray-700' : ''}`}>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Access Instructions</h3>
-                          <p className="mt-2 text-sm text-gray-900 dark:text-white bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                        <div className={`md:col-span-2 ${(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.unit_number || workOrder.property.gate_code) ? 'pt-4 border-t border-white/10' : ''}`}>
+                          <h3 className={WO_MOBILE_FIELD_LABEL}>Access Instructions</h3>
+                          <p className={`mt-2 ${WO_MOBILE_FIELD_VALUE} border border-cyan-500/20 bg-cyan-500/5 rounded-lg p-3`}>
                             {workOrder.property.access_instructions}
                           </p>
                         </div>
                       )}
                     </div>
-                  </div>
-                </div>
+                </WoMobileGlassSection>
               )}
               
               {/* Services and Items */}
               {(allServices?.length > 0 || workOrder.parts?.length > 0) && (
-                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
-                  <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Services & Items</h2>
-                  </div>
-                  
-                  <div className="px-6 py-5">
+                <WoMobileGlassSection
+                  title="Services & Items"
+                  summary={detailsServicesSummary}
+                  isOpen={glassSectionsOpen.detailsServices}
+                  onToggle={() => toggleGlassSection('detailsServices')}
+                >
                     {/* Services */}
                     {allServices?.length > 0 && (
-                      <div className="mb-6">
-                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Services</h3>
+                      <div className="mb-4">
+                        <h3 className={`${WO_MOBILE_SECTION_LABEL} mb-3`}>Services</h3>
                         <div className="md:hidden space-y-2">
                           {allServices.map((service, index) => (
                             <div
@@ -991,7 +1038,7 @@ function WorkOrderDetail() {
                     {/* Parts */}
                     {workOrder.parts?.length > 0 && (
                       <div>
-                        <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Parts</h3>
+                        <h3 className={`${WO_MOBILE_SECTION_LABEL} mb-3`}>Parts</h3>
                         <div className="md:hidden space-y-2">
                           {workOrder.parts.map((part) => (
                             <div
@@ -1066,11 +1113,17 @@ function WorkOrderDetail() {
                         </div>
                       </div>
                     )}
-                  </div>
-                </div>
+                </WoMobileGlassSection>
               )}
 
-              <WorkOrderPerformancePanel workOrderId={workOrder.id} variant="mobile" />
+              <WoMobileGlassSection
+                title="Performance"
+                summary="On-site, travel & outcomes"
+                isOpen={glassSectionsOpen.detailsPerformance}
+                onToggle={() => toggleGlassSection('detailsPerformance')}
+              >
+                <WorkOrderPerformancePanel workOrderId={workOrder.id} variant="mobile" embedded />
+              </WoMobileGlassSection>
 
               <WorkOrderDebriefing workOrderId={workOrder.id} variant="mobile" />
             </>
@@ -1156,70 +1209,64 @@ function WorkOrderDetail() {
               </div>
           </WorkOrderTabPanel>
           
-          <WorkOrderTabPanel tab={TABS.CLIENT} activeTab={activeTab} isMounted={isTabMounted(TABS.CLIENT)} className="space-y-6">
-              {/* Client Info Card */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-                <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                  <h2 className="text-lg font-medium text-gray-900 dark:text-white">Client Information</h2>
-                </div>
-                <div className="px-6 py-5">
+          <WorkOrderTabPanel tab={TABS.CLIENT} activeTab={activeTab} isMounted={isTabMounted(TABS.CLIENT)} className="px-1 py-2 space-y-3 min-w-0">
+              <WoMobileGlassSection
+                title="Client Information"
+                summary={clientInfoSummary}
+                isOpen={glassSectionsOpen.clientInfo}
+                onToggle={() => toggleGlassSection('clientInfo')}
+              >
                   {(workOrder.client_user || workOrder.client) ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-4">
                       <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        <h3 className={WO_MOBILE_FIELD_LABEL}>Name</h3>
+                        <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>
                           {`${(workOrder.client_user?.first_name || workOrder.client?.first_name || '')} ${(workOrder.client_user?.last_name || workOrder.client?.last_name || '')}`.trim() || 'N/A'}
                         </p>
                       </div>
                       {workOrder.client?.company_name && (
                         <div>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Company</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          <h3 className={WO_MOBILE_FIELD_LABEL}>Company</h3>
+                          <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>
                             {workOrder.client.company_name}
                           </p>
                         </div>
                       )}
                       <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        <h3 className={WO_MOBILE_FIELD_LABEL}>Email</h3>
+                        <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>
                           {workOrder.client_user?.email || workOrder.client?.email || 'N/A'}
                         </p>
                       </div>
                       <div>
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
-                        <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                        <h3 className={WO_MOBILE_FIELD_LABEL}>Phone</h3>
+                        <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>
                           {workOrder.client?.phone || workOrder.client?.mobile || 'N/A'}
                         </p>
                       </div>
                       <div className="md:col-span-2">
-                        <Link href={`/clients/${workOrder.client_id}/mobile`} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-sm">
+                        <Link href={`/clients/${workOrder.client_id}/mobile`} className="text-cyan-400 hover:text-cyan-300 text-sm">
                           View Full Client Profile →
                         </Link>
                       </div>
                     </div>
                   ) : (
-                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                    <p className="text-gray-500 text-center py-4 text-sm">
                       No client information available.
                     </p>
                   )}
-                </div>
-              </div>
+              </WoMobileGlassSection>
 
-              {/* Service Property (if set) */}
               {workOrder.property && (
-                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-                  <button
-                    onClick={() => setShowServiceProperty(!showServiceProperty)}
-                    className="w-full px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-                  >
-                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">Service Property</h2>
-                    {showServiceProperty ? <FaChevronUp className="text-gray-500" /> : <FaChevronDown className="text-gray-500" />}
-                  </button>
-                  {showServiceProperty && (
-                  <div className="px-6 py-5">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                <WoMobileGlassSection
+                  title="Service Property"
+                  summary={resolvedServiceAddress || 'Property on file'}
+                  isOpen={glassSectionsOpen.clientServiceProperty}
+                  onToggle={() => toggleGlassSection('clientServiceProperty')}
+                >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-4">
                       <div className="md:col-span-2">
-                        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Address</h3>
+                        <h3 className={WO_MOBILE_FIELD_LABEL}>Address</h3>
                         <MapsAddressLink
                           address={resolvedServiceAddress}
                           emptyLabel="N/A"
@@ -1227,57 +1274,55 @@ function WorkOrderDetail() {
                       </div>
                       {workOrder.property.property_type && (
                         <div>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Property Type</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white capitalize">
+                          <h3 className={WO_MOBILE_FIELD_LABEL}>Property Type</h3>
+                          <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE} capitalize`}>
                             {workOrder.property.property_type}
                           </p>
                         </div>
                       )}
                       {workOrder.property.gate_code && (
                         <div>
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Gate Code</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white font-mono">
+                          <h3 className={WO_MOBILE_FIELD_LABEL}>Gate Code</h3>
+                          <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE} font-mono`}>
                             {workOrder.property.gate_code}
                           </p>
                         </div>
                       )}
                       {workOrder.property.access_instructions && (
                         <div className="md:col-span-2">
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Access Instructions</h3>
-                          <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                          <h3 className={WO_MOBILE_FIELD_LABEL}>Access Instructions</h3>
+                          <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>
                             {workOrder.property.access_instructions}
                           </p>
                         </div>
                       )}
                       {(workOrder.property.tenant_name || workOrder.property.tenant_phone || workOrder.property.tenant_email) && (
-                        <div className="md:col-span-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Tenant Information</h3>
+                        <div className="md:col-span-2 pt-4 border-t border-white/10">
+                          <h3 className={`${WO_MOBILE_SECTION_LABEL} mb-3`}>Tenant Information</h3>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {workOrder.property.tenant_name && (
                               <div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Name</p>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.property.tenant_name}</p>
+                                <p className={WO_MOBILE_FIELD_LABEL}>Name</p>
+                                <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>{workOrder.property.tenant_name}</p>
                               </div>
                             )}
                             {workOrder.property.tenant_phone && (
                               <div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Phone</p>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.property.tenant_phone}</p>
+                                <p className={WO_MOBILE_FIELD_LABEL}>Phone</p>
+                                <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>{workOrder.property.tenant_phone}</p>
                               </div>
                             )}
                             {workOrder.property.tenant_email && (
                               <div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Email</p>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{workOrder.property.tenant_email}</p>
+                                <p className={WO_MOBILE_FIELD_LABEL}>Email</p>
+                                <p className={`mt-1 ${WO_MOBILE_FIELD_VALUE}`}>{workOrder.property.tenant_email}</p>
                               </div>
                             )}
                           </div>
                         </div>
                       )}
                     </div>
-                  </div>
-                  )}
-                </div>
+                </WoMobileGlassSection>
               )}
 
               {(workOrder.property_id || workOrder.property?.id) && (
@@ -1287,50 +1332,45 @@ function WorkOrderDetail() {
                 />
               )}
 
-              {/* All Client Properties */}
               {workOrder.client_properties && workOrder.client_properties.length > 0 && (
-                <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-                  <button
-                    onClick={() => setShowAllProperties(!showAllProperties)}
-                    className="w-full px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-                  >
-                    <h2 className="text-lg font-medium text-gray-900 dark:text-white">All Properties ({workOrder.client_properties.length})</h2>
-                    {showAllProperties ? <FaChevronUp className="text-gray-500" /> : <FaChevronDown className="text-gray-500" />}
-                  </button>
-                  {showAllProperties && (
-                  <div className="px-6 py-5">
-                    <div className="space-y-4">
+                <WoMobileGlassSection
+                  title={`All Properties (${workOrder.client_properties.length})`}
+                  summary={`${workOrder.client_properties.length} on file`}
+                  isOpen={glassSectionsOpen.clientAllProperties}
+                  onToggle={() => toggleGlassSection('clientAllProperties')}
+                >
+                    <div className="space-y-3">
                       {workOrder.client_properties.map((property) => (
-                        <div key={property.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                        <div key={property.id} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
                           <div className="flex items-start justify-between mb-2">
-                            <div className="flex-1">
-                              <p className="font-medium text-gray-900 dark:text-white">
+                            <div className="flex-1 min-w-0">
+                              <p className={`font-medium ${WO_MOBILE_FIELD_VALUE}`}>
                                 {property.address}
                                 {property.unit_number && ` - Unit ${property.unit_number}`}
                               </p>
                               {property.property_type && (
-                                <p className="text-sm text-gray-500 dark:text-gray-400 capitalize mt-1">
+                                <p className="text-sm text-gray-500 capitalize mt-1">
                                   {property.property_type}
                                 </p>
                               )}
                             </div>
                             {workOrder.property_id === property.id && (
-                              <span className="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded">
+                              <span className="ml-2 px-2 py-1 text-xs font-medium bg-cyan-500/15 text-cyan-300 border border-cyan-500/25 rounded shrink-0">
                                 Service Location
                               </span>
                             )}
                           </div>
                           {(property.gate_code || property.tenant_name) && (
-                            <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                            <div className="mt-2 pt-2 border-t border-white/10">
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                 {property.gate_code && (
-                                  <p className="text-gray-600 dark:text-gray-400">
-                                    Gate: <span className="font-mono text-gray-900 dark:text-white">{property.gate_code}</span>
+                                  <p className="text-gray-500">
+                                    Gate: <span className="font-mono text-gray-200">{property.gate_code}</span>
                                   </p>
                                 )}
                                 {property.tenant_name && (
-                                  <p className="text-gray-600 dark:text-gray-400">
-                                    Tenant: <span className="text-gray-900 dark:text-white">{property.tenant_name}</span>
+                                  <p className="text-gray-500">
+                                    Tenant: <span className="text-gray-200">{property.tenant_name}</span>
                                   </p>
                                 )}
                               </div>
@@ -1339,21 +1379,25 @@ function WorkOrderDetail() {
                         </div>
                       ))}
                     </div>
-                  </div>
-                  )}
-                </div>
+                </WoMobileGlassSection>
               )}
 
-              {/* Client's Other Work Orders */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-                <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                  <h2 className="text-lg font-medium text-gray-900 dark:text-white">Other Work Orders</h2>
-                </div>
-                <div className="px-6 py-5">
+              <WoMobileGlassSection
+                title="Other Work Orders"
+                summary={
+                  clientWorkOrdersLoading
+                    ? 'Loading…'
+                    : clientWorkOrders.length
+                      ? `${clientWorkOrders.length} other order${clientWorkOrders.length === 1 ? '' : 's'}`
+                      : 'None on file'
+                }
+                isOpen={glassSectionsOpen.clientOtherOrders}
+                onToggle={() => toggleGlassSection('clientOtherOrders')}
+              >
                   {clientWorkOrdersLoading ? (
                     <div className="flex justify-center py-6"><LoadingSpinner /></div>
                   ) : clientWorkOrders.length === 0 ? (
-                    <p className="text-gray-500 dark:text-gray-400 text-center py-6">No other work orders for this client.</p>
+                    <p className="text-gray-500 text-center py-4 text-sm">No other work orders for this client.</p>
                   ) : (
                     <>
                       <div className="md:hidden space-y-2">
@@ -1410,8 +1454,7 @@ function WorkOrderDetail() {
                     </div>
                     </>
                   )}
-                </div>
-              </div>
+              </WoMobileGlassSection>
           </WorkOrderTabPanel>
           
           <WorkOrderTabPanel
