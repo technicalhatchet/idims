@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { parseISO, format, startOfWeek, endOfWeek } from 'date-fns';
 import { motion } from 'framer-motion';
 import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
+import TechMobileBackDock, { TECH_MOBILE_BACK_DOCK_SCROLL_PAD } from '../components/layouts/TechMobileBackDock';
 import { useHudGridDoubleTapRail } from '../hooks/useHudGridDoubleTapRail';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import PullToRefresh from '../components/ui/PullToRefresh';
@@ -654,7 +655,7 @@ function ScheduleTestInner() {
           }}
         />
 
-        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen">
+        <div ref={tacticalColumnRef} className={`hud-tactical-column relative px-4 pt-0 max-w-lg mx-auto min-h-screen ${TECH_MOBILE_BACK_DOCK_SCROLL_PAD} md:pb-5`}>
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: SCHED_TACTICAL_PAGE_BG }} />
             <div
@@ -1123,8 +1124,8 @@ function ScheduleTestInner() {
         </div>
         </div>
 
-        {/* Legend — integrated tactical dock */}
-        <div className="fixed bottom-5 left-0 right-0 z-40 px-4 flex justify-center pointer-events-none">
+        {/* Legend — integrated tactical dock (sits above mobile back bar) */}
+        <div className="fixed bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:bottom-5 left-0 right-0 z-40 px-4 flex justify-center pointer-events-none">
           <div
             className="pointer-events-auto flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 max-w-lg w-full px-5 py-3.5 rounded-[22px]"
             style={{
@@ -1198,6 +1199,7 @@ function ScheduleTestInner() {
         )}
       </div>
       </PullToRefresh>
+      <TechMobileBackDock fallbackHref="/techboard" />
     </>
   );
 }

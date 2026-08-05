@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { format, startOfDay, endOfDay, addDays, startOfWeek, endOfWeek } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import TechMobileBackDock, { TECH_MOBILE_BACK_DOCK_SCROLL_PAD } from '../../components/layouts/TechMobileBackDock';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
@@ -386,7 +387,7 @@ export default function WorkOrdersTest() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: WO_TEST_PAGE_BG }}>
-      <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen">
+      <div ref={tacticalColumnRef} className={`hud-tactical-column relative px-4 pt-0 max-w-lg mx-auto min-h-screen ${TECH_MOBILE_BACK_DOCK_SCROLL_PAD} md:pb-5`}>
         {/* Tactical background — same layers as techboard; no extra “card” container */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div className="absolute inset-0" style={{ background: WO_TEST_PAGE_BG }} />
@@ -647,6 +648,7 @@ export default function WorkOrdersTest() {
 
       </div>
       </div>
+      <TechMobileBackDock fallbackHref="/techboard" />
     </>
   );
 }
