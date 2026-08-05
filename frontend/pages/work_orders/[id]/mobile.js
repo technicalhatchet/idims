@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus, FaWrench, FaCalendarPlus, FaStickyNote } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import MapsAddressLink from '../../../components/ui/MapsAddressLink';
@@ -151,6 +151,7 @@ function WorkOrderDetail() {
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [mobileAddSheetOpen, setMobileAddSheetOpen] = useState(false);
+  const [dockReturnTab, setDockReturnTab] = useState(null);
   const [lifecycleBusy, setLifecycleBusy] = useState(false);
   const { theme } = useTheme();
 
@@ -222,18 +223,31 @@ function WorkOrderDetail() {
   }, [openNoteWithType]);
 
   const runAfterTabMount = useCallback((tabId, run) => {
+    if (activeTab !== tabId) {
+      setDockReturnTab(activeTab);
+    }
     markTabMounted(tabId);
     setActiveTab(tabId);
     window.setTimeout(run, 120);
-  }, [markTabMounted]);
+  }, [markTabMounted, activeTab]);
+
+  const selectWorkOrderTab = useCallback((tabId) => {
+    setDockReturnTab(null);
+    setActiveTab(tabId);
+  }, []);
 
   const handleMobileDockBack = useCallback(() => {
+    if (dockReturnTab) {
+      setActiveTab(dockReturnTab);
+      setDockReturnTab(null);
+      return;
+    }
     if (typeof window !== 'undefined' && window.history.length > 1) {
       router.back();
       return;
     }
     router.push('/work_orders/test');
-  }, [router]);
+  }, [router, dockReturnTab]);
 
   const mobileMoreRef = useRef(null);
   const moreButtonRef = useRef(null);
@@ -763,7 +777,7 @@ function WorkOrderDetail() {
               <button
                 key={id}
                 type="button"
-                onClick={() => setActiveTab(id)}
+                onClick={() => selectWorkOrderTab(id)}
                 className={`snap-start shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors ${
                   activeTab === id
                     ? 'bg-cyan-500/20 text-cyan-300 shadow-[inset_0_0_0_1px_rgba(34,211,238,0.35)]'
@@ -783,7 +797,7 @@ function WorkOrderDetail() {
               <button
                 key={id}
                 type="button"
-                onClick={() => setActiveTab(id)}
+                onClick={() => selectWorkOrderTab(id)}
                 className={`flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
@@ -2496,6 +2510,7 @@ function WorkOrderDetail() {
               });
             }}
           >
+            <FaWrench className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
             Add service
           </MobileActionSheetButton>
           <MobileActionSheetButton
@@ -2507,6 +2522,7 @@ function WorkOrderDetail() {
               });
             }}
           >
+            <FaCalendarPlus className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
             Schedule visit
           </MobileActionSheetButton>
           <MobileActionSheetButton
@@ -2518,6 +2534,7 @@ function WorkOrderDetail() {
               });
             }}
           >
+            <FaToolbox className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
             Add part
           </MobileActionSheetButton>
           <MobileActionSheetButton
@@ -2527,6 +2544,7 @@ function WorkOrderDetail() {
               setShowNoteTypePicker(true);
             }}
           >
+            <FaStickyNote className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
             Add note
           </MobileActionSheetButton>
           <MobileActionSheetButton
@@ -2538,6 +2556,7 @@ function WorkOrderDetail() {
               });
             }}
           >
+            <FaCamera className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
             Add photo
           </MobileActionSheetButton>
         </div>
