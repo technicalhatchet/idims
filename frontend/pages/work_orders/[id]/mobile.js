@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import MapsAddressLink from '../../../components/ui/MapsAddressLink';
@@ -150,6 +150,7 @@ function WorkOrderDetail() {
   const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
+  const [mobileAddSheetOpen, setMobileAddSheetOpen] = useState(false);
   const [lifecycleBusy, setLifecycleBusy] = useState(false);
   const { theme } = useTheme();
 
@@ -220,8 +221,24 @@ function WorkOrderDetail() {
     openNoteWithType(REPAIR_OUTCOME_NOTE_TYPE);
   }, [openNoteWithType]);
 
+  const runAfterTabMount = useCallback((tabId, run) => {
+    markTabMounted(tabId);
+    setActiveTab(tabId);
+    window.setTimeout(run, 120);
+  }, [markTabMounted]);
+
+  const handleMobileDockBack = useCallback(() => {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+      return;
+    }
+    router.push('/work_orders/test');
+  }, [router]);
+
   const mobileMoreRef = useRef(null);
   const moreButtonRef = useRef(null);
+  const appointmentSchedulerRef = useRef(null);
+  const equipmentDetailsRef = useRef(null);
 
   /** HUD grid double-tap for icon rail - attach after data loads */
   const tacticalColumnRef = useRef(null);
@@ -1053,6 +1070,7 @@ function WorkOrderDetail() {
               className="px-1 py-2 md:p-6 min-w-0"
             >
               <AppointmentScheduler
+                ref={appointmentSchedulerRef}
                 workOrderId={id}
                 workOrder={workOrder}
                 workOrderAddress={workOrder.service_location?.address}
@@ -1115,6 +1133,7 @@ function WorkOrderDetail() {
               </div>
               <div className="md:px-6 md:py-5">
                 <EquipmentDetails
+                  ref={equipmentDetailsRef}
                   workOrderId={workOrder.id}
                   workOrder={workOrder}
                   onUpdate={refetch}
@@ -2418,64 +2437,111 @@ function WorkOrderDetail() {
         </div>
       </div>
 
-      {/* Mobile sticky action bar — hidden while photo upload sheet is open */}
+      {/* Mobile bottom dock — hidden while photo upload sheet is open */}
       {!notesPhotoSheetOpen && (
       <div
-        className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 flex gap-2 touch-manipulation"
+        className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 touch-manipulation"
         style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
         data-touch-surface
       >
-        {showCloseAction && (
+        <div className="grid grid-cols-[4.75rem_1fr_4.75rem] gap-2 items-center">
           <button
             type="button"
-            onClick={() => setShowCloseModal(true)}
-            className="h-10 shrink-0 rounded-xl border border-emerald-500/40 bg-emerald-600/90 px-3 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
+            onClick={handleMobileDockBack}
+            className="h-10 w-full rounded-xl border border-white/15 text-[11px] font-semibold uppercase tracking-wide text-gray-300 flex items-center justify-center gap-1 active:scale-[0.98]"
+            aria-label="Back"
           >
-            Close
+            <FaArrowLeft className="h-3.5 w-3.5 shrink-0" />
+            Back
           </button>
-        )}
-        <button
-          type="button"
-          onClick={() => !woReadOnly && setShowStatusModal(true)}
-          disabled={woReadOnly}
-          className={`flex-1 h-10 rounded-xl text-xs font-semibold uppercase tracking-wide active:scale-[0.98] ${
-            woReadOnly
-              ? 'bg-white/5 text-gray-500 cursor-not-allowed'
-              : 'bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-[0_0_20px_rgba(34,211,238,0.25)]'
-          }`}
-        >
-          Update status
-        </button>
-        {activeTab === TABS.NOTES && (
           <button
             type="button"
-            onClick={() => setNotesPhotoSheetOpen(true)}
-            className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300 flex items-center gap-1.5"
+            onClick={() => setMobileAddSheetOpen(true)}
+            className="h-10 w-full rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center justify-center active:scale-[0.98]"
+            aria-label="Add"
           >
-            <FaCamera className="h-3.5 w-3.5" />
-            Photo
+            <FaPlus className="h-5 w-5" />
           </button>
-        )}
-        {!woReadOnly && (
-          <button
-            type="button"
-            onClick={() => setShowNoteTypePicker(true)}
-            className="h-10 shrink-0 rounded-xl border border-cyan-500/35 px-3 text-[11px] font-semibold uppercase tracking-wide text-cyan-300"
-          >
-            Add note
-          </button>
-        )}
-        {activeTab !== TABS.INVOICES && activeTab !== TABS.NOTES && (
-          <button
-            type="button"
-            onClick={() => setActiveTab(TABS.INVOICES)}
-            className="h-10 shrink-0 rounded-xl border border-white/15 px-3 text-[11px] font-semibold uppercase tracking-wide text-gray-300"
-          >
-            Billing
-          </button>
-        )}
+          {showCloseAction ? (
+            <button
+              type="button"
+              onClick={() => setShowCloseModal(true)}
+              className="h-10 w-full rounded-xl border border-emerald-500/40 bg-emerald-600/90 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
+            >
+              Close
+            </button>
+          ) : (
+            <div className="h-10 w-full" aria-hidden />
+          )}
+        </div>
       </div>
       )}
+
+      <MobileActionSheet
+        open={mobileAddSheetOpen}
+        onClose={() => setMobileAddSheetOpen(false)}
+        title="Add to work order"
+        zIndex={20060}
+      >
+        <div className="space-y-2">
+          <MobileActionSheetButton
+            disabled={woReadOnly}
+            onClick={() => {
+              setMobileAddSheetOpen(false);
+              runAfterTabMount(TABS.APPOINTMENTS, () => {
+                const result = appointmentSchedulerRef.current?.openServiceEditForTargetVisit?.();
+                if (result?.ok === false && result.reason === 'no_visit') {
+                  window.alert('No open visit to add services to. Schedule a visit first.');
+                }
+              });
+            }}
+          >
+            Add service
+          </MobileActionSheetButton>
+          <MobileActionSheetButton
+            disabled={woReadOnly}
+            onClick={() => {
+              setMobileAddSheetOpen(false);
+              runAfterTabMount(TABS.APPOINTMENTS, () => {
+                appointmentSchedulerRef.current?.scheduleNewVisit?.();
+              });
+            }}
+          >
+            Schedule visit
+          </MobileActionSheetButton>
+          <MobileActionSheetButton
+            disabled={woReadOnly}
+            onClick={() => {
+              setMobileAddSheetOpen(false);
+              runAfterTabMount(TABS.MODEL, () => {
+                equipmentDetailsRef.current?.openAddPartForm?.();
+              });
+            }}
+          >
+            Add part
+          </MobileActionSheetButton>
+          <MobileActionSheetButton
+            disabled={woReadOnly}
+            onClick={() => {
+              setMobileAddSheetOpen(false);
+              setShowNoteTypePicker(true);
+            }}
+          >
+            Add note
+          </MobileActionSheetButton>
+          <MobileActionSheetButton
+            disabled={woReadOnly}
+            onClick={() => {
+              setMobileAddSheetOpen(false);
+              runAfterTabMount(TABS.NOTES, () => {
+                setNotesPhotoSheetOpen(true);
+              });
+            }}
+          >
+            Add photo
+          </MobileActionSheetButton>
+        </div>
+      </MobileActionSheet>
 
       <RecordPaymentSheet
         open={showRecordPayment}

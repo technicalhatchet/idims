@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, forwardRef, useImperativeHandle } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaUserClock, FaSave, FaTimes, FaClock, FaCar } from 'react-icons/fa';
 import { format, addMinutes, addDays, parseISO, differenceInMinutes } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -41,6 +41,7 @@ import {
 import VisitSkuAccordion from './VisitSkuAccordion';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
+import { pickTargetAppointmentForSkuAdd } from '../../utils/workOrderAppointmentTargets';
 import Select from 'react-select';
 import { useUserRole } from '../../utils/auth0-helpers';
 import useCurrentTechnicianId from '../../hooks/useCurrentTechnicianId';
@@ -98,7 +99,7 @@ function isVisitCompleteStatus(status) {
   return s === 'completed' || s === 'completed_pending_payment';
 }
 
-export default function AppointmentScheduler({
+export default forwardRef(function AppointmentScheduler({
   workOrderId,
   workOrder,
   workOrderAddress,
@@ -109,7 +110,7 @@ export default function AppointmentScheduler({
   editWorkOrderHref,
   onAppointmentChange,
   variant = 'desktop',
-}) {
+}, ref) {
   const isMobile = variant === 'mobile';
   console.log("AppointmentScheduler received workOrderId:", workOrderId);
 
@@ -1173,6 +1174,22 @@ export default function AppointmentScheduler({
     setShowForm(true);
     console.log('[EditAppointment] Form shown.');
   };
+
+  useImperativeHandle(ref, () => ({
+    scheduleNewVisit: () => {
+      if (!canCreateAppts) return { ok: false, reason: 'readonly' };
+      openForm();
+      return { ok: true };
+    },
+    openServiceEditForTargetVisit: () => {
+      if (woClosed) return { ok: false, reason: 'readonly' };
+      const target = pickTargetAppointmentForSkuAdd(appointments);
+      if (!target) return { ok: false, reason: 'no_visit' };
+      if (!canEditAppt(target)) return { ok: false, reason: 'not_editable' };
+      editAppointment(target);
+      return { ok: true, appointmentId: target.id };
+    },
+  }), [appointments, canCreateAppts, woClosed]);
 
   // Handle appointments created through the auto scheduler
   const handleAutoSchedule = async (appointmentData) => {
@@ -2959,4 +2976,4 @@ export default function AppointmentScheduler({
       />
     </div>
   );
-} 
+});

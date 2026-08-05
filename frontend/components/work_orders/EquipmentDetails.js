@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { apiClient } from '../../utils/api-client';
 import { updatePartStatusOffline } from '../../lib/offlineWrites';
 import { fetchWorkOrderPartsWithCache } from '../../lib/offlineReads';
@@ -102,7 +102,7 @@ const PART_STATUSES = [
   { value: 'not_installed', label: 'Not Installed', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }
 ];
 
-export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false }) {
+export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false }, ref) {
   const isMobile = variant === 'mobile';
   const structuralReadOnly = readOnly || isWorkOrderClosed(workOrder);
   const [openSection, setOpenSection] = useState(null);
@@ -535,6 +535,15 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
   useEffect(() => {
     if (isMobile && showPartForm) setOpenSection('parts');
   }, [showPartForm, isMobile]);
+
+  useImperativeHandle(ref, () => ({
+    openAddPartForm: () => {
+      if (structuralReadOnly) return { ok: false, reason: 'readonly' };
+      setShowPartForm(true);
+      if (isMobile) setOpenSection('parts');
+      return { ok: true };
+    },
+  }), [structuralReadOnly, isMobile]);
 
   if (isMobile) {
     return (
@@ -1063,4 +1072,4 @@ export default function EquipmentDetails({ workOrderId, workOrder, onUpdate, var
       )}
     </div>
   );
-} 
+});
