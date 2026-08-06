@@ -36,6 +36,7 @@ import WoMobileGlassSection, {
   WO_MOBILE_SECTION_LABEL,
 } from '../../../components/work_orders/WoMobileGlassSection';
 import WorkOrderMobileDetailsTab from '../../../components/work_orders/WorkOrderMobileDetailsTab';
+import WoMobileTextTabs from '../../../components/work_orders/WoMobileTextTabs';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
@@ -834,30 +835,19 @@ function WorkOrderDetail() {
           data-hud-card
         >
         
-        {/* Mobile tab pills — sticky below tech header */}
-        <div 
-          className={`md:hidden sticky z-[1100] py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80 ${
+        {/* Mobile text tabs — sticky below tech header */}
+        <div
+          className={`md:hidden sticky z-[1100] mb-3 ${
             activeTab === TABS.DETAILS ? '-mx-2 px-2' : '-mx-3 px-3'
           }`}
           style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
           data-touch-surface
         >
-        <nav className="flex gap-2 overflow-x-auto overscroll-x-contain pb-0.5 snap-x snap-mandatory touch-pan-x" aria-label="Work order sections">
-            {TAB_ITEMS.map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => selectWorkOrderTab(id)}
-                className={`snap-start shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors ${
-                  activeTab === id
-                    ? 'bg-cyan-500/20 text-cyan-300 shadow-[inset_0_0_0_1px_rgba(34,211,238,0.35)]'
-                    : 'bg-white/[0.05] text-gray-400 hover:text-gray-300'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
+          <WoMobileTextTabs
+            items={TAB_ITEMS.map(({ id, label }) => ({ id, label }))}
+            activeId={activeTab}
+            onSelect={selectWorkOrderTab}
+          />
         </div>
 
         {/* Desktop tabs */}
