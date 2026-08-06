@@ -459,7 +459,7 @@ function WorkOrderDetail() {
               }`}
             >
               <FaClipboardList className="inline-block mr-2" />
-              Details
+              Overview
             </button>
             
             <button

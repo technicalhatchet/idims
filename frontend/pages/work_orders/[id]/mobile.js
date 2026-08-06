@@ -80,7 +80,7 @@ const TABS = {
 };
 
 const TAB_ITEMS = [
-  { id: TABS.DETAILS, label: 'Details', Icon: FaClipboardList },
+  { id: TABS.DETAILS, label: 'Overview', Icon: FaClipboardList },
   { id: TABS.APPOINTMENTS, label: 'Appointments', Icon: FaCalendarAlt },
   { id: TABS.NOTES, label: 'Notes', Icon: FaClipboardList },
   { id: TABS.MODEL, label: 'Equipment', Icon: FaToolbox },
