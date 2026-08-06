@@ -18,11 +18,11 @@ export const WO_DETAILS_SECONDARY_CLASS = 'text-[15px] font-normal text-white/[0
 export const WO_DETAILS_TERTIARY_CLASS = 'text-[13px] font-normal text-white/40 leading-snug';
 
 /** Horizontal inset for Details tab cards/accordions (~¼ of prior px-5). */
-export const WO_DETAILS_PAD_X = 'px-1.5';
+export const WO_DETAILS_PAD_X = 'px-0.5';
 
-/** Service address line — lighter than client/appliance primary. */
+/** Service address line — same color as primary, 16px regular. */
 export const WO_DETAILS_LOCATION_CLASS =
-  'text-[14px] font-normal text-white/[0.58] leading-snug';
+  'text-base font-normal text-white/[0.95] leading-snug';
 
 /** Bare icon action (call, navigate) — no tile background. */
 export const WO_DETAILS_ICON_BTN_CLASS =
