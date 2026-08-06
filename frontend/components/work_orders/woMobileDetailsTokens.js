@@ -17,8 +17,8 @@ export const WO_DETAILS_SECONDARY_CLASS = 'text-[15px] font-normal text-white/[0
 
 export const WO_DETAILS_TERTIARY_CLASS = 'text-[13px] font-normal text-white/40 leading-snug';
 
-/** Horizontal inset for Details tab cards/accordions (~¼ of prior px-5). */
-export const WO_DETAILS_PAD_X = 'px-1.5';
+/** Inner horizontal padding inside Details summary cards / accordions. */
+export const WO_DETAILS_PAD_X = 'px-5';
 
 /** Service address line — same color as primary, 16px regular. */
 export const WO_DETAILS_LOCATION_CLASS =

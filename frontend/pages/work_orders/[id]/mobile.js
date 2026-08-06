@@ -825,12 +825,20 @@ function WorkOrderDetail() {
 
         {/* {woClosed && <WorkOrderReadOnlyBanner className="mb-4" />} */}
 
-        {/* Content card container */}
-        <div className="rounded-lg p-3 overflow-visible" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-hud-card>
+        {/* Content card container — tighter outer gutter on mobile Details */}
+        <div
+          className={`rounded-lg overflow-visible md:p-3 ${
+            activeTab === TABS.DETAILS ? 'px-1 py-2' : 'p-3'
+          }`}
+          style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }}
+          data-hud-card
+        >
         
         {/* Mobile tab pills — sticky below tech header */}
         <div 
-          className="md:hidden sticky z-[1100] -mx-3 px-3 py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80"
+          className={`md:hidden sticky z-[1100] py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80 ${
+            activeTab === TABS.DETAILS ? '-mx-1 px-1' : '-mx-3 px-3'
+          }`}
           style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
           data-touch-surface
         >
@@ -876,9 +884,9 @@ function WorkOrderDetail() {
         {/* Tab Content */}
         <div className="min-w-0">
           {/* Details Tab */}
-          <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)} className="px-1 py-2 space-y-3 min-w-0">
+          <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)} className="px-0 py-2 min-w-0 md:px-1 md:space-y-3">
           <>
-              <div className="md:hidden">
+              <div className="md:hidden -mx-1">
                 <WorkOrderMobileDetailsTab
                   workOrder={workOrder}
                   resolvedServiceAddress={resolvedServiceAddress}
