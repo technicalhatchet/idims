@@ -8,9 +8,22 @@ import WorkOrderContactCallButton from './WorkOrderContactCallButton';
 import WorkOrderDetailsAppointmentsList from './WorkOrderDetailsAppointmentsList';
 import WorkOrderPerformancePanel from './WorkOrderPerformancePanel';
 import WorkOrderDebriefing from './WorkOrderDebriefing';
-import MapsAddressLink from '../ui/MapsAddressLink';
 import MapsNavigateButton from '../ui/MapsNavigateButton';
 import ApplianceIcon from '../ui/ApplianceIcon';
+import {
+  WO_DETAILS_SURFACE_CLASS,
+  WO_DETAILS_SURFACE_STYLE,
+  WO_DETAILS_LABEL_CLASS,
+  WO_DETAILS_SECONDARY_CLASS,
+} from './woMobileDetailsTokens';
+
+const ICON_STROKE = {
+  stroke: 'rgba(34, 211, 238, 0.75)',
+  strokeWidth: 1.5,
+  fill: 'none',
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+};
 
 function formatEquipmentTypeLabel(type) {
   if (!type) return 'Appliance';
@@ -29,12 +42,7 @@ function resolveClientDisplayName(workOrder) {
 
 function ClientUserIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="w-7 h-7"
-      style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}
-      aria-hidden
-    >
+    <svg viewBox="0 0 24 24" className="w-6 h-6" style={ICON_STROKE} aria-hidden>
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
     </svg>
@@ -43,12 +51,7 @@ function ClientUserIcon() {
 
 function LocationPinIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="w-7 h-7"
-      style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}
-      aria-hidden
-    >
+    <svg viewBox="0 0 24 24" className="w-6 h-6" style={ICON_STROKE} aria-hidden>
       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
       <circle cx="12" cy="10" r="3" />
     </svg>
@@ -57,12 +60,7 @@ function LocationPinIcon() {
 
 function ProblemIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="w-7 h-7"
-      style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}
-      aria-hidden
-    >
+    <svg viewBox="0 0 24 24" className="w-6 h-6" style={ICON_STROKE} aria-hidden>
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
     </svg>
   );
@@ -99,7 +97,7 @@ export default function WorkOrderMobileDetailsTab({
       workOrder.property.access_instructions);
 
   return (
-    <div className="space-y-2.5 min-w-0">
+    <div className="space-y-4 min-w-0">
       <WoMobileDetailsSummaryCard
         label="Client"
         title={clientName}
@@ -119,7 +117,7 @@ export default function WorkOrderMobileDetailsTab({
         label="Service location"
         title={resolvedServiceAddress || 'No address on file'}
         icon={<LocationPinIcon />}
-        trailing={<MapsNavigateButton address={resolvedServiceAddress} />}
+        trailing={<MapsNavigateButton address={resolvedServiceAddress} variant="minimal" />}
       />
 
       <WoMobileDetailsSummaryCard
@@ -127,11 +125,12 @@ export default function WorkOrderMobileDetailsTab({
         title={equipmentTitle}
         subtitle={modelLine ? `Model ${modelLine}` : undefined}
         meta={serialLine || undefined}
+        iconFramed
         icon={
           <ApplianceIcon
             equipmentType={workOrder?.equipment_type}
             equipmentSubtype={workOrder?.equipment_subtype}
-            className="w-10 h-10"
+            className="w-9 h-9"
           />
         }
         onPress={onOpenEquipmentTab}
@@ -141,18 +140,21 @@ export default function WorkOrderMobileDetailsTab({
       <WoMobileDetailsSummaryCard
         label="Reported problem"
         title={workOrder?.description?.trim() || 'No description provided'}
-        titleClassName="text-sm font-normal text-gray-200 whitespace-pre-line leading-relaxed"
+        titleClassName={`${WO_DETAILS_SECONDARY_CLASS} text-white/[0.65] whitespace-pre-line leading-relaxed`}
         icon={<ProblemIcon />}
       />
 
       {workOrder?.priority && workOrder.priority !== 'medium' && (
-        <div className="rounded-xl border border-white/[0.08] bg-[#0D1525]/40 px-4 py-3">
-          <p className={WO_MOBILE_FIELD_LABEL}>Priority</p>
-          <p className={`mt-1 capitalize ${WO_MOBILE_FIELD_VALUE}`}>{workOrder.priority}</p>
+        <div className={WO_DETAILS_SURFACE_CLASS} style={WO_DETAILS_SURFACE_STYLE}>
+          <div className="px-5 py-5">
+            <p className={WO_DETAILS_LABEL_CLASS}>Priority</p>
+            <p className={`mt-2 capitalize text-lg font-semibold text-white/[0.95]`}>{workOrder.priority}</p>
+          </div>
         </div>
       )}
 
       <WoMobileGlassSection
+        variant="details"
         title="Appointments"
         summary={appointmentsSummary}
         isOpen={glassSectionsOpen.detailsAppointments}
@@ -163,6 +165,7 @@ export default function WorkOrderMobileDetailsTab({
 
       {hasPropertyAccess && (
         <WoMobileGlassSection
+          variant="details"
           title="Tenant & Property Access"
           summary={detailsTenantSummary}
           isOpen={glassSectionsOpen.detailsTenant}
@@ -226,6 +229,7 @@ export default function WorkOrderMobileDetailsTab({
 
       {(allServices?.length > 0 || workOrder.parts?.length > 0) && (
         <WoMobileGlassSection
+          variant="details"
           title="Services & Items"
           summary={detailsServicesSummary}
           isOpen={glassSectionsOpen.detailsServices}
@@ -238,9 +242,13 @@ export default function WorkOrderMobileDetailsTab({
                 {allServices.map((service, index) => (
                   <div
                     key={service.id || index}
-                    className="rounded-2xl border border-white/[0.08] bg-[#0D1525]/80 p-3 text-sm backdrop-blur-sm"
+                    className="rounded-[14px] p-3.5 text-sm"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.02)',
+                      border: '1px solid rgba(255, 255, 255, 0.05)',
+                    }}
                   >
-                    <p className="font-semibold text-white">{service.name || 'Unknown Service'}</p>
+                    <p className="font-medium text-white/[0.9]">{service.name || 'Unknown Service'}</p>
                     <div className="mt-2 grid grid-cols-3 gap-x-2 gap-y-1 text-xs text-gray-400">
                       <span>Qty</span>
                       <span>Unit</span>
@@ -266,9 +274,13 @@ export default function WorkOrderMobileDetailsTab({
                 {workOrder.parts.map((part) => (
                   <div
                     key={part.id}
-                    className="rounded-2xl border border-white/[0.08] bg-[#0D1525]/80 p-3 text-sm backdrop-blur-sm"
+                    className="rounded-[14px] p-3.5 text-sm"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.02)',
+                      border: '1px solid rgba(255, 255, 255, 0.05)',
+                    }}
                   >
-                    <p className="font-semibold text-white">{part.description || part.number || 'Part'}</p>
+                    <p className="font-medium text-white/[0.9]">{part.description || part.number || 'Part'}</p>
                     <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-1 text-xs text-gray-400">
                       <span>Cost</span>
                       <span className="text-right">Price</span>
@@ -286,6 +298,7 @@ export default function WorkOrderMobileDetailsTab({
       )}
 
       <WoMobileGlassSection
+        variant="details"
         title="Performance"
         summary="On-site, travel & outcomes"
         isOpen={glassSectionsOpen.detailsPerformance}

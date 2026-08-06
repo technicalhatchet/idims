@@ -1,7 +1,31 @@
-import { FaChevronRight } from 'react-icons/fa';
+import {
+  WO_DETAILS_LABEL_CLASS,
+  WO_DETAILS_PRIMARY_CLASS,
+  WO_DETAILS_SECONDARY_CLASS,
+  WO_DETAILS_TERTIARY_CLASS,
+  WO_DETAILS_SURFACE_CLASS,
+  WO_DETAILS_SURFACE_STYLE,
+} from './woMobileDetailsTokens';
+
+function DetailsChevron() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="w-4 h-4 text-white/[0.32] shrink-0"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  );
+}
 
 /**
- * Mockup-style summary row for mobile work order Details (label, icon tile, text, trailing actions).
+ * Minimal summary row for mobile work order Details.
  */
 export default function WoMobileDetailsSummaryCard({
   label,
@@ -9,56 +33,67 @@ export default function WoMobileDetailsSummaryCard({
   subtitle,
   meta,
   icon,
+  /** When true, appliance-style soft frame; otherwise icon only with faint glow. */
+  iconFramed = false,
   trailing,
   onPress,
   showChevron = false,
-  titleClassName = 'text-base font-semibold text-white leading-snug',
+  titleClassName = WO_DETAILS_PRIMARY_CLASS,
   className = '',
 }) {
   const interactive = Boolean(onPress);
   const Wrapper = interactive ? 'button' : 'div';
   const wrapperProps = interactive
-    ? { type: 'button', onClick: onPress, className: 'w-full text-left touch-manipulation active:bg-white/[0.04]' }
+    ? {
+        type: 'button',
+        onClick: onPress,
+        className: 'w-full text-left touch-manipulation active:opacity-90',
+      }
     : { className: '' };
 
   return (
     <div
-      className={`rounded-xl border border-white/[0.08] bg-[#0D1525]/60 overflow-hidden ${className}`}
+      className={`${WO_DETAILS_SURFACE_CLASS} ${className}`}
+      style={WO_DETAILS_SURFACE_STYLE}
       data-wo-details-card
     >
       <Wrapper {...wrapperProps}>
-        <div className="px-4 pt-3 pb-1">
-          {label && (
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-400/90">
-              {label}
-            </p>
-          )}
-        </div>
-        <div className="flex items-center gap-3 px-4 pb-4 pt-0">
-          {icon && (
-            <div
-              className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.07)' }}
-            >
-              {icon}
+        <div className="px-5 py-5">
+          {label && <p className={WO_DETAILS_LABEL_CLASS}>{label}</p>}
+          <div className={`flex items-start gap-3.5 ${label ? 'mt-3' : ''}`}>
+            {icon && (
+              iconFramed ? (
+                <div
+                  className="w-12 h-12 rounded-[12px] flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                  }}
+                >
+                  {icon}
+                </div>
+              ) : (
+                <div
+                  className="flex-shrink-0 pt-0.5"
+                  style={{ filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.2))' }}
+                >
+                  {icon}
+                </div>
+              )
+            )}
+            <div className="min-w-0 flex-1">
+              {title && <p className={titleClassName}>{title}</p>}
+              {subtitle && <p className={`${WO_DETAILS_SECONDARY_CLASS} mt-1`}>{subtitle}</p>}
+              {meta && <p className={`${WO_DETAILS_TERTIARY_CLASS} mt-1`}>{meta}</p>}
             </div>
-          )}
-          <div className="min-w-0 flex-1">
-            {title && (
-              <p className={titleClassName}>{title}</p>
-            )}
-            {subtitle && (
-              <p className="text-sm text-gray-400 mt-0.5 leading-snug">{subtitle}</p>
-            )}
-            {meta && (
-              <p className="text-xs text-gray-500 mt-1 leading-snug">{meta}</p>
-            )}
-          </div>
-          <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
-            {trailing}
-            {showChevron && (
-              <FaChevronRight className="h-3.5 w-3.5 text-gray-600" aria-hidden />
-            )}
+            <div
+              className="flex items-center gap-1 shrink-0 self-center"
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => e.stopPropagation()}
+            >
+              {trailing}
+              {showChevron && <DetailsChevron />}
+            </div>
           </div>
         </div>
       </Wrapper>

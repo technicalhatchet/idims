@@ -1,22 +1,16 @@
 import { useState } from 'react';
-
-const CALL_BTN_CLASS =
-  'tech-btn-glow flex items-center justify-center w-10 h-10 rounded-lg shrink-0 overflow-hidden relative active:scale-95 transition-transform';
-
-const CALL_BTN_STYLE = {
-  background: 'rgba(13, 21, 37, 0.25)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  border: '1px solid rgba(34,211,238,0.3)',
-};
+import {
+  WO_DETAILS_ICON_BTN_CLASS,
+  WO_DETAILS_ICON_BTN_STYLE,
+} from './woMobileDetailsTokens';
 
 const CALL_ICON = (
   <svg
     viewBox="0 0 24 24"
-    className="w-4 h-4 relative z-10"
+    className="w-[18px] h-[18px]"
     style={{
-      stroke: '#22D3EE',
-      strokeWidth: 1.75,
+      stroke: 'rgba(34, 211, 238, 0.85)',
+      strokeWidth: 1.5,
       fill: 'none',
       strokeLinecap: 'round',
       strokeLinejoin: 'round',
@@ -57,58 +51,55 @@ export default function WorkOrderContactCallButton({
       <button
         type="button"
         onClick={handleCallClick}
-        className={CALL_BTN_CLASS}
-        style={CALL_BTN_STYLE}
+        className={WO_DETAILS_ICON_BTN_CLASS}
+        style={WO_DETAILS_ICON_BTN_STYLE}
         aria-label="Call contact"
       >
-        <span className="tech-btn-sweep" />
         {CALL_ICON}
       </button>
 
       {showCallOptions && hasClientPhone && hasTenantPhone && (
         <div
-          className="absolute right-0 top-full mt-2 min-w-[220px] rounded-lg overflow-hidden z-50"
+          className="absolute right-0 top-full mt-2 min-w-[220px] rounded-[14px] overflow-hidden z-50"
           style={{
-            background: 'rgba(13, 21, 37, 0.95)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(34,211,238,0.4)',
-            boxShadow: '0 0 20px rgba(0,212,255,0.3)',
+            background: '#0E1825',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.45)',
           }}
         >
-          <div className="p-2 space-y-1">
+          <div className="p-2 space-y-0.5">
             <a
               href={`tel:${clientPhone}`}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm hover:bg-cyan-500/10 active:bg-cyan-500/20 transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm hover:bg-white/[0.04] active:bg-white/[0.06] transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowCallOptions(false);
               }}
             >
-              <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+              <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" style={{ stroke: 'rgba(34, 211, 238, 0.9)', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
               <div className="flex-1 min-w-0">
-                <p className="text-white font-medium">{ownerLabel}</p>
-                <p className="text-xs text-gray-400 truncate">{clientName || 'Client'}</p>
+                <p className="text-white/90 font-medium text-[15px]">{ownerLabel}</p>
+                <p className="text-[13px] text-white/45 truncate">{clientName || 'Client'}</p>
               </div>
             </a>
             <a
               href={`tel:${tenantPhone}`}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm hover:bg-cyan-500/10 active:bg-cyan-500/20 transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-sm hover:bg-white/[0.04] active:bg-white/[0.06] transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowCallOptions(false);
               }}
             >
-              <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+              <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" style={{ stroke: 'rgba(34, 211, 238, 0.9)', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
               <div className="flex-1 min-w-0">
-                <p className="text-white font-medium">Call Tenant</p>
-                <p className="text-xs text-gray-400 truncate">{tenantName || 'At property'}</p>
+                <p className="text-white/90 font-medium text-[15px]">Call Tenant</p>
+                <p className="text-[13px] text-white/45 truncate">{tenantName || 'At property'}</p>
               </div>
             </a>
           </div>
@@ -118,7 +109,7 @@ export default function WorkOrderContactCallButton({
               e.stopPropagation();
               setShowCallOptions(false);
             }}
-            className="w-full px-3 py-2 text-xs text-gray-400 hover:text-white border-t border-white/10 hover:bg-white/5 transition-colors"
+            className="w-full px-3 py-2.5 text-xs text-white/40 hover:text-white/70 border-t border-white/[0.06] hover:bg-white/[0.03] transition-colors"
           >
             Cancel
           </button>
