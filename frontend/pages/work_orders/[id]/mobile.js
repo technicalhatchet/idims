@@ -159,6 +159,7 @@ function WorkOrderDetail() {
   const [notesAddNoteType, setNotesAddNoteType] = useState(null);
   const [showNoteTypePicker, setShowNoteTypePicker] = useState(false);
   const [notesPhotoSheetOpen, setNotesPhotoSheetOpen] = useState(false);
+  const [guidedDiagnosticsOpen, setGuidedDiagnosticsOpen] = useState(false);
   const [showRepairOutcomePrompt, setShowRepairOutcomePrompt] = useState(false);
   const [missingRepairOutcome, setMissingRepairOutcome] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
@@ -1186,6 +1187,10 @@ function WorkOrderDetail() {
                 addNoteType={notesAddNoteType}
                 photoSheetOpen={notesPhotoSheetOpen}
                 onPhotoSheetOpenChange={setNotesPhotoSheetOpen}
+                onGuidedDiagnosticsOpenChange={(open) => {
+                  setGuidedDiagnosticsOpen(open);
+                  if (!open) setNotesAddNoteType(null);
+                }}
               />
           </WorkOrderTabPanel>
           
@@ -2495,7 +2500,7 @@ function WorkOrderDetail() {
       </div>
 
       {/* Mobile bottom dock — hidden while note/photo sheets are open */}
-      {!(notesPhotoSheetOpen || notesAddSheetOpen) && (
+      {!(notesPhotoSheetOpen || notesAddSheetOpen || guidedDiagnosticsOpen) && (
       <div
         className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 touch-manipulation"
         style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}

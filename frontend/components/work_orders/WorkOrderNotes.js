@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { format } from 'date-fns';
 import { FaEye, FaLock, FaTimes, FaEdit, FaPlus } from 'react-icons/fa';
 import { apiClient } from '../../utils/api-client';
@@ -12,7 +13,7 @@ import {
   codeOptions,
   codeLabel,
 } from '../../constants/dmaCodes';
-import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel } from '../../constants/workOrderNoteTypes';
+import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel, GUIDED_DIAGNOSTICS_LABEL } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
 import DiagnosticResultsForm, {
@@ -172,6 +173,7 @@ export default function WorkOrderNotes({
   addNoteType = null,
   photoSheetOpen = false,
   onPhotoSheetOpenChange = null,
+  onGuidedDiagnosticsOpenChange = null,
 }) {
   const isMobile = variant === 'mobile';
   const seedNotes = getWorkOrderNotesSeed(workOrder);
@@ -185,6 +187,7 @@ export default function WorkOrderNotes({
   const [isSaving, setIsSaving] = useState(false);
   const [internalAddSheetOpen, setInternalAddSheetOpen] = useState(false);
   const [newNote, setNewNote] = useState({ ...EMPTY_NOTE });
+  const [guidedDiagMode, setGuidedDiagMode] = useState(null); // null | 'add' | 'edit'
   const pendingDiagPayloadRef = useRef(null);
 
   const addSheetOpen = onAddSheetOpenChange != null ? addSheetOpenProp : internalAddSheetOpen;
@@ -226,6 +229,19 @@ export default function WorkOrderNotes({
   }, [setAddSheetOpen]);
 
   useEffect(() => {
+    onGuidedDiagnosticsOpenChange?.(Boolean(guidedDiagMode));
+  }, [guidedDiagMode, onGuidedDiagnosticsOpenChange]);
+
+  useEffect(() => {
+    if (!guidedDiagMode || typeof document === 'undefined') return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [guidedDiagMode]);
+
+  useEffect(() => {
     if (workOrderId) {
       const hasSeed = getWorkOrderNotesSeed(workOrder).length > 0;
       fetchNotes({ silent: hasSeed });
@@ -255,14 +271,18 @@ export default function WorkOrderNotes({
 
   useEffect(() => {
     if (addSheetOpen && !prevAddSheetOpen.current) {
-      if (addNoteType && MANUAL_NOTE_TYPES.includes(addNoteType)) {
+      if (isMobile && addNoteType === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+        setNewNote(buildNewNoteState(NOTE_TYPES.DIAGNOSTIC_RESULTS));
+        setGuidedDiagMode('add');
+        setAddSheetOpen(false);
+      } else if (addNoteType && MANUAL_NOTE_TYPES.includes(addNoteType)) {
         setNewNote(buildNewNoteState(addNoteType));
       } else {
         resetNewNoteForm();
       }
     }
     prevAddSheetOpen.current = addSheetOpen;
-  }, [addSheetOpen, resetNewNoteForm, addNoteType, buildNewNoteState]);
+  }, [addSheetOpen, resetNewNoteForm, addNoteType, buildNewNoteState, isMobile, setAddSheetOpen]);
 
   useEffect(() => {
     if (!isMobile || !addSheetOpen || !addPanelRef.current) return;
@@ -304,6 +324,17 @@ export default function WorkOrderNotes({
     if (type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
       fieldValues = buildInitialDiagnosticState(workOrder);
     }
+    if (isMobile && type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
+      setNewNote({
+        type,
+        content: '',
+        fieldValues,
+        isPrivate: isPrivateNoteType(type),
+      });
+      setGuidedDiagMode('add');
+      setAddSheetOpen(false);
+      return;
+    }
     setNewNote({
       ...newNote,
       type,
@@ -338,7 +369,12 @@ export default function WorkOrderNotes({
     if (!selectedNote) return;
     if (isStructuredNoteType(selectedNote.type)) {
       if (selectedNote.type === NOTE_TYPES.DIAGNOSTIC_RESULTS) {
-        setEditFieldValues(parseDiagnosticNotePayload(selectedNote.content));
+        const parsed = parseDiagnosticNotePayload(selectedNote.content);
+        setEditFieldValues(parsed);
+        if (isMobile) {
+          setGuidedDiagMode('edit');
+          return;
+        }
       } else {
         setEditFieldValues({
           ...getInitialFieldValues(selectedNote.type),
@@ -358,6 +394,17 @@ export default function WorkOrderNotes({
     setEditContent('');
     setEditFieldValues({});
   };
+
+  const closeGuidedDiagnostics = useCallback(() => {
+    if (guidedDiagMode === 'add') {
+      clearDiagnosticDraft(getDiagnosticDraftKey(workOrderId));
+      resetNewNoteForm();
+    } else if (guidedDiagMode === 'edit') {
+      cancelEditingNote();
+      setSelectedNote(null);
+    }
+    setGuidedDiagMode(null);
+  }, [guidedDiagMode, workOrderId, resetNewNoteForm]);
 
   const saveEditedNote = async (diagPayload) => {
     if (!selectedNote) return;
@@ -393,6 +440,7 @@ export default function WorkOrderNotes({
       });
       cancelEditingNote();
       setSelectedNote(null);
+      setGuidedDiagMode(null);
       fetchNotes();
       clearDiagnosticDraft(getDiagnosticDraftKey(workOrderId, selectedNote.id));
     } catch (e) {
@@ -420,9 +468,7 @@ export default function WorkOrderNotes({
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const submitNewNote = useCallback(async (diagPayload = null) => {
     try {
       if (newNote.type === NOTE_TYPES.REPAIR_OUTCOME) {
         const fix = (newNote.fieldValues?.confirmedFix || '').trim();
@@ -434,7 +480,7 @@ export default function WorkOrderNotes({
 
       let noteContent;
       let appointmentId = null;
-      const diagnosticValues = pendingDiagPayloadRef.current || newNote.fieldValues;
+      const diagnosticValues = diagPayload ?? pendingDiagPayloadRef.current ?? newNote.fieldValues;
       pendingDiagPayloadRef.current = null;
       if (isStructuredNoteType(newNote.type)) {
         noteContent = formatFieldsForAPI(diagnosticValues, newNote.type);
@@ -454,6 +500,7 @@ export default function WorkOrderNotes({
 
       resetNewNoteForm();
       closeAddSheet();
+      setGuidedDiagMode(null);
       await fetchNotes();
       clearDiagnosticDraft(getDiagnosticDraftKey(workOrderId));
 
@@ -464,9 +511,87 @@ export default function WorkOrderNotes({
       console.error('Error creating note:', err);
       setError('Failed to create note');
     }
+  }, [newNote, workOrderId, resetNewNoteForm, closeAddSheet, fetchNotes]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await submitNewNote();
   };
 
   const chromeAddFlow = onAddSheetOpenChange != null;
+
+  const manualTypesForAddForm = isMobile
+    ? MANUAL_NOTE_TYPES.filter((t) => t !== NOTE_TYPES.DIAGNOSTIC_RESULTS)
+    : MANUAL_NOTE_TYPES;
+
+  const renderGuidedDiagnosticsFullscreen = () => {
+    if (!isMobile || !guidedDiagMode || typeof document === 'undefined') return null;
+
+    const isAdd = guidedDiagMode === 'add';
+    const payload = isAdd ? newNote.fieldValues : editFieldValues;
+    const draftNoteId = isAdd ? null : selectedNote?.id || null;
+
+    return createPortal(
+      <div
+        className="fixed inset-0 z-[20100] flex flex-col touch-manipulation"
+        style={{ background: '#0A0F1E' }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="guided-diagnostics-title"
+      >
+        <header
+          className="shrink-0 flex items-center justify-between gap-3 px-4 border-b border-white/10 bg-[#0D1525]/95 backdrop-blur-md"
+          style={{ paddingTop: 'max(12px, env(safe-area-inset-top))', paddingBottom: 12 }}
+        >
+          <div className="min-w-0">
+            <h2 id="guided-diagnostics-title" className="text-base font-semibold text-white truncate">
+              {GUIDED_DIAGNOSTICS_LABEL}
+            </h2>
+            <p className="text-[11px] text-gray-500 mt-0.5">
+              {isAdd ? 'New diagnostic note' : 'Edit diagnostic note'}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={closeGuidedDiagnostics}
+            className="shrink-0 p-2 rounded-lg text-gray-400 hover:text-white active:bg-white/10"
+            aria-label="Close"
+          >
+            <FaTimes className="h-5 w-5" />
+          </button>
+        </header>
+        <div
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-3 py-4"
+          style={{ paddingBottom: 'max(20px, env(safe-area-inset-bottom))' }}
+        >
+          <DiagnosticResultsForm
+            payload={payload}
+            onChange={(next) => {
+              if (isAdd) {
+                setNewNote((prev) => ({ ...prev, fieldValues: next }));
+              } else {
+                setEditFieldValues(next);
+              }
+            }}
+            workOrder={workOrder}
+            workOrderId={workOrderId}
+            draftNoteId={draftNoteId}
+            variant="mobile"
+            readOnly={false}
+            isSaving={isSaving}
+            onSave={(finalPayload) => {
+              if (isAdd) {
+                submitNewNote(finalPayload);
+              } else {
+                saveEditedNote(finalPayload);
+              }
+            }}
+          />
+        </div>
+      </div>,
+      document.body,
+    );
+  };
 
   if (isLoading && notes.length === 0) {
     return <div className="text-center py-8">Loading notes...</div>;
@@ -623,7 +748,7 @@ export default function WorkOrderNotes({
         id="noteType"
         value={newNote.type}
         onChange={handleNoteTypeChange}
-        options={MANUAL_NOTE_TYPES.map((type) => ({
+        options={manualTypesForAddForm.map((type) => ({
           value: type,
           label: getNoteTypePickerLabel(type),
         }))}
@@ -829,9 +954,11 @@ export default function WorkOrderNotes({
   if (isMobile) {
     return (
       <div className="min-w-0">
+        {renderGuidedDiagnosticsFullscreen()}
+
         {addSheetOpen && mobilePanelShell('Add note', closeAddSheet, addNoteForm, addPanelRef)}
 
-        {selectedNote && mobilePanelShell(
+        {selectedNote && guidedDiagMode !== 'edit' && mobilePanelShell(
           noteViewerTitle,
           () => { setSelectedNote(null); cancelEditingNote(); },
           <div className="text-gray-200">{noteViewerBody}</div>,
