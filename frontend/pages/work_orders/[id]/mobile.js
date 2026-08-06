@@ -826,6 +826,20 @@ function WorkOrderDetail() {
 
         {/* {woClosed && <WorkOrderReadOnlyBanner className="mb-4" />} */}
 
+        {/* Mobile text tabs — sticky; outside content card so it does not stack over cards */}
+        <div
+          className="md:hidden sticky z-40 -mx-4 px-4 mb-3 pointer-events-none"
+          style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
+        >
+          <div className="pointer-events-auto bg-[#0A0F1E]/90 backdrop-blur-md">
+            <WoMobileTextTabs
+              items={TAB_ITEMS.map(({ id, label }) => ({ id, label }))}
+              activeId={activeTab}
+              onSelect={selectWorkOrderTab}
+            />
+          </div>
+        </div>
+
         {/* Content card container — tighter outer gutter on mobile Details */}
         <div
           className={`rounded-lg overflow-visible md:p-3 ${
@@ -835,21 +849,6 @@ function WorkOrderDetail() {
           data-hud-card
         >
         
-        {/* Mobile text tabs — sticky below tech header */}
-        <div
-          className={`md:hidden sticky z-[1100] mb-3 ${
-            activeTab === TABS.DETAILS ? '-mx-2 px-2' : '-mx-3 px-3'
-          }`}
-          style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
-          data-touch-surface
-        >
-          <WoMobileTextTabs
-            items={TAB_ITEMS.map(({ id, label }) => ({ id, label }))}
-            activeId={activeTab}
-            onSelect={selectWorkOrderTab}
-          />
-        </div>
-
         {/* Desktop tabs */}
         <div className="hidden md:block border-b border-gray-200 dark:border-gray-700 mb-6">
           <nav className="-mb-px flex flex-wrap gap-x-4 gap-y-1">
@@ -872,7 +871,7 @@ function WorkOrderDetail() {
         </div>
         
         {/* Tab Content */}
-        <div className="min-w-0">
+        <div className="min-w-0 relative z-0">
           {/* Details Tab */}
           <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)} className="px-0 py-2 min-w-0 md:px-1 md:space-y-3">
           <>

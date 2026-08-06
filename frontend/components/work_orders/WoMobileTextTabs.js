@@ -36,7 +36,7 @@ export default function WoMobileTextTabs({ items, activeId, onSelect, className 
   }, [measure, items]);
 
   return (
-    <div className={`relative min-h-[48px] flex items-end ${className}`}>
+    <div className={`relative min-h-[48px] flex items-end isolate ${className}`}>
       <nav
         ref={navRef}
         className="relative flex w-full min-h-[44px] items-center gap-7 overflow-x-auto overscroll-x-contain touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"

@@ -78,7 +78,7 @@ function SummaryRow({
             </div>
             {(trailing || showChevron) && (
               <div
-                className="flex items-center gap-1 shrink-0 self-start -mt-0.5"
+                className="flex items-center gap-1 shrink-0 self-start -mt-0.5 relative z-20"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
               >
