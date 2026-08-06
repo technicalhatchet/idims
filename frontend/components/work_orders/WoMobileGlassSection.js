@@ -2,6 +2,7 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import {
   WO_DETAILS_SURFACE_CLASS,
   WO_DETAILS_SURFACE_STYLE,
+  WO_DETAILS_PAD_X,
 } from './woMobileDetailsTokens';
 
 function SubtleChevron({ up }) {
@@ -27,7 +28,7 @@ export default function WoMobileGlassSection({
         <button
           type="button"
           onClick={onToggle}
-          className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left active:opacity-90 touch-manipulation"
+          className={`w-full flex items-center justify-between gap-3 ${WO_DETAILS_PAD_X} py-4 text-left active:opacity-90 touch-manipulation`}
         >
           <div className="min-w-0 flex-1">
             <p className="text-base font-medium text-white/[0.92]">{title}</p>
@@ -38,7 +39,7 @@ export default function WoMobileGlassSection({
           <SubtleChevron up={isOpen} />
         </button>
         {isOpen && (
-          <div className="px-5 pb-5 pt-0 border-t border-white/[0.05] space-y-4">
+          <div className={`${WO_DETAILS_PAD_X} pb-5 pt-0 border-t border-white/[0.05] space-y-4`}>
             {children}
           </div>
         )}

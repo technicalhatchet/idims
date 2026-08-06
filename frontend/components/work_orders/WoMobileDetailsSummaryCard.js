@@ -5,6 +5,7 @@ import {
   WO_DETAILS_TERTIARY_CLASS,
   WO_DETAILS_SURFACE_CLASS,
   WO_DETAILS_SURFACE_STYLE,
+  WO_DETAILS_PAD_X,
 } from './woMobileDetailsTokens';
 
 function DetailsChevron() {
@@ -51,7 +52,7 @@ function SummaryRow({
   return (
     <div className={dividerTop ? 'border-t border-white/[0.06]' : ''}>
       <Wrapper {...wrapperProps}>
-        <div className={compactPadding ? 'px-5 py-4' : 'px-5 py-5'}>
+        <div className={compactPadding ? `${WO_DETAILS_PAD_X} py-4` : `${WO_DETAILS_PAD_X} py-5`}>
           {label && <p className={WO_DETAILS_LABEL_CLASS}>{label}</p>}
           <div
             className={`flex gap-3.5 ${iconProminent ? 'items-center' : 'items-start'} ${label ? 'mt-2.5' : ''}`}
