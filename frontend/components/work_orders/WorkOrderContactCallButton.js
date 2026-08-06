@@ -47,7 +47,7 @@ export default function WorkOrderContactCallButton({
   };
 
   return (
-    <div className="relative">
+    <div className="relative z-10">
       <button
         type="button"
         onClick={handleCallClick}
@@ -60,7 +60,7 @@ export default function WorkOrderContactCallButton({
 
       {showCallOptions && hasClientPhone && hasTenantPhone && (
         <div
-          className="absolute right-0 top-full mt-2 min-w-[220px] rounded-[14px] overflow-hidden z-50"
+          className="absolute right-0 bottom-full mb-1.5 min-w-[220px] rounded-[14px] overflow-hidden z-[200]"
           style={{
             background: '#0E1825',
             border: '1px solid rgba(255, 255, 255, 0.08)',

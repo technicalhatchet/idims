@@ -3,13 +3,15 @@ import WoMobileGlassSection, {
   WO_MOBILE_FIELD_VALUE,
   WO_MOBILE_SECTION_LABEL,
 } from './WoMobileGlassSection';
-import WoMobileDetailsSummaryCard from './WoMobileDetailsSummaryCard';
+import WoMobileDetailsSummaryCard, {
+  WoMobileDetailsSummaryCardGroup,
+  WoMobileDetailsSummaryRow,
+} from './WoMobileDetailsSummaryCard';
 import WorkOrderContactCallButton from './WorkOrderContactCallButton';
 import WorkOrderDetailsAppointmentsList from './WorkOrderDetailsAppointmentsList';
 import WorkOrderPerformancePanel from './WorkOrderPerformancePanel';
 import WorkOrderDebriefing from './WorkOrderDebriefing';
 import MapsNavigateButton from '../ui/MapsNavigateButton';
-import ApplianceIcon from '../ui/ApplianceIcon';
 import {
   WO_DETAILS_SURFACE_CLASS,
   WO_DETAILS_SURFACE_STYLE,
@@ -26,9 +28,18 @@ const ICON_STROKE = {
 };
 
 function formatEquipmentTypeLabel(type) {
-  if (!type) return 'Appliance';
+  if (!type) return null;
   const s = String(type).replace(/_/g, ' ');
   return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function resolveEquipmentSectionLabel(workOrder) {
+  const raw = workOrder?.equipment_type || workOrder?.equipment_subtype;
+  const label = formatEquipmentTypeLabel(raw);
+  if (label) return label.toUpperCase();
+  const make = workOrder?.equipment_make?.trim();
+  if (make) return make.toUpperCase();
+  return 'EQUIPMENT';
 }
 
 function resolveClientDisplayName(workOrder) {
@@ -82,7 +93,11 @@ export default function WorkOrderMobileDetailsTab({
   const clientPhone = workOrder?.client?.phone || workOrder?.client?.mobile || '';
   const tenantPhone = workOrder?.property?.tenant_phone || '';
 
-  const equipmentTitle = formatEquipmentTypeLabel(workOrder?.equipment_type);
+  const equipmentSectionLabel = resolveEquipmentSectionLabel(workOrder);
+  const equipmentDisplayName =
+    formatEquipmentTypeLabel(workOrder?.equipment_type || workOrder?.equipment_subtype) ||
+    workOrder?.equipment_make ||
+    'Equipment';
   const modelLine = [workOrder?.equipment_make, workOrder?.equipment_model].filter(Boolean).join(' ');
   const serialLine = workOrder?.equipment_serial
     ? `Serial ${workOrder.equipment_serial}`
@@ -97,42 +112,38 @@ export default function WorkOrderMobileDetailsTab({
       workOrder.property.access_instructions);
 
   return (
-    <div className="space-y-4 min-w-0">
-      <WoMobileDetailsSummaryCard
-        label="Client"
-        title={clientName}
-        subtitle={tenantName || undefined}
-        icon={<ClientUserIcon />}
-        trailing={
-          <WorkOrderContactCallButton
-            clientPhone={clientPhone}
-            clientName={clientName}
-            tenantPhone={tenantPhone}
-            tenantName={tenantName}
-          />
-        }
-      />
+    <div className="space-y-2 min-w-0">
+      <WoMobileDetailsSummaryCardGroup>
+        <WoMobileDetailsSummaryRow
+          label="Client"
+          title={clientName}
+          subtitle={tenantName || undefined}
+          icon={<ClientUserIcon />}
+          compactPadding
+          trailing={
+            <WorkOrderContactCallButton
+              clientPhone={clientPhone}
+              clientName={clientName}
+              tenantPhone={tenantPhone}
+              tenantName={tenantName}
+            />
+          }
+        />
+        <WoMobileDetailsSummaryRow
+          label="Service location"
+          title={resolvedServiceAddress || 'No address on file'}
+          icon={<LocationPinIcon />}
+          dividerTop
+          compactPadding
+          trailing={<MapsNavigateButton address={resolvedServiceAddress} variant="minimal" />}
+        />
+      </WoMobileDetailsSummaryCardGroup>
 
       <WoMobileDetailsSummaryCard
-        label="Service location"
-        title={resolvedServiceAddress || 'No address on file'}
-        icon={<LocationPinIcon />}
-        trailing={<MapsNavigateButton address={resolvedServiceAddress} variant="minimal" />}
-      />
-
-      <WoMobileDetailsSummaryCard
-        label="Appliance"
-        title={equipmentTitle}
+        label={equipmentSectionLabel}
+        title={equipmentDisplayName}
         subtitle={modelLine ? `Model ${modelLine}` : undefined}
         meta={serialLine || undefined}
-        iconFramed
-        icon={
-          <ApplianceIcon
-            equipmentType={workOrder?.equipment_type}
-            equipmentSubtype={workOrder?.equipment_subtype}
-            className="w-9 h-9"
-          />
-        }
         onPress={onOpenEquipmentTab}
         showChevron
       />
