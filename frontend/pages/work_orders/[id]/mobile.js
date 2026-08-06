@@ -35,6 +35,7 @@ import WoMobileGlassSection, {
   WO_MOBILE_FIELD_VALUE,
   WO_MOBILE_SECTION_LABEL,
 } from '../../../components/work_orders/WoMobileGlassSection';
+import WorkOrderMobileDetailsTab from '../../../components/work_orders/WorkOrderMobileDetailsTab';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
@@ -147,6 +148,7 @@ function WorkOrderDetail() {
   const [fieldPayments, setFieldPayments] = useState([]);
   const [glassSectionsOpen, setGlassSectionsOpen] = useState({
     detailsWorkOrder: true,
+    detailsAppointments: false,
     detailsTenant: false,
     detailsServices: false,
     detailsPerformance: false,
@@ -402,6 +404,12 @@ function WorkOrderDetail() {
       .filter(Boolean)
       .join(', ');
   }, [allServices, workOrder?.parts]);
+
+  const appointmentsSummary = useMemo(() => {
+    const n = workOrder?.appointments?.length || 0;
+    if (!n) return 'Not scheduled';
+    return `${n} visit${n === 1 ? '' : 's'}`;
+  }, [workOrder?.appointments]);
 
   const clientInfoSummary = useMemo(() => {
     const name = `${workOrder?.client_user?.first_name || workOrder?.client?.first_name || ''} ${workOrder?.client_user?.last_name || workOrder?.client?.last_name || ''}`.trim();
@@ -870,6 +878,20 @@ function WorkOrderDetail() {
           {/* Details Tab */}
           <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)} className="px-1 py-2 space-y-3 min-w-0">
           <>
+              <div className="md:hidden">
+                <WorkOrderMobileDetailsTab
+                  workOrder={workOrder}
+                  resolvedServiceAddress={resolvedServiceAddress}
+                  allServices={allServices}
+                  glassSectionsOpen={glassSectionsOpen}
+                  toggleGlassSection={toggleGlassSection}
+                  detailsTenantSummary={detailsTenantSummary}
+                  detailsServicesSummary={detailsServicesSummary}
+                  appointmentsSummary={appointmentsSummary}
+                  onOpenEquipmentTab={() => selectWorkOrderTab(TABS.MODEL)}
+                />
+              </div>
+              <div className="hidden md:block space-y-3">
               <WoMobileGlassSection
                 title="Work Order Details"
                 summary={detailsWorkOrderSummary}
@@ -1127,6 +1149,7 @@ function WorkOrderDetail() {
               </WoMobileGlassSection>
 
               <WorkOrderDebriefing workOrderId={workOrder.id} variant="mobile" />
+              </div>
             </>
           </WorkOrderTabPanel>
 
