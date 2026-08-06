@@ -2494,13 +2494,55 @@ function WorkOrderDetail() {
         </div>
       </div>
 
-      {/* Mobile bottom dock — hidden while photo upload sheet is open */}
-      {!notesPhotoSheetOpen && (
+      {/* Mobile bottom dock — hidden while note/photo sheets are open */}
+      {!(notesPhotoSheetOpen || notesAddSheetOpen) && (
       <div
         className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 touch-manipulation"
         style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
         data-touch-surface
       >
+        {activeTab === TABS.NOTES && !woReadOnly ? (
+          <div
+            className={`grid gap-2 items-center ${
+              showCloseAction ? 'grid-cols-[4.75rem_1fr_2.75rem_4.75rem]' : 'grid-cols-[4.75rem_1fr_2.75rem]'
+            }`}
+          >
+            <button
+              type="button"
+              onClick={handleMobileDockBack}
+              className="h-10 w-full rounded-xl border border-white/15 text-[11px] font-semibold uppercase tracking-wide text-gray-300 flex items-center justify-center gap-1 active:scale-[0.98]"
+              aria-label="Back"
+            >
+              <FaArrowLeft className="h-3.5 w-3.5 shrink-0" />
+              Back
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowNoteTypePicker(true)}
+              className="h-10 w-full rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wide active:scale-[0.98]"
+            >
+              <FaStickyNote className="h-4 w-4 shrink-0" aria-hidden />
+              Add note
+            </button>
+            <button
+              type="button"
+              onClick={() => setNotesPhotoSheetOpen(true)}
+              className="h-10 w-full rounded-xl border border-cyan-500/35 text-cyan-300 flex items-center justify-center active:scale-[0.98]"
+              aria-label="Add photo"
+            >
+              <FaCamera className="h-4 w-4" aria-hidden />
+            </button>
+            {showCloseAction ? (
+              <button
+                type="button"
+                onClick={() => setShowCloseModal(true)}
+                className="h-10 w-full rounded-xl border border-emerald-500/40 bg-emerald-600/90 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
+              >
+                Close
+              </button>
+            ) : null}
+          </div>
+        ) : (
         <div className="grid grid-cols-[4.75rem_1fr_4.75rem] gap-2 items-center">
           <button
             type="button"
@@ -2531,6 +2573,7 @@ function WorkOrderDetail() {
             <div className="h-10 w-full" aria-hidden />
           )}
         </div>
+        )}
       </div>
       )}
 
