@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import WoMobileGlassSection, {
   WO_MOBILE_FIELD_LABEL,
   WO_MOBILE_FIELD_VALUE,
@@ -14,6 +15,7 @@ import WorkOrderDebriefing from './WorkOrderDebriefing';
 import MapsNavigateButton from '../ui/MapsNavigateButton';
 import ApplianceIcon from '../ui/ApplianceIcon';
 import { resolveWorkOrderEquipmentDisplayName } from '../../utils/workOrderEquipmentDisplay';
+import { resolveWorkOrderServiceAddressBlock } from '../../utils/appointment-scheduling';
 import {
   WO_DETAILS_SURFACE_CLASS,
   WO_DETAILS_SURFACE_STYLE,
@@ -83,6 +85,10 @@ export default function WorkOrderMobileDetailsTab({
   const tenantPhone = workOrder?.property?.tenant_phone || '';
 
   const equipmentDisplayName = resolveWorkOrderEquipmentDisplayName(workOrder);
+  const serviceAddressBlock = useMemo(
+    () => resolveWorkOrderServiceAddressBlock(workOrder),
+    [workOrder]
+  );
   const modelLine = [workOrder?.equipment_make, workOrder?.equipment_model].filter(Boolean).join(' ');
   const serialLine = workOrder?.equipment_serial
     ? `Serial ${workOrder.equipment_serial}`
@@ -116,8 +122,16 @@ export default function WorkOrderMobileDetailsTab({
         />
         <WoMobileDetailsSummaryRow
           label="Service location"
-          title={resolvedServiceAddress || 'No address on file'}
-          titleClassName={WO_DETAILS_LOCATION_CLASS}
+          titleContent={
+            serviceAddressBlock.line1 || serviceAddressBlock.line2 ? (
+              <div className={WO_DETAILS_LOCATION_CLASS}>
+                <p>{serviceAddressBlock.line1 || 'No address on file'}</p>
+                {serviceAddressBlock.line2 && <p className="mt-0.5">{serviceAddressBlock.line2}</p>}
+              </div>
+            ) : (
+              <p className={WO_DETAILS_LOCATION_CLASS}>No address on file</p>
+            )
+          }
           icon={<LocationPinIcon />}
           dividerTop
           compactPadding

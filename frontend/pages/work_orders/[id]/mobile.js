@@ -828,7 +828,7 @@ function WorkOrderDetail() {
         {/* Content card container — tighter outer gutter on mobile Details */}
         <div
           className={`rounded-lg overflow-visible md:p-3 ${
-            activeTab === TABS.DETAILS ? 'px-1 py-2' : 'p-3'
+            activeTab === TABS.DETAILS ? 'px-2 py-2' : 'p-3'
           }`}
           style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }}
           data-hud-card
@@ -837,7 +837,7 @@ function WorkOrderDetail() {
         {/* Mobile tab pills — sticky below tech header */}
         <div 
           className={`md:hidden sticky z-[1100] py-2 mb-3 border-y border-white/[0.08] bg-[#0A0F1E]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0F1E]/80 ${
-            activeTab === TABS.DETAILS ? '-mx-1 px-1' : '-mx-3 px-3'
+            activeTab === TABS.DETAILS ? '-mx-2 px-2' : '-mx-3 px-3'
           }`}
           style={{ top: 'calc(72px + env(safe-area-inset-top, 0px))' }}
           data-touch-surface
@@ -886,7 +886,7 @@ function WorkOrderDetail() {
           {/* Details Tab */}
           <WorkOrderTabPanel tab={TABS.DETAILS} activeTab={activeTab} isMounted={isTabMounted(TABS.DETAILS)} className="px-0 py-2 min-w-0 md:px-1 md:space-y-3">
           <>
-              <div className="md:hidden -mx-1">
+              <div className="md:hidden">
                 <WorkOrderMobileDetailsTab
                   workOrder={workOrder}
                   resolvedServiceAddress={resolvedServiceAddress}

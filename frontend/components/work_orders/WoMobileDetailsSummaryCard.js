@@ -30,6 +30,7 @@ function SummaryRow({
   title,
   subtitle,
   meta,
+  titleContent,
   icon,
   trailing,
   onPress,
@@ -70,7 +71,8 @@ function SummaryRow({
               </div>
             )}
             <div className="min-w-0 flex-1">
-              {title && <p className={titleClassName}>{title}</p>}
+              {titleContent}
+              {!titleContent && title && <p className={titleClassName}>{title}</p>}
               {subtitle && <p className={`${WO_DETAILS_SECONDARY_CLASS} mt-1`}>{subtitle}</p>}
               {meta && <p className={`${WO_DETAILS_TERTIARY_CLASS} mt-1`}>{meta}</p>}
             </div>

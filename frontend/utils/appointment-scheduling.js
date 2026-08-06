@@ -254,6 +254,119 @@ export function formatPropertyAddress(property) {
   return parts.length ? parts.join(', ') : null;
 }
 
+function formatUnitSuffix(unitNumber) {
+  if (unitNumber == null || unitNumber === '') return '';
+  const u = String(unitNumber).trim();
+  if (!u) return '';
+  return /^unit\b/i.test(u) ? u : `Unit ${u}`;
+}
+
+function formatCityStateZip({ city, state, zip }) {
+  const c = (city || '').trim();
+  const s = (state || '').trim();
+  const z = (zip || '').trim();
+  if (c && s && z) return `${c}, ${s} ${z}`;
+  if (c && s) return `${c}, ${s}`;
+  const joined = [c, s, z].filter(Boolean).join(', ');
+  return joined || null;
+}
+
+/** Split "street, city, ST ZIP" style strings into two display lines. */
+export function parseCommaSeparatedUSAddress(raw) {
+  const text = (raw || '').trim();
+  if (!text) return { line1: null, line2: null };
+
+  const parts = text.split(',').map((p) => p.trim()).filter(Boolean);
+  if (parts.length >= 3) {
+    const last = parts[parts.length - 1];
+    const stateZipMatch = last.match(/^([A-Za-z]{2})\s+(\d{5}(?:-\d{4})?)$/);
+    if (stateZipMatch) {
+      const city = parts[parts.length - 2];
+      const street = parts.slice(0, -2).join(', ');
+      return {
+        line1: street,
+        line2: `${city}, ${stateZipMatch[1].toUpperCase()} ${stateZipMatch[2]}`,
+      };
+    }
+    return {
+      line1: parts.slice(0, -2).join(', '),
+      line2: parts.slice(-2).join(', '),
+    };
+  }
+  if (parts.length === 2) {
+    const m = parts[1].match(/^(.+?)\s+([A-Za-z]{2})\s+(\d{5}(?:-\d{4})?)$/);
+    if (m) {
+      return {
+        line1: parts[0],
+        line2: `${m[1]}, ${m[2].toUpperCase()} ${m[3]}`,
+      };
+    }
+    return { line1: parts[0], line2: parts[1] };
+  }
+  return { line1: text, line2: null };
+}
+
+function blockFromServiceLocation(serviceLocation, unitNumber) {
+  if (!serviceLocation || typeof serviceLocation !== 'object') return null;
+  const street = (serviceLocation.address || '').trim();
+  const unit = formatUnitSuffix(unitNumber || serviceLocation.unit_number);
+  const line2 = formatCityStateZip(serviceLocation);
+
+  if (street && !line2 && street.includes(',')) {
+    const parsed = parseCommaSeparatedUSAddress(street);
+    const line1 = [parsed.line1, unit].filter(Boolean).join(', ');
+    return { line1: line1 || null, line2: parsed.line2 };
+  }
+
+  const line1 = [street, unit].filter(Boolean).join(', ');
+  if (!line1 && !line2) return null;
+  return { line1: line1 || null, line2 };
+}
+
+function blockFromProperty(property) {
+  if (!property) return null;
+  const raw = (property.address || '').trim();
+  if (!raw) return null;
+  const unit = formatUnitSuffix(property.unit_number);
+  const parsed = parseCommaSeparatedUSAddress(raw);
+  const line1 = [parsed.line1, unit].filter(Boolean).join(', ');
+  return { line1: line1 || null, line2: parsed.line2 };
+}
+
+function scoreAddressBlock(block) {
+  if (!block) return 0;
+  let score = (block.line1?.length || 0) + (block.line2?.length || 0);
+  if (block.line2) score += 40;
+  return score;
+}
+
+/**
+ * Two-line service address for UI (street + unit, then city/state/zip).
+ */
+export function resolveWorkOrderServiceAddressBlock(workOrder = {}) {
+  const property = workOrder.property;
+  let matchedClientProperty = null;
+  const propertyId = workOrder.property_id;
+  if (propertyId && Array.isArray(workOrder.client_properties)) {
+    matchedClientProperty = workOrder.client_properties.find(
+      (p) => p.id === propertyId || String(p.id) === String(propertyId)
+    );
+  }
+
+  const candidates = [
+    blockFromServiceLocation(workOrder.service_location, property?.unit_number),
+    blockFromProperty(property),
+    blockFromProperty(matchedClientProperty),
+  ].filter(Boolean);
+
+  const best = candidates.sort((a, b) => scoreAddressBlock(b) - scoreAddressBlock(a))[0];
+  if (best?.line1 || best?.line2) return best;
+
+  const fallback = resolveWorkOrderServiceAddress(workOrder);
+  if (fallback) return parseCommaSeparatedUSAddress(fallback);
+  return { line1: null, line2: null };
+}
+
 /** Higher score = more likely to geocode correctly (city/state/zip present). */
 function addressGeocodeScore(address) {
   if (!address) return 0;
