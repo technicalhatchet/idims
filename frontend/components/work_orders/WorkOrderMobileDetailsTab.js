@@ -13,6 +13,7 @@ import WorkOrderPerformancePanel from './WorkOrderPerformancePanel';
 import WorkOrderDebriefing from './WorkOrderDebriefing';
 import MapsNavigateButton from '../ui/MapsNavigateButton';
 import ApplianceIcon from '../ui/ApplianceIcon';
+import { resolveWorkOrderEquipmentDisplayName } from '../../utils/workOrderEquipmentDisplay';
 import {
   WO_DETAILS_SURFACE_CLASS,
   WO_DETAILS_SURFACE_STYLE,
@@ -27,12 +28,6 @@ const ICON_STROKE = {
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
 };
-
-function formatEquipmentTypeLabel(type) {
-  if (!type) return null;
-  const s = String(type).replace(/_/g, ' ');
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
 
 function resolveClientDisplayName(workOrder) {
   return (
@@ -85,10 +80,7 @@ export default function WorkOrderMobileDetailsTab({
   const clientPhone = workOrder?.client?.phone || workOrder?.client?.mobile || '';
   const tenantPhone = workOrder?.property?.tenant_phone || '';
 
-  const equipmentDisplayName =
-    formatEquipmentTypeLabel(workOrder?.equipment_type || workOrder?.equipment_subtype) ||
-    workOrder?.equipment_make?.trim() ||
-    'Unknown appliance';
+  const equipmentDisplayName = resolveWorkOrderEquipmentDisplayName(workOrder);
   const modelLine = [workOrder?.equipment_make, workOrder?.equipment_model].filter(Boolean).join(' ');
   const serialLine = workOrder?.equipment_serial
     ? `Serial ${workOrder.equipment_serial}`
@@ -135,11 +127,12 @@ export default function WorkOrderMobileDetailsTab({
         title={equipmentDisplayName}
         subtitle={modelLine ? `Model ${modelLine}` : undefined}
         meta={serialLine || undefined}
+        iconProminent
         icon={
           <ApplianceIcon
             equipmentType={workOrder?.equipment_type}
             equipmentSubtype={workOrder?.equipment_subtype}
-            className="w-6 h-6"
+            className="w-[4.5rem] h-[4.5rem]"
           />
         }
         onPress={onOpenEquipmentTab}

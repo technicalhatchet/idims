@@ -36,6 +36,7 @@ function SummaryRow({
   titleClassName = WO_DETAILS_PRIMARY_CLASS,
   dividerTop = false,
   compactPadding = false,
+  iconProminent = false,
 }) {
   const interactive = Boolean(onPress);
   const Wrapper = interactive ? 'button' : 'div';
@@ -52,11 +53,17 @@ function SummaryRow({
       <Wrapper {...wrapperProps}>
         <div className={compactPadding ? 'px-5 py-4' : 'px-5 py-5'}>
           {label && <p className={WO_DETAILS_LABEL_CLASS}>{label}</p>}
-          <div className={`flex items-start gap-3.5 ${label ? 'mt-2.5' : ''}`}>
+          <div
+            className={`flex gap-3.5 ${iconProminent ? 'items-center' : 'items-start'} ${label ? 'mt-2.5' : ''}`}
+          >
             {icon && (
               <div
-                className="flex-shrink-0 pt-0.5"
-                style={{ filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.2))' }}
+                className={`flex-shrink-0 ${iconProminent ? '' : 'pt-0.5'}`}
+                style={
+                  iconProminent
+                    ? undefined
+                    : { filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.2))' }
+                }
               >
                 {icon}
               </div>
