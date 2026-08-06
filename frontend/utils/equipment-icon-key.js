@@ -17,6 +17,7 @@ const SUBTYPE_ICON_ALIASES = {
   rangeoven: 'oven',
   stackedlaundry: 'aiolaundry',
   washingmachine: 'washer',
+  dishwasher: 'dishwasher',
   chestfreezer: 'freezer',
   standalonfreezer: 'freezer',
   rangehood: 'rangehood',
@@ -31,6 +32,8 @@ function resolveIconKey(segment) {
   if (SUBTYPE_ICON_ALIASES[segment]) return SUBTYPE_ICON_ALIASES[segment];
 
   if (segment.includes('dryer')) return 'dryer';
+  // "dishwasher" contains "washer" — must run before washer/laundry branch
+  if (segment.includes('dish')) return 'dishwasher';
   if (segment.includes('washer') || segment.includes('laundry')) {
     if (segment.includes('aio') || segment.includes('combo') || segment.includes('stacked')) {
       return 'aiolaundry';
@@ -42,7 +45,6 @@ function resolveIconKey(segment) {
   }
   if (segment.includes('fridge') || segment.includes('refrigerator')) return 'refrigerator';
   if (segment.includes('freez')) return 'freezer';
-  if (segment.includes('dish')) return 'dishwasher';
   if (segment.includes('micro')) return 'microwave';
   if (segment.includes('cooktop')) return 'cooktop';
   if (segment.includes('hood')) return 'rangehood';
