@@ -2,6 +2,8 @@ import { REPAIR_OUTCOME_NOTE_TYPE } from './dmaCodes';
 
 export const DIAGNOSTIC_RESULTS_NOTE_TYPE = 'Diagnostic Results';
 export const GUIDED_DIAGNOSTICS_LABEL = 'Guided Diagnostics';
+/** Full-screen mobile session chrome (SOLOMON diagnostic wizard). */
+export const SOLOMON_SESSION_TITLE = 'SOLOMON';
 
 export const NOTE_TYPES = {
   GENERAL: 'General Note',

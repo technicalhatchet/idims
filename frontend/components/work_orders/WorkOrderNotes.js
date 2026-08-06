@@ -13,7 +13,7 @@ import {
   codeOptions,
   codeLabel,
 } from '../../constants/dmaCodes';
-import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel, GUIDED_DIAGNOSTICS_LABEL } from '../../constants/workOrderNoteTypes';
+import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel, SOLOMON_SESSION_TITLE } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
 import DiagnosticResultsForm, {
@@ -540,21 +540,20 @@ export default function WorkOrderNotes({
         aria-labelledby="guided-diagnostics-title"
       >
         <header
-          className="shrink-0 flex items-center justify-between gap-3 px-4 border-b border-white/10 bg-[#0D1525]/95 backdrop-blur-md"
+          className="shrink-0 grid grid-cols-[44px_1fr_44px] items-center gap-2 px-2 border-b border-white/10 bg-[#0D1525]/95 backdrop-blur-md"
           style={{ paddingTop: 'max(12px, env(safe-area-inset-top))', paddingBottom: 12 }}
         >
-          <div className="min-w-0">
-            <h2 id="guided-diagnostics-title" className="text-base font-semibold text-white truncate">
-              {GUIDED_DIAGNOSTICS_LABEL}
-            </h2>
-            <p className="text-[11px] text-gray-500 mt-0.5">
-              {isAdd ? 'New diagnostic note' : 'Edit diagnostic note'}
-            </p>
-          </div>
+          <div aria-hidden />
+          <h2
+            id="guided-diagnostics-title"
+            className="text-center text-base font-semibold tracking-[0.2em] text-white"
+          >
+            {SOLOMON_SESSION_TITLE}
+          </h2>
           <button
             type="button"
             onClick={closeGuidedDiagnostics}
-            className="shrink-0 p-2 rounded-lg text-gray-400 hover:text-white active:bg-white/10"
+            className="justify-self-end p-2 rounded-lg text-gray-400 hover:text-white active:bg-white/10"
             aria-label="Close"
           >
             <FaTimes className="h-5 w-5" />

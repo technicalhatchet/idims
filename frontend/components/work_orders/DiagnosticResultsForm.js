@@ -592,6 +592,7 @@ export default function DiagnosticResultsForm({
 
   return (
     <div className="space-y-4">
+      {/* Intro banner — appliance + guided diagnostics how-to (disabled for SOLOMON mobile flow; restore if needed)
       {!readOnly && (
         <div
           className={`rounded-xl border px-4 py-3 ${
@@ -616,6 +617,7 @@ export default function DiagnosticResultsForm({
           </p>
         </div>
       )}
+      */}
 
       {readOnly ? (
         <div
@@ -719,8 +721,18 @@ export default function DiagnosticResultsForm({
         completeLabel="Save Diagnostic Results"
         isCompleting={isSaving}
         footerExtra={draftHint}
-        headerTitle={readOnly ? undefined : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`}
-        headerDescription={readOnly ? undefined : 'Complete each step, generate service notes on Review, then save.'}
+        headerTitle={
+          readOnly
+            ? undefined
+            : variant === 'mobile'
+              ? undefined
+              : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
+        }
+        headerDescription={
+          readOnly || variant === 'mobile'
+            ? undefined
+            : 'Complete each step, generate service notes on Review, then save.'
+        }
       />
     </div>
   );
