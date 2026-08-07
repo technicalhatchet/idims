@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import { FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt, FaTimes, FaEye } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import StatCard from '../../components/cxdashboard/StatCard';
+import PortalMobileStatGrid from '../../components/cxdashboard/PortalMobileStatGrid';
 import AppointmentCard from '../../components/cxdashboard/AppointmentCard';
 import RepairStatus from '../../components/cxdashboard/RepairStatus';
 import RecentRepairs from '../../components/cxdashboard/RecentRepairs';
@@ -525,7 +526,7 @@ export default function ClientDashboard() {
       <Head>
         <title>{isAdmin ? `Portal Preview: ${selectedClient?.first_name} ${selectedClient?.last_name}` : 'Client Portal'} | Atomic Repair</title>
       </Head>
-      <div className="space-y-8">
+      <div className="space-y-4 md:space-y-8">
         {isAdmin && selectedClient && (
           <ImpersonationBanner
             clientName={`${selectedClient.first_name} ${selectedClient.last_name}${selectedClient.company_name ? ` (${selectedClient.company_name})` : ''}`}
@@ -533,24 +534,30 @@ export default function ClientDashboard() {
           />
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Mobile: compact 2×2 stats */}
+        <div className="md:hidden">
+          <PortalMobileStatGrid stats={stats} />
+        </div>
+
+        {/* Tablet/desktop: original stat cards */}
+        <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <StatCard key={stat.title} {...stat} index={index} />
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div className="space-y-4 md:space-y-6 order-2 lg:order-1">
             {appointmentCardData
               ? <AppointmentCard appointment={appointmentCardData} />
-              : <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center text-gray-400">No upcoming appointments</div>
+              : <div className="p-4 md:p-6 rounded-2xl bg-white/5 border border-white/10 text-center text-gray-400 text-sm">No upcoming appointments</div>
             }
             <RecentRepairs repairs={recentRepairs} />
           </div>
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6 order-1 lg:order-2">
             {repairCardData
               ? <RepairStatus repair={repairCardData} />
-              : <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center text-gray-400">No active repairs</div>
+              : <div className="p-4 md:p-6 rounded-2xl bg-white/5 border border-white/10 text-center text-gray-400 text-sm">No active repairs</div>
             }
             <InvoiceList invoices={invoiceListData} />
           </div>
