@@ -62,8 +62,8 @@ export default function CTASection() {
               </Link>
               <p className="text-gray-400 text-sm">
                 or call{' '}
-                <a href="tel:4195153394" className="text-orange-400 hover:text-orange-300 font-medium">
-                  (419) 515-3394
+                <a href="tel:4197400146" className="text-orange-400 hover:text-orange-300 font-medium">
+                  (419) 740-0146
                 </a>
               </p>
             </div>

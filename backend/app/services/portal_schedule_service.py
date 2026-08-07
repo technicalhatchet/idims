@@ -35,8 +35,8 @@ from app.utils.travel_calculator import (
 
 logger = logging.getLogger(__name__)
 
-PORTAL_CALL_MESSAGE = "Please call us at (419) 515-3394 to schedule service."
-SCHEDULE_SUPPORT_PHONE = "(419) 515-3394"
+PORTAL_CALL_MESSAGE = "Please call us at (419) 740-0146 to schedule service."
+SCHEDULE_SUPPORT_PHONE = "(419) 740-0146"
 
 
 def _portal_booking_estimate(db: Session, client: Client, appliance: ClientAppliance, address: str) -> dict:

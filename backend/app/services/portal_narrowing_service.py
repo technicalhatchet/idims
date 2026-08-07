@@ -52,7 +52,7 @@ def _format_narrowing_message(
     return (
         f"Hi {name}, your Atomic Repair technician is scheduled for {date_label}. "
         f"Your arrival window is {eta_display}. "
-        f"Questions? Call (419) 515-3394."
+        f"Questions? Call (419) 740-0146."
     )
 
 

@@ -101,7 +101,7 @@ class BookingEstimateResponse(BaseModel):
 OUT_OF_SERVICE_AREA_MESSAGE = (
     "This address is outside our online booking area. "
     "We serve the greater Toledo and northwest Ohio region. "
-    "If you think this is a mistake, call (419) 515-3394."
+    "If you think this is a mistake, call (419) 740-0146."
 )
 
 

@@ -83,7 +83,7 @@ function formatRepairForCard(wo) {
     date: wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : '',
     orderNumber: wo.order_number,
     technician: 'Rhett Nysko',
-    phone: '(419) 515-3394',
+    phone: '(419) 740-0146',
     icon: wo.equipment_subtype || wo.equipment_type || 'appliance',
     currentStep: stepMap[wo.status] ?? 1,
   };

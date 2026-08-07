@@ -15,8 +15,8 @@ import { getPortalSessionToken, portalFetch } from '../../../../utils/portalFetc
 import PortalSquarePayment from '../../../../components/cxdashboard/PortalSquarePayment';
 
 const STEPS = ['Issue', 'Date & Time', 'Review', 'Confirmed'];
-const SUPPORT_PHONE = '(419) 515-3394';
-const SUPPORT_TEL = 'tel:+14195153394';
+const SUPPORT_PHONE = '(419) 740-0146';
+const SUPPORT_TEL = 'tel:+14197400146';
 const PREP_STALE_MS = 5 * 60 * 1000;
 
 function formatCurrency(amount) {

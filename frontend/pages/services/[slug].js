@@ -331,7 +331,7 @@ export default function ServiceDetailPage({ service }) {
                 <p className="text-gray-400 text-sm">
                   or call{' '}
                   <a href="tel:4195551234" className="text-orange-400 hover:text-orange-300 font-medium">
-                    (419) 515-3394
+                    (419) 740-0146
                   </a>
                 </p>
               </div>

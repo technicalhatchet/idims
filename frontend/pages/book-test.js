@@ -810,7 +810,7 @@ export default function BookService() {
                             <p className="text-xs leading-relaxed text-orange-200/80">
                               {pricingEstimate?.service_area_message || (
                                 'Online booking is only available in our northwest Ohio service area. '
-                                + 'Call (419) 515-3394 if you need help.'
+                                + 'Call (419) 740-0146 if you need help.'
                               )}
                             </p>
                           </div>
@@ -850,7 +850,7 @@ export default function BookService() {
                               <p className="text-sm text-orange-200/80 leading-relaxed">
                                 {pricingEstimate?.service_area_message || (
                                   'This location is outside our standard service area. '
-                                  + 'Please double-check your address or call (419) 515-3394.'
+                                  + 'Please double-check your address or call (419) 740-0146.'
                                 )}
                               </p>
                             </div>

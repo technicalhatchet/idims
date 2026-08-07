@@ -184,7 +184,7 @@ export default function ServiceAreaIndex() {
                     Book Service
                   </motion.button>
                 </Link>
-                <a href="tel:4195153394">
+                <a href="tel:4197400146">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -197,7 +197,7 @@ export default function ServiceAreaIndex() {
                     }}
                   >
                     <FaPhone className="w-4 h-4" />
-                    (419) 515-3394
+                    (419) 740-0146
                   </motion.button>
                 </a>
               </div>
@@ -354,7 +354,7 @@ export default function ServiceAreaIndex() {
               className="text-sm mt-4 transition-colors duration-500"
               style={{ color: theme === 'atomic' ? '#6B7C8F' : '#6b7280' }}
             >
-              Don't see your city? We likely still serve your area! Call us at (419) 515-3394 to confirm.
+              Don't see your city? We likely still serve your area! Call us at (419) 740-0146 to confirm.
             </p>
           </motion.div>
         </div>
@@ -413,7 +413,7 @@ export default function ServiceAreaIndex() {
               </ul>
 
               <div className="flex flex-wrap gap-4">
-                <a href="tel:4195153394">
+                <a href="tel:4197400146">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -428,7 +428,7 @@ export default function ServiceAreaIndex() {
                     }}
                   >
                     <FaPhone className="w-4 h-4" />
-                    (419) 515-3394
+                    (419) 740-0146
                   </motion.button>
                 </a>
                 <Link href="/book">
@@ -517,7 +517,7 @@ export default function ServiceAreaIndex() {
                     Book Your Service
                   </motion.button>
                 </Link>
-                <a href="tel:4195153394">
+                <a href="tel:4197400146">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -530,7 +530,7 @@ export default function ServiceAreaIndex() {
                     }}
                   >
                     <FaPhone className="w-4 h-4" />
-                    Call (419) 515-3394
+                    Call (419) 740-0146
                   </motion.button>
                 </a>
               </div>

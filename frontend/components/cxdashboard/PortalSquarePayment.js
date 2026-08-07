@@ -258,7 +258,7 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
   if (!applicationId || !locationId) {
     return (
       <p style={{ color: '#f59e0b', fontSize: '0.875rem' }}>
-        Online payment is not configured yet. Please call (419) 515-3394 to schedule.
+        Online payment is not configured yet. Please call (419) 740-0146 to schedule.
       </p>
     );
   }

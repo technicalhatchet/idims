@@ -83,9 +83,9 @@ export default function ServiceHero({ service }) {
                   Book Your Service
                 </motion.button>
               </Link>
-              <a href="tel:4195153394" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+              <a href="tel:4197400146" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
                 <span>or call</span>
-                <span className="text-orange-400 font-semibold">(419) 515-3394</span>
+                <span className="text-orange-400 font-semibold">(419) 740-0146</span>
               </a>
             </div>
           </motion.div>

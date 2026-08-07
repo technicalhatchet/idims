@@ -41,7 +41,7 @@ from app.services.work_order_service import WorkOrderService
 
 logger = logging.getLogger(__name__)
 
-SCHEDULE_SUPPORT_PHONE = "(419) 515-3394"
+SCHEDULE_SUPPORT_PHONE = "(419) 740-0146"
 
 
 def _import_schedule_svc():
