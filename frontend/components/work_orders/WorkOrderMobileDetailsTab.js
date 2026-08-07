@@ -155,7 +155,7 @@ export default function WorkOrderMobileDetailsTab({
           <ApplianceIcon
             equipmentType={workOrder?.equipment_type}
             equipmentSubtype={workOrder?.equipment_subtype}
-            className="w-10 h-10"
+            className="w-14 h-14"
             strokeWidth={1.1}
             glow="subtle"
           />
