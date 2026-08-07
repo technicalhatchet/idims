@@ -15,8 +15,8 @@ export const WO_DETAILS_PRIMARY_CLASS = 'text-lg font-semibold text-white/[0.95]
 
 export const WO_DETAILS_SECONDARY_CLASS = 'text-[15px] font-normal text-white/[0.55] leading-snug';
 
-/** 16px body line (client name, appliance type, etc.). */
-export const WO_DETAILS_BODY_16_CLASS = 'text-base font-normal text-white/[0.95] leading-snug';
+/** 16px body line (client name, appliance type, etc.) — medium weight between normal and semibold. */
+export const WO_DETAILS_BODY_16_CLASS = 'text-base font-medium text-white/[0.95] leading-snug';
 
 /** 14px secondary line (tenant on client card). */
 export const WO_DETAILS_TENANT_CLASS = 'text-sm font-normal text-white/[0.55] leading-snug';
@@ -31,8 +31,9 @@ export const WO_DETAILS_PAD_Y = 'py-3';
 
 export const WO_DETAILS_PAD_Y_COMPACT = 'py-2.5';
 
-/** Service address line — same as 16px body. */
-export const WO_DETAILS_LOCATION_CLASS = WO_DETAILS_BODY_16_CLASS;
+/** Service address — 16px regular (not medium). */
+export const WO_DETAILS_LOCATION_CLASS =
+  'text-base font-normal text-white/[0.95] leading-snug';
 
 /** Bare icon action (call, navigate) — no tile background. */
 export const WO_DETAILS_ICON_BTN_CLASS =
