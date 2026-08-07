@@ -22,7 +22,10 @@ import {
   WO_DETAILS_LABEL_CLASS,
   WO_DETAILS_SECONDARY_CLASS,
   WO_DETAILS_LOCATION_CLASS,
+  WO_DETAILS_BODY_16_CLASS,
+  WO_DETAILS_TENANT_CLASS,
   WO_DETAILS_PAD_X,
+  WO_DETAILS_PAD_Y,
 } from './woMobileDetailsTokens';
 
 const ICON_STROKE = {
@@ -108,7 +111,9 @@ export default function WorkOrderMobileDetailsTab({
         <WoMobileDetailsSummaryRow
           label="Client"
           title={clientName}
+          titleClassName={WO_DETAILS_BODY_16_CLASS}
           subtitle={tenantName || undefined}
+          subtitleClassName={WO_DETAILS_TENANT_CLASS}
           icon={<ClientUserIcon />}
           compactPadding
           trailing={
@@ -142,6 +147,7 @@ export default function WorkOrderMobileDetailsTab({
       <WoMobileDetailsSummaryCard
         label="Appliance"
         title={equipmentDisplayName}
+        titleClassName={WO_DETAILS_BODY_16_CLASS}
         subtitle={modelLine ? `Model ${modelLine}` : undefined}
         meta={serialLine || undefined}
         iconProminent
@@ -149,7 +155,9 @@ export default function WorkOrderMobileDetailsTab({
           <ApplianceIcon
             equipmentType={workOrder?.equipment_type}
             equipmentSubtype={workOrder?.equipment_subtype}
-            className="w-[4.5rem] h-[4.5rem]"
+            className="w-10 h-10"
+            strokeWidth={1.1}
+            glow="subtle"
           />
         }
         onPress={onOpenEquipmentTab}
@@ -165,9 +173,9 @@ export default function WorkOrderMobileDetailsTab({
 
       {workOrder?.priority && workOrder.priority !== 'medium' && (
         <div className={WO_DETAILS_SURFACE_CLASS} style={WO_DETAILS_SURFACE_STYLE}>
-          <div className={`${WO_DETAILS_PAD_X} py-5`}>
+          <div className={`${WO_DETAILS_PAD_X} ${WO_DETAILS_PAD_Y}`}>
             <p className={WO_DETAILS_LABEL_CLASS}>Priority</p>
-            <p className={`mt-2 capitalize text-lg font-semibold text-white/[0.95]`}>{workOrder.priority}</p>
+            <p className={`mt-1.5 capitalize ${WO_DETAILS_BODY_16_CLASS}`}>{workOrder.priority}</p>
           </div>
         </div>
       )}

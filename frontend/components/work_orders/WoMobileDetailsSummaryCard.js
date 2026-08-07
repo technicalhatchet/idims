@@ -6,6 +6,8 @@ import {
   WO_DETAILS_SURFACE_CLASS,
   WO_DETAILS_SURFACE_STYLE,
   WO_DETAILS_PAD_X,
+  WO_DETAILS_PAD_Y,
+  WO_DETAILS_PAD_Y_COMPACT,
 } from './woMobileDetailsTokens';
 
 function DetailsChevron() {
@@ -36,6 +38,7 @@ function SummaryRow({
   onPress,
   showChevron,
   titleClassName = WO_DETAILS_PRIMARY_CLASS,
+  subtitleClassName = WO_DETAILS_SECONDARY_CLASS,
   dividerTop = false,
   compactPadding = false,
   iconProminent = false,
@@ -53,10 +56,16 @@ function SummaryRow({
   return (
     <div className={dividerTop ? 'border-t border-white/[0.06]' : ''}>
       <Wrapper {...wrapperProps}>
-        <div className={compactPadding ? `${WO_DETAILS_PAD_X} py-4` : `${WO_DETAILS_PAD_X} py-5`}>
+        <div
+          className={
+            compactPadding
+              ? `${WO_DETAILS_PAD_X} ${WO_DETAILS_PAD_Y_COMPACT}`
+              : `${WO_DETAILS_PAD_X} ${WO_DETAILS_PAD_Y}`
+          }
+        >
           {label && <p className={WO_DETAILS_LABEL_CLASS}>{label}</p>}
           <div
-            className={`flex gap-3.5 ${iconProminent ? 'items-center' : 'items-start'} ${label ? 'mt-2.5' : ''}`}
+            className={`flex gap-3.5 ${iconProminent ? 'items-center' : 'items-start'} ${label ? 'mt-2' : ''}`}
           >
             {icon && (
               <div
@@ -73,7 +82,7 @@ function SummaryRow({
             <div className="min-w-0 flex-1">
               {titleContent}
               {!titleContent && title && <p className={titleClassName}>{title}</p>}
-              {subtitle && <p className={`${WO_DETAILS_SECONDARY_CLASS} mt-1`}>{subtitle}</p>}
+              {subtitle && <p className={`${subtitleClassName} mt-1`}>{subtitle}</p>}
               {meta && <p className={`${WO_DETAILS_TERTIARY_CLASS} mt-1`}>{meta}</p>}
             </div>
             {(trailing || showChevron) && (

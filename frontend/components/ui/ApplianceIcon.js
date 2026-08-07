@@ -22,15 +22,38 @@ const APPLIANCE_ICONS = {
 /**
  * Neon-stroke appliance / TV icon for tech dashboard cards (matches work order test styling).
  */
-export default function ApplianceIcon({ equipmentType, equipmentSubtype, className = 'w-11 h-11' }) {
+export default function ApplianceIcon({
+  equipmentType,
+  equipmentSubtype,
+  className = 'w-11 h-11',
+  strokeWidth = 1.5,
+  glow = 'default',
+}) {
   const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
+  const glowFilter =
+    glow === 'subtle'
+      ? isCyan
+        ? 'drop-shadow(0 0 4px rgba(0,212,255,0.35))'
+        : 'drop-shadow(0 0 4px rgba(255,122,0,0.35))'
+      : isCyan
+        ? 'drop-shadow(0 0 6px rgba(0,212,255,0.6))'
+        : 'drop-shadow(0 0 6px rgba(255,122,0,0.6))';
   return (
-    <svg viewBox="0 0 24 24" className={className} style={{
-      stroke: isCyan ? '#00D4FF' : '#FF7A00', strokeWidth: 1.5, fill: 'none',
-      strokeLinecap: 'round', strokeLinejoin: 'round',
-      filter: isCyan ? 'drop-shadow(0 0 6px rgba(0,212,255,0.6))' : 'drop-shadow(0 0 6px rgba(255,122,0,0.6))'
-    }}>{match.svg}</svg>
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      style={{
+        stroke: isCyan ? '#00D4FF' : '#FF7A00',
+        strokeWidth,
+        fill: 'none',
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+        filter: glowFilter,
+      }}
+    >
+      {match.svg}
+    </svg>
   );
 }
