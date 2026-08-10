@@ -13,7 +13,7 @@ import {
   codeOptions,
   codeLabel,
 } from '../../constants/dmaCodes';
-import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel, SOLOMON_SESSION_TITLE } from '../../constants/workOrderNoteTypes';
+import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
 import DiagnosticResultsForm, {
@@ -544,12 +544,18 @@ export default function WorkOrderNotes({
           style={{ paddingTop: 'max(12px, env(safe-area-inset-top))', paddingBottom: 12 }}
         >
           <div aria-hidden />
-          <h2
-            id="guided-diagnostics-title"
-            className="text-center text-base font-semibold tracking-[0.2em] text-white"
-          >
-            {SOLOMON_SESSION_TITLE}
-          </h2>
+          <div className="flex min-w-0 items-center justify-center px-1">
+            <span id="guided-diagnostics-title" className="sr-only">
+              SOLOMON guided diagnostics
+            </span>
+            <img
+              src="/solomon%20big.png"
+              alt=""
+              aria-hidden
+              className="h-9 w-auto max-w-[min(100%,200px)] object-contain object-center sm:max-h-10"
+              decoding="async"
+            />
+          </div>
           <button
             type="button"
             onClick={closeGuidedDiagnostics}
