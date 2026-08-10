@@ -241,6 +241,7 @@ async def record_square_work_order_payment(
     square_source_id: str,
     payment_idempotency_key: Optional[str] = None,
     half_diagnostic_discount: bool = False,
+    payment_notes: str = "Square online payment",
 ) -> Tuple[WorkOrderPayment, Dict[str, Any]]:
     from app.core.exceptions import ValidationException
     from app.services.portal_square_payment_service import charge_square_payment
@@ -288,7 +289,7 @@ async def record_square_work_order_payment(
         tax_rate_snapshot=work_order.tax_rate,
         payment_method="credit_card",
         reference_number=square_result.get("square_payment_id"),
-        notes="Square online payment",
+        notes=payment_notes,
         recorded_by=user_id,
     )
     db.add(payment)
@@ -303,3 +304,64 @@ async def record_square_work_order_payment(
 
     db.flush()
     return payment, {**completion, "square": square_result}
+
+
+async def record_portal_invoice_square_payment(
+    db: Session,
+    work_order_id: uuid.UUID,
+    client_id: uuid.UUID,
+    *,
+    amount: float,
+    square_source_id: str,
+    payment_idempotency_key: Optional[str] = None,
+) -> Tuple[WorkOrderPayment, Dict[str, Any]]:
+    from app.core.exceptions import ValidationException
+    from app.services.portal_square_payment_service import square_credentials_configured
+
+    if not square_credentials_configured(db):
+        raise ValidationException(
+            "Online payment is not available yet. Please call us to pay this invoice."
+        )
+
+    work_order = (
+        db.query(WorkOrder)
+        .options(
+            joinedload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service),
+            joinedload(WorkOrder.parts),
+            joinedload(WorkOrder.appointments),
+        )
+        .filter(WorkOrder.id == work_order_id, WorkOrder.client_id == client_id)
+        .first()
+    )
+    if not work_order:
+        raise ValueError("Work order not found")
+
+    status_val = (
+        work_order.status.value
+        if hasattr(work_order.status, "value")
+        else str(work_order.status or "")
+    ).lower()
+    if status_val == "cancelled":
+        raise ValidationException("This invoice cannot be paid online.")
+
+    recorder_id = work_order.updated_by or work_order.created_by
+    if not recorder_id:
+        raise ValidationException(
+            "Online payment is temporarily unavailable. Please call (419) 794-1689."
+        )
+
+    from app.services.work_order_billing_helpers import compute_tax_on_billable_parts_due
+
+    tax_amount = float(compute_tax_on_billable_parts_due(work_order))
+
+    return await record_square_work_order_payment(
+        db,
+        work_order_id,
+        recorder_id,
+        amount=amount,
+        tax_amount=tax_amount,
+        square_source_id=square_source_id,
+        payment_idempotency_key=payment_idempotency_key,
+        half_diagnostic_discount=False,
+        payment_notes="Client portal — Square payment",
+    )

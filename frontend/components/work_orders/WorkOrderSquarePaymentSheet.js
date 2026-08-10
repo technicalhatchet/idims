@@ -155,6 +155,7 @@ export default function WorkOrderSquarePaymentSheet({
               amount={dueToday}
               amountLabel="Balance due"
               applePayEnabled={squareConfig.apple_pay_enabled !== false}
+              theme="dark"
               onError={handleSquareError}
               onReady={setPaymentFormReady}
               onWalletToken={handleWalletPayment}

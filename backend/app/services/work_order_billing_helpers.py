@@ -210,6 +210,16 @@ def compute_balance_due(
     return max(Decimal("0"), due).quantize(Decimal("0.01"))
 
 
+def compute_tax_on_billable_parts_due(work_order: WorkOrder) -> Decimal:
+    """Sales tax portion of the current balance (parts only, billable/due statuses)."""
+    tax_rate = _decimal(work_order.tax_rate or 0)
+    billable_parts = Decimal("0")
+    for part in work_order.parts or []:
+        if part.price is not None and part.status in PART_DUE_STATUSES:
+            billable_parts += _decimal(part.price)
+    return (billable_parts * tax_rate).quantize(Decimal("0.01"))
+
+
 def is_work_order_paid_in_full(work_order: WorkOrder) -> bool:
     """True when nothing billable remains and balance due is zero."""
     if has_outstanding_billable_skus(work_order):

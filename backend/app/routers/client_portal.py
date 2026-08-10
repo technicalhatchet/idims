@@ -5,7 +5,7 @@ All endpoints are scoped to the authenticated client only.
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import desc
 from typing import List, Optional, Tuple
 from datetime import datetime, timedelta
@@ -22,7 +22,7 @@ from app.core.auth import get_auth_handler
 from app.config import get_portal_invite_secret, settings
 from app.models.client import Client
 from app.models.user import User as DBUser
-from app.models.work_order import WorkOrder, WorkOrderAppointment
+from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderService
 from app.models.property import Property
 from app.models.client_appliance import ClientAppliance
 from app.utils.portal_estimate import portal_estimate_meta
@@ -922,25 +922,38 @@ async def get_portal_invoices(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db)
 ):
-    work_orders_list = db.query(WorkOrder).filter(
-        WorkOrder.client_id == client.id
-    ).order_by(desc(WorkOrder.created_at)).all()
+    from app.services.work_order_billing_helpers import compute_balance_due
+    from app.services.portal_square_payment_service import square_credentials_configured
 
+    work_orders_list = (
+        db.query(WorkOrder)
+        .options(
+            joinedload(WorkOrder.service_items).joinedload(WorkOrderService.service),
+            joinedload(WorkOrder.parts),
+            joinedload(WorkOrder.appointments),
+        )
+        .filter(WorkOrder.client_id == client.id)
+        .order_by(desc(WorkOrder.created_at))
+        .all()
+    )
+
+    pay_online = square_credentials_configured(db)
     result = []
     for wo in work_orders_list:
         paid = float(wo.amount_previously_paid or 0)
+        balance_due = float(compute_balance_due(wo))
         gross = float(wo.invoice_total or 0)
         discount = float(wo.diagnostic_discount_amount or 0) if getattr(wo, 'diagnostic_discount_applied', False) else 0
         tax = float(wo.tax_collected or 0)
         total = round(gross - discount + tax, 2)
         if total <= 0:
             total = gross
-        if paid >= total and total > 0:
+        if balance_due <= 0.01 and paid > 0:
             payment_status = "paid"
         elif paid > 0:
             payment_status = "partial"
         else:
-            payment_status = "unpaid"
+            payment_status = "unpaid" if balance_due > 0.01 else "paid"
 
         result.append({
             "id": str(wo.id),
@@ -952,11 +965,62 @@ async def get_portal_invoices(
             "tax": float(wo.invoice_tax) if wo.invoice_tax else None,
             "total": total,
             "amount_paid": paid,
+            "balance_due": round(balance_due, 2),
             "payment_status": payment_status,
             "work_order_status": wo.status,
+            "can_pay_online": pay_online and balance_due >= 1.0,
             **_estimate_fields(wo, db),
         })
     return result
+
+
+class PortalPayInvoiceRequest(BaseModel):
+    amount: float
+    square_source_id: str
+    payment_idempotency_key: Optional[str] = None
+
+
+@router.post("/portal/work-orders/{work_order_id}/pay-invoice")
+async def portal_pay_invoice(
+    work_order_id: str,
+    body: PortalPayInvoiceRequest,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from app.services.work_order_payment_service import record_portal_invoice_square_payment
+
+    try:
+        wo_uuid = uuid.UUID(work_order_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid work order id") from exc
+
+    try:
+        payment, completion = await record_portal_invoice_square_payment(
+            db,
+            wo_uuid,
+            client.id,
+            amount=body.amount,
+            square_source_id=body.square_source_id,
+            payment_idempotency_key=body.payment_idempotency_key,
+        )
+        db.commit()
+        return {
+            "success": True,
+            "payment_number": payment.payment_number,
+            "amount": float(payment.amount),
+            "work_order_completed": completion.get("work_order_completed", False),
+        }
+    except ValidationException as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except Exception as exc:
+        db.rollback()
+        logger.error("[Portal pay invoice] %s", exc)
+        raise HTTPException(status_code=500, detail="Payment could not be completed") from exc
+
 
 class PortalScheduleConfirmRequest(BaseModel):
     appliance_id: str

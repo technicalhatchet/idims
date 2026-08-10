@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { SQUARE_CARD_STYLE_DARK, SQUARE_CARD_STYLE_LIGHT } from './squareCardStyles';
 
 let squareScriptPromise = null;
 
@@ -67,6 +68,8 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
     onReady,
     onWalletToken,
     disabled = false,
+    /** 'dark' matches portal HUD; 'light' for white surfaces */
+    theme = 'dark',
   },
   ref,
 ) {
@@ -82,6 +85,9 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
   const [initError, setInitError] = useState(null);
 
   const moneyAmount = formatMoneyAmount(amount);
+  const cardStyle = theme === 'light' ? SQUARE_CARD_STYLE_LIGHT : SQUARE_CARD_STYLE_DARK;
+  const shellBg = theme === 'light' ? '#ffffff' : '#0a0f1a';
+  const shellBorder = theme === 'light' ? '1px solid #e5e7eb' : '1px solid rgba(255,255,255,0.12)';
 
   useEffect(() => {
     onErrorRef.current = onError;
@@ -141,7 +147,7 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
         if (cancelled || !containerRef.current || !window.Square) return;
 
         const payments = window.Square.payments(applicationId, locationId);
-        const card = await payments.card();
+        const card = await payments.card({ style: cardStyle });
         if (cancelled || !containerRef.current) {
           await card.destroy?.();
           return;
@@ -174,7 +180,7 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
         card.destroy().catch(() => {});
       }
     };
-  }, [applicationId, locationId, environment]);
+  }, [applicationId, locationId, environment, cardStyle]);
 
   // Apple Pay — re-init when amount changes
   useEffect(() => {
@@ -293,14 +299,16 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
 
       <div
         ref={containerRef}
+        className="sq-card-shell"
         style={{
           minHeight: '56px',
-          background: '#0a0f1a',
-          border: '1px solid rgba(255,255,255,0.12)',
+          background: shellBg,
+          border: shellBorder,
           borderRadius: '8px',
           padding: '0.5rem',
           opacity: disabled ? 0.6 : 1,
           pointerEvents: disabled ? 'none' : 'auto',
+          colorScheme: theme === 'light' ? 'light' : 'dark',
         }}
       />
       {!cardReady && !initError && (

@@ -5,6 +5,7 @@ import { FaFileInvoiceDollar, FaCheckCircle, FaExclamationCircle, FaPrint, FaFil
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
 import InvoiceDownloadMenu from '../../components/cxdashboard/InvoiceDownloadMenu';
+import PortalInvoicePayModal from '../../components/cxdashboard/PortalInvoicePayModal';
 import { printPortalInvoicePdf } from '../../utils/portalInvoicePdf';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
@@ -47,6 +48,8 @@ export default function InvoicesPage() {
   const [viewerInvoice, setViewerInvoice] = useState(null);
   const [viewerEstimate, setViewerEstimate] = useState(null);
   const [printingId, setPrintingId] = useState(null);
+  const [payInvoice, setPayInvoice] = useState(null);
+  const [portalToken, setPortalToken] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -54,6 +57,7 @@ export default function InvoicesPage() {
         const sessionRes = await fetch('/api/auth/session');
         const session = await sessionRes.json();
         const token = session.accessToken;
+        setPortalToken(token);
         const data = await portalFetch('invoices', token);
         setInvoices(Array.isArray(data) ? data : []);
       } catch (err) {
@@ -64,6 +68,15 @@ export default function InvoicesPage() {
     }
     load();
   }, []);
+
+  async function reloadInvoices() {
+    const sessionRes = await fetch('/api/auth/session');
+    const session = await sessionRes.json();
+    const token = session.accessToken;
+    setPortalToken(token);
+    const data = await portalFetch('invoices', token);
+    setInvoices(Array.isArray(data) ? data : []);
+  }
 
   async function handlePrint(inv) {
     setPrintingId(inv.id);
@@ -80,7 +93,11 @@ export default function InvoicesPage() {
   const paid = invoices.filter(i => i.payment_status === 'paid');
   const displayed = tab === 'all' ? invoices : tab === 'outstanding' ? outstanding : paid;
 
-  const totalOutstanding = outstanding.reduce((sum, i) => sum + (Number(i.total) - Number(i.amount_paid || 0)), 0);
+  const totalOutstanding = outstanding.reduce(
+    (sum, i) => sum + Number(i.balance_due ?? (Number(i.total) - Number(i.amount_paid || 0))),
+    0,
+  );
+  const anyCanPayOnline = outstanding.some((i) => i.can_pay_online && Number(i.balance_due) >= 1);
 
   return (
     <>
@@ -160,6 +177,27 @@ export default function InvoicesPage() {
                       </p>
                       <PaymentBadge status={inv.payment_status} />
                       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
+                        {inv.can_pay_online && Number(inv.balance_due) >= 1 && (
+                          <button
+                            type="button"
+                            onClick={() => setPayInvoice(inv)}
+                            style={{
+                              height: '32px',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              padding: '0 12px',
+                              background: 'rgba(34,197,94,0.15)',
+                              color: '#4ade80',
+                              border: '1px solid rgba(34,197,94,0.35)',
+                              borderRadius: '6px',
+                              fontSize: '0.75rem',
+                              fontWeight: '700',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Pay ${Number(inv.balance_due).toFixed(2)}
+                          </button>
+                        )}
                         {inv.estimate_available && (
                           <button
                             type="button"
@@ -198,7 +236,7 @@ export default function InvoicesPage() {
                     <div style={{ marginTop: '0.75rem' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#6b7280', marginBottom: '4px' }}>
                         <span>Paid: ${Number(inv.amount_paid || 0).toFixed(2)}</span>
-                        <span>Remaining: ${(Number(inv.total) - Number(inv.amount_paid || 0)).toFixed(2)}</span>
+                        <span>Remaining: ${Number(inv.balance_due ?? (Number(inv.total) - Number(inv.amount_paid || 0))).toFixed(2)}</span>
                       </div>
                       <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '999px', height: '4px', overflow: 'hidden' }}>
                         <div style={{ background: '#22d3ee', height: '100%', width: `${Math.min(100, (Number(inv.amount_paid) / Number(inv.total)) * 100)}%`, borderRadius: '999px' }} />
@@ -216,9 +254,31 @@ export default function InvoicesPage() {
             <p style={{ color: '#f59e0b', fontWeight: '600', margin: '0 0 0.75rem' }}>
               You have an outstanding balance of ${totalOutstanding.toFixed(2)}
             </p>
-            <p style={{ color: '#9ca3af', fontSize: '0.875rem', margin: 0 }}>
-              Please contact Atomic Repair at (419) 794-1689 to arrange payment.
+            <p style={{ color: '#9ca3af', fontSize: '0.875rem', margin: anyCanPayOnline ? '0 0 0.75rem' : 0 }}>
+              {anyCanPayOnline
+                ? 'Use Pay on an invoice below, or call us if you need help.'
+                : 'Please contact Atomic Repair at (419) 794-1689 to arrange payment.'}
             </p>
+            {anyCanPayOnline && (
+              <button
+                type="button"
+                onClick={() => {
+                  const next = outstanding.find((i) => i.can_pay_online && Number(i.balance_due) >= 1);
+                  if (next) setPayInvoice(next);
+                }}
+                style={{
+                  padding: '0.625rem 1.25rem',
+                  background: '#22c55e',
+                  color: '#0a0f1a',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                Pay outstanding balance
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -235,6 +295,18 @@ export default function InvoicesPage() {
           invoice={viewerEstimate}
           docType="estimate"
           onClose={() => setViewerEstimate(null)}
+        />
+      )}
+
+      {payInvoice && portalToken && (
+        <PortalInvoicePayModal
+          invoice={payInvoice}
+          token={portalToken}
+          onClose={() => setPayInvoice(null)}
+          onSuccess={async () => {
+            await reloadInvoices();
+            setPayInvoice(null);
+          }}
         />
       )}
     </>

@@ -56,6 +56,7 @@ def public_square_config(db) -> Dict[str, Any]:
         "square_location_id": cfg["location_id"],
         "square_environment": cfg["environment"],
         "configured": square_configured(db),
+        "credentials_configured": square_credentials_configured(db),
     }
 
 
