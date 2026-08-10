@@ -571,6 +571,21 @@ async def api_work_order_invoice_pdf(
         work_order_id=uuid.UUID(work_order_id), variant=variant, db=db, current_user=current_user
     )
 
+
+@app.get("/api/work-orders/square-payment-config")
+async def api_work_order_square_payment_config(
+    request: Request,
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db),
+):
+    """Must be registered before /api/work-orders/{work_order_id} catch-all."""
+    from app.core.dependencies import get_current_user
+
+    auth = authorization or request.headers.get("Authorization") or request.headers.get("authorization")
+    current_user = await get_current_user(request, auth, db=db)
+    return await work_orders.get_square_payment_config(db=db, current_user=current_user)
+
+
 # API prefixed version of the work order detail endpoint
 @app.get("/api/work-orders/{work_order_id}")
 @app.put("/api/work-orders/{work_order_id}")
