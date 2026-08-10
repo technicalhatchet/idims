@@ -1,8 +1,10 @@
-/** Square Web Payments SDK card field styling (iframe inputs). */
-
+/** Square Web Payments SDK card field styling (iframe inputs).
+ *  Do not set fontFamily to a comma-separated stack — Square rejects it.
+ *  Font CSP console noise from cash-f.squarecdn.com inside Square’s iframe is a known SDK quirk; payments still work.
+ */
 export const SQUARE_CARD_STYLE_DARK = {
   '.input-container': {
-    borderColor: 'rgba(34, 211, 238, 0.25)',
+    borderColor: '#2d4a52',
     borderRadius: '8px',
   },
   '.input-container.is-focus': {
@@ -26,7 +28,6 @@ export const SQUARE_CARD_STYLE_DARK = {
   input: {
     backgroundColor: '#0a0f1a',
     color: '#f3f4f6',
-    fontFamily: 'system-ui, -apple-system, sans-serif',
     fontSize: '16px',
   },
   'input::placeholder': {
