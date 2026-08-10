@@ -53,3 +53,11 @@ class WorkOrderPaymentResponse(BaseModel):
 class WorkOrderPaymentListResponse(BaseModel):
     items: List[WorkOrderPaymentResponse]
     total: int
+
+
+class SquareWorkOrderPaymentRequest(BaseModel):
+    amount: float = Field(..., gt=0, description="Total amount to charge (due today)")
+    tax_amount: Optional[float] = Field(0, ge=0)
+    square_source_id: str = Field(..., min_length=1)
+    payment_idempotency_key: Optional[str] = None
+    half_diagnostic_discount: bool = False

@@ -98,7 +98,7 @@ export default function RecordPaymentSheet({
           Record Payment
         </h3>
         <p className={`text-sm mb-4 ${variant === 'mobile' ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}`}>
-          Cash, check, or other non-Stripe payment. Marks billable services paid, settles installed part balances, and completes appointments pending payment.
+          Cash, check, or other manual payment. Marks billable services paid, settles installed part balances, and completes appointments pending payment.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-3">

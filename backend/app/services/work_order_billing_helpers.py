@@ -172,9 +172,13 @@ def compute_net_invoice_total(work_order: WorkOrder) -> Decimal:
     return (services_subtotal + parts_subtotal + tax_on_parts - discount).quantize(Decimal("0.01"))
 
 
-def compute_balance_due(work_order: WorkOrder) -> Decimal:
+def compute_balance_due(
+    work_order: WorkOrder,
+    *,
+    half_diagnostic_discount: bool = False,
+) -> Decimal:
     """
-    Remaining amount owed (due today). Matches frontend dueToday when no half-discount toggle.
+    Remaining amount owed (due today). Matches frontend dueToday (optional 50% discount toggle).
     """
     tax_rate = _decimal(work_order.tax_rate or 0)
 
@@ -197,7 +201,10 @@ def compute_balance_due(work_order: WorkOrder) -> Decimal:
 
     discount = Decimal("0")
     if has_completed_repair_appointment(work_order):
-        discount = diagnostic_discount_amount(work_order)
+        discount = diagnostic_discount_amount(
+            work_order,
+            half=half_diagnostic_discount,
+        )
 
     due = billable_services + billable_parts + tax_on_billable_parts - previously_paid - discount
     return max(Decimal("0"), due).quantize(Decimal("0.01"))

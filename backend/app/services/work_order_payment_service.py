@@ -229,3 +229,77 @@ def list_work_order_payments(db: Session, work_order_id: uuid.UUID) -> List[dict
             }
         )
     return items
+
+
+async def record_square_work_order_payment(
+    db: Session,
+    work_order_id: uuid.UUID,
+    user_id: uuid.UUID,
+    *,
+    amount: float,
+    tax_amount: float,
+    square_source_id: str,
+    payment_idempotency_key: Optional[str] = None,
+    half_diagnostic_discount: bool = False,
+) -> Tuple[WorkOrderPayment, Dict[str, Any]]:
+    from app.core.exceptions import ValidationException
+    from app.services.portal_square_payment_service import charge_square_payment
+    from app.services.work_order_billing_helpers import compute_balance_due
+
+    work_order = (
+        db.query(WorkOrder)
+        .options(
+            joinedload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service),
+            joinedload(WorkOrder.parts),
+            joinedload(WorkOrder.appointments),
+        )
+        .filter(WorkOrder.id == work_order_id)
+        .first()
+    )
+    if not work_order:
+        raise ValueError("Work order not found")
+
+    expected_due = float(
+        compute_balance_due(work_order, half_diagnostic_discount=half_diagnostic_discount)
+    )
+    if expected_due < 0.01:
+        raise ValidationException("Nothing is due on this work order.")
+    if abs(amount - expected_due) > 0.02:
+        raise ValidationException(
+            f"Payment amount must match balance due (${expected_due:.2f}). Refresh and try again."
+        )
+
+    wo_ref = (work_order.order_number or str(work_order_id))[:40]
+    square_result = await charge_square_payment(
+        db,
+        amount=amount,
+        source_id=square_source_id,
+        idempotency_key=payment_idempotency_key,
+        reference=wo_ref,
+    )
+
+    subtotal = max(0.0, float(amount) - float(tax_amount or 0))
+    payment = WorkOrderPayment(
+        work_order_id=work_order_id,
+        payment_number=_generate_payment_number(db),
+        amount=amount,
+        subtotal_amount=subtotal,
+        tax_amount=tax_amount or 0,
+        tax_rate_snapshot=work_order.tax_rate,
+        payment_method="credit_card",
+        reference_number=square_result.get("square_payment_id"),
+        notes="Square online payment",
+        recorded_by=user_id,
+    )
+    db.add(payment)
+
+    completion = apply_payment_to_work_order(
+        db,
+        work_order,
+        float(amount),
+        tax_amount=float(tax_amount or 0),
+        user_id=user_id,
+    )
+
+    db.flush()
+    return payment, {**completion, "square": square_result}

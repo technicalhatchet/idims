@@ -37,8 +37,13 @@ from app.schemas.work_order_payment import (
     RecordWorkOrderPaymentRequest,
     WorkOrderPaymentResponse,
     WorkOrderPaymentListResponse,
+    SquareWorkOrderPaymentRequest,
 )
-from app.services.work_order_payment_service import record_work_order_payment, list_work_order_payments
+from app.services.work_order_payment_service import (
+    record_work_order_payment,
+    list_work_order_payments,
+    record_square_work_order_payment,
+)
 from app.services import work_order_photos_service as photos_svc
 from app.schemas.service import ServiceResponse
 from app.services.work_order_service import WorkOrderService
@@ -2877,6 +2882,27 @@ async def update_service_billing_status(
             detail=f"Error updating billing status: {str(e)}"
         )
 
+@router.get("/square-payment-config")
+async def get_square_payment_config(
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Public Square Web Payments fields for work order checkout (no access token)."""
+    from app.services.portal_square_payment_service import (
+        get_square_config,
+        square_credentials_configured,
+    )
+
+    cfg = get_square_config(db)
+    return {
+        "square_application_id": cfg["application_id"],
+        "square_location_id": cfg["location_id"],
+        "square_environment": cfg["environment"],
+        "configured": square_credentials_configured(db),
+        "apple_pay_enabled": True,
+    }
+
+
 @router.get("/{work_order_id}/payments", response_model=WorkOrderPaymentListResponse)
 async def get_work_order_payments(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
@@ -2888,6 +2914,64 @@ async def get_work_order_payments(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
     items = list_work_order_payments(db, work_order_id)
     return WorkOrderPaymentListResponse(items=items, total=len(items))
+
+
+@router.post("/{work_order_id}/square-payment", response_model=WorkOrderPaymentResponse, status_code=status.HTTP_201_CREATED)
+async def square_work_order_payment_endpoint(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    body: SquareWorkOrderPaymentRequest = Body(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Charge due balance via Square and record payment (same billing updates as Stripe)."""
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+
+    try:
+        payment, completion = await record_square_work_order_payment(
+            db,
+            work_order_id,
+            current_user.id,
+            amount=body.amount,
+            tax_amount=float(body.tax_amount or 0),
+            square_source_id=body.square_source_id,
+            payment_idempotency_key=body.payment_idempotency_key,
+            half_diagnostic_discount=body.half_diagnostic_discount,
+        )
+        db.commit()
+        db.refresh(payment)
+
+        recorder_name = f"{current_user.first_name} {current_user.last_name}".strip()
+        return WorkOrderPaymentResponse(
+            id=payment.id,
+            work_order_id=payment.work_order_id,
+            payment_number=payment.payment_number,
+            amount=float(payment.amount),
+            subtotal_amount=float(payment.subtotal_amount) if payment.subtotal_amount is not None else None,
+            tax_amount=float(payment.tax_amount or 0),
+            tax_rate_snapshot=float(payment.tax_rate_snapshot) if payment.tax_rate_snapshot is not None else None,
+            payment_method=payment.payment_method,
+            reference_number=payment.reference_number,
+            notes=payment.notes,
+            payment_date=payment.payment_date,
+            recorded_by=payment.recorded_by,
+            recorder_name=recorder_name or None,
+            work_order_completed=completion.get("work_order_completed", False),
+            needs_repair_outcome=completion.get("needs_repair_outcome", False),
+        )
+    except ValidationException as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error processing Square work order payment: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error processing payment",
+        )
 
 
 @router.post("/{work_order_id}/record-payment", response_model=WorkOrderPaymentResponse, status_code=status.HTTP_201_CREATED)

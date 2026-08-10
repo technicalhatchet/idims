@@ -32,6 +32,7 @@ import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
+import WorkOrderSquarePaymentSheet from '../../../components/work_orders/WorkOrderSquarePaymentSheet';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
 import {
   computeWorkOrderDueToday,
@@ -99,6 +100,7 @@ function WorkOrderDetail() {
   const [showAllProperties, setShowAllProperties] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showDocumentPdf, setShowDocumentPdf] = useState(false);
+  const [showSquarePayment, setShowSquarePayment] = useState(false);
   const [fieldPayments, setFieldPayments] = useState([]);
   const [lifecycleBusy, setLifecycleBusy] = useState(false);
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
@@ -1431,30 +1433,8 @@ function WorkOrderDetail() {
                             <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
                               <div className="flex justify-center">
                                 <button
-                                  onClick={async () => {
-                                    try {
-                                      const clientEmail = workOrder.client?.email || workOrder.client_user?.email;
-                                      const clientName = workOrder.client_name || `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim();
-                                      
-                                      const response = await apiClient('stripe/create-checkout-session', {
-                                        method: 'POST',
-                                        body: JSON.stringify({
-                                          work_order_id: workOrder.id,
-                                          client_email: clientEmail,
-                                          client_name: clientName,
-                                          amount: dueToday,
-                                          success_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=success`,
-                                          cancel_url: `${window.location.origin}/work-orders/${workOrder.id}?payment=canceled`,
-                                          metadata: { work_order_number: workOrder.order_number || workOrder.id.slice(0, 8) }
-                                        })
-                                      });
-                                      if (response.url) { window.location.href = response.url; }
-                                      else { alert('Failed to create payment session'); }
-                                    } catch (error) {
-                                      console.error('Payment error:', error);
-                                      alert('Failed to process payment: ' + (error.message || 'Unknown error'));
-                                    }
-                                  }}
+                                  type="button"
+                                  onClick={() => setShowSquarePayment(true)}
                                   className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium text-lg shadow-lg hover:shadow-xl"
                                 >
                                   <div className="flex items-center space-x-3">
@@ -1464,7 +1444,7 @@ function WorkOrderDetail() {
                                 </button>
                               </div>
                               <div className="text-center mt-2">
-                                <span className="text-xs text-gray-500 dark:text-gray-400">Secure payment powered by Stripe</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">Secure payment powered by Square</span>
                               </div>
                             </div>
                           )}
@@ -1674,6 +1654,19 @@ function WorkOrderDetail() {
           workOrderId={id}
           isClosed={Boolean(workOrder?.is_closed)}
           onSuccess={refetch}
+        />
+
+        <WorkOrderSquarePaymentSheet
+          open={showSquarePayment}
+          onClose={() => setShowSquarePayment(false)}
+          workOrderId={workOrder?.id}
+          dueToday={billingTotals.dueToday}
+          taxAmount={billingTotals.taxOnBillableParts}
+          halfDiagnosticDiscount={halfDiagnosticDiscount}
+          onSuccess={async () => {
+            await refetch();
+          }}
+          variant="desktop"
         />
 
         <WorkOrderDocumentPdfSheet

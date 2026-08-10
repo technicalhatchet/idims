@@ -37,14 +37,14 @@ def get_square_config(db) -> Dict[str, Any]:
     }
 
 
+def square_credentials_configured(db) -> bool:
+    cfg = get_square_config(db)
+    return bool(cfg["application_id"] and cfg["location_id"] and cfg["access_token"])
+
+
 def square_configured(db) -> bool:
     cfg = get_square_config(db)
-    return bool(
-        cfg["requires_payment"]
-        and cfg["application_id"]
-        and cfg["location_id"]
-        and cfg["access_token"]
-    )
+    return bool(cfg["requires_payment"] and square_credentials_configured(db))
 
 
 def public_square_config(db) -> Dict[str, Any]:
@@ -59,21 +59,23 @@ def public_square_config(db) -> Dict[str, Any]:
     }
 
 
-async def charge_portal_booking(
+async def charge_square_payment(
     db,
     *,
     amount: float,
     source_id: str,
     idempotency_key: Optional[str] = None,
     reference: Optional[str] = None,
+    require_portal_booking_payment: bool = False,
+    failure_message: str = "Payment could not be processed. Please check your card or try again.",
 ) -> Dict[str, Any]:
     """Charge a card via Square Payments API. Returns payment payload."""
     cfg = get_square_config(db)
-    if not cfg["requires_payment"]:
+    if require_portal_booking_payment and not cfg["requires_payment"]:
         raise ValidationException("Payment is not required for portal booking.")
-    if not cfg["access_token"] or not cfg["location_id"]:
+    if not square_credentials_configured(db):
         raise ValidationException(
-            "Online payment is not configured yet. Please call us to schedule."
+            "Online payment is not configured yet. Please call us to complete payment."
         )
     if not source_id:
         raise ValidationException("Payment source is required.")
@@ -104,9 +106,7 @@ async def charge_portal_booking(
 
     if response.status_code >= 400:
         logger.warning("Square payment failed: %s %s", response.status_code, response.text[:500])
-        raise ValidationException(
-            "Payment could not be processed. Please check your card or call us to schedule."
-        )
+        raise ValidationException(failure_message)
 
     body = response.json()
     payment = body.get("payment") or {}
@@ -120,3 +120,25 @@ async def charge_portal_booking(
         "amount": amount,
         "receipt_url": payment.get("receipt_url"),
     }
+
+
+async def charge_portal_booking(
+    db,
+    *,
+    amount: float,
+    source_id: str,
+    idempotency_key: Optional[str] = None,
+    reference: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Charge a card for portal self-scheduling."""
+    return await charge_square_payment(
+        db,
+        amount=amount,
+        source_id=source_id,
+        idempotency_key=idempotency_key,
+        reference=reference,
+        require_portal_booking_payment=True,
+        failure_message=(
+            "Payment could not be processed. Please check your card or call us to schedule."
+        ),
+    )

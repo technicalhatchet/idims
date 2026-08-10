@@ -39,6 +39,7 @@ import WorkOrderMobileDetailsTab from '../../../components/work_orders/WorkOrder
 import WoMobileTextTabs from '../../../components/work_orders/WoMobileTextTabs';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
+import WorkOrderSquarePaymentSheet from '../../../components/work_orders/WorkOrderSquarePaymentSheet';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
 import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
 import WorkOrderExpensesPanel from '../../../components/work_orders/WorkOrderExpensesPanel';
@@ -145,6 +146,7 @@ function WorkOrderDetail() {
   const [adminBillingStatus, setAdminBillingStatus] = useState('waived');
   const [isUpdatingBillingStatus, setIsUpdatingBillingStatus] = useState(false);
   const [showRecordPayment, setShowRecordPayment] = useState(false);
+  const [showSquarePayment, setShowSquarePayment] = useState(false);
   const [showDocumentPdf, setShowDocumentPdf] = useState(false);
   const [fieldPayments, setFieldPayments] = useState([]);
   const [glassSectionsOpen, setGlassSectionsOpen] = useState({
@@ -2169,30 +2171,8 @@ function WorkOrderDetail() {
                                 <>
                                 <div className="flex flex-col sm:flex-row gap-2 justify-center max-w-sm mx-auto sm:max-w-none">
                                 <button
-                                  onClick={async () => {
-                                    try {
-                                      const clientEmail = workOrder.client?.email || workOrder.client_user?.email;
-                                      const clientName = workOrder.client_name || `${workOrder.client?.first_name || ''} ${workOrder.client?.last_name || ''}`.trim();
-
-                                      const response = await apiClient('stripe/create-checkout-session', {
-                                        method: 'POST',
-                                        body: JSON.stringify({
-                                          work_order_id: workOrder.id,
-                                          client_email: clientEmail,
-                                          client_name: clientName,
-                                          amount: billingTotals.dueToday,
-                                          success_url: `${window.location.origin}/work_orders/${workOrder.id}/mobile?payment=success`,
-                                          cancel_url: `${window.location.origin}/work_orders/${workOrder.id}/mobile?payment=canceled`,
-                                          metadata: { work_order_number: workOrder.order_number || workOrder.id.slice(0, 8) }
-                                        })
-                                      });
-                                      if (response.url) { window.location.href = response.url; }
-                                      else { alert('Failed to create payment session'); }
-                                    } catch (error) {
-                                      console.error('Payment error:', error);
-                                      alert('Failed to process payment: ' + (error.message || 'Unknown error'));
-                                    }
-                                  }}
+                                  type="button"
+                                  onClick={() => setShowSquarePayment(true)}
                                   className="flex-1 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white font-semibold text-base shadow-[0_0_24px_rgba(16,185,129,0.25)] active:scale-[0.98] md:px-8 md:py-3 md:rounded-lg md:bg-green-600 md:hover:bg-green-700"
                                 >
                                   Pay ${billingTotals.dueToday.toFixed(2)}
@@ -2206,7 +2186,7 @@ function WorkOrderDetail() {
                                 </button>
                               </div>
                               <div className="text-center mt-2">
-                                <span className="text-xs text-gray-500 dark:text-gray-400">Pay Now uses Stripe · Record for cash, check, etc.</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">Pay Now uses Square · Record for cash, check, etc.</span>
                               </div>
                                 </>
                               ) : (
@@ -2666,6 +2646,23 @@ function WorkOrderDetail() {
           </MobileActionSheetButton>
         </div>
       </MobileActionSheet>
+
+      <WorkOrderSquarePaymentSheet
+        open={showSquarePayment}
+        onClose={() => setShowSquarePayment(false)}
+        workOrderId={workOrder?.id}
+        dueToday={billingTotals.dueToday}
+        taxAmount={billingTotals.taxOnBillableParts}
+        halfDiagnosticDiscount={halfDiagnosticDiscount}
+        onSuccess={async (result) => {
+          await refetch();
+          if (result?.needs_repair_outcome) {
+            setShowRepairOutcomePrompt(true);
+          }
+          refreshOutcomeStatus();
+        }}
+        variant="mobile"
+      />
 
       <RecordPaymentSheet
         open={showRecordPayment}
