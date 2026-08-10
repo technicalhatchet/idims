@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { SQUARE_CARD_STYLE_DARK, SQUARE_CARD_STYLE_LIGHT } from './squareCardStyles';
+import { SQUARE_CARD_STYLE_DARK, SQUARE_CARD_STYLE_LIGHT, SQUARE_CARD_STYLE_ON_DARK_PAGE } from './squareCardStyles';
 
 let squareScriptPromise = null;
 
@@ -68,8 +68,10 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
     onReady,
     onWalletToken,
     disabled = false,
-    /** 'dark' matches portal HUD; 'light' for white surfaces */
+    /** 'dark' = dark page chrome with readable light card fields; 'light' = light page */
     theme = 'dark',
+    /** When true, attempt Square’s true dark inputs (#2d2d2d). Default false — more reliable contrast. */
+    preferDarkCardFields = false,
   },
   ref,
 ) {
@@ -85,8 +87,12 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
   const [initError, setInitError] = useState(null);
 
   const moneyAmount = formatMoneyAmount(amount);
-  const cardStyle = theme === 'light' ? SQUARE_CARD_STYLE_LIGHT : SQUARE_CARD_STYLE_DARK;
-  const shellBg = theme === 'light' ? '#ffffff' : '#0a0f1a';
+  const cardStyle = (() => {
+    if (theme === 'light') return SQUARE_CARD_STYLE_LIGHT;
+    if (preferDarkCardFields) return SQUARE_CARD_STYLE_DARK;
+    return SQUARE_CARD_STYLE_ON_DARK_PAGE;
+  })();
+  const shellBg = theme === 'light' ? '#ffffff' : '#1f2937';
   const shellBorder = theme === 'light' ? '1px solid #e5e7eb' : '1px solid rgba(255,255,255,0.12)';
 
   useEffect(() => {
@@ -308,7 +314,6 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
           padding: '0.5rem',
           opacity: disabled ? 0.6 : 1,
           pointerEvents: disabled ? 'none' : 'auto',
-          colorScheme: theme === 'light' ? 'light' : 'dark',
         }}
       />
       {!cardReady && !initError && (
