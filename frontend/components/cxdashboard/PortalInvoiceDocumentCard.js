@@ -171,10 +171,10 @@ export default function PortalInvoiceDocumentCard({
           <InvoiceIcon compact={compact} />
           <div className="flex flex-col justify-between min-w-0 flex-1 gap-1.5 sm:gap-2">
             <div className="min-w-0">
-              <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] text-white/38 uppercase leading-none">
+              <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] text-orange-400 uppercase leading-none">
                 Invoice
               </p>
-              <p className="text-[15px] sm:text-[1.125rem] font-bold text-white truncate leading-tight mt-0.5 sm:mt-1">
+              <p className="text-[15px] sm:text-[1.125rem] font-bold text-cyan-400 truncate leading-tight mt-0.5 sm:mt-1">
                 {invoice.order_number}
               </p>
               <p className="text-xs sm:text-[13px] text-white/75 mt-0.5 truncate leading-snug">
