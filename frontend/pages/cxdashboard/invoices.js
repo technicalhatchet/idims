@@ -140,7 +140,7 @@ export default function InvoicesPage() {
             <p className="m-0">No invoices found</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2.5">
             {displayed.map((inv, index) => (
               <PortalInvoiceDocumentCard
                 key={inv.id}
