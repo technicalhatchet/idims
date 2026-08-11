@@ -92,8 +92,8 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
     if (preferDarkCardFields) return SQUARE_CARD_STYLE_DARK;
     return SQUARE_CARD_STYLE_ON_DARK_PAGE;
   })();
-  const shellBg = theme === 'light' ? '#ffffff' : '#1f2937';
-  const shellBorder = theme === 'light' ? '1px solid #e5e7eb' : '1px solid rgba(255,255,255,0.12)';
+  const shellBg = theme === 'light' ? '#ffffff' : '#f3f4f6';
+  const shellBorder = theme === 'light' ? '1px solid #e5e7eb' : '1px solid #9ca3af';
 
   useEffect(() => {
     onErrorRef.current = onError;

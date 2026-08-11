@@ -422,37 +422,37 @@ export default function ClientDashboard() {
   }
 
   const stats = profile ? [
-    {
-      title: 'Upcoming Appointments',
+  {
+    title: 'Upcoming Appointments',
       value: String(profile.stats?.upcoming_appointments ?? 0),
       subtitle: profile.stats?.next_appointment ? `Next: ${format(parseISO(profile.stats.next_appointment), 'MMM d, yyyy')}` : 'None scheduled',
-      icon: FaCalendarAlt,
+    icon: FaCalendarAlt,
       href: '/cxdashboard/appointments',
-    },
-    {
-      title: 'Active Repairs',
+  },
+  {
+    title: 'Active Repairs',
       value: String(profile.stats?.active_repairs ?? 0),
       subtitle: profile.stats?.active_repairs > 0 ? 'In Progress' : 'All clear',
-      icon: FaTools,
-      href: '/cxdashboard/repairs',
+    icon: FaTools,
+    href: '/cxdashboard/repairs',
       highlight: profile.stats?.active_repairs > 0,
-    },
-    {
-      title: 'Total Invoices',
+  },
+  {
+    title: 'Total Invoices',
       value: String(invoices.length),
       subtitle: (() => {
         const paid = invoices.filter(i => i.payment_status === 'paid').length;
         const unpaid = invoices.filter(i => i.payment_status !== 'paid').length;
         return unpaid > 0 ? `${paid} Paid • ${unpaid} Outstanding` : `${paid} Paid`;
       })(),
-      icon: FaFileInvoiceDollar,
+    icon: FaFileInvoiceDollar,
       href: '/cxdashboard/invoices',
-    },
-    {
-      title: 'Warranty Coverage',
+  },
+  {
+    title: 'Warranty Coverage',
       value: String(profile.stats?.warranty_active ?? 0),
       subtitle: profile.stats?.warranty_active > 0 ? 'Active' : 'None active',
-      icon: FaShieldAlt,
+    icon: FaShieldAlt,
       href: '/cxdashboard/warranty',
     },
   ] : [];
@@ -542,9 +542,9 @@ export default function ClientDashboard() {
         {/* Tablet/desktop: original stat cards */}
         <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
-            <StatCard key={stat.title} {...stat} index={index} />
-          ))}
-        </div>
+          <StatCard key={stat.title} {...stat} index={index} />
+        ))}
+      </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           <div className="space-y-4 md:space-y-6 order-2 lg:order-1">
