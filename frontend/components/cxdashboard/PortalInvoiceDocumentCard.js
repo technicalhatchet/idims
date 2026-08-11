@@ -165,28 +165,28 @@ export default function PortalInvoiceDocumentCard({
         className={`grid grid-cols-[minmax(0,1.55fr)_minmax(96px,0.9fr)] sm:grid-cols-[minmax(0,1.62fr)_minmax(148px,0.88fr)] ${pad} gap-x-3 sm:gap-x-5 items-stretch max-w-full`}
       >
         {/* Left — invoice details */}
-        <div className="flex flex-col justify-between min-w-0 gap-1.5 sm:gap-2">
-          <div className="min-w-0">
-            <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] text-orange-400 uppercase leading-none">
-              Invoice
+        <div className="grid grid-cols-[auto_1fr] gap-x-2 sm:gap-x-3 items-start min-w-0">
+          <p className="col-start-2 text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] text-orange-400 uppercase leading-none">
+            Invoice
+          </p>
+
+          <div className="col-start-1 row-start-2 self-start pt-px">
+            <InvoiceIcon compact={compact} />
+          </div>
+
+          <div className="col-start-2 row-start-2 min-w-0">
+            <p className="text-[15px] sm:text-[1.125rem] font-bold text-cyan-400 truncate leading-tight">
+              {invoice.order_number}
             </p>
-            <div className="flex gap-2 sm:gap-3 items-start mt-0.5 sm:mt-1">
-              <InvoiceIcon compact={compact} />
-              <div className="min-w-0 flex-1">
-                <p className="text-[15px] sm:text-[1.125rem] font-bold text-cyan-400 truncate leading-tight">
-                  {invoice.order_number}
-                </p>
-                <p className="text-xs sm:text-[13px] text-white/75 mt-0.5 truncate leading-snug">
-                  {applianceLine}
-                </p>
-                {dateLine && (
-                  <p className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/42 leading-none mt-1.5 sm:mt-2">
-                    <FaCalendarAlt className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" aria-hidden />
-                    <time dateTime={invoice.created_at} className="truncate">{dateLine}</time>
-                  </p>
-                )}
-              </div>
-            </div>
+            <p className="text-xs sm:text-[13px] text-white/75 mt-0.5 truncate leading-snug">
+              {applianceLine}
+            </p>
+            {dateLine && (
+              <p className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/42 leading-none mt-1.5 sm:mt-2">
+                <FaCalendarAlt className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" aria-hidden />
+                <time dateTime={invoice.created_at} className="truncate">{dateLine}</time>
+              </p>
+            )}
           </div>
         </div>
 
