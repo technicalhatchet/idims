@@ -49,12 +49,10 @@ function StatusBadge({ status }) {
 
 function InvoiceIcon({ compact }) {
   return (
-    <div
-      className={`${compact ? 'w-9 h-9' : 'w-10 h-10 sm:w-11 sm:h-11'} rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0`}
+    <FaFileInvoiceDollar
+      className={`${compact ? 'w-9 h-9' : 'w-10 h-10 sm:w-11 sm:h-11'} text-cyan-400 shrink-0`}
       aria-hidden
-    >
-      <FaFileInvoiceDollar className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
-    </div>
+    />
   );
 }
 
