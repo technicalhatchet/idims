@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { format, parseISO, addDays, isPast } from 'date-fns';
 import { FaTools, FaShieldAlt, FaChevronDown, FaChevronUp, FaFileAlt } from 'react-icons/fa';
 import { formatPortalWorkOrderAppliance } from '../../utils/portalWorkOrderDisplay';
+import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
 
