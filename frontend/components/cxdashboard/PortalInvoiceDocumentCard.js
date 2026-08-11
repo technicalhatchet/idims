@@ -50,7 +50,7 @@ function StatusBadge({ status }) {
 function InvoiceIcon({ compact }) {
   return (
     <FaFileInvoiceDollar
-      className={`${compact ? 'w-6 h-6' : 'w-7 h-7 sm:w-8 sm:h-8'} text-cyan-400 shrink-0 mt-0.5`}
+      className={`${compact ? 'w-6 h-6' : 'w-7 h-7 sm:w-8 sm:h-8'} text-cyan-400 shrink-0`}
       aria-hidden
     />
   );
@@ -165,26 +165,28 @@ export default function PortalInvoiceDocumentCard({
         className={`grid grid-cols-[minmax(0,1.55fr)_minmax(96px,0.9fr)] sm:grid-cols-[minmax(0,1.62fr)_minmax(148px,0.88fr)] ${pad} gap-x-3 sm:gap-x-5 items-stretch max-w-full`}
       >
         {/* Left — invoice details */}
-        <div className="flex gap-2 sm:gap-3 min-w-0">
-          <InvoiceIcon compact={compact} />
-          <div className="flex flex-col justify-between min-w-0 flex-1 gap-1.5 sm:gap-2">
-            <div className="min-w-0">
-              <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] text-orange-400 uppercase leading-none">
-                Invoice
-              </p>
-              <p className="text-[15px] sm:text-[1.125rem] font-bold text-cyan-400 truncate leading-tight mt-0.5 sm:mt-1">
-                {invoice.order_number}
-              </p>
-              <p className="text-xs sm:text-[13px] text-white/75 mt-0.5 truncate leading-snug">
-                {applianceLine}
-              </p>
+        <div className="flex flex-col justify-between min-w-0 gap-1.5 sm:gap-2">
+          <div className="min-w-0">
+            <p className="text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] text-orange-400 uppercase leading-none">
+              Invoice
+            </p>
+            <div className="flex gap-2 sm:gap-3 items-start mt-0.5 sm:mt-1">
+              <InvoiceIcon compact={compact} />
+              <div className="min-w-0 flex-1">
+                <p className="text-[15px] sm:text-[1.125rem] font-bold text-cyan-400 truncate leading-tight">
+                  {invoice.order_number}
+                </p>
+                <p className="text-xs sm:text-[13px] text-white/75 mt-0.5 truncate leading-snug">
+                  {applianceLine}
+                </p>
+                {dateLine && (
+                  <p className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/42 leading-none mt-1.5 sm:mt-2">
+                    <FaCalendarAlt className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" aria-hidden />
+                    <time dateTime={invoice.created_at} className="truncate">{dateLine}</time>
+                  </p>
+                )}
+              </div>
             </div>
-            {dateLine && (
-              <p className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/42 leading-none">
-                <FaCalendarAlt className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" aria-hidden />
-                <time dateTime={invoice.created_at} className="truncate">{dateLine}</time>
-              </p>
-            )}
           </div>
         </div>
 
