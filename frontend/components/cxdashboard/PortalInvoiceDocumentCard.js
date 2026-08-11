@@ -38,11 +38,11 @@ function StatusBadge({ status }) {
   const { Icon } = cfg;
   return (
     <span
-      className={`inline-flex items-center gap-0.5 max-w-full px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold tracking-wide border rounded ${cfg.badgeClass}`}
+      className={`inline-flex items-center gap-1 max-w-full px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold tracking-wide border rounded leading-none ${cfg.badgeClass}`}
     >
-      <Icon className="w-2 h-2 sm:w-2.5 sm:h-2.5 shrink-0" aria-hidden />
-      <span className="truncate sm:hidden">{cfg.shortLabel || cfg.label}</span>
-      <span className="truncate hidden sm:inline">{cfg.label}</span>
+      <Icon className="w-2.5 h-2.5 shrink-0 block" aria-hidden />
+      <span className="truncate leading-none sm:hidden">{cfg.shortLabel || cfg.label}</span>
+      <span className="truncate leading-none hidden sm:inline">{cfg.label}</span>
     </span>
   );
 }
@@ -63,7 +63,7 @@ function AmountDisplay({ summary, status }) {
 
   if (status === 'paid') {
     return (
-      <p className="text-lg sm:text-[1.375rem] font-bold text-white tabular-nums leading-none text-right">
+      <p className="text-lg sm:text-[1.375rem] font-bold text-white tabular-nums leading-none text-right pt-1">
         ${summary.paid.toFixed(2)}
       </p>
     );
@@ -72,7 +72,7 @@ function AmountDisplay({ summary, status }) {
   if (status === 'partial') {
     const pct = total > 0 ? Math.min(100, (summary.paid / total) * 100) : 0;
     return (
-      <div className="w-full text-right min-w-0">
+      <div className="w-full text-right min-w-0 pt-1">
         <p className="text-sm sm:text-[1.125rem] font-bold text-white tabular-nums leading-tight">
           <span>${summary.balance.toFixed(2)}</span>
           <span className="text-white/35 font-medium text-[11px] sm:text-sm mx-0.5 sm:mx-1">of</span>
@@ -93,69 +93,17 @@ function AmountDisplay({ summary, status }) {
             transition={{ duration: 0.45, ease: 'easeOut' }}
           />
         </div>
-        <p className="text-[9px] sm:text-[10px] text-amber-400/90 mt-1 font-medium">Due on receipt</p>
       </div>
     );
   }
 
   return (
-    <div className="text-right min-w-0">
-      <p className="text-lg sm:text-[1.375rem] font-bold text-white tabular-nums leading-none">
-        ${summary.balance.toFixed(2)}
-      </p>
-      <p className="text-[9px] sm:text-[10px] text-red-400/90 font-medium mt-1">Due on receipt</p>
-    </div>
+    <p className="text-lg sm:text-[1.375rem] font-bold text-white tabular-nums leading-none text-right min-w-0 pt-1">
+      ${summary.balance.toFixed(2)}
+    </p>
   );
 }
 
-function SecondaryActions({ canPay, invoice, onPay, onViewEstimate, compact }) {
-  if (compact || (!canPay && !(invoice.estimate_available && onViewEstimate))) return null;
-
-  return (
-    <div
-      className="flex flex-wrap items-center justify-end gap-1"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {canPay && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onPay(invoice);
-          }}
-          className="h-6 px-1.5 sm:px-2 text-[9px] sm:text-[10px] font-bold rounded border border-emerald-500/35 bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition-colors"
-        >
-          Pay ${Number(invoice.balance_due).toFixed(2)}
-        </button>
-      )}
-      {invoice.estimate_available && onViewEstimate && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onViewEstimate(invoice);
-          }}
-          className="h-6 px-1.5 sm:px-2 inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold rounded border border-violet-500/25 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 transition-colors"
-        >
-          <FaFileAlt className="w-2.5 h-2.5 shrink-0" aria-hidden />
-          Estimate
-        </button>
-      )}
-    </div>
-  );
-}
-
-function ViewInvoiceButton({ onClick }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="text-[11px] sm:text-[13px] font-semibold text-cyan-400 hover:text-cyan-300 transition-colors whitespace-nowrap"
-    >
-      View Invoice →
-    </button>
-  );
-}
 
 export default function PortalInvoiceDocumentCard({
   invoice,
@@ -174,7 +122,6 @@ export default function PortalInvoiceDocumentCard({
   const isOutstanding = status === 'outstanding';
   const canPay = invoice.can_pay_online && Number(invoice.balance_due) >= 1 && onPay;
   const pad = compact ? 'px-2.5 py-2.5 sm:px-3 sm:py-3' : 'px-3 py-3 sm:px-4 sm:py-3.5';
-  const stretchY = compact ? '-my-2.5 sm:-my-3' : '-my-3 sm:-my-3.5';
 
   const handleCardClick = () => onView?.(invoice);
   const handleKeyDown = (e) => {
@@ -182,10 +129,6 @@ export default function PortalInvoiceDocumentCard({
       e.preventDefault();
       onView(invoice);
     }
-  };
-  const openInvoice = (e) => {
-    e.stopPropagation();
-    onView?.(invoice);
   };
 
   const ariaLabel = [
@@ -197,6 +140,11 @@ export default function PortalInvoiceDocumentCard({
     applianceLine,
     dateLine,
   ].filter(Boolean).join(', ');
+
+  const openInvoice = (e) => {
+    e.stopPropagation();
+    onView?.(invoice);
+  };
 
   return (
     <motion.article
@@ -216,7 +164,7 @@ export default function PortalInvoiceDocumentCard({
       aria-label={onView ? ariaLabel : undefined}
     >
       <div
-        className={`grid grid-cols-[minmax(0,1.55fr)_1px_minmax(96px,0.9fr)] sm:grid-cols-[minmax(0,1.62fr)_1px_minmax(148px,0.88fr)] ${pad} gap-x-2 sm:gap-x-4 items-stretch max-w-full`}
+        className={`grid grid-cols-[minmax(0,1.55fr)_minmax(96px,0.9fr)] sm:grid-cols-[minmax(0,1.62fr)_minmax(148px,0.88fr)] ${pad} gap-x-3 sm:gap-x-5 items-stretch max-w-full`}
       >
         {/* Left — invoice details */}
         <div className="flex gap-2 sm:gap-3 min-w-0">
@@ -242,10 +190,7 @@ export default function PortalInvoiceDocumentCard({
           </div>
         </div>
 
-        {/* Vertical divider */}
-        <div className={`bg-white/[0.08] w-px self-stretch ${stretchY}`} aria-hidden />
-
-        {/* Right — status, amount, action */}
+        {/* Right — status, amount, actions */}
         <div className="flex flex-col justify-between items-end text-right min-w-0 min-h-[72px] sm:min-h-[76px] py-0.5">
           <StatusBadge status={status} />
 
@@ -253,18 +198,46 @@ export default function PortalInvoiceDocumentCard({
             <AmountDisplay summary={summary} status={status} />
           </div>
 
-          <div className="w-full flex flex-col items-end gap-1 sm:gap-1.5 min-w-0">
+          <div
+            className="w-full flex flex-col items-end gap-1.5 min-w-0"
+            onClick={(e) => e.stopPropagation()}
+          >
             {(status === 'paid' || status === 'outstanding') && (
               <div className="w-full border-t border-white/[0.06] pt-1.5 sm:pt-2" aria-hidden />
             )}
-            <ViewInvoiceButton onClick={openInvoice} />
-            <SecondaryActions
-              canPay={canPay}
-              invoice={invoice}
-              onPay={onPay}
-              onViewEstimate={onViewEstimate}
-              compact={compact}
-            />
+            {canPay && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onPay(invoice);
+                }}
+                aria-label={`Pay invoice ${invoice.order_number}, $${Number(invoice.balance_due).toFixed(2)} due`}
+                className="h-7 px-3 text-[11px] sm:text-xs font-bold rounded-md bg-emerald-500 text-[#0a0f1a] hover:bg-emerald-400 transition-colors shadow-sm"
+              >
+                Pay
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={openInvoice}
+              className="text-[10px] sm:text-xs font-medium text-white/45 hover:text-cyan-400/80 transition-colors whitespace-nowrap"
+            >
+              View Invoice →
+            </button>
+            {!compact && invoice.estimate_available && onViewEstimate && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onViewEstimate(invoice);
+                }}
+                className="h-6 px-1.5 sm:px-2 inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold rounded border border-violet-500/25 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 transition-colors"
+              >
+                <FaFileAlt className="w-2.5 h-2.5 shrink-0" aria-hidden />
+                Estimate
+              </button>
+            )}
           </div>
         </div>
       </div>

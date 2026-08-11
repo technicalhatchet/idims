@@ -87,20 +87,20 @@ export default function InvoicesPage() {
           <p className="text-white/45 text-sm mt-1 mb-0">Your invoices and payment history</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="rounded-lg border border-white/[0.07] bg-[#0D1525] px-4 py-3">
-            <p className="text-white/45 text-xs m-0 mb-1">Total Invoices</p>
-            <p className="text-white text-2xl font-bold m-0 tabular-nums">{invoices.length}</p>
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="rounded-lg border border-white/[0.07] bg-[#0D1525] px-2.5 py-2.5 sm:px-4 sm:py-3 min-w-0">
+            <p className="text-white/45 text-[10px] sm:text-xs m-0 mb-0.5 sm:mb-1 leading-tight">Total Invoices</p>
+            <p className="text-white text-lg sm:text-2xl font-bold m-0 tabular-nums leading-none">{invoices.length}</p>
           </div>
-          <div className="rounded-lg border border-red-500/20 bg-[#0D1525] px-4 py-3">
-            <p className="text-white/45 text-xs m-0 mb-1">Outstanding Balance</p>
-            <p className={`text-2xl font-bold m-0 tabular-nums ${totalOutstanding > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+          <div className="rounded-lg border border-red-500/20 bg-[#0D1525] px-2.5 py-2.5 sm:px-4 sm:py-3 min-w-0">
+            <p className="text-white/45 text-[10px] sm:text-xs m-0 mb-0.5 sm:mb-1 leading-tight">Outstanding Balance</p>
+            <p className={`text-lg sm:text-2xl font-bold m-0 tabular-nums leading-none ${totalOutstanding > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
               ${totalOutstanding.toFixed(2)}
             </p>
           </div>
-          <div className="rounded-lg border border-emerald-500/20 bg-[#0D1525] px-4 py-3">
-            <p className="text-white/45 text-xs m-0 mb-1">Total Paid</p>
-            <p className="text-emerald-400 text-2xl font-bold m-0 tabular-nums">
+          <div className="rounded-lg border border-emerald-500/20 bg-[#0D1525] px-2.5 py-2.5 sm:px-4 sm:py-3 min-w-0">
+            <p className="text-white/45 text-[10px] sm:text-xs m-0 mb-0.5 sm:mb-1 leading-tight">Total Paid</p>
+            <p className="text-emerald-400 text-lg sm:text-2xl font-bold m-0 tabular-nums leading-none">
               ${totalPaid.toFixed(2)}
             </p>
           </div>
