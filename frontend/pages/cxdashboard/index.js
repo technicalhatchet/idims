@@ -568,7 +568,15 @@ export default function ClientDashboard() {
               ? <RepairStatus repair={repairCardData} />
               : <div className="p-4 md:p-6 rounded-2xl bg-white/5 border border-white/10 text-center text-gray-400 text-sm">No active repairs</div>
             }
-            <InvoiceList invoices={invoiceListData} />
+            <InvoiceList
+              invoices={invoiceListData}
+              portalToken={accessToken}
+              onInvoicesPaid={async () => {
+                if (!accessToken) return;
+                const invs = await portalFetch('invoices', accessToken, selectedClient?.id);
+                setInvoices(Array.isArray(invs) ? invs : []);
+              }}
+            />
           </div>
         </div>
 

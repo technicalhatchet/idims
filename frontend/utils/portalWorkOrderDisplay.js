@@ -42,15 +42,43 @@ export function getPortalRepairProgressStep(status) {
 
 export function getPortalInvoicePaymentSummary(invoice) {
   const paid = Number(invoice?.amount_paid || 0);
+  const total = Number(invoice?.total || 0);
   const balance = Number(
-    invoice?.balance_due ?? Math.max(0, Number(invoice?.total || 0) - paid),
+    invoice?.balance_due ?? Math.max(0, total - paid),
   );
 
   if (invoice?.payment_status === 'paid' || balance <= 0.01) {
-    return { type: 'paid', paid, balance: 0 };
+    return { type: 'paid', paid, balance: 0, total };
   }
   if (invoice?.payment_status === 'partial' || (paid > 0 && balance > 0.01)) {
-    return { type: 'partial', paid, balance };
+    return { type: 'partial', paid, balance, total };
   }
-  return { type: 'outstanding', paid, balance };
+  return { type: 'outstanding', paid, balance, total: total || balance };
+}
+
+/** Display status for portal invoice cards (no overdue — due on receipt). */
+export function getPortalInvoiceDisplayStatus(invoice) {
+  const summary = getPortalInvoicePaymentSummary(invoice);
+  if (summary.type === 'paid') return 'paid';
+  if (summary.type === 'partial') return 'partial';
+  return 'outstanding';
+}
+
+/** Sum of amount_paid across invoices (for stat tiles). */
+export function sumPortalInvoicesAmountPaid(invoices = []) {
+  return invoices.reduce((sum, inv) => sum + Number(inv?.amount_paid || 0), 0);
+}
+
+/** Invoices eligible for portal bulk pay. */
+export function getPortalPayableInvoices(invoices = []) {
+  return invoices.filter(
+    (inv) => inv.can_pay_online && Number(inv.balance_due) >= 1,
+  );
+}
+
+/** Human-readable line for bulk payment notes / UI. */
+export function formatPortalInvoiceBulkLine(invoice) {
+  const order = invoice?.order_number || 'Invoice';
+  const appliance = formatPortalWorkOrderAppliance(invoice);
+  return `${order} (${appliance})`;
 }

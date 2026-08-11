@@ -980,6 +980,66 @@ class PortalPayInvoiceRequest(BaseModel):
     payment_idempotency_key: Optional[str] = None
 
 
+class PortalPayAllInvoicesRequest(BaseModel):
+    square_source_id: str
+    payment_idempotency_key: Optional[str] = None
+    work_order_ids: Optional[List[str]] = None
+
+
+@router.post("/portal/invoices/pay-all")
+async def portal_pay_all_invoices(
+    body: PortalPayAllInvoicesRequest,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from app.services.work_order_billing_helpers import compute_balance_due
+    from app.services.portal_square_payment_service import square_credentials_configured
+    from app.services.work_order_payment_service import record_portal_bulk_square_payment
+
+    if not square_credentials_configured(db):
+        raise HTTPException(
+            status_code=400,
+            detail="Online payment is not available yet. Please call us to pay your invoices.",
+        )
+
+    if body.work_order_ids:
+        wo_ids: List[uuid.UUID] = []
+        for raw_id in body.work_order_ids:
+            try:
+                wo_ids.append(uuid.UUID(raw_id))
+            except ValueError as exc:
+                raise HTTPException(status_code=400, detail="Invalid work order id") from exc
+    else:
+        work_orders = (
+            db.query(WorkOrder)
+            .filter(WorkOrder.client_id == client.id)
+            .all()
+        )
+        wo_ids = [
+            wo.id
+            for wo in work_orders
+            if float(compute_balance_due(wo)) >= 1.0
+        ]
+
+    try:
+        result = await record_portal_bulk_square_payment(
+            db,
+            client.id,
+            wo_ids,
+            square_source_id=body.square_source_id,
+            payment_idempotency_key=body.payment_idempotency_key,
+        )
+        db.commit()
+        return {"success": True, **result}
+    except ValidationException as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        db.rollback()
+        logger.error("[Portal pay all invoices] %s", exc)
+        raise HTTPException(status_code=500, detail="Payment could not be completed") from exc
+
+
 @router.post("/portal/work-orders/{work_order_id}/pay-invoice")
 async def portal_pay_invoice(
     work_order_id: str,

@@ -365,3 +365,142 @@ async def record_portal_invoice_square_payment(
         half_diagnostic_discount=False,
         payment_notes="Client portal — Square payment",
     )
+
+
+def _portal_invoice_appliance_label(work_order: WorkOrder) -> str:
+    make = (work_order.equipment_make or "").strip()
+    subtype = (work_order.equipment_subtype or work_order.equipment_type or "").strip()
+    subtype_label = subtype.replace("_", " ").title() if subtype else ""
+    if make and subtype_label:
+        if subtype_label.lower().startswith(make.lower()):
+            return subtype_label
+        return f"{make} {subtype_label}"
+    return make or subtype_label or "Appliance"
+
+
+async def record_portal_bulk_square_payment(
+    db: Session,
+    client_id: uuid.UUID,
+    work_order_ids: List[uuid.UUID],
+    *,
+    square_source_id: str,
+    payment_idempotency_key: Optional[str] = None,
+) -> Dict[str, Any]:
+    """One Square charge split across multiple portal invoices with a shared payment note."""
+    from app.core.exceptions import ValidationException
+    from app.services.portal_square_payment_service import (
+        charge_square_payment,
+        square_credentials_configured,
+    )
+    from app.services.work_order_billing_helpers import (
+        compute_balance_due,
+        compute_tax_on_billable_parts_due,
+    )
+
+    if not square_credentials_configured(db):
+        raise ValidationException(
+            "Online payment is not available yet. Please call us to pay your invoices."
+        )
+    if not work_order_ids:
+        raise ValidationException("No invoices selected for payment.")
+
+    work_orders = (
+        db.query(WorkOrder)
+        .options(
+            joinedload(WorkOrder.service_items).joinedload(WorkOrderServiceModel.service),
+            joinedload(WorkOrder.parts),
+            joinedload(WorkOrder.appointments),
+        )
+        .filter(WorkOrder.id.in_(work_order_ids), WorkOrder.client_id == client_id)
+        .all()
+    )
+    if len(work_orders) != len(set(work_order_ids)):
+        raise ValidationException("One or more invoices could not be found.")
+
+    payable: List[Tuple[WorkOrder, float, float]] = []
+    for work_order in work_orders:
+        status_val = (
+            work_order.status.value
+            if hasattr(work_order.status, "value")
+            else str(work_order.status or "")
+        ).lower()
+        if status_val == "cancelled":
+            continue
+        balance = float(compute_balance_due(work_order))
+        if balance < 1.0:
+            continue
+        tax_amount = float(compute_tax_on_billable_parts_due(work_order))
+        payable.append((work_order, balance, tax_amount))
+
+    if not payable:
+        raise ValidationException("No payable balance found on the selected invoices.")
+
+    total_amount = round(sum(item[1] for item in payable), 2)
+    batch_id = str(uuid.uuid4())[:8].upper()
+    inclusion_lines = [
+        f"{wo.order_number or wo.id} ({_portal_invoice_appliance_label(wo)})"
+        for wo, _, _ in payable
+    ]
+    shared_note = (
+        "Client portal — bulk Square payment "
+        f"(batch {batch_id}). Invoices: {', '.join(inclusion_lines)}."
+    )
+
+    square_result = await charge_square_payment(
+        db,
+        amount=total_amount,
+        source_id=square_source_id,
+        idempotency_key=payment_idempotency_key,
+        reference=f"bulk-{batch_id}"[:40],
+    )
+    square_payment_id = square_result.get("square_payment_id")
+
+    payments: List[WorkOrderPayment] = []
+    completions: List[Dict[str, Any]] = []
+
+    for work_order, amount, tax_amount in payable:
+        recorder_id = work_order.updated_by or work_order.created_by
+        if not recorder_id:
+            raise ValidationException(
+                "Online payment is temporarily unavailable. Please call (419) 794-1689."
+            )
+        subtotal = max(0.0, float(amount) - float(tax_amount or 0))
+        payment = WorkOrderPayment(
+            work_order_id=work_order.id,
+            payment_number=_generate_payment_number(db),
+            amount=amount,
+            subtotal_amount=subtotal,
+            tax_amount=tax_amount or 0,
+            tax_rate_snapshot=work_order.tax_rate,
+            payment_method="credit_card",
+            reference_number=square_payment_id,
+            notes=shared_note,
+            recorded_by=recorder_id,
+        )
+        db.add(payment)
+        completion = apply_payment_to_work_order(
+            db,
+            work_order,
+            float(amount),
+            tax_amount=float(tax_amount or 0),
+            user_id=recorder_id,
+        )
+        payments.append(payment)
+        completions.append(completion)
+
+    db.flush()
+    return {
+        "batch_id": batch_id,
+        "square": square_result,
+        "total_amount": total_amount,
+        "payment_count": len(payments),
+        "payments": [
+            {
+                "payment_number": p.payment_number,
+                "work_order_id": str(p.work_order_id),
+                "amount": float(p.amount),
+            }
+            for p in payments
+        ],
+        "work_orders_completed": sum(1 for c in completions if c.get("work_order_completed")),
+    }
