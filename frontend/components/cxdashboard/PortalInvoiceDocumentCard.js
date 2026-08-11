@@ -50,7 +50,7 @@ function StatusBadge({ status }) {
 function InvoiceIcon({ compact }) {
   return (
     <FaFileInvoiceDollar
-      className={`${compact ? 'w-7 h-7' : 'w-8 h-8 sm:w-9 sm:h-9'} text-cyan-400 shrink-0 mt-0.5`}
+      className={`${compact ? 'w-6 h-6' : 'w-7 h-7 sm:w-8 sm:h-8'} text-cyan-400 shrink-0 mt-0.5`}
       aria-hidden
     />
   );
