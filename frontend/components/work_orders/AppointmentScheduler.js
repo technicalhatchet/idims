@@ -713,7 +713,10 @@ export default forwardRef(function AppointmentScheduler({
       } else {
         defaultStart.setHours(9, 0, 0, 0);
       }
-      const defaultEnd = addMinutes(defaultStart, DEFAULT_MIN_SLOT_MINUTES);
+      const defaultEnd = addMinutes(
+        defaultStart,
+        sumPlannedDurationMinutes([], allServices),
+      );
 
       setFormData({
         ...initialFormData,
@@ -741,6 +744,28 @@ export default forwardRef(function AppointmentScheduler({
       return ''; // Fallback to empty string
     }
   };
+
+  const computeScheduledEndForStart = (scheduledStart, serviceIds) => {
+    if (!scheduledStart) return '';
+    try {
+      const minutes = sumPlannedDurationMinutes(serviceIds, allServices);
+      return formatDateTimeForInput(addMinutes(parseISO(scheduledStart), minutes));
+    } catch (error) {
+      console.error('[computeScheduledEndForStart] Error:', error);
+      return '';
+    }
+  };
+
+  const applyStartWithSkuEnd = (prev, newScheduledStart) => ({
+    next: {
+      ...prev,
+      scheduled_start: newScheduledStart,
+      scheduled_end: newScheduledStart
+        ? computeScheduledEndForStart(newScheduledStart, prev.service_ids)
+        : prev.scheduled_end,
+    },
+    skuWarning: null,
+  });
 
   // Format date for display
   const formatDateTime = (dateString) => {
@@ -781,6 +806,14 @@ export default forwardRef(function AppointmentScheduler({
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (name === 'scheduled_start') {
+      setFormData((prev) => {
+        const { next, skuWarning } = applyStartWithSkuEnd(prev, value);
+        setSkuBlockWarning(skuWarning);
+        return next;
+      });
+      return;
+    }
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -816,9 +849,8 @@ export default forwardRef(function AppointmentScheduler({
 
     if (shouldSyncEnd) {
       try {
-        const startDate = parseISO(prev.scheduled_start);
         if (!currentAppointment || plannedMinutes <= blockMinutes) {
-          next.scheduled_end = formatDateTimeForInput(addMinutes(startDate, plannedMinutes));
+          next.scheduled_end = computeScheduledEndForStart(prev.scheduled_start, serviceIds);
           skuWarning = null;
         } else {
           skuWarning = { planned: plannedMinutes, block: blockMinutes };
@@ -896,17 +928,10 @@ export default forwardRef(function AppointmentScheduler({
   const handleExtendCalendarBlock = () => {
     setFormData((prev) => {
       if (!prev.scheduled_start) return prev;
-      const plannedMinutes = sumPlannedDurationMinutes(prev.service_ids, allServices);
-      try {
-        const startDate = parseISO(prev.scheduled_start);
-        return {
-          ...prev,
-          scheduled_end: formatDateTimeForInput(addMinutes(startDate, plannedMinutes)),
-        };
-      } catch (error) {
-        console.error('[handleExtendCalendarBlock] Error extending block:', error);
-        return prev;
-      }
+      return {
+        ...prev,
+        scheduled_end: computeScheduledEndForStart(prev.scheduled_start, prev.service_ids),
+      };
     });
     setSkuBlockWarning(null);
   };
@@ -2290,12 +2315,13 @@ export default forwardRef(function AppointmentScheduler({
                       const newDate = e.target.value; // Just the date YYYY-MM-DD
                       if (shopHours && newDate && !isDayOpen(shopHours, newDate)) {
                         const newStartDateTime = `${newDate}T09:00`;
-                        setFormData((prev) => ({
-                          ...prev,
-                          scheduled_start: newStartDateTime,
-                          scheduled_end: `${newDate}T10:00`,
-                          time_window: null,
-                        }));
+                        setFormData((prev) => {
+                          const { next } = applyStartWithSkuEnd(
+                            { ...prev, time_window: null },
+                            newStartDateTime,
+                          );
+                          return next;
+                        });
                         setFormErrors((prev) => ({
                           ...prev,
                           scheduled_start: SHOP_CLOSED_DATE_MESSAGE,
@@ -2310,17 +2336,13 @@ export default forwardRef(function AppointmentScheduler({
                       
                       const newStartDateTime = `${newDate}T${currentTime}`;
                       console.log(`Date picker changed - New start: ${newStartDateTime}`);
-                      
-                      // Update both start and end with the new date, preserving times
-                      const currentEndTime = formData.scheduled_end 
-                        ? formData.scheduled_end.split('T')[1]
-                        : '10:00'; // Default to 10 AM if no end time
-                        
-                      setFormData({
-                        ...formData,
-                        scheduled_start: newStartDateTime,
-                        scheduled_end: `${newDate}T${currentEndTime}`,
-                        time_window: null // Reset time window when manually selecting date
+
+                      setFormData((prev) => {
+                        const { next } = applyStartWithSkuEnd(
+                          { ...prev, time_window: null },
+                          newStartDateTime,
+                        );
+                        return next;
                       });
                       setFormErrors((prev) => {
                         if (prev.scheduled_start !== SHOP_CLOSED_DATE_MESSAGE) return prev;
@@ -2387,13 +2409,17 @@ export default forwardRef(function AppointmentScheduler({
                         onChange={(e) => {
                           const date = formData.scheduled_start ? formData.scheduled_start.split('T')[0] : '';
                           const newStartDateTime = `${date}T${e.target.value}`;
+                          const newEndDateTime = computeScheduledEndForStart(
+                            newStartDateTime,
+                            formData.service_ids,
+                          );
                           const conflictReason = checkProposedScheduleConflict(
                             newStartDateTime,
-                            formData.scheduled_end
+                            newEndDateTime,
                           );
-                          setFormData({
-                            ...formData,
-                            scheduled_start: newStartDateTime,
+                          setFormData((prev) => {
+                            const { next } = applyStartWithSkuEnd(prev, newStartDateTime);
+                            return next;
                           });
                           setFormErrors((prev) => {
                             const next = { ...prev };
@@ -2806,7 +2832,7 @@ export default forwardRef(function AppointmentScheduler({
           <TextInput
             id="scheduled_end"
             name="scheduled_end"
-            label="Scheduled End"
+            label="Scheduled End (updates from SKU duration when start changes)"
             type="datetime-local"
             value={formData.scheduled_end}
             onChange={handleInputChange}

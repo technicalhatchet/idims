@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaCalendarAlt, FaUserClock, FaTimes } from 'react-icons/fa';
-import { format } from 'date-fns';
+import { format, addMinutes, parseISO } from 'date-fns';
 import Select from 'react-select';
 import { apiClient } from '../../utils/api-client';
+import { sumPlannedDurationMinutes } from '../../utils/visitSku';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../ui/ErrorAlert';
 import Button from '../ui/Button';
@@ -134,8 +135,10 @@ export default function AppointmentsTab({ workOrderId, onUpdate }) {
       if (defaultStart < now) {
         defaultStart.setDate(defaultStart.getDate() + 1);
       }
-      const defaultEnd = new Date(defaultStart);
-      defaultEnd.setHours(defaultStart.getHours() + 1);
+      const defaultEnd = addMinutes(
+        defaultStart,
+        sumPlannedDurationMinutes([], allServices),
+      );
 
       setFormData({
         ...initialFormData,
@@ -158,8 +161,26 @@ export default function AppointmentsTab({ workOrderId, onUpdate }) {
     }
   };
 
+  const computeScheduledEndForStart = (scheduledStart, serviceIds) => {
+    if (!scheduledStart) return '';
+    try {
+      const minutes = sumPlannedDurationMinutes(serviceIds, allServices);
+      return formatDateTimeForInput(addMinutes(parseISO(scheduledStart), minutes));
+    } catch {
+      return '';
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'scheduled_start') {
+      setFormData((prev) => ({
+        ...prev,
+        scheduled_start: value,
+        scheduled_end: computeScheduledEndForStart(value, prev.service_ids),
+      }));
+      return;
+    }
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
@@ -168,9 +189,13 @@ export default function AppointmentsTab({ workOrderId, onUpdate }) {
   };
 
   const handleServiceChange = (selectedOptions) => {
-    setFormData(prev => ({
+    const serviceIds = selectedOptions ? selectedOptions.map((opt) => opt.value) : [];
+    setFormData((prev) => ({
       ...prev,
-      service_ids: selectedOptions ? selectedOptions.map(opt => opt.value) : []
+      service_ids: serviceIds,
+      scheduled_end: prev.scheduled_start
+        ? computeScheduledEndForStart(prev.scheduled_start, serviceIds)
+        : prev.scheduled_end,
     }));
   };
 
@@ -488,7 +513,7 @@ export default function AppointmentsTab({ workOrderId, onUpdate }) {
             </div>
             <div>
               <TextInput
-                label="Scheduled End (auto-calculated if services selected)"
+                label="Scheduled End (updates from SKU duration when start changes)"
                 name="scheduled_end"
                 type="datetime-local"
                 value={formData.scheduled_end}
