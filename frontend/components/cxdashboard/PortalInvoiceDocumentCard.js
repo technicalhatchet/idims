@@ -191,19 +191,21 @@ export default function PortalInvoiceDocumentCard({
         </div>
 
         {/* Right — status, amount, actions */}
-        <div className="flex flex-col justify-between items-end text-right min-w-0 min-h-[72px] sm:min-h-[76px] py-0.5">
-          <StatusBadge status={status} />
+        <div className="grid grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] w-full min-w-0 min-h-[72px] sm:min-h-[76px] py-0.5">
+          <div className="col-start-2 row-start-1 flex flex-col items-end">
+            <StatusBadge status={status} />
+          </div>
 
-          <div className="flex-1 flex flex-col justify-center w-full my-0.5 sm:my-1 min-w-0">
+          <div className="col-start-2 row-start-2 flex flex-col justify-center items-end self-stretch">
             <AmountDisplay summary={summary} status={status} />
           </div>
 
           <div
-            className="w-full flex flex-col items-end gap-1.5 min-w-0"
+            className="col-start-2 row-start-3 flex flex-col items-end gap-1 min-w-0"
             onClick={(e) => e.stopPropagation()}
           >
             {(status === 'paid' || status === 'outstanding') && (
-              <div className="w-full border-t border-white/[0.06] pt-1.5 sm:pt-2" aria-hidden />
+              <div className="w-full border-t border-white/[0.06] mb-0.5" aria-hidden />
             )}
             {canPay && (
               <button
