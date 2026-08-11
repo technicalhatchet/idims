@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { format, parseISO } from 'date-fns';
-import { FaFileInvoiceDollar, FaCheckCircle, FaExclamationCircle, FaPrint, FaFileAlt } from 'react-icons/fa';
+import { FaFileInvoiceDollar } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
-import InvoiceDownloadMenu from '../../components/cxdashboard/InvoiceDownloadMenu';
 import PortalInvoicePayModal from '../../components/cxdashboard/PortalInvoicePayModal';
+import PortalInvoiceRow from '../../components/cxdashboard/PortalInvoiceRow';
 import { printPortalInvoicePdf } from '../../utils/portalInvoicePdf';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
@@ -23,21 +22,6 @@ async function portalFetch(endpoint, token) {
   });
   if (!res.ok) throw new Error(`Portal API error: ${res.status}`);
   return res.json();
-}
-
-function PaymentBadge({ status }) {
-  const styles = {
-    paid: { label: 'Paid', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)', icon: FaCheckCircle },
-    partial: { label: 'Partial', bg: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: 'rgba(245,158,11,0.2)', icon: FaExclamationCircle },
-    unpaid: { label: 'Outstanding', bg: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'rgba(239,68,68,0.2)', icon: FaExclamationCircle },
-  };
-  const s = styles[status] || styles.unpaid;
-  const Icon = s.icon;
-  return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: s.bg, color: s.color, border: `1px solid ${s.border}`, borderRadius: '6px', padding: '2px 10px', fontSize: '0.75rem', fontWeight: '600' }}>
-      <Icon style={{ fontSize: '10px' }} />{s.label}
-    </span>
-  );
 }
 
 export default function InvoicesPage() {
@@ -150,101 +134,16 @@ export default function InvoicesPage() {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {displayed.map(inv => (
-              <div key={inv.id} style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px', flexShrink: 0 }}>
-                  <FaFileInvoiceDollar style={{ color: '#22d3ee', fontSize: '1.25rem' }} />
-                </div>
-
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <div style={{ minWidth: 0 }}>
-                      <p
-                        onClick={() => setViewerInvoice(inv)}
-                        style={{ color: '#22d3ee', fontWeight: '600', margin: 0, cursor: 'pointer', textDecoration: 'underline', textDecorationColor: 'rgba(34,211,238,0.3)' }}
-                      >
-                        Invoice #{inv.order_number}
-                      </p>
-                      <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
-                        {inv.created_at ? format(parseISO(inv.created_at), 'MMM d, yyyy') : ''}
-                        {inv.equipment_make && ` • ${inv.equipment_make}`}
-                        {inv.equipment_subtype && ` ${inv.equipment_subtype}`}
-                      </p>
-                    </div>
-                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                      <p style={{ color: '#fff', fontWeight: '700', fontSize: '1.125rem', margin: '0 0 4px' }}>
-                        ${Number(inv.total || 0).toFixed(2)}
-                      </p>
-                      <PaymentBadge status={inv.payment_status} />
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
-                        {inv.can_pay_online && Number(inv.balance_due) >= 1 && (
-                          <button
-                            type="button"
-                            onClick={() => setPayInvoice(inv)}
-                            style={{
-                              height: '32px',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              padding: '0 12px',
-                              background: 'rgba(34,197,94,0.15)',
-                              color: '#4ade80',
-                              border: '1px solid rgba(34,197,94,0.35)',
-                              borderRadius: '6px',
-                              fontSize: '0.75rem',
-                              fontWeight: '700',
-                              cursor: 'pointer',
-                            }}
-                          >
-                            Pay ${Number(inv.balance_due).toFixed(2)}
-                          </button>
-                        )}
-                        {inv.estimate_available && (
-                          <button
-                            type="button"
-                            title="View estimate"
-                            onClick={() => setViewerEstimate(inv)}
-                            style={{
-                              height: '32px', display: 'inline-flex', alignItems: 'center', gap: '4px',
-                              padding: '0 10px', background: 'rgba(139,92,246,0.12)', color: '#c4b5fd',
-                              border: '1px solid rgba(139,92,246,0.25)', borderRadius: '6px',
-                              fontSize: '0.75rem', fontWeight: '600', cursor: 'pointer',
-                            }}
-                          >
-                            <FaFileAlt style={{ fontSize: '11px' }} />
-                            Estimate
-                          </button>
-                        )}
-                        <button
-                          type="button"
-                          title="Print invoice (light)"
-                          disabled={printingId === inv.id}
-                          onClick={() => handlePrint(inv)}
-                          style={{
-                            width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            background: 'rgba(255,255,255,0.05)', color: '#9ca3af', border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: '6px', cursor: printingId === inv.id ? 'wait' : 'pointer',
-                          }}
-                        >
-                          <FaPrint style={{ fontSize: '13px' }} />
-                        </button>
-                        <InvoiceDownloadMenu invoice={inv} />
-                      </div>
-                    </div>
-                  </div>
-
-                  {inv.payment_status === 'partial' && (
-                    <div style={{ marginTop: '0.75rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#6b7280', marginBottom: '4px' }}>
-                        <span>Paid: ${Number(inv.amount_paid || 0).toFixed(2)}</span>
-                        <span>Remaining: ${Number(inv.balance_due ?? (Number(inv.total) - Number(inv.amount_paid || 0))).toFixed(2)}</span>
-                      </div>
-                      <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '999px', height: '4px', overflow: 'hidden' }}>
-                        <div style={{ background: '#22d3ee', height: '100%', width: `${Math.min(100, (Number(inv.amount_paid) / Number(inv.total)) * 100)}%`, borderRadius: '999px' }} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
+            {displayed.map((inv) => (
+              <PortalInvoiceRow
+                key={inv.id}
+                invoice={inv}
+                onView={setViewerInvoice}
+                onViewEstimate={setViewerEstimate}
+                onPay={setPayInvoice}
+                onPrint={handlePrint}
+                printing={printingId === inv.id}
+              />
             ))}
           </div>
         )}

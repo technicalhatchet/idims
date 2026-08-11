@@ -12,6 +12,11 @@ import RecentRepairs from '../../components/cxdashboard/RecentRepairs';
 import InvoiceList from '../../components/cxdashboard/InvoiceList';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
 import {
+  formatPortalWorkOrderAppliance,
+  getPortalRepairProgressStep,
+  getPortalInvoicePaymentSummary,
+} from '../../utils/portalWorkOrderDisplay';
+import {
   fetchPortalLinkDebug,
   postPortalLinkAccount,
   logPortalLinkDiagnostics,
@@ -65,7 +70,7 @@ function formatAppointmentForCard(appt) {
     status: appt.status === 'scheduled' ? 'Confirmed' : appt.status,
     date: start ? format(start, 'EEE, MMM d, yyyy') : 'TBD',
     time: start && end ? `${format(start, 'h:mm a')} – ${format(end, 'h:mm a')}` : start ? format(start, 'h:mm a') : 'TBD',
-    service: [wo.equipment_make, wo.equipment_subtype].filter(Boolean).join(' ') || wo.equipment_type || 'Service',
+    service: formatPortalWorkOrderAppliance(wo) || 'Service',
     address: prop.address || '',
     city: prop.unit_number ? `Unit ${prop.unit_number}` : '',
     image: wo.equipment_subtype || wo.equipment_type || 'appliance',
@@ -75,17 +80,16 @@ function formatAppointmentForCard(appt) {
 function formatRepairForCard(wo) {
   if (!wo) return null;
   const statusMap = { in_progress: 'In Progress', scheduled: 'Scheduled', en_route: 'En Route', pending: 'Pending', completed: 'Completed', completed_pending_payment: 'Pending Payment', waiting_on_parts: 'Waiting on Parts', parts_on_order: 'Parts on Order', on_hold: 'On Hold', canceled: 'Canceled', closed: 'Closed' };
-  const stepMap = { pending: 0, scheduled: 0, en_route: 1, in_progress: 1, completed_pending_payment: 2, completed: 3 };
   return {
     id: wo.id,
     status: statusMap[wo.status] || wo.status,
-    service: [wo.equipment_make, wo.equipment_subtype].filter(Boolean).join(' ') || wo.equipment_type || 'Repair',
+    service: formatPortalWorkOrderAppliance(wo) || 'Repair',
     date: wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : '',
     orderNumber: wo.order_number,
     technician: 'Rhett Nysko',
     phone: '(419) 740-0146',
     icon: wo.equipment_subtype || wo.equipment_type || 'appliance',
-    currentStep: stepMap[wo.status] ?? 1,
+    currentStep: getPortalRepairProgressStep(wo.status),
   };
 }
 
@@ -459,25 +463,30 @@ export default function ClientDashboard() {
 
   const nextAppointment = appointments[0];
   const appointmentCardData = formatAppointmentForCard(nextAppointment);
-  const activeRepair = workOrders.find(w => !['completed', 'cancelled', 'closed'].includes(w.status));
+  const activeRepair = workOrders.find((w) => {
+    const s = (w.status || '').toLowerCase();
+    return !['completed', 'cancelled', 'closed'].includes(s);
+  });
   const repairCardData = formatRepairForCard(activeRepair);
   const recentRepairs = workOrders.slice(0, 5).map(wo => ({
     id: wo.id,
     orderNumber: wo.order_number,
-    service: [wo.equipment_make, wo.equipment_subtype].filter(Boolean).join(' ') || wo.equipment_type || 'Service',
+    service: formatPortalWorkOrderAppliance(wo) || 'Service',
     date: wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : '',
     status: wo.status === 'completed' ? 'Completed' : wo.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
     price: wo.invoice_total ? `$${Number(wo.invoice_total).toFixed(2)}` : '—',
     icon: wo.equipment_subtype || wo.equipment_type || 'appliance',
   }));
-  const invoiceListData = invoices.slice(0, 5).map(inv => ({
-    id: inv.id,
-    number: inv.order_number,
-    date: inv.created_at ? format(parseISO(inv.created_at), 'MMM d, yyyy') : '',
-    status: inv.payment_status === 'paid' ? 'Paid' : 'Due',
-    amount: inv.total ? `${Number(inv.total).toFixed(2)}` : 'N/A',
-    dueDate: inv.payment_status !== 'paid' ? 'Outstanding' : null,
-  }));
+  const invoiceListData = invoices.slice(0, 5).map((inv) => {
+    const summary = getPortalInvoicePaymentSummary(inv);
+    return {
+      ...inv,
+      number: inv.order_number,
+      date: inv.created_at ? format(parseISO(inv.created_at), 'MMM d, yyyy') : '',
+      status: inv.payment_status === 'paid' ? 'Paid' : 'Due',
+      paymentSummary: summary,
+    };
+  });
 
   if (loading) {
     return (

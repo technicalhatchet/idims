@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { format, parseISO, addDays, isPast } from 'date-fns';
 import { FaTools, FaShieldAlt, FaChevronDown, FaChevronUp, FaFileAlt } from 'react-icons/fa';
-import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
+import { formatPortalWorkOrderAppliance } from '../../utils/portalWorkOrderDisplay';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
 
@@ -71,10 +71,13 @@ function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
             <div>
               <p style={{ color: '#fff', fontWeight: '600', margin: 0 }}>
-                {[wo.equipment_make, wo.equipment_subtype].filter(Boolean).join(' ') || wo.equipment_type || 'Service'}
+                {formatPortalWorkOrderAppliance(wo) || 'Service'}
               </p>
               <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
-                Order #{wo.order_number} • {wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : ''}
+                Order #{wo.order_number}
+              </p>
+              <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
+                {wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : ''}
               </p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

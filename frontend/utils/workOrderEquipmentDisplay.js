@@ -4,8 +4,9 @@ const GENERIC_EQUIPMENT_TYPES = new Set(['', 'appliance']);
 
 function humanizeEquipmentSlug(value) {
   if (!value) return null;
-  const s = String(value).replace(/_/g, ' ');
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  return String(value)
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 /**
