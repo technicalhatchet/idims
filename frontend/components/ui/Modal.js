@@ -12,6 +12,8 @@ export default function Modal({
   preventClose = false,
   /** 'default' = bottom sheet on mobile; 'center' = vertically centered on all breakpoints */
   placement = 'default',
+  /** When true, modal body does not scroll — children manage their own scroll regions */
+  containScroll = false,
 }) {
   const cancelButtonRef = useRef(null);
 
@@ -77,7 +79,11 @@ export default function Modal({
           </div>
         )}
 
-        <div className="bg-white dark:bg-gray-800 px-4 py-5 sm:p-6 text-gray-900 dark:text-gray-200 flex-1 min-h-0 overflow-y-auto overscroll-contain">
+        <div
+          className={`bg-white dark:bg-gray-800 px-4 py-5 sm:p-6 text-gray-900 dark:text-gray-200 flex-1 min-h-0 ${
+            containScroll ? 'overflow-hidden' : 'overflow-y-auto overscroll-contain'
+          }`}
+        >
           {children}
         </div>
 
