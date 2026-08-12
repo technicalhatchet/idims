@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Select, { components } from 'react-select';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -8,97 +7,12 @@ import { addWorkOrderEstimateLines } from '../../services/api/workOrdersApi';
 import { serviceIdsMatch } from '../../utils/visitSku';
 import { suggestRepairSkuForWorkOrder } from '../../utils/suggestRepairSku';
 
-function formatSkuPickerOption(service) {
-  return {
-    value: service.id,
-    label: `${service.name}${service.sku_code ? ` (${service.sku_code})` : ''} — ${service.duration_minutes || 0} min — $${Number(service.base_price || 0).toFixed(2)}`,
-  };
+function formatSkuLine(service) {
+  const code = service.sku_code ? ` (${service.sku_code})` : '';
+  const duration = service.duration_minutes || 0;
+  const price = Number(service.base_price || 0).toFixed(2);
+  return `${service.name}${code} — ${duration} min — $${price}`;
 }
-
-const selectStyles = {
-  control: (base, state) => ({
-    ...base,
-    backgroundColor: 'var(--color-bg-input, #1f2937)',
-    borderColor: state.isFocused ? 'var(--color-ring-focus, #3b82f6)' : 'var(--color-border-input, #4b5563)',
-    boxShadow: state.isFocused ? '0 0 0 1px var(--color-ring-focus, #3b82f6)' : 'none',
-    '&:hover': {
-      borderColor: 'var(--color-border-input-hover, #6b7280)',
-    },
-    borderRadius: '0.375rem',
-    minHeight: '38px',
-  }),
-  menu: (base) => ({
-    ...base,
-    backgroundColor: 'var(--color-bg-menu, #1f2937)',
-    zIndex: 20,
-  }),
-  menuPortal: (base) => ({
-    ...base,
-    zIndex: 10050,
-  }),
-  menuList: (base) => ({
-    ...base,
-    maxHeight: 'min(52vh, 320px)',
-  }),
-  option: (base, state) => ({
-    ...base,
-    backgroundColor: state.isSelected
-      ? 'var(--color-bg-option-selected, #3b82f6)'
-      : state.isFocused
-        ? 'var(--color-bg-option-focused, #374151)'
-        : 'transparent',
-    color: state.isSelected ? 'white' : 'var(--color-text-default, #d1d5db)',
-    '&:hover': {
-      backgroundColor: 'var(--color-bg-option-hover, #374151)',
-    },
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: 'var(--color-text-placeholder, #9ca3af)',
-  }),
-  input: (base) => ({
-    ...base,
-    color: 'var(--color-text-input, #e5e7eb)',
-  }),
-  indicatorsContainer: (base) => ({
-    ...base,
-    cursor: 'pointer',
-  }),
-  indicatorSeparator: () => ({
-    display: 'none',
-  }),
-};
-
-const fullscreenSelectStyles = {
-  ...selectStyles,
-  menuList: (base) => ({
-    ...base,
-    maxHeight: 'min(58vh, 480px)',
-  }),
-};
-
-/** Open/close menu from arrow without focusing the search input (avoids mobile scroll jump). */
-const skuSelectComponents = {
-  DropdownIndicator: (props) => {
-    const toggleMenuWithoutFocus = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const { menuIsOpen, onMenuOpen, onMenuClose } = props.selectProps;
-      if (menuIsOpen) onMenuClose();
-      else onMenuOpen();
-    };
-    return (
-      <components.DropdownIndicator
-        {...props}
-        innerProps={{
-          ...props.innerProps,
-          onMouseDown: toggleMenuWithoutFocus,
-          onTouchStart: toggleMenuWithoutFocus,
-        }}
-      />
-    );
-  },
-};
 
 export default function EstimateSkuModal({
   isOpen,
@@ -152,12 +66,20 @@ export default function EstimateSkuModal({
 
   const applySmartSuggestion = () => {
     if (!smartSuggestion?.sku) return;
-    const id = smartSuggestion.sku.id;
+    const { id } = smartSuggestion.sku;
     setSelectedCategory('repair');
     setSelectedServiceIds((prev) =>
       prev.some((sid) => serviceIdsMatch(sid, id)) ? prev : [...prev, id],
     );
     setError(null);
+  };
+
+  const toggleSku = (id) => {
+    setSelectedServiceIds((prev) =>
+      prev.some((sid) => serviceIdsMatch(sid, id))
+        ? prev.filter((sid) => !serviceIdsMatch(sid, id))
+        : [...prev, id],
+    );
   };
 
   const loadCatalog = useCallback(async () => {
@@ -185,11 +107,6 @@ export default function EstimateSkuModal({
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
     setSelectedServiceIds([]);
-  };
-
-  const handleSkuChange = (selected) => {
-    const ids = (selected || []).map((opt) => opt.value);
-    setSelectedServiceIds(ids);
   };
 
   const handleSubmit = async () => {
@@ -230,7 +147,8 @@ export default function EstimateSkuModal({
     </div>
   );
 
-  const menuPortalTarget = typeof document !== 'undefined' ? document.body : null;
+  const emptySkuMessageClass =
+    'text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800';
 
   return (
     <Modal
@@ -239,7 +157,6 @@ export default function EstimateSkuModal({
       title="Add estimate SKU"
       actions={modalActions}
       size="md"
-      placement={isMobile ? 'fullscreen' : 'center'}
     >
       <div className="space-y-4">
         <p className={`text-sm ${isMobile ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'}`}>
@@ -324,36 +241,47 @@ export default function EstimateSkuModal({
                 SKUs
               </label>
               {!selectedCategory ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
-                  Select a category first.
-                </p>
+                <p className={emptySkuMessageClass}>Select a category first.</p>
               ) : servicesForCategory.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+                <p className={emptySkuMessageClass}>
                   {availableCatalog.length === 0 && catalogServices.length > 0
                     ? 'All SKUs from the catalog are already on this work order.'
                     : 'No services in this category.'}
                 </p>
               ) : (
-                <Select
-                  isMulti
-                  isSearchable
-                  controlShouldRenderValue={false}
-                  options={servicesForCategory.map(formatSkuPickerOption)}
-                  value={servicesForCategory
-                    .filter((s) => selectedServiceIds.some((id) => serviceIdsMatch(s.id, id)))
-                    .map(formatSkuPickerOption)}
-                  onChange={handleSkuChange}
-                  placeholder="Search or pick SKUs…"
-                  isDisabled={!selectedCategory || servicesForCategory.length === 0}
-                  styles={isMobile ? fullscreenSelectStyles : selectStyles}
-                  classNamePrefix="select"
-                  components={skuSelectComponents}
-                  menuPortalTarget={menuPortalTarget}
-                  menuPosition="fixed"
-                  menuPlacement="auto"
-                  closeMenuOnScroll={false}
-                  blurInputOnSelect
-                />
+                <div
+                  className="rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden bg-[#1f2937]"
+                  role="listbox"
+                  aria-label="SKUs in category"
+                  aria-multiselectable="true"
+                >
+                  <div
+                    className="overflow-y-auto overscroll-contain touch-pan-y max-h-[min(36vh,260px)]"
+                    style={{ WebkitOverflowScrolling: 'touch' }}
+                  >
+                    {servicesForCategory.map((service) => {
+                      const selected = selectedServiceIds.some((id) =>
+                        serviceIdsMatch(id, service.id),
+                      );
+                      return (
+                        <button
+                          key={service.id}
+                          type="button"
+                          role="option"
+                          aria-selected={selected}
+                          onClick={() => toggleSku(service.id)}
+                          className={`w-full text-left px-3 py-2 text-sm touch-manipulation ${
+                            selected
+                              ? 'bg-blue-600 text-white'
+                              : 'text-gray-300 hover:bg-gray-700 active:bg-gray-700'
+                          }`}
+                        >
+                          {formatSkuLine(service)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
 
               {selectedServiceIds.length > 0 && (
@@ -369,11 +297,7 @@ export default function EstimateSkuModal({
                         <button
                           type="button"
                           className="text-cyan-200/80 hover:text-white"
-                          onClick={() =>
-                            setSelectedServiceIds((prev) =>
-                              prev.filter((sid) => !serviceIdsMatch(sid, id)),
-                            )
-                          }
+                          onClick={() => toggleSku(id)}
                           aria-label="Remove"
                         >
                           ×
