@@ -157,9 +157,11 @@ export default function EstimateSkuModal({
       title="Add estimate SKU"
       actions={modalActions}
       size="md"
+      placement={isMobile ? 'fullscreen' : 'default'}
+      containScroll={isMobile}
     >
-      <div className="space-y-4">
-        <p className={`text-sm ${isMobile ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'}`}>
+      <div className={`${isMobile ? 'flex flex-col gap-4 min-h-0 h-full' : 'space-y-4'}`}>
+        <p className={`text-sm shrink-0 ${isMobile ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'}`}>
           Add SKUs to this work order without scheduling a visit. They appear on estimates as unscheduled lines until attached to a visit.
         </p>
 
@@ -171,7 +173,7 @@ export default function EstimateSkuModal({
           <>
             {smartSuggestion?.sku ? (
               <div
-                className={`rounded-lg border px-3 py-3 ${
+                className={`shrink-0 rounded-lg border px-3 py-3 ${
                   isMobile
                     ? 'border-cyan-500/30 bg-cyan-500/10'
                     : 'border-cyan-200 dark:border-cyan-800 bg-cyan-50 dark:bg-cyan-900/20'
@@ -212,7 +214,7 @@ export default function EstimateSkuModal({
               </div>
             ) : null}
 
-            <div>
+            <div className="shrink-0">
               <label
                 htmlFor="estimate-sku-category"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -236,8 +238,8 @@ export default function EstimateSkuModal({
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <div className={isMobile ? 'flex flex-col min-h-0 flex-1 gap-1' : ''}>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 shrink-0">
                 SKUs
               </label>
               {!selectedCategory ? (
@@ -250,13 +252,17 @@ export default function EstimateSkuModal({
                 </p>
               ) : (
                 <div
-                  className="rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden bg-[#1f2937]"
+                  className={`rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden bg-[#1f2937] ${
+                    isMobile ? 'flex-1 min-h-0 flex flex-col' : ''
+                  }`}
                   role="listbox"
                   aria-label="SKUs in category"
                   aria-multiselectable="true"
                 >
                   <div
-                    className="overflow-y-auto overscroll-contain touch-pan-y max-h-[min(36vh,260px)]"
+                    className={`overflow-y-auto overscroll-contain touch-pan-y ${
+                      isMobile ? 'flex-1 min-h-0' : 'max-h-[min(36vh,260px)]'
+                    }`}
                     style={{ WebkitOverflowScrolling: 'touch' }}
                   >
                     {servicesForCategory.map((service) => {
@@ -285,7 +291,7 @@ export default function EstimateSkuModal({
               )}
 
               {selectedServiceIds.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-2 shrink-0">
                   {selectedServiceIds.map((id) => {
                     const service = catalogServices.find((s) => serviceIdsMatch(s.id, id));
                     return (
