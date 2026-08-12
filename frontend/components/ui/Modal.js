@@ -9,7 +9,9 @@ export default function Modal({
   children,
   actions,
   size = 'md',
-  preventClose = false
+  preventClose = false,
+  /** 'default' = bottom sheet on mobile; 'center' = vertically centered on all breakpoints */
+  placement = 'default',
 }) {
   const cancelButtonRef = useRef(null);
 
@@ -32,8 +34,13 @@ export default function Modal({
 
   if (!isOpen || typeof document === 'undefined') return null;
 
+  const isCentered = placement === 'center';
+  const shellAlign = isCentered
+    ? 'items-center justify-center p-4 sm:p-6'
+    : 'items-end sm:items-center justify-center p-0 sm:p-6';
+
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-0 sm:p-6 touch-manipulation">
+    <div className={`fixed inset-0 z-[9999] flex ${shellAlign} touch-manipulation`}>
       <div
         className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity touch-none"
         onClick={preventClose ? () => {} : onClose}
@@ -41,7 +48,9 @@ export default function Modal({
       />
 
       <div
-        className={`relative z-[1] w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-lg text-left overflow-hidden shadow-xl max-h-[90vh] overflow-y-auto`}
+        className={`relative z-[1] w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 text-left overflow-hidden shadow-xl max-h-[min(90vh,640px)] flex flex-col ${
+          isCentered ? 'rounded-2xl sm:rounded-lg' : 'rounded-t-2xl sm:rounded-lg'
+        }`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
@@ -68,12 +77,12 @@ export default function Modal({
           </div>
         )}
 
-        <div className="bg-white dark:bg-gray-800 px-4 py-5 sm:p-6 text-gray-900 dark:text-gray-200">
+        <div className="bg-white dark:bg-gray-800 px-4 py-5 sm:p-6 text-gray-900 dark:text-gray-200 flex-1 min-h-0 overflow-y-auto overscroll-contain">
           {children}
         </div>
 
         {actions && (
-          <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
+          <div className="shrink-0 bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
             {actions}
           </div>
         )}

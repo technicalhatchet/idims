@@ -29,7 +29,15 @@ const selectStyles = {
   menu: (base) => ({
     ...base,
     backgroundColor: 'var(--color-bg-menu, #1f2937)',
-    zIndex: 50,
+    zIndex: 10050,
+  }),
+  menuPortal: (base) => ({
+    ...base,
+    zIndex: 10050,
+  }),
+  menuList: (base) => ({
+    ...base,
+    maxHeight: 'min(52vh, 320px)',
   }),
   option: (base, state) => ({
     ...base,
@@ -166,6 +174,8 @@ export default function EstimateSkuModal({
     </div>
   );
 
+  const menuPortalTarget = typeof document !== 'undefined' ? document.body : null;
+
   return (
     <Modal
       isOpen={isOpen}
@@ -173,6 +183,7 @@ export default function EstimateSkuModal({
       title="Add estimate SKU"
       actions={modalActions}
       size="md"
+      placement="center"
     >
       <div className="space-y-4">
         <p className={`text-sm ${isMobile ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'}`}>
@@ -236,6 +247,10 @@ export default function EstimateSkuModal({
                   isDisabled={!selectedCategory || servicesForCategory.length === 0}
                   styles={selectStyles}
                   classNamePrefix="select"
+                  menuPortalTarget={menuPortalTarget}
+                  menuPosition="fixed"
+                  menuPlacement="auto"
+                  closeMenuOnScroll={false}
                 />
               )}
 
