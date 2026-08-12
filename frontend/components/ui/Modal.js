@@ -10,7 +10,7 @@ export default function Modal({
   actions,
   size = 'md',
   preventClose = false,
-  /** 'default' = bottom sheet on mobile; 'center' = vertically centered on all breakpoints */
+  /** 'default' = bottom sheet on mobile; 'center' = vertically centered; 'fullscreen' = edge-to-edge */
   placement = 'default',
   /** When true, modal body does not scroll — children manage their own scroll regions */
   containScroll = false,
@@ -36,29 +36,46 @@ export default function Modal({
 
   if (!isOpen || typeof document === 'undefined') return null;
 
+  const isFullscreen = placement === 'fullscreen';
   const isCentered = placement === 'center';
-  const shellAlign = isCentered
-    ? 'items-center justify-center p-4 sm:p-6'
-    : 'items-end sm:items-center justify-center p-0 sm:p-6';
+  const shellAlign = isFullscreen
+    ? 'items-stretch justify-stretch p-0'
+    : isCentered
+      ? 'items-center justify-center p-4 sm:p-6'
+      : 'items-end sm:items-center justify-center p-0 sm:p-6';
+
+  const dialogRounded = isFullscreen
+    ? 'rounded-none'
+    : isCentered
+      ? 'rounded-2xl sm:rounded-lg'
+      : 'rounded-t-2xl sm:rounded-lg';
+
+  const dialogSize = isFullscreen
+    ? 'w-full h-full max-h-full'
+    : `w-full ${sizeClasses[size]} max-h-[min(90vh,640px)]`;
 
   return createPortal(
     <div className={`fixed inset-0 z-[9999] flex ${shellAlign} touch-manipulation`}>
-      <div
-        className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity touch-none"
-        onClick={preventClose ? () => {} : onClose}
-        aria-hidden="true"
-      />
+      {!isFullscreen && (
+        <div
+          className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity touch-none"
+          onClick={preventClose ? () => {} : onClose}
+          aria-hidden="true"
+        />
+      )}
 
       <div
-        className={`relative z-[1] w-full ${sizeClasses[size]} bg-white dark:bg-gray-800 text-left overflow-hidden shadow-xl max-h-[min(90vh,640px)] flex flex-col ${
-          isCentered ? 'rounded-2xl sm:rounded-lg' : 'rounded-t-2xl sm:rounded-lg'
-        }`}
+        className={`relative z-[1] ${dialogSize} bg-white dark:bg-gray-800 text-left overflow-hidden shadow-xl flex flex-col ${dialogRounded}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
       >
         {title && (
-          <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-gray-200 dark:border-gray-700 sm:px-6 flex justify-between items-center">
+          <div
+            className={`bg-gray-50 dark:bg-gray-900 px-4 py-3 border-b border-gray-200 dark:border-gray-700 sm:px-6 flex justify-between items-center shrink-0 ${
+              isFullscreen ? 'pt-[max(12px,env(safe-area-inset-top))]' : ''
+            }`}
+          >
             <h3
               id="modal-title"
               className="text-lg leading-6 font-medium text-gray-900 dark:text-white pr-2"
@@ -88,7 +105,11 @@ export default function Modal({
         </div>
 
         {actions && (
-          <div className="shrink-0 bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
+          <div
+            className={`shrink-0 bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700 ${
+              isFullscreen ? 'pb-[max(12px,env(safe-area-inset-bottom))]' : ''
+            }`}
+          >
             {actions}
           </div>
         )}
