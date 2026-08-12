@@ -4,6 +4,7 @@ from pdf.document_presets import (
     filter_services_for_preset,
     has_billable_repair_service,
     is_trip_service,
+    service_matches_preset,
 )
 from pdf.work_order_adapter import work_order_to_estimate
 
@@ -30,6 +31,32 @@ def test_diagnostic_preset_excludes_repair_and_parts():
     filtered = apply_line_preset_to_rd(rd, "diagnostic", billable_part_statuses=BILLABLE_PARTS)
     assert len(filtered["services"]) == 2
     assert filtered["parts"] == []
+
+
+def test_estimate_includes_waived_for_visibility():
+    waived_diag = {
+        "name": "Old Diagnostic",
+        "service_type": "diagnostic",
+        "billing_status": "waived",
+        "price": 89,
+    }
+    assert service_matches_preset(waived_diag, "full", for_estimate=True)
+    assert service_matches_preset(waived_diag, "diagnostic", for_estimate=True)
+    assert not service_matches_preset(waived_diag, "full", for_estimate=False)
+
+    rd = {
+        "services": [
+            {"name": "Element Repair", "service_type": "repair", "billing_status": "not_billable", "price": 185},
+            waived_diag,
+        ],
+        "parts": [],
+        "tax_rate": 0,
+        "diagnostic_discount_amount": 0,
+    }
+    estimate = work_order_to_estimate(rd, line_preset="full")
+    assert len(estimate["services"]) == 2
+    assert estimate["services"][1]["billing_status"] == "Waived"
+    assert estimate["totals"]["service_subtotal"] == 185
 
 
 def test_repair_preset_excludes_trip():

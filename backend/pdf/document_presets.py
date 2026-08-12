@@ -81,8 +81,6 @@ def service_matches_preset(
     if not for_estimate:
         if not is_billable_service(service):
             return False
-    elif status == "waived":
-        return False
     if preset == "full":
         return True
     if preset == "diagnostic":

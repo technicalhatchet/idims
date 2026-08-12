@@ -33,11 +33,13 @@ import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRe
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
 import WorkOrderSquarePaymentSheet from '../../../components/work_orders/WorkOrderSquarePaymentSheet';
-import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
+import EstimateSkuModal from '../../../components/work_orders/EstimateSkuModal';
+import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee, deleteWorkOrderEstimateLine } from '../../../services/api/workOrdersApi';
 import {
   computeWorkOrderDueToday,
   formatTaxPercent,
   isPartLinePaid,
+  isUnscheduledEstimateLine,
   resolveWorkOrderTaxRate,
   round2,
   SERVICE_BILLING_STATUS_OPTIONS,
@@ -101,6 +103,8 @@ function WorkOrderDetail() {
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showDocumentPdf, setShowDocumentPdf] = useState(false);
   const [showSquarePayment, setShowSquarePayment] = useState(false);
+  const [showEstimateSkuModal, setShowEstimateSkuModal] = useState(false);
+  const [deletingEstimateLineId, setDeletingEstimateLineId] = useState(null);
   const [fieldPayments, setFieldPayments] = useState([]);
   const [lifecycleBusy, setLifecycleBusy] = useState(false);
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
@@ -134,6 +138,19 @@ function WorkOrderDetail() {
     () => canEditWorkOrderBilling({ role, workOrder }),
     [role, workOrder]
   );
+
+  const handleDeleteEstimateLine = async (serviceLineId, serviceName) => {
+    if (!window.confirm(`Remove "${serviceName || 'this SKU'}" from the estimate?`)) return;
+    setDeletingEstimateLineId(serviceLineId);
+    try {
+      await deleteWorkOrderEstimateLine(serviceLineId);
+      refetch();
+    } catch (err) {
+      alert(err.message || 'Failed to remove estimate line');
+    } finally {
+      setDeletingEstimateLineId(null);
+    }
+  };
   const showCloseAction = useMemo(
     () => canShowCloseOrderAction({ role, workOrder }),
     [role, workOrder]
@@ -1023,16 +1040,27 @@ function WorkOrderDetail() {
           </WorkOrderTabPanel>
           
           <WorkOrderTabPanel tab={TABS.INVOICES} activeTab={activeTab} isMounted={isTabMounted(TABS.INVOICES)} className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-6">
-              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-between items-center">
+              <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-between items-center gap-3">
                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Invoice Details</h2>
-                <button
-                  type="button"
-                  onClick={() => setShowDocumentPdf(true)}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 rounded transition-colors"
-                >
-                  <FaFileInvoiceDollar className="opacity-90" />
-                  PDF
-                </button>
+                <div className="flex items-center gap-2 shrink-0">
+                  {!woReadOnly && (
+                    <button
+                      type="button"
+                      onClick={() => setShowEstimateSkuModal(true)}
+                      className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-900/30 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 rounded transition-colors border border-cyan-200 dark:border-cyan-800"
+                    >
+                      Add estimate SKU
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setShowDocumentPdf(true)}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 rounded transition-colors"
+                  >
+                    <FaFileInvoiceDollar className="opacity-90" />
+                    PDF
+                  </button>
+                </div>
               </div>
               <div className="px-6 py-5">
                 {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
@@ -1072,6 +1100,11 @@ function WorkOrderDetail() {
                                       ) : (
                                         <>
                                           {item.name || 'N/A'}
+                                          {isUnscheduledEstimateLine(item) && (
+                                            <span className="ml-2 inline-flex px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                                              Unscheduled
+                                            </span>
+                                          )}
                                           {isPaid && <span className="ml-2">✓</span>}
                                           {isBillable && !isPaid && <span className="ml-2">💰</span>}
                                         </>
@@ -1159,19 +1192,34 @@ function WorkOrderDetail() {
                                             className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
                                           >Cancel</button>
                                         </div>
-                                      ) : billingEditable ? (
-                                        <button
-                                          onClick={() => setEditingServicePrice({
-                                            id: item.id,
-                                            name: item.name,
-                                            unit_price: item.unit_price,
-                                            price: item.price,
-                                            billing_status: item.billing_status || 'not_billable',
-                                          })}
-                                          className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
-                                          title="Edit line"
-                                        >✏️</button>
-                                      ) : null}
+                                      ) : (
+                                        <div className="flex items-center justify-end gap-2">
+                                          {billingEditable ? (
+                                            <button
+                                              onClick={() => setEditingServicePrice({
+                                                id: item.id,
+                                                name: item.name,
+                                                unit_price: item.unit_price,
+                                                price: item.price,
+                                                billing_status: item.billing_status || 'not_billable',
+                                              })}
+                                              className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
+                                              title="Edit line"
+                                            >✏️</button>
+                                          ) : null}
+                                          {!woReadOnly && isUnscheduledEstimateLine(item) ? (
+                                            <button
+                                              type="button"
+                                              disabled={deletingEstimateLineId === item.id}
+                                              onClick={() => handleDeleteEstimateLine(item.id, item.name)}
+                                              className="text-xs text-red-500 hover:text-red-700 dark:text-red-400 disabled:opacity-50"
+                                              title="Remove estimate line"
+                                            >
+                                              {deletingEstimateLineId === item.id ? '…' : '✕'}
+                                            </button>
+                                          ) : null}
+                                        </div>
+                                      )}
                                     </td>
                                   </tr>
                                 );
@@ -1550,9 +1598,20 @@ function WorkOrderDetail() {
                     )}
                   </div>
                 ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                    No billable services or items have been added to this work order yet.
-                  </p>
+                  <div className="text-center py-8 space-y-4">
+                    <p className="text-gray-500 dark:text-gray-400">
+                      No billable services or items have been added to this work order yet.
+                    </p>
+                    {!woReadOnly && (
+                      <button
+                        type="button"
+                        onClick={() => setShowEstimateSkuModal(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-900/30 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 rounded-md border border-cyan-200 dark:border-cyan-800"
+                      >
+                        Add estimate SKU
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
           </WorkOrderTabPanel>
@@ -1666,6 +1725,15 @@ function WorkOrderDetail() {
           onSuccess={async () => {
             await refetch();
           }}
+          variant="desktop"
+        />
+
+        <EstimateSkuModal
+          isOpen={showEstimateSkuModal}
+          onClose={() => setShowEstimateSkuModal(false)}
+          workOrderId={workOrder?.id}
+          existingWorkOrderServices={allServices}
+          onSuccess={() => refetch()}
           variant="desktop"
         />
 

@@ -54,6 +54,31 @@ export default function MobileActionSheet({
   );
 }
 
+export function MobileActionSheetGridTile({
+  icon,
+  label,
+  onClick,
+  disabled = false,
+  ...props
+}) {
+  return (
+    <button
+      type="button"
+      className="flex flex-col items-center justify-center gap-1.5 min-h-[92px] rounded-xl border border-white/10 bg-white/[0.06] px-2 py-3 touch-manipulation active:scale-[0.98] transition-transform disabled:opacity-40 disabled:pointer-events-none"
+      onClick={onClick}
+      disabled={disabled}
+      {...props}
+    >
+      <span className="flex h-11 w-11 items-center justify-center text-cyan-400/90 [&>svg]:h-6 [&>svg]:w-6">
+        {icon}
+      </span>
+      <span className="text-[11px] font-medium text-gray-300 leading-tight text-center">
+        {label}
+      </span>
+    </button>
+  );
+}
+
 export function MobileActionSheetButton({
   children,
   onClick,

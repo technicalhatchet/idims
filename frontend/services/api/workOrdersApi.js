@@ -150,6 +150,19 @@ export async function updateWorkOrderServicePrice(serviceId, { name, unit_price,
   });
 }
 
+export async function addWorkOrderEstimateLines(workOrderId, serviceIds) {
+  return apiClient(`work-orders/${workOrderId}/estimate-lines`, {
+    method: 'POST',
+    body: JSON.stringify({ service_ids: serviceIds }),
+  });
+}
+
+export async function deleteWorkOrderEstimateLine(serviceLineId) {
+  return apiClient(`work-orders/estimate-lines/${serviceLineId}`, {
+    method: 'DELETE',
+  });
+}
+
 export async function saveWorkOrderServiceLineEdits(
   serviceId,
   { name, unit_price, price, billing_status, previousBillingStatus },

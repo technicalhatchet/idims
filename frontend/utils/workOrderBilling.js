@@ -12,6 +12,11 @@ export const SERVICE_BILLING_STATUS_OPTIONS = [
   { value: 'waived', label: 'Waived' },
 ];
 
+/** Unscheduled estimate line — no visit, not yet billable. */
+export function isUnscheduledEstimateLine(item) {
+  return !item?.appointment_id && item?.billing_status === 'not_billable';
+}
+
 export function resolveWorkOrderTaxRate(workOrder) {
   const raw = parseFloat(workOrder?.tax_rate);
   return Number.isFinite(raw) && raw > 0 ? raw : 0.0775;

@@ -50,7 +50,7 @@ PART_STATUS_LABELS = {
 SERVICE_STATUS_LABELS = {
     "billable": "Pending",
     "paid": "Paid",
-    "waived": "Declined",
+    "waived": "Waived",
     "not_billable": "Estimated",
 }
 
@@ -164,12 +164,23 @@ def _part_description_with_warranty(part: dict) -> str:
     return desc
 
 
+def _billing_status_key(status: Optional[str]) -> str:
+    return str(status or "").strip().lower()
+
+
 def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
     services = rd.get("services") or []
     parts = rd.get("parts") or []
     tax_rate = float(rd.get("tax_rate") or 0.0775)
 
-    service_subtotal = round(sum(float(s.get("price") or 0) for s in services), 2)
+    if is_estimate:
+        services_for_subtotal = [
+            s for s in services if _billing_status_key(s.get("billing_status")) != "waived"
+        ]
+    else:
+        services_for_subtotal = services
+
+    service_subtotal = round(sum(float(s.get("price") or 0) for s in services_for_subtotal), 2)
     parts_subtotal = round(sum(float(p.get("price") or 0) for p in parts), 2)
     taxable_parts = _taxable_parts(parts)
     tax = round(

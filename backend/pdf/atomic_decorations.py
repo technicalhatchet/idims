@@ -327,6 +327,7 @@ DOC_BADGE_DROP = 3
 DOC_BADGE_PAD_X = 5
 DOC_BADGE_PAD_Y = 4
 DOC_BADGE_LINE_H = 8
+DOC_BADGE_META_LINE_GAP = 3  # extra space between date and order # inside meta badge
 DOC_BADGE_NO_SIZE = 8
 DOC_BADGE_DATE_SIZE = 7.5
 DOC_BADGE_CHAMFER = 3
@@ -395,7 +396,7 @@ def _draw_document_title_block(canvas, right_x: float, top_y: float, title: str,
         )
         + DOC_BADGE_PAD_X * 2
     )
-    badge_h = DOC_BADGE_PAD_Y * 2 + DOC_BADGE_LINE_H * 2
+    badge_h = DOC_BADGE_PAD_Y * 2 + DOC_BADGE_LINE_H * 2 + DOC_BADGE_META_LINE_GAP
     badge_x = right_x - badge_w
     badge_bottom = title_y - DOC_BADGE_GAP - DOC_BADGE_DROP - badge_h
 
@@ -417,7 +418,7 @@ def _draw_document_title_block(canvas, right_x: float, top_y: float, title: str,
     canvas.drawRightString(text_right, line1_y, no_text)
     canvas.setFont(FONT_REGULAR, DOC_BADGE_DATE_SIZE)
     canvas.setFillColor(theme.MUTED)
-    canvas.drawRightString(text_right, line1_y + DOC_BADGE_LINE_H, doc_date)
+    canvas.drawRightString(text_right, line1_y + DOC_BADGE_LINE_H + DOC_BADGE_META_LINE_GAP, doc_date)
 
 
 def _draw_document_header_logo(canvas, top_y: float, header_logo_path: Optional[str] = None):

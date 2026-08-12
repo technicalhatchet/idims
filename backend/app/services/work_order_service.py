@@ -1744,6 +1744,164 @@ class WorkOrderService:
         
         return True
 
+    def _recalculate_invoice_subtotal_for_work_order(self, work_order_id: uuid.UUID) -> None:
+        """Refresh draft invoice subtotal from all work-order service lines."""
+        from app.models.invoice import Invoice
+        from app.models.work_order import WorkOrderService as WorkOrderServiceModel
+
+        invoice = self.db.query(Invoice).filter(Invoice.work_order_id == work_order_id).first()
+        if not invoice:
+            return
+
+        all_wos = self.db.query(WorkOrderServiceModel).filter(
+            WorkOrderServiceModel.work_order_id == work_order_id
+        ).all()
+        subtotal = sum(
+            Decimal(wos.price) for wos in all_wos if wos.price is not None
+        )
+        invoice.subtotal = float(subtotal)
+
+    async def add_estimate_service_lines(
+        self,
+        work_order_id: uuid.UUID,
+        service_ids: List[uuid.UUID],
+        user_id: uuid.UUID,
+    ) -> Dict[str, Any]:
+        """Create unscheduled work-order service lines for estimate / planning."""
+        from app.models.invoice import Invoice, InvoiceItem
+        from app.models.service import Service
+        from app.models.work_order import WorkOrderService as WorkOrderServiceModel
+
+        work_order = await WorkOrderService.get_work_order(self.db, work_order_id)
+        from app.services.work_order_lifecycle_service import assert_work_order_mutable
+
+        assert_work_order_mutable(work_order)
+
+        created: List[WorkOrderServiceModel] = []
+        skipped: List[Dict[str, Any]] = []
+
+        for raw_service_id in service_ids:
+            service_id = (
+                raw_service_id
+                if isinstance(raw_service_id, uuid.UUID)
+                else uuid.UUID(str(raw_service_id))
+            )
+            main_service = self.db.query(Service).filter(Service.id == service_id).first()
+            if not main_service:
+                skipped.append(
+                    {"service_id": str(service_id), "reason": "service_not_found"}
+                )
+                continue
+
+            existing = self.db.query(WorkOrderServiceModel).filter(
+                WorkOrderServiceModel.work_order_id == work_order_id,
+                WorkOrderServiceModel.service_id == service_id,
+            ).first()
+            if existing:
+                skipped.append(
+                    {
+                        "service_id": str(service_id),
+                        "reason": "already_on_work_order",
+                        "work_order_service_id": str(existing.id),
+                    }
+                )
+                continue
+
+            unit_price = Decimal(main_service.base_price or 0)
+            quantity = 1
+            price = unit_price * quantity
+            wos = WorkOrderServiceModel(
+                work_order_id=work_order_id,
+                service_id=service_id,
+                appointment_id=None,
+                name=main_service.name,
+                quantity=quantity,
+                unit_price=unit_price,
+                price=price,
+                billing_status="not_billable",
+            )
+            self.db.add(wos)
+            self.db.flush()
+            created.append(wos)
+
+            invoice = self.db.query(Invoice).filter(
+                Invoice.work_order_id == work_order_id
+            ).first()
+            if invoice and work_order.client_id:
+                existing_item = self.db.query(InvoiceItem).filter(
+                    InvoiceItem.invoice_id == invoice.id,
+                    InvoiceItem.work_order_service_id == wos.id,
+                ).first()
+                if not existing_item:
+                    invoice_item = InvoiceItem(
+                        invoice_id=invoice.id,
+                        description=wos.name,
+                        quantity=Decimal(wos.quantity),
+                        unit_price=Decimal(wos.unit_price),
+                        work_order_service_id=wos.id,
+                    )
+                    invoice_item.calculate_total()
+                    self.db.add(invoice_item)
+
+        if not created:
+            if skipped and all(s.get("reason") == "service_not_found" for s in skipped):
+                raise ValidationException("No valid services were provided.")
+            if skipped:
+                raise ConflictException(
+                    "All selected SKUs are already on this work order."
+                )
+            raise ValidationException("No services were provided.")
+
+        self._recalculate_invoice_subtotal_for_work_order(work_order_id)
+        work_order.calculate_totals()
+        self.db.commit()
+
+        for row in created:
+            self.db.refresh(row)
+
+        return {"created": created, "skipped": skipped}
+
+    async def delete_estimate_service_line(
+        self,
+        service_line_id: uuid.UUID,
+        user_id: uuid.UUID,
+    ) -> bool:
+        """Remove an unscheduled estimate line (not attached to a visit)."""
+        from app.models.invoice import InvoiceItem
+        from app.models.work_order import WorkOrderService as WorkOrderServiceModel
+
+        wos = self.db.query(WorkOrderServiceModel).filter(
+            WorkOrderServiceModel.id == service_line_id
+        ).first()
+        if not wos:
+            raise NotFoundException(f"Work order service line {service_line_id} not found")
+
+        work_order = await WorkOrderService.get_work_order(self.db, wos.work_order_id)
+        from app.services.work_order_lifecycle_service import assert_work_order_mutable
+
+        assert_work_order_mutable(work_order)
+
+        if wos.appointment_id is not None:
+            raise ValidationException(
+                "This SKU is attached to a visit. Remove it from the visit instead."
+            )
+        if wos.billing_status != "not_billable":
+            raise ValidationException(
+                "Only unscheduled estimate lines (not billable) can be removed this way."
+            )
+
+        self.db.query(InvoiceItem).filter(
+            InvoiceItem.work_order_service_id == wos.id
+        ).delete(synchronize_session=False)
+        work_order_id = wos.work_order_id
+        self.db.delete(wos)
+        self.db.flush()
+
+        self._recalculate_invoice_subtotal_for_work_order(work_order_id)
+        work_order.calculate_totals()
+        self.db.commit()
+        return True
+
     async def sync_work_order_schedule_with_appointments(
         self,
         work_order_id: uuid.UUID,

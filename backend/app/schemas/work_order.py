@@ -564,6 +564,30 @@ class WorkOrderPartResponse(WorkOrderPartBase):
     model_config = ConfigDict(from_attributes=True)
 
 # New schemas for billing system
+class WorkOrderEstimateLinesCreate(BaseModel):
+    """Add SKU lines to a work order without scheduling a visit (estimate / planning)."""
+    service_ids: List[UUID] = Field(..., min_length=1, max_length=50)
+
+
+class WorkOrderEstimateLineResponse(BaseModel):
+    """A single work-order service line created as an unscheduled estimate."""
+    id: UUID
+    work_order_id: UUID
+    service_id: UUID
+    appointment_id: Optional[UUID] = None
+    name: str
+    quantity: float
+    unit_price: float
+    price: float
+    billing_status: str = "not_billable"
+    model_config = ConfigDict(from_attributes=True)
+
+
+class WorkOrderEstimateLinesCreateResponse(BaseModel):
+    created: List[WorkOrderEstimateLineResponse]
+    skipped: List[Dict[str, Any]] = Field(default_factory=list)
+
+
 class BillingStatusUpdate(BaseModel):
     """Schema for updating billing status of a service"""
     service_id: UUID

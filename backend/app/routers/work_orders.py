@@ -32,6 +32,8 @@ from app.schemas.work_order import (
     BillingStatusUpdate, WorkOrderBillingSummary, AdminBillingOverride,
     WorkOrderWithInitialAppointmentCreate, WorkOrderWithInitialAppointmentResponse,
     WorkOrderCloseReadinessResponse, RedoWorkOrderCreateRequest,
+    WorkOrderEstimateLinesCreate, WorkOrderEstimateLinesCreateResponse,
+    WorkOrderEstimateLineResponse,
 )
 from app.schemas.work_order_payment import (
     RecordWorkOrderPaymentRequest,
@@ -2785,6 +2787,91 @@ async def update_work_order_tax_rate(
     work_order.updated_at = datetime.utcnow()
     db.commit()
     return {"message": "Tax rate updated", "tax_rate": float(work_order.tax_rate)}
+
+
+@router.post(
+    "/{work_order_id}/estimate-lines",
+    response_model=WorkOrderEstimateLinesCreateResponse,
+)
+async def add_work_order_estimate_lines(
+    work_order_id: uuid.UUID = Path(...),
+    body: WorkOrderEstimateLinesCreate = Body(...),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Add SKU lines to a work order without scheduling a visit (for estimates)."""
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Work order not found")
+
+    try:
+        work_order_service = WorkOrderService(db)
+        result = await work_order_service.add_estimate_service_lines(
+            work_order_id=work_order_id,
+            service_ids=body.service_ids,
+            user_id=current_user.id,
+        )
+        return WorkOrderEstimateLinesCreateResponse(
+            created=[
+                WorkOrderEstimateLineResponse(
+                    id=row.id,
+                    work_order_id=row.work_order_id,
+                    service_id=row.service_id,
+                    appointment_id=row.appointment_id,
+                    name=row.name,
+                    quantity=float(row.quantity or 1),
+                    unit_price=float(row.unit_price or 0),
+                    price=float(row.price or 0),
+                    billing_status=row.billing_status,
+                )
+                for row in result["created"]
+            ],
+            skipped=result.get("skipped") or [],
+        )
+    except NotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except ConflictException as e:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+    except ValidationException as e:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(e),
+        )
+    except Exception as e:
+        logger.error("Error adding estimate lines: %s", e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error adding estimate lines: {e}",
+        )
+
+
+@router.delete("/estimate-lines/{service_line_id}")
+async def delete_work_order_estimate_line(
+    service_line_id: uuid.UUID = Path(..., description="Work order service line ID"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Remove an unscheduled estimate SKU line from a work order."""
+    try:
+        work_order_service = WorkOrderService(db)
+        await work_order_service.delete_estimate_service_line(
+            service_line_id=service_line_id,
+            user_id=current_user.id,
+        )
+        return {"message": "Estimate line removed", "service_line_id": str(service_line_id)}
+    except NotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except ValidationException as e:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(e),
+        )
+    except Exception as e:
+        logger.error("Error deleting estimate line: %s", e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error deleting estimate line: {e}",
+        )
 
 
 @router.put("/services/{service_id}/price")

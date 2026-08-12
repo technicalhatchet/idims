@@ -13,7 +13,7 @@ import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import Button from '../../../components/ui/Button';
 import Modal from '../../../components/ui/Modal';
-import MobileActionSheet, { MobileActionSheetButton } from '../../../components/ui/MobileActionSheet';
+import MobileActionSheet, { MobileActionSheetButton, MobileActionSheetGridTile } from '../../../components/ui/MobileActionSheet';
 import { useWorkOrder, useWorkOrderMutations } from '../../../hooks/useWorkOrders';
 import { apiClient } from '../../../utils/api-client';
 import { useTheme } from '../../../context/ThemeContext';
@@ -37,10 +37,11 @@ import WoMobileGlassSection, {
 } from '../../../components/work_orders/WoMobileGlassSection';
 import WorkOrderMobileDetailsTab from '../../../components/work_orders/WorkOrderMobileDetailsTab';
 import WoMobileTextTabs from '../../../components/work_orders/WoMobileTextTabs';
-import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee } from '../../../services/api/workOrdersApi';
+import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee, deleteWorkOrderEstimateLine } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import WorkOrderSquarePaymentSheet from '../../../components/work_orders/WorkOrderSquarePaymentSheet';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
+import EstimateSkuModal from '../../../components/work_orders/EstimateSkuModal';
 import RepairOutcomePromptSheet from '../../../components/dma/RepairOutcomePromptSheet';
 import WorkOrderExpensesPanel from '../../../components/work_orders/WorkOrderExpensesPanel';
 import WorkOrderMileageSection from '../../../components/work_orders/WorkOrderMileageSection';
@@ -53,6 +54,7 @@ import {
   computeWorkOrderDueToday,
   formatTaxPercent,
   isPartLinePaid,
+  isUnscheduledEstimateLine,
   resolveWorkOrderTaxRate,
   round2,
   SERVICE_BILLING_STATUS_OPTIONS,
@@ -148,6 +150,8 @@ function WorkOrderDetail() {
   const [showRecordPayment, setShowRecordPayment] = useState(false);
   const [showSquarePayment, setShowSquarePayment] = useState(false);
   const [showDocumentPdf, setShowDocumentPdf] = useState(false);
+  const [showEstimateSkuModal, setShowEstimateSkuModal] = useState(false);
+  const [deletingEstimateLineId, setDeletingEstimateLineId] = useState(null);
   const [fieldPayments, setFieldPayments] = useState([]);
   const [glassSectionsOpen, setGlassSectionsOpen] = useState({
     detailsWorkOrder: true,
@@ -185,6 +189,19 @@ function WorkOrderDetail() {
     () => canEditWorkOrderBilling({ role, workOrder }),
     [role, workOrder]
   );
+
+  const handleDeleteEstimateLine = async (serviceLineId, serviceName) => {
+    if (!window.confirm(`Remove "${serviceName || 'this SKU'}" from the estimate?`)) return;
+    setDeletingEstimateLineId(serviceLineId);
+    try {
+      await deleteWorkOrderEstimateLine(serviceLineId);
+      refetch();
+    } catch (err) {
+      alert(err.message || 'Failed to remove estimate line');
+    } finally {
+      setDeletingEstimateLineId(null);
+    }
+  };
   const showCloseAction = useMemo(
     () => canShowCloseOrderAction({ role, workOrder }),
     [role, workOrder]
@@ -1488,13 +1505,24 @@ function WorkOrderDetail() {
                 <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500 md:text-lg md:font-medium md:normal-case md:tracking-normal md:text-gray-900 md:dark:text-white">
                   Billing
                 </h2>
-                <button
-                  type="button"
-                  onClick={() => setShowDocumentPdf(true)}
-                  className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide rounded-lg border border-cyan-500/35 text-cyan-300 transition-colors md:px-3 md:py-1.5 md:text-sm md:normal-case md:tracking-normal md:rounded md:border-0 md:bg-cyan-600 md:text-white md:hover:bg-cyan-700"
-                >
-                  PDF
-                </button>
+                <div className="flex flex-wrap items-center gap-2">
+                  {!woReadOnly && (
+                    <button
+                      type="button"
+                      onClick={() => setShowEstimateSkuModal(true)}
+                      className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide rounded-lg border border-cyan-500/35 text-cyan-300 transition-colors md:px-3 md:py-1.5 md:text-sm md:normal-case md:tracking-normal md:rounded md:border md:border-cyan-200 md:dark:border-cyan-800 md:text-cyan-700 md:dark:text-cyan-300 md:bg-cyan-50 md:dark:bg-cyan-900/30"
+                    >
+                      Add estimate SKU
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setShowDocumentPdf(true)}
+                    className="px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide rounded-lg border border-cyan-500/35 text-cyan-300 transition-colors md:px-3 md:py-1.5 md:text-sm md:normal-case md:tracking-normal md:rounded md:border-0 md:bg-cyan-600 md:text-white md:hover:bg-cyan-700"
+                  >
+                    PDF
+                  </button>
+                </div>
               </div>
               <div className="min-w-0 px-0.5 py-2 md:px-6 md:py-5">
                 {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
@@ -1541,6 +1569,11 @@ function WorkOrderDetail() {
                                     ) : (
                                       <p className="text-sm font-semibold text-white truncate">
                                         {item.name || 'N/A'}
+                                        {isUnscheduledEstimateLine(item) && (
+                                          <span className="ml-1 inline-flex px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide rounded bg-slate-500/30 text-slate-300">
+                                            Unscheduled
+                                          </span>
+                                        )}
                                         {isPaid && <span className="ml-1">✓</span>}
                                         {isBillable && !isPaid && <span className="ml-1">💰</span>}
                                       </p>
@@ -1644,21 +1677,35 @@ function WorkOrderDetail() {
                                         Cancel
                                       </button>
                                     </div>
-                                  ) : billingEditable ? (
-                                    <button
-                                      type="button"
-                                      onClick={() => setEditingServicePrice({
-                                        id: item.id,
-                                        name: item.name,
-                                        unit_price: item.unit_price,
-                                        price: item.price,
-                                        billing_status: item.billing_status || 'not_billable',
-                                      })}
-                                      className="text-xs font-semibold uppercase tracking-wide text-cyan-300"
-                                    >
-                                      Edit line
-                                    </button>
-                                  ) : null}
+                                  ) : (
+                                    <div className="flex items-center justify-end gap-3">
+                                      {billingEditable ? (
+                                        <button
+                                          type="button"
+                                          onClick={() => setEditingServicePrice({
+                                            id: item.id,
+                                            name: item.name,
+                                            unit_price: item.unit_price,
+                                            price: item.price,
+                                            billing_status: item.billing_status || 'not_billable',
+                                          })}
+                                          className="text-xs font-semibold uppercase tracking-wide text-cyan-300"
+                                        >
+                                          Edit line
+                                        </button>
+                                      ) : null}
+                                      {!woReadOnly && isUnscheduledEstimateLine(item) ? (
+                                        <button
+                                          type="button"
+                                          disabled={deletingEstimateLineId === item.id}
+                                          onClick={() => handleDeleteEstimateLine(item.id, item.name)}
+                                          className="text-xs font-semibold uppercase tracking-wide text-red-400 disabled:opacity-50"
+                                        >
+                                          {deletingEstimateLineId === item.id ? 'Removing…' : 'Remove'}
+                                        </button>
+                                      ) : null}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             );
@@ -1696,6 +1743,11 @@ function WorkOrderDetail() {
                                       ) : (
                                         <>
                                           {item.name || 'N/A'}
+                                          {isUnscheduledEstimateLine(item) && (
+                                            <span className="ml-2 inline-flex px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                                              Unscheduled
+                                            </span>
+                                          )}
                                           {isPaid && <span className="ml-2">✓</span>}
                                           {isBillable && !isPaid && <span className="ml-2">💰</span>}
                                         </>
@@ -1781,19 +1833,34 @@ function WorkOrderDetail() {
                                             className="px-2 py-1 text-xs bg-gray-400 text-white rounded hover:bg-gray-500"
                                           >Cancel</button>
                                         </div>
-                                      ) : billingEditable ? (
-                                        <button
-                                          onClick={() => setEditingServicePrice({
-                                            id: item.id,
-                                            name: item.name,
-                                            unit_price: item.unit_price,
-                                            price: item.price,
-                                            billing_status: item.billing_status || 'not_billable',
-                                          })}
-                                          className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
-                                          title="Edit line"
-                                        >✏️</button>
-                                      ) : null}
+                                      ) : (
+                                        <div className="flex items-center justify-end gap-2">
+                                          {billingEditable ? (
+                                            <button
+                                              onClick={() => setEditingServicePrice({
+                                                id: item.id,
+                                                name: item.name,
+                                                unit_price: item.unit_price,
+                                                price: item.price,
+                                                billing_status: item.billing_status || 'not_billable',
+                                              })}
+                                              className="text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400"
+                                              title="Edit line"
+                                            >✏️</button>
+                                          ) : null}
+                                          {!woReadOnly && isUnscheduledEstimateLine(item) ? (
+                                            <button
+                                              type="button"
+                                              disabled={deletingEstimateLineId === item.id}
+                                              onClick={() => handleDeleteEstimateLine(item.id, item.name)}
+                                              className="text-xs text-red-500 hover:text-red-700 dark:text-red-400 disabled:opacity-50"
+                                              title="Remove estimate line"
+                                            >
+                                              {deletingEstimateLineId === item.id ? '…' : '✕'}
+                                            </button>
+                                          ) : null}
+                                        </div>
+                                      )}
                                     </td>
                                   </tr>
                                 );
@@ -2321,9 +2388,20 @@ function WorkOrderDetail() {
                     )}
                   </div>
                 ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                    No billable services or items have been added to this work order yet.
-                  </p>
+                  <div className="text-center py-8 space-y-4">
+                    <p className="text-gray-500 dark:text-gray-400">
+                      No billable services or items have been added to this work order yet.
+                    </p>
+                    {!woReadOnly && (
+                      <button
+                        type="button"
+                        onClick={() => setShowEstimateSkuModal(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-cyan-300 border border-cyan-500/35 rounded-lg md:text-cyan-700 md:dark:text-cyan-300 md:bg-cyan-50 md:dark:bg-cyan-900/30"
+                      >
+                        Add estimate SKU
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
           </WorkOrderTabPanel>
@@ -2582,70 +2660,83 @@ function WorkOrderDetail() {
         title="Add to work order"
         zIndex={20060}
       >
-        <div className="space-y-2">
-          <MobileActionSheetButton
+        <div className="grid grid-cols-3 gap-2.5">
+          <MobileActionSheetGridTile
             disabled={woReadOnly}
+            label="Service"
+            icon={<FaWrench aria-hidden />}
             onClick={() => {
               setMobileAddSheetOpen(false);
               runAfterTabMount(TABS.APPOINTMENTS, () => {
                 const result = appointmentSchedulerRef.current?.openServiceEditForTargetVisit?.();
                 if (result?.ok === false && result.reason === 'no_visit') {
-                  window.alert('No open visit to add services to. Schedule a visit first.');
+                  setShowEstimateSkuModal(true);
                 }
               });
             }}
-          >
-            <FaWrench className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
-            Add service
-          </MobileActionSheetButton>
-          <MobileActionSheetButton
+          />
+          <MobileActionSheetGridTile
             disabled={woReadOnly}
+            label="Schedule"
+            icon={<FaCalendarPlus aria-hidden />}
             onClick={() => {
               setMobileAddSheetOpen(false);
               runAfterTabMount(TABS.APPOINTMENTS, () => {
                 appointmentSchedulerRef.current?.scheduleNewVisit?.();
               });
             }}
-          >
-            <FaCalendarPlus className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
-            Schedule visit
-          </MobileActionSheetButton>
-          <MobileActionSheetButton
+          />
+          <MobileActionSheetGridTile
             disabled={woReadOnly}
+            label="SKU"
+            icon={<FaClipboardList aria-hidden />}
+            onClick={() => {
+              setMobileAddSheetOpen(false);
+              setShowEstimateSkuModal(true);
+            }}
+          />
+          <MobileActionSheetGridTile
+            disabled={woReadOnly}
+            label="Part"
+            icon={<FaToolbox aria-hidden />}
             onClick={() => {
               setMobileAddSheetOpen(false);
               runAfterTabMount(TABS.MODEL, () => {
                 equipmentDetailsRef.current?.openAddPartForm?.();
               });
             }}
-          >
-            <FaToolbox className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
-            Add part
-          </MobileActionSheetButton>
-          <MobileActionSheetButton
+          />
+          <MobileActionSheetGridTile
             disabled={woReadOnly}
+            label="Note"
+            icon={<FaStickyNote aria-hidden />}
             onClick={() => {
               setMobileAddSheetOpen(false);
               setShowNoteTypePicker(true);
             }}
-          >
-            <FaStickyNote className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
-            Add note
-          </MobileActionSheetButton>
-          <MobileActionSheetButton
+          />
+          <MobileActionSheetGridTile
             disabled={woReadOnly}
+            label="Photo"
+            icon={<FaCamera aria-hidden />}
             onClick={() => {
               setMobileAddSheetOpen(false);
               runAfterTabMount(TABS.NOTES, () => {
                 setNotesPhotoSheetOpen(true);
               });
             }}
-          >
-            <FaCamera className="h-4 w-4 shrink-0 opacity-80 text-cyan-400/90" aria-hidden />
-            Add photo
-          </MobileActionSheetButton>
+          />
         </div>
       </MobileActionSheet>
+
+      <EstimateSkuModal
+        isOpen={showEstimateSkuModal}
+        onClose={() => setShowEstimateSkuModal(false)}
+        workOrderId={workOrder?.id}
+        existingWorkOrderServices={allServices}
+        onSuccess={() => refetch()}
+        variant="mobile"
+      />
 
       <WorkOrderSquarePaymentSheet
         open={showSquarePayment}
