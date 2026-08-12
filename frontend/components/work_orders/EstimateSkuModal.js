@@ -27,6 +27,7 @@ export default function EstimateSkuModal({
   const [catalogServices, setCatalogServices] = useState([]);
   const [loadingCatalog, setLoadingCatalog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [skuSearch, setSkuSearch] = useState('');
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -54,6 +55,15 @@ export default function EstimateSkuModal({
       (s) => (s.service_type || 'other') === selectedCategory,
     );
   }, [availableCatalog, selectedCategory]);
+
+  const filteredSkus = useMemo(() => {
+    const q = skuSearch.trim().toLowerCase();
+    if (!q) return servicesForCategory;
+    return servicesForCategory.filter((s) => {
+      const haystack = `${s.name || ''} ${s.sku_code || ''}`.toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [servicesForCategory, skuSearch]);
 
   const smartSuggestion = useMemo(() => {
     if (!workOrder || !catalogServices.length) return null;
@@ -99,6 +109,7 @@ export default function EstimateSkuModal({
   useEffect(() => {
     if (!isOpen) return;
     setSelectedCategory('');
+    setSkuSearch('');
     setSelectedServiceIds([]);
     setError(null);
     loadCatalog();
@@ -106,6 +117,7 @@ export default function EstimateSkuModal({
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
+    setSkuSearch('');
     setSelectedServiceIds([]);
   };
 
@@ -146,6 +158,9 @@ export default function EstimateSkuModal({
       </Button>
     </div>
   );
+
+  const fieldClass =
+    'block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500';
 
   const emptySkuMessageClass =
     'text-sm text-gray-500 dark:text-gray-400 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800';
@@ -251,43 +266,58 @@ export default function EstimateSkuModal({
                     : 'No services in this category.'}
                 </p>
               ) : (
-                <div
-                  className={`rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden bg-[#1f2937] ${
-                    isMobile ? 'flex-1 min-h-0 flex flex-col' : ''
-                  }`}
-                  role="listbox"
-                  aria-label="SKUs in category"
-                  aria-multiselectable="true"
-                >
+                <>
+                  <input
+                    id="estimate-sku-search"
+                    type="search"
+                    value={skuSearch}
+                    onChange={(e) => setSkuSearch(e.target.value)}
+                    placeholder="Search SKUs in this category…"
+                    className={`${fieldClass} shrink-0 mb-2`}
+                    autoComplete="off"
+                  />
                   <div
-                    className={`overflow-y-auto overscroll-contain touch-pan-y ${
-                      isMobile ? 'flex-1 min-h-0' : 'max-h-[min(36vh,260px)]'
+                    className={`rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden bg-[#1f2937] ${
+                      isMobile ? 'flex-1 min-h-0 flex flex-col' : ''
                     }`}
-                    style={{ WebkitOverflowScrolling: 'touch' }}
+                    role="listbox"
+                    aria-label="SKUs in category"
+                    aria-multiselectable="true"
                   >
-                    {servicesForCategory.map((service) => {
-                      const selected = selectedServiceIds.some((id) =>
-                        serviceIdsMatch(id, service.id),
-                      );
-                      return (
-                        <button
-                          key={service.id}
-                          type="button"
-                          role="option"
-                          aria-selected={selected}
-                          onClick={() => toggleSku(service.id)}
-                          className={`w-full text-left px-3 py-2 text-sm touch-manipulation ${
-                            selected
-                              ? 'bg-blue-600 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 active:bg-gray-700'
-                          }`}
-                        >
-                          {formatSkuLine(service)}
-                        </button>
-                      );
-                    })}
+                    <div
+                      className={`overflow-y-auto overscroll-contain touch-pan-y ${
+                        isMobile ? 'flex-1 min-h-0' : 'max-h-[min(36vh,260px)]'
+                      }`}
+                      style={{ WebkitOverflowScrolling: 'touch' }}
+                    >
+                      {filteredSkus.length === 0 ? (
+                        <p className="text-sm text-gray-400 px-3 py-3">No SKUs match your search.</p>
+                      ) : (
+                        filteredSkus.map((service) => {
+                          const selected = selectedServiceIds.some((id) =>
+                            serviceIdsMatch(id, service.id),
+                          );
+                          return (
+                            <button
+                              key={service.id}
+                              type="button"
+                              role="option"
+                              aria-selected={selected}
+                              onClick={() => toggleSku(service.id)}
+                              className={`w-full text-left px-3 py-2 text-sm touch-manipulation ${
+                                selected
+                                  ? 'bg-blue-600 text-white'
+                                  : 'text-gray-300 hover:bg-gray-700 active:bg-gray-700'
+                              }`}
+                            >
+                              {formatSkuLine(service)}
+                            </button>
+                          );
+                        })
+                      )}
+                    </div>
                   </div>
-                </div>
+                </>
               )}
 
               {selectedServiceIds.length > 0 && (
