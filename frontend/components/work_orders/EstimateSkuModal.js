@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import { getServices } from '../../services/api/servicesApi';
 import { addWorkOrderEstimateLines } from '../../services/api/workOrdersApi';
 import { serviceIdsMatch } from '../../utils/visitSku';
+import { suggestRepairSkuForWorkOrder } from '../../utils/suggestRepairSku';
 
 function formatSkuPickerOption(service) {
   return {
@@ -59,15 +60,43 @@ const selectStyles = {
     ...base,
     color: 'var(--color-text-input, #e5e7eb)',
   }),
+  indicatorsContainer: (base) => ({
+    ...base,
+    cursor: 'pointer',
+  }),
   indicatorSeparator: () => ({
     display: 'none',
   }),
+};
+
+/** Open/close menu from arrow without focusing the search input (avoids mobile scroll jump). */
+const skuSelectComponents = {
+  DropdownIndicator: (props) => {
+    const toggleMenuWithoutFocus = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const { menuIsOpen, onMenuOpen, onMenuClose } = props.selectProps;
+      if (menuIsOpen) onMenuClose();
+      else onMenuOpen();
+    };
+    return (
+      <components.DropdownIndicator
+        {...props}
+        innerProps={{
+          ...props.innerProps,
+          onMouseDown: toggleMenuWithoutFocus,
+          onTouchStart: toggleMenuWithoutFocus,
+        }}
+      />
+    );
+  },
 };
 
 export default function EstimateSkuModal({
   isOpen,
   onClose,
   workOrderId,
+  workOrder = null,
   existingWorkOrderServices = [],
   onSuccess,
   variant = 'desktop',
@@ -103,6 +132,25 @@ export default function EstimateSkuModal({
       (s) => (s.service_type || 'other') === selectedCategory,
     );
   }, [availableCatalog, selectedCategory]);
+
+  const smartSuggestion = useMemo(() => {
+    if (!workOrder || !catalogServices.length) return null;
+    return suggestRepairSkuForWorkOrder(
+      workOrder,
+      availableCatalog,
+      existingWorkOrderServices.map((row) => row.service_id),
+    );
+  }, [workOrder, catalogServices, availableCatalog, existingWorkOrderServices]);
+
+  const applySmartSuggestion = () => {
+    if (!smartSuggestion?.sku) return;
+    const id = smartSuggestion.sku.id;
+    setSelectedCategory('repair');
+    setSelectedServiceIds((prev) =>
+      prev.some((sid) => serviceIdsMatch(sid, id)) ? prev : [...prev, id],
+    );
+    setError(null);
+  };
 
   const loadCatalog = useCallback(async () => {
     setLoadingCatalog(true);
@@ -196,6 +244,49 @@ export default function EstimateSkuModal({
           </div>
         ) : (
           <>
+            {smartSuggestion?.sku ? (
+              <div
+                className={`rounded-lg border px-3 py-3 ${
+                  isMobile
+                    ? 'border-cyan-500/30 bg-cyan-500/10'
+                    : 'border-cyan-200 dark:border-cyan-800 bg-cyan-50 dark:bg-cyan-900/20'
+                }`}
+              >
+                <p
+                  className={`text-xs font-semibold uppercase tracking-wide mb-1 ${
+                    isMobile ? 'text-cyan-300' : 'text-cyan-700 dark:text-cyan-300'
+                  }`}
+                >
+                  Smart add
+                </p>
+                <p className={`text-sm ${isMobile ? 'text-gray-200' : 'text-gray-800 dark:text-gray-200'}`}>
+                  {smartSuggestion.sku.name}
+                  {smartSuggestion.sku.sku_code ? ` (${smartSuggestion.sku.sku_code})` : ''}
+                  {' — '}
+                  ${Number(smartSuggestion.sku.base_price || 0).toFixed(2)}
+                </p>
+                <p className={`text-xs mt-1 ${isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                  {smartSuggestion.reason}
+                </p>
+                <button
+                  type="button"
+                  disabled={
+                    selectedServiceIds.some((id) => serviceIdsMatch(id, smartSuggestion.sku.id))
+                  }
+                  onClick={applySmartSuggestion}
+                  className={`mt-2 text-xs font-semibold ${
+                    isMobile
+                      ? 'text-cyan-300 hover:text-cyan-100 disabled:text-gray-500'
+                      : 'text-cyan-700 dark:text-cyan-300 hover:text-cyan-900 dark:hover:text-cyan-100 disabled:text-gray-400'
+                  }`}
+                >
+                  {selectedServiceIds.some((id) => serviceIdsMatch(id, smartSuggestion.sku.id))
+                    ? 'Added to selection'
+                    : 'Add suggested repair SKU'}
+                </button>
+              </div>
+            ) : null}
+
             <div>
               <label
                 htmlFor="estimate-sku-category"
@@ -237,20 +328,23 @@ export default function EstimateSkuModal({
               ) : (
                 <Select
                   isMulti
+                  isSearchable
                   controlShouldRenderValue={false}
                   options={servicesForCategory.map(formatSkuPickerOption)}
                   value={servicesForCategory
                     .filter((s) => selectedServiceIds.some((id) => serviceIdsMatch(s.id, id)))
                     .map(formatSkuPickerOption)}
                   onChange={handleSkuChange}
-                  placeholder="Add SKUs from this category…"
+                  placeholder="Search or pick SKUs…"
                   isDisabled={!selectedCategory || servicesForCategory.length === 0}
                   styles={selectStyles}
                   classNamePrefix="select"
+                  components={skuSelectComponents}
                   menuPortalTarget={menuPortalTarget}
                   menuPosition="fixed"
                   menuPlacement="auto"
                   closeMenuOnScroll={false}
+                  blurInputOnSelect
                 />
               )}
 

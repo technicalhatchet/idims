@@ -2733,6 +2733,7 @@ function WorkOrderDetail() {
         isOpen={showEstimateSkuModal}
         onClose={() => setShowEstimateSkuModal(false)}
         workOrderId={workOrder?.id}
+        workOrder={workOrder}
         existingWorkOrderServices={allServices}
         onSuccess={() => refetch()}
         variant="mobile"
