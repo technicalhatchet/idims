@@ -8,11 +8,32 @@ type CoverageRadarProps = {
   className?: string;
 };
 
+/** Shared radar coordinate system — all disc elements anchor here */
 const RADAR_CX = 100;
-const RADAR_CY = 96;
+const RADAR_CY = 100;
+const RADAR_R = 82;
+const OUTER_R = 96;
 const TICK_COUNT = 120;
+const SWEEP_SPAN_DEG = 48;
 
-/** Full-width skyline art in local coords — base y=72, spans x=0..200 */
+/** Leading edge of clockwise sweep: wedge starts at 12 o'clock, arc runs CW — front is the CW tip */
+function getSweepLeadingEdge() {
+  const leadingAngleDeg = -90 + SWEEP_SPAN_DEG;
+  const rad = (leadingAngleDeg * Math.PI) / 180;
+  return {
+    x: RADAR_R * Math.cos(rad),
+    y: RADAR_R * Math.sin(rad),
+  };
+}
+
+/** Cargo side panel bounds (excludes cab) for logo placement */
+const TRUCK_PANEL = { left: -22, right: 14, top: -14, bottom: 6 };
+const TRUCK_PANEL_CX = (TRUCK_PANEL.left + TRUCK_PANEL.right) / 2;
+const TRUCK_PANEL_CY = (TRUCK_PANEL.top + TRUCK_PANEL.bottom) / 2;
+const TRUCK_LOGO_SIZE = 13;
+
+/** Full-width skyline silhouette — viewBox includes negative y for tower peaks */
+const SKYLINE_VIEWBOX = { minX: 0, minY: -12, width: 200, height: 84 };
 const SKYLINE_PATH =
   'M 0 72 L 0 58 L 10 58 L 10 50 L 18 50 L 18 62 L 26 62 L 26 44'
   + ' L 34 44 L 34 36 L 40 36 L 40 54 L 48 54 L 48 42 L 56 42 L 56 32'
@@ -26,8 +47,8 @@ function buildTicks() {
   return Array.from({ length: TICK_COUNT }, (_, i) => {
     const angle = (i / TICK_COUNT) * 360 - 90;
     const rad = (angle * Math.PI) / 180;
-    const inner = 86;
-    const outer = i % 10 === 0 ? 94 : 91;
+    const inner = RADAR_R + 4;
+    const outer = i % 10 === 0 ? RADAR_R + 12 : RADAR_R + 9;
     return {
       x1: RADAR_CX + inner * Math.cos(rad),
       y1: RADAR_CY + inner * Math.sin(rad),
@@ -38,15 +59,14 @@ function buildTicks() {
   });
 }
 
-/** Stylized street-grid texture clipped inside the radar disc */
 function StreetMapTexture({ clipId }: { clipId: string }) {
   const lines = useMemo(() => {
     const h: { x1: number; y1: number; x2: number; y2: number }[] = [];
     const v: { x1: number; y1: number; x2: number; y2: number }[] = [];
     for (let i = 0; i < 9; i += 1) {
-      const t = 28 + i * 9;
-      h.push({ x1: 32, y1: t, x2: 168, y2: t + (i % 2) * 2 });
-      v.push({ x1: t, y1: 32, x2: t + (i % 3), y2: 168 });
+      const t = RADAR_CY - 68 + i * 9;
+      h.push({ x1: RADAR_CX - 68, y1: t, x2: RADAR_CX + 68, y2: t + (i % 2) * 2 });
+      v.push({ x1: t, y1: RADAR_CY - 68, x2: t + (i % 3), y2: RADAR_CY + 68 });
     }
     return { h, v };
   }, []);
@@ -60,7 +80,7 @@ function StreetMapTexture({ clipId }: { clipId: string }) {
         <line key={`v-${i}`} {...l} stroke="var(--radar-muted)" strokeWidth="0.6" />
       ))}
       <path
-        d="M 55 72 Q 78 68 100 74 T 145 70 M 48 118 Q 90 112 100 120 T 152 115"
+        d={`M ${RADAR_CX - 45} ${RADAR_CY - 28} Q ${RADAR_CX - 22} ${RADAR_CY - 32} ${RADAR_CX} ${RADAR_CY - 26} T ${RADAR_CX + 45} ${RADAR_CY - 30} M ${RADAR_CX - 52} ${RADAR_CY + 18} Q ${RADAR_CX - 10} ${RADAR_CY + 12} ${RADAR_CX} ${RADAR_CY + 20} T ${RADAR_CX + 52} ${RADAR_CY + 15}`}
         fill="none"
         stroke="var(--radar-muted)"
         strokeWidth="0.8"
@@ -69,67 +89,107 @@ function StreetMapTexture({ clipId }: { clipId: string }) {
   );
 }
 
+function ServiceVanMotionLines() {
+  return (
+    <motion.g
+      animate={{ opacity: [0.35, 0.75, 0.35], x: [-2, 0, -2] }}
+      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      <line x1="-38" y1="-4" x2="-18" y2="-4" stroke="var(--orange)" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+      <line x1="-42" y1="0" x2="-16" y2="0" stroke="var(--orange)" strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="-36" y1="4" x2="-20" y2="4" stroke="var(--orange)" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+    </motion.g>
+  );
+}
+
+function ServiceVanBody() {
+  const logoX = TRUCK_PANEL_CX - TRUCK_LOGO_SIZE / 2;
+  const logoY = TRUCK_PANEL_CY - TRUCK_LOGO_SIZE / 2;
+
+  return (
+    <motion.g
+      animate={{ y: [0, -1.5, 0] }}
+      transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      <rect x="-22" y="-14" width="44" height="22" rx="3" fill="none" stroke="var(--cyan)" strokeWidth="1.4" />
+      <path d="M 14 -14 L 22 -8 L 22 8 L 14 8 Z" fill="none" stroke="var(--cyan)" strokeWidth="1.4" strokeLinejoin="round" />
+      <circle cx="-12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
+      <circle cx="12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
+      <image
+        href="/atomwrenches.png"
+        x={logoX}
+        y={logoY}
+        width={TRUCK_LOGO_SIZE}
+        height={TRUCK_LOGO_SIZE}
+        preserveAspectRatio="xMidYMid meet"
+      />
+    </motion.g>
+  );
+}
+
 function ServiceVan() {
   return (
-    <g transform={`translate(${RADAR_CX} ${RADAR_CY + 8})`}>
-      {/* Motion streaks */}
-      <motion.g
-        animate={{ opacity: [0.35, 0.75, 0.35], x: [-2, 0, -2] }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <line x1="-38" y1="-4" x2="-18" y2="-4" stroke="var(--orange)" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
-        <line x1="-42" y1="0" x2="-16" y2="0" stroke="var(--orange)" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="-36" y1="4" x2="-20" y2="4" stroke="var(--orange)" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-      </motion.g>
-
-      <motion.g
-        animate={{ y: [0, -1.5, 0] }}
-        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <rect x="-22" y="-14" width="44" height="22" rx="3" fill="none" stroke="var(--cyan)" strokeWidth="1.4" />
-        <path d="M 14 -14 L 22 -8 L 22 8 L 14 8 Z" fill="none" stroke="var(--cyan)" strokeWidth="1.4" strokeLinejoin="round" />
-        <rect x="-18" y="-10" width="26" height="10" rx="1" fill="none" stroke="var(--cyan)" strokeWidth="0.9" opacity="0.85" />
-        <circle cx="-12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
-        <circle cx="12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
-        {/* Atom mark on van side */}
-        <circle cx="-4" cy="-2" r="2.2" fill="none" stroke="var(--orange)" strokeWidth="0.8" />
-        <ellipse cx="-4" cy="-2" rx="5" ry="2" fill="none" stroke="var(--cyan)" strokeWidth="0.6" opacity="0.8" transform="rotate(-28 -4 -2)" />
-        <ellipse cx="-4" cy="-2" rx="5" ry="2" fill="none" stroke="var(--cyan)" strokeWidth="0.6" opacity="0.8" transform="rotate(28 -4 -2)" />
-      </motion.g>
+    <g transform={`translate(${RADAR_CX} ${RADAR_CY})`}>
+      <ServiceVanMotionLines />
+      <ServiceVanBody />
     </g>
   );
 }
 
-/** Map pin at 12 o'clock on the radar — static SVG group (no FM scale on <g>) */
-function LocationPin() {
-  const pinY = RADAR_CY - 72; // just inside the outer ring at top
+/** Pin tip on outer ring at 12 o'clock; label clearly above (reference layout) */
+function CoverageMarker() {
+  const pinTipY = RADAR_CY - OUTER_R;
+  const pinTipLocalY = 11;
+  const pinHeadTopLocalY = -9;
+  const pinOriginY = pinTipY - pinTipLocalY;
+  const pinHeadTopY = pinOriginY + pinHeadTopLocalY;
+  const labelGap = 8;
+  const labelSize = 7;
+  const labelBaselineY = pinHeadTopY - labelGap;
 
   return (
-    <g transform={`translate(${RADAR_CX} ${pinY})`}>
-      <g>
-        <animate
-          attributeName="opacity"
-          values="0.8;1;0.8"
-          dur="2.8s"
-          repeatCount="indefinite"
-        />
-        <path
-          d="M 0 -9 C 4.5 -9 8 -5.5 8 -1 C 8 3 0 11 0 11 C 0 11 -8 3 -8 -1 C -8 -5.5 -4.5 -9 0 -9 Z"
-          fill="var(--orange)"
-          style={{ filter: 'drop-shadow(0 0 8px var(--orange-glow))' }}
-        />
-        <circle cx="0" cy="-2" r="3.2" fill="#0a1020" stroke="var(--orange)" strokeWidth="0.5" />
+    <g>
+      <g transform={`translate(${RADAR_CX} ${pinOriginY})`}>
+        <g>
+          <animate
+            attributeName="opacity"
+            values="0.8;1;0.8"
+            dur="2.8s"
+            repeatCount="indefinite"
+          />
+          <path
+            d="M 0 -9 C 4.5 -9 8 -5.5 8 -1 C 8 3 0 11 0 11 C 0 11 -8 3 -8 -1 C -8 -5.5 -4.5 -9 0 -9 Z"
+            fill="var(--orange)"
+            style={{ filter: 'drop-shadow(0 0 8px var(--orange-glow))' }}
+          />
+          <circle cx="0" cy="-2" r="3.2" fill="#0a1020" stroke="var(--orange)" strokeWidth="0.5" />
+        </g>
       </g>
+      <text
+        x={RADAR_CX}
+        y={labelBaselineY}
+        textAnchor="middle"
+        dominantBaseline="auto"
+        fill="var(--cyan)"
+        fontSize={labelSize}
+        fontFamily="system-ui, sans-serif"
+        fontWeight="600"
+        letterSpacing="0.12em"
+      >
+        20 MIN
+      </text>
     </g>
   );
 }
 
 function ToledoSkylineBand({ fillId }: { fillId: string }) {
+  const { minX, minY, width, height } = SKYLINE_VIEWBOX;
+
   return (
     <motion.svg
-      viewBox="0 0 200 72"
-      className="w-full h-[4.75rem] block -mt-3"
-      preserveAspectRatio="none"
+      viewBox={`${minX} ${minY} ${width} ${height}`}
+      className="w-full h-full block"
+      preserveAspectRatio="xMidYMax meet"
       aria-hidden
       animate={{ opacity: [0.65, 0.95, 0.65] }}
       transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
@@ -142,7 +202,7 @@ function ToledoSkylineBand({ fillId }: { fillId: string }) {
       </defs>
 
       <path
-        d="M 0 72 Q 50 69 100 70.5 T 200 72"
+        d={`M 0 72 Q 50 69 100 70.5 T 200 72`}
         fill="none"
         stroke="var(--cyan)"
         strokeWidth="0.8"
@@ -187,8 +247,9 @@ function ToledoSkylineBand({ fillId }: { fillId: string }) {
   );
 }
 
-function RadarSweep({ clipId, sweepGradId }: { clipId: string; sweepGradId: string }) {
-  // Native SVG rotation — Framer Motion CSS rotate uses wrong origin on <g>
+function RadarSweepWedge({ clipId, sweepGradId }: { clipId: string; sweepGradId: string }) {
+  const { x: sweepEndX, y: sweepEndY } = getSweepLeadingEdge();
+
   return (
     <g clipPath={`url(#${clipId})`}>
       <g transform={`translate(${RADAR_CX} ${RADAR_CY})`}>
@@ -201,25 +262,71 @@ function RadarSweep({ clipId, sweepGradId }: { clipId: string; sweepGradId: stri
             dur="8s"
             repeatCount="indefinite"
           />
-          {/* ~48° sweep wedge */}
           <path
-            d="M 0 0 L 0 -82 A 82 82 0 0 1 61 -55 Z"
+            d={`M 0 0 L 0 ${-RADAR_R} A ${RADAR_R} ${RADAR_R} 0 0 1 ${sweepEndX} ${sweepEndY} Z`}
             fill={`url(#${sweepGradId})`}
             opacity="0.5"
-          />
-          <line
-            x1={0}
-            y1={0}
-            x2={0}
-            y2={-82}
-            stroke="var(--cyan)"
-            strokeWidth="1.2"
-            opacity="0.75"
-            strokeLinecap="round"
           />
         </g>
       </g>
     </g>
+  );
+}
+
+function RadarSweepLine({ clipId }: { clipId: string }) {
+  const { x: leadingX, y: leadingY } = getSweepLeadingEdge();
+
+  return (
+    <g clipPath={`url(#${clipId})`}>
+      <g transform={`translate(${RADAR_CX} ${RADAR_CY})`}>
+        <g>
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0"
+            to="360"
+            dur="8s"
+            repeatCount="indefinite"
+          />
+          <line
+            x1={0}
+            y1={0}
+            x2={leadingX}
+            y2={leadingY}
+            stroke="var(--cyan)"
+            strokeWidth="2"
+            opacity="1"
+            strokeLinecap="round"
+            style={{ filter: 'drop-shadow(0 0 6px var(--cyan-glow))' }}
+          />
+        </g>
+      </g>
+    </g>
+  );
+}
+
+function CardinalCrosshairs() {
+  const arm = OUTER_R + 2;
+  const notch = OUTER_R - 10;
+  const dots = [
+    { cx: RADAR_CX, cy: RADAR_CY - arm, x1: RADAR_CX, y1: RADAR_CY - arm, x2: RADAR_CX, y2: RADAR_CY - notch },
+    { cx: RADAR_CX, cy: RADAR_CY + arm, x1: RADAR_CX, y1: RADAR_CY + notch, x2: RADAR_CX, y2: RADAR_CY + arm },
+    { cx: RADAR_CX - arm, cy: RADAR_CY, x1: RADAR_CX - arm, y1: RADAR_CY, x2: RADAR_CX - notch, y2: RADAR_CY },
+    { cx: RADAR_CX + arm, cy: RADAR_CY, x1: RADAR_CX + notch, y1: RADAR_CY, x2: RADAR_CX + arm, y2: RADAR_CY },
+  ];
+
+  return (
+    <>
+      {dots.map((d, i) => {
+        if (i === 0) return null;
+        return (
+          <g key={i}>
+            <line x1={d.x1} y1={d.y1} x2={d.x2} y2={d.y2} stroke="var(--cyan)" strokeWidth="1.2" opacity="0.7" />
+            <circle cx={d.cx} cy={d.cy} r="2.5" fill="var(--cyan)" opacity="0.9" />
+          </g>
+        );
+      })}
+    </>
   );
 }
 
@@ -238,7 +345,7 @@ export default function CoverageRadar({
 
   return (
     <div
-      className={`relative w-full max-w-sm mx-auto rounded-2xl border backdrop-blur-xl overflow-hidden ${className}`}
+      className={`relative w-full max-w-sm mx-auto rounded-2xl border backdrop-blur-xl ${className}`}
       style={{
         ['--cyan' as string]: '#00E5FF',
         ['--orange' as string]: '#FF7A1A',
@@ -250,116 +357,112 @@ export default function CoverageRadar({
         boxShadow: '0 0 40px rgba(0, 229, 255, 0.08), inset 0 1px 0 rgba(255,255,255,0.04)',
       }}
     >
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-cyan-500/5 via-transparent to-orange-500/5" />
+      <div
+        className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none bg-gradient-to-br from-cyan-500/5 via-transparent to-orange-500/5"
+      />
 
-      {/* Radar disc */}
-      <div className="relative px-4 pt-5 pb-0">
-        <svg
-          viewBox="0 0 200 200"
-          className="w-full h-auto max-h-[min(52vw,220px)] mx-auto block"
-          aria-hidden
-        >
-          <defs>
-            <clipPath id={clipId}>
-              <circle cx={RADAR_CX} cy={RADAR_CY} r={82} />
-            </clipPath>
-            <radialGradient id={glowId} cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="var(--cyan)" stopOpacity="0.12" />
-              <stop offset="70%" stopColor="var(--cyan)" stopOpacity="0.04" />
-              <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0" />
-            </radialGradient>
-            <linearGradient id={sweepGradId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="var(--cyan)" stopOpacity="0" />
-              <stop offset="40%" stopColor="var(--cyan)" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0.55" />
-            </linearGradient>
-          </defs>
+      <div className="relative flex flex-col items-center">
+        <div className="flex flex-col items-center w-full px-4 pt-5 pb-4 gap-3">
+          <div className="w-full max-w-[240px] aspect-square shrink-0">
+            <svg viewBox="0 -42 200 242" className="w-full h-full block" aria-hidden>
+              <defs>
+                <clipPath id={clipId}>
+                  <circle cx={RADAR_CX} cy={RADAR_CY} r={RADAR_R} />
+                </clipPath>
+                <radialGradient id={glowId} cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="var(--cyan)" stopOpacity="0.12" />
+                  <stop offset="70%" stopColor="var(--cyan)" stopOpacity="0.04" />
+                  <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0" />
+                </radialGradient>
+                <linearGradient id={sweepGradId} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="var(--cyan)" stopOpacity="0" />
+                  <stop offset="40%" stopColor="var(--cyan)" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0.55" />
+                </linearGradient>
+              </defs>
 
-          {/* Outer rings */}
-          <circle cx={RADAR_CX} cy={RADAR_CY} r={96} fill="none" stroke="var(--cyan)" strokeWidth="0.6" opacity="0.25" />
-          <circle
-            cx={RADAR_CX}
-            cy={RADAR_CY}
-            r={88}
-            fill={`url(#${glowId})`}
-            stroke="var(--cyan)"
-            strokeWidth="1.2"
-            style={{ filter: 'drop-shadow(0 0 10px var(--cyan-glow))' }}
-          />
-          <circle cx={RADAR_CX} cy={RADAR_CY} r={72} fill="none" stroke="var(--cyan)" strokeWidth="0.5" opacity="0.2" />
-          <circle cx={RADAR_CX} cy={RADAR_CY} r={56} fill="none" stroke="var(--cyan)" strokeWidth="0.4" opacity="0.15" />
-          <circle cx={RADAR_CX} cy={RADAR_CY} r={40} fill="none" stroke="var(--cyan)" strokeWidth="0.35" opacity="0.12" />
+              {/* 1–3: background glow + inner rings + grid */}
+              <circle
+                cx={RADAR_CX}
+                cy={RADAR_CY}
+                r={RADAR_R + 6}
+                fill={`url(#${glowId})`}
+              />
+              <circle cx={RADAR_CX} cy={RADAR_CY} r={RADAR_R - 10} fill="none" stroke="var(--cyan)" strokeWidth="0.5" opacity="0.2" />
+              <circle cx={RADAR_CX} cy={RADAR_CY} r={RADAR_R - 26} fill="none" stroke="var(--cyan)" strokeWidth="0.4" opacity="0.15" />
+              <circle cx={RADAR_CX} cy={RADAR_CY} r={RADAR_R - 42} fill="none" stroke="var(--cyan)" strokeWidth="0.35" opacity="0.12" />
+              <StreetMapTexture clipId={clipId} />
 
-          <StreetMapTexture clipId={clipId} />
+              {/* 4: translucent sweep wedge */}
+              <RadarSweepWedge clipId={clipId} sweepGradId={sweepGradId} />
 
-          {/* Tick marks */}
-          {ticks.map((t, i) => (
-            <line
-              key={i}
-              x1={t.x1}
-              y1={t.y1}
-              x2={t.x2}
-              y2={t.y2}
-              stroke="var(--cyan)"
-              strokeWidth={t.major ? 1.1 : 0.55}
-              opacity={t.major ? 0.85 : 0.45}
-            />
-          ))}
+              {/* 5–6: truck + motion lines behind body */}
+              <ServiceVan />
 
-          {/* Crosshairs */}
-          {[
-            { x1: 100, y1: 2, x2: 100, y2: 16 },
-            { x1: 100, y1: 184, x2: 100, y2: 198 },
-            { x1: 2, y1: 96, x2: 16, y2: 96 },
-            { x1: 184, y1: 96, x2: 198, y2: 96 },
-          ].map((c, i) => (
-            <g key={i}>
-              <line {...c} stroke="var(--cyan)" strokeWidth="1.2" opacity="0.7" />
-              <circle cx={(c.x1 + c.x2) / 2} cy={(c.y1 + c.y2) / 2} r="2.5" fill="var(--cyan)" opacity="0.9" />
-            </g>
-          ))}
+              {/* 7: bold sweep line — above wedge and truck */}
+              <RadarSweepLine clipId={clipId} />
 
-          {/* Radar sweep — SVG animateTransform for true center pivot */}
-          <RadarSweep clipId={clipId} sweepGradId={sweepGradId} />
+              {/* 8: outer ring + ticks + cardinal marks */}
+              <circle
+                cx={RADAR_CX}
+                cy={RADAR_CY}
+                r={OUTER_R}
+                fill="none"
+                stroke="var(--cyan)"
+                strokeWidth="0.6"
+                opacity="0.25"
+              />
+              <circle
+                cx={RADAR_CX}
+                cy={RADAR_CY}
+                r={RADAR_R + 6}
+                fill="none"
+                stroke="var(--cyan)"
+                strokeWidth="1.2"
+                style={{ filter: 'drop-shadow(0 0 10px var(--cyan-glow))' }}
+              />
+              {ticks.map((t, i) => (
+                <line
+                  key={i}
+                  x1={t.x1}
+                  y1={t.y1}
+                  x2={t.x2}
+                  y2={t.y2}
+                  stroke="var(--cyan)"
+                  strokeWidth={t.major ? 1.1 : 0.55}
+                  opacity={t.major ? 0.85 : 0.45}
+                />
+              ))}
+              <CardinalCrosshairs />
 
-          {/* Center hub */}
-          <circle cx={RADAR_CX} cy={RADAR_CY} r="2.5" fill="var(--cyan)" opacity="0.9" />
+              <circle cx={RADAR_CX} cy={RADAR_CY} r="2.5" fill="var(--cyan)" opacity="0.9" />
 
-          <text
-            x={RADAR_CX}
-            y={14}
-            textAnchor="middle"
-            fill="var(--cyan)"
-            fontSize="7"
-            fontFamily="system-ui, sans-serif"
-            fontWeight="600"
-            letterSpacing="0.12em"
-          >
-            20 MIN
-          </text>
+              {/* 9–10: pin then label */}
+              <CoverageMarker />
+            </svg>
+          </div>
 
-          <ServiceVan />
-          <LocationPin />
-        </svg>
+          <div className="w-[90%] max-w-[340px] h-[6rem] shrink-0 mx-auto">
+            <ToledoSkylineBand fillId={skylineFillId} />
+          </div>
+        </div>
 
-        {/* Full-width skyline band — own SVG so moving down doesn't shrink it */}
-        <ToledoSkylineBand fillId={skylineFillId} />
-      </div>
+        <div className="w-full border-t border-white/5 px-6 pt-5 pb-6 flex flex-col items-center text-center gap-4">
+          <div className="flex flex-col items-center gap-1 w-full">
+            <h3 className="text-lg font-bold text-white tracking-tight">{city}</h3>
+            <p className="text-sm font-semibold" style={{ color: 'var(--cyan)' }}>
+              {subtitle}
+            </p>
+            <p className="text-xs text-gray-500">{caption}</p>
+          </div>
 
-      {/* Copy */}
-      <div className="relative px-6 pb-6 pt-1 text-center border-t border-white/5">
-        <h3 className="text-lg font-bold text-white tracking-tight">{city}</h3>
-        <p className="mt-1 text-sm font-semibold" style={{ color: 'var(--cyan)' }}>
-          {subtitle}
-        </p>
-        <p className="mt-1 text-xs text-gray-500">{caption}</p>
-
-        <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-center gap-2 text-xs text-gray-500">
-          <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0" fill="none" stroke="var(--cyan)" strokeWidth="1.5">
-            <path d="M4 18c4-6 8-8 12-8s8 2 12 8" strokeDasharray="3 3" />
-            <circle cx="12" cy="8" r="2.5" fill="var(--orange)" stroke="none" />
-          </svg>
-          <span>Live coverage from our Toledo dispatch hub</span>
+          <div className="w-full pt-4 border-t border-white/5 flex items-center justify-center gap-2 text-xs text-gray-500">
+            <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0" fill="none" stroke="var(--cyan)" strokeWidth="1.5">
+              <path d="M4 18c4-6 8-8 12-8s8 2 12 8" strokeDasharray="3 3" />
+              <circle cx="12" cy="8" r="2.5" fill="var(--orange)" stroke="none" />
+            </svg>
+            <span>Live coverage from our Toledo dispatch hub</span>
+          </div>
         </div>
       </div>
     </div>

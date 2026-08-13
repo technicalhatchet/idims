@@ -1,28 +1,18 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaPhone, FaCalendarAlt, FaArrowRight, FaPalette } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaPhone, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
 import CoverageRadar from '../components/coverage/CoverageRadar';
 import { allCities, serviceAreas } from '../data/serviceAreas';
 
-const THEMES = {
-  original: {
-    name: 'Original',
-    bg: '#0B0F1A',
-    card: 'bg-white/5 border-white/10',
-    cardHover: 'hover:border-cyan-500/50',
-    showGlows: true,
-  },
-  atomic: {
-    name: 'Atomic',
-    bg: '#000208',
-    card: 'bg-[#000811] border-[#1A2A3A]',
-    cardHover: 'hover:border-[#00E5FF]',
-    showGlows: true,
-  },
+const ATOMIC_THEME = {
+  name: 'Atomic',
+  bg: '#000208',
+  card: 'bg-[#000811] border-[#1A2A3A]',
+  cardHover: 'hover:border-[#00E5FF]',
+  showGlows: true,
 };
 
 // Midnight theme accent colors
@@ -48,8 +38,8 @@ const MIDNIGHT_ACCENTS = {
 
 export default function ServiceAreaIndex() {
   const mainArea = serviceAreas.toledo;
-  const [theme, setTheme] = useState('atomic');
-  const t = THEMES[theme];
+  const theme = 'atomic';
+  const t = ATOMIC_THEME;
 
   return (
     <>
@@ -89,39 +79,6 @@ export default function ServiceAreaIndex() {
             />
           </>
         )}
-      </div>
-
-      {/* Theme Selector */}
-      <div className="fixed top-24 right-6 z-50">
-        <div 
-          className="flex items-center gap-2 p-2 rounded-xl backdrop-blur-md border transition-all duration-500"
-          style={{
-            backgroundColor: theme === 'atomic' ? 'rgba(0, 8, 17, 0.8)' : 'rgba(255,255,255,0.1)',
-            borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.1)'
-          }}
-        >
-          <FaPalette className="w-4 h-4" style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }} />
-          {Object.entries(THEMES).map(([key, value]) => (
-            <button
-              key={key}
-              onClick={() => setTheme(key)}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-              style={{
-                backgroundColor: theme === key 
-                  ? (theme === 'atomic' ? '#00E5FF' : '#06b6d4')
-                  : 'transparent',
-                color: theme === key 
-                  ? (theme === 'atomic' ? '#000208' : 'white')
-                  : (theme === 'atomic' ? '#9FB3C8' : '#9ca3af'),
-                boxShadow: theme === key && theme === 'atomic' 
-                  ? '0 0 15px rgba(0, 229, 255, 0.4)' 
-                  : 'none'
-              }}
-            >
-              {value.name}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* HERO */}
@@ -336,7 +293,7 @@ export default function ServiceAreaIndex() {
               Additional Areas We Serve
             </h3>
             <div className="flex flex-wrap gap-2">
-              {['Oregon', 'Holland', 'Rossford', 'Waterville', 'Whitehouse', 'Monclova', 'Swanton', 'Lambertville', 'Ottawa Hills', 'Point Place'].map((city, i) => (
+              {['Oregon', 'Holland', 'Rossford', 'Waterville', 'Whitehouse', 'Monclova', 'Swanton', 'Metamora', 'Ottawa Hills', 'Point Place'].map((city, i) => (
                 <span 
                   key={i} 
                   className="px-3 py-1.5 rounded-full border text-sm transition-all duration-300 cursor-default hover:border-[#00C2B8]"
