@@ -247,7 +247,7 @@ export default function TechDashboardLayout({ children }) {
         </button>
 
         {/* Center logo */}
-        <img src="/idimslogo.png" alt="IDIMS" className="h-8 w-auto absolute left-1/2 -translate-x-1/2" />
+        <img src="/idimslogo.png?v=2" alt="IDIMS" className="h-10 w-auto absolute left-1/2 -translate-x-1/2" />
 
         {/* Notifications + Profile - position flips with rail */}
         <div className="flex items-center gap-2">
