@@ -352,6 +352,7 @@ export default function DiagnosticSectionFields({
                   : ''
               }`}
             >
+              {/* Conditional field reveal hint — restore when re-enabling visibility callouts
               {isNew && (
                 <p
                   className={`text-[10px] font-medium mb-1.5 ${
@@ -361,6 +362,7 @@ export default function DiagnosticSectionFields({
                   ↳ Shown based on your answer
                 </p>
               )}
+              */}
               <DiagnosticFieldControl
                 field={field}
                 sectionId={section.id}
