@@ -688,6 +688,188 @@
         "magnetron_check",
         "no_heat_issue"
       ]
+    },
+    {
+      "id": "mw_ms_001_no_heat_functional_magnetron",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "field", "path": "functional_checks.heats_properly", "equals": "no" }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No-heat complaint with failed water test — magnetron or HV output path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["magnetron_check", "no_heat_issue"]
+    },
+    {
+      "id": "mw_ms_002_no_heat_magnetron_ol",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "microwaveMagnetronFilamentOhms", "statusIn": ["critical"] }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with magnetron filament open — magnetron failure confirmed.",
+      "recommendStepKey": "hv",
+      "dmaTags": ["magnetron_check"]
+    },
+    {
+      "id": "mw_ms_003_no_heat_capacitor_bad",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "microwaveHVCapacitanceMFD", "statusIn": ["critical", "warning"] }
+      ],
+      "target": "hv_capacitor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with HV capacitor out of spec — weak or failed cap reduces magnetron drive.",
+      "recommendStepKey": "hv",
+      "dmaTags": ["magnetron_check", "no_heat_issue"]
+    },
+    {
+      "id": "mw_ms_004_no_heat_door_switch_open",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "microwaveDoorInterlockSwitchOhms", "statusIn": ["critical"] }
+      ],
+      "target": "door_interlock",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with door interlock open — safety circuit prevents HV energize.",
+      "recommendStepKey": "door",
+      "dmaTags": ["door_lock_check", "safety_switch"]
+    },
+    {
+      "id": "mw_ms_005_no_power_functional_fuse",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "field", "path": "functional_checks.powers_on", "equals": "no" }
+      ],
+      "target": "line_fuse",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead unit complaint with no power at panel — line fuse or supply path first.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["fuse_check", "no_power_issue"]
+    },
+    {
+      "id": "mw_ms_006_no_power_fuse_open",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "measurement", "knowledgeId": "microwaveLineFuseOhms", "statusIn": ["critical"] }
+      ],
+      "target": "line_fuse",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No power with line fuse open — replace fuse and find root cause.",
+      "recommendStepKey": "door",
+      "dmaTags": ["fuse_check"]
+    },
+    {
+      "id": "mw_ms_007_no_power_thermal_cutout",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "measurement", "knowledgeId": "microwaveThermalCutoutOhms", "statusIn": ["critical"] }
+      ],
+      "target": "thermal_cutout",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead unit with thermal cutout open — overtemp safety tripped.",
+      "recommendStepKey": "door",
+      "dmaTags": ["fuse_check"]
+    },
+    {
+      "id": "mw_ms_008_no_power_door_switch_open",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "measurement", "knowledgeId": "microwaveDoorInterlockSwitchOhms", "statusIn": ["critical"] }
+      ],
+      "target": "door_interlock",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No power with door switch open — interlock prevents line voltage.",
+      "recommendStepKey": "door",
+      "dmaTags": ["door_lock_check", "safety_switch"]
+    },
+    {
+      "id": "mw_ms_009_door_issue_switch_open",
+      "when": [
+        { "type": "chip", "id": "door_issue" },
+        { "type": "measurement", "knowledgeId": "microwaveDoorInterlockSwitchOhms", "statusIn": ["critical"] }
+      ],
+      "target": "door_interlock",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Door/latch complaint with interlock open at meter — switch or latch alignment.",
+      "recommendStepKey": "door",
+      "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "mw_ms_010_door_issue_latch_bad",
+      "when": [
+        { "type": "chip", "id": "door_issue" },
+        { "type": "field", "path": "visual_inspection.latch_condition", "equals": "bad" }
+      ],
+      "target": "door_interlock",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Door complaint with damaged latch/hooks — switches may not engage.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["door_lock_check", "safety_switch"]
+    },
+    {
+      "id": "mw_ms_011_sparking_magnetron_ol",
+      "when": [
+        { "type": "chip", "id": "sparking" },
+        { "type": "measurement", "knowledgeId": "microwaveMagnetronFilamentOhms", "statusIn": ["critical"] }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Arcing with failed magnetron — damaged emitter or grounded filament.",
+      "recommendStepKey": "hv",
+      "dmaTags": ["magnetron_check", "no_heat_issue"]
+    },
+    {
+      "id": "mw_ms_012_sparking_capacitor_bad",
+      "when": [
+        { "type": "chip", "id": "sparking" },
+        { "type": "measurement", "knowledgeId": "microwaveHVCapacitanceMFD", "statusIn": ["critical", "warning"] }
+      ],
+      "target": "hv_capacitor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Sparking with HV capacitor out of spec — failing cap can arc in HV section.",
+      "recommendStepKey": "hv",
+      "dmaTags": ["magnetron_check", "high_voltage_safety"]
+    },
+    {
+      "id": "mw_ms_013_no_heat_supply_critical",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with supply voltage out of range — low line voltage limits HV output.",
+      "recommendStepKey": "hv",
+      "dmaTags": ["fuse_check", "no_power_issue"]
+    },
+    {
+      "id": "mw_ms_014_sparking_waveguide_bad",
+      "when": [
+        { "type": "chip", "id": "sparking" },
+        { "type": "field", "path": "visual_inspection.waveguide_condition", "equals": "bad" }
+      ],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Arcing with damaged waveguide/stirrer cover — metal exposure or burn-through.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["magnetron_check", "no_heat_issue"]
     }
   ]
 }

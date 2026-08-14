@@ -949,6 +949,188 @@
         "pump_check",
         "wash_issue"
       ]
+    },
+    {
+      "id": "dw_ms_001_wont_drain_drain_bad",
+      "when": [
+        { "type": "chip", "id": "wont_drain" },
+        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't drain complaint with failed drain operation — drain pump path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check", "drain_issue"]
+    },
+    {
+      "id": "dw_ms_002_wont_drain_pump_ol",
+      "when": [
+        { "type": "chip", "id": "wont_drain" },
+        { "type": "measurement", "knowledgeId": "dishwasherDrainPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't drain with drain pump open — pump failure confirmed.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "dw_ms_003_no_fill_fill_bad",
+      "when": [
+        { "type": "chip", "id": "no_fill" },
+        { "type": "field", "path": "functional_checks.fill_operation", "equals": "bad" }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No fill complaint with failed fill operation — inlet valve or float path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["water_valve_check", "fill_issue"]
+    },
+    {
+      "id": "dw_ms_004_no_fill_valve_ol",
+      "when": [
+        { "type": "chip", "id": "no_fill" },
+        { "type": "measurement", "knowledgeId": "dishwasherWaterValveOhms", "statusIn": ["critical"] }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No fill with inlet valve coil open — valve failure confirmed.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["water_valve_check"]
+    },
+    {
+      "id": "dw_ms_005_not_cleaning_wash_bad",
+      "when": [
+        { "type": "chip", "id": "not_cleaning" },
+        { "type": "field", "path": "functional_checks.wash_operation", "equals": "bad" }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dirty dishes with failed wash/circulation — pump or diverter path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check", "wash_issue"]
+    },
+    {
+      "id": "dw_ms_006_not_cleaning_circ_pump_ol",
+      "when": [
+        { "type": "chip", "id": "not_cleaning" },
+        { "type": "measurement", "knowledgeId": "dishwasherCirculationPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not cleaning with circulation pump open — pump failure confirmed.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "dw_ms_007_no_heat_dry_dry_bad",
+      "when": [
+        { "type": "chip", "id": "no_heat_dry" },
+        { "type": "field", "path": "functional_checks.drying_operation", "equals": "bad" }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not drying complaint with failed heat/dry operation — heater path.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check", "dry_issue"]
+    },
+    {
+      "id": "dw_ms_008_no_heat_dry_heater_ol",
+      "when": [
+        { "type": "chip", "id": "no_heat_dry" },
+        { "type": "measurement", "knowledgeId": "dishwasherHeatingElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not drying with heating element open — element failure confirmed.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "dw_ms_009_leaking_gasket_bad",
+      "when": [
+        { "type": "chip", "id": "leaking" },
+        { "type": "field", "path": "visual_inspection.door_gasket", "equals": "bad" }
+      ],
+      "target": "door_gasket",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Leak complaint with bad door gasket — seal path confirmed.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["door_lock_check", "leak_issue"]
+    },
+    {
+      "id": "dw_ms_010_leaking_leak_present",
+      "when": [
+        { "type": "chip", "id": "leaking" },
+        { "type": "field", "path": "visual_inspection.leak_present", "equals": "yes" }
+      ],
+      "target": "door_seal",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Leak complaint with visible leak — check gasket, inlet, and tub seal.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["leak_issue"]
+    },
+    {
+      "id": "dw_ms_011_not_cleaning_spray_blocked",
+      "when": [
+        { "type": "chip", "id": "not_cleaning" },
+        { "type": "field", "path": "visual_inspection.spray_arms_clear", "equals": "no" }
+      ],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "Poor cleaning with blocked spray arms — clear arms before pump diagnosis.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_ms_012_no_heat_dry_low_incoming_water",
+      "when": [
+        { "type": "chip", "id": "no_heat_dry" },
+        { "type": "measurement", "knowledgeId": "dishwasherIncomingWaterTemp", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Not drying with low incoming water temp — verify hot water at sink first.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["dry_issue"]
+    },
+    {
+      "id": "dw_ms_013_wont_start_supply_critical",
+      "when": [
+        { "type": "chip", "id": "wont_start" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead dishwasher with bad supply voltage — check breaker and outlet.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["voltage_check"]
+    },
+    {
+      "id": "dw_ms_014_dry_bad_heater_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.drying_operation", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "dishwasherHeatingElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed dry cycle with element open — heater is root cause.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
     }
   ]
 }

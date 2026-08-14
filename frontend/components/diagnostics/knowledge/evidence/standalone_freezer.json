@@ -1221,6 +1221,163 @@
         "defrost",
         "frost_buildup"
       ]
+    },
+    {
+      "id": "sf_ms_001_not_cooling_cabinet_temp_high",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "Not cooling complaint with cabinet temperature out of range — sealed system path.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["sealed_system", "temp_check"]
+    },
+    {
+      "id": "sf_ms_002_frost_chip_frost_pattern_bad",
+      "when": [
+        { "type": "chip", "id": "frost_buildup" },
+        { "type": "field", "path": "visual_inspection.frost_pattern", "equals": "bad" }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 30 },
+      "explanation": "Frost complaint with bad frost pattern — defrost system failure likely.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost", "frost_buildup"]
+    },
+    {
+      "id": "sf_ms_003_frost_chip_heater_open",
+      "when": [
+        { "type": "chip", "id": "frost_buildup" },
+        { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Frost buildup with defrost heater open — heater failure confirmed.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "sf_ms_004_not_cooling_compressor_no",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "no" }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not cooling with compressor not running — start device or control issue.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "sf_ms_005_not_cooling_compressor_amps_abnormal",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "yes" },
+        { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not cooling with compressor running but amps abnormal — sealed system restriction/leak.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor", "sealed_system"]
+    },
+    {
+      "id": "sf_ms_006_not_cooling_condenser_fan_no",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "no" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not cooling with condenser fan off — poor heat rejection.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "sf_ms_007_frost_chip_evap_fan_no",
+      "when": [
+        { "type": "chip", "id": "frost_buildup" },
+        { "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Frost buildup with evaporator fan not running — fan failure or iced blade.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan", "frost_buildup"]
+    },
+    {
+      "id": "sf_ms_008_leaking_drain_not_clear",
+      "when": [
+        { "type": "chip", "id": "leaking" },
+        { "type": "field", "path": "visual_inspection.drain_clear", "equals": "no" }
+      ],
+      "target": "drain",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Leak complaint with blocked defrost drain — drain path confirmed.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["defrost_drain"]
+    },
+    {
+      "id": "sf_ms_009_leaking_defrost_not_operational",
+      "when": [
+        { "type": "chip", "id": "leaking" },
+        { "type": "field", "path": "functional_checks.defrost_operational", "equals": "no" }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Leak with defrost system not operational — melt water management failure.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost"]
+    },
+    {
+      "id": "sf_ms_010_running_constant_cabinet_temp_high",
+      "when": [
+        { "type": "chip", "id": "running_constant" },
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Runs constantly but cabinet still warm — weak cooling / low charge pattern.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["sealed_system"]
+    },
+    {
+      "id": "sf_ms_011_too_cold_defrost_not_operational",
+      "when": [
+        { "type": "chip", "id": "too_cold" },
+        { "type": "field", "path": "functional_checks.defrost_operational", "equals": "no" }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Over-freezing with defrost not operational — stuck defrost or control issue.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost"]
+    },
+    {
+      "id": "sf_ms_012_frost_pattern_bad_heater_open",
+      "when": [
+        { "type": "field", "path": "visual_inspection.frost_pattern", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Bad frost pattern with defrost heater open — visual and meter agree on heater failure.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
     }
   ]
 }

@@ -821,6 +821,188 @@
         "door_lock_check",
         "safety_switch"
       ]
+    },
+    {
+      "id": "w_ms_001_wont_drain_drain_bad",
+      "when": [
+        { "type": "chip", "id": "wont_drain" },
+        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't drain complaint with failed drain operation — drain pump path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check", "drain_issue"]
+    },
+    {
+      "id": "w_ms_002_wont_drain_pump_ol",
+      "when": [
+        { "type": "chip", "id": "wont_drain" },
+        { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't drain with drain pump open at meter — pump failure confirmed.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "w_ms_003_no_fill_fill_bad",
+      "when": [
+        { "type": "chip", "id": "no_fill" },
+        { "type": "field", "path": "functional_checks.fill_operation", "equals": "bad" }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No fill complaint with failed fill operation — inlet valve or supply path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["water_valve_check", "fill_issue"]
+    },
+    {
+      "id": "w_ms_004_no_fill_valve_ol",
+      "when": [
+        { "type": "chip", "id": "no_fill" },
+        { "type": "measurement", "knowledgeId": "washerWaterValveOhms", "statusIn": ["critical"] }
+      ],
+      "target": "inlet_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No fill with inlet valve coil open — valve failure confirmed.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["water_valve_check"]
+    },
+    {
+      "id": "w_ms_005_wont_spin_spin_bad",
+      "when": [
+        { "type": "chip", "id": "wont_spin" },
+        { "type": "field", "path": "functional_checks.spin_operation", "equals": "bad" }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't spin with failed spin operation — drive motor or transmission path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["motor_check", "spin_issue"]
+    },
+    {
+      "id": "w_ms_006_wont_spin_motor_ol",
+      "when": [
+        { "type": "chip", "id": "wont_spin" },
+        { "type": "measurement", "knowledgeId": "washerMotorWindingOhms", "statusIn": ["critical"] }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't spin with drive motor open — motor failure confirmed.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "w_ms_007_wont_agitate_agitate_bad",
+      "when": [
+        { "type": "chip", "id": "wont_agitate" },
+        { "type": "field", "path": "functional_checks.agitation", "equals": "bad" }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't agitate with failed agitation — drive motor or mode shifter path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["motor_check", "agitate_issue"]
+    },
+    {
+      "id": "w_ms_008_lid_lock_lock_bad",
+      "when": [
+        { "type": "chip", "id": "lid_lock" },
+        { "type": "field", "path": "functional_checks.lid_lock_operation", "equals": "bad" }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Door/lid lock complaint with failed lock operation — latch or switch path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "w_ms_009_lid_lock_switch_open",
+      "when": [
+        { "type": "chip", "id": "lid_lock" },
+        { "type": "measurement", "knowledgeId": "washerDoorLockSwitchOhms", "statusIn": ["critical"] }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Lock issue with door lock switch open — lock assembly failure.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "w_ms_010_drain_bad_pump_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed drain operation with pump open — replace drain pump.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "w_ms_011_leaking_hoses_bad",
+      "when": [
+        { "type": "chip", "id": "leaking" },
+        { "type": "field", "path": "visual_inspection.hoses_condition", "equals": "bad" }
+      ],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "Leak complaint with bad hoses/connections — fill path leak source.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["fill_issue"]
+    },
+    {
+      "id": "w_ms_012_vibration_balance_bad",
+      "when": [
+        { "type": "chip", "id": "vibration" },
+        { "type": "field", "path": "functional_checks.balance", "equals": "bad" }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Walking/vibration with poor balance on spin — suspension or load issue; check drive if mechanical OK.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "w_ms_013_wont_drain_pump_low_amps",
+      "when": [
+        { "type": "chip", "id": "wont_drain" },
+        { "type": "measurement", "knowledgeId": "washerDrainPumpAmps", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't drain with weak drain pump amps — pump struggling or blocked.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "w_ms_014_leaking_door_boot_bad",
+      "when": [
+        { "type": "chip", "id": "leaking" },
+        { "type": "field", "path": "visual_inspection.door_boot", "equals": "bad" }
+      ],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Leak with damaged door boot — front-load seal path.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["door_lock_check"]
     }
   ]
 }

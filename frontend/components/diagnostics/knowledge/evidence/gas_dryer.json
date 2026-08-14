@@ -801,6 +801,190 @@
         "airflow_check",
         "vent_restriction"
       ]
+    },
+    {
+      "id": "gd_ms_001_no_heat_ignition_no",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "field", "path": "functional_checks.ignition", "equals": "no" }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat complaint with no burner ignition — igniter path likely.",
+      "recommendStepKey": "ignition",
+      "dmaTags": ["igniter_check", "ignition_issue"]
+    },
+    {
+      "id": "gd_ms_002_no_heat_igniter_ol",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with igniter open at meter — igniter failure confirmed.",
+      "recommendStepKey": "ignition",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gd_ms_003_no_heat_thermal_fuse_open",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with thermal fuse open — safety device tripped.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["safety_fuse_check"]
+    },
+    {
+      "id": "gd_ms_004_no_heat_gas_valve_ol",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "gasValveCoilOhms", "statusIn": ["critical"] }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with gas valve coil open — valve cannot open.",
+      "recommendStepKey": "ignition",
+      "dmaTags": ["gas_valve_check"]
+    },
+    {
+      "id": "gd_ms_005_not_drying_airflow_bad",
+      "when": [
+        { "type": "chip", "id": "not_drying" },
+        { "type": "field", "path": "functional_checks.airflow", "equals": "bad" }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Long dry times with poor vent airflow — restriction likely.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["vent_restriction", "airflow_check"]
+    },
+    {
+      "id": "gd_ms_006_not_drying_airflow_lint_bad",
+      "when": [
+        { "type": "chip", "id": "not_drying" },
+        { "type": "field", "path": "functional_checks.airflow", "equals": "bad" },
+        { "type": "field", "path": "visual_inspection.lint_accumulation", "equals": "bad" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "Damp clothes, bad airflow, and heavy lint — vent restriction pattern.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["vent_restriction", "airflow_check"]
+    },
+    {
+      "id": "gd_ms_007_weak_flame_flame_bad",
+      "when": [
+        { "type": "chip", "id": "weak_flame" },
+        { "type": "field", "path": "functional_checks.flame_quality", "equals": "bad" }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Weak flame complaint with poor flame quality — gas valve or vent issue.",
+      "recommendStepKey": "ignition",
+      "dmaTags": ["gas_valve_check"]
+    },
+    {
+      "id": "gd_ms_008_weak_flame_airflow_bad",
+      "when": [
+        { "type": "chip", "id": "weak_flame" },
+        { "type": "field", "path": "functional_checks.airflow", "equals": "bad" }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Weak flame with poor vent airflow — flame starvation from restriction.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["vent_restriction"]
+    },
+    {
+      "id": "gd_ms_009_no_spin_drum_no",
+      "when": [
+        { "type": "chip", "id": "no_spin" },
+        { "type": "field", "path": "functional_checks.drum_turning", "equals": "no" }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't tumble complaint with drum not turning — motor/drive path.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "gd_ms_010_ignition_no_igniter_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.ignition", "equals": "no" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No ignition with igniter open — replace igniter.",
+      "recommendStepKey": "ignition",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gd_ms_011_flame_bad_gas_valve_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.flame_quality", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "gasValveCoilOhms", "statusIn": ["critical"] }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Poor flame with gas valve coil open — valve failure confirmed.",
+      "recommendStepKey": "ignition",
+      "dmaTags": ["gas_valve_check"]
+    },
+    {
+      "id": "gd_ms_012_not_drying_vent_bad",
+      "when": [
+        { "type": "chip", "id": "not_drying" },
+        { "type": "field", "path": "visual_inspection.vent_condition", "equals": "bad" }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Long dry times with bad vent/duct condition — clear vent path.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["vent_restriction"]
+    },
+    {
+      "id": "gd_ms_013_no_heat_supply_critical",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with supply voltage out of range — check breaker and outlet first.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["voltage_check"]
+    },
+    {
+      "id": "gd_ms_014_no_heat_ignition_no_igniter_low_amps",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "field", "path": "functional_checks.ignition", "equals": "no" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterAmps", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No ignition with weak igniter draw — igniter not glowing hot enough.",
+      "recommendStepKey": "ignition",
+      "dmaTags": ["igniter_check"]
     }
   ]
 }

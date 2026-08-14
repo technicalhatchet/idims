@@ -887,6 +887,188 @@
         "sensor_check",
         "temp_accuracy_issue"
       ]
+    },
+    {
+      "id": "er_ms_001_no_bake_bake_bad",
+      "when": [
+        { "type": "chip", "id": "no_bake" },
+        { "type": "field", "path": "functional_checks.bake_operation", "equals": "bad" }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No bake complaint with failed bake operation — bake element or supply path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["heating_element_check", "no_bake_heat_issue"]
+    },
+    {
+      "id": "er_ms_002_no_bake_bake_element_ol",
+      "when": [
+        { "type": "chip", "id": "no_bake" },
+        { "type": "measurement", "knowledgeId": "bakeElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No bake with bake element open — element failure confirmed.",
+      "recommendStepKey": "elements",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "er_ms_003_no_broil_broil_bad",
+      "when": [
+        { "type": "chip", "id": "no_broil" },
+        { "type": "field", "path": "functional_checks.broil_operation", "equals": "bad" }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No broil complaint with failed broil operation — broil element path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["heating_element_check", "no_broil_heat_issue"]
+    },
+    {
+      "id": "er_ms_004_no_broil_broil_element_ol",
+      "when": [
+        { "type": "chip", "id": "no_broil" },
+        { "type": "measurement", "knowledgeId": "broilElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No broil with broil element open — element failure confirmed.",
+      "recommendStepKey": "elements",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "er_ms_005_uneven_heat_temp_sensor_bad",
+      "when": [
+        { "type": "chip", "id": "uneven_heat" },
+        { "type": "measurement", "knowledgeId": "ovenTempSensorOhms", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Uneven/wrong temp with sensor out of range — RTD/sensor fault.",
+      "recommendStepKey": "elements",
+      "dmaTags": ["sensor_check", "temp_accuracy_issue"]
+    },
+    {
+      "id": "er_ms_006_no_power_l1_l2_critical",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage240", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead range with L1–L2 out of range — check breaker and receptacle.",
+      "recommendStepKey": "terminal",
+      "dmaTags": ["voltage_check", "wiring_fault"]
+    },
+    {
+      "id": "er_ms_007_no_power_neutral_ground_bad",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "measurement", "knowledgeId": "neutralGroundVoltage", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead range with neutral–ground voltage issue — wiring fault likely.",
+      "recommendStepKey": "terminal",
+      "dmaTags": ["wiring_fault"]
+    },
+    {
+      "id": "er_ms_008_bake_bad_bake_element_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.bake_operation", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "bakeElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed bake with element open at meter — replace bake element.",
+      "recommendStepKey": "elements",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "er_ms_009_broil_bad_broil_element_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.broil_operation", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "broilElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "broil_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed broil with element open — replace broil element.",
+      "recommendStepKey": "elements",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "er_ms_010_no_bake_temp_sensor_bad",
+      "when": [
+        { "type": "chip", "id": "no_bake" },
+        { "type": "measurement", "knowledgeId": "ovenTempSensorOhms", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "temp_sensor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No bake with temp sensor out of range — sensor can block heat call.",
+      "recommendStepKey": "elements",
+      "dmaTags": ["sensor_check"]
+    },
+    {
+      "id": "er_ms_011_uneven_heat_convection_bad",
+      "when": [
+        { "type": "chip", "id": "uneven_heat" },
+        { "type": "field", "path": "functional_checks.convection_operation", "equals": "bad" }
+      ],
+      "target": "convection_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Uneven heat with failed convection — fan or motor path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["convection_issue"]
+    },
+    {
+      "id": "er_ms_012_no_bake_l1_l2_critical",
+      "when": [
+        { "type": "chip", "id": "no_bake" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage240", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No bake with missing 240 V — supply/wiring before element diagnosis.",
+      "recommendStepKey": "terminal",
+      "dmaTags": ["voltage_check", "wiring_fault"]
+    },
+    {
+      "id": "er_ms_013_bake_bad_low_element_amps",
+      "when": [
+        { "type": "field", "path": "functional_checks.bake_operation", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "electricRangeElementAmps", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "bake_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed bake with low element amps — weak element or relay leg issue.",
+      "recommendStepKey": "board",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "er_ms_014_self_clean_door_lock_bad",
+      "when": [
+        { "type": "chip", "id": "self_clean" },
+        { "type": "field", "path": "functional_checks.door_lock_operation", "equals": "bad" }
+      ],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Self-clean complaint with door lock fault — interlock or latch path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["supply_issue"]
     }
   ]
 }

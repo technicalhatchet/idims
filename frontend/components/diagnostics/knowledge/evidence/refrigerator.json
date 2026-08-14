@@ -424,6 +424,195 @@
       "explanation": "Supply voltage out of range — check electrical supply and board.",
       "recommendStepKey": "fans",
       "dmaTags": ["voltage_check"]
+    },
+    {
+      "id": "ref_ms_001_damper_split_temp",
+      "when": [
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["normal"] },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] },
+        { "type": "field", "path": "functional_checks.damper_operation", "equals": "bad" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Freezer holding temperature while fresh food is warm, with a failed damper/air tower — airflow routing issue, not sealed system.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["airflow"]
+    },
+    {
+      "id": "ref_ms_002_evap_fan_split_temp",
+      "when": [
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["normal"] },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] },
+        { "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Split-temp pattern with evaporator fan confirmed off — iced tower or fan motor likely.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "ref_ms_003_weak_ff_chip_split_temp",
+      "when": [
+        { "type": "chip", "id": "weak_cooling_ff" },
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["normal"] },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Customer reported weak FF cooling; measured split confirms airflow/defrost over sealed system.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["airflow"]
+    },
+    {
+      "id": "ref_ms_004_not_cooling_both_temps_high",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] },
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Whole-box failure with both compartments out of range — prioritize sealed system and compressor path.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["sealed_system"]
+    },
+    {
+      "id": "ref_ms_005_not_cooling_compressor_amps_abnormal",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "yes" },
+        { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Compressor runs but cannot pull load — sealed system restriction/leak or weak compressor.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor", "sealed_system"]
+    },
+    {
+      "id": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no",
+      "when": [
+        { "type": "chip", "id": "frost_buildup" },
+        { "type": "field", "path": "visual_inspection.frost_present", "equals": "yes" },
+        { "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Frost buildup with fan not running — evaporator fan failure or iced fan blade.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan", "frost_buildup"]
+    },
+    {
+      "id": "ref_ms_007_heavy_frost_heater_open",
+      "when": [
+        { "type": "field", "path": "visual_inspection.frost_present", "equals": "yes" },
+        { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Visual frost with defrost heater open at meter — heater is root cause.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater", "frost_buildup"]
+    },
+    {
+      "id": "ref_ms_008_fz_temp_high_condenser_fan_no",
+      "when": [
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["warning", "critical"] },
+        { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "no" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Warm freezer with condenser fan off — poor heat rejection / high head pressure.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_ms_009_weak_ff_gasket_bad",
+      "when": [
+        { "type": "chip", "id": "weak_cooling_ff" },
+        { "type": "field", "path": "visual_inspection.gasket_condition", "equals": "bad" }
+      ],
+      "target": "door_gasket",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "FF warming with bad gasket — section air leak before chasing damper or defrost.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["gasket"]
+    },
+    {
+      "id": "ref_ms_010_water_dispenser_ff_critical",
+      "when": [
+        { "type": "chip", "id": "water_dispenser" },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["critical"] }
+      ],
+      "target": "water_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "No/slow water with critically warm FF — frozen reservoir or fill tube common on side-by-sides.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["water_dispenser"]
+    },
+    {
+      "id": "ref_ms_011_ice_maker_ff_temp_high",
+      "when": [
+        { "type": "chip", "id": "ice_maker" },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "ice_maker",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 15 },
+      "explanation": "No ice with warm fresh food — ice maker often secondary to FF cooling failure.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_ms_012_compressor_no_supply_critical",
+      "when": [
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "no" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] }
+      ],
+      "target": "controls_sensors",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Compressor off with bad supply voltage — check electrical supply before sealed system.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["voltage_check"]
+    },
+    {
+      "id": "ref_ms_013_split_temp_evap_frost_bad",
+      "when": [
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["normal"] },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] },
+        { "type": "field", "path": "visual_inspection.evaporator_frost_pattern", "equals": "bad" }
+      ],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "FZ cold, FF warm, with clogged evaporator frost pattern — defrost/airflow failure.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost", "frost_buildup"]
+    },
+    {
+      "id": "ref_ms_014_not_cooling_compressor_no",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "no" }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead warm box with compressor off — start relay, overload, or control.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
     }
   ]
 }

@@ -874,6 +874,190 @@
         "motor_check",
         "no_tumble_issue"
       ]
+    },
+    {
+      "id": "ed_ms_001_no_heat_heating_no",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "field", "path": "functional_checks.heating", "equals": "no" }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat complaint with no heating observed — element or heat circuit path.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "ed_ms_002_no_heat_heater_ol",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "electricDryerHeatingElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with heating element open — element failure confirmed.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "ed_ms_003_no_heat_thermal_fuse_open",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with thermal fuse open — safety device tripped.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "ed_ms_004_not_drying_airflow_bad",
+      "when": [
+        { "type": "chip", "id": "not_drying" },
+        { "type": "field", "path": "functional_checks.airflow", "equals": "bad" }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Long dry times with poor vent airflow — restriction likely.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["vent_restriction", "airflow_check"]
+    },
+    {
+      "id": "ed_ms_005_not_drying_airflow_lint_bad",
+      "when": [
+        { "type": "chip", "id": "not_drying" },
+        { "type": "field", "path": "functional_checks.airflow", "equals": "bad" },
+        { "type": "field", "path": "visual_inspection.lint_accumulation", "equals": "bad" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "Damp clothes, bad airflow, and heavy lint — vent restriction pattern.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["vent_restriction", "airflow_check"]
+    },
+    {
+      "id": "ed_ms_006_no_spin_drum_no",
+      "when": [
+        { "type": "chip", "id": "no_spin" },
+        { "type": "field", "path": "functional_checks.drum_turning", "equals": "no" }
+      ],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't tumble complaint with drum not turning — motor/drive path.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "ed_ms_007_heating_no_heater_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.heating", "equals": "no" },
+        { "type": "measurement", "knowledgeId": "electricDryerHeatingElementOhms", "statusIn": ["critical"] }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heating observed with element open at meter — replace element.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "ed_ms_008_not_drying_heating_no",
+      "when": [
+        { "type": "chip", "id": "not_drying" },
+        { "type": "field", "path": "functional_checks.heating", "equals": "no" }
+      ],
+      "target": "heat_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 25 },
+      "explanation": "Long dry times with no heat — weak or absent heat circuit.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check", "no_heat_issue"]
+    },
+    {
+      "id": "ed_ms_009_no_heat_supply_critical",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage240", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with 240 V supply out of range — check breaker and outlet.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["voltage_check"]
+    },
+    {
+      "id": "ed_ms_010_no_power_supply_critical",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage240", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead dryer with bad supply voltage — electrical supply root cause.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["voltage_check", "supply_issue"]
+    },
+    {
+      "id": "ed_ms_011_no_heat_cycling_stat_open",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "measurement", "knowledgeId": "dryerCyclingThermostatOhms", "statusIn": ["critical"] }
+      ],
+      "target": "cycling_thermostat",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with cycling thermostat open — heat circuit cannot close.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "ed_ms_012_not_drying_vent_bad",
+      "when": [
+        { "type": "chip", "id": "not_drying" },
+        { "type": "field", "path": "visual_inspection.vent_condition", "equals": "bad" }
+      ],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Long dry times with bad vent/duct condition — clear vent path.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["vent_restriction"]
+    },
+    {
+      "id": "ed_ms_013_lint_bad_thermal_fuse_open",
+      "when": [
+        { "type": "field", "path": "visual_inspection.lint_accumulation", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Heavy lint with blown thermal fuse — overheat from restriction.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["safety_fuse_check", "vent_restriction"]
+    },
+    {
+      "id": "ed_ms_014_no_heat_heating_no_thermal_fuse",
+      "when": [
+        { "type": "chip", "id": "no_heat" },
+        { "type": "field", "path": "functional_checks.heating", "equals": "no" },
+        { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] }
+      ],
+      "target": "thermal_fuse",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat observed with thermal fuse open — fuse is root cause.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["safety_fuse_check"]
     }
   ]
 }

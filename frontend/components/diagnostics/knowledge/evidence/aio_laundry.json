@@ -1153,6 +1153,188 @@
         "compressor_check",
         "cooling_issue"
       ]
+    },
+    {
+      "id": "al_ms_001_washer_drain_drain_bad",
+      "when": [
+        { "type": "chip", "id": "washer_drain" },
+        { "type": "field", "path": "wash_functions.drain", "equals": "bad" }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Washer won't drain with failed drain — pump or clog path.",
+      "recommendStepKey": "wash",
+      "dmaTags": ["pump_check", "drain_issue"]
+    },
+    {
+      "id": "al_ms_002_washer_drain_pump_ol",
+      "when": [
+        { "type": "chip", "id": "washer_drain" },
+        { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Drain complaint with pump open — drain pump failure confirmed.",
+      "recommendStepKey": "washElectrical",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "al_ms_003_washer_spin_spin_bad",
+      "when": [
+        { "type": "chip", "id": "washer_spin" },
+        { "type": "field", "path": "wash_functions.spin", "equals": "bad" }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't spin with failed spin cycle — drive motor path.",
+      "recommendStepKey": "wash",
+      "dmaTags": ["motor_check", "spin_issue"]
+    },
+    {
+      "id": "al_ms_004_washer_spin_motor_ol",
+      "when": [
+        { "type": "chip", "id": "washer_spin" },
+        { "type": "measurement", "knowledgeId": "washerMotorWindingOhms", "statusIn": ["critical"] }
+      ],
+      "target": "washer_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Spin complaint with wash motor open — motor failure confirmed.",
+      "recommendStepKey": "washElectrical",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "al_ms_005_drain_bad_pump_ol",
+      "when": [
+        { "type": "field", "path": "wash_functions.drain", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "washer_drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed drain with pump open — replace drain pump.",
+      "recommendStepKey": "washElectrical",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "al_ms_006_heat_pump_dry_airflow_bad",
+      "when": [
+        { "type": "chip", "id": "heat_pump_dry" },
+        { "type": "field", "path": "dry_functions.airflow", "equals": "bad" }
+      ],
+      "target": "filter_airflow",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Heat-pump not drying with poor airflow — filter or condenser path.",
+      "recommendStepKey": "dry",
+      "dmaTags": ["fan_motor_check", "airflow_check"]
+    },
+    {
+      "id": "al_ms_007_heat_pump_dry_heat_no",
+      "when": [
+        { "type": "chip", "id": "heat_pump_dry" },
+        { "type": "field", "path": "dry_functions.heat_present", "equals": "no" }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not drying with no heat — compressor or sealed system path.",
+      "recommendStepKey": "dry",
+      "dmaTags": ["compressor_check", "cooling_issue"]
+    },
+    {
+      "id": "al_ms_008_dryer_no_heat_compressor_low",
+      "when": [
+        { "type": "chip", "id": "dryer_no_heat" },
+        { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["critical", "warning"] }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No heat with abnormal compressor amps — start or sealed system issue.",
+      "recommendStepKey": "heatPump",
+      "dmaTags": ["compressor_check"]
+    },
+    {
+      "id": "al_ms_009_compressor_chip_winding_ol",
+      "when": [
+        { "type": "chip", "id": "compressor" },
+        { "type": "measurement", "knowledgeId": "compressorRunWindingOhms", "statusIn": ["critical"] }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Compressor complaint with windings open — compressor failure confirmed.",
+      "recommendStepKey": "heatPump",
+      "dmaTags": ["compressor_check"]
+    },
+    {
+      "id": "al_ms_010_condensate_drain_bad",
+      "when": [
+        { "type": "chip", "id": "condensate" },
+        { "type": "field", "path": "dry_functions.condensate_drain", "equals": "bad" }
+      ],
+      "target": "condensate",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Condensate complaint with failed drain — pump or coin trap path.",
+      "recommendStepKey": "dry",
+      "dmaTags": ["pump_check", "drain_issue"]
+    },
+    {
+      "id": "al_ms_011_condensate_pump_ol",
+      "when": [
+        { "type": "chip", "id": "condensate" },
+        { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "condensate",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Condensate issue with drain pump open — shared pump failure.",
+      "recommendStepKey": "washElectrical",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "al_ms_012_heat_pump_dry_fan_low",
+      "when": [
+        { "type": "chip", "id": "heat_pump_dry" },
+        { "type": "measurement", "knowledgeId": "condenserFanAmps", "statusIn": ["critical", "warning"] }
+      ],
+      "target": "heat_pump_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Not drying with low condenser fan amps — fan motor path.",
+      "recommendStepKey": "heatPump",
+      "dmaTags": ["fan_motor_check"]
+    },
+    {
+      "id": "al_ms_013_compressor_chip_low_amps",
+      "when": [
+        { "type": "chip", "id": "compressor" },
+        { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["critical", "warning"] }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Compressor complaint with abnormal run amps — sealed system or start issue.",
+      "recommendStepKey": "heatPump",
+      "dmaTags": ["compressor_check", "cooling_issue"]
+    },
+    {
+      "id": "al_ms_014_no_power_supply_critical",
+      "when": [
+        { "type": "chip", "id": "no_power" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Dead unit with supply voltage out of range — outlet or breaker path.",
+      "recommendStepKey": "washElectrical",
+      "dmaTags": ["voltage_check", "supply_issue"]
     }
   ]
 }

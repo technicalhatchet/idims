@@ -744,6 +744,188 @@
         "ignition_issue",
         "surface_burner"
       ]
+    },
+    {
+      "id": "gr_ms_001_no_ignition_bake_bad",
+      "when": [
+        { "type": "chip", "id": "no_ignition" },
+        { "type": "field", "path": "functional_checks.oven_bake_ignition", "equals": "bad" }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Won't ignite with failed bake ignition — igniter or gas valve path.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["igniter_check", "ignition_issue"]
+    },
+    {
+      "id": "gr_ms_002_no_oven_heat_bake_bad",
+      "when": [
+        { "type": "chip", "id": "no_oven_heat" },
+        { "type": "field", "path": "functional_checks.oven_bake_ignition", "equals": "bad" }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Oven not heating with failed bake ignition — ignition circuit first.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gr_ms_003_no_ignition_igniter_ol",
+      "when": [
+        { "type": "chip", "id": "no_ignition" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No ignition with oven igniter open — replace igniter.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gr_ms_004_no_oven_heat_igniter_ol",
+      "when": [
+        { "type": "chip", "id": "no_oven_heat" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No oven heat with igniter open at meter — igniter failure confirmed.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gr_ms_005_no_ignition_gas_valve_ol",
+      "when": [
+        { "type": "chip", "id": "no_ignition" },
+        { "type": "measurement", "knowledgeId": "gasValveCoilOhms", "statusIn": ["critical"] }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No ignition with gas valve coil open — valve cannot open.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["gas_valve_check"]
+    },
+    {
+      "id": "gr_ms_006_bake_bad_igniter_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.oven_bake_ignition", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed bake ignition with igniter open — replace igniter.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gr_ms_007_bake_bad_flame_sensor_open",
+      "when": [
+        { "type": "field", "path": "functional_checks.oven_bake_ignition", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "gasFlameSensorContinuityOhms", "statusIn": ["critical"] }
+      ],
+      "target": "flame_sensor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed bake ignition with flame sensor open — safety circuit fault.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["flame_sensor_check"]
+    },
+    {
+      "id": "gr_ms_008_surface_burners_surface_bad",
+      "when": [
+        { "type": "chip", "id": "surface_burners" },
+        { "type": "field", "path": "functional_checks.surface_burner_ignition", "equals": "bad" }
+      ],
+      "target": "surface_ignition",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Surface burner complaint with failed surface ignition — cap/orifice/spark path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["surface_burner"]
+    },
+    {
+      "id": "gr_ms_009_weak_flame_oven_flame_bad",
+      "when": [
+        { "type": "chip", "id": "weak_flame" },
+        { "type": "field", "path": "gas_flame_readings.oven_flame_quality", "equals": "bad" }
+      ],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Weak/yellow flame with poor oven flame quality — valve or pressure path.",
+      "recommendStepKey": "flame",
+      "dmaTags": ["gas_valve_check"]
+    },
+    {
+      "id": "gr_ms_010_no_ignition_igniter_low_amps",
+      "when": [
+        { "type": "chip", "id": "no_ignition" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterAmps", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No ignition with weak igniter draw — igniter not glowing hot enough.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gr_ms_011_no_oven_heat_supply_critical",
+      "when": [
+        { "type": "chip", "id": "no_oven_heat" },
+        { "type": "measurement", "knowledgeId": "supplyVoltage120", "statusIn": ["critical"] }
+      ],
+      "target": "supply",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No oven heat with supply voltage out of range — check outlet and board feed.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["voltage_check"]
+    },
+    {
+      "id": "gr_ms_012_no_ignition_flame_sensor_open",
+      "when": [
+        { "type": "chip", "id": "no_ignition" },
+        { "type": "measurement", "knowledgeId": "gasFlameSensorContinuityOhms", "statusIn": ["critical"] }
+      ],
+      "target": "flame_sensor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No ignition with flame sensor open — flame sense circuit fault.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["flame_sensor_check"]
+    },
+    {
+      "id": "gr_ms_013_surface_burners_surface_flame_bad",
+      "when": [
+        { "type": "chip", "id": "surface_burners" },
+        { "type": "field", "path": "gas_flame_readings.surface_flame_quality", "equals": "bad" }
+      ],
+      "target": "surface_ignition",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Surface burner issue with poor surface flame — orifice/cap/spark path.",
+      "recommendStepKey": "flame",
+      "dmaTags": ["surface_burner"]
+    },
+    {
+      "id": "gr_ms_014_broil_bad_igniter_ol",
+      "when": [
+        { "type": "field", "path": "functional_checks.oven_broil_ignition", "equals": "bad" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Failed broil ignition with igniter open — igniter failure on broil cycle.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["igniter_check"]
     }
   ]
 }
