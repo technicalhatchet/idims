@@ -96,7 +96,7 @@ export async function fetchWorkOrderWithCache(id) {
     const cached = await getCachedWorkOrderEnriched(id);
     if (!cached) {
       throw new Error(
-        'This work order is not cached yet. Open it once while online on /techboard first.'
+        'This work order is not cached yet. Open it once while online, then try again.'
       );
     }
     return cached;

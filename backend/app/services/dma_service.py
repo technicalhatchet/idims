@@ -165,6 +165,20 @@ def parse_repair_outcome_note(note_text: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+def _parse_bool_field(value: Any, default: bool = False) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized == "true":
+            return True
+        if normalized == "false":
+            return False
+    if value is None:
+        return default
+    return bool(value)
+
+
 def _coalesce_str(*values: Any) -> Optional[str]:
     for value in values:
         if value is None:
@@ -215,7 +229,10 @@ def upsert_repair_outcome_from_note(
         "replaced_parts": _coalesce_str(
             parsed.get("replacedParts"), parsed.get("replaced_parts")
         ),
-        "repair_successful": bool(parsed.get("repairSuccessful", True)),
+        "repair_successful": _parse_bool_field(parsed.get("repairSuccessful"), default=False),
+        "repair_memory_match": _coalesce_str(
+            parsed.get("repairMemoryMatch"), parsed.get("repair_memory_match")
+        ),
         "callback_required": bool(parsed.get("callbackRequired", False)),
         "technician_summary": _coalesce_str(
             parsed.get("repairComments"),

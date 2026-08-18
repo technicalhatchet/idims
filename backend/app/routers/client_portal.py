@@ -664,6 +664,7 @@ async def get_portal_profile(
         "last_name": client.last_name,
         "company_name": client.company_name,
         "phone": client.phone,
+        "mobile": client.mobile,
         "email": client.email,
         "self_scheduling_allowed": appliance_svc.client_self_scheduling_allowed(client, db),
         "self_scheduling_blocked": bool(client.self_scheduling_blocked),
@@ -676,6 +677,61 @@ async def get_portal_profile(
             "warranty_active": warranty_active_count,
             "property_count": len(properties_list),
         }
+    }
+
+
+class PortalProfileUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone: Optional[str] = None
+    mobile: Optional[str] = None
+
+
+@router.put("/portal/me")
+async def update_portal_profile(
+    body: PortalProfileUpdate,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db)
+):
+    """Clients can update contact name and phone. Email stays read-only (Auth0 login)."""
+    updates = body.model_dump(exclude_unset=True)
+    if "first_name" in updates:
+        name = (updates["first_name"] or "").strip()
+        if not name:
+            raise HTTPException(status_code=422, detail="First name is required.")
+        if len(name) > 100:
+            raise HTTPException(status_code=422, detail="First name is too long.")
+        client.first_name = name
+    if "last_name" in updates:
+        name = (updates["last_name"] or "").strip()
+        if not name:
+            raise HTTPException(status_code=422, detail="Last name is required.")
+        if len(name) > 100:
+            raise HTTPException(status_code=422, detail="Last name is too long.")
+        client.last_name = name
+    if "phone" in updates:
+        phone = (updates["phone"] or "").strip()
+        if len(phone) > 20:
+            raise HTTPException(status_code=422, detail="Phone number is too long.")
+        client.phone = phone or None
+    if "mobile" in updates:
+        mobile = (updates["mobile"] or "").strip()
+        if len(mobile) > 20:
+            raise HTTPException(status_code=422, detail="Mobile number is too long.")
+        client.mobile = mobile or None
+
+    db.add(client)
+    db.commit()
+    db.refresh(client)
+
+    return {
+        "id": str(client.id),
+        "first_name": client.first_name,
+        "last_name": client.last_name,
+        "company_name": client.company_name,
+        "phone": client.phone,
+        "mobile": client.mobile,
+        "email": client.email,
     }
 
 

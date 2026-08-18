@@ -159,6 +159,7 @@ export default function EquipmentDetailsMobile({
   getVendorLabel = (vendorId) => vendorId || '—',
   partsWarrantyDefaults = { oemWarrantyDays: 365, aftermarketWarrantyDays: 0 },
   readOnly = false,
+  showDmaSuggestions = false,
 }) {
   const [confirmDeletePart, setConfirmDeletePart] = useState(false);
 
@@ -226,11 +227,13 @@ export default function EquipmentDetailsMobile({
     <div className="space-y-3 pb-4 min-w-0">
       {(error || successMessage) && <div className="px-0.5">{saveFeedback}</div>}
 
-      <DmaSuggestionsAccordion
-        workOrderId={workOrderId}
-        equipmentMake={manufacturer}
-        equipmentSubtype={equipmentSubtype}
-      />
+      {showDmaSuggestions && (
+        <DmaSuggestionsAccordion
+          workOrderId={workOrderId}
+          equipmentMake={manufacturer}
+          equipmentSubtype={equipmentSubtype}
+        />
+      )}
 
       <MobileAccordionSection
         id="equipment"

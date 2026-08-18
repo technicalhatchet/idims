@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getDmaSuggestions } from '../services/api/dmaApi';
+import { isWorkOrderOnSite } from '../utils/workOrderPermissions';
 
 const STALE_MS = 5 * 60 * 1000;
 
@@ -30,7 +31,7 @@ export function useDmaSuggestions({ equipmentMake, equipmentSubtype, workOrderId
   });
 }
 
-/** Warm DMA suggestions as soon as WO equipment fields are known (before Equipment tab opens). */
+/** Warm DMA suggestions once the tech is on site (not before arrival). */
 export function usePrefetchDmaSuggestions(workOrder) {
   const make = (workOrder?.equipment_make || '').trim();
   const subtype = (workOrder?.equipment_subtype || '').trim();
@@ -40,6 +41,6 @@ export function usePrefetchDmaSuggestions(workOrder) {
     equipmentMake: make,
     equipmentSubtype: subtype,
     workOrderId,
-    enabled: Boolean(make && subtype && workOrderId),
+    enabled: Boolean(isWorkOrderOnSite(workOrder) && make && subtype && workOrderId),
   });
 }

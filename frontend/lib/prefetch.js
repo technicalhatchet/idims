@@ -13,12 +13,17 @@ import {
   PartStore,
   ScheduleStore,
   MetaStore,
+  NotesStore,
 } from './db';
 import { format, addDays } from 'date-fns';
+import {
+  SCHEDULE_CACHE_FRESH_MS,
+  WORK_ORDERS_CACHE_FRESH_MS,
+  isMetaFresh,
+} from './offlineCache';
 
 const PREFETCH_INTERVAL_MS = 5 * 60 * 1000; // Re-fetch every 5 minutes when online
 const PREFETCH_CONCURRENCY = 2;
-const PREFETCH_DEFER_AFTER_NETWORK_MS = 2 * 60 * 1000;
 
 let prefetchInFlight = null;
 
@@ -41,9 +46,8 @@ async function shouldPrefetch() {
   return Date.now() - lastSync > PREFETCH_INTERVAL_MS;
 }
 
-async function networkDataFresh(key) {
-  const last = await MetaStore.get(key);
-  return last && Date.now() - last < PREFETCH_DEFER_AFTER_NETWORK_MS;
+async function networkDataFresh(key, maxAgeMs) {
+  return isMetaFresh(key, maxAgeMs);
 }
 
 /**
@@ -78,8 +82,8 @@ export async function prefetchAll(options = {}) {
     let appointments = [];
     let workOrders = [];
 
-    const scheduleFresh = !force && (await networkDataFresh('lastScheduleFetch'));
-    const workOrdersFresh = !force && (await networkDataFresh('lastWorkOrdersFetch'));
+    const scheduleFresh = !force && (await networkDataFresh('lastScheduleFetch', SCHEDULE_CACHE_FRESH_MS));
+    const workOrdersFresh = !force && (await networkDataFresh('lastWorkOrdersFetch', WORK_ORDERS_CACHE_FRESH_MS));
 
     if (scheduleFresh) {
       onProgress?.('Using recent schedule from cache...');
@@ -188,6 +192,20 @@ export async function prefetchAll(options = {}) {
       await PartStore.putAll(allParts);
     }
 
+    onProgress?.('Fetching notes for today\'s jobs...');
+    const notesResults = await mapWithConcurrency(todayWOIds, async (woId) => {
+      const notes = await apiClient(`work-orders/${woId}/notes`);
+      const items = Array.isArray(notes) ? notes : notes?.items || [];
+      return items.map((n) => ({ ...n, work_order_id: woId }));
+    });
+    const allNotes = notesResults
+      .filter((r) => r.status === 'fulfilled')
+      .flatMap((r) => r.value)
+      .filter((n) => n && n.id);
+    if (allNotes.length) {
+      await NotesStore.putAll(allNotes);
+    }
+
     await MetaStore.set('lastPrefetch', Date.now());
     await MetaStore.set('lastPrefetchDate', todayStr);
 
@@ -198,6 +216,7 @@ export async function prefetchAll(options = {}) {
       clients: allClients.length,
       properties: allProperties.length,
       parts: allParts.length,
+      notes: allNotes.length,
     };
 
     console.log('[Prefetch] Complete:', summary);

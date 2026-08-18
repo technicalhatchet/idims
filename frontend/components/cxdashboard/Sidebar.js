@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaHome, FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt,
-  FaEnvelope, FaCog, FaHeadset, FaTimes, FaBoxOpen,
+  FaEnvelope, FaCog, FaHeadset, FaTimes, FaBoxOpen, FaFolder,
 } from 'react-icons/fa';
 
 const NAV_ITEMS = [
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { id: 'appointments', label: 'My Appointments', icon: FaCalendarAlt, href: '/cxdashboard/appointments' },
   { id: 'repairs', label: 'My Repairs', icon: FaTools, href: '/cxdashboard/repairs' },
   { id: 'invoices', label: 'Invoices & Payments', icon: FaFileInvoiceDollar, href: '/cxdashboard/invoices' },
+  { id: 'documents', label: 'Documents', icon: FaFolder, href: '/cxdashboard/documents' },
   { id: 'warranty', label: 'Warranty', icon: FaShieldAlt, href: '/cxdashboard/warranty' },
   { id: 'messages', label: 'Messages', icon: FaEnvelope, href: '/cxdashboard/messages' },
   { id: 'appliances', label: 'My Appliances', icon: FaBoxOpen, href: '/cxdashboard/appliances' },

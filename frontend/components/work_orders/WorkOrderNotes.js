@@ -10,8 +10,12 @@ import {
   DMA_PROBLEM_CODES,
   DMA_RESOLUTION_CODES,
   REPAIR_OUTCOME_NOTE_TYPE,
+  REPAIR_MEMORY_MATCH_OPTIONS,
+  REPAIR_SUCCESSFUL_OPTIONS,
   codeOptions,
   codeLabel,
+  repairMemoryMatchLabel,
+  repairSuccessfulLabel,
 } from '../../constants/dmaCodes';
 import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
@@ -74,7 +78,18 @@ const NOTE_FIELDS = {
     { id: 'confirmedFix', label: 'Confirmed Fix (required)', type: 'text' },
     { id: 'errorCodeText', label: 'Error Code (optional)', type: 'text' },
     { id: 'replacedParts', label: 'Replaced Parts', type: 'text' },
-    { id: 'repairSuccessful', label: 'Repair successful', type: 'checkbox' },
+    {
+      id: 'repairMemoryMatch',
+      label: 'Did Repair Memory match what you fixed? (required)',
+      type: 'select',
+      options: REPAIR_MEMORY_MATCH_OPTIONS,
+    },
+    {
+      id: 'repairSuccessful',
+      label: 'Repair successful? (required)',
+      type: 'select',
+      options: REPAIR_SUCCESSFUL_OPTIONS,
+    },
     { id: 'callbackRequired', label: 'Callback required', type: 'checkbox' },
     { id: 'repairComments', label: 'Repair Comments', type: 'textarea' },
     { id: 'tags', label: 'Repair tags', type: 'tags' },
@@ -87,7 +102,7 @@ const getInitialFieldValues = (noteType) => {
 
   return NOTE_FIELDS[noteType].reduce((values, field) => {
     if (field.type === 'checkbox') {
-      values[field.id] = field.id === 'repairSuccessful' ? true : false;
+      values[field.id] = false;
     } else if (field.type === 'tags') {
       values[field.id] = [];
     } else {
@@ -131,6 +146,10 @@ const formatFieldsForDisplay = (fieldValues, noteType, workOrder = null) => {
       value = codeLabel(DMA_PROBLEM_CODES, value);
     } else if (field.id === 'resolutionCode') {
       value = codeLabel(DMA_RESOLUTION_CODES, value);
+    } else if (field.id === 'repairMemoryMatch') {
+      value = repairMemoryMatchLabel(value);
+    } else if (field.id === 'repairSuccessful') {
+      value = repairSuccessfulLabel(value);
     }
     return `${field.label}: ${value || 'N/A'}\n`;
   }).join('');
@@ -151,6 +170,23 @@ function isStructuredNoteType(noteType) {
 
 function isPrivateNoteType(noteType) {
   return noteType === NOTE_TYPES.REPAIR_OUTCOME || noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS;
+}
+
+function validateRepairOutcomeFields(fieldValues) {
+  const fix = (fieldValues?.confirmedFix || '').trim();
+  if (!fix) return 'Confirmed Fix is required for Repair Outcome notes.';
+  const match = (fieldValues?.repairMemoryMatch || '').trim();
+  if (!match) return 'Select whether Repair Memory matched what you fixed.';
+  const success = fieldValues?.repairSuccessful;
+  if (success !== 'true' && success !== 'false') return 'Select whether the repair was successful.';
+  return null;
+}
+
+function normalizeRepairOutcomeFieldValues(fieldValues = {}) {
+  const next = { ...fieldValues };
+  if (next.repairSuccessful === true) next.repairSuccessful = 'true';
+  if (next.repairSuccessful === false) next.repairSuccessful = 'false';
+  return next;
 }
 
 const EMPTY_NOTE = {
@@ -376,10 +412,15 @@ export default function WorkOrderNotes({
           return;
         }
       } else {
-        setEditFieldValues({
+        const values = {
           ...getInitialFieldValues(selectedNote.type),
           ...selectedNote.fieldValues,
-        });
+        };
+        setEditFieldValues(
+          selectedNote.type === NOTE_TYPES.REPAIR_OUTCOME
+            ? normalizeRepairOutcomeFieldValues(values)
+            : values,
+        );
       }
       setEditContent('');
     } else {
@@ -415,9 +456,9 @@ export default function WorkOrderNotes({
       let appointmentId = null;
       if (isStructuredNoteType(selectedNote.type)) {
         if (selectedNote.type === NOTE_TYPES.REPAIR_OUTCOME) {
-          const fix = (diagnosticValues?.confirmedFix || '').trim();
-          if (!fix) {
-            alert('Confirmed Fix is required for Repair Outcome notes.');
+          const validationError = validateRepairOutcomeFields(diagnosticValues);
+          if (validationError) {
+            alert(validationError);
             setIsSaving(false);
             return;
           }
@@ -459,6 +500,9 @@ export default function WorkOrderNotes({
     if (noteType === NOTE_TYPES.DIAGNOSTIC_RESULTS && note.appointment_id && !fieldValues.appointmentId) {
       fieldValues = { ...fieldValues, appointmentId: String(note.appointment_id) };
     }
+    if (noteType === NOTE_TYPES.REPAIR_OUTCOME) {
+      fieldValues = normalizeRepairOutcomeFieldValues(fieldValues);
+    }
 
     setSelectedNote({
       ...note,
@@ -471,9 +515,9 @@ export default function WorkOrderNotes({
   const submitNewNote = useCallback(async (diagPayload = null) => {
     try {
       if (newNote.type === NOTE_TYPES.REPAIR_OUTCOME) {
-        const fix = (newNote.fieldValues?.confirmedFix || '').trim();
-        if (!fix) {
-          setError('Confirmed Fix is required for Repair Outcome notes.');
+        const validationError = validateRepairOutcomeFields(newNote.fieldValues);
+        if (validationError) {
+          setError(validationError);
           return;
         }
       }

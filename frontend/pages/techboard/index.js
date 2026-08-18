@@ -34,7 +34,6 @@ import {
 import { useUserRole } from '../../utils/auth0-helpers';
 import {
   ensureWebPushSubscription,
-  processDeployReminders,
   reportDeployProximity,
 } from '../../utils/webPush';
 
@@ -814,13 +813,6 @@ export default function TechDashboardTest() {
     ensureWebPushSubscription(apiClient);
     return undefined;
   }, [isOnline, user]);
-
-  useEffect(() => {
-    if (!isOnline) return undefined;
-    processDeployReminders(apiClient);
-    const timer = setInterval(() => processDeployReminders(apiClient), 60000);
-    return () => clearInterval(timer);
-  }, [isOnline]);
 
   useEffect(() => {
     if (!isOnline || !schedule.length) return undefined;

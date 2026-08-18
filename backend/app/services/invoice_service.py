@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 from typing import Optional, Dict, List, Any, Union
 from datetime import datetime, date, timedelta
@@ -101,8 +101,16 @@ class InvoiceService:
         total = query.count()
         
         # Apply pagination
-        query = query.order_by(Invoice.issue_date.desc())
-        invoices = query.offset(skip).limit(limit).all()
+        invoices = (
+            query.options(
+                joinedload(Invoice.client),
+                joinedload(Invoice.work_order),
+            )
+            .order_by(Invoice.issue_date.desc())
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
         
         return {
             "total": total,
@@ -114,7 +122,15 @@ class InvoiceService:
     @staticmethod
     async def get_invoice(db: Session, invoice_id: uuid.UUID) -> Invoice:
         """Get a specific invoice by ID"""
-        invoice = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+        invoice = (
+            db.query(Invoice)
+            .options(
+                joinedload(Invoice.client),
+                joinedload(Invoice.work_order),
+            )
+            .filter(Invoice.id == invoice_id)
+            .first()
+        )
         
         if not invoice:
             raise NotFoundException(f"Invoice with ID {invoice_id} not found")

@@ -33,6 +33,31 @@ export const DMA_RESOLUTION_CODES = {
 
 export const REPAIR_OUTCOME_NOTE_TYPE = 'Repair Outcome';
 
+export const REPAIR_MEMORY_MATCH_OPTIONS = [
+  { value: '', label: 'Select one…' },
+  { value: 'yes', label: 'Yes — top suggestion was the fix' },
+  { value: 'partially', label: 'Partially — related area, different item' },
+  { value: 'no', label: 'No — different root cause' },
+  { value: 'didnt_use', label: "Didn't use / no suggestions shown" },
+];
+
+export const REPAIR_SUCCESSFUL_OPTIONS = [
+  { value: '', label: 'Select one…' },
+  { value: 'true', label: 'Yes — repair successful' },
+  { value: 'false', label: 'No — not successful' },
+];
+
+export function repairMemoryMatchLabel(value) {
+  const found = REPAIR_MEMORY_MATCH_OPTIONS.find((o) => o.value === value);
+  return found?.label || value || '';
+}
+
+export function repairSuccessfulLabel(value) {
+  if (value === true || value === 'true') return 'Yes — repair successful';
+  if (value === false || value === 'false') return 'No — not successful';
+  return '';
+}
+
 export function codeOptions(codeMap) {
   return Object.entries(codeMap).map(([value, label]) => ({ value, label }));
 }

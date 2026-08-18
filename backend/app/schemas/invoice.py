@@ -101,13 +101,30 @@ class InvoiceUpdate(BaseModel):
                 raise ValueError("Due date cannot be before issue date")
         return v
 
-class InvoiceResponse(InvoiceBase):
-    """Invoice response schema"""
+class InvoiceResponse(BaseModel):
+    """Invoice response schema — matches ORM columns (datetimes, metadata_json)."""
     id: UUID
+    invoice_number: Optional[str] = None
+    client_id: UUID
+    client_name: Optional[str] = None
+    work_order_id: Optional[UUID] = None
+    work_order_number: Optional[str] = None
+    status: Optional[str] = None
+    issue_date: Optional[datetime] = None
+    due_date: Optional[datetime] = None
+    subtotal: Optional[float] = None
+    tax: Optional[float] = None
+    discount_amount: Optional[float] = None
+    total: Optional[float] = None
+    total_amount: Optional[float] = None
+    amount_paid: Optional[float] = None
+    balance: Optional[float] = None
+    notes: Optional[str] = None
+    terms: Optional[str] = None
+    payment_instructions: Optional[str] = None
     created_at: datetime
     updated_at: datetime
-    created_by: UUID
-    updated_by: Optional[UUID] = None
+    created_by: Optional[UUID] = None
     model_config = ConfigDict(from_attributes=True)
 
 class InvoiceListResponse(BaseModel):

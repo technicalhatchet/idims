@@ -22,6 +22,14 @@ from app.core.exceptions import AuthenticationException, AuthorizationException,
 
 logger = logging.getLogger(__name__)
 
+# Reduce auth noise in production — full token dumps are expensive and leak PII to logs.
+VERBOSE_AUTH_LOGS = settings.DEBUG or settings.ENVIRONMENT == "development"
+
+
+def _auth_log_info(message: str) -> None:
+    if VERBOSE_AUTH_LOGS:
+        logger.info(message)
+
 # Create a custom security class that provides more detailed error messages
 class CustomHTTPBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
@@ -358,7 +366,7 @@ class AuthHandler:
             if hasattr(token_data, 'raw_payload'):
                 payload = token_data.raw_payload or {}
                 raw_payload = payload
-                logger.info(f"Token payload: {json.dumps(payload, default=str)}")
+                _auth_log_info(f"Token payload: {json.dumps(payload, default=str)}")
                 
                 # Try to get profile from various possible locations in token
                 profile_sources = [
@@ -372,7 +380,7 @@ class AuthHandler:
                     if source and isinstance(source, dict):
                         user_profile = source
                         if user_profile.get('name') or user_profile.get('email'):
-                            logger.info(f"Found profile data in token: {user_profile.get('name', 'unknown')}")
+                            _auth_log_info(f"Found profile data in token: {user_profile.get('name', 'unknown')}")
                             break
                 
                 # Extract Auth0 roles if present
@@ -381,11 +389,11 @@ class AuthHandler:
                 app_metadata = payload.get('https://idimsapi/app_metadata', {})
                 if app_metadata and isinstance(app_metadata, dict) and 'roles' in app_metadata:
                     auth0_roles = app_metadata.get('roles', [])
-                    logger.info(f"Found roles in app_metadata: {auth0_roles}")
+                    _auth_log_info(f"Found roles in app_metadata: {auth0_roles}")
                 # Then check direct roles claim
                 elif 'roles' in payload:
                     auth0_roles = payload.get('roles', [])
-                    logger.info(f"Found roles in payload: {auth0_roles}")
+                    _auth_log_info(f"Found roles in payload: {auth0_roles}")
             
             # Extract name information
             name = user_profile.get('name') or token_data.name or ""
@@ -455,17 +463,17 @@ class AuthHandler:
             if auth_id:
                 user = db.query(DBUser).filter(DBUser.auth_id == auth_id).first()
                 if user:
-                    logger.info(f"Found user by auth_id: {user.id}")
+                    _auth_log_info(f"Found user by auth_id: {user.id}")
             
             # If not found by auth_id, try by email
             if not user and real_email:
                 user = db.query(DBUser).filter(DBUser.email == real_email).first()
                 if user:
-                    logger.info(f"Found user by email: {user.id}")
+                    _auth_log_info(f"Found user by email: {user.id}")
             
             # If user exists, update profile info if needed
             if user:
-                logger.info(f"Found existing user: {user.id}, checking for profile updates")
+                _auth_log_info(f"Found existing user: {user.id}, checking for profile updates")
                 
                 # Check if we need to update user information
                 update_needed = False
@@ -511,13 +519,15 @@ class AuthHandler:
                         update_needed = True
                         logger.info(f"Updating roles from {current_roles} to {roles}")
                 
-                # Update last login time
-                user.last_login = datetime.utcnow()
-                update_needed = True
-                
+                # Update last login — throttled to reduce DB writes on every API call
+                now = datetime.utcnow()
+                if not user.last_login or (now - user.last_login) >= LAST_LOGIN_UPDATE_INTERVAL:
+                    user.last_login = now
+                    update_needed = True
+
                 # Save changes if needed
                 if update_needed:
-                    logger.info(f"Updating user profile for {user.id}")
+                    _auth_log_info(f"Updating user profile for {user.id}")
                     try:
                         db.commit()
                         db.refresh(user)
@@ -763,16 +773,25 @@ class AuthHandler:
                 detail=error_msg
             )
 
+_auth_handler_singleton: Optional[AuthHandler] = None
+
+# Throttle last_login writes — not every API read should UPDATE users.
+LAST_LOGIN_UPDATE_INTERVAL = timedelta(minutes=15)
+
+
 def get_auth_handler() -> AuthHandler:
-    """Get the Auth0 authentication handler"""
+    """Get the shared Auth0 authentication handler (JWKS cache persists across requests)."""
+    global _auth_handler_singleton
     if not settings.AUTH0_DOMAIN or not settings.AUTH0_API_AUDIENCE:
         logger.error("Auth0 configuration missing")
         raise ValueError("Auth0 configuration is incomplete")
-        
-    return AuthHandler(
-        domain=settings.AUTH0_DOMAIN,
-        audience=settings.AUTH0_API_AUDIENCE
-    )
+
+    if _auth_handler_singleton is None:
+        _auth_handler_singleton = AuthHandler(
+            domain=settings.AUTH0_DOMAIN,
+            audience=settings.AUTH0_API_AUDIENCE,
+        )
+    return _auth_handler_singleton
 
 # Helper function to check if a user has required roles
 def has_required_roles(token_data: TokenData, required_roles: List[str]) -> bool:

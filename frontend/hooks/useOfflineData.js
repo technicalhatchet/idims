@@ -6,15 +6,12 @@
 import { useState, useEffect } from 'react';
 import { useOnlineStatus } from './useOnlineStatus';
 import { isOffline } from '../lib/offlineMutations';
+import { MetaStore, WorkOrderStore, AppointmentStore, ScheduleStore } from '../lib/db';
 import {
-  WorkOrderStore,
-  AppointmentStore,
-  ClientStore,
-  PropertyStore,
-  PartStore,
-  ScheduleStore,
-  MetaStore,
-} from '../lib/db';
+  SCHEDULE_CACHE_FRESH_MS,
+  WORK_ORDERS_CACHE_FRESH_MS,
+  isMetaFresh,
+} from '../lib/offlineCache';
 import { apiClient } from '../utils/api-client';
 import { format, isToday, addDays } from 'date-fns';
 
@@ -42,6 +39,15 @@ export function useOfflineSchedule() {
       }
 
       if (!isOffline()) {
+        const scheduleFresh = await isMetaFresh('lastScheduleFetch', SCHEDULE_CACHE_FRESH_MS);
+        if (scheduleFresh && cached.length) {
+          if (!cancelled) {
+            setIsLoading(false);
+            setSource('cache');
+          }
+          return;
+        }
+
         try {
           const today = new Date();
           const todayStr = format(today, 'yyyy-MM-dd');
@@ -111,6 +117,15 @@ export function useOfflineWorkOrders(limit = 200) {
       }
 
       if (!isOffline()) {
+        const workOrdersFresh = await isMetaFresh('lastWorkOrdersFetch', WORK_ORDERS_CACHE_FRESH_MS);
+        if (workOrdersFresh && cached.length) {
+          if (!cancelled) {
+            setIsLoading(false);
+            setSource('cache');
+          }
+          return;
+        }
+
         try {
           const result = await apiClient(`work-orders?page=1&limit=${limit}`);
           const payload = result || { items: [], total: 0 };

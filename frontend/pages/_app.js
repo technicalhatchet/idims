@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import SyncBanner from '../components/ui/SyncBanner';
 import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
+import { isTechDeckPrefetchRoute } from '../lib/offlineCache';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,7 +61,7 @@ function ServiceWorkerMigration() {
   return null;
 }
 
-// Client-only — techboard offline prefetch only (not every page in the app)
+// Client-only — TechDeck offline prefetch (techboard + field WO routes)
 function ClientOnlyPrefetch() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -71,7 +72,7 @@ function ClientOnlyPrefetch() {
 
   useEffect(() => {
     if (!mounted) return;
-    if (!router.pathname.startsWith('/techboard')) return;
+    if (!isTechDeckPrefetchRoute(router.pathname)) return;
 
     const startPrefetch = () => {
       if (navigator.onLine) {

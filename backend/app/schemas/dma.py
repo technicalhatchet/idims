@@ -138,6 +138,7 @@ class DmaRepairOutcomeResponse(BaseModel):
     error_code_text: Optional[str] = None
     replaced_parts: Optional[str] = None
     repair_successful: bool = True
+    repair_memory_match: Optional[str] = None
     callback_required: bool = False
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None

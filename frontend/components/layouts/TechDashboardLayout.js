@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { getUserRole } from '../../utils/auth0-helpers';
 import { apiClient } from '../../utils/api-client';
-import { ensureWebPushSubscription, processDeployReminders } from '../../utils/webPush';
+import { ensureWebPushSubscription } from '../../utils/webPush';
+import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../../lib/deployReminderScheduler';
 import { useUIPreferences } from '../../context/UIPreferencesContext';
 import TechIconRail from '../navigation/TechIconRail';
 
@@ -125,9 +126,8 @@ export default function TechDashboardLayout({ children }) {
     if (isLoading || !user) return undefined;
     const role = getUserRole(user);
     if (!['admin', 'manager', 'technician'].includes(role)) return undefined;
-    processDeployReminders(apiClient);
-    const timer = setInterval(() => processDeployReminders(apiClient), 60000);
-    return () => clearInterval(timer);
+    startDeployReminderHeartbeat(apiClient);
+    return () => stopDeployReminderHeartbeat();
   }, [user, isLoading]);
 
   const railWidth = expanded ? RAIL_WIDTH_EXPANDED : RAIL_WIDTH_COLLAPSED;

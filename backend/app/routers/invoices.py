@@ -5,9 +5,9 @@ import uuid
 from datetime import datetime, date
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler, AuthUser
 from app.models.invoice import Invoice
 from app.models.client import Client
+from app.models.user import User
 from app.schemas.invoice import (
     InvoiceCreate, InvoiceUpdate, InvoiceResponse, InvoiceListResponse,
     InvoiceStatusUpdate, InvoiceSend, InvoiceItemCreate, InvoiceItemResponse
@@ -18,16 +18,7 @@ from app.core.dependencies import get_current_user, get_admin_or_manager_user
 
 router = APIRouter()
 
-async def get_current_user_dependency():
-    """Lazy-loaded dependency for current user"""
-    auth_handler = get_auth_handler()
-    return await auth_handler.get_current_user()
-
-async def get_manager_or_admin_dependency():
-    """Lazy-loaded dependency for manager or admin"""
-    auth_handler = get_auth_handler()
-    return await auth_handler.verify_manager_or_admin()
-
+@router.get("", response_model=InvoiceListResponse, include_in_schema=False)
 @router.get("/invoices", response_model=InvoiceListResponse)
 async def list_invoices(
     client_id: Optional[uuid.UUID] = Query(None, description="Filter by client ID"),
@@ -37,7 +28,7 @@ async def list_invoices(
     end_date: Optional[date] = Query(None, description="Filter by issue date (end)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -75,7 +66,7 @@ async def list_invoices(
 @router.post("/invoices", response_model=InvoiceResponse, status_code=status.HTTP_201_CREATED)
 async def create_invoice(
     invoice: InvoiceCreate,
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+    current_user: User = Depends(get_admin_or_manager_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -94,10 +85,11 @@ async def create_invoice(
             detail=f"Error creating invoice: {str(e)}"
         )
 
+@router.get("/{invoice_id}", response_model=InvoiceResponse, include_in_schema=False)
 @router.get("/invoices/{invoice_id}", response_model=InvoiceResponse)
 async def get_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to retrieve"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -129,7 +121,7 @@ async def get_invoice(
 async def update_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to update"),
     invoice_update: InvoiceUpdate = Body(...),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+    current_user: User = Depends(get_admin_or_manager_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -153,7 +145,7 @@ async def update_invoice(
 @router.delete("/invoices/{invoice_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to delete"),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+    current_user: User = Depends(get_admin_or_manager_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -177,7 +169,7 @@ async def delete_invoice(
 async def update_invoice_status(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice"),
     status_update: InvoiceStatusUpdate = Body(...),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+    current_user: User = Depends(get_admin_or_manager_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -207,7 +199,7 @@ async def send_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to send"),
     send_data: InvoiceSend = Body(...),
     background_tasks: BackgroundTasks = None,
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
+    current_user: User = Depends(get_admin_or_manager_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -238,7 +230,7 @@ async def send_invoice(
 async def download_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to download"),
     format: str = Query("pdf", description="Format to download (pdf, csv)"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """

@@ -11,7 +11,7 @@ import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
 import Image from 'next/image';
 import EquipmentDetailsMobile from './EquipmentDetailsMobile';
-import { isWorkOrderClosed } from '../../utils/workOrderPermissions';
+import { isWorkOrderClosed, isWorkOrderOnSite } from '../../utils/workOrderPermissions';
 import {
   PART_SOURCE_OPTIONS,
   formatPartSourceLabel,
@@ -598,6 +598,7 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
           oemWarrantyDays: partsSettings.oemWarrantyDays,
           aftermarketWarrantyDays: partsSettings.aftermarketWarrantyDays,
         }}
+        showDmaSuggestions={isWorkOrderOnSite(workOrder)}
       />
     );
   }

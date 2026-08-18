@@ -38,7 +38,8 @@ async def get_current_user(
         auth_header = request.headers.get("Authorization")
         if auth_header and auth_header.startswith("Bearer "):
             token = auth_header.replace("Bearer ", "")
-            logger.info(f"Token extracted from request Authorization header, length: {len(token)}")
+            if settings.DEBUG:
+                logger.info(f"Token extracted from request Authorization header, length: {len(token)}")
     
     if not token:
         logger.error("Missing authorization token")
@@ -53,7 +54,8 @@ async def get_current_user(
     
     # Get user from auth handler
     try:
-        logger.info(f"Sending token to auth handler, length: {len(token)}")
+        if settings.DEBUG:
+            logger.info(f"Sending token to auth handler, length: {len(token)}")
         user = await auth_handler.get_current_user(request, token, db)
         if not user:
             logger.error("No user returned from auth handler")
@@ -62,7 +64,8 @@ async def get_current_user(
                 detail="Authentication failed: User not found",
                 headers={"WWW-Authenticate": "Bearer"}
             )
-        logger.info(f"Successfully authenticated user: {user.email}, roles: {user.roles}")
+        if settings.DEBUG:
+            logger.info(f"Successfully authenticated user: {user.email}, roles: {user.roles}")
         return user
     except Exception as e:
         logger.error(f"Authentication error in get_current_user: {str(e)}")

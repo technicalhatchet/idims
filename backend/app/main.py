@@ -153,62 +153,34 @@ async def root():
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    # Generate a request ID
     request_id = str(uuid.uuid4())
     request.state.request_id = request_id
-    
-    # Log the request details
-    auth_header = request.headers.get('Authorization') or request.headers.get('authorization')
-    auth_header_log = auth_header[:15] + "..." if auth_header else "Not found"
-    origin_header = request.headers.get('Origin')
-    referer_header = request.headers.get('Referer')
-    user_agent = request.headers.get('User-Agent', 'Unknown')
-    content_type = request.headers.get('Content-Type', 'Not specified')
     request_path = request.url.path
-    
-    # Log basic request info
-    logger.info(f"[REQUEST-{request_id}] {request.method} {request_path} - Started")
-    logger.info(f"[REQUEST-{request_id}] Origin: {origin_header}")
-    logger.info(f"[REQUEST-{request_id}] Referer: {referer_header}")
-    logger.info(f"[REQUEST-{request_id}] Content-Type: {content_type}")
-    logger.info(f"[REQUEST-{request_id}] User-Agent: {user_agent}")
-    
-    # Log the Auth header - this is critical for debugging
-    if auth_header:
+    verbose = settings.DEBUG
+
+    if verbose:
+        auth_header = request.headers.get('Authorization') or request.headers.get('authorization')
+        auth_header_log = auth_header[:15] + "..." if auth_header else "Not found"
+        logger.info(f"[REQUEST-{request_id}] {request.method} {request_path} - Started")
+        logger.info(f"[REQUEST-{request_id}] Origin: {request.headers.get('Origin')}")
+        logger.info(f"[REQUEST-{request_id}] Referer: {request.headers.get('Referer')}")
         logger.info(f"[REQUEST-{request_id}] Auth header: {auth_header_log}")
-        logger.info(f"[REQUEST-{request_id}] Auth header length: {len(auth_header)}")
-        if auth_header.startswith("Bearer "):
-            logger.info(f"[REQUEST-{request_id}] Auth header has correct Bearer prefix")
-            token = auth_header[7:]  # Remove 'Bearer ' prefix
-            logger.info(f"[REQUEST-{request_id}] Token length: {len(token)}")
-            logger.info(f"[REQUEST-{request_id}] Token prefix: {token[:10]}...")
-        else:
-            logger.warning(f"[REQUEST-{request_id}] Auth header does not have correct Bearer prefix")
     else:
-        logger.warning(f"[REQUEST-{request_id}] No Authorization header found")
-    
-    # Log the query parameters
-    query_params = dict(request.query_params)
-    if query_params:
-        logger.info(f"[REQUEST-{request_id}] Query params: {query_params}")
-    
-    # Add more detailed logging for specific endpoints
-    if "/work_orders" in request_path or "/work-orders" in request_path:
-        logger.info(f"[REQUEST-{request_id}] Work Orders endpoint called - checking auth setup")
-    
+        logger.debug(f"[REQUEST-{request_id}] {request.method} {request_path}")
+
     try:
-        # Process the request
         start_time = datetime.utcnow()
         response = await call_next(request)
         process_time = (datetime.utcnow() - start_time).total_seconds() * 1000
-        
-        # Log the response status
-        logger.info(f"[REQUEST-{request_id}] Completed: {request.method} {request_path} - Status: {response.status_code} - Time: {process_time:.2f}ms")
-        
-        # Additional logging for authentication errors
-        if response.status_code == 401:
-            logger.warning(f"[REQUEST-{request_id}] Authentication failed - 401 Unauthorized response returned")
-        
+
+        log_level = logging.WARNING if response.status_code >= 400 else logging.INFO
+        if verbose or response.status_code >= 400 or process_time > 2000:
+            logger.log(
+                log_level,
+                f"[REQUEST-{request_id}] {request.method} {request_path} - "
+                f"Status: {response.status_code} - Time: {process_time:.2f}ms",
+            )
+
         return response
     except Exception as e:
         logger.error(f"[REQUEST-{request_id}] Failed: {str(e)}", exc_info=True)

@@ -25,6 +25,23 @@ export function normalizeStatusKey(status) {
   return s === 'cancelled' ? 'canceled' : s;
 }
 
+/** Statuses before the tech has arrived — DMA should not surface here. */
+const PRE_ONSITE_WO_STATUSES = new Set([
+  'pending',
+  'scheduled',
+  'en_route',
+  'reschedule',
+  'need_to_contact',
+  'unreachable',
+]);
+
+/** True once the job is on site (Deploy / in progress) or already worked. */
+export function isWorkOrderOnSite(workOrder) {
+  if (!workOrder) return false;
+  const status = normalizeStatusKey(workOrder.status);
+  return Boolean(status) && !PRE_ONSITE_WO_STATUSES.has(status);
+}
+
 export function isWorkOrderImmutable(workOrder) {
   if (!workOrder) return false;
   return IMMUTABLE_WO_STATUSES.has(normalizeStatusKey(workOrder.status));

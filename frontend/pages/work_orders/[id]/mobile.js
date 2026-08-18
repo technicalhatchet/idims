@@ -681,7 +681,7 @@ function WorkOrderDetail() {
             <ErrorAlert 
               message={
                 typeof navigator !== 'undefined' && !navigator.onLine
-                  ? 'This work order is not cached offline yet. Visit /techboard while online, open this job once, then try again.'
+                  ? 'This work order is not cached offline yet. Open it once while online, then try again.'
                   : 'Failed to load work order details'
               }
               onRetry={refetch}

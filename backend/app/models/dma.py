@@ -111,6 +111,7 @@ class DmaRepairOutcome(Base):
     error_code_text = Column(String(80), nullable=True, index=True)
     replaced_parts = Column(Text, nullable=True)
     repair_successful = Column(Boolean, default=True, nullable=False, index=True)
+    repair_memory_match = Column(String(20), nullable=True, index=True)
     callback_required = Column(Boolean, default=False, nullable=False)
     technician_summary = Column(Text, nullable=True)
     created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)

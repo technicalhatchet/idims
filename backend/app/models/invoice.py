@@ -94,6 +94,18 @@ class Invoice(Base):
         # Draft invoices stay draft until explicitly sent.
 
     @property
+    def client_name(self):
+        client = self.client
+        if not client:
+            return None
+        return client.display_name
+
+    @property
+    def work_order_number(self):
+        work_order = self.work_order
+        return work_order.order_number if work_order else None
+
+    @property
     def total(self):
         """For backward compatibility, return total_amount"""
         return self.total_amount
