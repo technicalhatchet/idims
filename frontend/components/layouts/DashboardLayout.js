@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { 
-  FaTachometerAlt, FaClipboardList, FaCalendarAlt, FaFileInvoiceDollar, 
+  FaTachometerAlt, FaClipboardList, FaCalendarAlt, FaFileInvoiceDollar, FaBoxes,
   FaUsers, FaWrench, FaCog, FaBars, FaTimes, FaSignOutAlt, FaMoon, FaSun
 } from 'react-icons/fa';
 import Head from 'next/head';
@@ -149,6 +149,12 @@ export default function DashboardLayout({ children }) {
         href: '/invoices',
         icon: <FaFileInvoiceDollar className="mr-3" />,
         roles: ['admin', 'manager', 'client'],
+      },
+      {
+        name: 'Inventory',
+        href: '/inventory',
+        icon: <FaBoxes className="mr-3" />,
+        roles: ['admin', 'manager', 'technician'],
       },
       {
         name: 'Clients',

@@ -25,7 +25,7 @@ from app.core.auth import get_auth_handler
 from app.core.logger import setup_logging
 from app.routers import (
     auth, clients, work_orders, scheduling, calendar_blocks, invoices, payments,
-    #inventory,
+    inventory,
     quotes, technicians, notifications, reports, public,
     media, mobile, admin, chat, dashboard, properties, app_settings,
     health, users, debug, services, skills, stripe, distance, dma, job_economics, push, diagnostics
@@ -79,7 +79,7 @@ app = FastAPI(
         {"name": "Scheduling", "description": "Operations for scheduling"},
         {"name": "Invoices", "description": "Operations with invoices"},
         {"name": "Payments", "description": "Operations with payments"},
-        #{"name": "Inventory", "description": "Operations with inventory"},
+        {"name": "Inventory", "description": "Shop and van stock"},
         {"name": "Quotes", "description": "Operations with quotes"},
         {"name": "Technicians", "description": "Operations with technicians"},
         {"name": "Notifications", "description": "Operations with notifications"},
@@ -725,7 +725,7 @@ app.include_router(scheduling.router, prefix="/api/scheduling", tags=["schedulin
 app.include_router(calendar_blocks.router, prefix="/api/scheduling", tags=["scheduling"])
 app.include_router(invoices.router, prefix="/api/invoices", tags=["invoices"])
 app.include_router(payments.router, prefix="/api/payments", tags=["payments"])
-#app.include_router(inventory.router, prefix="/api/inventory", tags=["inventory"])
+app.include_router(inventory.router, prefix="/api/inventory", tags=["inventory"])
 app.include_router(quotes.router, prefix="/api/quotes", tags=["quotes"])
 app.include_router(notifications.router, prefix="/api/notifications", tags=["notifications"])
 app.include_router(reports.router, prefix="/api/reports", tags=["reports"])

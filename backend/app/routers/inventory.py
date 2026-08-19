@@ -1,462 +1,162 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Body, Path, status
+"""Shop / van inventory API."""
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 import uuid
-from datetime import datetime
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler, AuthUser
-from app.models.inventory import InventoryItem, Vendor, InventoryCategory
-from app.core.exceptions import NotFoundException, ConflictException, ValidationException
-from app.schemas.inventory import (
-    InventoryItemCreate, InventoryItemUpdate, InventoryItemResponse,
-    InventoryItemListResponse, InventoryAdjustment, InventoryCategoryCreate, InventoryCategoryResponse
-)
-from app.services.inventory_service import InventoryService
 from app.core.dependencies import get_current_user, get_admin_or_manager_user
+from app.core.exceptions import ConflictException, NotFoundException, ValidationException
+from app.models.user import User
+from app.schemas.inventory import (
+    InventoryCategoryCreate,
+    InventoryCategoryResponse,
+    InventoryItemCreate,
+    InventoryItemUpdate,
+    InventoryItemResponse,
+    InventoryItemListResponse,
+    InventoryStockAdjust,
+    InventoryStockAdjustResponse,
+)
+from app.services.inventory_service import InventoryService, _serialize_item
 
 router = APIRouter()
 
-async def get_current_user_dependency():
-    """Lazy-loaded dependency for current user"""
-    auth_handler = get_auth_handler()
-    return await auth_handler.get_current_user()
 
-async def get_manager_or_admin_dependency():
-    """Lazy-loaded dependency for manager or admin"""
-    auth_handler = get_auth_handler()
-    return await auth_handler.verify_manager_or_admin()
+def _staff_can_view(user: User) -> bool:
+    return any(role in user.roles for role in ("admin", "manager", "technician"))
 
-@router.get("/inventory", response_model=InventoryItemListResponse)
-async def list_inventory(
-    category: Optional[str] = Query(None, description="Filter by category"),
-    search: Optional[str] = Query(None, description="Search term for item name or description"),
-    page: int = Query(1, ge=1, description="Page number"),
-    limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
-    db: Session = Depends(get_db)
+
+@router.get("/categories", response_model=List[InventoryCategoryResponse])
+async def list_inventory_categories(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    """
-    List inventory items with filtering and pagination.
-    """
-    # Only staff can access inventory
-    if not any(role in ["admin", "manager", "technician"] for role in current_user.roles):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Not authorized to view inventory"
-        )
-    
-    skip = (page - 1) * limit
-    
-    # Build the query
-    query = db.query(InventoryItem)
-    
-    # Apply filters
-    if search:
-        search_term = f"%{search}%"
-        query = query.filter(
-            (InventoryItem.name.ilike(search_term)) | 
-            (InventoryItem.sku.ilike(search_term))
-        )
-    
-    if category:
-        query = query.filter(InventoryItem.category == category)
-    
-    # Get total count
-    total = query.count()
-    
-    # Apply pagination
-    items = query.order_by(InventoryItem.name).offset(skip).limit(limit).all()
-    
+    if not _staff_can_view(current_user):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+    return InventoryService.list_categories(db)
+
+
+@router.post("/categories", response_model=InventoryCategoryResponse, status_code=status.HTTP_201_CREATED)
+async def create_inventory_category(
+    body: InventoryCategoryCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    try:
+        return InventoryService.create_category(db, body)
+    except ConflictException as e:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+
+
+@router.get("/items", response_model=InventoryItemListResponse)
+async def list_inventory_items(
+    search: Optional[str] = Query(None),
+    category_id: Optional[uuid.UUID] = Query(None),
+    low_stock_only: bool = Query(False),
+    include_inactive: bool = Query(False),
+    page: int = Query(1, ge=1),
+    limit: int = Query(50, ge=1, le=200),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not _staff_can_view(current_user):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+
+    items, total = InventoryService.list_items(
+        db,
+        search=search,
+        category_id=category_id,
+        low_stock_only=low_stock_only,
+        active_only=not include_inactive,
+        page=page,
+        limit=limit,
+    )
     return {
         "total": total,
-        "items": items,
+        "items": [_serialize_item(i) for i in items],
         "page": page,
-        "pages": (total + limit - 1) // limit
+        "pages": (total + limit - 1) // limit if total else 0,
     }
 
-@router.post("/inventory", response_model=InventoryItemResponse, status_code=status.HTTP_201_CREATED)
+
+@router.get("/items/low-stock", response_model=List[InventoryItemResponse])
+async def list_low_stock_items(
+    limit: int = Query(100, ge=1, le=200),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not _staff_can_view(current_user):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+    items = InventoryService.list_low_stock(db, limit=limit)
+    return [_serialize_item(i) for i in items]
+
+
+@router.post("/items", response_model=InventoryItemResponse, status_code=status.HTTP_201_CREATED)
 async def create_inventory_item(
-    item: InventoryItemCreate = Body(...),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
+    body: InventoryItemCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
 ):
-    """
-    Create a new inventory item.
-    Only managers and admins can create inventory items.
-    """
     try:
-        # Check if SKU already exists
-        if "sku" in item and item["sku"]:
-            existing = db.query(InventoryItem).filter(InventoryItem.sku == item["sku"]).first()
-            if existing:
-                raise ConflictException(f"Item with SKU {item['sku']} already exists")
-        
-        # Create new item
-        new_item = InventoryItem(
-            name=item["name"],
-            sku=item.get("sku"),
-            description=item.get("description"),
-            category=item.get("category"),
-            unit_price=item.get("unit_price", 0.0),
-            cost_price=item.get("cost_price"),
-            quantity_in_stock=item.get("quantity_in_stock", 0.0),
-            reorder_level=item.get("reorder_level"),
-            location=item.get("location"),
-            is_active=item.get("is_active", True),
-            vendor_id=item.get("vendor_id"),
-            meta_data=item.get("meta_data")
-        )
-        
-        db.add(new_item)
-        db.commit()
-        db.refresh(new_item)
-        
-        return new_item
-    
+        item = InventoryService.create_item(db, body)
+        return _serialize_item(item)
     except ConflictException as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error creating inventory item: {str(e)}"
-        )
 
-@router.get("/inventory/{item_id}", response_model=InventoryItemResponse)
+
+@router.get("/items/{item_id}", response_model=InventoryItemResponse)
 async def get_inventory_item(
-    item_id: uuid.UUID = Path(..., description="The ID of the inventory item to retrieve"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
-    db: Session = Depends(get_db)
+    item_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    """
-    Get a specific inventory item by ID.
-    """
-    # Only staff can access inventory
-    if not any(role in ["admin", "manager", "technician"] for role in current_user.roles):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Not authorized to view inventory"
-        )
-    
-    item = db.query(InventoryItem).filter(InventoryItem.id == item_id).first()
-    
-    if not item:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Inventory item with ID {item_id} not found"
-        )
-    
-    return item
+    if not _staff_can_view(current_user):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+    try:
+        item = InventoryService.get_item(db, item_id)
+        return _serialize_item(item)
+    except NotFoundException as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
-@router.put("/inventory/{item_id}", response_model=InventoryItemResponse)
+
+@router.put("/items/{item_id}", response_model=InventoryItemResponse)
 async def update_inventory_item(
-    item_id: uuid.UUID = Path(..., description="The ID of the inventory item to update"),
-    item_update: InventoryItemUpdate = Body(...),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
+    item_id: uuid.UUID,
+    body: InventoryItemUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
 ):
-    """
-    Update an inventory item.
-    Only managers and admins can update inventory items.
-    """
     try:
-        item = db.query(InventoryItem).filter(InventoryItem.id == item_id).first()
-        
-        if not item:
-            raise NotFoundException(f"Inventory item with ID {item_id} not found")
-        
-        # Check SKU uniqueness if changing
-        if "sku" in item_update and item_update["sku"] != item.sku:
-            existing = db.query(InventoryItem).filter(
-                InventoryItem.sku == item_update["sku"],
-                InventoryItem.id != item_id
-            ).first()
-            if existing:
-                raise ConflictException(f"Item with SKU {item_update['sku']} already exists")
-        
-        # Update fields
-        for key, value in item_update.items():
-            if hasattr(item, key):
-                setattr(item, key, value)
-        
-        item.updated_at = datetime.utcnow()
-        
-        db.commit()
-        db.refresh(item)
-        
-        return item
-    
+        item = InventoryService.update_item(db, item_id, body)
+        return _serialize_item(item)
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except ConflictException as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating inventory item: {str(e)}"
-        )
 
-@router.delete("/inventory/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_inventory_item(
-    item_id: uuid.UUID = Path(..., description="The ID of the inventory item to delete"),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
-):
-    """
-    Delete an inventory item.
-    Only admins can delete inventory items.
-    """
-    try:
-        item = db.query(InventoryItem).filter(InventoryItem.id == item_id).first()
-        
-        if not item:
-            raise NotFoundException(f"Inventory item with ID {item_id} not found")
-        
-        # Check if item is used in work orders
-        # This would be implemented in a real service
-        
-        db.delete(item)
-        db.commit()
-        
-        return None
-    
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-    except ConflictException as e:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error deleting inventory item: {str(e)}"
-        )
 
-@router.post("/inventory/{item_id}/adjust-stock")
-async def adjust_inventory_stock(
-    item_id: uuid.UUID = Path(..., description="The ID of the inventory item"),
-    adjustment: Dict[str, Any] = Body(...),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
+@router.post("/items/{item_id}/adjust", response_model=InventoryStockAdjustResponse)
+async def adjust_inventory_item_stock(
+    item_id: uuid.UUID,
+    body: InventoryStockAdjust,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
 ):
-    """
-    Adjust the stock quantity for an inventory item.
-    """
     try:
-        item = db.query(InventoryItem).filter(InventoryItem.id == item_id).first()
-        
-        if not item:
-            raise NotFoundException(f"Inventory item with ID {item_id} not found")
-        
-        # Update stock quantity
-        quantity = adjustment.get("quantity")
-        if quantity is None:
-            raise ValidationException("Quantity is required")
-        
-        # Record the adjustment in history
-        new_quantity = item.quantity_in_stock + quantity
-        
-        # Update the item
-        item.quantity_in_stock = new_quantity
-        item.updated_at = datetime.utcnow()
-        
-        # In a real implementation, would record this in a stock adjustment history table
-        
-        db.commit()
-        db.refresh(item)
-        
-        return {
-            "item_id": str(item.id),
-            "name": item.name,
-            "previous_quantity": item.quantity_in_stock - quantity,
-            "adjustment": quantity,
-            "new_quantity": item.quantity_in_stock,
-            "reason": adjustment.get("reason", "Manual adjustment"),
-            "timestamp": datetime.utcnow().isoformat()
-        }
-    
+        previous_item = InventoryService.get_item(db, item_id)
+        previous_qty = int(previous_item.quantity_in_stock or 0)
+        item = InventoryService.adjust_stock(db, item_id, body, current_user.id)
+        return InventoryStockAdjustResponse(
+            item_id=item.id,
+            name=item.name,
+            previous_quantity=previous_qty,
+            adjustment=body.quantity_delta,
+            new_quantity=int(item.quantity_in_stock or 0),
+            notes=body.notes,
+        )
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except ValidationException as e:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error adjusting inventory: {str(e)}"
-        )
-
-@router.get("/vendors", response_model=Dict[str, Any])
-async def list_vendors(
-    search: Optional[str] = Query(None, description="Search by name"),
-    is_active: Optional[bool] = Query(None, description="Filter by active status"),
-    page: int = Query(1, ge=1, description="Page number"),
-    limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
-):
-    """
-    List vendors with filtering and pagination.
-    Only managers and admins can view vendors.
-    """
-    skip = (page - 1) * limit
-    
-    # Build the query
-    query = db.query(Vendor)
-    
-    # Apply filters
-    if search:
-        search_term = f"%{search}%"
-        query = query.filter(
-            (Vendor.name.ilike(search_term)) | 
-            (Vendor.contact_name.ilike(search_term))
-        )
-    
-    if is_active is not None:
-        query = query.filter(Vendor.is_active == is_active)
-    
-    # Get total count
-    total = query.count()
-    
-    # Apply pagination
-    vendors = query.order_by(Vendor.name).offset(skip).limit(limit).all()
-    
-    return {
-        "total": total,
-        "items": vendors,
-        "page": page,
-        "pages": (total + limit - 1) // limit
-    }
-
-@router.post("/vendors", status_code=status.HTTP_201_CREATED)
-async def create_vendor(
-    vendor_data: Dict[str, Any] = Body(...),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
-):
-    """
-    Create a new vendor.
-    Only managers and admins can create vendors.
-    """
-    try:
-        # Create new vendor
-        new_vendor = Vendor(
-            name=vendor_data["name"],
-            contact_name=vendor_data.get("contact_name"),
-            email=vendor_data.get("email"),
-            phone=vendor_data.get("phone"),
-            address=vendor_data.get("address"),
-            website=vendor_data.get("website"),
-            notes=vendor_data.get("notes"),
-            is_active=vendor_data.get("is_active", True)
-        )
-        
-        db.add(new_vendor)
-        db.commit()
-        db.refresh(new_vendor)
-        
-        return new_vendor
-    
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error creating vendor: {str(e)}"
-        )
-
-@router.get("/vendors/{vendor_id}")
-async def get_vendor(
-    vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
-):
-    """
-    Get a specific vendor by ID.
-    Only managers and admins can view vendors.
-    """
-    vendor = db.query(Vendor).filter(Vendor.id == vendor_id).first()
-    
-    if not vendor:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Vendor with ID {vendor_id} not found"
-        )
-    
-    return vendor
-
-@router.put("/vendors/{vendor_id}")
-async def update_vendor(
-    vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
-    vendor_data: Dict[str, Any] = Body(...),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
-):
-    """
-    Update a vendor.
-    Only managers and admins can update vendors.
-    """
-    try:
-        vendor = db.query(Vendor).filter(Vendor.id == vendor_id).first()
-        
-        if not vendor:
-            raise NotFoundException(f"Vendor with ID {vendor_id} not found")
-        
-        # Update fields
-        for key, value in vendor_data.items():
-            if hasattr(vendor, key):
-                setattr(vendor, key, value)
-        
-        vendor.updated_at = datetime.utcnow()
-        
-        db.commit()
-        db.refresh(vendor)
-        
-        return vendor
-    
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating vendor: {str(e)}"
-        )
-
-@router.delete("/vendors/{vendor_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_vendor(
-    vendor_id: uuid.UUID = Path(..., description="The ID of the vendor"),
-    current_user: AuthUser = Depends(get_manager_or_admin_dependency),
-    db: Session = Depends(get_db)
-):
-    """
-    Delete a vendor.
-    Only admins can delete vendors.
-    """
-    try:
-        vendor = db.query(Vendor).filter(Vendor.id == vendor_id).first()
-        
-        if not vendor:
-            raise NotFoundException(f"Vendor with ID {vendor_id} not found")
-        
-        # Check if vendor has associated inventory items
-        items_count = db.query(InventoryItem).filter(InventoryItem.vendor_id == vendor_id).count()
-        
-        if items_count > 0:
-            raise ConflictException(f"Cannot delete vendor with {items_count} associated inventory items")
-        
-        db.delete(vendor)
-        db.commit()
-        
-        return None
-    
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-    except ConflictException as e:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error deleting vendor: {str(e)}"
-        )
