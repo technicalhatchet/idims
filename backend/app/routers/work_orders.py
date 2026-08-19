@@ -2260,6 +2260,12 @@ async def create_work_order_part(
     db.add(new_part)
     db.commit()
     db.refresh(new_part)
+
+    from app.services.part_client_notification_service import notify_client_part_status_change
+
+    await notify_client_part_status_change(
+        db, work_order, new_part, new_part.status, None,
+    )
     
     return new_part
 
@@ -2627,6 +2633,12 @@ async def update_work_order_part(
     db.add(part)
     db.commit()
     db.refresh(part)
+
+    from app.services.part_client_notification_service import notify_client_part_status_change
+
+    await notify_client_part_status_change(
+        db, work_order, part, new_status, previous_status,
+    )
     
     return part
 

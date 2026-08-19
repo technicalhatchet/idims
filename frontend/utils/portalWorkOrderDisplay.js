@@ -21,6 +21,48 @@ export const PORTAL_REPAIR_STEPS = [
   'Completed',
 ];
 
+const PARTS_HOLD_WO_STATUSES = new Set(['waiting_on_parts', 'parts_on_order']);
+
+/** Parts-on-order summary for portal dashboard / repairs UX. */
+export function getPortalWorkOrderPartsSummary(workOrder) {
+  const parts = workOrder?.parts || [];
+  const ordered = parts.filter((p) => p.status === 'ordered');
+  const received = parts.filter((p) => p.status === 'received');
+  const status = String(workOrder?.status || '').toLowerCase();
+  const woOnHold = PARTS_HOLD_WO_STATUSES.has(status);
+  const hasOrderedParts = ordered.length > 0 || status === 'parts_on_order';
+  const hasReceivedParts = received.length > 0;
+
+  return {
+    ordered,
+    received,
+    woOnHold,
+    hasOrderedParts,
+    hasReceivedParts,
+    hasPartsActivity: hasOrderedParts || hasReceivedParts || woOnHold,
+  };
+}
+
+/** Active repairs with parts ordered, received, or waiting statuses. */
+export function getActiveWorkOrdersWithPartsUpdates(workOrders = []) {
+  return workOrders.filter((wo) => {
+    const status = String(wo.status || '').toLowerCase();
+    if (['completed', 'cancelled', 'closed', 'canceled'].includes(status)) return false;
+    return getPortalWorkOrderPartsSummary(wo).hasPartsActivity;
+  });
+}
+
+/** Pick the repair card most relevant for the dashboard (parts activity first). */
+export function pickPortalDashboardActiveRepair(workOrders = []) {
+  const active = workOrders.filter((wo) => {
+    const status = String(wo.status || '').toLowerCase();
+    return !['completed', 'cancelled', 'closed', 'canceled'].includes(status);
+  });
+  if (!active.length) return null;
+  const withParts = active.find((wo) => getPortalWorkOrderPartsSummary(wo).hasPartsActivity);
+  return withParts || active[0];
+}
+
 /** Progress index for the portal repair stepper (0-based). */
 export function getPortalRepairProgressStep(status) {
   const s = String(status || '').toLowerCase();

@@ -345,7 +345,7 @@ export default function ServiceAreaIndex() {
                 className="mb-6 transition-colors duration-500"
                 style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
               >
-                Our standard service area includes homes within approximately 20 minutes of Toledo. We also serve customers farther away with simple, flat-rate trip fees based on drive time.
+                Our standard service area includes homes within approximately 20-25 minutes of Toledo. We also serve customers farther away with simple, flat-rate trip fees based on drive time.
               </p>
 
               <ul className="space-y-3 mb-6">

@@ -8,6 +8,7 @@ import StatCard from '../../components/cxdashboard/StatCard';
 import PortalMobileStatGrid from '../../components/cxdashboard/PortalMobileStatGrid';
 import AppointmentCard from '../../components/cxdashboard/AppointmentCard';
 import RepairStatus from '../../components/cxdashboard/RepairStatus';
+import PartsUpdateCallout from '../../components/cxdashboard/PartsUpdateCallout';
 import RecentRepairs from '../../components/cxdashboard/RecentRepairs';
 import InvoiceList from '../../components/cxdashboard/InvoiceList';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
@@ -15,6 +16,8 @@ import {
   formatPortalWorkOrderAppliance,
   getPortalRepairProgressStep,
   getPortalInvoicePaymentSummary,
+  getPortalWorkOrderPartsSummary,
+  pickPortalDashboardActiveRepair,
 } from '../../utils/portalWorkOrderDisplay';
 import {
   fetchPortalLinkDebug,
@@ -80,6 +83,18 @@ function formatAppointmentForCard(appt) {
 function formatRepairForCard(wo) {
   if (!wo) return null;
   const statusMap = { in_progress: 'In Progress', scheduled: 'Scheduled', en_route: 'En Route', pending: 'Pending', completed: 'Completed', completed_pending_payment: 'Pending Payment', waiting_on_parts: 'Waiting on Parts', parts_on_order: 'Parts on Order', on_hold: 'On Hold', canceled: 'Canceled', closed: 'Closed' };
+  const partsSummary = getPortalWorkOrderPartsSummary(wo);
+  let partsNote = null;
+  if (partsSummary.hasReceivedParts) {
+    const name = partsSummary.received[0]?.name || 'A part';
+    partsNote = `${name} has arrived — we'll schedule your return visit.`;
+  } else if (partsSummary.hasOrderedParts) {
+    const name = partsSummary.ordered[0]?.name || 'A part';
+    partsNote = `${name} is on order. We'll notify you when it arrives.`;
+  } else if (partsSummary.woOnHold) {
+    partsNote = 'Your repair is waiting on parts.';
+  }
+
   return {
     id: wo.id,
     status: statusMap[wo.status] || wo.status,
@@ -90,6 +105,7 @@ function formatRepairForCard(wo) {
     phone: '(419) 740-0146',
     icon: wo.equipment_subtype || wo.equipment_type || 'appliance',
     currentStep: getPortalRepairProgressStep(wo.status),
+    partsNote,
   };
 }
 
@@ -463,10 +479,7 @@ export default function ClientDashboard() {
 
   const nextAppointment = appointments[0];
   const appointmentCardData = formatAppointmentForCard(nextAppointment);
-  const activeRepair = workOrders.find((w) => {
-    const s = (w.status || '').toLowerCase();
-    return !['completed', 'cancelled', 'closed'].includes(s);
-  });
+  const activeRepair = pickPortalDashboardActiveRepair(workOrders);
   const repairCardData = formatRepairForCard(activeRepair);
   const recentRepairs = workOrders.slice(0, 5).map(wo => ({
     id: wo.id,
@@ -542,6 +555,8 @@ export default function ClientDashboard() {
             onExit={handleExitPreview}
           />
         )}
+
+        <PartsUpdateCallout workOrders={workOrders} />
 
         {/* Mobile: compact 2×2 stats */}
         <div className="md:hidden">

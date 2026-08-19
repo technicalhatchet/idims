@@ -19,6 +19,24 @@ from app.core.exceptions import NotFoundException, ValidationException
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
+
+def _serialize_notification(notification: Notification) -> Dict[str, Any]:
+    """Map DB notification rows to API schema (content ↔ message)."""
+    return {
+        "id": notification.id,
+        "user_id": notification.user_id,
+        "title": notification.title,
+        "message": notification.content,
+        "notification_type": notification.type or "in_app",
+        "reference_id": notification.related_id,
+        "related_id": notification.related_id,
+        "related_type": notification.related_type,
+        "priority": "normal",
+        "is_read": notification.is_read,
+        "read_at": notification.read_at,
+        "created_at": notification.created_at,
+    }
+
 @router.get("/notifications", response_model=NotificationListResponse)
 async def list_notifications(
     is_read: Optional[bool] = Query(None, description="Filter by read status"),
@@ -54,12 +72,18 @@ async def list_notifications(
         # Apply pagination and order by created_at descending (newest first)
         notifications = query.order_by(Notification.created_at.desc()).offset(skip).limit(limit).all()
         logger.info(f"Retrieved {len(notifications)} notifications")
+
+        unread_count = db.query(Notification).filter(
+            Notification.user_id == current_user.id,
+            Notification.is_read == False,
+        ).count()
         
         return {
             "total": total,
-            "items": notifications,
+            "notifications": [_serialize_notification(n) for n in notifications],
             "page": page,
-            "pages": (total + limit - 1) // limit
+            "pages": (total + limit - 1) // limit if total else 0,
+            "unread_count": unread_count,
         }
     except Exception as e:
         logger.error(f"Error in list_notifications: {str(e)}", exc_info=True)
@@ -86,7 +110,7 @@ async def get_notification(
         if not notification:
             raise NotFoundException(f"Notification {notification_id} not found")
         
-        return notification
+        return _serialize_notification(notification)
         
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -121,7 +145,7 @@ async def mark_notification_read(
         db.commit()
         db.refresh(notification)
         
-        return notification
+        return _serialize_notification(notification)
         
     except NotFoundException as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

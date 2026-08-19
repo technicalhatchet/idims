@@ -22,6 +22,7 @@ from app.core.auth import get_auth_handler
 from app.config import get_portal_invite_secret, settings
 from app.models.client import Client
 from app.models.user import User as DBUser
+from app.models.notification import Notification
 from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderService
 from app.models.property import Property
 from app.models.client_appliance import ClientAppliance
@@ -733,6 +734,89 @@ async def update_portal_profile(
         "mobile": client.mobile,
         "email": client.email,
     }
+
+
+def _serialize_portal_notification(notification: Notification) -> dict:
+    return {
+        "id": str(notification.id),
+        "user_id": str(notification.user_id),
+        "title": notification.title,
+        "message": notification.content,
+        "notification_type": notification.type or "in_app",
+        "reference_id": str(notification.related_id) if notification.related_id else None,
+        "related_id": str(notification.related_id) if notification.related_id else None,
+        "related_type": notification.related_type,
+        "priority": "normal",
+        "is_read": notification.is_read,
+        "read_at": notification.read_at.isoformat() if notification.read_at else None,
+        "created_at": notification.created_at.isoformat() if notification.created_at else None,
+    }
+
+
+@router.get("/portal/notifications")
+async def list_portal_notifications(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100),
+):
+    """In-app notifications for the portal client (supports admin preview via admin_client_id)."""
+    if not client.user_id:
+        return {
+            "total": 0,
+            "notifications": [],
+            "page": page,
+            "pages": 0,
+            "unread_count": 0,
+            "portal_linked": False,
+        }
+
+    skip = (page - 1) * limit
+    base_query = db.query(Notification).filter(Notification.user_id == client.user_id)
+    total = base_query.count()
+    notifications = (
+        base_query.order_by(Notification.created_at.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+    unread_count = base_query.filter(Notification.is_read == False).count()
+
+    return {
+        "total": total,
+        "notifications": [_serialize_portal_notification(n) for n in notifications],
+        "page": page,
+        "pages": (total + limit - 1) // limit if total else 0,
+        "unread_count": unread_count,
+        "portal_linked": True,
+    }
+
+
+@router.put("/portal/notifications/{notification_id}/read")
+async def mark_portal_notification_read(
+    notification_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    if not client.user_id:
+        raise HTTPException(status_code=404, detail="Notification not found")
+
+    try:
+        parsed_id = uuid.UUID(notification_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid notification_id")
+
+    notification = db.query(Notification).filter(
+        Notification.id == parsed_id,
+        Notification.user_id == client.user_id,
+    ).first()
+    if not notification:
+        raise HTTPException(status_code=404, detail="Notification not found")
+
+    notification.mark_as_read()
+    db.commit()
+    db.refresh(notification)
+    return _serialize_portal_notification(notification)
 
 
 @router.get("/portal/appointments")

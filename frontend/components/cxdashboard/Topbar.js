@@ -1,31 +1,111 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBell, FaChevronDown, FaUser, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { formatDistanceToNow, format } from 'date-fns';
+import { portalFetch, getPortalSessionToken } from '../../utils/portalFetch';
+import { parseApiDateTime } from '../../utils/parseApiDateTime';
+
+function formatNotificationTime(createdAt) {
+  const date = parseApiDateTime(createdAt);
+  if (!date) return '';
+  try {
+    const relative = formatDistanceToNow(date, { addSuffix: true });
+    const absolute = format(date, 'MMM d, h:mm a');
+    return `${relative} · ${absolute}`;
+  } catch {
+    return '';
+  }
+}
 
 export default function Topbar({ user: userProp, onMenuClick }) {
+  const router = useRouter();
   const { user: auth0User } = useUser();
   const [portalName, setPortalName] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
 
   useEffect(() => {
     const stored = sessionStorage.getItem('portal_client_name');
     if (stored) setPortalName(stored);
   }, []);
 
+  const loadNotifications = useCallback(async () => {
+    setNotificationsLoading(true);
+    try {
+      const token = await getPortalSessionToken();
+      if (!token) return;
+
+      const data = await portalFetch(`notifications?limit=20`, token);
+      const items = data.notifications || data.items || [];
+      setNotifications(
+        items.map((n) => ({
+          id: n.id,
+          title: n.title,
+          message: n.message || n.content || '',
+          time: formatNotificationTime(n.created_at),
+          unread: !n.is_read,
+          relatedType: n.related_type,
+          relatedId: n.related_id || n.reference_id,
+        })),
+      );
+    } catch {
+      // Bell stays empty; portal pages still work
+    } finally {
+      setNotificationsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadNotifications();
+  }, [loadNotifications]);
+
+  useEffect(() => {
+    if (showNotifications) {
+      loadNotifications();
+    }
+  }, [showNotifications, loadNotifications]);
+
+  const markNotificationRead = async (notificationId) => {
+    try {
+      const token = await getPortalSessionToken();
+      if (!token) return;
+
+      await portalFetch(`notifications/${notificationId}/read`, token, { method: 'PUT' });
+
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === notificationId ? { ...n, unread: false } : n)),
+      );
+    } catch {
+      // Non-blocking
+    }
+  };
+
+  const handleNotificationClick = async (notification) => {
+    if (notification.unread) {
+      await markNotificationRead(notification.id);
+    }
+    setShowNotifications(false);
+
+    if (notification.relatedType === 'work_order' && notification.relatedId) {
+      router.push(`/cxdashboard/repairs?work_order=${notification.relatedId}`);
+      return;
+    }
+    if (notification.relatedType === 'invoice') {
+      router.push('/cxdashboard/invoices');
+    }
+  };
+
   const displayName = userProp?.name || portalName
     || (auth0User ? `${auth0User.given_name || ''} ${auth0User.family_name || ''}`.trim() || auth0User.name : 'Guest');
   const firstName = userProp?.firstName || displayName.split(' ')[0] || 'there';
   const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
   const user = { name: displayName, initials };
-  const notifications = [
-    { id: 1, title: 'Appointment Confirmed', message: 'Your repair is scheduled for May 24', time: '2 hours ago', unread: true },
-    { id: 2, title: 'Invoice Ready', message: 'Invoice #INV-1023 is ready for download', time: '1 day ago', unread: false },
-  ];
-
-  const unreadCount = notifications.filter(n => n.unread).length;
+  const unreadCount = notifications.filter((n) => n.unread).length;
 
   return (
     <header
@@ -79,25 +159,42 @@ export default function Topbar({ user: userProp, onMenuClick }) {
                   <h3 className="text-white font-semibold">Notifications</h3>
                 </div>
                 <div className="max-h-64 overflow-y-auto">
-                  {notifications.map((notification) => (
-                    <div
-                      key={notification.id}
-                      className={`p-4 border-b border-white/5 hover:bg-white/5 cursor-pointer ${
-                        notification.unread ? 'bg-cyan-500/5' : ''
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        {notification.unread && (
-                          <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2 shrink-0" />
-                        )}
-                        <div className={notification.unread ? '' : 'ml-5'}>
-                          <p className="text-white text-sm font-medium">{notification.title}</p>
-                          <p className="text-gray-400 text-xs mt-1">{notification.message}</p>
-                          <p className="text-gray-500 text-xs mt-1">{notification.time}</p>
+                  {notificationsLoading && notifications.length === 0 ? (
+                    <p className="p-4 text-gray-500 text-sm">Loading…</p>
+                  ) : notifications.length === 0 ? (
+                    <p className="p-4 text-gray-500 text-sm">No notifications yet.</p>
+                  ) : (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => handleNotificationClick(notification)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleNotificationClick(notification);
+                          }
+                        }}
+                        className={`p-4 border-b border-white/5 hover:bg-white/5 cursor-pointer ${
+                          notification.unread ? 'bg-cyan-500/5' : ''
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          {notification.unread && (
+                            <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2 shrink-0" />
+                          )}
+                          <div className={notification.unread ? '' : 'ml-5'}>
+                            <p className="text-white text-sm font-medium">{notification.title}</p>
+                            <p className="text-gray-400 text-xs mt-1">{notification.message}</p>
+                            {notification.time && (
+                              <p className="text-gray-500 text-xs mt-1">{notification.time}</p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </motion.div>
             )}

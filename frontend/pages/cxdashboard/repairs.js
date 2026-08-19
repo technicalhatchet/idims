@@ -29,6 +29,7 @@ const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
   in_progress: { label: 'In Progress', bg: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: 'rgba(245,158,11,0.2)' },
   waiting_on_parts: { label: 'Waiting on Parts', bg: 'rgba(139,92,246,0.1)', color: '#a78bfa', border: 'rgba(139,92,246,0.2)' },
+  parts_on_order: { label: 'Parts on Order', bg: 'rgba(59,130,246,0.1)', color: '#60a5fa', border: 'rgba(59,130,246,0.2)' },
   scheduled: { label: 'Scheduled', bg: 'rgba(34,211,238,0.1)', color: '#22d3ee', border: 'rgba(34,211,238,0.2)' },
   pending: { label: 'Pending', bg: 'rgba(255,255,255,0.05)', color: '#9ca3af', border: 'rgba(255,255,255,0.1)' },
   canceled: { label: 'Canceled', bg: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'rgba(239,68,68,0.2)' },
@@ -127,12 +128,22 @@ function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
             <div>
               <p style={{ color: '#6b7280', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Parts</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-                {wo.parts.map((p, i) => (
+                {wo.parts.map((p, i) => {
+                  const partStatus = p.status || '';
+                  const statusColor = partStatus === 'installed'
+                    ? '#22c55e'
+                    : partStatus === 'received'
+                      ? '#34d399'
+                      : partStatus === 'ordered'
+                        ? '#fbbf24'
+                        : '#f59e0b';
+                  return (
                   <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem' }}>
                     <span style={{ color: '#d1d5db' }}>{p.name || p.part_number}</span>
-                    <span style={{ color: p.status === 'installed' ? '#22c55e' : '#f59e0b', textTransform: 'capitalize' }}>{p.status}</span>
+                    <span style={{ color: statusColor, textTransform: 'capitalize' }}>{partStatus.replace(/_/g, ' ')}</span>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -184,6 +195,8 @@ function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
 export default function RepairsPage() {
   const router = useRouter();
   const orderParam = typeof router.query.order === 'string' ? router.query.order : null;
+  const workOrderIdParam = typeof router.query.work_order === 'string' ? router.query.work_order : null;
+  const highlightKey = orderParam || workOrderIdParam;
   const [workOrders, setWorkOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -208,14 +221,14 @@ export default function RepairsPage() {
   }, []);
 
   useEffect(() => {
-    if (!orderParam || workOrders.length === 0) return;
+    if (!highlightKey || workOrders.length === 0) return;
     const match = workOrders.find(
-      (w) => w.order_number === orderParam || w.id === orderParam
+      (w) => w.order_number === highlightKey || w.id === highlightKey
     );
     if (!match) return;
     const isCompleted = ['completed', 'closed'].includes(match.status);
     setTab(isCompleted ? 'completed' : 'active');
-  }, [orderParam, workOrders]);
+  }, [highlightKey, workOrders]);
 
   const active = workOrders.filter(w => !['completed', 'canceled', 'closed'].includes(w.status));
   const completed = workOrders.filter(w => ['completed', 'closed'].includes(w.status));
@@ -255,7 +268,7 @@ export default function RepairsPage() {
                 wo={wo}
                 onViewEstimate={setViewerEstimate}
                 initialExpanded={Boolean(
-                  orderParam && (wo.order_number === orderParam || wo.id === orderParam)
+                  highlightKey && (wo.order_number === highlightKey || wo.id === highlightKey)
                 )}
               />
             ))}

@@ -14,6 +14,7 @@ export default function RepairStatus({ repair }) {
     phone = '(419) 555-1234',
     icon = 'washer',
     currentStep = 1,
+    partsNote = null,
   } = repair || {};
 
   const steps = PORTAL_REPAIR_STEPS;
@@ -22,6 +23,8 @@ export default function RepairStatus({ repair }) {
   const statusColors = {
     'In Progress': 'bg-orange-500/20 text-orange-400',
     Scheduled: 'bg-cyan-500/20 text-cyan-400',
+    'Waiting on Parts': 'bg-violet-500/20 text-violet-300',
+    'Parts on Order': 'bg-blue-500/20 text-blue-300',
     'Pending Payment': 'bg-amber-500/20 text-amber-300',
     'Awaiting Payment': 'bg-amber-500/20 text-amber-300',
     Completed: 'bg-green-500/20 text-green-400',
@@ -53,6 +56,9 @@ export default function RepairStatus({ repair }) {
           <h4 className="text-white font-semibold mt-1 break-words">{service}</h4>
           <p className="text-gray-400 text-sm mt-1">{date}</p>
           <p className="text-gray-500 text-sm">Order #{orderNumber}</p>
+          {partsNote && (
+            <p className="text-amber-300/90 text-xs mt-2 leading-snug">{partsNote}</p>
+          )}
         </div>
       </div>
 
