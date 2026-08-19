@@ -4,6 +4,7 @@ import { FaTrash, FaTimes, FaChevronDown, FaChevronUp, FaPlus } from 'react-icon
 import Button from '../ui/Button';
 import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import DmaSuggestionsAccordion from '../dma/DmaSuggestionsAccordion';
+import InventorySkuPicker from './InventorySkuPicker';
 import {
   PART_SOURCE_OPTIONS,
   formatPartSourceLabel,
@@ -146,6 +147,7 @@ export default function EquipmentDetailsMobile({
   handleEquipmentTypeChange,
   saveEquipmentDetails,
   handlePartChange,
+  onInventoryPick,
   addOrUpdatePart,
   resetPartForm,
   startEditPart,
@@ -374,6 +376,16 @@ export default function EquipmentDetailsMobile({
             <h4 className="text-sm font-semibold text-white">
               {editingPartIndex !== null ? 'Edit part' : 'Add part'}
             </h4>
+            {!readOnly && (
+              <>
+                <InventorySkuPicker onSelect={onInventoryPick} disabled={loading} />
+                {currentPart.inventory_item_id && (
+                  <p className="text-[11px] text-cyan-300/90">
+                    Shop stock linked — qty drops when status is Installed.
+                  </p>
+                )}
+              </>
+            )}
             <TextInput
               label="Part Number"
               value={currentPart.number}
@@ -532,9 +544,16 @@ export default function EquipmentDetailsMobile({
                     </span>
                   </div>
                   <p className="text-xs text-gray-400 mt-1 line-clamp-2">{part.description}</p>
-                  <p className="text-[10px] text-gray-500 mt-1">
-                    {formatPartSourceLabel(part.part_source)}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-2 mt-1">
+                    <span className="text-[10px] text-gray-500">
+                      {formatPartSourceLabel(part.part_source)}
+                    </span>
+                    {part.inventory_item_id && (
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-cyan-300/80">
+                        Shop stock
+                      </span>
+                    )}
+                  </div>
                   <div className="flex items-center mt-2 gap-2" onClick={(e) => e.stopPropagation()}>
                     <span className="text-sm font-medium text-cyan-300 shrink-0">${part.price}</span>
                     <select

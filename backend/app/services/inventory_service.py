@@ -189,24 +189,64 @@ class InventoryService:
                 f"Cannot remove {abs(body.quantity_delta)} — only {previous} in stock"
             )
 
+        InventoryService.apply_stock_delta(
+            db,
+            item_id,
+            body.quantity_delta,
+            user_id,
+            reference_id=body.reference_id,
+            reference_type=body.reference_type,
+            notes=body.notes,
+        )
+        db.commit()
+        return InventoryService.get_item(db, item_id)
+
+    @staticmethod
+    def apply_stock_delta(
+        db: Session,
+        item_id: uuid.UUID,
+        quantity_delta: int,
+        user_id: Optional[uuid.UUID],
+        *,
+        reference_id: Optional[uuid.UUID] = None,
+        reference_type: Optional[str] = None,
+        notes: Optional[str] = None,
+    ) -> InventoryItem:
+        """Adjust stock in the current session without committing."""
+        if quantity_delta == 0:
+            raise ValidationException("quantity_delta must not be zero")
+
+        item = db.query(InventoryItem).filter(InventoryItem.id == item_id).first()
+        if not item:
+            raise NotFoundException(f"Inventory item {item_id} not found")
+
+        previous = int(item.quantity_in_stock or 0)
+        new_qty = previous + quantity_delta
+        if new_qty < 0:
+            raise ValidationException(
+                f"Cannot remove {abs(quantity_delta)} — only {previous} in stock for {item.name}"
+            )
+
         item.quantity_in_stock = new_qty
         item.updated_at = datetime.utcnow()
 
         tx_type = "adjustment"
-        if body.reference_type == "work_order" and body.quantity_delta < 0:
+        if reference_type == "work_order_part" and quantity_delta < 0:
             tx_type = "sale"
-        elif body.reference_type == "purchase":
+        elif reference_type == "work_order_part" and quantity_delta > 0:
+            tx_type = "return"
+        elif reference_type == "purchase":
             tx_type = "purchase"
 
-        tx = InventoryTransaction(
-            item_id=item.id,
-            transaction_type=tx_type,
-            quantity=body.quantity_delta,
-            reference_id=body.reference_id,
-            reference_type=body.reference_type,
-            notes=body.notes,
-            created_by=user_id,
+        db.add(
+            InventoryTransaction(
+                item_id=item.id,
+                transaction_type=tx_type,
+                quantity=quantity_delta,
+                reference_id=reference_id,
+                reference_type=reference_type,
+                notes=notes,
+                created_by=user_id,
+            )
         )
-        db.add(tx)
-        db.commit()
-        return InventoryService.get_item(db, item_id)
+        return item

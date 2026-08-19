@@ -61,6 +61,7 @@ export const DEFAULT_PARTS_SETTINGS = {
     { id: 'Amazon', label: 'Amazon', enabled: true },
     { id: 'PartsSelect', label: 'Parts Select', enabled: true },
     { id: 'AppliancePartsPros', label: 'Appliance Parts Pros', enabled: true },
+    { id: 'Shop', label: 'Shop / Van Stock', enabled: true },
     { id: 'Other', label: 'Other', enabled: true },
   ],
 };

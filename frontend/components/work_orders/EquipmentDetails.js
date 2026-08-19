@@ -11,6 +11,7 @@ import { SelectInput, TextInput, CheckboxInput } from '../ui/FormElements';
 import { FaTrash, FaEdit, FaTimes, FaInfoCircle } from 'react-icons/fa';
 import Image from 'next/image';
 import EquipmentDetailsMobile from './EquipmentDetailsMobile';
+import InventorySkuPicker from './InventorySkuPicker';
 import { isWorkOrderClosed, isWorkOrderOnSite } from '../../utils/workOrderPermissions';
 import {
   PART_SOURCE_OPTIONS,
@@ -269,6 +270,24 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
     setCurrentPart(updated);
   };
 
+  const handleInventoryPick = (item) => {
+    if (!item || structuralReadOnly) return;
+    const markupPct = Number(partsSettings.markupPercent) || 28;
+    const cost = parseFloat(item.cost_price || 0);
+    const price = cost > 0
+      ? (cost * (1 + markupPct / 100))
+      : parseFloat(item.unit_price || 0);
+    setCurrentPart({
+      ...currentPart,
+      inventory_item_id: item.id,
+      number: String(item.sku || item.name || '').toUpperCase(),
+      description: item.name || '',
+      cost: Number.isFinite(cost) ? cost.toFixed(2) : '',
+      price: Number.isFinite(price) ? price.toFixed(2) : '',
+      vendor: 'Shop',
+    });
+  };
+
   const addOrUpdatePart = async () => {
     if (structuralReadOnly) return;
     const partSource = normalizePartSource(currentPart.part_source);
@@ -302,6 +321,7 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
         tracking_number: currentPart.tracking_number || '',
         notes: currentPart.notes || '',
         warranty_days_override,
+        inventory_item_id: currentPart.inventory_item_id || null,
         // Auto-set amount_upfront_collected based on status
         amount_upfront_collected: currentPart.status === 'phone_payment'
           ? parseFloat(currentPart.price)  // full price collected
@@ -582,6 +602,7 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
         handleEquipmentTypeChange={handleEquipmentTypeChange}
         saveEquipmentDetails={saveEquipmentDetails}
         handlePartChange={handlePartChange}
+        onInventoryPick={handleInventoryPick}
         addOrUpdatePart={addOrUpdatePart}
         resetPartForm={resetPartForm}
         startEditPart={startEditPart}
@@ -750,6 +771,17 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
                 <h4 className="text-md font-medium mb-3">
                   {editingPartIndex !== null ? 'Edit Part' : 'Add New Part'}
                 </h4>
+
+                {!structuralReadOnly && (
+                  <div className="mb-4">
+                    <InventorySkuPicker onSelect={handleInventoryPick} disabled={loading} />
+                    {currentPart.inventory_item_id && (
+                      <p className="text-xs text-cyan-600 dark:text-cyan-400 mt-2">
+                        Linked to shop inventory — stock will decrement when marked installed.
+                      </p>
+                    )}
+                  </div>
+                )}
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <TextInput 

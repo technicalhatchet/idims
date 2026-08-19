@@ -63,6 +63,7 @@ DEFAULT_PARTS_SETTINGS = {
         {"id": "Amazon", "label": "Amazon", "enabled": True},
         {"id": "PartsSelect", "label": "Parts Select", "enabled": True},
         {"id": "AppliancePartsPros", "label": "Appliance Parts Pros", "enabled": True},
+        {"id": "Shop", "label": "Shop / Van Stock", "enabled": True},
         {"id": "Other", "label": "Other", "enabled": True},
     ],
 }

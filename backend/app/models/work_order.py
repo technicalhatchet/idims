@@ -529,6 +529,12 @@ class WorkOrderPart(Base):
     warranty_days_override = Column(Integer, nullable=True)
     installed_at = Column(DateTime, nullable=True)
     warranty_expires_at = Column(DateTime, nullable=True)
+    inventory_item_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("inventory_items.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    inventory_consumed_qty = Column(Integer, nullable=False, default=0)
     
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

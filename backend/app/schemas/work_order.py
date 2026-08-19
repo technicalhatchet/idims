@@ -481,6 +481,9 @@ class WorkOrderPartBase(BaseModel):
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
     warranty_days_override: Optional[int] = Field(None, ge=0, description="Custom warranty length in days")
+    inventory_item_id: Optional[UUID] = Field(
+        None, description="Shop inventory SKU linked for auto stock decrement on install"
+    )
     
     amount_upfront_collected: float = 0.00
     tax_collected: float = 0.00
@@ -521,6 +524,7 @@ class WorkOrderPartUpdate(BaseModel):
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
     warranty_days_override: Optional[int] = Field(None, ge=0)
+    inventory_item_id: Optional[UUID] = None
     amount_upfront_collected: Optional[float] = None
     tax_collected: Optional[float] = None
 
@@ -556,6 +560,8 @@ class WorkOrderPartResponse(WorkOrderPartBase):
     tax_collected: float = 0.00
     installed_at: Optional[datetime] = None
     warranty_expires_at: Optional[datetime] = None
+    inventory_item_id: Optional[UUID] = None
+    inventory_consumed_qty: int = 0
     created_at: datetime
     updated_at: datetime
     created_by: Optional[UUID] = None

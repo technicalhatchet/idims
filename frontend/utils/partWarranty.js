@@ -32,6 +32,7 @@ export function emptyPartFormState() {
     vendor: '',
     tracking_number: '',
     notes: '',
+    inventory_item_id: null,
   };
 }
 

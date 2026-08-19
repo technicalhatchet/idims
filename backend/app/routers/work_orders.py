@@ -2249,6 +2249,7 @@ async def create_work_order_part(
         tracking_number=part.tracking_number,
         notes=part.notes,
         warranty_days_override=part.warranty_days_override,
+        inventory_item_id=part.inventory_item_id,
         created_by=current_user.id,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
@@ -2258,6 +2259,18 @@ async def create_work_order_part(
     apply_part_warranty_fields(new_part, previous_status=None, warranty_defaults=PartsSettingsService(db).get_settings())
     
     db.add(new_part)
+    db.flush()
+
+    from app.services.work_order_part_inventory_service import sync_inventory_for_part_status_change
+
+    try:
+        sync_inventory_for_part_status_change(
+            db, new_part, None, new_part.status, current_user.id,
+        )
+    except ValidationException as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+
     db.commit()
     db.refresh(new_part)
 
@@ -2631,6 +2644,18 @@ async def update_work_order_part(
     part.updated_at = datetime.utcnow()
     
     db.add(part)
+
+    from app.services.work_order_part_inventory_service import sync_inventory_for_part_status_change
+    from app.core.exceptions import ValidationException as AppValidationException
+
+    try:
+        sync_inventory_for_part_status_change(
+            db, part, previous_status, new_status, current_user.id,
+        )
+    except AppValidationException as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+
     db.commit()
     db.refresh(part)
 
@@ -2657,8 +2682,16 @@ async def delete_work_order_part(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Part with ID {part_id} not found"
         )
-    
-    # Delete part
+
+    from app.services.work_order_part_inventory_service import restore_inventory_before_part_delete
+    from app.core.exceptions import ValidationException as AppValidationException
+
+    try:
+        restore_inventory_before_part_delete(db, part, current_user.id)
+    except AppValidationException as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+
     db.delete(part)
     db.commit()
     
