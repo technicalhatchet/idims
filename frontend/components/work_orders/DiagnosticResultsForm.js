@@ -647,14 +647,16 @@ export default function DiagnosticResultsForm({
             disabled={readOnly}
           />
 
-          <SelectInput
-            label="Visit (optional)"
-            id="diagAppointmentId"
-            value={payload?.appointmentId || ''}
-            onChange={(e) => handleAppointmentChange(e.target.value)}
-            options={appointmentOptions}
-            disabled={readOnly}
-          />
+          {workOrder ? (
+            <SelectInput
+              label="Visit (optional)"
+              id="diagAppointmentId"
+              value={payload?.appointmentId || ''}
+              onChange={(e) => handleAppointmentChange(e.target.value)}
+              options={appointmentOptions}
+              disabled={readOnly}
+            />
+          ) : null}
         </>
       )}
 

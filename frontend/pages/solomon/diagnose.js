@@ -125,7 +125,10 @@ export default function SolomonDiagnosePage() {
           {error ? <p className="text-sm text-red-400">{error}</p> : null}
         </div>
 
-        <div className="flex-1 min-h-0 overflow-hidden">
+        <div
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-3 py-4"
+          style={{ paddingBottom: 'max(20px, env(safe-area-inset-bottom))' }}
+        >
           <DiagnosticResultsForm
             payload={payload}
             onChange={setPayload}

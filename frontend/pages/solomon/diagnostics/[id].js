@@ -170,7 +170,10 @@ export default function SolomonDiagnosticDetailPage() {
             </button>
             {saveError ? <span className="text-xs text-red-400">{saveError}</span> : null}
           </header>
-          <div className="flex-1 min-h-0">
+          <div
+            className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-3 py-4"
+            style={{ paddingBottom: 'max(20px, env(safe-area-inset-bottom))' }}
+          >
             <DiagnosticResultsForm
               payload={row.payload}
               onChange={() => {}}
