@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import uvicorn
 import os
+import re
 import logging
 from datetime import datetime, timedelta
 import json
@@ -117,10 +118,33 @@ CORS_ALLOWED_ORIGINS = [
     "https://v0-idims.vercel.app",
 ]
 
+_frontend_origin = (settings.FRONTEND_URL or "").strip().rstrip("/")
+if _frontend_origin and _frontend_origin not in CORS_ALLOWED_ORIGINS:
+    CORS_ALLOWED_ORIGINS.append(_frontend_origin)
+
+_extra_origins = os.getenv("CORS_EXTRA_ORIGINS", "")
+for _part in _extra_origins.split(","):
+    _origin = _part.strip().rstrip("/")
+    if _origin and _origin not in CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS.append(_origin)
+
+# Solomon / preview Vercel deployments (e.g. dma-eight.vercel.app)
+CORS_ORIGIN_REGEX = r"https://.*\.vercel\.app"
+_VERCEL_ORIGIN_RE = re.compile(r"^https://([a-z0-9-]+\.)*vercel\.app$", re.I)
+
+
+def _origin_is_allowed(origin: Optional[str]) -> bool:
+    if not origin:
+        return False
+    normalized = origin.strip().rstrip("/")
+    if normalized in CORS_ALLOWED_ORIGINS:
+        return True
+    return _VERCEL_ORIGIN_RE.match(normalized) is not None
+
 
 def cors_headers_for_request(request: Request) -> Dict[str, str]:
     origin = request.headers.get("Origin")
-    if origin and origin in CORS_ALLOWED_ORIGINS:
+    if _origin_is_allowed(origin):
         return {
             "Access-Control-Allow-Origin": origin,
             "Access-Control-Allow-Credentials": "true",
@@ -132,6 +156,7 @@ def cors_headers_for_request(request: Request) -> Dict[str, str]:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ALLOWED_ORIGINS,
+    allow_origin_regex=CORS_ORIGIN_REGEX,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],  # Using wildcard to allow all headers including Authorization
