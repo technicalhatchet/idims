@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { format } from 'date-fns';
-import SolomonHead from '../../components/solomon/SolomonHead';
-import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import ErrorAlert from '../../components/ui/ErrorAlert';
-import { listDmaRepairRecords } from '../../services/api/dmaApi';
+import SolomonHead from '../../../components/solomon/SolomonHead';
+import LoadingSpinner from '../../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../../components/ui/ErrorAlert';
+import { listDmaRepairRecords } from '../../../services/api/dmaApi';
 
 export default function SolomonOutcomesListPage() {
   const { user, isLoading: authLoading } = useUser();
