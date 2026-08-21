@@ -58,6 +58,40 @@ export async function openDiagnosticPdf(workOrderId, orderNumber, options = {}) 
   return openWorkOrderPdf(workOrderId, orderNumber, 'diagnostic-v2.pdf', queryParams);
 }
 
+/**
+ * Open a diagnostic PDF for a standalone Solomon diagnostic.
+ */
+export async function openStandaloneDiagnosticPdf(diagnosticId, options = {}) {
+  const headers = await getAuthHeaders();
+  const baseUrl = getWorkOrderPdfBaseUrl();
+  const qs = new URLSearchParams({
+    variant: options.variant || 'light',
+    show_technician: String(options.showTechnician !== false),
+  });
+  const pdfUrl = `${baseUrl}/api/dma/diagnostics/${diagnosticId}/diagnostic-v2.pdf?${qs.toString()}`;
+  const res = await fetch(pdfUrl, { headers, credentials: 'include' });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    const detail = err.detail || res.statusText;
+    throw new Error(typeof detail === 'string' ? detail : 'PDF request failed');
+  }
+  const blob = await res.blob();
+  const blobUrl = URL.createObjectURL(blob);
+  const shortId = String(diagnosticId).replace(/-/g, '').slice(0, 8);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = `diagnostic-sol-${shortId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } else {
+    window.open(blobUrl, '_blank');
+  }
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+}
+
 export const DOCUMENT_LINE_PRESETS = [
   {
     id: 'diagnostic',

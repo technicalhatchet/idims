@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.constants.dma_standalone import (
     DMA_CONTEXT_DIY,
@@ -361,6 +361,33 @@ def count_linked_diagnostics(db: Session, record_id: uuid.UUID) -> int:
         .filter(DmaStandaloneDiagnostic.outcome_id == record_id)
         .count()
     )
+
+
+def list_repair_records(
+    db: Session,
+    user: User,
+    *,
+    page: int = 1,
+    limit: int = 20,
+) -> Dict[str, Any]:
+    query = db.query(DmaRepairRecord).options(joinedload(DmaRepairRecord.tags))
+    if user.is_diyer or not (user.is_admin or user.is_manager):
+        query = query.filter(DmaRepairRecord.created_by == user.id)
+
+    total = query.count()
+    pages = max(1, math.ceil(total / limit)) if total else 1
+    rows = (
+        query.order_by(DmaRepairRecord.updated_at.desc())
+        .offset((page - 1) * limit)
+        .limit(limit)
+        .all()
+    )
+    return {
+        "items": [repair_record_to_response_extended(row, db) for row in rows],
+        "total": total,
+        "page": page,
+        "pages": pages,
+    }
 
 
 def repair_record_to_response_extended(

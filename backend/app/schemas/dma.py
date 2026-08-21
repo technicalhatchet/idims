@@ -316,6 +316,13 @@ class DmaImportToWorkOrderResponse(BaseModel):
     message: str = "Import linkage recorded; full work order import is not yet implemented."
 
 
+class DmaRepairRecordListResponse(BaseModel):
+    items: List[DmaRepairRecordResponse]
+    total: int
+    page: int
+    pages: int
+
+
 class DmaRepairOutcomeResponse(BaseModel):
     id: UUID
     source_type: Literal["work_order", "field_record"] = "work_order"

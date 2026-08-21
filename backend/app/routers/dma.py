@@ -1,8 +1,10 @@
 import logging
 import uuid
+from io import BytesIO
 from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi.responses import StreamingResponse
 from sqlalchemy.exc import OperationalError, ProgrammingError
 from sqlalchemy.orm import Session
 
@@ -30,6 +32,7 @@ from app.schemas.dma import (
     DmaStandaloneDiagnosticResponse,
     DmaStandaloneDiagnosticListResponse,
     DmaRepairRecordModerateRequest,
+    DmaRepairRecordListResponse,
     DmaImportToWorkOrderResponse,
 )
 from app.services.dma_service import (
@@ -55,6 +58,7 @@ from app.services.dma_standalone_service import (
     link_diagnostic_to_outcome,
     link_diagnostic_to_work_order_bones,
     link_record_to_work_order_bones,
+    list_repair_records,
     list_standalone_diagnostics,
     moderate_repair_record,
     repair_record_to_response_extended,
@@ -227,6 +231,17 @@ async def search_dma_repairs(
         limit=limit,
     )
     return DmaSearchResponse(**result)
+
+
+@router.get("/records", response_model=DmaRepairRecordListResponse)
+async def list_dma_repair_records(
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    result = list_repair_records(db, current_user, page=page, limit=limit)
+    return DmaRepairRecordListResponse(**result)
 
 
 @router.post("/records", response_model=DmaRepairRecordResponse, status_code=status.HTTP_201_CREATED)
@@ -587,3 +602,43 @@ async def import_dma_diagnostic_to_work_order(
     except ValueError as e:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+
+
+@router.get("/diagnostics/{diagnostic_id}/diagnostic-v2.pdf")
+async def get_standalone_diagnostic_pdf_v2(
+    diagnostic_id: uuid.UUID,
+    variant: str = Query("light", pattern="^(dark|light)$"),
+    show_technician: bool = Query(True),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    from app.services.diagnostic_pdf_data import generate_standalone_diagnostic_pdf_v2
+
+    row = get_standalone_diagnostic(db, diagnostic_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
+    if not user_can_view_diagnostic(current_user, row):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+    try:
+        pdf_bytes = generate_standalone_diagnostic_pdf_v2(
+            db,
+            row,
+            variant=variant,
+            show_technician=show_technician,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        logger.error("Standalone diagnostic PDF error: %s", e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="PDF generation failed",
+        )
+    short_id = str(diagnostic_id).replace("-", "")[:8]
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"inline; filename=\"diagnostic-sol-{short_id}.pdf\"",
+        },
+    )

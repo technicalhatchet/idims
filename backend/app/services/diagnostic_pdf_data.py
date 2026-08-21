@@ -313,3 +313,129 @@ def generate_work_order_diagnostic_pdf_v2(
     )
     safe_variant = "dark" if variant == "dark" else "light"
     return build_diagnostic_pdf_v2(report, variant=safe_variant)
+
+
+def build_standalone_diagnostic_report_dict(
+    db: Session,
+    diagnostic: Any,
+    *,
+    show_technician: bool = True,
+) -> Dict[str, Any]:
+    """Assemble PDF report dict from a standalone Solomon diagnostic row."""
+    from app.models.dma import DmaStandaloneDiagnostic
+    from app.models.user import User
+
+    if not isinstance(diagnostic, DmaStandaloneDiagnostic):
+        raise TypeError("diagnostic must be DmaStandaloneDiagnostic")
+
+    payload = diagnostic.payload or {}
+    if not isinstance(payload, dict):
+        raise ValueError("Diagnostic payload is invalid")
+
+    template = get_diagnostic_template(payload.get("templateId"))
+    if not template:
+        raise ValueError(f"Unknown diagnostic template: {payload.get('templateId')}")
+
+    fields = payload.get("fields") or {}
+    if not isinstance(fields, dict):
+        fields = {}
+
+    prose = _prose_text(payload.get("autoNoteBullets") or [], payload.get("autoNoteFormat"))
+    root_cause = str(fields.get("diagnosis.root_cause") or "").strip() or _extract_diagnosis_summary(prose)
+    recommended_repair = str(fields.get("diagnosis.recommended_repair") or "").strip()
+    what_we_found = _extract_customer_explanation(prose)
+    client_complaint = str(
+        fields.get("customer_complaint.complaint") or diagnostic.customer_complaint or ""
+    ).strip()
+
+    has_diagnosis_fields = bool(root_cause or recommended_repair)
+    skip_sections = {"customer_complaint"}
+    if has_diagnosis_fields:
+        skip_sections.add("diagnosis")
+    checklist_sections = _build_checklist_sections(template, fields, skip_section_ids=skip_sections)
+
+    evidence = payload.get("evidenceSnapshot") or {}
+    top_categories = _normalize_evidence_shares(evidence.get("topCategories") or [])
+
+    tech_user = None
+    if diagnostic.created_by:
+        tech_user = db.query(User).filter(User.id == diagnostic.created_by).first()
+
+    equipment_label = " ".join(
+        filter(
+            None,
+            [
+                diagnostic.equipment_make,
+                diagnostic.equipment_model,
+                (diagnostic.equipment_subtype or "").replace("_", " "),
+            ],
+        )
+    ).strip() or template.get("label") or "Equipment"
+
+    technician_name = tech_user.full_name if tech_user else "—"
+    technician_phone = (tech_user.phone or "") if tech_user else ""
+
+    report_id = str(diagnostic.id).replace("-", "").upper()[:8]
+
+    return {
+        "report_number": f"SOL-{report_id}",
+        "date": _format_date(),
+        "company": {
+            "name": "Atomic Repair",
+            "address1": "641 Barclay Drive",
+            "address2": "Toledo, OH 43609",
+            "phone": "(419) 555-0100",
+            "email": "service@atomicrepair.com",
+        },
+        "customer": {
+            "name": "Standalone diagnostic",
+            "address1": "",
+            "address2": "",
+            "phone": "",
+            "email": "",
+        },
+        "technician": {
+            "name": technician_name,
+            "phone": technician_phone,
+        },
+        "equipment": {
+            "label": equipment_label,
+            "serial": diagnostic.equipment_serial or "—",
+            "type": diagnostic.equipment_type or "",
+            "subtype": diagnostic.equipment_subtype or "",
+        },
+        "show_technician": show_technician,
+        "template_label": template.get("label") or payload.get("templateId") or "—",
+        "visit_label": None,
+        "client_complaint": client_complaint,
+        "root_cause": root_cause,
+        "recommended_repair": recommended_repair,
+        "what_we_found": what_we_found,
+        "checklist_sections": checklist_sections,
+        "evidence_snapshot": {
+            "top_categories": top_categories,
+            "matched_rule_count": evidence.get("matchedRuleCount"),
+            "captured_at": evidence.get("capturedAt"),
+        },
+        "photos": [],
+        "header_status_message": (template.get("label") or "").upper() or None,
+        "header_status_tone": "due",
+    }
+
+
+def generate_standalone_diagnostic_pdf_v2(
+    db: Session,
+    diagnostic: Any,
+    *,
+    variant: str = "light",
+    show_technician: bool = True,
+) -> bytes:
+    from pdf.diagnostic_template_v2 import build_diagnostic_pdf_v2
+
+    report = build_standalone_diagnostic_report_dict(
+        db,
+        diagnostic,
+        show_technician=show_technician,
+    )
+    safe_variant = "dark" if variant == "dark" else "light"
+    return build_diagnostic_pdf_v2(report, variant=safe_variant)

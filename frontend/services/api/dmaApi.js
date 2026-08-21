@@ -100,6 +100,17 @@ export async function createDmaRepairRecord(body) {
   });
 }
 
+export async function listDmaRepairRecords(params = {}) {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      query.set(key, String(value));
+    }
+  });
+  const qs = query.toString();
+  return apiClient(`dma/records${qs ? `?${qs}` : ''}`);
+}
+
 export async function getDmaRepairRecord(recordId) {
   return apiClient(`dma/records/${recordId}`);
 }

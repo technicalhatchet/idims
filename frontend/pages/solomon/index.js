@@ -50,8 +50,8 @@ export default function SolomonHomePage() {
           </Link>
         </div>
 
-        <p className="text-xs text-white/50 mt-10 text-center">
-          Backend APIs for standalone diagnostics are live; UI flows coming next.
+        <p className="text-xs text-white/40 mt-10 text-center">
+          Guided diagnostics · repair memory
         </p>
       </main>
     </>
