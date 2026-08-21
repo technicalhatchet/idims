@@ -25,6 +25,12 @@ from app.schemas.dma import (
     DmaTagsResponse,
     DmaTagResponse,
     DmaOutcomeStatusResponse,
+    DmaStandaloneDiagnosticCreate,
+    DmaStandaloneDiagnosticUpdate,
+    DmaStandaloneDiagnosticResponse,
+    DmaStandaloneDiagnosticListResponse,
+    DmaRepairRecordModerateRequest,
+    DmaImportToWorkOrderResponse,
 )
 from app.services.dma_service import (
     create_repair_record,
@@ -41,6 +47,24 @@ from app.services.dma_service import (
     search_repair_outcomes,
     update_repair_record,
     _tag_dicts,
+)
+from app.services.dma_standalone_service import (
+    create_standalone_diagnostic,
+    delete_standalone_diagnostic,
+    get_standalone_diagnostic,
+    link_diagnostic_to_outcome,
+    link_diagnostic_to_work_order_bones,
+    link_record_to_work_order_bones,
+    list_standalone_diagnostics,
+    moderate_repair_record,
+    repair_record_to_response_extended,
+    standalone_diagnostic_to_response,
+    unlink_diagnostic_from_outcome,
+    update_standalone_diagnostic,
+    user_can_edit_diagnostic,
+    user_can_edit_record,
+    user_can_view_diagnostic,
+    user_can_view_record,
 )
 
 logger = logging.getLogger(__name__)
@@ -213,10 +237,10 @@ async def create_dma_repair_record(
 ):
     """Create a standalone field repair memory record (no work order)."""
     try:
-        record = create_repair_record(db, current_user.id, body)
+        record = create_repair_record(db, current_user.id, body, user=current_user)
         db.commit()
         record = get_repair_record(db, record.id)
-        return DmaRepairRecordResponse(**repair_record_to_response(record))
+        return DmaRepairRecordResponse(**repair_record_to_response_extended(record, db))
     except ValueError as e:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
@@ -235,7 +259,9 @@ async def get_dma_repair_record(
     record = get_repair_record(db, record_id)
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
-    return DmaRepairRecordResponse(**repair_record_to_response(record))
+    if not user_can_view_record(current_user, record):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+    return DmaRepairRecordResponse(**repair_record_to_response_extended(record, db))
 
 
 @router.put("/records/{record_id}", response_model=DmaRepairRecordResponse)
@@ -248,11 +274,13 @@ async def update_dma_repair_record(
     record = get_repair_record(db, record_id)
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
+    if not user_can_edit_record(current_user, record):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     try:
         record = update_repair_record(db, record, current_user.id, body)
         db.commit()
         record = get_repair_record(db, record.id)
-        return DmaRepairRecordResponse(**repair_record_to_response(record))
+        return DmaRepairRecordResponse(**repair_record_to_response_extended(record, db))
     except ValueError as e:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
@@ -271,6 +299,8 @@ async def delete_dma_repair_record(
     record = get_repair_record(db, record_id)
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
+    if not user_can_edit_record(current_user, record):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     try:
         delete_repair_record(db, record)
         db.commit()
@@ -333,3 +363,227 @@ async def get_work_order_dma_outcome(
         "tags": _tag_dicts(outcome.tags),
     }
     return DmaRepairOutcomeResponse(**payload)
+
+
+@router.post("/records/{record_id}/moderate", response_model=DmaRepairRecordResponse)
+async def moderate_dma_repair_record(
+    record_id: uuid.UUID,
+    body: DmaRepairRecordModerateRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Approve or reject a field record for the shared repair memory pool."""
+    record = get_repair_record(db, record_id)
+    if not record:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
+    try:
+        record = moderate_repair_record(db, current_user, record, body)
+        db.commit()
+        record = get_repair_record(db, record.id)
+        return DmaRepairRecordResponse(**repair_record_to_response_extended(record, db))
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+    except Exception as e:
+        db.rollback()
+        logger.error("Error moderating DMA repair record: %s", e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to moderate record")
+
+
+@router.post(
+    "/records/{record_id}/import-to-work-order/{work_order_id}",
+    response_model=DmaImportToWorkOrderResponse,
+)
+async def import_dma_record_to_work_order(
+    record_id: uuid.UUID,
+    work_order_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Record intent to import a standalone outcome into a work order (full import TBD)."""
+    record = get_repair_record(db, record_id)
+    if not record:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
+    try:
+        record = link_record_to_work_order_bones(db, current_user, record, work_order_id)
+        db.commit()
+        return DmaImportToWorkOrderResponse(
+            record_id=record.id,
+            work_order_id=work_order_id,
+            imported_work_order_id=record.imported_work_order_id,
+        )
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+    except Exception as e:
+        db.rollback()
+        logger.error("Error linking DMA record to work order: %s", e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to link record")
+
+
+@router.get("/diagnostics", response_model=DmaStandaloneDiagnosticListResponse)
+async def list_dma_standalone_diagnostics(
+    linked: Optional[bool] = Query(None, description="Filter by linked vs unlinked diagnostics"),
+    outcome_id: Optional[uuid.UUID] = Query(None),
+    context: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    result = list_standalone_diagnostics(
+        db,
+        current_user,
+        linked=linked,
+        outcome_id=outcome_id,
+        context=context,
+        page=page,
+        limit=limit,
+    )
+    return DmaStandaloneDiagnosticListResponse(**result)
+
+
+@router.post("/diagnostics", response_model=DmaStandaloneDiagnosticResponse, status_code=status.HTTP_201_CREATED)
+async def create_dma_standalone_diagnostic(
+    body: DmaStandaloneDiagnosticCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    try:
+        row = create_standalone_diagnostic(db, current_user, body)
+        db.commit()
+        row = get_standalone_diagnostic(db, row.id)
+        return DmaStandaloneDiagnosticResponse(**standalone_diagnostic_to_response(row))
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+    except Exception as e:
+        db.rollback()
+        logger.error("Error creating standalone diagnostic: %s", e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create diagnostic")
+
+
+@router.get("/diagnostics/{diagnostic_id}", response_model=DmaStandaloneDiagnosticResponse)
+async def get_dma_standalone_diagnostic(
+    diagnostic_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    row = get_standalone_diagnostic(db, diagnostic_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
+    if not user_can_view_diagnostic(current_user, row):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+    return DmaStandaloneDiagnosticResponse(**standalone_diagnostic_to_response(row))
+
+
+@router.put("/diagnostics/{diagnostic_id}", response_model=DmaStandaloneDiagnosticResponse)
+async def update_dma_standalone_diagnostic(
+    diagnostic_id: uuid.UUID,
+    body: DmaStandaloneDiagnosticUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    row = get_standalone_diagnostic(db, diagnostic_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
+    if not user_can_edit_diagnostic(current_user, row):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+    try:
+        row = update_standalone_diagnostic(db, current_user, row, body)
+        db.commit()
+        row = get_standalone_diagnostic(db, row.id)
+        return DmaStandaloneDiagnosticResponse(**standalone_diagnostic_to_response(row))
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+    except Exception as e:
+        db.rollback()
+        logger.error("Error updating standalone diagnostic: %s", e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to update diagnostic")
+
+
+@router.delete("/diagnostics/{diagnostic_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_dma_standalone_diagnostic(
+    diagnostic_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    row = get_standalone_diagnostic(db, diagnostic_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
+    if not user_can_edit_diagnostic(current_user, row):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+    try:
+        delete_standalone_diagnostic(db, row)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        logger.error("Error deleting standalone diagnostic: %s", e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete diagnostic")
+
+
+@router.post("/diagnostics/{diagnostic_id}/link-outcome/{outcome_id}", response_model=DmaStandaloneDiagnosticResponse)
+async def link_dma_diagnostic_to_outcome(
+    diagnostic_id: uuid.UUID,
+    outcome_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    row = get_standalone_diagnostic(db, diagnostic_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
+    try:
+        row = link_diagnostic_to_outcome(db, current_user, row, outcome_id)
+        db.commit()
+        row = get_standalone_diagnostic(db, row.id)
+        return DmaStandaloneDiagnosticResponse(**standalone_diagnostic_to_response(row))
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+
+
+@router.post("/diagnostics/{diagnostic_id}/unlink-outcome", response_model=DmaStandaloneDiagnosticResponse)
+async def unlink_dma_diagnostic_from_outcome(
+    diagnostic_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    row = get_standalone_diagnostic(db, diagnostic_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
+    try:
+        row = unlink_diagnostic_from_outcome(db, current_user, row)
+        db.commit()
+        row = get_standalone_diagnostic(db, row.id)
+        return DmaStandaloneDiagnosticResponse(**standalone_diagnostic_to_response(row))
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+
+
+@router.post(
+    "/diagnostics/{diagnostic_id}/import-to-work-order/{work_order_id}",
+    response_model=DmaImportToWorkOrderResponse,
+)
+async def import_dma_diagnostic_to_work_order(
+    diagnostic_id: uuid.UUID,
+    work_order_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    row = get_standalone_diagnostic(db, diagnostic_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
+    try:
+        row = link_diagnostic_to_work_order_bones(db, current_user, row, work_order_id)
+        db.commit()
+        return DmaImportToWorkOrderResponse(
+            record_id=row.id,
+            work_order_id=work_order_id,
+            imported_work_order_id=row.imported_work_order_id,
+            message="Diagnostic work order linkage recorded; full import is not yet implemented.",
+        )
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))

@@ -60,6 +60,11 @@ class User(Base):
         """Check if user has client role"""
         return "client" in (self.roles or [])
 
+    @property
+    def is_diyer(self) -> bool:
+        """Check if user has DIY Solomon role"""
+        return "diyer" in (self.roles or [])
+
     def has_permission(self, permission: str) -> bool:
         """Check if user has specific permission"""
         return permission in (self.permissions or [])

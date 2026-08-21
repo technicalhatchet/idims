@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime, Text, Date, Table
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
@@ -74,6 +74,17 @@ class DmaRepairRecord(Base):
     callback_required = Column(Boolean, default=False, nullable=False)
     technician_summary = Column(Text, nullable=True)
     performed_on = Column(Date, nullable=True)
+    title = Column(String(200), nullable=True)
+    equipment_serial = Column(String(120), nullable=True)
+    context = Column(String(20), nullable=False, default="tech", index=True)
+    visibility = Column(String(32), nullable=False, default="private", index=True)
+    moderation_status = Column(String(20), nullable=False, default="approved", index=True)
+    imported_work_order_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("work_orders.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
     created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     updated_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -81,9 +92,58 @@ class DmaRepairRecord(Base):
 
     creator = relationship("User", foreign_keys=[created_by])
     tags = relationship("DmaTag", secondary=dma_record_tags, lazy="selectin")
+    standalone_diagnostics = relationship(
+        "DmaStandaloneDiagnostic",
+        back_populates="outcome",
+        foreign_keys="DmaStandaloneDiagnostic.outcome_id",
+    )
+    imported_work_order = relationship("WorkOrder", foreign_keys=[imported_work_order_id])
 
     def __repr__(self):
         return f"<DmaRepairRecord {self.id} fix={self.confirmed_fix[:40]!r}>"
+
+
+class DmaStandaloneDiagnostic(Base):
+    """Standalone Solomon diagnostic run — no work order; links to dma_repair_records outcome."""
+    __tablename__ = "dma_standalone_diagnostics"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    outcome_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("dma_repair_records.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    equipment_make = Column(String(120), nullable=True, index=True)
+    equipment_model = Column(String(120), nullable=True)
+    equipment_type = Column(String(50), nullable=True)
+    equipment_subtype = Column(String(80), nullable=True, index=True)
+    equipment_serial = Column(String(120), nullable=True)
+    customer_complaint = Column(Text, nullable=True)
+    payload = Column(JSONB, nullable=False)
+    context = Column(String(20), nullable=False, default="tech", index=True)
+    visibility = Column(String(32), nullable=False, default="private")
+    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True)
+    updated_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    imported_work_order_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("work_orders.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
+    outcome = relationship(
+        "DmaRepairRecord",
+        back_populates="standalone_diagnostics",
+        foreign_keys=[outcome_id],
+    )
+    creator = relationship("User", foreign_keys=[created_by])
+    imported_work_order = relationship("WorkOrder", foreign_keys=[imported_work_order_id])
+
+    def __repr__(self):
+        return f"<DmaStandaloneDiagnostic {self.id} template={self.payload.get('templateId') if self.payload else None}>"
 
 
 class DmaRepairOutcome(Base):

@@ -116,3 +116,73 @@ export async function deleteDmaRepairRecord(recordId) {
     method: 'DELETE',
   });
 }
+
+export async function moderateDmaRepairRecord(recordId, body) {
+  return apiClient(`dma/records/${recordId}/moderate`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+}
+
+export async function importDmaRecordToWorkOrder(recordId, workOrderId) {
+  return apiClient(`dma/records/${recordId}/import-to-work-order/${workOrderId}`, {
+    method: 'POST',
+  });
+}
+
+function dmaDiagnosticsQuery(params = {}) {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      query.set(key, String(value));
+    }
+  });
+  return query.toString();
+}
+
+export async function listDmaStandaloneDiagnostics(params = {}) {
+  const qs = dmaDiagnosticsQuery(params);
+  return apiClient(`dma/diagnostics${qs ? `?${qs}` : ''}`);
+}
+
+export async function createDmaStandaloneDiagnostic(body) {
+  return apiClient('dma/diagnostics', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+}
+
+export async function getDmaStandaloneDiagnostic(diagnosticId) {
+  return apiClient(`dma/diagnostics/${diagnosticId}`);
+}
+
+export async function updateDmaStandaloneDiagnostic(diagnosticId, body) {
+  return apiClient(`dma/diagnostics/${diagnosticId}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+}
+
+export async function deleteDmaStandaloneDiagnostic(diagnosticId) {
+  return apiClient(`dma/diagnostics/${diagnosticId}`, {
+    method: 'DELETE',
+  });
+}
+
+export async function linkDmaDiagnosticToOutcome(diagnosticId, outcomeId) {
+  return apiClient(`dma/diagnostics/${diagnosticId}/link-outcome/${outcomeId}`, {
+    method: 'POST',
+  });
+}
+
+export async function unlinkDmaDiagnosticFromOutcome(diagnosticId) {
+  return apiClient(`dma/diagnostics/${diagnosticId}/unlink-outcome`, {
+    method: 'POST',
+  });
+}
+
+export async function importDmaDiagnosticToWorkOrder(diagnosticId, workOrderId) {
+  return apiClient(`dma/diagnostics/${diagnosticId}/import-to-work-order/${workOrderId}`, {
+    method: 'POST',
+  });
+}

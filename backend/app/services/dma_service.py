@@ -421,6 +421,7 @@ def _fetch_field_record_items(
     repair_successful: Optional[bool],
     max_rows: Optional[int] = None,
     load_tags: bool = True,
+    for_pool: bool = False,
 ) -> List[Dict[str, Any]]:
     query = db.query(DmaRepairRecord)
     if load_tags:
@@ -458,6 +459,9 @@ def _fetch_field_record_items(
     if max_rows is not None:
         rows = rows.limit(max(1, max_rows))
     rows = rows.all()
+    if for_pool:
+        from app.services.dma_standalone_service import record_is_pool_eligible
+        rows = [row for row in rows if record_is_pool_eligible(row)]
     return [_field_record_to_search_item(record) for record in rows]
 
 
@@ -495,8 +499,15 @@ def create_repair_record(
     db: Session,
     user_id: uuid.UUID,
     data: DmaRepairRecordCreate,
+    user: Optional["User"] = None,
 ) -> DmaRepairRecord:
+    from app.models.user import User as UserModel
+    from app.services.dma_standalone_service import apply_record_create_defaults
+
+    actor = user or db.query(UserModel).filter(UserModel.id == user_id).first()
     payload = data.model_dump(exclude={"tags"})
+    if actor:
+        payload = apply_record_create_defaults(actor, payload)
     record = DmaRepairRecord(
         created_by=user_id,
         updated_by=user_id,
@@ -715,7 +726,7 @@ def _fetch_suggestion_items(
         "load_tags": False,
     }
     wo_items = _fetch_work_order_outcome_items(db, **shared)
-    field_items = _fetch_field_record_items(db, **shared)
+    field_items = _fetch_field_record_items(db, **shared, for_pool=True)
     return sorted(
         wo_items + field_items,
         key=lambda row: row["updated_at"],
@@ -971,6 +982,7 @@ def get_dma_evidence_nudges(
             tags=[slug],
             repair_successful=True,
             load_tags=False,
+            for_pool=True,
         )
         combined = wo_items + field_items
         if exclude_work_order_id:
@@ -1223,7 +1235,7 @@ def get_dma_pattern_report(
     }
 
     wo_items = _fetch_work_order_outcome_items(db, **shared_filters)
-    field_items = _fetch_field_record_items(db, **shared_filters)
+    field_items = _fetch_field_record_items(db, **shared_filters, for_pool=True)
     items = wo_items + field_items
 
     wo_ids = [row["work_order_id"] for row in wo_items if row.get("work_order_id")]

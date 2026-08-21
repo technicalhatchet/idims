@@ -44,7 +44,31 @@ class DmaRepairRecordCreate(BaseModel):
     callback_required: bool = False
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None
+    title: Optional[str] = None
+    equipment_serial: Optional[str] = None
+    context: Optional[str] = None
+    visibility: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
+
+    @field_validator("context")
+    @classmethod
+    def validate_context(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_CONTEXTS
+        if v not in DMA_CONTEXTS:
+            raise ValueError(f"context must be one of {sorted(DMA_CONTEXTS)}")
+        return v
+
+    @field_validator("visibility")
+    @classmethod
+    def validate_visibility(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_VISIBILITIES
+        if v not in DMA_VISIBILITIES:
+            raise ValueError(f"visibility must be one of {sorted(DMA_VISIBILITIES)}")
+        return v
 
     @model_validator(mode="after")
     def require_equipment_hint(self):
@@ -84,7 +108,42 @@ class DmaRepairRecordUpdate(BaseModel):
     callback_required: Optional[bool] = None
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None
+    title: Optional[str] = None
+    equipment_serial: Optional[str] = None
+    context: Optional[str] = None
+    visibility: Optional[str] = None
+    moderation_status: Optional[str] = None
     tags: Optional[List[str]] = None
+
+    @field_validator("context")
+    @classmethod
+    def validate_context(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_CONTEXTS
+        if v not in DMA_CONTEXTS:
+            raise ValueError(f"context must be one of {sorted(DMA_CONTEXTS)}")
+        return v
+
+    @field_validator("visibility")
+    @classmethod
+    def validate_visibility(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_VISIBILITIES
+        if v not in DMA_VISIBILITIES:
+            raise ValueError(f"visibility must be one of {sorted(DMA_VISIBILITIES)}")
+        return v
+
+    @field_validator("moderation_status")
+    @classmethod
+    def validate_moderation_status(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_MODERATION_STATUSES
+        if v not in DMA_MODERATION_STATUSES:
+            raise ValueError(f"moderation_status must be one of {sorted(DMA_MODERATION_STATUSES)}")
+        return v
 
     @field_validator("problem_code")
     @classmethod
@@ -120,10 +179,141 @@ class DmaRepairRecordResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     created_by: UUID
+    title: Optional[str] = None
+    equipment_serial: Optional[str] = None
+    context: str = "tech"
+    visibility: str = "private"
+    moderation_status: str = "approved"
+    imported_work_order_id: Optional[UUID] = None
     tags: List[DmaTagResponse] = Field(default_factory=list)
+    linked_diagnostic_count: int = 0
 
     class Config:
         from_attributes = True
+
+
+class DmaStandaloneDiagnosticCreate(BaseModel):
+    equipment_make: Optional[str] = None
+    equipment_model: Optional[str] = None
+    equipment_type: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    equipment_serial: Optional[str] = None
+    customer_complaint: Optional[str] = None
+    payload: dict
+    outcome_id: Optional[UUID] = None
+    context: Optional[str] = None
+    visibility: Optional[str] = None
+
+    @field_validator("payload")
+    @classmethod
+    def validate_payload(cls, v):
+        if not isinstance(v, dict) or not v.get("templateId"):
+            raise ValueError("payload must include templateId")
+        return v
+
+    @field_validator("context")
+    @classmethod
+    def validate_context(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_CONTEXTS
+        if v not in DMA_CONTEXTS:
+            raise ValueError(f"context must be one of {sorted(DMA_CONTEXTS)}")
+        return v
+
+    @field_validator("visibility")
+    @classmethod
+    def validate_visibility(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_VISIBILITIES
+        if v not in DMA_VISIBILITIES:
+            raise ValueError(f"visibility must be one of {sorted(DMA_VISIBILITIES)}")
+        return v
+
+
+class DmaStandaloneDiagnosticUpdate(BaseModel):
+    equipment_make: Optional[str] = None
+    equipment_model: Optional[str] = None
+    equipment_type: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    equipment_serial: Optional[str] = None
+    customer_complaint: Optional[str] = None
+    payload: Optional[dict] = None
+    outcome_id: Optional[UUID] = None
+    visibility: Optional[str] = None
+
+    @field_validator("payload")
+    @classmethod
+    def validate_payload(cls, v):
+        if v is None:
+            return v
+        if not isinstance(v, dict) or not v.get("templateId"):
+            raise ValueError("payload must include templateId")
+        return v
+
+    @field_validator("visibility")
+    @classmethod
+    def validate_visibility(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_VISIBILITIES
+        if v not in DMA_VISIBILITIES:
+            raise ValueError(f"visibility must be one of {sorted(DMA_VISIBILITIES)}")
+        return v
+
+
+class DmaStandaloneDiagnosticResponse(BaseModel):
+    id: UUID
+    outcome_id: Optional[UUID] = None
+    equipment_make: Optional[str] = None
+    equipment_model: Optional[str] = None
+    equipment_type: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+    equipment_serial: Optional[str] = None
+    customer_complaint: Optional[str] = None
+    payload: dict
+    context: str
+    visibility: str
+    created_at: datetime
+    updated_at: datetime
+    created_by: UUID
+    imported_work_order_id: Optional[UUID] = None
+    template_id: Optional[str] = None
+    template_label: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class DmaStandaloneDiagnosticListResponse(BaseModel):
+    items: List[DmaStandaloneDiagnosticResponse]
+    total: int
+    page: int
+    pages: int
+
+
+class DmaRepairRecordModerateRequest(BaseModel):
+    moderation_status: Literal["approved", "rejected"]
+    visibility: Optional[str] = None
+
+    @field_validator("visibility")
+    @classmethod
+    def validate_visibility(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_VISIBILITIES
+        if v not in DMA_VISIBILITIES:
+            raise ValueError(f"visibility must be one of {sorted(DMA_VISIBILITIES)}")
+        return v
+
+
+class DmaImportToWorkOrderResponse(BaseModel):
+    record_id: UUID
+    work_order_id: UUID
+    imported_work_order_id: UUID
+    status: Literal["linked"] = "linked"
+    message: str = "Import linkage recorded; full work order import is not yet implemented."
 
 
 class DmaRepairOutcomeResponse(BaseModel):
