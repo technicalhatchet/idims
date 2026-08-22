@@ -1,22 +1,14 @@
-import Head from 'next/head';
 import Link from 'next/link';
+import SolomonHead from '../../components/solomon/SolomonHead';
+import SolomonInstallHint from '../../components/solomon/SolomonInstallHint';
 
-/**
- * Solomon standalone PWA shell — dashboard placeholder on feature/solomon-standalone.
- * Wizard, outcome linking, and lists will land here in follow-up PRs.
- */
 export default function SolomonHomePage() {
   return (
     <>
-      <Head>
-        <title>Solomon</title>
-        <meta name="application-name" content="Solomon" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="Solomon" />
-        <meta name="theme-color" content="#0A0F1E" />
-        <link rel="manifest" href="/manifest-solomon.json" />
-      </Head>
+      <SolomonHead />
       <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
+        <SolomonInstallHint />
+
         <header className="mb-10">
           <img
             src="/solomon big.png"
