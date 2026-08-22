@@ -62,7 +62,7 @@ export default function SolomonInstallHint() {
     <div className="rounded-xl border border-cyan-500/25 bg-cyan-500/10 p-4 mb-6">
       <div className="flex items-start gap-3">
         <img
-          src="/solomoniosnew.png?v=2"
+          src="/solomoniosnewer.png?v=3"
           alt=""
           className="h-14 w-14 rounded-2xl shadow-lg shadow-cyan-500/20 shrink-0"
         />

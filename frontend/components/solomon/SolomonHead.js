@@ -1,8 +1,8 @@
 import Head from 'next/head';
 
 const SOLOMON_SHELL = '#0A0F1E';
-const MANIFEST_VERSION = 2;
-const ICON = `/solomoniosnew.png?v=${MANIFEST_VERSION}`;
+const MANIFEST_VERSION = 3;
+const ICON = `/solomoniosnewer.png?v=${MANIFEST_VERSION}`;
 
 export default function SolomonHead({ title = 'Solomon' }) {
   const pageTitle = title === 'Solomon' ? 'Solomon' : `${title} | Solomon`;
