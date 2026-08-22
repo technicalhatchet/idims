@@ -1,8 +1,8 @@
 import Head from 'next/head';
 
 const SOLOMON_SHELL = '#0A0F1E';
-const MANIFEST_VERSION = 3;
-const ICON = `/solomoniosnewer.png?v=${MANIFEST_VERSION}`;
+const MANIFEST_VERSION = 4;
+const ICON_180 = `/solomonicon-180x180.png?v=${MANIFEST_VERSION}`;
 
 export default function SolomonHead({ title = 'Solomon' }) {
   const pageTitle = title === 'Solomon' ? 'Solomon' : `${title} | Solomon`;
@@ -20,9 +20,10 @@ export default function SolomonHead({ title = 'Solomon' }) {
       <meta name="background-color" content={SOLOMON_SHELL} />
       <meta name="color-scheme" content="dark" />
       <link rel="manifest" href={manifestHref} />
-      <link rel="icon" type="image/png" href={ICON} />
-      <link rel="apple-touch-icon" sizes="180x180" href={ICON} />
-      <link rel="apple-touch-icon" href={ICON} />
+      <link rel="icon" type="image/png" href={ICON_180} />
+      {/* iOS Add to Home Screen uses apple-touch-icon, not manifest icons */}
+      <link rel="apple-touch-icon" sizes="180x180" href={ICON_180} />
+      <link rel="apple-touch-icon" href={ICON_180} />
     </Head>
   );
 }
