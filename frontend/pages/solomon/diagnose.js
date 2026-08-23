@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSolomonAuth } from '../../hooks/useSolomonAuth';
+import { useSolomonAuth, markSolomonSession } from '../../hooks/useSolomonAuth';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
 import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
@@ -48,6 +48,7 @@ export default function SolomonDiagnosePage() {
         throw new Error('Could not save diagnostic on device. Try again.');
       }
       if (created.queued) {
+        markSolomonSession();
         setQueuedMessage('Saved on device — will sync when you’re back online.');
         setIsSaving(false);
         return;

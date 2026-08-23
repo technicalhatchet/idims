@@ -11,7 +11,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import SyncBanner from '../components/ui/SyncBanner';
 import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
-import { isTechDeckPrefetchRoute } from '../lib/offlineCache';
+import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
+import { prefetchSolomonShell } from '../lib/solomonPrefetch';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -103,6 +104,31 @@ function ClientOnlyPrefetch() {
   return null;
 }
 
+// Warm Solomon routes + _next/data while online so offline navigation works in the PWA
+function ClientOnlySolomonPrefetch() {
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    if (!isSolomonPrefetchRoute(router.pathname)) return;
+
+    const run = () => {
+      if (navigator.onLine) prefetchSolomonShell();
+    };
+
+    run();
+    const t = setTimeout(run, 3000);
+    return () => clearTimeout(t);
+  }, [mounted, router.pathname]);
+
+  return null;
+}
+
 function MyApp({ Component, pageProps }) {
   const { user } = pageProps;
 
@@ -115,6 +141,7 @@ function MyApp({ Component, pageProps }) {
           <ServiceWorkerMigration />
           <SyncBanner />
           <ClientOnlyPrefetch />
+          <ClientOnlySolomonPrefetch />
           {Component.getLayout ? (
             Component.getLayout(<Component {...pageProps} />)
           ) : (
