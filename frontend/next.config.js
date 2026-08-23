@@ -31,6 +31,31 @@ const withPWA = require('next-pwa')({
         },
       },
     },
+    // Solomon — cache HTML + Next data for offline in-app navigation (before global NetworkOnly rule)
+    {
+      urlPattern: /\/_next\/data\/.*\/solomon\/.*\.json/i,
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'solomon-next-data',
+        networkTimeoutSeconds: 4,
+        expiration: {
+          maxEntries: 32,
+          maxAgeSeconds: 60 * 60 * 24 * 7,
+        },
+      },
+    },
+    {
+      urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.startsWith('/solomon'),
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'solomon-pages',
+        networkTimeoutSeconds: 4,
+        expiration: {
+          maxEntries: 16,
+          maxAgeSeconds: 60 * 60 * 24 * 7,
+        },
+      },
+    },
     // Never cache Next.js data routes — build ID changes every deploy; stale cache = 404 spam
     {
       urlPattern: /\/_next\/data\/.*/i,

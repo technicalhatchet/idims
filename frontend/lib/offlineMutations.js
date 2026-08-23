@@ -107,7 +107,7 @@ async function onMutationSynced(mutation, result) {
 }
 
 export async function syncPendingMutations() {
-  if (typeof navigator === 'undefined' || !navigator.onLine) {
+  if (typeof navigator === 'undefined' || !navigator.onLine || isOffline()) {
     return { synced: 0, failed: 0, skipped: true };
   }
   if (syncInProgress) {

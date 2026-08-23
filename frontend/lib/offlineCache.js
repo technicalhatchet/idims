@@ -18,3 +18,7 @@ export function isTechDeckPrefetchRoute(pathname) {
   if (pathname.startsWith('/work_orders/schedule-test')) return true;
   return /^\/work_orders\/[^/]+\/mobile$/.test(pathname);
 }
+
+export function isSolomonPrefetchRoute(pathname) {
+  return Boolean(pathname && pathname.startsWith('/solomon'));
+}

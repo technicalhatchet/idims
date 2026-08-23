@@ -9,6 +9,7 @@ import {
   isOffline,
   notifyQueueChange,
 } from './offlineMutations';
+import { markSolomonSession } from '../hooks/useSolomonAuth';
 import { apiClient, getAuthHeaders } from '../utils/api-client';
 import {
   isPendingDiagnosticId,
@@ -83,6 +84,7 @@ async function mergePendingCreateBody(tempDiagnosticId, body) {
 
 async function queueStandaloneCreate(tempDiagnosticId, body) {
   await putStandaloneRow(tempDiagnosticId, body, { pendingSync: true });
+  markSolomonSession();
   await enqueueMutation({
     type: 'CREATE_STANDALONE_DIAGNOSTIC',
     endpoint: 'dma/diagnostics',
