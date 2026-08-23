@@ -9,6 +9,8 @@ import requests
 import json
 from pydantic import BaseModel, ValidationError
 
+from app.config import settings
+
 from app.db.database import get_db
 from app.core.auth import AuthHandler, JWTToken, get_auth_handler
 from app.models.user import User
@@ -589,3 +591,72 @@ async def identify_user(
 
     role_name = 'client' if 'okGm' in role_id else 'technician'
     return {"role": role_name, "record_id": record_id}
+
+
+DIY_STAFF_ROLE_CONFLICT = frozenset({"admin", "manager", "technician"})
+DIYER_ROLE_ID = "rol_efrbzOWFRtk0sJYy"
+
+
+@router.post("/auth/complete-diy-signup")
+async def complete_diy_signup(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user_dependency),
+):
+    """
+    Assign DIY homeowner role after Solomon signup.
+    Sets Auth0 app_metadata + optional RBAC role and syncs local user.roles.
+    """
+    if current_user.is_diyer:
+        return {"ok": True, "already_diyer": True, "roles": current_user.roles or ["diyer"]}
+
+    existing_roles = set(current_user.roles or [])
+    if existing_roles & DIY_STAFF_ROLE_CONFLICT:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Staff accounts cannot enroll as DIY. Sign in to Solomon with your technician access.",
+        )
+
+    auth_id = current_user.auth_id
+    if not auth_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User is missing Auth0 id",
+        )
+
+    try:
+        management_token = get_auth_handler().get_client_credentials_token()
+        auth0_domain = settings.AUTH0_DOMAIN
+        headers = {
+            "Authorization": f"Bearer {management_token}",
+            "Content-Type": "application/json",
+        }
+
+        patch_url = f"https://{auth0_domain}/api/v2/users/{auth_id}"
+        patch_response = requests.patch(
+            patch_url,
+            headers=headers,
+            json={"app_metadata": {"roles": ["diyer"]}},
+        )
+        patch_response.raise_for_status()
+
+        roles_url = f"https://{auth0_domain}/api/v2/users/{auth_id}/roles"
+        role_response = requests.post(
+            roles_url,
+            headers=headers,
+            json={"roles": [DIYER_ROLE_ID]},
+        )
+        role_response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        logger.error(f"[CompleteDiySignup] Auth0 error for {auth_id}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to assign DIY role in Auth0",
+        )
+
+    current_user.roles = ["diyer"]
+    current_user.updated_at = datetime.utcnow()
+    db.commit()
+    db.refresh(current_user)
+
+    logger.info(f"[CompleteDiySignup] Assigned diyer role to {current_user.email}")
+    return {"ok": True, "roles": current_user.roles}

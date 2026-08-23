@@ -31,6 +31,11 @@ export default function AuthRouter() {
         router.replace('/techboard');
         break;
       case 'client':
+        router.replace('/cxdashboard');
+        break;
+      case 'diyer':
+        router.replace('/solomon');
+        break;
       default:
         router.replace('/cxdashboard');
         break;

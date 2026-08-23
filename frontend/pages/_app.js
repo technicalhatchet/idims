@@ -13,6 +13,7 @@ import SyncBanner from '../components/ui/SyncBanner';
 import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
 import { prefetchSolomonShell } from '../lib/solomonPrefetch';
+import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -142,6 +143,7 @@ function MyApp({ Component, pageProps }) {
           <SyncBanner />
           <ClientOnlyPrefetch />
           <ClientOnlySolomonPrefetch />
+          <SolomonDiyEnrollment />
           {Component.getLayout ? (
             Component.getLayout(<Component {...pageProps} />)
           ) : (
