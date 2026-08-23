@@ -51,3 +51,36 @@ export function buildStandaloneDiagnosticBody(payload, equipmentMeta = {}) {
 export function diagnosticDraftScopeId(diagnosticId) {
   return diagnosticId ? `solomon-${diagnosticId}` : 'solomon-new';
 }
+
+export function isPendingDiagnosticId(id) {
+  return String(id || '').startsWith('pending-');
+}
+
+function templateIdToLabel(templateId) {
+  if (!templateId) return null;
+  return templateId.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/** Build list/detail row shape from API create/update body (offline cache). */
+export function standaloneRowFromApiBody(id, body, extra = {}) {
+  const payload = body.payload || {};
+  const templateId = payload.templateId;
+  return {
+    id,
+    outcome_id: body.outcome_id ?? extra.outcome_id ?? null,
+    equipment_make: body.equipment_make ?? null,
+    equipment_model: body.equipment_model ?? null,
+    equipment_type: body.equipment_type || 'appliance',
+    equipment_subtype: body.equipment_subtype ?? null,
+    equipment_serial: body.equipment_serial ?? null,
+    customer_complaint: body.customer_complaint ?? null,
+    payload,
+    context: body.context ?? extra.context ?? null,
+    template_id: templateId ?? null,
+    template_label: templateIdToLabel(templateId),
+    created_at: extra.created_at || new Date().toISOString(),
+    updated_at: extra.updated_at || new Date().toISOString(),
+    pendingSync: extra.pendingSync ?? false,
+    ...extra,
+  };
+}

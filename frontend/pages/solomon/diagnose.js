@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
 import { buildInitialDiagnosticState } from '../../constants/diagnosticTemplates';
-import { createDmaStandaloneDiagnostic } from '../../services/api/dmaApi';
+import { createStandaloneDiagnosticOffline } from '../../lib/solomonOfflineWrites';
 import {
   buildStandaloneDiagnosticBody,
   diagnosticDraftScopeId,
@@ -29,18 +29,26 @@ export default function SolomonDiagnosePage() {
   });
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [queuedMessage, setQueuedMessage] = useState(null);
 
   const draftScope = diagnosticDraftScopeId(null);
 
   const handleSave = async (finalPayload) => {
     setIsSaving(true);
     setError(null);
+    setQueuedMessage(null);
     try {
       const body = buildStandaloneDiagnosticBody(finalPayload, {
         ...equipment,
         outcome_id: outcomeId,
       });
-      const created = await createDmaStandaloneDiagnostic(body);
+      const created = await createStandaloneDiagnosticOffline({ body });
+      if (created.queued) {
+        setQueuedMessage('Saved on device — will sync when you’re back online.');
+        setIsSaving(false);
+        setTimeout(() => router.push(`/solomon/diagnostics/${created.id}`), 800);
+        return;
+      }
       router.push(`/solomon/diagnostics/${created.id}`);
     } catch (err) {
       setError(err.message || 'Failed to save diagnostic');
@@ -123,6 +131,7 @@ export default function SolomonDiagnosePage() {
             </p>
           ) : null}
           {error ? <p className="text-sm text-red-400">{error}</p> : null}
+          {queuedMessage ? <p className="text-sm text-amber-300/90">{queuedMessage}</p> : null}
         </div>
 
         <div
