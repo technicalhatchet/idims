@@ -106,6 +106,16 @@ export default function SolomonOutcomeDetailPage() {
         {record.updated_at ? (
           <p className="text-sm text-gray-500 mt-1">{format(new Date(record.updated_at), 'MMM d, yyyy')}</p>
         ) : null}
+        {record.moderation_status === 'pending' ? (
+          <p className="text-xs text-amber-300/90 mt-2">
+            Pending review — only you can see this until it is approved for the repair knowledge pool.
+          </p>
+        ) : null}
+        {record.moderation_status === 'rejected' ? (
+          <p className="text-xs text-red-300/90 mt-2">
+            This outcome was not approved for the shared pool. You can still edit your private notes.
+          </p>
+        ) : null}
 
         <div className="flex gap-2 mt-4">
           <button type="button" onClick={() => setIsEditing((v) => !v)} className="rounded-lg border border-white/15 px-3 py-2 text-sm">

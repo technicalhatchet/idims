@@ -9,6 +9,7 @@ import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { formatSolomonDateTime } from '../../../utils/solomonFormat';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
 import { listStandaloneDiagnosticsOffline, deleteStandaloneDiagnosticOffline, deleteAllStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
+import SolomonAuthPrompt from '../../../components/solomon/SolomonAuthPrompt';
 
 function DiagnosticRow({ item, onDelete, isDeleting }) {
   if (!item?.id) return null;
@@ -117,9 +118,7 @@ export default function SolomonDiagnosticsListPage() {
       <>
         <SolomonHead title="Sign in" />
         <SolomonPageMain>
-          <a href="/api/auth/login" className="block rounded-xl bg-[#0089B9] px-4 py-3 text-center font-medium">
-            Sign in
-          </a>
+          <SolomonAuthPrompt title="Sign in to view your diagnostics" />
         </SolomonPageMain>
       </>
     );

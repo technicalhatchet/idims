@@ -5,6 +5,7 @@ import { useSolomonAuth, markSolomonSession } from '../../hooks/useSolomonAuth';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
 import SolomonWizardHeader, { SolomonWizardBackLink } from '../../components/solomon/SolomonWizardHeader';
+import SolomonAuthPrompt from '../../components/solomon/SolomonAuthPrompt';
 import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
 import { buildInitialDiagnosticState } from '../../constants/diagnosticTemplates';
 import { createStandaloneDiagnosticOffline } from '../../lib/solomonOfflineWrites';
@@ -75,10 +76,10 @@ export default function SolomonDiagnosePage() {
       <>
         <SolomonHead title="Sign in" />
         <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
-          <p className="text-gray-300 mb-4">Sign in to run guided diagnostics.</p>
-          <a href="/api/auth/login" className="block rounded-xl bg-[#0089B9] px-4 py-3 text-center font-medium">
-            Sign in
-          </a>
+          <SolomonAuthPrompt
+            title="Sign in to run guided diagnostics"
+            description="Homeowners can create a free account. Technicians sign in with staff access."
+          />
         </main>
       </>
     );

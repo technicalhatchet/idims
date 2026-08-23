@@ -1,22 +1,26 @@
 import Link from 'next/link';
 
 /**
- * Centered Solomon logo header for full-screen diagnostic wizard shells.
+ * Full-width centered logo with optional left/right controls (mobile wizard shell).
  */
 export default function SolomonWizardHeader({ left, right = null }) {
   return (
-    <div className="grid grid-cols-[44px_1fr_44px] items-center gap-2 px-1">
-      <div className="flex items-center justify-start min-w-[44px]">{left}</div>
-      <div className="flex min-w-0 items-center justify-center px-1">
+    <div className="relative min-h-[44px] px-1">
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none px-14"
+        aria-hidden
+      >
         <img
           src="/solomon%20big.png"
           alt=""
-          aria-hidden
           className="h-9 w-auto max-w-[min(100%,200px)] object-contain object-center sm:max-h-10"
           decoding="async"
         />
       </div>
-      <div className="flex items-center justify-end min-w-[44px]">{right}</div>
+      <div className="relative z-10 flex items-center justify-between gap-2 min-h-[44px]">
+        <div className="flex items-center justify-start min-w-[44px] shrink-0">{left}</div>
+        <div className="flex items-center justify-end min-w-[44px] shrink-0">{right}</div>
+      </div>
     </div>
   );
 }

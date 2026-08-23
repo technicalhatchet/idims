@@ -10,9 +10,11 @@ import {
 } from '../../../services/api/dmaApi';
 import { formValuesToPayload, EMPTY_FIELD_RECORD } from '../../../constants/dmaEquipmentOptions';
 import { complaintFromPayload, templateIdToEquipmentSubtype } from '../../../utils/standaloneDiagnostic';
+import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 
 export default function SolomonNewOutcomePage() {
   const router = useRouter();
+  const { isDiyer } = useSolomonAuth();
   const diagnosticId = typeof router.query.diagnostic_id === 'string' ? router.query.diagnostic_id : null;
   const [initialValues, setInitialValues] = useState(EMPTY_FIELD_RECORD);
   const [isSaving, setIsSaving] = useState(false);
@@ -60,6 +62,11 @@ export default function SolomonNewOutcomePage() {
         <h1 className="text-2xl font-semibold mt-3 mb-1">Repair outcome</h1>
         {diagnosticId ? (
           <p className="text-sm text-gray-400 mb-4">Will link to your diagnostic after save.</p>
+        ) : null}
+        {isDiyer ? (
+          <p className="text-sm text-amber-300/90 mb-4">
+            Your repair notes stay private until our team reviews them for the shared knowledge pool.
+          </p>
         ) : null}
 
         <DmaFieldRecordForm

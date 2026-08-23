@@ -8,6 +8,7 @@ const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:800
 const ROLE_IDS = {
   client: 'rol_okGmH3pkFUu0YXWi',
   technician: 'rol_KIVgWHYL1p8smVsc',
+  diyer: 'rol_efrbzOWFRtk0sJYy',
 };
 
 /**
