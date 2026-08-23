@@ -28,6 +28,13 @@ export function isQueueableNetworkError(err) {
   const name = err.name || '';
   if (name === 'TimeoutError' || name === 'AbortError') return true;
   if (err.type === ErrorTypes.NETWORK) return true;
+  if (
+    typeof window !== 'undefined'
+    && window.location.pathname.startsWith('/solomon')
+    && (err.type === ErrorTypes.AUTH || err.status === 401 || err.status === 403)
+  ) {
+    return true;
+  }
   if (isOffline() && (err.type === ErrorTypes.AUTH || err.status === 401 || err.status === 403)) {
     return true;
   }
@@ -48,10 +55,20 @@ function notifySyncState(state, detail) {
 }
 
 export async function enqueueMutation(mutation) {
+  let body = mutation.body;
+  if (body != null) {
+    try {
+      body = JSON.parse(JSON.stringify(body));
+    } catch (err) {
+      console.warn('[OfflineSync] Could not serialize mutation body for queue', err);
+    }
+  }
+
   const record = {
     id: createMutationId(),
     createdAt: Date.now(),
     ...mutation,
+    body,
   };
   await PendingMutationStore.add(record);
   notifyQueueChange();

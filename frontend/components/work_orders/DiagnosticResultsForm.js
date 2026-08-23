@@ -547,7 +547,7 @@ export default function DiagnosticResultsForm({
     [steps, readOnly, emitChange],
   );
 
-  const handleWizardComplete = useCallback(() => {
+  const handleWizardComplete = useCallback(async () => {
     let nextPayload = payloadRef.current;
     if (!readOnly) {
       const currentStepKey = prevStepKeyForTimelineRef.current;
@@ -571,7 +571,9 @@ export default function DiagnosticResultsForm({
       payloadRef.current = nextPayload;
       emitChange(nextPayload);
     }
-    onSave?.(nextPayload);
+    if (onSave) {
+      await onSave(nextPayload);
+    }
   }, [emitChange, onSave, readOnly]);
 
   const handleWizardAutoSave = useCallback(() => {
@@ -719,7 +721,7 @@ export default function DiagnosticResultsForm({
         resetKey={payload?.templateId}
         onAutoSave={handleWizardAutoSave}
         onStepChange={handleWizardStepChange}
-        onComplete={onSave ? handleWizardComplete : undefined}
+        onComplete={onSave ? () => void handleWizardComplete() : undefined}
         completeLabel="Save Diagnostic Results"
         isCompleting={isSaving}
         footerExtra={draftHint}
