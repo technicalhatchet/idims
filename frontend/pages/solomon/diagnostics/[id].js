@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { format } from 'date-fns';
 import { FaFilePdf } from 'react-icons/fa';
 import SolomonHead from '../../../components/solomon/SolomonHead';
+import SolomonMobileShell from '../../../components/solomon/SolomonMobileShell';
+import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
 import DiagnosticResultsForm from '../../../components/work_orders/DiagnosticResultsForm';
 import DiagnosticResultsViewer from '../../../components/work_orders/DiagnosticResultsViewer';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -168,9 +170,9 @@ export default function SolomonDiagnosticDetailPage() {
     return (
       <>
         <SolomonHead title="Diagnostic" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white flex justify-center py-20">
+        <SolomonPageMain className="flex justify-center py-20">
           <LoadingSpinner />
-        </main>
+        </SolomonPageMain>
       </>
     );
   }
@@ -179,10 +181,10 @@ export default function SolomonDiagnosticDetailPage() {
     return (
       <>
         <SolomonHead title="Diagnostic" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
+        <SolomonPageMain>
           <ErrorAlert message={error || 'Not found'} />
           <Link href="/solomon/diagnostics" className="text-cyan-400 text-sm mt-4 block">← Diagnostics</Link>
-        </main>
+        </SolomonPageMain>
       </>
     );
   }
@@ -196,28 +198,26 @@ export default function SolomonDiagnosticDetailPage() {
     return (
       <>
         <SolomonHead title="Edit diagnostic" />
-        <div className="fixed inset-0 z-[200] flex flex-col bg-[#0f172a] text-white">
-          <header className="flex items-center justify-between px-3 py-3 border-b border-white/10">
-            <button type="button" onClick={() => setIsEditing(false)} className="text-sm text-cyan-400">
-              Cancel
-            </button>
-            {saveError ? <span className="text-xs text-red-400">{saveError}</span> : null}
-          </header>
-          <div
-            className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-3 py-4"
-            style={{ paddingBottom: 'max(20px, env(safe-area-inset-bottom))' }}
-          >
-            <DiagnosticResultsForm
-              payload={row.payload}
-              onChange={() => {}}
-              workOrderId={draftScope}
-              draftNoteId={id}
-              variant="mobile"
-              isSaving={isSaving}
-              onSave={handleSave}
-            />
-          </div>
-        </div>
+        <SolomonMobileShell
+          header={
+            <div className="flex items-center justify-between px-1">
+              <button type="button" onClick={() => setIsEditing(false)} className="text-sm text-cyan-400">
+                Cancel
+              </button>
+              {saveError ? <span className="text-xs text-red-400">{saveError}</span> : null}
+            </div>
+          }
+        >
+          <DiagnosticResultsForm
+            payload={row.payload}
+            onChange={() => {}}
+            workOrderId={draftScope}
+            draftNoteId={id}
+            variant="mobile"
+            isSaving={isSaving}
+            onSave={handleSave}
+          />
+        </SolomonMobileShell>
       </>
     );
   }
@@ -225,7 +225,7 @@ export default function SolomonDiagnosticDetailPage() {
   return (
     <>
       <SolomonHead title={label} />
-      <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-6 max-w-lg mx-auto pb-24">
+      <SolomonPageMain>
         <Link href="/solomon/diagnostics" className="text-xs text-cyan-400 hover:text-cyan-300">← Diagnostics</Link>
         <h1 className="text-2xl font-semibold mt-3">{label}</h1>
         {when ? <p className="text-sm text-gray-500 mt-1">{when}</p> : null}
@@ -314,7 +314,7 @@ export default function SolomonDiagnosticDetailPage() {
             </div>
           </div>
         ) : null}
-      </main>
+      </SolomonPageMain>
     </>
   );
 }

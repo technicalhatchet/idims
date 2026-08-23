@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import SolomonHead from '../../components/solomon/SolomonHead';
+import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
 import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
 import { buildInitialDiagnosticState } from '../../constants/diagnosticTemplates';
 import { createStandaloneDiagnosticOffline } from '../../lib/solomonOfflineWrites';
@@ -43,6 +44,9 @@ export default function SolomonDiagnosePage() {
         outcome_id: outcomeId,
       });
       const created = await createStandaloneDiagnosticOffline({ body });
+      if (!created?.id) {
+        throw new Error('Could not save diagnostic on device. Try again.');
+      }
       if (created.queued) {
         setQueuedMessage('Saved on device — will sync when you’re back online.');
         setIsSaving(false);
@@ -82,16 +86,18 @@ export default function SolomonDiagnosePage() {
   return (
     <>
       <SolomonHead title="New diagnostic" />
-      <div className="fixed inset-0 z-[200] flex flex-col bg-[#0f172a] text-white">
-        <header className="flex items-center gap-3 px-3 py-3 border-b border-white/10 shrink-0">
-          <Link href="/solomon" className="text-sm text-cyan-400 hover:text-cyan-300">
-            ← Solomon
-          </Link>
-          <img src="/solomon big.png" alt="" className="h-8 w-auto" />
-          <span className="text-sm font-medium truncate">New diagnostic</span>
-        </header>
-
-        <div className="px-3 py-3 border-b border-white/10 bg-[#0A0F1E] space-y-3 shrink-0">
+      <SolomonMobileShell
+        header={
+          <div className="flex items-center gap-3 px-1">
+            <Link href="/solomon" className="text-sm text-cyan-400 hover:text-cyan-300">
+              ← Solomon
+            </Link>
+            <img src="/solomon big.png" alt="" className="h-8 w-auto" />
+            <span className="text-sm font-medium truncate">New diagnostic</span>
+          </div>
+        }
+      >
+        <div className="px-0 pb-3 border-b border-white/10 bg-[#0A0F1E] -mx-3 px-3 space-y-3 mb-4">
           <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90">Equipment (optional)</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <div>
@@ -134,22 +140,17 @@ export default function SolomonDiagnosePage() {
           {queuedMessage ? <p className="text-sm text-amber-300/90">{queuedMessage}</p> : null}
         </div>
 
-        <div
-          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-3 py-4"
-          style={{ paddingBottom: 'max(20px, env(safe-area-inset-bottom))' }}
-        >
-          <DiagnosticResultsForm
-            payload={payload}
-            onChange={setPayload}
-            workOrder={null}
-            workOrderId={draftScope}
-            variant="mobile"
-            readOnly={false}
-            isSaving={isSaving}
-            onSave={handleSave}
-          />
-        </div>
-      </div>
+        <DiagnosticResultsForm
+          payload={payload}
+          onChange={setPayload}
+          workOrder={null}
+          workOrderId={draftScope}
+          variant="mobile"
+          readOnly={false}
+          isSaving={isSaving}
+          onSave={handleSave}
+        />
+      </SolomonMobileShell>
     </>
   );
 }
