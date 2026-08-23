@@ -10,15 +10,19 @@ import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import {
   getDmaRepairRecord,
-  getDmaStandaloneDiagnostic,
   linkDmaDiagnosticToOutcome,
   listDmaRepairRecords,
   unlinkDmaDiagnosticFromOutcome,
-  updateDmaStandaloneDiagnostic,
 } from '../../../services/api/dmaApi';
+import {
+  fetchStandaloneDiagnostic,
+  updateStandaloneDiagnosticOffline,
+} from '../../../lib/solomonOfflineWrites';
+import { SYNC_EVENT, SOLOMON_DIAGNOSTIC_SYNCED_EVENT } from '../../../lib/offlineMutations';
 import {
   buildStandaloneDiagnosticBody,
   diagnosticDraftScopeId,
+  isPendingDiagnosticId,
 } from '../../../utils/standaloneDiagnostic';
 import { openStandaloneDiagnosticPdf } from '../../../utils/workOrderPdf';
 
@@ -36,15 +40,32 @@ export default function SolomonDiagnosticDetailPage() {
   const [linkPickerOpen, setLinkPickerOpen] = useState(false);
   const [outcomeOptions, setOutcomeOptions] = useState([]);
   const [linkError, setLinkError] = useState(null);
+  const [queuedMessage, setQueuedMessage] = useState(null);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    const onSync = () => setReloadKey((k) => k + 1);
+    const onDiagnosticSynced = (e) => {
+      if (e.detail?.tempId === id && e.detail?.id) {
+        router.replace(`/solomon/diagnostics/${e.detail.id}`);
+      }
+    };
+    window.addEventListener(SYNC_EVENT, onSync);
+    window.addEventListener(SOLOMON_DIAGNOSTIC_SYNCED_EVENT, onDiagnosticSynced);
+    return () => {
+      window.removeEventListener(SYNC_EVENT, onSync);
+      window.removeEventListener(SOLOMON_DIAGNOSTIC_SYNCED_EVENT, onDiagnosticSynced);
+    };
+  }, [id, router]);
 
   const load = useCallback(async () => {
     if (!id) return;
     setIsLoading(true);
     try {
-      const data = await getDmaStandaloneDiagnostic(id);
+      const data = await fetchStandaloneDiagnostic(id);
       setRow(data);
       setError(null);
-      if (data.outcome_id) {
+      if (data.outcome_id && !data.pendingSync && !isPendingDiagnosticId(data.id)) {
         const oc = await getDmaRepairRecord(data.outcome_id);
         setOutcome(oc);
       } else {
@@ -56,7 +77,7 @@ export default function SolomonDiagnosticDetailPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [id]);
+  }, [id, reloadKey]);
 
   useEffect(() => {
     load();
@@ -65,6 +86,7 @@ export default function SolomonDiagnosticDetailPage() {
   const handleSave = async (finalPayload) => {
     setIsSaving(true);
     setSaveError(null);
+    setQueuedMessage(null);
     try {
       const body = buildStandaloneDiagnosticBody(finalPayload, {
         equipment_make: row.equipment_make,
@@ -72,16 +94,22 @@ export default function SolomonDiagnosticDetailPage() {
         equipment_serial: row.equipment_serial,
         customer_complaint: row.customer_complaint,
       });
-      const updated = await updateDmaStandaloneDiagnostic(id, {
-        payload: body.payload,
-        equipment_make: body.equipment_make,
-        equipment_model: body.equipment_model,
-        equipment_subtype: body.equipment_subtype,
-        equipment_serial: body.equipment_serial,
-        customer_complaint: body.customer_complaint,
+      const updated = await updateStandaloneDiagnosticOffline({
+        diagnosticId: id,
+        body: {
+          payload: body.payload,
+          equipment_make: body.equipment_make,
+          equipment_model: body.equipment_model,
+          equipment_subtype: body.equipment_subtype,
+          equipment_serial: body.equipment_serial,
+          customer_complaint: body.customer_complaint,
+        },
       });
       setRow(updated);
       setIsEditing(false);
+      if (updated.queued) {
+        setQueuedMessage('Saved on device — will sync when you’re back online.');
+      }
     } catch (err) {
       setSaveError(err.message || 'Failed to save');
     } finally {
@@ -124,6 +152,10 @@ export default function SolomonDiagnosticDetailPage() {
   };
 
   const handlePdf = async () => {
+    if (isPendingDiagnosticId(id) || row?.pendingSync) {
+      setPdfError('PDF is available after this diagnostic syncs online.');
+      return;
+    }
     setPdfError(null);
     try {
       await openStandaloneDiagnosticPdf(id);
@@ -157,6 +189,7 @@ export default function SolomonDiagnosticDetailPage() {
 
   const label = row.template_label || row.template_id || 'Diagnostic';
   const when = row.updated_at ? format(new Date(row.updated_at), 'MMM d, yyyy h:mm a') : '';
+  const isPending = row.pendingSync || isPendingDiagnosticId(id);
 
   if (isEditing) {
     const draftScope = diagnosticDraftScopeId(id);
@@ -196,12 +229,17 @@ export default function SolomonDiagnosticDetailPage() {
         <Link href="/solomon/diagnostics" className="text-xs text-cyan-400 hover:text-cyan-300">← Diagnostics</Link>
         <h1 className="text-2xl font-semibold mt-3">{label}</h1>
         {when ? <p className="text-sm text-gray-500 mt-1">{when}</p> : null}
+        {isPending ? (
+          <p className="text-xs text-sky-300/90 mt-2">Pending sync — saved on your device.</p>
+        ) : null}
+        {queuedMessage ? <p className="text-xs text-amber-300/90 mt-2">{queuedMessage}</p> : null}
 
         <div className="flex flex-wrap gap-2 mt-4">
           <button
             type="button"
             onClick={handlePdf}
-            className="inline-flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-sm"
+            disabled={isPending}
+            className="inline-flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-sm disabled:opacity-40"
           >
             <FaFilePdf /> PDF
           </button>
@@ -226,6 +264,10 @@ export default function SolomonDiagnosticDetailPage() {
                 Unlink
               </button>
             </div>
+          ) : isPending ? (
+            <p className="text-sm text-gray-400">
+              Link or create outcomes after this diagnostic syncs online.
+            </p>
           ) : (
             <div className="space-y-2">
               <Link

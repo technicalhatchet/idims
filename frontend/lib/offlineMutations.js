@@ -3,10 +3,11 @@
  */
 
 import { apiClient, ErrorTypes } from '../utils/api-client';
-import { PendingMutationStore, NotesStore } from './db';
+import { PendingMutationStore, NotesStore, StandaloneDiagnosticStore } from './db';
 
 export const SYNC_EVENT = 'idims-sync-change';
 export const SYNC_STATE_EVENT = 'idims-sync-state';
+export const SOLOMON_DIAGNOSTIC_SYNCED_EVENT = 'solomon-diagnostic-synced';
 
 let syncInProgress = false;
 
@@ -62,6 +63,26 @@ async function onMutationSynced(mutation, result) {
   if (mutation.type === 'CREATE_NOTE' && mutation.meta?.tempNoteId && result?.id) {
     await NotesStore.remove(mutation.meta.tempNoteId);
     await NotesStore.put(result);
+  }
+
+  if (
+    mutation.type === 'CREATE_STANDALONE_DIAGNOSTIC'
+    && mutation.meta?.tempDiagnosticId
+    && result?.id
+  ) {
+    await StandaloneDiagnosticStore.remove(mutation.meta.tempDiagnosticId);
+    await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent(SOLOMON_DIAGNOSTIC_SYNCED_EVENT, {
+          detail: { tempId: mutation.meta.tempDiagnosticId, id: result.id },
+        })
+      );
+    }
+  }
+
+  if (mutation.type === 'UPDATE_STANDALONE_DIAGNOSTIC' && result?.id) {
+    await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
   }
 }
 

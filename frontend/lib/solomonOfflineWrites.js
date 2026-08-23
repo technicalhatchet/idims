@@ -1,0 +1,181 @@
+/**
+ * Solomon standalone diagnostics — offline create/update + cached reads.
+ */
+
+import { PendingMutationStore, StandaloneDiagnosticStore } from './db';
+import {
+  executeOfflineCapableMutation,
+  notifyQueueChange,
+} from './offlineMutations';
+import { apiClient } from '../utils/api-client';
+import {
+  isPendingDiagnosticId,
+  standaloneRowFromApiBody,
+} from '../utils/standaloneDiagnostic';
+
+function createTempDiagnosticId() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return `pending-${crypto.randomUUID()}`;
+  }
+  return `pending-${Date.now()}`;
+}
+
+function sortByUpdated(items) {
+  return [...items].sort(
+    (a, b) => new Date(b.updated_at || 0) - new Date(a.updated_at || 0)
+  );
+}
+
+function filterLocalDiagnostics(items, params = {}) {
+  let filtered = items;
+  if (params.linked === true) {
+    filtered = filtered.filter((row) => row.outcome_id);
+  } else if (params.linked === false) {
+    filtered = filtered.filter((row) => !row.outcome_id);
+  }
+  if (params.outcome_id) {
+    filtered = filtered.filter((row) => row.outcome_id === params.outcome_id);
+  }
+  const limit = params.limit ?? 50;
+  return sortByUpdated(filtered).slice(0, limit);
+}
+
+function dmaDiagnosticsQuery(params = {}) {
+  const query = new URLSearchParams();
+  if (params.limit != null) query.set('limit', String(params.limit));
+  if (params.linked === true) query.set('linked', 'true');
+  if (params.linked === false) query.set('linked', 'false');
+  if (params.outcome_id) query.set('outcome_id', params.outcome_id);
+  return query.toString();
+}
+
+async function mergePendingCreateBody(tempDiagnosticId, body) {
+  const pending = await PendingMutationStore.getAll();
+  const createMut = pending.find(
+    (m) =>
+      m.type === 'CREATE_STANDALONE_DIAGNOSTIC'
+      && m.meta?.tempDiagnosticId === tempDiagnosticId
+  );
+  if (!createMut) return false;
+  await PendingMutationStore.add({ ...createMut, body });
+  notifyQueueChange();
+  return true;
+}
+
+export async function createStandaloneDiagnosticOffline({ body }) {
+  const tempDiagnosticId = createTempDiagnosticId();
+
+  const result = await executeOfflineCapableMutation({
+    type: 'CREATE_STANDALONE_DIAGNOSTIC',
+    endpoint: 'dma/diagnostics',
+    method: 'POST',
+    body,
+    meta: { tempDiagnosticId },
+    onOptimistic: async () => {
+      await StandaloneDiagnosticStore.put(
+        standaloneRowFromApiBody(tempDiagnosticId, body, { pendingSync: true })
+      );
+    },
+  });
+
+  if (result?.queued) {
+    return standaloneRowFromApiBody(tempDiagnosticId, body, {
+      pendingSync: true,
+      queued: true,
+    });
+  }
+
+  await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
+  return result;
+}
+
+export async function updateStandaloneDiagnosticOffline({ diagnosticId, body }) {
+  const existing = await StandaloneDiagnosticStore.get(diagnosticId);
+
+  const onOptimistic = async () => {
+    await StandaloneDiagnosticStore.put(
+      standaloneRowFromApiBody(diagnosticId, body, {
+        ...existing,
+        pendingSync: true,
+        created_at: existing?.created_at,
+        updated_at: new Date().toISOString(),
+      })
+    );
+  };
+
+  if (isPendingDiagnosticId(diagnosticId)) {
+    const merged = await mergePendingCreateBody(diagnosticId, body);
+    if (merged) {
+      await onOptimistic();
+      const row = await StandaloneDiagnosticStore.get(diagnosticId);
+      return { ...row, queued: true };
+    }
+  }
+
+  const result = await executeOfflineCapableMutation({
+    type: 'UPDATE_STANDALONE_DIAGNOSTIC',
+    endpoint: `dma/diagnostics/${diagnosticId}`,
+    method: 'PUT',
+    body,
+    meta: { diagnosticId },
+    onOptimistic,
+  });
+
+  if (result?.queued) {
+    const row = await StandaloneDiagnosticStore.get(diagnosticId);
+    return { ...row, queued: true };
+  }
+
+  await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
+  return result;
+}
+
+export async function fetchStandaloneDiagnostic(diagnosticId) {
+  const local = await StandaloneDiagnosticStore.get(diagnosticId);
+  if (local?.pendingSync) {
+    return local;
+  }
+
+  try {
+    const data = await apiClient(`dma/diagnostics/${diagnosticId}`);
+    await StandaloneDiagnosticStore.put({ ...data, pendingSync: false });
+    return data;
+  } catch (err) {
+    if (local) return local;
+    throw err;
+  }
+}
+
+export async function listStandaloneDiagnosticsOffline(params = {}) {
+  const qs = dmaDiagnosticsQuery(params);
+
+  try {
+    const res = await apiClient(`dma/diagnostics${qs ? `?${qs}` : ''}`);
+    const serverItems = Array.isArray(res?.items) ? res.items : [];
+    if (serverItems.length) {
+      await StandaloneDiagnosticStore.putAll(
+        serverItems.map((item) => ({ ...item, pendingSync: false }))
+      );
+    }
+
+    const pendingLocals = await StandaloneDiagnosticStore.getPending();
+    const serverIds = new Set(serverItems.map((item) => item.id));
+    const unsynced = filterLocalDiagnostics(
+      pendingLocals.filter((item) => !serverIds.has(item.id)),
+      params
+    );
+
+    const merged = sortByUpdated([...unsynced, ...serverItems]);
+    const limit = params.limit ?? 50;
+
+    return {
+      ...res,
+      items: merged.slice(0, limit),
+      total: (res?.total ?? serverItems.length) + unsynced.length,
+    };
+  } catch (err) {
+    const cached = await StandaloneDiagnosticStore.getAll();
+    const items = filterLocalDiagnostics(cached, params);
+    return { items, total: items.length, fromCache: true, error: err.message };
+  }
+}

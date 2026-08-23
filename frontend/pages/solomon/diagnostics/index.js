@@ -5,7 +5,8 @@ import { format } from 'date-fns';
 import SolomonHead from '../../../components/solomon/SolomonHead';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
-import { listDmaStandaloneDiagnostics } from '../../../services/api/dmaApi';
+import { SYNC_EVENT } from '../../../lib/offlineMutations';
+import { listStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
 
 function DiagnosticRow({ item }) {
   const label = item.template_label || item.template_id || 'Diagnostic';
@@ -27,12 +28,14 @@ function DiagnosticRow({ item }) {
         </div>
         <span
           className={`text-[10px] uppercase tracking-wide px-2 py-0.5 rounded shrink-0 ${
-            item.outcome_id
-              ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25'
-              : 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
+            item.pendingSync
+              ? 'bg-sky-500/15 text-sky-300 border border-sky-500/25'
+              : item.outcome_id
+                ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25'
+                : 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
           }`}
         >
-          {item.outcome_id ? 'Linked' : 'Unlinked'}
+          {item.pendingSync ? 'Pending sync' : item.outcome_id ? 'Linked' : 'Unlinked'}
         </span>
       </div>
       {when ? <p className="text-xs text-gray-500 mt-2">{when}</p> : null}
@@ -46,6 +49,14 @@ export default function SolomonDiagnosticsListPage() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [fromCache, setFromCache] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    const onSync = () => setReloadKey((k) => k + 1);
+    window.addEventListener(SYNC_EVENT, onSync);
+    return () => window.removeEventListener(SYNC_EVENT, onSync);
+  }, []);
 
   useEffect(() => {
     if (!user) return undefined;
@@ -55,10 +66,11 @@ export default function SolomonDiagnosticsListPage() {
     if (filter === 'unlinked') params.linked = false;
     if (filter === 'linked') params.linked = true;
 
-    listDmaStandaloneDiagnostics(params)
+    listStandaloneDiagnosticsOffline(params)
       .then((res) => {
         if (!cancelled) {
           setData(res);
+          setFromCache(Boolean(res.fromCache));
           setError(null);
         }
       })
@@ -72,7 +84,7 @@ export default function SolomonDiagnosticsListPage() {
     return () => {
       cancelled = true;
     };
-  }, [user, filter]);
+  }, [user, filter, reloadKey]);
 
   if (authLoading) {
     return (
@@ -136,6 +148,9 @@ export default function SolomonDiagnosticsListPage() {
         </Link>
 
         {error ? <ErrorAlert message={error} /> : null}
+        {fromCache ? (
+          <p className="text-xs text-amber-300/80 mb-3">Showing saved diagnostics from your device.</p>
+        ) : null}
         {isLoading ? (
           <div className="flex justify-center py-12"><LoadingSpinner /></div>
         ) : items.length === 0 ? (

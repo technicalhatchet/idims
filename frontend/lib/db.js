@@ -5,7 +5,7 @@
  */
 
 const DB_NAME = 'idims-offline';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 const STORES = {
   workOrders: 'workOrders',
@@ -17,6 +17,7 @@ const STORES = {
   meta: 'meta',
   pendingMutations: 'pendingMutations',
   notes: 'notes',
+  standaloneDiagnostics: 'standaloneDiagnostics',
 };
 
 let _db = null;
@@ -84,6 +85,13 @@ function openDB() {
       if (!db.objectStoreNames.contains(STORES.notes)) {
         const store = db.createObjectStore(STORES.notes, { keyPath: 'id' });
         store.createIndex('work_order_id', 'work_order_id', { unique: false });
+      }
+
+      // Solomon standalone diagnostics (cached + pending offline saves)
+      if (!db.objectStoreNames.contains(STORES.standaloneDiagnostics)) {
+        const store = db.createObjectStore(STORES.standaloneDiagnostics, { keyPath: 'id' });
+        store.createIndex('outcome_id', 'outcome_id', { unique: false });
+        store.createIndex('updated_at', 'updated_at', { unique: false });
       }
     };
 
@@ -243,4 +251,17 @@ export const NotesStore = {
   getByWorkOrder: (workOrderId) =>
     txGetByIndex(STORES.notes, 'work_order_id', workOrderId),
   remove: (id) => txDelete(STORES.notes, id),
+};
+
+// Solomon standalone diagnostics
+export const StandaloneDiagnosticStore = {
+  put: (item) => txPut(STORES.standaloneDiagnostics, item),
+  putAll: (items) => txPut(STORES.standaloneDiagnostics, items),
+  getAll: () => txGetAll(STORES.standaloneDiagnostics),
+  get: (id) => txGet(STORES.standaloneDiagnostics, id),
+  remove: (id) => txDelete(STORES.standaloneDiagnostics, id),
+  getPending: () =>
+    txGetAll(STORES.standaloneDiagnostics).then((items) =>
+      items.filter((item) => item.pendingSync)
+    ),
 };
