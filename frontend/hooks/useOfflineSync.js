@@ -59,7 +59,8 @@ export function useOfflineSync() {
 
   useEffect(() => {
     const trySync = () => {
-      if (navigator.onLine) runSync();
+      if (typeof navigator !== 'undefined' && !navigator.onLine) return;
+      runSync();
     };
     window.addEventListener('online', trySync);
     window.addEventListener(SYNC_EVENT, trySync);

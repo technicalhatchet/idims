@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { format } from 'date-fns';
 import SolomonHead from '../../../components/solomon/SolomonHead';
 import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
+import SolomonErrorBoundary from '../../../components/solomon/SolomonErrorBoundary';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
+import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
+import { formatSolomonDateTime } from '../../../utils/solomonFormat';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
 import { listStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
 
 function DiagnosticRow({ item }) {
+  if (!item?.id) return null;
   const label = item.template_label || item.template_id || 'Diagnostic';
   const equipment = [item.equipment_make, item.equipment_model].filter(Boolean).join(' ');
-  const when = item.updated_at ? format(new Date(item.updated_at), 'MMM d, h:mm a') : '';
+  const when = formatSolomonDateTime(item.updated_at);
 
   return (
     <Link
@@ -45,7 +47,7 @@ function DiagnosticRow({ item }) {
 }
 
 export default function SolomonDiagnosticsListPage() {
-  const { user, isLoading: authLoading } = useUser();
+  const { isAuthenticated, isLoading: authLoading } = useSolomonAuth();
   const [filter, setFilter] = useState('all');
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +62,7 @@ export default function SolomonDiagnosticsListPage() {
   }, []);
 
   useEffect(() => {
-    if (!user) return undefined;
+    if (!isAuthenticated) return undefined;
     let cancelled = false;
     setIsLoading(true);
     const params = { limit: 50 };
@@ -85,7 +87,7 @@ export default function SolomonDiagnosticsListPage() {
     return () => {
       cancelled = true;
     };
-  }, [user, filter, reloadKey]);
+  }, [isAuthenticated, filter, reloadKey]);
 
   if (authLoading) {
     return (
@@ -98,7 +100,7 @@ export default function SolomonDiagnosticsListPage() {
     );
   }
 
-  if (!user) {
+  if (!isAuthenticated) {
     return (
       <>
         <SolomonHead title="Sign in" />
@@ -114,7 +116,7 @@ export default function SolomonDiagnosticsListPage() {
   const items = data?.items || [];
 
   return (
-    <>
+    <SolomonErrorBoundary>
       <SolomonHead title="Diagnostics" />
       <SolomonPageMain>
         <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
@@ -162,6 +164,6 @@ export default function SolomonDiagnosticsListPage() {
           </div>
         )}
       </SolomonPageMain>
-    </>
+    </SolomonErrorBoundary>
   );
 }
