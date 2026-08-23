@@ -5,6 +5,7 @@
 
 const SOLOMON_PATHS = [
   '/solomon',
+  '/solomon/start',
   '/solomon/signup',
   '/solomon/diagnose',
   '/solomon/diagnostics',

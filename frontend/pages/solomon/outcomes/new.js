@@ -11,10 +11,12 @@ import {
 import { formValuesToPayload, EMPTY_FIELD_RECORD } from '../../../constants/dmaEquipmentOptions';
 import { complaintFromPayload, templateIdToEquipmentSubtype } from '../../../utils/standaloneDiagnostic';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
+import { solomonCopy } from '../../../utils/solomonDiyCopy';
 
 export default function SolomonNewOutcomePage() {
   const router = useRouter();
   const { isDiyer } = useSolomonAuth();
+  const copy = (key) => solomonCopy(isDiyer, key);
   const diagnosticId = typeof router.query.diagnostic_id === 'string' ? router.query.diagnostic_id : null;
   const [initialValues, setInitialValues] = useState(EMPTY_FIELD_RECORD);
   const [isSaving, setIsSaving] = useState(false);
@@ -56,10 +58,12 @@ export default function SolomonNewOutcomePage() {
 
   return (
     <>
-      <SolomonHead title="New outcome" />
+      <SolomonHead title={copy('outcomeNew')} />
       <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-6 max-w-lg mx-auto pb-24">
-        <Link href="/solomon/outcomes" className="text-xs text-cyan-400 hover:text-cyan-300">← Outcomes</Link>
-        <h1 className="text-2xl font-semibold mt-3 mb-1">Repair outcome</h1>
+        <Link href="/solomon/outcomes" className="text-xs text-cyan-400 hover:text-cyan-300">
+          ← {copy('outcomesTitle')}
+        </Link>
+        <h1 className="text-2xl font-semibold mt-3 mb-1">{copy('outcomeOne')}</h1>
         {diagnosticId ? (
           <p className="text-sm text-gray-400 mb-4">Will link to your diagnostic after save.</p>
         ) : null}
@@ -74,7 +78,8 @@ export default function SolomonNewOutcomePage() {
           onSubmit={handleSubmit}
           isSaving={isSaving}
           error={error}
-          submitLabel="Save outcome"
+          submitLabel={copy('saveOutcome')}
+          variant={isDiyer ? 'diy' : 'default'}
         />
       </main>
     </>

@@ -27,13 +27,13 @@ export default function SolomonDiyEnrollment() {
     completeDiySignup()
       .then(() => {
         markSolomonDiyerSession();
+        window.location.href = '/solomon/start?welcome=1';
       })
       .catch((err) => {
         console.error('[Solomon] DIY enrollment failed:', err);
       })
       .finally(() => {
         runningRef.current = false;
-        window.location.reload();
       });
   }, [user, isLoading, router.pathname]);
 

@@ -32,10 +32,10 @@ export default function SolomonHomePage() {
 
         <div className="space-y-3">
           <Link
-            href="/solomon/diagnose"
+            href={isDiyer ? '/solomon/start' : '/solomon/diagnose'}
             className="block rounded-xl bg-[#0089B9] px-4 py-4 text-center font-medium"
           >
-            {isDiyer ? 'Start diagnosing' : 'New diagnostic'}
+            {isDiyer ? 'Start troubleshooting' : 'New diagnostic'}
           </Link>
           <Link
             href="/solomon/diagnostics"

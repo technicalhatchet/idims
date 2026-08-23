@@ -20,7 +20,9 @@ export default function DmaFieldRecordForm({
   isSaving = false,
   submitLabel = 'Save record',
   error = null,
+  variant = 'default',
 }) {
+  const isDiy = variant === 'diy';
   const [codes, setCodes] = useState(null);
   const [values, setValues] = useState(initialValues);
 
@@ -53,14 +55,16 @@ export default function DmaFieldRecordForm({
         <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90">Equipment</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label className={labelClass}>Type</label>
-            <select value={values.equipment_type} onChange={set('equipment_type')} className={inputClass}>
-              {DMA_EQUIPMENT_TYPES.map((o) => (
-                <option key={o.value || 'empty'} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-          </div>
+          {!isDiy ? (
+            <div>
+              <label className={labelClass}>Type</label>
+              <select value={values.equipment_type} onChange={set('equipment_type')} className={inputClass}>
+                {DMA_EQUIPMENT_TYPES.map((o) => (
+                  <option key={o.value || 'empty'} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
+          ) : null}
           <div>
             <label className={labelClass}>Make</label>
             <select value={values.equipment_make} onChange={set('equipment_make')} className={inputClass}>
@@ -91,15 +95,19 @@ export default function DmaFieldRecordForm({
       </div>
 
       <div className="rounded-xl border border-white/10 bg-[#0D1525] p-4 space-y-3">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90">Repair outcome</p>
+        <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90">
+          {isDiy ? 'What happened' : 'Repair outcome'}
+        </p>
+
+        {!isDiy ? (
+          <div>
+            <label className={labelClass}>Date performed (optional)</label>
+            <input type="date" value={values.performed_on} onChange={set('performed_on')} className={inputClass} />
+          </div>
+        ) : null}
 
         <div>
-          <label className={labelClass}>Date performed (optional)</label>
-          <input type="date" value={values.performed_on} onChange={set('performed_on')} className={inputClass} />
-        </div>
-
-        <div>
-          <label className={labelClass}>Symptom / complaint</label>
+          <label className={labelClass}>{isDiy ? 'What was going wrong?' : 'Symptom / complaint'}</label>
           <textarea
             rows={2}
             value={values.customer_complaint}
@@ -109,26 +117,28 @@ export default function DmaFieldRecordForm({
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label className={labelClass}>Problem code</label>
-            <select value={values.problem_code} onChange={set('problem_code')} className={inputClass}>
-              <option value="">Select problem…</option>
-              {codeOptions(problemOptions).map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
+        {!isDiy ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className={labelClass}>Problem code</label>
+              <select value={values.problem_code} onChange={set('problem_code')} className={inputClass}>
+                <option value="">Select problem…</option>
+                {codeOptions(problemOptions).map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Resolution code</label>
+              <select value={values.resolution_code} onChange={set('resolution_code')} className={inputClass}>
+                <option value="">Select resolution…</option>
+                {codeOptions(resolutionOptions).map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div>
-            <label className={labelClass}>Resolution code</label>
-            <select value={values.resolution_code} onChange={set('resolution_code')} className={inputClass}>
-              <option value="">Select resolution…</option>
-              {codeOptions(resolutionOptions).map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-          </div>
-        </div>
+        ) : null}
 
         <div>
           <label className={labelClass}>Error code (optional)</label>
@@ -142,7 +152,9 @@ export default function DmaFieldRecordForm({
         </div>
 
         <div>
-          <label className={labelClass}>Confirmed fix (required)</label>
+          <label className={labelClass}>
+            {isDiy ? 'What fixed it (or what you found)' : 'Confirmed fix (required)'}
+          </label>
           <input
             type="text"
             value={values.confirmed_fix}
@@ -164,14 +176,16 @@ export default function DmaFieldRecordForm({
           />
         </div>
 
-        <DmaTagPicker
-          label="Repair tags"
-          value={Array.isArray(values.tags) ? values.tags : []}
-          onChange={(tags) => setValues((prev) => ({ ...prev, tags }))}
-        />
+        {!isDiy ? (
+          <DmaTagPicker
+            label="Repair tags"
+            value={Array.isArray(values.tags) ? values.tags : []}
+            onChange={(tags) => setValues((prev) => ({ ...prev, tags }))}
+          />
+        ) : null}
 
         <div>
-          <label className={labelClass}>Technician notes</label>
+          <label className={labelClass}>{isDiy ? 'Your notes' : 'Technician notes'}</label>
           <textarea
             rows={3}
             value={values.technician_summary}
@@ -183,12 +197,14 @@ export default function DmaFieldRecordForm({
         <div className="flex flex-wrap gap-4 text-sm text-gray-300">
           <label className="flex items-center gap-2">
             <input type="checkbox" checked={values.repair_successful} onChange={set('repair_successful')} className="rounded" />
-            Repair successful
+            {isDiy ? 'Issue resolved' : 'Repair successful'}
           </label>
-          <label className="flex items-center gap-2">
-            <input type="checkbox" checked={values.callback_required} onChange={set('callback_required')} className="rounded" />
-            Callback required
-          </label>
+          {!isDiy ? (
+            <label className="flex items-center gap-2">
+              <input type="checkbox" checked={values.callback_required} onChange={set('callback_required')} className="rounded" />
+              Callback required
+            </label>
+          ) : null}
         </div>
       </div>
 

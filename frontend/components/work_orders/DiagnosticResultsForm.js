@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import { SelectInput } from '../ui/FormElements';
 import { Wizard } from '../wizard';
 import {
@@ -63,10 +64,12 @@ export default function DiagnosticResultsForm({
   variant = 'mobile',
   onSave = null,
   isSaving = false,
+  audience = 'tech',
 }) {
   const template = getDiagnosticTemplate(payload?.templateId);
   const wizardDefinition = getWizardDefinition(payload?.templateId);
   const templateOptions = listDiagnosticTemplates().map((t) => ({ value: t.id, label: t.label }));
+  const isDiyAudience = audience === 'diy';
   const draftKey = getDiagnosticDraftKey(workOrderId, draftNoteId);
   const draftRestoredRef = useRef(false);
   const [lastReadings, setLastReadings] = useState({});
@@ -640,14 +643,29 @@ export default function DiagnosticResultsForm({
         </div>
       ) : (
         <>
-          <SelectInput
-            label="Appliance template"
-            id="diagTemplateId"
-            value={payload?.templateId || ''}
-            onChange={(e) => handleTemplateChange(e.target.value)}
-            options={templateOptions}
-            disabled={readOnly}
-          />
+          {isDiyAudience ? (
+            <div className="rounded-xl border border-white/10 bg-[#0D1525] px-4 py-3 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[10px] uppercase tracking-wide text-gray-500">Appliance</p>
+                <p className="text-sm font-medium text-white mt-0.5">{template.label}</p>
+              </div>
+              <Link
+                href="/solomon/start"
+                className="text-xs text-cyan-400 hover:text-cyan-300 shrink-0"
+              >
+                Change
+              </Link>
+            </div>
+          ) : (
+            <SelectInput
+              label="Appliance template"
+              id="diagTemplateId"
+              value={payload?.templateId || ''}
+              onChange={(e) => handleTemplateChange(e.target.value)}
+              options={templateOptions}
+              disabled={readOnly}
+            />
+          )}
 
           {workOrder ? (
             <SelectInput
@@ -722,7 +740,7 @@ export default function DiagnosticResultsForm({
         onAutoSave={handleWizardAutoSave}
         onStepChange={handleWizardStepChange}
         onComplete={onSave ? () => void handleWizardComplete() : undefined}
-        completeLabel="Save Diagnostic Results"
+        completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
         isCompleting={isSaving}
         footerExtra={draftHint}
         headerTitle={
