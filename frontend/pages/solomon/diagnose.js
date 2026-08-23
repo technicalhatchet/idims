@@ -50,7 +50,7 @@ export default function SolomonDiagnosePage() {
       if (created.queued) {
         setQueuedMessage('Saved on device — will sync when you’re back online.');
         setIsSaving(false);
-        setTimeout(() => router.push(`/solomon/diagnostics/${created.id}`), 800);
+        setTimeout(() => router.push('/solomon/diagnostics'), 800);
         return;
       }
       router.push(`/solomon/diagnostics/${created.id}`);

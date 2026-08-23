@@ -354,17 +354,23 @@ export async function apiClient(endpoint, options = {}) {
       if (response.status === 401) {
         tokenCache = { token: null, expiresAt: null };
         const onPublicPage = isBrowser && isPublicPath(window.location.pathname);
+        const onSolomonApp = isBrowser && window.location.pathname.startsWith('/solomon');
         const shouldRedirect =
           redirectOnUnauthorized === true ||
           (redirectOnUnauthorized !== false && !onPublicPage);
 
+        if (onSolomonApp || !navigator.onLine) {
+          const authError = new Error(
+            onSolomonApp
+              ? 'Session unavailable — your diagnostic will be saved on device'
+              : 'Session unavailable while offline'
+          );
+          authError.status = 401;
+          authError.type = ErrorTypes.AUTH;
+          throw authError;
+        }
+
         if (shouldRedirect && isBrowser) {
-          if (!navigator.onLine) {
-            const offlineAuthError = new Error('Session unavailable while offline');
-            offlineAuthError.status = 401;
-            offlineAuthError.type = ErrorTypes.AUTH;
-            throw offlineAuthError;
-          }
           console.warn('Unauthorized API request — redirecting to login');
           const returnTo = encodeURIComponent(window.location.pathname + window.location.search);
           window.location.href = `/api/auth/login?returnTo=${returnTo}`;
@@ -453,6 +459,13 @@ export async function apiClient(endpoint, options = {}) {
       err.cause = error
       err.type = ErrorTypes.NETWORK
       throw err
+    }
+    if (
+      error?.message
+      && String(error.message).toLowerCase().includes('failed to fetch')
+      && !error.type
+    ) {
+      error.type = ErrorTypes.NETWORK
     }
     throw error
   }

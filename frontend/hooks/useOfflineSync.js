@@ -18,8 +18,12 @@ export function useOfflineSync() {
   const [lastSyncError, setLastSyncError] = useState(null);
 
   const refreshCount = useCallback(async () => {
-    const count = await getPendingCount();
-    setPendingCount(count);
+    try {
+      const count = await getPendingCount();
+      setPendingCount(count);
+    } catch (err) {
+      console.warn('[OfflineSync] Could not read pending count', err);
+    }
   }, []);
 
   const runSync = useCallback(async () => {

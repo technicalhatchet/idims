@@ -5,7 +5,7 @@
  */
 
 const DB_NAME = 'idims-offline';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 
 const STORES = {
   workOrders: 'workOrders',
@@ -97,6 +97,10 @@ function openDB() {
 
     request.onsuccess = (event) => {
       _db = event.target.result;
+      _db.onversionchange = () => {
+        _db?.close();
+        _db = null;
+      };
       resolve(_db);
     };
 

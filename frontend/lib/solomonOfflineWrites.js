@@ -58,6 +58,16 @@ async function shouldQueueStandaloneWrite() {
   return !headers.Authorization;
 }
 
+function cloneForStorage(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+async function putStandaloneRow(id, body, extra = {}) {
+  const row = standaloneRowFromApiBody(id, body, extra);
+  await StandaloneDiagnosticStore.put(cloneForStorage(row));
+  return row;
+}
+
 async function mergePendingCreateBody(tempDiagnosticId, body) {
   const pending = await PendingMutationStore.getAll();
   const createMut = pending.find(
@@ -72,9 +82,7 @@ async function mergePendingCreateBody(tempDiagnosticId, body) {
 }
 
 async function queueStandaloneCreate(tempDiagnosticId, body) {
-  await StandaloneDiagnosticStore.put(
-    standaloneRowFromApiBody(tempDiagnosticId, body, { pendingSync: true })
-  );
+  await putStandaloneRow(tempDiagnosticId, body, { pendingSync: true });
   await enqueueMutation({
     type: 'CREATE_STANDALONE_DIAGNOSTIC',
     endpoint: 'dma/diagnostics',
@@ -90,14 +98,12 @@ async function queueStandaloneCreate(tempDiagnosticId, body) {
 }
 
 async function queueStandaloneUpdate(diagnosticId, body, existing) {
-  await StandaloneDiagnosticStore.put(
-    standaloneRowFromApiBody(diagnosticId, body, {
-      ...existing,
-      pendingSync: true,
-      created_at: existing?.created_at,
-      updated_at: new Date().toISOString(),
-    })
-  );
+  await putStandaloneRow(diagnosticId, body, {
+    ...existing,
+    pendingSync: true,
+    created_at: existing?.created_at,
+    updated_at: new Date().toISOString(),
+  });
   await enqueueMutation({
     type: 'UPDATE_STANDALONE_DIAGNOSTIC',
     endpoint: `dma/diagnostics/${diagnosticId}`,
@@ -113,62 +119,54 @@ async function queueStandaloneUpdate(diagnosticId, body, existing) {
 export async function createStandaloneDiagnosticOffline({ body }) {
   const tempDiagnosticId = createTempDiagnosticId();
 
-  if (await shouldQueueStandaloneWrite()) {
-    return queueStandaloneCreate(tempDiagnosticId, body);
-  }
+  try {
+    if (await shouldQueueStandaloneWrite()) {
+      return await queueStandaloneCreate(tempDiagnosticId, body);
+    }
 
-  const result = await executeOfflineCapableMutation({
-    type: 'CREATE_STANDALONE_DIAGNOSTIC',
-    endpoint: 'dma/diagnostics',
-    method: 'POST',
-    body,
-    meta: { tempDiagnosticId },
-    onOptimistic: async () => {
-      await StandaloneDiagnosticStore.put(
-        standaloneRowFromApiBody(tempDiagnosticId, body, { pendingSync: true })
-      );
-    },
-  });
-
-  if (result?.queued) {
-    return standaloneRowFromApiBody(tempDiagnosticId, body, {
-      pendingSync: true,
-      queued: true,
+    const result = await executeOfflineCapableMutation({
+      type: 'CREATE_STANDALONE_DIAGNOSTIC',
+      endpoint: 'dma/diagnostics',
+      method: 'POST',
+      body,
+      meta: { tempDiagnosticId },
+      onOptimistic: async () => {
+        await putStandaloneRow(tempDiagnosticId, body, { pendingSync: true });
+      },
     });
-  }
 
-  if (!result?.id) {
-    return queueStandaloneCreate(tempDiagnosticId, body);
-  }
+    if (result?.queued) {
+      return standaloneRowFromApiBody(tempDiagnosticId, body, {
+        pendingSync: true,
+        queued: true,
+      });
+    }
 
-  await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
-  return result;
+    if (!result?.id) {
+      return await queueStandaloneCreate(tempDiagnosticId, body);
+    }
+
+    await StandaloneDiagnosticStore.put(cloneForStorage({ ...result, pendingSync: false }));
+    return result;
+  } catch (err) {
+    console.warn('[Solomon] Online save failed — queueing locally', err);
+    return await queueStandaloneCreate(tempDiagnosticId, body);
+  }
 }
 
 export async function updateStandaloneDiagnosticOffline({ diagnosticId, body }) {
   const existing = await StandaloneDiagnosticStore.get(diagnosticId);
 
   const onOptimistic = async () => {
-    await StandaloneDiagnosticStore.put(
-      standaloneRowFromApiBody(diagnosticId, body, {
-        ...existing,
-        pendingSync: true,
-        created_at: existing?.created_at,
-        updated_at: new Date().toISOString(),
-      })
-    );
+    await putStandaloneRow(diagnosticId, body, {
+      ...existing,
+      pendingSync: true,
+      created_at: existing?.created_at,
+      updated_at: new Date().toISOString(),
+    });
   };
 
-  if (isPendingDiagnosticId(diagnosticId)) {
-    const merged = await mergePendingCreateBody(diagnosticId, body);
-    if (merged) {
-      await onOptimistic();
-      const row = await StandaloneDiagnosticStore.get(diagnosticId);
-      return { ...row, queued: true };
-    }
-  }
-
-  if (await shouldQueueStandaloneWrite()) {
+  try {
     if (isPendingDiagnosticId(diagnosticId)) {
       const merged = await mergePendingCreateBody(diagnosticId, body);
       if (merged) {
@@ -177,29 +175,51 @@ export async function updateStandaloneDiagnosticOffline({ diagnosticId, body }) 
         return { ...row, queued: true };
       }
     }
-    return queueStandaloneUpdate(diagnosticId, body, existing);
+
+    if (await shouldQueueStandaloneWrite()) {
+      if (isPendingDiagnosticId(diagnosticId)) {
+        const merged = await mergePendingCreateBody(diagnosticId, body);
+        if (merged) {
+          await onOptimistic();
+          const row = await StandaloneDiagnosticStore.get(diagnosticId);
+          return { ...row, queued: true };
+        }
+      }
+      return await queueStandaloneUpdate(diagnosticId, body, existing);
+    }
+
+    const result = await executeOfflineCapableMutation({
+      type: 'UPDATE_STANDALONE_DIAGNOSTIC',
+      endpoint: `dma/diagnostics/${diagnosticId}`,
+      method: 'PUT',
+      body,
+      meta: { diagnosticId },
+      onOptimistic,
+    });
+
+    if (result?.queued) {
+      const row = await StandaloneDiagnosticStore.get(diagnosticId);
+      return { ...row, queued: true };
+    }
+
+    if (!result?.id) {
+      return await queueStandaloneUpdate(diagnosticId, body, existing);
+    }
+
+    await StandaloneDiagnosticStore.put(cloneForStorage({ ...result, pendingSync: false }));
+    return result;
+  } catch (err) {
+    console.warn('[Solomon] Online update failed — queueing locally', err);
+    if (isPendingDiagnosticId(diagnosticId)) {
+      const merged = await mergePendingCreateBody(diagnosticId, body);
+      if (merged) {
+        await onOptimistic();
+        const row = await StandaloneDiagnosticStore.get(diagnosticId);
+        return { ...row, queued: true };
+      }
+    }
+    return await queueStandaloneUpdate(diagnosticId, body, existing);
   }
-
-  const result = await executeOfflineCapableMutation({
-    type: 'UPDATE_STANDALONE_DIAGNOSTIC',
-    endpoint: `dma/diagnostics/${diagnosticId}`,
-    method: 'PUT',
-    body,
-    meta: { diagnosticId },
-    onOptimistic,
-  });
-
-  if (result?.queued) {
-    const row = await StandaloneDiagnosticStore.get(diagnosticId);
-    return { ...row, queued: true };
-  }
-
-  if (!result?.id) {
-    return queueStandaloneUpdate(diagnosticId, body, existing);
-  }
-
-  await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
-  return result;
 }
 
 export async function fetchStandaloneDiagnostic(diagnosticId) {
