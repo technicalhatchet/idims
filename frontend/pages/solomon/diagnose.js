@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
 import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
@@ -19,7 +19,7 @@ const labelClass = 'block text-xs uppercase tracking-wide text-gray-400 mb-1';
 
 export default function SolomonDiagnosePage() {
   const router = useRouter();
-  const { user, isLoading: authLoading } = useUser();
+  const { isAuthenticated, isLoading: authLoading } = useSolomonAuth();
   const outcomeId = typeof router.query.outcome_id === 'string' ? router.query.outcome_id : null;
 
   const [payload, setPayload] = useState(() => buildInitialDiagnosticState(null));
@@ -50,7 +50,6 @@ export default function SolomonDiagnosePage() {
       if (created.queued) {
         setQueuedMessage('Saved on device — will sync when you’re back online.');
         setIsSaving(false);
-        setTimeout(() => router.push('/solomon/diagnostics'), 800);
         return;
       }
       router.push(`/solomon/diagnostics/${created.id}`);
@@ -69,7 +68,7 @@ export default function SolomonDiagnosePage() {
     );
   }
 
-  if (!user) {
+  if (!isAuthenticated) {
     return (
       <>
         <SolomonHead title="Sign in" />
@@ -137,7 +136,17 @@ export default function SolomonDiagnosePage() {
             </p>
           ) : null}
           {error ? <p className="text-sm text-red-400">{error}</p> : null}
-          {queuedMessage ? <p className="text-sm text-amber-300/90">{queuedMessage}</p> : null}
+          {queuedMessage ? (
+            <div className="space-y-2">
+              <p className="text-sm text-amber-300/90">{queuedMessage}</p>
+              <Link
+                href="/solomon/diagnostics"
+                className="inline-block text-sm text-cyan-400 hover:text-cyan-300"
+              >
+                View my diagnostics →
+              </Link>
+            </div>
+          ) : null}
         </div>
 
         <DiagnosticResultsForm

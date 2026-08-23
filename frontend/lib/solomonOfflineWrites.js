@@ -243,6 +243,20 @@ export async function fetchStandaloneDiagnostic(diagnosticId) {
 }
 
 export async function listStandaloneDiagnosticsOffline(params = {}) {
+  async function fromLocalCache() {
+    const cached = await StandaloneDiagnosticStore.getAll();
+    const items = filterLocalDiagnostics(cached, params);
+    return { items, total: items.length, fromCache: true };
+  }
+
+  if (isOffline()) {
+    try {
+      return await fromLocalCache();
+    } catch (err) {
+      return { items: [], total: 0, fromCache: true, error: err.message };
+    }
+  }
+
   const qs = dmaDiagnosticsQuery(params);
 
   try {
@@ -270,8 +284,10 @@ export async function listStandaloneDiagnosticsOffline(params = {}) {
       total: (res?.total ?? serverItems.length) + unsynced.length,
     };
   } catch (err) {
-    const cached = await StandaloneDiagnosticStore.getAll();
-    const items = filterLocalDiagnostics(cached, params);
-    return { items, total: items.length, fromCache: true, error: err.message };
+    try {
+      return await fromLocalCache();
+    } catch (cacheErr) {
+      return { items: [], total: 0, fromCache: true, error: cacheErr.message || err.message };
+    }
   }
 }

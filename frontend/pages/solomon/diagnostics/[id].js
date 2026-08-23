@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { format } from 'date-fns';
+import { formatSolomonDateTime } from '../../../utils/solomonFormat';
+import SolomonErrorBoundary from '../../../components/solomon/SolomonErrorBoundary';
 import { FaFilePdf } from 'react-icons/fa';
 import SolomonHead from '../../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../../components/solomon/SolomonMobileShell';
@@ -61,7 +62,10 @@ export default function SolomonDiagnosticDetailPage() {
   }, [id, router]);
 
   const load = useCallback(async () => {
-    if (!id) return;
+    if (!id) {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     try {
       const data = await fetchStandaloneDiagnostic(id);
@@ -190,10 +194,10 @@ export default function SolomonDiagnosticDetailPage() {
   }
 
   const label = row.template_label || row.template_id || 'Diagnostic';
-  const when = row.updated_at ? format(new Date(row.updated_at), 'MMM d, yyyy h:mm a') : '';
+  const when = formatSolomonDateTime(row.updated_at, 'MMM d, yyyy h:mm a');
   const isPending = row.pendingSync || isPendingDiagnosticId(id);
 
-  if (isEditing) {
+  if (isEditing && row.payload) {
     const draftScope = diagnosticDraftScopeId(id);
     return (
       <>
@@ -223,7 +227,7 @@ export default function SolomonDiagnosticDetailPage() {
   }
 
   return (
-    <>
+    <SolomonErrorBoundary>
       <SolomonHead title={label} />
       <SolomonPageMain>
         <Link href="/solomon/diagnostics" className="text-xs text-cyan-400 hover:text-cyan-300">← Diagnostics</Link>
@@ -285,7 +289,11 @@ export default function SolomonDiagnosticDetailPage() {
         </section>
 
         <div className="mt-6">
-          <DiagnosticResultsViewer payload={row.payload} variant="mobile" />
+          {row.payload ? (
+            <DiagnosticResultsViewer payload={row.payload} variant="mobile" />
+          ) : (
+            <p className="text-sm text-gray-500">Diagnostic data is stored on your device and will appear after sync.</p>
+          )}
         </div>
 
         {linkPickerOpen ? (
@@ -315,6 +323,6 @@ export default function SolomonDiagnosticDetailPage() {
           </div>
         ) : null}
       </SolomonPageMain>
-    </>
+    </SolomonErrorBoundary>
   );
 }
