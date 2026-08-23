@@ -102,15 +102,19 @@ export function buildApiUrl(endpoint, tryBothPrefixes = false) {
 /**
  * Fetch a new access token from the Next.js API (single flight; result is cached).
  */
-async function fetchAccessTokenFromServer() {
+async function fetchAccessTokenFromServer(forceRefresh = false) {
   const ac = new AbortController()
   const t = setTimeout(() => ac.abort(), TOKEN_FETCH_TIMEOUT_MS)
   try {
-    const response = await fetch("/api/auth/token", {
-      credentials: "same-origin",
-      cache: "no-cache",
-      signal: ac.signal,
-    })
+    const response = await fetch(
+      forceRefresh ? "/api/auth/token?refresh=true" : "/api/auth/token",
+      {
+        credentials: "same-origin",
+        cache: "no-cache",
+        method: forceRefresh ? "POST" : "GET",
+        signal: ac.signal,
+      },
+    )
 
     if (!response.ok) {
       console.error("Failed to retrieve token:", response.status, response.statusText)
@@ -173,7 +177,7 @@ const getAccessToken = async (forceRefresh = false) => {
   }
 
   console.log("Retrieving fresh access token...")
-  const p = fetchAccessTokenFromServer()
+  const p = fetchAccessTokenFromServer(forceRefresh)
   inFlightTokenPromise = p.finally(() => {
     inFlightTokenPromise = null
   })
@@ -184,10 +188,16 @@ const getAccessToken = async (forceRefresh = false) => {
  * Get authorization headers for API requests
  * @returns {Promise<Object>} Headers object with authorization
  */
-export async function getAuthHeaders() {
+export async function getAuthHeaders({ forceRefresh = false, required = false } = {}) {
   try {
-    const token = await getAccessToken()
+    let token = await getAccessToken(forceRefresh)
+    if (!token && !forceRefresh) {
+      token = await getAccessToken(true)
+    }
     if (!token) {
+      if (required) {
+        throw new Error('Sign in again to download the PDF.')
+      }
       return {}
     }
     return {
@@ -195,6 +205,9 @@ export async function getAuthHeaders() {
     }
   } catch (error) {
     console.error("Error getting auth headers:", error)
+    if (required) {
+      throw error
+    }
     return {}
   }
 }

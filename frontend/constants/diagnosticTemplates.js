@@ -927,6 +927,22 @@ export function buildInitialDiagnosticState(workOrder) {
   };
 }
 
+export function buildInitialDiagnosticStateForTemplate(templateId) {
+  const id = templateId && getDiagnosticTemplate(templateId) ? templateId : 'refrigerator';
+  const fields = getInitialDiagnosticFieldValues(id, null);
+  return {
+    templateId: id,
+    appointmentId: '',
+    fields,
+    timeline: [],
+    evidenceSnapshot: null,
+    autoNoteBullets: [],
+    autoNoteEdited: false,
+    autoNoteFormat: 'bullets',
+    includeAutoNoteInSummary: true,
+  };
+}
+
 export function suggestDefaultAppointmentId(workOrder) {
   const appts = Array.isArray(workOrder?.appointments) ? workOrder.appointments : [];
   const open = appts.filter((a) => String(a.status || '').toLowerCase() !== 'canceled');

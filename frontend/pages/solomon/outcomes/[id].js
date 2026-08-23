@@ -18,10 +18,14 @@ import {
   formValuesToPayload,
   recordToFormValues,
 } from '../../../constants/dmaEquipmentOptions';
+import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
+import { solomonCopy } from '../../../utils/solomonDiyCopy';
 
 export default function SolomonOutcomeDetailPage() {
   const router = useRouter();
   const { id } = router.query;
+  const { isDiyer } = useSolomonAuth();
+  const copy = (key) => solomonCopy(isDiyer, key);
   const [record, setRecord] = useState(null);
   const [diagnostics, setDiagnostics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -134,6 +138,7 @@ export default function SolomonOutcomeDetailPage() {
               isSaving={isSaving}
               error={saveError}
               submitLabel="Save changes"
+              variant={isDiyer ? 'diy' : 'default'}
             />
           </div>
         ) : (
@@ -148,12 +153,14 @@ export default function SolomonOutcomeDetailPage() {
 
         <section className="mt-8">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-medium uppercase tracking-wide text-gray-400">Linked diagnostics</h2>
+            <h2 className="text-sm font-medium uppercase tracking-wide text-gray-400">
+              {isDiyer ? 'Linked troubleshooting' : 'Linked diagnostics'}
+            </h2>
             <Link
-              href={`/solomon/diagnose?outcome_id=${id}`}
+              href={isDiyer ? `/solomon/start?outcome_id=${id}` : `/solomon/diagnose?outcome_id=${id}`}
               className="text-xs text-cyan-400 hover:text-cyan-300"
             >
-              + Add diagnostic
+              {isDiyer ? '+ Add session' : '+ Add diagnostic'}
             </Link>
           </div>
           {diagnostics.length === 0 ? (

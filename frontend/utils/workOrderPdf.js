@@ -5,6 +5,39 @@ export function getWorkOrderPdfBaseUrl() {
   return rawBase.replace(/\/api\/?$/i, '').replace(/\/$/, '');
 }
 
+async function fetchAuthorizedPdf(pdfUrl, downloadName) {
+  const request = async (forceRefresh) => {
+    const headers = await getAuthHeaders({ forceRefresh, required: true });
+    return fetch(pdfUrl, { headers, credentials: 'include' });
+  };
+
+  let res = await request(false);
+  if (res.status === 401) {
+    res = await request(true);
+  }
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    const detail = err.detail || res.statusText;
+    throw new Error(typeof detail === 'string' ? detail : 'PDF request failed');
+  }
+
+  const blob = await res.blob();
+  const blobUrl = URL.createObjectURL(blob);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = downloadName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } else {
+    window.open(blobUrl, '_blank');
+  }
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+}
+
 /**
  * Fetch a work-order PDF with auth and open or download it.
  * @param {string} workOrderId
@@ -13,34 +46,14 @@ export function getWorkOrderPdfBaseUrl() {
  * @param {Record<string, string>} [queryParams] - variant, show_payments, show_payment_message, show_technician, etc.
  */
 export async function openWorkOrderPdf(workOrderId, orderNumber, endpoint, queryParams = {}) {
-  const headers = await getAuthHeaders();
   const baseUrl = getWorkOrderPdfBaseUrl();
   const qs = new URLSearchParams({
     variant: queryParams.variant || 'light',
     ...queryParams,
   });
   const pdfUrl = `${baseUrl}/api/work-orders/${workOrderId}/${endpoint}?${qs.toString()}`;
-  const res = await fetch(pdfUrl, { headers, credentials: 'include' });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ detail: res.statusText }));
-    const detail = err.detail || res.statusText;
-    throw new Error(typeof detail === 'string' ? detail : 'PDF request failed');
-  }
-  const blob = await res.blob();
-  const blobUrl = URL.createObjectURL(blob);
   const fileStem = endpoint.replace('.pdf', '');
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  if (isMobile) {
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = `${fileStem}-${orderNumber}.pdf`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  } else {
-    window.open(blobUrl, '_blank');
-  }
-  setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+  return fetchAuthorizedPdf(pdfUrl, `${fileStem}-${orderNumber}.pdf`);
 }
 
 /**
@@ -62,34 +75,14 @@ export async function openDiagnosticPdf(workOrderId, orderNumber, options = {}) 
  * Open a diagnostic PDF for a standalone Solomon diagnostic.
  */
 export async function openStandaloneDiagnosticPdf(diagnosticId, options = {}) {
-  const headers = await getAuthHeaders();
   const baseUrl = getWorkOrderPdfBaseUrl();
   const qs = new URLSearchParams({
     variant: options.variant || 'light',
     show_technician: String(options.showTechnician !== false),
   });
   const pdfUrl = `${baseUrl}/api/dma/diagnostics/${diagnosticId}/diagnostic-v2.pdf?${qs.toString()}`;
-  const res = await fetch(pdfUrl, { headers, credentials: 'include' });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ detail: res.statusText }));
-    const detail = err.detail || res.statusText;
-    throw new Error(typeof detail === 'string' ? detail : 'PDF request failed');
-  }
-  const blob = await res.blob();
-  const blobUrl = URL.createObjectURL(blob);
   const shortId = String(diagnosticId).replace(/-/g, '').slice(0, 8);
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  if (isMobile) {
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = `diagnostic-sol-${shortId}.pdf`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  } else {
-    window.open(blobUrl, '_blank');
-  }
-  setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+  return fetchAuthorizedPdf(pdfUrl, `diagnostic-sol-${shortId}.pdf`);
 }
 
 export const DOCUMENT_LINE_PRESETS = [

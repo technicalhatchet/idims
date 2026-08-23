@@ -8,6 +8,7 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { formatSolomonDateTime } from '../../../utils/solomonFormat';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
+import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import { listStandaloneDiagnosticsOffline, deleteStandaloneDiagnosticOffline, deleteAllStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
 import SolomonAuthPrompt from '../../../components/solomon/SolomonAuthPrompt';
 
@@ -58,7 +59,8 @@ function DiagnosticRow({ item, onDelete, isDeleting }) {
 }
 
 export default function SolomonDiagnosticsListPage() {
-  const { isAuthenticated, isLoading: authLoading } = useSolomonAuth();
+  const { isAuthenticated, isLoading: authLoading, isDiyer } = useSolomonAuth();
+  const copy = (key) => solomonCopy(isDiyer, key);
   const [filter, setFilter] = useState('all');
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -157,10 +159,10 @@ export default function SolomonDiagnosticsListPage() {
 
   return (
     <SolomonErrorBoundary>
-      <SolomonHead title="Diagnostics" />
+        <SolomonHead title={copy('diagnosticsTitle')} />
       <SolomonPageMain>
         <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
-        <h1 className="text-2xl font-semibold mt-3 mb-4">My diagnostics</h1>
+        <h1 className="text-2xl font-semibold mt-3 mb-4">{copy('diagnosticsTitle')}</h1>
 
         <div className="flex gap-2 mb-4">
           {[
@@ -184,10 +186,10 @@ export default function SolomonDiagnosticsListPage() {
         </div>
 
         <Link
-          href="/solomon/diagnose"
+          href={isDiyer ? '/solomon/start' : '/solomon/diagnose'}
           className="block mb-4 rounded-xl bg-[#0089B9] px-4 py-3 text-center font-medium"
         >
-          New diagnostic
+          {copy('diagnosticNew')}
         </Link>
 
         {error ? <ErrorAlert message={error} /> : null}
@@ -197,7 +199,9 @@ export default function SolomonDiagnosticsListPage() {
         {isLoading ? (
           <div className="flex justify-center py-12"><LoadingSpinner /></div>
         ) : items.length === 0 ? (
-          <p className="text-gray-500 text-sm text-center py-8">No diagnostics yet.</p>
+          <p className="text-gray-500 text-sm text-center py-8">
+            {isDiyer ? 'No troubleshooting sessions yet.' : 'No diagnostics yet.'}
+          </p>
         ) : (
           <div className="space-y-3">
             <div className="flex justify-end">
