@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useSolomonAuth, markSolomonSession } from '../../hooks/useSolomonAuth';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
+import SolomonWizardHeader, { SolomonWizardBackLink } from '../../components/solomon/SolomonWizardHeader';
 import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
 import { buildInitialDiagnosticState } from '../../constants/diagnosticTemplates';
 import { createStandaloneDiagnosticOffline } from '../../lib/solomonOfflineWrites';
@@ -88,13 +89,7 @@ export default function SolomonDiagnosePage() {
       <SolomonHead title="New diagnostic" />
       <SolomonMobileShell
         header={
-          <div className="flex items-center gap-3 px-1">
-            <Link href="/solomon" className="text-sm text-cyan-400 hover:text-cyan-300">
-              ← Solomon
-            </Link>
-            <img src="/solomon big.png" alt="" className="h-8 w-auto" />
-            <span className="text-sm font-medium truncate">New diagnostic</span>
-          </div>
+          <SolomonWizardHeader left={<SolomonWizardBackLink href="/solomon" />} />
         }
       >
         <div className="px-0 pb-3 border-b border-white/10 bg-[#0A0F1E] -mx-3 px-3 space-y-3 mb-4">

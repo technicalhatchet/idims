@@ -7,6 +7,7 @@ import {
   executeOfflineCapableMutation,
   enqueueMutation,
   isOffline,
+  isQueueableNetworkError,
   notifyQueueChange,
 } from './offlineMutations';
 import { markSolomonSession } from '../hooks/useSolomonAuth';
@@ -292,4 +293,74 @@ export async function listStandaloneDiagnosticsOffline(params = {}) {
       return { items: [], total: 0, fromCache: true, error: cacheErr.message || err.message };
     }
   }
+}
+
+async function removePendingMutationsForDiagnostic(diagnosticId) {
+  const pending = await PendingMutationStore.getAll();
+  for (const mutation of pending) {
+    const isCreate =
+      mutation.type === 'CREATE_STANDALONE_DIAGNOSTIC'
+      && mutation.meta?.tempDiagnosticId === diagnosticId;
+    const isUpdate =
+      mutation.type === 'UPDATE_STANDALONE_DIAGNOSTIC'
+      && mutation.meta?.diagnosticId === diagnosticId;
+    if (isCreate || isUpdate) {
+      await PendingMutationStore.remove(mutation.id);
+    }
+  }
+}
+
+export async function deleteStandaloneDiagnosticOffline(diagnosticId) {
+  if (!diagnosticId) {
+    throw new Error('Missing diagnostic id');
+  }
+
+  const wasPendingOnly = isPendingDiagnosticId(diagnosticId);
+  await removePendingMutationsForDiagnostic(diagnosticId);
+  await StandaloneDiagnosticStore.remove(diagnosticId);
+
+  if (wasPendingOnly) {
+    notifyQueueChange();
+    return { deleted: true, localOnly: true };
+  }
+
+  const endpoint = `dma/diagnostics/${diagnosticId}`;
+
+  if (isOffline()) {
+    await enqueueMutation({
+      type: 'DELETE_STANDALONE_DIAGNOSTIC',
+      endpoint,
+      method: 'DELETE',
+      meta: { diagnosticId },
+    });
+    notifyQueueChange();
+    return { deleted: true, queued: true };
+  }
+
+  try {
+    await apiClient(endpoint, { method: 'DELETE' });
+    notifyQueueChange();
+    return { deleted: true };
+  } catch (err) {
+    if (isQueueableNetworkError(err)) {
+      await enqueueMutation({
+        type: 'DELETE_STANDALONE_DIAGNOSTIC',
+        endpoint,
+        method: 'DELETE',
+        meta: { diagnosticId },
+      });
+      notifyQueueChange();
+      return { deleted: true, queued: true };
+    }
+    throw err;
+  }
+}
+
+export async function deleteAllStandaloneDiagnosticsOffline(items = []) {
+  const results = [];
+  for (const item of items) {
+    if (!item?.id) continue;
+    results.push(await deleteStandaloneDiagnosticOffline(item.id));
+  }
+  return results;
 }
