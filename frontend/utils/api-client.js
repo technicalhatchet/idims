@@ -359,6 +359,12 @@ export async function apiClient(endpoint, options = {}) {
           (redirectOnUnauthorized !== false && !onPublicPage);
 
         if (shouldRedirect && isBrowser) {
+          if (!navigator.onLine) {
+            const offlineAuthError = new Error('Session unavailable while offline');
+            offlineAuthError.status = 401;
+            offlineAuthError.type = ErrorTypes.AUTH;
+            throw offlineAuthError;
+          }
           console.warn('Unauthorized API request — redirecting to login');
           const returnTo = encodeURIComponent(window.location.pathname + window.location.search);
           window.location.href = `/api/auth/login?returnTo=${returnTo}`;

@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonInstallHint from '../../components/solomon/SolomonInstallHint';
+import SolomonPageMain from '../../components/solomon/SolomonPageMain';
 
 export default function SolomonHomePage() {
   return (
     <>
       <SolomonHead />
-      <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
+      <SolomonPageMain>
         <SolomonInstallHint />
 
         <header className="mb-10">
@@ -45,7 +46,7 @@ export default function SolomonHomePage() {
         <p className="text-xs text-white/40 mt-10 text-center">
           Guided diagnostics · repair memory
         </p>
-      </main>
+      </SolomonPageMain>
     </>
   );
 }

@@ -5,9 +5,11 @@
 import { PendingMutationStore, StandaloneDiagnosticStore } from './db';
 import {
   executeOfflineCapableMutation,
+  enqueueMutation,
+  isOffline,
   notifyQueueChange,
 } from './offlineMutations';
-import { apiClient } from '../utils/api-client';
+import { apiClient, getAuthHeaders } from '../utils/api-client';
 import {
   isPendingDiagnosticId,
   standaloneRowFromApiBody,
@@ -49,6 +51,13 @@ function dmaDiagnosticsQuery(params = {}) {
   return query.toString();
 }
 
+/** Airplane mode often leaves navigator.onLine true but token/API unreachable. */
+async function shouldQueueStandaloneWrite() {
+  if (isOffline()) return true;
+  const headers = await getAuthHeaders();
+  return !headers.Authorization;
+}
+
 async function mergePendingCreateBody(tempDiagnosticId, body) {
   const pending = await PendingMutationStore.getAll();
   const createMut = pending.find(
@@ -62,8 +71,51 @@ async function mergePendingCreateBody(tempDiagnosticId, body) {
   return true;
 }
 
+async function queueStandaloneCreate(tempDiagnosticId, body) {
+  await StandaloneDiagnosticStore.put(
+    standaloneRowFromApiBody(tempDiagnosticId, body, { pendingSync: true })
+  );
+  await enqueueMutation({
+    type: 'CREATE_STANDALONE_DIAGNOSTIC',
+    endpoint: 'dma/diagnostics',
+    method: 'POST',
+    body,
+    meta: { tempDiagnosticId },
+  });
+  notifyQueueChange();
+  return standaloneRowFromApiBody(tempDiagnosticId, body, {
+    pendingSync: true,
+    queued: true,
+  });
+}
+
+async function queueStandaloneUpdate(diagnosticId, body, existing) {
+  await StandaloneDiagnosticStore.put(
+    standaloneRowFromApiBody(diagnosticId, body, {
+      ...existing,
+      pendingSync: true,
+      created_at: existing?.created_at,
+      updated_at: new Date().toISOString(),
+    })
+  );
+  await enqueueMutation({
+    type: 'UPDATE_STANDALONE_DIAGNOSTIC',
+    endpoint: `dma/diagnostics/${diagnosticId}`,
+    method: 'PUT',
+    body,
+    meta: { diagnosticId },
+  });
+  notifyQueueChange();
+  const row = await StandaloneDiagnosticStore.get(diagnosticId);
+  return { ...row, queued: true };
+}
+
 export async function createStandaloneDiagnosticOffline({ body }) {
   const tempDiagnosticId = createTempDiagnosticId();
+
+  if (await shouldQueueStandaloneWrite()) {
+    return queueStandaloneCreate(tempDiagnosticId, body);
+  }
 
   const result = await executeOfflineCapableMutation({
     type: 'CREATE_STANDALONE_DIAGNOSTIC',
@@ -83,6 +135,10 @@ export async function createStandaloneDiagnosticOffline({ body }) {
       pendingSync: true,
       queued: true,
     });
+  }
+
+  if (!result?.id) {
+    return queueStandaloneCreate(tempDiagnosticId, body);
   }
 
   await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
@@ -112,6 +168,18 @@ export async function updateStandaloneDiagnosticOffline({ diagnosticId, body }) 
     }
   }
 
+  if (await shouldQueueStandaloneWrite()) {
+    if (isPendingDiagnosticId(diagnosticId)) {
+      const merged = await mergePendingCreateBody(diagnosticId, body);
+      if (merged) {
+        await onOptimistic();
+        const row = await StandaloneDiagnosticStore.get(diagnosticId);
+        return { ...row, queued: true };
+      }
+    }
+    return queueStandaloneUpdate(diagnosticId, body, existing);
+  }
+
   const result = await executeOfflineCapableMutation({
     type: 'UPDATE_STANDALONE_DIAGNOSTIC',
     endpoint: `dma/diagnostics/${diagnosticId}`,
@@ -126,6 +194,10 @@ export async function updateStandaloneDiagnosticOffline({ diagnosticId, body }) 
     return { ...row, queued: true };
   }
 
+  if (!result?.id) {
+    return queueStandaloneUpdate(diagnosticId, body, existing);
+  }
+
   await StandaloneDiagnosticStore.put({ ...result, pendingSync: false });
   return result;
 }
@@ -138,6 +210,10 @@ export async function fetchStandaloneDiagnostic(diagnosticId) {
 
   try {
     const data = await apiClient(`dma/diagnostics/${diagnosticId}`);
+    if (!data?.id) {
+      if (local) return local;
+      throw new Error('Diagnostic not found');
+    }
     await StandaloneDiagnosticStore.put({ ...data, pendingSync: false });
     return data;
   } catch (err) {

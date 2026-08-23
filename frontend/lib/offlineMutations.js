@@ -28,6 +28,9 @@ export function isQueueableNetworkError(err) {
   const name = err.name || '';
   if (name === 'TimeoutError' || name === 'AbortError') return true;
   if (err.type === ErrorTypes.NETWORK) return true;
+  if (isOffline() && (err.type === ErrorTypes.AUTH || err.status === 401 || err.status === 403)) {
+    return true;
+  }
   const msg = String(err.message || '').toLowerCase();
   return msg.includes('failed to fetch') || msg.includes('network') || msg.includes('load failed');
 }
@@ -155,6 +158,11 @@ export async function executeOfflineCapableMutation({
       method,
       body: JSON.stringify(body),
     });
+    if (result == null && queueOnNetworkError) {
+      await runOptimistic();
+      const record = await enqueueMutation({ type, endpoint, method, body, meta });
+      return { queued: true, mutationId: record.id, queuedAfterError: true };
+    }
     return result;
   } catch (err) {
     if (queueOnNetworkError && isQueueableNetworkError(err)) {

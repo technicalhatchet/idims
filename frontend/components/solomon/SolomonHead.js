@@ -19,6 +19,7 @@ export default function SolomonHead({ title = 'Solomon' }) {
       <meta name="theme-color" content={SOLOMON_SHELL} />
       <meta name="background-color" content={SOLOMON_SHELL} />
       <meta name="color-scheme" content="dark" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <link rel="manifest" href={manifestHref} />
       <link rel="icon" type="image/png" href={ICON_180} />
       {/* iOS Add to Home Screen uses apple-touch-icon, not manifest icons */}

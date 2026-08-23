@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { format } from 'date-fns';
 import SolomonHead from '../../../components/solomon/SolomonHead';
+import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
@@ -90,9 +91,9 @@ export default function SolomonDiagnosticsListPage() {
     return (
       <>
         <SolomonHead title="Diagnostics" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white p-6 flex justify-center">
+        <SolomonPageMain className="flex justify-center">
           <LoadingSpinner />
-        </main>
+        </SolomonPageMain>
       </>
     );
   }
@@ -101,11 +102,11 @@ export default function SolomonDiagnosticsListPage() {
     return (
       <>
         <SolomonHead title="Sign in" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
+        <SolomonPageMain>
           <a href="/api/auth/login" className="block rounded-xl bg-[#0089B9] px-4 py-3 text-center font-medium">
             Sign in
           </a>
-        </main>
+        </SolomonPageMain>
       </>
     );
   }
@@ -115,7 +116,7 @@ export default function SolomonDiagnosticsListPage() {
   return (
     <>
       <SolomonHead title="Diagnostics" />
-      <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-6 max-w-lg mx-auto pb-24">
+      <SolomonPageMain>
         <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
         <h1 className="text-2xl font-semibold mt-3 mb-4">My diagnostics</h1>
 
@@ -160,7 +161,7 @@ export default function SolomonDiagnosticsListPage() {
             {items.map((item) => <DiagnosticRow key={item.id} item={item} />)}
           </div>
         )}
-      </main>
+      </SolomonPageMain>
     </>
   );
 }
