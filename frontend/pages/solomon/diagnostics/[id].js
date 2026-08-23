@@ -20,7 +20,9 @@ import {
 import {
   fetchStandaloneDiagnostic,
   updateStandaloneDiagnosticOffline,
+  deleteStandaloneDiagnosticOffline,
 } from '../../../lib/solomonOfflineWrites';
+import SolomonWizardHeader from '../../../components/solomon/SolomonWizardHeader';
 import { SYNC_EVENT, SOLOMON_DIAGNOSTIC_SYNCED_EVENT } from '../../../lib/offlineMutations';
 import {
   buildStandaloneDiagnosticBody,
@@ -37,6 +39,7 @@ export default function SolomonDiagnosticDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [editPayload, setEditPayload] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState(null);
   const [pdfError, setPdfError] = useState(null);
@@ -44,6 +47,8 @@ export default function SolomonDiagnosticDetailPage() {
   const [outcomeOptions, setOutcomeOptions] = useState([]);
   const [linkError, setLinkError] = useState(null);
   const [queuedMessage, setQueuedMessage] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
@@ -113,6 +118,7 @@ export default function SolomonDiagnosticDetailPage() {
       });
       setRow(updated);
       setIsEditing(false);
+      setEditPayload(null);
       if (updated.queued) {
         setQueuedMessage('Saved on device — will sync when you’re back online.');
       }
@@ -157,6 +163,31 @@ export default function SolomonDiagnosticDetailPage() {
     }
   };
 
+  const handleStartEdit = () => {
+    setEditPayload(row?.payload || null);
+    setSaveError(null);
+    setIsEditing(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditPayload(null);
+    setSaveError(null);
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Delete this diagnostic? This cannot be undone.')) return;
+    setIsDeleting(true);
+    setDeleteError(null);
+    try {
+      await deleteStandaloneDiagnosticOffline(id);
+      router.push('/solomon/diagnostics');
+    } catch (err) {
+      setDeleteError(err.message || 'Failed to delete');
+      setIsDeleting(false);
+    }
+  };
+
   const handlePdf = async () => {
     if (isPendingDiagnosticId(id) || row?.pendingSync) {
       setPdfError('PDF is available after this diagnostic syncs online.');
@@ -197,27 +228,36 @@ export default function SolomonDiagnosticDetailPage() {
   const when = formatSolomonDateTime(row.updated_at, 'MMM d, yyyy h:mm a');
   const isPending = row.pendingSync || isPendingDiagnosticId(id);
 
-  if (isEditing && row.payload) {
+  if (isEditing && editPayload) {
     const draftScope = diagnosticDraftScopeId(id);
     return (
       <>
         <SolomonHead title="Edit diagnostic" />
         <SolomonMobileShell
           header={
-            <div className="flex items-center justify-between px-1">
-              <button type="button" onClick={() => setIsEditing(false)} className="text-sm text-cyan-400">
-                Cancel
-              </button>
-              {saveError ? <span className="text-xs text-red-400">{saveError}</span> : null}
-            </div>
+            <SolomonWizardHeader
+              left={
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="text-sm text-cyan-400 hover:text-cyan-300 p-1 -ml-1"
+                >
+                  Cancel
+                </button>
+              }
+              right={
+                saveError ? <span className="text-xs text-red-400 truncate">{saveError}</span> : null
+              }
+            />
           }
         >
           <DiagnosticResultsForm
-            payload={row.payload}
-            onChange={() => {}}
+            payload={editPayload}
+            onChange={setEditPayload}
             workOrderId={draftScope}
             draftNoteId={id}
             variant="mobile"
+            readOnly={false}
             isSaving={isSaving}
             onSave={handleSave}
           />
@@ -249,12 +289,21 @@ export default function SolomonDiagnosticDetailPage() {
           </button>
           <button
             type="button"
-            onClick={() => setIsEditing(true)}
+            onClick={handleStartEdit}
             className="rounded-lg border border-white/15 px-3 py-2 text-sm"
           >
             Edit
           </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="rounded-lg border border-red-500/30 px-3 py-2 text-sm text-red-300 disabled:opacity-40"
+          >
+            {isDeleting ? 'Deleting…' : 'Delete'}
+          </button>
         </div>
+        {deleteError ? <p className="text-sm text-red-400 mt-2">{deleteError}</p> : null}
         {pdfError ? <p className="text-sm text-red-400 mt-2">{pdfError}</p> : null}
 
         <section className="mt-6 rounded-xl border border-white/10 bg-[#0D1525] p-4">

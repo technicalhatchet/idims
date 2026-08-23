@@ -8,41 +8,51 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { formatSolomonDateTime } from '../../../utils/solomonFormat';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
-import { listStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
+import { listStandaloneDiagnosticsOffline, deleteStandaloneDiagnosticOffline, deleteAllStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
 
-function DiagnosticRow({ item }) {
+function DiagnosticRow({ item, onDelete, isDeleting }) {
   if (!item?.id) return null;
   const label = item.template_label || item.template_id || 'Diagnostic';
   const equipment = [item.equipment_make, item.equipment_model].filter(Boolean).join(' ');
   const when = formatSolomonDateTime(item.updated_at);
 
   return (
-    <Link
-      href={`/solomon/diagnostics/${item.id}`}
-      className="block rounded-xl border border-white/10 bg-[#0D1525] p-4 hover:border-cyan-500/30 transition-colors"
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <p className="font-medium text-white">{label}</p>
-          {equipment ? <p className="text-sm text-gray-400 mt-0.5">{equipment}</p> : null}
-          {item.customer_complaint ? (
-            <p className="text-sm text-gray-500 mt-1 line-clamp-2">{item.customer_complaint}</p>
-          ) : null}
-        </div>
-        <span
-          className={`text-[10px] uppercase tracking-wide px-2 py-0.5 rounded shrink-0 ${
-            item.pendingSync
-              ? 'bg-sky-500/15 text-sky-300 border border-sky-500/25'
-              : item.outcome_id
-                ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25'
-                : 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
-          }`}
+    <div className="rounded-xl border border-white/10 bg-[#0D1525] hover:border-cyan-500/30 transition-colors">
+      <div className="flex items-stretch gap-2 p-4">
+        <Link href={`/solomon/diagnostics/${item.id}`} className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <p className="font-medium text-white">{label}</p>
+              {equipment ? <p className="text-sm text-gray-400 mt-0.5">{equipment}</p> : null}
+              {item.customer_complaint ? (
+                <p className="text-sm text-gray-500 mt-1 line-clamp-2">{item.customer_complaint}</p>
+              ) : null}
+            </div>
+            <span
+              className={`text-[10px] uppercase tracking-wide px-2 py-0.5 rounded shrink-0 ${
+                item.pendingSync
+                  ? 'bg-sky-500/15 text-sky-300 border border-sky-500/25'
+                  : item.outcome_id
+                    ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25'
+                    : 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
+              }`}
+            >
+              {item.pendingSync ? 'Pending sync' : item.outcome_id ? 'Linked' : 'Unlinked'}
+            </span>
+          </div>
+          {when ? <p className="text-xs text-gray-500 mt-2">{when}</p> : null}
+        </Link>
+        <button
+          type="button"
+          onClick={() => onDelete(item)}
+          disabled={isDeleting}
+          className="shrink-0 self-center rounded-lg border border-red-500/25 px-2.5 py-1.5 text-xs text-red-300 hover:bg-red-500/10 disabled:opacity-40"
+          aria-label={`Delete ${label}`}
         >
-          {item.pendingSync ? 'Pending sync' : item.outcome_id ? 'Linked' : 'Unlinked'}
-        </span>
+          Delete
+        </button>
       </div>
-      {when ? <p className="text-xs text-gray-500 mt-2">{when}</p> : null}
-    </Link>
+    </div>
   );
 }
 
@@ -54,6 +64,8 @@ export default function SolomonDiagnosticsListPage() {
   const [error, setError] = useState(null);
   const [fromCache, setFromCache] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
+  const [deletingId, setDeletingId] = useState(null);
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
 
   useEffect(() => {
     const onSync = () => setReloadKey((k) => k + 1);
@@ -115,6 +127,35 @@ export default function SolomonDiagnosticsListPage() {
 
   const items = data?.items || [];
 
+  const handleDeleteOne = async (item) => {
+    const label = item.template_label || item.template_id || 'this diagnostic';
+    if (!window.confirm(`Delete ${label}? This cannot be undone.`)) return;
+    setDeletingId(item.id);
+    try {
+      await deleteStandaloneDiagnosticOffline(item.id);
+      setReloadKey((k) => k + 1);
+    } catch (err) {
+      setError(err.message || 'Failed to delete');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    if (!items.length) return;
+    if (!window.confirm(`Delete all ${items.length} diagnostics shown? This cannot be undone.`)) return;
+    setIsDeletingAll(true);
+    setError(null);
+    try {
+      await deleteAllStandaloneDiagnosticsOffline(items);
+      setReloadKey((k) => k + 1);
+    } catch (err) {
+      setError(err.message || 'Failed to delete diagnostics');
+    } finally {
+      setIsDeletingAll(false);
+    }
+  };
+
   return (
     <SolomonErrorBoundary>
       <SolomonHead title="Diagnostics" />
@@ -160,7 +201,24 @@ export default function SolomonDiagnosticsListPage() {
           <p className="text-gray-500 text-sm text-center py-8">No diagnostics yet.</p>
         ) : (
           <div className="space-y-3">
-            {items.map((item) => <DiagnosticRow key={item.id} item={item} />)}
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={handleDeleteAll}
+                disabled={isDeletingAll || deletingId}
+                className="text-xs text-red-300 border border-red-500/25 rounded-lg px-3 py-1.5 hover:bg-red-500/10 disabled:opacity-40"
+              >
+                {isDeletingAll ? 'Deleting all…' : `Delete all (${items.length})`}
+              </button>
+            </div>
+            {items.map((item) => (
+              <DiagnosticRow
+                key={item.id}
+                item={item}
+                onDelete={handleDeleteOne}
+                isDeleting={deletingId === item.id || isDeletingAll}
+              />
+            ))}
           </div>
         )}
       </SolomonPageMain>
