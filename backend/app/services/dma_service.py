@@ -297,6 +297,7 @@ def search_repair_outcomes(
         error_code=error_code,
         tags=tags,
         repair_successful=repair_successful,
+        for_pool=True,
     )
 
     combined = sorted(
