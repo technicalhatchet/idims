@@ -108,6 +108,25 @@ def user_can_edit_diagnostic(user: User, diagnostic: DmaStandaloneDiagnostic) ->
     return diagnostic.created_by == user.id
 
 
+SOLOMON_STAFF_ROLES = frozenset({"admin", "manager", "technician"})
+
+
+def user_can_use_solomon(user: User) -> bool:
+    """Standalone Solomon is for staff technicians or enrolled DIY homeowners."""
+    if user.is_diyer:
+        return True
+    roles = set(user.roles or [])
+    return bool(roles & SOLOMON_STAFF_ROLES)
+
+
+def require_solomon_access(user: User) -> None:
+    if not user_can_use_solomon(user):
+        raise ValueError(
+            "Solomon access requires a homeowner or staff account. "
+            "Homeowners should complete signup at /solomon/signup."
+        )
+
+
 def _template_label(template_id: Optional[str]) -> Optional[str]:
     if not template_id:
         return None
@@ -154,6 +173,7 @@ def create_standalone_diagnostic(
     user: User,
     data: DmaStandaloneDiagnosticCreate,
 ) -> DmaStandaloneDiagnostic:
+    require_solomon_access(user)
     context = default_standalone_context(user, data.context)
     visibility = DMA_VISIBILITY_PRIVATE
     if data.visibility and not user.is_diyer:

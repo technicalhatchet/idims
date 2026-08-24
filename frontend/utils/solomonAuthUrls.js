@@ -1,4 +1,5 @@
 const SOLOMON_RETURN = '/solomon';
+export const SOLOMON_DIY_ENROLL_RETURN = '/solomon?diy_enroll=1';
 
 export const SOLOMON_DIY_SIGNUP_KEY = 'solomon_diy_signup';
 export const SOLOMON_DIYER_SESSION_KEY = 'solomon_is_diyer';
@@ -51,7 +52,7 @@ export function solomonLoginUrl(returnTo = SOLOMON_RETURN) {
 export function solomonDiySignupUrl() {
   markSolomonDiySignupIntent();
   const params = new URLSearchParams({
-    returnTo: SOLOMON_RETURN,
+    returnTo: SOLOMON_DIY_ENROLL_RETURN,
     screen_hint: 'signup',
   });
   return `/api/auth/login?${params.toString()}`;

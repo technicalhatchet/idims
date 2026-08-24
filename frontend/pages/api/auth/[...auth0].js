@@ -3,7 +3,11 @@ import { handleAuth, handleLogin, handleCallback, handleLogout } from '@auth0/ne
 const DOMAIN = process.env.AUTH0_ISSUER_BASE_URL;
 const MGMT_CLIENT_ID = process.env.AUTH0_MGMT_CLIENT_ID;
 const MGMT_CLIENT_SECRET = process.env.AUTH0_MGMT_CLIENT_SECRET;
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
+const BACKEND = (
+  process.env.NEXT_PUBLIC_API_URL
+  || process.env.NEXT_PUBLIC_BACKEND_API_URL
+  || 'http://localhost:8000/'
+).replace(/\/$/, '');
 
 const ROLE_IDS = {
   client: 'rol_okGmH3pkFUu0YXWi',
@@ -88,6 +92,23 @@ async function autoAssignRole(user, accessToken) {
   }
 }
 
+async function completeDiySignupOnCallback(accessToken) {
+  const res = await fetch(`${BACKEND}/api/auth/complete-diy-signup`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    console.error(`[Auth] complete-diy-signup failed: ${res.status} ${body}`);
+    return false;
+  }
+  console.log('[Auth] DIY homeowner enrollment complete');
+  return true;
+}
+
 export default handleAuth({
   login: handleLogin((req) => {
     const authorizationParams = {
@@ -106,6 +127,13 @@ export default handleAuth({
   }),
 
   callback: handleCallback({
+    async afterCallback(req, res, session, state) {
+      const returnTo = String(state?.returnTo || '');
+      if (returnTo.includes('diy_enroll=1') && session?.accessToken) {
+        await completeDiySignupOnCallback(session.accessToken);
+      }
+      return session;
+    },
     async onError(req, res, error) {
       console.error('Auth0 Callback Error:', {
         message: error.message,

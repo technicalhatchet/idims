@@ -502,9 +502,11 @@ def create_repair_record(
     user: Optional["User"] = None,
 ) -> DmaRepairRecord:
     from app.models.user import User as UserModel
-    from app.services.dma_standalone_service import apply_record_create_defaults
+    from app.services.dma_standalone_service import apply_record_create_defaults, require_solomon_access
 
     actor = user or db.query(UserModel).filter(UserModel.id == user_id).first()
+    if actor:
+        require_solomon_access(actor)
     payload = data.model_dump(exclude={"tags"})
     if actor:
         payload = apply_record_create_defaults(actor, payload)

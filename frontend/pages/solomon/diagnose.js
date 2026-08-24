@@ -5,7 +5,7 @@ import { useSolomonAuth, markSolomonSession } from '../../hooks/useSolomonAuth';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
 import SolomonWizardHeader, { SolomonWizardBackLink } from '../../components/solomon/SolomonWizardHeader';
-import SolomonAuthPrompt from '../../components/solomon/SolomonAuthPrompt';
+import SolomonAccessGuard from '../../components/solomon/SolomonAccessGuard';
 import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
 import {
   buildInitialDiagnosticState,
@@ -27,7 +27,7 @@ const labelClass = 'block text-xs uppercase tracking-wide text-gray-400 mb-1';
 
 export default function SolomonDiagnosePage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authLoading, isDiyer } = useSolomonAuth();
+  const { canUseSolomon, isLoading: authLoading, isDiyer, rolesLoading } = useSolomonAuth();
   const outcomeId = typeof router.query.outcome_id === 'string' ? router.query.outcome_id : null;
   const templateParam = typeof router.query.template === 'string' ? router.query.template : null;
 
@@ -54,11 +54,11 @@ export default function SolomonDiagnosePage() {
   const needsAppliancePick = isDiyer && !templateParam;
 
   useEffect(() => {
-    if (!router.isReady || authLoading || !isAuthenticated) return;
+    if (!router.isReady || authLoading || rolesLoading || !canUseSolomon) return;
     if (needsAppliancePick) {
       router.replace('/solomon/start');
     }
-  }, [router, authLoading, isAuthenticated, needsAppliancePick]);
+  }, [router, authLoading, rolesLoading, canUseSolomon, needsAppliancePick]);
 
   useEffect(() => {
     if (!templateParam || !getDiagnosticTemplate(templateParam)) return;
@@ -95,25 +95,11 @@ export default function SolomonDiagnosePage() {
     }
   };
 
-  if (authLoading || needsAppliancePick) {
+  if (authLoading || rolesLoading || needsAppliancePick) {
     return (
       <>
         <SolomonHead title={copy('diagnosticNew')} />
         <main className="min-h-screen bg-[#0A0F1E] text-white p-6">Loading…</main>
-      </>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <>
-        <SolomonHead title="Sign in" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
-          <SolomonAuthPrompt
-            title="Sign in to run guided diagnostics"
-            description="Homeowners can create a free account. Technicians sign in with staff access."
-          />
-        </main>
       </>
     );
   }
@@ -128,6 +114,7 @@ export default function SolomonDiagnosePage() {
           <SolomonWizardHeader left={<SolomonWizardBackLink href="/solomon" />} />
         }
       >
+        <SolomonAccessGuard promptTitle="Sign in to run guided diagnostics">
         <div className="px-0 pb-3 border-b border-white/10 bg-[#0A0F1E] -mx-3 px-3 space-y-3 mb-4">
           <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90">
             {copy('equipmentOptional')}
@@ -205,6 +192,7 @@ export default function SolomonDiagnosePage() {
           isSaving={isSaving}
           onSave={handleSave}
         />
+        </SolomonAccessGuard>
       </SolomonMobileShell>
     </>
   );

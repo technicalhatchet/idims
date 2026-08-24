@@ -1,9 +1,20 @@
 import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonPageMain from '../../components/solomon/SolomonPageMain';
-import { solomonDiySignupUrl, solomonLoginUrl } from '../../utils/solomonAuthUrls';
+import { useSolomonAuth } from '../../hooks/useSolomonAuth';
+import { solomonDiySignupUrl, solomonLoginUrl, markSolomonDiySignupIntent } from '../../utils/solomonAuthUrls';
 
 export default function SolomonSignupPage() {
+  const { user } = useUser();
+  const { canUseSolomon, retryDiyEnrollment, enrollmentState } = useSolomonAuth();
+
+  const finishEnrollment = async () => {
+    markSolomonDiySignupIntent();
+    const ok = await retryDiyEnrollment();
+    if (ok) window.location.href = '/solomon/start?welcome=1';
+  };
+
   return (
     <>
       <SolomonHead title="Homeowner signup" />
@@ -25,6 +36,16 @@ export default function SolomonSignupPage() {
         </ul>
 
         <div className="space-y-3">
+          {user && !canUseSolomon ? (
+            <button
+              type="button"
+              onClick={finishEnrollment}
+              disabled={enrollmentState === 'running'}
+              className="block w-full rounded-xl bg-[#0089B9] px-4 py-4 text-center font-medium disabled:opacity-60"
+            >
+              {enrollmentState === 'running' ? 'Setting up…' : 'Finish homeowner account setup'}
+            </button>
+          ) : null}
           <a
             href={solomonDiySignupUrl()}
             className="block rounded-xl bg-[#0089B9] px-4 py-4 text-center font-medium"
