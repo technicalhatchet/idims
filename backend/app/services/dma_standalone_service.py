@@ -369,10 +369,24 @@ def list_repair_records(
     *,
     page: int = 1,
     limit: int = 20,
+    moderation_status: Optional[str] = None,
+    context: Optional[str] = None,
 ) -> Dict[str, Any]:
     query = db.query(DmaRepairRecord).options(joinedload(DmaRepairRecord.tags))
     if user.is_diyer or not (user.is_admin or user.is_manager):
         query = query.filter(DmaRepairRecord.created_by == user.id)
+
+    if moderation_status:
+        status = moderation_status.strip().lower()
+        if status not in {DMA_MODERATION_PENDING, DMA_MODERATION_APPROVED, DMA_MODERATION_REJECTED}:
+            raise ValueError(f"moderation_status must be one of pending, approved, or rejected")
+        query = query.filter(DmaRepairRecord.moderation_status == status)
+
+    if context:
+        ctx = context.strip().lower()
+        if ctx not in {DMA_CONTEXT_TECH, DMA_CONTEXT_TRAINING, DMA_CONTEXT_DIY}:
+            raise ValueError(f"context must be one of tech, training, or diy")
+        query = query.filter(DmaRepairRecord.context == ctx)
 
     total = query.count()
     pages = max(1, math.ceil(total / limit)) if total else 1

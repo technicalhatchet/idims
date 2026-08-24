@@ -5,11 +5,12 @@ import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
-import { getDmaCodes, getDmaTags, searchDmaRepairs } from '../../services/api/dmaApi';
+import { getDmaCodes, getDmaTags, listDmaRepairRecords, searchDmaRepairs } from '../../services/api/dmaApi';
 import { formatDmaEquipment } from '../../constants/dmaEquipmentOptions';
 import { codeLabel, codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
 import { DmaTagPills } from '../../components/dma/DmaTagPicker';
 import { groupTagsByCategory } from '../../constants/dmaTagCategories';
+import { useUserRole } from '../../context/UserRoleContext';
 
 function resultHref(item) {
   if (item.source_type === 'field_record') {
@@ -35,6 +36,7 @@ function SourceBadge({ item }) {
 
 function DmaSearchPage() {
   const router = useRouter();
+  const { isManager } = useUserRole();
   const [codes, setCodes] = useState(null);
   const [query, setQuery] = useState('');
   const [equipmentMake, setEquipmentMake] = useState('');
@@ -48,6 +50,7 @@ function DmaSearchPage() {
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [pendingReviewCount, setPendingReviewCount] = useState(null);
 
   useEffect(() => {
     getDmaCodes()
@@ -57,6 +60,22 @@ function DmaSearchPage() {
       .then((data) => setTagCatalog(data?.items || []))
       .catch((err) => console.error('Failed to load DMA tags', err));
   }, []);
+
+  useEffect(() => {
+    if (!isManager) {
+      setPendingReviewCount(null);
+      return undefined;
+    }
+    let cancelled = false;
+    listDmaRepairRecords({ moderation_status: 'pending', context: 'diy', limit: 1 })
+      .then((res) => {
+        if (!cancelled) setPendingReviewCount(res?.total ?? 0);
+      })
+      .catch(() => {
+        if (!cancelled) setPendingReviewCount(null);
+      });
+    return () => { cancelled = true; };
+  }, [isManager]);
 
   useEffect(() => {
     if (!router.isReady) return undefined;
@@ -149,6 +168,19 @@ function DmaSearchPage() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+            {isManager ? (
+              <Link
+                href="/techdashboard/dma/review"
+                className="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-violet-500/30 bg-violet-500/10 text-sm font-semibold text-violet-200"
+              >
+                Review queue
+                {pendingReviewCount > 0 ? (
+                  <span className="ml-2 inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full bg-violet-500 text-white text-xs font-bold">
+                    {pendingReviewCount}
+                  </span>
+                ) : null}
+              </Link>
+            ) : null}
             <Link
               href="/techdashboard/dma/patterns"
               className="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-sm font-semibold text-emerald-200"
