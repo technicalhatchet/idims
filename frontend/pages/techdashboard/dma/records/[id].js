@@ -19,6 +19,8 @@ import {
   getDmaRepairRecord,
   updateDmaRepairRecord,
 } from '../../../../services/api/dmaApi';
+import DmaModerationPanel, { DmaModerationBadge } from '../../../../components/dma/DmaModerationPanel';
+import { useUserRole } from '../../../../context/UserRoleContext';
 
 function DetailRow({ label, children }) {
   if (children == null || children === '') return null;
@@ -33,6 +35,7 @@ function DetailRow({ label, children }) {
 function DmaRecordDetailPage() {
   const router = useRouter();
   const { id } = router.query;
+  const { isManager } = useUserRole();
   const [record, setRecord] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -156,8 +159,34 @@ function DmaRecordDetailPage() {
         )}
 
         {record && !isEditing && (
-          <div className="rounded-xl border border-white/10 bg-[#0D1525] p-4">
+          <>
+            {isManager && (record.context === 'diy' || record.moderation_status !== 'approved') ? (
+              <DmaModerationPanel
+                record={record}
+                onModerated={(updated) => setRecord(updated)}
+              />
+            ) : null}
+
+            <div className="rounded-xl border border-white/10 bg-[#0D1525] p-4">
             <dl>
+              {record.context === 'diy' || record.moderation_status !== 'approved' ? (
+                <div className="py-2 border-b border-white/5 flex flex-wrap items-center gap-2">
+                  <dt className="text-[10px] uppercase tracking-wide text-gray-500">Status</dt>
+                  <dd className="flex flex-wrap gap-2">
+                    {record.context === 'diy' ? (
+                      <span className="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded border border-cyan-500/25 bg-cyan-500/10 text-cyan-300">
+                        DIY
+                      </span>
+                    ) : null}
+                    <DmaModerationBadge status={record.moderation_status} />
+                  </dd>
+                </div>
+              ) : null}
+              {record.linked_diagnostic_count > 0 ? (
+                <DetailRow label="Troubleshooting sessions">
+                  {record.linked_diagnostic_count}
+                </DetailRow>
+              ) : null}
               <DetailRow label="Confirmed fix">
                 <span className="text-cyan-300 font-medium">{record.confirmed_fix}</span>
               </DetailRow>
@@ -193,6 +222,7 @@ function DmaRecordDetailPage() {
               </DetailRow>
             </dl>
           </div>
+          </>
         )}
       </div>
     </>

@@ -237,11 +237,23 @@ async def search_dma_repairs(
 async def list_dma_repair_records(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
+    moderation_status: Optional[str] = Query(None),
+    context: Optional[str] = Query(None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    result = list_repair_records(db, current_user, page=page, limit=limit)
-    return DmaRepairRecordListResponse(**result)
+    try:
+        result = list_repair_records(
+            db,
+            current_user,
+            page=page,
+            limit=limit,
+            moderation_status=moderation_status,
+            context=context,
+        )
+        return DmaRepairRecordListResponse(**result)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
 @router.post("/records", response_model=DmaRepairRecordResponse, status_code=status.HTTP_201_CREATED)
