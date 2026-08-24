@@ -10,7 +10,7 @@ import { formatSolomonDateTime } from '../../../utils/solomonFormat';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import { listStandaloneDiagnosticsOffline, deleteStandaloneDiagnosticOffline, deleteAllStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
-import SolomonAuthPrompt from '../../../components/solomon/SolomonAuthPrompt';
+import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
 
 function DiagnosticRow({ item, onDelete, isDeleting }) {
   if (!item?.id) return null;
@@ -59,7 +59,7 @@ function DiagnosticRow({ item, onDelete, isDeleting }) {
 }
 
 export default function SolomonDiagnosticsListPage() {
-  const { isAuthenticated, isLoading: authLoading, isDiyer } = useSolomonAuth();
+  const { canUseSolomon, isLoading: authLoading, isDiyer, rolesLoading } = useSolomonAuth();
   const copy = (key) => solomonCopy(isDiyer, key);
   const [filter, setFilter] = useState('all');
   const [data, setData] = useState(null);
@@ -77,7 +77,7 @@ export default function SolomonDiagnosticsListPage() {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) return undefined;
+    if (!canUseSolomon) return undefined;
     let cancelled = false;
     setIsLoading(true);
     const params = { limit: 50 };
@@ -102,31 +102,7 @@ export default function SolomonDiagnosticsListPage() {
     return () => {
       cancelled = true;
     };
-  }, [isAuthenticated, filter, reloadKey]);
-
-  if (authLoading) {
-    return (
-      <>
-        <SolomonHead title="Diagnostics" />
-        <SolomonPageMain className="flex justify-center">
-          <LoadingSpinner />
-        </SolomonPageMain>
-      </>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <>
-        <SolomonHead title="Sign in" />
-        <SolomonPageMain>
-          <SolomonAuthPrompt title="Sign in to view your diagnostics" />
-        </SolomonPageMain>
-      </>
-    );
-  }
-
-  const items = data?.items || [];
+  }, [canUseSolomon, filter, reloadKey]);
 
   const handleDeleteOne = async (item) => {
     const label = item.template_label || item.template_id || 'this diagnostic';
@@ -143,12 +119,13 @@ export default function SolomonDiagnosticsListPage() {
   };
 
   const handleDeleteAll = async () => {
-    if (!items.length) return;
-    if (!window.confirm(`Delete all ${items.length} diagnostics shown? This cannot be undone.`)) return;
+    const list = data?.items || [];
+    if (!list.length) return;
+    if (!window.confirm(`Delete all ${list.length} diagnostics shown? This cannot be undone.`)) return;
     setIsDeletingAll(true);
     setError(null);
     try {
-      await deleteAllStandaloneDiagnosticsOffline(items);
+      await deleteAllStandaloneDiagnosticsOffline(list);
       setReloadKey((k) => k + 1);
     } catch (err) {
       setError(err.message || 'Failed to delete diagnostics');
@@ -157,10 +134,24 @@ export default function SolomonDiagnosticsListPage() {
     }
   };
 
+  const items = data?.items || [];
+
+  if (authLoading || rolesLoading) {
+    return (
+      <>
+        <SolomonHead title="Diagnostics" />
+        <SolomonPageMain className="flex justify-center">
+          <LoadingSpinner />
+        </SolomonPageMain>
+      </>
+    );
+  }
+
   return (
     <SolomonErrorBoundary>
         <SolomonHead title={copy('diagnosticsTitle')} />
       <SolomonPageMain>
+        <SolomonAccessGuard promptTitle="Sign in to view your diagnostics">
         <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
         <h1 className="text-2xl font-semibold mt-3 mb-4">{copy('diagnosticsTitle')}</h1>
 
@@ -224,6 +215,7 @@ export default function SolomonDiagnosticsListPage() {
             ))}
           </div>
         )}
+        </SolomonAccessGuard>
       </SolomonPageMain>
     </SolomonErrorBoundary>
   );

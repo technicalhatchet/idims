@@ -6,7 +6,7 @@ import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 
 export default function SolomonHomePage() {
-  const { isDiyer, isStaff } = useSolomonAuth();
+  const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
 
   return (
     <>
@@ -31,6 +31,8 @@ export default function SolomonHomePage() {
         </header>
 
         <div className="space-y-3">
+          {canUseSolomon ? (
+            <>
           <Link
             href={isDiyer ? '/solomon/start' : '/solomon/diagnose'}
             className="block rounded-xl bg-[#0089B9] px-4 py-4 text-center font-medium"
@@ -49,6 +51,15 @@ export default function SolomonHomePage() {
           >
             {isDiyer ? 'My repair notes' : 'Repair outcomes'}
           </Link>
+            </>
+          ) : (
+            <Link
+              href="/solomon/signup"
+              className="block rounded-xl bg-[#0089B9] px-4 py-4 text-center font-medium"
+            >
+              Create homeowner account to start
+            </Link>
+          )}
         </div>
 
         <div className="mt-8 space-y-3 border-t border-white/10 pt-6">

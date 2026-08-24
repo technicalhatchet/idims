@@ -623,6 +623,7 @@ async def complete_diy_signup(
             detail="User is missing Auth0 id",
         )
 
+    auth0_synced = True
     try:
         management_token = get_auth_handler().get_client_credentials_token()
         auth0_domain = settings.AUTH0_DOMAIN
@@ -637,7 +638,12 @@ async def complete_diy_signup(
             headers=headers,
             json={"app_metadata": {"roles": ["diyer"]}},
         )
-        patch_response.raise_for_status()
+        if not patch_response.ok:
+            auth0_synced = False
+            logger.warning(
+                f"[CompleteDiySignup] app_metadata patch returned {patch_response.status_code}: "
+                f"{patch_response.text}"
+            )
 
         roles_url = f"https://{auth0_domain}/api/v2/users/{auth_id}/roles"
         role_response = requests.post(
@@ -645,13 +651,15 @@ async def complete_diy_signup(
             headers=headers,
             json={"roles": [DIYER_ROLE_ID]},
         )
-        role_response.raise_for_status()
+        if role_response.status_code not in (200, 201, 204):
+            auth0_synced = False
+            logger.warning(
+                f"[CompleteDiySignup] RBAC role assign returned {role_response.status_code}: "
+                f"{role_response.text}"
+            )
     except requests.exceptions.RequestException as e:
+        auth0_synced = False
         logger.error(f"[CompleteDiySignup] Auth0 error for {auth_id}: {e}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to assign DIY role in Auth0",
-        )
 
     current_user.roles = ["diyer"]
     current_user.updated_at = datetime.utcnow()
@@ -659,4 +667,4 @@ async def complete_diy_signup(
     db.refresh(current_user)
 
     logger.info(f"[CompleteDiySignup] Assigned diyer role to {current_user.email}")
-    return {"ok": True, "roles": current_user.roles}
+    return {"ok": True, "roles": current_user.roles, "auth0_synced": auth0_synced}

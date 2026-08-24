@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import SolomonHead from './SolomonHead';
 import SolomonPageMain from './SolomonPageMain';
-import SolomonAuthPrompt from './SolomonAuthPrompt';
+import SolomonAccessGuard from './SolomonAccessGuard';
 import { SOLOMON_DIY_APPLIANCES } from '../../constants/solomonDiyAppliances';
 
 /**
@@ -47,7 +47,7 @@ export default function SolomonAppliancePicker({ onSelect, showWelcome = false }
 
 export function SolomonAppliancePickerPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading, isDiyer } = useSolomonAuth();
+  const { canUseSolomon, isLoading, isDiyer, rolesLoading } = useSolomonAuth();
   const showWelcome = router.query.welcome === '1';
   const outcomeId = typeof router.query.outcome_id === 'string' ? router.query.outcome_id : null;
 
@@ -57,7 +57,7 @@ export function SolomonAppliancePickerPage() {
     router.push(`/solomon/diagnose?${params.toString()}`);
   };
 
-  if (isLoading) {
+  if (isLoading || rolesLoading) {
     return (
       <>
         <SolomonHead title="Choose appliance" />
@@ -68,21 +68,11 @@ export function SolomonAppliancePickerPage() {
     );
   }
 
-  if (!isAuthenticated) {
-    return (
-      <>
-        <SolomonHead title="Sign in" />
-        <SolomonPageMain>
-          <SolomonAuthPrompt title="Sign in to start troubleshooting" />
-        </SolomonPageMain>
-      </>
-    );
-  }
-
   return (
     <>
       <SolomonHead title="Choose appliance" />
       <SolomonPageMain>
+        <SolomonAccessGuard promptTitle="Sign in to start troubleshooting">
         <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Home</Link>
         <div className="mt-4">
           <SolomonAppliancePicker onSelect={handleSelect} showWelcome={showWelcome || isDiyer} />
@@ -92,6 +82,7 @@ export function SolomonAppliancePickerPage() {
             Staff can also pick a template here before running a standalone diagnostic.
           </p>
         ) : null}
+        </SolomonAccessGuard>
       </SolomonPageMain>
     </>
   );

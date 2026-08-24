@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
-import SolomonAuthPrompt from '../../../components/solomon/SolomonAuthPrompt';
+import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
 import { format } from 'date-fns';
 import SolomonHead from '../../../components/solomon/SolomonHead';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -10,14 +10,14 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { listDmaRepairRecords } from '../../../services/api/dmaApi';
 
 export default function SolomonOutcomesListPage() {
-  const { isAuthenticated, isLoading: authLoading, isDiyer } = useSolomonAuth();
+  const { canUseSolomon, isLoading: authLoading, isDiyer, rolesLoading } = useSolomonAuth();
   const copy = (key) => solomonCopy(isDiyer, key);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!isAuthenticated) return undefined;
+    if (!canUseSolomon) return undefined;
     let cancelled = false;
     setIsLoading(true);
     listDmaRepairRecords({ limit: 50 })
@@ -34,9 +34,11 @@ export default function SolomonOutcomesListPage() {
         if (!cancelled) setIsLoading(false);
       });
     return () => { cancelled = true; };
-  }, [isAuthenticated]);
+  }, [canUseSolomon]);
 
-  if (authLoading) {
+  const items = data?.items || [];
+
+  if (authLoading || rolesLoading) {
     return (
       <>
         <SolomonHead title={copy('outcomesTitle')} />
@@ -45,23 +47,11 @@ export default function SolomonOutcomesListPage() {
     );
   }
 
-  if (!isAuthenticated) {
-    return (
-      <>
-        <SolomonHead title="Sign in" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
-          <SolomonAuthPrompt title="Sign in to view your repair notes" />
-        </main>
-      </>
-    );
-  }
-
-  const items = data?.items || [];
-
   return (
     <>
       <SolomonHead title={copy('outcomesTitle')} />
       <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-6 max-w-lg mx-auto pb-24">
+        <SolomonAccessGuard promptTitle="Sign in to view your repair notes">
         <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
         <h1 className="text-2xl font-semibold mt-3 mb-4">{copy('outcomesTitle')}</h1>
 
@@ -93,6 +83,7 @@ export default function SolomonOutcomesListPage() {
             ))}
           </div>
         )}
+        </SolomonAccessGuard>
       </main>
     </>
   );
