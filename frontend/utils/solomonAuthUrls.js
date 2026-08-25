@@ -1,8 +1,25 @@
 const SOLOMON_RETURN = '/solomon';
 export const SOLOMON_DIY_ENROLL_RETURN = '/solomon?diy_enroll=1';
 
+export const SOLOMON_SESSION_KEY = 'solomon_authenticated';
 export const SOLOMON_DIY_SIGNUP_KEY = 'solomon_diy_signup';
 export const SOLOMON_DIYER_SESSION_KEY = 'solomon_is_diyer';
+
+export function markSolomonSession() {
+  try {
+    sessionStorage.setItem(SOLOMON_SESSION_KEY, '1');
+  } catch {
+    /* ignore */
+  }
+}
+
+export function hasSolomonSession() {
+  try {
+    return sessionStorage.getItem(SOLOMON_SESSION_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
 
 export function markSolomonDiyerSession() {
   try {

@@ -16,20 +16,9 @@ import {
 } from '../utils/solomonAuthUrls';
 import { completeDiySignup } from '../services/api/solomonAuthApi';
 
-const SOLOMON_SESSION_KEY = 'solomon_authenticated';
 const STAFF_ROLES = new Set(['admin', 'manager', 'technician']);
 
-export function markSolomonSession() {
-  try {
-    sessionStorage.setItem(SOLOMON_SESSION_KEY, '1');
-  } catch {
-    /* ignore */
-  }
-}
-
-export function hasSolomonSessionLocal() {
-  return hasSolomonSession();
-}
+export { markSolomonSession } from '../utils/solomonAuthUrls';
 
 export function useSolomonAuth() {
   const router = useRouter();
@@ -42,11 +31,7 @@ export function useSolomonAuth() {
 
   useEffect(() => {
     if (user) {
-      try {
-        sessionStorage.setItem(SOLOMON_SESSION_KEY, '1');
-      } catch {
-        /* ignore */
-      }
+      markSolomonSession();
       setStoredSession(true);
     }
   }, [user]);
