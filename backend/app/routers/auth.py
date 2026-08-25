@@ -24,10 +24,7 @@ def get_auth_dependency():
     """Lazy-loaded dependency for auth handler"""
     return get_auth_handler().auth_wrapper
 
-def get_current_user_dependency():
-    """Lazy-loaded dependency for current user"""
-    from app.core.dependencies import get_current_user
-    return get_current_user
+from app.core.dependencies import get_current_user
 
 def get_admin_dependency():
     """Lazy-loaded dependency for admin verification"""
@@ -397,9 +394,10 @@ async def refresh_token(
             detail="An error occurred during token refresh"
         )
 
+@router.get("/me", response_model=UserResponse)
 @router.get("/auth/me", response_model=UserResponse)
 async def get_current_user_info(
-    current_user: User = Depends(get_current_user_dependency)
+    current_user: User = Depends(get_current_user),
 ):
     """
     Get current user information.
@@ -600,7 +598,7 @@ DIYER_ROLE_ID = "rol_efrbzOWFRtk0sJYy"
 @router.post("/auth/complete-diy-signup")
 async def complete_diy_signup(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_current_user),
 ):
     """
     Assign DIY homeowner role after Solomon signup.

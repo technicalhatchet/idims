@@ -3,11 +3,22 @@ import { handleAuth, handleLogin, handleCallback, handleLogout } from '@auth0/ne
 const DOMAIN = process.env.AUTH0_ISSUER_BASE_URL;
 const MGMT_CLIENT_ID = process.env.AUTH0_MGMT_CLIENT_ID;
 const MGMT_CLIENT_SECRET = process.env.AUTH0_MGMT_CLIENT_SECRET;
-const BACKEND = (
-  process.env.NEXT_PUBLIC_API_URL
-  || process.env.NEXT_PUBLIC_BACKEND_API_URL
-  || 'http://localhost:8000/'
-).replace(/\/$/, '');
+
+function backendRoot() {
+  const raw = (
+    process.env.NEXT_PUBLIC_API_URL
+    || process.env.NEXT_PUBLIC_BACKEND_API_URL
+    || 'http://localhost:8000/'
+  ).replace(/\/$/, '');
+  return raw.replace(/\/api$/i, '');
+}
+
+/** Auth router paths live under /api/auth/auth/... on the backend. */
+function backendAuthUrl(routePath) {
+  const path = String(routePath).replace(/^\//, '');
+  const suffix = path.startsWith('auth/') ? path : `auth/${path}`;
+  return `${backendRoot()}/api/auth/${suffix}`;
+}
 
 const ROLE_IDS = {
   client: 'rol_okGmH3pkFUu0YXWi',
@@ -64,7 +75,7 @@ async function autoAssignRole(user, accessToken) {
 
   try {
     // Check backend for matching client or technician
-    const res = await fetch(`${BACKEND}/api/auth/identify-user`, {
+    const res = await fetch(backendAuthUrl('auth/identify-user'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +104,7 @@ async function autoAssignRole(user, accessToken) {
 }
 
 async function completeDiySignupOnCallback(accessToken) {
-  const res = await fetch(`${BACKEND}/api/auth/complete-diy-signup`, {
+  const res = await fetch(backendAuthUrl('auth/complete-diy-signup'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
