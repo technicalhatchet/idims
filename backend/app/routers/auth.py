@@ -26,6 +26,10 @@ def get_auth_dependency():
 
 from app.core.dependencies import get_current_user
 
+def get_current_user_dependency():
+    """Lazy-loaded dependency — use Depends(get_current_user_dependency())."""
+    return get_current_user
+
 def get_admin_dependency():
     """Lazy-loaded dependency for admin verification"""
     from app.core.dependencies import get_admin_user
