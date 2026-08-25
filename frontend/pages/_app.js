@@ -24,9 +24,9 @@ const queryClient = new QueryClient({
   },
 });
 
-// One-time migration: drop the broken SW config that cached/intercepted Railway API.
+// One-time migration: drop SW configs that cached/intercepted Railway API.
 // After reload, next-pwa registers the fixed SW (static assets + app shell only).
-const SW_MIGRATION_KEY = 'idims_pwa_v2_migrated';
+const SW_MIGRATION_KEY = 'idims_pwa_v3_migrated';
 
 function ServiceWorkerMigration() {
   useEffect(() => {
@@ -39,7 +39,9 @@ function ServiceWorkerMigration() {
           const names = await caches.keys();
           await Promise.all(
             names
-              .filter((name) => /fallback-cache|workbox-precache/i.test(name))
+              .filter((name) =>
+                /fallback-cache|workbox|precache|pages-cache|solomon-/i.test(name)
+              )
               .map((name) => caches.delete(name))
           );
         }

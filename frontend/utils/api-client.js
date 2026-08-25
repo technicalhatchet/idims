@@ -58,6 +58,26 @@ const getSessionData = async () => {
 // Make sure this value is consistent with what's used in the compiled app
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/"
 
+/** Route API calls through /api/proxy when frontend and backend origins differ (Solomon Vercel). */
+export function apiProxyEnabled() {
+  if (process.env.NEXT_PUBLIC_API_USE_PROXY === 'true') return true
+  if (process.env.NEXT_PUBLIC_API_USE_PROXY === 'false') return false
+  if (!isBrowser) return false
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/'
+    if (!/^https?:\/\//i.test(base)) return false
+    const apiOrigin = new URL(base).origin
+    return apiOrigin !== window.location.origin
+  } catch {
+    return false
+  }
+}
+
+function proxyUrlForApiPath(apiPath) {
+  const clean = apiPath.replace(/^\//, '')
+  return `/api/proxy/${clean}`
+}
+
 /**
  * Helper function to construct a complete API URL
  * @param {string} endpoint - The endpoint to call, with or without leading slash
@@ -70,6 +90,21 @@ export function buildApiUrl(endpoint, tryBothPrefixes = false) {
   // Handle the case where no endpoint is provided
   if (!endpoint) return API_BASE_URL
 
+  // Absolute URL — normalize through proxy when cross-origin
+  if (/^https?:\/\//i.test(endpoint)) {
+    try {
+      const absolute = new URL(endpoint)
+      const apiPath = `${absolute.pathname.replace(/^\//, '')}${absolute.search}`
+      if (apiProxyEnabled()) {
+        if (debug) console.log(`[buildApiUrl] proxy ${apiPath}`)
+        return proxyUrlForApiPath(apiPath)
+      }
+      return absolute.toString()
+    } catch {
+      return endpoint
+    }
+  }
+
   // Remove leading slash if present in the endpoint
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint.substring(1) : endpoint
 
@@ -78,23 +113,27 @@ export function buildApiUrl(endpoint, tryBothPrefixes = false) {
 
   // Check if base URL already contains /api
   const baseContainsApiPath = baseWithoutTrailingSlash.toLowerCase().endsWith("/api")
-  
+
+  let finalEndpoint
   // CRITICAL FIX: Never add api/ prefix if the base URL already has /api
   // or if the endpoint itself starts with api/
   if (baseContainsApiPath) {
     // If the base URL has /api, we need to remove any api/ prefix from the endpoint
-    const finalEndpoint = cleanEndpoint.startsWith("api/") 
+    finalEndpoint = cleanEndpoint.startsWith("api/")
       ? cleanEndpoint.substring(4) // Remove 'api/' from the beginning
       : cleanEndpoint
-      
-    if (debug) console.log(`[buildApiUrl] ${baseWithoutTrailingSlash}/${finalEndpoint}`)
-    return `${baseWithoutTrailingSlash}/${finalEndpoint}`
+  } else {
+    // For all other cases, ensure the endpoint has the api/ prefix
+    finalEndpoint = cleanEndpoint.startsWith("api/")
+      ? cleanEndpoint
+      : `api/${cleanEndpoint}`
   }
-  // For all other cases, ensure the endpoint has the api/ prefix
-  const finalEndpoint = cleanEndpoint.startsWith("api/") 
-    ? cleanEndpoint 
-    : `api/${cleanEndpoint}`
-    
+
+  if (apiProxyEnabled()) {
+    if (debug) console.log(`[buildApiUrl] proxy ${finalEndpoint}`)
+    return proxyUrlForApiPath(finalEndpoint)
+  }
+
   if (debug) console.log(`[buildApiUrl] ${baseWithoutTrailingSlash}/${finalEndpoint}`)
   return `${baseWithoutTrailingSlash}/${finalEndpoint}`
 }
@@ -346,7 +385,7 @@ export async function apiClient(endpoint, options = {}) {
     const requestOptions = {
       ...fetchableOptions,
       headers: mergedHeaders,
-      credentials: "include", // Include cookies for CORS requests
+      credentials: apiProxyEnabled() ? 'same-origin' : 'include',
       signal: combinedSignal,
     }
 

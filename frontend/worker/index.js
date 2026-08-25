@@ -1,5 +1,18 @@
 /* Custom service worker hooks merged by next-pwa (production builds). */
 
+// Never intercept cross-origin fetches (Railway API). Workbox must not break CORS preflight.
+self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') return;
+  try {
+    const requestUrl = new URL(event.request.url);
+    if (requestUrl.origin !== self.location.origin) {
+      return;
+    }
+  } catch {
+    return;
+  }
+});
+
 self.addEventListener('push', (event) => {
   let data = {};
   try {

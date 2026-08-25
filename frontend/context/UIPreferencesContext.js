@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { getUserSettings, updateUserSettings } from '../services/api/settingsApi';
 
@@ -13,6 +14,7 @@ const UIPreferencesContext = createContext({
 });
 
 export function UIPreferencesProvider({ children }) {
+  const router = useRouter();
   const { user, isLoading: authLoading } = useUser();
   const [preferences, setPreferences] = useState(DEFAULT_PREFERENCES);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +39,11 @@ export function UIPreferencesProvider({ children }) {
       }
 
       if (!user) {
+        setIsLoading(false);
+        return;
+      }
+
+      if (router.pathname.startsWith('/solomon')) {
         setIsLoading(false);
         return;
       }
@@ -70,7 +77,7 @@ export function UIPreferencesProvider({ children }) {
 
     setIsLoading(true);
     loadPreferences();
-  }, [mounted, user, authLoading]);
+  }, [mounted, user, authLoading, router.pathname]);
 
   const setRailPosition = useCallback(
     async (position) => {
