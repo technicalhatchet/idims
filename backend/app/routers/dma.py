@@ -55,9 +55,9 @@ from app.services.dma_standalone_service import (
     create_standalone_diagnostic,
     delete_standalone_diagnostic,
     get_standalone_diagnostic,
+    import_repair_record_to_work_order,
+    import_standalone_diagnostic_to_work_order,
     link_diagnostic_to_outcome,
-    link_diagnostic_to_work_order_bones,
-    link_record_to_work_order_bones,
     list_repair_records,
     list_standalone_diagnostics,
     moderate_repair_record,
@@ -427,17 +427,21 @@ async def import_dma_record_to_work_order(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Record intent to import a standalone outcome into a work order (full import TBD)."""
+    """Import standalone outcome + linked diagnostics into work order notes."""
     record = get_repair_record(db, record_id)
     if not record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
     try:
-        record = link_record_to_work_order_bones(db, current_user, record, work_order_id)
+        result = import_repair_record_to_work_order(db, current_user, record, work_order_id)
         db.commit()
         return DmaImportToWorkOrderResponse(
             record_id=record.id,
             work_order_id=work_order_id,
-            imported_work_order_id=record.imported_work_order_id,
+            imported_work_order_id=result["imported_work_order_id"],
+            status="imported",
+            repair_outcome_note_id=result.get("repair_outcome_note_id"),
+            imported_diagnostic_note_ids=result.get("imported_diagnostic_note_ids") or [],
+            message="Imported repair outcome and linked diagnostics to work order notes",
         )
     except ValueError as e:
         db.rollback()
@@ -599,17 +603,20 @@ async def import_dma_diagnostic_to_work_order(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    """Import standalone diagnostic wizard data as a work order Diagnostic Results note."""
     row = get_standalone_diagnostic(db, diagnostic_id)
     if not row:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diagnostic not found")
     try:
-        row = link_diagnostic_to_work_order_bones(db, current_user, row, work_order_id)
+        result = import_standalone_diagnostic_to_work_order(db, current_user, row, work_order_id)
         db.commit()
         return DmaImportToWorkOrderResponse(
             record_id=row.id,
             work_order_id=work_order_id,
-            imported_work_order_id=row.imported_work_order_id,
-            message="Diagnostic work order linkage recorded; full import is not yet implemented.",
+            imported_work_order_id=result["imported_work_order_id"],
+            status="imported",
+            diagnostic_note_id=result.get("diagnostic_note_id"),
+            message="Imported diagnostic to work order notes",
         )
     except ValueError as e:
         db.rollback()

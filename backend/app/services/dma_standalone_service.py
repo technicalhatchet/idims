@@ -1,12 +1,15 @@
 """Standalone Solomon diagnostics and DMA record visibility/moderation helpers."""
 
+import json
 import math
+import re
 import uuid
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from sqlalchemy.orm import Session, joinedload
 
+from app.constants.dma_codes import REPAIR_OUTCOME_NOTE_TYPE
 from app.constants.dma_standalone import (
     DMA_CONTEXT_DIY,
     DMA_CONTEXT_TECH,
@@ -20,11 +23,226 @@ from app.constants.dma_standalone import (
 )
 from app.models.dma import DmaRepairRecord, DmaStandaloneDiagnostic
 from app.models.user import User
+from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderNote
 from app.schemas.dma import (
     DmaRepairRecordModerateRequest,
     DmaStandaloneDiagnosticCreate,
     DmaStandaloneDiagnosticUpdate,
 )
+
+
+_DIAGNOSTIC_NOTE_TYPE = "Diagnostic Results"
+_PRIVATE_WO_NOTE_TYPES = frozenset({REPAIR_OUTCOME_NOTE_TYPE, _DIAGNOSTIC_NOTE_TYPE})
+
+
+def user_can_import_to_work_order(user: User) -> bool:
+    return user.is_admin or user.is_manager or user.is_technician
+
+
+def _require_work_order_mutation_access(
+    db: Session,
+    user: User,
+    work_order_id: uuid.UUID,
+) -> WorkOrder:
+    from app.services.user_service import UserService
+
+    work_order = db.query(WorkOrder).filter(WorkOrder.id == work_order_id).first()
+    if not work_order:
+        raise ValueError("Work order not found")
+    if user.is_admin or user.is_manager:
+        return work_order
+    if user.is_technician:
+        technician = UserService.get_technician_by_user_id(db, str(user.id))
+        if not technician:
+            raise ValueError("Technician profile not found")
+        if work_order.assigned_technician_id == technician.id:
+            return work_order
+        has_visit = (
+            db.query(WorkOrderAppointment.id)
+            .filter(
+                WorkOrderAppointment.work_order_id == work_order_id,
+                WorkOrderAppointment.assigned_technician_id == technician.id,
+                WorkOrderAppointment.status != "canceled",
+            )
+            .first()
+        )
+        if has_visit:
+            return work_order
+    raise ValueError("You do not have permission to modify this work order")
+
+
+def _serialize_diagnostic_payload(payload: Dict[str, Any]) -> str:
+    return json.dumps({
+        "templateId": payload.get("templateId"),
+        "appointmentId": None,
+        "fields": payload.get("fields") or {},
+        "timeline": payload.get("timeline") if isinstance(payload.get("timeline"), list) else [],
+        "evidenceSnapshot": payload.get("evidenceSnapshot"),
+        "autoNoteBullets": payload.get("autoNoteBullets") if isinstance(payload.get("autoNoteBullets"), list) else [],
+        "autoNoteEdited": bool(payload.get("autoNoteEdited")),
+        "autoNoteFormat": "prose" if payload.get("autoNoteFormat") == "prose" else "bullets",
+        "includeAutoNoteInSummary": payload.get("includeAutoNoteInSummary") is not False,
+    })
+
+
+def _format_diagnostic_note_text(payload: Dict[str, Any]) -> str:
+    return f"[{_DIAGNOSTIC_NOTE_TYPE}]\n{_serialize_diagnostic_payload(payload)}"
+
+
+def _format_repair_outcome_note_text(record: DmaRepairRecord) -> str:
+    tag_slugs = []
+    if record.tags:
+        tag_slugs = [t.slug for t in record.tags if t.slug]
+    fields = {
+        "customerComplaint": record.customer_complaint or "",
+        "problemCode": record.problem_code or "",
+        "resolutionCode": record.resolution_code or "",
+        "confirmedFix": record.confirmed_fix or "",
+        "errorCodeText": record.error_code_text or "",
+        "replacedParts": record.replaced_parts or "",
+        "repairMemoryMatch": "didnt_use",
+        "repairSuccessful": "true" if record.repair_successful else "false",
+        "callbackRequired": bool(record.callback_required),
+        "repairComments": record.technician_summary or "",
+        "tags": tag_slugs,
+    }
+    return f"[{REPAIR_OUTCOME_NOTE_TYPE}]\n{json.dumps(fields)}"
+
+
+def _create_work_order_note_sync(
+    db: Session,
+    user: User,
+    work_order_id: uuid.UUID,
+    note_text: str,
+    appointment_id: Optional[uuid.UUID] = None,
+) -> WorkOrderNote:
+    from app.services.dma_service import upsert_repair_outcome_from_note
+
+    is_private = False
+    match = re.match(r"^\[(.*?)\]", note_text or "")
+    if match and match.group(1) in _PRIVATE_WO_NOTE_TYPES:
+        is_private = True
+
+    note = WorkOrderNote(
+        work_order_id=work_order_id,
+        user_id=user.id,
+        note=note_text,
+        is_private=is_private,
+        appointment_id=appointment_id,
+    )
+    db.add(note)
+    db.flush()
+    upsert_repair_outcome_from_note(
+        db,
+        work_order_id=work_order_id,
+        user_id=user.id,
+        note_id=note.id,
+        note_text=note_text,
+    )
+    return note
+
+
+def import_standalone_diagnostic_to_work_order(
+    db: Session,
+    user: User,
+    diagnostic: DmaStandaloneDiagnostic,
+    work_order_id: uuid.UUID,
+) -> Dict[str, Any]:
+    if not user_can_import_to_work_order(user):
+        raise ValueError("Only staff can import Solomon data into work orders")
+    if not user_can_edit_diagnostic(user, diagnostic):
+        raise ValueError("Not allowed to import this diagnostic")
+    _require_work_order_mutation_access(db, user, work_order_id)
+
+    if diagnostic.imported_work_order_id == work_order_id:
+        raise ValueError("Already imported to this work order")
+    if diagnostic.imported_work_order_id and diagnostic.imported_work_order_id != work_order_id:
+        raise ValueError("Diagnostic already imported to another work order")
+
+    payload = diagnostic.payload or {}
+    if not payload.get("templateId"):
+        raise ValueError("Diagnostic has no guided data to import")
+
+    note = _create_work_order_note_sync(
+        db,
+        user,
+        work_order_id,
+        _format_diagnostic_note_text(payload),
+    )
+    diagnostic.imported_work_order_id = work_order_id
+    diagnostic.updated_by = user.id
+    diagnostic.updated_at = datetime.utcnow()
+    db.add(diagnostic)
+    db.flush()
+
+    return {
+        "diagnostic_note_id": note.id,
+        "imported_work_order_id": work_order_id,
+    }
+
+
+def import_repair_record_to_work_order(
+    db: Session,
+    user: User,
+    record: DmaRepairRecord,
+    work_order_id: uuid.UUID,
+) -> Dict[str, Any]:
+    if not user_can_import_to_work_order(user):
+        raise ValueError("Only staff can import Solomon data into work orders")
+    if not user_can_edit_record(user, record):
+        raise ValueError("Not allowed to import this outcome")
+    _require_work_order_mutation_access(db, user, work_order_id)
+
+    if record.imported_work_order_id == work_order_id:
+        raise ValueError("Already imported to this work order")
+    if record.imported_work_order_id and record.imported_work_order_id != work_order_id:
+        raise ValueError("Outcome already imported to another work order")
+
+    repair_outcome_note_id = None
+    if (record.confirmed_fix or "").strip():
+        repair_note = _create_work_order_note_sync(
+            db,
+            user,
+            work_order_id,
+            _format_repair_outcome_note_text(record),
+        )
+        repair_outcome_note_id = repair_note.id
+
+    imported_diagnostic_note_ids: List[uuid.UUID] = []
+    linked_rows = (
+        db.query(DmaStandaloneDiagnostic)
+        .filter(DmaStandaloneDiagnostic.outcome_id == record.id)
+        .all()
+    )
+    for row in linked_rows:
+        if row.imported_work_order_id:
+            continue
+        payload = row.payload or {}
+        if not payload.get("templateId"):
+            continue
+        diag_note = _create_work_order_note_sync(
+            db,
+            user,
+            work_order_id,
+            _format_diagnostic_note_text(payload),
+        )
+        imported_diagnostic_note_ids.append(diag_note.id)
+        row.imported_work_order_id = work_order_id
+        row.updated_by = user.id
+        row.updated_at = datetime.utcnow()
+        db.add(row)
+
+    record.imported_work_order_id = work_order_id
+    record.updated_by = user.id
+    record.updated_at = datetime.utcnow()
+    db.add(record)
+    db.flush()
+
+    return {
+        "repair_outcome_note_id": repair_outcome_note_id,
+        "imported_diagnostic_note_ids": imported_diagnostic_note_ids,
+        "imported_work_order_id": work_order_id,
+    }
 
 
 def record_is_pool_eligible(record: DmaRepairRecord) -> bool:
