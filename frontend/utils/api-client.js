@@ -78,6 +78,18 @@ function proxyUrlForApiPath(apiPath) {
   return `/api/proxy/${clean}`
 }
 
+/** Full backend path after host (always includes `api/` prefix). */
+function toBackendApiPath(cleanEndpoint, baseContainsApiPath) {
+  let path = cleanEndpoint
+  if (baseContainsApiPath && path.startsWith('api/')) {
+    path = path.substring(4)
+  }
+  if (!path.startsWith('api/')) {
+    path = `api/${path}`
+  }
+  return path
+}
+
 /**
  * Helper function to construct a complete API URL
  * @param {string} endpoint - The endpoint to call, with or without leading slash
@@ -94,10 +106,12 @@ export function buildApiUrl(endpoint, tryBothPrefixes = false) {
   if (/^https?:\/\//i.test(endpoint)) {
     try {
       const absolute = new URL(endpoint)
-      const apiPath = `${absolute.pathname.replace(/^\//, '')}${absolute.search}`
+      const pathOnly = absolute.pathname.replace(/^\//, '')
       if (apiProxyEnabled()) {
-        if (debug) console.log(`[buildApiUrl] proxy ${apiPath}`)
-        return proxyUrlForApiPath(apiPath)
+        const proxyPath =
+          toBackendApiPath(pathOnly, pathOnly.startsWith('api/')) + absolute.search
+        if (debug) console.log(`[buildApiUrl] proxy ${proxyPath}`)
+        return proxyUrlForApiPath(proxyPath)
       }
       return absolute.toString()
     } catch {
@@ -130,8 +144,9 @@ export function buildApiUrl(endpoint, tryBothPrefixes = false) {
   }
 
   if (apiProxyEnabled()) {
-    if (debug) console.log(`[buildApiUrl] proxy ${finalEndpoint}`)
-    return proxyUrlForApiPath(finalEndpoint)
+    const proxyPath = toBackendApiPath(cleanEndpoint, baseContainsApiPath)
+    if (debug) console.log(`[buildApiUrl] proxy ${proxyPath}`)
+    return proxyUrlForApiPath(proxyPath)
   }
 
   if (debug) console.log(`[buildApiUrl] ${baseWithoutTrailingSlash}/${finalEndpoint}`)
