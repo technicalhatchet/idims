@@ -30,6 +30,9 @@ import {
   isPendingDiagnosticId,
 } from '../../../utils/standaloneDiagnostic';
 import { openStandaloneDiagnosticPdf } from '../../../utils/workOrderPdf';
+import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
+import { importDmaDiagnosticToWorkOrder } from '../../../services/api/dmaApi';
+import SolomonWorkOrderImportSheet, { SolomonImportedWorkOrderLink } from '../../../components/solomon/SolomonWorkOrderImportSheet';
 
 export default function SolomonDiagnosticDetailPage() {
   const router = useRouter();
@@ -48,6 +51,11 @@ export default function SolomonDiagnosticDetailPage() {
   const [linkError, setLinkError] = useState(null);
   const [queuedMessage, setQueuedMessage] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { isStaff } = useSolomonAuth();
+  const [importOpen, setImportOpen] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importError, setImportError] = useState(null);
+  const [importedOrderNumber, setImportedOrderNumber] = useState(null);
   const [deleteError, setDeleteError] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
 
@@ -201,6 +209,25 @@ export default function SolomonDiagnosticDetailPage() {
     }
   };
 
+  const handleImportSelect = async (workOrder) => {
+    if (!workOrder?.id) return;
+    setIsImporting(true);
+    setImportError(null);
+    try {
+      const res = await importDmaDiagnosticToWorkOrder(id, workOrder.id);
+      setRow((prev) => ({
+        ...prev,
+        imported_work_order_id: res.imported_work_order_id || workOrder.id,
+      }));
+      setImportedOrderNumber(workOrder.order_number);
+      setImportOpen(false);
+    } catch (err) {
+      setImportError(err.message || 'Import failed');
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <>
@@ -277,8 +304,26 @@ export default function SolomonDiagnosticDetailPage() {
           <p className="text-xs text-sky-300/90 mt-2">Pending sync — saved on your device.</p>
         ) : null}
         {queuedMessage ? <p className="text-xs text-amber-300/90 mt-2">{queuedMessage}</p> : null}
+        {row.imported_work_order_id ? (
+          <p className="text-xs mt-2">
+            <SolomonImportedWorkOrderLink
+              workOrderId={row.imported_work_order_id}
+              orderNumber={importedOrderNumber}
+            />
+          </p>
+        ) : null}
 
         <div className="flex flex-wrap gap-2 mt-4">
+          {isStaff && !isPending ? (
+            <button
+              type="button"
+              onClick={() => { setImportOpen(true); setImportError(null); }}
+              disabled={Boolean(row.imported_work_order_id) || isImporting}
+              className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200 disabled:opacity-40"
+            >
+              {row.imported_work_order_id ? 'Imported' : 'Import to WO'}
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={handlePdf}
@@ -371,6 +416,16 @@ export default function SolomonDiagnosticDetailPage() {
             </div>
           </div>
         ) : null}
+
+        <SolomonWorkOrderImportSheet
+          open={importOpen}
+          onClose={() => setImportOpen(false)}
+          onSelect={handleImportSelect}
+          isImporting={isImporting}
+          error={importError}
+          title="Import diagnostic to work order"
+          description="Adds a private Diagnostic Results note with this wizard data."
+        />
       </SolomonPageMain>
     </SolomonErrorBoundary>
   );

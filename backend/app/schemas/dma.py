@@ -312,8 +312,11 @@ class DmaImportToWorkOrderResponse(BaseModel):
     record_id: UUID
     work_order_id: UUID
     imported_work_order_id: UUID
-    status: Literal["linked"] = "linked"
-    message: str = "Import linkage recorded; full work order import is not yet implemented."
+    status: Literal["imported"] = "imported"
+    diagnostic_note_id: Optional[UUID] = None
+    repair_outcome_note_id: Optional[UUID] = None
+    imported_diagnostic_note_ids: List[UUID] = []
+    message: str = "Imported to work order notes"
 
 
 class DmaRepairRecordListResponse(BaseModel):

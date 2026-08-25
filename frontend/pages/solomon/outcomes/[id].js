@@ -10,6 +10,7 @@ import { DmaTagPills } from '../../../components/dma/DmaTagPicker';
 import {
   deleteDmaRepairRecord,
   getDmaRepairRecord,
+  importDmaRecordToWorkOrder,
   listDmaStandaloneDiagnostics,
   updateDmaRepairRecord,
 } from '../../../services/api/dmaApi';
@@ -20,12 +21,17 @@ import {
 } from '../../../constants/dmaEquipmentOptions';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
+import SolomonWorkOrderImportSheet, { SolomonImportedWorkOrderLink } from '../../../components/solomon/SolomonWorkOrderImportSheet';
 
 export default function SolomonOutcomeDetailPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { isDiyer } = useSolomonAuth();
+  const { isDiyer, isStaff } = useSolomonAuth();
   const copy = (key) => solomonCopy(isDiyer, key);
+  const [importOpen, setImportOpen] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importError, setImportError] = useState(null);
+  const [importedOrderNumber, setImportedOrderNumber] = useState(null);
   const [record, setRecord] = useState(null);
   const [diagnostics, setDiagnostics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -81,6 +87,26 @@ export default function SolomonOutcomeDetailPage() {
     }
   };
 
+  const handleImportSelect = async (workOrder) => {
+    if (!workOrder?.id) return;
+    setIsImporting(true);
+    setImportError(null);
+    try {
+      const res = await importDmaRecordToWorkOrder(id, workOrder.id);
+      setRecord((prev) => ({
+        ...prev,
+        imported_work_order_id: res.imported_work_order_id || workOrder.id,
+      }));
+      setImportedOrderNumber(workOrder.order_number);
+      setImportOpen(false);
+      await load();
+    } catch (err) {
+      setImportError(err.message || 'Import failed');
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <>
@@ -121,7 +147,26 @@ export default function SolomonOutcomeDetailPage() {
           </p>
         ) : null}
 
-        <div className="flex gap-2 mt-4">
+        {record.imported_work_order_id ? (
+          <p className="text-xs mt-2">
+            <SolomonImportedWorkOrderLink
+              workOrderId={record.imported_work_order_id}
+              orderNumber={importedOrderNumber}
+            />
+          </p>
+        ) : null}
+
+        <div className="flex flex-wrap gap-2 mt-4">
+          {isStaff ? (
+            <button
+              type="button"
+              onClick={() => { setImportOpen(true); setImportError(null); }}
+              disabled={Boolean(record.imported_work_order_id) || isImporting}
+              className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200 disabled:opacity-40"
+            >
+              {record.imported_work_order_id ? 'Imported' : 'Import to WO'}
+            </button>
+          ) : null}
           <button type="button" onClick={() => setIsEditing((v) => !v)} className="rounded-lg border border-white/15 px-3 py-2 text-sm">
             {isEditing ? 'Cancel edit' : 'Edit'}
           </button>
@@ -184,6 +229,16 @@ export default function SolomonOutcomeDetailPage() {
             </div>
           )}
         </section>
+
+        <SolomonWorkOrderImportSheet
+          open={importOpen}
+          onClose={() => setImportOpen(false)}
+          onSelect={handleImportSelect}
+          isImporting={isImporting}
+          error={importError}
+          title="Import outcome to work order"
+          description="Adds Repair Outcome + linked Diagnostic Results notes (private)."
+        />
       </main>
     </>
   );
