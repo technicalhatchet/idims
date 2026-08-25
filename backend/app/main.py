@@ -116,6 +116,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     f"https://{settings.AUTH0_DOMAIN}",
     "https://v0-idims.vercel.app",
+    "https://dma-eight.vercel.app",
 ]
 
 _frontend_origin = (settings.FRONTEND_URL or "").strip().rstrip("/")
