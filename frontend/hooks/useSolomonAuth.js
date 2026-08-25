@@ -42,7 +42,7 @@ export function useSolomonAuth() {
       return Promise.resolve(null);
     }
     setRolesLoading(true);
-    return apiClient('auth/me')
+    return apiClient('users/me')
       .then((profile) => {
         const roles = Array.isArray(profile?.roles) ? profile.roles : [];
         setDbRoles(roles);
