@@ -23,7 +23,13 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
   if (!visibleSteps.length) return null;
 
   return (
-    <div className={`space-y-3 ${className}`}>
+    <div
+      className={`space-y-3 ${className} ${
+        isMobile
+          ? 'sticky top-0 z-20 -mx-3 px-3 py-2 mb-2 border-b border-white/10 bg-[#0f172a]/95 backdrop-blur-md'
+          : ''
+      }`}
+    >
       <div className="flex items-center justify-between gap-3 text-xs">
         <span className={isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}>
           Step {currentStepIndex + 1} of {visibleSteps.length}

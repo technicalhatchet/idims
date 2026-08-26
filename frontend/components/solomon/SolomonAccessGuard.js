@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
+import { useClientMounted } from '../../hooks/useClientMounted';
 import SolomonAuthPrompt from './SolomonAuthPrompt';
 
 /**
@@ -23,8 +24,9 @@ export default function SolomonAccessGuard({
     retryDiyEnrollment,
     role,
   } = useSolomonAuth();
+  const mounted = useClientMounted();
 
-  if (isLoading || (isAuthenticated && rolesLoading && !rolesResolved)) {
+  if (!mounted || isLoading || (isAuthenticated && rolesLoading && !rolesResolved)) {
     return (
       <div className={`flex justify-center py-16 ${className}`}>
         <LoadingSpinner />

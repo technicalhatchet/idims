@@ -40,6 +40,10 @@ function filterLocalDiagnostics(items, params = {}) {
   if (params.outcome_id) {
     filtered = filtered.filter((row) => row.outcome_id === params.outcome_id);
   }
+  if (params.status) {
+    const status = String(params.status).toLowerCase();
+    filtered = filtered.filter((row) => (row.status || 'in_progress') === status);
+  }
   const limit = params.limit ?? 50;
   return sortByUpdated(filtered).slice(0, limit);
 }
@@ -50,6 +54,7 @@ function dmaDiagnosticsQuery(params = {}) {
   if (params.linked === true) query.set('linked', 'true');
   if (params.linked === false) query.set('linked', 'false');
   if (params.outcome_id) query.set('outcome_id', params.outcome_id);
+  if (params.status) query.set('status', params.status);
   return query.toString();
 }
 

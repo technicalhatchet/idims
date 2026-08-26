@@ -1,49 +1,64 @@
-import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSolomonAuth, markSolomonSession } from '../../hooks/useSolomonAuth';
+import { useSolomonAuth } from '../../hooks/useSolomonAuth';
+import { useSolomonDiagnosticProgress } from '../../hooks/useSolomonDiagnosticProgress';
+import { useClientMounted } from '../../hooks/useClientMounted';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
 import SolomonWizardHeader, { SolomonWizardBackLink } from '../../components/solomon/SolomonWizardHeader';
 import SolomonAccessGuard from '../../components/solomon/SolomonAccessGuard';
-import DiagnosticResultsForm from '../../components/work_orders/DiagnosticResultsForm';
+import SolomonEquipmentBar from '../../components/solomon/SolomonEquipmentBar';
+import DiagnosticResultsForm, { clearDiagnosticDraft, getDiagnosticDraftKey } from '../../components/work_orders/DiagnosticResultsForm';
 import {
-  buildInitialDiagnosticState,
   buildInitialDiagnosticStateForTemplate,
   getDiagnosticTemplate,
+  listDiagnosticTemplates,
 } from '../../constants/diagnosticTemplates';
-import { templateIdToDiySubtype } from '../../constants/solomonDiyAppliances';
-import { createStandaloneDiagnosticOffline } from '../../lib/solomonOfflineWrites';
+import { SOLOMON_DIY_APPLIANCES, templateIdToDiySubtype } from '../../constants/solomonDiyAppliances';
 import { solomonCopy } from '../../utils/solomonDiyCopy';
 import {
-  buildStandaloneDiagnosticBody,
   diagnosticDraftScopeId,
 } from '../../utils/standaloneDiagnostic';
+import { hasSolomonDiagnosticProgress } from '../../utils/solomonDiagnosticProgress';
+import { confirmSolomonTemplateChange } from '../../utils/solomonTemplateChange';
 
-const inputClass =
-  'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-cyan-500/50 focus:outline-none';
-
-const labelClass = 'block text-xs uppercase tracking-wide text-gray-400 mb-1';
+function syncHintText(syncHint, isDiyer) {
+  if (syncHint === 'saved') {
+    return isDiyer ? 'Session saved — you can leave and continue later.' : 'Diagnostic saved — you can leave and continue later.';
+  }
+  if (syncHint === 'queued') {
+    return 'Saved on your device — will sync when you’re back online.';
+  }
+  if (syncHint === 'error') {
+    return 'Could not sync right now — still saved locally.';
+  }
+  return null;
+}
 
 export default function SolomonDiagnosePage() {
   const router = useRouter();
-  const { canUseSolomon, isLoading: authLoading, isDiyer, rolesLoading } = useSolomonAuth();
+  const mounted = useClientMounted();
+  const {
+    canUseSolomon,
+    isLoading: authLoading,
+    isDiyer,
+    rolesLoading,
+    rolesResolved,
+  } = useSolomonAuth();
   const outcomeId = typeof router.query.outcome_id === 'string' ? router.query.outcome_id : null;
   const templateParam = typeof router.query.template === 'string' ? router.query.template : null;
 
-  const initialPayload = useMemo(() => {
-    if (templateParam && getDiagnosticTemplate(templateParam)) {
-      return buildInitialDiagnosticStateForTemplate(templateParam);
-    }
-    return buildInitialDiagnosticState(null);
+  const initialTemplateId = useMemo(() => {
+    if (templateParam && getDiagnosticTemplate(templateParam)) return templateParam;
+    return 'refrigerator';
   }, [templateParam]);
 
-  const [payload, setPayload] = useState(initialPayload);
+  const [payload, setPayload] = useState(() => buildInitialDiagnosticStateForTemplate(initialTemplateId));
   const [equipment, setEquipment] = useState(() => ({
     equipment_make: '',
     equipment_model: '',
     equipment_serial: '',
-    equipment_subtype: templateIdToDiySubtype(templateParam || initialPayload.templateId),
+    equipment_subtype: templateIdToDiySubtype(initialTemplateId),
   }));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -51,51 +66,95 @@ export default function SolomonDiagnosePage() {
 
   const draftScope = diagnosticDraftScopeId(null);
   const copy = (key) => solomonCopy(isDiyer, key);
-  const needsAppliancePick = isDiyer && !templateParam;
 
-  useEffect(() => {
-    if (!router.isReady || authLoading || rolesLoading || !canUseSolomon) return;
-    if (needsAppliancePick) {
-      router.replace('/solomon/start');
+  const templateOptions = useMemo(() => {
+    if (isDiyer) {
+      return SOLOMON_DIY_APPLIANCES.map((item) => ({
+        value: item.templateId,
+        label: item.label,
+      }));
     }
-  }, [router, authLoading, rolesLoading, canUseSolomon, needsAppliancePick]);
+    return listDiagnosticTemplates().map((item) => ({ value: item.id, label: item.label }));
+  }, [isDiyer]);
+
+  const {
+    diagnosticId,
+    persistProgress,
+    persistFinal,
+    syncHint,
+  } = useSolomonDiagnosticProgress({ equipment, outcomeId });
 
   useEffect(() => {
-    if (!templateParam || !getDiagnosticTemplate(templateParam)) return;
-    setPayload(buildInitialDiagnosticStateForTemplate(templateParam));
-    setEquipment((prev) => ({
-      ...prev,
-      equipment_subtype: templateIdToDiySubtype(templateParam),
-    }));
-  }, [templateParam]);
+    if (!diagnosticId) return;
+    clearDiagnosticDraft(getDiagnosticDraftKey(draftScope, null));
+  }, [diagnosticId, draftScope]);
+
+  useEffect(() => {
+    if (!diagnosticId && !hasSolomonDiagnosticProgress(payload)) return undefined;
+    const timer = setTimeout(() => {
+      persistProgress(payload, { immediate: true });
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [
+    equipment.equipment_make,
+    equipment.equipment_model,
+    equipment.equipment_serial,
+    equipment.equipment_subtype,
+    diagnosticId,
+    payload,
+    persistProgress,
+  ]);
+
+  const handleProgressSave = useCallback(
+    (nextPayload) => persistProgress(nextPayload),
+    [persistProgress],
+  );
+
+  const handleTemplateChange = useCallback(
+    (nextTemplateId) => {
+      if (!nextTemplateId || nextTemplateId === payload.templateId) return;
+      if (!getDiagnosticTemplate(nextTemplateId)) return;
+      if (!confirmSolomonTemplateChange(payload, isDiyer)) return;
+
+      const nextPayload = buildInitialDiagnosticStateForTemplate(nextTemplateId);
+      setPayload(nextPayload);
+      setEquipment((prev) => ({
+        ...prev,
+        equipment_subtype: templateIdToDiySubtype(nextTemplateId),
+      }));
+      persistProgress(nextPayload, { immediate: true });
+    },
+    [payload, isDiyer, persistProgress],
+  );
 
   const handleSave = async (finalPayload) => {
     setIsSaving(true);
     setError(null);
     setQueuedMessage(null);
     try {
-      const body = buildStandaloneDiagnosticBody(finalPayload, {
-        ...equipment,
-        outcome_id: outcomeId,
-      });
-      const created = await createStandaloneDiagnosticOffline({ body });
-      if (!created?.id) {
+      const result = await persistFinal(finalPayload);
+      if (!result?.id) {
         throw new Error('Could not save on your device. Try again.');
       }
-      if (created.queued) {
-        markSolomonSession();
+      if (result.queued) {
         setQueuedMessage('Saved on your device — will sync when you’re back online.');
         setIsSaving(false);
         return;
       }
-      router.push(`/solomon/diagnostics/${created.id}`);
+      router.push(`/solomon/diagnostics/${result.id}`);
     } catch (err) {
       setError(err.message || 'Failed to save');
       setIsSaving(false);
     }
   };
 
-  if (authLoading || rolesLoading || needsAppliancePick) {
+  const progressMessage = syncHintText(syncHint, isDiyer);
+
+  const routerReady = router.isReady;
+  const authSettled = !authLoading && !rolesLoading && rolesResolved;
+  const showWizard = mounted && routerReady && authSettled;
+
+  if (!showWizard) {
     return (
       <>
         <SolomonHead title={copy('diagnosticNew')} />
@@ -115,82 +174,35 @@ export default function SolomonDiagnosePage() {
         }
       >
         <SolomonAccessGuard promptTitle="Sign in to run guided diagnostics">
-        <div className="px-0 pb-3 border-b border-white/10 bg-[#0A0F1E] -mx-3 px-3 space-y-3 mb-4">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90">
-            {copy('equipmentOptional')}
-          </p>
-          {templateLabel ? (
-            <p className="text-sm text-white/80">
-              {isDiyer ? 'Troubleshooting: ' : 'Template: '}
-              <span className="font-medium text-white">{templateLabel}</span>
-              {isDiyer ? (
-                <Link href="/solomon/start" className="text-cyan-400 text-xs ml-2 hover:text-cyan-300">
-                  {copy('changeAppliance')}
-                </Link>
-              ) : null}
-            </p>
-          ) : null}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <div>
-              <label className={labelClass}>{copy('make')}</label>
-              <input
-                type="text"
-                value={equipment.equipment_make}
-                onChange={(e) => setEquipment((p) => ({ ...p, equipment_make: e.target.value }))}
-                placeholder="Samsung"
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className={labelClass}>{copy('model')}</label>
-              <input
-                type="text"
-                value={equipment.equipment_model}
-                onChange={(e) => setEquipment((p) => ({ ...p, equipment_model: e.target.value }))}
-                placeholder="Model #"
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className={labelClass}>{copy('serial')}</label>
-              <input
-                type="text"
-                value={equipment.equipment_serial}
-                onChange={(e) => setEquipment((p) => ({ ...p, equipment_serial: e.target.value }))}
-                placeholder="Optional"
-                className={inputClass}
-              />
-            </div>
-          </div>
-          {outcomeId ? (
-            <p className="text-xs text-amber-300/90">
-              {isDiyer ? 'Will link to your repair note after save.' : 'Will link to outcome after save.'}
-            </p>
-          ) : null}
-          {error ? <p className="text-sm text-red-400">{error}</p> : null}
-          {queuedMessage ? (
-            <div className="space-y-2">
-              <p className="text-sm text-amber-300/90">{queuedMessage}</p>
-              <Link
-                href="/solomon/diagnostics"
-                className="inline-block text-sm text-cyan-400 hover:text-cyan-300"
-              >
-                {isDiyer ? 'View my sessions →' : 'View my diagnostics →'}
-              </Link>
-            </div>
-          ) : null}
-        </div>
+        <SolomonEquipmentBar
+          equipment={equipment}
+          onEquipmentChange={setEquipment}
+          templateId={payload.templateId}
+          templateOptions={templateOptions}
+          onTemplateChange={handleTemplateChange}
+          templateLabel={templateLabel}
+          isDiyer={isDiyer}
+          copy={copy}
+          outcomeId={outcomeId}
+          progressMessage={progressMessage}
+          error={error}
+          queuedMessage={queuedMessage}
+          diagnosticsLinkLabel={isDiyer ? 'View my sessions →' : 'View my diagnostics →'}
+        />
 
         <DiagnosticResultsForm
           payload={payload}
           onChange={setPayload}
           workOrder={null}
           workOrderId={draftScope}
+          draftNoteId={diagnosticId}
           variant="mobile"
           audience={isDiyer ? 'diy' : 'tech'}
           readOnly={false}
           isSaving={isSaving}
           onSave={handleSave}
+          onProgressSave={handleProgressSave}
+          hideTemplateSelector
         />
         </SolomonAccessGuard>
       </SolomonMobileShell>

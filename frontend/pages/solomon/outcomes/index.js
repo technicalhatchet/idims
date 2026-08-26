@@ -5,6 +5,7 @@ import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
 import { format } from 'date-fns';
 import SolomonHead from '../../../components/solomon/SolomonHead';
+import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { listDmaRepairRecords } from '../../../services/api/dmaApi';
@@ -42,7 +43,9 @@ export default function SolomonOutcomesListPage() {
     return (
       <>
         <SolomonHead title={copy('outcomesTitle')} />
-        <main className="min-h-screen bg-[#0A0F1E] text-white p-6 flex justify-center"><LoadingSpinner /></main>
+        <SolomonPageMain className="flex justify-center py-20">
+          <LoadingSpinner />
+        </SolomonPageMain>
       </>
     );
   }
@@ -50,7 +53,7 @@ export default function SolomonOutcomesListPage() {
   return (
     <>
       <SolomonHead title={copy('outcomesTitle')} />
-      <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-6 max-w-lg mx-auto pb-24">
+      <SolomonPageMain>
         <SolomonAccessGuard promptTitle="Sign in to view your repair notes">
         <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
         <h1 className="text-2xl font-semibold mt-3 mb-4">{copy('outcomesTitle')}</h1>
@@ -84,7 +87,7 @@ export default function SolomonOutcomesListPage() {
           </div>
         )}
         </SolomonAccessGuard>
-      </main>
+      </SolomonPageMain>
     </>
   );
 }

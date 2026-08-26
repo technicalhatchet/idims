@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SolomonHead from '../../../components/solomon/SolomonHead';
+import SolomonMobileShell from '../../../components/solomon/SolomonMobileShell';
+import SolomonWizardHeader, { SolomonWizardBackLink } from '../../../components/solomon/SolomonWizardHeader';
 import DmaFieldRecordForm from '../../../components/dma/DmaFieldRecordForm';
 import {
   createDmaRepairRecord,
@@ -35,6 +36,7 @@ export default function SolomonNewOutcomePage() {
           equipment_model: diag.equipment_model || '',
           equipment_subtype: diag.equipment_subtype || templateIdToEquipmentSubtype(payload.templateId) || '',
           customer_complaint: diag.customer_complaint || complaintFromPayload(payload) || '',
+          outcome_confidence: isDiyer ? 'unconfirmed' : '',
         });
       })
       .catch(() => {});
@@ -59,29 +61,32 @@ export default function SolomonNewOutcomePage() {
   return (
     <>
       <SolomonHead title={copy('outcomeNew')} />
-      <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-6 max-w-lg mx-auto pb-24">
-        <Link href="/solomon/outcomes" className="text-xs text-cyan-400 hover:text-cyan-300">
-          ← {copy('outcomesTitle')}
-        </Link>
-        <h1 className="text-2xl font-semibold mt-3 mb-1">{copy('outcomeOne')}</h1>
-        {diagnosticId ? (
-          <p className="text-sm text-gray-400 mb-4">Will link to your diagnostic after save.</p>
-        ) : null}
-        {isDiyer ? (
-          <p className="text-sm text-amber-300/90 mb-4">
-            Your repair notes stay private until our team reviews them for the shared knowledge pool.
-          </p>
-        ) : null}
+      <SolomonMobileShell
+        header={
+          <SolomonWizardHeader left={<SolomonWizardBackLink href="/solomon/outcomes" />} />
+        }
+      >
+        <div className="space-y-4 pb-6">
+          <h1 className="text-xl font-semibold">{copy('outcomeOne')}</h1>
+          {diagnosticId ? (
+            <p className="text-sm text-gray-400">Will link to your diagnostic after save.</p>
+          ) : null}
+          {isDiyer ? (
+            <p className="text-sm text-amber-300/90">
+              Your repair notes stay private until our team reviews them for the shared knowledge pool.
+            </p>
+          ) : null}
 
-        <DmaFieldRecordForm
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          isSaving={isSaving}
-          error={error}
-          submitLabel={copy('saveOutcome')}
-          variant={isDiyer ? 'diy' : 'default'}
-        />
-      </main>
+          <DmaFieldRecordForm
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            isSaving={isSaving}
+            error={error}
+            submitLabel={copy('saveOutcome')}
+            variant={isDiyer ? 'diy' : 'default'}
+          />
+        </div>
+      </SolomonMobileShell>
     </>
   );
 }

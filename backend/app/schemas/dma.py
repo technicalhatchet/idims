@@ -41,6 +41,7 @@ class DmaRepairRecordCreate(BaseModel):
     error_code_text: Optional[str] = None
     replaced_parts: Optional[str] = None
     repair_successful: bool = True
+    outcome_confidence: Optional[str] = None
     callback_required: bool = False
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None
@@ -68,6 +69,18 @@ class DmaRepairRecordCreate(BaseModel):
         from app.constants.dma_standalone import DMA_VISIBILITIES
         if v not in DMA_VISIBILITIES:
             raise ValueError(f"visibility must be one of {sorted(DMA_VISIBILITIES)}")
+        return v
+
+    @field_validator("outcome_confidence")
+    @classmethod
+    def validate_outcome_confidence(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import OUTCOME_CONFIDENCE_VALUES
+        if v not in OUTCOME_CONFIDENCE_VALUES:
+            raise ValueError(
+                f"outcome_confidence must be one of {sorted(OUTCOME_CONFIDENCE_VALUES)}"
+            )
         return v
 
     @model_validator(mode="after")
@@ -105,6 +118,7 @@ class DmaRepairRecordUpdate(BaseModel):
     error_code_text: Optional[str] = None
     replaced_parts: Optional[str] = None
     repair_successful: Optional[bool] = None
+    outcome_confidence: Optional[str] = None
     callback_required: Optional[bool] = None
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None
@@ -114,6 +128,18 @@ class DmaRepairRecordUpdate(BaseModel):
     visibility: Optional[str] = None
     moderation_status: Optional[str] = None
     tags: Optional[List[str]] = None
+
+    @field_validator("outcome_confidence")
+    @classmethod
+    def validate_outcome_confidence(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import OUTCOME_CONFIDENCE_VALUES
+        if v not in OUTCOME_CONFIDENCE_VALUES:
+            raise ValueError(
+                f"outcome_confidence must be one of {sorted(OUTCOME_CONFIDENCE_VALUES)}"
+            )
+        return v
 
     @field_validator("context")
     @classmethod
@@ -173,6 +199,7 @@ class DmaRepairRecordResponse(BaseModel):
     error_code_text: Optional[str] = None
     replaced_parts: Optional[str] = None
     repair_successful: bool = True
+    outcome_confidence: Optional[str] = None
     callback_required: bool = False
     technician_summary: Optional[str] = None
     performed_on: Optional[date] = None
@@ -203,6 +230,17 @@ class DmaStandaloneDiagnosticCreate(BaseModel):
     outcome_id: Optional[UUID] = None
     context: Optional[str] = None
     visibility: Optional[str] = None
+    status: Optional[str] = None
+
+    @field_validator("status")
+    @classmethod
+    def validate_status(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_DIAGNOSTIC_STATUSES
+        if v not in DMA_DIAGNOSTIC_STATUSES:
+            raise ValueError("status must be in_progress, completed, or abandoned")
+        return v
 
     @field_validator("payload")
     @classmethod
@@ -242,6 +280,17 @@ class DmaStandaloneDiagnosticUpdate(BaseModel):
     payload: Optional[dict] = None
     outcome_id: Optional[UUID] = None
     visibility: Optional[str] = None
+    status: Optional[str] = None
+
+    @field_validator("status")
+    @classmethod
+    def validate_status(cls, v):
+        if v is None:
+            return v
+        from app.constants.dma_standalone import DMA_DIAGNOSTIC_STATUSES
+        if v not in DMA_DIAGNOSTIC_STATUSES:
+            raise ValueError("status must be in_progress, completed, or abandoned")
+        return v
 
     @field_validator("payload")
     @classmethod
@@ -279,6 +328,7 @@ class DmaStandaloneDiagnosticResponse(BaseModel):
     updated_at: datetime
     created_by: UUID
     imported_work_order_id: Optional[UUID] = None
+    status: str = "in_progress"
     template_id: Optional[str] = None
     template_label: Optional[str] = None
 

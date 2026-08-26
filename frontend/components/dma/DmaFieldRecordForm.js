@@ -4,6 +4,8 @@ import {
   DMA_EQUIPMENT_TYPES,
   DMA_MANUFACTURERS,
   EMPTY_FIELD_RECORD,
+  OUTCOME_CONFIDENCE_OPTIONS,
+  OUTCOME_CONFIDENCE_OPTIONS_DIY,
 } from '../../constants/dmaEquipmentOptions';
 import { codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
 import { getDmaCodes } from '../../services/api/dmaApi';
@@ -163,6 +165,26 @@ export default function DmaFieldRecordForm({
             placeholder="Cleared pressure hose obstruction"
             className={inputClass}
           />
+        </div>
+
+        <div>
+          <label className={labelClass}>
+            {isDiy ? 'How sure are you?' : 'Outcome confidence'}
+          </label>
+          <select
+            value={values.outcome_confidence || ''}
+            onChange={set('outcome_confidence')}
+            className={inputClass}
+          >
+            {(isDiy ? OUTCOME_CONFIDENCE_OPTIONS_DIY : OUTCOME_CONFIDENCE_OPTIONS).map((o) => (
+              <option key={o.value || 'empty'} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          {!isDiy ? (
+            <p className="text-[10px] text-gray-500 mt-1">
+              Only confirmed outcomes strengthen shared repair memory.
+            </p>
+          ) : null}
         </div>
 
         <div>

@@ -234,6 +234,9 @@ def upsert_repair_outcome_from_note(
             parsed.get("repairMemoryMatch"), parsed.get("repair_memory_match")
         ),
         "callback_required": bool(parsed.get("callbackRequired", False)),
+        "outcome_confidence": _coalesce_str(
+            parsed.get("outcomeConfidence"), parsed.get("outcome_confidence")
+        ),
         "technician_summary": _coalesce_str(
             parsed.get("repairComments"),
             parsed.get("repair_comments"),
@@ -545,6 +548,7 @@ def repair_record_to_response(record: DmaRepairRecord) -> Dict[str, Any]:
         "error_code_text": record.error_code_text,
         "replaced_parts": record.replaced_parts,
         "repair_successful": record.repair_successful,
+        "outcome_confidence": record.outcome_confidence,
         "callback_required": record.callback_required,
         "technician_summary": record.technician_summary,
         "performed_on": record.performed_on,

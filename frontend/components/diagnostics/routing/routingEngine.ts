@@ -51,6 +51,27 @@ function normalizeText(value: string): string {
     .replace(/[\s_-]+/g, ' ');
 }
 
+function normalizeTriggerKey(trigger: string): string {
+  let text = normalizeText(trigger);
+  const mentionPrefix = 'complaint mentions ';
+  if (text.startsWith(mentionPrefix)) {
+    text = text.slice(mentionPrefix.length).replace(/^["']|["']$/g, '').trim();
+  }
+  return text;
+}
+
+function dedupeTriggers(triggers: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const trigger of triggers) {
+    const key = normalizeTriggerKey(trigger);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    result.push(trigger);
+  }
+  return result;
+}
+
 function stepKeyForConfig(step: DiagnosticWizardStepConfig): string {
   return step.stepKey || step.sectionId;
 }
@@ -130,7 +151,7 @@ export function evaluateRouting(
   return {
     enabledStepKeys: enabled,
     matchedRules,
-    triggers: Array.from(triggers),
+    triggers: dedupeTriggers(Array.from(triggers)),
     addedStepKeys,
     removedStepKeys,
     allStepKeys,
@@ -174,7 +195,7 @@ export function diffRouting(
   return {
     added,
     removed,
-    triggers: current.triggers,
+    triggers: dedupeTriggers(current.triggers),
     matchedRules: current.matchedRules,
   };
 }

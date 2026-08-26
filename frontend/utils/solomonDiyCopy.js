@@ -15,6 +15,7 @@ export const SOLOMON_DIY_COPY = {
   model: 'Model number',
   serial: 'Serial (optional)',
   changeAppliance: 'Change appliance',
+  applianceType: 'Appliance type',
 };
 
 export function solomonCopy(isDiyer, key) {
@@ -31,6 +32,7 @@ export function solomonCopy(isDiyer, key) {
       model: 'Model',
       serial: 'Serial',
       changeAppliance: 'Change template',
+      applianceType: 'Appliance template',
     };
     return staff[key] ?? SOLOMON_DIY_COPY[key];
   }

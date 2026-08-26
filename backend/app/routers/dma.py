@@ -457,6 +457,7 @@ async def list_dma_standalone_diagnostics(
     linked: Optional[bool] = Query(None, description="Filter by linked vs unlinked diagnostics"),
     outcome_id: Optional[uuid.UUID] = Query(None),
     context: Optional[str] = Query(None),
+    status: Optional[str] = Query(None, description="Filter by diagnostic status"),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db),
@@ -468,6 +469,7 @@ async def list_dma_standalone_diagnostics(
         linked=linked,
         outcome_id=outcome_id,
         context=context,
+        status=status,
         page=page,
         limit=limit,
     )
