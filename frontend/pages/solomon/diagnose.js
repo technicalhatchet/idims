@@ -62,6 +62,7 @@ export default function SolomonDiagnosePage() {
   }));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [queuedMessage, setQueuedMessage] = useState(null);
   const [insightPeeks, setInsightPeeks] = useState(null);
 
   const draftScope = diagnosticDraftScopeId(null);
