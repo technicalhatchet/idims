@@ -63,6 +63,7 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
           const isCurrent = index === currentStepIndex;
           const isLocked = isStepLockedAtIndex(index);
           const canJump = canJumpToStep(index) && index !== currentStepIndex;
+          const canGoBack = index < currentStepIndex && !isCurrent;
           const lockMessage = isLocked ? getStepLockMessageAtIndex(index) : null;
           const stepKey = (step.meta as { stepKey?: string } | undefined)?.stepKey;
           const recommendedKeys =
@@ -82,8 +83,8 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
             <button
               key={step.id}
               type="button"
-              disabled={(!canJump && !isCurrent) || isLocked}
-              onClick={() => canJump && goToStep(index)}
+              disabled={(!canJump && !canGoBack && !isCurrent) || (isLocked && !canGoBack)}
+              onClick={() => (canJump || canGoBack) && goToStep(index)}
               title={dotTitle}
               className={`h-2 rounded-full transition-all ${
                 isCurrent

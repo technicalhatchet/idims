@@ -27,7 +27,7 @@ function ReasoningSectionCard({ section, variant, defaultOpen = false }) {
       {open ? (
         <div className="px-3 pb-3 space-y-2">
           {hasLines ? (
-            <ul className="space-y-1.5">
+            <ul className="space-y-2">
               {section.lines.map((line, index) => (
                 <li key={`${section.id}-${index}`} className="text-sm leading-snug">
                   {line.label ? (
@@ -36,10 +36,19 @@ function ReasoningSectionCard({ section, variant, defaultOpen = false }) {
                   <span className={isMobile ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}>
                     {line.text}
                   </span>
-                  {typeof line.delta === 'number' ? (
+                  {typeof line.delta === 'number' && (section.id === 'b2' || section.id === 'c2') ? (
                     <span className="ml-1 tabular-nums text-[11px] text-emerald-400/90">
                       ({line.delta >= 0 ? '+' : ''}{line.delta})
                     </span>
+                  ) : null}
+                  {line.triggerText ? (
+                    <p
+                      className={`mt-0.5 text-[11px] leading-snug ${
+                        isMobile ? 'text-gray-500' : 'text-gray-500 dark:text-gray-400'
+                      }`}
+                    >
+                      {line.triggerText}
+                    </p>
                   ) : null}
                 </li>
               ))}
@@ -56,9 +65,17 @@ function ReasoningSectionCard({ section, variant, defaultOpen = false }) {
 export default function SolomonReasoningPanel({
   intelligence,
   stepKeyLabels = {},
+  templateId,
+  fields = {},
+  measurementStatuses,
   variant = 'mobile',
 }) {
-  const presentation = buildReasoningPresentation(intelligence, stepKeyLabels);
+  const presentation = buildReasoningPresentation(intelligence, stepKeyLabels, {
+    templateId,
+    fields,
+    measurementStatuses,
+    stepKeyLabels,
+  });
   if (!presentation) return null;
 
   const sections = [
@@ -76,12 +93,12 @@ export default function SolomonReasoningPanel({
       <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/80 px-0.5">
         Diagnostic reasoning
       </p>
-      {sections.map((section, index) => (
+      {sections.map((section) => (
         <ReasoningSectionCard
           key={section.id}
           section={section}
           variant={variant}
-          defaultOpen={variant === 'mobile' ? false : index < 3}
+          defaultOpen={section.defaultOpen ?? (variant !== 'mobile')}
         />
       ))}
     </div>

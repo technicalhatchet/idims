@@ -40,6 +40,7 @@ export default function SolomonEquipmentBar({
   error,
   queuedMessage,
   diagnosticsLinkLabel,
+  insightPeeks = null,
 }) {
   const hasEquipment =
     Boolean(equipment.equipment_make?.trim())
@@ -145,6 +146,7 @@ export default function SolomonEquipmentBar({
         </p>
       ) : null}
       {progressMessage ? <p className="text-xs text-emerald-300/90">{progressMessage}</p> : null}
+      {insightPeeks ? <div className="space-y-2">{insightPeeks}</div> : null}
       {error ? <p className="text-sm text-red-400">{error}</p> : null}
       {queuedMessage ? (
         <div className="space-y-2">

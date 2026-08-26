@@ -32,7 +32,9 @@ export default function SolomonInsightPeekBanner({
 
   return (
     <div
-      className={`rounded-lg border px-3 py-2 flex items-center justify-between gap-3 text-xs shadow-lg shadow-black/20 ${toneClasses}`}
+      className={`rounded-lg border px-3 py-2 flex items-center justify-between gap-3 text-xs ${
+        isMobile ? '' : 'shadow-sm'
+      } ${toneClasses}`}
       role="status"
     >
       <button type="button" onClick={onView} className={`${actionClass} text-left hover:underline`}>

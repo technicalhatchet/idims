@@ -15,6 +15,7 @@ export default function Wizard<TContext>({
   readOnly,
   variant,
   initialStepId,
+  initialVisitedStepIds,
   resetKey,
   keyboardNavigation,
   onStepChange,
@@ -36,6 +37,7 @@ export default function Wizard<TContext>({
       readOnly={readOnly}
       variant={variant}
       initialStepId={initialStepId}
+      initialVisitedStepIds={initialVisitedStepIds}
       resetKey={resetKey}
       keyboardNavigation={keyboardNavigation}
       onStepChange={onStepChange}

@@ -76,6 +76,8 @@ export default function DiagnosticResultsForm({
   onProgressSave = null,
   progressSaveDebounceMs = 1400,
   hideTemplateSelector = false,
+  insightPeekPlacement = 'wizard-footer',
+  onInsightPeeksChange = null,
 }) {
   const useSolomonReasoning = showSolomonReasoning ?? variant === 'mobile';
   const template = getDiagnosticTemplate(payload?.templateId);
@@ -339,6 +341,18 @@ export default function DiagnosticResultsForm({
     return step?.id;
   }, [steps, payload?.currentStepKey]);
 
+  const wizardInitialVisitedStepIds = useMemo(() => {
+    const keys = Array.isArray(payload?.visitedStepKeys)
+      ? payload.visitedStepKeys
+      : visitedStepKeys;
+    const ids = new Set();
+    for (const step of steps) {
+      const stepKey = step.meta?.stepKey;
+      if (stepKey && keys.includes(stepKey)) ids.add(step.id);
+    }
+    return Array.from(ids);
+  }, [steps, payload?.visitedStepKeys, visitedStepKeys]);
+
   useEffect(() => {
     if (readOnly || draftRestoredRef.current || !draftKey || draftNoteId) return;
     const draft = loadDiagnosticDraft(draftKey);
@@ -554,6 +568,10 @@ export default function DiagnosticResultsForm({
       onFieldChange: handleFieldChange,
       routing: routingResult,
       complaintChips: wizardDefinition?.complaintChips || [],
+      wizardDefinition,
+      visitedStepKeys,
+      currentStepKey: payload?.currentStepKey || null,
+      reviewStepId: wizardDefinition?.reviewStep?.id || 'diagnostic_review',
       fieldVisibilityRules: wizardDefinition?.routing?.fieldVisibility || [],
       fieldHelp: wizardDefinition?.routing?.fieldHelp || {},
       activeRecommendations,
@@ -589,6 +607,9 @@ export default function DiagnosticResultsForm({
       lastReadings,
       wizardDefinition?.complaintChips,
       wizardDefinition?.routing?.fieldVisibility,
+      wizardDefinition,
+      visitedStepKeys,
+      payload?.currentStepKey,
       wizardDefinition?.routing?.fieldHelp,
       workOrder,
       readOnly,
@@ -696,10 +717,10 @@ export default function DiagnosticResultsForm({
 
   const mobileInsightPeeks =
     variant === 'mobile' && !readOnly && (routePathPeek || evidencePeek) ? (
-      <div className="sticky bottom-2 z-10 space-y-2 pt-1">
+      <div className="space-y-2">
         {routePathPeek ? (
           <SolomonInsightPeekBanner
-            label="View updated diagnostic path"
+            label="View updated diagnostic path."
             onView={handleViewRoutePath}
             onDismiss={() => setRoutePathPeek(false)}
             variant={variant}
@@ -721,11 +742,24 @@ export default function DiagnosticResultsForm({
       </div>
     ) : null;
 
+  useEffect(() => {
+    if (insightPeekPlacement === 'external' && onInsightPeeksChange) {
+      onInsightPeeksChange(mobileInsightPeeks);
+    }
+  }, [insightPeekPlacement, mobileInsightPeeks, onInsightPeeksChange]);
+
   const draftHint = !readOnly && draftKey ? (
     <p className={`text-[11px] text-center ${variant === 'mobile' ? 'text-gray-600' : 'text-gray-400'}`}>
-      Draft saved automatically
+      Draft saved automatically.
     </p>
   ) : null;
+
+  const wizardFooterExtra = (
+    <>
+      {insightPeekPlacement !== 'external' ? mobileInsightPeeks : null}
+      {draftHint}
+    </>
+  );
 
   if (!template) {
     return <p className="text-sm text-gray-500">Select an appliance template.</p>;
@@ -826,12 +860,13 @@ export default function DiagnosticResultsForm({
             variant={variant}
             resetKey={payload?.templateId}
             initialStepId={wizardInitialStepId}
+            initialVisitedStepIds={wizardInitialVisitedStepIds}
             onAutoSave={handleWizardAutoSave}
             onStepChange={handleWizardStepChange}
             onComplete={onSave ? () => void handleWizardComplete() : undefined}
             completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
             isCompleting={isSaving}
-            footerExtra={draftHint}
+            footerExtra={wizardFooterExtra}
             headerTitle={
               readOnly
                 ? undefined
@@ -845,8 +880,6 @@ export default function DiagnosticResultsForm({
                 : 'Complete each step, generate service notes on Review, then save.'
             }
           />
-
-          {mobileInsightPeeks}
 
           {routeDiff && !readOnly && (
             <div id="solomon-diagnostic-path-insight" className="scroll-mt-3">
@@ -881,6 +914,9 @@ export default function DiagnosticResultsForm({
               <SolomonReasoningPanel
                 intelligence={intelligenceResult}
                 stepKeyLabels={stepKeyLabels}
+                templateId={payload?.templateId}
+                fields={payload?.fields || {}}
+                measurementStatuses={measurementStatuses}
                 variant={variant}
               />
             </div>
@@ -944,6 +980,9 @@ export default function DiagnosticResultsForm({
             <SolomonReasoningPanel
               intelligence={intelligenceResult}
               stepKeyLabels={stepKeyLabels}
+              templateId={payload?.templateId}
+              fields={payload?.fields || {}}
+              measurementStatuses={measurementStatuses}
               variant={variant}
             />
           ) : null}
@@ -983,12 +1022,13 @@ export default function DiagnosticResultsForm({
             variant={variant}
             resetKey={payload?.templateId}
             initialStepId={wizardInitialStepId}
+            initialVisitedStepIds={wizardInitialVisitedStepIds}
             onAutoSave={handleWizardAutoSave}
             onStepChange={handleWizardStepChange}
             onComplete={onSave ? () => void handleWizardComplete() : undefined}
             completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
             isCompleting={isSaving}
-            footerExtra={draftHint}
+            footerExtra={wizardFooterExtra}
             headerTitle={
               readOnly
                 ? undefined

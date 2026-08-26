@@ -62,7 +62,7 @@ export default function SolomonDiagnosePage() {
   }));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
-  const [queuedMessage, setQueuedMessage] = useState(null);
+  const [insightPeeks, setInsightPeeks] = useState(null);
 
   const draftScope = diagnosticDraftScopeId(null);
   const copy = (key) => solomonCopy(isDiyer, key);
@@ -185,6 +185,7 @@ export default function SolomonDiagnosePage() {
           copy={copy}
           outcomeId={outcomeId}
           progressMessage={progressMessage}
+          insightPeeks={insightPeeks}
           error={error}
           queuedMessage={queuedMessage}
           diagnosticsLinkLabel={isDiyer ? 'View my sessions →' : 'View my diagnostics →'}
@@ -203,6 +204,8 @@ export default function SolomonDiagnosePage() {
           onSave={handleSave}
           onProgressSave={handleProgressSave}
           hideTemplateSelector
+          insightPeekPlacement="external"
+          onInsightPeeksChange={setInsightPeeks}
         />
         </SolomonAccessGuard>
       </SolomonMobileShell>
