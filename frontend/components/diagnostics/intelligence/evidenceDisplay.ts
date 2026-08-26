@@ -125,6 +125,57 @@ export function computeDiagnosisConfidence(
   return null;
 }
 
+export interface LeadCauseStrengthPresentation {
+  categoryLabel: string;
+  tier: DiagnosisConfidenceTier | 'confirmed';
+  tierLabel: string;
+  summary: string;
+  evidenceScore: number;
+  marginOverNext: number;
+  alternateLabels: string[];
+}
+
+const TIER_LABELS: Record<DiagnosisConfidenceTier | 'confirmed', string> = {
+  low: 'Early lead',
+  medium: 'Trending lead',
+  high: 'Strong lead',
+  confirmed: 'Confirmed fault path',
+};
+
+/**
+ * Technician-facing lead-cause readout — uses existing scores/tiers, not calibrated probability.
+ */
+export function formatLeadCauseStrength(
+  intelligence: DiagnosticIntelligenceResult | null | undefined,
+): LeadCauseStrengthPresentation | null {
+  if (!intelligence?.topCategories?.length) return null;
+
+  const top = intelligence.topCategories[0];
+  const second = intelligence.topCategories[1];
+  const confidence = computeDiagnosisConfidence(intelligence);
+  const components = flattenComponents(intelligence.componentsByCategory);
+  const hasConfirmed = components.some((component) => component.state === 'confirmed');
+
+  const tier: DiagnosisConfidenceTier | 'confirmed' = hasConfirmed
+    ? 'confirmed'
+    : confidence?.tier || 'low';
+
+  const alternateLabels = intelligence.topCategories
+    .slice(1)
+    .filter((category) => category.evidence > 0)
+    .map((category) => category.label);
+
+  return {
+    categoryLabel: top.label,
+    tier,
+    tierLabel: TIER_LABELS[tier],
+    summary: confidence?.explanation || `Working hypothesis: ${top.label}.`,
+    evidenceScore: top.evidence,
+    marginOverNext: top.evidence - (second?.evidence || 0),
+    alternateLabels,
+  };
+}
+
 export function listAllComponents(
   componentsByCategory: Record<string, ComponentEvidenceScore[]> = {},
 ): ComponentEvidenceScore[] {

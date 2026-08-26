@@ -38,8 +38,8 @@ export function hasSignificantIntelligenceChange(previous, current) {
 }
 
 export function eliminationInsightLabel(result) {
-  if (result?.confirmed?.length) return 'View confirmed cause insight';
-  if (result?.suspected?.length) return 'View likely cause insight';
-  if (result?.eliminated?.length) return 'View ruled-out insight';
-  return 'View evidence insight';
+  if (result?.confirmed?.length) return 'View confirmed cause insight.';
+  if (result?.suspected?.length) return 'View likely cause insight.';
+  if (result?.eliminated?.length) return 'View ruled-out insight.';
+  return 'View evidence insight.';
 }

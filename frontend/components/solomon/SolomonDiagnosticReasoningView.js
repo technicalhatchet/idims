@@ -72,6 +72,9 @@ export default function SolomonDiagnosticReasoningView({ payload, variant = 'mob
     <SolomonReasoningPanel
       intelligence={intelligence}
       stepKeyLabels={stepKeyLabels}
+      templateId={templateId}
+      fields={payload?.fields || {}}
+      measurementStatuses={measurementStatuses}
       variant={variant}
     />
   );

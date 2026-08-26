@@ -2,17 +2,25 @@ import {
   getComponentsForCategory,
   getEvidenceLedgerForCategory,
 } from '../../diagnostics/intelligence/diagnosticIntelligenceEngine';
-import { normalizeEvidenceShares } from '../../diagnostics/intelligence/evidenceDisplay';
-import { resolveStepKeyLabel } from '../../diagnostics/intelligence/stepKeyLabels';
+import { formatLeadCauseStrength } from '../../diagnostics/intelligence/evidenceDisplay';
+import { formatLedgerTriggerLine } from '../../diagnostics/intelligence/ledgerTrigger';
+import type { MeasurementEvaluation } from '../../diagnostics/knowledge/types';
 import type {
   DiagnosticIntelligenceResult,
   EvidenceLedgerEntry,
 } from '../../diagnostics/intelligence/evidenceTypes';
+import {
+  buildProveWrongLines,
+  buildWhySynthesisLines,
+  buildWhyThisTestLineFromConfig,
+  getEvidenceConfigForTemplate,
+} from './reasoningPresentationHelpers';
 
 export interface ReasoningLine {
   text: string;
   delta?: number;
   label?: string;
+  triggerText?: string;
 }
 
 export interface ReasoningSection {
@@ -20,6 +28,7 @@ export interface ReasoningSection {
   title: string;
   lines: ReasoningLine[];
   emptyHint?: string;
+  defaultOpen?: boolean;
 }
 
 export interface ReasoningPresentation {
@@ -32,10 +41,18 @@ export interface ReasoningPresentation {
   proveWrong: ReasoningSection;
 }
 
-function ledgerLines(entries: EvidenceLedgerEntry[], limit = 6): ReasoningLine[] {
+export interface ReasoningPresentationOptions {
+  templateId?: string | null;
+  fields?: Record<string, unknown>;
+  measurementStatuses?: Map<string, MeasurementEvaluation>;
+  stepKeyLabels?: Record<string, string>;
+}
+
+function ledgerLinesWithTriggers(entries: EvidenceLedgerEntry[], limit = 8): ReasoningLine[] {
   return entries.slice(0, limit).map((entry) => ({
     text: entry.explanation,
     delta: entry.delta,
+    triggerText: formatLedgerTriggerLine(entry.trigger) || undefined,
   }));
 }
 
@@ -50,46 +67,82 @@ function negativeLedger(entries: EvidenceLedgerEntry[]): EvidenceLedgerEntry[] {
 export function buildReasoningPresentation(
   intelligence: DiagnosticIntelligenceResult | null | undefined,
   stepKeyLabels: Record<string, string> = {},
+  options: ReasoningPresentationOptions = {},
 ): ReasoningPresentation | null {
   if (!intelligence?.topCategories?.length) return null;
 
+  const fields = options.fields || {};
+  const measurementStatuses = options.measurementStatuses;
+  const templateId = options.templateId;
+  const labels = options.stepKeyLabels || stepKeyLabels;
+
   const topCategory = intelligence.topCategories[0];
   const categoryLedger = getEvidenceLedgerForCategory(intelligence, topCategory.id);
-  const shares = normalizeEvidenceShares(intelligence.topCategories);
+  const positiveEntries = positiveLedger(categoryLedger);
+  const strength = formatLeadCauseStrength(intelligence);
+  const config = templateId ? getEvidenceConfigForTemplate(templateId) : null;
+
+  const leadLines: ReasoningLine[] = [];
+  if (strength) {
+    leadLines.push({
+      label: strength.categoryLabel,
+      text: strength.tierLabel,
+    });
+    if (strength.marginOverNext > 0) {
+      leadLines.push({
+        text: `Evidence score ${strength.evidenceScore} (${strength.marginOverNext} points ahead of the next cause).`,
+      });
+    } else {
+      leadLines.push({
+        text: `Evidence score ${strength.evidenceScore}.`,
+      });
+    }
+    if (strength.alternateLabels.length) {
+      leadLines.push({
+        text: `Also considering: ${strength.alternateLabels.join(', ')}.`,
+      });
+    }
+  }
 
   const evidenceSummary: ReasoningSection = {
     id: 'b1',
-    title: 'Evidence summary',
-    lines: shares
-      .filter((item) => item.sharePercent > 0)
-      .map((item) => ({
-        label: item.label,
-        text: `${item.sharePercent}% of active evidence`,
-        delta: item.evidence,
-      })),
+    title: 'Lead cause',
+    lines: leadLines,
     emptyHint: 'Answer a few more checks to see competing causes.',
+    defaultOpen: true,
   };
 
   const whyTop: ReasoningSection = {
     id: 'b3',
     title: 'Why?',
-    lines: ledgerLines(positiveLedger(categoryLedger)),
+    lines: buildWhySynthesisLines(topCategory.label, positiveEntries, strength?.summary || ''),
     emptyHint: `No supporting rules fired yet for ${topCategory.label}.`,
+    defaultOpen: true,
   };
 
   const recommended = intelligence.recommendedStepKeys || [];
   const whyThisTest: ReasoningSection = {
     id: 'b4',
     title: 'Why this test?',
-    lines: recommended.slice(0, 4).map((stepKey) => {
-      const label = resolveStepKeyLabel(stepKey, stepKeyLabels) || stepKey;
-      const related = categoryLedger.find((entry) => entry.explanation && stepKey);
-      return {
-        label,
-        text: related?.explanation || `Next guided step to sharpen ${topCategory.label}.`,
-      };
-    }),
+    lines: config
+      ? recommended.slice(0, 4).map((stepKey) =>
+        buildWhyThisTestLineFromConfig(
+          stepKey,
+          topCategory.id,
+          topCategory.label,
+          config,
+          intelligence,
+          fields,
+          measurementStatuses,
+          labels,
+        ),
+      )
+      : recommended.slice(0, 4).map((stepKey) => ({
+        label: labels[stepKey] || stepKey,
+        text: `Next guided step to sharpen ${topCategory.label}.`,
+      })),
     emptyHint: 'Keep walking the wizard — suggested tests appear as evidence builds.',
+    defaultOpen: true,
   };
 
   const unresolvedComponents = getComponentsForCategory(intelligence, topCategory.id)
@@ -112,43 +165,43 @@ export function buildReasoningPresentation(
       })),
     ],
     emptyHint: 'Major paths are covered — review before closing out.',
+    defaultOpen: false,
   };
 
   const supporting: ReasoningSection = {
     id: 'b2',
     title: 'Supporting evidence',
-    lines: ledgerLines(positiveLedger(categoryLedger), 8),
+    lines: ledgerLinesWithTriggers(positiveEntries, 12),
     emptyHint: 'No supporting evidence recorded yet.',
+    defaultOpen: false,
   };
 
   const contradicting: ReasoningSection = {
     id: 'c2',
     title: 'Contradicting evidence',
-    lines: ledgerLines(negativeLedger(categoryLedger), 8),
+    lines: ledgerLinesWithTriggers(negativeLedger(categoryLedger), 12),
     emptyHint: 'Nothing is pushing against the leading cause yet.',
+    defaultOpen: false,
   };
 
-  const ruledOut = Object.values(intelligence.componentsByCategory || {})
-    .flat()
-    .filter((component) => component.state === 'eliminated' || component.state === 'unlikely');
+  const proveWrongLines = config
+    ? buildProveWrongLines(
+      topCategory.id,
+      topCategory.label,
+      config,
+      intelligence,
+      fields,
+      measurementStatuses,
+      labels,
+    )
+    : [];
 
   const proveWrong: ReasoningSection = {
     id: 'c3',
     title: 'What would prove this wrong?',
-    lines: [
-      ...ruledOut.slice(0, 4).map((component) => ({
-        label: component.label,
-        text:
-          component.state === 'eliminated'
-            ? 'Already ruled out — reversing would challenge the lead.'
-            : 'Marked less likely — a positive test here would shift the lead.',
-      })),
-      ...recommended.slice(0, 2).map((stepKey) => ({
-        label: resolveStepKeyLabel(stepKey, stepKeyLabels) || stepKey,
-        text: `If this step contradicts ${topCategory.label}, reconsider the lead.`,
-      })),
-    ],
+    lines: proveWrongLines,
     emptyHint: 'Complete targeted tests to falsify the leading hypothesis.',
+    defaultOpen: false,
   };
 
   return {

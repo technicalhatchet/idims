@@ -46,6 +46,8 @@ export interface WizardProviderProps<TContext> {
   readOnly?: boolean;
   variant?: WizardVariant;
   initialStepId?: string;
+  /** Restore visited step ids from persisted diagnostic progress. */
+  initialVisitedStepIds?: string[];
   resetKey?: string | number;
   keyboardNavigation?: boolean;
   onStepChange?: (state: WizardNavigationState) => void;

@@ -99,12 +99,27 @@ export interface WizardContextValue<TContext = unknown> {
 
 const WizardContext = createContext<WizardContextValue<unknown> | null>(null);
 
+function buildInitialVisitedIds<TContext>(
+  visibleSteps: WizardStepDefinition<TContext>[],
+  initialIndex: number,
+  initialVisitedStepIds?: string[],
+): Set<string> {
+  const visited = new Set<string>();
+  if (initialVisitedStepIds?.length) {
+    for (const id of initialVisitedStepIds) visited.add(id);
+  }
+  const current = visibleSteps[initialIndex];
+  if (current) visited.add(current.id);
+  return visited;
+}
+
 export function WizardProvider<TContext>({
   steps,
   context,
   readOnly = false,
   variant = 'mobile',
   initialStepId,
+  initialVisitedStepIds,
   resetKey,
   keyboardNavigation = true,
   onStepChange,
@@ -127,15 +142,11 @@ export function WizardProvider<TContext>({
 
   const [currentStepIndex, setCurrentStepIndex] = useState(resolveInitialIndex);
   const [completedStepIds, setCompletedStepIds] = useState<Set<string>>(() => new Set());
-  const [visitedStepIds, setVisitedStepIds] = useState<Set<string>>(() => {
-    const initial = new Set<string>();
-    const first = visibleSteps[resolveInitialIndex()];
-    if (first) initial.add(first.id);
-    return initial;
-  });
+  const [visitedStepIds, setVisitedStepIds] = useState<Set<string>>(() =>
+    buildInitialVisitedIds(visibleSteps, resolveInitialIndex(), initialVisitedStepIds),
+  );
   const activeStepIdRef = useRef<string | undefined>(visibleSteps[resolveInitialIndex()]?.id);
   const backStackRef = useRef<string[]>([]);
-
   const resetTokenRef = useRef(resetKey);
 
   useEffect(() => {
@@ -144,13 +155,20 @@ export function WizardProvider<TContext>({
     const index = resolveInitialIndex();
     setCurrentStepIndex(index);
     setCompletedStepIds(new Set());
-    const visited = new Set<string>();
+    setVisitedStepIds(buildInitialVisitedIds(visibleSteps, index, initialVisitedStepIds));
     const step = visibleSteps[index];
-    if (step) visited.add(step.id);
-    setVisitedStepIds(visited);
     activeStepIdRef.current = step?.id;
     backStackRef.current = [];
-  }, [resetKey, resolveInitialIndex, visibleSteps]);
+  }, [resetKey, resolveInitialIndex, visibleSteps, initialVisitedStepIds]);
+
+  useEffect(() => {
+    if (!initialVisitedStepIds?.length) return;
+    setVisitedStepIds((prev) => {
+      const next = new Set(prev);
+      for (const id of initialVisitedStepIds) next.add(id);
+      return next.size === prev.size ? prev : next;
+    });
+  }, [initialVisitedStepIds]);
 
   useEffect(() => {
     const step = visibleSteps[currentStepIndex];
@@ -162,11 +180,21 @@ export function WizardProvider<TContext>({
     if (!activeId || !visibleSteps.length) return;
     const nextIndex = visibleSteps.findIndex((s) => s.id === activeId);
     if (nextIndex === -1) {
+      const fallbackKey = (context as { currentStepKey?: string })?.currentStepKey;
+      if (fallbackKey) {
+        const keyIndex = visibleSteps.findIndex(
+          (s) => (s.meta as { stepKey?: string } | undefined)?.stepKey === fallbackKey,
+        );
+        if (keyIndex >= 0) {
+          setCurrentStepIndex(keyIndex);
+          return;
+        }
+      }
       setCurrentStepIndex((prev) => Math.min(prev, visibleSteps.length - 1));
       return;
     }
     setCurrentStepIndex((prev) => (prev === nextIndex ? prev : nextIndex));
-  }, [visibleSteps]);
+  }, [visibleSteps, context]);
 
   useEffect(() => {
     if (currentStepIndex >= visibleSteps.length) {
@@ -228,8 +256,9 @@ export function WizardProvider<TContext>({
   const canJumpToStep = useCallback(
     (index: number) => {
       if (index < 0 || index >= visibleSteps.length) return false;
-      if (isStepLockedAtIndex(index)) return false;
+      // Always allow jumping backward so technicians can complete earlier prerequisites.
       if (index <= currentStepIndex) return true;
+      if (isStepLockedAtIndex(index)) return false;
       const step = visibleSteps[index];
       return completedStepIds.has(step.id) || visitedStepIds.has(step.id);
     },
