@@ -14,11 +14,17 @@ from app.constants.dma_standalone import (
     DMA_CONTEXT_DIY,
     DMA_CONTEXT_TECH,
     DMA_CONTEXT_TRAINING,
+    DMA_DIAGNOSTIC_COMPLETED,
+    DMA_DIAGNOSTIC_IN_PROGRESS,
+    DMA_DIAGNOSTIC_STATUSES,
     DMA_MODERATION_APPROVED,
     DMA_MODERATION_PENDING,
     DMA_MODERATION_REJECTED,
     DMA_VISIBILITY_PRIVATE,
     DMA_VISIBILITY_TRAINING_CORPUS,
+    OUTCOME_CONFIDENCE_CONFIRMED,
+    OUTCOME_CONFIDENCE_INCORRECT,
+    OUTCOME_CONFIDENCE_UNCONFIRMED,
     POOL_VISIBILITIES,
 )
 from app.models.dma import DmaRepairRecord, DmaStandaloneDiagnostic
@@ -72,7 +78,7 @@ def _require_work_order_mutation_access(
 
 
 def _serialize_diagnostic_payload(payload: Dict[str, Any]) -> str:
-    return json.dumps({
+    serialized = {
         "templateId": payload.get("templateId"),
         "appointmentId": None,
         "fields": payload.get("fields") or {},
@@ -82,7 +88,12 @@ def _serialize_diagnostic_payload(payload: Dict[str, Any]) -> str:
         "autoNoteEdited": bool(payload.get("autoNoteEdited")),
         "autoNoteFormat": "prose" if payload.get("autoNoteFormat") == "prose" else "bullets",
         "includeAutoNoteInSummary": payload.get("includeAutoNoteInSummary") is not False,
-    })
+    }
+    if isinstance(payload.get("visitedStepKeys"), list):
+        serialized["visitedStepKeys"] = payload.get("visitedStepKeys")
+    if payload.get("currentStepKey"):
+        serialized["currentStepKey"] = payload.get("currentStepKey")
+    return json.dumps(serialized)
 
 
 def _format_diagnostic_note_text(payload: Dict[str, Any]) -> str:
@@ -106,6 +117,8 @@ def _format_repair_outcome_note_text(record: DmaRepairRecord) -> str:
         "repairComments": record.technician_summary or "",
         "tags": tag_slugs,
     }
+    if record.outcome_confidence:
+        fields["outcomeConfidence"] = record.outcome_confidence
     return f"[{REPAIR_OUTCOME_NOTE_TYPE}]\n{json.dumps(fields)}"
 
 
@@ -249,6 +262,17 @@ def record_is_pool_eligible(record: DmaRepairRecord) -> bool:
     """Whether a field record counts toward DMA evidence nudges / suggestion pool."""
     if not record.repair_successful:
         return False
+
+    confidence = (record.outcome_confidence or "").strip().lower()
+    if confidence == OUTCOME_CONFIDENCE_INCORRECT:
+        return False
+    if confidence == OUTCOME_CONFIDENCE_UNCONFIRMED:
+        return False
+    # Only confirmed outcomes strengthen shared repair memory; legacy rows without confidence
+    # remain eligible when repair_successful (backwards compatible).
+    if confidence and confidence != OUTCOME_CONFIDENCE_CONFIRMED:
+        return False
+
     context = (record.context or DMA_CONTEXT_TECH).strip().lower()
     if context == DMA_CONTEXT_DIY:
         return (
@@ -370,6 +394,7 @@ def standalone_diagnostic_to_response(row: DmaStandaloneDiagnostic) -> Dict[str,
         "updated_at": row.updated_at,
         "created_by": row.created_by,
         "imported_work_order_id": row.imported_work_order_id,
+        "status": row.status or DMA_DIAGNOSTIC_IN_PROGRESS,
         "template_id": template_id,
         "template_label": _template_label(template_id),
     }
@@ -405,6 +430,10 @@ def create_standalone_diagnostic(
         if not user_can_edit_record(user, outcome):
             raise ValueError("Not allowed to link to this outcome")
 
+    initial_status = data.status
+    if not initial_status:
+        initial_status = DMA_DIAGNOSTIC_COMPLETED if outcome_id else DMA_DIAGNOSTIC_IN_PROGRESS
+
     row = DmaStandaloneDiagnostic(
         outcome_id=outcome_id,
         equipment_make=data.equipment_make,
@@ -416,6 +445,7 @@ def create_standalone_diagnostic(
         payload=data.payload,
         context=context,
         visibility=visibility,
+        status=initial_status,
         created_by=user.id,
         updated_by=user.id,
     )
@@ -440,12 +470,23 @@ def update_standalone_diagnostic(
             if not user_can_edit_record(user, outcome):
                 raise ValueError("Not allowed to link to this outcome")
         diagnostic.outcome_id = outcome_id
+        if outcome_id:
+            diagnostic.status = DMA_DIAGNOSTIC_COMPLETED
+        elif diagnostic.status == DMA_DIAGNOSTIC_COMPLETED:
+            diagnostic.status = DMA_DIAGNOSTIC_IN_PROGRESS
 
     if user.is_diyer:
         updates.pop("visibility", None)
 
     if "payload" in updates and updates["payload"] is not None:
         diagnostic.payload = updates.pop("payload")
+
+    if "status" in updates and updates["status"] is not None:
+        status = str(updates["status"]).strip().lower()
+        if status not in DMA_DIAGNOSTIC_STATUSES:
+            raise ValueError("status must be in_progress, completed, or abandoned")
+        diagnostic.status = status
+        updates.pop("status", None)
 
     for key, value in updates.items():
         setattr(diagnostic, key, value)
@@ -469,6 +510,7 @@ def list_standalone_diagnostics(
     linked: Optional[bool] = None,
     outcome_id: Optional[uuid.UUID] = None,
     context: Optional[str] = None,
+    status: Optional[str] = None,
     page: int = 1,
     limit: int = 20,
 ) -> Dict[str, Any]:
@@ -481,6 +523,11 @@ def list_standalone_diagnostics(
         query = query.filter(DmaStandaloneDiagnostic.outcome_id.isnot(None))
     elif linked is False:
         query = query.filter(DmaStandaloneDiagnostic.outcome_id.is_(None))
+
+    if status:
+        normalized = status.strip().lower()
+        if normalized in DMA_DIAGNOSTIC_STATUSES:
+            query = query.filter(DmaStandaloneDiagnostic.status == normalized)
 
     if outcome_id:
         query = query.filter(DmaStandaloneDiagnostic.outcome_id == outcome_id)
@@ -519,6 +566,7 @@ def link_diagnostic_to_outcome(
         raise ValueError("Not allowed to edit this diagnostic")
 
     diagnostic.outcome_id = outcome_id
+    diagnostic.status = DMA_DIAGNOSTIC_COMPLETED
     diagnostic.updated_by = user.id
     diagnostic.updated_at = datetime.utcnow()
     db.add(diagnostic)
@@ -534,6 +582,8 @@ def unlink_diagnostic_from_outcome(
     if not user_can_edit_diagnostic(user, diagnostic):
         raise ValueError("Not allowed to edit this diagnostic")
     diagnostic.outcome_id = None
+    if diagnostic.status == DMA_DIAGNOSTIC_COMPLETED:
+        diagnostic.status = DMA_DIAGNOSTIC_IN_PROGRESS
     diagnostic.updated_by = user.id
     diagnostic.updated_at = datetime.utcnow()
     db.add(diagnostic)

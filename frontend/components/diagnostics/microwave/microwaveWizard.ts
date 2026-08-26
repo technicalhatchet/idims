@@ -16,16 +16,6 @@ export const microwaveWizard: WizardDefinition = {
   routing: microwaveRoutingConfig,
   defaultSteps: [
     {
-      sectionId: 'commonly_missed',
-      stepKey: 'commonly_missed',
-      title: 'Pre-Checks',
-      estimatedMinutes: 2,
-      weight: 6,
-      optional: true,
-      canSkip: true,
-      collects: ['checklist', 'door', 'installation', 'ventilation'],
-    },
-    {
       sectionId: 'customer_complaint',
       stepKey: 'complaint',
       title: 'Client Complaint',
@@ -34,6 +24,16 @@ export const microwaveWizard: WizardDefinition = {
       optional: true,
       canSkip: true,
       collects: ['complaint', 'symptoms', 'error_codes'],
+    },
+    {
+      sectionId: 'commonly_missed',
+      stepKey: 'commonly_missed',
+      title: 'Pre-Checks',
+      estimatedMinutes: 2,
+      weight: 6,
+      optional: true,
+      canSkip: true,
+      collects: ['checklist', 'door', 'installation', 'ventilation'],
     },
     {
       sectionId: 'visual_inspection',

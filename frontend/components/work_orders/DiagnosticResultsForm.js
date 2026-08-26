@@ -44,6 +44,13 @@ import {
 } from '../diagnostics/routing/routingEngine';
 import { evaluateRecommendations } from '../diagnostics/routing/recommendationEngine';
 import { getDiagnosticLastMeasurements, generateDiagnosticNotes } from '../../services/api/diagnosticsApi';
+import SolomonReasoningPanel from '../solomon/reasoning/SolomonReasoningPanel';
+import SolomonInsightPeekBanner from '../solomon/SolomonInsightPeekBanner';
+import {
+  eliminationInsightLabel,
+  hasNewEliminationInsight,
+  hasSignificantIntelligenceChange,
+} from '../../utils/solomonInsightPeek';
 import { GUIDED_DIAGNOSTICS_LABEL } from '../../constants/workOrderNoteTypes';
 import {
   formatDiagnosticVisitLabel,
@@ -65,7 +72,12 @@ export default function DiagnosticResultsForm({
   onSave = null,
   isSaving = false,
   audience = 'tech',
+  showSolomonReasoning,
+  onProgressSave = null,
+  progressSaveDebounceMs = 1400,
+  hideTemplateSelector = false,
 }) {
+  const useSolomonReasoning = showSolomonReasoning ?? variant === 'mobile';
   const template = getDiagnosticTemplate(payload?.templateId);
   const wizardDefinition = getWizardDefinition(payload?.templateId);
   const templateOptions = listDiagnosticTemplates().map((t) => ({ value: t.id, label: t.label }));
@@ -80,8 +92,31 @@ export default function DiagnosticResultsForm({
   const intelligenceResultRef = useRef(null);
   const fieldTimelineTimersRef = useRef({});
   const lastFieldTimelineRef = useRef({});
+  const progressSaveTimerRef = useRef(null);
 
   payloadRef.current = payload;
+
+  const scheduleProgressSave = useCallback(
+    ({ immediate = false } = {}) => {
+      if (!onProgressSave || readOnly) return;
+      if (progressSaveTimerRef.current) {
+        clearTimeout(progressSaveTimerRef.current);
+        progressSaveTimerRef.current = null;
+      }
+      const delay = immediate ? 350 : progressSaveDebounceMs;
+      progressSaveTimerRef.current = setTimeout(() => {
+        progressSaveTimerRef.current = null;
+        void onProgressSave(payloadRef.current);
+      }, delay);
+    },
+    [onProgressSave, readOnly, progressSaveDebounceMs],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (progressSaveTimerRef.current) clearTimeout(progressSaveTimerRef.current);
+    };
+  }, []);
 
   const measurementStatuses = useMemo(
     () => buildMeasurementStatusMap(payload?.templateId, payload?.fields || {}),
@@ -140,23 +175,44 @@ export default function DiagnosticResultsForm({
   const prevRoutingRef = useRef(routingResult);
   const [routeDiff, setRouteDiff] = useState(null);
   const routeDiffDismissedRef = useRef(false);
+  const [routePathPeek, setRoutePathPeek] = useState(false);
+  const prevEliminationPeekRef = useRef(null);
+  const prevIntelligencePeekRef = useRef(null);
+  const [evidencePeek, setEvidencePeek] = useState(false);
+  const evidencePeekDismissedRef = useRef(false);
+
+  const scrollToInsight = useCallback((elementId) => {
+    const el = document.getElementById(elementId);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
 
   useEffect(() => {
     if (routeDiffDismissedRef.current) {
+      setRoutePathPeek(false);
       prevRoutingRef.current = routingResult;
       return;
     }
     const diff = diffRouting(prevRoutingRef.current, routingResult, wizardDefinition);
     if (diff) setRouteDiff(diff);
+    const hasPathChange = diff && (diff.added.length > 0 || diff.removed.length > 0);
+    if (hasPathChange) setRoutePathPeek(true);
     prevRoutingRef.current = routingResult;
   }, [routingResult, wizardDefinition]);
 
   useEffect(() => {
     routeDiffDismissedRef.current = false;
+    evidencePeekDismissedRef.current = false;
     setRouteDiff(null);
-    setVisitedStepKeys([]);
+    setRoutePathPeek(false);
+    setEvidencePeek(false);
+    prevEliminationPeekRef.current = null;
+    prevIntelligencePeekRef.current = null;
+    const restoredVisited = Array.isArray(payload?.visitedStepKeys)
+      ? payload.visitedStepKeys
+      : [];
+    setVisitedStepKeys(restoredVisited);
     prevStepIdRef.current = null;
-    prevStepKeyForTimelineRef.current = null;
+    prevStepKeyForTimelineRef.current = payload?.currentStepKey || null;
     lastFieldTimelineRef.current = {};
     Object.values(fieldTimelineTimersRef.current).forEach((timer) => clearTimeout(timer));
     fieldTimelineTimersRef.current = {};
@@ -250,9 +306,38 @@ export default function DiagnosticResultsForm({
 
   intelligenceResultRef.current = intelligenceResult;
 
+  useEffect(() => {
+    if (readOnly) return;
+    if (evidencePeekDismissedRef.current) {
+      prevEliminationPeekRef.current = eliminationResult;
+      prevIntelligencePeekRef.current = intelligenceResult;
+      return;
+    }
+    const elimChange = hasNewEliminationInsight(prevEliminationPeekRef.current, eliminationResult);
+    const intelChange = hasSignificantIntelligenceChange(
+      prevIntelligencePeekRef.current,
+      intelligenceResult,
+    );
+    const hasInsightContent =
+      eliminationResult?.confirmed?.length
+      || eliminationResult?.suspected?.length
+      || eliminationResult?.eliminated?.length
+      || (useSolomonReasoning && intelligenceResult?.topCategories?.length);
+    if ((elimChange || intelChange) && hasInsightContent) setEvidencePeek(true);
+    prevEliminationPeekRef.current = eliminationResult;
+    prevIntelligencePeekRef.current = intelligenceResult;
+  }, [eliminationResult, intelligenceResult, readOnly, useSolomonReasoning]);
+
   // Keep wizard step order stable — routing hides irrelevant steps; intelligence
   // highlights suggested next step in the progress bar (physical reorder broke Previous).
   const steps = baseSteps;
+
+  const wizardInitialStepId = useMemo(() => {
+    const stepKey = payload?.currentStepKey;
+    if (!stepKey) return undefined;
+    const step = steps.find((s) => s.meta?.stepKey === stepKey);
+    return step?.id;
+  }, [steps, payload?.currentStepKey]);
 
   useEffect(() => {
     if (readOnly || draftRestoredRef.current || !draftKey || draftNoteId) return;
@@ -269,6 +354,8 @@ export default function DiagnosticResultsForm({
         autoNoteEdited: Boolean(draft.autoNoteEdited),
         autoNoteFormat: draft.autoNoteFormat === 'prose' ? 'prose' : 'bullets',
         includeAutoNoteInSummary: draft.includeAutoNoteInSummary !== false,
+        visitedStepKeys: Array.isArray(draft.visitedStepKeys) ? draft.visitedStepKeys : [],
+        currentStepKey: draft.currentStepKey || null,
       });
     }
   }, [draftKey, draftNoteId, onChange, readOnly]);
@@ -294,8 +381,9 @@ export default function DiagnosticResultsForm({
     (nextPayload) => {
       onChange(nextPayload);
       if (!readOnly) persistDiagnosticDraft(draftKey, nextPayload);
+      scheduleProgressSave();
     },
-    [draftKey, onChange, readOnly],
+    [draftKey, onChange, readOnly, scheduleProgressSave],
   );
 
   useEffect(() => {
@@ -515,8 +603,10 @@ export default function DiagnosticResultsForm({
     (navigation) => {
       const step = steps.find((s) => s.id === navigation.currentStepId);
       const stepKey = step?.meta?.stepKey;
-      if (stepKey) {
-        setVisitedStepKeys((prev) => (prev.includes(stepKey) ? prev : [...prev, stepKey]));
+      let nextVisited = visitedStepKeys;
+      if (stepKey && !visitedStepKeys.includes(stepKey)) {
+        nextVisited = [...visitedStepKeys, stepKey];
+        setVisitedStepKeys(nextVisited);
       }
 
       if (!readOnly && stepKey && prevStepIdRef.current !== navigation.currentStepId) {
@@ -541,13 +631,16 @@ export default function DiagnosticResultsForm({
         const nextPayload = {
           ...payloadRef.current,
           timeline,
+          visitedStepKeys: nextVisited,
+          currentStepKey: stepKey,
           evidenceSnapshot: buildEvidenceSnapshot(intelligenceResultRef.current),
         };
         payloadRef.current = nextPayload;
         emitChange(nextPayload);
+        scheduleProgressSave({ immediate: true });
       }
     },
-    [steps, readOnly, emitChange],
+    [steps, readOnly, emitChange, visitedStepKeys, scheduleProgressSave],
   );
 
   const handleWizardComplete = useCallback(async () => {
@@ -566,6 +659,8 @@ export default function DiagnosticResultsForm({
       nextPayload = {
         ...payloadRef.current,
         timeline,
+        visitedStepKeys: payloadRef.current?.visitedStepKeys || visitedStepKeys,
+        currentStepKey: prevStepKeyForTimelineRef.current || payloadRef.current?.currentStepKey,
         evidenceSnapshot: buildEvidenceSnapshot(intelligenceResultRef.current),
         autoNoteBullets: payloadRef.current?.autoNoteEdited
           ? payloadRef.current.autoNoteBullets || []
@@ -584,6 +679,47 @@ export default function DiagnosticResultsForm({
       persistDiagnosticDraft(draftKey, payload);
     }
   }, [draftKey, payload, readOnly]);
+
+  const handleViewRoutePath = useCallback(() => {
+    scrollToInsight('solomon-diagnostic-path-insight');
+    setRoutePathPeek(false);
+  }, [scrollToInsight]);
+
+  const handleViewEvidenceInsight = useCallback(() => {
+    const hasElimination =
+      eliminationResult?.confirmed?.length
+      || eliminationResult?.suspected?.length
+      || eliminationResult?.eliminated?.length;
+    scrollToInsight(hasElimination ? 'solomon-elimination-insight' : 'solomon-reasoning-insight');
+    setEvidencePeek(false);
+  }, [scrollToInsight, eliminationResult]);
+
+  const mobileInsightPeeks =
+    variant === 'mobile' && !readOnly && (routePathPeek || evidencePeek) ? (
+      <div className="sticky bottom-2 z-10 space-y-2 pt-1">
+        {routePathPeek ? (
+          <SolomonInsightPeekBanner
+            label="View updated diagnostic path"
+            onView={handleViewRoutePath}
+            onDismiss={() => setRoutePathPeek(false)}
+            variant={variant}
+            tone="cyan"
+          />
+        ) : null}
+        {evidencePeek ? (
+          <SolomonInsightPeekBanner
+            label={eliminationInsightLabel(eliminationResult)}
+            onView={handleViewEvidenceInsight}
+            onDismiss={() => {
+              evidencePeekDismissedRef.current = true;
+              setEvidencePeek(false);
+            }}
+            variant={variant}
+            tone="violet"
+          />
+        ) : null}
+      </div>
+    ) : null;
 
   const draftHint = !readOnly && draftKey ? (
     <p className={`text-[11px] text-center ${variant === 'mobile' ? 'text-gray-600' : 'text-gray-400'}`}>
@@ -643,7 +779,7 @@ export default function DiagnosticResultsForm({
         </div>
       ) : (
         <>
-          {isDiyAudience ? (
+          {!hideTemplateSelector && isDiyAudience ? (
             <div className="rounded-xl border border-white/10 bg-[#0D1525] px-4 py-3 flex items-center justify-between gap-3">
               <div>
                 <p className="text-[10px] uppercase tracking-wide text-gray-500">Appliance</p>
@@ -656,7 +792,8 @@ export default function DiagnosticResultsForm({
                 Change
               </Link>
             </div>
-          ) : (
+          ) : null}
+          {!hideTemplateSelector && !isDiyAudience ? (
             <SelectInput
               label="Appliance template"
               id="diagTemplateId"
@@ -665,7 +802,7 @@ export default function DiagnosticResultsForm({
               options={templateOptions}
               disabled={readOnly}
             />
-          )}
+          ) : null}
 
           {workOrder ? (
             <SelectInput
@@ -680,82 +817,191 @@ export default function DiagnosticResultsForm({
         </>
       )}
 
-      {routeDiff && !readOnly && (
-        <ExplainRouteBanner
-          diff={routeDiff}
-          variant={variant}
-          onDismiss={() => {
-            routeDiffDismissedRef.current = true;
-            setRouteDiff(null);
-          }}
-        />
-      )}
-
-      {readOnly && payload?.evidenceSnapshot && (
-        <EvidenceSnapshotPanel
-          snapshot={payload.evidenceSnapshot}
-          variant={variant}
-          stepKeyLabels={stepKeyLabels}
-        />
-      )}
-
-      {eliminationResult && (
-        <EliminationBanner result={eliminationResult} variant={variant} />
-      )}
-
-      {intelligenceResult && (
+      {variant === 'mobile' ? (
         <>
-          <DiagnosisConfidenceMeter
-            intelligence={intelligenceResult}
+          <Wizard
+            steps={steps}
+            context={wizardContext}
+            readOnly={readOnly}
             variant={variant}
+            resetKey={payload?.templateId}
+            initialStepId={wizardInitialStepId}
+            onAutoSave={handleWizardAutoSave}
+            onStepChange={handleWizardStepChange}
+            onComplete={onSave ? () => void handleWizardComplete() : undefined}
+            completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
+            isCompleting={isSaving}
+            footerExtra={draftHint}
+            headerTitle={
+              readOnly
+                ? undefined
+                : variant === 'mobile'
+                  ? undefined
+                  : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
+            }
+            headerDescription={
+              readOnly || variant === 'mobile'
+                ? undefined
+                : 'Complete each step, generate service notes on Review, then save.'
+            }
           />
-          <ComponentHealthPanel
-            intelligence={intelligenceResult}
-            variant={variant}
-          />
-          <CategoryEvidencePanel
-            intelligence={intelligenceResult}
-            variant={variant}
+
+          {mobileInsightPeeks}
+
+          {routeDiff && !readOnly && (
+            <div id="solomon-diagnostic-path-insight" className="scroll-mt-3">
+              <ExplainRouteBanner
+                diff={routeDiff}
+                variant={variant}
+                onDismiss={() => {
+                  routeDiffDismissedRef.current = true;
+                  setRouteDiff(null);
+                  setRoutePathPeek(false);
+                }}
+              />
+            </div>
+          )}
+
+          {readOnly && payload?.evidenceSnapshot && (
+            <EvidenceSnapshotPanel
+              snapshot={payload.evidenceSnapshot}
+              variant={variant}
+              stepKeyLabels={stepKeyLabels}
+            />
+          )}
+
+          {eliminationResult && (
+            <div id="solomon-elimination-insight" className="scroll-mt-3">
+              <EliminationBanner result={eliminationResult} variant={variant} />
+            </div>
+          )}
+
+          {intelligenceResult && useSolomonReasoning ? (
+            <div id="solomon-reasoning-insight" className="scroll-mt-3">
+              <SolomonReasoningPanel
+                intelligence={intelligenceResult}
+                stepKeyLabels={stepKeyLabels}
+                variant={variant}
+              />
+            </div>
+          ) : null}
+
+          {intelligenceResult && !useSolomonReasoning && (
+            <>
+              <DiagnosisConfidenceMeter
+                intelligence={intelligenceResult}
+                variant={variant}
+              />
+              <ComponentHealthPanel
+                intelligence={intelligenceResult}
+                variant={variant}
+              />
+              <CategoryEvidencePanel
+                intelligence={intelligenceResult}
+                variant={variant}
+                stepKeyLabels={stepKeyLabels}
+                dmaNudgesLoading={dmaNudgesLoading}
+              />
+            </>
+          )}
+
+          <DiagnosticTimeline
+            timeline={payload?.timeline || []}
             stepKeyLabels={stepKeyLabels}
-            dmaNudgesLoading={dmaNudgesLoading}
+            fieldLabels={fieldLabels}
+            variant={variant}
+            title="Diagnostic Timeline"
+            defaultExpanded={readOnly}
+          />
+        </>
+      ) : (
+        <>
+          {routeDiff && !readOnly && (
+            <ExplainRouteBanner
+              diff={routeDiff}
+              variant={variant}
+              onDismiss={() => {
+                routeDiffDismissedRef.current = true;
+                setRouteDiff(null);
+                setRoutePathPeek(false);
+              }}
+            />
+          )}
+
+          {readOnly && payload?.evidenceSnapshot && (
+            <EvidenceSnapshotPanel
+              snapshot={payload.evidenceSnapshot}
+              variant={variant}
+              stepKeyLabels={stepKeyLabels}
+            />
+          )}
+
+          {eliminationResult && (
+            <EliminationBanner result={eliminationResult} variant={variant} />
+          )}
+
+          {intelligenceResult && useSolomonReasoning ? (
+            <SolomonReasoningPanel
+              intelligence={intelligenceResult}
+              stepKeyLabels={stepKeyLabels}
+              variant={variant}
+            />
+          ) : null}
+
+          {intelligenceResult && !useSolomonReasoning && (
+            <>
+              <DiagnosisConfidenceMeter
+                intelligence={intelligenceResult}
+                variant={variant}
+              />
+              <ComponentHealthPanel
+                intelligence={intelligenceResult}
+                variant={variant}
+              />
+              <CategoryEvidencePanel
+                intelligence={intelligenceResult}
+                variant={variant}
+                stepKeyLabels={stepKeyLabels}
+                dmaNudgesLoading={dmaNudgesLoading}
+              />
+            </>
+          )}
+
+          <DiagnosticTimeline
+            timeline={payload?.timeline || []}
+            stepKeyLabels={stepKeyLabels}
+            fieldLabels={fieldLabels}
+            variant={variant}
+            title="Diagnostic Timeline"
+            defaultExpanded={readOnly}
+          />
+
+          <Wizard
+            steps={steps}
+            context={wizardContext}
+            readOnly={readOnly}
+            variant={variant}
+            resetKey={payload?.templateId}
+            initialStepId={wizardInitialStepId}
+            onAutoSave={handleWizardAutoSave}
+            onStepChange={handleWizardStepChange}
+            onComplete={onSave ? () => void handleWizardComplete() : undefined}
+            completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
+            isCompleting={isSaving}
+            footerExtra={draftHint}
+            headerTitle={
+              readOnly
+                ? undefined
+                : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
+            }
+            headerDescription={
+              readOnly
+                ? undefined
+                : 'Complete each step, generate service notes on Review, then save.'
+            }
           />
         </>
       )}
-
-      <DiagnosticTimeline
-        timeline={payload?.timeline || []}
-        stepKeyLabels={stepKeyLabels}
-        fieldLabels={fieldLabels}
-        variant={variant}
-        title="Diagnostic Timeline"
-        defaultExpanded={readOnly}
-      />
-
-      <Wizard
-        steps={steps}
-        context={wizardContext}
-        readOnly={readOnly}
-        variant={variant}
-        resetKey={payload?.templateId}
-        onAutoSave={handleWizardAutoSave}
-        onStepChange={handleWizardStepChange}
-        onComplete={onSave ? () => void handleWizardComplete() : undefined}
-        completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
-        isCompleting={isSaving}
-        footerExtra={draftHint}
-        headerTitle={
-          readOnly
-            ? undefined
-            : variant === 'mobile'
-              ? undefined
-              : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
-        }
-        headerDescription={
-          readOnly || variant === 'mobile'
-            ? undefined
-            : 'Complete each step, generate service notes on Review, then save.'
-        }
-      />
     </div>
   );
 }

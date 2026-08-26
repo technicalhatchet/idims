@@ -77,6 +77,11 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Refrigerator',
     equipmentKeys: ['refrigerator'],
     sections: [
+      complaint([
+        txt('duration', 'Duration'),
+        txt('intermittent_or_constant', 'Intermittent or Constant'),
+        txt('error_codes', 'Display / Error Codes'),
+      ]),
       missed([
         chk('door_alignment', 'Door alignment / closing'),
         chk('gasket_sealing', 'Gasket sealing all doors'),
@@ -85,11 +90,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('airflow_obstruction', 'Condenser / toe-kick airflow clear'),
         chk('leveling', 'Unit level / door swing'),
         chk('ice_maker_fill_tube', 'Ice maker fill tube / filter'),
-      ]),
-      complaint([
-        txt('duration', 'Duration'),
-        txt('intermittent_or_constant', 'Intermittent or Constant'),
-        txt('error_codes', 'Display / Error Codes'),
       ]),
       {
         id: 'temperature_checks',
@@ -175,16 +175,16 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Standalone Freezer',
     equipmentKeys: ['freezer'],
     sections: [
+      complaint([
+        txt('duration', 'Duration'),
+        txt('intermittent_or_constant', 'Intermittent or Constant'),
+      ]),
       missed([
         chk('door_sealing', 'Door sealing'),
         chk('frost_source', 'Frost accumulation source'),
         chk('condenser_cleanliness', 'Condenser cleanliness'),
         chk('defrost_drain', 'Defrost drain / pan'),
         chk('leveling', 'Unit level'),
-      ]),
-      complaint([
-        txt('duration', 'Duration'),
-        txt('intermittent_or_constant', 'Intermittent or Constant'),
       ]),
       {
         id: 'temperature_checks',
@@ -255,6 +255,7 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Washer',
     equipmentKeys: ['washer', 'washing_machine'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('suspension', 'Suspension / shocks'),
         chk('drain_restrictions', 'Drain / standpipe restrictions'),
@@ -264,7 +265,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('inlet_screens', 'Inlet hose screens clear'),
         chk('level', 'Unit level'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'visual_inspection',
         title: 'Visual Inspection',
@@ -321,6 +321,7 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Electric Dryer',
     equipmentKeys: ['dryer'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('vent_restriction', 'Vent restriction / length'),
         chk('crushed_vent', 'Crushed vent hose'),
@@ -328,7 +329,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('overloading', 'Customer overloading'),
         chk('lint_trap', 'Lint screen / housing clean'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'visual_inspection',
         title: 'Visual Inspection',
@@ -381,13 +381,13 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Gas Dryer',
     equipmentKeys: ['gas_dryer'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('vent_restriction', 'Vent restriction / length'),
         chk('gas_supply', 'Gas supply valve on'),
         chk('lint_trap', 'Lint screen / housing clean'),
         chk('lp_orifices', 'LP conversion / orifices correct'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'visual_inspection',
         title: 'Visual Inspection',
@@ -439,13 +439,13 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Laundry Center / Stacked Unit',
     equipmentKeys: ['stacked_laundry'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('shared_power', 'Shared power / outlet load'),
         chk('airflow_restrictions', 'Dryer vent / airflow'),
         chk('installation', 'Installation / stacking kit / level'),
         chk('water_supply', 'Washer water supply / drain'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'washer_section',
         title: 'Washer Section',
@@ -496,6 +496,7 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'AIO Laundry (Heat-Pump Combo)',
     equipmentKeys: ['aio_laundry'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('heat_pump_filter', 'Heat pump filter / condenser clean'),
         chk('vent_airflow', 'Exhaust / condenser airflow'),
@@ -503,7 +504,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('level_install', 'Level / installation / pedestal'),
         chk('drain_filter', 'Drain pump filter / coin trap'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'wash_functions',
         title: 'Wash Functions',
@@ -554,6 +554,7 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Dishwasher',
     equipmentKeys: ['dishwasher'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('disposal_knockout', 'Garbage disposal knockout'),
         chk('drain_restrictions', 'Drain / air gap restrictions'),
@@ -561,7 +562,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('water_temperature', 'Hot water at sink (120°F+)'),
         chk('inlet_screen', 'Inlet valve screen'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'visual_inspection',
         title: 'Visual Inspection',
@@ -614,6 +614,7 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Electric Range',
     equipmentKeys: ['electric_range', 'range', 'oven', 'wall_oven'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('incoming_voltage', 'Incoming voltage verified'),
         chk('miswired_outlet', 'Miswired outlet / receptacle'),
@@ -621,7 +622,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('calibration', 'Calibration / offset checked'),
         chk('cookware', 'Customer cookware concerns'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'visual_inspection',
         title: 'Visual Inspection',
@@ -686,6 +686,7 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Gas Range',
     equipmentKeys: ['gas_range'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('gas_supply', 'Gas supply valve on / line verified'),
         chk('anti_tip', 'Anti-tip bracket installed'),
@@ -693,7 +694,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('ventilation', 'Adequate ventilation / hood'),
         chk('gas_odor', 'Gas odor / leak check performed'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'visual_inspection',
         title: 'Visual Inspection',
@@ -755,6 +755,7 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Microwave',
     equipmentKeys: ['microwave'],
     sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
       missed([
         chk('door_switch', 'Door switch operation'),
         chk('installation', 'Installation / clearance'),
@@ -762,7 +763,6 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('door_latching', 'Intermittent door latching'),
         chk('ventilation', 'Over-range vent / grease filter'),
       ]),
-      complaint([txt('error_codes', 'Error Codes')]),
       {
         id: 'visual_inspection',
         title: 'Visual Inspection',

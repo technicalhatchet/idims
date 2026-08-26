@@ -37,6 +37,20 @@ export const DMA_MANUFACTURERS = [
   { value: 'Other', label: 'Other' },
 ];
 
+export const OUTCOME_CONFIDENCE_OPTIONS = [
+  { value: '', label: 'Select confidence…' },
+  { value: 'confirmed', label: 'Confirmed — fix verified' },
+  { value: 'likely', label: 'Likely — not fully verified' },
+  { value: 'unconfirmed', label: 'Unconfirmed — repair not verified' },
+  { value: 'incorrect', label: 'Incorrect — diagnosis or fix was wrong' },
+];
+
+export const OUTCOME_CONFIDENCE_OPTIONS_DIY = [
+  { value: 'confirmed', label: 'Yes — that fixed it' },
+  { value: 'unconfirmed', label: 'Not sure yet' },
+  { value: 'incorrect', label: 'That did not fix it' },
+];
+
 export const EMPTY_FIELD_RECORD = {
   equipment_type: 'appliance',
   equipment_make: '',
@@ -49,6 +63,7 @@ export const EMPTY_FIELD_RECORD = {
   error_code_text: '',
   replaced_parts: '',
   repair_successful: true,
+  outcome_confidence: '',
   callback_required: false,
   technician_summary: '',
   performed_on: '',
@@ -78,6 +93,7 @@ export function recordToFormValues(record) {
     error_code_text: record.error_code_text || '',
     replaced_parts: record.replaced_parts || '',
     repair_successful: record.repair_successful !== false,
+    outcome_confidence: record.outcome_confidence || '',
     callback_required: !!record.callback_required,
     technician_summary: record.technician_summary || '',
     performed_on: record.performed_on || '',
@@ -98,6 +114,7 @@ export function formValuesToPayload(values) {
     error_code_text: values.error_code_text?.trim() || null,
     replaced_parts: values.replaced_parts?.trim() || null,
     repair_successful: !!values.repair_successful,
+    outcome_confidence: values.outcome_confidence || null,
     callback_required: !!values.callback_required,
     technician_summary: values.technician_summary?.trim() || null,
     performed_on: values.performed_on || null,

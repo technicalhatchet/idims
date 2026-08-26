@@ -36,10 +36,20 @@ function DiagnosticRow({ item, onDelete, isDeleting }) {
                   ? 'bg-sky-500/15 text-sky-300 border border-sky-500/25'
                   : item.outcome_id
                     ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25'
-                    : 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
+                    : item.status === 'in_progress' || !item.status
+                      ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/25'
+                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
               }`}
             >
-              {item.pendingSync ? 'Pending sync' : item.outcome_id ? 'Linked' : 'Unlinked'}
+              {item.pendingSync
+                ? 'Pending sync'
+                : item.outcome_id
+                  ? 'Linked'
+                  : item.status === 'in_progress' || !item.status
+                    ? 'In progress'
+                    : item.status === 'abandoned'
+                      ? 'Abandoned'
+                      : 'Unlinked'}
             </span>
           </div>
           {when ? <p className="text-xs text-gray-500 mt-2">{when}</p> : null}

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { format } from 'date-fns';
 import SolomonHead from '../../../components/solomon/SolomonHead';
+import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
 import DmaFieldRecordForm from '../../../components/dma/DmaFieldRecordForm';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
@@ -111,7 +112,7 @@ export default function SolomonOutcomeDetailPage() {
     return (
       <>
         <SolomonHead title="Outcome" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white flex justify-center py-20"><LoadingSpinner /></main>
+        <SolomonPageMain className="flex justify-center py-20"><LoadingSpinner /></SolomonPageMain>
       </>
     );
   }
@@ -120,9 +121,9 @@ export default function SolomonOutcomeDetailPage() {
     return (
       <>
         <SolomonHead title="Outcome" />
-        <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-8 max-w-lg mx-auto">
+        <SolomonPageMain>
           <ErrorAlert message={error || 'Not found'} />
-        </main>
+        </SolomonPageMain>
       </>
     );
   }
@@ -130,7 +131,7 @@ export default function SolomonOutcomeDetailPage() {
   return (
     <>
       <SolomonHead title="Repair outcome" />
-      <main className="min-h-screen bg-[#0A0F1E] text-white px-5 py-6 max-w-lg mx-auto pb-24">
+      <SolomonPageMain>
         <Link href="/solomon/outcomes" className="text-xs text-cyan-400 hover:text-cyan-300">← Outcomes</Link>
         <h1 className="text-2xl font-semibold mt-3">{formatDmaEquipment(record)}</h1>
         {record.updated_at ? (
@@ -189,6 +190,11 @@ export default function SolomonOutcomeDetailPage() {
         ) : (
           <div className="mt-6 rounded-xl border border-white/10 bg-[#0D1525] p-4 space-y-3 text-sm">
             <p className="text-white whitespace-pre-wrap">{record.confirmed_fix}</p>
+            {record.outcome_confidence ? (
+              <p className="text-xs text-cyan-400/80">
+                Confidence: {record.outcome_confidence.replace(/_/g, ' ')}
+              </p>
+            ) : null}
             {record.customer_complaint ? (
               <p className="text-gray-400"><span className="text-gray-500">Complaint:</span> {record.customer_complaint}</p>
             ) : null}
@@ -239,7 +245,7 @@ export default function SolomonOutcomeDetailPage() {
           title="Import outcome to work order"
           description="Adds Repair Outcome + linked Diagnostic Results notes (private)."
         />
-      </main>
+      </SolomonPageMain>
     </>
   );
 }

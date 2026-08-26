@@ -45,6 +45,7 @@ export function buildStandaloneDiagnosticBody(payload, equipmentMeta = {}) {
     payload: cleanPayload,
     outcome_id: equipmentMeta.outcome_id || null,
     context: equipmentMeta.context || null,
+    status: equipmentMeta.status || 'in_progress',
   };
 }
 
@@ -78,6 +79,7 @@ export function standaloneRowFromApiBody(id, body, extra = {}) {
     context: body.context ?? extra.context ?? null,
     template_id: templateId ?? null,
     template_label: templateIdToLabel(templateId),
+    status: extra.status ?? body.status ?? 'in_progress',
     created_at: extra.created_at || new Date().toISOString(),
     updated_at: extra.updated_at || new Date().toISOString(),
     pendingSync: extra.pendingSync ?? false,

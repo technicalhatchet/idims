@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { formatSolomonDateTime } from '../../../utils/solomonFormat';
@@ -19,20 +19,29 @@ import {
 } from '../../../services/api/dmaApi';
 import {
   fetchStandaloneDiagnostic,
-  updateStandaloneDiagnosticOffline,
   deleteStandaloneDiagnosticOffline,
 } from '../../../lib/solomonOfflineWrites';
 import SolomonWizardHeader from '../../../components/solomon/SolomonWizardHeader';
 import { SYNC_EVENT, SOLOMON_DIAGNOSTIC_SYNCED_EVENT } from '../../../lib/offlineMutations';
 import {
-  buildStandaloneDiagnosticBody,
   diagnosticDraftScopeId,
   isPendingDiagnosticId,
 } from '../../../utils/standaloneDiagnostic';
 import { openStandaloneDiagnosticPdf } from '../../../utils/workOrderPdf';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
+import { useSolomonDiagnosticProgress } from '../../../hooks/useSolomonDiagnosticProgress';
 import { importDmaDiagnosticToWorkOrder } from '../../../services/api/dmaApi';
 import SolomonWorkOrderImportSheet, { SolomonImportedWorkOrderLink } from '../../../components/solomon/SolomonWorkOrderImportSheet';
+import SolomonDiagnosticReasoningView from '../../../components/solomon/SolomonDiagnosticReasoningView';
+import SolomonEquipmentBar from '../../../components/solomon/SolomonEquipmentBar';
+import {
+  buildInitialDiagnosticStateForTemplate,
+  getDiagnosticTemplate,
+  listDiagnosticTemplates,
+} from '../../../constants/diagnosticTemplates';
+import { SOLOMON_DIY_APPLIANCES, templateIdToDiySubtype } from '../../../constants/solomonDiyAppliances';
+import { solomonCopy } from '../../../utils/solomonDiyCopy';
+import { confirmSolomonTemplateChange } from '../../../utils/solomonTemplateChange';
 
 export default function SolomonDiagnosticDetailPage() {
   const router = useRouter();
@@ -51,7 +60,83 @@ export default function SolomonDiagnosticDetailPage() {
   const [linkError, setLinkError] = useState(null);
   const [queuedMessage, setQueuedMessage] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { isStaff } = useSolomonAuth();
+  const { isStaff, isDiyer } = useSolomonAuth();
+  const [editEquipment, setEditEquipment] = useState({
+    equipment_make: '',
+    equipment_model: '',
+    equipment_serial: '',
+    equipment_subtype: '',
+  });
+  const continueOpenedRef = useRef(false);
+
+  useEffect(() => {
+    if (!row) return;
+    setEditEquipment({
+      equipment_make: row.equipment_make || '',
+      equipment_model: row.equipment_model || '',
+      equipment_serial: row.equipment_serial || '',
+      equipment_subtype: row.equipment_subtype || '',
+    });
+  }, [row]);
+
+  const templateOptions = useMemo(() => {
+    if (isDiyer) {
+      return SOLOMON_DIY_APPLIANCES.map((item) => ({
+        value: item.templateId,
+        label: item.label,
+      }));
+    }
+    return listDiagnosticTemplates().map((item) => ({ value: item.id, label: item.label }));
+  }, [isDiyer]);
+
+  const copy = (key) => solomonCopy(isDiyer, key);
+
+  const {
+    persistProgress,
+    persistFinal,
+  } = useSolomonDiagnosticProgress({
+    equipment: editEquipment,
+    initialDiagnosticId: typeof id === 'string' ? id : null,
+    status: row?.status || 'in_progress',
+  });
+
+  const handleProgressSave = useCallback(
+    (nextPayload) => persistProgress(nextPayload),
+    [persistProgress],
+  );
+
+  const handleEditTemplateChange = useCallback(
+    (nextTemplateId) => {
+      if (!editPayload || !nextTemplateId || nextTemplateId === editPayload.templateId) return;
+      if (!getDiagnosticTemplate(nextTemplateId)) return;
+      if (!confirmSolomonTemplateChange(editPayload, isDiyer)) return;
+
+      const nextPayload = buildInitialDiagnosticStateForTemplate(nextTemplateId);
+      setEditPayload(nextPayload);
+      setEditEquipment((prev) => ({
+        ...prev,
+        equipment_subtype: templateIdToDiySubtype(nextTemplateId),
+      }));
+      persistProgress(nextPayload, { immediate: true });
+    },
+    [editPayload, isDiyer, persistProgress],
+  );
+
+  useEffect(() => {
+    if (!isEditing || !editPayload) return undefined;
+    const timer = setTimeout(() => {
+      persistProgress(editPayload, { immediate: true });
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [
+    editEquipment.equipment_make,
+    editEquipment.equipment_model,
+    editEquipment.equipment_serial,
+    editEquipment.equipment_subtype,
+    isEditing,
+    editPayload,
+    persistProgress,
+  ]);
   const [importOpen, setImportOpen] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState(null);
@@ -102,28 +187,23 @@ export default function SolomonDiagnosticDetailPage() {
     load();
   }, [load]);
 
+  useEffect(() => {
+    if (router.query.continue !== '1' || !row?.payload || continueOpenedRef.current) return;
+    continueOpenedRef.current = true;
+    setEditPayload(row.payload);
+    setSaveError(null);
+    setIsEditing(true);
+  }, [router.query.continue, row]);
+
   const handleSave = async (finalPayload) => {
     setIsSaving(true);
     setSaveError(null);
     setQueuedMessage(null);
     try {
-      const body = buildStandaloneDiagnosticBody(finalPayload, {
-        equipment_make: row.equipment_make,
-        equipment_model: row.equipment_model,
-        equipment_serial: row.equipment_serial,
-        customer_complaint: row.customer_complaint,
-      });
-      const updated = await updateStandaloneDiagnosticOffline({
-        diagnosticId: id,
-        body: {
-          payload: body.payload,
-          equipment_make: body.equipment_make,
-          equipment_model: body.equipment_model,
-          equipment_subtype: body.equipment_subtype,
-          equipment_serial: body.equipment_serial,
-          customer_complaint: body.customer_complaint,
-        },
-      });
+      const updated = await persistFinal(finalPayload);
+      if (!updated?.id) {
+        throw new Error('Could not save on your device. Try again.');
+      }
       setRow(updated);
       setIsEditing(false);
       setEditPayload(null);
@@ -254,9 +334,15 @@ export default function SolomonDiagnosticDetailPage() {
   const label = row.template_label || row.template_id || 'Diagnostic';
   const when = formatSolomonDateTime(row.updated_at, 'MMM d, yyyy h:mm a');
   const isPending = row.pendingSync || isPendingDiagnosticId(id);
+  const needsOutcome =
+    !outcome
+    && !isPending
+    && row.status !== 'abandoned'
+    && (row.status === 'in_progress' || !row.status || row.payload?.evidenceSnapshot);
 
   if (isEditing && editPayload) {
     const draftScope = diagnosticDraftScopeId(id);
+    const templateLabel = getDiagnosticTemplate(editPayload?.templateId)?.label;
     return (
       <>
         <SolomonHead title="Edit diagnostic" />
@@ -278,6 +364,17 @@ export default function SolomonDiagnosticDetailPage() {
             />
           }
         >
+          <SolomonEquipmentBar
+            equipment={editEquipment}
+            onEquipmentChange={setEditEquipment}
+            templateId={editPayload.templateId}
+            templateOptions={templateOptions}
+            onTemplateChange={handleEditTemplateChange}
+            templateLabel={templateLabel}
+            isDiyer={isDiyer}
+            copy={copy}
+          />
+
           <DiagnosticResultsForm
             payload={editPayload}
             onChange={setEditPayload}
@@ -287,6 +384,9 @@ export default function SolomonDiagnosticDetailPage() {
             readOnly={false}
             isSaving={isSaving}
             onSave={handleSave}
+            onProgressSave={handleProgressSave}
+            audience={isDiyer ? 'diy' : 'tech'}
+            hideTemplateSelector
           />
         </SolomonMobileShell>
       </>
@@ -351,6 +451,34 @@ export default function SolomonDiagnosticDetailPage() {
         {deleteError ? <p className="text-sm text-red-400 mt-2">{deleteError}</p> : null}
         {pdfError ? <p className="text-sm text-red-400 mt-2">{pdfError}</p> : null}
 
+        {needsOutcome ? (
+          <section className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-amber-300/90">
+              {isDiyer ? 'What happened next?' : 'Record outcome'}
+            </p>
+            <p className="text-sm text-white/80 mt-2">
+              {isDiyer
+                ? 'Your diagnostic notes are saved. Add what you tried and whether it fixed the problem.'
+                : 'Diagnostic session saved. Link or create a repair outcome to close the loop.'}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-3">
+              <Link
+                href={`/solomon/outcomes/new?diagnostic_id=${id}`}
+                className="rounded-lg bg-[#EF8209] px-3 py-2 text-sm font-medium"
+              >
+                {isDiyer ? 'Add repair note' : 'Create outcome'}
+              </Link>
+              <button
+                type="button"
+                onClick={openLinkPicker}
+                className="rounded-lg border border-white/15 px-3 py-2 text-sm"
+              >
+                Link existing
+              </button>
+            </div>
+          </section>
+        ) : null}
+
         <section className="mt-6 rounded-xl border border-white/10 bg-[#0D1525] p-4">
           <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90 mb-3">Repair outcome</p>
           {outcome ? (
@@ -381,6 +509,12 @@ export default function SolomonDiagnosticDetailPage() {
             </div>
           )}
         </section>
+
+        {row.payload ? (
+          <div className="mt-6">
+            <SolomonDiagnosticReasoningView payload={row.payload} variant="mobile" />
+          </div>
+        ) : null}
 
         <div className="mt-6">
           {row.payload ? (
