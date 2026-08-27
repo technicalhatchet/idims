@@ -3,31 +3,31 @@
 import Link from 'next/link';
 import { FaCog, FaQuestionCircle } from 'react-icons/fa';
 
-export default function SolomonHomeHeader({ isStaff = false }) {
+export default function SolomonHomeHeader({ isStaff = false, className = '' }) {
   return (
-    <header className="flex items-center justify-between gap-3 mb-4">
-      <div className="min-w-0 flex-1">
+    <header className={`flex items-center justify-between gap-2 ${className}`}>
+      <div className="min-w-0 flex-1 pt-0.5">
         <img
           src="/solomon%20big.png"
           alt="Solomon Guided Diagnostics"
-          className="h-8 w-auto max-w-[200px] object-contain object-left"
+          className="h-[26px] w-auto max-w-[min(100%,168px)] object-contain object-left drop-shadow-[0_0_12px_rgba(0,180,255,0.25)]"
         />
       </div>
-      <div className="flex items-center gap-1 shrink-0">
+      <div className="flex items-center gap-0.5 shrink-0">
         <Link
           href="/contact"
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-cyan-400/90 hover:bg-white/5 hover:text-cyan-300"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-cyan-300/90 hover:bg-white/5"
           aria-label="Help"
         >
-          <FaQuestionCircle size={18} />
+          <FaQuestionCircle size={14} />
         </Link>
         {isStaff ? (
           <Link
             href="/settings"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-cyan-400/90 hover:bg-white/5 hover:text-cyan-300"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-cyan-300/90 hover:bg-white/5"
             aria-label="Settings"
           >
-            <FaCog size={18} />
+            <FaCog size={14} />
           </Link>
         ) : null}
       </div>
