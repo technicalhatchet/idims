@@ -59,6 +59,7 @@ export default function SolomonDiagnosticDetailPage() {
   const [outcomeOptions, setOutcomeOptions] = useState([]);
   const [linkError, setLinkError] = useState(null);
   const [queuedMessage, setQueuedMessage] = useState(null);
+  const [insightPeeks, setInsightPeeks] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const { isStaff, isDiyer } = useSolomonAuth();
   const [editEquipment, setEditEquipment] = useState({
@@ -373,6 +374,7 @@ export default function SolomonDiagnosticDetailPage() {
             templateLabel={templateLabel}
             isDiyer={isDiyer}
             copy={copy}
+            insightPeeks={insightPeeks}
           />
 
           <DiagnosticResultsForm
@@ -387,6 +389,9 @@ export default function SolomonDiagnosticDetailPage() {
             onProgressSave={handleProgressSave}
             audience={isDiyer ? 'diy' : 'tech'}
             hideTemplateSelector
+            insightPeekPlacement="external"
+            solomonMobileLayout
+            onInsightPeeksChange={setInsightPeeks}
           />
         </SolomonMobileShell>
       </>
@@ -512,7 +517,7 @@ export default function SolomonDiagnosticDetailPage() {
 
         {row.payload ? (
           <div className="mt-6">
-            <SolomonDiagnosticReasoningView payload={row.payload} variant="mobile" />
+            <SolomonDiagnosticReasoningView payload={row.payload} variant="mobile" mobileSheetLayout />
           </div>
         ) : null}
 

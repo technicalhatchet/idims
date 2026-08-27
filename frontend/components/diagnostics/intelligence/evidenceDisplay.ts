@@ -176,6 +176,50 @@ export function formatLeadCauseStrength(
   };
 }
 
+export interface DiyLeadCardPresentation {
+  categoryId: string;
+  categoryLabel: string;
+  percent: number;
+  strengthWord: string;
+  tierLabel: string;
+  subtitle: string;
+  evidenceScore: number;
+  marginOverNext: number;
+  stars: number;
+  tier: DiagnosisConfidenceTier | 'confirmed';
+}
+
+const DIY_STRENGTH_WORD: Record<DiagnosisConfidenceTier | 'confirmed', string> = {
+  low: 'EARLY',
+  medium: 'LIKELY',
+  high: 'LIKELY',
+  confirmed: 'CONFIRMED',
+};
+
+/**
+ * Compact DIY mobile card — uses existing computeDiagnosisConfidence percent (not evidence share %).
+ */
+export function formatDiyLeadCard(
+  intelligence: DiagnosticIntelligenceResult | null | undefined,
+): DiyLeadCardPresentation | null {
+  const strength = formatLeadCauseStrength(intelligence);
+  const confidence = computeDiagnosisConfidence(intelligence);
+  if (!strength || !confidence || !intelligence?.topCategories?.length) return null;
+
+  return {
+    categoryId: intelligence.topCategories[0].id,
+    categoryLabel: strength.categoryLabel,
+    percent: confidence.percent,
+    strengthWord: DIY_STRENGTH_WORD[strength.tier],
+    tierLabel: strength.tierLabel,
+    subtitle: confidence.explanation,
+    evidenceScore: strength.evidenceScore,
+    marginOverNext: strength.marginOverNext,
+    stars: confidence.stars,
+    tier: strength.tier,
+  };
+}
+
 export function listAllComponents(
   componentsByCategory: Record<string, ComponentEvidenceScore[]> = {},
 ): ComponentEvidenceScore[] {

@@ -2,25 +2,30 @@ import {
   getComponentsForCategory,
   getEvidenceLedgerForCategory,
 } from '../../diagnostics/intelligence/diagnosticIntelligenceEngine';
-import { formatLeadCauseStrength } from '../../diagnostics/intelligence/evidenceDisplay';
+import { formatDiyLeadCard, formatLeadCauseStrength } from '../../diagnostics/intelligence/evidenceDisplay';
 import { formatLedgerTriggerLine } from '../../diagnostics/intelligence/ledgerTrigger';
 import type { MeasurementEvaluation } from '../../diagnostics/knowledge/types';
 import type {
   DiagnosticIntelligenceResult,
   EvidenceLedgerEntry,
 } from '../../diagnostics/intelligence/evidenceTypes';
+import type { WizardDefinition } from '../../diagnostics/types';
 import {
   buildProveWrongLines,
-  buildWhySynthesisLines,
-  buildWhyThisTestLineFromConfig,
+  buildWhySynthesisOnly,
+  buildWhyThisTestForTopStep,
+  buildDiagnosticPathPresentation,
   getEvidenceConfigForTemplate,
+  getNextTestPreview,
 } from './reasoningPresentationHelpers';
+import type { DiagnosticPathStepPresentation } from './reasoningPresentationHelpers';
 
 export interface ReasoningLine {
   text: string;
   delta?: number;
   label?: string;
   triggerText?: string;
+  whyText?: string;
 }
 
 export interface ReasoningSection {
@@ -29,9 +34,12 @@ export interface ReasoningSection {
   lines: ReasoningLine[];
   emptyHint?: string;
   defaultOpen?: boolean;
+  count?: number;
 }
 
 export interface ReasoningPresentation {
+  leadCard: ReturnType<typeof formatDiyLeadCard>;
+  leadStrength: ReturnType<typeof formatLeadCauseStrength>;
   evidenceSummary: ReasoningSection;
   whyTop: ReasoningSection;
   whyThisTest: ReasoningSection;
@@ -39,6 +47,8 @@ export interface ReasoningPresentation {
   supporting: ReasoningSection;
   contradicting: ReasoningSection;
   proveWrong: ReasoningSection;
+  nextTestPreview: ReturnType<typeof getNextTestPreview>;
+  diagnosticPath: DiagnosticPathStepPresentation[] | null;
 }
 
 export interface ReasoningPresentationOptions {
@@ -46,9 +56,15 @@ export interface ReasoningPresentationOptions {
   fields?: Record<string, unknown>;
   measurementStatuses?: Map<string, MeasurementEvaluation>;
   stepKeyLabels?: Record<string, string>;
+  wizardDefinition?: WizardDefinition | null;
+  layout?: 'inline' | 'sheet';
+  wizardSteps?: import('../../diagnostics/types').ResolvedDiagnosticWizardStep[];
+  visitedStepKeys?: string[];
+  currentStepKey?: string | null;
+  reviewStepId?: string;
 }
 
-function ledgerLinesWithTriggers(entries: EvidenceLedgerEntry[], limit = 8): ReasoningLine[] {
+function ledgerLinesWithTriggers(entries: EvidenceLedgerEntry[], limit = 12): ReasoningLine[] {
   return entries.slice(0, limit).map((entry) => ({
     text: entry.explanation,
     delta: entry.delta,
@@ -75,15 +91,19 @@ export function buildReasoningPresentation(
   const measurementStatuses = options.measurementStatuses;
   const templateId = options.templateId;
   const labels = options.stepKeyLabels || stepKeyLabels;
+  const layout = options.layout || 'inline';
+  const isSheet = layout === 'sheet';
 
   const topCategory = intelligence.topCategories[0];
   const categoryLedger = getEvidenceLedgerForCategory(intelligence, topCategory.id);
   const positiveEntries = positiveLedger(categoryLedger);
+  const negativeEntries = negativeLedger(categoryLedger);
   const strength = formatLeadCauseStrength(intelligence);
+  const leadCard = formatDiyLeadCard(intelligence);
   const config = templateId ? getEvidenceConfigForTemplate(templateId) : null;
 
   const leadLines: ReasoningLine[] = [];
-  if (strength) {
+  if (strength && !isSheet) {
     leadLines.push({
       label: strength.categoryLabel,
       text: strength.tierLabel,
@@ -104,45 +124,41 @@ export function buildReasoningPresentation(
     }
   }
 
-  const evidenceSummary: ReasoningSection = {
-    id: 'b1',
-    title: 'Lead cause',
-    lines: leadLines,
-    emptyHint: 'Answer a few more checks to see competing causes.',
-    defaultOpen: true,
-  };
+  const synthesisText = buildWhySynthesisOnly(strength?.summary || '', topCategory.label);
 
   const whyTop: ReasoningSection = {
     id: 'b3',
-    title: 'Why?',
-    lines: buildWhySynthesisLines(topCategory.label, positiveEntries, strength?.summary || ''),
+    title: isSheet ? 'Why we believe this' : 'Why?',
+    lines: [{ text: synthesisText }],
     emptyHint: `No supporting rules fired yet for ${topCategory.label}.`,
-    defaultOpen: true,
+    defaultOpen: isSheet ? false : true,
   };
 
-  const recommended = intelligence.recommendedStepKeys || [];
+  const topStepKey = intelligence.recommendedStepKeys?.[0];
+  const whyThisTestLine = config
+    ? buildWhyThisTestForTopStep(
+      intelligence,
+      topCategory.id,
+      topCategory.label,
+      config,
+      fields,
+      measurementStatuses,
+      labels,
+      positiveEntries,
+    )
+    : null;
+
   const whyThisTest: ReasoningSection = {
     id: 'b4',
     title: 'Why this test?',
-    lines: config
-      ? recommended.slice(0, 4).map((stepKey) =>
-        buildWhyThisTestLineFromConfig(
-          stepKey,
-          topCategory.id,
-          topCategory.label,
-          config,
-          intelligence,
-          fields,
-          measurementStatuses,
-          labels,
-        ),
-      )
-      : recommended.slice(0, 4).map((stepKey) => ({
-        label: labels[stepKey] || stepKey,
-        text: `Next guided step to sharpen ${topCategory.label}.`,
-      })),
+    lines: whyThisTestLine
+      ? [{
+        text: whyThisTestLine.text,
+        label: isSheet ? undefined : whyThisTestLine.stepLabel,
+      }]
+      : [],
     emptyHint: 'Keep walking the wizard — suggested tests appear as evidence builds.',
-    defaultOpen: true,
+    defaultOpen: false,
   };
 
   const unresolvedComponents = getComponentsForCategory(intelligence, topCategory.id)
@@ -153,7 +169,7 @@ export function buildReasoningPresentation(
 
   const unresolved: ReasoningSection = {
     id: 'b5',
-    title: 'Unresolved',
+    title: isSheet ? 'Still unresolved' : 'Unresolved',
     lines: [
       ...unresolvedComponents.slice(0, 4).map((component) => ({
         label: component.label,
@@ -166,6 +182,7 @@ export function buildReasoningPresentation(
     ],
     emptyHint: 'Major paths are covered — review before closing out.',
     defaultOpen: false,
+    count: unresolvedComponents.length + lowCategories.length,
   };
 
   const supporting: ReasoningSection = {
@@ -174,14 +191,18 @@ export function buildReasoningPresentation(
     lines: ledgerLinesWithTriggers(positiveEntries, 12),
     emptyHint: 'No supporting evidence recorded yet.',
     defaultOpen: false,
+    count: positiveEntries.length,
   };
 
   const contradicting: ReasoningSection = {
     id: 'c2',
     title: 'Contradicting evidence',
-    lines: ledgerLinesWithTriggers(negativeLedger(categoryLedger), 12),
-    emptyHint: 'Nothing is pushing against the leading cause yet.',
+    lines: ledgerLinesWithTriggers(negativeEntries, 12),
+    emptyHint: isSheet
+      ? 'Nothing is currently pushing against this diagnosis.'
+      : 'Nothing is pushing against the leading cause yet.',
     defaultOpen: false,
+    count: negativeEntries.length,
   };
 
   const proveWrongLines = config
@@ -198,13 +219,47 @@ export function buildReasoningPresentation(
 
   const proveWrong: ReasoningSection = {
     id: 'c3',
-    title: 'What would prove this wrong?',
-    lines: proveWrongLines,
-    emptyHint: 'Complete targeted tests to falsify the leading hypothesis.',
+    title: isSheet ? 'What would change my mind?' : 'What would prove this wrong?',
+    lines: proveWrongLines.map((line) => ({
+      label: line.label,
+      text: line.text,
+      triggerText: line.triggerText,
+      whyText: line.whyText,
+    })),
+    emptyHint: 'Complete targeted tests to see what could change this diagnosis.',
     defaultOpen: false,
   };
 
+  const evidenceSummary: ReasoningSection = {
+    id: 'b1',
+    title: 'Lead cause',
+    lines: leadLines,
+    emptyHint: 'Answer a few more checks to see competing causes.',
+    defaultOpen: !isSheet,
+  };
+
+  const nextTestPreview = getNextTestPreview(
+    options.wizardDefinition,
+    topStepKey,
+    labels,
+  );
+
+  const diagnosticPath = isSheet && options.wizardSteps?.length
+    ? buildDiagnosticPathPresentation({
+      wizardSteps: options.wizardSteps,
+      wizardDefinition: options.wizardDefinition,
+      visitedStepKeys: options.visitedStepKeys || [],
+      currentStepKey: options.currentStepKey,
+      intelligence,
+      stepKeyLabels: labels,
+      templateId,
+      reviewStepId: options.reviewStepId,
+    })
+    : null;
+
   return {
+    leadCard,
+    leadStrength: strength,
     evidenceSummary,
     whyTop,
     whyThisTest,
@@ -212,5 +267,7 @@ export function buildReasoningPresentation(
     supporting,
     contradicting,
     proveWrong,
+    nextTestPreview,
+    diagnosticPath,
   };
 }

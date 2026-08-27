@@ -6,6 +6,7 @@ import {
   getWizardDefinition,
   resolveWizardSteps,
 } from '../diagnostics';
+import { DIAGNOSTIC_REVIEW_STEP_ID } from '../diagnostics/shared/createWizardDefinitionFromTemplate';
 import {
   clearDiagnosticDraft,
   getDiagnosticDraftKey,
@@ -45,6 +46,8 @@ import {
 import { evaluateRecommendations } from '../diagnostics/routing/recommendationEngine';
 import { getDiagnosticLastMeasurements, generateDiagnosticNotes } from '../../services/api/diagnosticsApi';
 import SolomonReasoningPanel from '../solomon/reasoning/SolomonReasoningPanel';
+import SolomonLeadingHypothesisCard from '../solomon/SolomonLeadingHypothesisCard';
+import SolomonReasoningSheet from '../solomon/SolomonReasoningSheet';
 import SolomonInsightPeekBanner from '../solomon/SolomonInsightPeekBanner';
 import {
   eliminationInsightLabel,
@@ -78,6 +81,7 @@ export default function DiagnosticResultsForm({
   hideTemplateSelector = false,
   insightPeekPlacement = 'wizard-footer',
   onInsightPeeksChange = null,
+  solomonMobileLayout = false,
 }) {
   const useSolomonReasoning = showSolomonReasoning ?? variant === 'mobile';
   const template = getDiagnosticTemplate(payload?.templateId);
@@ -95,6 +99,8 @@ export default function DiagnosticResultsForm({
   const fieldTimelineTimersRef = useRef({});
   const lastFieldTimelineRef = useRef({});
   const progressSaveTimerRef = useRef(null);
+  const [reasoningSheetOpen, setReasoningSheetOpen] = useState(false);
+  const [inlineRouteBanner, setInlineRouteBanner] = useState(false);
 
   payloadRef.current = payload;
 
@@ -702,18 +708,28 @@ export default function DiagnosticResultsForm({
   }, [draftKey, payload, readOnly]);
 
   const handleViewRoutePath = useCallback(() => {
+    if (solomonMobileLayout) {
+      setInlineRouteBanner(true);
+      setRoutePathPeek(false);
+      return;
+    }
     scrollToInsight('solomon-diagnostic-path-insight');
     setRoutePathPeek(false);
-  }, [scrollToInsight]);
+  }, [scrollToInsight, solomonMobileLayout]);
 
   const handleViewEvidenceInsight = useCallback(() => {
+    if (solomonMobileLayout) {
+      setReasoningSheetOpen(true);
+      setEvidencePeek(false);
+      return;
+    }
     const hasElimination =
       eliminationResult?.confirmed?.length
       || eliminationResult?.suspected?.length
       || eliminationResult?.eliminated?.length;
     scrollToInsight(hasElimination ? 'solomon-elimination-insight' : 'solomon-reasoning-insight');
     setEvidencePeek(false);
-  }, [scrollToInsight, eliminationResult]);
+  }, [scrollToInsight, eliminationResult, solomonMobileLayout]);
 
   const mobileInsightPeeks =
     variant === 'mobile' && !readOnly && (routePathPeek || evidencePeek) ? (
@@ -853,6 +869,26 @@ export default function DiagnosticResultsForm({
 
       {variant === 'mobile' ? (
         <>
+          {solomonMobileLayout && intelligenceResult ? (
+            <SolomonLeadingHypothesisCard
+              intelligence={intelligenceResult}
+              onOpenReasoning={() => setReasoningSheetOpen(true)}
+              variant={variant}
+            />
+          ) : null}
+
+          {solomonMobileLayout && inlineRouteBanner && routeDiff && !readOnly ? (
+            <ExplainRouteBanner
+              diff={routeDiff}
+              variant={variant}
+              onDismiss={() => {
+                setInlineRouteBanner(false);
+                routeDiffDismissedRef.current = true;
+                setRouteDiff(null);
+              }}
+            />
+          ) : null}
+
           <Wizard
             steps={steps}
             context={wizardContext}
@@ -881,7 +917,7 @@ export default function DiagnosticResultsForm({
             }
           />
 
-          {routeDiff && !readOnly && (
+          {routeDiff && !readOnly && !solomonMobileLayout ? (
             <div id="solomon-diagnostic-path-insight" className="scroll-mt-3">
               <ExplainRouteBanner
                 diff={routeDiff}
@@ -893,7 +929,7 @@ export default function DiagnosticResultsForm({
                 }}
               />
             </div>
-          )}
+          ) : null}
 
           {readOnly && payload?.evidenceSnapshot && (
             <EvidenceSnapshotPanel
@@ -903,13 +939,13 @@ export default function DiagnosticResultsForm({
             />
           )}
 
-          {eliminationResult && (
+          {eliminationResult && !solomonMobileLayout ? (
             <div id="solomon-elimination-insight" className="scroll-mt-3">
               <EliminationBanner result={eliminationResult} variant={variant} />
             </div>
-          )}
+          ) : null}
 
-          {intelligenceResult && useSolomonReasoning ? (
+          {intelligenceResult && useSolomonReasoning && !solomonMobileLayout ? (
             <div id="solomon-reasoning-insight" className="scroll-mt-3">
               <SolomonReasoningPanel
                 intelligence={intelligenceResult}
@@ -917,9 +953,32 @@ export default function DiagnosticResultsForm({
                 templateId={payload?.templateId}
                 fields={payload?.fields || {}}
                 measurementStatuses={measurementStatuses}
+                wizardDefinition={wizardDefinition}
                 variant={variant}
               />
             </div>
+          ) : null}
+
+          {solomonMobileLayout && intelligenceResult ? (
+            <SolomonReasoningSheet
+              open={reasoningSheetOpen}
+              onClose={() => setReasoningSheetOpen(false)}
+              intelligence={intelligenceResult}
+              stepKeyLabels={stepKeyLabels}
+              templateId={payload?.templateId}
+              fields={payload?.fields || {}}
+              measurementStatuses={measurementStatuses}
+              wizardDefinition={wizardDefinition}
+              wizardSteps={steps}
+              visitedStepKeys={
+                Array.isArray(payload?.visitedStepKeys)
+                  ? payload.visitedStepKeys
+                  : visitedStepKeys
+              }
+              currentStepKey={payload?.currentStepKey || null}
+              reviewStepId={DIAGNOSTIC_REVIEW_STEP_ID}
+              variant={variant}
+            />
           ) : null}
 
           {intelligenceResult && !useSolomonReasoning && (
@@ -983,6 +1042,7 @@ export default function DiagnosticResultsForm({
               templateId={payload?.templateId}
               fields={payload?.fields || {}}
               measurementStatuses={measurementStatuses}
+              wizardDefinition={wizardDefinition}
               variant={variant}
             />
           ) : null}
