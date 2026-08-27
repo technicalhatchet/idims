@@ -63,14 +63,18 @@ export default function SolomonHomePage() {
               <img
                 src={WIZARD_HERO}
                 alt=""
-                className="absolute inset-0 h-full w-full max-w-none object-cover select-none pointer-events-none scale-[1.06]"
-                style={{ objectPosition: '44% 14%', transformOrigin: '58% 16%' }}
+                className="absolute inset-0 h-full w-full max-w-none object-cover select-none pointer-events-none"
+                style={{
+                  objectPosition: '32% 17%',
+                  transform: 'translateX(12%) scale(0.95)',
+                  transformOrigin: '32% 17%',
+                }}
                 decoding="async"
               />
             </div>
 
-            <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/35 via-transparent to-transparent pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#070b14]/75 via-[#070b14]/25 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/30 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-[#070b14]/65 via-[#070b14]/20 to-transparent pointer-events-none" />
 
             <div className="relative z-10 px-4 pt-0.5">
               <SolomonHomeHeader isStaff={isStaff} />
@@ -78,7 +82,7 @@ export default function SolomonHomePage() {
 
             {hasActiveSession ? (
               <div
-                className="absolute z-20 left-4 bottom-2 w-[68%] max-w-[68%] min-w-[min(100%,200px)]"
+                className="absolute z-20 left-4 bottom-0 w-[68%] max-w-[68%] min-w-[min(100%,200px)]"
               >
                 <SolomonActiveSessionCard
                   target={continueTarget}
