@@ -60,17 +60,11 @@ export default function SolomonHomePage() {
               <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-transparent" />
               <div className="absolute inset-0 bg-[#070b14]/20" />
 
-              <div className="absolute inset-x-0 top-0 overflow-visible pointer-events-none" style={{ height: heroHeight }}>
+              <div className="absolute inset-x-0 top-0 overflow-visible pointer-events-none">
                 <img
                   src={WIZARD_HERO}
                   alt=""
-                  className="absolute inset-x-0 top-0 w-full max-w-none object-cover select-none pointer-events-none"
-                  style={{
-                    height: '108%',
-                    objectPosition: '32% 11%',
-                    transform: 'translateX(12%) translateY(1%) scale(0.70)',
-                    transformOrigin: '32% 11%',
-                  }}
+                  className="relative block w-full h-auto max-w-none select-none pointer-events-none"
                   decoding="async"
                 />
               </div>
