@@ -45,51 +45,58 @@ export default function SolomonHomePage() {
         <div className="px-4">
           <SolomonInstallHint />
 
-          {/* Hero — wizard right, blue magic left, session card overlaid lower-left */}
-          <div
-            className="relative -mx-4 overflow-hidden"
-            style={{ height: heroHeight }}
-          >
-            <img
-              src={COSMIC_BG}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover object-[center_30%] scale-105"
-              decoding="async"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-[#070b14]/90" />
-            <div className="absolute inset-0 bg-[#070b14]/20" />
-
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Hero visual stage — artwork extends behind session card, no bottom clip */}
+          <div className="relative -mx-4 overflow-x-hidden">
+            <div
+              className="absolute inset-x-0 top-0 z-0 pointer-events-none overflow-x-hidden overflow-y-visible"
+              style={{ height: heroHeight }}
+            >
               <img
-                src={WIZARD_HERO}
+                src={COSMIC_BG}
                 alt=""
-                className="absolute inset-0 h-full w-full max-w-none object-cover select-none pointer-events-none"
-                style={{
-                  objectPosition: '32% 17%',
-                  transform: 'translateX(12%) translateY(3%) scale(0.74)',
-                  transformOrigin: '32% 17%',
-                }}
+                className="absolute inset-0 h-full w-full object-cover object-[center_30%] scale-105"
                 decoding="async"
               />
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-[#070b14]/20" />
 
-            <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/30 via-transparent to-transparent pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-[#070b14]/65 via-[#070b14]/20 to-transparent pointer-events-none" />
-
-            <div className="relative z-10 px-4 pt-0.5">
-              <SolomonHomeHeader isStaff={isStaff} />
-            </div>
-
-            {hasActiveSession ? (
-              <div
-                className="absolute z-20 left-4 bottom-0 w-[68%] max-w-[68%] min-w-[min(100%,200px)]"
-              >
-                <SolomonActiveSessionCard
-                  target={continueTarget}
-                  variant="heroOverlay"
+              <div className="absolute inset-x-0 top-0 overflow-visible pointer-events-none" style={{ height: heroHeight }}>
+                <img
+                  src={WIZARD_HERO}
+                  alt=""
+                  className="absolute inset-x-0 top-0 h-full w-full max-w-none object-cover select-none pointer-events-none"
+                  style={{
+                    objectPosition: '32% 17%',
+                    transform: 'translateX(12%) translateY(3%) scale(0.74)',
+                    transformOrigin: '32% 17%',
+                  }}
+                  decoding="async"
                 />
               </div>
-            ) : null}
+
+              <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/30 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-x-0 top-0 h-[55%] bg-gradient-to-b from-[#070b14]/25 via-transparent to-transparent pointer-events-none" />
+            </div>
+
+            <div
+              className="relative z-10"
+              style={{ minHeight: heroHeight }}
+            >
+              <div className="px-4 pt-0.5">
+                <SolomonHomeHeader isStaff={isStaff} />
+              </div>
+
+              {hasActiveSession ? (
+                <div
+                  className="absolute z-20 left-4 bottom-0 w-[68%] max-w-[68%] min-w-[min(100%,200px)]"
+                >
+                  <SolomonActiveSessionCard
+                    target={continueTarget}
+                    variant="heroOverlay"
+                  />
+                </div>
+              ) : null}
+            </div>
           </div>
 
           {canUseSolomon ? (
