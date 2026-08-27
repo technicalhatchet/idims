@@ -64,11 +64,12 @@ export default function SolomonHomePage() {
                 <img
                   src={WIZARD_HERO}
                   alt=""
-                  className="absolute inset-x-0 top-0 h-full w-full max-w-none object-cover select-none pointer-events-none"
+                  className="absolute inset-x-0 top-0 w-full max-w-none object-cover select-none pointer-events-none"
                   style={{
-                    objectPosition: '32% 17%',
-                    transform: 'translateX(12%) translateY(3%) scale(0.74)',
-                    transformOrigin: '32% 17%',
+                    height: '108%',
+                    objectPosition: '32% 11%',
+                    transform: 'translateX(12%) translateY(1%) scale(0.70)',
+                    transformOrigin: '32% 11%',
                   }}
                   decoding="async"
                 />
