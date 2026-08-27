@@ -1,37 +1,62 @@
 'use client';
 
-import { FaCheckCircle, FaCloudUploadAlt, FaWifi } from 'react-icons/fa';
+import { FaCheckCircle, FaCloudUploadAlt, FaShieldAlt, FaWifi } from 'react-icons/fa';
 import { useClientMounted } from '../../hooks/useClientMounted';
 import { useOfflineSync } from '../../hooks/useOfflineSync';
+import { formatSolomonDateTime } from '../../utils/solomonFormat';
 
-export default function SolomonOfflineFooter() {
+export default function SolomonOfflineFooter({ syncReferenceTime }) {
   const mounted = useClientMounted();
   const { isOnline, pendingCount, syncState } = useOfflineSync();
+  const syncedLabel = syncReferenceTime
+    ? formatSolomonDateTime(syncReferenceTime, 'MMM d, h:mm a')
+    : null;
 
   if (!mounted) return null;
 
   if (!isOnline) {
     return (
-      <p className="flex items-center justify-center gap-2 text-xs text-amber-300/90">
-        <FaWifi size={12} />
-        Offline — saved on your device
-      </p>
+      <div className="rounded-xl border border-white/10 bg-[#0D1525]/80 px-3 py-2 flex items-center gap-3">
+        <FaWifi size={14} className="text-amber-400 shrink-0" />
+        <div className="min-w-0">
+          <p className="text-xs font-medium text-white">Offline</p>
+          <p className="text-[10px] text-gray-500">Diagnostics saved on your device</p>
+        </div>
+      </div>
     );
   }
 
   if (pendingCount > 0) {
     return (
-      <p className="flex items-center justify-center gap-2 text-xs text-sky-300/90">
-        <FaCloudUploadAlt size={12} />
-        {syncState === 'syncing' ? 'Syncing…' : `${pendingCount} item(s) waiting to sync`}
-      </p>
+      <div className="rounded-xl border border-white/10 bg-[#0D1525]/80 px-3 py-2 flex items-center gap-3">
+        <FaCloudUploadAlt size={14} className="text-sky-400 shrink-0" />
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-medium text-white">Sync pending</p>
+          <p className="text-[10px] text-gray-500">
+            {syncState === 'syncing' ? 'Syncing…' : `${pendingCount} item(s) waiting to sync`}
+          </p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <p className="flex items-center justify-center gap-2 text-xs text-emerald-400/90">
-      <FaCheckCircle size={12} />
-      Offline ready
-    </p>
+    <div className="rounded-xl border border-white/10 bg-[#0D1525]/80 px-3 py-2 flex items-center gap-3">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400">
+        <FaShieldAlt size={14} />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-xs font-medium text-white">Offline ready</p>
+        <p className="text-[10px] text-gray-500 leading-snug">
+          All diagnostics and repair memory available offline.
+        </p>
+      </div>
+      <div className="shrink-0 text-right">
+        {syncedLabel ? (
+          <p className="text-[10px] text-gray-500">Synced {syncedLabel}</p>
+        ) : null}
+        <FaCheckCircle size={12} className="text-emerald-400 ml-auto mt-0.5" />
+      </div>
+    </div>
   );
 }
