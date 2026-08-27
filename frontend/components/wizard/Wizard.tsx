@@ -43,7 +43,7 @@ export default function Wizard<TContext>({
       onStepChange={onStepChange}
       onAutoSave={onAutoSave}
     >
-      <div className={`space-y-4 ${className}`}>
+      <div className={`space-y-4 ${className}`} data-mobile-form={variant === 'mobile' ? true : undefined}>
         {(headerTitle || headerDescription) && (
           <WizardHeader title={headerTitle} description={headerDescription} />
         )}

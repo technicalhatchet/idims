@@ -7,7 +7,7 @@ export default function SolomonMobileShell({ header, children, headerClassName =
   const headerInset = useSolomonHeaderInset();
 
   return (
-    <div className="fixed inset-0 z-[200] flex flex-col bg-[#0f172a] text-white">
+    <div className="fixed inset-0 z-[200] flex flex-col bg-[#0f172a] text-white solomon-mobile-shell" data-mobile-form>
       <header
         className={`shrink-0 border-b border-white/10 ${headerClassName}`}
         style={headerInset}

@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* iOS Safari zooms focused inputs below 16px — keep mobile form fields readable without pinch-zoom. */
+@layer base {
+  @media (max-width: 640px) {
+    [data-mobile-form] input:not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']),
+    [data-mobile-form] select,
+    [data-mobile-form] textarea,
+    .solomon-mobile-shell input:not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']),
+    .solomon-mobile-shell select,
+    .solomon-mobile-shell textarea {
+      font-size: 16px;
+    }
+  }
+}
+
 /* Custom button styles */
 @layer components {
   .btn-primary {
