@@ -62,12 +62,14 @@ function ReasoningSectionCard({ section, variant, defaultOpen = false }) {
   );
 }
 
+/** Inline reasoning panel — read-only detail views and non-Solomon-mobile contexts. */
 export default function SolomonReasoningPanel({
   intelligence,
   stepKeyLabels = {},
   templateId,
   fields = {},
   measurementStatuses,
+  wizardDefinition,
   variant = 'mobile',
 }) {
   const presentation = buildReasoningPresentation(intelligence, stepKeyLabels, {
@@ -75,6 +77,8 @@ export default function SolomonReasoningPanel({
     fields,
     measurementStatuses,
     stepKeyLabels,
+    wizardDefinition,
+    layout: 'inline',
   });
   if (!presentation) return null;
 

@@ -206,6 +206,7 @@ export default function SolomonDiagnosePage() {
           onProgressSave={handleProgressSave}
           hideTemplateSelector
           insightPeekPlacement="external"
+          solomonMobileLayout
           onInsightPeeksChange={setInsightPeeks}
         />
         </SolomonAccessGuard>
