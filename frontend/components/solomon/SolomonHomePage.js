@@ -66,7 +66,7 @@ export default function SolomonHomePage() {
                 className="absolute inset-0 h-full w-full max-w-none object-cover select-none pointer-events-none"
                 style={{
                   objectPosition: '32% 17%',
-                  transform: 'translateX(12%) scale(0.95)',
+                  transform: 'translateX(12%) translateY(3%) scale(0.74)',
                   transformOrigin: '32% 17%',
                 }}
                 decoding="async"
