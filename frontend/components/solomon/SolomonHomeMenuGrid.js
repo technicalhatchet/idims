@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import {
-  FaBrain,
   FaChartBar,
   FaClipboardList,
   FaSearch,
@@ -22,10 +21,9 @@ const TILES = [
     href: '/solomon/outcomes',
     labelKey: 'outcomes',
     subtitle: 'Record and review completed repairs',
-    icon: FaClipboardList,
+    icon: FaWrench,
     accent: 'bg-orange-400',
     iconBg: 'bg-orange-500/15 text-orange-400',
-    useWrench: true,
   },
   {
     href: '/solomon/knowledge',
@@ -34,7 +32,6 @@ const TILES = [
     icon: FaSearch,
     accent: 'bg-purple-400',
     iconBg: 'bg-purple-500/15 text-purple-400',
-    useBrain: true,
   },
   {
     hrefKey: 'performance',
@@ -46,22 +43,22 @@ const TILES = [
   },
 ];
 
-function MenuTile({ href, label, subtitle, icon: Icon, accent, iconBg, useWrench, useBrain }) {
-  const TileIcon = useWrench ? FaWrench : useBrain ? FaBrain : Icon;
-
+function MenuTile({ href, label, subtitle, icon: Icon, accent, iconBg }) {
   return (
     <Link
       href={href}
-      className="flex flex-col rounded-xl border border-white/10 bg-[#0D1525]/88 backdrop-blur-sm px-2.5 py-2 hover:border-white/20 transition-colors overflow-hidden"
+      className="block rounded-xl border border-white/10 bg-[#0D1525]/88 backdrop-blur-sm px-2.5 py-2 hover:border-white/20 transition-colors overflow-hidden"
     >
-      <div className={`h-0.5 w-full rounded-full ${accent} opacity-80 mb-2`} />
-      <span className={`flex h-7 w-7 items-center justify-center rounded-lg ${iconBg}`}>
-        <TileIcon size={14} />
-      </span>
-      <span className="text-xs font-semibold text-white mt-1.5 leading-tight">{label}</span>
-      <span className="text-[10px] text-gray-500 mt-0.5 leading-snug line-clamp-2">
+      <div className={`h-0.5 w-full rounded-full ${accent} opacity-80 mb-1.5`} />
+      <div className="flex items-center gap-2 min-w-0">
+        <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${iconBg}`}>
+          <Icon size={12} />
+        </span>
+        <span className="text-xs font-semibold text-white leading-tight truncate">{label}</span>
+      </div>
+      <p className="text-[10px] text-gray-500 mt-1 leading-snug line-clamp-2 pl-0">
         {subtitle}
-      </span>
+      </p>
     </Link>
   );
 }
@@ -86,8 +83,6 @@ export default function SolomonHomeMenuGrid({ isDiyer, isStaff }) {
             icon={tile.icon}
             accent={tile.accent}
             iconBg={tile.iconBg}
-            useWrench={tile.useWrench}
-            useBrain={tile.useBrain}
           />
         );
       })}

@@ -1,16 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo } from 'react';
 import { FaChevronRight, FaPlus } from 'react-icons/fa';
-import { getWizardDefinition, resolveWizardSteps } from '../diagnostics';
-import { evaluateDiagnosticIntelligence } from '../diagnostics/intelligence/diagnosticIntelligenceEngine';
-import { formatDiyLeadCard } from '../diagnostics/intelligence/evidenceDisplay';
-import { buildFieldLabelsForTemplate } from '../diagnostics/intelligence/fieldLabels';
-import { extractDefaultStepOrder } from '../diagnostics/intelligence/reorderWizardSteps';
-import { buildStepKeyLabels } from '../diagnostics/intelligence/stepKeyLabels';
-import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
-import { getDiagnosticTemplate } from '../../constants/diagnosticTemplates';
 import SolomonInstallHint from './SolomonInstallHint';
 import SolomonHomeHeader from './SolomonHomeHeader';
 import SolomonActiveSessionCard from './SolomonActiveSessionCard';
@@ -25,71 +16,10 @@ import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 const COSMIC_BG = '/images/solomonwiz/blueoragnecosmicbg.png';
 const WIZARD_HERO = '/images/solomonwiz/wizbookwrench.png';
 
-function useSessionAccuracy(continueTarget) {
-  const templateId = continueTarget?.payload?.templateId;
-  const wizardDefinition = getWizardDefinition(templateId);
-  const template = getDiagnosticTemplate(templateId);
-
-  const wizardSteps = useMemo(
-    () => resolveWizardSteps(wizardDefinition, template),
-    [wizardDefinition, template],
-  );
-
-  const stepKeyLabels = useMemo(
-    () => buildStepKeyLabels(wizardDefinition),
-    [wizardDefinition],
-  );
-
-  const fieldLabels = useMemo(
-    () => buildFieldLabelsForTemplate(templateId),
-    [templateId],
-  );
-
-  const visitedStepKeys = continueTarget?.payload?.visitedStepKeys || [];
-  const defaultStepOrder = useMemo(
-    () => extractDefaultStepOrder(wizardSteps),
-    [wizardSteps],
-  );
-
-  const measurementStatuses = useMemo(
-    () => buildMeasurementStatusMap(templateId, continueTarget?.payload?.fields || {}),
-    [templateId, continueTarget?.payload?.fields],
-  );
-
-  return useMemo(() => {
-    if (!templateId || !continueTarget) return null;
-    const intelligence = evaluateDiagnosticIntelligence(
-      templateId,
-      continueTarget.payload?.fields || {},
-      measurementStatuses,
-      {
-        visitedStepKeys,
-        defaultStepOrder,
-        complaintChips: wizardDefinition?.complaintChips || [],
-        dmaNudges: null,
-        fieldLabels,
-        stepKeyLabels,
-      },
-    );
-    const lead = formatDiyLeadCard(intelligence);
-    return lead?.percent ?? null;
-  }, [
-    templateId,
-    continueTarget,
-    measurementStatuses,
-    visitedStepKeys,
-    defaultStepOrder,
-    wizardDefinition?.complaintChips,
-    fieldLabels,
-    stepKeyLabels,
-  ]);
-}
-
 export default function SolomonHomePage() {
   const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
   const { continueTarget, isLoading: continueLoading } = useSolomonContinue();
   const topInset = useSolomonTopInset();
-  const accuracyPercent = useSessionAccuracy(continueTarget);
 
   const newHref = isDiyer ? '/solomon/start' : '/solomon/diagnose';
   const newTitle = isDiyer ? 'Start troubleshooting' : 'New diagnostic';
@@ -111,24 +41,27 @@ export default function SolomonHomePage() {
           <SolomonInstallHint />
 
           {/* Hero viewport — wizard cropped/scaled, header overlaid */}
-          <div className="relative -mx-4 h-[min(38vh,200px)] max-h-[200px] overflow-hidden">
+          <div className="relative -mx-4 h-[min(42vh,228px)] max-h-[228px] overflow-hidden">
             <img
               src={COSMIC_BG}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover object-center scale-110"
+              className="absolute inset-0 h-full w-full object-cover object-[center_30%] scale-105"
               decoding="async"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-[#070b14]" />
-            <div className="absolute inset-0 bg-[#070b14]/30" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/15 via-transparent to-[#070b14]" />
+            <div className="absolute inset-0 bg-[#070b14]/25" />
 
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <img
                 src={WIZARD_HERO}
                 alt=""
-                className="absolute left-1/2 top-[2%] w-[130%] max-w-none select-none pointer-events-none"
+                className="absolute max-w-none select-none pointer-events-none"
                 style={{
-                  transform: 'translateX(-50%) scale(1.55)',
-                  transformOrigin: 'center top',
+                  left: '62%',
+                  top: '6%',
+                  width: '118%',
+                  transform: 'translateX(-48%) scale(1.18)',
+                  transformOrigin: '48% 22%',
                 }}
                 decoding="async"
               />
@@ -140,9 +73,11 @@ export default function SolomonHomePage() {
           </div>
 
           {canUseSolomon ? (
-            <div className="relative z-20 -mt-6 space-y-2">
+            <div className="relative z-20 -mt-5 space-y-2">
               {!continueLoading && continueTarget ? (
-                <SolomonActiveSessionCard target={continueTarget} />
+                <div className="w-[72%] max-w-[72%] min-w-[min(100%,220px)]">
+                  <SolomonActiveSessionCard target={continueTarget} />
+                </div>
               ) : null}
 
               <Link
@@ -165,7 +100,7 @@ export default function SolomonHomePage() {
 
               <SolomonHomeMenuGrid isDiyer={isDiyer} isStaff={isStaff} />
 
-              <SolomonSmarterCard isDiyer={isDiyer} accuracyPercent={accuracyPercent} />
+              <SolomonSmarterCard isDiyer={isDiyer} />
 
               <SolomonOfflineFooter syncReferenceTime={continueTarget?.updated_at} />
             </div>
