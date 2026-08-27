@@ -27,6 +27,11 @@ export default function SolomonHomePage() {
     ? 'Walk through symptoms step by step'
     : 'Start a new guided diagnostic';
 
+  const hasActiveSession = canUseSolomon && !continueLoading && continueTarget;
+  const heroHeight = hasActiveSession
+    ? 'min(52vh, 300px)'
+    : 'min(38vh, 200px)';
+
   return (
     <div className="relative min-h-screen text-white bg-[#070b14]">
       <main
@@ -40,46 +45,51 @@ export default function SolomonHomePage() {
         <div className="px-4">
           <SolomonInstallHint />
 
-          {/* Hero viewport — wizard cropped/scaled, header overlaid */}
-          <div className="relative -mx-4 h-[min(42vh,228px)] max-h-[228px] overflow-hidden">
+          {/* Hero — wizard right, blue magic left, session card overlaid lower-left */}
+          <div
+            className="relative -mx-4 overflow-hidden"
+            style={{ height: heroHeight }}
+          >
             <img
               src={COSMIC_BG}
               alt=""
               className="absolute inset-0 h-full w-full object-cover object-[center_30%] scale-105"
               decoding="async"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/15 via-transparent to-[#070b14]" />
-            <div className="absolute inset-0 bg-[#070b14]/25" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-[#070b14]/90" />
+            <div className="absolute inset-0 bg-[#070b14]/20" />
 
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <img
                 src={WIZARD_HERO}
                 alt=""
-                className="absolute max-w-none select-none pointer-events-none"
-                style={{
-                  left: '62%',
-                  top: '6%',
-                  width: '118%',
-                  transform: 'translateX(-48%) scale(1.18)',
-                  transformOrigin: '48% 22%',
-                }}
+                className="absolute inset-0 h-full w-full max-w-none object-cover select-none pointer-events-none scale-[1.06]"
+                style={{ objectPosition: '44% 14%', transformOrigin: '58% 16%' }}
                 decoding="async"
               />
             </div>
 
+            <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/35 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[#070b14]/75 via-[#070b14]/25 to-transparent pointer-events-none" />
+
             <div className="relative z-10 px-4 pt-0.5">
               <SolomonHomeHeader isStaff={isStaff} />
             </div>
+
+            {hasActiveSession ? (
+              <div
+                className="absolute z-20 left-4 bottom-2 w-[68%] max-w-[68%] min-w-[min(100%,200px)]"
+              >
+                <SolomonActiveSessionCard
+                  target={continueTarget}
+                  variant="heroOverlay"
+                />
+              </div>
+            ) : null}
           </div>
 
           {canUseSolomon ? (
-            <div className="relative z-20 -mt-5 space-y-2">
-              {!continueLoading && continueTarget ? (
-                <div className="w-[72%] max-w-[72%] min-w-[min(100%,220px)]">
-                  <SolomonActiveSessionCard target={continueTarget} />
-                </div>
-              ) : null}
-
+            <div className="relative z-20 mt-2.5 space-y-2">
               <Link
                 href={newHref}
                 className="flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 py-2.5 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors"
@@ -105,7 +115,7 @@ export default function SolomonHomePage() {
               <SolomonOfflineFooter syncReferenceTime={continueTarget?.updated_at} />
             </div>
           ) : (
-            <div className="relative z-20 -mt-4">
+            <div className="relative z-20 mt-2.5">
               <Link
                 href="/solomon/signup"
                 className="block rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 py-2.5 text-center text-sm font-semibold"
