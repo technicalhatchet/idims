@@ -40,7 +40,7 @@ function SegmentedProgress({ stepNumber, totalSteps }) {
   );
 }
 
-export default function SolomonActiveSessionCard({ target }) {
+export default function SolomonActiveSessionCard({ target, variant = 'default' }) {
   const templateId = target?.payload?.templateId;
   const wizardDefinition = getWizardDefinition(templateId);
   const template = getDiagnosticTemplate(templateId);
@@ -117,10 +117,14 @@ export default function SolomonActiveSessionCard({ target }) {
 
   if (!target) return null;
 
+  const surfaceClass = variant === 'heroOverlay'
+    ? 'border-cyan-400/30 bg-[#0a1220]/82 backdrop-blur-lg shadow-[0_8px_28px_rgba(0,0,0,0.55),0_0_0_1px_rgba(34,211,238,0.12),inset_0_1px_0_rgba(255,255,255,0.04)]'
+    : 'border-cyan-500/20 bg-[#0D1525]/92 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.35)]';
+
   return (
     <Link
       href={`/solomon/diagnostics/${target.id}?continue=1`}
-      className="block rounded-xl border border-cyan-500/20 bg-[#0D1525]/92 backdrop-blur-md px-3 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:border-cyan-400/35 transition-colors"
+      className={`block rounded-xl border px-3 py-2.5 hover:border-cyan-400/40 transition-colors ${surfaceClass}`}
     >
       <div className="flex items-start justify-between gap-2">
         <p className="text-[9px] uppercase tracking-[0.22em] text-cyan-400/85 font-medium">
