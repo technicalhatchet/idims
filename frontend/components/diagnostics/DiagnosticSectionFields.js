@@ -154,7 +154,9 @@ export function DiagnosticFieldControl({
           disabled={disabled}
           rows={3}
           onChange={(e) => onChange(key, e.target.value)}
-          className={`w-full rounded-lg border px-3 py-2 text-sm ${
+          className={`w-full rounded-lg border px-3 py-2 ${
+            variant === 'mobile' ? 'text-base' : 'text-sm'
+          } ${
             variant === 'mobile'
               ? 'border-white/10 bg-[#0A0F1E] text-white'
               : 'border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white'
@@ -202,7 +204,9 @@ export function DiagnosticFieldControl({
           value={value || ''}
           disabled={disabled}
           onChange={(e) => onChange(fieldKey, e.target.value)}
-          className={`w-full rounded-lg border px-3 py-2 text-sm ${
+          className={`w-full rounded-lg border px-3 py-2 ${
+            variant === 'mobile' ? 'text-base' : 'text-sm'
+          } ${
             variant === 'mobile'
               ? 'border-white/10 bg-[#0A0F1E] text-white'
               : 'border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white'

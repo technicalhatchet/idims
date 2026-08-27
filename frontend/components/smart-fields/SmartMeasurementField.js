@@ -16,11 +16,12 @@ export default function SmartMeasurementField({
   lastReading = null,
   helpText = null,
   recommendations = [],
-  inputMode = 'decimal',
+  inputMode = 'text',
 }) {
   const isMobile = variant === 'mobile';
   const unit = definition?.unit || '';
   const status = evaluation?.status || 'unknown';
+  const placeholder = unit ? `e.g. 12.5 or OL (${unit})` : 'e.g. 12.5 or OL';
   const borderTone =
     status === 'critical'
       ? 'border-red-500/40'
@@ -48,8 +49,10 @@ export default function SmartMeasurementField({
           value={value || ''}
           disabled={disabled}
           onChange={(e) => onChange(e.target.value)}
-          placeholder={unit ? `Enter ${unit}` : 'Enter reading'}
-          className={`flex-1 rounded-lg border px-3 py-2 text-sm ${
+          placeholder={placeholder}
+          className={`flex-1 rounded-lg border px-3 py-2 ${
+            isMobile ? 'text-base' : 'text-sm'
+          } ${
             isMobile
               ? `bg-[#0A0F1E] text-white ${borderTone}`
               : `dark:bg-gray-800 dark:text-white ${borderTone}`
