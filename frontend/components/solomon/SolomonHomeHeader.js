@@ -10,7 +10,7 @@ export default function SolomonHomeHeader({ isStaff = false, className = '' }) {
         <img
           src="/solomon%20big.png"
           alt="Solomon Guided Diagnostics"
-          className="h-[26px] w-auto max-w-[min(100%,168px)] object-contain object-left drop-shadow-[0_0_12px_rgba(0,180,255,0.25)]"
+          className="h-[32px] w-auto max-w-[min(100%,200px)] object-contain object-left drop-shadow-[0_0_12px_rgba(0,180,255,0.25)]"
         />
       </div>
       <div className="flex items-center gap-0.5 shrink-0">
