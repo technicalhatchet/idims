@@ -84,10 +84,60 @@ export function solomonAbsoluteStyle({ x, y, width, scale, originX, originY }) {
   };
 }
 
+/** Stage width expression — shared by spacer, card shell, and typography scale. */
+export function solomonStageWidthExpr() {
+  const { maxWidth } = SOLOMON_ARTBOARD;
+  return `min(100vw, ${maxWidth})`;
+}
+
+/** Artboard length from a height % (fallback when % height resolves inconsistently). */
+export function solomonArtboardHeightPercentExpr(percent) {
+  const { ratio } = SOLOMON_ARTBOARD;
+  return `calc(${solomonStageWidthExpr()} * ${ratio} * ${parseFloat(percent) / 100})`;
+}
+
+/** Session card shell — scales typography with stage width; prevents Android text inflation. */
+export function solomonSessionCardShellStyle(card) {
+  return {
+    left: card.x,
+    top: card.y,
+    width: card.width,
+    height: card.height,
+    minHeight: solomonArtboardHeightPercentExpr(card.height),
+    fontSize: `calc(${solomonStageWidthExpr()} * 0.0265)`,
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+  };
+}
+
+/** Primary CTA below hero — fixed box, px type, no Android rem inflation. */
+export const SOLOMON_PRIMARY_CTA_CLASS =
+  'box-border flex h-[52px] min-h-[52px] max-h-[52px] shrink-0 items-center gap-2.5 overflow-hidden rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors';
+
+/** CTA label block — viewport-scaled px (not rem) so Android font settings cannot inflate it. */
+export function solomonPrimaryCtaLabelStyle({ longTitle = false } = {}) {
+  const titleScale = longTitle ? 0.92 : 1;
+  const w = solomonStageWidthExpr();
+  return {
+    WebkitTextSizeAdjust: '100%',
+    textSizeAdjust: '100%',
+    title: {
+      fontSize: `calc(${w} * ${0.037 * titleScale})`,
+      lineHeight: '17px',
+      height: '17px',
+    },
+    subtitle: {
+      fontSize: `calc(${w} * 0.029)`,
+      lineHeight: '14px',
+      height: '14px',
+    },
+  };
+}
+
 /** CSS length for full artboard height at current viewport (matches max-w-lg). */
 export function solomonStageHeightExpr() {
-  const { ratio, maxWidth } = SOLOMON_ARTBOARD;
-  return `calc(min(100vw, ${maxWidth}) * ${ratio})`;
+  const { ratio } = SOLOMON_ARTBOARD;
+  return `calc(${solomonStageWidthExpr()} * ${ratio})`;
 }
 
 /** Spacer below header so UI clears the hero overlap — derived from artboard %. */
@@ -95,11 +145,11 @@ export function solomonContentSpacerStyle(hasActiveSession) {
   const y = hasActiveSession
     ? SOLOMON_LAYOUT.contentStartArtboardY.withSession
     : SOLOMON_LAYOUT.contentStartArtboardY.withoutSession;
-  const { ratio, maxWidth } = SOLOMON_ARTBOARD;
+  const { ratio } = SOLOMON_ARTBOARD;
   const header = SOLOMON_LAYOUT.headerFlowEstimate;
   const gap = hasActiveSession ? ` + ${SOLOMON_LAYOUT.sessionToNewDiagnosticGap}` : '';
 
   return {
-    height: `max(0px, calc(min(100vw, ${maxWidth}) * ${ratio} * ${parseFloat(y) / 100} - ${header}${gap}))`,
+    height: `max(0px, calc(${solomonStageWidthExpr()} * ${ratio} * ${parseFloat(y) / 100} - ${header}${gap}))`,
   };
 }

@@ -12,7 +12,7 @@ import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
 import { useSolomonTopInset, solomonSafeBottom } from './solomonSafeArea';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
-import { SOLOMON_Z, solomonContentSpacerStyle } from './solomonHeroComposition';
+import { SOLOMON_Z, SOLOMON_PRIMARY_CTA_CLASS, solomonContentSpacerStyle, solomonPrimaryCtaLabelStyle } from './solomonHeroComposition';
 
 export default function SolomonHomePage() {
   const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
@@ -26,6 +26,7 @@ export default function SolomonHomePage() {
     : 'Start a new guided diagnostic';
 
   const hasActiveSession = canUseSolomon && !continueLoading && continueTarget;
+  const ctaLabels = solomonPrimaryCtaLabelStyle({ longTitle: isDiyer });
 
   return (
     <div className="relative min-h-screen text-white bg-[#070b14]">
@@ -55,16 +56,32 @@ export default function SolomonHomePage() {
             <div className="space-y-2">
               <Link
                 href={newHref}
-                className="flex h-[52px] items-center gap-2.5 rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors"
+                className={SOLOMON_PRIMARY_CTA_CLASS}
+                style={{
+                  WebkitTextSizeAdjust: '100%',
+                  textSizeAdjust: '100%',
+                }}
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10">
                   <FaPlus size={12} />
                 </span>
-                <span className="flex min-h-0 min-w-0 flex-1 flex-col justify-center">
-                  <span className="block truncate text-sm font-semibold leading-tight text-white">
+                <span
+                  className="grid min-h-0 min-w-0 flex-1 grid-rows-[17px_14px] gap-0 overflow-hidden"
+                  style={{
+                    WebkitTextSizeAdjust: '100%',
+                    textSizeAdjust: '100%',
+                  }}
+                >
+                  <span
+                    className="block truncate font-semibold text-white"
+                    style={ctaLabels.title}
+                  >
                     {newTitle}
                   </span>
-                  <span className="block truncate text-[11px] leading-snug text-cyan-100/75">
+                  <span
+                    className="block truncate text-cyan-100/75"
+                    style={ctaLabels.subtitle}
+                  >
                     {newSubtitle}
                   </span>
                 </span>

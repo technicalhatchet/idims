@@ -12,6 +12,7 @@ import {
   SOLOMON_SESSION,
   SOLOMON_Z,
   solomonAbsoluteStyle,
+  solomonSessionCardShellStyle,
 } from './solomonHeroComposition';
 
 function BackdropLayer({ src, layer, className = '' }) {
@@ -69,10 +70,7 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
             data-solomon-session-card
             className="pointer-events-auto absolute transition-opacity duration-300"
             style={{
-              left: card.x,
-              top: card.y,
-              width: card.width,
-              height: card.height,
+              ...solomonSessionCardShellStyle(card),
               zIndex: SOLOMON_Z.sessionCard,
             }}
           >
