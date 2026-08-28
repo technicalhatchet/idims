@@ -36,6 +36,15 @@ export default function SolomonHomePage() {
     <div className="relative min-h-screen text-white">
       <div className="fixed inset-0 -z-30 bg-[#070b14]" aria-hidden />
 
+      <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden" aria-hidden>
+        <img
+          src={COSMIC_BG}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-[center_30%] scale-105"
+          decoding="async"
+        />
+      </div>
+
       <div className="pointer-events-none absolute inset-x-0 top-0 z-0 overflow-x-hidden">
         <img
           src={WIZARD_HERO}
@@ -62,15 +71,7 @@ export default function SolomonHomePage() {
               className="absolute inset-x-0 top-0 z-0 pointer-events-none overflow-x-hidden overflow-y-visible"
               style={{ height: heroHeight }}
             >
-              <img
-                src={COSMIC_BG}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover object-[center_30%] scale-105"
-                decoding="async"
-              />
               <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-transparent" />
-              <div className="absolute inset-0 bg-[#070b14]/20" />
-
               <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/30 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-x-0 top-0 h-[55%] bg-gradient-to-b from-[#070b14]/25 via-transparent to-transparent pointer-events-none" />
             </div>
@@ -117,13 +118,7 @@ export default function SolomonHomePage() {
               </Link>
 
               <div className="relative -mx-4 px-4">
-                <div
-                  className="pointer-events-none absolute inset-0 bg-[#070b14]/10"
-                  aria-hidden
-                />
-                <div className="relative">
-                  <SolomonHomeMenuGrid isDiyer={isDiyer} isStaff={isStaff} />
-                </div>
+                <SolomonHomeMenuGrid isDiyer={isDiyer} isStaff={isStaff} />
               </div>
 
               <SolomonSmarterCard isDiyer={isDiyer} />
