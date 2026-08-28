@@ -48,7 +48,8 @@ export const SOLOMON_LAYOUT = {
  * Reference: iPhone 17 Pro Max PWA (left 3.1%, width 49%, ~30.1% from stage top).
  */
 export const SOLOMON_SESSION = {
-  card: { x: '3.1%', y: '30.1%', width: '49%' },
+  /** height = stable artboard bounding box (scales with stage, not card content) */
+  card: { x: '3.1%', y: '30.1%', width: '49%', height: '11.8%' },
 };
 
 /**
