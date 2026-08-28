@@ -49,7 +49,7 @@ export const SOLOMON_LAYOUT = {
  */
 export const SOLOMON_SESSION = {
   /** height = stable artboard bounding box (scales with stage, not card content) */
-  card: { x: '3.1%', y: '30.1%', width: '49%', height: '11.8%' },
+  card: { x: '3.1%', y: '29.1%', width: '49%', height: '11.8%' },
 };
 
 /**

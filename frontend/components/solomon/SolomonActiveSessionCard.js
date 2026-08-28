@@ -128,7 +128,7 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
       >
         <div className="flex min-h-0 flex-1 gap-2">
           <div className="flex min-w-0 flex-1 flex-col">
-            <p className="h-[10px] shrink-0 text-[9px] uppercase tracking-[0.12em] text-cyan-400/85 font-medium leading-[10px]">
+            <p className="shrink-0 whitespace-nowrap text-[9px] uppercase tracking-[0.14em] text-cyan-400/85 font-medium leading-none">
               Current session
             </p>
             <p className="mt-0 h-[17px] shrink-0 truncate text-sm font-semibold leading-[17px] text-white">
