@@ -120,6 +120,65 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   const isCompact = variant === 'heroOverlay';
   const padClass = isCompact ? 'px-2.5 py-1.5' : 'px-3 py-2.5';
 
+  if (isCompact) {
+    return (
+      <Link
+        href={`/solomon/diagnostics/${target.id}?continue=1`}
+        className={`flex h-full flex-col overflow-hidden rounded-xl border hover:border-cyan-400/40 transition-colors ${padClass} ${surfaceClass}`}
+      >
+        <div className="flex min-h-0 flex-1 gap-2">
+          <div className="flex min-w-0 flex-1 flex-col">
+            <p className="h-[10px] shrink-0 text-[9px] uppercase tracking-[0.12em] text-cyan-400/85 font-medium leading-[10px]">
+              Current session
+            </p>
+            <p className="mt-0 h-[17px] shrink-0 truncate text-sm font-semibold leading-[17px] text-white">
+              {applianceTitle}
+            </p>
+            <p className="mt-0 h-[12px] shrink-0 truncate text-[10px] leading-[12px] text-gray-400">
+              {metaLine || '\u00A0'}
+            </p>
+          </div>
+          <div className="flex w-[48%] shrink-0 flex-col items-end justify-start">
+            {lead ? (
+              <>
+                <div className="flex h-[18px] w-full items-center justify-end gap-1">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400">
+                    <SolomonCategoryIcon
+                      categoryId={lead.categoryId}
+                      categoryLabel={lead.categoryLabel}
+                      size={12}
+                    />
+                  </span>
+                  <span className="min-w-0 truncate text-[11px] font-medium leading-[18px] text-white/90">
+                    {lead.categoryLabel}
+                  </span>
+                </div>
+                <p className="h-[12px] shrink-0 truncate text-[10px] font-bold leading-[12px] text-emerald-400 tabular-nums">
+                  {lead.percent}% {lead.strengthWord}
+                </p>
+                <div className="mt-0.5 h-1 w-full max-w-[120px] shrink-0 overflow-hidden rounded-full bg-white/10">
+                  <div
+                    className="h-full bg-emerald-400"
+                    style={{ width: `${Math.min(100, lead.percent)}%` }}
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="h-[34px] w-full shrink-0" aria-hidden />
+            )}
+          </div>
+        </div>
+
+        <div className="mt-1 shrink-0">
+          <p className="h-[12px] shrink-0 text-[9px] leading-[12px] text-gray-400 tabular-nums">
+            {totalSteps > 0 ? `Step ${stepNumber} of ${totalSteps}` : '\u00A0'}
+          </p>
+          <SegmentedProgress stepNumber={stepNumber} totalSteps={totalSteps} compact />
+        </div>
+      </Link>
+    );
+  }
+
   return (
     <Link
       href={`/solomon/diagnostics/${target.id}?continue=1`}

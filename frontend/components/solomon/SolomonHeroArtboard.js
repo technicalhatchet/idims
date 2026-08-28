@@ -72,6 +72,7 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
               left: card.x,
               top: card.y,
               width: card.width,
+              height: card.height,
               zIndex: SOLOMON_Z.sessionCard,
             }}
           >
@@ -85,7 +86,7 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
             data-solomon-front-hand
             src={SOLOMON_HERO_ASSETS.wizfronthand}
             alt=""
-            className="pointer-events-none absolute max-w-none select-none object-contain"
+            className="pointer-events-none absolute left-0 top-0 h-full w-full max-w-none select-none object-contain"
             style={{
               ...solomonAbsoluteStyle(SOLOMON_FRONT_HAND),
               height: '100%',
