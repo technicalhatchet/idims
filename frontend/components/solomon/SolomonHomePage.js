@@ -49,10 +49,11 @@ export default function SolomonHomePage() {
           className="absolute inset-0 z-0 h-full w-full object-cover object-[center_30%] scale-105"
           decoding="async"
         />
+        <div className="absolute inset-0 z-[1] bg-[#070b14]/45" aria-hidden />
         <img
           src={WIZARD_HERO}
           alt=""
-          className="relative z-[1] block w-full h-auto max-w-none select-none"
+          className="relative z-[2] block w-full h-auto max-w-none select-none"
           decoding="async"
         />
       </div>
