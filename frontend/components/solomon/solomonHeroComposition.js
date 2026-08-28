@@ -22,9 +22,9 @@ export const SOLOMON_BACKDROP = {
 
 /** Surgical layout offsets — backdrop vs UI stack are independent */
 export const SOLOMON_LAYOUT = {
-  backdropOffsetY: '-20px',
+  backdropOffsetY: '0px',
   uiStackOffsetY: '80px',
-  sessionToNewDiagnosticGap: '2rem',
+  sessionToNewDiagnosticGap: '1.5rem',
 };
 
 /** Session card — page coordinates, NOT inside backdrop sizing */
