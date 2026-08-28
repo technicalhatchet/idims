@@ -48,7 +48,7 @@ export const SOLOMON_LAYOUT = {
  * Reference: iPhone 17 Pro Max PWA (left 3.1%, width 49%, ~30.1% from stage top).
  */
 export const SOLOMON_SESSION = {
-  card: { x: '3.1%', y: '31.1%', width: '49%' },
+  card: { x: '3.1%', y: '30.1%', width: '49%' },
 };
 
 /**
