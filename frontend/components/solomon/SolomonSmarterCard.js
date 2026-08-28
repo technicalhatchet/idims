@@ -34,7 +34,7 @@ function KnowledgePyramidVisual() {
 
 export default function SolomonSmarterCard({ isDiyer }) {
   return (
-    <div className="rounded-xl border border-orange-500/25 bg-[#0D1525]/88 backdrop-blur-sm px-3 py-2.5 flex items-start gap-2.5">
+    <div className="rounded-xl border border-orange-500/30 bg-[#060a12]/78 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] px-3 py-2.5 flex items-start gap-2.5">
       <div className="min-w-0 flex-1">
         <p className="text-xs font-semibold text-orange-300">Smarter every time.</p>
         <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">

@@ -16,7 +16,7 @@ export default function SolomonOfflineFooter({ syncReferenceTime }) {
 
   if (!isOnline) {
     return (
-      <div className="rounded-xl border border-white/10 bg-[#0D1525]/80 px-3 py-2 flex items-center gap-3">
+      <div className="rounded-xl border border-white/15 bg-[#060a12]/78 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] px-3 py-2 flex items-center gap-3">
         <FaWifi size={14} className="text-amber-400 shrink-0" />
         <div className="min-w-0">
           <p className="text-xs font-medium text-white">Offline</p>
@@ -28,7 +28,7 @@ export default function SolomonOfflineFooter({ syncReferenceTime }) {
 
   if (pendingCount > 0) {
     return (
-      <div className="rounded-xl border border-white/10 bg-[#0D1525]/80 px-3 py-2 flex items-center gap-3">
+      <div className="rounded-xl border border-white/15 bg-[#060a12]/78 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] px-3 py-2 flex items-center gap-3">
         <FaCloudUploadAlt size={14} className="text-sky-400 shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium text-white">Sync pending</p>
@@ -41,7 +41,7 @@ export default function SolomonOfflineFooter({ syncReferenceTime }) {
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#0D1525]/80 px-3 py-2 flex items-center gap-3">
+    <div className="rounded-xl border border-white/15 bg-[#060a12]/78 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] px-3 py-2 flex items-center gap-3">
       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400">
         <FaShieldAlt size={14} />
       </span>

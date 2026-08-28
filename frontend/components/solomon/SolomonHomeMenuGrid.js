@@ -47,7 +47,7 @@ function MenuTile({ href, label, subtitle, icon: Icon, accent, iconBg }) {
   return (
     <Link
       href={href}
-      className="block rounded-xl border border-white/10 bg-[#0D1525]/88 backdrop-blur-sm px-2.5 py-2 hover:border-white/20 transition-colors overflow-hidden"
+      className="block rounded-xl border border-white/15 bg-[#060a12]/78 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] px-2.5 py-2 hover:border-white/25 hover:bg-[#060a12]/85 transition-colors overflow-hidden"
     >
       <div className={`h-0.5 w-full rounded-full ${accent} opacity-80 mb-1.5`} />
       <div className="flex items-center gap-2 min-w-0">

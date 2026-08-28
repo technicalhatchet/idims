@@ -118,8 +118,8 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   if (!target) return null;
 
   const surfaceClass = variant === 'heroOverlay'
-    ? 'border-cyan-400/30 bg-[#0a1220]/82 backdrop-blur-lg shadow-[0_8px_28px_rgba(0,0,0,0.55),0_0_0_1px_rgba(34,211,238,0.12),inset_0_1px_0_rgba(255,255,255,0.04)]'
-    : 'border-cyan-500/20 bg-[#0D1525]/92 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.35)]';
+    ? 'border-cyan-400/35 bg-[#060a12]/82 backdrop-blur-lg shadow-[0_8px_28px_rgba(0,0,0,0.55),0_0_0_1px_rgba(34,211,238,0.15),inset_0_1px_0_rgba(255,255,255,0.06)]'
+    : 'border-cyan-500/25 bg-[#060a12]/80 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]';
 
   return (
     <Link
