@@ -55,20 +55,20 @@ export default function SolomonHomePage() {
             <div className="space-y-2">
               <Link
                 href={newHref}
-                className="flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 py-2.5 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors"
+                className="flex h-[52px] items-center gap-2.5 rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10">
                   <FaPlus size={12} />
                 </span>
-                <span className="flex-1 min-w-0">
-                  <span className="text-sm font-semibold text-white block leading-tight">
+                <span className="flex min-h-0 min-w-0 flex-1 flex-col justify-center">
+                  <span className="block truncate text-sm font-semibold leading-tight text-white">
                     {newTitle}
                   </span>
-                  <span className="text-[11px] text-cyan-100/75 block leading-snug">
+                  <span className="block truncate text-[11px] leading-snug text-cyan-100/75">
                     {newSubtitle}
                   </span>
                 </span>
-                <FaChevronRight size={11} className="text-white/60 shrink-0" />
+                <FaChevronRight size={11} className="shrink-0 text-white/60" />
               </Link>
 
               <div className="relative -mx-4 px-4">
