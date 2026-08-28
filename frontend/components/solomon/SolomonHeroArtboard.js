@@ -1,6 +1,8 @@
 'use client';
 
+import { useRef } from 'react';
 import SolomonActiveSessionCard from './SolomonActiveSessionCard';
+import SolomonHeroDiagnostics from './SolomonHeroDiagnostics';
 import {
   SOLOMON_ARTBOARD,
   SOLOMON_BACKDROP,
@@ -27,6 +29,9 @@ function BackdropLayer({ src, layer, className = '' }) {
 
 /** Unified 1124×1920 hero stage — backdrop, session card, and front hand share one frame. */
 export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }) {
+  const stageRef = useRef(null);
+  const cardRef = useRef(null);
+  const handRef = useRef(null);
   const { card } = SOLOMON_SESSION;
   const stageTransform = SOLOMON_LAYOUT.stageOffsetY !== '0px'
     ? `translateY(${SOLOMON_LAYOUT.stageOffsetY})`
@@ -37,7 +42,7 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
       className="pointer-events-none absolute inset-x-0 top-0 mx-auto w-full max-w-lg overflow-visible"
       style={{ zIndex: SOLOMON_Z.backdrop, transform: stageTransform }}
     >
-      <div className={`relative w-full ${SOLOMON_ARTBOARD.aspectClass}`}>
+      <div ref={stageRef} className={`relative w-full ${SOLOMON_ARTBOARD.aspectClass}`} data-solomon-stage>
         <img
           src={SOLOMON_HERO_ASSETS.officialbg}
           alt=""
@@ -60,6 +65,8 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
 
         {hasActiveSession && continueTarget ? (
           <div
+            ref={cardRef}
+            data-solomon-session-card
             className="pointer-events-auto absolute transition-opacity duration-300"
             style={{
               left: card.x,
@@ -74,6 +81,8 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
 
         {hasActiveSession ? (
           <img
+            ref={handRef}
+            data-solomon-front-hand
             src={SOLOMON_HERO_ASSETS.wizfronthand}
             alt=""
             className="pointer-events-none absolute max-w-none select-none object-contain"
@@ -87,6 +96,7 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
           />
         ) : null}
       </div>
+      <SolomonHeroDiagnostics stageRef={stageRef} cardRef={cardRef} handRef={handRef} />
     </div>
   );
 }
