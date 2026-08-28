@@ -15,6 +15,8 @@ import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 
 const COSMIC_BG = '/images/solomonwiz/blueoragnecosmicbg.png';
 const WIZARD_HERO = '/images/solomonwiz/wizbookwrench.png';
+/** Approximate height of one 2×2 nav tile — used to nudge wizard vertical alignment */
+const WIZARD_OFFSET_Y = '4.75rem';
 
 export default function SolomonHomePage() {
   const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
@@ -36,20 +38,21 @@ export default function SolomonHomePage() {
     <div className="relative min-h-screen text-white">
       <div className="fixed inset-0 -z-30 bg-[#070b14]" aria-hidden />
 
-      <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden" aria-hidden>
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 z-0 overflow-x-hidden"
+        style={{ transform: `translateY(${WIZARD_OFFSET_Y})` }}
+        aria-hidden
+      >
         <img
           src={COSMIC_BG}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[center_30%] scale-105"
+          className="absolute inset-0 z-0 h-full w-full object-cover object-[center_30%] scale-105"
           decoding="async"
         />
-      </div>
-
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 overflow-x-hidden">
         <img
           src={WIZARD_HERO}
           alt=""
-          className="relative block w-full h-auto max-w-none select-none"
+          className="relative z-[1] block w-full h-auto max-w-none select-none"
           decoding="async"
         />
       </div>
