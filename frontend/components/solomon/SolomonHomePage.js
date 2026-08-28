@@ -33,9 +33,20 @@ export default function SolomonHomePage() {
     : 'min(38vh, 200px)';
 
   return (
-    <div className="relative min-h-screen text-white bg-[#070b14]">
+    <div className="relative min-h-screen text-white">
+      <div className="fixed inset-0 -z-30 bg-[#070b14]" aria-hidden />
+
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 overflow-x-hidden">
+        <img
+          src={WIZARD_HERO}
+          alt=""
+          className="relative block w-full h-auto max-w-none select-none"
+          decoding="async"
+        />
+      </div>
+
       <main
-        className="relative mx-auto max-w-lg"
+        className="relative z-10 mx-auto max-w-lg"
         style={{
           ...topInset,
           ...solomonSafeBottom,
@@ -59,15 +70,6 @@ export default function SolomonHomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-transparent" />
               <div className="absolute inset-0 bg-[#070b14]/20" />
-
-              <div className="absolute inset-x-0 top-0 overflow-visible pointer-events-none">
-                <img
-                  src={WIZARD_HERO}
-                  alt=""
-                  className="relative block w-full h-auto max-w-none select-none pointer-events-none"
-                  decoding="async"
-                />
-              </div>
 
               <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/30 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-x-0 top-0 h-[55%] bg-gradient-to-b from-[#070b14]/25 via-transparent to-transparent pointer-events-none" />
@@ -114,7 +116,15 @@ export default function SolomonHomePage() {
                 <FaChevronRight size={11} className="text-white/60 shrink-0" />
               </Link>
 
-              <SolomonHomeMenuGrid isDiyer={isDiyer} isStaff={isStaff} />
+              <div className="relative -mx-4 px-4">
+                <div
+                  className="pointer-events-none absolute inset-0 bg-[#070b14]/10"
+                  aria-hidden
+                />
+                <div className="relative">
+                  <SolomonHomeMenuGrid isDiyer={isDiyer} isStaff={isStaff} />
+                </div>
+              </div>
 
               <SolomonSmarterCard isDiyer={isDiyer} />
 
