@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { FaChevronRight, FaPlus } from 'react-icons/fa';
 import SolomonInstallHint from './SolomonInstallHint';
 import SolomonHomeHeader from './SolomonHomeHeader';
-import SolomonBackdrop from './SolomonBackdrop';
-import SolomonSessionOverlay from './SolomonSessionOverlay';
+import SolomonHeroArtboard from './SolomonHeroArtboard';
 import SolomonHomeMenuGrid from './SolomonHomeMenuGrid';
 import SolomonSmarterCard from './SolomonSmarterCard';
 import SolomonOfflineFooter from './SolomonOfflineFooter';
@@ -13,7 +12,7 @@ import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
 import { useSolomonTopInset, solomonSafeBottom } from './solomonSafeArea';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
-import { SOLOMON_Z, SOLOMON_LAYOUT } from './solomonHeroComposition';
+import { SOLOMON_Z, solomonContentSpacerStyle } from './solomonHeroComposition';
 
 export default function SolomonHomePage() {
   const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
@@ -38,8 +37,7 @@ export default function SolomonHomePage() {
           paddingBottom: 'max(4rem, env(safe-area-inset-bottom, 0px))',
         }}
       >
-        <SolomonBackdrop hasActiveSession={hasActiveSession} />
-        <SolomonSessionOverlay
+        <SolomonHeroArtboard
           hasActiveSession={hasActiveSession}
           continueTarget={continueTarget}
         />
@@ -51,19 +49,7 @@ export default function SolomonHomePage() {
             <SolomonHomeHeader isStaff={isStaff} />
           </div>
 
-          {hasActiveSession ? (
-            <div
-              style={{
-                height: `calc(9.5rem + ${SOLOMON_LAYOUT.uiStackOffsetY} + ${SOLOMON_LAYOUT.sessionToNewDiagnosticGap})`,
-              }}
-              aria-hidden
-            />
-          ) : (
-            <div
-              style={{ height: `calc(10rem + ${SOLOMON_LAYOUT.uiStackOffsetY})` }}
-              aria-hidden
-            />
-          )}
+          <div style={solomonContentSpacerStyle(hasActiveSession)} aria-hidden />
 
           {canUseSolomon ? (
             <div className="space-y-2">

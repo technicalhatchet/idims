@@ -1,7 +1,15 @@
 /**
- * Solomon layered composition — backdrop, session card, and hand are tuned independently.
- * Character assets share a 1124×1920 coordinate space at width: 100%.
+ * Solomon hero artboard — single 1124×1920 coordinate space.
+ * Backdrop, session card, and foreground hand share one stage so they scale together.
  */
+export const SOLOMON_ARTBOARD = {
+  width: 1124,
+  height: 1920,
+  ratio: 1920 / 1124,
+  maxWidth: '32rem',
+  aspectClass: 'aspect-[1124/1920]',
+};
+
 export const SOLOMON_HERO_ASSETS = {
   officialbg: '/images/solomonwiz/wizadvanced/officialbg.png',
   wiznoleft: '/images/solomonwiz/wizadvanced/wiznoleft.png',
@@ -11,7 +19,7 @@ export const SOLOMON_HERO_ASSETS = {
   wrenchwiz: '/images/solomonwiz/wizadvanced/wrenchwiz.png',
 };
 
-/** Backdrop character / scenery — independent from session card */
+/** Character / scenery layers — artboard percentages */
 export const SOLOMON_BACKDROP = {
   background: { x: '0%', y: '0%', width: '100%', scale: 1 },
   wizard: { x: '0%', y: '0%', width: '100%', scale: 1 },
@@ -20,26 +28,36 @@ export const SOLOMON_BACKDROP = {
   bookHand: { x: '0%', y: '0%', width: '100%', scale: 1 },
 };
 
-/** Surgical layout offsets — backdrop vs UI stack are independent */
+/**
+ * Layout tuning — artboard-relative where possible.
+ * contentStartArtboardY: where scrollable UI should begin, as % of stage height
+ * (tuned from iPhone 17 Pro Max PWA reference, propagates with stage scale).
+ */
 export const SOLOMON_LAYOUT = {
-  backdropOffsetY: '0px',
-  uiStackOffsetY: '80px',
+  stageOffsetY: '10px',
+  headerFlowEstimate: '5.5rem',
+  contentStartArtboardY: {
+    withSession: '48%',
+    withoutSession: '43%',
+  },
   sessionToNewDiagnosticGap: '1.5rem',
 };
 
-/** Session card — page coordinates, NOT inside backdrop sizing */
+/**
+ * Session card — artboard coordinates (same % frame as wiznoleft / wizfronthand).
+ * Reference: iPhone 17 Pro Max PWA (left 3.1%, width 49%, ~30.1% from stage top).
+ */
 export const SOLOMON_SESSION = {
-  card: { left: '3.1%', top: 'calc(10.5rem + 53px)', width: '49%' },
+  card: { x: '3.1%', y: '31.1%', width: '49%' },
 };
 
 /**
- * Foreground hand — independent stage coordinates (1124×1920 canvas).
- * Visible pixels (~158×125) sit near 10% / 38% on the PNG; scale from that
- * anchor so the grip reads at wizard proportions, NOT vs session-card width.
+ * Foreground hand — artboard coordinates.
+ * Visible pixels (~158×125) sit near 16.7% / 41.4% on the PNG canvas.
  */
 export const SOLOMON_FRONT_HAND = {
-  x: '-0%',
-  y: '-0%',
+  x: '0%',
+  y: '0%',
   width: '100%',
   scale: 1,
   originX: '16.7%',
@@ -62,5 +80,25 @@ export function solomonAbsoluteStyle({ x, y, width, scale, originX, originY }) {
     width,
     transform: scale === 1 ? undefined : `scale(${scale})`,
     transformOrigin: `${originX ?? '0%'} ${originY ?? '0%'}`,
+  };
+}
+
+/** CSS length for full artboard height at current viewport (matches max-w-lg). */
+export function solomonStageHeightExpr() {
+  const { ratio, maxWidth } = SOLOMON_ARTBOARD;
+  return `calc(min(100vw, ${maxWidth}) * ${ratio})`;
+}
+
+/** Spacer below header so UI clears the hero overlap — derived from artboard %. */
+export function solomonContentSpacerStyle(hasActiveSession) {
+  const y = hasActiveSession
+    ? SOLOMON_LAYOUT.contentStartArtboardY.withSession
+    : SOLOMON_LAYOUT.contentStartArtboardY.withoutSession;
+  const { ratio, maxWidth } = SOLOMON_ARTBOARD;
+  const header = SOLOMON_LAYOUT.headerFlowEstimate;
+  const gap = hasActiveSession ? ` + ${SOLOMON_LAYOUT.sessionToNewDiagnosticGap}` : '';
+
+  return {
+    height: `max(0px, calc(min(100vw, ${maxWidth}) * ${ratio} * ${parseFloat(y) / 100} - ${header}${gap}))`,
   };
 }
