@@ -27,6 +27,42 @@ const queryClient = new QueryClient({
 // One-time migration: drop SW configs that cached/intercepted Railway API.
 // After reload, next-pwa registers the fixed SW (static assets + app shell only).
 const SW_MIGRATION_KEY = 'idims_pwa_v3_migrated';
+const DEV_SW_CLEANED_KEY = 'idims_dev_sw_cleaned';
+
+/** Production SW + CacheFirst on /_next/static breaks local HMR (hot-update 404 reload loop). */
+function DevServiceWorkerCleanup() {
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') return;
+
+    async function cleanup() {
+      let hadStaleCaching = false;
+      try {
+        if ('serviceWorker' in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          hadStaleCaching = registrations.length > 0;
+          await Promise.all(registrations.map((reg) => reg.unregister()));
+        }
+
+        if ('caches' in window) {
+          const names = await caches.keys();
+          hadStaleCaching = hadStaleCaching || names.length > 0;
+          await Promise.all(names.map((name) => caches.delete(name)));
+        }
+      } catch (err) {
+        console.warn('[Dev] Service worker cleanup failed:', err);
+      }
+
+      if (hadStaleCaching && !sessionStorage.getItem(DEV_SW_CLEANED_KEY)) {
+        sessionStorage.setItem(DEV_SW_CLEANED_KEY, '1');
+        window.location.reload();
+      }
+    }
+
+    cleanup();
+  }, []);
+
+  return null;
+}
 
 function ServiceWorkerMigration() {
   useEffect(() => {
@@ -141,6 +177,7 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider>
       <UIPreferencesProvider>
         <QueryClientProvider client={queryClient}>
+          <DevServiceWorkerCleanup />
           <ServiceWorkerMigration />
           <SyncBanner />
           <ClientOnlyPrefetch />

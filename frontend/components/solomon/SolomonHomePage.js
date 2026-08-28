@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { FaChevronRight, FaPlus } from 'react-icons/fa';
 import SolomonInstallHint from './SolomonInstallHint';
 import SolomonHomeHeader from './SolomonHomeHeader';
-import SolomonActiveSessionCard from './SolomonActiveSessionCard';
+import SolomonBackdrop from './SolomonBackdrop';
+import SolomonSessionOverlay from './SolomonSessionOverlay';
 import SolomonHomeMenuGrid from './SolomonHomeMenuGrid';
 import SolomonSmarterCard from './SolomonSmarterCard';
 import SolomonOfflineFooter from './SolomonOfflineFooter';
@@ -12,11 +13,7 @@ import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
 import { useSolomonTopInset, solomonSafeBottom } from './solomonSafeArea';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
-
-const COSMIC_BG = '/images/solomonwiz/blueoragnecosmicbg.png';
-const WIZARD_HERO = '/images/solomonwiz/wizbookwrench.png';
-/** Approximate height of one 2×2 nav tile — used to nudge wizard vertical alignment */
-const WIZARD_OFFSET_Y = '4.75rem';
+import { SOLOMON_Z, SOLOMON_LAYOUT } from './solomonHeroComposition';
 
 export default function SolomonHomePage() {
   const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
@@ -30,79 +27,46 @@ export default function SolomonHomePage() {
     : 'Start a new guided diagnostic';
 
   const hasActiveSession = canUseSolomon && !continueLoading && continueTarget;
-  const heroHeight = hasActiveSession
-    ? 'min(52vh, 300px)'
-    : 'min(38vh, 200px)';
 
   return (
-    <div className="relative min-h-screen text-white">
-      <div className="fixed inset-0 -z-30 bg-[#070b14]" aria-hidden />
-
-      <div
-        className="pointer-events-none fixed inset-x-0 top-0 z-0 overflow-x-hidden"
-        style={{ transform: `translateY(${WIZARD_OFFSET_Y})` }}
-        aria-hidden
-      >
-        <img
-          src={COSMIC_BG}
-          alt=""
-          className="absolute inset-0 z-0 h-full w-full object-cover object-[center_30%] scale-105"
-          decoding="async"
-        />
-        <div className="absolute inset-0 z-[1] bg-[#070b14]/45" aria-hidden />
-        <img
-          src={WIZARD_HERO}
-          alt=""
-          className="relative z-[2] block w-full h-auto max-w-none select-none"
-          decoding="async"
-        />
-      </div>
-
+    <div className="relative min-h-screen text-white bg-[#070b14]">
       <main
-        className="relative z-10 mx-auto max-w-lg"
+        className="relative mx-auto max-w-lg"
         style={{
           ...topInset,
           ...solomonSafeBottom,
           paddingBottom: 'max(4rem, env(safe-area-inset-bottom, 0px))',
         }}
       >
-        <div className="px-4">
+        <SolomonBackdrop hasActiveSession={hasActiveSession} />
+        <SolomonSessionOverlay
+          hasActiveSession={hasActiveSession}
+          continueTarget={continueTarget}
+        />
+
+        <div className="relative px-4" style={{ zIndex: SOLOMON_Z.pageContent }}>
           <SolomonInstallHint />
 
-          {/* Hero visual stage — artwork extends behind session card, no bottom clip */}
-          <div className="relative -mx-4 overflow-x-hidden">
-            <div
-              className="absolute inset-x-0 top-0 z-0 pointer-events-none overflow-x-hidden overflow-y-visible"
-              style={{ height: heroHeight }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-b from-[#070b14]/20 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-r from-[#070b14]/30 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute inset-x-0 top-0 h-[55%] bg-gradient-to-b from-[#070b14]/25 via-transparent to-transparent pointer-events-none" />
-            </div>
-
-            <div
-              className="relative z-10"
-              style={{ minHeight: heroHeight }}
-            >
-              <div className="px-4 pt-0.5">
-                <SolomonHomeHeader isStaff={isStaff} />
-              </div>
-
-              {hasActiveSession ? (
-                <div
-                  className="absolute z-20 left-4 bottom-0 w-[68%] max-w-[68%] min-w-[min(100%,200px)]"
-                >
-                  <SolomonActiveSessionCard
-                    target={continueTarget}
-                    variant="heroOverlay"
-                  />
-                </div>
-              ) : null}
-            </div>
+          <div className="relative" style={{ zIndex: SOLOMON_Z.header }}>
+            <SolomonHomeHeader isStaff={isStaff} />
           </div>
 
+          {hasActiveSession ? (
+            <div
+              style={{
+                height: `calc(9.5rem + ${SOLOMON_LAYOUT.uiStackOffsetY} + ${SOLOMON_LAYOUT.sessionToNewDiagnosticGap})`,
+              }}
+              aria-hidden
+            />
+          ) : (
+            <div
+              style={{ height: `calc(10rem + ${SOLOMON_LAYOUT.uiStackOffsetY})` }}
+              aria-hidden
+            />
+          )}
+
           {canUseSolomon ? (
-            <div className="relative z-20 mt-2.5 space-y-2">
+            <div className="space-y-2">
               <Link
                 href={newHref}
                 className="flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 py-2.5 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors"
@@ -130,7 +94,7 @@ export default function SolomonHomePage() {
               <SolomonOfflineFooter syncReferenceTime={continueTarget?.updated_at} />
             </div>
           ) : (
-            <div className="relative z-20 mt-2.5">
+            <div>
               <Link
                 href="/solomon/signup"
                 className="block rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 py-2.5 text-center text-sm font-semibold"
