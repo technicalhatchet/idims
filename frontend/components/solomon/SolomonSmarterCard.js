@@ -3,27 +3,27 @@
 import Link from 'next/link';
 
 const LAYERS = [
-  { width: '32%', glow: 'shadow-[0_0_6px_rgba(34,211,238,0.2)]', border: 'border-cyan-400/45', bg: 'bg-cyan-500/12' },
-  { width: '48%', glow: '', border: 'border-cyan-400/35', bg: 'bg-cyan-500/10' },
-  { width: '64%', glow: '', border: 'border-cyan-400/28', bg: 'bg-gradient-to-b from-cyan-500/10 to-cyan-500/05' },
-  { width: '80%', glow: '', border: 'border-orange-400/28', bg: 'bg-gradient-to-b from-cyan-500/08 to-orange-500/10' },
-  { width: '100%', glow: 'shadow-[0_0_10px_rgba(249,115,22,0.15)]', border: 'border-orange-400/35', bg: 'bg-orange-500/10' },
+  { width: '32%', class: 'bg-cyan-400 shadow-[0_0_5px_rgba(34,211,238,0.65)]' },
+  { width: '48%', class: 'bg-cyan-400/40' },
+  { width: '64%', class: 'bg-white/75' },
+  { width: '80%', class: 'bg-white/50' },
+  { width: '100%', class: 'bg-orange-400/70 shadow-[0_0_8px_rgba(249,115,22,0.3)]' },
 ];
 
 function KnowledgePyramidVisual() {
   return (
-    <div className="shrink-0 flex flex-col items-center justify-end h-[3.5rem] w-12" aria-hidden>
+    <div className="shrink-0 flex flex-col items-center justify-end h-[3.75rem] w-12" aria-hidden>
       <span
-        className="text-[11px] leading-none text-cyan-200 mb-0.5"
+        className="text-[11px] leading-none text-cyan-200 mb-1"
         style={{ filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.85)) drop-shadow(0 0 10px rgba(249,115,22,0.35))' }}
       >
         ✦
       </span>
-      <div className="flex flex-col items-center gap-[3px] w-full">
+      <div className="flex flex-col items-center gap-[5px] w-full">
         {LAYERS.map((layer, index) => (
           <div
             key={index}
-            className={`h-[5px] rounded-[2px] border ${layer.border} ${layer.bg} ${layer.glow}`}
+            className={`h-[2.5px] rounded-full ${layer.class}`}
             style={{ width: layer.width }}
           />
         ))}

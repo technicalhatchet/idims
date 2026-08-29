@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { FaChevronRight, FaPlus } from 'react-icons/fa';
-import SolomonInstallHint from './SolomonInstallHint';
+import SolomonInstallHint, { useSolomonInstallHint } from './SolomonInstallHint';
 import SolomonHomeHeader from './SolomonHomeHeader';
 import SolomonHeroArtboard from './SolomonHeroArtboard';
 import SolomonHomeMenuGrid from './SolomonHomeMenuGrid';
@@ -21,12 +21,11 @@ export default function SolomonHomePage() {
 
   const newHref = isDiyer ? '/solomon/start' : '/solomon/diagnose';
   const newTitle = isDiyer ? 'Start troubleshooting' : 'New diagnostic';
-  const newSubtitle = isDiyer
-    ? 'Walk through symptoms step by step'
-    : 'Start a new guided diagnostic';
+  const newSubtitle = isDiyer ? 'Walk through symptoms step by step' : null;
 
   const hasActiveSession = canUseSolomon && !continueLoading && continueTarget;
-  const ctaLabels = solomonPrimaryCtaLabelStyle({ longTitle: isDiyer });
+  const installHint = useSolomonInstallHint();
+  const ctaLabels = solomonPrimaryCtaLabelStyle({ longTitle: isDiyer, singleLine: !newSubtitle });
 
   return (
     <div className="relative min-h-screen text-white bg-[#070b14]">
@@ -44,13 +43,16 @@ export default function SolomonHomePage() {
         />
 
         <div className="relative px-4" style={{ zIndex: SOLOMON_Z.pageContent }}>
-          <SolomonInstallHint />
+          <SolomonInstallHint installHint={installHint} />
 
           <div className="relative" style={{ zIndex: SOLOMON_Z.header }}>
             <SolomonHomeHeader isStaff={isStaff} />
           </div>
 
-          <div style={solomonContentSpacerStyle(hasActiveSession)} aria-hidden />
+          <div
+            style={solomonContentSpacerStyle({ hasActiveSession, installHintVisible: installHint.visible })}
+            aria-hidden
+          />
 
           {canUseSolomon ? (
             <div className="space-y-2">
@@ -66,24 +68,30 @@ export default function SolomonHomePage() {
                   <FaPlus size={12} />
                 </span>
                 <span
-                  className="grid min-h-0 min-w-0 flex-1 grid-rows-[17px_14px] gap-0 overflow-hidden"
+                  className={`min-h-0 min-w-0 flex-1 ${
+                    newSubtitle
+                      ? 'grid gap-0.5 overflow-hidden'
+                      : 'flex items-center'
+                  }`}
                   style={{
                     WebkitTextSizeAdjust: '100%',
                     textSizeAdjust: '100%',
                   }}
                 >
                   <span
-                    className="block truncate font-semibold text-white"
+                    className="min-w-0 font-semibold text-white [overflow-x:clip] [text-overflow:ellipsis] whitespace-nowrap"
                     style={ctaLabels.title}
                   >
                     {newTitle}
                   </span>
-                  <span
-                    className="block truncate text-cyan-100/75"
-                    style={ctaLabels.subtitle}
-                  >
-                    {newSubtitle}
-                  </span>
+                  {newSubtitle ? (
+                    <span
+                      className="min-w-0 [overflow-x:clip] [text-overflow:ellipsis] whitespace-nowrap text-cyan-100/75"
+                      style={ctaLabels.subtitle}
+                    >
+                      {newSubtitle}
+                    </span>
+                  ) : null}
                 </span>
                 <FaChevronRight size={11} className="shrink-0 text-white/60" />
               </Link>
