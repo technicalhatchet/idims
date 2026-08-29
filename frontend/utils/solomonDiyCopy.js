@@ -21,7 +21,7 @@ export const SOLOMON_DIY_COPY = {
 export function solomonCopy(isDiyer, key) {
   if (!isDiyer) {
     const staff = {
-      diagnosticsTitle: 'My diagnostics',
+      diagnosticsTitle: 'My Diagnostics',
       diagnosticNew: 'New diagnostic',
       outcomesTitle: 'Repair outcomes',
       outcomeNew: 'New outcome',
