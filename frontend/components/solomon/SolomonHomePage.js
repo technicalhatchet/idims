@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import { FaChevronRight, FaPlus } from 'react-icons/fa';
 import SolomonInstallHint, { useSolomonInstallHint } from './SolomonInstallHint';
@@ -25,6 +26,7 @@ export default function SolomonHomePage() {
 
   const hasActiveSession = canUseSolomon && !continueLoading && continueTarget;
   const installHint = useSolomonInstallHint();
+  const ctaRef = useRef(null);
   const ctaLabels = solomonPrimaryCtaLabelStyle({ longTitle: isDiyer, singleLine: !newSubtitle });
 
   return (
@@ -40,16 +42,18 @@ export default function SolomonHomePage() {
         <SolomonHeroArtboard
           hasActiveSession={hasActiveSession}
           continueTarget={continueTarget}
+          ctaRef={ctaRef}
         />
 
         <div className="relative px-4" style={{ zIndex: SOLOMON_Z.pageContent }}>
           <SolomonInstallHint installHint={installHint} />
 
-          <div className="relative" style={{ zIndex: SOLOMON_Z.header }}>
+          <div className="relative" style={{ zIndex: SOLOMON_Z.header }} data-solomon-home-header>
             <SolomonHomeHeader isStaff={isStaff} />
           </div>
 
           <div
+            data-solomon-content-spacer
             style={solomonContentSpacerStyle({ hasActiveSession, installHintVisible: installHint.visible })}
             aria-hidden
           />
@@ -57,7 +61,9 @@ export default function SolomonHomePage() {
           {canUseSolomon ? (
             <div className="space-y-2">
               <Link
+                ref={ctaRef}
                 href={newHref}
+                data-solomon-primary-cta
                 className={SOLOMON_PRIMARY_CTA_CLASS}
                 style={{
                   WebkitTextSizeAdjust: '100%',

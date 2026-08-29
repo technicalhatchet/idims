@@ -7,6 +7,10 @@ import {
   setSolomonHeroDebugEnabled,
   SOLOMON_HERO_DEBUG_EVENT,
 } from './solomonHeroDebug';
+import {
+  solomonPrimaryCtaArtboardPercent,
+  solomonSessionCardBottomPercent,
+} from './solomonHeroComposition';
 
 function rectSnapshot(el, stageRect) {
   if (!el) return null;
@@ -52,7 +56,13 @@ function envSnapshot() {
  * Temporary forensic overlay — enable with ?solomonDebug=1, or tap Solomon logo 5× on home.
  * Renders via portal (stage transform traps position:fixed descendants).
  */
-export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
+export default function SolomonHeroDiagnostics({
+  stageRef,
+  cardRef,
+  handRef,
+  ctaRef,
+  hasActiveSession = false,
+}) {
   const [debugEnabled, setDebugEnabled] = useState(false);
   const [report, setReport] = useState(null);
 
@@ -70,9 +80,16 @@ export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
     const stageEl = stageRef?.current;
     const cardEl = cardRef?.current;
     const handEl = handRef?.current;
+    const ctaEl = ctaRef?.current
+      ?? document.querySelector('[data-solomon-primary-cta]');
+    const spacerEl = document.querySelector('[data-solomon-content-spacer]');
+    const headerEl = document.querySelector('[data-solomon-home-header]');
     if (!stageEl) return;
 
     const stageRect = stageEl.getBoundingClientRect();
+    const stageH = stageRect.height;
+    const ctaTargetPct = solomonPrimaryCtaArtboardPercent(hasActiveSession);
+    const expectedCtaRelStageY = Math.round(stageH * (ctaTargetPct / 100));
     const stageCs = getComputedStyle(stageEl);
     const handCs = handEl ? getComputedStyle(handEl) : null;
 
@@ -111,7 +128,23 @@ export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
           },
         }
         : null,
+      cta: ctaEl
+        ? {
+          ...rectSnapshot(ctaEl, stageRect),
+          viewportY: Math.round(ctaEl.getBoundingClientRect().y),
+        }
+        : null,
+      flow: {
+        headerH: headerEl ? Math.round(headerEl.getBoundingClientRect().height) : null,
+        spacerH: spacerEl ? Math.round(spacerEl.getBoundingClientRect().height) : null,
+      },
+      ctaAnchor: {
+        targetPct: ctaTargetPct,
+        expectedRelStageY: expectedCtaRelStageY,
+        cardBottomPct: solomonSessionCardBottomPercent(),
+      },
       deltas: null,
+      ctaDeltas: null,
     };
 
     if (payload.card && payload.hand) {
@@ -121,9 +154,19 @@ export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
       };
     }
 
+    if (payload.cta) {
+      const cardBottom = payload.card
+        ? payload.card.relStageY + payload.card.relStageH
+        : null;
+      payload.ctaDeltas = {
+        actualMinusExpectedY: payload.cta.relStageY - expectedCtaRelStageY,
+        ctaMinusCardBottom: cardBottom != null ? payload.cta.relStageY - cardBottom : null,
+      };
+    }
+
     setReport(payload);
     console.info('[SolomonHeroDiagnostics]', JSON.stringify(payload, null, 2));
-  }, [stageRef, cardRef, handRef]);
+  }, [stageRef, cardRef, handRef, ctaRef, hasActiveSession]);
 
   useEffect(() => {
     if (!debugEnabled) return undefined;
@@ -155,6 +198,18 @@ export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
         : 'hand (none)',
       report.deltas
         ? `Δ hand−card: x=${report.deltas.handMinusCardX}px y=${report.deltas.handMinusCardY}px`
+        : null,
+      report.cta
+        ? `cta @ stage +${report.cta.relStageX},+${report.cta.relStageY} ${report.cta.relStageW}×${report.cta.relStageH} (viewport y=${report.cta.viewportY})`
+        : 'cta (none)',
+      report.ctaAnchor
+        ? `cta target ${report.ctaAnchor.targetPct}% → expected stage y=${report.ctaAnchor.expectedRelStageY}`
+        : null,
+      report.ctaDeltas
+        ? `Δ cta−expected: ${report.ctaDeltas.actualMinusExpectedY}px · cta−cardBottom: ${report.ctaDeltas.ctaMinusCardBottom ?? 'n/a'}px`
+        : null,
+      report.flow?.headerH != null && report.flow?.spacerH != null
+        ? `flow header=${report.flow.headerH}px spacer=${report.flow.spacerH}px`
         : null,
       `hand object-fit=${report.hand?.computed?.objectFit} transform=${report.hand?.computed?.transform}`,
       `dpr=${report.env.devicePixelRatio} vv=${report.env.visualViewport?.width}×${report.env.visualViewport?.height}`,
