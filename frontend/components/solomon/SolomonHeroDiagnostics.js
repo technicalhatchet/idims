@@ -84,6 +84,7 @@ export default function SolomonHeroDiagnostics({
       ?? document.querySelector('[data-solomon-primary-cta]');
     const spacerEl = document.querySelector('[data-solomon-content-spacer]');
     const headerEl = document.querySelector('[data-solomon-home-header]');
+    const mainEl = stageEl.closest('main');
     if (!stageEl) return;
 
     const stageRect = stageEl.getBoundingClientRect();
@@ -137,6 +138,9 @@ export default function SolomonHeroDiagnostics({
       flow: {
         headerH: headerEl ? Math.round(headerEl.getBoundingClientRect().height) : null,
         spacerH: spacerEl ? Math.round(spacerEl.getBoundingClientRect().height) : null,
+        mainPaddingTop: mainEl
+          ? Math.round(parseFloat(getComputedStyle(mainEl).paddingTop) || 0)
+          : null,
       },
       ctaAnchor: {
         targetPct: ctaTargetPct,
@@ -209,7 +213,7 @@ export default function SolomonHeroDiagnostics({
         ? `Δ cta−expected: ${report.ctaDeltas.actualMinusExpectedY}px · cta−cardBottom: ${report.ctaDeltas.ctaMinusCardBottom ?? 'n/a'}px`
         : null,
       report.flow?.headerH != null && report.flow?.spacerH != null
-        ? `flow header=${report.flow.headerH}px spacer=${report.flow.spacerH}px`
+        ? `flow header=${report.flow.headerH}px spacer=${report.flow.spacerH}px mainPadTop=${report.flow.mainPaddingTop ?? 'n/a'}px`
         : null,
       `hand object-fit=${report.hand?.computed?.objectFit} transform=${report.hand?.computed?.transform}`,
       `dpr=${report.env.devicePixelRatio} vv=${report.env.visualViewport?.width}×${report.env.visualViewport?.height}`,
