@@ -13,11 +13,10 @@ import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementC
 import { getDiagnosticTemplate } from '../../constants/diagnosticTemplates';
 import SolomonCategoryIcon from './categoryIcons';
 
-function equipmentMeta(target) {
+function equipmentMakeModel(target) {
   const parts = [
     target.equipment_make?.trim(),
     target.equipment_model?.trim(),
-    target.equipment_serial?.trim(),
   ].filter(Boolean);
   return parts.join(' • ');
 }
@@ -25,12 +24,12 @@ function equipmentMeta(target) {
 function SegmentedProgress({ stepNumber, totalSteps, compact = false }) {
   if (!totalSteps) return null;
   return (
-    <div className={`flex gap-[0.15em] ${compact ? 'mt-[0.15em]' : 'mt-2'}`}>
+    <div className={`flex gap-[0.2em] ${compact ? '' : 'mt-2'}`}>
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div
           key={index}
-          className={`flex-1 rounded-full ${compact ? 'h-[0.35em]' : 'h-1'} ${
-            index < stepNumber ? 'bg-cyan-400' : 'bg-white/10'
+          className={`flex-1 rounded-full ${compact ? 'h-[0.5em]' : 'h-1'} ${
+            index < stepNumber ? 'bg-cyan-400' : 'bg-white/35'
           }`}
         />
       ))}
@@ -99,18 +98,28 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   );
 
   const lead = formatDiyLeadCard(intelligence);
-  const diagnosticSteps = wizardSteps.filter((step) => step.id !== DIAGNOSTIC_REVIEW_STEP_ID);
+  const reviewStepKey = wizardDefinition?.routing?.reviewStepKey || 'review';
+  const diagnosticSteps = wizardSteps.filter(
+    (step) => step.id !== DIAGNOSTIC_REVIEW_STEP_ID && step.meta?.stepKey !== reviewStepKey,
+  );
   const totalSteps = diagnosticSteps.length;
   const currentIndex = target?.payload?.currentStepKey
     ? diagnosticSteps.findIndex(
       (step) => step.meta?.stepKey === target.payload.currentStepKey,
     )
-    : visitedStepKeys.length;
+    : visitedStepKeys.filter((key) => diagnosticSteps.some(
+      (step) => step.meta?.stepKey === key,
+    )).length;
   const stepNumber = currentIndex >= 0
     ? currentIndex + 1
-    : Math.min(visitedStepKeys.length + 1, totalSteps);
+    : Math.min(
+      visitedStepKeys.filter((key) => diagnosticSteps.some(
+        (step) => step.meta?.stepKey === key,
+      )).length + 1,
+      totalSteps,
+    );
   const applianceTitle = target.template_label || target.template_id || 'Diagnostic';
-  const metaLine = equipmentMeta(target);
+  const makeModelLine = equipmentMakeModel(target);
 
   if (!target) return null;
 
@@ -124,55 +133,60 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
     return (
       <Link
         href={`/solomon/diagnostics/${target.id}?continue=1`}
-        className={`flex h-full min-h-0 flex-col overflow-hidden rounded-xl border hover:border-cyan-400/40 transition-colors ${padClass} ${surfaceClass}`}
+        aria-label={totalSteps > 0 ? `Last session, step ${stepNumber} of ${totalSteps}` : 'Last session'}
+        className={`flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-xl border hover:border-cyan-400/40 transition-colors ${padClass} ${surfaceClass}`}
       >
-        <div className="flex min-h-0 flex-1 gap-[0.45em]">
-          <div className="flex min-w-0 flex-1 flex-col">
-            <p className="h-[1em] shrink-0 overflow-hidden whitespace-nowrap text-[0.79em] uppercase tracking-[0.14em] text-cyan-400/85 font-medium leading-none">
-              Current session
-            </p>
-            <p className="mt-0 h-[1.25em] shrink-0 truncate text-[1.23em] font-semibold leading-[1.25em] text-white">
+        <div className="shrink-0">
+          <p className="shrink-0 overflow-hidden whitespace-nowrap text-[0.79em] uppercase tracking-[0.06em] text-cyan-400/90 font-medium leading-[1.1em]">
+            Last Session
+          </p>
+
+          <div className="mt-[0.12em] flex items-start gap-[0.35em]">
+            <p className="min-w-0 flex-[0.85] shrink-0 truncate text-[1.23em] font-semibold leading-[1.2em] text-white">
               {applianceTitle}
             </p>
-            <p className="mt-0 h-[1.05em] shrink-0 truncate text-[0.88em] leading-[1.05em] text-gray-400">
-              {metaLine || '\u00A0'}
-            </p>
-          </div>
-          <div className="flex w-[48%] shrink-0 flex-col items-end justify-start">
             {lead ? (
-              <>
-                <div className="flex h-[1.6em] w-full items-center justify-end gap-[0.2em]">
-                  <span className="flex h-[1.4em] w-[1.4em] shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400">
+              <div className="flex min-w-0 flex-1 flex-col items-stretch">
+                <div className="flex items-start justify-end gap-[0.2em]">
+                  <span className="mt-[0.05em] flex h-[1.15em] w-[1.15em] shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400">
                     <SolomonCategoryIcon
                       categoryId={lead.categoryId}
                       categoryLabel={lead.categoryLabel}
                       size={12}
                     />
                   </span>
-                  <span className="min-w-0 truncate text-[0.96em] font-medium leading-[1.6em] text-white/90">
+                  <span className="min-w-0 flex-1 truncate text-[0.96em] font-medium leading-[1.2em] text-white/90">
                     {lead.categoryLabel}
                   </span>
                 </div>
-                <p className="h-[1.05em] shrink-0 truncate text-[0.88em] font-bold leading-[1.05em] text-emerald-400 tabular-nums">
-                  {lead.percent}% {lead.strengthWord}
+                <p className="mt-[0.08em] flex justify-end gap-[0.2em]">
+                  <span className="w-[1.15em] shrink-0" aria-hidden />
+                  <span className="min-w-0 flex-1 truncate text-[0.88em] font-bold leading-[1.05em] text-emerald-400 tabular-nums">
+                    {lead.percent}% {lead.strengthWord}
+                  </span>
                 </p>
-                <div className="mt-[0.15em] h-[0.35em] w-full max-w-[120px] shrink-0 overflow-hidden rounded-full bg-white/10">
-                  <div
-                    className="h-full bg-emerald-400"
-                    style={{ width: `${Math.min(100, lead.percent)}%` }}
-                  />
+                <div className="mt-[0.1em] flex justify-end gap-[0.2em]">
+                  <span className="w-[1.15em] shrink-0" aria-hidden />
+                  <div className="h-[0.4em] min-w-0 flex-1 overflow-hidden rounded-full bg-white/30">
+                    <div
+                      className="h-full bg-emerald-400"
+                      style={{ width: `${Math.min(100, lead.percent)}%` }}
+                    />
+                  </div>
                 </div>
-              </>
-            ) : (
-              <div className="h-[2.4em] w-full shrink-0" aria-hidden />
-            )}
+              </div>
+            ) : null}
           </div>
+
+          {!lead ? <div className="h-[1.6em]" aria-hidden /> : null}
         </div>
 
-        <div className="mt-[0.25em] shrink-0">
-          <p className="h-[1.05em] shrink-0 text-[0.79em] leading-[1.05em] text-gray-400 tabular-nums">
-            {totalSteps > 0 ? `Step ${stepNumber} of ${totalSteps}` : '\u00A0'}
-          </p>
+        <div className="shrink-0 pb-px">
+          {makeModelLine ? (
+            <p className="mb-1 min-w-0 [overflow-x:clip] [text-overflow:ellipsis] whitespace-nowrap text-left text-[0.82em] leading-[1.2em] text-gray-400">
+              {makeModelLine}
+            </p>
+          ) : null}
           <SegmentedProgress stepNumber={stepNumber} totalSteps={totalSteps} compact />
         </div>
       </Link>
@@ -186,20 +200,15 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-[9px] uppercase tracking-[0.22em] text-cyan-400/85 font-medium">
-            Current session
+          <p className="text-[9px] uppercase tracking-[0.08em] text-cyan-400/90 font-medium">
+            Last Session
           </p>
           <p className={`font-semibold text-white leading-tight ${isCompact ? 'text-sm mt-0' : 'text-base mt-0.5'}`}>
             {applianceTitle}
           </p>
-          {metaLine ? (
-            <p className={`text-gray-400 leading-snug truncate ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`}>
-              {metaLine}
-            </p>
-          ) : null}
         </div>
         {lead ? (
-          <div className="text-right shrink-0 max-w-[52%]">
+          <div className="text-right shrink-0 min-w-0 max-w-[58%]">
             <div className="flex items-center justify-end gap-1">
               <span className={`flex items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400 ${isCompact ? 'h-5 w-5' : 'h-6 w-6'}`}>
                 <SolomonCategoryIcon
@@ -215,7 +224,7 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
             <p className={`font-bold text-emerald-400 tabular-nums ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`}>
               {lead.percent}% {lead.strengthWord}
             </p>
-            <div className={`h-1 rounded-full bg-white/10 overflow-hidden w-full max-w-[120px] ml-auto ${isCompact ? 'mt-0.5' : 'mt-1'}`}>
+            <div className={`h-1 rounded-full bg-white/30 overflow-hidden w-full max-w-[120px] ml-auto ${isCompact ? 'mt-0.5' : 'mt-1'}`}>
               <div
                 className="h-full bg-emerald-400"
                 style={{ width: `${Math.min(100, lead.percent)}%` }}
@@ -226,12 +235,19 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
       </div>
 
       {totalSteps > 0 ? (
-        <p className={`text-gray-400 tabular-nums ${isCompact ? 'mt-1 text-[9px]' : 'mt-2 text-[10px]'}`}>
-          Step {stepNumber} of {totalSteps}
+        <div className={isCompact ? 'mt-1' : 'mt-2'}>
+          {makeModelLine ? (
+            <p className={`mb-1 truncate text-left text-gray-400 ${isCompact ? 'text-[10px]' : 'text-[11px]'}`}>
+              {makeModelLine}
+            </p>
+          ) : null}
+          <SegmentedProgress stepNumber={stepNumber} totalSteps={totalSteps} compact={isCompact} />
+        </div>
+      ) : makeModelLine ? (
+        <p className={`mt-2 truncate text-left text-gray-400 ${isCompact ? 'text-[10px]' : 'text-[11px]'}`}>
+          {makeModelLine}
         </p>
       ) : null}
-
-      <SegmentedProgress stepNumber={stepNumber} totalSteps={totalSteps} compact={isCompact} />
     </Link>
   );
 }

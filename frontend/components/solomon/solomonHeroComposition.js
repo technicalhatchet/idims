@@ -30,17 +30,18 @@ export const SOLOMON_BACKDROP = {
 
 /**
  * Layout tuning — artboard-relative where possible.
- * contentStartArtboardY: where scrollable UI should begin, as % of stage height
- * (tuned from iPhone 17 Pro Max PWA reference, propagates with stage scale).
+ * Primary CTA top is anchored to artboard Y% (scales with stage width, not rem).
  */
 export const SOLOMON_LAYOUT = {
   stageOffsetY: '10px',
-  headerFlowEstimate: '5.5rem',
-  contentStartArtboardY: {
-    withSession: '48%',
-    withoutSession: '43%',
-  },
-  sessionToNewDiagnosticGap: '1.5rem',
+  /** Logo row height — viewport-scaled (rem breaks Android spacer math). */
+  headerFlowScale: 0.1,
+  /** Reserve when InstallHint banner is visible (hint + mb-6). */
+  installHintFlowEstimate: '6.25rem',
+  /** Artboard % gap below session card bottom → primary CTA top (with session). */
+  sessionCardToCtaGapArtboard: '7%',
+  /** Artboard Y% for primary CTA top when no session card on stage. */
+  primaryCtaArtboardYWithoutSession: '44%',
 };
 
 /**
@@ -49,7 +50,7 @@ export const SOLOMON_LAYOUT = {
  */
 export const SOLOMON_SESSION = {
   /** height = stable artboard bounding box (scales with stage, not card content) */
-  card: { x: '3.1%', y: '29.1%', width: '49%', height: '11.8%' },
+  card: { x: '3.1%', y: '28.3%', width: '49%', height: '11.8%' },
 };
 
 /**
@@ -112,10 +113,10 @@ export function solomonSessionCardShellStyle(card) {
 
 /** Primary CTA below hero — fixed box, px type, no Android rem inflation. */
 export const SOLOMON_PRIMARY_CTA_CLASS =
-  'box-border flex h-[52px] min-h-[52px] max-h-[52px] shrink-0 items-center gap-2.5 overflow-hidden rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors';
+  'box-border flex min-h-[52px] shrink-0 items-center gap-2.5 rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 py-2.5 shadow-[0_4px_16px_rgba(0,137,185,0.35)] hover:from-[#0099cc] hover:to-[#007aa8] transition-colors';
 
 /** CTA label block — viewport-scaled px (not rem) so Android font settings cannot inflate it. */
-export function solomonPrimaryCtaLabelStyle({ longTitle = false } = {}) {
+export function solomonPrimaryCtaLabelStyle({ longTitle = false, singleLine = false } = {}) {
   const titleScale = longTitle ? 0.92 : 1;
   const w = solomonStageWidthExpr();
   return {
@@ -123,13 +124,11 @@ export function solomonPrimaryCtaLabelStyle({ longTitle = false } = {}) {
     textSizeAdjust: '100%',
     title: {
       fontSize: `calc(${w} * ${0.037 * titleScale})`,
-      lineHeight: '17px',
-      height: '17px',
+      lineHeight: singleLine ? 1.35 : 1.25,
     },
     subtitle: {
       fontSize: `calc(${w} * 0.029)`,
-      lineHeight: '14px',
-      height: '14px',
+      lineHeight: 1.25,
     },
   };
 }
@@ -140,16 +139,43 @@ export function solomonStageHeightExpr() {
   return `calc(${solomonStageWidthExpr()} * ${ratio})`;
 }
 
-/** Spacer below header so UI clears the hero overlap — derived from artboard %. */
-export function solomonContentSpacerStyle(hasActiveSession) {
-  const y = hasActiveSession
-    ? SOLOMON_LAYOUT.contentStartArtboardY.withSession
-    : SOLOMON_LAYOUT.contentStartArtboardY.withoutSession;
+/** Session card bottom edge in artboard % (y + height). */
+export function solomonSessionCardBottomPercent() {
+  const { y, height } = SOLOMON_SESSION.card;
+  return parseFloat(y) + parseFloat(height);
+}
+
+/** Artboard Y% where the primary CTA top should align. */
+export function solomonPrimaryCtaArtboardPercent(hasActiveSession) {
+  if (hasActiveSession) {
+    return (
+      solomonSessionCardBottomPercent()
+      + parseFloat(SOLOMON_LAYOUT.sessionCardToCtaGapArtboard)
+    );
+  }
+  return parseFloat(SOLOMON_LAYOUT.primaryCtaArtboardYWithoutSession);
+}
+
+/** Document-flow header row — viewport-scaled, not rem. */
+export function solomonHeaderFlowExpr() {
+  return `calc(${solomonStageWidthExpr()} * ${SOLOMON_LAYOUT.headerFlowScale})`;
+}
+
+/**
+ * Spacer below header so primary CTA top lands on the artboard anchor.
+ * Accounts for stage translateY and optional install-hint banner.
+ */
+export function solomonContentSpacerStyle({
+  hasActiveSession = false,
+  installHintVisible = false,
+} = {}) {
+  const y = solomonPrimaryCtaArtboardPercent(hasActiveSession);
   const { ratio } = SOLOMON_ARTBOARD;
-  const header = SOLOMON_LAYOUT.headerFlowEstimate;
-  const gap = hasActiveSession ? ` + ${SOLOMON_LAYOUT.sessionToNewDiagnosticGap}` : '';
+  const header = solomonHeaderFlowExpr();
+  const hint = installHintVisible ? SOLOMON_LAYOUT.installHintFlowEstimate : '0px';
+  const stageOffset = SOLOMON_LAYOUT.stageOffsetY;
 
   return {
-    height: `max(0px, calc(${solomonStageWidthExpr()} * ${ratio} * ${parseFloat(y) / 100} - ${header}${gap}))`,
+    height: `max(0px, calc(${solomonStageWidthExpr()} * ${ratio} * ${y / 100} - ${header} - ${hint} + ${stageOffset}))`,
   };
 }

@@ -15,10 +15,8 @@ function isIos() {
 
 const DISMISS_KEY = 'solomon_pwa_install_dismissed';
 
-/**
- * Hint to install Solomon as a home-screen app (iOS Share sheet or Chrome install).
- */
-export default function SolomonInstallHint() {
+/** Install banner state — shared with hero spacer math in SolomonHomePage. */
+export function useSolomonInstallHint() {
   const [visible, setVisible] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [installing, setInstalling] = useState(false);
@@ -32,6 +30,7 @@ export default function SolomonInstallHint() {
     const onBeforeInstall = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
+      setVisible(true);
     };
 
     window.addEventListener('beforeinstallprompt', onBeforeInstall);
@@ -55,6 +54,27 @@ export default function SolomonInstallHint() {
       setInstalling(false);
     }
   };
+
+  return {
+    visible,
+    deferredPrompt,
+    installing,
+    dismiss,
+    handleInstall,
+  };
+}
+
+/**
+ * Hint to install Solomon as a home-screen app (iOS Share sheet or Chrome install).
+ */
+export default function SolomonInstallHint({ installHint }) {
+  const {
+    visible,
+    deferredPrompt,
+    installing,
+    dismiss,
+    handleInstall,
+  } = installHint;
 
   if (!visible) return null;
 
