@@ -2,6 +2,11 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import {
+  isSolomonHeroDebugEnabled,
+  setSolomonHeroDebugEnabled,
+  SOLOMON_HERO_DEBUG_EVENT,
+} from './solomonHeroDebug';
 
 function rectSnapshot(el, stageRect) {
   if (!el) return null;
@@ -43,18 +48,8 @@ function envSnapshot() {
   };
 }
 
-function readDebugEnabled() {
-  if (typeof window === 'undefined') return false;
-  try {
-    if (localStorage.getItem('solomon_hero_debug') === '1') return true;
-    return new URLSearchParams(window.location.search).get('solomonDebug') === '1';
-  } catch {
-    return false;
-  }
-}
-
 /**
- * Temporary forensic overlay — enable with ?solomonDebug=1 or localStorage solomon_hero_debug=1.
+ * Temporary forensic overlay — enable with ?solomonDebug=1, or tap Solomon logo 5× on home.
  * Renders via portal (stage transform traps position:fixed descendants).
  */
 export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
@@ -62,13 +57,13 @@ export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
   const [report, setReport] = useState(null);
 
   useEffect(() => {
-    const enabled = readDebugEnabled();
+    const sync = () => setDebugEnabled(isSolomonHeroDebugEnabled());
     if (new URLSearchParams(window.location.search).get('solomonDebug') === '1') {
-      localStorage.setItem('solomon_hero_debug', '1');
-      setDebugEnabled(true);
-      return;
+      setSolomonHeroDebugEnabled(true);
     }
-    setDebugEnabled(enabled);
+    sync();
+    window.addEventListener(SOLOMON_HERO_DEBUG_EVENT, sync);
+    return () => window.removeEventListener(SOLOMON_HERO_DEBUG_EVENT, sync);
   }, []);
 
   const measure = useCallback(() => {
@@ -171,7 +166,7 @@ export default function SolomonHeroDiagnostics({ stageRef, cardRef, handRef }) {
       className="pointer-events-none fixed bottom-2 left-2 right-2 z-[99999] max-h-[45vh] overflow-auto rounded-lg border border-amber-400/50 bg-black/90 p-2 font-mono text-[9px] leading-snug text-amber-100 shadow-lg"
       aria-hidden
     >
-      <p className="mb-1 font-bold text-amber-300">Solomon hero debug (temp)</p>
+      <p className="mb-1 font-bold text-amber-300">Solomon hero debug (tap logo 5× to toggle)</p>
       {lines.map((line) => (
         <p key={line}>{line}</p>
       ))}
