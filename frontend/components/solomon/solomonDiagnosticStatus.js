@@ -103,20 +103,24 @@ const STATUS_TOKENS = {
   },
 };
 
-function hasDiagnosticConclusion(diagnostic) {
-  const payload = diagnostic?.payload || {};
-  if (payload.evidenceSnapshot) return true;
+function isDiagnosticAwaitingOutcome(diagnostic) {
   const status = String(diagnostic?.status || 'in_progress').toLowerCase();
-  return status === 'completed';
+  return status === 'completed' && !diagnostic?.outcome_id;
 }
 
 export function isRepairMemoryOutcome(outcomeSummary) {
-  if (!outcomeSummary) return false;
-  return Boolean(
-    outcomeSummary.repair_successful
-    && outcomeSummary.moderation_status === 'approved'
-    && POOL_VISIBILITIES.has(outcomeSummary.visibility),
-  );
+  if (!outcomeSummary?.repair_successful) return false;
+
+  const confidence = String(outcomeSummary.outcome_confidence || '').toLowerCase();
+  if (confidence === 'incorrect' || confidence === 'unconfirmed') return false;
+  if (confidence && confidence !== 'confirmed') return false;
+
+  const context = String(outcomeSummary.context || 'tech').toLowerCase();
+  if (context === 'diy') {
+    return outcomeSummary.moderation_status === 'approved'
+      && POOL_VISIBILITIES.has(outcomeSummary.visibility);
+  }
+  return outcomeSummary.moderation_status !== 'rejected';
 }
 
 /** Derive lifecycle status from diagnostic + optional linked outcome summary. */
@@ -148,7 +152,7 @@ export function resolveSolomonDiagnosticStatus(diagnostic) {
     } else {
       lifecycleKey = SOLOMON_DIAGNOSTIC_STATUS.repair_successful;
     }
-  } else if (hasDiagnosticConclusion(diagnostic)) {
+  } else if (isDiagnosticAwaitingOutcome(diagnostic)) {
     lifecycleKey = SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending;
   }
 

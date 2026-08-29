@@ -33,21 +33,16 @@ export function useSolomonDiagnosticProgress({
     }
   }, [initialDiagnosticId]);
 
-  const buildBody = useCallback(
-    (payload) =>
-      buildStandaloneDiagnosticBody(payload, {
-        ...equipment,
-        outcome_id: outcomeId,
-        status,
-      }),
-    [equipment, outcomeId, status],
-  );
-
   const runPersist = useCallback(
-    async (payload) => {
+    async (payload, statusOverride) => {
       if (!hasSolomonDiagnosticProgress(payload)) return null;
 
-      const body = buildBody(payload);
+      const effectiveStatus = statusOverride ?? status;
+      const body = buildStandaloneDiagnosticBody(payload, {
+        ...equipment,
+        outcome_id: outcomeId,
+        status: effectiveStatus,
+      });
       const id = diagnosticIdRef.current;
 
       if (!id) {
@@ -62,28 +57,28 @@ export function useSolomonDiagnosticProgress({
 
       const updated = await updateStandaloneDiagnosticOffline({
         diagnosticId: id,
-        body: standaloneUpdateBodyFromCreateBody(body, status),
+        body: standaloneUpdateBodyFromCreateBody(body, effectiveStatus),
       });
       setSyncHint(updated?.queued ? 'queued' : 'saved');
       return updated;
     },
-    [buildBody, status],
+    [equipment, outcomeId, status],
   );
 
   const flushProgress = useCallback(
-    async (payload) => {
+    async (payload, statusOverride) => {
       if (inFlightRef.current) {
-        queuedPayloadRef.current = payload;
+        queuedPayloadRef.current = { payload, statusOverride };
         return null;
       }
       inFlightRef.current = true;
       let result = null;
       try {
-        result = await runPersist(payload);
+        result = await runPersist(payload, statusOverride);
         while (queuedPayloadRef.current) {
           const next = queuedPayloadRef.current;
           queuedPayloadRef.current = null;
-          result = await runPersist(next);
+          result = await runPersist(next.payload, next.statusOverride);
         }
       } catch (err) {
         console.warn('[Solomon] Progress save failed', err);
@@ -118,7 +113,7 @@ export function useSolomonDiagnosticProgress({
         clearTimeout(debounceTimerRef.current);
         debounceTimerRef.current = null;
       }
-      return flushProgress(payload);
+      return flushProgress(payload, 'completed');
     },
     [flushProgress],
   );

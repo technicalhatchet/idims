@@ -3,14 +3,12 @@ import { SYNC_EVENT } from '../lib/offlineMutations';
 import { listStandaloneDiagnosticsOffline } from '../lib/solomonOfflineWrites';
 
 function pickContinueTarget(items = []) {
-  const inProgress = items.filter(
+  return items.find(
     (row) =>
       !row.outcome_id
-      && (row.status === 'in_progress' || !row.status)
-      && row.status !== 'abandoned',
-  );
-  if (!inProgress.length) return null;
-  return inProgress[0];
+      && row.status !== 'abandoned'
+      && (row.status === 'in_progress' || !row.status || row.status === 'completed'),
+  ) || null;
 }
 
 export function useSolomonContinue() {
@@ -22,7 +20,7 @@ export function useSolomonContinue() {
     setIsLoading(true);
     try {
       const res = await listStandaloneDiagnosticsOffline({
-        status: 'in_progress',
+        linked: false,
         limit: 20,
       });
       const target = pickContinueTarget(res?.items || []);
