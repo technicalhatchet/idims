@@ -29,7 +29,7 @@ function BackdropLayer({ src, layer, className = '' }) {
 }
 
 /** Unified 1124×1920 hero stage — backdrop, session card, and front hand share one frame. */
-export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }) {
+export default function SolomonHeroArtboard({ hasActiveSession, continueTarget, ctaRef }) {
   const stageRef = useRef(null);
   const cardRef = useRef(null);
   const handRef = useRef(null);
@@ -95,7 +95,13 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget }
           />
         ) : null}
       </div>
-      <SolomonHeroDiagnostics stageRef={stageRef} cardRef={cardRef} handRef={handRef} />
+      <SolomonHeroDiagnostics
+        stageRef={stageRef}
+        cardRef={cardRef}
+        handRef={handRef}
+        ctaRef={ctaRef}
+        hasActiveSession={hasActiveSession}
+      />
     </div>
   );
 }
