@@ -339,7 +339,7 @@ export default function SolomonDiagnosticDetailPage() {
     !outcome
     && !isPending
     && row.status !== 'abandoned'
-    && (row.status === 'in_progress' || !row.status || row.payload?.evidenceSnapshot);
+    && row.status === 'completed';
 
   if (isEditing && editPayload) {
     const draftScope = diagnosticDraftScopeId(id);

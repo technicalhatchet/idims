@@ -314,8 +314,10 @@ class DmaStandaloneDiagnosticUpdate(BaseModel):
 
 class DmaOutcomeSummary(BaseModel):
     repair_successful: bool
+    outcome_confidence: Optional[str] = None
     moderation_status: str
     visibility: str
+    context: str = "tech"
 
 
 class DmaStandaloneDiagnosticResponse(BaseModel):

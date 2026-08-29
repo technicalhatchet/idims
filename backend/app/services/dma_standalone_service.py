@@ -303,16 +303,20 @@ def apply_record_create_defaults(
     context = default_standalone_context(user, data.get("context"))
     payload = dict(data)
     payload["context"] = context
-    payload.setdefault("visibility", DMA_VISIBILITY_PRIVATE)
-    if not user.is_admin:
-        payload.pop("moderation_status", None)
-        payload["moderation_status"] = default_record_moderation(user, context)
-    else:
-        payload.setdefault("moderation_status", default_record_moderation(user, context))
     if user.is_diyer:
         payload["visibility"] = DMA_VISIBILITY_PRIVATE
         payload["context"] = DMA_CONTEXT_DIY
         payload["moderation_status"] = DMA_MODERATION_PENDING
+    elif context == DMA_CONTEXT_TECH:
+        payload.setdefault("visibility", DMA_VISIBILITY_TRAINING_CORPUS)
+        payload.setdefault("moderation_status", DMA_MODERATION_APPROVED)
+    else:
+        payload.setdefault("visibility", DMA_VISIBILITY_PRIVATE)
+        if not user.is_admin:
+            payload.pop("moderation_status", None)
+            payload["moderation_status"] = default_record_moderation(user, context)
+        else:
+            payload.setdefault("moderation_status", default_record_moderation(user, context))
     return payload
 
 
@@ -380,8 +384,10 @@ def _outcome_summary_from_record(record: Optional[DmaRepairRecord]) -> Optional[
         return None
     return {
         "repair_successful": bool(record.repair_successful),
+        "outcome_confidence": record.outcome_confidence,
         "moderation_status": record.moderation_status,
         "visibility": record.visibility,
+        "context": record.context,
     }
 
 
@@ -531,8 +537,7 @@ def list_standalone_diagnostics(
 ) -> Dict[str, Any]:
     query = db.query(DmaStandaloneDiagnostic)
 
-    if user.is_diyer or not (user.is_admin or user.is_manager):
-        query = query.filter(DmaStandaloneDiagnostic.created_by == user.id)
+    query = query.filter(DmaStandaloneDiagnostic.created_by == user.id)
 
     if linked is True:
         query = query.filter(DmaStandaloneDiagnostic.outcome_id.isnot(None))
