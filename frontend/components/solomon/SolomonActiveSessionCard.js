@@ -23,13 +23,18 @@ function equipmentMakeModel(target) {
 
 function SegmentedProgress({ stepNumber, totalSteps, compact = false }) {
   if (!totalSteps) return null;
+  const inactiveClass = compact
+    ? 'bg-white/55 ring-1 ring-inset ring-white/20'
+    : 'bg-white/40';
   return (
     <div className={`flex gap-[0.2em] ${compact ? '' : 'mt-2'}`}>
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div
           key={index}
           className={`flex-1 rounded-full ${compact ? 'h-[0.5em]' : 'h-1'} ${
-            index < stepNumber ? 'bg-cyan-400' : 'bg-white/35'
+            index < stepNumber
+              ? 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]'
+              : inactiveClass
           }`}
         />
       ))}
@@ -146,8 +151,8 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
               {applianceTitle}
             </p>
             {lead ? (
-              <div className="flex min-w-0 flex-1 flex-col items-stretch">
-                <div className="flex items-start justify-end gap-[0.2em]">
+              <div className="flex min-w-0 flex-1 flex-col items-end">
+                <div className="flex max-w-full items-start justify-end gap-[0.2em]">
                   <span className="mt-[0.05em] flex h-[1.15em] w-[1.15em] shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400">
                     <SolomonCategoryIcon
                       categoryId={lead.categoryId}
@@ -155,21 +160,18 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
                       size={12}
                     />
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-[0.96em] font-medium leading-[1.2em] text-white/90">
+                  <span className="min-w-0 truncate text-right text-[0.96em] font-medium leading-[1.2em] text-white/90">
                     {lead.categoryLabel}
                   </span>
                 </div>
-                <p className="mt-[0.08em] flex justify-end gap-[0.2em]">
-                  <span className="w-[1.15em] shrink-0" aria-hidden />
-                  <span className="min-w-0 flex-1 truncate text-[0.88em] font-bold leading-[1.05em] text-emerald-400 tabular-nums">
-                    {lead.percent}% {lead.strengthWord}
-                  </span>
+                <p className="mt-[0.08em] w-full truncate text-right text-[0.88em] font-bold leading-[1.05em] text-emerald-400 tabular-nums">
+                  {lead.percent}% {lead.strengthWord}
                 </p>
-                <div className="mt-[0.1em] flex justify-end gap-[0.2em]">
+                <div className="mt-[0.1em] flex w-full justify-end gap-[0.2em]">
                   <span className="w-[1.15em] shrink-0" aria-hidden />
-                  <div className="h-[0.4em] min-w-0 flex-1 overflow-hidden rounded-full bg-white/30">
+                  <div className="h-[0.45em] min-w-0 flex-1 overflow-hidden rounded-full bg-white/55 ring-1 ring-inset ring-white/15">
                     <div
-                      className="h-full bg-emerald-400"
+                      className="h-full bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]"
                       style={{ width: `${Math.min(100, lead.percent)}%` }}
                     />
                   </div>
@@ -224,9 +226,9 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
             <p className={`font-bold text-emerald-400 tabular-nums ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`}>
               {lead.percent}% {lead.strengthWord}
             </p>
-            <div className={`h-1 rounded-full bg-white/30 overflow-hidden w-full max-w-[120px] ml-auto ${isCompact ? 'mt-0.5' : 'mt-1'}`}>
+            <div className={`h-1 rounded-full bg-white/55 ring-1 ring-inset ring-white/15 overflow-hidden w-full max-w-[120px] ml-auto ${isCompact ? 'mt-0.5' : 'mt-1'}`}>
               <div
-                className="h-full bg-emerald-400"
+                className="h-full bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]"
                 style={{ width: `${Math.min(100, lead.percent)}%` }}
               />
             </div>

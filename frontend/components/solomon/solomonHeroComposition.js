@@ -39,7 +39,7 @@ export const SOLOMON_LAYOUT = {
   /** Reserve when InstallHint banner is visible (hint + mb-6). */
   installHintFlowEstimate: '6.25rem',
   /** Artboard % gap below session card bottom → primary CTA top (with session). */
-  sessionCardToCtaGapArtboard: '7%',
+  sessionCardToCtaGapArtboard: '3.5%',
   /** Artboard Y% for primary CTA top when no session card on stage. */
   primaryCtaArtboardYWithoutSession: '44%',
 };
