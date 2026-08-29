@@ -12,6 +12,7 @@ import { buildStepKeyLabels } from '../diagnostics/intelligence/stepKeyLabels';
 import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
 import { getDiagnosticTemplate } from '../../constants/diagnosticTemplates';
 import SolomonCategoryIcon from './categoryIcons';
+import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
 
 function equipmentMakeModel(target) {
   const parts = [
@@ -21,20 +22,19 @@ function equipmentMakeModel(target) {
   return parts.join(' • ');
 }
 
-function SegmentedProgress({ stepNumber, totalSteps, compact = false }) {
+function SegmentedProgress({ stepNumber, totalSteps, compact = false, progressActiveClass }) {
   if (!totalSteps) return null;
   const inactiveClass = compact
     ? 'bg-white/55 ring-1 ring-inset ring-white/20'
     : 'bg-white/40';
+  const activeClass = progressActiveClass || 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]';
   return (
     <div className={`flex gap-[0.2em] ${compact ? '' : 'mt-2'}`}>
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div
           key={index}
           className={`flex-1 rounded-full ${compact ? 'h-[0.5em]' : 'h-1'} ${
-            index < stepNumber
-              ? 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]'
-              : inactiveClass
+            index < stepNumber ? activeClass : inactiveClass
           }`}
         />
       ))}
@@ -128,9 +128,10 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
 
   if (!target) return null;
 
+  const lifecycleStatus = resolveSolomonDiagnosticStatus(target);
   const surfaceClass = variant === 'heroOverlay'
-    ? 'border-cyan-400/35 bg-[#060a12]/82 backdrop-blur-lg shadow-[0_8px_28px_rgba(0,0,0,0.55),0_0_0_1px_rgba(34,211,238,0.15),inset_0_1px_0_rgba(255,255,255,0.06)]'
-    : 'border-cyan-500/25 bg-[#060a12]/80 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]';
+    ? lifecycleStatus.surfaceHeroClass
+    : lifecycleStatus.surfaceDefaultClass;
   const isCompact = variant === 'heroOverlay';
   const padClass = isCompact ? 'px-[0.55em] py-[0.35em]' : 'px-3 py-2.5';
 
@@ -139,10 +140,10 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
       <Link
         href={`/solomon/diagnostics/${target.id}?continue=1`}
         aria-label={totalSteps > 0 ? `Last session, step ${stepNumber} of ${totalSteps}` : 'Last session'}
-        className={`flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-xl border hover:border-cyan-400/40 transition-colors ${padClass} ${surfaceClass}`}
+        className={`flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-xl border transition-colors ${padClass} ${surfaceClass} ${lifecycleStatus.hoverBorderClass}`}
       >
         <div className="shrink-0">
-          <p className="shrink-0 overflow-hidden whitespace-nowrap text-[0.79em] uppercase tracking-[0.06em] text-cyan-400/90 font-medium leading-[1.1em]">
+          <p className={`shrink-0 overflow-hidden whitespace-nowrap text-[0.79em] uppercase tracking-[0.06em] font-medium leading-[1.1em] ${lifecycleStatus.labelTextClass}`}>
             Last Session
           </p>
 
@@ -189,7 +190,12 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
               {makeModelLine}
             </p>
           ) : null}
-          <SegmentedProgress stepNumber={stepNumber} totalSteps={totalSteps} compact />
+          <SegmentedProgress
+            stepNumber={stepNumber}
+            totalSteps={totalSteps}
+            compact
+            progressActiveClass={lifecycleStatus.progressActiveClass}
+          />
         </div>
       </Link>
     );
@@ -198,11 +204,11 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   return (
     <Link
       href={`/solomon/diagnostics/${target.id}?continue=1`}
-      className={`block rounded-xl border hover:border-cyan-400/40 transition-colors ${padClass} ${surfaceClass}`}
+      className={`block rounded-xl border transition-colors ${padClass} ${surfaceClass} ${lifecycleStatus.hoverBorderClass}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-[9px] uppercase tracking-[0.08em] text-cyan-400/90 font-medium">
+          <p className={`text-[9px] uppercase tracking-[0.08em] font-medium ${lifecycleStatus.labelTextClass}`}>
             Last Session
           </p>
           <p className={`font-semibold text-white leading-tight ${isCompact ? 'text-sm mt-0' : 'text-base mt-0.5'}`}>
@@ -243,7 +249,12 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
               {makeModelLine}
             </p>
           ) : null}
-          <SegmentedProgress stepNumber={stepNumber} totalSteps={totalSteps} compact={isCompact} />
+          <SegmentedProgress
+            stepNumber={stepNumber}
+            totalSteps={totalSteps}
+            compact={isCompact}
+            progressActiveClass={lifecycleStatus.progressActiveClass}
+          />
         </div>
       ) : makeModelLine ? (
         <p className={`mt-2 truncate text-left text-gray-400 ${isCompact ? 'text-[10px]' : 'text-[11px]'}`}>

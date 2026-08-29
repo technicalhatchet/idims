@@ -11,15 +11,21 @@ import { SYNC_EVENT } from '../../../lib/offlineMutations';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import { listStandaloneDiagnosticsOffline, deleteStandaloneDiagnosticOffline, deleteAllStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
 import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
+import {
+  resolveSolomonDiagnosticStatus,
+  solomonDiagnosticListCardClass,
+  SolomonDiagnosticStatusBadge,
+} from '../../../components/solomon/solomonDiagnosticStatus';
 
 function DiagnosticRow({ item, onDelete, isDeleting }) {
   if (!item?.id) return null;
   const label = item.template_label || item.template_id || 'Diagnostic';
   const equipment = [item.equipment_make, item.equipment_model].filter(Boolean).join(' ');
   const when = formatSolomonDateTime(item.updated_at);
+  const status = resolveSolomonDiagnosticStatus(item);
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#0D1525] hover:border-cyan-500/30 transition-colors">
+    <div className={solomonDiagnosticListCardClass(status)}>
       <div className="flex items-stretch gap-2 p-4">
         <Link href={`/solomon/diagnostics/${item.id}`} className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
@@ -30,27 +36,7 @@ function DiagnosticRow({ item, onDelete, isDeleting }) {
                 <p className="text-sm text-gray-500 mt-1 line-clamp-2">{item.customer_complaint}</p>
               ) : null}
             </div>
-            <span
-              className={`text-[10px] uppercase tracking-wide px-2 py-0.5 rounded shrink-0 ${
-                item.pendingSync
-                  ? 'bg-sky-500/15 text-sky-300 border border-sky-500/25'
-                  : item.outcome_id
-                    ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25'
-                    : item.status === 'in_progress' || !item.status
-                      ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/25'
-                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
-              }`}
-            >
-              {item.pendingSync
-                ? 'Pending sync'
-                : item.outcome_id
-                  ? 'Linked'
-                  : item.status === 'in_progress' || !item.status
-                    ? 'In progress'
-                    : item.status === 'abandoned'
-                      ? 'Abandoned'
-                      : 'Unlinked'}
-            </span>
+            <SolomonDiagnosticStatusBadge status={status} />
           </div>
           {when ? <p className="text-xs text-gray-500 mt-2">{when}</p> : null}
         </Link>
