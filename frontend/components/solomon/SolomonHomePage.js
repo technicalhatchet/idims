@@ -43,6 +43,7 @@ export default function SolomonHomePage() {
           hasActiveSession={hasActiveSession}
           continueTarget={continueTarget}
           ctaRef={ctaRef}
+          topInset={topInset.paddingTop}
         />
 
         <div className="relative px-4" style={{ zIndex: SOLOMON_Z.pageContent }}>

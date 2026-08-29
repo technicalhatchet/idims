@@ -29,7 +29,12 @@ function BackdropLayer({ src, layer, className = '' }) {
 }
 
 /** Unified 1124×1920 hero stage — backdrop, session card, and front hand share one frame. */
-export default function SolomonHeroArtboard({ hasActiveSession, continueTarget, ctaRef }) {
+export default function SolomonHeroArtboard({
+  hasActiveSession,
+  continueTarget,
+  ctaRef,
+  topInset = '0px',
+}) {
   const stageRef = useRef(null);
   const cardRef = useRef(null);
   const handRef = useRef(null);
@@ -40,8 +45,8 @@ export default function SolomonHeroArtboard({ hasActiveSession, continueTarget, 
 
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 top-0 mx-auto w-full max-w-lg overflow-visible"
-      style={{ zIndex: SOLOMON_Z.backdrop, transform: stageTransform }}
+      className="pointer-events-none absolute inset-x-0 mx-auto w-full max-w-lg overflow-visible"
+      style={{ zIndex: SOLOMON_Z.backdrop, top: topInset, transform: stageTransform }}
     >
       <div ref={stageRef} className={`relative w-full ${SOLOMON_ARTBOARD.aspectClass}`} data-solomon-stage>
         <img
