@@ -1,12 +1,11 @@
 import Head from 'next/head';
+import { SOLOMON_PWA_ICONS, SOLOMON_PWA_VERSION } from './solomonPwaIcons';
 
 const SOLOMON_SHELL = '#0A0F1E';
-const MANIFEST_VERSION = 4;
-const ICON_180 = `/solomonicon-180x180.png?v=${MANIFEST_VERSION}`;
 
 export default function SolomonHead({ title = 'Solomon' }) {
   const pageTitle = title === 'Solomon' ? 'Solomon' : `${title} | Solomon`;
-  const manifestHref = `/manifest-solomon.json?v=${MANIFEST_VERSION}`;
+  const manifestHref = `/manifest-solomon.json?v=${SOLOMON_PWA_VERSION}`;
 
   return (
     <Head>
@@ -21,10 +20,10 @@ export default function SolomonHead({ title = 'Solomon' }) {
       <meta name="color-scheme" content="dark" />
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <link rel="manifest" href={manifestHref} />
-      <link rel="icon" type="image/png" href={ICON_180} />
+      <link rel="icon" type="image/png" href={SOLOMON_PWA_ICONS.android192} />
       {/* iOS Add to Home Screen uses apple-touch-icon, not manifest icons */}
-      <link rel="apple-touch-icon" sizes="180x180" href={ICON_180} />
-      <link rel="apple-touch-icon" href={ICON_180} />
+      <link rel="apple-touch-icon" sizes="180x180" href={SOLOMON_PWA_ICONS.ios} />
+      <link rel="apple-touch-icon" href={SOLOMON_PWA_ICONS.ios} />
     </Head>
   );
 }

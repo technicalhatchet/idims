@@ -63,7 +63,7 @@ export default function SolomonNewOutcomePage() {
       <SolomonHead title={copy('outcomeNew')} />
       <SolomonMobileShell
         header={
-          <SolomonWizardHeader left={<SolomonWizardBackLink href="/solomon/outcomes" />} />
+          <SolomonWizardHeader left={<SolomonWizardBackLink href="/solomon/outcomes" variant="arrow" label="Back to outcomes" />} />
         }
       >
         <div className="space-y-4 pb-6">

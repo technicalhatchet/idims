@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import SolomonPageHeader from '../../components/solomon/SolomonPageHeader';
 import { useCallback, useState } from 'react';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonPageMain from '../../components/solomon/SolomonPageMain';
@@ -50,8 +50,8 @@ export default function SolomonKnowledgePage() {
     <>
       <SolomonHead title="Knowledge base" />
       <SolomonPageMain>
-        <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Home</Link>
-        <h1 className="text-2xl font-semibold mt-3">Repair memory</h1>
+        <SolomonPageHeader />
+        <h1 className="text-2xl font-semibold">Repair memory</h1>
         <p className="text-sm text-white/60 mt-2">
           Search confirmed fixes from past jobs — same DMA pool technicians use in the field.
         </p>

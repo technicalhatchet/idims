@@ -1,4 +1,8 @@
-import Link from 'next/link';
+import {
+  SolomonArrowBack,
+  SolomonCenteredLogo,
+  SolomonHatBackButton,
+} from './SolomonPageHeader';
 
 /**
  * Full-width centered logo with optional left/right controls (mobile wizard shell).
@@ -7,28 +11,22 @@ export default function SolomonWizardHeader({ left, right = null }) {
   return (
     <div className="relative min-h-[44px] px-1">
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none px-14"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center px-[4.5rem]"
         aria-hidden
       >
-        <img
-          src="/solomon%20big.png"
-          alt=""
-          className="h-9 w-auto max-w-[min(100%,200px)] object-contain object-center sm:max-h-10"
-          decoding="async"
-        />
+        <SolomonCenteredLogo className="sm:max-h-10" />
       </div>
-      <div className="relative z-10 flex items-center justify-between gap-2 min-h-[44px]">
-        <div className="flex items-center justify-start min-w-[44px] shrink-0">{left}</div>
-        <div className="flex items-center justify-end min-w-[44px] shrink-0">{right}</div>
+      <div className="relative z-10 flex min-h-[44px] items-center justify-between gap-2">
+        <div className="flex min-w-[44px] shrink-0 items-center justify-start">{left}</div>
+        <div className="flex min-w-[44px] shrink-0 items-center justify-end">{right}</div>
       </div>
     </div>
   );
 }
 
-export function SolomonWizardBackLink({ href = '/solomon', label = '←' }) {
-  return (
-    <Link href={href} className="text-sm text-cyan-400 hover:text-cyan-300 p-1 -ml-1">
-      {label}
-    </Link>
-  );
+export function SolomonWizardBackLink({ href = '/solomon', variant = 'hat', label = 'Back' }) {
+  if (variant === 'arrow') {
+    return <SolomonArrowBack href={href} label={label} />;
+  }
+  return <SolomonHatBackButton href={href} />;
 }

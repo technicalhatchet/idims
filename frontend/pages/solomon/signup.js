@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import SolomonPageHeader from '../../components/solomon/SolomonPageHeader';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import SolomonHead from '../../components/solomon/SolomonHead';
 import SolomonPageMain from '../../components/solomon/SolomonPageMain';
@@ -19,9 +19,9 @@ export default function SolomonSignupPage() {
     <>
       <SolomonHead title="Homeowner signup" />
       <SolomonPageMain>
-        <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
+        <SolomonPageHeader />
 
-        <header className="mt-6 mb-8">
+        <header className="mb-8">
           <img src="/solomon%20big.png" alt="Solomon" className="h-14 w-auto mb-4" />
           <h1 className="text-2xl font-semibold tracking-tight">Diagnose your appliance</h1>
           <p className="text-sm text-white/70 mt-2">

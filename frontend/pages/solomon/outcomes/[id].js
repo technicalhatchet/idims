@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { format } from 'date-fns';
 import SolomonHead from '../../../components/solomon/SolomonHead';
 import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
+import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
 import DmaFieldRecordForm from '../../../components/dma/DmaFieldRecordForm';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
@@ -119,7 +120,10 @@ export default function SolomonOutcomeDetailPage() {
     return (
       <>
         <SolomonHead title="Outcome" />
-        <SolomonPageMain className="flex justify-center py-20"><LoadingSpinner /></SolomonPageMain>
+        <SolomonPageMain className="flex justify-center py-20">
+          <SolomonPageHeader back="arrow" backHref="/solomon/outcomes" backLabel="Back to outcomes" />
+          <LoadingSpinner />
+        </SolomonPageMain>
       </>
     );
   }
@@ -129,6 +133,7 @@ export default function SolomonOutcomeDetailPage() {
       <>
         <SolomonHead title="Outcome" />
         <SolomonPageMain>
+          <SolomonPageHeader back="arrow" backHref="/solomon/outcomes" backLabel="Back to outcomes" />
           <ErrorAlert message={error || 'Not found'} />
         </SolomonPageMain>
       </>
@@ -141,8 +146,8 @@ export default function SolomonOutcomeDetailPage() {
     <>
       <SolomonHead title="Repair outcome" />
       <SolomonPageMain>
-        <Link href="/solomon/outcomes" className="text-xs text-cyan-400 hover:text-cyan-300">← Outcomes</Link>
-        <div className="mt-3 flex items-start justify-between gap-3">
+        <SolomonPageHeader back="arrow" backHref="/solomon/outcomes" backLabel="Back to outcomes" />
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h1 className="text-2xl font-semibold">{formatDmaEquipment(record)}</h1>
             {record.updated_at ? (
