@@ -375,12 +375,26 @@ def _template_label(template_id: Optional[str]) -> Optional[str]:
     return template_id.replace("_", " ").title()
 
 
+def _outcome_summary_from_record(record: Optional[DmaRepairRecord]) -> Optional[Dict[str, Any]]:
+    if not record:
+        return None
+    return {
+        "repair_successful": bool(record.repair_successful),
+        "moderation_status": record.moderation_status,
+        "visibility": record.visibility,
+    }
+
+
 def standalone_diagnostic_to_response(row: DmaStandaloneDiagnostic) -> Dict[str, Any]:
     payload = row.payload or {}
     template_id = payload.get("templateId")
+    outcome_summary = None
+    if row.outcome_id:
+        outcome_summary = _outcome_summary_from_record(row.outcome)
     return {
         "id": row.id,
         "outcome_id": row.outcome_id,
+        "outcome_summary": outcome_summary,
         "equipment_make": row.equipment_make,
         "equipment_model": row.equipment_model,
         "equipment_type": row.equipment_type,
@@ -406,6 +420,7 @@ def get_standalone_diagnostic(
 ) -> Optional[DmaStandaloneDiagnostic]:
     return (
         db.query(DmaStandaloneDiagnostic)
+        .options(joinedload(DmaStandaloneDiagnostic.outcome))
         .filter(DmaStandaloneDiagnostic.id == diagnostic_id)
         .first()
     )
@@ -538,7 +553,8 @@ def list_standalone_diagnostics(
     total = query.count()
     pages = max(1, math.ceil(total / limit)) if total else 1
     rows = (
-        query.order_by(DmaStandaloneDiagnostic.updated_at.desc())
+        query.options(joinedload(DmaStandaloneDiagnostic.outcome))
+        .order_by(DmaStandaloneDiagnostic.updated_at.desc())
         .offset((page - 1) * limit)
         .limit(limit)
         .all()

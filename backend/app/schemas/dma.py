@@ -312,9 +312,16 @@ class DmaStandaloneDiagnosticUpdate(BaseModel):
         return v
 
 
+class DmaOutcomeSummary(BaseModel):
+    repair_successful: bool
+    moderation_status: str
+    visibility: str
+
+
 class DmaStandaloneDiagnosticResponse(BaseModel):
     id: UUID
     outcome_id: Optional[UUID] = None
+    outcome_summary: Optional[DmaOutcomeSummary] = None
     equipment_make: Optional[str] = None
     equipment_model: Optional[str] = None
     equipment_type: Optional[str] = None

@@ -80,6 +80,7 @@ export function standaloneRowFromApiBody(id, body, extra = {}) {
     template_id: templateId ?? null,
     template_label: templateIdToLabel(templateId),
     status: extra.status ?? body.status ?? 'in_progress',
+    outcome_summary: extra.outcome_summary ?? body.outcome_summary ?? null,
     created_at: extra.created_at || new Date().toISOString(),
     updated_at: extra.updated_at || new Date().toISOString(),
     pendingSync: extra.pendingSync ?? false,
