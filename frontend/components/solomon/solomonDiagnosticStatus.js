@@ -123,6 +123,58 @@ export function isRepairMemoryOutcome(outcomeSummary) {
   return outcomeSummary.moderation_status !== 'rejected';
 }
 
+function outcomeSummaryFromRecord(record) {
+  if (!record) return null;
+  return {
+    repair_successful: Boolean(record.repair_successful),
+    outcome_confidence: record.outcome_confidence,
+    moderation_status: record.moderation_status,
+    visibility: record.visibility,
+    context: record.context,
+  };
+}
+
+/** Map a repair outcome / pool record to the shared lifecycle tokens. */
+export function resolveSolomonOutcomeStatus(record) {
+  if (!record) {
+    return resolveSolomonDiagnosticStatus(null);
+  }
+
+  const summary = outcomeSummaryFromRecord(record);
+  let lifecycleKey = SOLOMON_DIAGNOSTIC_STATUS.repair_successful;
+
+  if (isRepairMemoryOutcome(summary)) {
+    lifecycleKey = SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
+  } else if (!record.repair_successful) {
+    lifecycleKey = SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending;
+  }
+
+  const lifecycleTokens = STATUS_TOKENS[lifecycleKey];
+  return {
+    key: lifecycleKey,
+    lifecycleKey,
+    label: lifecycleTokens.label,
+    isPendingSync: false,
+    ...lifecycleTokens,
+    badgeClass: lifecycleTokens.badgeClass,
+    labelTextClass: lifecycleTokens.labelTextClass,
+  };
+}
+
+/** Repair memory search hits — pool results default to repair_memory when fields are sparse. */
+export function resolveSolomonPoolSearchResultStatus(item) {
+  if (!item) {
+    return resolveSolomonOutcomeStatus({ repair_successful: true, moderation_status: 'approved', visibility: 'training_corpus', context: 'tech' });
+  }
+  return resolveSolomonOutcomeStatus({
+    repair_successful: item.repair_successful !== false,
+    outcome_confidence: item.outcome_confidence,
+    moderation_status: item.moderation_status || 'approved',
+    visibility: item.visibility || 'training_corpus',
+    context: item.context || 'tech',
+  });
+}
+
 /** Derive lifecycle status from diagnostic + optional linked outcome summary. */
 export function resolveSolomonDiagnosticStatus(diagnostic) {
   if (!diagnostic) {
@@ -182,6 +234,16 @@ export function resolveSolomonDiagnosticStatus(diagnostic) {
 export function solomonDiagnosticListCardClass(status) {
   return [
     'rounded-xl border border-t-2 bg-[#0D1525] transition-colors overflow-hidden',
+    status.topAccentClass,
+    status.cardBorderClass,
+    status.cardGlowClass,
+  ].filter(Boolean).join(' ');
+}
+
+/** Detail panel — dark surface with lifecycle accent, no layout change. */
+export function solomonDiagnosticDetailPanelClass(status) {
+  return [
+    'rounded-xl border border-t-2 bg-[#0D1525]',
     status.topAccentClass,
     status.cardBorderClass,
     status.cardGlowClass,

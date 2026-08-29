@@ -190,6 +190,7 @@ export default function SolomonDiagnosePage() {
           error={error}
           queuedMessage={queuedMessage}
           diagnosticsLinkLabel={isDiyer ? 'View my sessions →' : 'View my diagnostics →'}
+          lifecycleDiagnostic={diagnosticId ? { id: diagnosticId, status: 'in_progress' } : null}
         />
 
         <DiagnosticResultsForm

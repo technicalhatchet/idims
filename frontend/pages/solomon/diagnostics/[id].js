@@ -42,6 +42,11 @@ import {
 import { SOLOMON_DIY_APPLIANCES, templateIdToDiySubtype } from '../../../constants/solomonDiyAppliances';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import { confirmSolomonTemplateChange } from '../../../utils/solomonTemplateChange';
+import {
+  resolveSolomonDiagnosticStatus,
+  solomonDiagnosticDetailPanelClass,
+  SolomonDiagnosticStatusBadge,
+} from '../../../components/solomon/solomonDiagnosticStatus';
 
 export default function SolomonDiagnosticDetailPage() {
   const router = useRouter();
@@ -341,6 +346,8 @@ export default function SolomonDiagnosticDetailPage() {
     && row.status !== 'abandoned'
     && row.status === 'completed';
 
+  const lifecycleStatus = resolveSolomonDiagnosticStatus(row);
+
   if (isEditing && editPayload) {
     const draftScope = diagnosticDraftScopeId(id);
     const templateLabel = getDiagnosticTemplate(editPayload?.templateId)?.label;
@@ -375,6 +382,7 @@ export default function SolomonDiagnosticDetailPage() {
             isDiyer={isDiyer}
             copy={copy}
             insightPeeks={insightPeeks}
+            lifecycleDiagnostic={row}
           />
 
           <DiagnosticResultsForm
@@ -403,8 +411,13 @@ export default function SolomonDiagnosticDetailPage() {
       <SolomonHead title={label} />
       <SolomonPageMain>
         <Link href="/solomon/diagnostics" className="text-xs text-cyan-400 hover:text-cyan-300">← Diagnostics</Link>
-        <h1 className="text-2xl font-semibold mt-3">{label}</h1>
-        {when ? <p className="text-sm text-gray-500 mt-1">{when}</p> : null}
+        <div className="mt-3 flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-2xl font-semibold">{label}</h1>
+            {when ? <p className="text-sm text-gray-500 mt-1">{when}</p> : null}
+          </div>
+          <SolomonDiagnosticStatusBadge status={lifecycleStatus} />
+        </div>
         {isPending ? (
           <p className="text-xs text-sky-300/90 mt-2">Pending sync — saved on your device.</p>
         ) : null}
@@ -457,8 +470,8 @@ export default function SolomonDiagnosticDetailPage() {
         {pdfError ? <p className="text-sm text-red-400 mt-2">{pdfError}</p> : null}
 
         {needsOutcome ? (
-          <section className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-amber-300/90">
+          <section className={`mt-4 p-4 ${solomonDiagnosticDetailPanelClass(lifecycleStatus)}`}>
+            <p className={`text-[10px] uppercase tracking-[0.2em] ${lifecycleStatus.labelTextClass}`}>
               {isDiyer ? 'What happened next?' : 'Record outcome'}
             </p>
             <p className="text-sm text-white/80 mt-2">
@@ -484,8 +497,8 @@ export default function SolomonDiagnosticDetailPage() {
           </section>
         ) : null}
 
-        <section className="mt-6 rounded-xl border border-white/10 bg-[#0D1525] p-4">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90 mb-3">Repair outcome</p>
+        <section className={`mt-6 p-4 ${solomonDiagnosticDetailPanelClass(lifecycleStatus)}`}>
+          <p className={`text-[10px] uppercase tracking-[0.2em] mb-3 ${lifecycleStatus.labelTextClass}`}>Repair outcome</p>
           {outcome ? (
             <div>
               <Link href={`/solomon/outcomes/${outcome.id}`} className="text-white font-medium hover:text-cyan-300">

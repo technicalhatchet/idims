@@ -9,6 +9,11 @@ import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { listDmaRepairRecords } from '../../../services/api/dmaApi';
+import {
+  resolveSolomonOutcomeStatus,
+  solomonDiagnosticListCardClass,
+  SolomonDiagnosticStatusBadge,
+} from '../../../components/solomon/solomonDiagnosticStatus';
 
 export default function SolomonOutcomesListPage() {
   const { canUseSolomon, isLoading: authLoading, isDiyer, rolesLoading } = useSolomonAuth();
@@ -71,19 +76,25 @@ export default function SolomonOutcomesListPage() {
           </p>
         ) : (
           <div className="space-y-3">
-            {items.map((item) => (
+            {items.map((item) => {
+              const status = resolveSolomonOutcomeStatus(item);
+              return (
               <Link
                 key={item.id}
                 href={`/solomon/outcomes/${item.id}`}
-                className="block rounded-xl border border-white/10 bg-[#0D1525] p-4 hover:border-cyan-500/30"
+                className={`block p-4 ${solomonDiagnosticListCardClass(status)}`}
               >
-                <p className="font-medium line-clamp-2">{item.confirmed_fix}</p>
+                <div className="flex items-start justify-between gap-2">
+                  <p className="font-medium line-clamp-2 min-w-0">{item.confirmed_fix}</p>
+                  <SolomonDiagnosticStatusBadge status={status} />
+                </div>
                 <p className="text-xs text-gray-500 mt-2">
                   {isDiyer ? 'Troubleshooting session(s)' : `${item.linked_diagnostic_count || 0} diagnostic(s)`}
                   {item.updated_at ? ` · ${format(new Date(item.updated_at), 'MMM d')}` : ''}
                 </p>
               </Link>
-            ))}
+              );
+            })}
           </div>
         )}
         </SolomonAccessGuard>
