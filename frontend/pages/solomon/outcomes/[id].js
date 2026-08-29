@@ -23,6 +23,13 @@ import {
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import SolomonWorkOrderImportSheet, { SolomonImportedWorkOrderLink } from '../../../components/solomon/SolomonWorkOrderImportSheet';
+import {
+  resolveSolomonDiagnosticStatus,
+  resolveSolomonOutcomeStatus,
+  solomonDiagnosticDetailPanelClass,
+  solomonDiagnosticListCardClass,
+  SolomonDiagnosticStatusBadge,
+} from '../../../components/solomon/solomonDiagnosticStatus';
 
 export default function SolomonOutcomeDetailPage() {
   const router = useRouter();
@@ -128,15 +135,22 @@ export default function SolomonOutcomeDetailPage() {
     );
   }
 
+  const outcomeStatus = resolveSolomonOutcomeStatus(record);
+
   return (
     <>
       <SolomonHead title="Repair outcome" />
       <SolomonPageMain>
         <Link href="/solomon/outcomes" className="text-xs text-cyan-400 hover:text-cyan-300">← Outcomes</Link>
-        <h1 className="text-2xl font-semibold mt-3">{formatDmaEquipment(record)}</h1>
-        {record.updated_at ? (
-          <p className="text-sm text-gray-500 mt-1">{format(new Date(record.updated_at), 'MMM d, yyyy')}</p>
-        ) : null}
+        <div className="mt-3 flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-2xl font-semibold">{formatDmaEquipment(record)}</h1>
+            {record.updated_at ? (
+              <p className="text-sm text-gray-500 mt-1">{format(new Date(record.updated_at), 'MMM d, yyyy')}</p>
+            ) : null}
+          </div>
+          <SolomonDiagnosticStatusBadge status={outcomeStatus} />
+        </div>
         {record.moderation_status === 'pending' ? (
           <p className="text-xs text-amber-300/90 mt-2">
             Pending review — only you can see this until it is approved for the repair knowledge pool.
@@ -188,7 +202,7 @@ export default function SolomonOutcomeDetailPage() {
             />
           </div>
         ) : (
-          <div className="mt-6 rounded-xl border border-white/10 bg-[#0D1525] p-4 space-y-3 text-sm">
+          <div className={`mt-6 p-4 space-y-3 text-sm ${solomonDiagnosticDetailPanelClass(outcomeStatus)}`}>
             <p className="text-white whitespace-pre-wrap">{record.confirmed_fix}</p>
             {record.outcome_confidence ? (
               <p className="text-xs text-cyan-400/80">
@@ -218,20 +232,26 @@ export default function SolomonOutcomeDetailPage() {
             <p className="text-sm text-gray-500">No diagnostics linked yet.</p>
           ) : (
             <div className="space-y-2">
-              {diagnostics.map((d) => (
+              {diagnostics.map((d) => {
+                const status = resolveSolomonDiagnosticStatus(d);
+                return (
                 <Link
                   key={d.id}
                   href={`/solomon/diagnostics/${d.id}`}
-                  className="block rounded-lg border border-white/10 bg-[#0D1525] px-3 py-3 text-sm hover:border-cyan-500/30"
+                  className={`block px-3 py-3 text-sm ${solomonDiagnosticListCardClass(status)}`}
                 >
-                  {d.template_label || d.template_id || 'Diagnostic'}
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="min-w-0">{d.template_label || d.template_id || 'Diagnostic'}</span>
+                    <SolomonDiagnosticStatusBadge status={status} />
+                  </div>
                   {d.updated_at ? (
-                    <span className="text-gray-500 text-xs ml-2">
+                    <span className="text-gray-500 text-xs mt-1 block">
                       {format(new Date(d.updated_at), 'MMM d')}
                     </span>
                   ) : null}
                 </Link>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>

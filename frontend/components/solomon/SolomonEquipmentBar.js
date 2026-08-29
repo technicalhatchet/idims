@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import {
+  resolveSolomonDiagnosticStatus,
+  SolomonDiagnosticStatusBadge,
+} from './solomonDiagnosticStatus';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-base text-white placeholder:text-gray-500 focus:border-cyan-500/50 focus:outline-none';
@@ -41,6 +45,7 @@ export default function SolomonEquipmentBar({
   queuedMessage,
   diagnosticsLinkLabel,
   insightPeeks = null,
+  lifecycleDiagnostic = null,
 }) {
   const hasEquipment =
     Boolean(equipment.equipment_make?.trim())
@@ -58,6 +63,9 @@ export default function SolomonEquipmentBar({
   }, [isFilledOut]);
 
   const summary = collapsedSummary(templateLabel, equipment, copy('equipmentOptional'));
+  const lifecycleStatus = lifecycleDiagnostic
+    ? resolveSolomonDiagnosticStatus(lifecycleDiagnostic)
+    : null;
 
   return (
     <div className="mb-3 -mx-3 px-3 border-b border-white/10 pb-3 space-y-2">
@@ -69,9 +77,14 @@ export default function SolomonEquipmentBar({
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90">
-              {copy('equipmentOptional')}
-            </p>
+            <div className="flex items-center justify-between gap-2">
+              <p className={`text-[10px] uppercase tracking-[0.2em] ${lifecycleStatus?.labelTextClass || 'text-cyan-400/90'}`}>
+                {copy('equipmentOptional')}
+              </p>
+              {lifecycleStatus ? (
+                <SolomonDiagnosticStatusBadge status={lifecycleStatus} />
+              ) : null}
+            </div>
             {!expanded ? (
               <p className="text-sm text-white mt-1 truncate">{summary}</p>
             ) : (

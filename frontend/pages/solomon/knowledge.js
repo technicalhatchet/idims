@@ -5,6 +5,11 @@ import SolomonPageMain from '../../components/solomon/SolomonPageMain';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { searchDmaRepairs } from '../../services/api/dmaApi';
+import {
+  resolveSolomonPoolSearchResultStatus,
+  solomonDiagnosticListCardClass,
+  SolomonDiagnosticStatusBadge,
+} from '../../components/solomon/solomonDiagnosticStatus';
 import { DMA_APPLIANCE_SUBTYPES } from '../../constants/dmaEquipmentOptions';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 
@@ -101,24 +106,30 @@ export default function SolomonKnowledgePage() {
 
         {results?.items?.length ? (
           <ul className="mt-6 space-y-2">
-            {results.items.map((item) => (
+            {results.items.map((item) => {
+              const status = resolveSolomonPoolSearchResultStatus(item);
+              return (
               <li
                 key={`${item.source_type}-${item.id}`}
-                className="rounded-xl border border-white/10 bg-[#0D1525] px-4 py-3"
+                className={`px-4 py-3 ${solomonDiagnosticListCardClass(status)}`}
               >
-                <p className="text-sm font-medium text-white line-clamp-2">
-                  {item.confirmed_fix || 'Repair outcome'}
-                </p>
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm font-medium text-white line-clamp-2 min-w-0">
+                    {item.confirmed_fix || 'Repair outcome'}
+                  </p>
+                  <SolomonDiagnosticStatusBadge status={status} />
+                </div>
                 <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                   {[item.equipment_make, item.equipment_model, item.equipment_subtype?.replace(/_/g, ' ')]
                     .filter(Boolean)
                     .join(' · ')}
                 </p>
                 {item.error_code_text ? (
-                  <p className="text-xs text-cyan-400/80 mt-1">{item.error_code_text}</p>
+                  <p className="text-xs text-gray-400 mt-1">{item.error_code_text}</p>
                 ) : null}
               </li>
-            ))}
+              );
+            })}
           </ul>
         ) : results && !isLoading ? (
           <p className="text-sm text-gray-500 mt-6 text-center">No matches — try broader terms.</p>
