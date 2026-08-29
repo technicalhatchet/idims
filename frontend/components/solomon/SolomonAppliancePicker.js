@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import SolomonPageHeader from './SolomonPageHeader';
 import { useRouter } from 'next/router';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import SolomonHead from './SolomonHead';
@@ -62,6 +62,7 @@ export function SolomonAppliancePickerPage() {
       <>
         <SolomonHead title="Choose appliance" />
         <SolomonPageMain>
+          <SolomonPageHeader />
           <p className="text-gray-400 text-sm">Loading…</p>
         </SolomonPageMain>
       </>
@@ -73,8 +74,8 @@ export function SolomonAppliancePickerPage() {
       <SolomonHead title="Choose appliance" />
       <SolomonPageMain>
         <SolomonAccessGuard promptTitle="Sign in to start troubleshooting">
-        <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Home</Link>
-        <div className="mt-4">
+        <SolomonPageHeader />
+        <div>
           <SolomonAppliancePicker onSelect={handleSelect} showWelcome={showWelcome || isDiyer} />
         </div>
         {!isDiyer ? (

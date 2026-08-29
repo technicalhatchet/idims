@@ -11,6 +11,7 @@ import {
   FaWind,
   FaWrench,
 } from 'react-icons/fa';
+import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
 import SolomonHead from '../../../components/solomon/SolomonHead';
 import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
 import SolomonErrorBoundary from '../../../components/solomon/SolomonErrorBoundary';
@@ -239,6 +240,7 @@ export default function SolomonDiagnosticsListPage() {
       <>
         <SolomonHead title="Diagnostics" />
         <SolomonPageMain className="flex justify-center !bg-[#070b14]">
+          <SolomonPageHeader />
           <LoadingSpinner />
         </SolomonPageMain>
       </>
@@ -252,9 +254,9 @@ export default function SolomonDiagnosticsListPage() {
         <DiagnosticsAtmosphere />
         <SolomonAccessGuard promptTitle="Sign in to view your diagnostics">
           <div className="relative">
-            <Link href="/solomon" className="text-xs text-cyan-400/90 hover:text-cyan-300">← Solomon</Link>
+            <SolomonPageHeader />
 
-            <h1 className="text-[1.65rem] font-semibold tracking-tight text-white mt-3">{pageTitle}</h1>
+            <h1 className="text-[1.65rem] font-semibold tracking-tight text-white">{pageTitle}</h1>
             <p className="text-sm text-white/50 mt-1 mb-4">
               {isDiyer ? 'Your troubleshooting history and progress.' : 'Your diagnostic history and progress.'}
             </p>

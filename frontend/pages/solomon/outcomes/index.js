@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
@@ -49,6 +50,7 @@ export default function SolomonOutcomesListPage() {
       <>
         <SolomonHead title={copy('outcomesTitle')} />
         <SolomonPageMain className="flex justify-center py-20">
+          <SolomonPageHeader />
           <LoadingSpinner />
         </SolomonPageMain>
       </>
@@ -60,8 +62,8 @@ export default function SolomonOutcomesListPage() {
       <SolomonHead title={copy('outcomesTitle')} />
       <SolomonPageMain>
         <SolomonAccessGuard promptTitle="Sign in to view your repair notes">
-        <Link href="/solomon" className="text-xs text-cyan-400 hover:text-cyan-300">← Solomon</Link>
-        <h1 className="text-2xl font-semibold mt-3 mb-4">{copy('outcomesTitle')}</h1>
+        <SolomonPageHeader />
+        <h1 className="text-2xl font-semibold mb-4">{copy('outcomesTitle')}</h1>
 
         <Link href="/solomon/outcomes/new" className="block mb-4 rounded-xl bg-[#0089B9] px-4 py-3 text-center font-medium">
           {copy('outcomeNew')}

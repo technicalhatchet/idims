@@ -7,6 +7,7 @@ import { FaFilePdf } from 'react-icons/fa';
 import SolomonHead from '../../../components/solomon/SolomonHead';
 import SolomonMobileShell from '../../../components/solomon/SolomonMobileShell';
 import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
+import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
 import DiagnosticResultsForm from '../../../components/work_orders/DiagnosticResultsForm';
 import DiagnosticResultsViewer from '../../../components/work_orders/DiagnosticResultsViewer';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -319,6 +320,7 @@ export default function SolomonDiagnosticDetailPage() {
       <>
         <SolomonHead title="Diagnostic" />
         <SolomonPageMain className="flex justify-center py-20">
+          <SolomonPageHeader back="arrow" backHref="/solomon/diagnostics" backLabel="Back to My Diagnostics" />
           <LoadingSpinner />
         </SolomonPageMain>
       </>
@@ -330,8 +332,8 @@ export default function SolomonDiagnosticDetailPage() {
       <>
         <SolomonHead title="Diagnostic" />
         <SolomonPageMain>
+          <SolomonPageHeader back="arrow" backHref="/solomon/diagnostics" backLabel="Back to My Diagnostics" />
           <ErrorAlert message={error || 'Not found'} />
-          <Link href="/solomon/diagnostics" className="text-cyan-400 text-sm mt-4 block">← Diagnostics</Link>
         </SolomonPageMain>
       </>
     );
@@ -410,8 +412,8 @@ export default function SolomonDiagnosticDetailPage() {
     <SolomonErrorBoundary>
       <SolomonHead title={label} />
       <SolomonPageMain>
-        <Link href="/solomon/diagnostics" className="text-xs text-cyan-400 hover:text-cyan-300">← Diagnostics</Link>
-        <div className="mt-3 flex items-start justify-between gap-3">
+        <SolomonPageHeader back="arrow" backHref="/solomon/diagnostics" backLabel="Back to My Diagnostics" />
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h1 className="text-2xl font-semibold">{label}</h1>
             {when ? <p className="text-sm text-gray-500 mt-1">{when}</p> : null}
