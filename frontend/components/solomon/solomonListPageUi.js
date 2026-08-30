@@ -176,9 +176,9 @@ export function SolomonListLifecycleHeadline({
   return (
     <div className={`shrink-0 min-w-0 max-w-[52%] text-right ${className}`}>
       {systemLabel ? (
-        <div className="flex items-start justify-end gap-1">
+        <div className="flex items-center justify-end gap-1.5">
           {systemId ? (
-            <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md ${iconShell}`}>
+            <span className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md ${iconShell}`}>
               <SolomonCategoryIcon
                 categoryId={systemId}
                 categoryLabel={systemLabel}
@@ -186,7 +186,7 @@ export function SolomonListLifecycleHeadline({
               />
             </span>
           ) : null}
-          <span className="min-w-0 truncate text-[10px] font-semibold uppercase tracking-[0.07em] leading-tight text-white/85">
+          <span className="min-w-0 truncate text-[10px] font-semibold uppercase tracking-[0.07em] leading-none text-white/85">
             {systemLabel}
           </span>
         </div>
@@ -270,7 +270,9 @@ export function SolomonOrangeAddButton({ href, ariaLabel, label = 'Add' }) {
 }
 
 export const SOLOMON_GLASS_INPUT_CLASS =
-  'w-full rounded-lg border border-white/15 bg-[#060a12]/78 px-3 py-2.5 text-sm text-white placeholder:text-white/35 backdrop-blur-md focus:border-cyan-400/40 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-colors';
+  'w-full rounded-lg border border-white/15 bg-[#060a12] px-3 py-2.5 text-sm text-white placeholder:text-white/35 backdrop-blur-md focus:border-cyan-400/40 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-colors [color-scheme:dark] [&:-webkit-autofill]:shadow-[inset_0_0_0px_1000px_#060a12] [&:-webkit-autofill]:[-webkit-text-fill-color:#fff]';
+
+export const SOLOMON_GLASS_SELECT_OPTION_CLASS = 'bg-[#060a12] text-white';
 
 export const SOLOMON_GLASS_PANEL_CLASS =
   'rounded-xl border border-white/15 bg-[#060a12]/78 backdrop-blur-md p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_22px_rgba(0,0,0,0.32)]';

@@ -16,6 +16,7 @@ import {
 import {
   SOLOMON_GLASS_INPUT_CLASS,
   SOLOMON_GLASS_PANEL_CLASS,
+  SOLOMON_GLASS_SELECT_OPTION_CLASS,
   SOLOMON_ICON_SHELL_BY_LIFECYCLE,
   SOLOMON_LIST_CARD_PADDING_CLASS,
   SOLOMON_LIST_ICON_BOX_CLASS,
@@ -142,9 +143,11 @@ export default function SolomonKnowledgePage() {
                   onChange={(e) => setEquipmentSubtype(e.target.value)}
                   className={SOLOMON_GLASS_INPUT_CLASS}
                 >
-                  <option value="">All appliances</option>
+                  <option value="" className={SOLOMON_GLASS_SELECT_OPTION_CLASS}>All appliances</option>
                   {DMA_APPLIANCE_SUBTYPES.filter((o) => o.value).map((o) => (
-                    <option key={o.value} value={o.value}>{o.label}</option>
+                    <option key={o.value} value={o.value} className={SOLOMON_GLASS_SELECT_OPTION_CLASS}>
+                      {o.label}
+                    </option>
                   ))}
                 </select>
                 <input
