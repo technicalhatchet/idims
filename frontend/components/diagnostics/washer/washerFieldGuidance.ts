@@ -78,4 +78,40 @@ export const washerRecommendations: FieldRecommendationRule[] = [
     message: 'Lock issue — test lid switch, door lock ohms, and wiring to MCU.',
     tone: 'tip',
   },
+  {
+    id: 'noisy_mechanical_path',
+    when: [{ type: 'chip', id: 'noisy' }],
+    message: 'Noisy / banging — spin empty, listen at tub, pump, and bottom panel before condemning control.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_tub_movement',
+    field: 'visual_inspection.tub_movement',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'visual_inspection.tub_movement', equals: 'bad' },
+    ],
+    message: 'Excessive tub play with noise — bearing, shaft, or suspension rods/shocks next.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_drain_pump',
+    field: 'functional_checks.drain_operation',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.drain_operation', equals: 'bad' },
+    ],
+    message: 'Noise during drain — check filter, coin trap, then pump impeller and ohms/amps.',
+    tone: 'tip',
+  },
+  {
+    id: 'noisy_belt',
+    field: 'visual_inspection.drive_belt',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'visual_inspection.drive_belt', equals: 'bad' },
+    ],
+    message: 'Worn belt or pulley — squeal on spin/agitate is common; verify tension and drum free spin.',
+    tone: 'tip',
+  },
 ];

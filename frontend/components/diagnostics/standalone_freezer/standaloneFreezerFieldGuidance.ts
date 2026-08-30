@@ -75,4 +75,58 @@ export const standaloneFreezerRecommendations: FieldRecommendationRule[] = [
     message: 'Water leak — inspect defrost drain, pan, and inlet if equipped with ice maker line.',
     tone: 'action',
   },
+  {
+    id: 'noisy_fans_path',
+    when: [{ type: 'chip', id: 'noisy' }],
+    message: 'Noisy / vibrating — listen at condenser and evaporator fans before sealed-system work.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_condenser_bad',
+    field: 'visual_inspection.condenser_condition',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'visual_inspection.condenser_condition', equals: 'bad' },
+    ],
+    message: 'Bad condenser area with noise — check coil cleanliness, fan blade, and motor bearing even if the fan spins.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_condenser_fan_running',
+    field: 'functional_checks.condenser_fan_running',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.condenser_fan_running', equals: 'yes' },
+      { type: 'field', path: 'visual_inspection.condenser_condition', equals: 'bad' },
+    ],
+    message: 'Fan runs but condenser is bad — amp draw and blade obstruction can still point to bearing or dirty coil.',
+    tone: 'tip',
+  },
+  {
+    id: 'noisy_condenser_fan_amps',
+    field: 'fans_and_electrical.condenser_fan_amps',
+    when: [{ type: 'chip', id: 'noisy' }],
+    message: 'Record condenser fan amps — normal draw with noise often means cleaning; low or high amps favors motor/bearing.',
+    tone: 'tip',
+  },
+  {
+    id: 'noisy_evap_fan',
+    field: 'functional_checks.evaporator_fan_running',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.evaporator_fan_running', equals: 'no' },
+    ],
+    message: 'Evap fan not running — stalled motor or ice drag can cause noise before the fan stops.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_compressor_running',
+    field: 'functional_checks.compressor_running',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.compressor_running', equals: 'yes' },
+    ],
+    message: 'Compressor is running — compare condenser fan noise vs compressor mount or refrigerant flow.',
+    tone: 'tip',
+  },
 ];

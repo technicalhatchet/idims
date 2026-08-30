@@ -1378,6 +1378,173 @@
       "explanation": "Bad frost pattern with defrost heater open — visual and meter agree on heater failure.",
       "recommendStepKey": "defrost",
       "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "chip_noisy_airflow",
+      "when": [{ "type": "chip", "id": "noisy" }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Complaint: noisy / vibrating — condenser and evaporator fans are primary suspects.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan", "evap_fan"]
+    },
+    {
+      "id": "chip_noisy_sealed_system",
+      "when": [{ "type": "chip", "id": "noisy" }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 8 },
+      "explanation": "Complaint: noisy / vibrating — compressor hum or refrigerant flow still possible.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "condenser_condition_bad",
+      "when": [{ "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Poor condenser coil or fan area condition — heat rejection and airflow compromised.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan", "airflow"]
+    },
+    {
+      "id": "condenser_condition_bad_component",
+      "when": [{ "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" }],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Condenser area in poor condition — check fan blade, motor, and coil cleanliness."
+    },
+    {
+      "id": "condenser_condition_fair",
+      "when": [{ "type": "field", "path": "visual_inspection.condenser_condition", "equals": "fair" }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 8 },
+      "explanation": "Condenser area fair — coil cleaning or minor fan issue possible.",
+      "recommendStepKey": "fans"
+    },
+    {
+      "id": "sf_noisy_condenser_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Noisy complaint with poor condenser condition — fan motor, blade, or restricted coil likely.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "sf_noisy_condenser_bad_fan_component",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noisy with bad condenser area — suspect condenser fan motor, bearing, or blade contact."
+    },
+    {
+      "id": "sf_noisy_condenser_bad_fan_running",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" },
+        { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "yes" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Condenser fan runs but area is bad — bearing noise, blade rub, or dirty coil under load.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "sf_noisy_compressor_running",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "yes" }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 10 },
+      "explanation": "Noisy with compressor running — isolate fan vs compressor mount or refrigerant noise.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "sf_noisy_evap_fan_no",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.evaporator_fan_running", "equals": "no" }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 15 },
+      "explanation": "Noisy with evap fan off — stalled or seized evap motor can chatter before stopping.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "condenser_fan_amps_abnormal",
+      "when": [{ "type": "measurement", "knowledgeId": "condenserFanAmps", "statusIn": ["critical", "warning"] }],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Condenser fan motor amps out of range — motor or bearing path supported.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "condenser_fan_amps_abnormal_category",
+      "when": [{ "type": "measurement", "knowledgeId": "condenserFanAmps", "statusIn": ["critical", "warning"] }],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "Condenser fan amp draw abnormal — airflow / heat rejection compromised."
+    },
+    {
+      "id": "sf_noisy_condenser_fan_amps_abnormal",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "measurement", "knowledgeId": "condenserFanAmps", "statusIn": ["critical", "warning"] }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Noisy complaint with abnormal condenser fan amps — motor or bearing failure likely.",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "condenser_fan_amps_normal_condenser_bad",
+      "when": [
+        { "type": "measurement", "knowledgeId": "condenserFanAmps", "statusIn": ["normal"] },
+        { "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Normal fan amps with bad condenser area — coil restriction or cleaning before motor replace.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["airflow"]
+    },
+    {
+      "id": "sf_noisy_compressor_ok_condenser_bad_airflow",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "yes" },
+        { "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 10 },
+      "explanation": "Compressor running with noisy complaint and bad condenser — favors airflow/fan over compressor start.",
+      "dmaTags": ["condenser_fan"]
     }
   ]
 }

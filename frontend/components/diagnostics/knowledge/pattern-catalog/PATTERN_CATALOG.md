@@ -39,6 +39,11 @@ Evidence rules use **AND** logic: all `when` clauses must match.
 | REF-MS-012 | Compressor not running + supply voltage critical | Nice | **Implemented** | `controls_sensors` (category) | increase +22 | `fans` | `ref_ms_012_compressor_no_supply_critical` |
 | REF-MS-013 | FF warm + FZ normal + evap frost pattern bad | Must | **Implemented** | `defrost_system` (category) | increase +20 | `defrost` | `ref_ms_013_split_temp_evap_frost_bad` |
 | REF-MS-014 | `not_cooling` + compressor not running | Must | **Implemented** | `compressor` (component) | confirm | `sealedSystem` | `ref_ms_014_not_cooling_compressor_no` |
+| REF-NS-001 | `noisy` chip | Must | **Implemented** | `airflow` (category) | increase +14 | `fans` | `chip_noisy_airflow` |
+| REF-NS-002 | `noisy` + condenser condition bad | Must | **Implemented** | `condenser_fan` (component) | increase +18 | `fans` | `ref_noisy_condenser_bad_fan_component` |
+| REF-NS-003 | `noisy` + condenser bad + fan running | Must | **Implemented** | `condenser_fan` (component) | increase +20 | `fans` | `ref_noisy_condenser_bad_fan_running` |
+| REF-NS-004 | `condenserFanAmps` abnormal | Must | **Implemented** | `condenser_fan` (component) | confirm | `fans` | `condenser_fan_amps_abnormal` |
+| REF-NS-005 | normal fan amps + condenser bad | Nice | **Implemented** | `airflow` (category) | increase +14 | `fans` | `condenser_fan_amps_normal_condenser_bad` |
 
 ### REF-MS-001 — Freezer cold, FF warm, damper failed
 

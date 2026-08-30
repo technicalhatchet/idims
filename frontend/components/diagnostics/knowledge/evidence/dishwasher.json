@@ -1131,6 +1131,91 @@
       "explanation": "Failed dry cycle with element open — heater is root cause.",
       "recommendStepKey": "heat",
       "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "chip_noisy_wash_circuit",
+      "when": [{ "type": "chip", "id": "noisy" }],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Complaint: noisy / grinding — circulation pump, chopper, or spray path.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["wash_issue", "pump_check"]
+    },
+    {
+      "id": "chip_noisy_drain_pump",
+      "when": [{ "type": "chip", "id": "noisy" }],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Complaint: noisy / grinding — drain pump impeller or obstruction common.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["pump_check", "drain_issue"]
+    },
+    {
+      "id": "dw_noisy_wash_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.wash_operation", "equals": "bad" }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Noisy with failed wash/circulation — pump or diverter path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_noisy_drain_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noisy with failed drain — pump grinding or obstruction.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "dw_noisy_spray_blocked",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.spray_arms_clear", "equals": "no" }
+      ],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noisy with blocked spray arms — rattling or weak wash before pump replace.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_noisy_filter_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.filter_condition", "equals": "bad" }
+      ],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 16 },
+      "explanation": "Noisy with debris in filter/sump — circulation grinding common.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_noisy_circulation_pump_ol",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "measurement", "knowledgeId": "dishwasherCirculationPumpOhms", "statusIn": ["critical"] }
+      ],
+      "target": "circulation_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Noisy with circulation pump open — motor failure supported.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["wash_issue"]
     }
   ]
 }

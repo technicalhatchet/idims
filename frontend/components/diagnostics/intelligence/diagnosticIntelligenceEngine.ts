@@ -7,6 +7,7 @@ import { buildAutoNoteBullets } from './buildAutoNoteBullets';
 import { rankNextWizardSteps } from './rankNextWizardSteps';
 import { collectActiveDmaTags } from './collectActiveDmaTags';
 import { applyDmaHistoricalNudges } from './applyDmaHistoricalNudges';
+import { applyDiagnosisFieldNudges } from './applyDiagnosisFieldNudges';
 import { dedupeLedgerEntries } from './ledgerDisplay';
 import { buildLedgerTrigger, isOppositeOkComponentElimination } from './ledgerTrigger';
 import type {
@@ -215,6 +216,8 @@ export function evaluateDiagnosticIntelligence(
     ledger,
     options?.dmaNudges,
   );
+
+  applyDiagnosisFieldNudges(config, categoryScores, componentScores, ledger, fields || {});
 
   const categories = config.categories
     .map((cat, index) => ({
