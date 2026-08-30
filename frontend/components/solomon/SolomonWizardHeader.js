@@ -14,7 +14,7 @@ export default function SolomonWizardHeader({ left, right = null }) {
         className="pointer-events-none absolute inset-0 flex items-center justify-center px-[4.5rem]"
         aria-hidden
       >
-        <SolomonCenteredLogo className="sm:max-h-10" />
+        <SolomonCenteredLogo />
       </div>
       <div className="relative z-10 flex min-h-[44px] items-center justify-between gap-2">
         <div className="flex min-w-[44px] shrink-0 items-center justify-start">{left}</div>

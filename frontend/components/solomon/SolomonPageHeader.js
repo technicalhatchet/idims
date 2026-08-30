@@ -16,12 +16,12 @@ export function SolomonHatBackButton({ href = '/solomon', className = '' }) {
       aria-label="Back to Solomon"
       className={`${tapTarget} -ml-2 group ${className}`}
     >
-      <span className="inline-flex items-center gap-0 rounded-full border border-white/12 bg-white/[0.04] pl-1.5 pr-2 py-1 shadow-[0_0_16px_rgba(0,180,255,0.08)] transition-colors group-hover:border-cyan-400/30 group-hover:bg-white/[0.07]">
-        <FaChevronLeft size={12} className="text-cyan-400/90 shrink-0 -mr-0.5" aria-hidden />
+      <span className="inline-flex items-center gap-0 transition-opacity group-hover:opacity-90">
+        <FaChevronLeft size={12} className="text-cyan-400/90 shrink-0 -mr-1" aria-hidden />
         <img
           src={SOLOMON_HAT_SRC}
           alt=""
-          className="h-7 w-7 object-contain drop-shadow-[0_0_8px_rgba(0,180,255,0.2)] pointer-events-none"
+          className="h-14 w-14 object-contain drop-shadow-[0_0_8px_rgba(0,180,255,0.2)] pointer-events-none"
           decoding="async"
         />
       </span>
@@ -49,7 +49,7 @@ export function SolomonCenteredLogo({ className = '' }) {
     <img
       src={SOLOMON_LOGO_SRC}
       alt=""
-      className={`h-8 w-auto max-w-[min(100%,200px)] object-contain object-center drop-shadow-[0_0_12px_rgba(0,180,255,0.2)] sm:h-9 ${className}`}
+      className={`h-12 w-auto max-w-[min(100%,240px)] object-contain object-center drop-shadow-[0_0_12px_rgba(0,180,255,0.2)] sm:h-14 ${className}`}
       decoding="async"
     />
   );
