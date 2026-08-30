@@ -6,6 +6,41 @@ import type { FieldVisibilityRule } from '../routing/types';
  */
 export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
   {
+    id: 'noisy_noise_location',
+    field: 'visual_inspection.noise_location',
+    showWhen: [{ type: 'chip', id: 'noisy' }],
+  },
+  {
+    id: 'noisy_condenser_fan_blade',
+    field: 'visual_inspection.condenser_fan_blade',
+    showWhen: [{ type: 'chip', id: 'noisy' }],
+  },
+  {
+    id: 'noisy_condenser_fan_blade_fan_running',
+    field: 'visual_inspection.condenser_fan_blade',
+    showWhen: [{ type: 'field', path: 'functional_checks.condenser_fan_running', equals: 'yes' }],
+  },
+  {
+    id: 'noisy_evaporator_fan_condition',
+    field: 'visual_inspection.evaporator_fan_condition',
+    showWhen: [{ type: 'chip', id: 'noisy' }],
+  },
+  {
+    id: 'noisy_source_notes',
+    field: 'visual_inspection.noise_source_notes',
+    showWhen: [{ type: 'chip', id: 'noisy' }],
+  },
+  {
+    id: 'noisy_condenser_fan_operation',
+    field: 'functional_checks.condenser_fan_operation',
+    showWhen: [{ type: 'chip', id: 'noisy' }],
+  },
+  {
+    id: 'condenser_fan_operation_when_running',
+    field: 'functional_checks.condenser_fan_operation',
+    showWhen: [{ type: 'field', path: 'functional_checks.condenser_fan_running', equals: 'yes' }],
+  },
+  {
     id: 'frost_pattern_when_frost',
     field: 'visual_inspection.evaporator_frost_pattern',
     showWhen: [

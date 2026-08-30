@@ -17,6 +17,16 @@ export const standaloneFreezerFieldHelp: Record<string, string> = {
     'Solid blanket = defrost or evap fan; partial frost = possible sealed-system issue.',
   'visual_inspection.drain_clear':
     'Blocked drain pan or tube shows as ice buildup at evaporator base.',
+  'visual_inspection.noise_location':
+    'Rear/bottom is one zone — condenser fan and compressor sit together. Inside the cabinet points to evaporator fan or defrost.',
+  'visual_inspection.condenser_fan_blade':
+    'Fan can spin with a cracked blade, bent housing, or bad bearing — inspect with power off.',
+  'visual_inspection.evaporator_fan_condition':
+    'Evap fan noise — ice drag, loose blade, or motor bearing; often heard inside the cabinet.',
+  'visual_inspection.noise_source_notes':
+    'Note where the noise is heard (condenser area, inside cabinet) and when (constant vs spin).',
+  'functional_checks.condenser_fan_operation':
+    'Motor running does not mean OK — blade, bearing, and airflow still matter.',
   'functional_checks.compressor_running':
     'Hot and silent compressor often points to start device or failed windings.',
   'functional_checks.evaporator_fan_running':
@@ -78,7 +88,27 @@ export const standaloneFreezerRecommendations: FieldRecommendationRule[] = [
   {
     id: 'noisy_fans_path',
     when: [{ type: 'chip', id: 'noisy' }],
-    message: 'Noisy / vibrating — listen at condenser and evaporator fans before sealed-system work.',
+    message: 'Noisy / vibrating — pick where the noise is heard first, then check the fans in that zone.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_location_rear',
+    field: 'visual_inspection.noise_location',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'visual_inspection.noise_location', equals: 'rear_bottom' },
+    ],
+    message: 'Rear / bottom — condenser fan blade, bearing, and compressor mount are the main suspects.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_location_inside',
+    field: 'visual_inspection.noise_location',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'visual_inspection.noise_location', equals: 'inside_cabinet' },
+    ],
+    message: 'Inside cabinet — evaporator fan, ice drag, and defrost are more likely than rear condenser fan.',
     tone: 'action',
   },
   {
@@ -117,6 +147,36 @@ export const standaloneFreezerRecommendations: FieldRecommendationRule[] = [
       { type: 'field', path: 'functional_checks.evaporator_fan_running', equals: 'no' },
     ],
     message: 'Evap fan not running — stalled motor or ice drag can cause noise before the fan stops.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_condenser_fan_running',
+    field: 'functional_checks.condenser_fan_running',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.condenser_fan_running', equals: 'yes' },
+    ],
+    message: 'Fan motor runs — still check blade, bearing, and coil restriction in the fields below.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_condenser_fan_operation_bad',
+    field: 'functional_checks.condenser_fan_operation',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.condenser_fan_operation', equals: 'bad' },
+    ],
+    message: 'Condenser fan runs but operation is bad — blade, bearing, or restricted coil is likely.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_condenser_fan_blade_bad',
+    field: 'visual_inspection.condenser_fan_blade',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'visual_inspection.condenser_fan_blade', equals: 'bad' },
+    ],
+    message: 'Damaged condenser fan blade or housing — replace fan assembly even if motor spins.',
     tone: 'action',
   },
   {
