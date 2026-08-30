@@ -46,7 +46,7 @@ const STATUS_TOKENS = {
     hoverBorderClass: 'hover:border-orange-400/40',
   },
   [SOLOMON_DIAGNOSTIC_STATUS.repair_successful]: {
-    label: 'Completed',
+    label: 'Repair confirmed',
     badgeClass: 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/25',
     topAccentClass: 'border-t-emerald-400',
     cardBorderClass: 'border-white/10 hover:border-emerald-500/30',

@@ -1,13 +1,6 @@
 import { useCallback, useState } from 'react';
-import {
-  FaBook,
-  FaConciergeBell,
-  FaFire,
-  FaSearch,
-  FaSnowflake,
-  FaTint,
-  FaWind,
-} from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
+import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import SolomonPageHeader from '../../components/solomon/SolomonPageHeader';
 import SolomonPageAtmosphere from '../../components/solomon/SolomonPageAtmosphere';
 import SolomonHead from '../../components/solomon/SolomonHead';
@@ -29,25 +22,14 @@ import {
   SOLOMON_LIST_STACK_CLASS,
   SOLOMON_PAGE_SHELL_CLASS,
   SOLOMON_SEARCH_BUTTON_CLASS,
-  SolomonLifecycleStatusBadge,
-  isSolomonRepairMemoryLifecycle,
+  SolomonListCardFooter,
+  SolomonListLifecycleHeadline,
   solomonLifecycleListSurfaceClass,
 } from '../../components/solomon/solomonListPageUi';
+import { getRepairRecordCategoryLabel } from '../../components/solomon/solomonRepairRecordPresentation';
+import { getEquipmentTypeForSubtype } from '../../components/solomon/solomonTemplateEquipment';
 import { DMA_APPLIANCE_SUBTYPES } from '../../constants/dmaEquipmentOptions';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
-
-const SUBTYPE_ICON_MAP = {
-  refrigerator: FaSnowflake,
-  freezer: FaSnowflake,
-  dishwasher: FaConciergeBell,
-  washing_machine: FaTint,
-  dryer: FaFire,
-  aio_laundry: FaWind,
-};
-
-function getSubtypeIcon(subtype) {
-  return SUBTYPE_ICON_MAP[subtype] || FaBook;
-}
 
 function formatEquipmentLine(item) {
   const subtypeLabel = DMA_APPLIANCE_SUBTYPES.find((o) => o.value === item.equipment_subtype)?.label
@@ -57,25 +39,30 @@ function formatEquipmentLine(item) {
 
 function SearchResultRow({ item }) {
   const status = resolveSolomonPoolSearchResultStatus(item);
-  const Icon = getSubtypeIcon(item.equipment_subtype);
+  const equipmentType = getEquipmentTypeForSubtype(item.equipment_subtype);
   const equipment = formatEquipmentLine(item);
+  const categoryLabel = getRepairRecordCategoryLabel(item);
   const iconShell = SOLOMON_ICON_SHELL_BY_LIFECYCLE[status.lifecycleKey]
     || SOLOMON_ICON_SHELL_BY_LIFECYCLE[SOLOMON_DIAGNOSTIC_STATUS.repair_memory];
-  const isRepairMemory = isSolomonRepairMemoryLifecycle(status);
 
   return (
     <li className={solomonLifecycleListSurfaceClass(status)}>
       <div className={SOLOMON_LIST_CARD_PADDING_CLASS}>
         <div className="flex gap-3">
           <div className={`${SOLOMON_LIST_ICON_BOX_CLASS} ${iconShell}`}>
-            <Icon size={16} aria-hidden />
+            <ApplianceIcon
+              equipmentType={equipmentType}
+              equipmentSubtype={item.equipment_subtype}
+              className="w-6 h-6"
+              glow="subtle"
+            />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2">
+              <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2 min-w-0 flex-1">
                 {item.confirmed_fix || 'Repair outcome'}
               </p>
-              {!isRepairMemory ? <SolomonLifecycleStatusBadge status={status} /> : null}
+              <SolomonListLifecycleHeadline status={status} categoryLabel={categoryLabel} />
             </div>
             {equipment ? (
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
@@ -83,11 +70,7 @@ function SearchResultRow({ item }) {
             {item.error_code_text ? (
               <p className="text-xs text-gray-400/95 mt-1.5 line-clamp-2 leading-snug">{item.error_code_text}</p>
             ) : null}
-            {isRepairMemory ? (
-              <div className="flex justify-end mt-2.5">
-                <SolomonLifecycleStatusBadge status={status} />
-              </div>
-            ) : null}
+            <SolomonListCardFooter status={status} />
           </div>
         </div>
       </div>

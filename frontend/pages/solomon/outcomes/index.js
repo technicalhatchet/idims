@@ -1,15 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import {
-  FaClipboardCheck,
-  FaClock,
-  FaConciergeBell,
-  FaFire,
-  FaSnowflake,
-  FaTint,
-  FaWind,
-} from 'react-icons/fa';
+import ApplianceIcon from '../../../components/ui/ApplianceIcon';
 import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
 import SolomonPageAtmosphere from '../../../components/solomon/SolomonPageAtmosphere';
 import {
@@ -22,11 +14,13 @@ import {
   SOLOMON_LIST_ICON_BOX_CLASS,
   SOLOMON_LIST_STACK_CLASS,
   SOLOMON_PAGE_SHELL_CLASS,
-  SolomonLifecycleStatusBadge,
+  SolomonListCardFooter,
+  SolomonListLifecycleHeadline,
   SolomonOrangeAddButton,
-  isSolomonRepairMemoryLifecycle,
   solomonLifecycleListSurfaceClass,
 } from '../../../components/solomon/solomonListPageUi';
+import { getRepairRecordCategoryLabel } from '../../../components/solomon/solomonRepairRecordPresentation';
+import { getEquipmentTypeForSubtype } from '../../../components/solomon/solomonTemplateEquipment';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
@@ -38,19 +32,6 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { listDmaRepairRecords } from '../../../services/api/dmaApi';
 import { DMA_APPLIANCE_SUBTYPES } from '../../../constants/dmaEquipmentOptions';
 
-const SUBTYPE_ICON_MAP = {
-  refrigerator: FaSnowflake,
-  freezer: FaSnowflake,
-  dishwasher: FaConciergeBell,
-  washing_machine: FaTint,
-  dryer: FaFire,
-  aio_laundry: FaWind,
-};
-
-function getSubtypeIcon(subtype) {
-  return SUBTYPE_ICON_MAP[subtype] || FaClipboardCheck;
-}
-
 function formatEquipmentLine(item) {
   const subtypeLabel = DMA_APPLIANCE_SUBTYPES.find((o) => o.value === item.equipment_subtype)?.label
     || item.equipment_subtype?.replace(/_/g, ' ');
@@ -59,7 +40,7 @@ function formatEquipmentLine(item) {
 
 function OutcomeRow({ item, isDiyer }) {
   const status = resolveSolomonOutcomeStatus(item);
-  const Icon = getSubtypeIcon(item.equipment_subtype);
+  const equipmentType = getEquipmentTypeForSubtype(item.equipment_subtype);
   const iconShell = SOLOMON_ICON_SHELL_BY_LIFECYCLE[status.lifecycleKey]
     || SOLOMON_ICON_SHELL_BY_LIFECYCLE[SOLOMON_DIAGNOSTIC_STATUS.repair_successful];
   const equipment = formatEquipmentLine(item);
@@ -67,7 +48,7 @@ function OutcomeRow({ item, isDiyer }) {
   const meta = isDiyer
     ? 'Troubleshooting session(s)'
     : `${item.linked_diagnostic_count || 0} diagnostic(s)`;
-  const isRepairMemory = isSolomonRepairMemoryLifecycle(status);
+  const categoryLabel = getRepairRecordCategoryLabel(item);
 
   return (
     <Link
@@ -77,37 +58,25 @@ function OutcomeRow({ item, isDiyer }) {
       <div className={SOLOMON_LIST_CARD_PADDING_CLASS}>
         <div className="flex gap-3">
           <div className={`${SOLOMON_LIST_ICON_BOX_CLASS} ${iconShell}`}>
-            <Icon size={16} aria-hidden />
+            <ApplianceIcon
+              equipmentType={equipmentType}
+              equipmentSubtype={item.equipment_subtype}
+              className="w-6 h-6"
+              glow="subtle"
+            />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2 min-w-0">
+              <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2 min-w-0 flex-1">
                 {item.confirmed_fix || 'Repair outcome'}
               </p>
-              {!isRepairMemory ? <SolomonLifecycleStatusBadge status={status} /> : null}
+              <SolomonListLifecycleHeadline status={status} categoryLabel={categoryLabel} />
             </div>
             {equipment ? (
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
             ) : null}
             <p className="text-xs text-gray-400/95 mt-1.5">{meta}</p>
-            {isRepairMemory ? (
-              <div className="flex items-end justify-between gap-2 mt-2">
-                {when ? (
-                  <p className="flex items-center gap-1 text-[10px] text-gray-500">
-                    <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
-                    {when}
-                  </p>
-                ) : (
-                  <span />
-                )}
-                <SolomonLifecycleStatusBadge status={status} />
-              </div>
-            ) : when ? (
-              <p className="flex items-center gap-1 text-[10px] text-gray-500 mt-2">
-                <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
-                {when}
-              </p>
-            ) : null}
+            <SolomonListCardFooter when={when} status={status} showClock />
           </div>
         </div>
       </div>
