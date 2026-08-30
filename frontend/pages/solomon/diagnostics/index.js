@@ -37,6 +37,7 @@ import {
   SOLOMON_PAGE_SHELL_CLASS,
   SolomonCyanAddButton,
   SolomonLifecycleStatusBadge,
+  isSolomonRepairMemoryLifecycle,
   solomonLifecycleListSurfaceClass,
 } from '../../../components/solomon/solomonListPageUi';
 import { getWizardDefinition, resolveWizardSteps } from '../../../components/diagnostics';
@@ -125,6 +126,7 @@ function DiagnosticRow({ item }) {
     || SOLOMON_ICON_SHELL_BY_LIFECYCLE[SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress];
   const stepProgress = getDiagnosticStepProgress(item);
   const showStepProgress = status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress && stepProgress;
+  const isRepairMemory = isSolomonRepairMemoryLifecycle(status);
 
   return (
     <Link
@@ -139,7 +141,7 @@ function DiagnosticRow({ item }) {
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
               <p className="font-semibold text-[15px] leading-tight text-white truncate">{label}</p>
-              <SolomonLifecycleStatusBadge status={status} />
+              {!isRepairMemory ? <SolomonLifecycleStatusBadge status={status} /> : null}
             </div>
             {equipment ? (
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
@@ -153,7 +155,19 @@ function DiagnosticRow({ item }) {
                 totalSteps={stepProgress.totalSteps}
               />
             ) : null}
-            {when ? (
+            {isRepairMemory ? (
+              <div className="flex items-end justify-between gap-2 mt-2">
+                {when ? (
+                  <p className="flex items-center gap-1 text-[10px] text-gray-500">
+                    <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
+                    {when}
+                  </p>
+                ) : (
+                  <span />
+                )}
+                <SolomonLifecycleStatusBadge status={status} />
+              </div>
+            ) : when ? (
               <p className="flex items-center gap-1 text-[10px] text-gray-500 mt-2">
                 <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
                 {when}

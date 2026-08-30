@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   resolveSolomonDiagnosticStatus,
@@ -9,6 +9,11 @@ const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-base text-white placeholder:text-gray-500 focus:border-cyan-500/50 focus:outline-none';
 
 const labelClass = 'block text-xs uppercase tracking-wide text-gray-400 mb-1';
+
+/** Model and serial: uppercase letters and digits only. */
+function sanitizeModelSerial(value) {
+  return String(value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
 
 function equipmentSummary(equipment) {
   return [
@@ -55,12 +60,7 @@ export default function SolomonEquipmentBar({
   const isFilledOut =
     Boolean(templateId) && Boolean(equipment.equipment_make?.trim()) && Boolean(equipment.equipment_model?.trim());
 
-  const [userExpanded, setUserExpanded] = useState(null);
-  const expanded = userExpanded !== null ? userExpanded : !isFilledOut;
-
-  useEffect(() => {
-    if (!isFilledOut) setUserExpanded(null);
-  }, [isFilledOut]);
+  const [expanded, setExpanded] = useState(() => !isFilledOut);
 
   const summary = collapsedSummary(templateLabel, equipment, copy('equipmentOptional'));
   const lifecycleStatus = lifecycleDiagnostic
@@ -71,7 +71,7 @@ export default function SolomonEquipmentBar({
     <div className="mb-3 -mx-3 px-3 border-b border-white/10 pb-3 space-y-2">
       <button
         type="button"
-        onClick={() => setUserExpanded((cur) => (cur === null ? !expanded : !cur))}
+        onClick={() => setExpanded((cur) => !cur)}
         className="w-full rounded-xl border border-white/10 bg-[#0D1525] px-3 py-2.5 text-left hover:border-cyan-500/30 transition-colors"
         aria-expanded={expanded}
       >
@@ -134,9 +134,15 @@ export default function SolomonEquipmentBar({
               <input
                 type="text"
                 value={equipment.equipment_model}
-                onChange={(e) => onEquipmentChange({ ...equipment, equipment_model: e.target.value })}
+                onChange={(e) => onEquipmentChange({
+                  ...equipment,
+                  equipment_model: sanitizeModelSerial(e.target.value),
+                })}
                 placeholder="Model #"
                 className={inputClass}
+                autoCapitalize="characters"
+                autoCorrect="off"
+                spellCheck={false}
               />
             </div>
             <div>
@@ -144,12 +150,25 @@ export default function SolomonEquipmentBar({
               <input
                 type="text"
                 value={equipment.equipment_serial}
-                onChange={(e) => onEquipmentChange({ ...equipment, equipment_serial: e.target.value })}
+                onChange={(e) => onEquipmentChange({
+                  ...equipment,
+                  equipment_serial: sanitizeModelSerial(e.target.value),
+                })}
                 placeholder="Optional"
                 className={inputClass}
+                autoCapitalize="characters"
+                autoCorrect="off"
+                spellCheck={false}
               />
             </div>
           </div>
+          <button
+            type="button"
+            onClick={() => setExpanded(false)}
+            className="w-full rounded-lg border border-cyan-500/35 bg-cyan-500/10 px-3 py-2 text-sm font-medium text-cyan-100 hover:bg-cyan-500/15 transition-colors"
+          >
+            Save and Hide
+          </button>
         </div>
       ) : null}
 

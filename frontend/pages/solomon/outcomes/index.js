@@ -24,6 +24,7 @@ import {
   SOLOMON_PAGE_SHELL_CLASS,
   SolomonLifecycleStatusBadge,
   SolomonOrangeAddButton,
+  isSolomonRepairMemoryLifecycle,
   solomonLifecycleListSurfaceClass,
 } from '../../../components/solomon/solomonListPageUi';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
@@ -66,6 +67,7 @@ function OutcomeRow({ item, isDiyer }) {
   const meta = isDiyer
     ? 'Troubleshooting session(s)'
     : `${item.linked_diagnostic_count || 0} diagnostic(s)`;
+  const isRepairMemory = isSolomonRepairMemoryLifecycle(status);
 
   return (
     <Link
@@ -82,13 +84,25 @@ function OutcomeRow({ item, isDiyer }) {
               <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2 min-w-0">
                 {item.confirmed_fix || 'Repair outcome'}
               </p>
-              <SolomonLifecycleStatusBadge status={status} />
+              {!isRepairMemory ? <SolomonLifecycleStatusBadge status={status} /> : null}
             </div>
             {equipment ? (
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
             ) : null}
             <p className="text-xs text-gray-400/95 mt-1.5">{meta}</p>
-            {when ? (
+            {isRepairMemory ? (
+              <div className="flex items-end justify-between gap-2 mt-2">
+                {when ? (
+                  <p className="flex items-center gap-1 text-[10px] text-gray-500">
+                    <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
+                    {when}
+                  </p>
+                ) : (
+                  <span />
+                )}
+                <SolomonLifecycleStatusBadge status={status} />
+              </div>
+            ) : when ? (
               <p className="flex items-center gap-1 text-[10px] text-gray-500 mt-2">
                 <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
                 {when}
