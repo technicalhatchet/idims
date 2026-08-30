@@ -46,6 +46,23 @@ const gb = (id, label) => ({ id, label, type: 'gb' });
 const txt = (id, label) => ({ id, label, type: 'text' });
 const area = (id, label) => ({ id, label, type: 'textarea' });
 const chk = (id, label) => ({ id, label, type: 'check' });
+const choice = (id, label, options) => ({ id, label, type: 'choice', options });
+
+const REFRIGERATOR_NOISE_LOCATION_OPTIONS = [
+  { value: '', label: '—' },
+  { value: 'rear_bottom', label: 'Rear / bottom (condenser & compressor)' },
+  { value: 'fresh_food', label: 'Inside fresh food' },
+  { value: 'freezer', label: 'Inside freezer' },
+  { value: 'dispenser', label: 'Dispenser / ice area' },
+  { value: 'diffuse', label: 'Throughout / hard to localize' },
+];
+
+const STANDALONE_FREEZER_NOISE_LOCATION_OPTIONS = [
+  { value: '', label: '—' },
+  { value: 'rear_bottom', label: 'Rear / bottom (condenser & compressor)' },
+  { value: 'inside_cabinet', label: 'Inside cabinet' },
+  { value: 'diffuse', label: 'Throughout / hard to localize' },
+];
 
 function missed(fields) {
   return { id: 'commonly_missed', title: 'Pre-Checks', fields };
@@ -109,6 +126,10 @@ export const DIAGNOSTIC_TEMPLATES = [
           tri('gasket_condition', 'Gasket Condition'),
           tri('cabinet_condition', 'Cabinet Condition'),
           tri('condenser_condition', 'Condenser Condition'),
+          choice('noise_location', 'Where is the noise heard?', REFRIGERATOR_NOISE_LOCATION_OPTIONS),
+          tri('condenser_fan_blade', 'Condenser Fan Blade / Housing'),
+          tri('evaporator_fan_condition', 'Evaporator Fan — noise / obstruction'),
+          txt('noise_source_notes', 'Noise source / description'),
           yn('frost_present', 'Heavy Frost / Ice Buildup Present'),
           tri('evaporator_frost_pattern', 'Evaporator Frost Pattern'),
           tri('ice_maker_visual', 'Ice Maker / Dispenser (if equipped)'),
@@ -120,6 +141,7 @@ export const DIAGNOSTIC_TEMPLATES = [
         fields: [
           yn('compressor_running', 'Compressor Running'),
           yn('condenser_fan_running', 'Condenser Fan Running'),
+          gb('condenser_fan_operation', 'Condenser Fan — blade / bearing / airflow'),
           yn('evaporator_fan_running', 'Evaporator Fan Running'),
           gb('damper_operation', 'Fresh Food Damper / Air Tower'),
           yn('defrost_cycle_observed', 'Defrost Cycle Heard / Observed'),
@@ -202,6 +224,10 @@ export const DIAGNOSTIC_TEMPLATES = [
           tri('gasket_condition', 'Gasket Condition'),
           gb('frost_pattern', 'Frost Pattern'),
           tri('condenser_condition', 'Condenser Condition'),
+          choice('noise_location', 'Where is the noise heard?', STANDALONE_FREEZER_NOISE_LOCATION_OPTIONS),
+          tri('condenser_fan_blade', 'Condenser Fan Blade / Housing'),
+          tri('evaporator_fan_condition', 'Evaporator Fan — noise / obstruction'),
+          txt('noise_source_notes', 'Noise source / description'),
           yn('drain_clear', 'Drain Clear'),
         ],
       },
@@ -211,6 +237,7 @@ export const DIAGNOSTIC_TEMPLATES = [
         fields: [
           yn('compressor_running', 'Compressor Running'),
           yn('condenser_fan_running', 'Condenser Fan Running'),
+          gb('condenser_fan_operation', 'Condenser Fan — blade / bearing / airflow'),
           yn('evaporator_fan_running', 'Evaporator Fan Running'),
           yn('defrost_operational', 'Defrost System Operational'),
         ],

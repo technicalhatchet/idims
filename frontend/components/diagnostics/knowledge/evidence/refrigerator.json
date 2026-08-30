@@ -156,6 +156,97 @@
       "dmaTags": ["compressor"]
     },
     {
+      "id": "ref_noisy_location_rear_bottom",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.noise_location", "equals": "rear_bottom" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Noise at rear / bottom — condenser fan and compressor share this zone.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan", "compressor"]
+    },
+    {
+      "id": "ref_noisy_location_rear_condenser_fan",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.noise_location", "equals": "rear_bottom" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Noise localized to rear / bottom — condenser fan blade or bearing is a primary suspect.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_noisy_location_rear_compressor",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.noise_location", "equals": "rear_bottom" }
+      ],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Noise at rear / bottom — compressor mount hum or refrigerant flow alongside condenser fan.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "ref_noisy_location_fresh_food_evap",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.noise_location", "equals": "fresh_food" }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noise inside fresh food — evaporator fan or damper airflow is the likely source.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "ref_noisy_location_freezer_evap",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.noise_location", "equals": "freezer" }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noise inside freezer — evaporator fan, ice drag, or defrost path favored over rear condenser fan.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "ref_noisy_location_dispenser_ice",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.noise_location", "equals": "dispenser" }
+      ],
+      "target": "ice_maker",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 16 },
+      "explanation": "Noise at dispenser / ice area — ice maker auger, valve, or fill path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_noisy_location_diffuse",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.noise_location", "equals": "diffuse" }
+      ],
+      "target": "airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 6 },
+      "explanation": "Noise hard to localize — keep both fan zones and sealed system in play.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan", "evap_fan"]
+    },
+    {
       "id": "condenser_condition_bad",
       "when": [{ "type": "field", "path": "visual_inspection.condenser_condition", "equals": "bad" }],
       "target": "airflow",
@@ -779,6 +870,72 @@
       "targetLayer": "category",
       "effect": { "effect": "increase", "value": 10 },
       "explanation": "Compressor running with noisy complaint and bad condenser — favors airflow/fan over compressor start.",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_noisy_condenser_fan_operation_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.condenser_fan_operation", "equals": "bad" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Noisy with bad condenser fan operation — blade, bearing, or restricted airflow despite motor spin.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_noisy_condenser_fan_blade_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.condenser_fan_blade", "equals": "bad" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Damaged condenser fan blade or housing with noise complaint — replace fan even if motor runs.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_noisy_condenser_fan_running_blade_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "yes" },
+        { "type": "field", "path": "visual_inspection.condenser_fan_blade", "equals": "bad" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Fan motor runs but blade or housing is bad — classic noisy condenser fan path.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_noisy_evap_fan_condition_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.evaporator_fan_condition", "equals": "bad" }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noisy with bad evaporator fan condition — ice drag, loose blade, or motor bearing.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "condenser_fan_operation_bad_fan_running",
+      "when": [
+        { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "yes" },
+        { "type": "field", "path": "functional_checks.condenser_fan_operation", "equals": "bad" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Condenser fan runs but blade, bearing, or airflow is bad.",
+      "recommendStepKey": "fans",
       "dmaTags": ["condenser_fan"]
     }
   ]

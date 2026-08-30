@@ -227,6 +227,9 @@ export function DiagnosticFieldControl({
   let options = GB_OPTIONS;
   if (field.type === 'tri') options = TRI_OPTIONS;
   if (field.type === 'yn') options = YN_OPTIONS;
+  if (field.type === 'choice' && Array.isArray(field.options) && field.options.length) {
+    options = field.options;
+  }
   if (field.id === 'lint_accumulation') options = LINT_OPTIONS;
   if (field.id === 'tub_movement') options = TUB_OPTIONS;
 
