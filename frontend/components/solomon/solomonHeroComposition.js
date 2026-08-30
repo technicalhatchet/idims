@@ -33,7 +33,7 @@ export const SOLOMON_BACKDROP = {
  * Primary CTA top is anchored to artboard Y% (scales with stage width, not rem).
  */
 export const SOLOMON_LAYOUT = {
-  stageOffsetY: '10px',
+  stageOffsetY: '0px',
   /** Logo row height — viewport-scaled (rem breaks Android spacer math). */
   headerFlowScale: 0.1,
   /** Reserve when InstallHint banner is visible (hint + mb-6). */
