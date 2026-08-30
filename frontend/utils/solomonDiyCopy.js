@@ -23,7 +23,7 @@ export function solomonCopy(isDiyer, key) {
     const staff = {
       diagnosticsTitle: 'My Diagnostics',
       diagnosticNew: 'New diagnostic',
-      outcomesTitle: 'Repair outcomes',
+      outcomesTitle: 'Repair Outcomes',
       outcomeNew: 'New outcome',
       saveDiagnostic: 'Save Diagnostic Results',
       saveOutcome: 'Save outcome',
