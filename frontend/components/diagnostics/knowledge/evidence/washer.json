@@ -1003,6 +1003,102 @@
       "explanation": "Leak with damaged door boot — front-load seal path.",
       "recommendStepKey": "visual",
       "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "chip_noisy_drive_motor",
+      "when": [{ "type": "chip", "id": "noisy" }],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Complaint: noisy / banging — drive motor, bearing, or suspension path.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "chip_noisy_drain_pump",
+      "when": [{ "type": "chip", "id": "noisy" }],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Complaint: noisy / grinding — drain pump impeller or obstruction common.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "w_noisy_tub_movement_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.tub_movement", "equals": "bad" }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Noisy with excessive tub movement — bearing or suspension likely.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "w_noisy_tub_movement_bad_component",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.tub_movement", "equals": "bad" }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noisy with bad tub movement — suspect tub bearing or drive shaft."
+    },
+    {
+      "id": "w_noisy_suspension_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.suspension", "equals": "bad" }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Noisy with failed suspension — banging on spin or agitate.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "w_noisy_belt_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "visual_inspection.drive_belt", "equals": "bad" }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 16 },
+      "explanation": "Noisy with worn belt or pulley — squeal or slap common.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "w_noisy_drain_bad",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Noisy with failed drain — pump grinding or obstruction.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "w_noisy_drain_pump_amps_abnormal",
+      "when": [
+        { "type": "chip", "id": "noisy" },
+        { "type": "measurement", "knowledgeId": "washerDrainPumpAmps", "statusIn": ["warning", "critical"] }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Noisy with abnormal drain pump amps — pump motor path supported.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["pump_check"]
     }
   ]
 }

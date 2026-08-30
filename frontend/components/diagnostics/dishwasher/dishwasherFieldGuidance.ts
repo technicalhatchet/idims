@@ -72,4 +72,40 @@ export const dishwasherRecommendations: FieldRecommendationRule[] = [
     message: 'No fill — check inlet screen, water supply, and valve coils.',
     tone: 'action',
   },
+  {
+    id: 'noisy_motor_path',
+    when: [{ type: 'chip', id: 'noisy' }],
+    message: 'Noisy / grinding — run drain and wash portions separately; listen at sump, spray arms, and pump.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_wash_bad',
+    field: 'functional_checks.wash_operation',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.wash_operation', equals: 'bad' },
+    ],
+    message: 'Noise with weak wash — check filter, chopper, and circulation pump before heater or board.',
+    tone: 'action',
+  },
+  {
+    id: 'noisy_drain_bad',
+    field: 'functional_checks.drain_operation',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'functional_checks.drain_operation', equals: 'bad' },
+    ],
+    message: 'Grinding on drain — inspect sump debris, drain hose, then drain motor ohms.',
+    tone: 'tip',
+  },
+  {
+    id: 'noisy_spray_arms',
+    field: 'visual_inspection.spray_arms_clear',
+    when: [
+      { type: 'chip', id: 'noisy' },
+      { type: 'field', path: 'visual_inspection.spray_arms_clear', equals: 'no' },
+    ],
+    message: 'Blocked spray arms can rattle and mimic pump failure — clear holes and spin freely first.',
+    tone: 'tip',
+  },
 ];
