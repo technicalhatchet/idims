@@ -84,6 +84,18 @@ export function isSolomonRepairMemoryLifecycle(status) {
   return status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
 }
 
+/**
+ * Bottom-right badge = workflow / session state.
+ * Hide when the top headline already carries the same conclusion (e.g. verified memory).
+ */
+export function shouldShowListCardWorkflowBadge(status) {
+  const lifecycleKey = status?.lifecycleKey || status?.key;
+  if (lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory) {
+    return false;
+  }
+  return true;
+}
+
 /** Category icon tint — matches lifecycle semantic color. */
 const CATEGORY_ICON_SHELL_BY_LIFECYCLE = {
   [SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress]: 'bg-cyan-500/10 text-cyan-400',
@@ -210,8 +222,11 @@ export function SolomonListLeadMeter({ lead, status, className }) {
   );
 }
 
-/** Bottom row — timestamp left, lifecycle badge right. */
+/** Bottom row — timestamp left, workflow badge right (when distinct from top headline). */
 export function SolomonListCardFooter({ when, status, showClock = false }) {
+  const showWorkflowBadge = shouldShowListCardWorkflowBadge(status);
+  if (!when && !showWorkflowBadge) return null;
+
   return (
     <div className="flex items-end justify-between gap-2 mt-2">
       {when ? (
@@ -222,7 +237,7 @@ export function SolomonListCardFooter({ when, status, showClock = false }) {
       ) : (
         <span />
       )}
-      <SolomonLifecycleStatusBadge status={status} />
+      {showWorkflowBadge ? <SolomonLifecycleStatusBadge status={status} /> : null}
     </div>
   );
 }
