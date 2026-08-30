@@ -1,15 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import {
-  FaBurn,
-  FaClock,
-  FaConciergeBell,
-  FaFire,
-  FaSnowflake,
-  FaTint,
-  FaWind,
-  FaWrench,
-} from 'react-icons/fa';
+import ApplianceIcon from '../../../components/ui/ApplianceIcon';
 import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
 import SolomonPageAtmosphere from '../../../components/solomon/SolomonPageAtmosphere';
 import SolomonHead from '../../../components/solomon/SolomonHead';
@@ -36,31 +27,18 @@ import {
   SOLOMON_LIST_STACK_CLASS,
   SOLOMON_PAGE_SHELL_CLASS,
   SolomonCyanAddButton,
-  SolomonLifecycleStatusBadge,
-  isSolomonRepairMemoryLifecycle,
+  SolomonListCardFooter,
+  SolomonListLifecycleHeadline,
   solomonLifecycleListSurfaceClass,
 } from '../../../components/solomon/solomonListPageUi';
+import { getEquipmentTypeForTemplate } from '../../../components/solomon/solomonTemplateEquipment';
+import { useSolomonDiagnosticLead } from '../../../components/solomon/useSolomonDiagnosticLead';
 import { getWizardDefinition, resolveWizardSteps } from '../../../components/diagnostics';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from '../../../components/diagnostics/shared/createWizardDefinitionFromTemplate';
 import { getDiagnosticTemplate } from '../../../constants/diagnosticTemplates';
 
-const TEMPLATE_ICON_MAP = {
-  refrigerator: FaSnowflake,
-  standalone_freezer: FaSnowflake,
-  dishwasher: FaConciergeBell,
-  washer: FaTint,
-  electric_dryer: FaFire,
-  gas_dryer: FaBurn,
-  stacked_laundry: FaWind,
-  aio_laundry: FaWind,
-};
-
 /** Home-menu tile glass + lifecycle accent — diagnostics list only. */
 const CYAN_STEP_PROGRESS_ACTIVE = 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]';
-
-function getTemplateIcon(templateId) {
-  return TEMPLATE_ICON_MAP[templateId] || FaWrench;
-}
 
 function getDiagnosticStepProgress(item) {
   const payload = item?.payload || {};
@@ -117,16 +95,17 @@ function StepProgressBar({ stepNumber, totalSteps }) {
 
 function DiagnosticRow({ item }) {
   if (!item?.id) return null;
-  const label = item.template_label || item.template_id || 'Diagnostic';
+  const templateId = item.template_id || item.payload?.templateId;
+  const label = item.template_label || templateId || 'Diagnostic';
   const equipment = [item.equipment_make, item.equipment_model].filter(Boolean).join(' • ');
   const when = formatSolomonDateTime(item.updated_at);
   const status = resolveSolomonDiagnosticStatus(item);
-  const Icon = getTemplateIcon(item.template_id || item.payload?.templateId);
+  const equipmentType = getEquipmentTypeForTemplate(templateId);
   const iconShell = SOLOMON_ICON_SHELL_BY_LIFECYCLE[status.lifecycleKey]
     || SOLOMON_ICON_SHELL_BY_LIFECYCLE[SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress];
   const stepProgress = getDiagnosticStepProgress(item);
   const showStepProgress = status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress && stepProgress;
-  const isRepairMemory = isSolomonRepairMemoryLifecycle(status);
+  const lead = useSolomonDiagnosticLead(item);
 
   return (
     <Link
@@ -136,12 +115,18 @@ function DiagnosticRow({ item }) {
       <div className={SOLOMON_LIST_CARD_PADDING_CLASS}>
         <div className="flex gap-3">
           <div className={`${SOLOMON_LIST_ICON_BOX_CLASS} ${iconShell}`}>
-            <Icon size={16} aria-hidden />
+            <ApplianceIcon
+              equipmentType={equipmentType}
+              className="w-6 h-6"
+              glow="subtle"
+            />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <p className="font-semibold text-[15px] leading-tight text-white truncate">{label}</p>
-              {!isRepairMemory ? <SolomonLifecycleStatusBadge status={status} /> : null}
+              <p className="font-semibold text-[15px] leading-tight text-white truncate min-w-0 flex-1">
+                {label}
+              </p>
+              <SolomonListLifecycleHeadline status={status} lead={lead} />
             </div>
             {equipment ? (
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
@@ -155,24 +140,7 @@ function DiagnosticRow({ item }) {
                 totalSteps={stepProgress.totalSteps}
               />
             ) : null}
-            {isRepairMemory ? (
-              <div className="flex items-end justify-between gap-2 mt-2">
-                {when ? (
-                  <p className="flex items-center gap-1 text-[10px] text-gray-500">
-                    <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
-                    {when}
-                  </p>
-                ) : (
-                  <span />
-                )}
-                <SolomonLifecycleStatusBadge status={status} />
-              </div>
-            ) : when ? (
-              <p className="flex items-center gap-1 text-[10px] text-gray-500 mt-2">
-                <FaClock size={9} className="shrink-0 opacity-75" aria-hidden />
-                {when}
-              </p>
-            ) : null}
+            <SolomonListCardFooter when={when} status={status} showClock />
           </div>
         </div>
       </div>

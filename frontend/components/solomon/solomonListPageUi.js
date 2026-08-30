@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { FaCheckCircle, FaPlus } from 'react-icons/fa';
+import { FaCheckCircle, FaClock, FaPlus } from 'react-icons/fa';
 import { SOLOMON_DIAGNOSTIC_STATUS } from './solomonDiagnosticStatus';
+import SolomonCategoryIcon from './categoryIcons';
 
 export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[#070b14] relative overflow-hidden !px-4 max-w-lg';
 
@@ -81,6 +82,149 @@ export function isSolomonCompletedLifecycle(status) {
 
 export function isSolomonRepairMemoryLifecycle(status) {
   return status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
+}
+
+/** Category icon tint — matches lifecycle semantic color. */
+const CATEGORY_ICON_SHELL_BY_LIFECYCLE = {
+  [SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress]: 'bg-cyan-500/10 text-cyan-400',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending]: 'bg-orange-500/10 text-orange-400',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_successful]: 'bg-emerald-500/10 text-emerald-400',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_memory]: 'bg-purple-500/10 text-purple-400',
+  [SOLOMON_DIAGNOSTIC_STATUS.abandoned]: 'bg-white/5 text-gray-400',
+  [SOLOMON_DIAGNOSTIC_STATUS.pending_sync]: 'bg-sky-500/10 text-sky-400',
+};
+
+/**
+ * Top-right card headline — separates diagnostic likelihood from repair confirmation.
+ * @param {object} props
+ * @param {object} props.status Resolved lifecycle status
+ * @param {object} [props.lead] Leading hypothesis from useSolomonDiagnosticLead
+ * @param {string} [props.categoryLabel] Override category label (outcomes / memory)
+ * @param {string} [props.categoryId] Evidence category id for icon (diagnostics)
+ */
+export function SolomonListLifecycleHeadline({
+  status,
+  lead = null,
+  categoryLabel = null,
+  categoryId = null,
+  className = '',
+}) {
+  const lifecycleKey = status?.lifecycleKey || status?.key;
+  const systemLabel = categoryLabel || lead?.categoryLabel;
+  const systemId = categoryId || lead?.categoryId;
+  const iconShell = CATEGORY_ICON_SHELL_BY_LIFECYCLE[lifecycleKey]
+    || CATEGORY_ICON_SHELL_BY_LIFECYCLE[SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress];
+
+  let primaryLine = null;
+  let primaryClass = 'text-white/90';
+  let showLikelihoodMeter = false;
+  let secondaryLine = null;
+
+  switch (lifecycleKey) {
+    case SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress:
+      if (lead) {
+        primaryLine = `${lead.percent}% ${lead.strengthWord}`;
+        primaryClass = 'text-cyan-400';
+        showLikelihoodMeter = true;
+      }
+      break;
+    case SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending:
+      primaryLine = 'OUTCOME PENDING';
+      primaryClass = 'text-orange-400';
+      if (lead) {
+        secondaryLine = `Was ${lead.percent}% ${lead.strengthWord}`;
+      }
+      break;
+    case SOLOMON_DIAGNOSTIC_STATUS.repair_successful:
+      primaryLine = '✓ REPAIR CONFIRMED';
+      primaryClass = 'text-emerald-400';
+      break;
+    case SOLOMON_DIAGNOSTIC_STATUS.repair_memory:
+      primaryLine = '✓ VERIFIED • IN MEMORY';
+      primaryClass = 'text-purple-300';
+      break;
+    case SOLOMON_DIAGNOSTIC_STATUS.abandoned:
+      primaryLine = 'ABANDONED';
+      primaryClass = 'text-gray-400';
+      break;
+    case SOLOMON_DIAGNOSTIC_STATUS.pending_sync:
+      primaryLine = 'PENDING SYNC';
+      primaryClass = 'text-sky-400';
+      break;
+    default:
+      break;
+  }
+
+  if (!systemLabel && !primaryLine) return null;
+
+  const meterColorClass = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress
+    ? 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.5)]'
+    : 'bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]';
+
+  return (
+    <div className={`shrink-0 min-w-0 max-w-[52%] text-right ${className}`}>
+      {systemLabel ? (
+        <div className="flex items-start justify-end gap-1">
+          {systemId ? (
+            <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md ${iconShell}`}>
+              <SolomonCategoryIcon
+                categoryId={systemId}
+                categoryLabel={systemLabel}
+                size={11}
+              />
+            </span>
+          ) : null}
+          <span className="min-w-0 truncate text-[10px] font-semibold uppercase tracking-[0.07em] leading-tight text-white/85">
+            {systemLabel}
+          </span>
+        </div>
+      ) : null}
+      {primaryLine ? (
+        <p className={`mt-0.5 text-[11px] font-bold tracking-[0.06em] tabular-nums leading-none ${primaryClass}`}>
+          {primaryLine}
+        </p>
+      ) : null}
+      {showLikelihoodMeter && lead ? (
+        <div className="mt-1 ml-auto h-1 w-full max-w-[108px] overflow-hidden rounded-full bg-white/55 ring-1 ring-inset ring-white/15">
+          <div
+            className={`h-full ${meterColorClass}`}
+            style={{ width: `${Math.min(100, lead.percent)}%` }}
+          />
+        </div>
+      ) : null}
+      {secondaryLine ? (
+        <p className="mt-1 text-[10px] tabular-nums text-gray-500">{secondaryLine}</p>
+      ) : null}
+    </div>
+  );
+}
+
+/** @deprecated Use SolomonListLifecycleHeadline */
+export function SolomonListLeadMeter({ lead, status, className }) {
+  return (
+    <SolomonListLifecycleHeadline
+      status={status || { lifecycleKey: SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress }}
+      lead={lead}
+      className={className}
+    />
+  );
+}
+
+/** Bottom row — timestamp left, lifecycle badge right. */
+export function SolomonListCardFooter({ when, status, showClock = false }) {
+  return (
+    <div className="flex items-end justify-between gap-2 mt-2">
+      {when ? (
+        <p className="flex items-center gap-1 text-[10px] text-gray-500 min-w-0">
+          {showClock ? <FaClock size={9} className="shrink-0 opacity-75" aria-hidden /> : null}
+          {when}
+        </p>
+      ) : (
+        <span />
+      )}
+      <SolomonLifecycleStatusBadge status={status} />
+    </div>
+  );
 }
 
 export function SolomonCyanAddButton({ href, ariaLabel }) {

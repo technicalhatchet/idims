@@ -1,18 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo } from 'react';
 import { getWizardDefinition, resolveWizardSteps } from '../diagnostics';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from '../diagnostics/shared/createWizardDefinitionFromTemplate';
-import { evaluateDiagnosticIntelligence } from '../diagnostics/intelligence/diagnosticIntelligenceEngine';
-import { formatDiyLeadCard } from '../diagnostics/intelligence/evidenceDisplay';
-import { buildFieldLabelsForTemplate } from '../diagnostics/intelligence/fieldLabels';
-import { extractDefaultStepOrder } from '../diagnostics/intelligence/reorderWizardSteps';
-import { buildStepKeyLabels } from '../diagnostics/intelligence/stepKeyLabels';
-import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
 import { getDiagnosticTemplate } from '../../constants/diagnosticTemplates';
-import SolomonCategoryIcon from './categoryIcons';
 import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
+import { useSolomonDiagnosticLead } from './useSolomonDiagnosticLead';
+import SolomonCategoryIcon from './categoryIcons';
 
 function equipmentMakeModel(target) {
   const parts = [
@@ -47,62 +41,10 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   const wizardDefinition = getWizardDefinition(templateId);
   const template = getDiagnosticTemplate(templateId);
 
-  const wizardSteps = useMemo(
-    () => resolveWizardSteps(wizardDefinition, template),
-    [wizardDefinition, template],
-  );
-
-  const stepKeyLabels = useMemo(
-    () => buildStepKeyLabels(wizardDefinition),
-    [wizardDefinition],
-  );
-
-  const fieldLabels = useMemo(
-    () => buildFieldLabelsForTemplate(templateId),
-    [templateId],
-  );
+  const wizardSteps = resolveWizardSteps(wizardDefinition, template);
 
   const visitedStepKeys = target?.payload?.visitedStepKeys || [];
-  const defaultStepOrder = useMemo(
-    () => extractDefaultStepOrder(wizardSteps),
-    [wizardSteps],
-  );
-
-  const measurementStatuses = useMemo(
-    () => buildMeasurementStatusMap(templateId, target?.payload?.fields || {}),
-    [templateId, target?.payload?.fields],
-  );
-
-  const intelligence = useMemo(
-    () =>
-      templateId
-        ? evaluateDiagnosticIntelligence(
-          templateId,
-          target?.payload?.fields || {},
-          measurementStatuses,
-          {
-            visitedStepKeys,
-            defaultStepOrder,
-            complaintChips: wizardDefinition?.complaintChips || [],
-            dmaNudges: null,
-            fieldLabels,
-            stepKeyLabels,
-          },
-        )
-        : null,
-    [
-      templateId,
-      target?.payload?.fields,
-      measurementStatuses,
-      visitedStepKeys,
-      defaultStepOrder,
-      wizardDefinition?.complaintChips,
-      fieldLabels,
-      stepKeyLabels,
-    ],
-  );
-
-  const lead = formatDiyLeadCard(intelligence);
+  const lead = useSolomonDiagnosticLead(target);
   const reviewStepKey = wizardDefinition?.routing?.reviewStepKey || 'review';
   const diagnosticSteps = wizardSteps.filter(
     (step) => step.id !== DIAGNOSTIC_REVIEW_STEP_ID && step.meta?.stepKey !== reviewStepKey,
