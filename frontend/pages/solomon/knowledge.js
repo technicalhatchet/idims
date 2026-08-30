@@ -30,6 +30,7 @@ import {
   SOLOMON_PAGE_SHELL_CLASS,
   SOLOMON_SEARCH_BUTTON_CLASS,
   SolomonLifecycleStatusBadge,
+  isSolomonRepairMemoryLifecycle,
   solomonLifecycleListSurfaceClass,
 } from '../../components/solomon/solomonListPageUi';
 import { DMA_APPLIANCE_SUBTYPES } from '../../constants/dmaEquipmentOptions';
@@ -60,6 +61,7 @@ function SearchResultRow({ item }) {
   const equipment = formatEquipmentLine(item);
   const iconShell = SOLOMON_ICON_SHELL_BY_LIFECYCLE[status.lifecycleKey]
     || SOLOMON_ICON_SHELL_BY_LIFECYCLE[SOLOMON_DIAGNOSTIC_STATUS.repair_memory];
+  const isRepairMemory = isSolomonRepairMemoryLifecycle(status);
 
   return (
     <li className={solomonLifecycleListSurfaceClass(status)}>
@@ -73,13 +75,18 @@ function SearchResultRow({ item }) {
               <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2">
                 {item.confirmed_fix || 'Repair outcome'}
               </p>
-              <SolomonLifecycleStatusBadge status={status} />
+              {!isRepairMemory ? <SolomonLifecycleStatusBadge status={status} /> : null}
             </div>
             {equipment ? (
               <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
             ) : null}
             {item.error_code_text ? (
               <p className="text-xs text-gray-400/95 mt-1.5 line-clamp-2 leading-snug">{item.error_code_text}</p>
+            ) : null}
+            {isRepairMemory ? (
+              <div className="flex justify-end mt-2.5">
+                <SolomonLifecycleStatusBadge status={status} />
+              </div>
             ) : null}
           </div>
         </div>

@@ -79,6 +79,10 @@ export function isSolomonCompletedLifecycle(status) {
     || status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
 }
 
+export function isSolomonRepairMemoryLifecycle(status) {
+  return status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
+}
+
 export function SolomonCyanAddButton({ href, ariaLabel }) {
   return (
     <Link

@@ -731,6 +731,8 @@ export default function DiagnosticResultsForm({
     setEvidencePeek(false);
   }, [scrollToInsight, eliminationResult, solomonMobileLayout]);
 
+  const mobileInsightPeeks = null;
+  /* Insight peek banners — disabled for now (Solomon mobile)
   const mobileInsightPeeks =
     variant === 'mobile' && !readOnly && (routePathPeek || evidencePeek) ? (
       <div className="space-y-2">
@@ -757,6 +759,7 @@ export default function DiagnosticResultsForm({
         ) : null}
       </div>
     ) : null;
+  */
 
   useEffect(() => {
     if (insightPeekPlacement === 'external' && onInsightPeeksChange) {
@@ -877,6 +880,7 @@ export default function DiagnosticResultsForm({
             />
           ) : null}
 
+          {/* Diagnostic path banner — disabled for now (Solomon mobile)
           {solomonMobileLayout && inlineRouteBanner && routeDiff && !readOnly ? (
             <ExplainRouteBanner
               diff={routeDiff}
@@ -888,6 +892,7 @@ export default function DiagnosticResultsForm({
               }}
             />
           ) : null}
+          */}
 
           <Wizard
             steps={steps}
