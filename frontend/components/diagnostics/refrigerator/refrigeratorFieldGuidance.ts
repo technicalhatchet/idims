@@ -43,7 +43,23 @@ export const refrigeratorFieldHelp: Record<string, string> = {
   'functional_checks.water_dispenser':
     'Verify filter, reservoir freeze, inlet valve, and door switch if no water.',
   'defrost_circuit.defrost_heater_ohms':
-    'Open heater = no defrost. Compare to spec — typically tens of ohms.',
+    'Open heater = no defrost. Many brands ~26–32 Ω; Samsung SxS ~63 Ω ±7% at CN70/CN85.',
+  'commonly_missed.cooling_off_ruled_out':
+    'Display O FF / OF OF or fans-on-comp-off? Hold Fridge + Power Cool ~6 s (Samsung) or Lock key per manual to exit demo.',
+  'functional_checks.door_switch':
+    'Samsung: door open ≈5 V, closed ≈0 V at CN20. Stuck open stops F-fan and triggers door alarm.',
+  'functional_checks.fans_on_compressor_off':
+    'Fans run with compressor off = Cooling Off / exhibition mode until proven otherwise.',
+  'functional_checks.display_panel':
+    'Dead keys or partial segments — check top-hinge LVDS before main board swap (41E, PC ER, 21E).',
+  'fans_and_electrical.thermistor_voltage_v':
+    'At board connector: ~4.5 V warm → 1.0 V cold (Samsung §4-2). Stuck high/low = open/short.',
+  'fans_and_electrical.evap_fan_feedback_voltage':
+    'BLDC evap fan feedback 7–12 V while commanded (Samsung F-FAN/C-FAN). Door open may stop F-fan.',
+  'fans_and_electrical.inverter_ipm_voltage':
+    'Inverter IPM DC must exceed 13.5 V or comp will not start (84C/86E). Read after 5-min lockout.',
+  'customer_complaint.error_codes':
+    'Samsung: 22E=fan, 5E=defrost sensor, 84C/86E=inverter, 41E=display comm, O FF=demo, RD=damper.',
   'diagnosis.root_cause':
     'Tie findings to measured temps, frost pattern, and amp draws — not guesswork.',
 };
@@ -268,5 +284,89 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
     ],
     message: 'Damaged condenser fan blade or housing — replace fan assembly even if motor spins.',
     tone: 'action',
+  },
+  {
+    id: 'samsung_22e_fan',
+    field: 'functional_checks.evaporator_fan_running',
+    when: [{ type: 'chip', id: 'error_code' }],
+    message:
+      'Samsung 22E/22C (F-FAN / C-FAN): check CN20 fan feedback 7–12 V, ice on evaporator, then fan motor. Service manual §4-2.',
+    tone: 'action',
+  },
+  {
+    id: 'samsung_5e_defrost_sensor',
+    field: 'functional_checks.defrost_heater_ohms',
+    when: [{ type: 'chip', id: 'error_code' }],
+    message:
+      'Samsung 5E/SE (F-DEF-Sensor): defrost thermistor CN20 pins 5–7 should read ~4.5–1.0 V warm→cold. Replace thermistor before board.',
+    tone: 'tip',
+  },
+  {
+    id: 'samsung_84c_compressor',
+    field: 'functional_checks.compressor_running',
+    when: [{ type: 'chip', id: 'error_code' }],
+    message:
+      'Samsung 84C/86E: inverter/compressor fault — check inverter LED blink pattern, harness CN70, locked rotor vs board.',
+    tone: 'action',
+  },
+  {
+    id: 'samsung_cooling_off',
+    field: 'functional_checks.compressor_running',
+    when: [{ type: 'chip', id: 'not_cooling' }],
+    message:
+      'Display shows O FF / OF OF? That is Cooling Off (demo) — compressor off, fans on. Hold Fridge + Power Cool ~6 s to exit before sealed-system work.',
+    tone: 'tip',
+  },
+  {
+    id: 'samsung_pcer_door',
+    field: 'visual_inspection.door_alignment',
+    when: [{ type: 'chip', id: 'error_code' }],
+    message:
+      'Samsung PC ER: reseat top-hinge door harness (LVDS). Also check 21E if display flickers when door moves.',
+    tone: 'action',
+  },
+  {
+    id: 'samsung_comm_codes',
+    field: 'customer_complaint.error_codes',
+    when: [{ type: 'chip', id: 'error_code' }],
+    message:
+      '41Er = main↔display, 44Er = inverter, 46Er = I/O expander, 47Er = dispenser panel, 52Er = WiFi — check harness first, then board.',
+    tone: 'tip',
+  },
+  {
+    id: 'cooling_off_fans_comp',
+    field: 'functional_checks.fans_on_compressor_off',
+    when: [{ type: 'chip', id: 'not_cooling' }],
+    message:
+      'If evap/condenser fans run but compressor never starts, check Cooling Off (O FF) before sealed-system parts.',
+    tone: 'action',
+  },
+  {
+    id: 'cooling_off_chip',
+    field: 'commonly_missed.cooling_off_ruled_out',
+    when: [{ type: 'chip', id: 'cooling_off' }],
+    message: 'Exit demo/Cooling Off per manual, then confirm compressor starts before any sealed-system work.',
+    tone: 'action',
+  },
+  {
+    id: 'door_alarm_switch',
+    field: 'functional_checks.door_switch',
+    when: [{ type: 'chip', id: 'door_alarm' }],
+    message: 'Continuous Ding-Dong — door ajar, gasket interference, or reed switch stuck/wet at hinge.',
+    tone: 'action',
+  },
+  {
+    id: 'display_dead_hinge',
+    field: 'functional_checks.display_panel',
+    when: [{ type: 'chip', id: 'display_dead' }],
+    message: 'Reseat top-hinge LVDS harness first — pairs with 21E and PC ER on Samsung SxS.',
+    tone: 'action',
+  },
+  {
+    id: 'damper_weak_ff',
+    field: 'functional_checks.damper_operation',
+    when: [{ type: 'chip', id: 'weak_cooling_ff' }],
+    message: 'Weak FF with cold freezer — verify damper opens and RD code before sealed system.',
+    tone: 'tip',
   },
 ];

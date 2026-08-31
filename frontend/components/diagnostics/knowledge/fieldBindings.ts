@@ -16,6 +16,9 @@ const REFRIGERATOR_FIELD_KNOWLEDGE: Record<string, string> = {
   'fans_and_electrical.supply_voltage': 'supplyVoltage120',
   'fans_and_electrical.freezer_thermistor': 'cabinetThermistorOhms',
   'fans_and_electrical.fresh_food_thermistor': 'cabinetThermistorOhms',
+  'fans_and_electrical.thermistor_voltage_v': 'refrigeratorThermistorVoltage',
+  'fans_and_electrical.evap_fan_feedback_voltage': 'refrigeratorEvapFanFeedbackVoltage',
+  'fans_and_electrical.inverter_ipm_voltage': 'refrigeratorInverterIpmVoltage',
 };
 
 const WASHER_FIELD_KNOWLEDGE: Record<string, string> = {

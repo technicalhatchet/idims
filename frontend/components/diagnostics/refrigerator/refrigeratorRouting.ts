@@ -76,6 +76,36 @@ export const refrigeratorRoutingRules: RoutingRule[] = [
     enable: ['visual', 'functional', 'defrost', 'commonly_missed'],
   },
   {
+    id: 'error_code',
+    label: 'Error code path',
+    when: ['error_code', 'error', 'fault code', '22e', '5e', '84c', '41e'],
+    enable: ['complaint', 'functional', 'defrost', 'fans', 'sealedSystem'],
+  },
+  {
+    id: 'cooling_off',
+    label: 'Cooling Off / demo path',
+    when: ['cooling_off', 'o ff', 'of of', 'demo mode', 'exhibition', 'cooling off'],
+    enable: ['complaint', 'functional', 'commonly_missed'],
+  },
+  {
+    id: 'door_alarm',
+    label: 'Door alarm / buzzer path',
+    when: ['door_alarm', 'buzzer', 'ding dong', 'door ajar'],
+    enable: ['visual', 'functional', 'commonly_missed'],
+  },
+  {
+    id: 'display_dead',
+    label: 'Display / panel path',
+    when: ['display_dead', 'panel dead', 'no display', 'keys not working'],
+    enable: ['functional', 'fans', 'complaint'],
+  },
+  {
+    id: 'fans_compressor_off',
+    label: 'Fans on, compressor off',
+    when: [{ type: 'field', path: 'functional_checks.fans_on_compressor_off', equals: 'yes' }],
+    enable: ['commonly_missed', 'functional'],
+  },
+  {
     id: 'heavy_frost_yes',
     label: 'Heavy frost observed',
     when: [{ type: 'field', path: 'visual_inspection.frost_present', equals: 'yes' }],

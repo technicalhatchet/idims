@@ -18,7 +18,14 @@
     { "id": "condenser_fan", "label": "Condenser fan", "categoryId": "airflow", "dmaTags": ["condenser_fan"] },
     { "id": "compressor", "label": "Compressor", "categoryId": "sealed_system", "dmaTags": ["compressor"] },
     { "id": "door_alignment", "label": "Door alignment", "categoryId": "air_leak", "dmaTags": ["door_alignment"] },
-    { "id": "door_gasket", "label": "Door gasket", "categoryId": "air_leak", "dmaTags": ["gasket"] }
+    { "id": "door_gasket", "label": "Door gasket", "categoryId": "air_leak", "dmaTags": ["gasket"] },
+    { "id": "inverter_board", "label": "Inverter board", "categoryId": "sealed_system", "dmaTags": ["compressor", "sealed_system", "control_board"] },
+    { "id": "damper_motor", "label": "Fresh-food damper", "categoryId": "airflow", "dmaTags": ["airflow", "damper"] },
+    { "id": "door_switch", "label": "Door reed switch", "categoryId": "air_leak", "dmaTags": ["door_alignment", "gasket"] },
+    { "id": "display_panel", "label": "Display / UI panel", "categoryId": "controls_sensors", "dmaTags": ["control_board", "user_interface"] },
+    { "id": "dispenser_panel", "label": "Dispenser UI panel", "categoryId": "controls_sensors", "dmaTags": ["control_board", "water_dispenser"] },
+    { "id": "ice_maker_module", "label": "Ice maker module", "categoryId": "ice_maker", "dmaTags": ["ice_maker", "no_ice"] },
+    { "id": "ice_pipe_heater", "label": "Ice pipe heater", "categoryId": "ice_maker", "dmaTags": ["ice_maker", "defrost_heater"] }
   ],
   "rules": [
     {
@@ -936,6 +943,363 @@
       "effect": { "effect": "increase", "value": 20 },
       "explanation": "Condenser fan runs but blade, bearing, or airflow is bad.",
       "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_kw_22e_evap_fan",
+      "when": [{ "type": "keyword", "match": "22e" }],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 24 },
+      "explanation": "Samsung 22E/22C — freezer or fridge evaporator fan fault (F-FAN / C-FAN).",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "ref_kw_5e_defrost",
+      "when": [{ "type": "keyword", "match": "5e" }],
+      "target": "defrost_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Samsung 5E/SE — defrost thermistor (F-DEF-Sensor) out of range.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost", "thermistor"]
+    },
+    {
+      "id": "ref_kw_84c_sealed",
+      "when": [{ "type": "keyword", "match": "84c" }],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Samsung 84C — compressor lock / startup failure; check inverter and sealed system.",
+      "recommendStepKey": "sealed_system",
+      "dmaTags": ["compressor", "sealed_system"]
+    },
+    {
+      "id": "ref_kw_86e_inverter",
+      "when": [{ "type": "keyword", "match": "86e" }],
+      "target": "inverter_board",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Samsung 86E — inverter compressor fault; inverter PCB or harness.",
+      "recommendStepKey": "sealed_system",
+      "dmaTags": ["compressor", "sealed_system"]
+    },
+    {
+      "id": "ref_kw_cooling_off",
+      "when": [{ "type": "keyword", "match": "o ff" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 30 },
+      "explanation": "Samsung O FF / Cooling Off — demo mode; compressor disabled intentionally.",
+      "recommendStepKey": "controls",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_rd_damper",
+      "when": [{ "type": "keyword", "match": "rd" }],
+      "target": "damper_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 16 },
+      "explanation": "Samsung RD — fresh-food damper motor/heater fault; weak FF cooling common.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["airflow", "damper"]
+    },
+    {
+      "id": "chip_error_code_controls",
+      "when": [{ "type": "chip", "id": "error_code" }],
+      "target": "controls_sensors",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Complaint: error code on display — verify code meaning before sealed-system work.",
+      "recommendStepKey": "complaint"
+    },
+    {
+      "id": "chip_cooling_off_demo",
+      "when": [{ "type": "chip", "id": "cooling_off" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Cooling Off / demo — compressor disabled intentionally; exit mode before parts.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "chip_display_dead_ui",
+      "when": [{ "type": "chip", "id": "display_dead" }],
+      "target": "display_panel",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "Dead or partial display — hinge LVDS, panel PCB, or main board comm.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "chip_door_alarm_gasket",
+      "when": [{ "type": "chip", "id": "door_alarm" }],
+      "target": "door_gasket",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Door alarm — door ajar, gasket interference, or failed reed switch.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["gasket", "door_alignment"]
+    },
+    {
+      "id": "ref_kw_8e_thermistor",
+      "when": [{ "type": "keyword", "match": "8e" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung 8E — fridge compartment (R-Sensor) thermistor fault.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["thermistor"]
+    },
+    {
+      "id": "ref_kw_14e_humidity",
+      "when": [{ "type": "keyword", "match": "14e" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Samsung 14E — humidity sensor out of range at CN40.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["thermistor", "sensor_check"]
+    },
+    {
+      "id": "ref_kw_33e_ice_pipe",
+      "when": [{ "type": "keyword", "match": "33e" }],
+      "target": "ice_pipe_heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung 33E — ice pipe heater open at CN90.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker", "defrost_heater"]
+    },
+    {
+      "id": "ref_kw_40e_ice_fan",
+      "when": [{ "type": "keyword", "match": "40e" }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung 40E/40C — ice maker compartment fan fault.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker", "evap_fan"]
+    },
+    {
+      "id": "ref_kw_41e_display",
+      "when": [{ "type": "keyword", "match": "41e" }],
+      "target": "display_panel",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung 41E/41Er — main ↔ display panel communication.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_44e_inverter",
+      "when": [{ "type": "keyword", "match": "44e" }],
+      "target": "inverter_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung 44E/44Er — main ↔ inverter communication at CN70.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor", "control_board"]
+    },
+    {
+      "id": "ref_kw_46e_io",
+      "when": [{ "type": "keyword", "match": "46e" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Samsung 46E/46Er — main ↔ I/O expander communication.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_47e_dispenser",
+      "when": [{ "type": "keyword", "match": "47e" }],
+      "target": "dispenser_panel",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung 47E/47Er — dispenser panel communication.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["water_dispenser", "control_board"]
+    },
+    {
+      "id": "ref_kw_52e_wifi",
+      "when": [{ "type": "keyword", "match": "52e" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Samsung 52E/52Er — WiFi module comm; cooling usually unaffected.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_21e_hinge",
+      "when": [{ "type": "keyword", "match": "21e" }],
+      "target": "display_panel",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung 21E — top-hinge LVDS harness; often pairs with PC ER.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_pcer_door",
+      "when": [{ "type": "keyword", "match": "pc er" }],
+      "target": "door_switch",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung PC ER — door hinge / LVDS communication fault.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["door_alignment"]
+    },
+    {
+      "id": "ref_kw_ofof_demo",
+      "when": [{ "type": "keyword", "match": "ofof" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung OF OF — Cooling Off / exhibition mode.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_ms_fans_comp_off_demo",
+      "when": [
+        { "type": "field", "path": "functional_checks.fans_on_compressor_off", "equals": "yes" },
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "no" }
+      ],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Fans run with compressor off — classic Cooling Off / demo before sealed-system diagnosis.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_ms_cooling_off_ruled_out",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "field", "path": "commonly_missed.cooling_off_ruled_out", "equals": "checked" }
+      ],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "Demo mode ruled out — proceed with sealed system / defrost differential.",
+      "recommendStepKey": "sealedSystem"
+    },
+    {
+      "id": "ref_ms_door_switch_bad",
+      "when": [{ "type": "field", "path": "functional_checks.door_switch", "equals": "no" }],
+      "target": "door_switch",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Door reed switch not toggling — fan interlock, lamp, and alarm faults.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["door_alignment"]
+    },
+    {
+      "id": "ref_ms_damper_bad_weak_ff",
+      "when": [
+        { "type": "chip", "id": "weak_cooling_ff" },
+        { "type": "field", "path": "functional_checks.damper_operation", "equals": "bad" }
+      ],
+      "target": "damper_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Weak FF only with bad damper — RD / air tower path.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["airflow", "damper"]
+    },
+    {
+      "id": "ref_ms_display_panel_bad",
+      "when": [{ "type": "field", "path": "functional_checks.display_panel", "equals": "bad" }],
+      "target": "display_panel",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Panel unresponsive — UI PCB, hinge harness, or main board comm.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_ms_thermistor_voltage_bad",
+      "when": [{ "type": "measurement", "knowledgeId": "refrigeratorThermistorVoltage", "statusIn": ["critical", "warning"] }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Thermistor voltage out of range at board connector — sensor or harness.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["thermistor"]
+    },
+    {
+      "id": "ref_ms_evap_fan_voltage_low",
+      "when": [{ "type": "measurement", "knowledgeId": "refrigeratorEvapFanFeedbackVoltage", "statusIn": ["critical"] }],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Evap fan feedback below 7 V — F-FAN/C-FAN path per Samsung §4-2.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "ref_ms_inverter_ipm_low",
+      "when": [{ "type": "measurement", "knowledgeId": "refrigeratorInverterIpmVoltage", "statusIn": ["critical", "warning"] }],
+      "target": "inverter_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Inverter IPM supply under 13.5 V — comp start failure / 84C / 86E path.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor", "sealed_system"]
+    },
+    {
+      "id": "ref_ms_samsung_defrost_heater",
+      "when": [{ "type": "measurement", "knowledgeId": "samsungRefrigeratorDefrostHeaterOhms", "statusIn": ["critical"] }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Samsung defrost heater out of 63 Ω ±7% spec — open or shorted.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_ms_ff_warm_fz_cold_damper",
+      "when": [
+        { "type": "measurement", "knowledgeId": "freezerCabinetTemp", "statusIn": ["normal"] },
+        { "type": "measurement", "knowledgeId": "freshFoodCabinetTemp", "statusIn": ["warning", "critical"] },
+        { "type": "field", "path": "functional_checks.damper_operation", "equals": "bad" }
+      ],
+      "target": "damper_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 26 },
+      "explanation": "Cold freezer + warm FF + bad damper — classic RD / air tower pattern.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["airflow", "damper"]
+    },
+    {
+      "id": "ref_ms_86e_inverter_confirm",
+      "when": [
+        { "type": "keyword", "match": "86e" },
+        { "type": "measurement", "knowledgeId": "refrigeratorInverterIpmVoltage", "statusIn": ["critical", "warning"] }
+      ],
+      "target": "inverter_board",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "86E with low IPM voltage — inverter board or harness before compressor.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "ref_precheck_condenser_not_cooling",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "field", "path": "commonly_missed.condenser_cleanliness", "equals": "checked" }
+      ],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Condenser still suspect if coils were not verified clean on not-cooling call.",
+      "recommendStepKey": "visual",
       "dmaTags": ["condenser_fan"]
     }
   ]

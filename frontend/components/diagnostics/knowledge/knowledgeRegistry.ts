@@ -3,6 +3,7 @@ import batch2 from './seed/measurement-knowledge-batch2.json';
 import batch3 from './seed/measurement-knowledge-batch3.json';
 import batch4 from './seed/measurement-knowledge-batch4.json';
 import batch5 from './seed/measurement-knowledge-batch5.json';
+import batch6 from './seed/measurement-knowledge-batch6.json';
 import refrigeratorElimination from './elimination/refrigerator.json';
 import dishwasherElimination from './elimination/dishwasher.json';
 import gasRangeElimination from './elimination/gas_range.json';
@@ -35,6 +36,17 @@ function normalizeKnowledgeEntry(
       'NTC thermistor at room temp — typically 5k–16k Ω. Verify against manufacturer chart when available.';
   }
 
+  if (normalized.id === 'defrostHeaterOhms') {
+    normalized.ranges = {
+      normal: { min: 15, max: 75 },
+      warning: { min: 10, max: 90 },
+      critical: { below: 5, above: 120 },
+    };
+    normalized.typical = { min: 26, max: 63 };
+    normalized.notes =
+      'Varies by brand: many units ~26–32 Ω; Samsung SxS inverter models ~63 Ω ±7% (use samsungRefrigeratorDefrostHeaterOhms when confirmed Samsung).';
+  }
+
   if (normalized.id === 'microwaveHVDiodeCheck') {
     normalized.inputKind = 'diodeCheck';
     normalized.ranges = undefined;
@@ -62,6 +74,7 @@ const ALL_ENTRIES: MeasurementKnowledgeDefinition[] = [
   ...(batch3 as MeasurementKnowledgeDefinition[]),
   ...(batch4 as MeasurementKnowledgeDefinition[]),
   ...(batch5 as MeasurementKnowledgeDefinition[]),
+  ...(batch6 as MeasurementKnowledgeDefinition[]),
 ].map(normalizeKnowledgeEntry);
 
 const KNOWLEDGE_BY_ID = new Map<string, MeasurementKnowledgeDefinition>(

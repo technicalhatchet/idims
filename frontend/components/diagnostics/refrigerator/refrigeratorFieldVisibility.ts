@@ -71,4 +71,53 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
     field: 'functional_checks.water_dispenser',
     showWhen: [{ type: 'chip', id: 'water_dispenser' }],
   },
+  {
+    id: 'door_switch_not_cooling',
+    field: 'functional_checks.door_switch',
+    showWhen: [
+      { type: 'chip', id: 'not_cooling' },
+      { type: 'chip', id: 'door_alarm' },
+      { type: 'chip', id: 'error_code' },
+    ],
+  },
+  {
+    id: 'fans_compressor_off_pattern',
+    field: 'functional_checks.fans_on_compressor_off',
+    showWhen: [
+      { type: 'chip', id: 'not_cooling' },
+      { type: 'chip', id: 'cooling_off' },
+      { type: 'chip', id: 'weak_cooling' },
+    ],
+  },
+  {
+    id: 'display_panel_check',
+    field: 'functional_checks.display_panel',
+    showWhen: [
+      { type: 'chip', id: 'display_dead' },
+      { type: 'chip', id: 'error_code' },
+    ],
+  },
+  {
+    id: 'thermistor_voltage_error',
+    field: 'fans_and_electrical.thermistor_voltage_v',
+    showWhen: [{ type: 'chip', id: 'error_code' }],
+  },
+  {
+    id: 'evap_fan_voltage_error',
+    field: 'fans_and_electrical.evap_fan_feedback_voltage',
+    showWhen: [
+      { type: 'chip', id: 'error_code' },
+      { type: 'chip', id: 'frost_buildup' },
+      { type: 'chip', id: 'weak_cooling_ff' },
+    ],
+  },
+  {
+    id: 'inverter_voltage_sealed',
+    field: 'fans_and_electrical.inverter_ipm_voltage',
+    showWhen: [
+      { type: 'chip', id: 'not_cooling' },
+      { type: 'chip', id: 'weak_cooling_fz' },
+      { type: 'chip', id: 'error_code' },
+    ],
+  },
 ];

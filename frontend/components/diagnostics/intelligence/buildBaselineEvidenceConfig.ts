@@ -30,23 +30,31 @@ function isFailureHypothesis(id: string): boolean {
     || id.includes('blocked');
 }
 
+function eliminationWhenClauses(when: EliminationWhenClause | EliminationWhenClause[]): EliminationWhenClause[] {
+  return Array.isArray(when) ? when : [when];
+}
+
 function inferRecommendStepKey(
-  when: EliminationWhenClause,
+  when: EliminationWhenClause | EliminationWhenClause[],
   wizard: WizardDefinition | null,
   templateId: string,
 ): string | undefined {
   if (!wizard?.defaultSteps?.length) return undefined;
 
-  if (when.type === 'field') {
-    const sectionId = when.path.split('.')[0];
-    return wizard.defaultSteps.find((step) => step.sectionId === sectionId)?.stepKey;
-  }
+  for (const clause of eliminationWhenClauses(when)) {
+    if (clause.type === 'field') {
+      const sectionId = clause.path.split('.')[0];
+      const step = wizard.defaultSteps.find((s) => s.sectionId === sectionId)?.stepKey;
+      if (step) return step;
+    }
 
-  if (when.type === 'measurement') {
-    for (const fieldKey of listSmartFieldKeysForTemplate(templateId)) {
-      if (getFieldKnowledgeId(templateId, fieldKey) === when.knowledgeId) {
-        const sectionId = fieldKey.split('.')[0];
-        return wizard.defaultSteps.find((step) => step.sectionId === sectionId)?.stepKey;
+    if (clause.type === 'measurement') {
+      for (const fieldKey of listSmartFieldKeysForTemplate(templateId)) {
+        if (getFieldKnowledgeId(templateId, fieldKey) === clause.knowledgeId) {
+          const sectionId = fieldKey.split('.')[0];
+          const step = wizard.defaultSteps.find((s) => s.sectionId === sectionId)?.stepKey;
+          if (step) return step;
+        }
       }
     }
   }
@@ -54,10 +62,13 @@ function inferRecommendStepKey(
   return undefined;
 }
 
-function dmaTagsForWhen(when: EliminationWhenClause): string[] | undefined {
-  if (when.type !== 'measurement') return undefined;
-  const knowledge = getMeasurementKnowledge(when.knowledgeId);
-  return knowledge?.dmaTags?.length ? knowledge.dmaTags : undefined;
+function dmaTagsForWhen(when: EliminationWhenClause | EliminationWhenClause[]): string[] | undefined {
+  for (const clause of eliminationWhenClauses(when)) {
+    if (clause.type !== 'measurement') continue;
+    const knowledge = getMeasurementKnowledge(clause.knowledgeId);
+    if (knowledge?.dmaTags?.length) return knowledge.dmaTags;
+  }
+  return undefined;
 }
 
 function buildComponents(
@@ -114,7 +125,7 @@ export function buildBaselineEvidenceConfig(
   const rules: EvidenceRule[] = [];
 
   for (const elimRule of elimination.rules) {
-    const when: EvidenceWhenClause[] = [elimRule.when as EvidenceWhenClause];
+    const when: EvidenceWhenClause[] = eliminationWhenClauses(elimRule.when) as EvidenceWhenClause[];
     const recommendStepKey = inferRecommendStepKey(elimRule.when, wizard, templateId);
     const dmaTags = dmaTagsForWhen(elimRule.when);
 
