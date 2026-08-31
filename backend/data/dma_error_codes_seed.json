@@ -4026,7 +4026,7 @@
     "equipment_subtype": "dryer",
     "code": "9C1",
     "code_normalized": "9C1",
-    "meaning": "Electronic control — invalid supply voltage",
+    "meaning": "Electronic control \u2014 invalid supply voltage",
     "common_causes": "Low or improper line voltage, loose cord, tripped breaker",
     "recommended_fix": "Verify outlet voltage and breaker; check PCB harness and connections",
     "alias_group_id": "70ea5fd4-8d2f-4727-80df-adaa3cc360b2",
@@ -4040,7 +4040,7 @@
     "equipment_subtype": "dryer",
     "code": "9C2",
     "code_normalized": "9C2",
-    "meaning": "Electronic control — supply voltage fault",
+    "meaning": "Electronic control \u2014 supply voltage fault",
     "common_causes": "Improper supply voltage, wiring fault",
     "recommended_fix": "Verify outlet and breaker; inspect PCB and harness",
     "alias_group_id": "70ea5fd4-8d2f-4727-80df-adaa3cc360b2",
@@ -5060,7 +5060,7 @@
     "code": "F3 E1",
     "code_normalized": "F3E1",
     "meaning": "Exhaust thermistor open",
-    "common_causes": "Outlet thermistor open (>50 kΩ, reads <18°F)",
+    "common_causes": "Outlet thermistor open (>50 k\u03a9, reads <18\u00b0F)",
     "recommended_fix": "Test exhaust thermistor at control connector; check harness; replace sensor if out of spec",
     "alias_group_id": "56bedb28-86ec-433c-8508-a28bdfa8b6c6",
     "related_codes": [
@@ -5087,7 +5087,7 @@
     "code_normalized": "L2",
     "meaning": "Low L2 line voltage at control",
     "common_causes": "Open supply leg, tripped breaker, cord/terminal fault (<30 V on L2)",
-    "recommended_fix": "Verify 240V both legs; check cord, terminal block, and breaker — see F4E4",
+    "recommended_fix": "Verify 240V both legs; check cord, terminal block, and breaker \u2014 see F4E4",
     "alias_group_id": "1cc2dec4-838b-4c4a-9176-23a0bdd96063",
     "related_codes": [
       "L2",
@@ -5638,7 +5638,7 @@
     "meaning": "Cycle control unit (CCU) problem",
     "common_causes": "Failed main control or internal CCU fault",
     "recommended_fix": "Verify CCU power (+5/+12 VDC); check harnesses; replace CCU if supplies fail",
-    "alias_group_id": "a8f3c201-4d2e-4b91-9c01-dryer-f1e1",
+    "alias_group_id": "05797138-205a-52aa-a3b6-43fa2b191bc0",
     "related_codes": [
       "F1E1"
     ]
@@ -5651,7 +5651,7 @@
     "meaning": "User interface stuck button or mismatch",
     "common_causes": "Button held >20 s or UI/CCU mismatch",
     "recommended_fix": "Run UI component test; replace UI assembly if buttons stuck",
-    "alias_group_id": "b9e4d302-5e3f-5c02-ad12-dryer-f2e1",
+    "alias_group_id": "bd7513f0-aee7-5968-98b1-aeab844d415a",
     "related_codes": [
       "F2E1"
     ]
@@ -5664,7 +5664,7 @@
     "meaning": "User interface software error (EEPROM read)",
     "common_causes": "UI cannot read EEPROM from console",
     "recommended_fix": "Verify CCU-to-UI connections; replace user interface",
-    "alias_group_id": "c0f5e413-6f40-6d13-be23-dryer-f2e2",
+    "alias_group_id": "6b101c94-6f93-51d3-9ca1-f241a006a67d",
     "related_codes": [
       "F2E2"
     ]
@@ -5677,7 +5677,7 @@
     "meaning": "User interface software error (not programmed)",
     "common_causes": "Main control EEPROM not programmed correctly",
     "recommended_fix": "Replace user interface",
-    "alias_group_id": "d1a6f524-7041-7e24-cf34-dryer-f2e3",
+    "alias_group_id": "bfa339bf-72ba-5c34-b7e5-7e4943d80452",
     "related_codes": [
       "F2E3"
     ]
@@ -5688,9 +5688,9 @@
     "code": "F3 E2",
     "code_normalized": "F3E2",
     "meaning": "Exhaust thermistor shorted",
-    "common_causes": "Outlet thermistor shorted (<500 Ω, reads >250°F)",
+    "common_causes": "Outlet thermistor shorted (<500 \u03a9, reads >250\u00b0F)",
     "recommended_fix": "Test exhaust thermistor; replace sensor or harness if shorted to ground",
-    "alias_group_id": "e2b70535-8152-8f35-d045-dryer-f3e2",
+    "alias_group_id": "6f395917-9805-55e6-af87-1485f009b284",
     "related_codes": [
       "F3E2",
       "F3E1"
@@ -5702,9 +5702,9 @@
     "code": "F3 E3",
     "code_normalized": "F3E3",
     "meaning": "Inlet thermistor open",
-    "common_causes": "Inlet thermistor open (>245 kΩ, reads <18°F)",
+    "common_causes": "Inlet thermistor open (>245 k\u03a9, reads <18\u00b0F)",
     "recommended_fix": "Test inlet thermistor at control connector; replace if out of spec",
-    "alias_group_id": "f3c81646-9263-9046-e156-dryer-f3e3",
+    "alias_group_id": "9ef5f8e5-c31a-5ea3-beab-8837a908445e",
     "related_codes": [
       "F3E3",
       "F3E5"
@@ -5716,9 +5716,9 @@
     "code": "F3 E4",
     "code_normalized": "F3E4",
     "meaning": "Inlet thermistor shorted",
-    "common_causes": "Inlet thermistor shorted (<328 Ω, reads >391°F)",
+    "common_causes": "Inlet thermistor shorted (<328 \u03a9, reads >391\u00b0F)",
     "recommended_fix": "Test inlet thermistor; replace sensor or repair shorted harness",
-    "alias_group_id": "04d92757-a374-a157-f267-dryer-f3e4",
+    "alias_group_id": "f383def6-c76b-5638-9d00-96c9c997f065",
     "related_codes": [
       "F3E4"
     ]
@@ -5731,7 +5731,7 @@
     "meaning": "Inlet and exhaust thermistor open",
     "common_causes": "Thermistor harness unplugged at control (P14)",
     "recommended_fix": "Reseat thermistor connector; check harness continuity",
-    "alias_group_id": "15ea3858-b485-b268-0378-dryer-f3e5",
+    "alias_group_id": "25f5cd82-66c7-5416-8ebc-ac75cff95d7c",
     "related_codes": [
       "F3E5",
       "F3E1",
@@ -5746,7 +5746,7 @@
     "meaning": "Moisture sensor open",
     "common_causes": "Open moisture sensor strip or harness",
     "recommended_fix": "Clean sensor strips; test moisture sensor harness and connector",
-    "alias_group_id": "26fb4969-c596-c379-1489-dryer-f3e6",
+    "alias_group_id": "41ac2692-3509-5df1-bc6c-37a4bc3f2ae8",
     "related_codes": [
       "F3E6",
       "F3E7",
@@ -5762,7 +5762,7 @@
     "meaning": "Moisture sensor shorted",
     "common_causes": "Shorted moisture sensor or harness",
     "recommended_fix": "Test sensor harness; replace moisture sensor assembly",
-    "alias_group_id": "370c5a7a-d6a7-d48a-259a-dryer-f3e7",
+    "alias_group_id": "32d09b37-1190-531c-9a2c-26e8dca1788f",
     "related_codes": [
       "F3E7",
       "F3E6"
@@ -5776,7 +5776,7 @@
     "meaning": "Heater relay or connector problem",
     "common_causes": "No voltage at heater relay; loose heater wiring",
     "recommended_fix": "Check heater element wiring and CCU heater relay connections",
-    "alias_group_id": "481d6b8b-e7b8-e59b-36ab-dryer-f4e1",
+    "alias_group_id": "9f380be0-fd26-5a9f-b69f-2cd68fb94b87",
     "related_codes": [
       "F4E1"
     ]
@@ -5789,7 +5789,7 @@
     "meaning": "L2 line voltage error",
     "common_causes": "L2 below ~30 V at CCU; breaker, cord, or relay connection fault",
     "recommended_fix": "Verify 240V supply both legs; check power cord and terminal block; gas: check P14 loopback",
-    "alias_group_id": "592e7c9c-f8c9-f6ac-47bc-dryer-f4e4",
+    "alias_group_id": "43c9d897-473e-58dd-8c35-accd5a09a63c",
     "related_codes": [
       "F4E4",
       "L2"
@@ -5803,7 +5803,7 @@
     "meaning": "Communication error UI to CCU",
     "common_causes": "Harness fault between console and main control",
     "recommended_fix": "Check UI-CCU harness continuity; verify CCU supplies; replace UI or CCU",
-    "alias_group_id": "6a3f8dad-09da-07bd-58cd-dryer-f6e1",
+    "alias_group_id": "576f8ee2-2527-5739-939c-28e3d0b9ff55",
     "related_codes": [
       "F6E1",
       "F6E2"
@@ -5817,7 +5817,7 @@
     "meaning": "Communication error CCU to UI",
     "common_causes": "Failed UI or CCU communication",
     "recommended_fix": "Replace user interface first; replace CCU if fault persists",
-    "alias_group_id": "7b409ebe-1aeb-18ce-69de-dryer-f6e2",
+    "alias_group_id": "5f714a4f-6e94-564e-827f-d963f055bdad",
     "related_codes": [
       "F6E2",
       "F6E1"
@@ -5845,7 +5845,7 @@
     "meaning": "Power interruption during cycle",
     "common_causes": "Outage or cord unplugged mid-cycle",
     "recommended_fix": "Press START to continue cycle or POWER to clear display",
-    "alias_group_id": "8c51afcf-2bfc-29df-7aef-dryer-pwr",
+    "alias_group_id": "f0668895-380d-5b03-8619-32d52cf8652a",
     "related_codes": [
       "POWERFAILURE"
     ]
