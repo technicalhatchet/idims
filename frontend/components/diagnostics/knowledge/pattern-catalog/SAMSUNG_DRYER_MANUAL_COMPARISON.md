@@ -51,6 +51,8 @@ From §4-1 — no F-code pattern:
 
 **Solomon handling:** `expandErrorCodeTokens()` in `routingEngine.ts` maps Samsung codes to the same **component categories** (vent, thermistor, door, supply, control) so evidence and chip inference work without a parallel rule set.
 
+**DMA seed:** `backend/data/dma_error_codes_seed.json` — Samsung `dryer` rows include **tC**, **tC5**, **dC**, **dF**, **bC2**, **FC** (DV7000R manual) plus legacy **tE**/**tO**, **9C1**, **AC**, **HC**, **CL9**.
+
 ---
 
 ## 3. Symptom routing (high overlap)
@@ -147,7 +149,7 @@ Both: COM–NC < 1 Ω closed, COM–NO open when door open (Samsung documents pi
 - Smart Care / SmartThings app flows  
 - Samsung connector pinouts and part numbers  
 - Separate measurement seed rows per Samsung curve (needs brand field on equipment or subtype)  
-- Samsung-only DMA seed entries (different code strings; aliases cover routing)
+- ~~Samsung-only DMA seed entries~~ — **done** for DV7000R dryer codes in `dma_error_codes_seed.json`
 
 ---
 

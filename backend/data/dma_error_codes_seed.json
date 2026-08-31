@@ -3876,9 +3876,9 @@
     "equipment_subtype": "dryer",
     "code": "HE",
     "code_normalized": "HE",
-    "meaning": "Overheating",
-    "common_causes": "Restricted vent, heater issue",
-    "recommended_fix": "Clean venting, test heater and thermistor",
+    "meaning": "Heating error (overheat / heater fault)",
+    "common_causes": "Restricted vent, heater or thermistor fault",
+    "recommended_fix": "Clean venting, test heater and thermistor; recheck after 20 min timed dry",
     "alias_group_id": "dc86d14c-8603-4f87-b3b0-ac7c16098ed3",
     "related_codes": [
       "HE",
@@ -3890,9 +3890,9 @@
     "equipment_subtype": "dryer",
     "code": "HC",
     "code_normalized": "HC",
-    "meaning": "Overheating",
-    "common_causes": "Restricted vent, heater issue",
-    "recommended_fix": "Clean venting, test heater and thermistor",
+    "meaning": "Invalid heating temperature during cycle",
+    "common_causes": "Thermistor fault, PCB issue, restricted vent",
+    "recommended_fix": "Clean lint screen and vent, test thermistor resistance, inspect PCB and harness",
     "alias_group_id": "dc86d14c-8603-4f87-b3b0-ac7c16098ed3",
     "related_codes": [
       "HE",
@@ -3902,13 +3902,47 @@
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "dryer",
+    "code": "tC",
+    "code_normalized": "TC",
+    "meaning": "Thermistor 1 resistance out of range",
+    "common_causes": "Clogged lint screen, restricted vent, failed exhaust thermistor",
+    "recommended_fix": "Clean lint screen and vent system, then measure thermistor 1 resistance",
+    "alias_group_id": "e7a4c2b1-8d3f-4e5a-9b1c-2d3e4f5a6b7c",
+    "related_codes": [
+      "TC",
+      "TC5",
+      "TE",
+      "TO"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "dryer",
+    "code": "tC5",
+    "code_normalized": "TC5",
+    "meaning": "Thermistor 2 resistance out of range",
+    "common_causes": "Clogged lint screen, restricted vent, failed inlet thermistor",
+    "recommended_fix": "Clean lint screen and vent system, then measure thermistor 2 resistance",
+    "alias_group_id": "e7a4c2b1-8d3f-4e5a-9b1c-2d3e4f5a6b7c",
+    "related_codes": [
+      "TC",
+      "TC5",
+      "TE",
+      "TO"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "dryer",
     "code": "tE",
     "code_normalized": "TE",
-    "meaning": "Thermistor error",
-    "common_causes": "Faulty temp sensor",
-    "recommended_fix": "Test and replace thermistor",
-    "alias_group_id": "cdb173af-aab1-4018-b627-8faa0977a39f",
+    "meaning": "Thermistor error (legacy display code)",
+    "common_causes": "Clogged lint screen, restricted vent, failed thermistor",
+    "recommended_fix": "Clean lint screen and vent, test thermistor resistance",
+    "alias_group_id": "e7a4c2b1-8d3f-4e5a-9b1c-2d3e4f5a6b7c",
     "related_codes": [
+      "TC",
+      "TC5",
       "TE",
       "TO"
     ]
@@ -3918,13 +3952,45 @@
     "equipment_subtype": "dryer",
     "code": "tO",
     "code_normalized": "TO",
-    "meaning": "Thermistor error",
-    "common_causes": "Faulty temp sensor",
-    "recommended_fix": "Test and replace thermistor",
-    "alias_group_id": "cdb173af-aab1-4018-b627-8faa0977a39f",
+    "meaning": "Thermistor error (legacy display code)",
+    "common_causes": "Clogged lint screen, restricted vent, failed thermistor",
+    "recommended_fix": "Clean lint screen and vent, test thermistor resistance",
+    "alias_group_id": "e7a4c2b1-8d3f-4e5a-9b1c-2d3e4f5a6b7c",
     "related_codes": [
+      "TC",
+      "TC5",
       "TE",
       "TO"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "dryer",
+    "code": "dC",
+    "code_normalized": "DC",
+    "meaning": "Dryer running with door open",
+    "common_causes": "Door not latched, loose door sensor, shorted door switch",
+    "recommended_fix": "Close door firmly; check door sensor harness and switch continuity",
+    "alias_group_id": "a8f1e2d3-4b5c-6d7e-8f90-a1b2c3d4e5f6",
+    "related_codes": [
+      "DC",
+      "DF",
+      "DE"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "dryer",
+    "code": "dF",
+    "code_normalized": "DF",
+    "meaning": "Incorrect door switch",
+    "common_causes": "Loose or shorted door sensor unit",
+    "recommended_fix": "Inspect door latch alignment and door switch harness",
+    "alias_group_id": "a8f1e2d3-4b5c-6d7e-8f90-a1b2c3d4e5f6",
+    "related_codes": [
+      "DC",
+      "DF",
+      "DE"
     ]
   },
   {
@@ -3933,10 +3999,12 @@
     "code": "dE",
     "code_normalized": "DE",
     "meaning": "Door error",
-    "common_causes": "Door switch or latch issue",
-    "recommended_fix": "Inspect switch and latch",
-    "alias_group_id": "7756cc60-5eac-4fcf-9050-d8be1d645b62",
+    "common_causes": "Door switch, latch, or sensor harness fault",
+    "recommended_fix": "Inspect switch, latch, and door sensor wiring",
+    "alias_group_id": "a8f1e2d3-4b5c-6d7e-8f90-a1b2c3d4e5f6",
     "related_codes": [
+      "DC",
+      "DF",
       "DE"
     ]
   },
@@ -3958,9 +4026,9 @@
     "equipment_subtype": "dryer",
     "code": "9C1",
     "code_normalized": "9C1",
-    "meaning": "Voltage problem",
-    "common_causes": "Improper supply voltage",
-    "recommended_fix": "Verify outlet and breaker",
+    "meaning": "Electronic control — invalid supply voltage",
+    "common_causes": "Low or improper line voltage, loose cord, tripped breaker",
+    "recommended_fix": "Verify outlet voltage and breaker; check PCB harness and connections",
     "alias_group_id": "70ea5fd4-8d2f-4727-80df-adaa3cc360b2",
     "related_codes": [
       "9C1",
@@ -3972,9 +4040,9 @@
     "equipment_subtype": "dryer",
     "code": "9C2",
     "code_normalized": "9C2",
-    "meaning": "Voltage problem",
-    "common_causes": "Improper supply voltage",
-    "recommended_fix": "Verify outlet and breaker",
+    "meaning": "Electronic control — supply voltage fault",
+    "common_causes": "Improper supply voltage, wiring fault",
+    "recommended_fix": "Verify outlet and breaker; inspect PCB and harness",
     "alias_group_id": "70ea5fd4-8d2f-4727-80df-adaa3cc360b2",
     "related_codes": [
       "9C1",
@@ -3984,13 +4052,28 @@
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "dryer",
-    "code": "FE",
-    "code_normalized": "FE",
-    "meaning": "Frequency error",
-    "common_causes": "Incorrect power frequency",
-    "recommended_fix": "Check power supply",
+    "code": "FC",
+    "code_normalized": "FC",
+    "meaning": "Invalid power source frequency",
+    "common_causes": "Non-standard line frequency, frequency sensor circuit fault",
+    "recommended_fix": "Verify proper 60 Hz supply; inspect frequency sensor circuit and PCB",
     "alias_group_id": "4c4924f6-fa9e-4c05-8861-8e4330716a6c",
     "related_codes": [
+      "FC",
+      "FE"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "dryer",
+    "code": "FE",
+    "code_normalized": "FE",
+    "meaning": "Frequency error (legacy display code)",
+    "common_causes": "Incorrect power frequency",
+    "recommended_fix": "Check power supply and frequency sensor circuit",
+    "alias_group_id": "4c4924f6-fa9e-4c05-8861-8e4330716a6c",
+    "related_codes": [
+      "FC",
       "FE"
     ]
   },
@@ -3999,9 +4082,9 @@
     "equipment_subtype": "dryer",
     "code": "AC",
     "code_normalized": "AC",
-    "meaning": "Communication error",
-    "common_causes": "Main board/UI board communication fault",
-    "recommended_fix": "Inspect harness and boards",
+    "meaning": "Invalid communication (control board)",
+    "common_causes": "PCB or UI harness fault, failed main board",
+    "recommended_fix": "Check PCB and wire harness; replace PCB if fault persists",
     "alias_group_id": "23b883bb-15bd-442c-83ec-ea2abe19a9e9",
     "related_codes": [
       "AC",
@@ -4038,11 +4121,24 @@
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "dryer",
+    "code": "bC2",
+    "code_normalized": "BC2",
+    "meaning": "Incorrect button state (stuck key)",
+    "common_causes": "Display PCB fault, stuck or shorted touch button",
+    "recommended_fix": "Check for stuck keys; inspect display PCB and harness",
+    "alias_group_id": "f7b8c9d0-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "related_codes": [
+      "BC2"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "dryer",
     "code": "CL9",
     "code_normalized": "CL9",
     "meaning": "Vent blockage warning",
-    "common_causes": "Poor airflow",
-    "recommended_fix": "Clean vent system thoroughly",
+    "common_causes": "Poor airflow, clogged lint screen or duct",
+    "recommended_fix": "Clean lint screen and vent system; run vent blockage test if equipped",
     "alias_group_id": "3d4908d9-2243-4f6a-b305-b17311d0020d",
     "related_codes": [
       "CL9"
