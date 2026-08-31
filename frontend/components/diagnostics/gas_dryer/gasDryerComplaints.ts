@@ -4,12 +4,33 @@ export const GAS_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'no_heat',
     label: 'No Heat / Won\'t Ignite',
-    keywords: ['no heat', 'not heating', 'won\'t ignite', 'no flame', 'cold air'],
+    keywords: [
+      'no heat',
+      'not heating',
+      'won\'t ignite',
+      'no flame',
+      'cold air',
+      'f3e1',
+      'f3e2',
+      'f2e1',
+    ],
   },
   {
     id: 'not_drying',
     label: 'Takes Too Long / Damp Clothes',
-    keywords: ['not drying', 'damp', 'wet clothes', 'too long', 'hours to dry'],
+    keywords: [
+      'not drying',
+      'damp',
+      'wet clothes',
+      'too long',
+      'hours to dry',
+      'f4e3',
+      'restricted air flow',
+      'restricted airflow',
+      'af',
+      'f3e6',
+      'f3e7',
+    ],
   },
   {
     id: 'no_spin',
@@ -29,12 +50,24 @@ export const GAS_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'weak_flame',
     label: 'Weak Flame / Goes Out',
-    keywords: ['weak flame', 'flame out', 'yellow flame', 'goes out', 'short cycle'],
+    keywords: ['weak flame', 'flame out', 'yellow flame', 'goes out', 'short cycle', 'f4e3', 'restricted air flow'],
   },
   {
     id: 'noisy',
     label: 'Noisy / Thumping',
     keywords: ['noisy', 'squeal', 'thump', 'grinding', 'rattling'],
+  },
+  {
+    id: 'heats_when_shouldnt',
+    label: 'Heats on AIR / No-Heat Cycle',
+    keywords: [
+      'heats on air',
+      'heats on fluff',
+      'burner on air',
+      'won\'t stop heating',
+      'stuck heat',
+      'f4e1',
+    ],
   },
   {
     id: 'error_code',

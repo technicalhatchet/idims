@@ -42,6 +42,8 @@ import {
 import {
   diffRouting,
   evaluateRouting,
+  getComplaintChipIds,
+  maybeApplyComplaintChipInference,
 } from '../diagnostics/routing/routingEngine';
 import { evaluateRecommendations } from '../diagnostics/routing/recommendationEngine';
 import { getDiagnosticLastMeasurements, generateDiagnosticNotes } from '../../services/api/diagnosticsApi';
@@ -63,6 +65,11 @@ import {
 } from '../../constants/diagnosticTemplates';
 
 export { clearDiagnosticDraft, getDiagnosticDraftKey };
+
+const COMPLAINT_CHIP_INFER_FIELDS = new Set([
+  'customer_complaint.complaint',
+  'customer_complaint.error_codes',
+]);
 
 export default function DiagnosticResultsForm({
   payload,
@@ -549,18 +556,27 @@ export default function DiagnosticResultsForm({
 
   const handleFieldChange = useCallback(
     (key, value) => {
+      const fields = {
+        ...(payloadRef.current?.fields || {}),
+        [key]: value,
+      };
+      const chips = wizardDefinition?.complaintChips || [];
+      if (
+        chips.length &&
+        COMPLAINT_CHIP_INFER_FIELDS.has(key) &&
+        !getComplaintChipIds(fields).length
+      ) {
+        maybeApplyComplaintChipInference(fields, chips);
+      }
       const nextPayload = {
         ...payloadRef.current,
-        fields: {
-          ...(payloadRef.current?.fields || {}),
-          [key]: value,
-        },
+        fields,
       };
       payloadRef.current = nextPayload;
       emitChange(nextPayload);
       queueFieldTimelineEvent(key, value);
     },
-    [emitChange, queueFieldTimelineEvent],
+    [emitChange, queueFieldTimelineEvent, wizardDefinition?.complaintChips],
   );
 
   const handleAppointmentChange = (appointmentId) => {

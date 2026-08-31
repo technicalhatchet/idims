@@ -4,12 +4,24 @@ export const ELECTRIC_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'no_heat',
     label: 'No Heat',
-    keywords: ['no heat', 'not heating', 'cold', 'air cold', 'no warmth'],
+    keywords: ['no heat', 'not heating', 'cold', 'air cold', 'no warmth', 'f4e1', 'f2e1', 'heater relay'],
   },
   {
     id: 'not_drying',
     label: 'Takes Too Long / Damp Clothes',
-    keywords: ['not drying', 'damp', 'wet clothes', 'too long', 'hours to dry'],
+    keywords: [
+      'not drying',
+      'damp',
+      'wet clothes',
+      'too long',
+      'hours to dry',
+      'f4e3',
+      'restricted air flow',
+      'restricted airflow',
+      'af',
+      'f3e6',
+      'f3e7',
+    ],
   },
   {
     id: 'no_spin',
@@ -29,7 +41,20 @@ export const ELECTRIC_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'no_power',
     label: "Dead / Won't Start",
-    keywords: ['no power', 'dead', 'won\'t start', 'tripped breaker', 'no lights'],
+    keywords: ['no power', 'dead', 'won\'t start', 'tripped breaker', 'no lights', 'f4e4', 'l2', 'power failure', 'f6e2'],
+  },
+  {
+    id: 'heats_when_shouldnt',
+    label: 'Heats on AIR / No-Heat Cycle',
+    keywords: [
+      'heats on air',
+      'heats when it shouldnt',
+      'heats on fluff',
+      'heats on no heat',
+      'won\'t stop heating',
+      'stuck heat',
+      'f4e1',
+    ],
   },
   {
     id: 'error_code',

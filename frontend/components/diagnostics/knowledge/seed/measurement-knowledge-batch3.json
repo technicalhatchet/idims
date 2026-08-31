@@ -229,11 +229,11 @@
     "unit": "Ω",
     "inputKind": "resistance",
     "ranges": {
-      "normal": { "min": 8, "max": 15 },
-      "warning": { "min": 5, "max": 20 },
-      "critical": { "below": 1, "above": 30 }
+      "normal": { "min": 8, "max": 25 },
+      "warning": { "min": 5, "max": 35 },
+      "critical": { "below": 1, "above": 50 }
     },
-    "typical": { "min": 10, "max": 12 },
+    "typical": { "min": 10, "max": 20 },
     "openCircuitCritical": true,
     "purpose": "Verify heating element continuity and resistance to rule out open or shorted element on no-heat complaints.",
     "failureModes": [
@@ -242,6 +242,7 @@
     ],
     "testingTips": [
       "Disconnect power before testing at element terminals",
+      "Single element violet-to-center-red often ~10–20 Ω; dual elements in parallel may read ≤50 Ω across heater relays",
       "Use nameplate wattage with Ohm's law (R = V²/W) to sanity-check if spec unknown — common elements run ~5000-5600W at 240V"
     ],
     "notes": "Verify model spec — wattage/resistance varies by brand and dryer capacity",
@@ -264,7 +265,7 @@
     "openCircuitCritical": true,
     "purpose": "Verify thermal fuse continuity — this is a one-time safety fuse that opens permanently if the dryer overheats.",
     "failureModes": [
-      "Open (OL): fuse has tripped — no heat and often no tumble on some models until replaced",
+      "Open (OL): fuse has tripped — on many electric dryers also stops the motor; on gas dryers often stops heat only (fuse in gas valve circuit)",
       "A tripped fuse is a symptom, not a root cause — inspect venting/lint path and cycling thermostat before replacing fuse alone"
     ],
     "testingTips": [
@@ -311,11 +312,11 @@
     "unit": "Ω",
     "inputKind": "resistance",
     "ranges": {
-      "normal": { "min": 1, "max": 10 },
-      "warning": { "min": 0.5, "max": 20 },
-      "critical": { "below": 0.1, "above": 40 }
+      "normal": { "min": 2.7, "max": 3.6 },
+      "warning": { "min": 2.0, "max": 5.0 },
+      "critical": { "below": 0.1, "above": 15 }
     },
-    "typical": { "min": 2, "max": 5 },
+    "typical": { "min": 3.0, "max": 3.5 },
     "openCircuitCritical": true,
     "purpose": "Verify drum motor winding continuity when drum fails to turn or motor hums without turning.",
     "failureModes": [
@@ -323,10 +324,12 @@
       "Motor hums but drum doesn't turn: often a mechanical issue (belt, idler pulley) rather than winding — check both before replacing motor"
     ],
     "testingTips": [
-      "Disconnect motor connector and power before testing",
-      "Also check centrifugal switch continuity (if equipped) since a failed switch can mimic a bad winding symptom"
+      "Disconnect motor connector and power before testing at motor terminals",
+      "Main winding typically 3.3–3.6 Ω; start winding 2.7–3.0 Ω — start much above 3 Ω suggests failed motor",
+      "Motor circuit quick check (door neutral to motor relay) often 1–6 Ω when wiring and motor are good",
+      "Also check belt switch and centrifugal switch — can mimic a bad winding"
     ],
-    "notes": "Universal-motor designs read low resistance and vary by brand — verify against manufacturer spec when known",
+    "notes": "Per-winding values from service data — universal motors vary; verify against manufacturer spec when known",
     "appliesTo": {
       "equipmentSubtypes": ["electric_dryer", "gas_dryer", "stacked_laundry"],
       "templates": []

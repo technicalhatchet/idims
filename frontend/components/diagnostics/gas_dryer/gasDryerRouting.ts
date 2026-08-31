@@ -46,6 +46,12 @@ export const gasDryerRoutingRules: RoutingRule[] = [
     enable: ['visual', 'motor'],
   },
   {
+    id: 'heats_when_shouldnt',
+    label: 'Stuck heat / AIR cycle path',
+    when: ['heats_when_shouldnt', 'heats on air', 'stuck heat', 'burner on air'],
+    enable: ['visual', 'functional', 'ignition', 'motor'],
+  },
+  {
     id: 'error_code',
     label: 'Error code path',
     when: ['error_code', 'error', 'fault'],

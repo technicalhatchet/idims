@@ -43,7 +43,7 @@ export interface FieldVisibilityRule {
 export interface ComplaintChipDefinition {
   id: string;
   label: string;
-  /** Keywords used to pre-select from free-text complaint / WO description */
+  /** Keywords used to pre-select from complaint text, error codes, or WO description */
   keywords?: string[];
 }
 

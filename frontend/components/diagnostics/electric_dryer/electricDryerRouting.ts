@@ -43,10 +43,16 @@ export const electricDryerRoutingRules: RoutingRule[] = [
     enable: ['motor', 'functional'],
   },
   {
+    id: 'heats_when_shouldnt',
+    label: 'Stuck heat / AIR cycle path',
+    when: ['heats_when_shouldnt', 'heats on air', 'stuck heat', 'won\'t stop heating'],
+    enable: ['visual', 'functional', 'heat', 'motor'],
+  },
+  {
     id: 'error_code',
     label: 'Error code path',
     when: ['error_code', 'error', 'fault'],
-    enable: ['motor', 'functional'],
+    enable: ['motor', 'functional', 'heat'],
   },
 ];
 

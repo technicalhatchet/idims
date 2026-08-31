@@ -34,15 +34,26 @@ const ELECTRIC_DRYER_FIELD_KNOWLEDGE: Record<string, string> = {
   'heat_circuit.thermal_fuse': 'dryerThermalFuseOhms',
   'heat_circuit.cycling_thermostat': 'dryerCyclingThermostatOhms',
   'heat_circuit.high_limit': 'dryerCyclingThermostatOhms',
+  'heat_circuit.exhaust_temp': 'dryerExhaustAirTemp',
+  'heat_circuit.thermal_cutoff': 'dryerThermalCutoffOhms',
+  'heat_circuit.outlet_thermistor_kohm': 'dryerExhaustThermistorOhms',
+  'heat_circuit.inlet_thermistor_kohm': 'dryerInletThermistorOhmsElectric',
   'motor_electrical.motor_ohms': 'dryerDrumMotorWindingOhms',
+  'motor_electrical.motor_circuit_ohms': 'dryerMotorCircuitOhms',
 };
 
 const GAS_DRYER_FIELD_KNOWLEDGE: Record<string, string> = {
   'motor_electrical.supply_voltage': 'supplyVoltage120',
   'gas_ignition.igniter_ohms': 'hotSurfaceIgniterOhms',
+  'gas_ignition.igniter_amps': 'hotSurfaceIgniterAmps',
   'gas_ignition.gas_valve_coils': 'gasValveCoilOhms',
+  'gas_ignition.flame_sensor_continuity': 'gasFlameSensorContinuityOhms',
   'motor_electrical.motor_ohms': 'dryerDrumMotorWindingOhms',
+  'motor_electrical.motor_circuit_ohms': 'dryerMotorCircuitOhms',
   'motor_electrical.thermal_fuse': 'dryerThermalFuseOhms',
+  'motor_electrical.exhaust_temp': 'dryerExhaustAirTemp',
+  'motor_electrical.outlet_thermistor_kohm': 'dryerExhaustThermistorOhms',
+  'motor_electrical.inlet_thermistor_kohm': 'dryerInletThermistorOhmsGas',
 };
 
 /** Stacked units vary (electric heat vs gas igniter) — bind unambiguous fields only. */
@@ -52,6 +63,7 @@ const STACKED_LAUNDRY_FIELD_KNOWLEDGE: Record<string, string> = {
   'dryer_measurements.supply_voltage': 'supplyVoltage240',
   'dryer_measurements.motor_ohms': 'dryerDrumMotorWindingOhms',
   'dryer_measurements.thermal_fuse': 'dryerThermalFuseOhms',
+  'dryer_measurements.exhaust_temp': 'dryerExhaustAirTemp',
 };
 
 const AIO_LAUNDRY_FIELD_KNOWLEDGE: Record<string, string> = {
