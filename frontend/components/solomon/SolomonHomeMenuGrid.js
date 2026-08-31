@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import {
-  FaChartBar,
   FaClipboardList,
+  FaHashtag,
   FaSearch,
   FaWrench,
 } from 'react-icons/fa';
@@ -34,10 +34,10 @@ const TILES = [
     iconBg: 'bg-purple-500/15 text-purple-400',
   },
   {
-    hrefKey: 'performance',
-    label: 'Performance',
-    subtitle: 'Your stats, accuracy and insights',
-    icon: FaChartBar,
+    href: '/solomon/codes',
+    label: 'Error codes',
+    subtitle: 'Look up manufacturer fault codes and fixes',
+    icon: FaHashtag,
     accent: 'bg-emerald-400',
     iconBg: 'bg-emerald-500/15 text-emerald-400',
   },
@@ -63,13 +63,11 @@ function MenuTile({ href, label, subtitle, icon: Icon, accent, iconBg }) {
   );
 }
 
-export default function SolomonHomeMenuGrid({ isDiyer, isStaff }) {
+export default function SolomonHomeMenuGrid({ isDiyer }) {
   return (
     <div className="grid grid-cols-2 gap-2">
       {TILES.map((tile) => {
-        const href = tile.hrefKey === 'performance'
-          ? (isStaff ? '/techdashboard/performance' : '/solomon/outcomes')
-          : tile.href;
+        const href = tile.href;
         const label = tile.labelKey === 'outcomes'
           ? (isDiyer ? 'Repair notes' : 'Repair outcomes')
           : tile.label;
