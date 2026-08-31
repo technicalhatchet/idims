@@ -4149,28 +4149,33 @@
     "equipment_subtype": "refrigerator",
     "code": "22E",
     "code_normalized": "22E",
-    "meaning": "Fridge fan error",
-    "common_causes": "Ice buildup, failed evaporator fan",
-    "recommended_fix": "Defrost unit, test fan motor",
+    "meaning": "Freezer evaporator fan error (F-FAN)",
+    "common_causes": "Ice on evaporator, failed F-FAN motor, open CN20 harness (pins 15–17)",
+    "recommended_fix": "Defrost; CN20 fan feedback 7–12 V at pins 22–24; replace fan motor if voltage OK but no spin",
     "alias_group_id": "911cb0e8-56ab-4845-9e57-c16b48b71a92",
-    "related_codes": [
-      "22E",
-      "22C"
-    ]
+    "related_codes": ["22E", "22C", "22ER"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "22C",
     "code_normalized": "22C",
-    "meaning": "Fridge fan error",
-    "common_causes": "Ice buildup, failed evaporator fan",
-    "recommended_fix": "Defrost unit, test fan motor",
+    "meaning": "Fridge compartment fan error (C-FAN)",
+    "common_causes": "Ice buildup, failed C-FAN motor, CN20 harness fault",
+    "recommended_fix": "Defrost; verify C-FAN feedback 7–12 V; test motor — weak FF cooling common",
     "alias_group_id": "911cb0e8-56ab-4845-9e57-c16b48b71a92",
-    "related_codes": [
-      "22E",
-      "22C"
-    ]
+    "related_codes": ["22E", "22C", "22ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "22ER",
+    "code_normalized": "22ER",
+    "meaning": "Evaporator fan error (service LED F-FAN / C-FAN)",
+    "common_causes": "Same as 22E/22C — ice, fan motor, harness CN20",
+    "recommended_fix": "Service manual §4-2 fan voltage test; defrost then fan motor",
+    "alias_group_id": "911cb0e8-56ab-4845-9e57-c16b48b71a92",
+    "related_codes": ["22E", "22C", "22ER"]
   },
   {
     "manufacturer": "Samsung",
@@ -4178,12 +4183,10 @@
     "code": "33E",
     "code_normalized": "33E",
     "meaning": "Ice pipe heater error",
-    "common_causes": "Heater open",
-    "recommended_fix": "Check heater continuity",
+    "common_causes": "Open ice-pipe heater, CN90 harness pins 1–5",
+    "recommended_fix": "Check heater voltage at CN90; continuity of ice-pipe heater assembly",
     "alias_group_id": "5fb07505-578c-4ddf-a248-e5d8ff887a3d",
-    "related_codes": [
-      "33E"
-    ]
+    "related_codes": ["33E", "33ER"]
   },
   {
     "manufacturer": "Samsung",
@@ -4191,13 +4194,10 @@
     "code": "40E",
     "code_normalized": "40E",
     "meaning": "Ice maker fan error",
-    "common_causes": "Frozen fan or failed motor",
-    "recommended_fix": "Defrost and test fan",
+    "common_causes": "Frozen fan duct, failed ice-maker fan motor",
+    "recommended_fix": "Defrost ice room; test fan motor and harness at ice maker module",
     "alias_group_id": "4caef159-d4f6-4727-ae6c-341bc18ade33",
-    "related_codes": [
-      "40E",
-      "40C"
-    ]
+    "related_codes": ["40E", "40C"]
   },
   {
     "manufacturer": "Samsung",
@@ -4205,39 +4205,164 @@
     "code": "40C",
     "code_normalized": "40C",
     "meaning": "Ice maker fan error",
-    "common_causes": "Frozen fan or failed motor",
-    "recommended_fix": "Defrost and test fan",
+    "common_causes": "Frozen fan or failed motor in ice room",
+    "recommended_fix": "Defrost and test ice maker compartment fan",
     "alias_group_id": "4caef159-d4f6-4727-ae6c-341bc18ade33",
-    "related_codes": [
-      "40E",
-      "40C"
-    ]
+    "related_codes": ["40E", "40C"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "41E",
     "code_normalized": "41E",
-    "meaning": "Ice maker communication error",
-    "common_causes": "PCB or ice maker fault",
-    "recommended_fix": "Inspect harness and control",
+    "meaning": "Main board ↔ display panel communication error",
+    "common_causes": "Loose UI harness, failed display PCB or main PCB (41Er on service LED)",
+    "recommended_fix": "Reseat display harness; verify 41Er — not ice maker on SxS service manual",
     "alias_group_id": "137e71bb-00bf-42ec-af31-b8c80867eaa6",
-    "related_codes": [
-      "41E"
-    ]
+    "related_codes": ["41E", "41ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "41ER",
+    "code_normalized": "41ER",
+    "meaning": "Main board ↔ display panel communication error",
+    "common_causes": "Display harness, UI PCB, or main PCB communication fault",
+    "recommended_fix": "Service manual §4-2 41Er — check panel ↔ main harness before replacing boards",
+    "alias_group_id": "137e71bb-00bf-42ec-af31-b8c80867eaa6",
+    "related_codes": ["41E", "41ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "44E",
+    "code_normalized": "44E",
+    "meaning": "Main board ↔ inverter communication error",
+    "common_causes": "Inverter harness CN70, failed inverter PCB or main PCB (44Er)",
+    "recommended_fix": "Reseat inverter harness; check inverter LED blink codes §4-2",
+    "alias_group_id": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8",
+    "related_codes": ["44E", "44ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "44ER",
+    "code_normalized": "44ER",
+    "meaning": "Main board ↔ inverter communication error",
+    "common_causes": "Inverter comm harness, inverter board, main PCB",
+    "recommended_fix": "44Er service LED — harness then inverter then main board",
+    "alias_group_id": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8",
+    "related_codes": ["44E", "44ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "46E",
+    "code_normalized": "46E",
+    "meaning": "Main board ↔ I/O expander communication error",
+    "common_causes": "I/O expander harness, failed expander or main PCB (46Er)",
+    "recommended_fix": "Reseat I/O expander connector; replace expander before main if isolated",
+    "alias_group_id": "9e4b3c2d-5e6f-7081-92a3-b4c5d6e7f809",
+    "related_codes": ["46E", "46ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "46ER",
+    "code_normalized": "46ER",
+    "meaning": "Main board ↔ I/O expander communication error",
+    "common_causes": "I/O expander PCB or harness fault",
+    "recommended_fix": "Service manual §4-2 46Er — expander harness and board",
+    "alias_group_id": "9e4b3c2d-5e6f-7081-92a3-b4c5d6e7f809",
+    "related_codes": ["46E", "46ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "47E",
+    "code_normalized": "47E",
+    "meaning": "Dispenser panel communication error",
+    "common_causes": "Dispenser UI harness, dispenser PCB (47Er)",
+    "recommended_fix": "Check dispenser panel harness at door; reseat before board swap",
+    "alias_group_id": "af5c4d3e-6f70-8192-a3b4-c5d6e7f8091a",
+    "related_codes": ["47E", "47ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "47ER",
+    "code_normalized": "47ER",
+    "meaning": "Dispenser panel communication error",
+    "common_causes": "Dispenser display/harness fault",
+    "recommended_fix": "47Er — dispenser panel comm; door harness first",
+    "alias_group_id": "af5c4d3e-6f70-8192-a3b4-c5d6e7f8091a",
+    "related_codes": ["47E", "47ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "52E",
+    "code_normalized": "52E",
+    "meaning": "WiFi module communication error",
+    "common_causes": "WiFi module harness, failed SmartThings/WiFi board (52Er)",
+    "recommended_fix": "Reseat WiFi module; cooling unaffected — disable module to verify if needed",
+    "alias_group_id": "b06d5e4f-7081-92a3-b4c5-d6e7f8091a2b",
+    "related_codes": ["52E", "52ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "52ER",
+    "code_normalized": "52ER",
+    "meaning": "WiFi module communication error",
+    "common_causes": "WiFi PCB or harness to main board",
+    "recommended_fix": "52Er service LED — WiFi module harness and board",
+    "alias_group_id": "b06d5e4f-7081-92a3-b4c5-d6e7f8091a2b",
+    "related_codes": ["52E", "52ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "21E",
+    "code_normalized": "21E",
+    "meaning": "Door hinge / display harness error",
+    "common_causes": "Broken LVDS at top hinge, flex fatigue from door swing",
+    "recommended_fix": "Inspect top-hinge harness; related to PC ER flicker — reseat or replace door harness",
+    "alias_group_id": "c17e6f50-8192-a3b4-c5d6-e7f8091a2b3c",
+    "related_codes": ["21E", "PCER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "8E",
+    "code_normalized": "8E",
+    "meaning": "Fridge compartment sensor error (R-Sensor)",
+    "common_causes": "Open fridge thermistor, CN40 pins 18–20 harness",
+    "recommended_fix": "Thermistor voltage ~4.5–1.0 V warm→cold at CN40; replace R-Sensor",
+    "alias_group_id": "d28f7051-92a3-b4c5-d6e7-f8091a2b3c4d",
+    "related_codes": ["8E", "8ER"]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "refrigerator",
+    "code": "14E",
+    "code_normalized": "14E",
+    "meaning": "Humidity sensor error",
+    "common_causes": "Failed humidity sensor at CN40, harness fault",
+    "recommended_fix": "Check humidity sensor voltage per §4-2; replace sensor if out of range",
+    "alias_group_id": "e3908162-a3b4-c5d6-e7f8-091a2b3c4d5e",
+    "related_codes": ["14E", "14ER"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "84C",
     "code_normalized": "84C",
-    "meaning": "Compressor lock",
-    "common_causes": "Compressor startup issue",
-    "recommended_fix": "Check inverter board and compressor",
+    "meaning": "Compressor lock / failed start",
+    "common_causes": "Locked compressor rotor, failed inverter, low supply voltage",
+    "recommended_fix": "Inverter LED blink pattern; amp draw on start; compressor Ω if inverter OK",
     "alias_group_id": "c687735c-b314-49e4-bc47-9467104f52bf",
-    "related_codes": [
-      "84C"
-    ]
+    "related_codes": ["84C", "86E"]
   },
   {
     "manufacturer": "Samsung",
@@ -4245,12 +4370,10 @@
     "code": "86E",
     "code_normalized": "86E",
     "meaning": "Inverter compressor fault",
-    "common_causes": "Inverter PCB issue",
-    "recommended_fix": "Test inverter output",
+    "common_causes": "Inverter PCB IPM fault, over/under voltage, harness CN70",
+    "recommended_fix": "Read inverter fault LEDs §4-2; test supply; replace inverter before compressor",
     "alias_group_id": "6ece3fe8-659a-403f-97b3-5eae2a01be54",
-    "related_codes": [
-      "86E"
-    ]
+    "related_codes": ["84C", "86E", "44E"]
   },
   {
     "manufacturer": "Samsung",
@@ -4258,81 +4381,65 @@
     "code": "PC ER",
     "code_normalized": "PCER",
     "meaning": "Door communication error",
-    "common_causes": "Loose connector at top hinge",
-    "recommended_fix": "Reseat door harness",
+    "common_causes": "Loose LVDS connector at top hinge, flex harness damage",
+    "recommended_fix": "Reseat door harness at hinge; check 21E if display drops when door moves",
     "alias_group_id": "29e0346a-473c-4a19-abf4-0297e43b3259",
-    "related_codes": [
-      "PCER"
-    ]
+    "related_codes": ["PCER", "21E"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "OF  OF",
     "code_normalized": "OFOF",
-    "meaning": "Cooling off mode",
-    "common_causes": "Demo mode enabled",
-    "recommended_fix": "Disable showroom/demo mode",
+    "meaning": "Cooling off mode (demo / showroom)",
+    "common_causes": "Demo mode enabled — compressor off, fans run, lights on",
+    "recommended_fix": "Hold Fridge + Power Cool ~6 s to exit; not a sealed-system fault",
     "alias_group_id": "97ff9b29-d518-4897-a9d3-cadb8ddac42a",
-    "related_codes": [
-      "OFOF",
-      "OFF"
-    ]
+    "related_codes": ["OFOF", "OFF", "O FF"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "O FF",
     "code_normalized": "OFF",
-    "meaning": "Cooling off mode",
-    "common_causes": "Demo mode enabled",
-    "recommended_fix": "Disable showroom/demo mode",
+    "meaning": "Cooling off mode (demo / showroom)",
+    "common_causes": "Cooling Off enabled at install or accidental key sequence",
+    "recommended_fix": "Exit Cooling Off before diagnosing warm cabinet — compressor is intentionally off",
     "alias_group_id": "97ff9b29-d518-4897-a9d3-cadb8ddac42a",
-    "related_codes": [
-      "OFOF",
-      "OFF"
-    ]
+    "related_codes": ["OFOF", "OFF", "O FF"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "5E",
     "code_normalized": "5E",
-    "meaning": "Defrost sensor error",
-    "common_causes": "Open thermistor",
-    "recommended_fix": "Test sensor resistance",
+    "meaning": "Defrost sensor error (F-DEF-Sensor)",
+    "common_causes": "Open defrost thermistor, CN20 pins 5–7 harness",
+    "recommended_fix": "Defrost thermistor ~4.5–1.0 V at CN20; F-DEF heater ~63 Ω CN70/CN85 if defrost fault LED",
     "alias_group_id": "91d3fc5e-95d1-4bd0-94b1-1c2015215a0f",
-    "related_codes": [
-      "5E",
-      "SE"
-    ]
+    "related_codes": ["5E", "SE"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "SE",
     "code_normalized": "SE",
-    "meaning": "Defrost sensor error",
-    "common_causes": "Open thermistor",
-    "recommended_fix": "Test sensor resistance",
+    "meaning": "Defrost sensor error (F-DEF-Sensor)",
+    "common_causes": "Defrost thermistor out of range or open",
+    "recommended_fix": "Same as 5E — CN20 defrost sensor voltage; check defrost heater and thermal fuse if icing",
     "alias_group_id": "91d3fc5e-95d1-4bd0-94b1-1c2015215a0f",
-    "related_codes": [
-      "5E",
-      "SE"
-    ]
+    "related_codes": ["5E", "SE"]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "RD",
     "code_normalized": "RD",
-    "meaning": "Damper error",
-    "common_causes": "Stuck air damper",
-    "recommended_fix": "Inspect damper motor",
+    "meaning": "Fresh-food damper error",
+    "common_causes": "Stuck damper motor, failed damper heater, CN40 harness",
+    "recommended_fix": "Check damper motor movement and heater voltage at CN40; weak FF cooling typical",
     "alias_group_id": "157bd1bd-e10f-487b-a447-f81e0962fc13",
-    "related_codes": [
-      "RD"
-    ]
+    "related_codes": ["RD"]
   },
   {
     "manufacturer": "Samsung",

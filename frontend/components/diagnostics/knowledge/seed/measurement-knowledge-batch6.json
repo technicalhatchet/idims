@@ -1,0 +1,108 @@
+[
+  {
+    "id": "refrigeratorThermistorVoltage",
+    "name": "Cabinet Thermistor Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 1.0, "max": 4.5 },
+      "warning": { "min": 0.5, "max": 4.8 },
+      "critical": { "below": 0.2, "above": 5.0 }
+    },
+    "typical": { "min": 1.5, "max": 3.5 },
+    "purpose": "Verify NTC thermistor signal at main PCB connector — voltage falls as temperature drops.",
+    "failureModes": [
+      "Stuck high (~4.5 V) or low (~0 V) = open/short or harness fault",
+      "Out of range vs cabinet temp = failed sensor or wrong connector pin"
+    ],
+    "testingTips": [
+      "Samsung SxS: CN20/CN40 pins per service manual §4-2 (typically 4.5 V warm → 1.0 V cold)",
+      "Compare multiple sensors if one code points to a specific LED (F-Sensor, R-Sensor, F-DEF-Sensor)"
+    ],
+    "notes": "Voltage-based check is often faster than kΩ table lookup on Samsung inverter platforms.",
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["thermistor", "sensor_check"]
+  },
+  {
+    "id": "refrigeratorEvapFanFeedbackVoltage",
+    "name": "Evaporator Fan Feedback Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 7, "max": 12 },
+      "warning": { "min": 5, "max": 13 },
+      "critical": { "below": 2, "above": 14 }
+    },
+    "typical": { "min": 8, "max": 11 },
+    "purpose": "Confirm BLDC evaporator fan feedback signal while fan is commanded on.",
+    "failureModes": [
+      "No 7–12 V feedback with command present = motor, harness, or FG line fault",
+      "Intermittent feedback = ice drag, loose connector, or failing fan PCB"
+    ],
+    "testingTips": [
+      "Samsung F-FAN CN20 pins 15–17; C-FAN pins 22–24 — fan may stop with door open",
+      "Allow 1 min after door close at high ambient before calling F-fan failed"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["evap_fan", "airflow"]
+  },
+  {
+    "id": "refrigeratorInverterIpmVoltage",
+    "name": "Inverter IPM DC Supply",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 13.5, "max": 20 },
+      "warning": { "min": 12, "max": 22 },
+      "critical": { "below": 12 }
+    },
+    "typical": { "min": 14, "max": 18 },
+    "purpose": "Verify inverter has adequate DC bus for compressor start on variable-speed systems.",
+    "failureModes": [
+      "Under 13.5 V DC = comp starting failure / IPM fault codes (84C, 86E)",
+      "Low voltage with good line supply = inverter board or harness CN70"
+    ],
+    "testingTips": [
+      "Read per manufacturer inverter LED blink pattern after 5-minute lockout",
+      "Check compressor terminal shorts U/V/W before replacing inverter"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["compressor", "sealed_system", "control_board"]
+  },
+  {
+    "id": "samsungRefrigeratorDefrostHeaterOhms",
+    "name": "Samsung SxS Defrost Heater Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 58, "max": 68 },
+      "warning": { "min": 50, "max": 75 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 61, "max": 66 },
+    "openCircuitCritical": true,
+    "purpose": "Verify Samsung side-by-side defrost heater resistance at CN70/CN85.",
+    "failureModes": [
+      "0 Ω = heater short — power off immediately",
+      "∞ Ω = open heater or open defrost bimetal / thermal fuse"
+    ],
+    "testingTips": [
+      "Disconnect power; measure CN70 pin 5 to CN85 pin 3 per Samsung §4-2",
+      "Resistance varies slightly with input voltage — ±7% from 63 Ω nominal"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  }
+]

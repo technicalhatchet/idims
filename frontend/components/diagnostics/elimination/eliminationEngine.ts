@@ -20,24 +20,28 @@ function buildOppositeMap(hypotheses: EliminationHypothesis[]): Map<string, stri
 }
 
 function eliminationWhenMatches(
-  when: EliminationWhenClause,
+  when: EliminationWhenClause | EliminationWhenClause[],
   complaintChipIds: string[],
   complaintText: string,
   fields: Record<string, unknown>,
   measurementStatuses?: Map<string, MeasurementEvaluation>,
 ): boolean {
-  if (when.type === 'measurement') {
-    const evaluation = measurementStatuses?.get(when.knowledgeId);
-    if (!evaluation) return false;
-    return (when.statusIn || []).includes(evaluation.status);
-  }
-  if (when.type === 'chip') {
-    return complaintChipIds.includes(when.id);
-  }
-  if (when.type === 'field') {
-    return ruleWhenMatches([when], complaintChipIds, complaintText, fields, measurementStatuses);
-  }
-  return false;
+  const clauses = Array.isArray(when) ? when : [when];
+  if (!clauses.length) return false;
+  return clauses.every((clause) => {
+    if (clause.type === 'measurement') {
+      const evaluation = measurementStatuses?.get(clause.knowledgeId);
+      if (!evaluation) return false;
+      return (clause.statusIn || []).includes(evaluation.status);
+    }
+    if (clause.type === 'chip') {
+      return complaintChipIds.includes(clause.id);
+    }
+    if (clause.type === 'field') {
+      return ruleWhenMatches([clause], complaintChipIds, complaintText, fields, measurementStatuses);
+    }
+    return false;
+  });
 }
 
 export function evaluateElimination(

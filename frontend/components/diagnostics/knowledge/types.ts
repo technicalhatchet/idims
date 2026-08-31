@@ -95,7 +95,7 @@ export type EliminationWhenClause =
 
 export interface EliminationRule {
   id: string;
-  when: EliminationWhenClause;
+  when: EliminationWhenClause | EliminationWhenClause[];
   eliminate?: string[];
   /** Measurement or functional-test proof — shown as Confirmed. */
   confirm?: string[];

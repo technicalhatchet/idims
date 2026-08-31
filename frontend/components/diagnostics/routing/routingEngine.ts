@@ -82,13 +82,48 @@ function expandErrorCodeTokens(text: string): string {
     extras.push('f2e1', 'user interface', 'error');
   }
 
+  // Samsung refrigerator codes (SxS service manual + consumer display)
+  if (/\b22[ec]\b/.test(base)) {
+    extras.push('evap fan', 'frost buildup', 'not cooling', 'weak cooling');
+  }
+  if (/\b40[ec]\b/.test(base)) {
+    extras.push('ice maker', 'evap fan', 'frost');
+  }
+  if (/\b(5e|8e|14e|21e)\b/.test(base)) {
+    extras.push('thermistor', 'sensor', 'defrost');
+  }
+  if (/\b33e\b/.test(base)) {
+    extras.push('ice maker', 'defrost heater');
+  }
+  if (/\b(41|44|46|47|52)e?r?\b/.test(base)) {
+    extras.push('control board', 'communication', 'error');
+  }
+  if (/\b(84c|86e)\b/.test(base)) {
+    extras.push('compressor', 'inverter', 'not cooling', 'sealed system');
+  }
+  if (/\b(pcer|pc er)\b/.test(base) || base.includes('pc er')) {
+    extras.push('door', 'communication', 'hinge');
+  }
+  if (/\b(ofof|o ff|off)\b/.test(base) && base.includes('cool')) {
+    extras.push('demo mode', 'cooling off');
+  } else   if (/\b(ofof|o ff)\b/.test(base)) {
+    extras.push('demo mode', 'cooling off', 'not cooling');
+  }
+  if (/\b(cooling off|demo mode|exhibition|showroom)\b/.test(base)) {
+    extras.push('cooling off', 'demo mode', 'compressor off');
+  }
+  if (/\brd\b/.test(base)) {
+    extras.push('damper', 'weak cooling', 'airflow');
+  }
+
   return extras.length ? `${base} ${extras.join(' ')}` : base;
 }
 
 function hasStructuredErrorCode(text: string): boolean {
   const blob = expandErrorCodeTokens(text);
   if (/\bf\d+e\d+\b/.test(blob)) return true;
-  return /\b(tc5?|9c1|hc|he|fc|bc2|dc|df|ac)\b/.test(blob);
+  if (/\b(tc5?|9c1|hc|he|fc|bc2|dc|df|ac)\b/.test(blob)) return true;
+  return /\b\d{1,2}[ec]\b/.test(blob) || /\b\d{2}er\b/.test(blob) || /\b(pcer|ofof|o ff)\b/.test(blob);
 }
 
 export function inferComplaintChipIds(

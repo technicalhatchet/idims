@@ -8,7 +8,8 @@
     { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue", "no_power"] },
     { "id": "water_dispenser", "label": "Water / Dispenser", "dmaTags": ["water_dispenser", "inlet_valve", "filter"] },
     { "id": "ice_maker", "label": "Ice Maker", "dmaTags": ["ice_maker", "no_ice"] },
-    { "id": "control_board", "label": "Controls / Sensors", "dmaTags": ["thermistor", "control_board", "sensor_check"] }
+    { "id": "control_board", "label": "Controls / Sensors", "dmaTags": ["thermistor", "control_board", "sensor_check"] },
+    { "id": "demo_mode", "label": "Cooling Off / Demo", "dmaTags": ["control_board", "demo_mode"] }
   ],
   "hypotheses": [
     { "id": "defrost_heater_ok", "category": "defrost_system", "label": "Defrost heater good", "oppositeId": "defrost_heater_failed" },
@@ -24,6 +25,14 @@
     { "id": "compressor_ok", "category": "sealed_system", "label": "Compressor running normally", "oppositeId": "compressor_failed" },
     { "id": "compressor_failed", "category": "sealed_system", "label": "Compressor / start issue", "oppositeId": "compressor_ok" },
     { "id": "sealed_system_fault", "category": "sealed_system", "label": "Sealed system restriction/leak" },
+    { "id": "inverter_ok", "category": "sealed_system", "label": "Inverter board OK", "oppositeId": "inverter_failed" },
+    { "id": "inverter_failed", "category": "sealed_system", "label": "Inverter board fault", "oppositeId": "inverter_ok" },
+    { "id": "damper_ok", "category": "airflow", "label": "Damper OK", "oppositeId": "damper_failed" },
+    { "id": "damper_failed", "category": "airflow", "label": "Damper motor / heater fault", "oppositeId": "damper_ok" },
+    { "id": "door_switch_ok", "category": "door_seal", "label": "Door switch OK", "oppositeId": "door_switch_failed" },
+    { "id": "door_switch_failed", "category": "door_seal", "label": "Door reed switch fault", "oppositeId": "door_switch_ok" },
+    { "id": "cooling_off_active", "category": "demo_mode", "label": "Cooling Off / demo active", "oppositeId": "cooling_off_cleared" },
+    { "id": "cooling_off_cleared", "category": "demo_mode", "label": "Cooling Off ruled out", "oppositeId": "cooling_off_active" },
     { "id": "door_alignment_ok", "category": "door_seal", "label": "Door alignment OK", "oppositeId": "door_alignment_fault" },
     { "id": "door_alignment_fault", "category": "door_seal", "label": "Door alignment fault", "oppositeId": "door_alignment_ok" },
     { "id": "gasket_ok", "category": "door_seal", "label": "Door gasket OK", "oppositeId": "gasket_fault" },
@@ -43,6 +52,12 @@
       "when": { "type": "measurement", "knowledgeId": "defrostHeaterOhms", "statusIn": ["normal"] },
       "eliminate": ["defrost_heater_failed"],
       "confirm": ["defrost_heater_ok"]
+    },
+    {
+      "id": "samsung_heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "samsungRefrigeratorDefrostHeaterOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_heater_ok"],
+      "confirm": ["defrost_heater_failed"]
     },
     {
       "id": "defrost_thermostat_ol",
@@ -75,10 +90,37 @@
       "confirm": ["compressor_failed"]
     },
     {
+      "id": "compressor_not_running_demo_cleared",
+      "when": [
+        { "type": "field", "path": "functional_checks.compressor_running", "equals": "no" },
+        { "type": "field", "path": "commonly_missed.cooling_off_ruled_out", "equals": "checked" }
+      ],
+      "eliminate": ["cooling_off_active"],
+      "confirm": ["compressor_failed"]
+    },
+    {
+      "id": "fans_on_comp_off_demo",
+      "when": { "type": "field", "path": "functional_checks.fans_on_compressor_off", "equals": "yes" },
+      "eliminate": ["cooling_off_cleared", "sealed_system_fault", "compressor_failed"],
+      "confirm": ["cooling_off_active"]
+    },
+    {
+      "id": "cooling_off_ruled_out",
+      "when": { "type": "field", "path": "commonly_missed.cooling_off_ruled_out", "equals": "checked" },
+      "eliminate": ["cooling_off_active"],
+      "confirm": ["cooling_off_cleared"]
+    },
+    {
       "id": "compressor_running_low_amps",
       "when": { "type": "measurement", "knowledgeId": "compressorRunAmps", "statusIn": ["critical", "warning"] },
       "eliminate": ["compressor_ok"],
       "confirm": ["compressor_failed", "sealed_system_fault"]
+    },
+    {
+      "id": "inverter_ipm_low",
+      "when": { "type": "measurement", "knowledgeId": "refrigeratorInverterIpmVoltage", "statusIn": ["critical", "warning"] },
+      "eliminate": ["inverter_ok"],
+      "confirm": ["inverter_failed"]
     },
     {
       "id": "evap_fan_no",
@@ -87,10 +129,40 @@
       "confirm": ["evap_fan_failed"]
     },
     {
+      "id": "evap_fan_feedback_low",
+      "when": { "type": "measurement", "knowledgeId": "refrigeratorEvapFanFeedbackVoltage", "statusIn": ["critical"] },
+      "eliminate": ["evap_fan_ok"],
+      "confirm": ["evap_fan_failed"]
+    },
+    {
       "id": "condenser_fan_no",
       "when": { "type": "field", "path": "functional_checks.condenser_fan_running", "equals": "no" },
       "eliminate": ["condenser_fan_ok"],
       "confirm": ["condenser_fan_failed"]
+    },
+    {
+      "id": "damper_bad",
+      "when": { "type": "field", "path": "functional_checks.damper_operation", "equals": "bad" },
+      "eliminate": ["damper_ok"],
+      "confirm": ["damper_failed"]
+    },
+    {
+      "id": "damper_good",
+      "when": { "type": "field", "path": "functional_checks.damper_operation", "equals": "good" },
+      "eliminate": ["damper_failed"],
+      "confirm": ["damper_ok"]
+    },
+    {
+      "id": "door_switch_bad",
+      "when": { "type": "field", "path": "functional_checks.door_switch", "equals": "no" },
+      "eliminate": ["door_switch_ok"],
+      "confirm": ["door_switch_failed"]
+    },
+    {
+      "id": "door_switch_good",
+      "when": { "type": "field", "path": "functional_checks.door_switch", "equals": "yes" },
+      "eliminate": ["door_switch_failed"],
+      "confirm": ["door_switch_ok"]
     },
     {
       "id": "door_alignment_good",
@@ -131,6 +203,17 @@
       "id": "heavy_frost_yes",
       "when": { "type": "field", "path": "visual_inspection.frost_present", "equals": "yes" },
       "suspect": ["evap_fan_failed", "defrost_heater_failed"]
+    },
+    {
+      "id": "cooling_off_chip",
+      "when": { "type": "chip", "id": "cooling_off" },
+      "suspect": ["cooling_off_active"],
+      "eliminate": ["sealed_system_fault"]
+    },
+    {
+      "id": "weak_ff_damper_suspect",
+      "when": { "type": "chip", "id": "weak_cooling_ff" },
+      "suspect": ["damper_failed", "evap_fan_failed"]
     }
   ]
 }

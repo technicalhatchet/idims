@@ -1,0 +1,3945 @@
+
+
+===== PAGE 1 =====
+
+REFRIGERATOR
+SIDE BY SIDE TYPE
+Basic Model : RS22R5561**
+Project Name : RS5300TC
+RS5300T
+Model Code : RS22T5561**/**
+RS22T5201**/**
+RS22T5200**/**
+RS27T5561**/**
+RS27T5200**/**
+RS28T5B00**/**
+REFRIGERATOR CONTENTS
+1.PRECAUTIONS (SAFETY WARNINGS·······················5
+2.PRODUCT SPECIFICATIONS ·······································8
+3.DISASSEMBLY & REASSEMBLY ·······························26
+4.CHECK THE INSTALLATION STATUS ················53
+5.SELF DIAGNOSIS & TROUBLE SHOOTING ·····96
+6.PCB DIAGRAM ·····················································111
+7. WIRING DIAGRAM ················································ 116
+RS22T5561** RS22T5200** RS28T5B00**
+RS27T5561** RS22T5201** 8.BLOCK DIAGRAM ·····················································119
+RS27T5200**
+9.REFERENCE INFORMATION ·····························122
+
+===== PAGE 2 =====
+
+WARNING
+IMPORTANT SAFETY NOTICE
+The service guide is for service technicians with sufficient background in
+electrical, electronic and mechanical engineering.
+Any attempt to repair the appliance yourself may result in personal injury
+and property damage.
+The manufacturer or dealer will not be held responsible for the
+interpretation of this information.
+All rights reserved. This service guide may not be reproduced in whole or as a
+part in any form whatsoever without the written permission of the SAMSUNG
+ELECTRONICS Company.
+
+===== PAGE 3 =====
+
+Contents
+1. PRECAUTIONS (SAFETY WARNINGS) ..........................................................................................5
+2. PRODUCT SPECIFICATIONS ........................................................................................................8
+2-1. Introduction of Main Function ............................................................................................................8
+2-2. Model Speci昀椀cation ..............................................................................................................................9
+2-3. Basic Speci昀椀cation .............................................................................................................................10
+2-4. Interior Views .......................................................................................................................................13
+2-5. Dimensions (mm/inch) .......................................................................................................................15
+2-6. Refrigerant Route in Refrigeration Cycle..............................................................................................16
+2-7. Cooling air Circulation.... ........................................................................................................................17
+2-8. Fridge Manager .............................................................................................................................. 18
+2-9. Using the control panel ......................................................................................................................20
+2-10. Optional Material Specification ...................................................................................................... 25
+3. DISASSEMBLY & REASSEMBLY ................................................................................................ 26
+3-1. Precaution ............................................................................................................................................ 26
+3-2. Interior-Fridge .................................................................................................................................... 27
+3-3. R-Compartment Duct ........................................................................................................................ 28
+3-4. Cover-Display .......................................................................................................................................29
+3-5. Dispenser Display & Assy Guide Ice Route ..................................................................................... 30
+3-6. Dispenser Display & Assy Case Ice Route ....................................................................................... 31
+3-7. Assy Lever Dispenser .......................................................................................................................... 32
+3-8. Interior-Freezer. ...................................................................................................................................33
+3-9. F-Compartment Duct ......................................................................................................................... 34
+3-10. Assy Door Disassembling (FreezerDoor) ...................................................................................... 37
+3-11. Assy Door Disassembling (Fridge Door) ........................................................................................ 39
+3-12. Evaporator .......................................................................................................................................... 40
+3-13. Main PCB and Inverter PCB Disassembling (whole) ................................................................... 41
+3-14. Comp Cooling Fan .............................................................................................................................42
+3-15. Relay Cover disassembling ..............................................................................................................43
+3-16. Step Valve Disassembling (whole) ................................................................................................ 44
+3-17. Ice Maker Compartment (Indoor Auger Motor) ............................................................................ 45
+3-18. Water tank .......................................................................................................................................... 47
+3-19. LED Lamp ........................................................................................................................................... 48
+3-20. LCD ...................................................................................................................................................... 49
+3-21. Assy Panel-Camera ........................................................................................................................... 50
+3-22. How to remove the subcomponents from the Assy Case Display ........................................... 51
+3-23. Removing the USB ........................................................................................................................... 52
+4. CHECK THE INSTALLATION STATUS ..........................................................................................53
+4-1. Adjust the leveling feet and door height .........................................................................................53
+4-2. Function for failure diagnosis ........................................................................................................... 58
+4-3. Diagnostic method according to the trouble symptom (Flow Chart) ....................................... 94
+
+===== PAGE 4 =====
+
+Contents
+5. SELF DIAGNOSIS & TROUBLE SHOOTING ............................................................................... 96
+5-1. Power Not Supplied ............................................................................................................................ 96
+5-2. Unable to Defrost ............................................................................................................................... 97
+5-3. Self-Diagnosis Error (Defective Sensor) ......................................................................................... 98
+5-4. When Alarm Sound continues (Buzzer Sound) .............................................................................. 99
+5-5. When PANEL PBA operates abnormally ........................................................................................101
+5-6. When Fan does not operate ............................................................................................................102
+5-7. When the internal lamp of the freezer/fridge does not light up ...............................................103
+5-8. LED blinking frequency depending on protecting functions.................................................... 104
+5-9. When the LCD does not work properly ......................................................................................... 105
+5-10. When it does not respond to touch.............................................................................................. 106
+5-11. When the Wi-Fi does not work properly ...................................................................................... 107
+5-12. When the BT does not work properly .......................................................................................... 108
+5-13. When the microphone does not work properly ..........................................................................109
+5-14. When the Glaze Camera does not work properly ...................................................................... 110
+6. PCB DIAGRAM ......................................................................................................................... 111
+6-1. PBA Layout with part position ........................................................................................................ 111
+6-2. Connector Layout with part position (Main Board) .....................................................................112
+6-3. LCD PBA Layout with part positions............................................................................................... 113
+6-4. Connector Layout with part positions. ........................................................................................... 114
+7. WIRING DIAGRAM .....................................................................................................................116
+7-1. Dispenser, In-Door Ice Maker, Family Hub (RS22T5561*, RS27T5561*) .....................................116
+7-2. Dispenser, In-Door Ice Maker (RS22T520*, RS27T520*) .............................................................117
+7-3. Basic (RS28T5B0*) .............................................................................................................................118
+8. BLOCK DIAGRAM ...................................................................................................................... 119
+8-1. Block Diagram .................................................................................................................................... 119
+8-2. LCD PBA ..............................................................................................................................................120
+8-3. Camera ................................................................................................................................................121
+9. REFERENCE INFORMATION .................................................................................................... 122
+9-1. Model Code Table .............................................................................................................................. 122
+9-2. Trouble Shooting ............................................................................................................................... 123
+9-3. Q&A ......................................................................................................................................................125
+
+===== PAGE 5 =====
+
+This document cannot be used without Samsung's authorization
+1.PRECAUTIONS (SAFETY WARNINGS)
+• Unplug the appliance before the changing or repairing the electric parts.
+• Use rated electronic Control equipment.
+→ Make sure to check out Model name, Rated voltage, Rated current,
+Operation Temp, etc.
+• Upon repair, make sure that harnesses are not to be water-penetrated and are
+bundled tight.
+→ Should not be detached by a certain amount of external force.
+• Upon repair, completely remove dust or other foreign substances from housing,
+harness, connector, etc.
+→ To prevent fire by tracking, short, etc.
+• Check out whether water has penetrated into the electronic Control system.
+→ If there is any kind of trace, take necessary measures such as related
+component change, insulation tapping, etc.
+• After repair, check out the assembled state of parts.
+→ It should be the same as the previous state.
+• Check out the surrounding conditions.
+→ Change the location, if the fridge is located at humid, wet places or the
+installed state is unstable.
+• In order to reduce the risk of electric shock the appliance must be properly
+grounded.
+• Do not allow consumers to overload a certain outlet.
+• Check out whether the power cord or the outlet is broken, squeezed, chopped
+off or heatdeformed.
+→ Repair or replace the defective power cord/outlet immediately.
+→ Make sure the power cord is not punctuated or stomped down.
+• Do not allow consumers to keep food frayed or place bottles in the Freezer
+Room.
+• Do not allow consumers to repair the fridge by themselves.
+• Do not allow consumers to keep things except for food.
+→ Pharmaceutical, Chemical substances : These are not possible to be fine-
+Controlled with a consumer fridge.
+→ Flammable material (alcohol, benzene, ether, LPG, etc) : possibility of
+explosion.
+5
+
+===== PAGE 6 =====
+
+This document cannot be used without Samsung's authorization
+PRECAUTIONS(SAFETY WARNINGS)
+Read all instructions before repairing the product and follow the instructions in order to prevent danger or
+property damage.
+CAUTION/WARNING
+SYMBOLS DISPLAYED SYMBOLS
+means “Prohibited”.
+Indicates that a
+Warning danger of death
+means “Do not disassemble”.
+or serious injury
+exists.
+means “No contact”.
+means ”Warning or Caution”.
+Indicates that a risk
+Caution of personal injury means “Unplug the unit before
+preforming service”
+or material damage
+exists.
+means “Earth or Ground”.
+Warning & Caution
+Plug out to exchange the interior lamp. Use the rated components on the On repair, make sure that the wires such as
+replacement. harness are bundled tightly.
+• It may cause electric shock. • Check the correct model, rated voltage, rated • Bundle tightly wires in order not to be detached by
+current, operating temperature and so on. the external force and then not to be wetted.
+compR oa nte ed
+nts
+Unplug
+On repair, remove completely dust or other After repair, check the assembled state Check if there is any trace indicating the
+things of housing parts, harness parts, and of components. permeation of water.
+check parts. • It must be in the same assembled state when • If there is that kind of trace, change the related
+• Cleaning may prevent the possible fire by tracking compared with the state before disassembly. components or do the necessary treatment such as
+or short. taping using the insulating tape.
+6
+
+===== PAGE 7 =====
+
+This document cannot be used without Samsung's authorization
+PRECAUTIONS(SAFETY WARNINGS)
+Please let users know following warnings & cautions in detail.
+Warning & Caution
+Do not allow users to put bottles or Do not allow users to store narrow Do not allow users to store
+kinds of glass in the freezer. and lengthy bottles or foods in a small pharmaceutical products, scientific
+multi-purpose room. materials, etc., in the refrigerator.
+• Freezing of the contents may inflict a wound. • It may hurt you when refrigerator door is • The products which need precise temperature
+opened and closed resulting in falling stuff control should not be stored in the
+down. refrigerator.
+Prohibited Prohibited Prohibited
+Do not allow users to plug several Do not allow users to disassemble, Do not allow users to bend the power
+appliances into the same power repair or alter. cord with excessive force or do not
+have the power cord pressed by heavy
+receptable. • It may cause fire or abnormal operation
+article.
+• May cause abnormal generation of heat or which leads to injury.
+• May cause fire.
+fire.
+Prohibited
+Do not allow users to store articles on Do not allow users to install the In order to reduce the risk of electric
+the product. refrigerator in the wet place or the shock the appliance must be
+place where water splashes. properly grounded.
+• Opening or closing the door may cause things
+• Deterioration of insulation of electric parts
+to fall down, with may inflict a wound.
+may cause electric shock or fire.
+When installing, servicing or cleaning behind the
+refrigerator, be sure to pull the unit straight out and
+CAUTION push back in straight after finishing.
+7
+
+===== PAGE 8 =====
+
+This document cannot be used without Samsung's authorization
+P2.R PORDOUDCUTC STP SEPCEIFCIICFAICTAIOTNIOSNS
+2-1. Introduction of Main Function
+Large Capacity with Space Max™
+• The Samsung Side by side Refrigerator has a very spacious interior
+with a huge Capacity. Thinner wall with its special high-urethane
+insulation technology provides plenty of room in the drawers and
+shelves to store your weekly grocery shopping, including items of
+various shapes or sizes. And it’s much easier to keep everything
+neatly and ef昀椀ciently organized. So you can quickly 昀椀nd and take
+out the things you need whenever you need them.
+Modern Design
+• The Samsung Side by side Refrigerator’s modern design
+seamlessly blends in with your kitchen interior. It has strikingly
+beautiful 昀氀at doors and recessed handles, so it won’t protrude and
+get in the way; especially on Counter depth model, its built-in look
+is fully aligned with your existing appliances and cabinetry.
+• The Ice & Water Dispenser is seamlessly integrated into the front of
+the door and only has the controls you need to enjoy a refreshing
+glass of chilled 昀椀ltered water or 昀椀ll a pitcher with cubed or crushed
+ice.
+• All the other controls are discretely hidden inside, but easily
+accessible when you open the door. It is also compliant with the
+Americans with Disabilities Act (ADA).
+8
+
+===== PAGE 9 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-2. Model Speci昀椀cation
+This operation instruction covers various models. The characteristics of your
+appliance may differ slightly from those described in this manual.
+NOTE
+• Key features of your new refrigerator
+Your Samsung Side-By-Side Refrigerator comes equipped with many space-saving features,
+stylishly integrated design and improved cooling performance.
+• All-around cooling
+Provides even cooling throughout the refrigerator to maintain optimal temperatures to keep food
+fresh.
+• In-Door Ice Maker
+The Icemaker is located in the freezer door, this ensures that all the shelf space can be fully
+utilized. Ice cubes are quickly produced and the clear ice bucket lets you easily see the amount of
+ice cubes produced.
+• Fingerprint Resistant Finish
+Prevents surfaces from becoming covered in unsightly 昀椀ngerprints and other marks and smudges.
+• LED Lighting
+See everything in a new light with LED lighting.
+• Energy Star *
+Save energy and money and help protect the planet.
+• Embedded Wi-Fi *
+With SmartThings App, you can easily check the temperature, receive alerts if the door is
+accidentally left open and control Rapid cooling(Power Cool, Power Freeze) and Sabbath mode.
+*: Optional
+9
+
+===== PAGE 10 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-3. Basic Speci昀椀cation
+Items Specification
+Model RS22T55** RS22T52** RS27T55** RS27T52** RS28T5B**
+Image
+Net Total (cu.ft) 21.5 22 26.7 27.4 28.1
+Capacity
+Net for Freezer 7.4 7.4 9.5 9.5 10.2
+(AHAM 2008)
+Net for Fridge 14.1 14.6 17.2 17.9 17.9
+Net Total (ℓ) - 602 685 716 759
+Capacity
+Net for Freezer / 2-Star - 193 (30) 206 217 254
+(ISO Storage)
+Net for Fridge - 409 479 499 505
+Dimensions
+912 * 726 * 1,780 ← 912 * 851 * 1,780 ← ←
+(Width * Depth * Height)
+Dimensions of Package
+958 * 764 * 1,915 ← 958 * 889 * 1,915 ← ←
+(Width * Depth * Height)
+Rated Voltage (V) /
+220-240V/50Hz,60Hz , 110-127V/50Hz,60Hz
+Rated Frequency (Hz)
+Refrigerant R-600a
+Refrigerant Charging Volume 92g 84g 92g 84g 84g
+Product Weight (kg) 116 108 139 131 126
+Weight of Vinyl 120 112 143 135 130
+Packaged
+Product (kg) Box 125 117 149 141 136
+10
+
+===== PAGE 11 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+Items Specification
+Model RS22T5**1 RS22T5**1 RS27T5561 RS27T5**0 RS28T5*0
+11
+tnenopmoC
+gnizeerF
+Type NF54M7151ANTT3 NF54M5151ARTT3 NF54M7151ANTT3 NF54M5151ARTT3 NF54M5151ARTT3
+Compressor Drive mode INVERTER
+Charged oil SUNUSO-2GSD(250cc)
+Freezer
+SPLIT FIN TYPE
+compartment
+Freezer
+Cold
+X
+compartment
+Condenser Forced and spontaneous convection type
+Desiccant Molecular sieve XH-9
+Freezing F: ID0.85*L3300 F: ID0.85*L3300
+F: ID0.85*L3300 F: ID0.85*L3300 F: ID0.85*L3300
+compartment ID0.75*L4300 ID0.75*L4300
+Capillary tube
+Cold
+None
+compartment
+Refrigerant R-600a
+gnitsorfed
+rof
+stnenopmoC
+rezeerF
+tnenopmoC
+Section OFF ON
+Strong (°C) -24 -21
+THERMISTOR
+(F-SENSOR) Intermediate (°C) -21 -18
+502AT
+Weak (°C) -17 -14
+dloC
+tnemtrapmoc Section OFF ON
+Strong (°C) 0 3 THERMISTOR
+(R-SENSOR) Intermediate (°C) 1.5 4.5
+502AT
+Weak (°C) 5 8
+elcyC
+gnitsorfeD
+Initial defrosting cycle
+(simultaneous defrosting of 6 hours ± 10 minutes
+F and R)
+Defrosting cycle of 12 to 77 hours (varying dependent upon operation conditions)
+freezing component
+Defrosting cycle of
+None
+cold component
+Idle duration -
+gnitsorfeD
+rosneS
+2-3-1. Electric Parts Speci昀椀cation
+F defrosting Type Thermistor (DTN-C502)
+Sensor Speci昀椀cation 5.0 ㏀ at 25°C
+R defrosting Type Thermistor (DTN-C502)
+Sensor Speci昀椀cation 5.0 ㏀ at 25°C
+Type Bimetal Thermostat
+Bimetal (F) Operating
+On : 40℃, Off : 60℃
+temperature (°C)
+Type None
+Bimetal (R) Operating
+None
+temperature (°C)
+
+===== PAGE 12 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+Items Specification
+Model RS22T556* RS22T520* RS27T556* RS27T5200 RS28T5B00
+12
+tnenopmoC
+cirtcelE
+2-3-2. Electric Component
+Defrosting Power supplying during
+heater in freezing freezing compartment AC 230V, 300W or AC 120V, 300W
+compartment defrosting
+Power supplying during
+Defrosting heater in
+cold compartment -
+cold compartment
+defrosting
+Home bar heater Ambient humidity
+-
+(cold compartment) sensor interlocking
+Icemaker heater -
+Dispenser heater AC 230V, 6W or AC 120V, 6W -
+Water pipe heater DC12V, 6W -
+Water tank heater -
+Damper heater Kept tumed on DC12V, 3W
+Bimetal for preventing overheating of BIMETAL THERMOSTAT - ON : 40℃, OFF : 60℃
+defrosting heater in freezing compartment THERMO FUSE - CUT OFF : 109~110℃
+Bimetal for preventing overheating of
+-
+defrosting heater in cold compartment
+Type -
+Operating
+-
+OLP temperature (°C)
+Shutdown
+-
+temperature (°C)
+Cooling fan motor in freezing compartment DC12V, BLDC, F135, 1850rpm, Max 4.2W
+Cooling fan motor in cold compartment -
+Compressor cooling fan motor DC12V, BLDC, C160N, 1080rpm, Max 1.32W
+Motor-driven damper (True-taste chamber) DC12V, Step Motor, Heater 3W
+DC 12V, DC 12V,
+Motor step valve (OPTIONAL) - - -
+Max 700mA Max 700mA
+Freezing compartment lamp LED Lamp, High intensity 3 Chips, DC12V / Max 2.39W, 1EA
+Cold compartment lamp LED Lamp, High intensity 5 Chips, DC12V / Max 4.22W, 1EA
+Fridge Door Lamp Reed Switch, Max DC 200V, 0.5A
+Door reed switch Reed Switch, Max DC 200V, 0.5A
+Cam Cube Motor Switch Reed Switch, Max DC 200V, 1A -
+Guide Ice Route Motor Switch Reed Switch, Max DC 200V, 0.5A -
+Lever Switch Micro Switch, AC125/250V, 1 or 16A -
+LCD On/Off(Rocker) Switch AC125/250V,12/6A - AC125/250V,12/6A - -
+Power cord US : AC125V,10A / Other : AC250V,10 or 16A
+Grounding screw BSBN(BRASS SCREW)
+
+===== PAGE 13 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-4. Interior Views
+2-4-1. Dispenser-featured models (RS22T5***, RS27T5***)
+08
+04
+01 05
+02
+07
+06
+03
+09
+01 Freezer shelves 02 Multipurpose freezer bin 03 Freezer drawer
+04 Refrigerator bin 05 Refrigerator shelves 06 Vegetable drawer
+07 Multipurpose drawer 08 Ice maker * 09 Water 昀椀lter
+*Applicable models only
+NOTE
+The design of the egg container may differ with the model.
+13
+
+===== PAGE 14 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-4-2. Dispenser-featured models (RS28T5B**)
+04
+08
+05
+01
+07
+02
+06
+03
+01 Freezer shelves 02 Multipurpose freezer bin 03 Freezer drawer
+04 Refrigerator bin 05 Refrigerator shelves 06 Vegetable drawer
+07 Multipurpose drawer 08 Ice maker *
+* Applicable models only
+NOTE
+The design of the egg container may differ with the model.
+14
+
+===== PAGE 15 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-5. Dimensions (mm/inch)
+15
+4471 5171 5271 0871
+908mm (Cabinet)
+513mm
+mm01
+387mm
+912mm (W. Cover Hinge)
+① ②
+106mm (W. Gasket) ③ ④ 355mm 564mm
+0~165(cid:176) 0~170(cid:176)
+1736mm
+RS27T55**
+RS22T55**
+No. RS27T52**
+RS22T52**
+RS28T5B**
+① 620mm 745mm
+② 726mm 851mm
+③ 772mm 897mm
+④ 857mm 982mm
+
+===== PAGE 16 =====
+
+This document cannot be used without Samsung's authorization.
+PRODUCT SPECIFICATIONS
+2-6) Refrigerant Route in Refrigeration cycle
+1
+6
+
+===== PAGE 17 =====
+
+This document cannot be used without Samsung's authorization.
+PRODUCT SPECIFICATIONS
+2-7 Cooling Air Circulation
+Refrigerator
+Freezer
+17
+
+===== PAGE 18 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-8. Fridge Manager
+■ Fridge Manager
+To access Fridge Manager, swipe the Home screen to the left, and then tap the Fridge Manager widget.
+•The design of the Fridge Manager widget differs with the model.
+• On the Fridge Manager widget, the current fridge and freezer
+temperatures are displayed.
+• For detailed settings, tap widget to open the Fridge Manager.
+NOTE
+If you tap Buy Filter on the second page of the Fridge Manager
+widget, you will be directed to the website where you can
+purchase a water 昀椀lter.
+01 Temperature
+Changes the set Temperature in the fridge or freezer.
+04 You can also turn on and turn off the refrigerator’s Power Cool
+function and the freezer’s Power Freeze function.
+01 02 Special Features
+View a short explanation of some of the refrigerator’s special
+features.
+03 Fridge Settings
+Change many of the fridge’s settings including settings for ice
+making, the door alarm, and the temperature units (˚F or ˚C).
+See the next page for details.
+04 External Conditions
+Displays the external (ambient) temperature and humidity.
+NOTE
+The displayed conditions may differ from the actual
+temperature and humidity.
+02 03
+18
+
+===== PAGE 19 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+N OTE
+Also displayed is the Ice Off (ice making off) indicator at the top, center.
+When the indicator displays Ice Off, the refrigerator’s ice maker is turned off.
+Ice Maker Turns the ice maker on and off. Tap and drag the button to turn on or off. Note
+(applicable models only) that if the ice bucket is full of ice, the refrigerator does not start making ice when
+you tap and drag this button (turning the Ice Maker on), but displays the Ice Full
+indicator on the main screen.
+If you hold down the dispenser lever for 5 seconds, the Ice Maker Off status
+changes to Ice Maker On.
+Dispenser Lock
+Turns the ice and water dispensers on and off. Tap to set Dispenser Lock on or off.
+(applicable models only)
+Door Alarm The door alarm sounds if you leave the door open. Tap and drag the button to turn
+on or off.
+Temp. Unit Switch the temperature scale between Celsius and Fahrenheit.
+Touch ˚F or ˚C to change the scale.
+Water Filter Provides a water 昀椀llet replacement tutorial and lets you reset the water 昀椀lter
+(applicable models only) replacement indicator. Tap to open.
+NOTE
+• After installing the water 昀椀lter, tap Water Filter, and then tap Reset.
+Tapping Reset re-initlallzes the function that measures the time remaining
+until the water 昀椀lter needs to be replaced again.
+• If you tap Buy Filter, you will be directed to the website where you can
+purchase a water 昀椀lter.
+Self Check Self Check is a self diagnose function. Tap to open. Tap Start to run.
+Demand Response Works with the Smart Grid energy saving manager. Tap to open.
+(applicable models only) Tap and drag the button to turn on or off. See the Smart Grid section in this
+manual for more information.
+Cooling Off Cooling Off mode (also called shop mode), is designed for use by retailers when
+they are displaying refrigerators on the shop 昀氀oor.
+In Cooling Off mode, the refrigerator’s fan motor and lights work normally,
+But the compressors do not run, and the refrigerator and freezer do not get cold.
+If cooling off is turned on, all cooling controls will turn to OFF on the Fridge
+Manager
+• To activate Cooling Off, tap Activate > Proceed from Cancel/Proceed.
+• To deactivate Cooling Off, tap Deactivate > Proceed from Cancel/Proceed.
+19
+
+===== PAGE 20 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-9. Using the control panel
+Type A Type B Type C
+01 Fridge / °F ↔ °C (3 sec) 02 Power Cool (3 sec) 03 Freezer / Power Freeze (3sec)
+04 Ice Maker / Filter Reset (3 sec) * 05 Door Alarm / Peak 06 Lock(3sec)
+Demand Off (3 sec) *
+07 Network connection * 08 Sabbath Mode
+*Applicable models only
+20
+
+===== PAGE 21 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+01 Fridge / °F ↔ °C (3 sec)
+Fridge You can use the Fridge button to set the fridge temperature.
+• Press Fridge repeatedly to select a desired temperature between 34°F (1°C) and
+44°F (7°C).
+-The temperature indicator displays the currently set or selected temperature.
+°F ↔ °C You can also use the Fridge button to switch the temperature scale between Celsius
+and Fahrenheit.
+To switch the temperature scale, press and hold Fridge for 3 seconds to change the
+current temperature scale.
+02 Power Cool (3 sec)
+Power Cool Power Cool speeds up the cooling process at maximum fan speed.
+This is useful to quickly cool food that spoils quickly, or after the door is left open for
+some time.
+The fridge keeps running at full speed for several hours and then returns to the
+previous temperature. Press and hold Power Cool for 3 seconds.
+03 Freezer / Power Freeze (3 sec)
+Freezer You can use the Freezer button to set the freezer temperature.
+• Press Freezer repeatedly to select a desired temperature between 5°F (-15 °C) and
+-8°F (-23°C).
+- The temperature indicator displays the currently set or selected temperature.
+Power Freeze Power Freeze speeds up the freezing process at maximum fan speed.The freezer
+keeps running at full speed for 50 hours and then returns to the previous
+temperature.
+• To activate Power Freeze, press and hold Freezer for 3 seconds. The corresponding
+indicator ( ) lights up, and the refrigerator will speed up the freezing process for
+you.
+• To deactivate, press and hold Freezer for 3 seconds again. The freezer returns to the
+previous temperature setting.
+• To freeze large amounts of food, activate Power Freeze for at least 20 hours before
+putting food in the freezer.
+NOTE
+Using Power Freeze increases power consumption. Make sure you turn it off and
+return to the previous temperature if you do not intend to use it.
+21
+
+===== PAGE 22 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+04 Ice Maker / Filter Reset (3 sec)
+Ice Maker Press and hold Ice Maker for more than 3 seconds to turn the ice maker on or off.
+The ice maker has 2 indicators (ON/OFF) to indicate the operating status.
+• When the ice maker operates, the ON indicator turns on.
+• When the ice maker is turned off, the OFF indicator turns on. In this case, ice making
+is disabled even if you press the Cubed Ice or Crushed Ice buttons on the dispenser
+panel. To enable ice making, you must turn the ice maker on.
+NOTE
+• I f the ice maker is turned off, it will turn on if you press and hold the ice lever for
+more than 5 seconds.
+• After tuning off the ice maker by inside cabinet control panel, this function doesn't
+work for 1 minute.
+Filter Reset • After about 6 months (approximately 300 gallons) of using the original water 昀椀lter,
+the Filter indicator turns red to remind you that the 昀椀lter needs to be replaced. The
+Filter indicator blinks red for several seconds when you open the door, reminding
+you that the 昀椀lter need to be replaced. If this happens, replace the 昀椀lter, and press
+and hold Filter Reset for 3 seconds. The 昀椀lter indicator will be reset, and the Filter
+indicator will be reset, and the 昀椀lter indicator turn off.
+NOTE
+• S ome regional areas have relatively large amounts of lime contained in the water.
+This may reduce the lifecycle of the 昀椀lter. In these areas, you will have to replace
+the water 昀椀lter more often than speci昀椀ed above.
+• I f water is not dispensing properly, the water 昀椀lter is most likely clogged. Replace
+the water 昀椀lter.
+05 Door Alarm / Peak Demand Off (3 sec)
+Door Alarm If the door is left open for more than 2 minutes, an alarm will sound and the alarm
+indicator will blink. You can toggle the alarm on and off by pressing Door alarm. The
+alarm is enabled by factory default.
+If the door is left open for 5 minutes, internal lights (in the fridge, freezer) will blink
+for 10 seconds and then turn on. This will be repeated every minute for 5minutes. This
+is to alert hearing-impaired users that a door is open and it is normal.
+Peak Demand Off The Peak Demand Off function activates/deactivates Smart Grid.
+Press Door Alarm for 3 seconds to set/clear the Peak Demand Off function.
+22
+
+===== PAGE 23 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+06 Lock (3 sec)
+Lock To prevent accidental setting changes, press and hold Lock for 3 seconds. The main
+panel will be disabled and the Lock indicator ( ) will turn on.
+When Lock is on, the indicator blinks if any button on the main panel is pressed.
+If you press and hold the button again for more than 3 seconds, Lock will be
+deactivated. However, Lock will be reactivated if no button is pressed within 1 minute.
+NOTE
+Lock on the main panel does not affect the dispenser.
+The dispenser operates independently and so does the dispenser lever. To lock the
+dispenser and the dispenser lever, use the Lock function on the dispenser.
+07 Network connection
+Network connection You can control and monitor your refrigerator on the SmartThings app. For more
+information, see the SmartThings section.
+08 Sabbath Mode (LED Panel Model Only)
+Sabbath Mode The Sabbath mode stays active for 85 hours once it is activated. After that, it will be
+deactivated automatically.
+•T o activate, press and hold Door Alarm and Lock simultaneously for 5 seconds to
+enter Sabbath mode. Then the refrigerator operates in Sabbath mode where the
+buttons, the display, and the room lamps are all under control.
+• To deactivate, press and hold the buttons again for 5 seconds to exit Sabbath mode.
+NOTE
+Even after the refrigerator powers off and restarts, the Sabbath mode remains active.
+To exit, you must deactivate it 昀椀rst.
+09 Cooling Off (North America model)
+Cooling Off Cooling Off mode (also called Shop mode) is designed for use by retailers when they
+are displaying refrigerators on a retail 昀氀oor.
+In Cooling Off mode, the refrigerator’s fan motor and lights operate normally, but the
+compressors do not run so that neither the refrigerator nor the freezer run the cooling
+process.
+To enter or exit the Cooling Off mode, press and hold Fridge and Power Cool
+simultaneously for 6 seconds. Then, when the display blinks, press Lock.
+When the Cooling Off mode is on, the refrigerator chime sounds, and the refrigerator
+shows “0” on the fridge temperature display and “FF” on the freezer temperature
+display.
+23
+
+===== PAGE 24 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+Dispenser panel (applicable models only)
+01 Water / Lock 02 Cubed Ice 03 Crushed Ice
+01 Water / Lock (3 sec)
+Water To dispense chilled water, press Water. The corresponding indicator turns on.
+Lock To prevent use of the dispenser panel buttons and the dispenser lever, press
+(Dispenser panel / and hold Water for more than 3 seconds.
+Dispenser lever) If you press and hold the button again for more than 3 seconds, the dispenser
+lock will be deactivated.
+When dispenser lock is on, the indicator blinks if any button on the dispenser
+panel is pressed or the dispenser lever is pressed.
+NOTE
+The Lock on the dispenser panel does not affect the controls on the main
+panel. To lock the main panel, use the Lock function on the main panel.
+02 Cubed Ice
+Cubed Ice Press Cubed Ice to dispense cubed ice. The corresponding indicator
+turns on.
+03 Crushed Ice
+Crushed Ice Press Crushed Ice to dispense crushed ice. The corresponding
+indicator turns on.
+24
+
+===== PAGE 25 =====
+
+This document cannot be used without Samsung's authorization
+PRODUCT SPECIFICATIONS
+2-10. Optional Material Speci ication
+Photograph Part Name Part Code Quantity Remark
+FILTER-WATER DA63-08839B 1 For Plumbing Model
+For Plumbing Model
+ASSY INSTALL-FILTER DA97-01469W 1
+(Except for North America)
+25
+
+===== PAGE 26 =====
+
+This document cannot be used without Samsung's authorization
+D3.I SDAISSASSESMEBMLBYL &Y R&E RAESASSESMEBMLBYLY
+3-1. Precaution
+• Unplug the appliance before servicing or replacing electrical parts.
+• Remove any foreign matter or dust from the power plug pins.
+- Otherwise there is a risk of 昀椀re.
+• Do not use a cord that shows cracks or abrasion damage along its length or at either end.
+• Do not plug several appliances into the same multiple power board. The refrigerator should always be
+plugged into its own individual electrical which has a voltage rating that matched the rating plate.
+- This provides the best performance and also prevents overloading house wiring circuits, which could
+cause a 昀椀re hazard from overheated wires.
+• Do not install the refrigerator in a damp place or place where it may come in contact with water.
+- Deteriorated insulation of electrical parts may cause an electric shock or 昀椀re.
+• In order to reduce the risk of electric shock the appliance must be properly grounded.
+• Do not put bottles or glass containers in the freezer.
+- When the contents freeze, the glass may break and cause personal injury.
+• Do not store volatile or 昀氀ammable substances in the refrigerator.
+- The storage of benzene, thinner, alcohol, ether, LP gas and other such products may cause explosions.
+- NEED TOOL
+Item How to use Pictures
+Use for assembling and disassembling
+Phillips Head Driver
+of screw.
+Use for assembling and disassembling
+Flat Head Driver of Beverage Station, Dispenser, Display,
+Cover Lamp etc...
+Magnet Use for checking of the F/R Fan.
+Hexagon wrench
+Use for adjust Door Hinge Ref Up.
+(4mm diameter)
+Box wrench (12mm) Use for disassemble the compressor.
+Box wrench (10mm) Use for disassemble the hinge lower.
+Spanner(19mm) Use for adjust the height of the door.
+26
+
+===== PAGE 27 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-2. Interior-Fridge
+Part Name Work sequence Remarks
+Shelf Pull the Shelf out to the front.
+Remove all Drawers before
+disassembling the cover.
+Drawer
+cover
+After push up left, right hook,
+pull the 昀椀lp cover out to the
+front.
+Pull
+27
+
+===== PAGE 28 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-3. R-Compartment Duct
+Part Name Work sequence Remarks
+1. Remove a screw 昀椀rst and pull
+the Multi Cover in the direction
+of the front.
+Cap Screw Screw(1EA)
+Multi Duct
+(Fridge)
+2. Remove a housing Connector.
+28
+
+===== PAGE 29 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-4. Cover-Display
+Part Name Work sequence Remarks
+Find the location of the serviceable part.
+Cover-Display
+Separate using '-' driver.
+(If necessary, remove the inlay 昀椀rst and
+service it.)
+Press and disconnect the wire connector
+connected to the cover display.
+29
+
+===== PAGE 30 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-5. Dispenser Display & Assy Guide Ice Route
+Part Name Work sequence Remarks
+Remove 2 Screw bottom of the Display.
+Disengage the the Display to lower
+direction by Pushing.
+Assy Guide Ice Route
+※ When decomposing, do not contact the
+lever.
+Protecting
+lever dispenser
+Disengage Housing of Display.
+30
+
+===== PAGE 31 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-6. Dispenser Display & Assy Case Ice Route
+Part Name Work sequence Remarks
+Pull out GUIDE ICE(white one) from Assy
+Case Ice Route.
+(Push L&R hooks like right picture.)
+Remove 2 screws on Assy Case Ice Route
+and disconnect housing inside the Case
+Dispenser and remove Assy Case Ice Route.
+Assy Case
+Ice Route
+■ Assembly
+Assembling housing of ASSY CASE ICE
+ROUTE Upper 2 Rib have to match with
+inside Hook and Screw assembling.
+Assembling GUIDE ICE to the ASSY CASE ICE
+ROUTE.
+Guide ice
+Upper Hook have to completely
+match with Hook for prevent the leak
+of Gasket Cover.
+CAUTION Assy Case Ice Route 1 lib must be
+behind Case Dispenser lib. (Pic 2)
+Display Housing assembling and Fixing the
+Harness with Hook .
+Assy Cover Input the water line to Display hose hole and
+Dispenser assembling 2 screws.
+31
+
+===== PAGE 32 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-7. Assy Lever Dispenser
+Part Name Work sequence Remarks
+■Disassembly
+1. Put both 昀椀ngers in the upper of lever.
+Pull and remover the lever slowly.
+Assy Lever Dispenser
+■ Assembly
+2. P ut the lever with adjusting to rectangle
+block slowly.
+32
+
+===== PAGE 33 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-8. Interior-Freezer
+Part Name Work sequence Remarks
+Shelf Pull the Shelf out to the front.
+Remove all Drawers before
+disassembling the cover.
+Drawer cover
+After push up left, right hook,
+pull the 昀椀lp cover out to the
+front.
+Pull
+33
+
+===== PAGE 34 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-9. F-Compartment Duct
+Part Name Work sequence Remarks
+1. Remove the screws (4ea)
+from the Evap Cover.
+(Before remove upper
+Screw(4EA)
+2 screws, Remove 2 cap
+Cap Screw(2EA)
+screws)
+F-Compartment
+Duct &
+Evap Cover
+2. Remove the Evap Cover from
+The cabinet. Pull the Cover in
+the direction of the front.
+1. Remove two screws and Evap
+Cover First.
+Screw(2EA)
+2. Remove Cap Sensor using
+tools.
+DO NOT force the Multi
+Cover off before next step.
+Cap Sensor
+There is a screw on the back
+CAUTION Screw(1EA)
+sideof this Cap sensor.
+Multi Duct
+(Freezer)
+3. Remove a screw 昀椀rst and CAUTION
+pull the Multi Cover in the
+direction of the front. Screw(1EA)
+4. Disconnect two Housing
+Connectors.
+34
+
+===== PAGE 35 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-9-1. F-Compartment Duct (Wire Fixing Instruction in detail)
+Part Name Work sequence Remarks
+[Wire disassembly]
+Cut the seal along the side of
+wire line.
+[Wire re-assembly]
+Fix wires 昀椀rst and then cover
+the seal.
+Multi Duct
+(Freezer)
+①
+[Sensor wire 昀椀xing] ②
+③ ④
+Insert the wire into each 4
+hooks.
+[Fan wire 昀椀xing]
+Insert the wire into each 3 ① ② ③
+hooks.
+35
+
+===== PAGE 36 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-9-2. F-Compartment Duct (Wire Fixing Instruction in detail)
+Part Name Work sequence Remarks
+[Sensor&Fan Wire 昀椀xing]
+1. Sensor wire connector and
+Fan wire connector have to
+be assembled together with
+a Fixer.
+Multi Duct
+(Freezer)
+[Sensor&Fan Wire 昀椀xing]
+2. Pass the Sensor wire and Fan
+wire into a 昀椀nish hook.
+[Damper motor wire 昀椀xing]
+1.Insert the wire into each 3 ①
+hooks. ②
+③
+[Damper motor wire 昀椀xing]
+2. Wind the wire twice into a
+昀椀nish hook
+All remained wires have to
+be same length
+36
+
+===== PAGE 37 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-10. Assy Door Disassembling (FreezerDoor)
+Part Name Work sequence Remarks
+1. Open the Door and remove 2 昀椀tting
+of the Hose at the bottom. Remove
+the 昀椀tting by pulling the hose while
+hold the left cap of the 昀椀tting in the
+direction of the arrow.
+2.D isconnect the power cord, and
+remove 2 cover screws using a Phillips
+screwdriver. Then open the Freezer
+door and pull the hooks on the sides
+to loosen the cover. Lift up the cover
+Door
+towards you to detach it.
+3. Disconnect the two top housings.
+4. Remove the three hinge-link holding
+the hinge.
+37
+
+===== PAGE 38 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+Part Name Work sequence Remarks
+5. Disassemble the top hinge from the
+front of the door.
+Door
+Remove the door from the lower hinge
+by lifting up the door straight.
+Be careful not to pinch the water tubing
+and the wire harness on the door Lift up
+the door straight in upper direction until
+the water hose is eliminated from lower
+CAUTION hinge. Do not pull the door forward to
+remove it. It cause injury of water hose
+and tubing.
+38
+
+===== PAGE 39 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-11. Assy Door Disassembling (Fridge Door)
+Part Name Work sequence Remarks
+1. Disconnect the power cord, and
+remove 2 cover screws using a Phillips
+screwdriver. Then pull the the hooks
+on the sides to loosen the cover. Lift up
+the cover towards you to detach it.
+2. Disconnect the top housing.
+3.R emove the three hinge-link holding
+the hinge.
+Door
+4. Disassemble the top hinge from the
+front of the door.
+5. Disassemble the Fridge door.
+• The Water Line must be fully inserted
+to the center of transparent coupler
+(Type A) or the line (Type B) to prevent
+water leakage from the dispenser.
+Reassembly •Check that it holds the line 昀椀rmly.
+doors • The cover hose must be fully covered
+water hose. (Make the cover hose 昀椀t to
+end of the 昀椀tting)
+• Bottom hook must 昀椀x the cover hose to
+prevent loosen the hose line.
+39
+
+===== PAGE 40 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-12. Evaporator
+Figure
+Part Name Description
+Freezer Fridge
+Disengage the housing
+-
+connector. (right)
+Remove the evaporator by
+pulling the lower part of
+-
+the evaporator while lifting
+it up.
+Evaporator
+Disengage the housing
+-
+connector. (right)
+Remove the evaporator by
+pulling the lower part of
+-
+the evaporator while lifting
+it up.
+40
+
+===== PAGE 41 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-13. Main PCB and Inverter PCB Disassembling (whole)
+Work sequence Remarks
+1. Pull the refrigerator forward to make space for
+servicing.
+2. Disassemble the four screws.
+-New issued model use 5 screw.
+3. Disassemble the fourteen connectors of the
+housing(Number of the housing connectors may
+vary dependent upon models and functions). While
+pressing the upper hook on the location shown on the
+昀椀gure, pull the main main PBA and remove it.
+41
+
+===== PAGE 42 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-14. Comp Cooling Fan
+Work sequence Remarks
+1. Unscrew 7 screws of COVER COMP.
+2. Remove screw from the Assy Support Circuit Motor.
+3. Separate Assy Support Circuit Motor connect.
+4. Cutting seal.
+5. Pipe moved down side.
+6. Assy Support Circuit Motor turn out and assy in
+reverse.
+42
+
+===== PAGE 43 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-15. Relay Cover disassembling
+Work sequence Remarks
+1. Remove 7 screws from the Comp Cover.
+2. Remove the cover relay with a 昀氀at screwdriver.
+Pipe bending or exercise of excessive force may
+pinching on the hands when removing the cover.
+CAUTION
+3. User a 昀氀at driver to disassemble the relay protector
+from the compressor.
+43
+
+===== PAGE 44 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-16. Step Valve Disassembling (whole)
+Work sequence Remarks
+1. Remove 7 screws from the Comp Cover.
+2. Remove 1 screw.
+3. Remove 1 screw.
+4. Remove the refrigerant, and disassemble the step
+valve from the connection pipe.
+Exerting excessive force when forming the
+pipe causes bending of the pipe.
+CAUTION
+CAUTION
+Cautions for R-600a : Environment-friendly gas (R-600a) is used as refrigerant at this refrigerator, which is
+combustible gas though in volume kept small. If gas is leaked by serious damage to the refrigerator during
+transportation, installation and operation may cause fire or burn when spark makes contact with leaked gas.
+44
+
+===== PAGE 45 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-17. Ice Maker Compartment (Indoor Auger Motor)
+Part Name Description Figure
+Assy Tray Ice Disassemble the Assy Tray Ice by holding
+the handle and pulling up The bottom part
+*Indoor only slightly.
+Lift up the Ice Maker Cover and gently pull out.
+Unscrew the 5 screws
+Assy Case
+Auger Motor
+(Disassemble)
+*Indoor only Remove the Assy Ice Maker-Mech
+(Left Picture)
+Disconnect the housing connectors by gently
+pulling.
+Disconnect the housing connectors by gently
+pulling.
+Remove the Assy Case Auger Motor
+(Right Picture)
+Assy Case
+Place the Assy Case Auger Motor in Panel
+Auger Motor
+Door.
+(Assemble)
+Connect the housing connector.
+*Indoor only
+45
+
+===== PAGE 46 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+Part Name Description Figure
+Connect the housing connector.
+Place the Assy Ice Maker-Mech in the Panel Door
+(Right Picture)
+Assy Case
+Auger Motor
+Screw the 5 screws.
+(Assemble)
+*Indoor only
+Place the Ice Maker Cover and gently push.
+Lift up the Ice Maker Cover and gently pull out.
+Assy Ice
+Unscrew the 4 screws.
+Maker
+*Indoor only
+Disassemble the Ice Maker Assy.
+46
+
+===== PAGE 47 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-18. Water tank
+Part Name Description Figure
+1. Separate the hose and 昀椀tting from the
+bottom of the fridge door.
+2. Disassembly 2 screws.
+Water tank
+※indoor
+plumbing 3. Disconnect the housing and Pull out the Housing
+model Hose.
+To prevent the folding hose for
+Hose
+assembling : Input the OJC-Seal
+CAUTION into the hole over ½ or fully.
+Check
+Air in the
+4. Check the Water Dripping. water
+tank
+(Have to remove Air bubbles in the
+Water tank)
+47
+
+===== PAGE 48 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-19. LED Lamp
+Part Name Description Figure
+1.D isassemble the case lamp using a
+昀氀at head driver. Disassemble from
+the back of the case lamp.
+2.R emove the housing by pressing
+the housing connection using a 昀氀at
+head driver.
+- IF you remove COVER LAMP before,
+you can do it easily.
+3. Assemble the new lamp in the case
+LED Lamp
+to be replaced and connect it to the
+top housing.
+4. Assemble the case at the top and
+assemble the new cover.
+48
+
+===== PAGE 49 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-20. LCD
+Part Name Description Figure
+1.R emove a cap screw and a screw.
+2. Attach a suction cup to the top of
+the display and pull out the display.
+Make sure you hold the display at
+Disassembling the bottom.
+LCD
+3. Disconnect carefully the wiring
+connectors.
+Never lay the panel face
+down on a 昀氀at surface. Place
+the display on a blanket or
+CAUTION
+mat
+49
+
+===== PAGE 50 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-21. Assy Panel-Camera
+Part Name Description Figure
+1.R emove the top door bin of right
+fridge door.
+Disassembling
+2.R emove a cap screw and a screw.
+CAMERA
+3. Disconnect carefully the wiring
+connectors.
+50
+
+===== PAGE 51 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-22. How to remove the subcomponents from the Assy Case Display
+How To Do Descriptive Picture
+1. Remove 6 screws, and release the latches to remove the
+⑤
+Case Housing from the Assy Case Display. ④ ②
+①
+※ Componets
+①LCD PBA
+③
+②Touch FPCB Cable
+③LCD FLAT Cable
+④Wi-Fi/BT Module
+⑤MIC PBA Cable
+⑥SPEAKER
+⑦
+⑦Backlight cable
+⑥ ⑧
+⑧Proximity sensor
+※ Dismantling components ①LCD PBA ②Touch FPCB Cable
+① LCD PBA
+Remove the 4 housings 昀椀rst and then push the latch to
+remove the bracket.
+② Touch FPCB Cable
+Remove a housing.
+③ LCD FLAT Cable
+Remove a housing.
+③LCD FLAT Cable ④Wi-Fi/BT Module
+④ Wi-Fi/BT Module
+Separate from the LCD PBA.
+⑤ MIC PBA Cable
+Remove a housing.
+⑥ SPEAKER
+⑤MIC PBA Cable ⑥SPEAKER
+Remove a housing and Separate from LCD Assy.
+⑦ Backlight cable
+Remove a housing.
+⑧ Proximity sensor
+⑦Backlight cable ⑧Proximity sensor
+Remove a housing and Separate from LCD Assy.
+※Note when separating Wi-Fi Module
+CAUTION
+• When separating modules, give a uniform force to both sides to separate.
+• Concerns about connector breakage when separating module only by one side.
+51
+
+===== PAGE 52 =====
+
+This document cannot be used without Samsung's authorization
+DISASSEMBLY & REASSEMBLY
+3-23. Removing the USB
+Part Name Description Figure
+1.P ush the USB Cover upwards, which
+is on the top left of the right fridge
+door.
+USB
+2.P ull the USB to the right and
+remove it.
+* Assembly is the reverse of
+disassembly.
+52
+
+===== PAGE 53 =====
+
+This document cannot be used without Samsung's authorization
+4C.H CEHCEkC TkH TEH IEN SINTSATLALLALTAIOTNIO SNT SATTAUTSUS
+4-1. Adjust the leveling feet and door height
+4-1-1. Adjust the leveling feet
+CAUTION
+• The refrigerator must be levelled on a 昀氀at, solid 昀氀oor. Failing to do so can cause damage to the
+refrigerator or physical injury.
+• Levelling must be performed with an empty refrigerator. Make sure no food items remain inside the
+refrigerator.
+• For safety reasons, adjust the front side a little higher than the rear side.
+The refrigerator can be levelled using the front legs that have a special screw (leveller) for levelling
+purposes. Use a 昀氀at-head screwdriver for levelling.
+■ To adjust the height of the freezer side:
+Insert a 昀氀at-head screwdriver into the leveller of the
+freezer-side front leg. Turn the leveller clockwise to
+raise, or turn it counter clockwise to lower.
+■ To adjust the height of the fridge side:
+Insert a 昀氀at-head screwdriver into the leveller of the
+fridge-side front leg. Turn the leveller clockwise to
+raise, or turn it counter clockwise to lower.
+53
+
+===== PAGE 54 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+4-1-2. Adjust the door height as well as the door gap
+■ To adjust the height of a door
+The height of fridge door can be adjusted using the clamp nut and the height nut on the front bottom of
+each door.
+1. Open the door to adjust, and locate the two nuts
+(A)and (B) on the front bottom of the door.
+B
+A
+2. With a 19 mm spanner, turn the clamp nut (A)
+clockwise to loosen. Then, open the door, and do
+the following inside the door.
+A - To raise the door, turn the height nut (B)
+counter clockwise.
+- To lower the door, turn the height nut (B)
+clockwise.
+3. When complete, tighten the clamp nut (A) by
+turning it counter clockwise.
+A
+54
+
+===== PAGE 55 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-1-3. Connect the water dispenser line (applicable models only)
+■ Installation (external dispenser line)
+Water line 昀椀xer and screws* Coupler* Water line*
+Water 昀椀lter lock-clip* Water 昀椀lter Check valve*
+*: Except for North America
+■ Parts and tools required
+1. Assemble the water pipe line using couplers.
+2. C lose the main water supply, and then close the
+water tap.
+3. Connect the coupler to the cold water tap.
+CAUTION
+• M ake sure you connect the coupler to the cold water tap. Connection to the hot water tap may cause the
+water 昀椀lter to be clogged and fail to operate normally.
+• T he warranty for your refrigerator does not cover the water line installation. The water line installation
+will be performed at your own costs unless the installation fee is included in the retailer’s price.
+• S amsung takes no responsibility for the water line installation. If water leaks occur, contact the installer
+of the water line.
+• T he water line must be repaired by a quali昀椀ed professional. If you encounter a water leak, contact a local
+Samsung service centre or the installer of the water line.
+55
+
+===== PAGE 56 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-1-4. Connect to a water source (applicable models only)
+CAUTION
+• T he water line must be connected by a quali昀椀ed technician.
+• T he warranty for your refrigerator does not cover the water line installation. The water line installation
+will be performed at your own costs unless the installation fee is included in the retailer’s price.
+• S amsung takes no responsibility for the water line installation. If water leaks occur, contact the installer
+of the water line.
+■ To connect the cold water pipe to the water 昀椀ltering hose
+CAUTION
+• M ake sure the water 昀椀ltering hose is connected to a cold, potable water source pipe.
+Connecting to the hot water pipe may cause the water 昀椀lter to malfunction.
+1. Shut off the water supply by closing the main water
+valve.
+2. Locate the cold, potable water pipe (1).
+3. Follow the Water Line Installation to connect to the
+water pipe.
+NOTE
+New hose-sets supplied with the appliance are to be used
+and old hose-sets should not be reused.
+A.Close Main Water pipe
+B.No gap
+56
+
+===== PAGE 57 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+■ To connect the water 昀椀ltering hose to the water line
+1. Loosen and remove the compression nut (a) from
+the water line of the refrigerator, and insert it to
+the water 昀椀ltering hose.
+2.T ighten up the compression nut (a) to connect the
+water 昀椀ltering hose and the water line.
+3. Open the main water valve and check for any leaks.
+4. If there are no leaks, dispense about 10 litres
+of water or dispense the water for 6 - 7 minutes
+before actually using the refrigerator to remove
+impurities inside the water 昀椀ltering system.
+5.S ecure the water line to a sink or a wall using a
+A.Water Line from unit clip.
+B.Water Line from kit
+CAUTION
+• D o not tighten the water line excessively. Make sure the
+water line is not bent, pinched, or squashed.
+• D o not mount the water line on any part of the
+refrigerator. This may damage the refrigerator.
+NOTE
+If you have to relocate the refrigerator after connecting
+the water line, make sure the joined section of the water
+line must is straight.
+57
+
+===== PAGE 58 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2. Function for failure diagnosis
+※How to launch the Fridge Function Test Menu.
+Sequence Note
+A B
+① Within 3 seconds, touch the “A” and “B” part as “A-B-A-B-
+A-B” (“Engineer mode” massage will be displayed as toast
+popup.)
+② Choose “Fridge Function Test”.
+③ Fridge Function test launched.
+58
+
+===== PAGE 59 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+4-2-1. Test mode (manual operation / manual defrost function)
+1)Manual operation function (Force Run)
+Sequence Note
+①Choose “Force Run”.
+② T o run compressor manually, press the force run button
+on the list. All test function will be canceled by click
+“TEST CANCEL” button on the top of the force test list.
+59
+
+===== PAGE 60 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+FORCE RUN 1 (FF 1)
+If Force Run 1(FF 1) selected, compressor will run at once without 7 minutes delay in any mode. If the refrigerator is on the
+defrost cycle at the moment, defrost will be finished and Force Run will begin.
+(Be careful if Force Run get started at the moment of compressor off, over load could be occurred)
+When Force Run 1(FF 1) operation runs, Compressor & F-fan(Freezer) operate continuously for 24 hours, F-Valve will maintain
+Open status, and F- Cooling speed valve will maintain Close status. And Fridge compartment will be controlled by the setting
+temperature.
+And setting temperature will be selected automatically as below: freezer compartment -8°F(-23°C), fresh food compartment
+34°F(1°C). During Force Run, Power Freeze & Power Cool function will not be work. If a function is selected, the power function
+icon of the selected function will be off automatically after 10 seconds
+FORCE RUN 2 (FF 2)
+If Force Run 2(FF 2) selected, compressor will run at once without 7 minutes delay in any mode. If the refrigerator is on the
+defrost cycle at the moment, defrost will be finished and Force Run will begin. (Be careful if Force Run get started at the
+moment of compressor off, over load could be occurred)
+When Force Run 2(FF 2) operation runs, Compressor & F-fan(Freezer) operate continuously for 24 hours, F-Valve will maintain
+Close status, and F- Cooling speed valve will maintain Open status. And Fridge compartment will be controlled by the setting
+temperature.
+And setting temperature will be selected automatically as below: freezer compartment -8°F(-23°C), fresh food compartment
+34°F(1°C). During Force Run, Power Freeze & Power Cool function will not be work. If a function is selected, the power function
+icon of the selected function will be off automatically after 10 seconds.
+FORCE RUN 3 (FF A)
+If Force Run 3(FF A) selected, compressor will run at once without 7 minutes delay in any mode. If the refrigerator is on the
+defrost cycle at the moment, defrost will be finished and Force Run will begin.
+(Be careful if Force Run get started at the moment of compressor off, over load could be occurred)
+When Force Run 3(FF A) operation runs, Compressor & F-fan(Freezer) operate continuously for 24 hours, both F-Valve and F-
+Cooling speed valve will maintain Open status. And Fridge compartment will be controlled by the setting temperature.
+And setting temperature will be selected automatically as below: freezer compartment -8°F(-23°C), fresh food compartment
+34°F(1°C). During Force Run, Power Freeze & Power Cool function will not be work. If a function is selected, the power function
+icon of the selected function will be off automatically after 10 seconds.
+60
+
+===== PAGE 61 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+2)Manual defrost (Force Defrost)
+FORCE DEFROST (Fd)
+Forced Freezer and Fridge compartment defrosting begins.
+3)Test cancel mode
+All test function will be canceled by click “TEST CANCEL” button on the top of the force test
+list. Or, all test functions will be canceled by turning main power ON and OFF.
+61
+
+===== PAGE 62 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+4-2-2. Self-diagnostic function
+1)Self-diagnostic function in the Initial power ON.
+1-1) M icom operates self-diagnostic function to check the temperature sensor condition within 1 second when the refrigerator
+turned On initially.
+1-2) I f bad sensor is detected by the self-diagnostic function, the error message will pop-up with error number. At this moment,
+there is no beep sound.(Refer to self-diagnostic CHECK LIST)
+1-3) S elf-diagnostic button is recognized only when the error is displayed by the bad sensor.Display does not operate normally
+but temperature control will be controlled by the emergency operation.
+1-4) When the error is detected by self-diagnosis, the error can be canceled automatically if all troubled sensors are corrected
+or press the error skip key. (Press the ‘OK’ Button for 3 sec on pop-up message.)
+Sequence Note
+①Choose “Self Diagnosis”.
+② Current errors will be shown on the box. When the error
+on the List box is selected, the detailed failure mode is
+displayed. The Self Diagnosis function stays on for 60
+seconds.
+62
+
+===== PAGE 63 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-3. Display function of Load condition
+Sequence Note
+①Choose “Load Status”.
+② Load Status mode displays current output signals from
+MICOM. It is not the actual operating load status but
+output signals from MICOM. That is to say, even though
+the display shows any refrigerator mode is on, the actual
+status can of different with the display due to the errors
+of load and relay on PCB etc. The Load Status function
+status function stays on for 30 seconds.
+Load Status mode displays current output signals from MICOM. It is not the actual operating load status but output signals
+from MICOM. That is to say, even though the display shows any refrigerator mode is on, the actual status can be different with
+the display due to the errors of load and relay on PCB etc. The Load Status function stays on for 30 seconds.
+63
+
+===== PAGE 64 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+■ Load mode checklist
+NO Part Display Operation contents
+1 R Damper Heater R DAMPER HEATER ON When R Damper Heater operates
+2 Overload condition AMBIENT TEMP HIGH When ambient temperature is more than 34°C
+Low Temperature
+3 AMBIENT TEMP LOW When ambient temperature is less than 21°C
+condition
+4 Normal condition AMBIENT TEMP is not displayed. When ambient temperature is between 22°C and 33°C.
+5 Exhibition mode SHOW ROOM MODE Display mode
+Ice Pipe Heater
+6 ICE PIPE HEATER ON When Ice Pipe Heater operates
+(DISPENSER model)
+ICE MAKER FULL
+7 FULL ICE When the Ice Maker's Bucket is full
+(DISPENSER model)
+8 COMP COMPRESSOR When COMP operates
+9 F-FAN HIGHEST FREEZER-FAN HIGHEST When F-FAN HIGHEST operates
+10 F-FAN HIGH FREEZER-FAN HIGH When F-FAN HIGH operates
+11 F-FAN-LOW FREEZER-FAN LOW When F-FAN LOW operates
+12 F-DEF HEATER FREEZER-DEFROST-HEATER ON When F-DEF HEATER operates
+13 C-FAN HIGHEST C-FAN HIGHEST When C-FAN HIGHEST operates
+14 C-FAN HIGH C-FAN HIGH When C-FAN HIGH operates
+15 C-FAN LOW C-FAN LOW When C-FAN LOW operates
+16 F Valve FREEZER VALVE OPEN When freezer valve open
+FREEZER COOLING SPEED
+17 F Cooling Speed Valve When freezer cooling speed valve open
+VALVE OPEN
+DISPENTER HEATER
+18 DISPENSER HEATER ON When DISPENSER HEATER operates
+(DISPENSER model)
+19 R DAMPER R DAMPER OPEN When R DAMPER open
+64
+
+===== PAGE 65 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-4. DEMO MODE 1 : Exhibition mode setting function (North America Model)
+1) Cooling Off mode (also called Shop mode), is designed for use by retailers when they are displaying refrigerators on the shop
+floor. In Cooling Off mode, the refrigerator’s fan motor and lights work normally, but the compressors do not run, and the
+refrigerator and freezer do not get cold. If Cooling Off is turned on, all cooling controls will turn to OFF on the Fridge Manager.
+• To activate Cooling Off, tap Activate > Proceed from Cancel/Proceed.
+• To deactivate Cooling Off, tap Deactivate > Proceed from Cancel/Proceed.
+2) If Cooling Off mode is selected, display "Off" on the temperature setting display of the fridge manager and it indicates the
+refrigerator has entered the Cooling Off mode.
+3) During Cooling Off mode, Fridge or Freezer compartments sensors are higher than 149°F (65°C) Cooling Off mode will be
+canceled automatically and freezing operation will be returned. (There is no buzzer sound when the Cooling Off mode is
+canceled by the temperature)
+4) Operation contents of Cooling Off mode
+- Display, Fan motor and etc operate normally, not to operate compressor only.
+- Defrost is not operated. (including dispenser heater, ice pipe heater)
+- Display function of the initial real temperature is finished.
+- Under the condition of Cooling Off mode, Cooling Off mode will be operated when Power On after Power OFF.
+4-2-5. DEMO MODE 2 : Exhibition Mode setting function (All regions except for North
+America)
+1)Exhibition Mode setting function
+1-1) T o activate the Exhibition Mode, Move Side Navi Key(back
+button, Help Button) UP or DOWN. and then, touch the "A" and
+"B" part as "A-B-A-B-A-B“ within 3 seconds.
+1-2) I f Exhibition mode is selected, display "Off" on the temperature
+setting display of the fridge manager and it indicates the
+refrigerator has entered the Exhibition mode.
+1-3) D uring Exhibition mode, if fridge or freezer compartments
+sensors are higher than 149°F (65°C) Exhibition mode will be
+canceled automatically and freezing operation will be returned.
+(There is no buzzer sound when the Exhibition mode is canceled
+A B
+by the temperature)
+1-4) Operation contents of Exhibition mode
+- D isplay, Fan motor and etc operate normally, not to operate
+compressor only.
+- D efrost is not operated. (including dispenser heater, ice pipe
+heater)
+- D isplay function of the initial real temperature is finished.
+- U nder the condition of Exhibition mode, Exhibition mode will
+be canceled when Power On after Power OFF.
+65
+
+===== PAGE 66 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-6. Option setting function
+Sequence Note
+①Choose “Fridge Option”.
+NOTE
+Basically, all the data in option has cleared from the factory.
+Therefore, almost all setting value are "0“.But, some setting
+values could be changed for the purpose of improving
+performmance.NOTE You need to check the product manual
+and/or speci昀椀cation.
+② Change the option 00,01,02,03,04,12,19 and click the
+“Save Option” button on the end of the option list to save
+the options.
+NOTE
+Option setting function exists in the other items.We will
+skip the explanation of the other functions by the option
+because it is associated with refrigerator control function
+and is not needed at SERVICE.NOTE (Please do not set the
+other options except above SERVICE Manual.)
+66
+
+===== PAGE 67 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-7. Option TABLE
+1)Temperature changing table of freezer compartment
+Set item Freezer Temp Shift
+Reference Fridge Room 7-SEG
+Value 0
+Setting value
+FZ Temp.
+compartment compensation
+Code
+0 0.0°C
+1 -0.5°C
+2 -1.0°C
+3 -1.5°C
+4 -2.0°C
+5 -2.5°C
+6 -3.0°C
+7 -3.5°C
+8 +0.5°C
+9 +1.0°C
+10 +1.5°C
+11 +2.0°C
+12 +2.5°C
+13 +3.0°C
+14 +3.5°C
+15 +4.0°C
+2)Temperature changing table of Fridge compartment
+Set item Fridge Temp Shift
+Reference Fridge Room 7-SEG
+Value 1
+Setting value
+FZ Temp.
+compartment compensation
+Code
+0 0.0°C
+1 -0.5°C
+2 -1.0°C
+3 -1.5°C
+4 -2.0°C
+5 -2.5°C
+6 -3.0°C
+7 -3.5°C
+8 +0.5°C
+9 +1.0°C
+10 +1.5°C
+11 +2.0°C
+12 +2.5°C
+13 +3.0°C
+14 +3.5°C
+15 +4.0°C
+67
+
+===== PAGE 68 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+3) Ice Tray water supply of freezer compartment Ice Maker
+(In DISPENSER MODEL with 昀氀ow sensor Only features)
+Set item FZ-Room ICE TRAY
+Reference Fridge Room 7-SEG
+Value 2
+Setting value
+FZ Water
+compartment Settings
+Code
+0 92cc
+1 105cc
+4) Eject waiting time changing table of freezer compartment Ice Maker
+(In DISPENSER MODEL Only features)
+Set item FZ-Room Ice Maker Eject waiting time Shift
+Reference Fridge Room 7-SEG
+Value 3
+Setting value
+FZ
+Setting time
+compartment
+Code
+0 85min
+1 84min
+2 83min
+3 82min
+4 81min
+5 80min
+6 79min
+7 78min
+8 77min
+9 76min
+10 75min
+11 74min
+12 73min
+13 72min
+14 86min
+15 87min
+68
+
+===== PAGE 69 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+5) Eject temperature changing table of freezer compartment Ice Maker
+(In DISPENSER MODEL Only features)
+Set item FZ-Room Ice Maker Eject temperature Shift
+Reference Fridge Room 7-SEG
+Value 4
+Setting value
+FZ Temp.
+compartment compensation
+Code
+0 -17.0°C
+1 -16.0°C
+2 -15.0°C
+3 -14.0°C
+4 -13.0°C
+5 -12.0°C
+6 -18.0°C
+7 -19.0°C
+6) Minimum Comp RPM shifting.
+- This option is rising minimum Comp RPM.
+As this option is applied, Comp operation.
+Set item Minimum Comp RPM setting
+Reference Fridge Room 7-SEG
+Value 12
+Setting value
+FZ
+Comp RPM
+compartment
+Code
+0 No RPM Change
+1 Minimum 2450RPM
+2 Minimum 2450RPM
+3 Minimum 2450RPM
+7)O peration rate changing table of dispenser heater.
+(In DISPENSER MODEL Only features)
+Set item Minimum Comp RPM setting
+Reference Fridge Room 7-SEG
+Value 19
+Setting value
+FZ
+Temp Display Option
+compartment
+Code
+0 0.00%
+1 + 20% operation ( up to 100% )
+69
+
+===== PAGE 70 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-8. Test mode (manual operation / manual defrost function)
+• Press the Fridge and Power Cool buttons at the same time for at least 6 seconds. The Control Display will blink with an interval of
+0.5 seconds. In that case, you may take your fingers off both buttons and press the Power Cool button to enter the Test Mode.
+• If any key on the front of panel is pressed within 15 seconds after the test mode, it will be operated as below sequence :
+Manual operation(FF) -> manual defrost of freezer compartment(Fd) -> cancel(Display all off)
+• If any key on the front of panel is not pressed within 15 seconds after the test mode, the test mode will be canceled and it will be
+returned to previous mode.
+1)Manual operation function
+①
+①
+②
+Fridge Key + Power Cool Key are pressed simultaneously for 6 seconds. And the Control Display will blink
+with an interval of 0.5 seconds. In that case, you may take your fingers off both buttons and press the Power
+Cool button to enter the Test Mode.
+70
+
+===== PAGE 71 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+1-1) I f any key is pressed once in test mode, blinks "FF" on the display and it indicates the refrigerator has entered the manual
+operation. At this moment, buzzer beeps as an alarm.
+1-2) I f manual operation is selected, compressor will run at once without 7 minutes delay in any mode. If the refrigerator is on the
+defrost cycle at the moment, defrost will be finished and manual operation will begin.(Be careful if manual operation get
+started at the moment of compressor off, over load could be occurred)
+1-3) I f manual operation works, compressor & f-fan operate continuously for 24 hours and fridge compartment will be controlled
+by the setting temperature.
+1-4) When the manual operation runs, setting temperature will be selected automatically as below: freezer compartment -23°C,
+fridge compartment 1°C.
+1-5) During manual operation, Power Freezer & Power Cool function will not be work.If a function is selected, the power function
+icon of the selected function will be off automatically after 10 seconds.
+1-6) Manual operation can be canceled by removing power from the unit, then resupplying power.
+1-7) Alarm(0.25 sec ON/ 0.75 sec OFF) will beep continuously until manual operation is completed and there is no function to
+make the sound stop.
+71
+
+===== PAGE 72 =====
+
+This document cannot be used without Samsung's authorization
+CHECkTHE INSTALLATIONSTATUS
+2)Forced Defrost
+2-1) When you press any key one more time at the manual operation status, Fd lights up on the Display Panel. At this time, the
+Forced Operation stops immediately and F-Defrost will be performed at the same time.
+2-2) At this time, it will send out “Beep” sound for 2 seconds and then it will perform Forced F Defrost while sending out “0.5 sec On
+and 0.5 sec Off” sound.
+3)Test cancel mode
+3-1) D uring the defrosting of freezer compartment if the display panel change to the test mode and test button is pressed one
+more time, defrosting of freezer compartment will be canceled and the unit will return to the normal operation.
+Or, all test functions will be canceled by turning main power ON and OFF.
+72
+
+===== PAGE 73 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-9. Self-diagnostic function
+1)Self-diagnostic function in the Initial power ON
+①
+①
+① If Fridge Key + Power Cool Key are pressed simultaneously for 10 seconds, the error mode by self-diagnosis
+will be canceled.
+1-1) Micom operates self-diagnostic function to check the temperature sensor condition within 1 second when the refrigerator
+turned On initially.
+1-2) I f bad sensor is detected by the self-diagnostic function, the applicable display LED will blink for 0.5 sec. At this moment,
+there is no beep sound.(Refer to self-diagnostic CHECK LIST)
+1-3) S elf-diagnostic button is recognized only when the error is displayed by the bad sensor.Display does not operate normally but
+temperature control will be controlled by the emergency operation.
+1-4) When the error is detected by self-diagnosis, the error can be canceled automatically if all troubled sensors are corrected or
+Self-diagnostic function key (Fridge Key + Power Cool Key) are pressed simultaneously for 10 seconds.
+(Return to normal display mode)
+73
+
+===== PAGE 74 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+2)Self-diagnostic function during normal operation
+①
+①
+② If Fridge Key + Power Cool Key are pressed simultaneously For 10 seconds, the self-diagnosis function will
+be selected.
+2-1) If Fridge Key + Power Cool Key are pressed simultaneously for 6 seconds during normal operation, the temperature setting
+display will operate for 4 seconds (ON/OFF 0.5sec each).If Fridge Key + Power Cool Key are pressed simultaneously for 10
+seconds (including above 4seconds), self-diagnostic function will be selected.
+2-2) At this moment, self-diagnostic function will be returned with buzzer sound.If there is an error, display of error will be
+operated for 30 seconds and then return to normal condition whether problem is corrected or not. (Refer to self-diagnosis
+CHECK LIST)
+2-3) Input by button is not accepted during self-diagnostic function.
+74
+
+===== PAGE 75 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-10. Display function of Load condition
+①
+①
+②
+① If Fridge Key and Power Cool Key are pressed simultaneously for 6 seconds, ALL ON/OFF will blink with
+0.5interval for 4 seconds.
+② If take the finger off from above keys and press Freezer Key, load condition mode will be started.
+1) If Fridge Key and Vacation Key are pressed simultaneously for 6 seconds during normal operation, the temperature setting
+display of Fridge and freezer compartments will blink ALL ON/OFF with 0.5 for 4 seconds.
+2) At this moment, If Freezer Key after Fridge Key and Vacation Key is pressed, load condition display mode will be returned with
+alarm. At LED all on state, only load condition display will blink ON/OFF with 0.5 seconds interval.
+3) Load condition display mode shows the load that micom signal is outputting.
+However, It means that micom signal is outputting, it does not mean whether load is operating or not. That is to say that though
+load operation is displayed, load could not be operated by actual load error or PCB relay error etc. (This function would be
+applied at A/S.)
+4) Load condition display function will maintain for 30 seconds and then normal condition will be returned automatically.
+5) Load condition display is as below. Only the load control LED will blink with 0.5interval in "Display LED".
+75
+
+===== PAGE 76 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+R-10R-1
+F-10F-1
+1) If Fridge Key and Power Cool Key are pressed simultaneously for 6 seconds during normal operation, the temperature setting
+display of Fridge and freezer compartments will blink ALL ON/OFF with 0.5 for 4 seconds.
+2) At this moment, If Freezer Key after Fridge Key and Power Cool Key is pressed, load condition display mode will be returned with
+alarm. At LED all on state, only load condition display will blink ON/OFF with 0.5 seconds interval.
+3) Load condition display mode shows the load that micom signal is outputting. However, It means that micom signal is
+outputting, it does not mean whether load is operating or not. That is to say that though load operation is displayed, load could
+not be operated by actual load error or PCB relay error etc. (This function would be applied at A/S.)
+4) Load condition display function will maintain for 30 seconds and then normal condition will be returned automatically.
+5) Load condition display is as below. Only the load control LED will blink with 0.5interval in "Display LED"
+76
+
+===== PAGE 77 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+■ Self-diagnosis checklist
+F R
+LED
+Item Trouble contents Diagnostic method Image
+F R
+When measuring the voltage
+between the Main PCB CN20
+F-Sensor Error
+1PIN - 3PIN, it should read
+between 4.5V~1.0V.
+When measuring the voltage
+between the Main PCB CN20
+R-Sensor Error
+Display error :separation of 2PIN - 4PIN, it should read
+sensor housing part, contact between 4.5V~1.0V.
+error, disconnection, short
+circuit.
+Display error of detecting
+temperature of sensor :more When measuring the voltage
+F-DEF-Sensor than 65°C or less than-50°C between the Main PCB CN20
+Error 5PIN - 7PIN, it should read
+between 4.5V~1.0V.
+The voltage of MAIN PCB CN40
+Ambient-Sensor
+18PIN-20PIN shall be between
+Error
+4.5V~1.0V.
+Display error :separation of
+sensor housing part, contact
+error, disconnection, short The Voltage of MAIN PCB CN90
+Ice Maker
+circuit. Display error of 11PIN - 13PIN Shall be between
+Sensor Error
+detecting temperature of 4.5V ~ 1.0V.
+sensor:more than 65°C or
+less than- 50°C
+When measuring the voltage
+Separation of sensor
+Humidity-Sensor between the Main PCB CN40
+housing part, contact error,
+Error 14PIN - 20PIN, it should read
+disconnection, short circuit.
+between 4.5V~1.0V.
+77
+
+===== PAGE 78 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+LED
+Item Trouble contents Diagnostic method Image
+F R
+Display error during
+operation of applicable fan The voltage of MAIN PCB CN20
+F-FAN Error motor :Feed back signal line 15PIN - 17PIN shall be between
+contact error, motor wire 7V~12V.
+separation, motor error.
+Display error during
+operation of applicable fan The voltage of MAIN PCB CN20
+C-FAN Error motor :Feed back signal line 22PIN - 24PIN shall be between
+contact error, motor wire 7V~12V.
+separation, motor error.
+Separation of freezer
+After separating Main PCB
+compartment defrost heater
+CN70& CN85 wire from PCB,
+housing part, contact error,
+Resistance value between
+disconnection, short circuit
+CN70 5PIN - CN85 3PIN
+or temperature fuse error.
+F-DEF Error Shall be 63(230) ohm ±
+Display error :the defrosting
+7%(Resistance value is varied
+does not finish though
+by input power) 0 ohm : heater
+freezer compartment defrost
+short, ∞ ohm : wire/bimetal
+is heating continuously for
+open (Must power off)
+more than 100 minutes.
+When the Freezer Ice Maker
+Ice Maker error occurs more than After replacing the Ice Maker,
+Function Error 3 times, the error will be check if it operates normal.
+displayed.
+Display error when open error
+is detected by damper heater
+Damper Heater The voltage of MAIN PCB CN40
+:separation of Damper Heater
+Error 25PIN - 27PIN shall be 7V~12V.
+housing part, contact error,
+disconnection, short circuit.
+Display error when open error
+is detected by Ice Pipe heater
+Ice Pipe Heater The voltage of MAIN PCB CN90
+:separation of Ice Pipe Heater
+Error 1PIN - 5PIN shall be 7V~12V.
+housing part, contact error,
+disconnection, short circuit.
+78
+
+===== PAGE 79 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+LED
+Item Trouble contents Diagnostic method Image
+F R
+Actually, If there is not a
+MAIN ↔ Panel Display 41Er in the panel problem, it is desirable to
+Communication with alarm : MICOM ↔ MAIN replace Main and Panel
+Error PANEL communication error. PCB after a cable problem
+confirming.
+Actually, If there is not a
+Main - Inverter Display 44Er in the panel
+problem, it is desirable to
+Communication :Inverter MICOM ↔ Main
+replace Main PCB after a cable
+Error MICOM communication error.
+problem confirming.
+I/O Expander Display 46Er in the panel :I/O
+It is desirable toreplace Main
+Communication Expander ↔ Main MICOM
+PCB.
+Error communication error.
+Actually, If there is not a
+Main ↔ Display 47Er in the panel
+problem, it is desirable to
+Dispenser Panel with alarm : MAIN MICOM
+replace Main and Dispenser
+Communication ↔ DISPENSER PANEL
+Panel PCB after a cable
+Error communication error.
+problem confirming.
+Actually, If there is not a
+Main ↔ WIFI Display 52Er in the panel with
+problem, it is desirable to
+Communication alarm : MAIN MICOM ↔ WIFI
+replace Main and WIFI after a
+Error communication error.
+cable problem confirming.
+The temperature has been
+When the freezer abnormally increased. Check
+The F temperature is abnormally if the door has been open
+Compartment high or the freezer door is for a long time or if hot
+Abnormal High open for a certain period food has been stored in the
+temperature of time and the freezer compartment. If the reason
+indicator blinks temperature increases, the for the error is removed, the
+freezer display blinks. error code disappears after a
+predetermined period of time.
+Check if door has been open
+When the fridge temperature
+The R for a long time or if hot
+is abnormally high or the
+Compartment food has been stored in the
+fridge door is open for a
+Abnormal High compartment. If the reason
+certain period of time and the
+temperature for the error is removed, the
+fridge temperature increases,
+indcator blinks error code disappears after a
+the fridge display blinks.
+predetermined period of time.
+79
+
+===== PAGE 80 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+LED
+Item Trouble contents Diagnostic method Image
+F R
+Check if there is a short
+Comp starting When the Compressorfails
+between compressor
+Failure Error starting.
+terminals. Check IPM Voltage
+[Under 13.5V] Check if there
+When there is a IPM Fault is a short between IPM Pins
+IPM Fault Error error. [#1~33] Check the Compressor
+and the Cycle.
+Check the compressor wire
+connections.
+Comp Abnormal When there is abnormal
+Check the soldering status of
+current current detected at the
+the inverter PCB. (Check if any
+Detection Error Compressor.
+parts have short-circuited).
+Check the Comp and Cycle.
+Check if the compressor and
+the Cycle is normal.
+Motor Locked When there is a Compressor Check the input voltage. Check
+Over RPM error restriction error. the soldering of the
+inverter PCB. (Check if any
+parts have short-circuited.)
+The error code is displayed Check the input voltage. (This
+Comp over
+when the AC Input Voltage is error occurs when theinput
+voltage Error
+too high. voltage is AC 310V or higher.)
+Check the IPM
+temperature(over 12) status
+Comp IPM When there is a comp IPM
+of the inverter PCB. Check the
+ShutDown Error shutdown error.
+heat-sink assembly status of
+the IPM.
+80
+
+===== PAGE 81 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-11. Display function of Load condition
+①
+①
+②
+1) If Fridge Key + Power Cool Key are pressed simultaneously for 6 seconds during normal operation, the temperature setting
+display of fridge and freezer compartments will blink ALL ON/OFF with 0.5 for 4 seconds.
+2) If take the finger off from above keys and press Freezer key load status will display. At LED all on state only load condition
+display will blink ON/ OFF with 0.5 seconds interval.
+3) Load condition display mode shows the load that micom signal is outputting.However, It means that micom signal is outputting,
+it does not mean whether load is operating or not. That is to say that though load operation is displayed, load could not be
+operated by actual load error or PCB relay error etc. (This function would be applied at A/S.)
+4) Load condition display function will maintain for 30 seconds and then normal condition will be returned automatically.
+5) Load condition display is as below. Only the load control LED will blink with 0.5 interval in "Display LED".
+81
+
+===== PAGE 82 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+F-10 R-10
+F-1 R-1
+※Load mode Check list
+NO Part Display (LED) Operation contents
+1 R Damper Heater R-1-ⓓ When R Damper Heater operates, applicable LED blinks.
+2 Overload condition R-1-ⓔ When ambient temperature is more than 34°C,LED blinks.
+Low Temperature
+3 R-1-ⓕ When ambient temperature is less than 21°C,LED blinks.
+condition
+R-1-ⓔ, ⓕ
+4 Normal condition When ambient temperature is between 22°C and 33°C.
+(Not blinks ALL LED)
+5 Exhibition mode R-1-ⓖ LED Blinks at the display mode.
+Ice Pipe Heater
+6 R-10-ⓐ When Ice Pipe Heater operates, applicable LED blinks.
+(DISPENSER model)
+Ice Maker Full
+7 R-10-ⓓ When the Ice Maker's Bucket is full, applicable LED blinks.
+(DISPENSER model)
+8 COMP F-1-ⓐ When COMP operates, applicable LED blinks.
+9 F-Fan Highest F-1-ⓑ, ⓒ When F-FAN HIGHEST operates, applicable LED blinks.
+10 F-Fan High F-1-ⓑ When F-FAN HIGH operates, applicable LED blinks.
+11 F-Fan Low F-1-ⓒ When F-FAN LOW operates, applicable LED blinks.
+12 F-DEF Heater F-1-ⓓ When F-DEF HEATER operates, applicable LED blinks.
+13 C-Fan Highest F-1-ⓔ, ⓕ When C-FAN HIGHEST operates, applicable LED blinks.
+14 C-Fan High F-1-ⓔ When C-FAN HIGH operates, applicable LED blinks.
+15 C-Fan Low F-1-ⓕ When C-FAN LOW operates, applicable LED blinks.
+Dispenter Heater
+16 F-10-ⓔ When DISPENSER HEATER operates, applicable LED blinks.
+(DISPENSER model)
+17 R Damper F-10-ⓖ When R DAMPER opens, applicable LED blinks.
+When AP and Internet Disconnect : LED OFF.
+WIFI Status
+18 WIFI Icon When AP connect and Internet Disconnect : LED Blinks.
+(WIFI model)
+When AP and Internte connect : LED ON.
+82
+
+===== PAGE 83 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-12. Exhibition mode setting function (North America Model)
+①
+①
+②
+1) If Fridge Key + Power Cool Key are pressed simultaneously for 6 seconds, ALL ON/OFF will blink with 0.5 interval for 4 seconds. If
+take the finger off from above keys and press Lock key, Cooling Off mode will be started with buzzer sound.
+2) If the cooling off mode key is pressed once more time during the cooling off operation, Cooling Off mode will be canceled.
+3) If Cooling Off mode is selected, blinks "O-FF" on the temperature setting display of the panel and it indicates the refrigerator
+has entered the Cooling Off mode.
+4) During Cooling Off mode, Fridge or Freezer compartments sensors are higher than 149°F (65°C) Cooling Off mode will be
+canceled automatically and freezing operation will be returned. (There is no buzzer sound when the Cooling Off mode is
+canceled by the temperature)
+5) Operation contents of Exhibition mode
+- Display, Fan motor and etc operate normally, not to operate compressor and Door Open Alarm.
+- Defrost is not operated. (including dispenser heater, ice pipe heater)
+- Display function of the initial real temperature is finished.
+- Under the condition of Cooling Off mode, Cooling Off mode will be operated when Power On after Power OFF.
+83
+
+===== PAGE 84 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-12. Exhibition mode setting function (All Regions Except for North America)
+①
+①
+②
+1) If Fridge Key + Power Cool Key are pressed simultaneously for 6 seconds, ALL ON/OFF will blink with 0.5 interval for 4 seconds. If
+take the finger off from above keys and press Lock key, Exhibition mode will be started with buzzer sound.
+2) If above Exhibition entering Key are pressed one more time, Exhibition mode will be canceled.
+3) If Exhibition mode is selected or canceled by key, displays "on" or "oF" for 5 seconds on the temperature setting display of the
+panel and it indicates the refrigerator has entered or exited the Exhibition mode. After 5 seconds, the display panel will work
+normally.
+4) During Exhibition mode, if fridge and freezer compartments sensors are higher than 149°F(65°C) Exhibition mode will be
+canceled automatically and freezing operation will be returned. (There is no buzzer sound when the Exhibition mode is canceled
+by the Temperature.)
+5) Operation contents of Exhibition mode
+- Display, Fan motor and etc operate normally, not to operate compressor and Door Open Alarm.
+- Defrost is not operated. (including dispenser heater, ice pipe heater)
+- Display function of the initial real temperature is finished.
+- Under the condition of Exhibition mode, Exhibition mode will be canceled when Power On after Power OFF.
+84
+
+===== PAGE 85 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-13. MAC Address Display Mode
+1) This function is to display the MAC address of the Refrigerator Wi-Fi module, and consecutively displays the MAC address on the
+Freezer & Fridge Temperature Display Part for one minute.
+- If you press the Freezer button and the Fridge button simultaneously for six seconds or longer, the Display will blink.Here, if
+you press the Freezer button, a buzzer sound will be made and the product will enter the MAC Address Display Mode.
+2) If the MAC address is "11-22-33-44-55-66“, "-- / --" → "11 / 22" → "33 / 44" → "55 / 66" → "-- / --" will be repeatedly displayed on
+the Freezer & Fridge Temperature Display Part for one minute. When one minute has passed, the MAC Address Display Mode will
+be canceled with a buzzer sound, and the product will return to the normal Display Mode.
+※ If the MAC address is not valid or the Wi-Fi module is not connected, "-- / --" will be displayed on the Freezer & Fridge Display
+Part for one minute.
+4-2-14. Option setting function
+If Fridge Key + Power Cool Key are pressed simultaneously for 6 seconds during normal operation, ALL ON/OFF will blink with
+0.5 interval for 4 seconds. If take the finger off from above keys and press Fridge, Fridge and Freezer compartments temperature
+display will be changed to operation setting mode.
+■Key control in option mode
+Power Cool Key Reference Value down key
+Fridge Key Reference Value Up key
+Lock Key Code Up / Down Key (Rotation)
+• I f the display changes to option setting mode, all displays will be off except
+freezer and fridge compartments temperature display as below. (Fridge and
+freezer compartments case will be explained only because all options are
+operated with the same method according to the option table.)
+85
+
+===== PAGE 86 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-14. Option setting function
+• Press the Fridge and Power Cool buttons at the same time for at least 6 seconds.The Control Display will blink with an interval
+of 0.5 seconds. In that case, you may take your fingers off both buttons and press the Fridge button to enter the Option Setting
+Mode.
+KEY operation method for changing to option mode
+①
+②
+①
+①Press the Fridge and Power Cool buttons simultaneously for 6 seconds. All On/Off will blink with 0.5sec
+interval 4seconds.
+② If take the finger off from above keys and press Fridge Key, Option setting mode will be started.
+86
+
+===== PAGE 87 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+KEY control method after converting to option mode
+Reference Value
+Reference Value Up
+Reference Value Down
+Code
+Code Change (Rotation)
+■Key control in option mode
+Lock Key Code Change Key(Rotation)
+Power Cool Key Reference Value down key
+Fridge Key Reference Value Up key
+87
+
+===== PAGE 88 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+• I f the display changes to option setting mode, all displays will be off except freezer and fridge compartments temperature
+display as below.(Fridge and freezer compartments case will be explained only because all options are operated with the same
+method according to the option table.)
+Reference Value
+Code
+1) For example, if you want to change freezer compartment standard temperature to -4℉(-2°C) by operating option,
+do as below. This function is for changing the standard temperature. In -2℉(-19°C) of current temperature of freezer
+compartment, if you make the temperature lower to -4℉ (-2°C) by the option, the standard temperature would be
+controlled -6℉(-21°C)
+Therefore, if you change the setting of temperature option to -2℉(-19°C) on the panel, the appliance will be operated
+with -6℉(-21°C). It means that standard temperature is controlled -4℉(-2°C) less than setting temperature in the
+display.
+Note
+Basically, all the data in option has cleared from the factory.Therefore, almost all setting value are "0“.But,
+some setting values could be changed for the purpose of improving performmance. NOTE You need to check
+the product manual and/or specification.
+2) After changing to the option mode, fresh food compartment "0" , freezer compartment "0" will be displayed.
+( Basically fresh food compartment "0", freezer "0" would be set at shipping process, but setting value could be changed
+for the purpose of improving product at mass producing process.)
+- If fresh food compartment "0" shows only, temperature reference value of freezer compartment will be set and
+current freezer compartment temperature code will be displayed on the freezer temperature display.
+3) If freezer compartment "4" is set as below freezer compartment code after fresh food compartment "0 is set, standard
+temperature of freezer compartment will be lower than -4℉(-2.0°C). (Refer to the picture "changing the freezer
+compartment temperature")
+88
+
+===== PAGE 89 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+Reference Value
+Code
+: If you wait for 20 seconds after completing the setting, MICOM will save the setting value to the EEPROM and normal
+display will be returned and the option setting mode will be canceled.
+4) By the same method as above, it is possible to control the fridge compartment temperature, water supply, ice-maker
+harvest temperature/time, defrost return time etc.
+5) Option function is set in the EEPROM at shipping process in the factory.
+You would better not to change the option of your own.
+Completing the setting is that option function return to normal display after 20 seconds.
+Do not turn off the appliance before returning to the normal display mode.
+Note
+Option setting function exists in the other items.We will skip the explanation of the other functions by the
+option because it is associated with refrigerator control function and is not needed at SERVICE. NOTE (Please
+do not set the other options except above SERVICE Manual.)
+89
+
+===== PAGE 90 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-2-15. Option TABLE
+1)Temperature changing table of freezer compartment
+Set item Freezer Temp Shift
+Reference Fridge Room 7-SEG
+Value 1
+Setting value
+FZ Temp.
+compartment compensation
+Code
+0 0.0℃
+1 -0.5℃ Reference Value
+2 -1.0℃
+3 -1.5℃
+4 -2.0℃
+5 -2.5℃
+6 -3.0℃
+7 -3.5℃
+8 +0.5℃
+9 +1.0℃
+10 +1.5℃
+11 +2.0℃ Code
+12 +2.5℃
+13 +3.0℃
+14 +3.5℃
+15 +4.0℃
+2)Temperature changing table of Fridge compartment
+Set item fridge Temp Shift
+Reference Fridge Room 7-SEG
+Value 1
+Setting value
+FZ Temp.
+compartment compensation
+Code
+0 0.0℃
+1 -0.5℃ Reference Value
+2 -1.0℃
+3 -1.5℃
+4 -2.0℃
+5 -2.5℃
+6 -3.0℃
+7 -3.5℃
+8 +0.5℃
+9 +1.0℃
+10 +1.5℃
+11 +2.0℃ Code
+12 +2.5℃
+13 +3.0℃ ex) If you want to change the Fridge
+14 +3.5℃ compartment standard temperature
+15 +4.0℃ to 2℃
+90
+
+===== PAGE 91 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+3) Ice Tray water supply of freezer compartment Ice Maker
+(In DISPENSER MODEL with 昀氀ow sensor Only features)
+Set item FZ-Room ICE TRAY
+Reference Fridge Room 7-SEG
+Value 2
+Setting value
+FZ Water
+compartment Settings
+Code
+0 92cc
+1 105cc
+4) Eject waiting time changing table of freezer compartment Ice Maker
+(In DISPENSER MODEL Only features)
+Set item FZ-Room Ice Maker Eject waiting time Shift
+Reference Fridge Room 7-SEG
+Value 3
+Setting value
+FZ
+Setting time
+compartment
+Code
+0 85min
+1 84min
+2 83min
+3 82min
+4 81min
+5 80min
+6 79min
+7 78min
+8 77min
+9 76min
+10 75min
+11 74min
+12 73min
+13 72min
+14 86min
+15 87min
+91
+
+===== PAGE 92 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+5) Eject temperature changing table of freezer compartment Ice Maker
+(In DISPENSER MODEL Only features)
+Set item FZ-Room Ice Maker Eject temperature Shift
+Reference Fridge Room 7-SEG
+Value 4
+Setting value
+FZ Temp.
+compartment compensation
+Code
+0 -17.0°C
+1 -16.0°C
+2 -15.0°C
+3 -14.0°C
+4 -13.0°C
+5 -12.0°C
+6 -18.0°C
+7 -19.0°C
+6) Minimum Comp RPM shifting.
+- This option is rising minimum Comp RPM.
+As this option is applied, Comp operation.
+Set item Minimum Comp RPM setting
+Reference Fridge Room 7-SEG
+Value 12
+Setting value
+FZ
+Comp RPM
+compartment
+Code
+0 No RPM Change
+1 Minimum 2450RPM
+2 Minimum 2450RPM
+3 Minimum 2450RPM
+92
+
+===== PAGE 93 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+7) Temp Display Option.
+- This option is for temp display all on mode.
+If user wants temp display always on, this option is solution.
+Set item Temp Display Option
+Reference Fridge Room 7-SEG
+Value 16
+Setting value
+FZ
+Temp Display Option
+compartment
+Code
+Normal Display
+0
+(Temp display temporally on at use)
+1 Always Temp Display On
+2 Always Temp Display On
+8) Operation rate changing table of dispenser heater.
+(In DISPENSER MODEL Only features)
+Set item Minimum Comp RPM setting
+Reference Fridge Room 7-SEG
+Value 19
+Setting value
+FZ
+Temp Display Option
+compartment
+Code
+0 0.00%
+1 + 20% operation ( up to 100% )
+93
+
+===== PAGE 94 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+4-3. Diagnostic method according to the trouble symptom (Flow Chart)
+DATA1. F/R/F-DEF Temperature table
+Rmin Rcent Rmax Rmin Rcent Rmax Rmin Rcent Rmax
+T(℉) T(℃) T(℉) T(℃) T(℉) T(℃)
+(㏀) (㏀) (㏀) (㏀) (㏀) (㏀) (㏀) (㏀) (㏀)
+-40 -40 84.44 87.81 91.27 17.6 -8 18.28 18.72 19.16 75.2 24 5.046 5.197 5.351
+-38.2 -39 80.13 83.28 86.52 19.4 -7 17.51 17.92 18.33 77 25 4.863 5.011 5.162
+-36.4 -38 76.06 79.01 82.04 21.2 -6 16.77 17.16 17.55 78.8 26 4.689 4.833 4.98
+-34.6 -37 72.22 74.98 77.82 23 -5 16.07 16.43 16.8 80.6 27 4.521 4.662 4.805
+-32.8 -36 68.6 71.18 73.84 24.8 -4 15.4 15.74 16.08 82.4 28 4.36 4.498 4.638
+-31 -35 65.18 67.6 70.08 26.6 -3 14.76 15.08 15.41 84.2 29 4.206 4.34 4.477
+-29.2 -34 61.95 64.21 66.54 28.4 -2 14.16 14.46 14.76 86 30 4.058 4.189 4.322
+-27.4 -33 58.89 61.02 63.2 30.2 -1 13.58 13.86 14.14 87.8 31 3.916 4.044 4.174
+-25.6 -32 56.01 58 60.04 32 0 13.02 13.29 13.56 89.6 32 3.78 3.904 4.032
+-23.8 -31 53.28 55.15 57.06 33.8 1 12.49 12.75 13.01 91.4 33 3.649 3.771 3.895
+-22 -30 50.7 52.45 54.24 35.6 2 11.97 12.23 12.48 93.2 34 3.523 3.642 3.763
+-20.2 -29 48.26 49.9 51.58 37.4 3 11.49 11.73 11.98 95 35 3.403 3.518 3.637
+-18.4 -28 45.95 47.49 49.06 39.2 4 11.02 11.26 11.51 96.8 36 3.287 3.4 3.515
+-16.6 -27 43.77 45.21 46.68 41 5 10.57 10.81 11.05 98.6 37 3.175 3.286 3.399
+-14.8 -26 41.7 43.05 44.43 42.8 6 10.15 10.38 10.62 100.4 38 3.068 3.176 3.286
+-13 -25 39.74 41.01 42.3 44.6 7 9.745 9.973 10.2 102.2 39 2.965 3.07 3.178
+-11.2 -24 37.88 39.07 40.28 46.4 8 9.359 9.581 9.805 104 40 2.866 2.969 3.074
+-9.4 -23 36.12 37.24 38.38 48.2 9 8.989 9.207 9.425 105.8 41 2.771 2.871 2.974
+-7.6 -22 34.45 35.5 36.57 50 10 8.637 8.849 9.063 107.6 42 2.68 2.778 2.878
+-5.8 -21 32.87 33.85 34.86 51.8 11 8.3 8.507 8.716 109.4 43 2.592 2.687 2.785
+-4 -20 31.37 32.29 33.23 53.6 12 7.977 8.18 8.384 111.2 44 2.507 2.6 2.696
+-2.2 -19 29.94 30.81 31.69 55.4 13 7.67 7.867 8.067 113 45 2.426 2.517 2.61
+-0.4 -18 28.59 29.41 30.24 57.2 14 7.375 7.568 7.763 114.8 46 2.347 2.436 2.527
+1.4 -17 27.31 28.08 28.85 59 15 7.094 7.282 7.473 116.6 47 2.272 2.359 2.448
+3.2 -16 26.09 26.81 27.54 60.8 16 6.824 7.008 7.194 118.4 48 2.199 2.284 2.371
+5 -15 24.93 25.61 26.29 62.6 17 6.567 6.746 6.928 120.2 49 2.129 2.212 2.297
+6.8 -14 23.83 24.47 25.11 64.4 18 6.32 6.495 6.673 122 50 2.062 2.143 2.226
+8.6 -13 22.79 23.39 23.99 66.2 19 6.084 6.255 6.429 123.8 51 1.997 2.076 2.157
+10.4 -12 21.8 22.36 22.92 68 20 5.858 6.025 6.195 125.6 52 1.934 2.011 2.091
+12.2 -11 20.85 21.38 21.91 69.8 21 5.642 5.805 5.97 127.4 53 1.874 1.949 2.027
+14 -10 19.95 20.45 20.95 71.6 22 5.435 5.594 5.755 129.2 54 1.816 1.889 1.965
+15.8 -9 19.1 19.56 20.03 73.4 23 5.236 5.391 5.549 131 55 1.76 1.832 1.906
+94
+
+===== PAGE 95 =====
+
+This document cannot be used without Samsung's authorization
+CHECk THE INSTALLATION STATUS
+DATA2. Ext-Temperature/Ext-Humidity Sensor table
+- Temperature - Humidity
+Relative Relative Relative Relative
+T(℃) Vout T(℃) Vout T(℃) Vout T(℃) Vout Vout Vout Vout Vout
+Humidity Humidity Humidity Humidity
+-40 0.62 -12 1.316 16 2.66 44 3.956 0 0.985 28 1.741 56 2.497 84 3.253
+-39 0.644 -11 1.364 17 2.708 45 3.98 1 1.012 29 1.768 57 2.524 85 3.28
+-38 0.668 -10 1.412 18 2.756 46 4.004 2 1.039 30 1.795 58 2.551 86 3.307
+-37 0.692 -9 1.46 19 2.804 47 4.028 3 1.066 31 1.822 59 2.578 87 3.334
+-36 0.716 -8 1.508 20 2.852 48 4.052 4 1.093 32 1.849 60 2.605 88 3.361
+-35 0.74 -7 1.556 21 2.9 49 4.076 5 1.12 33 1.876 61 2.632 89 3.388
+-34 0.764 -6 1.604 22 2.948 50 4.1 6 1.147 34 1.903 62 2.659 90 3.415
+-33 0.788 -5 1.652 23 2.996 51 4.124 7 1.174 35 1.93 63 2.686 91 3.442
+-32 0.812 -4 1.7 24 3.044 52 4.148 8 1.201 36 1.957 64 2.713 92 3.469
+-31 0.836 -3 1.748 25 3.092 53 4.172 9 1.228 37 1.984 65 2.74 93 3.496
+-30 0.86 -2 1.796 26 3.14 54 4.196 10 1.255 38 2.011 66 2.767 94 3.523
+-29 0.884 -1 1.844 27 3.188 55 4.22 11 1.282 39 2.038 67 2.794 95 3.55
+-28 0.908 0 1.892 28 3.236 56 4.244 12 1.309 40 2.065 68 2.821 96 3.577
+-27 0.932 1 1.94 29 3.284 57 4.268 13 1.336 41 2.092 69 2.848 97 3.604
+-26 0.956 2 1.988 30 3.332 58 4.292 14 1.363 42 2.119 70 2.875 98 3.631
+-25 0.98 3 2.036 31 3.38 59 4.316 15 1.39 43 2.146 71 2.902 99 3.658
+-24 1.004 4 2.084 32 3.428 60 4.34 16 1.417 44 2.173 72 2.929 100 3.685
+-23 1.028 5 2.132 33 3.476 61 4.364 17 1.444 45 2.2 73 2.956
+-22 1.052 6 2.18 34 3.524 62 4.388 18 1.471 46 2.227 74 2.983
+-21 1.076 7 2.228 35 3.572 63 4.412 19 1.498 47 2.254 75 3.01
+-20 1.1 8 2.276 36 3.62 64 4.436 20 1.525 48 2.281 76 3.037
+-19 1.124 9 2.324 37 3.668 65 4.46 21 1.552 49 2.308 77 3.064
+-18 1.148 10 2.372 38 3.716 66 4.484 22 1.579 50 2.335 78 3.091
+-17 1.172 11 2.42 39 3.764 67 4.508 23 1.606 51 2.362 79 3.118
+-16 1.196 12 2.468 40 3.812 24 1.633 52 2.389 80 3.145
+-15 1.22 13 2.516 41 3.86 25 1.66 53 2.416 81 3.172
+-14 1.244 14 2.564 42 3.908 26 1.687 54 2.443 82 3.199
+-13 1.268 15 2.612 43 3.932 27 1.714 55 2.47 83 3.226
+95
+
+===== PAGE 96 =====
+
+This document cannot be used without Samsung's authorization
+S5.E SLEFL DFI ADGIANGONSOISS I&S T&R TORUOBULBEL SEH SOHOOTOINTIGNG
+5-1. Power Not Supplied
+AC input power and high Start
+voltage of DC 310V or higher
+are generated at PCB. Be
+CAUTION
+cautious during repair and
+measurement. No
+Is power plug connected?
+Yes
+Connect the plug, or correct loose plug.
+No
+Is normal voltage of 12V and 5V
+generated on PCB?
+Yes
+PCB assembly replacing.
+No
+Is operation of panel
+PCB normal?
+1) Checking and repair of power cable
+Yes assembling.
+2) Panel PCB replacing.
+Yes
+Is soldering short or
+cracked on PCB?
+No 1) Soldering again.
+2) Main PCB replacing.
+Normal (checking again)
+96
+
+===== PAGE 97 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-2. Unable to Defrost
+Start
+F-DEF Sensor is NO
+normal (with Self Diagnosis)
+Replace the sensor.
+YES
+NO
+F-DEF Heater is normal
+YES Check Thermistor,
+Heater and their connectors
+NO
+Defrost Sensor Temp is
+lower than -5°C
+Forced Operation for a certain time.
+YES
+F-DEF-HEATER : Read resistance between
+CN85 #3 and CN70 #5
+Forced F Defrost
+Defrost Sensor Voltage is lower than 3.1V
+Press the FREEZE AND ALARM buttons at the
+same time for 6 sec and then Touch the Freeze Power NO
+button. is supplied to Defrost
+Heater.
+F-DEF-SENSOR : Read resistance between CN20
+YES
+#5 and #7.
+It goes
+NO
+back to Cooling Operation after
+heating
+Check all the sensors
+YES
+Note Normal
+When F-DEF Sensor is higher than
++10℃ and +17℃, it will stop heating
+and go back to Cooling Operation.
+MAIN PBA NO
+connectorsare normal.
+Repairing connection terminal
+• Checking method of resistance for YES
+F-DEF-Sensor
+Check Thermistor, Heater and
+- Check the Resistance of CN20 #5 and • S ensor Check Point
+their contacts.
+#7 on the PBA 1. EXT-ENSOR
+- Compare the temperature table after 2. F-SENSOR
+measurement 3. F-DEF-SENSOR
+Repair or Replace defective
+4. R-SENSOR
+relays, or PBA Ass'y
+5. R-DEF-SENSOR
+6. CV-SENSOR
+7. CV-DEF-SENSOR
+8. HUM1-SENSOR
+9. HUM2-SENSOR
+10. ICE-ROOM-SENSOR
+11. PANTRY-SENSOR
+12. ICE-MAKER-SENSOR
+13. IR-SENSOR
+97
+
+===== PAGE 98 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-3. Self-Diagnosis Error (Defective Sensor)
+When there is sensor error, display panel show that. When it occurs during the initial power on time, display
+panel keeps blinking relevant 7-SEG and the refrigerator go into the emergency operation mode.
+Under the emergency operation mode, the refrigerator can not do its normal operation. So check out with the
+Self Diagnosis in this manual.
+1) When the Ambient Sensor is defective
+Start
+• C hecking method of voltage for Ext-
+Sensor
+- Compare the temperature table
+NO
+after measurement. (Same MAIN PBA
+method is applied to other connector (CN40)
+sensors.) is inserted properly.
+Repair the defective contact
+YES
+of the connector or insert
+the connector properly.
+NO
+Ambient Temp Sensor is ok.
+YES
+Ambient-Sensor : Read the voltage
+between CN40 #18 and #20
+Replace Thermistor.
+PBA & Thermistor are ok.
+Check the contact of theconnector again.
+Compare the ext-temp.
+with sensed temp.
+using Temp-Resistance Table.
+2) When the Fridge Temp Sensor is defective (also applied to other sensors)
+Start
+NO
+Fridge Sensor is good.
+YES Replace Thermistor.
+MAIN PBA NO
+connector (CN20) is inserted
+properly.
+Repair the defective contact
+YES of the connector or insert the
+The order of connector properly.
+Connector(CN20) is the same NO
+as the one in the circuit
+diagram
+Check the circuit diagram and
+YES
+correct any wrong inserted pins.
+Refer to Circuit Diagram and
+NO
+The voltage between
+F-Def-Temp Sensor
+CN20 #9 and #11 is within the normal
+Troubleshooting in this manual. range.
+Check MAIN PBA Cold
+YES
+Solder or Short
+PBA & Thermistor are good.
+Check the contact of the connector again.
+98
+
+===== PAGE 99 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-4. When Alarm Sound continues (Buzzer Sound)
+1) When "DingDong" sound continues
+Start
+Door is ajar
+Door is closed completely?
+Romove causes after
+Closed well comprehending the condition of
+interference by door gasket or food
+YES etc.
+Is water penetrated into
+the door switch?
+NO Replace Door switch.
+F-Door sensing : CN20 #1-#3 Door sensing voltage NO
+changes as the door gets
+R-Door sensing : CN20 #10-#12
+open or closed.
+Nomal State
+-Door Open : 5 Vdc YES Repair wire connection and door switch
+-Door Close : 0 Vdc
+NO
+The connector(CN20) is
+Inserted properly.
+YES Repair the defective contact
+of the connector or insert
+Separate the Door S/W
+the connector properly.
+NO
+and check its resistance
+Door S/W is good.
+change according to s/w
+on(0Ω) and off(∞Ω)
+YES
+Replace REED S/W.
+MAIN PBA & DOOR S/W are good
+2) When "Beeping" sound continues
+Start
+Forced Operation YES
+or Forced Defrost is
+selected.
+NO Cancel Forced Operation or Forced
+Defrost, or Re-plug the unit.
+NO
+After plugging in again,
+it sounds continuously.
+YES Panel PBA is normal.
+Replace Panel PBA
+99
+
+===== PAGE 100 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+3) If a buzzer does not sound
+This model has a buzzer PBA (Except F-HUB Model). If the buzzer does not sounds when button
+is pressed, Forced Operation, door open and disconnection with Panel PBA, check out defective
+soldering on PBA or buzzer PBA damage. (It is recommended replacing Buzzer PBA if components
+are damaged)
+※It could be unable to hear in case there is heavy noise or built-in environment.
+Start
+"DingDond”
+NO
+Sounds when a button on the
+display panel is pressed.
+Buzzer PBA
+YES
+Checking → exchanging
+Door alarm
+YES
+sounds after any of doors
+are open over 2 min.
+NO Normal
+The Buzzer
+surface is broken/bended. YES
+Or Buzzer lead comes off from
+the vibration plate.
+Buzzer Breakage
+NO Replace Buzzer PBA
+Check
+YES
+the wiring - short / open
+(buzzer ↔ Display in fridge)
+Repair the wire.
+NO
+Check the button press force and
+structural design. (Door Sensing)
+100
+
+===== PAGE 101 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-5. When PANEL PBA operates abnormally
+1) When PANEL PBA does not light up or partially does
+Start
+Refer to Circuit Diagram in
+The connector at the
+this manual and check the NO
+Freezer upper hinge cover is inserted
+circuit diagram attached on
+properly.
+the back of the unit.
+YES Re-insert Connector,
+Correct the defective contact.
+MAIN PBA Connector NO
+(CN40, CN60) is inserted
+properly.
+YES
+Re-insert MAIN PBA Connector.
+PANEL PBA
+NO
+Connector is inserted
+properly.
+※ If the panel key is not selected YES Re-insert Connector,
+Correct the defective contact
+It lights up after YES
+PANEL-PBA replacement.
+NO
+Defective PANEL PBA.
+① Check F/R-Door Wiring - Short or Open Wire.
+② Check F/R-CABI Wiring - Short or Open Wire.
+③ Check Short/Open on MAIN PBA or replace it.
+2) When Panel PBA buttons are not working
+※ When the trouble is being remained after the above.
+YES
+Child Lock is on.
+NO Release the lock function,
+and check again.
+There are no
+Being Pressed
+Pressed buttons being
+continuously.
+Reassembling PBA assembling/
+NO
+releasing pressed part.
+The trouble
+When being separated, it works
+continues after Panel PBA cover
+is separated.
+YES Re-assemble PBA ASS'Y, Correct
+any restrictions on the buttons.
+After replacing Panel PBA, YES
+it works properly.
+NO Defective PANEL PBA.
+① Check F/R-Door Wiring - Short or Open Wire.
+② Check F/R-CABI Wiring - Short or Open Wire.
+③ Check Short/Open on MAIN PBA or replace it.
+101
+
+===== PAGE 102 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-6. When Fan does not operate
+-This model has BLDC FAN motor. BLDC motor is driven by DC7~12V
+- F-Fan motor usually runs together with the Compressor. Once the door is open and closed at high ambient
+temperature, F-Fan motor put off its operation for one minute. Therefore, you are advised not to take it as an
+error.
+- When fridge door is open, the F-Fan motor stops.
+Start
+NO
+COMP is on?
+Run Forced Operation.
+For C-FAN For F-Fan YES
+The voltage The voltage
+YES
+between GND in Main PBA and between GND in Main PBA and
+CN20 #22 is 7-12Vdc. CN20 #15 is 7-12Vdc.
+NO NO FAN operates normally.
+NO
+Freezer Door S/W is closed.
+YES Check after closing the Door.
+When there is Door alarming,
+repair the Door S/W connector.
+Plug in again after
+Reading with Door closed.
+5minutes from the Upon the initial power on, Comp and
+-.OPEN 5V, CLOSE 0V
+power off. F/C-Fan operate for 5 minutes
+regardless of the conditions.
+For C-FAN For F-FAN
+The voltage The voltage
+between GND and CN20 #22 repeats between GND and CN20 #15 repeats NO
+the change from 7-12VDC to lower the change from 7-12VDC to lower
+than 2VDC. than 2VDC.
+YES YES Replace MAIN PBA.
+Note ◆ Possible Causes
+1. Defective FAN-MOTOR
+Pulse signal(FG) generated from the Fan motor rotation is
+2. Contact problem at the terminal
+transmitted through CN20 #13(F), #20(C)
+3. FG signal error(Refer to Fan-Motor circuit in this manual)
+Micom senses these signal.
+If Micom senses no signal, Micom make Fan Motor stop for 10 ☞ Checking method of C-Fan motor voltage
+sec and try to operate it again. Micom keeps doing the same - Read the voltage between MAIN PBA GND and CN74 #2
+procedure 4 times until Micom receive the signal. - If it has 7~12 voltage, It's normal.
+If it still fails, MICOM stop trying for 10 minutes. (Same method is applied to other Fan Motor)
+This procedure prevents the motor from overload when foreign
+substances such as ice built up around the motor restrict
+motor rotation.
+102
+
+===== PAGE 103 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-7. When the internal lamp of the freezer/fridge does not light up
+Model with light bulb applied
+Caution
+1. Turn off the power for repair because there is risk of electric shock when replacing the internal lamp.
+2. Please keep in mind you could get burnt by the excessive heating of an incandescent light bulb.
+Reference
+Internal lamp RELAY switches ON/OFF as the DOOR is OPEN/CLOSE.
+When the internal lamp is not on, check the operating noise of the RELAY.
+RELAY operation noise is generated every time as the DOOR is OPEN/CLOSE.
+Reference
+1. When the DOOR is open, the DOOR S/W becomes OPEN. Micom senses 5V from Door S/W and recognizes that the Door
+is open. If 5V has sensed for more than 2 minutes, buzzer will sounds “DingDong” every 1 minute.Therefore, if the DOOR
+S/W is defective, it can generate the “Ding Dong” sound every 1 minute.
+2. ON/OFF control of the internal lamp is linked with the DOOR S/W.
+Start
+No (LED LAMP)
+Is it a light bulb? ※ Reed S/W : Open when door
+is open Short when door is
+closed.
+YES
+Is the Reed S/W NO
+YES operating normally?
+Is the filament ofthe
+intermal lamp blown?
+YES Check REED S/W or check
+NO Replace lamp. whether door are switching
+normally.
+Is the Door Reed NO
+S/W operatingnormally? Is the output
+NO
+of LED-LAMP 12V when
+Door is open?
+YES Check REED S/W or check
+whether door switch normally. Check wire disconnection,
+YES
+check DC 12V output.
+Relay for lamp NO
+control on PBA is normal? - Measure voltage between CN40 #10 and #12
+when opening the F-Door.
+YES Replace PBA and Relay. - Measure voltage between CN40 #26 and #28
+when opening the R-Door.
+Check and repair F, R-DOOR S/W
+connector andsocket for internal lamp. Replace LED LAMP PBA.
+<Light bulb control method>
+Fridge internal lamp Freezer internal lamp
+On : Fridge door is open On : Freezer door is open
+Model with light bulb applied
+Off : Fridge door is closed Off : Freezer door is closed
+103
+
+===== PAGE 104 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-8. LED blinking frequency depending on protecting functions
+If Failure Condition is detected during compressor is operating, immediately stop Compressor
+operating and stand by 5 minutes. During this 5 minutes, RPM command signal is not available.
+It means, even if available RPM command signal is applied to the compressor, it does not work and
+keep standing by.
+Blinking time is 1 second and dwell time is 2 seconds.
+LED Blinking Frequency Protecting Functions Remarks
+Normal Operation N/A
+1. Check the COMP terminals short (U, V, W)
+Starting Failure
+2. Check IPM Pins short of inverter PBA
+3. Check IPM operating Voltage (Under DC 13.5V)
+IPM Fault
+4. Other cases, check the COMP, cycle, etc
+1. Check COMP wire connections (U, V, W)
+Abnormal Current Detection 2. Check PCB Bottom side soldering state.
+3. Other cases, check the COMP, cycle, etc
+1. Check PCB Bottom side soldering state.
+Motor Locked / Over RPM 2. Check Input Voltage oscillation.
+3. Other cases, check the COMP, cycle, etc
+1. Check Input voltage under
+AC 53V (Input power AC 110~127V) or
+Under Voltage
+AC 106V (Input power AC 220~240V)
+2. Check PCB Bottom side soldering state.
+1. Check Input voltage under
+AC 155V(Input power AC 110~127V) or
+Over Voltage
+AC 310V(Input power AC 220~240V)
+2. Check PCB Bottom side soldering state.
+LED blinking frequency depending on protecting functions.
+If the same blinking, After 5 minutes, Follow the Remarks
+104
+
+===== PAGE 105 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-9. When the LCD does not work properly
+Start
+CAMERA,
+USB
+NO
+CN1301 SMPS connector is inserted properly.
+(CN1, CN3)
+MIC, TOUCH, Insert the connector properly or
+SENSOR,
+BACKLIGHT Repair any defective contact.
+CN3 YES
+UART
+CN1300
+The connector at the Fridge NO
+CP NOW 21E 5R 4 S CP NE 1A 3K 0E 2R upper hinge cover is inserted
+properly.
+LVDS
+CN13
+Insert the connector properly or
+YES
+Repair any defective contact.
+NO
+LCD PBA connector is inserted properly.
+(CN13, CN2154, CN3)
+Insert the connector properly or
+YES
+Repair any defective contact.
+NO
+Read the voltage between SMPS: Is normal voltage of 12V generated
+CN1 #1,3 - #5,7. on SMPS output terminal?
+Replace the SMPS.
+YES
+Read the voltage a between
+LCD PBA : CN2154 #1,2 - #4,5 (12V)
+NO
+Read the voltage a between Is normal voltage generated
+CN13 #1,2,3 - #7 (5V) from LCD PBA?
+Read the voltage a between
+CN3 #17,18 - #14,15,19,20 (40~51V) Replace the LCD PBA.
+YES
+Replace the LCD Assy.
+105
+
+===== PAGE 106 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-10. When it does not respond to touch
+Start
+NO
+LCD PBA Touch connector is
+inserted properly.(CN3)
+Insert the connector properly or
+Repair any defective contact.
+YES
+NO
+TSP FPCB connector is inserted
+properly. (J3)
+Insert the connector properly or
+YES
+Repair any defective contact.
+NO
+Read the voltage between LCD PBA: Is normal voltage of 3.3V
+CN3 #14 - #10 generated from LCD PBA?
+Replace the LCD PBA.
+YES
+Replace the LCD Assy.
+106
+
+===== PAGE 107 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-11. When the Wi-Fi does not work properly
+Start
+CAMERA, CAMERA,
+USB USB
+CN1 CN2 NO
+LCD PBA connector is inserted
+properly.(CN1,CN2)
+Insert the connector properly or
+Repair any defective contact.
+YES
+NO
+Wi-Fi Module connector is
+inserted properly.
+Insert the connector properly or
+YES
+Repair any defective contact.
+NO
+Read the voltage between LCD PBA: Is normal voltage of 5V
+CN2 #1 - #3 generated from LCD PBA?
+Replace the LCD PBA.
+YES
+Replace the Wi-Fi / BT Module.
+107
+
+===== PAGE 108 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-12. When the BT does not work properly
+Start
+CAMERA, CAMERA,
+USB USB
+CN1 CN2 NO
+LCD PBA connector is
+inserted properly.(CN1,CN2)
+Insert the connector properly or
+Repair any defective contact.
+YES
+BT Module connector is NO
+inserted properly.
+Insert the connector properly or
+YES
+Repair any defective contact.
+NO
+Read the voltage between LCD PBA: Is normal voltage of 5V
+CN2 #1 - #3 generated from LCD PBA?
+Replace the LCD PBA.
+YES
+Replace the Wi-Fi / BT Module.
+108
+
+===== PAGE 109 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-13. When the microphone does not work properly
+Start
+MIC PBA
+CN2
+NO
+LCD PBA connector is
+inserted properly.(CN3)
+Insert the connector properly or
+Repair any defective contact.
+YES
+MIC PBA connector is NO
+inserted properly.
+Insert the connector properly or
+YES
+Repair any defective contact.
+NO
+Read the voltage between LCD PBA: Is normal voltage of 1.8V
+CN3 #6 - #8 generated from LCD PBA?
+Replace the LCD PBA.
+YES
+CAMERA,
+USB
+CN1301
+Replace the MIC PBA.
+MIC, TOUCH,
+SENSOR,
+BACKLIGHT
+CN3
+UART
+CN1300
+POWER SPEAKER
+CN2154 CN1302
+LVDS
+CN13
+109
+
+===== PAGE 110 =====
+
+This document cannot be used without Samsung's authorization
+SELF DIAGNOSIS & TROUBLE SHOOTING
+5-14. When the Glaze Camera does not work properly
+Start
+CAMERA, NO
+USB LCD PBA connector is
+CN1301 inserted properly. (CN1301)
+Insert the connector properly or
+MIC, TOUCH, Repair any defective contact.
+SENSOR, YES
+BACKLIGHT
+CN3
+CU NA 13R 0T 0 The connector at the NO
+Fridge upper hinge cover is inserted
+CP NOW 21E 5R 4 S CP NE 1A 3K 0E 2R properly (F/R-Door).
+LVDS
+Insert the connector properly or
+CN13 YES
+Repair any defective contact.
+French Assy connector is NO
+inserted properly.
+Insert the connector properly or
+YES
+Repair any defective contact.
+NO
+Read the voltage between LCD PBA: Is normal voltage of 5V
+CN1301 #6,7 - #10,11 generated from LCD PBA?
+Replace the LCD PBA.
+YES
+Replace the French Assy.
+110
+
+===== PAGE 111 =====
+
+This document cannot be used without Samsung's authorization
+P6.C PBC DBI ADGIARGARMAM
+6-1. PBA Layout with part position
+1. EMI FILTER part
+2. DC 15V, 12V, 5V, GND supplied from SMPS PCB
+3. Inverter circuit part
+-.COMP Driving / Feedback Circuit
+-.BOOTSTRAP Charger : It is an independent power circuit for the driving of the IMP High-Phase IGBT.
+-. Current Pickup Circuit : It pickups the currents taken by the Shunt resistance and does the PWM DUTY control.
+4. FAN MOTOR control part : To supply the power from 7V ~ 12V according to the motor types. (F,R,C,ICE)
+5. EEPROM : Save and record every kinds of data.
+6. Micom : control the regrigerator Ceramic resonator : generate the basic frequency of Micom operation.
+Reset IC : make Micom reset if input voltage of Micom is detected less than the speci昀椀ed voltage
+7. Operate ICE-MAKER, supply power to MOTOR, and sense the variation of switch.
+8. Main Micom ↔ Panel Micom serial communication circuit - Dispenser option input part (Water & Cover Ice route switch)
+9. Auto Fill control part.
+10. Control Room damper & Damper heater
+11. Water Tank Heater Controls (also controls other options)
+12. LED LAMP Control Circuit (F,R room Lamp)
+13. Relay parts that controls AC load and receives Micom operating signal through Sink IC.
+14. Connector with AC load
+15. Diode option setting area
+111
+
+===== PAGE 112 =====
+
+This document cannot be used without Samsung's authorization
+PCB DIAGRAM
+6-2. Connector Layout with part position (Main Board)
+CN40
+1. STEP VALVE A
+2. MAIN DISPLAY TX
+3. STEP VALVE B
+4. MAIN DISPLAY RX
+5. 12V
+6. 12V
+7. STEP VALVE A/
+8. GND
+9. STEP VALVE B/
+10. F-LED CN60
+12. GND 1. 5V
+13. MAIN DISPLAY VCC 2. 12V
+14. HUMIDITY-SENSOR 3~4. GND
+16. GND 8. ICE&WATER LEVER
+17. R-ROOM DAMPER B 10. CUBE MOTOR S/W
+18. AMBIENT-SENSOR 12. ICE ROUTE S/W
+19. R-ROOM DAMPER B/ 14. 5V
+20. GND CN05 16. GND
+21. R-ROOM DAMPER A/ 1. RX 18. 12V
+23. R-ROOM DAMPER A 20. DISPENSER DISPLAY RX
+2. GND
+CN20 25. R-ROOM DAMPER HEATER 22. DISPENSER DISPLAY TX
+3. TX
+1. F-DOOR S/W 26. R-LED 23. 12V
+2. R-DOOR S/W 27. 12V 4. RESET 24. GND
+3~4. GND 28. GND 5, 12V ※ N/A : 5, 6, 7, 9, 11, 13, 15, 17, 19,
+5. F-DEF-SENSOR ※ N/A : 11, 15, 22, 24 6. 5V 21, 25, 26
+6. 5V
+7~8. GND
+9. F-SENSOR
+10. R-SENSOR
+CN90
+11~12. GND 1. 12V
+13. F-FAN F/G 2. GND
+15. F-FAN 5. WATER PIPE HEATER
+17~18. GND 7. ICE MAKER MOTOR(CW)
+20. C-FAN F/G 9. ICE MAKER MOTOR(CCW)
+11. ICE MAKER SENSOR
+22. C-FAN
+13. GND
+23. 12V
+15. ICE MAKER TEST S/W
+24.GND
+17. 5V
+※ N/A : 14, 16, 19, 21 18. 12V
+19. HORIZONTAL HALL IC
+CN70 21. GND
+22. 5V
+3. DISPENSER HEATER
+24~26. GND
+5. F-DEF HEATER
+28. 5V
+7. COM(L)
+※ N/A : 3 , 4, 6, 8, 10, 12, 14, 16,
+※ N/A : 1 20, 23, 27
+CN71
+1. ICE ROUTE MOTOR
+3. WATER SOLENOIDE VALVE
+5. ICE SOLENOIDE VALVE
+CN71-1 CN102
+1. COMP (W)
+1. CUBE MOTOR
+3. COMP (V)
+3. AUGER MOTOR
+5. COMP (U)
+5. COM(N)
+CN85
+CN81 1. AC POWER(L)
+1. AC POWER(N) 3. AC POWER(N)
+3. AC POWER(L) 5.
+7. SET GND
+112
+
+===== PAGE 113 =====
+
+This document cannot be used without Samsung's authorization
+PCB DIAGRAM
+6-3. LCD PBA Layout with part positions
+⑨
+②
+①
+⑩
+③
+④
+③
+⑧
+⑤
+⑥
+⑦
+⑪
+⑫
+1. CPU (KANT-MS) – It controls performance of all loads
+2. eMMC – Memory for operating CPU
+3. LPDDR – Memory for operating CPU
+4. CODEC – Circuit for sound input
+5. AMP – Circuit for sound output
+6. LVDS Circuit – LCD signal (Vx1 to LVDS)
+7. DC 12V Power – Supply 12V to LCD PBA
+8. Connector – UART
+9. Connector – USB, Camera
+10. Connetor – Touch, Backlight, Sensor, Mic
+11. Connector – Speaker
+12. Connector –LVDS Signal for LCD
+113
+
+===== PAGE 114 =====
+
+This document cannot be used without Samsung's authorization
+PCB DIAGRAM
+6-4. Connector Layout with part positions
+CAMERA, USB
+CN1301
+1. 5V
+2. USB_DN
+3. USB_DP
+4. GND MIC, TOUCH,
+BACkLIGHT, SENSOR
+5. GND
+CN3
+6. 5V
+1. SENSOR 5V
+7. 5V
+2. GND
+8. CAM_DN
+3. SENSOR
+9. CAM_DP
+4. GND
+10. GND
+5. MIC_R
+11. GND
+6. MIC 1.8V
+7. MIC_L
+8. GND
+9.
+10. GND
+11. TOUCH_INT
+12. TOUCH SDA
+13. TOUCH SCL
+14. TOUCH 3.3V
+SET UART
+15.~20. BACK LIGHT
+CN1300
+1. SET TX
+2. SET RX
+3. GND
+POWER
+CN2154
+1, 2 : 12V
+4, 5 : GND
+SPEAkER
+CN13
+1~3 : 5V
+7, 14, 17, 24 : GND
+114
+
+===== PAGE 115 =====
+
+This document cannot be used without Samsung's authorization
+PCB DIAGRAM
+WIFI
+CN1
+1. WIFI_NRESET
+2. GND
+3. WIFI_WOL
+4. GND
+5. GND
+6. WIFI_DP
+7. GND
+8. WIFI_DN
+9. WIFI_PHY
+10. GND
+B T
+CN2
+1. WIFI/BT 5V
+2. BT WELCOM
+3. GND
+4. GND
+5. BT_DP
+6. BT_NRESET
+7. BT_DN
+8. MODULE_WAKE
+9. GND
+10. BT WAKE
+115
+
+===== PAGE 116 =====
+
+This document cannot be used without Samsung's authorization
+7.WIRING DIAGRAM
+7-1. Dispenser, In-Door Ice Maker, Family Hub (RS22T5561*, RS27T5561*)
+116
+
+===== PAGE 117 =====
+
+This document cannot be used without Samsung's authorization
+WIRING DIAGRAM
+7-2. Dispenser, In-Door Ice Maker (RS22T520*, RS27T520*)
+117
+
+===== PAGE 118 =====
+
+This document cannot be used without Samsung's authorization
+WIRING DIAGRAM
+7-3. Basic (RS28T5B0*)
+118
+
+===== PAGE 119 =====
+
+This document cannot be used without Samsung's authorization
+8.BLOCk DIAGRAM
+8-1. Block Diagram
+option
+119
+
+===== PAGE 120 =====
+
+This document cannot be used without Samsung's authorization
+BLOCk DIAGRAM
+8-2. LCD PBA
+120
+
+===== PAGE 121 =====
+
+This document cannot be used without Samsung's authorization
+BLOCk DIAGRAM
+8-3. Camera
+121
+
+===== PAGE 122 =====
+
+This document cannot be used without Samsung's authorization
+9.REFERENCE INFORMATION
+9-1. Model Code Table
+Exterior Interior
+Type Capa Series 1 Year Series 2 Energy Color /
+Option Option
+R S 2 7 T 5 5 6 1 S G / A A
+Family Hub + Internal Energy
+2 RS5300T
+7 Freestanding T 2020 5 5 I&W Disp. 6 Camera, 1 Star + Wi-Fi SR Real Stainless
+(20 cf↑) RS5300TC
+(In-door I/M) F-2 Drawer Embedded
+I&W Disp.
+Counter I&W Disp.
+2 2 0 F-1 Drawer 0 DOE SG Black Caviar
+Depth (In-door I/M)
+Non-
+Non-
+8 Freestanding B Dispenser WWSnow White
+Dispenser
+(twist i/m)
+S9 Matt Doi metal
+B1 Matt Doi Black
+122
+
+===== PAGE 123 =====
+
+This document cannot be used without Samsung's authorization
+REFERENCE INFORMATION
+9-2. Trouble Shooting
+Problem Solution
+• Check that the power plug is properly connected.
+• Check the set temperature on the digital display is warmer than freezer or fridge inner
+temperature.
+The Refrigerator does not work at
+• Try setting it to a lower temperature.
+all or it does not chill suf昀椀ciently.
+• Is the Refrigerator in direct sunlight or located near a heat source?
+• Is the back of the Refrigerator too close to the wall and therefore keeping air from
+circulating?
+• Check the set temperature on the digital display is too low.
+• Try setting it to a warmer temperature.
+The food in the Refrigerator is
+frozen. • Is the temperature in the room too low? Try setting it to a warmer temperature.
+• Did you store the food which is juicy in the coldest part of the Refrigerator?
+Try moving those items on the other shelves in fridge instead of keeping them in the
+Cool Select Pantry™.
+• Check that the Refrigerator is level and stable.
+• Is the back of the Refrigerator too close to the wall and therefore keeping air from
+circulating?
+• Try locate the refrigerator keep away from the wall over 2 inches.
+You hear unusual noise or sounds.
+• Was anything dropped behind or under the Refrigerator?
+• A “ticking” sound is heard from inside the Refrigerator. It is normal and occurs because
+various accessories are contracting or expanding according to the temperature of the
+Refrigerator interior.
+• Some heat is normal as anti-condensators are installed in the vertical hinged section
+The cabinet-door sealing area of the of the refrigerator to prevent condensation.
+appliance is hot and condensation
+is occurring. • Is the refrigerator door ajar? Condensation can occur when you leave the door open for
+a long time.
+You can hear water bubbling in the • This is normal. The bubbling comes from the Refrigerator coolant liquid circulating
+Refrigerator. through the Refrigerator.
+• Check for spoiled food.
+There is a bad smell in the
+• Foods with strong odors(for example, 昀椀sh) should be tightly covered.
+Refrigerator.
+• Clean out your Freezer periodically and throw away any spoiled or suspicious food.
+123
+
+===== PAGE 124 =====
+
+This document cannot be used without Samsung's authorization
+REFERENCE INFORMATION
+Problem Solution
+• Is the air vent blocked? Remove any obstructions so air can circulate freely.
+Frost forms on the walls of the
+• Allow suf昀椀cient space between the foods stored for ef昀椀cient air circulation.
+Freezer
+• Is the Freezer drawer closed properly?
+• Condensation or water drops may form if the humidity is too high while the refrigerator
+Condensation or water drops forms is operating.
+on both sides of fridge door’s
+• If condensation or water drops appears on both sides of fridge door’s central part, turn
+central part.
+the Energy Saver mode off after removing the condensation.(See the explanation of the
+Energy Saver button in “Using the Control Panel” on page 21.)
+To use the Smart Grid (Demand Response) and E-Smart function on your Refrigerator, you
+need the following devices and apps:
+- Devices: 1) Wireless Router, 2) Samsung E-Smart Refrigerator, 3) Smartphone
+(Recommended: Galaxy S4,Galaxy Note3/ Android OS Jelly bean)
+- Applications: 1) “Samsung E-Smart App” from the Google Play Store or Samsung Apps.
+What Do I Need to Use the E-Smart
+You also need to:
+and Smart Grid functions?
+Connect the Refrigerator and the Smartphone to the same Wi-Fi network in your home.
+• Install and run Samsung E-Smart App on your Smartphone (to use the Samsung E-Smart
+function).
+• In addition, to use the Smart Grid (Demand Response) function, you must Register for the
+service with your electric company.The company must have an EMS (Energy Management
+System) that supports SEP (Smart Energy pro昀椀le).
+• Con昀椀rm that the router in your home and the Internet are working properly.
+- Connect a Smartphone to the router (AP, Access Point), and then con昀椀rm that you can
+browse the Internet on the phone.
+Why isn’t the E-Smart function
+• Con昀椀rm that refrigerator is connected to the AP.
+working normally?
+- Check the E-Smart icon on the PANEL of refrigerator.If the refrigerator is connected,
+the icon will be on.
+• Con昀椀rm that the refrigerator and Smart Phone are connected to the same router.
+• Con昀椀rm that the router in your home and the Internet are working properly.
+- Connect a Smartphone to the router (AP, Access Point), and then con昀椀rm that you can
+Why isn’t the Delay Defrost browse the Internet on the phone.
+Capability working normally? • Con昀椀rm that the area where you live is properly entered into the Smart phone App.
+• Con昀椀rm that the Smart Grid function works correctly.(Check the PANEL. L3 andL4 should
+not be displayed on the PANEL.)
+124
+
+===== PAGE 125 =====
+
+This document cannot be used without Samsung's authorization
+REFERENCE INFORMATION
+9-3. Q&A
+Descriptions of symptoms Check Points Corrective Measures
+‣ Noise (resonance) problems
+keep on even though the noise If you replace the ambient thermistor
+generating BLDC motors for both When the BLDC fan motor rotates in low with a 2.7K resistance (detecting 43℃),
+of the compartments are replaced RPM, The friction with air is quite high and the BLDC fan motor rotates in high RPM,
+several times. What does generate it generates “grinding” noises. which reduces friction with air resulting in
+the resonance and how can it be reduction of the “grinding” resonance.
+settled down?
+It makes “knocking” or “branch breaking”
+Check the clearance between the
+noises when the liner and the shelves
+selves and the liners.
+hit each other due to the 昀氀uctuation of
+① Freezer Shelves: Remove the trim
+the inside air pressure upon door open/
+‣ What causes the “knocking” shelves already attached and replace
+close. Also, these noises occur when the
+noises? How to solve it? them with those supplied for service.
+liners and the shelves hit each other as
+② Fridge Shelves: Because noise-
+the liners expand and contract due to
+preventing trim selves are not attached,
+the temperature change in both of the
+it needs attaching.
+compartments.
+‣ What is the solution if the same
+problem occurs even though
+the counter action in the service Check if the selves wobble. If they do, have shelves sit 昀椀rmly on their places.
+bulletin has been implemented
+already for the “knocking” noises?
+Refrigerant goes into the evaporator via the capillary tube in which the refrigerant
+‣ What causes the liquid passing expands as it circulates the cooling cycle. At this time, the refrigerant is in its liquid state
+noises from the back of the and it starts evaporating as it reaches at the inlet of the evaporator with a bigger diameter,
+refrigerator? which causes the refrigerant noises. And, it gets worse when the refrigerant does not 昀氀ow
+freely.
+For new refrigerators.
+Check if the refrigerator wobbles by
+Check if the refrigerator is leveled.
+shaking with hands.
+‣ What is the solution for the
+compressor noises? Check if there is enough clearance at the If there is not enough clearance or it is
+back of the refrigerator for the ventilation blocked by things such as newspaper, there
+of the machine compartment. could be resonance noises.
+More than 5cm from the back, 30cm from
+Required clearance around the product.
+the top and 10cm from its sides.
+For old refrigerators
+Dust could get built-up in the machine
+compartment. Then, its ventilation would Explain it to customers and let them clean
+get restricted which makes the refrigerator dust or any other foreign substances in the
+‣ What is the solution for the
+overheated resulting in the increase of the machine compartment.
+compressor noises?
+noise level.
+As the vibration proof rubbers get The compressor is dislocated due to impact
+hardened, noises generate during the comp during its transportation such as moving-in.
+operation. (The noise level is quite high.) → Check if it’s dislocated when it is more noisy
+→ Replace the vibration proof rubbers. after moving-in.
+125
+
+===== PAGE 126 =====
+
+This document cannot be used without Samsung's authorization
+REFERENCE INFORMATION
+Descriptions of symptoms Check Points Corrective Measures
+‣ During the comp start-up, iron
+friction noises occur. What causes The reciprocation piston could get worn out or inner components could get dislocated.
+them?
+1. Check its symptoms and patterns.
+2. Check if the unit is installed on a 昀椀rm and leveled 昀氀oor.
+‣ What can be checked when the 3. Check if the unit is installed close to the customer’s living area.
+unit sends out noises? 4. Check if the panel on the machine compartment hits on the rear wall and the unit has
+enough clearance with the rear wall.
+5. Check if the refrigerant pipes are shaped as normal.
+Advise customers to adjust its temperature level to one or two step higher. For example,
+when the ambient temperature is low such as in winter (especially, when you use it in the
+‣ Why is the fridge compartment morning with the door not being opened or closed during the night), the compartment
+not cool? (Not a defect) temperature could get increased by 1~2℃. So, advise customers to shift its temperature
+level and explain to them that it does not affect its power consumption that much when
+its temperature setting is adjusted to one or two step lower.
+If it is considered to be low cooling, When
+the BLDC motor fan does not rotate
+because its restriction is not picked up.
+‣ Why is the food melt even
+Check the compartment temperature with When the evaporator is frozen-up (defrost
+though the display of the freezer
+a thermometer. it) Temp detection error according to the
+compartment shows -20℃?
+characteristic change of the thermistor (set
+the compartment temperature or replace the
+thermistor)
+‣ What is the reason that Replace the fridge thermistor because it could be faulty.
+vegetables get frozen even 1st: Check if the thermistor works after referring to the self-diagnosis checklist on the
+though the fridge compartment is MAIN-PCB cover. If the over-cooling keeps on even though there is no problem with the
+set to MIN? above, replace it.
+‣ What can be done when frozen
+food gets melt in the freezer Defrost it by using hot water and check the defrost system for any fault. And then,
+compartment or it does not cool eliminate the root causes so as to prevent it from reoccurring.
+down?
+‣ Why doesn’t the compressor Upon the initial power on, the compressor starts operating after a 昀椀ve minute delay to
+operate upon power supply? protect the compressor. So, please wait until it starts operating.
+Check if the food sticks out preventing the doors from closing properly. If it send out
+the above sounds with the door closed well, the door switch may not have been pressed
+down completely. So, make sure for the door switches to be pressed completely. Still, if
+it does not stop going off, check the wiring connections because the door switch signals
+may not be inputted into the PCB. And, when the door switch is faulty or it is not pressed
+‣ Why does it send out “Ding Dong” down completely, the fan does not rotate and it causes low-cooling advancing to a defrost
+or alarm sounds with the doors problem.
+closed?
+NOTE
+When it comes to automatic models, the fan motor does not operate right on with the door
+closed after being opened. The fan motor for dual-evaporator refrigerators starts after a
+10- second delay and when the ambient temperature is higher than 33℃, it starts after a
+minute.
+126
+
+===== PAGE 127 =====
+
+This document cannot be used without Samsung's authorization
+REFERENCE INFORMATION
+Descriptions of symptoms Check Points Corrective Measures
+When the stored food sends out much smell.
+• Check if there is any food sending out sustaining smells.
+Dried squid, dried laver : Hold on them
+Pounded garlic : Put it in an airtight container
+‣ What can be done when it sends Medical herbs : M ake sure they are packed airtight. Replace the old packing or wrap with
+out much smell in the fridge and a new one.
+the freezer compartments after 2 Others : Check if the container is sealed or the food is packed airtight.
+months? • Check if the compartment temperature is normal and the food is contaminated.
+• Check if there are any over昀氀ow of side dishes on the shelves or the bottom of the
+compartments.
+• Put the food sending out much smell in an airtight bag or container.
+• Open the door and ventilate it. Also, clean liners, shelves, containers and door bins.
+During its delivery to customers, chemical smells from various components could build up
+inside of the compartments. So, please let the doors open for some time to use the unit.
+‣ What is the cause and its counter
+Precautions : S mells tend to get soaked into the liners or other components. If food
+action for chemical smells with
+generating much smell is stored inside, it would stick onto the liners and
+new products?
+other components and it is so dif昀椀cult to remove the smell. Especially,
+customers should take care in storing smelly food properly with its sealing
+being tight during the early period of the product’s use.
+1) Turn off the refrigerator (unplug the unit) and remain the door opened.
+2) Take out the food stored in the refrigerator. And then, take out all the shelves, door
+‣ What can be done when the bins and containers, and put them in warm water. After cleaning them by using dish
+smell keeps on even thought the detergents and drying them, put them back to their locations.
+deodorizers are cleaned? 3) Remove the deodorizer and soak it in warm water more than 4 hours. After drying it in
+sunlight, put it back to its location.
+4) Throw away the smell-soaked plastic bags and put the food in new ones.
+It could happen when remnants of the
+water 昀椀lter or organics have been built up in
+the water tank. So, replace the water 昀椀lter
+‣ What is the cause and its counter When it tastes and smells funny
+and the water tank together. If there is no
+action for chemical smells with • It tastes funny even though it does not
+replacement part and the water tank need
+new products? smell funny.
+cleaning, use dish detergents and make sure
+to clean the inside without any detergents
+remaining inside.
+127
+
+===== PAGE 128 =====
+
+GSPN (GLOBAL SERVICE PARTNER NETWORK)
+Area Web Site
+Europe, CIS, Mideast & Africa gspn1.samsungcsportal.com
+Asia gspn2.samsungcsportal.com
+North & Latin America gspn3.samsungcsportal.com
+China china.samsungportal.com
+This Service Manual is a property of Samsung Electronics Co.,Ltd.
+© 2019 Samsung Electronics Co.,Ltd. All
+Any unauthorized use of Manual can be punished under applicable
+rights reserved.
+International and/or domestic law.
+Printed in Korea
