@@ -12,7 +12,7 @@ export const electricDryerFieldHelp: Record<string, string> = {
   'commonly_missed.lint_trap':
     'Clean the lint screen before heat/airflow tests. Built-up housing blocks airflow and trips hi-limits and thermal fuse.',
   'customer_complaint.error_codes':
-    'F3E1/F3E2 = exhaust thermistor; F3E3–F3E5 = inlet/harness; F3E6/F3E7 = moisture sensor; F4E3/AF = vent; F4E4/L2 = supply leg (<30 V); F4E1 = heater relay; F1E1/F6Ex = control/UI.',
+    'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet/harness; F3E6/F3E7 moisture; F4E3/AF vent; F4E4/L2 supply; F4E1 relay; F1E1/F6Ex control. Samsung: tC/tC5 thermistor+vent; dC/dF door; 9C1/FC supply; AC/HC control/heat; bC2 UI.',
   'visual_inspection.vent_condition':
     'Crushed flex, bird nests, and long runs mimic heater failures — clear the path before condemning the element.',
   'visual_inspection.lint_accumulation':
@@ -106,6 +106,19 @@ export const electricDryerRecommendations: FieldRecommendationRule[] = [
     when: [{ type: 'chip', id: 'wont_stop_spinning' }],
     message: 'Won’t shut off — check vent/airflow, moisture sensor, thermistors, and UI before the motor relay.',
     tone: 'tip',
+  },
+  {
+    id: 'not_drying_eco_washer',
+    when: [{ type: 'chip', id: 'not_drying' }],
+    message: 'Also check: washer spin/extract, Eco Dry or energy-saver air phase, mixed heavy/light loads, and cool-down at cycle end.',
+    tone: 'tip',
+  },
+  {
+    id: 'error_tc_thermistor',
+    field: 'customer_complaint.error_codes',
+    when: [{ type: 'keyword', match: 'tc' }],
+    message: 'tC / tC5 (Samsung) — thermistor fault: clean lint screen and vent first, then measure thermistor resistance.',
+    tone: 'action',
   },
   {
     id: 'error_f4e3_vent',

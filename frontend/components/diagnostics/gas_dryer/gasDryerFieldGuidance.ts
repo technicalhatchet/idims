@@ -10,7 +10,7 @@ export const gasDryerFieldHelp: Record<string, string> = {
   'commonly_missed.lp_orifices':
     'Wrong LP orifice causes weak flame and long dry times — verify conversion before replacing the valve.',
   'customer_complaint.error_codes':
-    'F3E1/F3E2 = exhaust thermistor; F3E3–F3E5 = inlet/harness; F3E6/F3E7 = moisture sensor; F4E3/AF = vent; F4E4 = supply; F1E1/F6Ex = control/UI. Gas heat: ignitor 50–500 Ω, valve coils 1400/570/1300 Ω.',
+    'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet; F3E6/F3E7 moisture; F4E3/AF vent; F4E4 supply; F1E1/F6Ex control. Samsung: tC/tC5 thermistor+vent; dC/dF door; 9C1/FC supply; AC/HC control/heat; bC2 UI. Ignitor ~40–400 Ω (Samsung) or 50–500 Ω (Whirlpool).',
   'visual_inspection.vent_condition':
     'Restricted vent starves the burner — weak flame and long dry times before condemning gas parts.',
   'visual_inspection.lint_accumulation':
@@ -109,6 +109,19 @@ export const gasDryerRecommendations: FieldRecommendationRule[] = [
     when: [{ type: 'chip', id: 'wont_stop_spinning' }],
     message: 'Won’t shut off — check vent/airflow, moisture sensor, thermistors, and control before the motor relay.',
     tone: 'tip',
+  },
+  {
+    id: 'not_drying_eco_washer',
+    when: [{ type: 'chip', id: 'not_drying' }],
+    message: 'Also check: washer spin/extract, Eco Dry air phase, mixed loads, and vent blockage test if equipped.',
+    tone: 'tip',
+  },
+  {
+    id: 'error_tc_thermistor',
+    field: 'customer_complaint.error_codes',
+    when: [{ type: 'keyword', match: 'tc' }],
+    message: 'tC / tC5 (Samsung) — thermistor + vent path: clean lint and duct before replacing sensors.',
+    tone: 'action',
   },
   {
     id: 'error_f4e3_vent',
