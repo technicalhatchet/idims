@@ -43,11 +43,13 @@
     "failureModes": [
       "Low voltage causes slow heat-up (dryer/range), long cycle times",
       "Single-leg voltage (~120V present, ~240V absent) indicates open leg/breaker/blown fuse",
+      "L2 below ~30 V at control (F4E4 on many Whirlpool-style dryers) — no heat or erratic operation despite partial voltage",
       "No voltage indicates upstream supply issue"
     ],
     "testingTips": [
       "Check L1-L2, L1-N, and L2-N separately to isolate a single open leg",
-      "Verify at the outlet/junction box, not just at the appliance terminal block"
+      "Verify at the outlet/junction box, not just at the appliance terminal block",
+      "On electronic dryers, service mode L2 test can flag a missing leg before element tests"
     ],
     "appliesTo": {
       "equipmentSubtypes": ["electric_range", "electric_dryer", "stacked_laundry"],

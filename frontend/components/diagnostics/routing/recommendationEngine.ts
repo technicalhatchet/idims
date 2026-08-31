@@ -1,6 +1,6 @@
 import type { MeasurementEvaluation } from '../knowledge/types';
+import { getComplaintChipIds, getDiagnosticMatchText } from './routingEngine';
 import { ruleWhenMatches } from './conditionMatcher';
-import { getComplaintChipIds, getComplaintText } from './routingEngine';
 import type { ActiveFieldRecommendation, FieldRecommendationRule } from './types';
 
 export function evaluateRecommendations(
@@ -11,7 +11,7 @@ export function evaluateRecommendations(
   if (!rules?.length) return [];
 
   const complaintChipIds = getComplaintChipIds(fields);
-  const complaintText = getComplaintText(fields);
+  const complaintText = getDiagnosticMatchText(fields);
   const seen = new Set<string>();
   const active: ActiveFieldRecommendation[] = [];
 

@@ -2,8 +2,7 @@
 
 import { format } from 'date-fns';
 import {
-  COMPLAINT_TAGS_FIELD,
-  inferComplaintChipIds,
+  maybeApplyComplaintChipInference,
 } from '../components/diagnostics/routing/routingEngine';
 import { REFRIGERATOR_COMPLAINT_CHIPS } from '../components/diagnostics/refrigerator/refrigeratorComplaints';
 import { ELECTRIC_RANGE_COMPLAINT_CHIPS } from '../components/diagnostics/electric_range/electricRangeComplaints';
@@ -31,13 +30,9 @@ const COMPLAINT_CHIPS_BY_TEMPLATE = {
   standalone_freezer: STANDALONE_FREEZER_COMPLAINT_CHIPS,
 };
 
-function applyComplaintChipInference(templateId, fields, text) {
+function applyComplaintChipInference(templateId, fields) {
   const chips = COMPLAINT_CHIPS_BY_TEMPLATE[templateId];
-  if (!chips?.length || !text) return;
-  const existing = fields[COMPLAINT_TAGS_FIELD];
-  if (Array.isArray(existing) && existing.length) return;
-  const inferred = inferComplaintChipIds(text, chips);
-  if (inferred.length) fields[COMPLAINT_TAGS_FIELD] = inferred;
+  maybeApplyComplaintChipInference(fields, chips);
 }
 
 const tri = (id, label) => ({ id, label, type: 'tri' });
@@ -372,6 +367,9 @@ export const DIAGNOSTIC_TEMPLATES = [
         fields: [
           yn('drum_turning', 'Drum Turning'),
           yn('heating', 'Heating'),
+          yn('heats_on_air_cycle', 'Heats during AIR / no-heat cycle'),
+          yn('door_switch', 'Door switch closes (0–2 Ω)'),
+          yn('door_latched', 'Door fully latched'),
           gb('airflow', 'Airflow at vent'),
           gb('blower_operation', 'Blower Operation'),
           gb('moisture_sensor', 'Moisture sensor bars (if equipped)'),
@@ -386,6 +384,9 @@ export const DIAGNOSTIC_TEMPLATES = [
           txt('thermal_fuse', 'Thermal fuse / hi-limit continuity'),
           txt('cycling_thermostat', 'Cycling thermostat'),
           txt('high_limit', 'High-limit thermostat'),
+          txt('thermal_cutoff', 'Thermal cut-off continuity'),
+          txt('outlet_thermistor_kohm', 'Exhaust thermistor (kΩ)'),
+          txt('inlet_thermistor_kohm', 'Inlet thermistor (kΩ)'),
           txt('exhaust_temp', 'Exhaust air temp at vent (°F)'),
         ],
       },
@@ -395,7 +396,9 @@ export const DIAGNOSTIC_TEMPLATES = [
         fields: [
           txt('supply_voltage', 'Supply voltage (V)'),
           txt('motor_ohms', 'Drive motor resistance (Ω)'),
+          txt('motor_circuit_ohms', 'Motor circuit Ω (door to motor path)'),
           txt('motor_amps', 'Motor amps (running)'),
+          yn('belt_switch', 'Belt switch toggles with pulley'),
           txt('belt_idler', 'Belt / idler pulley condition'),
           area('board_notes', 'Control board / relay notes'),
         ],
@@ -431,9 +434,13 @@ export const DIAGNOSTIC_TEMPLATES = [
         fields: [
           yn('drum_turning', 'Drum Turning'),
           yn('ignition', 'Burner Ignition'),
+          yn('door_switch', 'Door switch closes (0–2 Ω)'),
+          yn('door_latched', 'Door fully latched'),
           gb('airflow', 'Airflow at vent'),
           gb('blower_operation', 'Blower Operation'),
           gb('flame_quality', 'Flame quality / stays lit'),
+          yn('heats_on_air_cycle', 'Heat/flame during AIR / no-heat cycle'),
+          gb('moisture_sensor', 'Moisture sensor bars (if equipped)'),
         ],
       },
       {
@@ -443,6 +450,7 @@ export const DIAGNOSTIC_TEMPLATES = [
           txt('igniter_amps', 'Igniter amps (glow)'),
           txt('igniter_ohms', 'Igniter resistance cold (Ω)'),
           txt('gas_valve_coils', 'Gas valve coil(s) (Ω)'),
+          yn('flame_sensor_continuity', 'Flame sensor continuity (bench test)'),
           txt('flame_sensor', 'Flame sensor / radiant sensor'),
           txt('gas_pressure_note', 'Gas pressure / manifold (if measured)'),
         ],
@@ -453,7 +461,11 @@ export const DIAGNOSTIC_TEMPLATES = [
         fields: [
           txt('supply_voltage', 'Supply voltage (V)'),
           txt('motor_ohms', 'Drive motor resistance (Ω)'),
+          txt('motor_circuit_ohms', 'Motor circuit Ω (door to motor path)'),
+          yn('belt_switch', 'Belt switch toggles with pulley'),
           txt('thermal_fuse', 'Thermal fuse / hi-limit'),
+          txt('outlet_thermistor_kohm', 'Exhaust thermistor (kΩ)'),
+          txt('inlet_thermistor_kohm', 'Inlet thermistor (kΩ)'),
           txt('exhaust_temp', 'Exhaust temp at vent (°F)'),
           area('board_notes', 'Control / radiant sensor notes'),
         ],
@@ -930,11 +942,7 @@ export function getInitialDiagnosticFieldValues(templateId, workOrder = null) {
   if (workOrder?.description || symptomText) {
     fields['customer_complaint.complaint'] = workOrder.description || symptomText || '';
   }
-  applyComplaintChipInference(
-    templateId,
-    fields,
-    fields['customer_complaint.complaint'] || '',
-  );
+  applyComplaintChipInference(templateId, fields);
   return fields;
 }
 

@@ -6,21 +6,38 @@
     { "id": "heat_safety", "label": "Heat Safety", "dmaTags": ["safety_fuse_check", "no_heat_issue"] },
     { "id": "airflow", "label": "Airflow / Venting", "dmaTags": ["airflow_check", "vent_restriction"] },
     { "id": "motor", "label": "Drum Motor / Drive", "dmaTags": ["motor_check", "no_tumble_issue"] },
-    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] },
+    { "id": "control", "label": "Control / UI", "dmaTags": ["control_board_check"] }
   ],
   "hypotheses": [
     { "id": "igniter_ok", "category": "ignition", "label": "Igniter OK", "oppositeId": "igniter_failed" },
     { "id": "igniter_failed", "category": "ignition", "label": "Igniter failed", "oppositeId": "igniter_ok" },
+    { "id": "flame_sensor_ok", "category": "ignition", "label": "Flame sensor OK", "oppositeId": "flame_sensor_failed" },
+    { "id": "flame_sensor_failed", "category": "ignition", "label": "Flame sensor failed", "oppositeId": "flame_sensor_ok" },
     { "id": "gas_valve_ok", "category": "gas_valve", "label": "Gas valve coil OK", "oppositeId": "gas_valve_failed" },
     { "id": "gas_valve_failed", "category": "gas_valve", "label": "Gas valve coil failed", "oppositeId": "gas_valve_ok" },
     { "id": "thermal_fuse_ok", "category": "heat_safety", "label": "Thermal fuse OK", "oppositeId": "thermal_fuse_failed" },
     { "id": "thermal_fuse_failed", "category": "heat_safety", "label": "Thermal fuse open", "oppositeId": "thermal_fuse_ok" },
+    { "id": "exhaust_thermistor_ok", "category": "airflow", "label": "Exhaust thermistor OK", "oppositeId": "exhaust_thermistor_failed" },
+    { "id": "exhaust_thermistor_failed", "category": "airflow", "label": "Exhaust thermistor failed", "oppositeId": "exhaust_thermistor_ok" },
+    { "id": "inlet_thermistor_ok", "category": "airflow", "label": "Inlet thermistor OK", "oppositeId": "inlet_thermistor_failed" },
+    { "id": "inlet_thermistor_failed", "category": "airflow", "label": "Inlet thermistor failed", "oppositeId": "inlet_thermistor_ok" },
+    { "id": "moisture_sensor_ok", "category": "airflow", "label": "Moisture sensor OK", "oppositeId": "moisture_sensor_failed" },
+    { "id": "moisture_sensor_failed", "category": "airflow", "label": "Moisture sensor fault", "oppositeId": "moisture_sensor_ok" },
     { "id": "vent_ok", "category": "airflow", "label": "Vent / airflow OK", "oppositeId": "vent_restricted" },
     { "id": "vent_restricted", "category": "airflow", "label": "Vent restriction / poor airflow", "oppositeId": "vent_ok" },
+    { "id": "door_switch_ok", "category": "motor", "label": "Door switch OK", "oppositeId": "door_switch_failed" },
+    { "id": "door_switch_failed", "category": "motor", "label": "Door switch failed", "oppositeId": "door_switch_ok" },
+    { "id": "belt_switch_ok", "category": "motor", "label": "Belt switch OK", "oppositeId": "belt_switch_failed" },
+    { "id": "belt_switch_failed", "category": "motor", "label": "Belt switch failed", "oppositeId": "belt_switch_ok" },
     { "id": "motor_ok", "category": "motor", "label": "Drum motor OK", "oppositeId": "motor_failed" },
     { "id": "motor_failed", "category": "motor", "label": "Drum motor failed", "oppositeId": "motor_ok" },
     { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
-    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" },
+    { "id": "ccu_ok", "category": "control", "label": "Main control OK", "oppositeId": "ccu_failed" },
+    { "id": "ccu_failed", "category": "control", "label": "Main control failed", "oppositeId": "ccu_ok" },
+    { "id": "user_interface_ok", "category": "control", "label": "User interface OK", "oppositeId": "user_interface_failed" },
+    { "id": "user_interface_failed", "category": "control", "label": "User interface failed", "oppositeId": "user_interface_ok" }
   ],
   "rules": [
     {
@@ -36,6 +53,18 @@
       "confirm": ["igniter_failed"]
     },
     {
+      "id": "flame_sensor_open",
+      "when": { "type": "field", "path": "gas_ignition.flame_sensor_continuity", "equals": "no" },
+      "eliminate": ["flame_sensor_ok"],
+      "confirm": ["flame_sensor_failed"]
+    },
+    {
+      "id": "flame_sensor_ol",
+      "when": { "type": "measurement", "knowledgeId": "gasFlameSensorContinuityOhms", "statusIn": ["critical"] },
+      "eliminate": ["flame_sensor_ok"],
+      "confirm": ["flame_sensor_failed"]
+    },
+    {
       "id": "gas_valve_ol",
       "when": { "type": "measurement", "knowledgeId": "gasValveCoilOhms", "statusIn": ["critical"] },
       "eliminate": ["gas_valve_ok"],
@@ -46,6 +75,18 @@
       "when": { "type": "measurement", "knowledgeId": "dryerThermalFuseOhms", "statusIn": ["critical"] },
       "eliminate": ["thermal_fuse_ok"],
       "confirm": ["thermal_fuse_failed"]
+    },
+    {
+      "id": "exhaust_thermistor_bad",
+      "when": { "type": "measurement", "knowledgeId": "dryerExhaustThermistorOhms", "statusIn": ["critical"] },
+      "eliminate": ["exhaust_thermistor_ok"],
+      "confirm": ["exhaust_thermistor_failed"]
+    },
+    {
+      "id": "inlet_thermistor_bad",
+      "when": { "type": "measurement", "knowledgeId": "dryerInletThermistorOhmsGas", "statusIn": ["critical"] },
+      "eliminate": ["inlet_thermistor_ok"],
+      "confirm": ["inlet_thermistor_failed"]
     },
     {
       "id": "motor_ol",
@@ -72,6 +113,24 @@
       "confirm": ["motor_failed"]
     },
     {
+      "id": "door_switch_open",
+      "when": { "type": "field", "path": "functional_checks.door_switch", "equals": "no" },
+      "eliminate": ["door_switch_ok"],
+      "confirm": ["door_switch_failed"]
+    },
+    {
+      "id": "belt_switch_open",
+      "when": { "type": "field", "path": "motor_electrical.belt_switch", "equals": "no" },
+      "eliminate": ["belt_switch_ok"],
+      "confirm": ["belt_switch_failed"]
+    },
+    {
+      "id": "moisture_sensor_bad",
+      "when": { "type": "field", "path": "functional_checks.moisture_sensor", "equals": "bad" },
+      "eliminate": ["moisture_sensor_ok"],
+      "confirm": ["moisture_sensor_failed"]
+    },
+    {
       "id": "airflow_bad",
       "when": { "type": "field", "path": "functional_checks.airflow", "equals": "bad" },
       "eliminate": ["vent_ok"],
@@ -80,22 +139,59 @@
     {
       "id": "flame_poor",
       "when": { "type": "field", "path": "functional_checks.flame_quality", "equals": "bad" },
-      "suspect": ["gas_valve_failed", "vent_restricted"]
+      "suspect": ["gas_valve_failed", "vent_restricted", "flame_sensor_failed"]
     },
     {
       "id": "no_heat_chip",
       "when": { "type": "chip", "id": "no_heat" },
-      "suspect": ["igniter_failed", "gas_valve_failed", "thermal_fuse_failed"]
+      "suspect": ["igniter_failed", "gas_valve_failed", "thermal_fuse_failed", "flame_sensor_failed"]
     },
     {
       "id": "not_drying_chip",
       "when": { "type": "chip", "id": "not_drying" },
-      "suspect": ["vent_restricted"]
+      "suspect": ["vent_restricted", "moisture_sensor_failed", "exhaust_thermistor_failed"]
     },
     {
       "id": "weak_flame_chip",
       "when": { "type": "chip", "id": "weak_flame" },
-      "suspect": ["gas_valve_failed", "vent_restricted"]
+      "suspect": ["gas_valve_failed", "vent_restricted", "flame_sensor_failed"]
+    },
+    {
+      "id": "no_spin_chip",
+      "when": { "type": "chip", "id": "no_spin" },
+      "suspect": ["motor_failed", "belt_switch_failed", "door_switch_failed"]
+    },
+    {
+      "id": "wont_stop_chip",
+      "when": { "type": "chip", "id": "wont_stop_spinning" },
+      "suspect": ["moisture_sensor_failed", "vent_restricted"]
+    },
+    {
+      "id": "heats_when_shouldnt_chip",
+      "when": { "type": "chip", "id": "heats_when_shouldnt" },
+      "suspect": ["gas_valve_failed", "ccu_failed"]
+    },
+    {
+      "id": "heats_on_air_yes",
+      "when": { "type": "field", "path": "functional_checks.heats_on_air_cycle", "equals": "yes" },
+      "eliminate": ["gas_valve_ok"],
+      "confirm": ["gas_valve_failed"]
+    },
+    {
+      "id": "motor_circuit_ok_no_spin",
+      "when": [
+        { "type": "chip", "id": "no_spin" },
+        { "type": "measurement", "knowledgeId": "dryerMotorCircuitOhms", "statusIn": ["normal"] }
+      ],
+      "suspect": ["ccu_failed"]
+    },
+    {
+      "id": "glow_no_fire_igniter_ok",
+      "when": [
+        { "type": "field", "path": "functional_checks.ignition", "equals": "no" },
+        { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["normal"] }
+      ],
+      "suspect": ["flame_sensor_failed", "gas_valve_failed"]
     }
   ]
 }

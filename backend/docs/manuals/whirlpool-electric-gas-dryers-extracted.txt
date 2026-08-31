@@ -1,0 +1,1782 @@
+
+
+===== PAGE 1 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+Voltage Measurement Safety Information
+When performing live voltage measurements, you must do the following:
+ Verify the controls are in the off position so that the appliance does not start when energized.
+ Allow enough space to perform the voltage measurements without obstructions.
+ Keep other people a safe distance away from the appliance to prevent potential injury.
+ Always use the proper testing equipment.
+ After voltage measurements, always disconnect power before servicing.
+IMPORTANT: Electrostatic Discharge (ESD) Sensitive Electronics
+ESD problems are present everywhere. Most people begin to feel an ESD discharge at
+approximately 3000V. It takes as little as 10V to destroy, damage, or weaken the main control
+assembly. The new main control assembly may appear to work well after repair is finished,
+but a malfunction may occur at a later date due to ESD stress.
+ Use an anti-static wrist strap. Connect wrist strap to green ground connection point or
+unpainted metal in the appliance
+-OR-
+Touch your finger repeatedly to a green ground connection point or unpainted metal
+in the appliance.
+ Before removing the part from its package, touch the anti-static bag to a green ground
+connection point or unpainted metal in the appliance.
+ Avoid touching electronic parts or terminal contacts; handle electronic control assembly
+by edges only.
+ When repackaging main control assembly in anti-static bag, observe above instructions.
+IMPORTANT SAFETY NOTICE — “For Technicians only”
+This service data sheet is intended for use by persons having electrical, electronic, and
+mechanical experience and knowledge at a level generally considered acceptable in the
+appliance repair trade. Any attempt to repair a major appliance may result in personal injury
+and property damage. The manufacturer or seller cannot be responsible, nor assume any
+liability for injury or damage of any kind arising from the use of this data sheet.
+Contents
+Whirlpool Control Panel ........................................2 Troubleshooting Guide ..........................................8
+Diagnostic Guide ..................................................3 Troubleshooting Tests...........................................9
+Service Diagnostics .............................................3 Strip Circuits ......................................................22
+Error Diagnostic ...................................................4 Dryer Disassembly Instructions ..........................23
+Component Activation ..........................................5 Wiring Diagrams ..........................................25, 26
+System Info .........................................................5 Component Locations ........................................27
+Fault/Error Codes .................................................7 Specifications ....................................................27
+DPAOR NTO NTO R. EWM1O0V4E1 0O4R6 5DAESTROY PAGE 1
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 2 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+PAGE 2 DO NOT REMOVE OR DESTROY
+)sledom
+neewteb
+yrav
+yam
+secnaraeppa
+dna
+serutaef(
+LENAP
+LORTNOC
+LOOPLRIHW
+hcae
+ffo
+snrut
+bonk
+rotceles
+elcyc
+eht
+gnitatoR
+dna
+serutaeF(
+.rotacidni
+elcyc
+gnidnopserroc
+.)sledom
+neewteb
+yrav
+secnaraeppa
+neercs
+eht
+dnuora
+snottub
+eht
+gnisserp
+–
+neercS
+DCL
+roloC
+ot
+kcalb
+morf
+snoitatneserper
+neercs-no
+rieht
+segnahc
+dna
+,scitsongaiD
+,sedoC
+rorrE
+,tseT
+tnenopmoC
+IU
+.neerg
+:nottub
+”ESUAP/TRATS“
+.suneM
+ecivreS
+aiv
+dessecca
+era
+noitamrofnI
+metsyS
+ecno
+sserp
+:nottub
+”REWOP“
+.rotacidni
+ffo
+nrut
+ot
+ecno
+sserp
+.rotacidni
+ffo
+nrut
+ot
+.tset
+eunitnoc
+ro
+nigeB
+snottub
+dednemmoceR
+)dr3
+,dn2
+,ts1(
+ecno
+sserp
+:nottub
+”tsooBocE“
+:nottub
+”ecudeR
+citatS“
+.edoM
+citsongaiD
+ssecca
+ot
+rotacidni
+ffo
+nrut
+ot
+rotacidni
+ffo
+nrut
+ot
+ecno
+sserp
+.)sledom
+lla
+no
+elbaliava
+ton(
+.)sledom
+lla
+no
+elbaliava
+ton(
+erom
+ro
+eno
+sserp
+:snottub
+”)
+(
+&
+kcaB“
+.edoM
+citsongaiD
+tixe
+ot
+semit
+tseT
+tnenopmoC
+IU
+- 1
+erugiF
+d r
+3
+d
+n
+2
+t s
+1
+t
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 3 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+DIAGNOSTIC GUIDE
+ACTIVATING SERVICE DIAGNOSTICS
+Before servicing, check the following:
+1. Be sure the dryer is in standby mode
+ Make sure there is power at the wall outlet. (plugged in with all indicators off).
+ Has a household fuse blown or circuit breaker 2. Select any three buttons (except POWER)
+tripped? Was a regular fuse used? Inform and follow the steps below, using the same
+customer that a time-delay fuse is required. buttons. Remember the buttons and the order
+that the buttons were pressed. (Recommended
+ Is dryer vent properly installed and clear
+button selections shown in figure 1):
+of lint or obstructions?
+Within 8 seconds,
+ All tests/checks should be made with a
+VOM (volt-ohm-milliammeter) or DVM • Press and Release the 1st selected button,
+(digital-voltmeter) having a sensitivity of • Press and Release the 2nd selected button,
+20,000 Ω per volt DC or greater. • Press and Release the 3rd selected button;
+ Resistance checks must be made with • R epeat this 3 button sequence 2 more times.
+dryer unplugged or power disconnected. 3. If the key sequence was entered successfully,
+the language selection screen is displayed.
+ IMPORTANT: Avoid using large
+diameter probes when checking harness 4. Select the desired language—choices are:
+connectors as the probes may damage English, French, and Spanish.
+the connectors upon insertion. 5. The following screen warns that this area is
+for service technicians only.
+ Check all harnesses and connections before
+replacing components. Look for connectors • Pressing “Exit” returns to original screen.
+not fully seated, broken or loose wires and • P ressing “Enter” continues to DIAGNOSTIC
+terminals, pin insertion, or wires not pressed into HOME screen.
+connectors far enough to engage metal barbs. NOTE: Service Diagnostics will time out and
+ A potential cause of a control not return to standby after 5 minutes of user inactivity.
+functioning is corrosion or contamination on
+EXITING SERVICE DIAGNOSTICS
+connections. Use an ohmmeter to check for
+continuity across suspected connections.
+Use either of the two methods below to exit
+Service Diagnostics.
+SERVICE DIAGNOSTICS
+• Select “Exit Diagnostics” on the
+These tests allow factory or service personnel Diagnostics Home Screen.
+to test and verify all inputs to the machine control • Press the “Back” button one or more times,
+electronics. You may want to do a quick and depending on location in Service Diagnostics.
+overall checkup of the dryer with these tests
+before going to specific troubleshooting tests. DIAGNOSTICS HOME SCREEN
+LCD Navigation (See figure 2)
+The menu is displayed as a list of When an invalid item is selected, an
+selectable items on separate rows. invalid key-press beep is generated.
+Each menu item may contain several
+lines.
+Pressing the corresponding buttons
+As user navigates over elements with for the arrows moves highlight up and
+additional information, the highlight down. Pressing the corresponding
+extends the length of the screen. All button for OK selects the highlighted
+non-selectable items will display a option.
+short gray highlight preceding the
+item.
+The navigation buttons have press and
+Pressing the Left or Back button hold functionality. If the button is held
+returns user to previous screen. for longer than 1 second, the navigation
+will automatically move one row
+The last item after System Info is every 0.5 seconds.
+“Exit Diagnostics”.
+Figure 2 - LCD Navigation These buttons are used for navigation and selection.
+DO NOT REMOVE OR DESTROY PAGE 3
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 4 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+DIAGNOSTICS HOME SCREEN • Error History – Displays the last four
+saved fault/error codes (if no saved error
+The “Diagnostics Home” screen (see figure
+exists, this item is NOT shown). Provides
+2, page 3) displays the following service
+error code and description, time of error,
+diagnostic items:
+and cycle information when error occurred
+• Error Diagnostic – Access Error Codes,
+(see figure 4).
+Error History, Quick Diagnostic Test, and
+Clear All Errors
+• Component Activation – Activation and
+functional testing of system components
+and sensors (page 5)
+• System Info – Displays model #, serial
+#, hardware info, and other system
+variables (page 5)
+• Exit Diagnostics – Exits Service
+Diagnostics and returns to standby mode
+Figure 4 - Error History Screen
+ERROR DIAGNOSTIC
+• Quick Diagnostic Test – Performs a quick
+Access Error Codes, Error History, system level test of the dryer and displays
+Quick Diagnostics, and Clear All Errors error results in a dialog box (see figure 5).
+Tests drum motor and heater(s), exhaust
+NOTE: If no saved error exists, the only menu
+and inlet thermistors, air flow (AF), and
+item displayed is “Quick Diagnosic Test”.
+low line voltage (L2). Test stops on first
+error detected. Use this test to check for
+errors and verify repairs. NOTE: Door
+must be closed to perform test.
+Figure 3 - Error Diagnostic Screen
+• Error Codes – Displays most recent saved
+fault/error code (if no saved error exists,
+this item is NOT shown). Refer to Fault/
+Figure 5 - Quick Diagnostic Test
+Error Code chart on page 7.
+• Clear All Errors – Clears all stored fault/
+error codes (if no saved error exists,
+this item is NOT shown). NOTE: Once
+the errors are cleared, they cannot be
+recovered again.
+PAGE 4 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 5 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+COMPONENT ACTIVATION • UI Component Test – Upon activation,
+all LEDs are turned on. Pressing each
+Activation and functional testing of system
+button turns off its LED, rotating the cycle
+components and sensors (see Figure 6).
+selector knob turns off each LED, and
+pressing the ATM buttons changes their
+on-screen representations from black to
+green (see figure 8). Press and hold the
+right-most navigation key to return to
+previous screen.
+ If indicators do not turn off and beep after
+pressing buttons and rotating the cycle
+selector, go to TEST #6: Buttons
+& Indicators, page 19.
+Figure 6 - Component Activation Menu
+• Component Activation – When a
+component is selected from the
+Component Activation menu (see Figure
+6), a screen appears providing component
+information, and if available, attributes
+related to the component (see figure
+7). Many of the components listed can
+be turned on and off. By default, the
+component is off. (See chart on page 6.)
+Figure 8 - UI Component Test
+SYSTEM INFO
+Displays model and serial number, hardware
+information, and other system variables (if
+provided).
+NOTE: Missing system information does not
+indicate a problem. The system information
+screens are common across various
+platforms; therefore, information provided on
+Figure 7 - Component Screen one dryer may not be available on another. If
+uncertain about the information, check with
+technical support.
+NOTE: All non-selectable items will display a
+short gray highlight preceding the selection;
+however, as the highlight of the screen moves
+over items with more information, it displays
+regular background length. (see Figures 9 & 10.)
+Non-selectable items
+Items with more info.
+Figure 9 - System Information Screen Figure 10 - Hardware Information Details
+DO NOT REMOVE OR DESTROY PAGE 5
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 6 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+Component Activation Chart
+COMPONENT ACTIVATION CHART
+Output On/Off Details
+UI Component Test N/A Upon activation, all LEDs are turned on. Pressing each button turns off
+its LED. Rotating the cycle selector knob turns off each LED. Pressing
+the ATM buttons changes their on-screen representations from black
+to green.
+Motor YES Status (On/Off) NOTE: Door must be closed.
+If the motor does not turn on, go to TEST #3, page 12.
+Heater1 (Electric)/ Heat On (Gas) YES Status (On/Off) NOTE: Door must be closed.
+Attributes: Exhaust & Inlet Thermistor Reading.
+When you turn on heat, the motor is turned on as well. If temp is
+too high, system will automatically turn off heat.
+• If the motor does not turn on, go to TEST #3, page 12.
+• If no heat is detected, go to TEST #4, page 13.
+Heater2 (Electric Only) YES Status (On/Off) NOTE: Door must be closed.
+Attributes: Exhaust & Inlet Thermistor Reading.
+When you turn on heat, the motor is turned on as well. If temp is
+too high, system will automatically turn off heat.
+• If the motor does not turn on, go to TEST #3, page 12.
+• If no heat is detected, go to TEST #4, page 13.
+Heater 1 & 2 (Electric Only) YES Status (On/Off) NOTE: Door must be closed.
+Attributes: Exhaust & Inlet Thermistor Reading.
+When you turn on heat, the motor is turned on as well. If temp is
+too high, system will automatically turn off heat.
+• If the motor does not turn on, go to TEST #3, page 12.
+• If no heat is detected, go to TEST #4, page 13.
+Inlet Thermistor N/A Status (F°, C°, and Resistance)
+If inlet thermistor reading is out of range, go to TEST #4a, page 16.
+Exhaust Thermistor N/A Status (F°, C°, and Resistance)
+If exhaust thermistor reading is out of range, go to TEST #4a, page 16.
+Moisture Sensor N/A Status (Open/Closed)
+• Place finger over both sensor strips. If sensor status does not change,
+go to TEST #5, page 18.
+Door Status N/A Status (Open/Closed)
+• If opening the door does not change status, go to TEST #7, page 20.
+CCU Line Voltage 1 N/A Status (L1 Voltage Measurement) NOTE: Door must be closed.
+When measuring L1, the motor and heater are activated.
+• If L1 is absent, go to TEST #1, page 9.
+CCU Line Voltage 2 (Electric Only) N/A Status (L2 Voltage Measurement) NOTE: Door must be closed.
+When measuring L2, the motor and heater are activated.
+• If L2 is absent, go to TEST #1, page 9.
+Air Flow N/A Status (Normal/Restricted) NOTE: Door must be closed.
+• If air flow does not turn on, go to TEST #4, page 13.
+Drum Light YES Status (On/Off)
+• If drum light does not turn on, go to TEST #1, page 9.
+Buzzer YES Status (On/Off)
+• If buzzer does not sound, go to TEST #6, page 19.
+Myst Valve YES Status (On/Off) After being turned on, the myst valve automatically
+deactivates after 30 seconds if not turned off.
+• If myst valve does not turn on, go to TEST #9, page 21.
+PAGE 6 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 7 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+Fault/Error Code Chart
+The fault codes below may be indicated under various conditions and can be accessed through Service Diagnostic Mode.
+CODE DESCRIPTION EXPLANATION AND RECOMMENDED PROCEDURE
+CUSTOMER FAULT/ERROR CODES
+Indicates that a power failure occurred while the dryer was running. Press START to continue the
+Power Failure / Interruption
+cycle, or press POWER to clear the display.
+Indicates low air flow that may affect dryer performance.
+Restricted Air Flow Confirm that airflow system is not blocked. Check lint screen, exhaust duct, exhaust fan.
+• Refer to Fault/Error Code “F4E3” below for recommended procedure.
+Indicates low L2 voltage (less than 30 V) is detected at the CCU.
+Low Line Voltage
+• Refer to Fault/Error Code “F4E4” below for recommended procedure.
+SERVICE FAULT/ERROR CODES
+Indicates a CCU problem.
+F1E1 Cycle Control Unit (CCU) Problem • Verify all connections to and from the CCU.
+• See TEST #1: CCU Power Check, page 9.
+Indicates a stuck button (depressed for over 20 seconds) or UI mismatch. This fault code
+F2E1 User Interface (UI) Problem (stuck button)
+will ONLY appear in the service diagnostic mode. See TEST #6: Buttons and Indicators, page 19.
+Appears if UI cannot read EEPROM software from UI.
+F2E2 User Interface Software Error 1 • Verify all connections between CCU and UI.
+• Replace the UI.
+Appears if main control EEPROM is not programmed correctly.
+F2E3 User Interface Software Error 2
+• Replace the UI.
+Indicates that the exhaust thermistor is open. Temperature drops below 18° F (> 50k ohms).
+F3E1 Exhaust Thermistor Open
+See TEST #4a: Thermistors, page 16.
+Indicates that the exhaust thermistor has shorted. Temperature above 250° F (< 500 ohms).
+F3E2 Exhaust Thermistor Shorted
+See TEST #4a: Thermistors, page 16.
+Indicates that the Inlet Thermistor is open. Temperature drops below 18° F (>245k ohms).
+F3E3 Inlet Thermistor Open
+See TEST #4a: Thermistors, page 16.
+Indicates that the Inlet Thermistor is shorted. Temperature above 391° F (< 328 ohms).
+F3E4 Inlet Thermistor Shorted
+See TEST #4a: Thermistors, page 16.
+Indicates that the Inlet and Exhaust Thermistor are open. Will occur if the P14 connector is not
+F3E5 Inlet and Exhaust Thermistor Open
+plugged into the CCU.
+Indicates that the moisture sensor strip is open. This fault code will ONLY appear in the service
+F3E6 Moisture Sensor Open
+diagnostic mode. See TEST #5: Moisture Sensor, page 18.
+Indicates that the moisture sensor strip has shorted. This fault code will ONLY appear in the service
+F3E7 Moisture Sensor Shorted
+diagnostic mode. See TEST #5: Moisture Sensor, page 18.
+Indicates no voltage detected at the heater relay. This fault code will ONLY appear in the service
+diagnostic mode.
+F4E1 Heater Relay or Connector Problem
+• Unplug dryer or disconnect power and check that the wires are plugged into the heater element(s)
+and the relay(s) on the CCU.
+Indicates low air flow that may affect dryer performance.
+F4E3 Restricted Air Flow • Confirm that airflow system is not blocked, check lint screen, exhaust duct, exhaust fan.
+• See TEST #4a: Thermistors, page 16.
+L2 indicates low L2 voltage (less than 30 V) is detected at the CCU.
+• Check to see if a household fuse has blown or a circuit breaker has tripped.
+F4E4 L2 Line Voltage Error • Confirm the power cord is properly installed and plugged into the power outlet.
+• Check the relay connections on the CCU.
+• Gas Models Only: Check the P14 connection on the CCU. (Harness Loopback on pins 4 & 5)
+Communication between the CCU and UI has not been detected.
+• Check the harnres continuity and connections between the CCU and UI.
+F6E1 Communication Error UI to CCU
+• Check AC and DC supplies. See TEST #1: CCU Power Check, page 9.
+F6E2 Communication Error CCU to UI
+• Replace the User Interface.
+• Replace the CCU.
+DO NOT REMOVE OR DESTROY PAGE 7
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 8 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+TROUBLESHOOTING GUIDE
+Some tests will require accessing components (see page 27).
+PROBLEM POSSIBLE CAUSE CHECKS & TESTS
+WILL NOT POWER UP No power to dryer. Check power at outlet, check circuit breaker,
+- No operation fuses, or junction box connections.
+- No keypad response Connection problem between AC plug and dryer. See Test #2: Supply Connections, page 10.
+- No LEDs or display
+Connection problem between CCU and UI. Check connections and continuity between
+CCU and UI.
+Power supplies not present at machine electronics. See Test #1: CCU Power Check, page 9.
+User Interface problem. See Test #6: Buttons & Indicators, page 19.
+WILL NOT START CYCLE Door not fully closed or striking the door latch. Be sure the door is completely closed,
+(No response when Start button then press and hold the START button.
+is pressed.) Door Switch problem. See Test #7: Door Switch, page 20.
+Drive Belt / Belt Switch problem. See Test #3: Motor Circuit, page 12.
+Thermal Fuse / Motor problem. See Test #3: Motor Circuit, page 12.
+User Interface problem. See Test #6: Buttons & Indicators, page 19.
+CCU problem. See Test #1: CCU Power Check, page 9.
+WILL NOT SHUT OFF Poor airflow. Check lint screen and exhaust vent. Clean
+WHEN EXPECTED if necessary.
+Check the Pause/Cancel button. Perform UI Component Test under
+Component Activation.
+Moisture Sensor problem. See Test #5: Moisture Sensor, page 18.
+Thermistor problem. See Test #4a: Thermistors, page 16.
+User Interface problem. See Test #6: Buttons & Indicators, page 19.
+CCU problem. See Test #1: CCU Power Check, page 9.
+CONSOLE WON’T ACCEPT User selects invalid option. Refer customer to “Use and Care Guide”.
+SELECTIONS User Interface problem. See Test #6: Buttons & Indicators, page 19.
+DRUM WILL NOT SPIN Drive Belt / Belt Switch problem. See Test #3: Motor Circuit, page 12.
+Thermal Fuse (elect. Only). See Test #4b: Thermal Fuse, page 17.
+Door switch problem. See Test #7: Door Switch, page 20.
+Motor problem. See Test #3: Motor Circuit, page 12.
+CCU problem. See Test #1: CCU Power Check, page 9.
+WILL NOT HEAT Check installation. Verify proper dryer installation.
+Check for L1 and L2. Perform CCU, L1, and L2 tests in Service
+Diagnostics.
+Heater system malfunction or open heater coil. See Test #4: Heat System, page 13.
+CCU problem. See Test #1: CCU Power Check, page 9.
+HEATS IN AIR CYCLE Heater coil shorted. See Test #4: Heat System, page 13.
+Heater relay shorted. See Test #4: Heat System, page 13.
+Heater system problem. See Test #4: Heat System, page 13.
+SHUTS OFF BEFORE CLOTHES Dryness setting for auto cycles. Increase drying times for one or more
+ARE DRY auto cycles.
+Lint screen full. Clean if necessary. Refer customer
+to “Use and Care Guide”.
+Heater vent clogged. Clean if necessary. Refer customer
+to “Use and Care Guide”.
+Moisture Sensor problem. See Test #5: Moisture Sensor, page 18.
+Adjust Customer Focused Dryness Level. See Test #5a: Adjusting Customer-
+Focused Dryness Level, page 19.
+WATER VALVE NOT DISPENSING Steam cycle not selected. Refer customer to “Use and Care Guide”.
+(Water valve is activated intermittently No water to valve. Verify water supply is turned on.
+during the steam cycle.) No water from valve. See Test #9: Myst Valve, page 21.
+PAGE 8 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 9 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+TROUBLESHOOTING TESTS 5. CCU VAC – With voltmeter set to AC,
+connect black probe to CCU P8-3 (N) and
+IMPORTANT: The following procedures
+red probe to P9-2 (L1). (See Figure 11.)
+may require the use of needle probes
+to measure voltage. Failure to use needle  If 120VAC is present, go to step 6.
+probes will damage the connectors.  If 120VAC is not present, perform TEST
+#2: Supply Connections, page 10.
+TEST #1: CCU Power Check
+6. CCU +5VDC – With voltmeter set to DC,
+This test is used to determine if power is
+connect black probe to CCU P2-3 (ground)
+present at the machine control electronics.
+and red probe to P2-1 (+5V DC).
+This test assumes that proper voltage is
+present at the outlet.  If +5VDC is present, go to step 9.
+1. Unplug dryer or disconnect power.  If +5VDC is not present, go to step 7.
+2. Check for appropriate line voltages at the 7. Unplug dryer or disconnect power. Unplug
+outlet: 240VAC (electric 2-phase), 208VAC P14 from the CCU. Plug in dryer or reconnect
+(electric 3-phase), or 120VAC (gas). power and repeat step 6.
+ If line voltage is present, go to step 3.  If +5VDC returns, one of the thermistors
+has shorted. To diagnose thermistors,
+ If line voltage is not present, check for
+see TEST #4a, page 16.
+tripped circuit breaker or blown household
+fuse. If CB (circuit breaker) is not tripped,  If +5VDC is not present, go to step 8.
+have customer check with qualified 8. Unplug dryer or disconnect power.
+electrician. Reconnect P14 to the CCU and unplug P2 from
+3. Remove top panel to access the machine the CCU. Plug in dryer or reconnect power and
+electronics. repeat step 6. Perform voltage check inside
+header P2 on CCU, between pins 1 & 3—DO
+4. Plug in dryer or reconnect power.
+NOT SHORT PINS TOGETHER.
+P2 – WIDE TO UI (+5 VDC) P5 – +12VDC P9 – MOTOR/L1
+P2-1 BLK +5VDC P5-1 P9-2 BLK L1
+P2-2 BLU DATA P5-2 P9-1 LT BLU MOTOR
+P5-3 12V GND
+P2-3 YEL 5V GND
+P5-4 P13 – MOISTURE SENSOR
+P5-5
+P13-2 RED MOISTURE SENSOR
+P8 – MYST VALVE/DOOR SWITCH P5-6
+P13-1 BLK MOISTURE SENSOR
+P8-5 OPEN P5-7
+P5-8 +12VDC P14 – THERMISTORS
+P8-4 TAN DOOR SWITCH
+P8-3 WHT NEUTRAL P14-3 RED OUTLET THERMISTOR P14-6 RED OUTLET THERMISTOR
+P8-2 G/Y CHASSIS GND P14-2 RED INLET THERMISTOR P14-5 RED MODEL RTN (GAS MODEL)
+P8-1 RED MYST VALVE P14-1 RED INLET THERMISTOR P14-4 RED MODEL (GAS MODEL)
+Heater Relay #1
+(Gas & Elect.) P9 Motor Relay P13
+L1 – BLK
+Heater (E) – VLT
+K2
+Heater (G) – RED
+P5
+K1
+Heater Relay #2
+(Elect. Only) P2
+K3
+• = pin-1
+L1 – BLK
+Heater – VLT
+P8 P14
+Figure 11 - CCU Connectors & Pinouts
+DO NOT REMOVE OR DESTROY PAGE 9
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 10 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+ If +5VDC is still missing, replace the CCU.  When this is found, go to step 5.
+ If +5VDC returns, check harnesses and  If neither of the plug terminals have
+connections between the CCU and user continuity with the left-most contact of the
+interface (UI). If acceptable, replace the UI. terminal block, replace the power cord and
+retest dryer.
+9. CCU +12VDC – with voltmeter set to DC,
+connect black probe to CCU P5-3 (ground) Terminal Block
+Power Cord
+and red probe to P5-8 (+12VDC). Plug L1
+N
+ If +12VDC is present, go to step 10.
+ If +12VDC is not present, replace the CCU.
+NOTE: 12V is used to actuate the 120VAC
+relays, triacs, and switches.
+10. Unplug dryer or disconnect power.
+COM
+11. Reassemble all parts and panels.
+12. Perform the “Quick Diagnostic Test” Figure 13a - Plug-to-terminal connections
+through Service Diagnostics to verify repair. for electric dryer.
+5. Access the machine electronics without
+TEST #2: Supply Connections
+disconnecting any wiring to the CCU (See
+This test assumes that proper voltage is Dryer Disassembly Instructions, page 23).
+present at the outlet, and for U.S. installations,
+6. With an ohmmeter, check for continuity
+a visual inspection indicates that the power
+between the L1 terminal of the plug (found
+cord is securely fastened to the terminal block
+in step 4) and P9-2 (black wire) on the CCU.
+(electric dryer) or wire harness connection
+(gas dryer).  If there is continuity, go to step 7.
+ If there is no continuity, check that wires to
+ELECTRIC DRYER (U.S. Installations):
+the terminal block are mechanically secure.
+1. Unplug dryer or disconnect power.
+If so, replace the main wire harness in the
+2. Remove the cover plate from the top right dryer and retest.
+corner of the back of the dryer. See figure 12.
+7. With an ohmmeter, check for continuity
+between the neutral (N) terminal of the plug
+and P8-3 (white wire) on the CCU.
+ If there is continuity, go to step 8.
+Remove Screw  If there is no continuity, and the mechanical
+connections of the wire are secure, replace
+the main wire harness in the dryer and
+Cover Plate
+retest.
+8. Visually check that ALL connectors are
+fully inserted into the CCU.
+Figure 12 - Remove the cover plate.
+9. Reassemble all parts and panels.
+3. With an ohmmeter, check for continuity
+10. Plug in dryer or reconnect power.
+between the neutral (N) terminal of the plug
+and the center contact on the terminal block. 11. Perform the “Quick Diagnostic Test”
+See figure 13a. through Service Diagnostics to verify repair.
+ If there is no continuity, replace the power
+ELECTRIC DRYER (Canadian Installations):
+cord and test the dryer.
+1. Unplug dryer or disconnect power.
+ If there is continuity, go to step 4.
+2. Remove the cover plate from the top right
+4. In a similar way, check which terminal of corner of the back of the dryer. See figure 12.
+the plug is connected to the left-most contact
+on the terminal block and make a note of
+it. This will be L1 (black wire) in the wiring
+diagram. See figure 13a.
+PAGE 10 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 11 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+3. Access the machine electronics
+without disconnecting any wiring (see Dryer
+Disassembly Instructions, page 23).
+4. With an ohmmeter, check the continuity
+from L1 and N plug terminals of the power
+cord to the terminals for L1 and N on the
+CCU. See figure 13b.
+P9
+1
+5
+1
+ If continuity exists for both connections,
+go to step 6.
+ If an open circuit is found, check the integrity
+of the connections of the power cord to the
+harness in the dryer; harness to the CCU;
+and the integrity of the power cord itself.
+5. If it is necessary to replace the power
+cord, remove the retaining clip that secures
+the cord to the back panel. Disconnect the
+cord from the main harness and the ground
+wire from the rear panel, then pull out the
+power cord.
+6. Visually check that ALL connectors are
+fully inserted into the CCU.
+7. Reassemble all parts and panels.
+8. Plug in dryer or reconnect power.
+9. Perform the “Quick Diagnostic Test”
+through Service Diagnostics to verify repair.
+GAS DRYER (U.S. and Canadian Installations):
+1. Unplug dryer or disconnect power.
+2. Remove the cover plate from the top right
+corner of the back of the dryer. See figure 12.
+3. Check that the power cord is firmly
+connected to the dryer’s wire harness.
+See figure 14.
+DO NOT REMOVE OR DESTROY PAGE 11
+Date
+Code YDDD-xx
+MADE
+IN COO
+XPXX/XN-XXX
+XXXXXX
+Rev
+X
+Wire
+Harness
+Power Cord Power
+CCU
+Plug Cord
+N Neu L1
+L1
+Figure 14 - Power cord-to-wire harness
+connection for gas dryer.
+4. Access the machine electronics without
+disconnecting any wiring (See Dryer
+N Disassembly Instructions, page 23).
+Neu
+5. With an ohmmeter, check for continuity
+COM P8 between the neutral (N) terminal of the plug and
+P8-3 (white wire) on the CCU. The left-hand
+Figure 13b - Plug-to-terminal connections
+side of figure 15 shows the position of the
+for electric dryer.
+neutral terminal (N) on the power cord plug.
+Also see figure 11, page 9.
+ If there is continuity, go to step 6.
+ If there is no continuity, disconnect the
+white wire of the main harness from the
+power cord at the location illustrated in
+figure 14. Test the continuity of the power
+cord neutral wire as illustrated in figure 15.
+If an open circuit is found, replace the
+power cord. Otherwise, go to step 6.
+N
+Neu L1
+COM
+L1
+G N
+Masse Neu
+Power Cord
+G
+Plug Masse
+Figure 15 - Power cord terminals, gas dryer.
+6. In a similar way, with an ohmmeter, check
+for continuity between the L1 terminal of the
+plug and P9-2 (black wire) on the CCU.
+ If there is continuity, go to step 8.
+ If there is no continuity, check the continuity
+of the power cord in a similar way to that
+illustrated in figure 15, but for power cord’s
+L1 wire.
+ If an open circuit is found, replace the power
+cord. Otherwise, replace the main harness.
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 12 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+7. If the power cord passes the continuity  If resistance across P8-4 and P9-1 is in
+check, replace the main harness. the range of 1 to 6 Ω, the motor circuit is
+8. Visually check that ALL connectors acceptable. Replace the CCU.
+are fully inserted into their circuit boards.  Otherwise, continue to step 6.
+9. Reassemble all parts and panels. 6. Check the wiring and components in the path
+10. Plug in dryer or reconnect power. between these measurement points by referring
+to the appropriate wiring diagram (gas or electric)
+11. Perform the “Quick Diagnostic Test”
+through Service Diagnostics to verify repair. on pages 25 or 26. NOTE: To access motor
+system components, refer to Dryer Disassembly
+TEST #3: Motor Circuit Instructions, page 23.
+3 Quick Check: Motor activation and related ELECTRIC DRYER ONLY: Check the thermal fuse.
+attributes are provided in “Service Diagnostics See TEST #4b: Thermal Fuse, page 17.
+➔ Component Activation ➔ Motor”.
+ALL DRYERS: Continue with step 7 below to test
+This test will check the wiring to the motor the remaining components in the motor circuit.
+and the motor itself. The following items are
+7. Check the drive motor and belt switch.
+part of this motor system:
+Slowly remove the drum belt from the spring-
+Electric Gas loaded belt switch pulley, gently letting the belt
+Part of Motor System
+Dryer Dryer switch pulley down. See figure 16.
+Drum belt (cid:31) (cid:31)
+Door switch (cid:31) (cid:31) Belt Switch Pulley
+Harness/connection (cid:31) (cid:31)
+Thermal fuse (cid:31) no
+Drive motor (cid:31) (cid:31)
+Belt switch (cid:31) (cid:31)
+Centrifugal switch (cid:31) (cid:31)
+Machine control electronics (cid:31) (cid:31)
+NOTE: Refer to strip circuit on page 22
+Drum
+to diagnose drive motor.
+Belt
+1. Unplug dryer or disconnect power.
+2. Remove top panel to access the machine Figure 16 - Slowly remove drum belt.
+electronics.
+8. Remove the white connector from the drive
+3. Check for loose, worn, or damaged drum motor switch. See figure 17.
+belt—repair as necessary.
+4. Door Switch problems can be uncovered
+by following procedure under TEST #7: Door
+Switch, page 20; however, if this was not
+done, the following can be performed without
+applying power to the dryer. Connect an
+ohmmeter across CCU P8-3 (neutral, white
+wire) and P8-4 (door, tan wire).
+ With the door properly closed, the ohmmeter
+should indicate a closed circuit (0–2 Ω).
+ If not, check harnesses and connections
+between CCU and door switch. If good,
+replace the door switch assembly.
+5. Motor Circuit Check - Access the CCU and
+measure the resistance across P8-4 and P9-1.
+PAGE 12 DO NOT REMOVE OR DESTROY
+1
+5
+3
+4
+6
+2
+Drive Motor
+Switch
+White
+Connector
+Figure 17 - Remove white connector.
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 13 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+9. Remove the bare copper wire terminal from 11. Check the belt switch by measuring
+pin 5 of black drive motor switch. See figure 18. resistance between the two light blue wires,
+as shown in figure 19, while pushing up the
+Main Winding:
+belt switch pulley.
+Lt. Blue Wire in Back
+and Bare Copper Wire
+Start
+Winding:
+Lt. Blue
+Lt. Blue Wire
+Wires 1
+in Back and 1
+5
+Bare Copper 5
+Wire 3
+3 4
+4 6
+6 2
+2
+Belt Switch Pulley Belt Switch
+Figure 18 - Main and start winding measure points.
+Figure 19 - Checking the belt switch.
+10. Using figure 18 and the strip circuit on
+ If the resistance reading goes from open
+page 22, check for the resistance values of
+to a few ohms as pulley arm closes the
+the motor’s Main and Start winding coils as
+switch, belt switch is good. If not, replace
+shown in the following table.
+the belt switch.
+NOTE: Main and Start winding coils must be
+ If belt switch is good and there is still an
+checked at the motor.
+open circuit, check and repair the main
+Resistance Contact Points wiring harness.
+Winding
+in ohms of Measurement
+12. Reassemble all parts and panels.
+Lt. blue wire in back at pin 4
+MAIN 3.3–3.6 and bare copper wire terminal 13. Plug in dryer or reconnect power.
+removed from pin 5 of black
+drive motor switch 14. Perform the “Quick Diagnostic Test”
+Lt. blue wire in back at pin 4
+through Service Diagnostics to verify repair.
+and bare copper wire terminal
+START 2.7–3.0
+on pin 3 of black drive
+motor switch TEST #4: Heat System
+ If the resistance at the motor is correct,
+3 Quick Check: Heater activation and
+there is an open circuit between the motor
+related component attributes are provided
+and CCU. Go to step 11 to check for belt
+in “Service Diagnostics ➔ Component
+switch problem.
+Activation ➔ Heater 1, Heater 2, and
+ If the Start winding resistance is much Heater 1+2” for electric, or “Heat On”
+greater than 3 ohms, replace the motor. for gas.
+This test is performed when either of the
+following situations occurs:
+3 Dryer does not heat
+3 Heat will not shut off
+DO NOT REMOVE OR DESTROY PAGE 13
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 14 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+This test checks the components making up Inlet Thermistor/High Limit Heater
+the heating circuit. The following items are Thermostat Assembly Element
+part of this system:
+Thermal
+Cut-Off
+Electric Gas
+Part of Heating System
+Dryer Dryer
+Harness/connection (cid:31) (cid:31)
+Heater relay (cid:31) (cid:31)
+Thermal cut-off (cid:31) (cid:31)
+Thermal fuse no (cid:31)
+High limit thermostat (cid:31) (cid:31)
+Heat element assembly (cid:31) no
+Gas valve assembly no (cid:31)
+Centrifugal switch (cid:31) (cid:31)
+Outlet thermistor (cid:31) (cid:31)
+Inlet thermistor (cid:31) (cid:31)
+Machine control electronics (cid:31) (cid:31)
+Outlet
+Console electronics and housing (cid:31) (cid:31) Thermal Fuse
+assembly Thermistor
+Gas supply no (cid:31)
+Electric Dryer
+NOTE: On the gas dryer, the inlet thermistor
+Figure 20a - Thermal components,
+is located below the CCU bracket at the drum
+electric dryer, viewed from front.
+inlet vent. Refer to strip circuit on page 22 to
+diagnose heater system.
+Thermal
+Dryer does not heat: High Limit Thermostat Cut-Off
+Locate the components using figures 20a and
+20b. To access heater system components, see
+Dryer Disassembly Instructions, page 23. Flame
+Sensor
+ELECTRIC DRYER ONLY:
+3 Quick Check: Perform the “CCU Line
+Voltage 1” check under Component
+Activation. If L1 is present, the thermal
+cutoff is functional.
+3 Quick Check: Perform the “CCU Line
+Voltage 2” check under Component
+Activation. If L2 is present, the centrifugal
+switch, high limit thermostat, and the side
+of the heater connected to heater relay 1
+are functional.
+1. Unplug dryer or disconnect power.
+Outlet
+Thermal Fuse
+2. Remove top panel to access the machine
+Thermistor
+electronics.
+Gas Dryer
+3. Check Heaters—on the CCU, use an
+Figure 20b - Thermal components,
+ohmmeter to measure the resistance between
+gas dryer, viewed from front.
+the violet wire terminal on heater relay #1
+and the violet wire terminal on heater relay #2.
+ If the resistance is ≤ 50 Ω, go to step 5.
+ If an open circuit is detected, go to step 4.
+PAGE 14 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 15 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+4. Visually check the wire connections between 3. Perform TEST #4b: Thermal Fuse on page
+each relay and their respective heaters. If the 17. If the thermal fuse is OK, go to step 4.
+connections look good, check for continuity
+4. Perform TEST #4c: Thermal Cut-Off on
+across each heater (violet wire to center red
+page 17. If the thermal cut-off is OK, go to
+wire). Refer to strip circuit on page 22.
+step 5.
+ Replace the heater if it is electrically open.
+5. Locate the high limit thermostat (see
+5. Check Thermal Cut-off—on the CCU, use figures 20a & 20b, page 14). Measure the
+an ohmmeter to measure continuity between continuity through it by connecting the meter
+P9-2 (L1) and the black wire terminal on heater probes to the red and black wire terminals.
+relay #1. Then, measure continuity between P9-2
+ If there is an open circuit, replace both the
+(L1) and the black terminal on heater relay #2.
+high limit thermostat and the thermal cut-off.
+ If there is continuity, go to step 7.
+ Otherwise, go to step 6.
+ If an open circuit is detected, go to step 6.
+6. Perform TEST #4d: Gas Valve on page
+6. Visually check the wire connections 17. If the gas valve is OK, go to step 7.
+between each relay (black wire) and the
+7. If the preceding steps did not correct
+thermal cut-off. If the connections look good,
+the problem, suspect the centrifugal switch
+check for continuity across the thermal cut-off.
+before replacing the CCU.
+ Replace the thermal cut-off if it is
+8. Reassemble all parts and panels.
+electrically open.
+9. Plug in dryer or reconnect power.
+7. Check High Limit Thermostat—visually
+10. Perform the “Quick Diagnostic Test”
+check the wire connections from the heaters
+through Service Diagnostics to verify repair.
+and centrifugal switch to the high limit
+thermostat. If the connections look good, check Heat will not shut off:
+for continuity across the high limit thermostat. ALL DRYERS:
+ Replace the high limit thermostat if it is 1. Unplug dryer or disconnect power.
+electrically open.
+2. Remove top panel to access the machine
+8. If no open circuit is detected, remove P14 electronics.
+from the CCU and measure the outlet thermistor
+3. Remove connector P14 from the CCU and
+resistance between P14-3 and P14-6 at the
+measure the resistance between P14-3 and
+connector.
+P14-6 at the connector.
+ If 5–15 k ohms are measured, go to step 9.
+ If 5–15 k ohms are measured, the outlet
+ If the resistance is less than 1 k ohm, thermistor is OK.
+replace the outlet thermistor.
+ If the resistance is less than 1 k, replace
+9. If the preceding steps did not correct the the thermistor; if open, repair as necessary.
+problem and L1 and L2 were both detected,
+4. Check heater coil(s) for a short to ground
+replace the CCU. If L2 was not detected,
+(usually inside the heater box). Repair or
+suspect the centrifugal switch before
+replace if necessary.
+replacing the CCU.
+5. Plug in dryer or reconnect power.
+10. Reassemble all parts and panels.
+6. Run an “AIR” only timed dry cycle (no
+11. Plug in dryer or reconnect power.
+heat). Check heater relay output(s) on CCU.
+12. Perform the “Quick DIagnostic Test” With a voltmeter set to AC, measure the
+through Service Diagnostics to verify repair. voltage across terminals 1 & 2 for heater
+relay #1. If equipped, repeat procedure
+GAS DRYER ONLY:
+with heater relay #2.
+1. Verify that the gas supply to the dryer
+ If voltage is present (~240VAC for electric,
+is turned on.
+~120VAC for gas), the relay is open and
+2. Unplug dryer or disconnect power.
+working normally.
+DO NOT REMOVE OR DESTROY PAGE 15
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 16 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+ If little or no voltage is present, the relay 5. If the preceding steps did not correct the
+is closed and heater is activated. Replace problem, replace the CCU.
+the CCU.
+Temperature Levels Incorrect – If no error code
+7. Unplug dryer or disconnect power. is displayed and the connections to the thermistor
+are good, check the exhaust temperature value
+8. Reassemble all parts and panels.
+at any or all of the temperature levels in question,
+9. Plug in dryer or reconnect power.
+using the Timed Dry cycle. IMPORTANT: Be
+10. Perform the “Quick Diagnostic Test” sure EcoBoost (if available) is turned OFF before
+through Service Diagnostics to verify repair. testing.
+1. Remove load from dryer and disconnect
+TEST #4a: Thermistors
+external vent.
+NOTE: Refer to strip circuit on page 22 to
+2. Plug in dryer or reconnect power.
+diagnose outlet and inlet temperature thermistors.
+3. Run a TIMED DRY cycle of at least 2
+Outlet (Exhaust) Thermistor
+minutes in duration. Select High, Medium
+The CCU monitors the exhaust temperature High, Medium, Low, or Extra Low. Turn off
+using the outlet thermistor, and cycles the EcoBoost.
+heater relay on and off to maintain the desired
+4. Using a calibrated temperature probe,
+temperature. NOTE: Begin with an empty dryer
+take a temperature measurement in the
+and a clean lint screen.
+center of the exhaust outlet. The correct
+3 Quick Check: Exhaust thermistor readings
+exhaust temperatures are as follows:
+in °F, °C, and resistance are provided
+in “Service Diagnostics ➔ Component EXHAUST TEMPERATURES
+Activation ➔ Exhaust Thermistor.”
+TEMPERATURE HEAT TURNS OFF* HEAT TURNS ON
+1. Unplug dryer or disconnect power. SETTING °F (°C) °F (°C)
+High 155° ± 5° (68° ± 3°)
+2. Remove top panel to access the machine Medium High 150° ± 5° (65° ± 3°) 10–15° (6–8°)
+electronics. below the
+Medium 140° ± 5° (60° ± 3°)
+heat turn off
+3. Remove connector P14 from the CCU Low 125° ± 5° (52° ± 3°) temperature
+and measure the resistance between P14-3 Extra Low 105° ± 5° (41° ± 3°)
+ If the temperature is not reached within
+and P14-6 at the connector. The following
+~7 minutes, check voltage level and vent
+table gives temperatures and their associated
+blockage, and then retest.
+resistance values.
+ If the temperature probe does not agree
+NOTE: All thermistor resistance measurements
+with temperature setting, replace the outlet
+must be made while dryer is unplugged and
+thermistor.
+connector removed from CCU.
+ If the temperature probe confirms the
+OUTLET THERMISTOR RESISTANCE temperature setting, retest at a different
+RES. RES. temperature setting.
+TEMP. TEMP.
+RANGE RANGE
+°F (°C) k ohms °F (°C) k ohms 5. If the preceding steps did not correct the
+50° (10°) 19.0–22.0 80° (27°) 8.5–10.5 problem, replace the CCU.
+60° (16°) 14.8–16.8 90° (32°) 6.8–8.8
+Inlet Thermistor
+70° (21°) 11.5–13.5 100° (38°) 5.0–7.0
+ If the resistance is OK, the outlet thermistor The CCU monitors the inlet temperature using
+is good. Proceed to step 4. the inlet thermistor. The inlet thermistor (along
+with the outlet thermistor) is used to detect
+ If the thermistor resistance does not agree
+air flow, and assists in calculating load size.
+with the table, replace the outlet thermistor.
+NOTE: On the electric dryer, the inlet thermistor
+4. Check P14-3 and P14-6 to dryer cabinet
+is part of the high thermostat assembly (see
+ground. If either pin indicates continuity
+figures 20a & 20b). On the gas dryer, the inlet
+to ground (short), replace wiring harness;
+thermistor is located below the CCU bracket
+otherwise, proceed to step 5.
+at the drum inlet duct (see figure 28, page 27).
+PAGE 16 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 17 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+3 Quick Check: Inlet thermistor readings in °F, TEST #4b: Thermal Fuse
+°C, and resistance are provided in “Service
+ELECTRIC DRYER: The thermal fuse is wired
+Diagnostics ➔ Component Activation ➔
+in series with the dryer drive motor.
+Inlet Thermistor.”
+GAS DRYER: The thermal fuse is wired
+1. Unplug dryer or disconnect power.
+in series with the dryer gas valve.
+2. Remove top panel to access the machine
+ALL DRYERS:
+electronics.
+1. Unplug dryer or disconnect power.
+3. Remove connector P14 from the CCU and
+measure the resistance between P14-1 and 2. Access the thermal fuse by removing
+P14-2 at the connector. The following tables the front panel. See Dryer Disassembly
+(electric & gas) give temperatures and their Instructions, page 23.
+associated resistance values. 3. Using an ohmmeter, check the continuity
+NOTE: All thermistor resistance measurements across the thermal fuse.
+must be made while dryer is unplugged and  If the ohmmeter indicates an open circuit,
+connector removed from CCU. replace the thermal fuse.
+ If the resistance is OK, the inlet thermistor
+TEST #4c: Thermal Cut-Off
+is good. Proceed to step 4.
+ If the thermistor resistance does not agree If the dryer does not produce heat, check the
+with the table, replace the inlet thermistor. status of the thermal cut-off.
+1. Unplug dryer or disconnect power.
+ELECT - INLET THERMISTOR RESISTANCE
+2. Access the thermal cut-off by removing
+RES. RES.
+TEMP. TEMP. the front panel. See Dryer Disassembly
+RANGE RANGE
+°F (°C) °F (°C)
+k ohms k ohms Instructions, page 23.
+68° (20°) 61.2–63.7 131° (55°) 14.5–15.3
+3. Using an ohmmeter, check the continuity
+77° (25°) 49.0–51.0 140° (60°) 12.1–12.8
+across the thermal cut-off. See figures 20a
+86° (30°) 39.5–41.1 149° (65°) 10.2–10.7
+and 20b, page 14, for location.
+95° (35°) 32.0–33.3 158° (70°) 8.5–9.0
+104° (40°) 26.1–27.2 167° (75°) 7.2–7.6 4. If the ohmmeter indicates an open circuit,
+113° (45°) 21.4–22.3 176° (80°) 6.1–6.5 perform the following:
+122° (50°) 17.6–18.5
+ALL DRYERS: Replace both the thermal
+cut-off and high limit thermostat. In addition,
+GAS - INLET THERMISTOR RESISTANCE
+check for blocked or improper exhaust
+RES. RES.
+TEMP. RANGE TEMP. RANGE system, and, on electric dryers, for heat
+°F (°C) °F (°C)
+k ohms k ohms element malfunction.
+68° (20°) 57.5–67.6 131° (55°) 14.1–15.6
+77° (25°) 46.1–53.8 140° (60°) 11.8–12.9 TEST #4d: Gas Valve (Gas Dryer)
+86° (30°) 37.4–43.1 149° (65°) 9.9–10.8
+3 Quick Check: Heater activation and related
+95° (35°) 30.4–34.7 158° (70°) 8.4–9.0
+104° (40°) 24.9–28.2 167° (75°) 7.1–7.6 component attributes are provided in
+113° (45°) 20.5–23.0 176° (80°) 6.0–6.4 “Service Diagnostics ➔ Component
+122° (50°) 16.9–18.9 Activation ➔ Heat On.”
+4. Check P14-1 and P14-2 to dryer cabinet 1. Unplug dryer or disconnect power.
+ground. If either pin indicates continuity
+2. Access the gas valve by removing
+to ground (short), replace wiring harness;
+the back panel. See Dryer Disassembly
+otherwise, proceed to step 5.
+Instructions, page 23.
+5. If the preceding steps did not correct the
+3. Use an ohmmeter to determine if a gas valve
+problem, replace the CCU.
+coil has malfunctioned. Remove harness plugs.
+Measure resistance across the terminals (see
+figure 21, page 18). Readings should match those
+shown in the following chart; if not, replace coils.
+DO NOT REMOVE OR DESTROY PAGE 17
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 18 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+TEST #5: Moisture Sensor
+GAS VALVE RESISTANCE
+Resistance This test is performed when an automatic cycle
+Terminals
+in ohms stops too soon, or runs much longer than expected.
+1 to 2 1400 ± 70
+1 to 3 570 ± 28.5 NOTE: Dryer will shut down automatically
+4 to 5 1300 ± 65 after 2½ hours.
+3 Quick Check: Moisture Sensor status
+(open/closed) is provided in “Service
+Diagnostics ➔ Component Activation ➔
+Moisture Sensor.”
+Pin 1 – Black The following items are part of this system:
+Pin 2 – Blue
+Pin 3 – White
+Pin 4 – Blue Electric Gas
+Pin 5 – White Part of Moisture System
+Dryer Dryer
+Figure 21 - Measuring gas valve resistance. Harness/connection (cid:31) (cid:31)
+Metal sensor strips (cid:31) (cid:31)
+4. Disconnect the ignitor plug from the
+burner. Using an ohmmeter, measure Machine control electronics (cid:31) (cid:31)
+the resistance across the ignitor’s 2-pin NOTE: Refer to strip circuit on page 22
+connector. Resistance should be 50-500 Ω. to diagnose moisture sensor.
+ If resistance readings are outside the range
+1. Activate Service Diagnostics and then
+or open, replace the ignitor. select the Component Activation ➔ Moisture
+ If resistance readings are within range, reconnect Sensor. See procedures on page 5.
+the ignitor plug and continue to step 5.
+2. Open the door. Using a wet cloth or one
+5. Disconnect the wires going to the flame finger, jointly touch both sensor strips.
+sensor terminals. Using an ohmmeter, measure
+ If the sensor status changes from open to
+across the two sensor terminals for continuity.
+closed, the sensor passed the test. Go to
+ If there is continuity, reconnect the sensor
+step 9.
+wires and continue to step 6.
+ If the sensor status remains open, or was
+ If the reading is open, the flame sensor
+closed before touching both moisture
+needs replacing.
+strips, continue with step 3.
+6. Reassemble back panel before
+NOTE: Overdrying may be caused by a short
+reconnecting power.
+circuit in the sensor system.
+7. Plug in dryer or reconnect power.
+3. Unplug dryer or disconnect power.
+8. Run a high-temp TIMED DRY cycle
+4. Remove top panel to access the machine
+of at least 2 minutes in duration.
+electronics.
+9. Watch the ignitor for a couple of minutes
+through the “peek window” in the side. If the 5. Access the moisture sensor wires by
+ignitor stays red hot and the gas does not come removing the console and front panel (see
+out and ignite, the flame sensor needs replacing. page 23). Disconnect the 3-wire moisture
+sensor connector located below the door
+NOTE: If ignitor does not come on, line voltage
+opening between the front panel and bulkhead.
+may not be present at the gas burner. The motor
+centrifugal switch may be suspect. 6. Access the CCU and remove connector
+IMPORTANT: To avoid damage to the gas burner P13 from the circuit board. Check the wire
+wire harness, ensure the harness is routed harness for continuity between P13 and the
+exactly as it was prior to service. moisture sensor connector.
+10. Unplug dryer or disconnect power.  If there is continuity, go to step 7.
+11. Reassemble all parts and panels.  If there is no continuity, or if a short is
+12. Plug in dryer or reconnect power. detected, replace the main harness.
+13. Perform the “Quick Diagnostic Test”
+through Service Diagnostics to verify repair.
+PAGE 18 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 19 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+7. Measure the resistance The following screen will confirm your selection.
+across the outermost The selection will be stored on the CCU and will
+contacts of the connector be retained—even after a power loss.
+that includes the two MOVs.
+NOTE: If dryness setting is not selected within
+ If a small resistance is measured, clean the 6 seconds, it will time out and exit to the Main
+two metal moisture strips inside the drum. Screen.
+If a small resistance is measured after
+TEST #6: Buttons and Indicators
+cleaning, replace sensor harness.
+ If a small resistance is not measured, This test is performed when any of the
+go to step 8. following situations occurs during the “Service
+Diagnostics ➔ Component Activation ➔ UI
+8. Measure the resistance
+Component Test.” (See page 5.)
+across each of the
+outermost contacts and 3 None of the indicators or display turn on
+the center terminal (ground 3 Some buttons do not light
+connection).
+3 No beep sound is heard
+ If a resistance less than infinity is
+NOTE: The User Interface, which includes the
+measured, replace the sensor harness.
+Console, Modifier, and Center PCBs, must be
+9. If the moisture sensor diagnostic test diagnosed and replaced as a single component.
+passes, check the outlet thermistor: TEST #4a,
+None of the indicators or display turn on:
+page 16.
+1. Unplug dryer or disconnect power.
+ If the problem persists after replacing the
+2. Remove top panel to access the machine
+moisture sensor and thermistor, consider
+electronics.
+adjusting the dryness level (see TEST #5a:
+Adjusting Customer-Focused Dryness Level). 3. Visually check that ALL connectors
+are fully inserted into the CCU.
+10. If the preceding steps did not correct the
+problem, replace the CCU. 4. Visually check that ALL connectors
+are fully inserted into the UI.
+a. Unplug dryer or disconnect power.
+5. Visually check that the UI and housing
+b. Replace the CCU.
+assembly is properly inserted into the front
+c. Reassemble all parts and panels.
+console.
+d. Perform the “Quick Diagnostic Test”
+6. If all visual checks pass, perform
+through Service Diagnostics to verify repair.
+TEST #1: CCU Power Check, page 9,
+TEST #5a: Adjusting Customer- to verify supply voltages.
+Focused Dryness Level  If supply voltages are present, replace
+the user interface and housing assembly.
+NOTE: If the customer complains about the
+clothes being damp and the moisture sensor  If supply voltages are not present,
+passes TEST #5: Moisture Sensor, step 3, the replace the CCU.
+total dry time can be lengthened by changing 7. Reassemble all parts and panels.
+the factory preset dryness setting.
+8. Plug in dryer or reconnect power.
+1. Turn the cycle selector knob to an
+9. Perform the “UI Component Test”
+automatic cycle.
+to verify repair.
+2. From the Automatic Cycle Main Screen,
+Some buttons do not light:
+press and hold the Dryness Level button
+1. Unplug dryer or disconnect power.
+(~3 sec.) until the Customer-Focused
+Dryness Level screen appears. 2. Remove top panel to access the machine
+electronics.
+3. Select the desired dryness setting: “Factory
+Preset” (standard auto cycle), “15% More”,
+“30% More”, “15% Less”, or “30% Less”.
+DO NOT REMOVE OR DESTROY PAGE 19
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 20 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+3. Visually check that the UI and housing 5. Plug in dryer or reconnect power.
+assembly is properly inserted into the front
+6. Perform the “Quick Check” above
+console.
+to verify repair.
+4. If visual check passes, replace the UI
+and housing assembly. TEST #8: Drum Light
+5. Reassemble all parts and panels. 3 Quick Check: Drum Light status (on/off)
+6. Plug in dryer or reconnect power. is provided in “Service Diagnostics ➔
+Component Activation ➔ Drum Light.”
+7. Perform the “UI Component Test”
+to verify repair. Functionality is verified when the drum light
+turns on and off. If the preceding condition
+No beep sound is heard:
+is not met:
+1. Check volume levels under System
+Settings ➔ End of Cycle and Button Sound. 1. Press and hold the EcoBoost/Drum Light
+Increase volume if needed. button on the console until the LCD screen
+acknowledges the drum light is on.
+2. Unplug dryer or disconnect power.
+ If the LCD does not confirm the button
+3. Remove top panel to access the machine
+press, replace the user interface (UI).
+electronics.
+ If the LCD confirms the button press,
+4. Visually check that ALL connectors
+go to step 2.
+are fully inserted into the CCU.
+5. Visually check that ALL connectors 2. Unplug dryer or disconnect power.
+are fully inserted into the UI. 3. Remove the top panel to access CCU
+6. If all visual checks pass, replace the and UI.
+UI and housing assembly.
+4. Verify the drum LED connector P13
+7. Reassemble all parts and panels. is securely connected to the UI.
+8. Plug in dryer or reconnect power. 5. Check harness and inline connections
+9. Perform the “UI Component Test” between the drum LED and UI.
+to verify repair.  If the harness and connections are good,
+go to step 6.
+TEST #7: Door Switch
+ If not, repair or replace as needed.
+3 Quick Check: Door Switch status (open/
+6. Unplug the drum LED connector P13
+closed) is provided in “Service Diagnostics
+from the UI.
+➔ Component Activation ➔ Door Status.”
+7. Plug in dryer or reconnect power.
+Functionality is verified when the door status
+toggles between Open to Closed. If the 8. Press and hold the EcoBoost/Drum Light
+preceding condition is not met: button on the console to activate the LED
+1. Unplug dryer or disconnect power. circuit.
+2. Remove top panel to access the machine 9. With a multimeter set to milliamps,
+electronics. measure the current across UI connector
+P13, pins 1 and 3. If the drum LED driver
+3. Check that the wires between the door
+is working properly, there should be a
+switch and CCU are connected. (Refer to
+wiring diagrams on pages 25 and 26.) measurement of 150–370 mA.
+ If the connections are good, replace the  If the current is present, replace the
+wire and door switch assembly and retest. drum LED.
+ If wire and door switch assembly have  If the current is not present, replace the UI.
+been replaced and dryer still does not start,
+10. Unplug dryer or disconnect power.
+replace the CCU.
+11. Reassemble all parts and panels.
+4. Reassemble all parts and panels.
+PAGE 20 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 21 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+TEST #9: Myst Valve 6. Inside the drum, unscrew and replace the
+myst nozzle using a 7/16" wrench or socket.
+3 Quick Check: Myst Valve status (on/off)
+Retest myst valve.
+is provided in “Service Diagnostics ➔
+Component Activation ➔ Myst Valve.”  If water does not dispense, go to step 7.
+Functionality is verified when the valve turns on 7. Access the myst valve by removing back
+and off and water is being sprayed into the drum panel; see page 23.
+(see figure 22).
+ Check that the hose and wires are
+NOTE: Refer to strip circuit on page 22 to connected to the myst valve assembly
+diagnose myst valve. (see figure 22).
+ Check that the myst valve assembly hose
+Water Nozzle
+is connected to the nozzle.
+8. If everything is hooked up and the water
+still does not dispense:
+ Unplug dryer or disconnect power.
+ Replace the valve assembly and retest.
+9. If the preceding steps did not correct
+the problem, replace the CCU.
+Water Valve Wires
+Water Valve Assembly
+Figure 22 - Water System Components.
+If no water is sprayed in the drum:
+1. Verify that water is hooked up and turned on.
+2. Unplug dryer or disconnect power.
+3. Remove top panel to access the machine
+electronics.
+4. Verify that the red wire coming from the
+water valve is connected to the CCU, P8-1.
+Refer to wiring diagrams on pages 25 and 26.
+5. Check Myst Valve & Harness—using an
+ohmmeter, measure the resistance between
+the CCU P8-1 (red wire) and P9-2 (black wire).
+ If the resistance is 510–590 Ω, go to step
+6; if not, replace the myst valve.
+ If an open circuit is detected, go to step 7.
+DO NOT REMOVE OR DESTROY PAGE 21
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 22 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+STRIP CIRCUITS
+MOTOR CIRCUIT
+L1 DRIVE MOTOR CENTRIFUGAL N
+CYCLE CONTROL UNIT 1/3 HP SWITCH
+MAIN LBU
+5M 2M
+3.3-3.6 Ω
+BK P9-2 P9-1 LBU LBU 4M BU N.O. W
+MOTOK R1 RELAY (EL TE HC ET R. MO AN LLY) SWBE ITLT CH 2.7-3.0 Ω 3M 6M 1M SD WO ITO CR H
+FUSE START See Heater Circuit
+HEATER (ELECTRIC)
+L1 CYCLE CONTROL UNIT L2
+HEATER RELAY 1 CENTRIFUGAL SWITCH
+N.O. K2 COM1 V HEATER 1 N.C. 5M 2M
+BK BK 20 Ω R R MS oe te or R
+T CH UE TR -OM FA FL N.O. K3 COM2 V HEA20 T EΩ R 2 TH HI EG RH M L OI SM TI AT T 3C Mircuit 6M 1M
+HEATER RELAY 2
+HEATER (GAS)
+L1 R CENTRIFUGAL SWITCH N
+CYCLE CONTROL UNIT R LBU
+BK N.O. COM R N.C. BK T CH UE TR -OM FA FL R-W MO BV U 1V BK 2 1400 ± 70 Ω1I 5G 705 0 ±-5 20 80 . 5Ω Ω3IGR W W I VG AN LI VT EO R 1 CMS iroe cte uo ir t5M 2M BU W
+HEATERK R2 ELAY 1 TH HI EG RH M L OI SM TI AT T TH FE UR SM EAL LBU F4 S11300 ± 65 Ω FS5 2W V FA LL AV ME E2 3M 6M 1M SD WO ITO CR H
+SENSOR
+HEATER GAS VALVE
+THERMISTORS (INLET/OUTLET)
+CYCLE CONTROL UNIT INLET TEMP THERMISTOR CYCLE CONTROL UNIT
+R 50K Ω R
+INLET THERMISTOR P14-2 P14-1 INLET THERMISTOR RTN
+R 10K Ω R
+OUTLET THERMISTOR P14-3 P14-6 OUTLET THERMISTOR RTN
+OUTLET TEMP THERMISTOR
+MOISTURE SENSOR
+CYCLE CONTROL UNIT CYCLE CONTROL UNIT
+MOISTURE SENSOR
+MOISTURE SENSOR P13-1 BK Y-R BK R P13-2 MOISTURE SENSOR RTN
+MOV MOV
+G-Y G-Y
+P8-2 CHASSIS GND
+G-Y
+CHASSIS GND
+WATER VALVE CIRCUIT
+L1 N
+CYCLE CONTROL UNIT
+WATER VALVE
+BK R W
+P8-1 P8-3
+510-590 Ω K4
+VALVE RELAY
+Figure 23 - Strip Circuits.
+Contacts Black-White Lt. Blue Green-Yellow
+Function 1M 2M 3M 5M 6M
+Red Red
+Start
+Black
+Run White
+Blue
+=Contacts closed WWHhiItTeE Blue
+Centrifugal Switch (Motor) Gas Valve, Gas Dryer Pluggable Drive Motor Switch
+PAGE 22 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 23 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+DRYER DISASSEMBLY INSTRUCTIONS Remove Console, Front Panel,
+Front Bulkhead, and Drum
+Remove Top Panel
+NOTE: Sections A, B, C, and D must be
+1. Unplug dryer or disconnect power.
+performed in order.
+2. Remove the three rear screws securing
+the top panel and extension bracket to the A: Remove Console (Figure 25)
+back panel.
+1. Perform “Remove Top Panel”.
+3. Slide the top panel/extension bracket
+2. Disconnect the drum light harness at
+back to remove.
+the inline connector as shown in figure 25.
+4. Reverse procedure to reassemble.
+3. Disconnect the CCU to UI harness at the
+inline connection as shown in figure 25.
+Remove Rear Panel (Figure 24)
+4. Remove the two top screws (closest
+1. Perform “Remove Top Panel”.
+to the front) securing console to mounting
+2. ELECTRIC: Remove the cover plate and
+bracket.
+disconnect the power cord from the terminal
+5. Slide the console up and off the mounting
+block and ground screw.
+bracket while feeding the CCU to UI and drum
+GAS: Remove the cover plate and disconnect
+light harnesses through the opening in the
+the AC power cord from the ground screw.
+bracket. Remove console and harnesses
+3. Remove the two screws securing the from dryer.
+terminal block to rear panel.
+CCU to UI Connector Door Switch Connector
+4. Remove the 13 screws securing the rear
+panel to the cabinet. Remove rear panel from
+dryer.
+NOTE: The spring clip has been replaced by a
+lint duct collar that is secured to the rear panel.
+Care must be taken when sliding the panel off Drum Light
+the exhaust outlet because of the tight fit. Connector
+5. Reverse procedure to reassemble.
+Ground Screw Terminal Block
+Console screw (right side shown)
+Figure 25 - Remove console.
+Lint Duct Collar Water Inlet
+Figure 24 - Remove rear panel.
+DO NOT REMOVE OR DESTROY PAGE 23
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 24 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+B: Remove Front Panel 12. Remove console mounting bracket by
+removing six screws—four from the top and
+(Refer to Figure 26, unless otherwise noted.)
+two from the front (bold arrows).
+6. Disconnect door switch connector
+13. Remove lint duct cover by removing three
+(See Figure 25, page 23).
+screws—one screw and clamp assembly at
+7. Remove front panel by removing nine
+bottom of cover and two screws securing
+screws—four from the bottom, three from the
+cover to bulkhead.
+top, and two below the dryer door opening.
+14. Remove the four screws securing the
+Console Mounting Bracket bulkhead to the cabinet. Remove bulkhead.
+Drum Light Main Harness Clips
+Bulkhead
+Screws
+Front Panel
+Figure 26 - Remove front panel.
+C: Remove Front Bulkhead
+Lint Duct Moisture Sensor
+(Refer to Figure 27, unless otherwise noted.) Cover Screws Connector
+and Clamp
+8. Remove lint screen.
+Figure 27 - Remove front bulkhead.
+9. Unclip main wire harness (2 places).
+10. Disconnect drum light connector D: Remove Drum
+(See Figure 25, page 23). 15. Remove drive belt from belt switch pulley.
+11. Disconnect moisture sensor at plug below 16. Pull drum from cabinet.
+door opening.
+17. Reverse procedure to reassemble.
+PAGE 24 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 25 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY PAGE 25
+MARGAID
+GNIRIW
+REYRD
+CIRTCELE
+LOOPLRIHW
+ot
+egamad
+esuac
+yam
+egrahcsid
+citatsortcelE
+:TNATROPMI
+.noitamrofni
+DSE
+rof
+1
+egap
+eeS
+.scinortcele
+lortnoc
+enihcam
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 26 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+PAGE 26 DO NOT REMOVE OR DESTROY
+MARGAID
+GNIRIW
+REYRD
+SAG
+LOOPLRIHW
+ot
+egamad
+esuac
+yam
+egrahcsid
+citatsortcelE
+:TNATROPMI
+.noitamrofni
+DSE
+rof
+1
+egap
+eeS
+.scinortcele
+lortnoc
+enihcam
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 27 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+COMPONENT LOCATIONS
+See Removing Top Panel, page 23, to access:
+• User Interface (UI)
+• Cycle Control Unit (CCU)
+• Inlet Thermistor (Gas)
+See Removing Rear Panel,
+Drum Light
+page 23, to access:
+Assembly
+• Water Nozzle
+• Water Valve
+• Thermal Cut-off
+• Inlet Thermistor (Electric)
+• High Limit Thermostat
+• Heater Assembly
+Door Switch
+(Location may vary
+between models)
+See Removing Front Panel
+and Bulkhead, page 23, to access:
+• Motor Assembly & Belt Switch
+• Thermal Fuse NOTE: Refer to Figure 20b, page 14,
+• Outlet Thermistor for gas dryer component locations.
+• Moisture Sensor Strips
+Figure 28 - Component locations.
+SPECIFICATIONS
+DRYER SPECIFICATIONS
+240 VAC (200-260) Elect. Dryer, 2-phase, “optimized”
+Voltage: 208 VAC (176-229) Elect. Dryer, 3-phase, “less optimized”
+120 VAC (100-130) Gas Dryer
+(ELECT) 30 Amp Service
+Amps:
+(GAS) 15 Amp Service
+Frequency: 58 to 62 Hz (60 Hz nominal)
+Water Pressure: 20-120 PSI
+Operating Temperature Range: 40 to 105°F (5 to 40°C)
+Dryer Height: 39 in. (99.1 cm)
+Dryer Width: 27 in. (68.6 cm)
+Dryer Depth: 31 in. (78.7 cm)
+DO NOT REMOVE OR DESTROY PAGE 27
+Downloaded from www.Manualslib.com manuals search engine
+
+===== PAGE 28 =====
+
+FOR SERVICE TECHNICIAN’S USE ONLY
+NOTES
+PAGE 28 DO NOT REMOVE OR DESTROY
+Downloaded from www.Manualslib.com manuals search engine

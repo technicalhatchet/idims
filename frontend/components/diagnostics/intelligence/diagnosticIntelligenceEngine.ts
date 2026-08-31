@@ -1,4 +1,4 @@
-import { getComplaintChipIds, getComplaintText } from '../routing/routingEngine';
+import { getComplaintChipIds, getDiagnosticMatchText } from '../routing/routingEngine';
 import { ruleWhenMatches } from '../routing/conditionMatcher';
 import type { MeasurementEvaluation } from '../knowledge/types';
 import { getEvidenceConfig } from './evidenceRegistry';
@@ -184,7 +184,7 @@ export function evaluateDiagnosticIntelligence(
   if (!config?.rules?.length) return null;
 
   const complaintChipIds = getComplaintChipIds(fields);
-  const complaintText = getComplaintText(fields);
+  const complaintText = getDiagnosticMatchText(fields);
   const complaintChipLabels = Object.fromEntries(
     (options?.complaintChips || [])
       .filter((chip) => complaintChipIds.includes(chip.id))

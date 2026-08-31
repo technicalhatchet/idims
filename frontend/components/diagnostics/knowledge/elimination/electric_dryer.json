@@ -4,21 +4,40 @@
     { "id": "heat_circuit", "label": "Heat Circuit", "dmaTags": ["heating_element_check", "no_heat_issue"] },
     { "id": "airflow", "label": "Airflow / Venting", "dmaTags": ["airflow_check", "vent_restriction"] },
     { "id": "motor", "label": "Drum Motor / Drive", "dmaTags": ["motor_check", "no_tumble_issue"] },
-    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] }
+    { "id": "electrical_supply", "label": "Electrical Supply", "dmaTags": ["voltage_check", "supply_issue"] },
+    { "id": "control", "label": "Control / UI", "dmaTags": ["control_board_check"] }
   ],
   "hypotheses": [
     { "id": "heating_element_ok", "category": "heat_circuit", "label": "Heating element OK", "oppositeId": "heating_element_failed" },
     { "id": "heating_element_failed", "category": "heat_circuit", "label": "Heating element failed", "oppositeId": "heating_element_ok" },
     { "id": "thermal_fuse_ok", "category": "heat_circuit", "label": "Thermal fuse OK", "oppositeId": "thermal_fuse_failed" },
     { "id": "thermal_fuse_failed", "category": "heat_circuit", "label": "Thermal fuse open", "oppositeId": "thermal_fuse_ok" },
+    { "id": "thermal_cutoff_ok", "category": "heat_circuit", "label": "Thermal cut-off OK", "oppositeId": "thermal_cutoff_failed" },
+    { "id": "thermal_cutoff_failed", "category": "heat_circuit", "label": "Thermal cut-off open", "oppositeId": "thermal_cutoff_ok" },
     { "id": "cycling_thermostat_ok", "category": "heat_circuit", "label": "Cycling thermostat OK", "oppositeId": "cycling_thermostat_failed" },
     { "id": "cycling_thermostat_failed", "category": "heat_circuit", "label": "Cycling thermostat failed", "oppositeId": "cycling_thermostat_ok" },
+    { "id": "exhaust_thermistor_ok", "category": "heat_circuit", "label": "Exhaust thermistor OK", "oppositeId": "exhaust_thermistor_failed" },
+    { "id": "exhaust_thermistor_failed", "category": "heat_circuit", "label": "Exhaust thermistor failed", "oppositeId": "exhaust_thermistor_ok" },
+    { "id": "inlet_thermistor_ok", "category": "heat_circuit", "label": "Inlet thermistor OK", "oppositeId": "inlet_thermistor_failed" },
+    { "id": "inlet_thermistor_failed", "category": "heat_circuit", "label": "Inlet thermistor failed", "oppositeId": "inlet_thermistor_ok" },
     { "id": "vent_ok", "category": "airflow", "label": "Vent / airflow OK", "oppositeId": "vent_restricted" },
     { "id": "vent_restricted", "category": "airflow", "label": "Vent restriction / poor airflow", "oppositeId": "vent_ok" },
+    { "id": "moisture_sensor_ok", "category": "airflow", "label": "Moisture sensor OK", "oppositeId": "moisture_sensor_failed" },
+    { "id": "moisture_sensor_failed", "category": "airflow", "label": "Moisture sensor fault", "oppositeId": "moisture_sensor_ok" },
+    { "id": "door_switch_ok", "category": "motor", "label": "Door switch OK", "oppositeId": "door_switch_failed" },
+    { "id": "door_switch_failed", "category": "motor", "label": "Door switch failed", "oppositeId": "door_switch_ok" },
+    { "id": "belt_switch_ok", "category": "motor", "label": "Belt switch OK", "oppositeId": "belt_switch_failed" },
+    { "id": "belt_switch_failed", "category": "motor", "label": "Belt switch failed", "oppositeId": "belt_switch_ok" },
     { "id": "motor_ok", "category": "motor", "label": "Drum motor OK", "oppositeId": "motor_failed" },
     { "id": "motor_failed", "category": "motor", "label": "Drum motor failed", "oppositeId": "motor_ok" },
     { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
-    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" },
+    { "id": "heater_relay_ok", "category": "control", "label": "Heater relay OK", "oppositeId": "heater_relay_failed" },
+    { "id": "heater_relay_failed", "category": "control", "label": "Heater relay stuck/failed", "oppositeId": "heater_relay_ok" },
+    { "id": "ccu_ok", "category": "control", "label": "Main control OK", "oppositeId": "ccu_failed" },
+    { "id": "ccu_failed", "category": "control", "label": "Main control failed", "oppositeId": "ccu_ok" },
+    { "id": "user_interface_ok", "category": "control", "label": "User interface OK", "oppositeId": "user_interface_failed" },
+    { "id": "user_interface_failed", "category": "control", "label": "User interface failed", "oppositeId": "user_interface_ok" }
   ],
   "rules": [
     {
@@ -46,10 +65,28 @@
       "confirm": ["thermal_fuse_ok"]
     },
     {
+      "id": "thermal_cutoff_open",
+      "when": { "type": "measurement", "knowledgeId": "dryerThermalCutoffOhms", "statusIn": ["critical"] },
+      "eliminate": ["thermal_cutoff_ok"],
+      "confirm": ["thermal_cutoff_failed"]
+    },
+    {
       "id": "cycling_stat_open",
       "when": { "type": "measurement", "knowledgeId": "dryerCyclingThermostatOhms", "statusIn": ["critical"] },
       "eliminate": ["cycling_thermostat_ok"],
       "confirm": ["cycling_thermostat_failed"]
+    },
+    {
+      "id": "exhaust_thermistor_bad",
+      "when": { "type": "measurement", "knowledgeId": "dryerExhaustThermistorOhms", "statusIn": ["critical"] },
+      "eliminate": ["exhaust_thermistor_ok"],
+      "confirm": ["exhaust_thermistor_failed"]
+    },
+    {
+      "id": "inlet_thermistor_bad",
+      "when": { "type": "measurement", "knowledgeId": "dryerInletThermistorOhmsElectric", "statusIn": ["critical"] },
+      "eliminate": ["inlet_thermistor_ok"],
+      "confirm": ["inlet_thermistor_failed"]
     },
     {
       "id": "motor_ol",
@@ -76,6 +113,24 @@
       "confirm": ["motor_failed"]
     },
     {
+      "id": "door_switch_open",
+      "when": { "type": "field", "path": "functional_checks.door_switch", "equals": "no" },
+      "eliminate": ["door_switch_ok"],
+      "confirm": ["door_switch_failed"]
+    },
+    {
+      "id": "belt_switch_open",
+      "when": { "type": "field", "path": "motor_electrical.belt_switch", "equals": "no" },
+      "eliminate": ["belt_switch_ok"],
+      "confirm": ["belt_switch_failed"]
+    },
+    {
+      "id": "moisture_sensor_bad",
+      "when": { "type": "field", "path": "functional_checks.moisture_sensor", "equals": "bad" },
+      "eliminate": ["moisture_sensor_ok"],
+      "confirm": ["moisture_sensor_failed"]
+    },
+    {
       "id": "airflow_bad",
       "when": { "type": "field", "path": "functional_checks.airflow", "equals": "bad" },
       "eliminate": ["vent_ok"],
@@ -84,22 +139,46 @@
     {
       "id": "lint_excessive",
       "when": { "type": "field", "path": "visual_inspection.lint_accumulation", "equals": "bad" },
-      "suspect": ["vent_restricted", "thermal_fuse_failed"]
+      "suspect": ["vent_restricted", "thermal_fuse_failed", "thermal_cutoff_failed"]
     },
     {
       "id": "no_heat_chip",
       "when": { "type": "chip", "id": "no_heat" },
-      "suspect": ["heating_element_failed", "thermal_fuse_failed"]
+      "suspect": ["heating_element_failed", "thermal_fuse_failed", "thermal_cutoff_failed"]
     },
     {
       "id": "not_drying_chip",
       "when": { "type": "chip", "id": "not_drying" },
-      "suspect": ["vent_restricted", "heating_element_failed"]
+      "suspect": ["vent_restricted", "heating_element_failed", "moisture_sensor_failed", "exhaust_thermistor_failed"]
     },
     {
       "id": "no_spin_chip",
       "when": { "type": "chip", "id": "no_spin" },
-      "suspect": ["motor_failed"]
+      "suspect": ["motor_failed", "belt_switch_failed", "door_switch_failed"]
+    },
+    {
+      "id": "wont_stop_chip",
+      "when": { "type": "chip", "id": "wont_stop_spinning" },
+      "suspect": ["moisture_sensor_failed", "vent_restricted"]
+    },
+    {
+      "id": "heats_when_shouldnt_chip",
+      "when": { "type": "chip", "id": "heats_when_shouldnt" },
+      "suspect": ["heater_relay_failed", "heating_element_failed"]
+    },
+    {
+      "id": "heats_on_air_yes",
+      "when": { "type": "field", "path": "functional_checks.heats_on_air_cycle", "equals": "yes" },
+      "eliminate": ["heater_relay_ok"],
+      "confirm": ["heater_relay_failed"]
+    },
+    {
+      "id": "motor_circuit_ok_no_spin",
+      "when": [
+        { "type": "chip", "id": "no_spin" },
+        { "type": "measurement", "knowledgeId": "dryerMotorCircuitOhms", "statusIn": ["normal"] }
+      ],
+      "suspect": ["ccu_failed"]
     }
   ]
 }

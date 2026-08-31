@@ -395,11 +395,11 @@
     "unit": "Ω",
     "inputKind": "resistance",
     "ranges": {
-      "normal": { "min": 900, "max": 1600 },
-      "warning": { "min": 700, "max": 2000 },
+      "normal": { "min": 500, "max": 1800 },
+      "warning": { "min": 400, "max": 2200 },
       "critical": { "below": 100, "above": 3000 }
     },
-    "typical": { "min": 1100, "max": 1400 },
+    "typical": { "min": 1200, "max": 1500 },
     "openCircuitCritical": true,
     "purpose": "Verify gas valve solenoid coil continuity when valve fails to open on ignition call.",
     "failureModes": [
@@ -408,9 +408,10 @@
     ],
     "testingTips": [
       "Disconnect power before testing at valve coil terminals",
+      "On many dryer valves: terminals 1–2 ~1400 Ω, 1–3 ~570 Ω, 4–5 ~1300 Ω — test each pair",
       "Confirm the valve is actually receiving voltage from the control board/igniter circuit before condemning the coil"
     ],
-    "notes": "Coil resistance varies by valve manufacturer and design — verify against manufacturer spec when known",
+    "notes": "Coil resistance varies by valve manufacturer — dryer dual-coil valves use multiple pairs; verify pair being measured",
     "appliesTo": {
       "equipmentSubtypes": ["gas_range", "gas_dryer"],
       "templates": []
@@ -423,11 +424,11 @@
     "unit": "Ω",
     "inputKind": "resistance",
     "ranges": {
-      "normal": { "min": 40, "max": 400 },
-      "warning": { "min": 20, "max": 600 },
+      "normal": { "min": 50, "max": 500 },
+      "warning": { "min": 30, "max": 600 },
       "critical": { "below": 5, "above": 1000 }
     },
-    "typical": { "min": 50, "max": 200 },
+    "typical": { "min": 80, "max": 300 },
     "openCircuitCritical": true,
     "purpose": "Verify igniter continuity and rough resistance when igniter fails to glow or gas doesn't ignite.",
     "failureModes": [

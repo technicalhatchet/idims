@@ -28,12 +28,46 @@ export function getComplaintText(fields: Record<string, unknown> = {}): string {
   return String(fields['customer_complaint.complaint'] || '');
 }
 
+/** Complaint + error-code text for keyword / F-code matching in evidence and tips. */
+export function getDiagnosticMatchText(fields: Record<string, unknown> = {}): string {
+  return [getComplaintText(fields), fields['customer_complaint.error_codes']]
+    .filter(Boolean)
+    .map((part) => String(part))
+    .join(' ');
+}
+
+/** Normalize Whirlpool-style F-codes and display fault names for chip keyword matching. */
+function expandErrorCodeTokens(text: string): string {
+  const base = normalizeText(text);
+  const extras: string[] = [];
+  const source = String(text || '').toLowerCase();
+  const fCodeRe = /\bf\s*(\d+)\s*e\s*(\d+)\b/g;
+  let match: RegExpExecArray | null;
+  while ((match = fCodeRe.exec(source)) !== null) {
+    extras.push(`f${match[1]}e${match[2]}`);
+  }
+  if (base.includes('restricted air')) {
+    extras.push('f4e3', 'af', 'not drying', 'restricted air flow');
+  }
+  if (base.includes('power failure')) {
+    extras.push('f6e2', 'no power', 'dead');
+  }
+  if (/\bl2\b/.test(base) || base.includes('line voltage')) {
+    extras.push('f4e4', 'l2', 'no power');
+  }
+  return extras.length ? `${base} ${extras.join(' ')}` : base;
+}
+
+function hasStructuredErrorCode(text: string): boolean {
+  return /\bf\d+e\d+\b/.test(expandErrorCodeTokens(text));
+}
+
 export function inferComplaintChipIds(
   text: string,
   chips: ComplaintChipDefinition[] = [],
 ): string[] {
-  const blob = normalizeText(text);
-  if (!blob) return [];
+  const blob = expandErrorCodeTokens(text);
+  if (!blob.trim()) return [];
   const matched: string[] = [];
   for (const chip of chips) {
     const idHit = blob.includes(normalizeText(chip.id));
@@ -41,7 +75,38 @@ export function inferComplaintChipIds(
     const keywordHit = (chip.keywords || []).some((kw) => blob.includes(normalizeText(kw)));
     if (idHit || labelHit || keywordHit) matched.push(chip.id);
   }
+  if (
+    hasStructuredErrorCode(text) &&
+    chips.some((chip) => chip.id === 'error_code') &&
+    !matched.includes('error_code')
+  ) {
+    matched.push('error_code');
+  }
   return matched;
+}
+
+/** Infer complaint chips from complaint text + error_codes field. */
+export function inferComplaintChipIdsFromFields(
+  fields: Record<string, unknown> = {},
+  chips: ComplaintChipDefinition[] = [],
+): string[] {
+  return inferComplaintChipIds(getDiagnosticMatchText(fields), chips);
+}
+
+/**
+ * Pre-select complaint chips when none are chosen yet.
+ * Returns true when chips were written to fields.
+ */
+export function maybeApplyComplaintChipInference(
+  fields: Record<string, unknown>,
+  chips: ComplaintChipDefinition[] = [],
+): boolean {
+  if (!chips.length) return false;
+  if (getComplaintChipIds(fields).length) return false;
+  const inferred = inferComplaintChipIdsFromFields(fields, chips);
+  if (!inferred.length) return false;
+  fields[COMPLAINT_TAGS_FIELD] = inferred;
+  return true;
 }
 
 function normalizeText(value: string): string {
