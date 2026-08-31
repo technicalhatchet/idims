@@ -4,11 +4,17 @@
 from __future__ import annotations
 
 import json
+import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = ROOT / "data" / "dma_error_codes_seed.json"
 SQL_PATH = ROOT / "database" / "supabase_dma_error_codes_seed.sql"
+UUID_RE = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+    re.IGNORECASE,
+)
 
 
 def sql_literal(value: str | None) -> str:
@@ -17,8 +23,25 @@ def sql_literal(value: str | None) -> str:
     return "'" + str(value).replace("'", "''") + "'"
 
 
+def validate_rows(rows: list[dict]) -> None:
+    invalid: list[str] = []
+    for row in rows:
+        alias_group_id = str(row.get("alias_group_id", ""))
+        if not UUID_RE.match(alias_group_id):
+            invalid.append(
+                f"{row.get('manufacturer')} / {row.get('equipment_subtype')} / "
+                f"{row.get('code_normalized')}: {alias_group_id}"
+            )
+    if invalid:
+        print("Invalid alias_group_id UUID(s) in dma_error_codes_seed.json:", file=sys.stderr)
+        for item in invalid:
+            print(f"  - {item}", file=sys.stderr)
+        raise SystemExit(1)
+
+
 def main() -> None:
     rows = json.loads(JSON_PATH.read_text(encoding="utf-8"))
+    validate_rows(rows)
     lines = [
         "-- Generated from data/dma_error_codes_seed.json — do not edit by hand",
         "-- Run after supabase_dma_error_codes.sql",
