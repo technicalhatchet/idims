@@ -1,4 +1,4 @@
-"""Extract searchable text from a service-manual PDF (pdfplumber)."""
+"""Extract searchable text from a service-manual PDF (PyMuPDF preferred, pdfplumber fallback)."""
 
 import argparse
 import json
@@ -6,12 +6,28 @@ from pathlib import Path
 
 import pdfplumber
 
+try:
+    import pymupdf as fitz
+except ImportError:
+    fitz = None
+
+
+def _extract_page_text(page_index: int, pdf_path: Path, plumber_page) -> str:
+    if fitz is not None:
+        try:
+            with fitz.open(pdf_path) as doc:
+                return doc[page_index].get_text("text") or ""
+        except Exception:
+            pass
+    return plumber_page.extract_text() or ""
+
 
 def extract_pdf(pdf_path: Path, out_txt: Path, out_meta: Path) -> dict:
+    extractor = "pymupdf" if fitz is not None else "pdfplumber"
     pages = []
     with pdfplumber.open(pdf_path) as pdf:
         for i, page in enumerate(pdf.pages):
-            text = page.extract_text() or ""
+            text = _extract_page_text(i, pdf_path, page)
             pages.append({"page": i + 1, "text": text, "chars": len(text)})
 
     out_txt.parent.mkdir(parents=True, exist_ok=True)
@@ -22,6 +38,7 @@ def extract_pdf(pdf_path: Path, out_txt: Path, out_meta: Path) -> dict:
 
     meta = {
         "source_pdf": str(pdf_path.name),
+        "extractor": extractor,
         "total_pages": len(pages),
         "total_chars": sum(p["chars"] for p in pages),
         "empty_pages": [p["page"] for p in pages if p["chars"] < 50],

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "lgRefrigeratorFanVoltage",
+    "name": "LG Evap/Condenser Fan Supply Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 11.4, "max": 12.6 },
+      "warning": { "min": 10.5, "max": 13.0 },
+      "critical": { "below": 10, "above": 14 }
+    },
+    "typical": { "min": 11.8, "max": 12.2 },
+    "purpose": "Verify LG BLDC fan drive voltage in Test Mode 1 at main PCB CON3.",
+    "failureModes": [
+      "Below 11.4 V with fan commanded — motor or PCB output fault",
+      "0 V or stuck 5 V on feedback/PWM lines — fan motor or main PCB"
+    ],
+    "testingTips": [
+      "LRMVS3006: push test button once on main PCB for Test Mode 1 (all fans on)",
+      "F-fan CON3 16–13; R-fan 28–25; C-fan 12–9; I-fan 24–21 — all vs pin 25/13/9/21 GND"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["evap_fan", "condenser_fan", "airflow"]
+  },
+  {
+    "id": "lgDefrostHeaterVoltage",
+    "name": "LG Defrost Heater Supply Voltage (Test Mode 3)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 112, "max": 116 },
+      "warning": { "min": 100, "max": 120 },
+      "critical": { "below": 90, "above": 125 }
+    },
+    "typical": { "min": 113, "max": 115 },
+    "purpose": "Confirm main PCB energizes defrost heater during forced defrost (Test Mode 3).",
+    "failureModes": [
+      "No 112–116 V at heater — PCB relay or Fuse-M open",
+      "Voltage present but no heat — open heater element"
+    ],
+    "testingTips": [
+      "Test button ×3 on main PCB → 33 33 display = forced defrost",
+      "F defrost CON9 pin 5–13; R defrost pin 7–13 vs neutral"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["defrost_heater", "defrost"]
+  },
+  {
+    "id": "lgDefrostHeaterOhmsFreezer",
+    "name": "LG Freezer Defrost Heater Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 62, "max": 70 },
+      "warning": { "min": 55, "max": 80 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 64, "max": 68 },
+    "openCircuitCritical": true,
+    "purpose": "LG LRMVS3006 freezer defrost heater and Fuse-M check.",
+    "failureModes": [
+      "Fuse-M should read 0 Ω — open = blown",
+      "Heater 62–70 Ω per §8-6 parts table"
+    ],
+    "testingTips": [
+      "Power disconnected; F dH flow also references 42–50 Ω at CON9 in some test points — verify both heater legs"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["defrost_heater"]
+  },
+  {
+    "id": "lgDefrostHeaterOhmsFridge",
+    "name": "LG Fresh-Food Defrost Heater Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 103, "max": 119 },
+      "warning": { "min": 95, "max": 130 },
+      "critical": { "below": 10, "above": 150 }
+    },
+    "typical": { "min": 105, "max": 117 },
+    "openCircuitCritical": true,
+    "purpose": "LG refrigerator compartment defrost heater (r dH path).",
+    "failureModes": [
+      "Open heater — r dH after failed defrost cycle",
+      "Short — blown Fuse-M"
+    ],
+    "testingTips": [
+      "CON9 pin 7–13 heater circuit; Test Mode 3 for voltage confirmation"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["defrost_heater"]
+  }
+]

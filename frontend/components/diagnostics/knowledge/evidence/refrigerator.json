@@ -1290,6 +1290,242 @@
       "dmaTags": ["compressor"]
     },
     {
+      "id": "ref_lg_kw_fdh",
+      "when": [{ "type": "keyword", "match": "f dh" }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG F dH — freezer defrost heater failed to complete cycle; Test Mode 3 voltage/Ω.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_lg_kw_rdh",
+      "when": [{ "type": "keyword", "match": "r dh" }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG r dH — fresh-food defrost heater path; CON9 103–119 Ω.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_lg_kw_fds",
+      "when": [{ "type": "keyword", "match": "f ds" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG F dS — freezer defrost thermistor CON4 pins 22–21 out of range.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost", "thermistor"]
+    },
+    {
+      "id": "ref_lg_kw_ff_fan",
+      "when": [{ "type": "keyword", "match": "e ff" }],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E FF — freezer evaporator fan; ice blockage or motor/PCB output.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "ref_lg_kw_rf_fan",
+      "when": [{ "type": "keyword", "match": "e rf" }],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "LG E rF — refrigerator compartment fan; weak FF cooling common.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan", "airflow"]
+    },
+    {
+      "id": "ref_lg_kw_if_ice",
+      "when": [{ "type": "keyword", "match": "e if" }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E IF / ER — icing compartment fan fault (Craft Ice room).",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker", "evap_fan"]
+    },
+    {
+      "id": "ref_lg_kw_cf_condenser",
+      "when": [{ "type": "keyword", "match": "e cf" }],
+      "target": "condenser_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E CF — condenser fan motor; grille blockage or PCB output.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_lg_kw_co_display",
+      "when": [{ "type": "keyword", "match": "e co" }],
+      "target": "display_panel",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E CO — main ↔ display communication; hinge CON101 harness.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_lg_kw_ch_sealed",
+      "when": [{ "type": "keyword", "match": "e ch" }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E CH — high-side refrigerant leak cycle; sealed-system repair.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["sealed_system", "compressor"]
+    },
+    {
+      "id": "ref_lg_kw_cl_sealed",
+      "when": [{ "type": "keyword", "match": "e cl" }],
+      "target": "sealed_system",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E CL — low-side leak cycle on R-600a linear compressor system.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["sealed_system", "compressor"]
+    },
+    {
+      "id": "ref_lg_kw_efs_sensor",
+      "when": [{ "type": "keyword", "match": "e fs" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E FS — freezer cabinet thermistor CON4 pins 18–17.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["thermistor"]
+    },
+    {
+      "id": "ref_lg_kw_ers_sensor",
+      "when": [{ "type": "keyword", "match": "e rs" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E rS — fresh-food thermistor out of range.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["thermistor"]
+    },
+    {
+      "id": "ref_lg_kw_eis_sensor",
+      "when": [{ "type": "keyword", "match": "e is" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "LG E IS — icing room / Craft Ice compartment sensor.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["thermistor", "ice_maker"]
+    },
+    {
+      "id": "ref_lg_kw_ecs_sensor",
+      "when": [{ "type": "keyword", "match": "e cs" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 16 },
+      "explanation": "LG E CS — Full Convert / pantry drawer thermistor.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["thermistor"]
+    },
+    {
+      "id": "ref_lg_kw_od_wifi",
+      "when": [{ "type": "keyword", "match": "e od" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "LG E Od — ThinQ WiFi modem comm; cooling usually unaffected.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_lg_kw_eid_ice",
+      "when": [{ "type": "keyword", "match": "e id" }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E ID — ice maker tray thermistor fault.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_lg_kw_eiu_ice",
+      "when": [{ "type": "keyword", "match": "e iu" }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG E IU — ice maker kit motor/heater/hall electrical fault.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_lg_kw_display_mode",
+      "when": [{ "type": "keyword", "match": "display mode" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG display/demo mode — OFF on panel, all cooling disabled §13-1-15.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_ms_lg_fan_voltage_low",
+      "when": [{ "type": "measurement", "knowledgeId": "lgRefrigeratorFanVoltage", "statusIn": ["critical", "warning"] }],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG fan supply below 11.4 V in Test Mode 1 — motor or main PCB output.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan", "condenser_fan"]
+    },
+    {
+      "id": "ref_ms_lg_defrost_heater_v",
+      "when": [{ "type": "measurement", "knowledgeId": "lgDefrostHeaterVoltage", "statusIn": ["critical"] }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "No 112–116 V at heater in Test Mode 3 — PCB relay or Fuse-M.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_ms_lg_f_defrost_ohms",
+      "when": [{ "type": "measurement", "knowledgeId": "lgDefrostHeaterOhmsFreezer", "statusIn": ["critical"] }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG F defrost heater out of 62–70 Ω — open element or blown Fuse-M.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_ms_lg_ff_fan_voltage",
+      "when": [
+        { "type": "keyword", "match": "e ff" },
+        { "type": "measurement", "knowledgeId": "lgRefrigeratorFanVoltage", "statusIn": ["critical"] }
+      ],
+      "target": "evap_fan",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 26 },
+      "explanation": "E FF with low fan voltage — F-fan motor or CON3 harness before PCB.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["evap_fan"]
+    },
+    {
+      "id": "ref_ms_lg_fdh_heater_combo",
+      "when": [
+        { "type": "keyword", "match": "f dh" },
+        { "type": "measurement", "knowledgeId": "lgDefrostHeaterOhmsFreezer", "statusIn": ["critical"] }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 28 },
+      "explanation": "F dH with open F heater — replace heater/Fuse-M before main PCB.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
       "id": "ref_precheck_condenser_not_cooling",
       "when": [
         { "type": "chip", "id": "not_cooling" },

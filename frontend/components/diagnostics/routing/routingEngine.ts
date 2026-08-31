@@ -116,6 +116,53 @@ function expandErrorCodeTokens(text: string): string {
     extras.push('damper', 'weak cooling', 'airflow');
   }
 
+  // LG refrigerator codes (LRMVS3006* / InstaView 4-door) — display shows e.g. F dH, E rF, FF
+  if (/\b(f|r)\s*d[h]\b/.test(base) || /\b(f|r)dh\b/.test(base)) {
+    extras.push('defrost heater', 'defrost', 'frost buildup');
+  }
+  if (/\b(f|r)\s*d[s]\b/.test(base) || /\b(f|r)ds\b/.test(base)) {
+    extras.push('defrost', 'thermistor', 'sensor');
+  }
+  if (/\b(e\s*)?ff\b/.test(base) && !base.includes('coffee')) {
+    extras.push('evap fan', 'freezer fan', 'frost buildup', 'not cooling');
+  }
+  if (/\b(e\s*)?rf\b/.test(base)) {
+    extras.push('evap fan', 'airflow', 'weak cooling');
+  }
+  if (/\b(e\s*)?if\b/.test(base) || /\b(e\s*)?er\b/.test(base)) {
+    extras.push('ice maker', 'evap fan', 'frost');
+  }
+  if (/\b(e\s*)?cf\b/.test(base)) {
+    extras.push('condenser fan', 'airflow', 'not cooling');
+  }
+  if (/\b(e\s*)?co\b/.test(base)) {
+    extras.push('control board', 'communication', 'display panel');
+  }
+  if (/\b(e\s*)?ch\b/.test(base)) {
+    extras.push('sealed system', 'compressor', 'refrigerant leak');
+  }
+  if (/\b(e\s*)?cl\b/.test(base)) {
+    extras.push('sealed system', 'compressor', 'refrigerant leak');
+  }
+  if (/\b(e\s*)?fs\b/.test(base)) {
+    extras.push('thermistor', 'freezer', 'sensor');
+  }
+  if (/\b(e\s*)?rs\b/.test(base)) {
+    extras.push('thermistor', 'sensor', 'fresh food');
+  }
+  if (/\b(e\s*)?is\b/.test(base)) {
+    extras.push('ice maker', 'thermistor', 'sensor');
+  }
+  if (/\b(e\s*)?cs\b/.test(base)) {
+    extras.push('thermistor', 'convert drawer', 'sensor');
+  }
+  if (/\b(e\s*)?od\b/.test(base)) {
+    extras.push('wifi', 'control board', 'communication');
+  }
+  if (/\bdisplay mode\b/.test(base) || (/\boff\b/.test(base) && base.includes('display'))) {
+    extras.push('demo mode', 'cooling off', 'not cooling');
+  }
+
   return extras.length ? `${base} ${extras.join(' ')}` : base;
 }
 
@@ -123,7 +170,9 @@ function hasStructuredErrorCode(text: string): boolean {
   const blob = expandErrorCodeTokens(text);
   if (/\bf\d+e\d+\b/.test(blob)) return true;
   if (/\b(tc5?|9c1|hc|he|fc|bc2|dc|df|ac)\b/.test(blob)) return true;
-  return /\b\d{1,2}[ec]\b/.test(blob) || /\b\d{2}er\b/.test(blob) || /\b(pcer|ofof|o ff)\b/.test(blob);
+  if (/\b\d{1,2}[ec]\b/.test(blob) || /\b\d{2}er\b/.test(blob)) return true;
+  if (/\b(pcer|ofof|o ff)\b/.test(blob)) return true;
+  return /\b[fr]\s*d[hs]\b/.test(blob) || /\b(e\s*)?[fr]{2}\b/.test(blob) || /\b(e\s*)?[cior][fcdhos]?\b/.test(blob);
 }
 
 export function inferComplaintChipIds(

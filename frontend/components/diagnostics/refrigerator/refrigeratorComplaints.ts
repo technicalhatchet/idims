@@ -69,12 +69,12 @@ export const REFRIGERATOR_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'error_code',
     label: 'Error Code on Display',
-    keywords: ['error', 'fault', 'code', '22e', '22c', '5e', '8e', '41e', '84c', '86e', 'pc er', 'o ff', '44e', 'rd'],
+    keywords: ['error', 'fault', 'code', '22e', '22c', '5e', '8e', '41e', '84c', '86e', 'pc er', 'o ff', '44e', 'rd', 'f dh', 'r dh', 'e ff', 'e rf', 'e cf', 'e co', 'e ch', 'e cl', 'e fs', 'e rs', 'e if', 'e od', 'display mode'],
   },
   {
     id: 'cooling_off',
     label: 'Cooling Off / Demo Mode',
-    keywords: ['o ff', 'of of', 'cooling off', 'demo mode', 'exhibition', 'showroom', 'compressor off fans on'],
+    keywords: ['o ff', 'of of', 'cooling off', 'demo mode', 'exhibition', 'showroom', 'compressor off fans on', 'display mode', 'off on display'],
   },
   {
     id: 'door_alarm',

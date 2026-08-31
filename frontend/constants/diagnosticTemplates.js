@@ -174,6 +174,7 @@ export const DIAGNOSTIC_TEMPLATES = [
           txt('defrost_thermostat', 'Defrost thermostat / bi-metal'),
           txt('defrost_fuse', 'Defrost fuse / thermal fuse'),
           txt('defrost_thermistor', 'Defrost thermistor (Ω or °F)'),
+          txt('lg_defrost_heater_voltage', 'LG defrost heater voltage Test Mode 3 (V, 112–116)'),
         ],
       },
       {
@@ -184,7 +185,8 @@ export const DIAGNOSTIC_TEMPLATES = [
           txt('evaporator_fan_amps', 'Evaporator fan motor amps'),
           txt('supply_voltage', 'Supply voltage (V)'),
           txt('thermistor_voltage_v', 'Thermistor voltage at board (V, ~4.5→1.0 warm→cold)'),
-          txt('evap_fan_feedback_voltage', 'Evap fan feedback voltage (V, 7–12 expected)'),
+          txt('evap_fan_feedback_voltage', 'Evap fan feedback voltage (V, 7–12 Samsung / 11.4–12.6 LG)'),
+          txt('lg_fan_voltage', 'LG fan motor voltage in Test Mode 1 (V)'),
           txt('inverter_ipm_voltage', 'Inverter IPM DC supply (V, >13.5 expected)'),
           txt('fresh_food_thermistor', 'Fresh food thermistor (Ω or °F)'),
           txt('freezer_thermistor', 'Freezer thermistor (Ω or °F)'),

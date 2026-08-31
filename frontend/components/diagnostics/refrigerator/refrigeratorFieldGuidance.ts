@@ -43,9 +43,9 @@ export const refrigeratorFieldHelp: Record<string, string> = {
   'functional_checks.water_dispenser':
     'Verify filter, reservoir freeze, inlet valve, and door switch if no water.',
   'defrost_circuit.defrost_heater_ohms':
-    'Open heater = no defrost. Many brands ~26–32 Ω; Samsung SxS ~63 Ω ±7% at CN70/CN85.',
+    'Open heater = no defrost. Many brands ~26–32 Ω; Samsung SxS ~63 Ω; LG LRMVS F heater 62–70 Ω, R heater 103–119 Ω.',
   'commonly_missed.cooling_off_ruled_out':
-    'Display O FF / OF OF or fans-on-comp-off? Hold Fridge + Power Cool ~6 s (Samsung) or Lock key per manual to exit demo.',
+    'Display O FF / OF OF or OFF on panel? Samsung: Fridge + Power Cool ~6 s. LG LRMVS: door open + Ice Plus ×3 while holding Fridge to exit display mode.',
   'functional_checks.door_switch':
     'Samsung: door open ≈5 V, closed ≈0 V at CN20. Stuck open stops F-fan and triggers door alarm.',
   'functional_checks.fans_on_compressor_off':
@@ -55,11 +55,15 @@ export const refrigeratorFieldHelp: Record<string, string> = {
   'fans_and_electrical.thermistor_voltage_v':
     'At board connector: ~4.5 V warm → 1.0 V cold (Samsung §4-2). Stuck high/low = open/short.',
   'fans_and_electrical.evap_fan_feedback_voltage':
-    'BLDC evap fan feedback 7–12 V while commanded (Samsung F-FAN/C-FAN). Door open may stop F-fan.',
+    'BLDC evap fan feedback 7–12 V while commanded (Samsung F-FAN/C-FAN). LG Test Mode 1: fan supply 11.4–12.6 V at CON3.',
+  'fans_and_electrical.lg_fan_voltage':
+    'LG LRMVS: main PCB test button ×1 → Test Mode 1 (all fans). F-fan CON3 16–13; R-fan 28–25; C-fan 12–9; I-fan 24–21 vs GND.',
   'fans_and_electrical.inverter_ipm_voltage':
     'Inverter IPM DC must exceed 13.5 V or comp will not start (84C/86E). Read after 5-min lockout.',
+  'defrost_circuit.lg_defrost_heater_voltage':
+    'LG Test Mode 3 (test button ×3, display 33 33): F heater CON9 5–13, R heater 7–13 should read 112–116 V.',
   'customer_complaint.error_codes':
-    'Samsung: 22E=fan, 5E=defrost sensor, 84C/86E=inverter, 41E=display comm, O FF=demo, RD=damper.',
+    'Samsung: 22E=fan, 5E=defrost sensor, 84C/86E=inverter, 41E=display comm, O FF=demo, RD=damper. LG: FF=F-fan, rF=R-fan, F/r dH=defrost heater, CH/CL=sealed system, CO=display comm.',
   'diagnosis.root_cause':
     'Tie findings to measured temps, frost pattern, and amp draws — not guesswork.',
 };
@@ -367,6 +371,86 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
     field: 'functional_checks.damper_operation',
     when: [{ type: 'chip', id: 'weak_cooling_ff' }],
     message: 'Weak FF with cold freezer — verify damper opens and RD code before sealed system.',
+    tone: 'tip',
+  },
+  {
+    id: 'lg_fdh_defrost',
+    field: 'functional_checks.defrost_cycle_observed',
+    when: [{ type: 'keyword', match: 'f dh' }],
+    message:
+      'LG F dH: manual defrost 1–3 days if heavily iced; Test Mode 3 — heater 112–116 V at CON9; F heater 62–70 Ω, Fuse-M 0 Ω.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_rdh_defrost',
+    field: 'defrost_circuit.defrost_heater_ohms',
+    when: [{ type: 'keyword', match: 'r dh' }],
+    message:
+      'LG r dH: FF defrost heater path — CON9 pin 7–13, resistance 103–119 Ω; check door gasket air leak prolonging defrost.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_ff_fan',
+    field: 'functional_checks.evaporator_fan_running',
+    when: [{ type: 'keyword', match: 'e ff' }],
+    message:
+      'LG E FF: freezer evap fan — defrost ice first; Test Mode 1 CON3 pins 16–13 = 11.4–12.6 V §8-9.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_rf_fan',
+    field: 'functional_checks.evaporator_fan_running',
+    when: [{ type: 'keyword', match: 'e rf' }],
+    message:
+      'LG E rF: refrigerator evap fan — check airflow with freezer door open; CON3 pins 28–25 = 11.4–12.6 V §8-8.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_cf_condenser',
+    field: 'functional_checks.condenser_fan_running',
+    when: [{ type: 'keyword', match: 'e cf' }],
+    message:
+      'LG E CF: condenser fan — clean grille/coils; Test Mode 1 CON3 pins 12–9 = 11.4–12.6 V §8-11.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_co_display',
+    field: 'functional_checks.display_panel',
+    when: [{ type: 'keyword', match: 'e co' }],
+    message:
+      'LG E CO: main ↔ display comm — reseat door-hinge CON101; verify 12 V and 5 V before board swap §8-12.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_ch_cl_sealed',
+    field: 'functional_checks.compressor_running',
+    when: [{ type: 'keyword', match: 'e ch' }],
+    message:
+      'LG E CH / E CL: sealed-system leak cycle — UV leak check §8-22; not a fan/defrost part swap.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_display_mode',
+    field: 'commonly_missed.cooling_off_ruled_out',
+    when: [{ type: 'chip', id: 'cooling_off' }],
+    message:
+      'LG display mode: door open + Ice Plus ×3 while holding Fridge — panel shows OFF, all cooling disabled §13-1-15.',
+    tone: 'action',
+  },
+  {
+    id: 'lg_error_clear',
+    field: 'customer_complaint.error_codes',
+    when: [{ type: 'chip', id: 'error_code' }],
+    message:
+      'LG: within 3 h of fault — Ice Plus + Freezer buttons together to clear; after 3 h most codes stay on display until repaired.',
+    tone: 'tip',
+  },
+  {
+    id: 'lg_test_mode',
+    field: 'functional_checks.evaporator_fan_running',
+    when: [{ type: 'chip', id: 'error_code' }],
+    message:
+      'LG main PCB test button: ×1 all fans/comp/damper; ×2 damper closed; ×3 forced defrost (33 33 on display).',
     tone: 'tip',
   },
 ];
