@@ -72,6 +72,6 @@ export const GAS_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'error_code',
     label: 'Error Code on Display',
-    keywords: ['error', 'fault', 'code'],
+    keywords: ['error', 'fault', 'code', 'tc', 'tc5', '9c1', 'dc', 'df', 'hc', 'ac'],
   },
 ];

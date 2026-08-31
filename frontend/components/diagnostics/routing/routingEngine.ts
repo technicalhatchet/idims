@@ -30,13 +30,14 @@ export function getComplaintText(fields: Record<string, unknown> = {}): string {
 
 /** Complaint + error-code text for keyword / F-code matching in evidence and tips. */
 export function getDiagnosticMatchText(fields: Record<string, unknown> = {}): string {
-  return [getComplaintText(fields), fields['customer_complaint.error_codes']]
+  const raw = [getComplaintText(fields), fields['customer_complaint.error_codes']]
     .filter(Boolean)
     .map((part) => String(part))
     .join(' ');
+  return expandErrorCodeTokens(raw);
 }
 
-/** Normalize Whirlpool-style F-codes and display fault names for chip keyword matching. */
+/** Normalize F-codes, Samsung information codes, and display fault names for matching. */
 function expandErrorCodeTokens(text: string): string {
   const base = normalizeText(text);
   const extras: string[] = [];
@@ -55,11 +56,39 @@ function expandErrorCodeTokens(text: string): string {
   if (/\bl2\b/.test(base) || base.includes('line voltage')) {
     extras.push('f4e4', 'l2', 'no power');
   }
+
+  // Samsung dryer information codes (DV7000R / DVE(G)50R* series) → Whirlpool-equivalent concepts
+  if (/\btc5\b/.test(base)) {
+    extras.push('f3e3', 'f3e4', 'inlet thermistor', 'restricted air flow', 'not drying');
+  } else if (/\btc\b/.test(base)) {
+    extras.push('f3e1', 'f3e2', 'exhaust thermistor', 'restricted air flow', 'not drying');
+  }
+  if (/\bdc\b|\bdf\b/.test(base)) {
+    extras.push('door switch', 'no spin', 'door');
+  }
+  if (/\b9c1\b/.test(base)) {
+    extras.push('f4e4', 'supply', 'no power', 'voltage');
+  }
+  if (/\bac\b/.test(base)) {
+    extras.push('f1e1', 'f6e1', 'control', 'error');
+  }
+  if (/\bhc\b|\bhe\b/.test(base)) {
+    extras.push('no heat', 'thermistor', 'f3e1');
+  }
+  if (/\bfc\b/.test(base)) {
+    extras.push('supply', 'frequency', 'no power');
+  }
+  if (/\bbc2\b/.test(base)) {
+    extras.push('f2e1', 'user interface', 'error');
+  }
+
   return extras.length ? `${base} ${extras.join(' ')}` : base;
 }
 
 function hasStructuredErrorCode(text: string): boolean {
-  return /\bf\d+e\d+\b/.test(expandErrorCodeTokens(text));
+  const blob = expandErrorCodeTokens(text);
+  if (/\bf\d+e\d+\b/.test(blob)) return true;
+  return /\b(tc5?|9c1|hc|he|fc|bc2|dc|df|ac)\b/.test(blob);
 }
 
 export function inferComplaintChipIds(

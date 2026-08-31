@@ -5,7 +5,8 @@
 **Scope:** Brand-agnostic dryer troubleshooting patterns. Whirlpool-specific service-mode keystrokes and connector pinouts are noted but generalized where possible.  
 **Status:** Phase A + B + C merged (fields, evidence, elimination, F-code routing, `heats_when_shouldnt`, control components). Chip boosts tuned to 20; multi-signal rules 22–28. Re-tune on completed jobs.
 
-Cross-reference inventories: [INVENTORY_ELECTRIC_DRYER.md](./INVENTORY_ELECTRIC_DRYER.md), [INVENTORY_GAS_DRYER.md](./INVENTORY_GAS_DRYER.md).
+Cross-reference inventories: [INVENTORY_ELECTRIC_DRYER.md](./INVENTORY_ELECTRIC_DRYER.md), [INVENTORY_GAS_DRYER.md](./INVENTORY_GAS_DRYER.md).  
+Samsung comparison: [SAMSUNG_DRYER_MANUAL_COMPARISON.md](./SAMSUNG_DRYER_MANUAL_COMPARISON.md).
 
 ---
 
