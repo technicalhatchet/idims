@@ -2910,56 +2910,376 @@
   {
     "manufacturer": "LG",
     "equipment_subtype": "refrigerator",
-    "code": "ER",
-    "code_normalized": "ER",
-    "meaning": "IFIce fan error",
-    "common_causes": "Frozen or failed ice fan",
-    "recommended_fix": "Defrost and test fan",
-    "alias_group_id": "92f2d6ea-b94e-4de5-b734-e5dfb1c9e042",
-    "related_codes": [
-      "ER"
-    ]
+    "code": "F dH",
+    "code_normalized": "FDH",
+    "meaning": "Freezer defrost heater failure",
+    "common_causes": "Open defrost heater, Fuse-M, iced drain, failed defrost cycle",
+    "recommended_fix": "Manual defrost 1–3 days; Test Mode 3 — heater 112–116 V at CON9; heater Ω 62–70 (F) per §8-6",
+    "alias_group_id": "a1b2c3d4-1111-4222-8333-444455556601",
+    "related_codes": ["F dH", "FdH", "dH"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "r dH",
+    "code_normalized": "RDH",
+    "meaning": "Refrigerator compartment defrost heater failure",
+    "common_causes": "Open FF defrost heater, Fuse-M, door gasket air leak prolonging defrost",
+    "recommended_fix": "Test Mode 3 — CON9 pin 7–13 heater 112–116 V; resistance 103–119 Ω per §8-7",
+    "alias_group_id": "a1b2c3d4-1111-4222-8333-444455556601",
+    "related_codes": ["r dH", "RdH", "dH"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "dH",
+    "code_normalized": "DH",
+    "meaning": "Defrost heater failure (freezer or refrigerator)",
+    "common_causes": "Defrost did not complete in time — heater, sensor, fuse, or drain ice dam",
+    "recommended_fix": "Identify F dH vs r dH; forced defrost Test Mode 3 (button ×3 on main PCB)",
+    "alias_group_id": "a1b2c3d4-1111-4222-8333-444455556601",
+    "related_codes": ["F dH", "r dH", "dH"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "F dS",
+    "code_normalized": "FDS",
+    "meaning": "Freezer defrost sensor error",
+    "common_causes": "Open/short defrost thermistor CON4 pins 22–21",
+    "recommended_fix": "Resistance table §8-4; replace defrost sensor if off-spec",
+    "alias_group_id": "a1b2c3d4-2222-4222-8333-444455556602",
+    "related_codes": ["F dS", "FdS", "dS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "r dS",
+    "code_normalized": "RDS",
+    "meaning": "Refrigerator defrost sensor error",
+    "common_causes": "Open/short FF defrost thermistor CON4 pins 20–19",
+    "recommended_fix": "Check sensor Ω vs temperature chart §8-5",
+    "alias_group_id": "a1b2c3d4-2222-4222-8333-444455556602",
+    "related_codes": ["r dS", "RdS", "dS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "dS",
+    "code_normalized": "DS",
+    "meaning": "Defrost sensor error",
+    "common_causes": "Defrost thermistor open, short, or loose CON4 harness",
+    "recommended_fix": "Distinguish F dS vs r dS; verify connector and kΩ table",
+    "alias_group_id": "a1b2c3d4-2222-4222-8333-444455556602",
+    "related_codes": ["F dS", "r dS", "dS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E FS",
+    "code_normalized": "EFS",
+    "meaning": "Freezer temperature sensor error",
+    "common_causes": "Open/short freezer thermistor CON4 pins 18–17",
+    "recommended_fix": "Ω table §8-1 — 8kΩ at 32°F; 0Ω=short, OFF=open",
+    "alias_group_id": "a1b2c3d4-3333-4222-8333-444455556603",
+    "related_codes": ["E FS", "FS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "FS",
+    "code_normalized": "FS",
+    "meaning": "Freezer temperature sensor error",
+    "common_causes": "Failed freezer cabinet thermistor",
+    "recommended_fix": "Same as E FS — CON4 18–17 pin resistance vs temp chart",
+    "alias_group_id": "a1b2c3d4-3333-4222-8333-444455556603",
+    "related_codes": ["E FS", "FS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E rS",
+    "code_normalized": "ERS",
+    "meaning": "Refrigerator temperature sensor error",
+    "common_causes": "Open/short fresh-food thermistor",
+    "recommended_fix": "Resistance check per §8-2 chart",
+    "alias_group_id": "a1b2c3d4-4444-4222-8333-444455556604",
+    "related_codes": ["E rS", "rS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "rS",
+    "code_normalized": "RS",
+    "meaning": "Refrigerator temperature sensor error",
+    "common_causes": "Failed R-compartment thermistor",
+    "recommended_fix": "Verify harness and kΩ vs temperature §8-2",
+    "alias_group_id": "a1b2c3d4-4444-4222-8333-444455556604",
+    "related_codes": ["E rS", "rS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E IS",
+    "code_normalized": "EIS",
+    "meaning": "Ice maker / icing room sensor error",
+    "common_causes": "Open/short icing room thermistor",
+    "recommended_fix": "Resistance table §8-3; check Craft Ice compartment sensor",
+    "alias_group_id": "a1b2c3d4-5555-4222-8333-444455556605",
+    "related_codes": ["E IS", "IS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "IS",
+    "code_normalized": "IS",
+    "meaning": "Icing room sensor error",
+    "common_causes": "Icing sensor harness or failed thermistor",
+    "recommended_fix": "Same as E IS §8-3",
+    "alias_group_id": "a1b2c3d4-5555-4222-8333-444455556605",
+    "related_codes": ["E IS", "IS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E rF",
+    "code_normalized": "ERF",
+    "meaning": "Refrigerator evaporator fan error",
+    "common_causes": "Failed R-fan motor, ice blockage, main PCB",
+    "recommended_fix": "Test Mode 1 — CON3 pins 28–25 = 11.4–12.6 V; check feedback/PWM pins",
+    "alias_group_id": "a1b2c3d4-6666-4222-8333-444455556606",
+    "related_codes": ["E rF", "rF"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "rF",
+    "code_normalized": "RF",
+    "meaning": "Refrigerator compartment fan error",
+    "common_causes": "Sticky fan, open motor, PCB output fault",
+    "recommended_fix": "Airflow with freezer door open; fan voltage §8-8",
+    "alias_group_id": "a1b2c3d4-6666-4222-8333-444455556606",
+    "related_codes": ["E rF", "rF"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E FF",
+    "code_normalized": "EFF",
+    "meaning": "Freezer evaporator fan error",
+    "common_causes": "Failed F-fan motor, ice on evaporator, PCB",
+    "recommended_fix": "Test Mode 1 — CON3 pins 16–13 = 11.4–12.6 V §8-9",
+    "alias_group_id": "a1b2c3d4-7777-4222-8333-444455556607",
+    "related_codes": ["E FF", "FF"]
   },
   {
     "manufacturer": "LG",
     "equipment_subtype": "refrigerator",
     "code": "FF",
     "code_normalized": "FF",
-    "meaning": "Unit detecting warm temps",
-    "common_causes": "Cooling problem",
-    "recommended_fix": "Check sealed system",
-    "alias_group_id": "86cf8f45-d0e4-4081-8daa-08a227b4ed93",
-    "related_codes": [
-      "FF"
-    ]
+    "meaning": "Freezer fan motor abnormality",
+    "common_causes": "Ice-blocked evaporator fan or failed motor",
+    "recommended_fix": "Defrost if iced; verify 11.4–12.6 V at fan connector in Test Mode 1",
+    "alias_group_id": "a1b2c3d4-7777-4222-8333-444455556607",
+    "related_codes": ["E FF", "FF"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E IF",
+    "code_normalized": "EIF",
+    "meaning": "Ice maker / icing compartment fan error",
+    "common_causes": "Failed icing fan, harness CON3 pins 24–21",
+    "recommended_fix": "Test Mode 1 fan voltage 11.4–12.6 V §8-10",
+    "alias_group_id": "a1b2c3d4-8888-4222-8333-444455556608",
+    "related_codes": ["E IF", "IF", "ER"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "IF",
+    "code_normalized": "IF",
+    "meaning": "Icing fan motor error",
+    "common_causes": "Ice room fan frozen or motor failure",
+    "recommended_fix": "Same as E IF — icing fan airflow and voltage test",
+    "alias_group_id": "a1b2c3d4-8888-4222-8333-444455556608",
+    "related_codes": ["E IF", "IF", "ER"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "ER",
+    "code_normalized": "ER",
+    "meaning": "Icing fan error (legacy alias)",
+    "common_causes": "Same as E IF — icing compartment fan",
+    "recommended_fix": "Treat as IF / E IF per LRMVS3006 service manual",
+    "alias_group_id": "a1b2c3d4-8888-4222-8333-444455556608",
+    "related_codes": ["E IF", "IF", "ER"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E CF",
+    "code_normalized": "ECF",
+    "meaning": "Condenser fan motor error",
+    "common_causes": "Failed condenser fan, grille blockage, PCB",
+    "recommended_fix": "Test Mode 1 — CON3 pins 12–9 = 11.4–12.6 V §8-11",
+    "alias_group_id": "a1b2c3d4-9999-4222-8333-444455556609",
+    "related_codes": ["E CF", "CF"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "CF",
+    "code_normalized": "CF",
+    "meaning": "Condenser fan motor abnormality",
+    "common_causes": "Condenser fan not spinning, bearing drag",
+    "recommended_fix": "Clean grille coils; verify fan voltage and PWM feedback",
+    "alias_group_id": "a1b2c3d4-9999-4222-8333-444455556609",
+    "related_codes": ["E CF", "CF"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E CO",
+    "code_normalized": "ECO",
+    "meaning": "Main ↔ display communication error",
+    "common_causes": "Loose door-hinge harness CON101, display PCB",
+    "recommended_fix": "CON101 12 V and 5 V checks §8-12; reseat hinge connector",
+    "alias_group_id": "a1b2c3d4-aaaa-4222-8333-44445555660a",
+    "related_codes": ["E CO", "CO"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "CO",
+    "code_normalized": "CO",
+    "meaning": "Communication error (main and display)",
+    "common_causes": "Hinge wiring, display PCB, main PCB",
+    "recommended_fix": "Check CON101 voltages before board swap",
+    "alias_group_id": "a1b2c3d4-aaaa-4222-8333-44445555660a",
+    "related_codes": ["E CO", "CO"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E CH",
+    "code_normalized": "ECH",
+    "meaning": "High-side refrigerant leak / sealed system fault",
+    "common_causes": "High-side leak, restriction, bad compressor or valve",
+    "recommended_fix": "UV leak check §8-22; sealed-system diagnosis — not a fan/defrost part",
+    "alias_group_id": "a1b2c3d4-bbbb-4222-8333-44445555660b",
+    "related_codes": ["E CH", "CH"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "CH",
+    "code_normalized": "CH",
+    "meaning": "High-side cycle leak detected",
+    "common_causes": "Refrigerant leak on high side, compressor fault",
+    "recommended_fix": "Sealed-system repair per §8-22 steps 1–6",
+    "alias_group_id": "a1b2c3d4-bbbb-4222-8333-44445555660b",
+    "related_codes": ["E CH", "CH"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E CL",
+    "code_normalized": "ECL",
+    "meaning": "Low-side refrigerant leak / sealed system fault",
+    "common_causes": "Low-side leak, long door-open, weak compressor",
+    "recommended_fix": "UV leak test; verify charge on R-600a system",
+    "alias_group_id": "c1b2c3d4-bbbb-4222-8333-44445555660c",
+    "related_codes": ["E CL", "CL"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "CL",
+    "code_normalized": "CL",
+    "meaning": "Low-side cycle leak detected",
+    "common_causes": "Evaporator leak, cap tube restriction, compressor weak",
+    "recommended_fix": "Sealed-system — distinguish from defrost codes",
+    "alias_group_id": "c1b2c3d4-bbbb-4222-8333-44445555660c",
+    "related_codes": ["E CL", "CL"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E CS",
+    "code_normalized": "ECS",
+    "meaning": "Full Convert / pantry sensor error",
+    "common_causes": "Open convertible drawer thermistor CON4 pins 13–14",
+    "recommended_fix": "Resistance check §8-22; replace pantry sensor",
+    "alias_group_id": "a1b2c3d4-cccc-4222-8333-44445555660d",
+    "related_codes": ["E CS", "CS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "CS",
+    "code_normalized": "CS",
+    "meaning": "Convertible compartment sensor error",
+    "common_causes": "Pantry/convert drawer sensor harness",
+    "recommended_fix": "Same as E CS",
+    "alias_group_id": "a1b2c3d4-cccc-4222-8333-44445555660d",
+    "related_codes": ["E CS", "CS"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E Od",
+    "code_normalized": "EOD",
+    "meaning": "Wi-Fi modem communication error",
+    "common_causes": "ThinQ WiFi module harness J1/J3, failed modem",
+    "recommended_fix": "Check modem connector voltage §8-20; cooling usually OK",
+    "alias_group_id": "a1b2c3d4-dddd-4222-8333-44445555660e",
+    "related_codes": ["E Od", "Od"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E ID",
+    "code_normalized": "EID",
+    "meaning": "Ice maker tray sensor error",
+    "common_causes": "Ice maker tray thermistor open/short",
+    "recommended_fix": "Check sensor at ice maker connector §6 error summary",
+    "alias_group_id": "a1b2c3d4-eeee-4222-8333-44445555660f",
+    "related_codes": ["E ID", "ID"]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "refrigerator",
+    "code": "E IU",
+    "code_normalized": "EIU",
+    "meaning": "Ice maker kit electrical error",
+    "common_causes": "Motor, gear, hall IC, or heater open in I/M kit",
+    "recommended_fix": "Ice maker test switch diagnosis §6; refer to §8-24",
+    "alias_group_id": "a1b2c3d4-ffff-4222-8333-444455556610",
+    "related_codes": ["E IU", "IU"]
   },
   {
     "manufacturer": "LG",
     "equipment_subtype": "refrigerator",
     "code": "OFF",
     "code_normalized": "OFF",
-    "meaning": "FFDemo mode active",
-    "common_causes": "Showroom mode enabled",
-    "recommended_fix": "Disable demo mode",
+    "meaning": "Display / demo mode (cooling off)",
+    "common_causes": "Showroom Display Mode — all cooling disabled",
+    "recommended_fix": "Door open + Ice Plus ×3 while holding Fridge button to exit §13-1-15",
     "alias_group_id": "e9f81cea-dee1-4a39-986c-07c66dca4903",
-    "related_codes": [
-      "OFF",
-      "O"
-    ]
+    "related_codes": ["OFF", "O"]
   },
   {
     "manufacturer": "LG",
     "equipment_subtype": "refrigerator",
     "code": "O",
     "code_normalized": "O",
-    "meaning": "FFDemo mode active",
-    "common_causes": "Showroom mode enabled",
-    "recommended_fix": "Disable demo mode",
+    "meaning": "Display / demo mode active",
+    "common_causes": "Retail display mode — compressor and fans off except lamp/UI",
+    "recommended_fix": "Exit display mode before diagnosing warm cabinet",
     "alias_group_id": "e9f81cea-dee1-4a39-986c-07c66dca4903",
-    "related_codes": [
-      "OFF",
-      "O"
-    ]
+    "related_codes": ["OFF", "O"]
   },
   {
     "manufacturer": "LG",
