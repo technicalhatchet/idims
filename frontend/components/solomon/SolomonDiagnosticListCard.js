@@ -18,6 +18,7 @@ import {
 import { getEquipmentTypeForTemplate } from './solomonTemplateEquipment';
 import { useSolomonDiagnosticLead } from './useSolomonDiagnosticLead';
 import { getDiagnosticStepProgress } from './solomonDiagnosticStepProgress';
+import SolomonApplianceLabel from './solomonApplianceLabel';
 
 const CYAN_STEP_PROGRESS_ACTIVE = 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]';
 
@@ -47,7 +48,6 @@ function StepProgressBar({ stepNumber, totalSteps }) {
 export default function SolomonDiagnosticListCard({ item }) {
   if (!item?.id) return null;
   const templateId = item.template_id || item.payload?.templateId;
-  const label = item.template_label || templateId || 'Diagnostic';
   const equipment = [item.equipment_make, item.equipment_model].filter(Boolean).join(' • ');
   const when = formatSolomonDateTime(item.updated_at);
   const status = resolveSolomonDiagnosticStatus(item);
@@ -73,9 +73,13 @@ export default function SolomonDiagnosticListCard({ item }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <p className="font-semibold text-[15px] leading-tight text-white truncate min-w-0 flex-1">
-                {label}
-              </p>
+              <SolomonApplianceLabel
+                templateId={templateId}
+                templateLabel={item.template_label}
+                truncate
+                className="font-semibold text-[15px] leading-tight text-white min-w-0 flex-1"
+                suffixClassName="font-semibold text-white/55"
+              />
               <SolomonListLifecycleHeadline status={status} lead={lead} />
             </div>
             {equipment ? (

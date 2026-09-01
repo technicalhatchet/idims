@@ -5,6 +5,7 @@ import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
 import { useSolomonDiagnosticLead } from './useSolomonDiagnosticLead';
 import SolomonCategoryIcon from './categoryIcons';
 import { getDiagnosticStepProgress } from './solomonDiagnosticStepProgress';
+import SolomonApplianceLabel from './solomonApplianceLabel';
 
 function equipmentMakeModel(target) {
   const parts = [
@@ -39,7 +40,7 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   const totalSteps = stepProgress?.totalSteps || 0;
   const stepNumber = stepProgress?.stepNumber || 0;
   const lead = useSolomonDiagnosticLead(target);
-  const applianceTitle = target.template_label || target.template_id || 'Diagnostic';
+  const templateId = target.template_id || target.payload?.templateId;
   const makeModelLine = equipmentMakeModel(target);
 
   if (!target) return null;
@@ -55,7 +56,9 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
     return (
       <Link
         href={`/solomon/diagnostics/${target.id}?continue=1`}
-        aria-label={totalSteps > 0 ? `Last session, step ${stepNumber} of ${totalSteps}` : 'Last session'}
+        aria-label={totalSteps > 0
+          ? `Last session, step ${stepNumber} of ${totalSteps}`
+          : 'Last session'}
         className={`flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-xl border transition-colors ${padClass} ${surfaceClass} ${lifecycleStatus.hoverBorderClass}`}
       >
         <div className="shrink-0">
@@ -64,9 +67,13 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
           </p>
 
           <div className="mt-[0.12em] flex items-start gap-[0.35em]">
-            <p className="min-w-0 flex-[0.85] shrink-0 truncate text-[1.23em] font-semibold leading-[1.2em] text-white">
-              {applianceTitle}
-            </p>
+            <SolomonApplianceLabel
+              templateId={templateId}
+              templateLabel={target.template_label}
+              truncate
+              className="min-w-0 flex-[0.85] text-[1.23em] font-semibold leading-[1.2em] text-white"
+              suffixClassName="font-semibold text-white/55"
+            />
             {lead ? (
               <div className="flex min-w-0 flex-1 flex-col items-end">
                 <div className="flex max-w-full items-start justify-end gap-[0.2em]">
@@ -127,9 +134,13 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
           <p className={`text-[9px] uppercase tracking-[0.08em] font-medium ${lifecycleStatus.labelTextClass}`}>
             Last Session
           </p>
-          <p className={`font-semibold text-white leading-tight ${isCompact ? 'text-sm mt-0' : 'text-base mt-0.5'}`}>
-            {applianceTitle}
-          </p>
+          <SolomonApplianceLabel
+            templateId={templateId}
+            templateLabel={target.template_label}
+            truncate
+            className={`font-semibold text-white leading-tight ${isCompact ? 'text-sm mt-0' : 'text-base mt-0.5'}`}
+            suffixClassName="font-semibold text-white/55"
+          />
         </div>
         {lead ? (
           <div className="text-right shrink-0 min-w-0 max-w-[58%]">
