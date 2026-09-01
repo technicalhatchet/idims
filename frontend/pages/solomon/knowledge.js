@@ -1,11 +1,6 @@
 import { useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
-import SolomonPageHeader from '../../components/solomon/SolomonPageHeader';
-import SolomonPageAtmosphere from '../../components/solomon/SolomonPageAtmosphere';
-import SolomonHead from '../../components/solomon/SolomonHead';
-import SolomonPageMain from '../../components/solomon/SolomonPageMain';
-import SolomonErrorBoundary from '../../components/solomon/SolomonErrorBoundary';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { searchDmaRepairs } from '../../services/api/dmaApi';
@@ -13,6 +8,7 @@ import {
   SOLOMON_DIAGNOSTIC_STATUS,
   resolveSolomonPoolSearchResultStatus,
 } from '../../components/solomon/solomonDiagnosticStatus';
+import SolomonListPage from '../../components/solomon/SolomonListPage';
 import {
   SOLOMON_GLASS_INPUT_CLASS,
   SOLOMON_GLASS_PANEL_CLASS,
@@ -21,7 +17,6 @@ import {
   SOLOMON_LIST_CARD_PADDING_CLASS,
   SOLOMON_LIST_ICON_BOX_CLASS,
   SOLOMON_LIST_STACK_CLASS,
-  SOLOMON_PAGE_SHELL_CLASS,
   SOLOMON_SEARCH_BUTTON_CLASS,
   SolomonListCardFooter,
   SolomonListLifecycleHeadline,
@@ -60,16 +55,16 @@ function SearchResultRow({ item }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2 min-w-0 flex-1">
+              <p className="font-semibold text-[15px] leading-tight text-[var(--solomon-text-primary)] line-clamp-2 min-w-0 flex-1">
                 {item.confirmed_fix || 'Repair outcome'}
               </p>
               <SolomonListLifecycleHeadline status={status} categoryLabel={categoryLabel} />
             </div>
             {equipment ? (
-              <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
+              <p className="text-[11px] text-[var(--solomon-text-secondary)] mt-0.5 truncate">{equipment}</p>
             ) : null}
             {item.error_code_text ? (
-              <p className="text-xs text-gray-400/95 mt-1.5 line-clamp-2 leading-snug">{item.error_code_text}</p>
+              <p className="text-xs text-[var(--solomon-text-secondary)]/95 mt-1.5 line-clamp-2 leading-snug">{item.error_code_text}</p>
             ) : null}
             <SolomonListCardFooter status={status} />
           </div>
@@ -110,89 +105,76 @@ export default function SolomonKnowledgePage() {
   }, [query, equipmentSubtype, errorCode]);
 
   return (
-    <SolomonErrorBoundary>
-      <SolomonHead title="Repair memory" />
-      <SolomonPageMain className={SOLOMON_PAGE_SHELL_CLASS}>
-        <SolomonPageAtmosphere />
-        <div className="relative">
-          <SolomonPageHeader />
+    <SolomonListPage
+      headTitle="Repair memory"
+      title="Repair memory"
+      description="Search confirmed fixes from past jobs — same DMA pool technicians use in the field."
+    >
+      {!canUseSolomon ? (
+        <p className="text-sm text-amber-300/90">Sign in to search repair memory.</p>
+      ) : (
+        <form onSubmit={runSearch} className={`${SOLOMON_GLASS_PANEL_CLASS} space-y-3`}>
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Symptom, fix, or notes…"
+            className={SOLOMON_GLASS_INPUT_CLASS}
+          />
+          <div className="grid grid-cols-1 gap-2">
+            <select
+              value={equipmentSubtype}
+              onChange={(e) => setEquipmentSubtype(e.target.value)}
+              className={SOLOMON_GLASS_INPUT_CLASS}
+            >
+              <option value="" className={SOLOMON_GLASS_SELECT_OPTION_CLASS}>All appliances</option>
+              {DMA_APPLIANCE_SUBTYPES.filter((o) => o.value).map((o) => (
+                <option key={o.value} value={o.value} className={SOLOMON_GLASS_SELECT_OPTION_CLASS}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              value={errorCode}
+              onChange={(e) => setErrorCode(e.target.value)}
+              placeholder="Error code"
+              className={SOLOMON_GLASS_INPUT_CLASS}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={SOLOMON_SEARCH_BUTTON_CLASS}
+          >
+            <FaSearch size={13} aria-hidden />
+            {isLoading ? 'Searching…' : 'Search'}
+          </button>
+        </form>
+      )}
 
-          <header className="mb-5">
-            <h1 className="text-[1.75rem] font-bold tracking-tight text-white leading-tight">
-              Repair memory
-            </h1>
-            <p className="text-sm text-gray-400 mt-1.5 leading-relaxed">
-              Search confirmed fixes from past jobs — same DMA pool technicians use in the field.
-            </p>
-          </header>
+      {error ? <ErrorAlert message={error} className="mt-4" /> : null}
 
-          {!canUseSolomon ? (
-            <p className="text-sm text-amber-300/90">Sign in to search repair memory.</p>
-          ) : (
-            <form onSubmit={runSearch} className={`${SOLOMON_GLASS_PANEL_CLASS} space-y-3`}>
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Symptom, fix, or notes…"
-                className={SOLOMON_GLASS_INPUT_CLASS}
-              />
-              <div className="grid grid-cols-1 gap-2">
-                <select
-                  value={equipmentSubtype}
-                  onChange={(e) => setEquipmentSubtype(e.target.value)}
-                  className={SOLOMON_GLASS_INPUT_CLASS}
-                >
-                  <option value="" className={SOLOMON_GLASS_SELECT_OPTION_CLASS}>All appliances</option>
-                  {DMA_APPLIANCE_SUBTYPES.filter((o) => o.value).map((o) => (
-                    <option key={o.value} value={o.value} className={SOLOMON_GLASS_SELECT_OPTION_CLASS}>
-                      {o.label}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  value={errorCode}
-                  onChange={(e) => setErrorCode(e.target.value)}
-                  placeholder="Error code"
-                  className={SOLOMON_GLASS_INPUT_CLASS}
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={SOLOMON_SEARCH_BUTTON_CLASS}
-              >
-                <FaSearch size={13} aria-hidden />
-                {isLoading ? 'Searching…' : 'Search'}
-              </button>
-            </form>
-          )}
-
-          {error ? <ErrorAlert message={error} className="mt-4" /> : null}
-
-          {isLoading && !results ? (
-            <div className="flex justify-center py-12">
-              <LoadingSpinner />
-            </div>
-          ) : null}
-
-          {results?.items?.length ? (
-            <div className="mt-5">
-              <p className="text-[11px] uppercase tracking-[0.08em] text-white/35 mb-3">
-                {results.items.length} result{results.items.length === 1 ? '' : 's'}
-              </p>
-              <ul className={SOLOMON_LIST_STACK_CLASS}>
-                {results.items.map((item) => (
-                  <SearchResultRow key={`${item.source_type}-${item.id}`} item={item} />
-                ))}
-              </ul>
-            </div>
-          ) : results && !isLoading ? (
-            <p className="text-gray-400 text-sm text-center py-10">No matches — try broader terms.</p>
-          ) : null}
+      {isLoading && !results ? (
+        <div className="flex justify-center py-12">
+          <LoadingSpinner />
         </div>
-      </SolomonPageMain>
-    </SolomonErrorBoundary>
+      ) : null}
+
+      {results?.items?.length ? (
+        <div className="mt-5">
+          <p className="text-[11px] uppercase tracking-[0.08em] text-[var(--solomon-text-muted)] mb-3">
+            {results.items.length} result{results.items.length === 1 ? '' : 's'}
+          </p>
+          <ul className={SOLOMON_LIST_STACK_CLASS}>
+            {results.items.map((item) => (
+              <SearchResultRow key={`${item.source_type}-${item.id}`} item={item} />
+            ))}
+          </ul>
+        </div>
+      ) : results && !isLoading ? (
+        <p className="text-[var(--solomon-text-secondary)] text-sm text-center py-10">No matches — try broader terms.</p>
+      ) : null}
+    </SolomonListPage>
   );
 }

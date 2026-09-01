@@ -204,6 +204,7 @@ export default function SolomonOutcomeDetailPage() {
               error={saveError}
               submitLabel="Save changes"
               variant={isDiyer ? 'diy' : 'default'}
+              surfaceVariant="solomon"
             />
           </div>
         ) : (

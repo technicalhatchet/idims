@@ -296,6 +296,8 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ## Phase 6 — Knowledge / sessions / supporting screens
 
+**Status:** ✅ Implemented (2026-08-31)
+
 **Objective:** Professional polish on secondary routes.
 
 ### Tasks
@@ -313,9 +315,9 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ### Verification
 
-- [ ] All routes reachable from bottom nav
-- [ ] List filtering/search unchanged
-- [ ] Codes + knowledge API behavior unchanged
+- [x] All routes reachable from bottom nav
+- [x] List filtering/search unchanged
+- [x] Codes + knowledge API behavior unchanged
 
 **Estimated touch:** 8–12 files · **Risk:** Low–Medium
 

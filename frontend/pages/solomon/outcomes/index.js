@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import ApplianceIcon from '../../../components/ui/ApplianceIcon';
-import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
-import SolomonPageAtmosphere from '../../../components/solomon/SolomonPageAtmosphere';
 import {
   SOLOMON_DIAGNOSTIC_STATUS,
   resolveSolomonOutcomeStatus,
@@ -13,7 +11,6 @@ import {
   SOLOMON_LIST_CARD_PADDING_CLASS,
   SOLOMON_LIST_ICON_BOX_CLASS,
   SOLOMON_LIST_STACK_CLASS,
-  SOLOMON_PAGE_SHELL_CLASS,
   SolomonListCardFooter,
   SolomonListLifecycleHeadline,
   SolomonOrangeAddButton,
@@ -23,10 +20,7 @@ import { getRepairRecordCategoryLabel } from '../../../components/solomon/solomo
 import { getEquipmentTypeForSubtype } from '../../../components/solomon/solomonTemplateEquipment';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
-import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
-import SolomonHead from '../../../components/solomon/SolomonHead';
-import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
-import SolomonErrorBoundary from '../../../components/solomon/SolomonErrorBoundary';
+import SolomonListPage from '../../../components/solomon/SolomonListPage';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { listDmaRepairRecords } from '../../../services/api/dmaApi';
@@ -67,15 +61,15 @@ function OutcomeRow({ item, isDiyer }) {
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <p className="font-semibold text-[15px] leading-tight text-white line-clamp-2 min-w-0 flex-1">
+              <p className="font-semibold text-[15px] leading-tight text-[var(--solomon-text-primary)] line-clamp-2 min-w-0 flex-1">
                 {item.confirmed_fix || 'Repair outcome'}
               </p>
               <SolomonListLifecycleHeadline status={status} categoryLabel={categoryLabel} />
             </div>
             {equipment ? (
-              <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
+              <p className="text-[11px] text-[var(--solomon-text-secondary)] mt-0.5 truncate">{equipment}</p>
             ) : null}
-            <p className="text-xs text-gray-400/95 mt-1.5">{meta}</p>
+            <p className="text-xs text-[var(--solomon-text-secondary)]/95 mt-1.5">{meta}</p>
             <SolomonListCardFooter when={when} status={status} showClock />
           </div>
         </div>
@@ -115,65 +109,41 @@ export default function SolomonOutcomesListPage() {
 
   const items = data?.items || [];
 
-  if (authLoading || rolesLoading) {
-    return (
-      <>
-        <SolomonHead title={pageTitle} />
-        <SolomonPageMain className={`flex flex-col ${SOLOMON_PAGE_SHELL_CLASS}`}>
-          <SolomonPageAtmosphere />
-          <div className="relative">
-            <SolomonPageHeader />
-            <div className="flex justify-center py-16">
-              <LoadingSpinner />
-            </div>
-          </div>
-        </SolomonPageMain>
-      </>
-    );
-  }
-
   return (
-    <SolomonErrorBoundary>
-      <SolomonHead title={pageTitle} />
-      <SolomonPageMain className={SOLOMON_PAGE_SHELL_CLASS}>
-        <SolomonPageAtmosphere />
-        <SolomonAccessGuard promptTitle="Sign in to view your repair notes">
-          <div className="relative">
-            <SolomonPageHeader />
-
-            <div className="flex items-center justify-between gap-3 mb-5">
-              <header className="min-w-0 flex-1">
-                <h1 className="text-[1.75rem] font-bold tracking-tight text-white leading-tight truncate">
-                  {pageTitle}
-                </h1>
-                <p className="text-sm text-gray-400 mt-1.5 leading-relaxed">
-                  {isDiyer
-                    ? 'Notes from your troubleshooting sessions.'
-                    : 'Your recorded repair outcomes and linked diagnostics.'}
-                </p>
-              </header>
-              <SolomonOrangeAddButton href="/solomon/outcomes/new" ariaLabel={copy('outcomeNew')} />
-            </div>
-
-            {error ? <ErrorAlert message={error} /> : null}
-            {isLoading ? (
-              <div className="flex justify-center py-12">
-                <LoadingSpinner />
-              </div>
-            ) : items.length === 0 ? (
-              <p className="text-gray-400 text-sm text-center py-10">
-                {isDiyer ? 'No repair notes yet.' : 'No outcomes yet.'}
-              </p>
-            ) : (
-              <div className={SOLOMON_LIST_STACK_CLASS}>
-                {items.map((item) => (
-                  <OutcomeRow key={item.id} item={item} isDiyer={isDiyer} />
-                ))}
-              </div>
-            )}
-          </div>
-        </SolomonAccessGuard>
-      </SolomonPageMain>
-    </SolomonErrorBoundary>
+    <SolomonListPage
+      headTitle={pageTitle}
+      title={pageTitle}
+      description={
+        isDiyer
+          ? 'Notes from your troubleshooting sessions.'
+          : 'Your recorded repair outcomes and linked diagnostics.'
+      }
+      toolbar={<SolomonOrangeAddButton href="/solomon/outcomes/new" ariaLabel={copy('outcomeNew')} />}
+      accessGuard
+      accessGuardTitle="Sign in to view your repair notes"
+      loading={authLoading || rolesLoading}
+      loadingFallback={(
+        <div className="flex justify-center py-16">
+          <LoadingSpinner />
+        </div>
+      )}
+    >
+      {error ? <ErrorAlert message={error} /> : null}
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <LoadingSpinner />
+        </div>
+      ) : items.length === 0 ? (
+        <p className="text-[var(--solomon-text-secondary)] text-sm text-center py-10">
+          {isDiyer ? 'No repair notes yet.' : 'No outcomes yet.'}
+        </p>
+      ) : (
+        <div className={SOLOMON_LIST_STACK_CLASS}>
+          {items.map((item) => (
+            <OutcomeRow key={item.id} item={item} isDiyer={isDiyer} />
+          ))}
+        </div>
+      )}
+    </SolomonListPage>
   );
 }
