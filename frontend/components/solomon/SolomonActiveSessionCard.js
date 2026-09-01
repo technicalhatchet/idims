@@ -6,6 +6,16 @@ import { useSolomonDiagnosticLead } from './useSolomonDiagnosticLead';
 import SolomonCategoryIcon from './categoryIcons';
 import { getDiagnosticStepProgress } from './solomonDiagnosticStepProgress';
 import SolomonApplianceLabel from './solomonApplianceLabel';
+import useSolomonTheme from '../../hooks/useSolomonTheme';
+
+const PROFESSIONAL_SESSION_SURFACE = {
+  diagnostic_in_progress: 'border-l-4 border-l-[var(--solomon-status-diagnostic)] border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] shadow-[var(--solomon-shadow-card)]',
+  repair_outcome_pending: 'border-l-4 border-l-[var(--solomon-status-repair)] border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] shadow-[var(--solomon-shadow-card)]',
+  repair_successful: 'border-l-4 border-l-[var(--solomon-status-complete)] border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] shadow-[var(--solomon-shadow-card)]',
+  repair_memory: 'border-l-4 border-l-[var(--solomon-status-memory)] border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] shadow-[var(--solomon-shadow-card)]',
+  abandoned: 'border-l-4 border-l-[var(--solomon-status-abandoned)] border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] shadow-[var(--solomon-shadow-card)]',
+  pending_sync: 'border-l-4 border-l-[var(--solomon-status-sync)] border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] shadow-[var(--solomon-shadow-card)]',
+};
 
 function equipmentMakeModel(target) {
   const parts = [
@@ -15,12 +25,15 @@ function equipmentMakeModel(target) {
   return parts.join(' • ');
 }
 
-function SegmentedProgress({ stepNumber, totalSteps, compact = false, progressActiveClass }) {
+function SegmentedProgress({ stepNumber, totalSteps, compact = false, progressActiveClass, noGlow = false }) {
   if (!totalSteps) return null;
   const inactiveClass = compact
     ? 'bg-white/55 ring-1 ring-inset ring-white/20'
     : 'bg-white/40';
-  const activeClass = progressActiveClass || 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]';
+  const defaultActive = noGlow
+    ? 'bg-[var(--solomon-status-diagnostic)]'
+    : 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]';
+  const activeClass = progressActiveClass || defaultActive;
   return (
     <div className={`flex gap-[0.2em] ${compact ? '' : 'mt-2'}`}>
       {Array.from({ length: totalSteps }).map((_, index) => (
@@ -36,6 +49,7 @@ function SegmentedProgress({ stepNumber, totalSteps, compact = false, progressAc
 }
 
 export default function SolomonActiveSessionCard({ target, variant = 'default' }) {
+  const { isProfessional } = useSolomonTheme();
   const stepProgress = getDiagnosticStepProgress(target);
   const totalSteps = stepProgress?.totalSteps || 0;
   const stepNumber = stepProgress?.stepNumber || 0;
@@ -46,11 +60,22 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   if (!target) return null;
 
   const lifecycleStatus = resolveSolomonDiagnosticStatus(target);
-  const surfaceClass = variant === 'heroOverlay'
-    ? lifecycleStatus.surfaceHeroClass
-    : lifecycleStatus.surfaceDefaultClass;
   const isCompact = variant === 'heroOverlay';
-  const padClass = isCompact ? 'px-[0.55em] py-[0.35em]' : 'px-3 py-2.5';
+  const isProSession = isProfessional && !isCompact;
+  const surfaceClass = isCompact
+    ? lifecycleStatus.surfaceHeroClass
+    : isProSession
+      ? (PROFESSIONAL_SESSION_SURFACE[lifecycleStatus.lifecycleKey]
+        || PROFESSIONAL_SESSION_SURFACE.diagnostic_in_progress)
+      : lifecycleStatus.surfaceDefaultClass;
+  const padClass = isCompact
+    ? 'px-[0.55em] py-[0.35em]'
+    : isProSession
+      ? 'px-3.5 py-3'
+      : 'px-3 py-2.5';
+  const proProgressActive = isProSession
+    ? 'bg-[var(--solomon-status-diagnostic)]'
+    : lifecycleStatus.progressActiveClass;
 
   if (isCompact) {
     return (
@@ -127,25 +152,35 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
   return (
     <Link
       href={`/solomon/diagnostics/${target.id}?continue=1`}
-      className={`block rounded-xl border transition-colors ${padClass} ${surfaceClass} ${lifecycleStatus.hoverBorderClass}`}
+      className={`block rounded-[var(--solomon-radius-card)] transition-colors ${padClass} ${surfaceClass} ${
+        isProSession
+          ? 'hover:bg-[var(--solomon-surface)]'
+          : lifecycleStatus.hoverBorderClass
+      }`}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className={`text-[9px] uppercase tracking-[0.08em] font-medium ${lifecycleStatus.labelTextClass}`}>
-            Last Session
+          <p className={`uppercase tracking-[0.08em] font-medium ${lifecycleStatus.labelTextClass} ${
+            isProSession ? 'text-[10px]' : 'text-[9px]'
+          }`}>
+            {isProSession ? 'Continue session' : 'Last Session'}
           </p>
           <SolomonApplianceLabel
             templateId={templateId}
             templateLabel={target.template_label}
             truncate
-            className={`font-semibold text-white leading-tight ${isCompact ? 'text-sm mt-0' : 'text-base mt-0.5'}`}
+            className={`font-semibold text-white leading-tight ${isProSession ? 'text-[17px] mt-1' : isCompact ? 'text-sm mt-0' : 'text-base mt-0.5'}`}
             suffixClassName="font-semibold text-white/55"
           />
         </div>
         {lead ? (
           <div className="text-right shrink-0 min-w-0 max-w-[58%]">
             <div className="flex items-center justify-end gap-1">
-              <span className={`flex items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400 ${isCompact ? 'h-5 w-5' : 'h-6 w-6'}`}>
+              <span className={`flex items-center justify-center rounded-md ${
+                isProSession
+                  ? 'h-6 w-6 bg-[var(--solomon-status-complete)]/10 text-[var(--solomon-status-complete)]'
+                  : `bg-emerald-500/10 text-emerald-400 ${isCompact ? 'h-5 w-5' : 'h-6 w-6'}`
+              }`}>
                 <SolomonCategoryIcon
                   categoryId={lead.categoryId}
                   categoryLabel={lead.categoryLabel}
@@ -156,12 +191,16 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
                 {lead.categoryLabel}
               </span>
             </div>
-            <p className={`font-bold text-emerald-400 tabular-nums ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`}>
+            <p className={`font-bold tabular-nums ${
+              isProSession
+                ? 'text-[var(--solomon-status-diagnostic)] text-xs mt-0.5'
+                : `text-emerald-400 ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`
+            }`}>
               {lead.percent}% {lead.strengthWord}
             </p>
             <div className={`h-1 rounded-full bg-white/55 ring-1 ring-inset ring-white/15 overflow-hidden w-full max-w-[120px] ml-auto ${isCompact ? 'mt-0.5' : 'mt-1'}`}>
               <div
-                className="h-full bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]"
+                className={`h-full ${isProSession ? 'bg-[var(--solomon-status-diagnostic)]' : 'bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]'}`}
                 style={{ width: `${Math.min(100, lead.percent)}%` }}
               />
             </div>
@@ -170,9 +209,13 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
       </div>
 
       {totalSteps > 0 ? (
-        <div className={isCompact ? 'mt-1' : 'mt-2'}>
+        <div className={isCompact ? 'mt-1' : isProSession ? 'mt-2.5' : 'mt-2'}>
           {makeModelLine ? (
-            <p className={`mb-1 truncate text-left text-gray-400 ${isCompact ? 'text-[10px]' : 'text-[11px]'}`}>
+            <p className={`mb-1 truncate text-left ${
+              isProSession
+                ? 'text-[11px] text-[var(--solomon-text-muted)]'
+                : `text-gray-400 ${isCompact ? 'text-[10px]' : 'text-[11px]'}`
+            }`}>
               {makeModelLine}
             </p>
           ) : null}
@@ -180,11 +223,16 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
             stepNumber={stepNumber}
             totalSteps={totalSteps}
             compact={isCompact}
-            progressActiveClass={lifecycleStatus.progressActiveClass}
+            progressActiveClass={proProgressActive}
+            noGlow={isProSession}
           />
         </div>
       ) : makeModelLine ? (
-        <p className={`mt-2 truncate text-left text-gray-400 ${isCompact ? 'text-[10px]' : 'text-[11px]'}`}>
+        <p className={`mt-2 truncate text-left ${
+          isProSession
+            ? 'text-[11px] text-[var(--solomon-text-muted)]'
+            : `text-gray-400 ${isCompact ? 'text-[10px]' : 'text-[11px]'}`
+        }`}>
           {makeModelLine}
         </p>
       ) : null}

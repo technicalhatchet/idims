@@ -107,6 +107,15 @@
   --solomon-status-reference: #14b8a6;
 }
 
+/* Professional home — precision hierarchy, no decorative glow */
+[data-solomon-interface='professional'] [data-solomon-primary-cta] {
+  letter-spacing: -0.01em;
+}
+
+[data-solomon-interface='professional'] [data-solomon-primary-cta]:focus-visible {
+  outline-offset: 3px;
+}
+
 /* Utility classes for gradual migration — optional in components */
 .solomon-bg-canvas {
   background-color: var(--solomon-bg-canvas);

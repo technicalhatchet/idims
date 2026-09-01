@@ -16,7 +16,7 @@ import SolomonMetricRow from './SolomonMetricRow';
 import SolomonOfflineFooter from './SolomonOfflineFooter';
 import SolomonInstallHint, { useSolomonInstallHint } from './SolomonInstallHint';
 import SolomonBottomNav from './SolomonBottomNav';
-import { SOLOMON_LIST_STACK_CLASS } from './solomonListPageUi';
+import { SOLOMON_PRO_LIST_STACK_CLASS } from './solomonListPageUi';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
 import { useSolomonHomeDashboard } from '../../hooks/useSolomonHomeDashboard';
@@ -61,7 +61,7 @@ const QUICK_ACTIONS = [
     href: '/solomon/codes',
     label: 'Codes',
     icon: FaHashtag,
-    iconClass: 'text-emerald-400 bg-emerald-500/10',
+    iconClass: 'text-[var(--solomon-status-complete)] bg-emerald-500/10',
   },
 ];
 
@@ -71,8 +71,8 @@ function QuickActionTile({ href, label, icon: Icon, iconClass }) {
       href={href}
       className="flex min-h-[44px] flex-col items-center justify-center gap-1 rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-1 py-2 transition-colors hover:bg-[var(--solomon-surface-elevated)]"
     >
-      <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${iconClass}`}>
-        <Icon size={14} aria-hidden />
+      <span className={`flex h-7 w-7 items-center justify-center rounded-[var(--solomon-radius-control)] ${iconClass}`}>
+        <Icon size={13} aria-hidden />
       </span>
       <span className="text-[10px] font-medium text-[var(--solomon-text-secondary)] text-center leading-tight">
         {label}
@@ -83,8 +83,8 @@ function QuickActionTile({ href, label, icon: Icon, iconClass }) {
 
 function KnowledgeBanner({ isDiyer }) {
   return (
-    <div className="rounded-[var(--solomon-radius-card)] border border-orange-500/25 bg-[var(--solomon-surface)] px-3 py-2.5">
-      <p className="text-xs font-semibold text-orange-300">Smarter every time.</p>
+    <div className="rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] border-l-2 border-l-[var(--solomon-status-memory)] bg-[var(--solomon-surface)] px-3 py-2.5">
+      <p className="text-xs font-semibold text-[var(--solomon-status-memory)]">Smarter every time.</p>
       <p className="text-[11px] text-[var(--solomon-text-secondary)] mt-0.5 leading-snug">
         {isDiyer
           ? 'Your diagnostics build your repair memory, making you faster and more accurate.'
@@ -92,10 +92,24 @@ function KnowledgeBanner({ isDiyer }) {
       </p>
       <Link
         href="/solomon/knowledge"
-        className="text-[10px] text-[var(--solomon-primary-from)] mt-1.5 inline-block hover:opacity-90"
+        className="text-[10px] font-medium text-[var(--solomon-primary-from)] mt-1.5 inline-block hover:opacity-90"
       >
         Explore repair memory →
       </Link>
+    </div>
+  );
+}
+
+function SectionLabel({ id, children, action }) {
+  return (
+    <div className="mb-2 flex items-center justify-between gap-2">
+      <h2
+        id={id}
+        className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--solomon-text-muted)]"
+      >
+        {children}
+      </h2>
+      {action}
     </div>
   );
 }
@@ -137,33 +151,31 @@ export default function SolomonProfessionalHome() {
       >
         <SolomonInstallHint installHint={installHint} />
 
-        <div className="pt-1 pb-4">
+        <div className="pt-1 pb-3">
           <SolomonHomeHeader />
         </div>
 
         {canUseSolomon ? (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <header>
-              <h1 className="text-[1.65rem] font-bold tracking-tight text-[var(--solomon-text-primary)] leading-tight">
+              <h1 className="text-[1.5rem] font-bold tracking-tight text-[var(--solomon-text-primary)] leading-tight">
                 {greetingLine}
               </h1>
-              <p className="text-sm text-[var(--solomon-text-secondary)] mt-1">
+              <p className="text-[13px] text-[var(--solomon-text-muted)] mt-0.5">
                 {isDiyer ? 'Your troubleshooting command center' : 'Your diagnostic command center'}
               </p>
             </header>
 
-            <SolomonMetricRow metrics={metrics} isLoading={dashboardLoading} />
-
             <Link
               href={newHref}
               data-solomon-primary-cta
-              className="flex min-h-[44px] items-center gap-3 rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-primary-border)] bg-gradient-to-r from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-3 py-2.5 text-white shadow-[var(--solomon-primary-shadow)] transition-opacity hover:opacity-95"
+              className="flex min-h-[52px] items-center gap-3 rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-primary-border)] bg-[var(--solomon-primary-from)] px-4 py-3.5 text-white shadow-[var(--solomon-primary-shadow)] transition-colors hover:bg-[var(--solomon-primary-hover-from)] active:scale-[0.99]"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10">
-                <FaPlus size={12} aria-hidden />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--solomon-radius-control)] bg-white/15">
+                <FaPlus size={14} aria-hidden />
               </span>
-              <span className="min-w-0 flex-1 font-semibold">{newTitle}</span>
-              <FaChevronRight size={11} className="shrink-0 text-white/70" aria-hidden />
+              <span className="min-w-0 flex-1 text-[17px] font-bold tracking-tight">{newTitle}</span>
+              <FaChevronRight size={12} className="shrink-0 text-white/75" aria-hidden />
             </Link>
 
             {hasActiveSession ? (
@@ -172,32 +184,36 @@ export default function SolomonProfessionalHome() {
               </section>
             ) : null}
 
+            <section aria-labelledby="solomon-home-metrics-heading">
+              <SectionLabel id="solomon-home-metrics-heading">Overview</SectionLabel>
+              <SolomonMetricRow metrics={metrics} isLoading={dashboardLoading} />
+            </section>
+
             <section aria-labelledby="solomon-recent-diagnostics-heading">
-              <div className="mb-2 flex items-center justify-between gap-2">
-                <h2
-                  id="solomon-recent-diagnostics-heading"
-                  className="text-sm font-semibold text-[var(--solomon-text-primary)]"
-                >
-                  Recent diagnostics
-                </h2>
-                <Link
-                  href="/solomon/diagnostics"
-                  className="text-[11px] text-[var(--solomon-primary-from)] hover:opacity-90"
-                >
-                  View all
-                </Link>
-              </div>
+              <SectionLabel
+                id="solomon-recent-diagnostics-heading"
+                action={(
+                  <Link
+                    href="/solomon/diagnostics"
+                    className="text-[10px] font-medium text-[var(--solomon-primary-from)] hover:opacity-90"
+                  >
+                    View all
+                  </Link>
+                )}
+              >
+                Recent diagnostics
+              </SectionLabel>
 
               {dashboardLoading ? (
-                <div className="flex justify-center py-8">
+                <div className="flex justify-center py-6">
                   <LoadingSpinner />
                 </div>
               ) : recentDiagnostics.length === 0 ? (
-                <p className="rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-6 text-center text-sm text-[var(--solomon-text-secondary)]">
+                <p className="rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-5 text-center text-sm text-[var(--solomon-text-secondary)]">
                   {isDiyer ? 'No troubleshooting sessions yet.' : 'No diagnostics yet.'}
                 </p>
               ) : (
-                <div className={SOLOMON_LIST_STACK_CLASS}>
+                <div className={SOLOMON_PRO_LIST_STACK_CLASS}>
                   {recentDiagnostics.map((item) => (
                     <SolomonDiagnosticListCard key={item.id} item={item} />
                   ))}
@@ -206,13 +222,8 @@ export default function SolomonProfessionalHome() {
             </section>
 
             <section aria-labelledby="solomon-quick-actions-heading">
-              <h2
-                id="solomon-quick-actions-heading"
-                className="mb-2 text-sm font-semibold text-[var(--solomon-text-primary)]"
-              >
-                Quick actions
-              </h2>
-              <div className="grid grid-cols-4 gap-2">
+              <SectionLabel id="solomon-quick-actions-heading">Quick actions</SectionLabel>
+              <div className="grid grid-cols-4 gap-1.5">
                 {QUICK_ACTIONS.map((action) => {
                   const label = action.labelKey === 'outcomes'
                     ? (isDiyer ? 'Notes' : 'Outcomes')
@@ -237,14 +248,14 @@ export default function SolomonProfessionalHome() {
         ) : (
           <div className="space-y-4">
             <header>
-              <h1 className="text-[1.65rem] font-bold tracking-tight leading-tight">{greetingLine}</h1>
-              <p className="text-sm text-[var(--solomon-text-secondary)] mt-1">
+              <h1 className="text-[1.5rem] font-bold tracking-tight leading-tight">{greetingLine}</h1>
+              <p className="text-[13px] text-[var(--solomon-text-muted)] mt-0.5">
                 Sign in to start guided diagnostics.
               </p>
             </header>
             <Link
               href="/solomon/signup"
-              className="block rounded-[var(--solomon-radius-card)] bg-gradient-to-r from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-3 py-2.5 text-center text-sm font-semibold text-white"
+              className="block rounded-[var(--solomon-radius-card)] bg-[var(--solomon-primary-from)] px-3 py-3 text-center text-sm font-semibold text-white shadow-[var(--solomon-primary-shadow)]"
             >
               Create homeowner account to start
             </Link>
