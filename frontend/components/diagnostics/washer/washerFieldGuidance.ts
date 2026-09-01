@@ -9,6 +9,8 @@ export const washerFieldHelp: Record<string, string> = {
     'Clogged hose screens mimic slow-fill and inlet valve failures.',
   'commonly_missed.level':
     'Out-of-level units walk and stress suspension on spin.',
+  'commonly_missed.he_detergent':
+    'Non-HE detergent causes F0E2/Sd oversuds on Whirlpool front-load — confirm HE only.',
   'visual_inspection.leak_present':
     'Trace source: door boot, pump, tub seal, inlet hoses, or dispenser.',
   'visual_inspection.tub_movement':
@@ -17,12 +19,22 @@ export const washerFieldHelp: Record<string, string> = {
     'Listen for pump hum — no sound may be dead pump or clogged filter.',
   'functional_checks.spin_operation':
     'No spin with good drain often = shift actuator, clutch, or motor.',
+  'electrical_measurements.drive_motor_ohms':
+    'Whirlpool FL DD motor J6: 6–20 Ω all pairs (TEST #3). F7E9 = locked rotor — check obstruction first.',
   'electrical_measurements.drain_pump_ohms':
-    'Open pump winding = no drain. Typical low tens of ohms.',
+    'Whirlpool FL drain pump J11: 18.5–21.5 Ω. F9E1 long drain — filter and hose height before pump.',
   'electrical_measurements.inlet_valve_ohms':
-    'Open coil = no fill on that valve leg.',
+    'Whirlpool FL inlet valve: 1.1–1.35 kΩ per coil. F8E1/Lo FL — screens, pressure, and valve.',
+  'electrical_measurements.wash_heater_ohms':
+    'Heat/steam FL: wash heater J3 7–30 Ω (TEST #9). F4E1/F4E2 heat relay faults.',
+  'electrical_measurements.recirc_pump_ohms':
+    'Recirc pump 36–46 Ω on steam/heat variants.',
+  'mechanical_controls.door_lock_ohms':
+    'Front-load door lock — TEST #4. F5E1/E4 door faults; F5E4/dr = open door between cycles.',
   'mechanical_controls.pressure_switch':
-    'Pinched air dome hose causes fill/drain/spin logic errors.',
+    'Pinched air dome hose causes fill/drain/spin logic errors — F3E1 pressure sensor.',
+  'customer_complaint.flex_compartment':
+    'FlexWash WV55*: upper = DC4/AC7 path; lower = 3C motor/inverter AC6; shared drain = 5C.',
   'diagnosis.root_cause':
     'Tie complaint to fill, drain, spin, and leak findings before quoting board.',
 };
@@ -112,6 +124,18 @@ export const washerRecommendations: FieldRecommendationRule[] = [
       { type: 'field', path: 'visual_inspection.drive_belt', equals: 'bad' },
     ],
     message: 'Worn belt or pulley — squeal on spin/agitate is common; verify tension and drum free spin.',
+    tone: 'tip',
+  },
+  {
+    id: 'flexwash_upper',
+    when: [{ type: 'chip', id: 'flexwash_upper' }],
+    message: 'Upper FlexWash — check DC4 door closed, AC7 interconnect harness, upper sub PBA.',
+    tone: 'action',
+  },
+  {
+    id: 'flexwash_ac7',
+    when: [{ type: 'chip', id: 'flexwash' }],
+    message: 'FlexWash dual-load — identify upper vs lower compartment; AC7 = upper↔lower comm fault.',
     tone: 'tip',
   },
 ];

@@ -1216,6 +1216,76 @@
       "explanation": "Noisy with circulation pump open — motor failure supported.",
       "recommendStepKey": "motor",
       "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_kw_f8e1_fill",
+      "when": [{ "type": "keyword", "match": "f8e1" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F8E1 no water — inlet valve, tap, flow meter.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["fill_issue", "water_valve_check"]
+    },
+    {
+      "id": "dw_kw_f9e1_drain",
+      "when": [{ "type": "keyword", "match": "f9e1" }],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F9E1 not draining — drain path and motor.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["drain_issue", "pump_check"]
+    },
+    {
+      "id": "dw_kw_f3e2_owi",
+      "when": [{ "type": "keyword", "match": "f3e2" }],
+      "target": "heat_dry",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F3E2 OWI calibration — clean lens and verify drain loop check valve.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "dw_kw_f10e5_diverter",
+      "when": [{ "type": "keyword", "match": "f10e5" }],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F10E5 diverter leak — inspect diverter seal and sump.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_kw_vario",
+      "when": [{ "type": "keyword", "match": "vario" }],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG VARIO ERROR — cam position / motor ~4 kΩ.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_kw_e8_diverter",
+      "when": [{ "type": "keyword", "match": "e8" }],
+      "target": "wash_circuit",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "Insignia E8 — diverter valve motor or micro switch.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["wash_issue"]
+    },
+    {
+      "id": "dw_kw_e4_overflow",
+      "when": [{ "type": "keyword", "match": "e4" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "E4 overflow — base pan, leak source, detergent use.",
+      "recommendStepKey": "visual",
+      "dmaTags": ["fill_issue"]
     }
   ]
 }

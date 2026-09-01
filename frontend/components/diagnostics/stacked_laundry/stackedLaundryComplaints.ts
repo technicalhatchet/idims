@@ -40,6 +40,30 @@ export const LAUNDRY_COMBO_DRYER_CHIPS: ComplaintChipDefinition[] = [
     label: "Dryer Won't Tumble",
     keywords: ['won\'t tumble', 'drum not turning', 'dryer drum'],
   },
+  {
+    id: 'timer_not_advancing',
+    label: 'Timer Not Advancing',
+    keywords: [
+      'timer not advancing',
+      'timer stuck',
+      'won\'t advance',
+      'stuck on',
+      'timer won\'t move',
+    ],
+  },
+  {
+    id: 'unitized_timer',
+    label: 'Unitized / Laundry Center (timer)',
+    keywords: [
+      'unitized',
+      'laundry center',
+      'gud27',
+      'gud24',
+      'mechanical timer',
+      'no display codes',
+      'no error codes',
+    ],
+  },
 ];
 
 export const LAUNDRY_COMBO_COMMON_CHIPS: ComplaintChipDefinition[] = [

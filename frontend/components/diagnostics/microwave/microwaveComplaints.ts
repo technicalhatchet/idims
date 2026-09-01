@@ -39,6 +39,6 @@ export const MICROWAVE_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'error_code',
     label: 'Error Code on Display',
-    keywords: ['error', 'fault', 'code', 'f1', 'f2'],
+    keywords: ['error', 'fault', 'code', 'f1', 'f2', 'f-1', 'f-2', 'f-4', 'c-f1', 'c-f2', 'c-20'],
   },
 ];

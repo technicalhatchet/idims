@@ -1537,6 +1537,69 @@
       "explanation": "Condenser still suspect if coils were not verified clean on not-cooling call.",
       "recommendStepKey": "visual",
       "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "ref_kw_midea_e2_fz_sensor",
+      "when": [{ "type": "keyword", "match": "e2" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Insignia/Midea E2 — freezer compartment temp sensor.",
+      "recommendStepKey": "temperature",
+      "dmaTags": ["thermistor", "sensor_check"]
+    },
+    {
+      "id": "ref_kw_midea_e6_comm",
+      "when": [{ "type": "keyword", "match": "e6" }],
+      "target": "display_panel",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Insignia/Midea E6 — display ↔ main CN9 communication.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_midea_e9_high_temp",
+      "when": [{ "type": "keyword", "match": "e9" }],
+      "target": "door_switch",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "E9 high temp alarm — check door gasket and airflow before sealed system.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["door_alignment"]
+    },
+    {
+      "id": "ref_kw_frig_ert1_fz",
+      "when": [{ "type": "keyword", "match": "ert1" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Frigidaire Er t1 — freezer temp sensor open/short.",
+      "recommendStepKey": "temperature",
+      "dmaTags": ["thermistor"]
+    },
+    {
+      "id": "ref_kw_frig_demo",
+      "when": [{ "type": "keyword", "match": "demo" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Frigidaire demo/showroom mode — compressor may be off.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_im_e4_dry",
+      "when": [
+        { "type": "chip", "id": "ice_maker" },
+        { "type": "keyword", "match": "e4" }
+      ],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 16 },
+      "explanation": "Whirlpool ice maker E4 dry cycle — no water detected at mold.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
     }
   ]
 }

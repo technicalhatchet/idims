@@ -75,8 +75,23 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     ],
   },
   {
+    id: 'wash_heater',
+    field: 'electrical_measurements.wash_heater_ohms',
+    showWhen: [{ type: 'chip', id: 'error_code' }],
+  },
+  {
+    id: 'recirc_pump',
+    field: 'electrical_measurements.recirc_pump_ohms',
+    showWhen: [{ type: 'chip', id: 'error_code' }],
+  },
+  {
     id: 'door_lock_ohms',
     field: 'mechanical_controls.door_lock_ohms',
-    showWhen: [{ type: 'chip', id: 'lid_lock' }],
+    showWhen: [{ type: 'chip', id: 'lid_lock' }, { type: 'chip', id: 'flexwash_upper' }],
+  },
+  {
+    id: 'flex_compartment',
+    field: 'customer_complaint.flex_compartment',
+    showWhen: [{ type: 'chip', id: 'flexwash' }, { type: 'chip', id: 'flexwash_upper' }],
   },
 ];

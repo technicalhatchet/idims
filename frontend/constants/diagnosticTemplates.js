@@ -286,7 +286,15 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Washer',
     equipmentKeys: ['washer', 'washing_machine'],
     sections: [
-      complaint([txt('error_codes', 'Error Codes')]),
+      complaint([
+        txt('error_codes', 'Error Codes'),
+        choice('flex_compartment', 'FlexWash compartment affected', [
+          { value: '', label: '—' },
+          { value: 'upper', label: 'Upper (small load)' },
+          { value: 'lower', label: 'Lower (main drum)' },
+          { value: 'both', label: 'Both / shared issue' },
+        ]),
+      ]),
       missed([
         chk('suspension', 'Suspension / shocks'),
         chk('drain_restrictions', 'Drain / standpipe restrictions'),
@@ -295,6 +303,7 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('shipping_bolts', 'Shipping bolts removed (new install)'),
         chk('inlet_screens', 'Inlet hose screens clear'),
         chk('level', 'Unit level'),
+        chk('he_detergent', 'HE detergent only (no oversuds)'),
       ]),
       {
         id: 'visual_inspection',
@@ -331,6 +340,8 @@ export const DIAGNOSTIC_TEMPLATES = [
           txt('drain_pump_amps', 'Drain pump amps'),
           txt('inlet_valve_ohms', 'Inlet valve coil(s) (Ω)'),
           txt('water_pressure', 'Water pressure (PSI)'),
+          txt('wash_heater_ohms', 'Wash heater resistance (Ω, heat/steam FL)'),
+          txt('recirc_pump_ohms', 'Recirculation pump (Ω, if equipped)'),
         ],
       },
       {
@@ -487,12 +498,13 @@ export const DIAGNOSTIC_TEMPLATES = [
     label: 'Laundry Center / Stacked Unit',
     equipmentKeys: ['stacked_laundry'],
     sections: [
-      complaint([txt('error_codes', 'Error Codes')]),
+      complaint([txt('error_codes', 'Error Codes (if electronic control)')]),
       missed([
         chk('shared_power', 'Shared power / outlet load'),
         chk('airflow_restrictions', 'Dryer vent / airflow'),
         chk('installation', 'Installation / stacking kit / level'),
         chk('water_supply', 'Washer water supply / drain'),
+        chk('timer_platform', 'Mechanical timer dryer — verify cycling/outlet thermostats on auto dry'),
       ]),
       {
         id: 'washer_section',
@@ -513,6 +525,7 @@ export const DIAGNOSTIC_TEMPLATES = [
           yn('heat_present', 'Heat Present'),
           gb('airflow', 'Airflow'),
           gb('blower', 'Blower Operation'),
+          yn('timer_advances', 'Timer advances on auto-dry cycle'),
         ],
       },
       {

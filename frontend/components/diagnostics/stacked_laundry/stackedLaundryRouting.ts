@@ -66,6 +66,18 @@ export const stackedLaundryRoutingRules: RoutingRule[] = [
     when: ['error_code', 'error', 'fault'],
     enable: ['washer', 'dryer', 'washerElectrical', 'dryerElectrical'],
   },
+  {
+    id: 'timer_not_advancing',
+    label: 'Timer not advancing path',
+    when: ['timer_not_advancing', 'timer not advancing', 'timer stuck', 'won\'t advance'],
+    enable: ['dryer', 'dryerElectrical'],
+  },
+  {
+    id: 'unitized_timer',
+    label: 'Unitized mechanical timer path',
+    when: ['unitized_timer', 'gud27', 'laundry center', 'mechanical timer'],
+    enable: ['dryer', 'dryerElectrical'],
+  },
 ];
 
 export const stackedLaundryRoutingConfig = {

@@ -3,7 +3,7 @@
 **Source:** `backend/docs/manuals/LDT7808ST.pdf`  
 **Extracted text:** `backend/docs/manuals/LDT7808ST-extracted.txt`  
 **Scope:** LG top-control dishwasher; multi-motion spray; vario valve diverter; QuadWash  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (VARIO + AE/BE routing/evidence).
 
 ---
 

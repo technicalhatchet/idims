@@ -1099,6 +1099,153 @@
       "explanation": "Noisy with abnormal drain pump amps — pump motor path supported.",
       "recommendStepKey": "electrical",
       "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "w_kw_f8e1_fill",
+      "when": [{ "type": "keyword", "match": "f8e1" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F8E1 / Lo FL long fill — inlet path primary.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["water_valve_check", "fill_issue"]
+    },
+    {
+      "id": "w_kw_f9e1_drain",
+      "when": [{ "type": "keyword", "match": "f9e1" }],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F9E1 long drain — pump and drain path primary.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check", "drain_issue"]
+    },
+    {
+      "id": "w_kw_f5e_door_lock",
+      "when": [{ "type": "keyword", "match": "f5e1" }],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F5E1 door switch open while locked — TEST #4.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "w_kw_f5e4_door",
+      "when": [{ "type": "keyword", "match": "f5e4" }],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "F5E4/dr — door not opened between cycles (user or lock).",
+      "recommendStepKey": "functional"
+    },
+    {
+      "id": "w_kw_f0e5_balance",
+      "when": [{ "type": "keyword", "match": "f0e5" }],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 12 },
+      "explanation": "F0E5/ob off-balance — rebalance load before motor work.",
+      "recommendStepKey": "complaint"
+    },
+    {
+      "id": "w_kw_f0e2_oversuds",
+      "when": [{ "type": "keyword", "match": "f0e2" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 15 },
+      "explanation": "F0E2/Sd oversuds — HE detergent and pressure hose.",
+      "recommendStepKey": "commonly_missed"
+    },
+    {
+      "id": "w_kw_f7e9_motor",
+      "when": [{ "type": "keyword", "match": "f7e9" }],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "F7E9 locked rotor — obstruction or motor fault (TEST #3).",
+      "recommendStepKey": "mechanical",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "w_kw_e1_insignia_fill",
+      "when": [{ "type": "keyword", "match": "e1" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Insignia E1 fill timeout — faucets, screens, inlet valve.",
+      "recommendStepKey": "complaint",
+      "dmaTags": ["fill_issue"]
+    },
+    {
+      "id": "w_kw_e2_insignia_drain",
+      "when": [{ "type": "keyword", "match": "e2" }],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 14 },
+      "explanation": "Insignia E2 drain timeout — hose, pump, lid closed.",
+      "recommendStepKey": "complaint",
+      "dmaTags": ["drain_issue"]
+    },
+    {
+      "id": "w_kw_f8_level_sensor",
+      "when": [{ "type": "keyword", "match": "f8" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "Insignia F8 level sensor — frequency or capacitance out of spec.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["fill_issue"]
+    },
+    {
+      "id": "w_kw_ac7_flexwash",
+      "when": [{ "type": "keyword", "match": "ac7" }],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "FlexWash AC7 — upper↔lower PCB communication; check interconnect harness.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "w_kw_dc4_upper_door",
+      "when": [{ "type": "keyword", "match": "dc4" }],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "FlexWash DC4 — upper compartment door not closed.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "w_kw_4c2_hose_swap",
+      "when": [{ "type": "keyword", "match": "4c2" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "4C2 — hot/cold hoses swapped or Wool/Lingerie water too hot.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["water_valve_check", "fill_issue"]
+    },
+    {
+      "id": "w_kw_sf_system",
+      "when": [{ "type": "keyword", "match": "system fault" }],
+      "target": "electrical_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Samsung SF system fault — main PCB microcontroller failure.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "w_chip_flexwash_upper_door",
+      "when": [{ "type": "chip", "id": "flexwash_upper" }],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 22 },
+      "explanation": "Upper FlexWash complaint — door lock and AC7 harness first.",
+      "recommendStepKey": "complaint",
+      "dmaTags": ["door_lock_check"]
     }
   ]
 }

@@ -1,11 +1,11 @@
 # Over-the-range microwave batch extraction
 
 **Sources:**
-- `Samsung ME11A7510DSAA microwave.pdf`
+- `Samsung ME11A7510DSAA microwave.pdf` *(removed from folder — optional re-add)*
 - `LMHM2237BD.pdf` (LG OTR)
 
 **Extracted text:** `*-extracted.txt` in `backend/docs/manuals/`  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (LG OTR F-1/F-2 evidence).
 
 **Pending:** `ME21A706BQN Service Manual.html` — optional HTML→text pass (Samsung OTR, likely similar C-* family).
 

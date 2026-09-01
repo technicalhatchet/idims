@@ -3,7 +3,7 @@
 **Source:** `ServiceDataSheet-PRMC2285AF.pdf`  
 **Extracted text:** `backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt`  
 **Scope:** Frigidaire Professional French door; column evaporator; FFIM; VCZ; dispenser UI  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (Er t* + demo routing/evidence).
 
 ---
 

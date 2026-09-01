@@ -3,7 +3,7 @@
 **Source:** `backend/docs/manuals/gud27essmww.pdf`  
 **Extracted text:** `backend/docs/manuals/gud27essmww-extracted.txt`  
 **Scope:** GE 24/27 in. unitized washer+dryer stack (GUD27ESSMWW electric; GUD27GSSMWW gas dryer section)  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + **Phase B/C merged** (`stacked_laundry` template: timer chips, mechanical timer pre-check, evidence)
 
 **This doc covers the dryer portion only** for diagnostic purposes; washer is mechanical/timer platform in same cabinet.
 
@@ -50,8 +50,11 @@
 
 ---
 
-## Phase B/C (deferred)
+## Phase B/C (merged)
 
-- May share `dryer` template with fuel type electric/gas + `unitized` flag
-- Evidence: thermostat ladder, belt tension, vent airflow
-- No routingEngine error tokens
+- **Template:** `stacked_laundry` — `timer_platform` pre-check, `timer_advances` field on dryer section
+- **Chips:** `timer_not_advancing`, `unitized_timer` in `stackedLaundryComplaints.ts`
+- **Routing:** `stackedLaundryRouting.ts` + complaint keyword expansion for GUD27 / timer stuck
+- **Evidence:** `knowledge/evidence/stacked_laundry.json` — timer + vent/thermostat ladder
+- **Guidance:** `stackedLaundryFieldGuidance.ts`, `stackedLaundryFieldVisibility.ts`
+- No display error codes — symptom/chip routing only
