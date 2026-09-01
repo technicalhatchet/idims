@@ -4,13 +4,17 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useSolomonAuth } from '../hooks/useSolomonAuth';
+import { getUserSettings, updateUserSettings } from '../services/api/settingsApi';
 import {
   SOLOMON_INTERFACE,
   SOLOMON_INTERFACE_ATTR,
+  isValidSolomonInterfaceStyle,
   readStoredSolomonInterfaceStyle,
   resolveSolomonInterfaceStyle,
   writeStoredSolomonInterfaceStyle,
@@ -27,6 +31,7 @@ const SolomonThemeContext = createContext({
 
 export function SolomonThemeProvider({ children }) {
   const router = useRouter();
+  const { user } = useUser();
   const { isAdmin, rolesResolved } = useSolomonAuth();
   const isSolomonRoute = router.pathname.startsWith('/solomon');
 
@@ -34,9 +39,27 @@ export function SolomonThemeProvider({ children }) {
 
   const [interfaceStyle, setInterfaceStyleState] = useState(SOLOMON_INTERFACE.SIGNATURE);
   const [isReady, setIsReady] = useState(false);
+  const serverSyncDoneRef = useRef(false);
+
+  useEffect(() => {
+    serverSyncDoneRef.current = false;
+  }, [user?.sub]);
 
   useEffect(() => {
     if (!isSolomonRoute) {
+      setIsReady(true);
+      return undefined;
+    }
+
+    if (!user) {
+      const stored = readStoredSolomonInterfaceStyle();
+      const resolved = resolveSolomonInterfaceStyle(stored, {
+        canUseProfessional: false,
+      });
+      if (resolved !== stored) {
+        writeStoredSolomonInterfaceStyle(resolved);
+      }
+      setInterfaceStyleState(resolved);
       setIsReady(true);
       return undefined;
     }
@@ -57,7 +80,47 @@ export function SolomonThemeProvider({ children }) {
     setInterfaceStyleState(resolved);
     setIsReady(true);
     return undefined;
-  }, [isSolomonRoute, canUseProfessionalInterface, rolesResolved]);
+  }, [isSolomonRoute, canUseProfessionalInterface, rolesResolved, user]);
+
+  useEffect(() => {
+    if (!isSolomonRoute || !rolesResolved || !user) {
+      serverSyncDoneRef.current = false;
+      return undefined;
+    }
+
+    if (serverSyncDoneRef.current) {
+      return undefined;
+    }
+
+    let cancelled = false;
+
+    getUserSettings()
+      .then((response) => {
+        if (cancelled) return;
+        serverSyncDoneRef.current = true;
+
+        const dbStyle = response?.ui_preferences?.solomonInterfaceStyle;
+        if (!dbStyle || !isValidSolomonInterfaceStyle(dbStyle)) {
+          return;
+        }
+
+        const resolved = resolveSolomonInterfaceStyle(dbStyle, {
+          canUseProfessional: canUseProfessionalInterface,
+        });
+
+        setInterfaceStyleState(resolved);
+        writeStoredSolomonInterfaceStyle(resolved);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          serverSyncDoneRef.current = true;
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isSolomonRoute, rolesResolved, user, canUseProfessionalInterface]);
 
   useEffect(() => {
     if (!rolesResolved || !isSolomonRoute) return undefined;
@@ -86,8 +149,16 @@ export function SolomonThemeProvider({ children }) {
       });
       setInterfaceStyleState(resolved);
       writeStoredSolomonInterfaceStyle(resolved);
+
+      if (user) {
+        updateUserSettings({
+          ui_preferences: { solomonInterfaceStyle: resolved },
+        }).catch(() => {
+          // localStorage already has the value
+        });
+      }
     },
-    [canUseProfessionalInterface],
+    [canUseProfessionalInterface, user],
   );
 
   const value = useMemo(

@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import { SOLOMON_PWA_ICONS, SOLOMON_PWA_VERSION } from './solomonPwaIcons';
 
-const SOLOMON_SHELL = '#0A0F1E';
+/** Fallback until SolomonThemeColorSync applies --solomon-theme-color from active tokens. */
+const SOLOMON_SHELL_FALLBACK = '#0A0F1E';
 
 export default function SolomonHead({ title = 'Solomon' }) {
   const pageTitle = title === 'Solomon' ? 'Solomon' : `${title} | Solomon`;
@@ -15,8 +16,8 @@ export default function SolomonHead({ title = 'Solomon' }) {
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       <meta name="apple-mobile-web-app-title" content="Solomon" />
-      <meta name="theme-color" content={SOLOMON_SHELL} />
-      <meta name="background-color" content={SOLOMON_SHELL} />
+      <meta name="theme-color" content={SOLOMON_SHELL_FALLBACK} />
+      <meta name="background-color" content={SOLOMON_SHELL_FALLBACK} />
       <meta name="color-scheme" content="dark" />
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <link rel="manifest" href={manifestHref} />

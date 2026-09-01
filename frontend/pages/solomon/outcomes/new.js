@@ -84,6 +84,7 @@ export default function SolomonNewOutcomePage() {
             error={error}
             submitLabel={copy('saveOutcome')}
             variant={isDiyer ? 'diy' : 'default'}
+            surfaceVariant="solomon"
           />
         </div>
       </SolomonMobileShell>

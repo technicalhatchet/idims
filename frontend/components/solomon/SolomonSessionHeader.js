@@ -1,7 +1,8 @@
 'use client';
 
-import ApplianceIcon from '../ui/ApplianceIcon';
+import SolomonApplianceIcon from './SolomonApplianceIcon';
 import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
+import { SolomonLifecycleStatusBadge } from './solomonListPageUi';
 import { getEquipmentTypeForTemplate } from './solomonTemplateEquipment';
 
 function equipmentLine(target) {
@@ -43,16 +44,14 @@ export default function SolomonSessionHeader({
     >
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] text-[var(--solomon-status-diagnostic)]">
-          <ApplianceIcon equipmentType={equipmentType} className="h-6 w-6" glow="subtle" />
+          <SolomonApplianceIcon equipmentType={equipmentType} className="h-6 w-6" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <h2 className="text-base font-semibold leading-tight text-[var(--solomon-text-primary)] truncate">
               {label}
             </h2>
-            <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${status.badgeClass}`}>
-              {status.label}
-            </span>
+            <SolomonLifecycleStatusBadge status={status} />
           </div>
           {equipment ? (
             <p className="mt-0.5 text-[11px] text-[var(--solomon-text-secondary)] truncate">{equipment}</p>

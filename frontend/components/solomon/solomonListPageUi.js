@@ -1,15 +1,21 @@
 import Link from 'next/link';
-import { FaCheckCircle, FaClock, FaPlus } from 'react-icons/fa';
+import { FaCheckCircle, FaClock, FaMinus, FaPlus } from 'react-icons/fa';
 import { SOLOMON_DIAGNOSTIC_STATUS } from './solomonDiagnosticStatus';
 import SolomonCategoryIcon from './categoryIcons';
 
-export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[var(--solomon-bg-canvas)] relative overflow-hidden !px-4 max-w-lg';
+export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[var(--solomon-bg-canvas)] relative min-w-0 overflow-x-hidden !px-4 max-w-lg';
+
+export const SOLOMON_PAGE_TITLE_CLASS =
+  'text-[1.75rem] font-bold tracking-tight text-[var(--solomon-text-primary)] leading-tight';
+
+export const SOLOMON_PAGE_DESCRIPTION_CLASS =
+  'text-sm text-[var(--solomon-text-secondary)] mt-1.5 leading-relaxed';
 
 export const SOLOMON_FILTER_ACTIVE_CLASS =
-  'bg-cyan-500/10 backdrop-blur-md border-cyan-400/45 text-cyan-50 shadow-[0_0_12px_rgba(34,211,238,0.12)]';
+  'bg-[var(--solomon-primary-from)]/10 solomon-backdrop-blur border-[color:var(--solomon-primary-border)] text-[var(--solomon-text-primary)] shadow-[var(--solomon-primary-shadow)]';
 
 export const SOLOMON_FILTER_IDLE_CLASS =
-  'bg-[var(--solomon-surface-glass)] solomon-backdrop-blur border-[color:var(--solomon-border-subtle)] text-white/42 hover:border-white/22 hover:text-white/58';
+  'bg-[var(--solomon-surface-glass)] solomon-backdrop-blur border-[color:var(--solomon-border-subtle)] text-[var(--solomon-text-muted)] hover:border-[color:var(--solomon-border-subtle)] hover:text-[var(--solomon-text-secondary)]';
 
 /** Home-menu tile icon shells — semantic lifecycle colors. */
 export const SOLOMON_ICON_SHELL_BY_LIFECYCLE = {
@@ -60,17 +66,21 @@ export function SolomonLifecycleStatusBadge({ status }) {
     || status.key === SOLOMON_DIAGNOSTIC_STATUS.pending_sync;
   const showCheck = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_successful
     || lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
+  const showDash = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.abandoned;
   const glow = BADGE_GLOW_BY_LIFECYCLE[lifecycleKey] || '';
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm bg-[#060a12]/80 ${status.badgeClass} ${glow}`}
+      role="status"
+      aria-label={status.label}
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm bg-[var(--solomon-surface-elevated)] ${status.badgeClass} ${glow}`}
     >
       {showSpinner ? (
         <span className="h-2.5 w-2.5 rounded-full border border-current border-t-transparent animate-spin" aria-hidden />
       ) : null}
       {showCheck ? <FaCheckCircle size={10} aria-hidden /> : null}
-      {status.label}
+      {showDash ? <FaMinus size={10} aria-hidden /> : null}
+      <span>{status.label}</span>
     </span>
   );
 }
@@ -247,7 +257,7 @@ export function SolomonCyanAddButton({ href, ariaLabel }) {
     <Link
       href={href}
       aria-label={ariaLabel}
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#0089B9] to-[#006a94] border border-cyan-400/35 shadow-[0_4px_18px_rgba(0,137,185,0.4)] transition-colors hover:from-[#0099cc] hover:to-[#007aa8]"
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] border border-[color:var(--solomon-primary-border)] shadow-[var(--solomon-primary-shadow)] transition-colors hover:opacity-95"
     >
       <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white">
         <FaPlus size={11} aria-hidden />
@@ -282,4 +292,37 @@ export const SOLOMON_LIST_STACK_CLASS = 'space-y-2.5';
 export const SOLOMON_LIST_ICON_BOX_CLASS = 'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border';
 
 export const SOLOMON_SEARCH_BUTTON_CLASS =
-  'flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#0089B9] to-[#006a94] border border-cyan-400/30 px-4 py-3 text-sm font-medium text-white shadow-[0_4px_18px_rgba(0,137,185,0.38)] transition-colors hover:from-[#0099cc] hover:to-[#007aa8] disabled:opacity-50';
+  'flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] border border-[color:var(--solomon-primary-border)] px-4 py-3 text-sm font-medium text-white shadow-[var(--solomon-primary-shadow)] transition-colors hover:opacity-95 disabled:opacity-50';
+
+export const SOLOMON_REFERENCE_ICON_SHELL_CLASS =
+  'flex h-8 w-8 items-center justify-center rounded-lg bg-[color:var(--solomon-status-reference)]/15 text-[color:var(--solomon-status-reference)] border border-[color:var(--solomon-status-reference)]/25';
+
+export const SOLOMON_REFERENCE_EYEBROW_CLASS =
+  'text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90';
+
+export const SOLOMON_REFERENCE_CODE_TEXT_CLASS =
+  'text-base font-semibold text-[color:var(--solomon-status-reference)]';
+
+export const SOLOMON_REFERENCE_CHIP_ACTIVE_CLASS =
+  'border-[color:var(--solomon-status-reference)]/40 bg-[color:var(--solomon-status-reference)]/10 text-[color:var(--solomon-status-reference)]';
+
+export const SOLOMON_REFERENCE_CHIP_IDLE_CLASS =
+  'border-[color:var(--solomon-border-subtle)] text-[var(--solomon-text-secondary)] hover:border-[color:var(--solomon-status-reference)]/30';
+
+export const SOLOMON_CODES_SEARCH_BUTTON_CLASS =
+  'flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[color:var(--solomon-status-reference)] to-[color:var(--solomon-status-reference)]/80 border border-[color:var(--solomon-status-reference)]/30 px-4 py-3 text-sm font-medium text-white shadow-[var(--solomon-shadow-card)] transition-colors hover:opacity-95 disabled:opacity-50';
+
+export const SOLOMON_CODES_RESULT_LINK_CLASS =
+  'block rounded-xl border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-glass)] solomon-backdrop-blur p-3.5 shadow-[var(--solomon-shadow-inset-highlight),var(--solomon-shadow-card)] hover:border-[color:var(--solomon-status-reference)]/25 hover:bg-[var(--solomon-surface-glass-hover)] transition-colors';
+
+export const SOLOMON_FORM_LABEL_CLASS =
+  'block text-xs uppercase tracking-wide text-[var(--solomon-text-muted)] mb-1';
+
+export const SOLOMON_FORM_SECTION_TITLE_CLASS =
+  'text-[10px] uppercase tracking-[0.2em] text-[var(--solomon-primary-from)]/90';
+
+export const SOLOMON_FORM_PANEL_CLASS =
+  'rounded-xl border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] p-4 space-y-3';
+
+export const SOLOMON_FORM_SUBMIT_CLASS =
+  'w-full h-11 rounded-xl bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] text-sm font-semibold uppercase tracking-wide text-white shadow-[var(--solomon-primary-shadow)] disabled:opacity-60';

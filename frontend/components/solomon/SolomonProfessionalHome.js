@@ -20,10 +20,9 @@ import { SOLOMON_LIST_STACK_CLASS } from './solomonListPageUi';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
 import { useSolomonHomeDashboard } from '../../hooks/useSolomonHomeDashboard';
-import { useSolomonTopInset, solomonSafeBottom } from './solomonSafeArea';
+import { useSolomonTopInset, solomonBottomNavScrollPadding, solomonFooterScrollPadding } from './solomonSafeArea';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 import useSolomonBottomNavVisible from '../../hooks/useSolomonBottomNavVisible';
-import { SOLOMON_BOTTOM_NAV_HEIGHT_PX } from './solomonNavigation';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 function solomonUserFirstName(user) {
@@ -124,23 +123,22 @@ export default function SolomonProfessionalHome() {
     .slice(0, 4);
 
   const mainPaddingBottom = showBottomNav
-    ? `calc(${SOLOMON_BOTTOM_NAV_HEIGHT_PX}px + 1rem + env(safe-area-inset-bottom, 0px))`
-    : 'max(4rem, env(safe-area-inset-bottom, 0px))';
+    ? solomonBottomNavScrollPadding(1)
+    : solomonFooterScrollPadding(4);
 
   return (
-    <div className="relative min-h-screen text-[var(--solomon-text-primary)] bg-[var(--solomon-bg-canvas)]">
+    <div className="relative min-h-screen min-w-0 overflow-x-hidden text-[var(--solomon-text-primary)] bg-[var(--solomon-bg-canvas)]">
       <main
-        className="relative mx-auto max-w-lg px-4"
+        className="relative mx-auto max-w-lg min-w-0 px-4"
         style={{
           ...topInset,
-          ...solomonSafeBottom,
           paddingBottom: mainPaddingBottom,
         }}
       >
         <SolomonInstallHint installHint={installHint} />
 
         <div className="pt-1 pb-4">
-          <SolomonHomeHeader isStaff={isStaff} />
+          <SolomonHomeHeader />
         </div>
 
         {canUseSolomon ? (

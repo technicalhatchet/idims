@@ -59,6 +59,7 @@
   --solomon-status-memory: #c084fc;
   --solomon-status-sync: #38bdf8;
   --solomon-status-abandoned: #9ca3af;
+  --solomon-status-reference: #34d399;
 }
 
 [data-solomon-interface='professional'] {
@@ -75,9 +76,9 @@
   --solomon-border-muted: rgba(255, 255, 255, 0.06);
 
   --solomon-text-primary: #f3f4f6;
-  --solomon-text-secondary: #9ca3af;
-  --solomon-text-muted: rgba(156, 163, 175, 0.85);
-  --solomon-text-placeholder: rgba(156, 163, 175, 0.55);
+  --solomon-text-secondary: #cbd5e1;
+  --solomon-text-muted: #94a3b8;
+  --solomon-text-placeholder: #94a3b8;
 
   --solomon-primary-from: #2563eb;
   --solomon-primary-to: #1d4ed8;
@@ -103,6 +104,7 @@
   --solomon-status-memory: #a78bfa;
   --solomon-status-sync: #0ea5e9;
   --solomon-status-abandoned: #6b7280;
+  --solomon-status-reference: #14b8a6;
 }
 
 /* Utility classes for gradual migration — optional in components */
@@ -130,4 +132,48 @@
 .solomon-backdrop-blur {
   -webkit-backdrop-filter: blur(var(--solomon-glass-blur));
   backdrop-filter: blur(var(--solomon-glass-blur));
+}
+
+/* Keyboard focus — visible on Solomon routes (gloves / outdoor readability). */
+[data-solomon-interface] a:focus-visible,
+[data-solomon-interface] button:focus-visible,
+[data-solomon-interface] input:focus-visible,
+[data-solomon-interface] select:focus-visible,
+[data-solomon-interface] textarea:focus-visible,
+[data-solomon-interface] [tabindex]:focus-visible {
+  outline: 2px solid var(--solomon-focus-ring);
+  outline-offset: 2px;
+}
+
+[data-solomon-interface] .solomon-focus-ring:focus-visible {
+  outline: 2px solid var(--solomon-focus-ring);
+  outline-offset: 2px;
+}
+
+.solomon-reasoning-sheet-panel {
+  animation: solomon-sheet-rise 0.24s ease-out;
+}
+
+@keyframes solomon-sheet-rise {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-solomon-interface] *,
+  [data-solomon-interface] *::before,
+  [data-solomon-interface] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .solomon-reasoning-sheet-panel {
+    animation: none !important;
+  }
 }

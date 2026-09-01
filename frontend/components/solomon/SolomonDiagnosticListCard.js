@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import ApplianceIcon from '../ui/ApplianceIcon';
+import SolomonApplianceIcon from './SolomonApplianceIcon';
 import { formatSolomonDateTime } from '../../utils/solomonFormat';
 import {
   SOLOMON_DIAGNOSTIC_STATUS,
@@ -66,10 +66,9 @@ export default function SolomonDiagnosticListCard({ item }) {
       <div className={SOLOMON_LIST_CARD_PADDING_CLASS}>
         <div className="flex gap-3">
           <div className={`${SOLOMON_LIST_ICON_BOX_CLASS} ${iconShell}`}>
-            <ApplianceIcon
+            <SolomonApplianceIcon
               equipmentType={equipmentType}
               className="w-6 h-6"
-              glow="subtle"
             />
           </div>
           <div className="min-w-0 flex-1">

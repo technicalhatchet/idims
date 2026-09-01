@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
-import SolomonPageAtmosphere from '../../../components/solomon/SolomonPageAtmosphere';
-import SolomonHead from '../../../components/solomon/SolomonHead';
-import SolomonPageMain from '../../../components/solomon/SolomonPageMain';
-import SolomonErrorBoundary from '../../../components/solomon/SolomonErrorBoundary';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import { listStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
-import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
+import SolomonListPage from '../../../components/solomon/SolomonListPage';
 import {
   SOLOMON_FILTER_ACTIVE_CLASS,
   SOLOMON_FILTER_IDLE_CLASS,
   SOLOMON_LIST_STACK_CLASS,
-  SOLOMON_PAGE_SHELL_CLASS,
   SolomonCyanAddButton,
 } from '../../../components/solomon/solomonListPageUi';
 import SolomonDiagnosticListCard from '../../../components/solomon/SolomonDiagnosticListCard';
@@ -70,92 +64,72 @@ export default function SolomonDiagnosticsListPage() {
 
   const items = data?.items || [];
 
-  if (authLoading || rolesLoading) {
-    return (
-      <>
-        <SolomonHead title="Diagnostics" />
-        <SolomonPageMain className={`flex flex-col ${SOLOMON_PAGE_SHELL_CLASS}`}>
-          <SolomonPageAtmosphere />
-          <div className="relative">
-            <SolomonPageHeader />
-            <div className="flex justify-center py-16">
-              <LoadingSpinner />
-            </div>
-          </div>
-        </SolomonPageMain>
-      </>
-    );
-  }
-
   return (
-    <SolomonErrorBoundary>
-      <SolomonHead title={pageTitle} />
-      <SolomonPageMain className={SOLOMON_PAGE_SHELL_CLASS}>
-        <SolomonPageAtmosphere />
-        <SolomonAccessGuard promptTitle="Sign in to view your diagnostics">
-          <div className="relative">
-            <SolomonPageHeader />
+    <SolomonListPage
+      headTitle="Diagnostics"
+      title={pageTitle}
+      description={
+        isDiyer
+          ? 'Your troubleshooting history and progress.'
+          : 'Your diagnostic history and progress.'
+      }
+      accessGuard
+      accessGuardTitle="Sign in to view your diagnostics"
+      loading={authLoading || rolesLoading}
+      loadingFallback={(
+        <div className="flex justify-center py-16">
+          <LoadingSpinner />
+        </div>
+      )}
+    >
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <div className="flex flex-wrap gap-1.5">
+          {[
+            { id: 'all', label: 'All' },
+            { id: 'unlinked', label: 'Unlinked' },
+            { id: 'linked', label: 'Linked' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setFilter(tab.id)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${
+                filter === tab.id ? SOLOMON_FILTER_ACTIVE_CLASS : SOLOMON_FILTER_IDLE_CLASS
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <SolomonCyanAddButton href={newHref} ariaLabel={copy('diagnosticNew')} />
+      </div>
 
-            <header className="mb-5">
-              <h1 className="text-[1.75rem] font-bold tracking-tight text-white leading-tight">
-                {pageTitle}
-              </h1>
-              <p className="text-sm text-gray-400 mt-1.5 leading-relaxed">
-                {isDiyer ? 'Your troubleshooting history and progress.' : 'Your diagnostic history and progress.'}
-              </p>
-            </header>
+      {error ? <ErrorAlert message={error} /> : null}
+      {fromCache ? (
+        <p className="text-xs text-amber-300/80 mb-3">Showing saved diagnostics from your device.</p>
+      ) : null}
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <LoadingSpinner />
+        </div>
+      ) : items.length === 0 ? (
+        <p className="text-[var(--solomon-text-secondary)] text-sm text-center py-10">
+          {isDiyer ? 'No troubleshooting sessions yet.' : 'No diagnostics yet.'}
+        </p>
+      ) : (
+        <div className={SOLOMON_LIST_STACK_CLASS}>
+          {items.map((item) => (
+            <SolomonDiagnosticListCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
 
-            <div className="flex items-center justify-between gap-3 mb-4">
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  { id: 'all', label: 'All' },
-                  { id: 'unlinked', label: 'Unlinked' },
-                  { id: 'linked', label: 'Linked' },
-                ].map((tab) => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setFilter(tab.id)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${
-                      filter === tab.id ? SOLOMON_FILTER_ACTIVE_CLASS : SOLOMON_FILTER_IDLE_CLASS
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-              <SolomonCyanAddButton href={newHref} ariaLabel={copy('diagnosticNew')} />
-            </div>
-
-            {error ? <ErrorAlert message={error} /> : null}
-            {fromCache ? (
-              <p className="text-xs text-amber-300/80 mb-3">Showing saved diagnostics from your device.</p>
-            ) : null}
-            {isLoading ? (
-              <div className="flex justify-center py-12">
-                <LoadingSpinner />
-              </div>
-            ) : items.length === 0 ? (
-              <p className="text-gray-400 text-sm text-center py-10">
-                {isDiyer ? 'No troubleshooting sessions yet.' : 'No diagnostics yet.'}
-              </p>
-            ) : (
-              <div className={SOLOMON_LIST_STACK_CLASS}>
-                {items.map((item) => (
-                  <SolomonDiagnosticListCard key={item.id} item={item} />
-                ))}
-              </div>
-            )}
-
-            <p className="mt-8 text-center text-xs text-white/38 leading-relaxed">
-              Can&apos;t find what you&apos;re looking for?{' '}
-              <Link href="/solomon/knowledge" className="text-cyan-400/90 hover:text-cyan-300 transition-colors">
-                Search repair memory →
-              </Link>
-            </p>
-          </div>
-        </SolomonAccessGuard>
-      </SolomonPageMain>
-    </SolomonErrorBoundary>
+      <p className="mt-8 text-center text-xs text-[var(--solomon-text-muted)] leading-relaxed">
+        Can&apos;t find what you&apos;re looking for?{' '}
+        <Link href="/solomon/knowledge" className="text-[var(--solomon-primary-from)]/90 hover:opacity-80 transition-colors">
+          Search repair memory →
+        </Link>
+      </p>
+    </SolomonListPage>
   );
 }

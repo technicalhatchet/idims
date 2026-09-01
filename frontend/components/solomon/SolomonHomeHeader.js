@@ -8,7 +8,7 @@ import { toggleSolomonHeroDebug } from './solomonHeroDebug';
 const LOGO_TAP_TARGET = 5;
 const LOGO_TAP_WINDOW_MS = 2500;
 
-export default function SolomonHomeHeader({ isStaff = false, className = '' }) {
+export default function SolomonHomeHeader({ className = '' }) {
   const tapCountRef = useRef(0);
   const tapTimerRef = useRef(null);
 
@@ -43,15 +43,13 @@ export default function SolomonHomeHeader({ isStaff = false, className = '' }) {
         </button>
       </div>
       <div className="flex items-center gap-0.5 shrink-0">
-        {isStaff ? (
-          <Link
-            href="/settings"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-cyan-300/90 hover:bg-white/5"
-            aria-label="Settings"
-          >
-            <FaCog size={14} />
-          </Link>
-        ) : null}
+        <Link
+          href="/solomon/settings"
+          className="solomon-focus-ring flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-cyan-300/90 hover:bg-white/5"
+          aria-label="Solomon settings"
+        >
+          <FaCog size={14} />
+        </Link>
       </div>
     </header>
   );

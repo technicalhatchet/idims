@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { buildReasoningPresentation } from './reasoning/reasoningPresentation';
 import SolomonCategoryIcon from './categoryIcons';
 import SolomonDiagnosticPath from './SolomonDiagnosticPath';
 import EliminationBanner from '../diagnostics/EliminationBanner';
 import { SOLOMON_INTERFACE } from './solomonThemeTokens';
+import useFocusTrap from '../../hooks/useFocusTrap';
 
 function ReasoningAccordion({ section, variant, defaultOpen = false, interfaceStyle = SOLOMON_INTERFACE.SIGNATURE }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -27,7 +28,8 @@ function ReasoningAccordion({ section, variant, defaultOpen = false, interfaceSt
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left"
+        aria-expanded={open}
+        className="solomon-focus-ring w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left rounded-lg"
       >
         <span className={`text-xs font-medium ${isProfessional ? 'text-[var(--solomon-text-secondary)]' : 'text-gray-300'}`}>
           {section.title}{countLabel}
@@ -99,6 +101,9 @@ export default function SolomonReasoningSheet({
   interfaceStyle = SOLOMON_INTERFACE.SIGNATURE,
   eliminationResult = null,
 }) {
+  const panelRef = useRef(null);
+  const closeButtonRef = useRef(null);
+
   const presentation = buildReasoningPresentation(intelligence, stepKeyLabels, {
     templateId,
     fields,
@@ -121,6 +126,20 @@ export default function SolomonReasoningSheet({
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open, onClose]);
+
+  useFocusTrap(open, panelRef, { initialFocusRef: closeButtonRef });
+
   if (!open || !presentation) return null;
 
   const lead = presentation.leadCard;
@@ -139,15 +158,20 @@ export default function SolomonReasoningSheet({
   const preview = presentation.nextTestPreview;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col justify-end" role="dialog" aria-modal="true" aria-label="Diagnostic reasoning">
+    <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <button
         type="button"
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm solomon-focus-ring"
         onClick={onClose}
         aria-label="Close diagnostic reasoning"
+        tabIndex={-1}
       />
       <div
-        className={`relative mx-auto w-full max-w-lg max-h-[92vh] flex flex-col rounded-t-2xl border-t shadow-2xl ${
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="solomon-reasoning-title"
+        className={`solomon-reasoning-sheet-panel relative mx-auto w-full max-w-lg max-h-[92vh] flex flex-col rounded-t-2xl border-t shadow-2xl ${
           isProfessional
             ? 'border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-bg-shell)]'
             : isMobile
@@ -160,16 +184,19 @@ export default function SolomonReasoningSheet({
           isProfessional ? 'border-[color:var(--solomon-border-muted)]' : 'border-white/10'
         }`}
         >
-          <p className={`text-[10px] uppercase tracking-[0.2em] font-medium ${
+          <p
+            id="solomon-reasoning-title"
+            className={`text-[10px] uppercase tracking-[0.2em] font-medium ${
             isProfessional ? 'text-[var(--solomon-text-muted)]' : 'text-cyan-400/90'
           }`}
           >
             Diagnostic reasoning
           </p>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="text-gray-400 hover:text-white text-sm px-2 py-1"
+            className="solomon-focus-ring text-gray-400 hover:text-white text-sm px-2 py-1 rounded-md"
             aria-label="Close"
           >
             ✕
