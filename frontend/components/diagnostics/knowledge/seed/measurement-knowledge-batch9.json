@@ -1,0 +1,649 @@
+[
+  {
+    "id": "insigniaWasherCapInletValveOhms",
+    "name": "Insignia Capacitive-Platform Inlet Valve (TWM41/TWM35)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 700, "max": 1200 },
+      "warning": { "min": 500, "max": 1500 },
+      "critical": { "below": 50, "above": 3000 }
+    },
+    "typical": { "min": 800, "max": 1100 },
+    "openCircuitCritical": true,
+    "purpose": "NS-TWM41 / NS-TWM35 inlet solenoid coil — high-impedance coil vs WMT41 frequency platform.",
+    "failureModes": [
+      "Open coil — E1 fill timeout",
+      "Shorted coil — inlet valve fault"
+    ],
+    "testingTips": [
+      "Disconnect power before coil ohms test",
+      "Do not confuse with WMT41 platform (4–6 Ω coils)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_washer_cap"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "insigniaWasherCapDrainPumpOhms",
+    "name": "Insignia Capacitive-Platform Drain Pump (TWM41/TWM35)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10, "max": 20 },
+      "warning": { "min": 7, "max": 25 },
+      "critical": { "below": 3, "above": 50 }
+    },
+    "typical": { "min": 12, "max": 18 },
+    "openCircuitCritical": true,
+    "purpose": "TWM41/TWM35 drain pump winding — much lower than generic washer band.",
+    "failureModes": [
+      "Open winding — E2 drain timeout",
+      "Normal ohms but no drain — impeller or clog"
+    ],
+    "testingTips": [
+      "Check drain hose and filter before pump replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_washer_cap"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "insigniaWasherCapDoorLockOhms",
+    "name": "Insignia Capacitive-Platform Door Lock (Blue-Blue)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50, "max": 80 },
+      "warning": { "min": 40, "max": 95 },
+      "critical": { "below": 10, "above": 200 }
+    },
+    "typical": { "min": 55, "max": 75 },
+    "openCircuitCritical": true,
+    "purpose": "Door locker coil between two blue wires — Fd door lock fault.",
+    "failureModes": [
+      "Out of band — Fd / door lock failed",
+      "Latch bar position affects black-wire switch test"
+    ],
+    "testingTips": [
+      "Test blue-blue pair for coil; verify latch bar position for switch continuity"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_washer_cap"
+    },
+    "dmaTags": ["door_lock_check"]
+  },
+  {
+    "id": "insigniaWasherCapLevelSensorOhms",
+    "name": "Insignia Capacitive Level Sensor (Term 1–3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 20, "max": 40 },
+      "warning": { "min": 15, "max": 50 },
+      "critical": { "below": 5, "above": 80 }
+    },
+    "typical": { "min": 25, "max": 35 },
+    "purpose": "TWM41 capacitive water level sensor — also verify 40–50 nF between terminals.",
+    "failureModes": [
+      "Out of band — F8 level sensor fault",
+      "Good nF but bad ohms — replace sensor"
+    ],
+    "testingTips": [
+      "Capacitance 40–50 nF between term 1–2 and 2–3 per TWM41 manual"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_washer_cap"
+    },
+    "dmaTags": ["fill_issue"]
+  },
+  {
+    "id": "insigniaWasherFreqInletValveOhms",
+    "name": "Insignia Frequency-Platform Inlet Valve (WMT41)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 4, "max": 6 },
+      "warning": { "min": 3, "max": 8 },
+      "critical": { "below": 1, "above": 20 }
+    },
+    "typical": { "min": 4.5, "max": 5.5 },
+    "openCircuitCritical": true,
+    "purpose": "WMT41WA5 inlet valve coil — low-impedance vs TWM41 kΩ coils.",
+    "failureModes": [
+      "Open coil — fill timeout",
+      "Shorted coil — valve fault"
+    ],
+    "testingTips": [
+      "Measure across first and second coil terminals per service manual"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_washer_freq"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "insigniaWasherFreqDrainPumpOhms",
+    "name": "Insignia Frequency-Platform Drain Motor (WMT41)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 7 },
+      "warning": { "min": 4, "max": 10 },
+      "critical": { "below": 2, "above": 20 }
+    },
+    "typical": { "min": 5.5, "max": 6.5 },
+    "openCircuitCritical": true,
+    "purpose": "WMT41 retractor/drain motor Red–Light blue pair.",
+    "failureModes": [
+      "Open — E2 drain fault",
+      "Retractor jam with normal ohms"
+    ],
+    "testingTips": [
+      "Retractor also drives clutch — verify drain valve linkage"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_washer_freq"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "insigniaWasherFreqDriveMotorOhms",
+    "name": "Insignia Frequency-Platform Drive Motor (WMT41)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 25 },
+      "warning": { "min": 12, "max": 30 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 17, "max": 23 },
+    "openCircuitCritical": true,
+    "purpose": "WMT41 wash motor Yellow–Light blue and Blue–Light blue pairs.",
+    "failureModes": [
+      "Open or unequal pairs — spin/agitate failure",
+      "Capacitor fault — verify capacitor discharge before test"
+    ],
+    "testingTips": [
+      "Both motor pairs should read 15–25 Ω",
+      "Check capacitor separately per manual §07"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_washer_freq"
+    },
+    "dmaTags": ["motor_check", "spin_issue"]
+  },
+  {
+    "id": "whirlpoolDishwasherAcuWashMotorOhms",
+    "name": "Whirlpool/KitchenAid ACU Wash Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 15 },
+      "warning": { "min": 3, "max": 20 },
+      "critical": { "below": 1, "above": 40 }
+    },
+    "typical": { "min": 7, "max": 12 },
+    "openCircuitCritical": true,
+    "purpose": "ACU wash/circulation motor — W10751166 tech sheet (60 W).",
+    "failureModes": [
+      "Open — F8 motor fuse / won't wash",
+      "Good ohms but no run — control relay or door switch"
+    ],
+    "testingTips": [
+      "Check F8 fuse if motor won't run",
+      "Disconnect from control before ohms test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["pump_check", "wash_issue"]
+  },
+  {
+    "id": "whirlpoolDishwasherAcuDrainMotorOhms",
+    "name": "Whirlpool/KitchenAid ACU Drain Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 60 },
+      "warning": { "min": 10, "max": 80 },
+      "critical": { "below": 5, "above": 120 }
+    },
+    "typical": { "min": 20, "max": 45 },
+    "openCircuitCritical": true,
+    "purpose": "Dedicated drain motor winding — F9E1 drain faults.",
+    "failureModes": [
+      "Open winding — won't drain",
+      "Normal ohms — check chopper, hose, check valve"
+    ],
+    "testingTips": [
+      "Verify F9 triac fuse if drain motor won't run"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "whirlpoolDishwasherAcuHeaterOhms",
+    "name": "Whirlpool/KitchenAid ACU Tub Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8, "max": 30 },
+      "warning": { "min": 5, "max": 40 },
+      "critical": { "below": 2, "above": 60 }
+    },
+    "typical": { "min": 12, "max": 22 },
+    "openCircuitCritical": true,
+    "purpose": "Tub heating element — plastic ~805 W wet / SS ~785 W models.",
+    "failureModes": [
+      "Open element — F4E2 / no heat",
+      "Hi-limit open — test bi-metal bypass only for heater test"
+    ],
+    "testingTips": [
+      "Plastic vs stainless wattage differs — both fall in 8–30 Ω band"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "whirlpoolDishwasherAcuFillValveOhms",
+    "name": "Whirlpool/KitchenAid ACU Fill Valve Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 890, "max": 1600 },
+      "warning": { "min": 700, "max": 2000 },
+      "critical": { "below": 50, "above": 3000 }
+    },
+    "typical": { "min": 1000, "max": 1400 },
+    "openCircuitCritical": true,
+    "purpose": "Main fill valve solenoid — F8E1 fill faults.",
+    "failureModes": [
+      "Open coil — no fill",
+      "Stuck open — overfill / float switch"
+    ],
+    "testingTips": [
+      "Clean inlet screen; verify house water pressure"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "whirlpoolDishwasherAcuOwiThermistorOhms",
+    "name": "Whirlpool/KitchenAid OWI Sensor NTC",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 46000, "max": 52000 },
+      "warning": { "min": 40000, "max": 60000 },
+      "critical": { "below": 10000, "above": 100000 }
+    },
+    "typical": { "min": 48000, "max": 50000 },
+    "purpose": "OWI NTC at P12 — 46–52 kΩ at 77°F (25°C); 11–13 kΩ at 140°F.",
+    "failureModes": [
+      "Open — F3E2 OWI fault",
+      "Out of band at room — sensor or harness"
+    ],
+    "testingTips": [
+      "Disconnect P12 before measuring NTC at pins 1–3",
+      "Clean OWI and drain loop check valve for F3E2"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["thermistor_check"]
+  },
+  {
+    "id": "insigniaDishwasherFillValveOhms",
+    "name": "Insignia DWR3 Water Inlet Valve",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 900, "max": 1100 },
+      "warning": { "min": 700, "max": 1300 },
+      "critical": { "below": 50, "above": 2000 }
+    },
+    "typical": { "min": 950, "max": 1050 },
+    "openCircuitCritical": true,
+    "purpose": "NS-DWR3SS1 inlet solenoid — ~1 kΩ per service manual.",
+    "failureModes": [
+      "Open coil — won't fill",
+      "Low pressure — fill timeout"
+    ],
+    "testingTips": [
+      "Verify water supply and inlet screen"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_dishwasher"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "insigniaDishwasherDrainPumpOhms",
+    "name": "Insignia DWR3 Drain Pump",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 25, "max": 35 },
+      "warning": { "min": 20, "max": 50 },
+      "critical": { "below": 5, "above": 100 }
+    },
+    "typical": { "min": 28, "max": 32 },
+    "openCircuitCritical": true,
+    "purpose": "NS-DWR3SS1 drain pump winding — manual lists ~25–35 Ω.",
+    "failureModes": [
+      "Open — won't drain",
+      "Check valve stuck — sump retains water"
+    ],
+    "testingTips": [
+      "Verify O-ring on pump seal during reassembly"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_dishwasher"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "insigniaDishwasherHeaterOhms",
+    "name": "Insignia DWR3 Tub Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10, "max": 15 },
+      "warning": { "min": 8, "max": 20 },
+      "critical": { "below": 3, "above": 30 }
+    },
+    "typical": { "min": 11, "max": 14 },
+    "openCircuitCritical": true,
+    "purpose": "NS-DWR3SS1 heating element — ~10–15 Ω.",
+    "failureModes": [
+      "Open element — no heat during wash/dry",
+      "Thermistor default timing if sensor fails"
+    ],
+    "testingTips": [
+      "Disconnect power before element ohms test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_dishwasher"
+    },
+    "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "insigniaDishwasherTubThermistorOhms",
+    "name": "Insignia DWR3 Tub Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 9800, "max": 10200 },
+      "warning": { "min": 9000, "max": 11000 },
+      "critical": { "below": 2000, "above": 50000 }
+    },
+    "typical": { "min": 9900, "max": 10100 },
+    "purpose": "R@25°C = 10 kΩ ±2%; R@60°C ≈ 3 kΩ per DWR3 manual.",
+    "failureModes": [
+      "Open — default heat timing, poor dry",
+      "Short — overheating risk"
+    ],
+    "testingTips": [
+      "NTC negative coefficient — resistance drops as tub heats"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_dishwasher"
+    },
+    "dmaTags": ["thermistor_check"]
+  },
+  {
+    "id": "lgDishwasherVarioMotorOhms",
+    "name": "LG LDT Vario Diverter Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3500, "max": 4500 },
+      "warning": { "min": 3000, "max": 5000 },
+      "critical": { "below": 500, "above": 8000 }
+    },
+    "typical": { "min": 3800, "max": 4200 },
+    "openCircuitCritical": true,
+    "purpose": "Vario cam motor — VARIO ERROR when position switch fails; ~4 kΩ winding.",
+    "failureModes": [
+      "Open — VARIO ERROR, poor top-rack wash",
+      "Switch misposition — cam not seated"
+    ],
+    "testingTips": [
+      "Remove 2 screws; verify vario switch and cam before motor replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt"
+    },
+    "dmaTags": ["pump_check", "wash_issue"]
+  },
+  {
+    "id": "mideaB3839ThermistorKohm",
+    "name": "Midea/Insignia B3839 NTC Thermistor",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1.6, "max": 3.2 },
+      "warning": { "min": 1.2, "max": 4.5 },
+      "critical": { "below": 0.5, "above": 8 }
+    },
+    "typical": { "min": 2.0, "max": 2.6 },
+    "purpose": "B3839 R/T table — ~2.0 kΩ at 25°C; lower than generic 5–16 kΩ cabinet NTC.",
+    "failureModes": [
+      "Open — E1/E2 sensor faults",
+      "Out of band at room — wrong sensor type assumed"
+    ],
+    "testingTips": [
+      "Use §9.4 R/T table in NS-RSS26 service manual",
+      "Do not apply generic 5–16 kΩ refrigerator band to B3839"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator", "standalone_freezer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "midea_rss"
+    },
+    "dmaTags": ["thermistor_check"]
+  },
+  {
+    "id": "mideaRssDefrostHeaterOhms",
+    "name": "Midea RSS26 Freezer Defrost Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50, "max": 62 },
+      "warning": { "min": 45, "max": 70 },
+      "critical": { "below": 10, "above": 90 }
+    },
+    "typical": { "min": 53, "max": 58 },
+    "openCircuitCritical": true,
+    "purpose": "115 V 240 W defrost heater — R ≈ 55 Ω calculated.",
+    "failureModes": [
+      "Open heater — frost buildup, E5/E6 defrost faults",
+      "Good heater — check defrost sensor and control"
+    ],
+    "testingTips": [
+      "Disconnect heater before ohms test",
+      "Verify defrost sensor on evaporator top"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Insignia"],
+      "platformId": "midea_rss"
+    },
+    "dmaTags": ["heating_element_check", "defrost_issue"]
+  },
+  {
+    "id": "mideaUz21DefrostHeaterOhms",
+    "name": "Midea UZ21 Freezer Defrost Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 38, "max": 48 },
+      "warning": { "min": 32, "max": 55 },
+      "critical": { "below": 8, "above": 70 }
+    },
+    "typical": { "min": 40, "max": 44 },
+    "openCircuitCritical": true,
+    "purpose": "NS-UZ21 115 V 320 W defrost heater — R ≈ 41 Ω.",
+    "failureModes": [
+      "Open heater — frost, E5/E6 family codes",
+      "Heater OK — defrost sensor or timer board"
+    ],
+    "testingTips": [
+      "UZ21 uses fixed-speed compressor EZ90H1A — different from RSS inverter"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["freezer"],
+      "templates": ["standalone_freezer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "midea_uz21"
+    },
+    "dmaTags": ["heating_element_check", "defrost_issue"]
+  },
+  {
+    "id": "insigniaDryerHeaterOhms",
+    "name": "Insignia TDRE75 Electric Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 18, "max": 22 },
+      "warning": { "min": 15, "max": 26 },
+      "critical": { "below": 5, "above": 40 }
+    },
+    "typical": { "min": 19, "max": 21 },
+    "openCircuitCritical": true,
+    "purpose": "NS-TDRE75W1 heating element — 20 Ω per service manual.",
+    "failureModes": [
+      "Open element — no heat (E4/E5 may appear later)",
+      "Thermal fuse open — check exhaust vent"
+    ],
+    "testingTips": [
+      "Run NTC test mode (04) before condemning main PCB"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_dryer_tdre"
+    },
+    "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "insigniaDryerOutletThermistorKohm",
+    "name": "Insignia TDRE75 Outlet NTC",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 45, "max": 55 },
+      "warning": { "min": 35, "max": 70 },
+      "critical": { "below": 5, "above": 120 }
+    },
+    "typical": { "min": 48, "max": 52 },
+    "purpose": "Outlet thermistor — ~50 kΩ at 77°F; E5 outlet sensor fault.",
+    "failureModes": [
+      "Open — E5 mid-cycle heat loss",
+      "Wrong reading — vent restriction mimics sensor fault"
+    ],
+    "testingTips": [
+      "Verify vent path before sensor replacement",
+      "Table: 40 kΩ @ 86°F, 99 kΩ @ 50°F"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Insignia"],
+      "platformId": "insignia_dryer_tdre"
+    },
+    "dmaTags": ["thermistor_check", "no_heat_issue"]
+  },
+  {
+    "id": "whirlpoolCcuDryerHeaterOhms",
+    "name": "Whirlpool CCU Electric Dryer Element (Dual)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8, "max": 50 },
+      "warning": { "min": 5, "max": 60 },
+      "critical": { "below": 3, "above": 80 }
+    },
+    "typical": { "min": 15, "max": 35 },
+    "openCircuitCritical": true,
+    "purpose": "Both elements in parallel ≤50 Ω per CCU tech sheet; single element ~20 Ω.",
+    "failureModes": [
+      "Open — no heat",
+      "One element open — long dry times"
+    ],
+    "testingTips": [
+      "Relay #1 violet to relay #2 violet — ≤50 Ω both elements",
+      "Verify L1 and L2 present at control on electric"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_ccu_dryer"
+    },
+    "dmaTags": ["heating_element_check"]
+  }
+]

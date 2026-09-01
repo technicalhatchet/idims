@@ -32,9 +32,13 @@ Cross-reference: [DRYER_SERVICE_MANUAL_EXTRACTION.md](./DRYER_SERVICE_MANUAL_EXT
 
 ---
 
-## Measurements
+## Measurements (Phase D — brand-aware)
 
-- Wiring CN1–CN10 per §4.4 (electric vs gas diagrams differ on heater paths)
-- NTC test mode before replacing main PCB
+Platform: `insignia_dryer_tdre`
 
-**DMA:** Insignia `dryer` E4, E5, C9 rows.
+| knowledgeId | Spec | Field |
+|-------------|------|-------|
+| `insigniaDryerHeaterOhms` | 20 Ω (electric) | `heat_circuit.heater_ohms` |
+| `insigniaDryerOutletThermistorKohm` | ~50 kΩ @ 77°F (E5) | `heat_circuit.outlet_thermistor_kohm` / gas `motor_electrical.outlet_thermistor_kohm` |
+
+Gas: igniter 40–400 Ω; valve coils 1.2 kΩ / 0.5 kΩ / 1.2 kΩ — use generic `gasValveCoilOhms` / `hotSurfaceIgniterOhms`.

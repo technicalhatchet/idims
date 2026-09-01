@@ -84,6 +84,8 @@ export default function ComplaintStep({ context, meta, readOnly, variant }) {
         fieldVisibilityRules={context?.fieldVisibilityRules}
         fieldHelp={context?.fieldHelp}
         activeRecommendations={context?.activeRecommendations}
+        templateId={context?.payload?.templateId}
+        measurementContext={context?.measurementContext || null}
       />
     </div>
   );

@@ -77,12 +77,15 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
   {
     id: 'wash_heater',
     field: 'electrical_measurements.wash_heater_ohms',
-    showWhen: [{ type: 'chip', id: 'error_code' }],
+    showWhen: [
+      { type: 'platform', id: 'whirlpool_fl_dd' },
+      { type: 'platform', id: 'samsung_flexwash' },
+    ],
   },
   {
     id: 'recirc_pump',
     field: 'electrical_measurements.recirc_pump_ohms',
-    showWhen: [{ type: 'chip', id: 'error_code' }],
+    showWhen: [{ type: 'platform', id: 'whirlpool_fl_dd' }],
   },
   {
     id: 'door_lock_ohms',

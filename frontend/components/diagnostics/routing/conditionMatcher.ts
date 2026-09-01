@@ -1,4 +1,5 @@
-import type { MeasurementEvaluation } from '../knowledge/types';
+import type { MeasurementEvaluation, MeasurementContext } from '../knowledge/types';
+import { normalizeMake, resolvePlatformId } from '../knowledge/platformRegistry';
 import type { RoutingWhenClause } from './types';
 
 function normalizeText(value: unknown): string {
@@ -18,6 +19,7 @@ function clauseMatches(
   complaintText: string,
   fields: Record<string, unknown>,
   measurementStatuses?: Map<string, MeasurementEvaluation>,
+  measurementContext?: MeasurementContext | null,
 ): boolean {
   if (typeof clause === 'string') {
     const needle = normalizeText(clause);
@@ -50,6 +52,16 @@ function clauseMatches(
     return allowed.includes(evaluation.status);
   }
 
+  if (clause.type === 'make') {
+    const make = normalizeMake(measurementContext?.equipmentMake);
+    return make === normalizeMake(clause.match);
+  }
+
+  if (clause.type === 'platform') {
+    if (!measurementContext?.templateId) return false;
+    return resolvePlatformId(measurementContext) === clause.id;
+  }
+
   return false;
 }
 
@@ -59,10 +71,18 @@ export function ruleWhenMatches(
   complaintText: string,
   fields: Record<string, unknown>,
   measurementStatuses?: Map<string, MeasurementEvaluation>,
+  measurementContext?: MeasurementContext | null,
 ): boolean {
   if (!when?.length) return false;
   return when.some((clause) =>
-    clauseMatches(clause, complaintChipIds, complaintText, fields, measurementStatuses),
+    clauseMatches(
+      clause,
+      complaintChipIds,
+      complaintText,
+      fields,
+      measurementStatuses,
+      measurementContext,
+    ),
   );
 }
 
@@ -73,10 +93,22 @@ export function collectClauseTriggers(
   fields: Record<string, unknown>,
   chipLabels: Record<string, string>,
   measurementStatuses?: Map<string, MeasurementEvaluation>,
+  measurementContext?: MeasurementContext | null,
 ): string[] {
   const triggers: string[] = [];
   for (const clause of when || []) {
-    if (!clauseMatches(clause, complaintChipIds, complaintText, fields, measurementStatuses)) continue;
+    if (
+      !clauseMatches(
+        clause,
+        complaintChipIds,
+        complaintText,
+        fields,
+        measurementStatuses,
+        measurementContext,
+      )
+    ) {
+      continue;
+    }
     if (typeof clause === 'string') {
       triggers.push(chipLabels[clause] || clause);
     } else if (clause.type === 'chip') {

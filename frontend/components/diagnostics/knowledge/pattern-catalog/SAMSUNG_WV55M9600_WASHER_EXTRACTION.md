@@ -55,9 +55,16 @@
 
 ---
 
-## 4. Measurements
+## 4. Measurements (Phase B/C + brand-aware)
 
-Refer to §4-3 corrective actions in extracted text for motor, valve, and heater resistance checks per compartment.
+| Knowledge ID | Spec | Field |
+|--------------|------|-------|
+| `samsungFlexWashMotorOhms` | Blue-White / White-Red / Red-Blue **~15 Ω** equal | `electrical_measurements.drive_motor_ohms` |
+| `samsungFlexWashDrainPumpOhms` | Main drain **13–16.5 Ω** | `electrical_measurements.drain_pump_ohms` |
+| `samsungFlexWashHeaterOhms` | **26.2–27.1 Ω** (wattage variant) | `electrical_measurements.wash_heater_ohms` |
+| `samsungFlexWashInletValveOhms` | Coil A–B **16.05 ± 0.65 Ω** | `electrical_measurements.inlet_valve_ohms` |
+
+Upper compartment door lock (175 Ω), bubble pump (~40–50 Ω) — deferred; use flexwash_upper chip path first.
 
 ---
 

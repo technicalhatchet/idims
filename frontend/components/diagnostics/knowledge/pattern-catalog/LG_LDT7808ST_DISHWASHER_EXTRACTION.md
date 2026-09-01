@@ -50,10 +50,16 @@ E005, E010, and additional EEPROM codes in extracted §9 — map to display mess
 
 ---
 
-## Phase B/C (deferred)
+## Phase B/C
 
 - Chip keywords: `vario_error`, `bubble_error`, `leak_ae`
-- Evidence: vario motor resistance ~4 kΩ
+- Evidence: vario motor resistance ~4 kΩ → `lgDishwasherVarioMotorOhms` (seeded; dedicated field deferred)
 - Cross-ref LG washer OE/IE patterns where helpful
+
+## Measurements (Phase D)
+
+| knowledgeId | Spec | Notes |
+|-------------|------|-------|
+| `lgDishwasherVarioMotorOhms` | ~4 kΩ | VARIO ERROR path — no template field yet |
 
 **DMA:** `VARIO ERROR` enrichment row in batch append (IE/OE may exist from other LG sources).

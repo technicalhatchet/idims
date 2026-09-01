@@ -26,22 +26,22 @@
 
 ---
 
-## Measurements
+## Measurements (Phase D — brand-aware)
 
-| Component | TWM41WH8A | WMT41WA5 |
-|-----------|-----------|----------|
-| Inlet valve | 0.7–1.2 kΩ | 4–6 Ω |
-| Drain pump | 10–20 Ω | 5–7 Ω (retractor) |
-| Water pressure | 0.05–1 MPa | Same |
-| Level sensor F8 | 40–50 nF; 20–40 Ω | <18 or >30 kHz fault |
+| knowledgeId | TWM41/TWM35 (`insignia_washer_cap`) | WMT41 (`insignia_washer_freq`) | Field |
+|-------------|-------------------------------------|--------------------------------|-------|
+| `insigniaWasherCapInletValveOhms` | 0.7–1.2 kΩ | — | `electrical_measurements.inlet_valve_ohms` |
+| `insigniaWasherFreqInletValveOhms` | — | 4–6 Ω | same |
+| `insigniaWasherCapDrainPumpOhms` | 10–20 Ω | — | `electrical_measurements.drain_pump_ohms` |
+| `insigniaWasherFreqDrainPumpOhms` | — | 5–7 Ω | same |
+| `insigniaWasherFreqDriveMotorOhms` | — | 15–25 Ω | `electrical_measurements.drive_motor_ohms` |
+| `insigniaWasherCapDoorLockOhms` | 50–80 Ω (blue-blue) | — | `mechanical_controls.door_lock_ohms` |
+| `insigniaWasherCapLevelSensorOhms` | 20–40 Ω + 40–50 nF | — | (guidance only — no field yet) |
+| `insigniaWasherLevelSensorFrequency` | — | 26.70±0.3 kHz empty | (F8 — no field yet) |
 
 ---
 
-## Phase B/C (deferred)
-
-- Map E1–E4 to `washer` template fill/drain/spin/unbalance chips
-- Field guidance: frequency level sensor vs capacitive platform
-- All Insignia washer codes seeded as **new manufacturer** in DMA batch
+## Phase B/C
 
 **NS-TWM35W1** (`NS-TWM35W1 Service Manual.pdf`, 50 pp.):
 

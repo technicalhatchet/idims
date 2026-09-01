@@ -57,9 +57,14 @@ export function isDiagnosticFieldFilled(field, value) {
   return value != null && String(value).trim() !== '';
 }
 
-export function countDiagnosticSectionFilled(section, fields = {}, fieldVisibilityRules = null) {
+export function countDiagnosticSectionFilled(
+  section,
+  fields = {},
+  fieldVisibilityRules = null,
+  measurementContext = null,
+) {
   const visibleFields = fieldVisibilityRules?.length
-    ? filterVisibleSectionFields(section, fields, fieldVisibilityRules)
+    ? filterVisibleSectionFields(section, fields, fieldVisibilityRules, measurementContext)
     : section.fields;
   return visibleFields.reduce((count, field) => {
     return count + (isDiagnosticFieldFilled(field, fields[diagnosticFieldKey(section.id, field.id)]) ? 1 : 0);
@@ -107,6 +112,7 @@ export function DiagnosticFieldControl({
   recommendations = [],
   templateId = null,
   lastReadings = {},
+  measurementContext = null,
 }) {
   const key = diagnosticFieldKey(sectionId, field.id);
   const disabled = readOnly;
@@ -176,10 +182,10 @@ export function DiagnosticFieldControl({
 
   if (field.type === 'text') {
     const fieldKey = diagnosticFieldKey(sectionId, field.id);
-    const knowledgeId = getFieldKnowledgeId(templateId, fieldKey);
+    const knowledgeId = getFieldKnowledgeId(templateId, fieldKey, measurementContext);
     const definition = knowledgeId ? getMeasurementKnowledge(knowledgeId) : null;
     if (definition) {
-      const evaluation = evaluateFieldMeasurement(templateId, fieldKey, value);
+      const evaluation = evaluateFieldMeasurement(templateId, fieldKey, value, measurementContext);
       return (
         <SmartMeasurementField
           label={field.label}
@@ -266,12 +272,18 @@ export default function DiagnosticSectionFields({
   activeRecommendations = [],
   templateId = null,
   lastReadings = {},
+  measurementContext = null,
 }) {
   const isMobile = variant === 'mobile';
   const visibleFields = fieldVisibilityRules?.length
-    ? filterVisibleSectionFields(section, fields, fieldVisibilityRules)
+    ? filterVisibleSectionFields(section, fields, fieldVisibilityRules, measurementContext)
     : section.fields;
-  const filledCount = countDiagnosticSectionFilled(section, fields, fieldVisibilityRules);
+  const filledCount = countDiagnosticSectionFilled(
+    section,
+    fields,
+    fieldVisibilityRules,
+    measurementContext,
+  );
   const hasConditionalFields = fieldVisibilityRules?.length
     && visibleFields.length < section.fields.length;
   const sectionRecommendations = recommendationsForSection(section.id, activeRecommendations);
@@ -381,6 +393,7 @@ export default function DiagnosticSectionFields({
                 recommendations={fieldRecs}
                 templateId={templateId}
                 lastReadings={lastReadings}
+                measurementContext={measurementContext}
               />
             </div>
           );
