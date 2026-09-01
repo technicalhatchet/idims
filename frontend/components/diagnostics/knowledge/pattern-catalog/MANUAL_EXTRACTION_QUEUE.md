@@ -87,6 +87,196 @@
 
 ---
 
+## Brand coverage checklist (one manual per appliance type)
+
+**Goal:** One ingested service manual (or tech sheet) per **brand × appliance type**, mapped to Solomon diagnostic templates.
+
+**Legend:** `[x]` = manual in repo + extraction doc (Phase A at minimum) · `[~]` = partial / platform-shared · `[ ]` = not yet sourced
+
+**Appliance types (10):**
+
+| Code | Type | Solomon template |
+|------|------|------------------|
+| REF | Refrigerator | `refrigerator` |
+| FRZ | Freezer (standalone) | `standalone_freezer` |
+| WSH | Washing machine | `washer` |
+| DRY | Dryer (electric or gas) | `electric_dryer` / `gas_dryer` |
+| DW | Dishwasher | `dishwasher` |
+| MW | Microwave | `microwave` |
+| ER | Electric range / oven | `electric_range` |
+| GR | Gas range / oven | `gas_range` |
+| AIO | AIO / combo laundry | `aio_laundry` |
+| STK | Stacked / unitized laundry | `stacked_laundry` |
+
+**Progress (core 7 brands):** ~28 / 70 cells covered · **~42 gaps** remaining  
+**Progress (all 11 brands incl. Maytag/Bosch/Kenmore/Electrolux):** ~28 / 110 · **~82 gaps**
+
+---
+
+### Coverage matrix
+
+| Brand | REF | FRZ | WSH | DRY | DW | MW | ER | GR | AIO | STK |
+|-------|-----|-----|-----|-----|----|----|----|----|-----|-----|
+| **Samsung** | [x] | [ ] | [x] | [x] | [ ] | [x] | [ ] | [ ] | [ ] | [ ] |
+| **LG** | [x] | [ ] | [ ] | [~] | [x] | [x] | [ ] | [ ] | [ ] | [ ] |
+| **Whirlpool** | [x] | [ ] | [x] | [x] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **KitchenAid** | [~] | [ ] | [ ] | [ ] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **GE** | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [x] |
+| **Frigidaire** | [x] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **Insignia** | [x] | [x] | [x] | [x] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Maytag | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Bosch | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Kenmore | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Electrolux | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+
+**Partial notes:**
+
+- **LG DRY `[~]`** — `DRY_D80 – LG Error Codes.pdf` only (duct codes); need full dryer service manual.
+- **KitchenAid REF `[~]`** — shares [WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md](./WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md) with Whirlpool.
+- **GE STK `[x]`** — [GE_GUD27_UNITIZED_EXTRACTION.md](./GE_GUD27_UNITIZED_EXTRACTION.md); dryer timer platform; washer is mechanical in same cabinet.
+- **Maytag / Kenmore** — usually Whirlpool or Electrolux rebadge; source parent OEM manual when possible.
+- **Bosch** — DMA seed rows exist; no manual ingested yet.
+
+---
+
+### Per-brand sourcing checklist
+
+Copy a row into Phase A when PDF lands in `backend/docs/manuals/`.
+
+#### Samsung
+
+- [x] REF — `samsung-refrigerator-sxs-svc manual.pdf`
+- [ ] FRZ
+- [x] WSH — `wv55m9600av.pdf` (FlexWash)
+- [x] DRY — `samsung-dryer-electric-gas.pdf`
+- [ ] DW — *suggest: DW80\* / Linear Wash platform*
+- [x] MW — `Samsung ME11A7510DSAA microwave.pdf` *(optional: `ME21A706BQN` HTML)*
+- [ ] ER
+- [ ] GR
+- [ ] AIO — *suggest: FlexDry / Bespoke combo*
+- [ ] STK
+
+#### LG
+
+- [x] REF — `Lg-lrmvs3006s-refrigerator-svc manual.pdf`
+- [ ] FRZ
+- [ ] WSH — *suggest: WM4000\* / WM3900\* TurboWash platform*
+- [~] DRY — duct ref only; *suggest: DLE/ DLG 7000\* full manual*
+- [x] DW — `LDT7808ST.pdf`
+- [x] MW — `LMHM2237BD.pdf`
+- [ ] ER
+- [ ] GR
+- [ ] AIO — *suggest: WM6998\* WashTower / combo*
+- [ ] STK
+
+#### Whirlpool
+
+- [x] REF — `WPL WRF757SD tech-sheet-w11509412-reva.pdf` (+ KA sheet)
+- [ ] FRZ — *standalone chest/upright; not French-door platform*
+- [x] WSH — `service-manual-w11169652-reva-27in-front-load-washers.pdf`
+- [x] DRY — `whirlpool-electric-gas-dryers.pdf.pdf`
+- [x] DW — Whirlpool dishwasher platform sheets
+- [ ] MW — *suggest: WMH310\* / WMH535\* OTR*
+- [ ] ER — *suggest: WFE550\* / WFE515\**
+- [ ] GR — *suggest: WFG550\* / WFG515\**
+- [ ] AIO — *suggest: WFC682\* / YWED\**
+- [ ] STK
+
+#### KitchenAid
+
+- [~] REF — KRMF706 platform (see Whirlpool French door doc)
+- [ ] FRZ
+- [ ] WSH — *usually Whirlpool/Maytag platform — source W111\* or MVW\* if needed*
+- [ ] DRY
+- [x] DW — `Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142.pdf`
+- [ ] MW
+- [ ] ER
+- [ ] GR
+- [ ] AIO
+- [ ] STK
+
+#### GE
+
+- [ ] REF — *suggest: GNE27\* / GSS25\**
+- [ ] FRZ
+- [ ] WSH — *standalone; GUD27 washer is mechanical only*
+- [ ] DRY — *standalone electronic; GUD27 covers unitized timer only*
+- [ ] DW — *suggest: GDT655\* / GDT225\**
+- [ ] MW
+- [ ] ER — *suggest: JBS360\* / JBP\**
+- [ ] GR — *suggest: JGBS66\* / JGB\**
+- [ ] AIO
+- [x] STK — `gud27essmww.pdf`
+
+#### Frigidaire
+
+- [x] REF — `ServiceDataSheet-PRMC2285AF.pdf` (Pro Er t\*)
+- [ ] FRZ
+- [ ] WSH
+- [ ] DRY
+- [ ] DW — *suggest: FGID2479\* / Gallery platform*
+- [ ] MW
+- [ ] ER
+- [ ] GR
+- [ ] AIO
+- [ ] STK
+
+#### Insignia (Midea OEM)
+
+- [x] REF — `NS-RSS26SS` + `NS-RTM18SS2 Service Manual.pdf`
+- [x] FRZ — `NS-UZ21WH0 insignia freezer.pdf`
+- [x] WSH — NS-TWM41 / NS-WMT41 / NS-TWM35 platform
+- [x] DRY — `NS-TDRE75W1 Service Manual.pdf`
+- [x] DW — `NS-DWR3SS1 service manual again-ocr.pdf`
+- [ ] MW
+- [ ] ER
+- [ ] GR
+- [ ] AIO
+- [ ] STK
+
+#### Maytag · Bosch · Kenmore · Electrolux
+
+No dedicated manuals in repo. **Strategy:**
+
+| Brand | Typical OEM parent | Notes |
+|-------|-------------------|--------|
+| Maytag | Whirlpool | Often same tech sheet as Whirlpool/MVW\* |
+| Kenmore | Whirlpool or Electrolux | Match model prefix to parent |
+| Bosch | Bosch | SHPM\* dishwasher is highest ROI (DMA codes already seeded) |
+| Electrolux | Electrolux / Frigidaire | EIFLS\* / EIMED\* laundry; ERFG\* fridge |
+
+---
+
+### Priority pickup queue (suggested next 10)
+
+Work top-down; check off in matrix above when Phase A completes.
+
+| # | Brand | Type | Suggested model / platform | Why |
+|---|-------|------|---------------------------|-----|
+| 1 | LG | WSH | WM4000H\* / WM3900H\* | Largest gap in a high-volume brand |
+| 2 | LG | DRY | DLE/ DLG 7100\* or 7000\* full SVC manual | Replace duct-code-only partial |
+| 3 | GE | REF | GNE27J\* / PFE28\* | GE has only unitized laundry today |
+| 4 | GE | DW | GDT655\* / GDT225\* | Common builder-grade calls |
+| 5 | Whirlpool | MW | WMH31017\* / WMH53521\* | OTR volume; complements LG/Samsung MW |
+| 6 | Whirlpool | ER | WFE550\* electric range | No range coverage any brand except partial |
+| 7 | Samsung | DW | DW80R\* / DW80B\* | Completes Samsung major-appliance row |
+| 8 | Frigidaire | DW | FGID2479\* Gallery | Pairs with existing Pro fridge sheet |
+| 9 | Bosch | DW | SHPM88Z\* / SHPM65\* | DMA seed exists — manual unlocks validation |
+| 10 | Whirlpool or LG | AIO | WFC682\* or WM6998\* | Only template with zero brand coverage |
+
+---
+
+### When a manual arrives (workflow)
+
+1. Drop PDF in `backend/docs/manuals/`
+2. `python backend/docs/manuals/extract_pdf.py <pdf>`
+3. Add `*_EXTRACTION.md` in this folder
+4. Append DMA rows if codes present (`append_manual_batch_dma_seed.py`)
+5. Phase B/C: template · chips · routing · evidence · `npx tsc --noEmit`
+6. Update matrix `[ ]` → `[x]` in this section
+
+---
+
 ## Reference paths
 
 - Seed JSON: `backend/data/dma_error_codes_seed.json`
