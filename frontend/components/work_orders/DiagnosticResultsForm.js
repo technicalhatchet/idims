@@ -25,6 +25,7 @@ import { buildDiagnosticFacts } from '../diagnostics/intelligence/buildDiagnosti
 import { buildFieldLabelsForTemplate } from '../diagnostics/intelligence/fieldLabels';
 import { formatGeneratedServiceNote } from '../diagnostics/intelligence/formatGeneratedServiceNote';
 import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
+import { buildMeasurementContext } from '../diagnostics/knowledge/fieldBindings';
 import { getEliminationConfig } from '../diagnostics/knowledge/knowledgeRegistry';
 import { evaluateElimination } from '../diagnostics/elimination/eliminationEngine';
 import { evaluateDiagnosticIntelligence } from '../diagnostics/intelligence/diagnosticIntelligenceEngine';
@@ -140,9 +141,24 @@ export default function DiagnosticResultsForm({
     };
   }, []);
 
+  const measurementContext = useMemo(
+    () => buildMeasurementContext({
+      templateId: payload?.templateId,
+      equipmentMake: workOrder?.equipment_make || solomonSession?.equipment_make,
+      equipmentModel: workOrder?.equipment_model || solomonSession?.equipment_model,
+    }),
+    [
+      payload?.templateId,
+      workOrder?.equipment_make,
+      workOrder?.equipment_model,
+      solomonSession?.equipment_make,
+      solomonSession?.equipment_model,
+    ],
+  );
+
   const measurementStatuses = useMemo(
-    () => buildMeasurementStatusMap(payload?.templateId, payload?.fields || {}),
-    [payload?.templateId, payload?.fields],
+    () => buildMeasurementStatusMap(payload?.templateId, payload?.fields || {}, measurementContext),
+    [payload?.templateId, payload?.fields, measurementContext],
   );
 
   const routingResult = useMemo(
@@ -605,6 +621,7 @@ export default function DiagnosticResultsForm({
       fieldHelp: wizardDefinition?.routing?.fieldHelp || {},
       activeRecommendations,
       lastReadings,
+      measurementContext,
       elimination: eliminationResult,
       intelligence: intelligenceResult
         ? {
@@ -634,6 +651,7 @@ export default function DiagnosticResultsForm({
       stepKeyLabels,
       fieldLabels,
       lastReadings,
+      measurementContext,
       wizardDefinition?.complaintChips,
       wizardDefinition?.routing?.fieldVisibility,
       wizardDefinition,

@@ -19,6 +19,7 @@ export default function TemplateSectionStep({ context, meta, readOnly, variant }
       activeRecommendations={context?.activeRecommendations}
       templateId={context?.payload?.templateId}
       lastReadings={context?.lastReadings || {}}
+      measurementContext={context?.measurementContext || null}
     />
   );
 }

@@ -87,6 +87,33 @@
 
 ---
 
+## Phase D — brand-aware measurements (batch9)
+
+**Status:** Merged for all big-batch platforms with extractable Ω/V specs.
+
+| Platform | `platformId` | Seed batch | Key bindings |
+|----------|--------------|------------|--------------|
+| Whirlpool FL washer | `whirlpool_fl_dd` | batch8 | motor, inlet, drain, heater, recirc |
+| Samsung FlexWash | `samsung_flexwash` | batch8 | motor, drain, heater, inlet |
+| Insignia washer TWM/TWM35 | `insignia_washer_cap` | batch9 | inlet kΩ, drain, door lock |
+| Insignia washer WMT41 | `insignia_washer_freq` | batch8+9 | inlet, drain, motor, level kHz |
+| Whirlpool/KA dishwasher ACU | `whirlpool_dishwasher_acu` | batch9 | wash/drain motor, heater, valve, OWI |
+| Insignia DWR3 dishwasher | `insignia_dishwasher` | batch9 | valve, drain, heater, thermistor |
+| LG LDT dishwasher | `lg_dishwasher_ldt` | batch9 | vario ~4 kΩ (seed only) |
+| Midea/Insignia RSS + RTM18 | `midea_rss` | batch9 | B3839 NTC, defrost heater |
+| Midea/Insignia UZ21 freezer | `midea_uz21` | batch9 | B3839 NTC, defrost heater |
+| Insignia TDRE dryer | `insignia_dryer_tdre` | batch9 | heater, outlet NTC |
+| Whirlpool/Maytag CCU dryer | `whirlpool_ccu_dryer` | batch9 | dual element ≤50 Ω |
+| Samsung SxS fridge | `samsung_sxs` | batch6 | defrost 63 Ω, voltage checks |
+| LG LRMVS fridge | `lg_lrmvs` | batch7 | fan V, defrost V/Ω |
+| GE GUD27 unitized | — | — | Symptom/timer only (no Ω layer) |
+| Frigidaire Pro PRMC | — | — | Er t* codes only; no numeric specs in sheet |
+| Whirlpool/KA French door | `whirlpool_ka_french_door` | generic | Ice E-codes; defrost still generic |
+
+**Deferred:** FlexWash upper door lock (175 Ω), bubble pump; Insignia level-sensor dedicated field; LG dishwasher wash-motor Ω from garbled LDT PDF.
+
+---
+
 ## Brand coverage checklist (one manual per appliance type)
 
 **Goal:** One ingested service manual (or tech sheet) per **brand × appliance type**, mapped to Solomon diagnostic templates.
@@ -115,19 +142,19 @@
 
 ### Coverage matrix
 
-| Brand | REF | FRZ | WSH | DRY | DW | MW | ER | GR | AIO | STK |
-|-------|-----|-----|-----|-----|----|----|----|----|-----|-----|
-| **Samsung** | [x] | [ ] | [x] | [x] | [ ] | [x] | [ ] | [ ] | [ ] | [ ] |
-| **LG** | [x] | [ ] | [ ] | [~] | [x] | [x] | [ ] | [ ] | [ ] | [ ] |
-| **Whirlpool** | [x] | [ ] | [x] | [x] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Brand          | REF | FRZ | WSH | DRY | DW  | MW  | ER  | GR  | AIO | STK |
+|-------         |-----|-----|-----|-----|---- |---- |---- |---- |-----|-----|
+| **Samsung**    | [x] | [ ] | [x] | [x] | [ ] | [x] | [ ] | [ ] | [ ] | [ ] |
+| **LG**         | [x] | [ ] | [ ] | [~] | [x] | [x] | [ ] | [ ] | [ ] | [ ] |
+| **Whirlpool**  | [x] | [ ] | [x] | [x] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
 | **KitchenAid** | [~] | [ ] | [ ] | [ ] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **GE** | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [x] |
+| **GE**         | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [x] |
 | **Frigidaire** | [x] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **Insignia** | [x] | [x] | [x] | [x] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| Maytag | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| Bosch | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| Kenmore | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| Electrolux | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **Insignia**   | [x] | [x] | [x] | [x] | [x] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Maytag         | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Bosch          | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Kenmore        | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Electrolux     | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
 
 **Partial notes:**
 
@@ -272,7 +299,7 @@ Work top-down; check off in matrix above when Phase A completes.
 2. `python backend/docs/manuals/extract_pdf.py <pdf>`
 3. Add `*_EXTRACTION.md` in this folder
 4. Append DMA rows if codes present (`append_manual_batch_dma_seed.py`)
-5. Phase B/C: template · chips · routing · evidence · `npx tsc --noEmit`
+5. Phase B/C: template · chips · routing · evidence · **platform measurement bindings** (see [BRAND_AWARE_MEASUREMENTS_SPEC.md](../BRAND_AWARE_MEASUREMENTS_SPEC.md)) · `npx tsc --noEmit`
 6. Update matrix `[ ]` → `[x]` in this section
 
 ---
@@ -285,3 +312,4 @@ Work top-down; check off in matrix above when Phase A completes.
 - Extracted text: `backend/docs/manuals/*-extracted.txt`
 - Solomon knowledge: `frontend/components/diagnostics/knowledge/`
 - Routing: `frontend/components/diagnostics/routing/routingEngine.ts`
+- Brand-aware measurements (proposed): [BRAND_AWARE_MEASUREMENTS_SPEC.md](../BRAND_AWARE_MEASUREMENTS_SPEC.md)

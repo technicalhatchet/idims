@@ -43,3 +43,16 @@
 Same E1/E3/E4/E6/E7 semantics as W11187658 platform — Insignia rows seeded under **manufacturer: Insignia**, subtype `dishwasher`.
 
 **DMA:** New Insignia `dishwasher` rows in supplement append.
+
+---
+
+## Measurements (Phase D — brand-aware)
+
+Platform: `insignia_dishwasher` (NS-DWR3*)
+
+| knowledgeId | Spec | Field |
+|-------------|------|-------|
+| `insigniaDishwasherFillValveOhms` | ~1 kΩ | `motor_electrical.inlet_valve_ohms` |
+| `insigniaDishwasherDrainPumpOhms` | ~25–35 Ω | `motor_electrical.drain_motor_ohms` |
+| `insigniaDishwasherHeaterOhms` | 10–15 Ω | `heat_water.heater_ohms` |
+| `insigniaDishwasherTubThermistorOhms` | 10 kΩ ±2% @ 25°C | `heat_water.thermistor` |

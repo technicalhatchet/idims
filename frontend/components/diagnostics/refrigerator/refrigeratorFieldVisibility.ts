@@ -100,7 +100,7 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
   {
     id: 'thermistor_voltage_error',
     field: 'fans_and_electrical.thermistor_voltage_v',
-    showWhen: [{ type: 'chip', id: 'error_code' }],
+    showWhen: [{ type: 'chip', id: 'error_code' }, { type: 'platform', id: 'samsung_sxs' }],
   },
   {
     id: 'evap_fan_voltage_error',
@@ -109,6 +109,7 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
       { type: 'chip', id: 'error_code' },
       { type: 'chip', id: 'frost_buildup' },
       { type: 'chip', id: 'weak_cooling_ff' },
+      { type: 'platform', id: 'samsung_sxs' },
     ],
   },
   {
@@ -118,6 +119,17 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
       { type: 'chip', id: 'not_cooling' },
       { type: 'chip', id: 'weak_cooling_fz' },
       { type: 'chip', id: 'error_code' },
+      { type: 'platform', id: 'samsung_sxs' },
     ],
+  },
+  {
+    id: 'lg_fan_voltage',
+    field: 'fans_and_electrical.lg_fan_voltage',
+    showWhen: [{ type: 'platform', id: 'lg_lrmvs' }],
+  },
+  {
+    id: 'lg_defrost_heater_voltage',
+    field: 'defrost_circuit.lg_defrost_heater_voltage',
+    showWhen: [{ type: 'platform', id: 'lg_lrmvs' }],
   },
 ];

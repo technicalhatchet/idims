@@ -27,18 +27,18 @@ Cross-reference: [SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md](./SAMSUNG_REFRIGERATOR
 
 ---
 
-## Measurements (both)
+## Measurements (Phase D — brand-aware)
 
-- NTC **B3839** R/T table (§8.4 / §9.4)
-- FZ defrost heater 240 W (RSS26) / 320 W (UZ21)
-- Compressor: DZ120V1U (RSS26 inverter) / EZ90H1A fixed (UZ21)
+| knowledgeId | Spec | Field |
+|-------------|------|-------|
+| `mideaB3839ThermistorKohm` | B3839 NTC — ~2.0 kΩ @ 25°C (not generic 5–16 kΩ) | `fans_and_electrical.*_thermistor`, `defrost_circuit.defrost_thermistor` |
+| `mideaRssDefrostHeaterOhms` | RSS26 115 V 240 W (~55 Ω) | `defrost_circuit.defrost_heater_ohms` |
+| `mideaUz21DefrostHeaterOhms` | UZ21 115 V 320 W (~41 Ω) | `standalone_freezer` defrost heater |
+
+Platform: `midea_rss` (NS-RSS, NS-RTM) · `midea_uz21` (NS-UZ freezer)
 
 ---
 
-## Phase B/C (deferred)
-
-- New chips unlikely — route via `error_code` + manufacturer filter in DMA lookup
-- Elimination: E9 high temp → door gasket before sealed system
-- **Subtype:** `refrigerator` vs `freezer` in DMA for UZ21 rows
+## Phase B/C
 
 **DMA:** Full Insignia E-family in batch append (new manufacturer).

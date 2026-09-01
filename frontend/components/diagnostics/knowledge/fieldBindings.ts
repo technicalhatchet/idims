@@ -1,38 +1,11 @@
 /** templateId → full field key (sectionId.fieldId) → knowledge catalog id */
 
-const REFRIGERATOR_FIELD_KNOWLEDGE: Record<string, string> = {
-  'temperature_checks.freezer_temp': 'freezerCabinetTemp',
-  'temperature_checks.fresh_food_temp': 'freshFoodCabinetTemp',
-  'temperature_checks.ambient_room_temp': 'ambientRoomTemp',
-  'defrost_circuit.defrost_heater_ohms': 'defrostHeaterOhms',
-  'defrost_circuit.defrost_thermostat': 'defrostThermostatOhms',
-  'defrost_circuit.defrost_fuse': 'defrostThermalFuseOhms',
-  'defrost_circuit.defrost_thermistor': 'cabinetThermistorOhms',
-  'compressor_sealed_system.compressor_amps_running': 'compressorRunAmps',
-  'compressor_sealed_system.run_winding_ohms': 'compressorRunWindingOhms',
-  'compressor_sealed_system.start_winding_ohms': 'compressorRunWindingOhms',
-  'fans_and_electrical.condenser_fan_amps': 'condenserFanAmps',
-  'fans_and_electrical.evaporator_fan_amps': 'evaporatorFanAmps',
-  'fans_and_electrical.supply_voltage': 'supplyVoltage120',
-  'fans_and_electrical.freezer_thermistor': 'cabinetThermistorOhms',
-  'fans_and_electrical.fresh_food_thermistor': 'cabinetThermistorOhms',
-  'fans_and_electrical.thermistor_voltage_v': 'refrigeratorThermistorVoltage',
-  'fans_and_electrical.evap_fan_feedback_voltage': 'refrigeratorEvapFanFeedbackVoltage',
-  'fans_and_electrical.inverter_ipm_voltage': 'refrigeratorInverterIpmVoltage',
-  'fans_and_electrical.lg_fan_voltage': 'lgRefrigeratorFanVoltage',
-  'defrost_circuit.lg_defrost_heater_voltage': 'lgDefrostHeaterVoltage',
-};
-
-const WASHER_FIELD_KNOWLEDGE: Record<string, string> = {
-  'electrical_measurements.supply_voltage': 'supplyVoltage120',
-  'electrical_measurements.drive_motor_ohms': 'washerMotorWindingOhms',
-  'electrical_measurements.drain_pump_ohms': 'washerDrainPumpOhms',
-  'electrical_measurements.drain_pump_amps': 'washerDrainPumpAmps',
-  'electrical_measurements.inlet_valve_ohms': 'washerWaterValveOhms',
-  'electrical_measurements.wash_heater_ohms': 'whirlpoolFlWasherHeaterOhms',
-  'electrical_measurements.recirc_pump_ohms': 'whirlpoolFlWasherRecircPumpOhms',
-  'mechanical_controls.door_lock_ohms': 'washerDoorLockSwitchOhms',
-};
+import {
+  listLayeredFieldKeysForTemplate,
+  registerFlatBindings,
+  resolveFieldKnowledgeId,
+} from './resolveFieldKnowledge';
+import type { MeasurementContext } from './types';
 
 const ELECTRIC_DRYER_FIELD_KNOWLEDGE: Record<string, string> = {
   'motor_electrical.supply_voltage': 'supplyVoltage240',
@@ -63,7 +36,6 @@ const GAS_DRYER_FIELD_KNOWLEDGE: Record<string, string> = {
   'motor_electrical.inlet_thermistor_kohm': 'dryerInletThermistorOhmsGas',
 };
 
-/** Stacked units vary (electric heat vs gas igniter) — bind unambiguous fields only. */
 const STACKED_LAUNDRY_FIELD_KNOWLEDGE: Record<string, string> = {
   'washer_measurements.washer_motor_ohms': 'washerMotorWindingOhms',
   'washer_measurements.drain_pump_ohms': 'washerDrainPumpOhms',
@@ -132,41 +104,43 @@ const MICROWAVE_FIELD_KNOWLEDGE: Record<string, string> = {
   'electrical_hv.capacitor_uf': 'microwaveHVCapacitanceMFD',
 };
 
-const FIELD_BINDINGS_BY_TEMPLATE: Record<string, Record<string, string>> = {
-  refrigerator: REFRIGERATOR_FIELD_KNOWLEDGE,
-  standalone_freezer: {
-    'temperature_checks.freezer_temp': 'freezerCabinetTemp',
-    'temperature_checks.ambient_temp': 'ambientRoomTemp',
-    'defrost_circuit.defrost_heater_ohms': 'defrostHeaterOhms',
-    'defrost_circuit.defrost_thermostat': 'defrostThermostatOhms',
-    'defrost_circuit.defrost_fuse': 'defrostThermalFuseOhms',
-    'defrost_circuit.defrost_thermistor': 'cabinetThermistorOhms',
-    'compressor_sealed_system.compressor_amps_running': 'compressorRunAmps',
-    'compressor_sealed_system.run_winding_ohms': 'compressorRunWindingOhms',
-    'fans_and_electrical.condenser_fan_amps': 'condenserFanAmps',
-    'fans_and_electrical.evaporator_fan_amps': 'evaporatorFanAmps',
-    'fans_and_electrical.supply_voltage': 'supplyVoltage120',
-    'heat_pump_readings.compressor_amps': 'compressorRunAmps',
-  },
-  washer: WASHER_FIELD_KNOWLEDGE,
-  electric_dryer: ELECTRIC_DRYER_FIELD_KNOWLEDGE,
-  gas_dryer: GAS_DRYER_FIELD_KNOWLEDGE,
-  stacked_laundry: STACKED_LAUNDRY_FIELD_KNOWLEDGE,
-  aio_laundry: AIO_LAUNDRY_FIELD_KNOWLEDGE,
-  dishwasher: DISHWASHER_FIELD_KNOWLEDGE,
-  electric_range: ELECTRIC_RANGE_FIELD_KNOWLEDGE,
-  gas_range: GAS_RANGE_FIELD_KNOWLEDGE,
-  microwave: MICROWAVE_FIELD_KNOWLEDGE,
+const STANDALONE_FREEZER_FIELD_KNOWLEDGE: Record<string, string> = {
+  'temperature_checks.freezer_temp': 'freezerCabinetTemp',
+  'temperature_checks.ambient_temp': 'ambientRoomTemp',
+  'defrost_circuit.defrost_heater_ohms': 'defrostHeaterOhms',
+  'defrost_circuit.defrost_thermostat': 'defrostThermostatOhms',
+  'defrost_circuit.defrost_fuse': 'defrostThermalFuseOhms',
+  'defrost_circuit.defrost_thermistor': 'cabinetThermistorOhms',
+  'compressor_sealed_system.compressor_amps_running': 'compressorRunAmps',
+  'compressor_sealed_system.run_winding_ohms': 'compressorRunWindingOhms',
+  'fans_and_electrical.condenser_fan_amps': 'condenserFanAmps',
+  'fans_and_electrical.evaporator_fan_amps': 'evaporatorFanAmps',
+  'fans_and_electrical.supply_voltage': 'supplyVoltage120',
+  'heat_pump_readings.compressor_amps': 'compressorRunAmps',
 };
 
+registerFlatBindings('electric_dryer', ELECTRIC_DRYER_FIELD_KNOWLEDGE);
+registerFlatBindings('gas_dryer', GAS_DRYER_FIELD_KNOWLEDGE);
+registerFlatBindings('stacked_laundry', STACKED_LAUNDRY_FIELD_KNOWLEDGE);
+registerFlatBindings('aio_laundry', AIO_LAUNDRY_FIELD_KNOWLEDGE);
+registerFlatBindings('dishwasher', DISHWASHER_FIELD_KNOWLEDGE);
+registerFlatBindings('electric_range', ELECTRIC_RANGE_FIELD_KNOWLEDGE);
+registerFlatBindings('gas_range', GAS_RANGE_FIELD_KNOWLEDGE);
+registerFlatBindings('microwave', MICROWAVE_FIELD_KNOWLEDGE);
+registerFlatBindings('standalone_freezer', STANDALONE_FREEZER_FIELD_KNOWLEDGE);
+
+/** Backward-compatible default-only resolution (no make/platform). */
 export function getFieldKnowledgeId(
   templateId: string | null | undefined,
   fieldKey: string,
+  ctx?: MeasurementContext | null,
 ): string | null {
-  if (!templateId || !fieldKey) return null;
-  return FIELD_BINDINGS_BY_TEMPLATE[templateId]?.[fieldKey] || null;
+  return resolveFieldKnowledgeId(templateId, fieldKey, ctx);
 }
 
 export function listSmartFieldKeysForTemplate(templateId: string): string[] {
-  return Object.keys(FIELD_BINDINGS_BY_TEMPLATE[templateId] || {});
+  return listLayeredFieldKeysForTemplate(templateId);
 }
+
+export { resolveFieldKnowledgeId } from './resolveFieldKnowledge';
+export { buildMeasurementContext } from './platformRegistry';

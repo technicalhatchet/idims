@@ -21,6 +21,14 @@ export type RoutingWhenClause =
       knowledgeId: string;
       statusIn?: MeasurementStatus[];
       status?: MeasurementStatus;
+    }
+  | {
+      type: 'make';
+      match: string;
+    }
+  | {
+      type: 'platform';
+      id: string;
     };
 
 export interface RoutingRule {

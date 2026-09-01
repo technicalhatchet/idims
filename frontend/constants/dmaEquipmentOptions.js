@@ -28,6 +28,7 @@ export const DMA_MANUFACTURERS = [
   { value: 'Whirlpool', label: 'Whirlpool' },
   { value: 'GE', label: 'GE' },
   { value: 'Frigidaire', label: 'Frigidaire' },
+  { value: 'Insignia', label: 'Insignia' },
   { value: 'Maytag', label: 'Maytag' },
   { value: 'KitchenAid', label: 'KitchenAid' },
   { value: 'Bosch', label: 'Bosch' },

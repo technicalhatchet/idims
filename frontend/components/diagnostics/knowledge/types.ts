@@ -45,8 +45,17 @@ export interface MeasurementKnowledgeDefinition {
   appliesTo?: {
     equipmentSubtypes?: string[];
     templates?: string[];
+    manufacturers?: string[];
+    platformId?: string;
   };
   dmaTags?: string[];
+}
+
+/** Context for brand/platform-aware measurement resolution. */
+export interface MeasurementContext {
+  templateId: string;
+  equipmentMake?: string | null;
+  equipmentModel?: string | null;
 }
 
 export interface MeasurementEvaluation {

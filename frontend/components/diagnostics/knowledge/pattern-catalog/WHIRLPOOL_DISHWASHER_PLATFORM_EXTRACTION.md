@@ -60,11 +60,19 @@ Full F#E# matrix shared with KitchenAid/Whirlpool premium dishwashers:
 
 ---
 
-## 4. Measurements
+## 4. Measurements (Phase D — brand-aware)
 
-- Heater resistance per tech sheet model variant
-- OWI clean + drain loop check valve for F3E2
-- Fuse F600/F601 continuity (W10867183)
+Platform: `whirlpool_dishwasher_acu` (Whirlpool + KitchenAid)
+
+| knowledgeId | Spec | Field |
+|-------------|------|-------|
+| `whirlpoolDishwasherAcuWashMotorOhms` | 5–15 Ω | `motor_electrical.wash_motor_ohms` |
+| `whirlpoolDishwasherAcuDrainMotorOhms` | 15–60 Ω | `motor_electrical.drain_motor_ohms` |
+| `whirlpoolDishwasherAcuHeaterOhms` | 8–30 Ω | `heat_water.heater_ohms` |
+| `whirlpoolDishwasherAcuFillValveOhms` | 890–1,600 Ω | `motor_electrical.inlet_valve_ohms` |
+| `whirlpoolDishwasherAcuOwiThermistorOhms` | 46–52 kΩ @ 77°F | `heat_water.thermistor` |
+
+Source: W10751166 Rev C tech sheet.
 
 ---
 

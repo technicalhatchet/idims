@@ -153,5 +153,120 @@
       "templates": ["washer"]
     },
     "dmaTags": ["fill_issue"]
+  },
+  {
+    "id": "samsungFlexWashMotorOhms",
+    "name": "Samsung FlexWash Lower DD Motor (Blue-White-Red)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 13, "max": 17 },
+      "warning": { "min": 11, "max": 20 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 14.5, "max": 15.5 },
+    "openCircuitCritical": true,
+    "purpose": "Lower drum BLDC stator — Blue-White, White-Red, Red-Blue pairs should be equal (~15 Ω).",
+    "failureModes": [
+      "Open or unequal pairs — 3C motor/hall fault",
+      "Hall sensor disconnected — 3C with good motor ohms"
+    ],
+    "testingTips": [
+      "Disconnect motor connector; wire order Blue, White, Red from right",
+      "Check rotor/stator clearance for foreign material before condemning motor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_flexwash"
+    },
+    "dmaTags": ["motor_check", "spin_issue"]
+  },
+  {
+    "id": "samsungFlexWashDrainPumpOhms",
+    "name": "Samsung FlexWash Main Drain Pump",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 13, "max": 16.5 },
+      "warning": { "min": 11, "max": 20 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 14, "max": 16 },
+    "openCircuitCritical": true,
+    "purpose": "Main (lower) drain pump winding — WV55M9600 service manual.",
+    "failureModes": [
+      "Open winding — 5C drain fault",
+      "Normal ohms but no drain — impeller jam or clog"
+    ],
+    "testingTips": [
+      "Verify filter and hose before pump replacement",
+      "Bubble pump (upper) is separate: ~40–50 Ω if equipped"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_flexwash"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "samsungFlexWashHeaterOhms",
+    "name": "Samsung FlexWash Tub Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 24, "max": 29 },
+      "warning": { "min": 20, "max": 32 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 26, "max": 27.5 },
+    "openCircuitCritical": true,
+    "purpose": "Wash heater element — ~27.1 Ω (1900 W) or ~26.2 Ω (2000 W) per manual.",
+    "failureModes": [
+      "Open heater — HC1 heat fault",
+      "Thermistor ~12 kΩ at room temp should be checked with heater"
+    ],
+    "testingTips": [
+      "Disconnect power before ohms test",
+      "Confirm wattage variant when borderline"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_flexwash"
+    },
+    "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "samsungFlexWashInletValveOhms",
+    "name": "Samsung FlexWash Inlet Valve Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15.4, "max": 16.7 },
+      "warning": { "min": 14, "max": 18 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 15.9, "max": 16.1 },
+    "openCircuitCritical": true,
+    "purpose": "Inlet valve coil A–B — 16.05 ± 0.65 Ω per WV55 manual.",
+    "failureModes": [
+      "Open coil — 4C / 4C2 fill faults",
+      "Hot/cold reversed — 4C2 on Wool/Lingerie cycles"
+    ],
+    "testingTips": [
+      "Verify hose orientation and house pressure before valve replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_flexwash"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
   }
 ]
