@@ -251,6 +251,8 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ## Phase 5 — Diagnostic session screens
 
+**Status:** ✅ Implemented (2026-08-31)
+
 **Objective:** Professional in-session UX per mock.
 
 ### Tasks
@@ -279,6 +281,16 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 - [ ] Leading hypothesis opens reasoning sheet
 
 **Estimated touch:** 5–8 files · **Risk:** High (DiagnosticResultsForm) — test WO mobile path
+
+### Implemented
+
+| File | Purpose |
+|------|---------|
+| `SolomonProfessionalSessionChrome.js` | Sticky session header + progress + confidence + data points |
+| `DiagnosticResultsForm.js` | `interfaceStyle`, `solomonSession`, professional layout, step jump |
+| `SolomonReasoningSheet.js` | Professional tokens + elimination in sheet |
+| `SolomonDiagnosticReasoningView.js` | Professional read-only session chrome |
+| `diagnose.js` / `diagnostics/[id].js` | Pass theme + session meta to form |
 
 ---
 

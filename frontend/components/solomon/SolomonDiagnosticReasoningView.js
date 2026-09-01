@@ -4,6 +4,8 @@ import { useMemo, useState } from 'react';
 import { getWizardDefinition, resolveWizardSteps } from '../../components/diagnostics';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from '../../components/diagnostics/shared/createWizardDefinitionFromTemplate';
 import { buildMeasurementStatusMap } from '../../components/diagnostics/knowledge/measurementContext';
+import { getEliminationConfig } from '../../components/diagnostics/knowledge/knowledgeRegistry';
+import { evaluateElimination } from '../../components/diagnostics/elimination/eliminationEngine';
 import { evaluateDiagnosticIntelligence } from '../../components/diagnostics/intelligence/diagnosticIntelligenceEngine';
 import { buildFieldLabelsForTemplate } from '../../components/diagnostics/intelligence/fieldLabels';
 import { extractDefaultStepOrder } from '../../components/diagnostics/intelligence/reorderWizardSteps';
@@ -12,20 +14,35 @@ import { getDiagnosticTemplate } from '../../constants/diagnosticTemplates';
 import SolomonLeadingHypothesisCard from './SolomonLeadingHypothesisCard';
 import SolomonReasoningSheet from './SolomonReasoningSheet';
 import SolomonReasoningPanel from './reasoning/SolomonReasoningPanel';
+import SolomonProfessionalSessionChrome from './SolomonProfessionalSessionChrome';
+import SolomonFaultRanking from './SolomonFaultRanking';
+import { SOLOMON_INTERFACE } from './solomonThemeTokens';
 
 export default function SolomonDiagnosticReasoningView({
   payload,
+  diagnostic = null,
   variant = 'mobile',
   mobileSheetLayout = false,
+  interfaceStyle = SOLOMON_INTERFACE.SIGNATURE,
 }) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const templateId = payload?.templateId;
   const wizardDefinition = getWizardDefinition(templateId);
   const template = getDiagnosticTemplate(templateId);
+  const isProfessional = interfaceStyle === SOLOMON_INTERFACE.PROFESSIONAL;
 
   const measurementStatuses = useMemo(
     () => buildMeasurementStatusMap(templateId, payload?.fields || {}),
     [templateId, payload?.fields],
+  );
+
+  const eliminationResult = useMemo(
+    () => evaluateElimination(
+      getEliminationConfig(templateId),
+      payload?.fields || {},
+      measurementStatuses,
+    ),
+    [templateId, payload?.fields, measurementStatuses],
   );
 
   const wizardSteps = useMemo(
@@ -85,12 +102,28 @@ export default function SolomonDiagnosticReasoningView({
 
   if (useMobileSheet) {
     return (
-      <>
+      <div className="space-y-2">
+        {isProfessional ? (
+          <SolomonProfessionalSessionChrome
+            session={diagnostic}
+            payload={payload}
+            intelligence={intelligence}
+            measurementStatuses={measurementStatuses}
+            sticky={false}
+          />
+        ) : null}
+
         <SolomonLeadingHypothesisCard
           intelligence={intelligence}
           onOpenReasoning={() => setSheetOpen(true)}
           variant={variant}
+          density={isProfessional ? 'compact' : 'default'}
         />
+
+        {isProfessional ? (
+          <SolomonFaultRanking intelligence={intelligence} />
+        ) : null}
+
         <SolomonReasoningSheet
           open={sheetOpen}
           onClose={() => setSheetOpen(false)}
@@ -105,8 +138,10 @@ export default function SolomonDiagnosticReasoningView({
           currentStepKey={payload?.currentStepKey || null}
           reviewStepId={DIAGNOSTIC_REVIEW_STEP_ID}
           variant={variant}
+          interfaceStyle={interfaceStyle}
+          eliminationResult={isProfessional ? eliminationResult : null}
         />
-      </>
+      </div>
     );
   }
 

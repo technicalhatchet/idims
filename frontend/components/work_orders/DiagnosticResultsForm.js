@@ -50,6 +50,9 @@ import { getDiagnosticLastMeasurements, generateDiagnosticNotes } from '../../se
 import SolomonReasoningPanel from '../solomon/reasoning/SolomonReasoningPanel';
 import SolomonLeadingHypothesisCard from '../solomon/SolomonLeadingHypothesisCard';
 import SolomonReasoningSheet from '../solomon/SolomonReasoningSheet';
+import SolomonProfessionalSessionChrome from '../solomon/SolomonProfessionalSessionChrome';
+import SolomonFaultRanking from '../solomon/SolomonFaultRanking';
+import { SOLOMON_INTERFACE } from '../solomon/solomonThemeTokens';
 import SolomonInsightPeekBanner from '../solomon/SolomonInsightPeekBanner';
 import {
   eliminationInsightLabel,
@@ -89,8 +92,11 @@ export default function DiagnosticResultsForm({
   insightPeekPlacement = 'wizard-footer',
   onInsightPeeksChange = null,
   solomonMobileLayout = false,
+  interfaceStyle = SOLOMON_INTERFACE.SIGNATURE,
+  solomonSession = null,
 }) {
   const useSolomonReasoning = showSolomonReasoning ?? variant === 'mobile';
+  const isProfessionalSession = interfaceStyle === SOLOMON_INTERFACE.PROFESSIONAL && solomonMobileLayout;
   const template = getDiagnosticTemplate(payload?.templateId);
   const wizardDefinition = getWizardDefinition(payload?.templateId);
   const templateOptions = listDiagnosticTemplates().map((t) => ({ value: t.id, label: t.label }));
@@ -108,6 +114,7 @@ export default function DiagnosticResultsForm({
   const progressSaveTimerRef = useRef(null);
   const [reasoningSheetOpen, setReasoningSheetOpen] = useState(false);
   const [inlineRouteBanner, setInlineRouteBanner] = useState(false);
+  const [wizardJumpNonce, setWizardJumpNonce] = useState(0);
 
   payloadRef.current = payload;
 
@@ -686,6 +693,36 @@ export default function DiagnosticResultsForm({
     [steps, readOnly, emitChange, visitedStepKeys, scheduleProgressSave],
   );
 
+  const handleJumpToStepKey = useCallback(
+    (stepKey) => {
+      if (!stepKey || readOnly) return;
+      const step = steps.find((s) => s.meta?.stepKey === stepKey);
+      if (!step) return;
+
+      const nextVisited = visitedStepKeys.includes(stepKey)
+        ? visitedStepKeys
+        : [...visitedStepKeys, stepKey];
+
+      if (!visitedStepKeys.includes(stepKey)) {
+        setVisitedStepKeys(nextVisited);
+      }
+
+      prevStepIdRef.current = step.id;
+      prevStepKeyForTimelineRef.current = stepKey;
+
+      const nextPayload = {
+        ...payloadRef.current,
+        currentStepKey: stepKey,
+        visitedStepKeys: nextVisited,
+      };
+      payloadRef.current = nextPayload;
+      emitChange(nextPayload);
+      setWizardJumpNonce((value) => value + 1);
+      scheduleProgressSave({ immediate: true });
+    },
+    [steps, readOnly, emitChange, visitedStepKeys, scheduleProgressSave],
+  );
+
   const handleWizardComplete = useCallback(async () => {
     let nextPayload = payloadRef.current;
     if (!readOnly) {
@@ -888,12 +925,27 @@ export default function DiagnosticResultsForm({
 
       {variant === 'mobile' ? (
         <>
+          {isProfessionalSession ? (
+            <SolomonProfessionalSessionChrome
+              session={solomonSession}
+              payload={payload}
+              intelligence={intelligenceResult}
+              measurementStatuses={measurementStatuses}
+              onStepSelect={readOnly ? undefined : handleJumpToStepKey}
+            />
+          ) : null}
+
           {solomonMobileLayout && intelligenceResult ? (
             <SolomonLeadingHypothesisCard
               intelligence={intelligenceResult}
               onOpenReasoning={() => setReasoningSheetOpen(true)}
               variant={variant}
+              density={isProfessionalSession ? 'compact' : 'default'}
             />
+          ) : null}
+
+          {isProfessionalSession && intelligenceResult ? (
+            <SolomonFaultRanking intelligence={intelligenceResult} />
           ) : null}
 
           {/* Diagnostic path banner — disabled for now (Solomon mobile)
@@ -915,7 +967,7 @@ export default function DiagnosticResultsForm({
             context={wizardContext}
             readOnly={readOnly}
             variant={variant}
-            resetKey={payload?.templateId}
+            resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
             initialStepId={wizardInitialStepId}
             initialVisitedStepIds={wizardInitialVisitedStepIds}
             onAutoSave={handleWizardAutoSave}
@@ -999,6 +1051,8 @@ export default function DiagnosticResultsForm({
               currentStepKey={payload?.currentStepKey || null}
               reviewStepId={DIAGNOSTIC_REVIEW_STEP_ID}
               variant={variant}
+              interfaceStyle={interfaceStyle}
+              eliminationResult={isProfessionalSession ? eliminationResult : null}
             />
           ) : null}
 
@@ -1101,7 +1155,7 @@ export default function DiagnosticResultsForm({
             context={wizardContext}
             readOnly={readOnly}
             variant={variant}
-            resetKey={payload?.templateId}
+            resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
             initialStepId={wizardInitialStepId}
             initialVisitedStepIds={wizardInitialVisitedStepIds}
             onAutoSave={handleWizardAutoSave}
