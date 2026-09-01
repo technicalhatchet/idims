@@ -10,6 +10,8 @@ const SOLOMON_PATHS = [
   '/solomon/diagnose',
   '/solomon/diagnostics',
   '/solomon/outcomes',
+  '/solomon/knowledge',
+  '/solomon/codes',
 ];
 
 function nextDataUrl(path) {

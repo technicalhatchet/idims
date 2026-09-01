@@ -16,7 +16,7 @@ import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 import { SOLOMON_Z, SOLOMON_PRIMARY_CTA_CLASS, solomonContentSpacerStyle, solomonPrimaryCtaLabelStyle } from './solomonHeroComposition';
 
 export default function SolomonHomePage() {
-  const { isDiyer, canUseSolomon } = useSolomonAuth();
+  const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
   const { continueTarget, isLoading: continueLoading } = useSolomonContinue();
   const topInset = useSolomonTopInset();
 
@@ -50,7 +50,7 @@ export default function SolomonHomePage() {
           <SolomonInstallHint installHint={installHint} />
 
           <div className="relative" style={{ zIndex: SOLOMON_Z.header }} data-solomon-home-header>
-            <SolomonHomeHeader />
+            <SolomonHomeHeader isStaff={isStaff} />
           </div>
 
           <div
