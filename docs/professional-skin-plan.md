@@ -357,6 +357,8 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ## Phase 8 — Responsive polish
 
+**Status:** ✅ Implemented (2026-08-31)
+
 **Objective:** Phone-first quality bar; tablet acceptable.
 
 ### Tasks
@@ -370,9 +372,9 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ### Verification
 
-- [ ] iPhone safe areas (notch, home indicator)
-- [ ] Android Chrome PWA
-- [ ] No horizontal scroll on 320px width
+- [x] iPhone safe areas (notch, home indicator)
+- [x] Android Chrome PWA
+- [x] No horizontal scroll on 320px width
 
 **Estimated touch:** 5–10 files · **Risk:** Low
 

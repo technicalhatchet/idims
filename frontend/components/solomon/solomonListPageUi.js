@@ -3,7 +3,7 @@ import { FaCheckCircle, FaClock, FaPlus } from 'react-icons/fa';
 import { SOLOMON_DIAGNOSTIC_STATUS } from './solomonDiagnosticStatus';
 import SolomonCategoryIcon from './categoryIcons';
 
-export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[var(--solomon-bg-canvas)] relative overflow-hidden !px-4 max-w-lg';
+export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[var(--solomon-bg-canvas)] relative min-w-0 overflow-x-hidden !px-4 max-w-lg';
 
 export const SOLOMON_PAGE_TITLE_CLASS =
   'text-[1.75rem] font-bold tracking-tight text-[var(--solomon-text-primary)] leading-tight';

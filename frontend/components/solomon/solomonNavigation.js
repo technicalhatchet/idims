@@ -1,3 +1,5 @@
+import { solomonBottomNavScrollPadding } from './solomonSafeArea';
+
 /**
  * Solomon Professional mobile navigation helpers.
  */
@@ -21,7 +23,7 @@ export function shouldShowSolomonBottomNav(pathname, { isProfessional } = {}) {
 export function solomonBottomNavPaddingStyle(showNav) {
   if (!showNav) return undefined;
   return {
-    paddingBottom: `calc(${SOLOMON_BOTTOM_NAV_HEIGHT_PX}px + 1rem + env(safe-area-inset-bottom, 0px))`,
+    paddingBottom: solomonBottomNavScrollPadding(1),
   };
 }
 

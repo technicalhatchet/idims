@@ -133,3 +133,14 @@
   -webkit-backdrop-filter: blur(var(--solomon-glass-blur));
   backdrop-filter: blur(var(--solomon-glass-blur));
 }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-solomon-interface] *,
+  [data-solomon-interface] *::before,
+  [data-solomon-interface] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

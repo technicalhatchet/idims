@@ -52,9 +52,12 @@ function envSnapshot() {
   };
 }
 
+import useSolomonTheme from '../../hooks/useSolomonTheme';
+
 /**
  * Temporary forensic overlay — enable with ?solomonDebug=1, or tap Solomon logo 5× on home.
  * Renders via portal (stage transform traps position:fixed descendants).
+ * Signature home only — never shown in Professional.
  */
 export default function SolomonHeroDiagnostics({
   stageRef,
@@ -63,6 +66,7 @@ export default function SolomonHeroDiagnostics({
   ctaRef,
   hasActiveSession = false,
 }) {
+  const { isProfessional } = useSolomonTheme();
   const [debugEnabled, setDebugEnabled] = useState(false);
   const [report, setReport] = useState(null);
 
@@ -189,7 +193,7 @@ export default function SolomonHeroDiagnostics({
     };
   }, [debugEnabled, measure]);
 
-  if (!debugEnabled || typeof document === 'undefined') return null;
+  if (!debugEnabled || typeof document === 'undefined' || isProfessional) return null;
 
   const lines = report
     ? [

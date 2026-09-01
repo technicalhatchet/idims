@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import ApplianceIcon from '../../components/ui/ApplianceIcon';
+import SolomonApplianceIcon from '../../components/solomon/SolomonApplianceIcon';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { searchDmaRepairs } from '../../services/api/dmaApi';
@@ -46,11 +46,10 @@ function SearchResultRow({ item }) {
       <div className={SOLOMON_LIST_CARD_PADDING_CLASS}>
         <div className="flex gap-3">
           <div className={`${SOLOMON_LIST_ICON_BOX_CLASS} ${iconShell}`}>
-            <ApplianceIcon
+            <SolomonApplianceIcon
               equipmentType={equipmentType}
               equipmentSubtype={item.equipment_subtype}
               className="w-6 h-6"
-              glow="subtle"
             />
           </div>
           <div className="min-w-0 flex-1">

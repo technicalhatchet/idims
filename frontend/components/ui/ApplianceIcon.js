@@ -19,6 +19,9 @@ const APPLIANCE_ICONS = {
   default:        { color: 'cyan',   svg: (<><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></>) },
 };
 
+const SIGNATURE_STROKE = { cyan: '#00D4FF', orange: '#FF7A00' };
+const PROFESSIONAL_STROKE = { cyan: '#94a3b8', orange: '#a8a29e' };
+
 /**
  * Neon-stroke appliance / TV icon for tech dashboard cards (matches work order test styling).
  */
@@ -28,25 +31,31 @@ export default function ApplianceIcon({
   className = 'w-11 h-11',
   strokeWidth = 1.5,
   glow = 'default',
+  variant = 'signature',
 }) {
   const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';
+  const isProfessional = variant === 'professional';
+  const strokePalette = isProfessional ? PROFESSIONAL_STROKE : SIGNATURE_STROKE;
+  const effectiveGlow = isProfessional ? 'none' : glow;
   const glowFilter =
-    glow === 'subtle'
-      ? isCyan
-        ? 'drop-shadow(0 0 4px rgba(0,212,255,0.35))'
-        : 'drop-shadow(0 0 4px rgba(255,122,0,0.35))'
-      : isCyan
-        ? 'drop-shadow(0 0 6px rgba(0,212,255,0.6))'
-        : 'drop-shadow(0 0 6px rgba(255,122,0,0.6))';
+    effectiveGlow === 'none'
+      ? undefined
+      : effectiveGlow === 'subtle'
+        ? isCyan
+          ? 'drop-shadow(0 0 4px rgba(0,212,255,0.35))'
+          : 'drop-shadow(0 0 4px rgba(255,122,0,0.35))'
+        : isCyan
+          ? 'drop-shadow(0 0 6px rgba(0,212,255,0.6))'
+          : 'drop-shadow(0 0 6px rgba(255,122,0,0.6))';
   return (
     <svg
       viewBox="0 0 24 24"
       className={className}
       style={{
-        stroke: isCyan ? '#00D4FF' : '#FF7A00',
-        strokeWidth,
+        stroke: isCyan ? strokePalette.cyan : strokePalette.orange,
+        strokeWidth: isProfessional ? Math.min(strokeWidth, 1.35) : strokeWidth,
         fill: 'none',
         strokeLinecap: 'round',
         strokeLinejoin: 'round',

@@ -926,27 +926,105 @@ export default function DiagnosticResultsForm({
       {variant === 'mobile' ? (
         <>
           {isProfessionalSession ? (
-            <SolomonProfessionalSessionChrome
-              session={solomonSession}
-              payload={payload}
-              intelligence={intelligenceResult}
-              measurementStatuses={measurementStatuses}
-              onStepSelect={readOnly ? undefined : handleJumpToStepKey}
-            />
-          ) : null}
+            <div className="md:grid md:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] md:gap-x-4 md:items-start">
+              <aside className="space-y-2 min-w-0 md:sticky md:top-0 md:self-start md:max-h-[calc(100dvh-5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] md:overflow-y-auto md:overscroll-contain">
+                <SolomonProfessionalSessionChrome
+                  session={solomonSession}
+                  payload={payload}
+                  intelligence={intelligenceResult}
+                  measurementStatuses={measurementStatuses}
+                  onStepSelect={readOnly ? undefined : handleJumpToStepKey}
+                  sticky={false}
+                />
 
-          {solomonMobileLayout && intelligenceResult ? (
-            <SolomonLeadingHypothesisCard
-              intelligence={intelligenceResult}
-              onOpenReasoning={() => setReasoningSheetOpen(true)}
-              variant={variant}
-              density={isProfessionalSession ? 'compact' : 'default'}
-            />
-          ) : null}
+                {solomonMobileLayout && intelligenceResult ? (
+                  <SolomonLeadingHypothesisCard
+                    intelligence={intelligenceResult}
+                    onOpenReasoning={() => setReasoningSheetOpen(true)}
+                    variant={variant}
+                    density="compact"
+                  />
+                ) : null}
 
-          {isProfessionalSession && intelligenceResult ? (
-            <SolomonFaultRanking intelligence={intelligenceResult} />
-          ) : null}
+                {intelligenceResult ? (
+                  <SolomonFaultRanking intelligence={intelligenceResult} />
+                ) : null}
+              </aside>
+
+              <div className="min-w-0 space-y-2 md:col-start-2">
+                <Wizard
+                  steps={steps}
+                  context={wizardContext}
+                  readOnly={readOnly}
+                  variant={variant}
+                  resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
+                  initialStepId={wizardInitialStepId}
+                  initialVisitedStepIds={wizardInitialVisitedStepIds}
+                  onAutoSave={handleWizardAutoSave}
+                  onStepChange={handleWizardStepChange}
+                  onComplete={onSave ? () => void handleWizardComplete() : undefined}
+                  completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
+                  isCompleting={isSaving}
+                  footerExtra={wizardFooterExtra}
+                />
+
+                {readOnly && payload?.evidenceSnapshot && (
+                  <EvidenceSnapshotPanel
+                    snapshot={payload.evidenceSnapshot}
+                    variant={variant}
+                    stepKeyLabels={stepKeyLabels}
+                  />
+                )}
+              </div>
+            </div>
+          ) : (
+            <>
+              {solomonMobileLayout && intelligenceResult ? (
+                <SolomonLeadingHypothesisCard
+                  intelligence={intelligenceResult}
+                  onOpenReasoning={() => setReasoningSheetOpen(true)}
+                  variant={variant}
+                  density="default"
+                />
+              ) : null}
+
+              <Wizard
+                steps={steps}
+                context={wizardContext}
+                readOnly={readOnly}
+                variant={variant}
+                resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
+                initialStepId={wizardInitialStepId}
+                initialVisitedStepIds={wizardInitialVisitedStepIds}
+                onAutoSave={handleWizardAutoSave}
+                onStepChange={handleWizardStepChange}
+                onComplete={onSave ? () => void handleWizardComplete() : undefined}
+                completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
+                isCompleting={isSaving}
+                footerExtra={wizardFooterExtra}
+                headerTitle={
+                  readOnly
+                    ? undefined
+                    : variant === 'mobile'
+                      ? undefined
+                      : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
+                }
+                headerDescription={
+                  readOnly || variant === 'mobile'
+                    ? undefined
+                    : 'Complete each step, generate service notes on Review, then save.'
+                }
+              />
+
+              {readOnly && payload?.evidenceSnapshot && (
+                <EvidenceSnapshotPanel
+                  snapshot={payload.evidenceSnapshot}
+                  variant={variant}
+                  stepKeyLabels={stepKeyLabels}
+                />
+              )}
+            </>
+          )}
 
           {/* Diagnostic path banner — disabled for now (Solomon mobile)
           {solomonMobileLayout && inlineRouteBanner && routeDiff && !readOnly ? (
@@ -962,34 +1040,6 @@ export default function DiagnosticResultsForm({
           ) : null}
           */}
 
-          <Wizard
-            steps={steps}
-            context={wizardContext}
-            readOnly={readOnly}
-            variant={variant}
-            resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
-            initialStepId={wizardInitialStepId}
-            initialVisitedStepIds={wizardInitialVisitedStepIds}
-            onAutoSave={handleWizardAutoSave}
-            onStepChange={handleWizardStepChange}
-            onComplete={onSave ? () => void handleWizardComplete() : undefined}
-            completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
-            isCompleting={isSaving}
-            footerExtra={wizardFooterExtra}
-            headerTitle={
-              readOnly
-                ? undefined
-                : variant === 'mobile'
-                  ? undefined
-                  : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
-            }
-            headerDescription={
-              readOnly || variant === 'mobile'
-                ? undefined
-                : 'Complete each step, generate service notes on Review, then save.'
-            }
-          />
-
           {routeDiff && !readOnly && !solomonMobileLayout ? (
             <div id="solomon-diagnostic-path-insight" className="scroll-mt-3">
               <ExplainRouteBanner
@@ -1003,14 +1053,6 @@ export default function DiagnosticResultsForm({
               />
             </div>
           ) : null}
-
-          {readOnly && payload?.evidenceSnapshot && (
-            <EvidenceSnapshotPanel
-              snapshot={payload.evidenceSnapshot}
-              variant={variant}
-              stepKeyLabels={stepKeyLabels}
-            />
-          )}
 
           {eliminationResult && !solomonMobileLayout ? (
             <div id="solomon-elimination-insight" className="scroll-mt-3">

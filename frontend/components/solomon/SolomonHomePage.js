@@ -13,12 +13,11 @@ import SolomonProfessionalHome from './SolomonProfessionalHome';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
 import { useSolomonTheme } from '../../hooks/useSolomonTheme';
-import { useSolomonTopInset, solomonSafeBottom } from './solomonSafeArea';
+import { useSolomonTopInset, solomonBottomNavScrollPadding, solomonFooterScrollPadding } from './solomonSafeArea';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 import { SOLOMON_Z, SOLOMON_PRIMARY_CTA_CLASS, solomonContentSpacerStyle, solomonPrimaryCtaLabelStyle } from './solomonHeroComposition';
 import useSolomonBottomNavVisible from '../../hooks/useSolomonBottomNavVisible';
 import SolomonBottomNav from './SolomonBottomNav';
-import { SOLOMON_BOTTOM_NAV_HEIGHT_PX } from './solomonNavigation';
 
 function SolomonSignatureHome() {
   const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
@@ -35,16 +34,15 @@ function SolomonSignatureHome() {
   const ctaLabels = solomonPrimaryCtaLabelStyle({ longTitle: isDiyer, singleLine: !newSubtitle });
   const showBottomNav = useSolomonBottomNavVisible();
   const mainPaddingBottom = showBottomNav
-    ? `calc(${SOLOMON_BOTTOM_NAV_HEIGHT_PX}px + 1rem + env(safe-area-inset-bottom, 0px))`
-    : 'max(4rem, env(safe-area-inset-bottom, 0px))';
+    ? solomonBottomNavScrollPadding(1)
+    : solomonFooterScrollPadding(4);
 
   return (
-    <div className="relative min-h-screen text-white bg-[var(--solomon-bg-canvas)]">
+    <div className="relative min-h-screen min-w-0 overflow-x-hidden text-white bg-[var(--solomon-bg-canvas)]">
       <main
-        className="relative mx-auto max-w-lg"
+        className="relative mx-auto max-w-lg min-w-0"
         style={{
           ...topInset,
-          ...solomonSafeBottom,
           paddingBottom: mainPaddingBottom,
         }}
       >

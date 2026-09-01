@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import ApplianceIcon from '../../../components/ui/ApplianceIcon';
+import SolomonApplianceIcon from '../../../components/solomon/SolomonApplianceIcon';
 import {
   SOLOMON_DIAGNOSTIC_STATUS,
   resolveSolomonOutcomeStatus,
@@ -52,11 +52,10 @@ function OutcomeRow({ item, isDiyer }) {
       <div className={SOLOMON_LIST_CARD_PADDING_CLASS}>
         <div className="flex gap-3">
           <div className={`${SOLOMON_LIST_ICON_BOX_CLASS} ${iconShell}`}>
-            <ApplianceIcon
+            <SolomonApplianceIcon
               equipmentType={equipmentType}
               equipmentSubtype={item.equipment_subtype}
               className="w-6 h-6"
-              glow="subtle"
             />
           </div>
           <div className="min-w-0 flex-1">

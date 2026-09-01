@@ -1,21 +1,21 @@
-import { useSolomonTopInset, solomonSafeBottom } from './solomonSafeArea';
+import { useSolomonTopInset } from './solomonSafeArea';
 import useSolomonBottomNavVisible from '../../hooks/useSolomonBottomNavVisible';
 import SolomonBottomNav from './SolomonBottomNav';
-import { SOLOMON_BOTTOM_NAV_HEIGHT_PX } from './solomonNavigation';
+import { solomonBottomNavScrollPadding, solomonFooterScrollPadding } from './solomonSafeArea';
 
 /** Standard Solomon scroll page with notch + sync banner top inset. */
 export default function SolomonPageMain({ children, className = '' }) {
   const topInset = useSolomonTopInset();
   const showBottomNav = useSolomonBottomNavVisible();
   const paddingBottom = showBottomNav
-    ? `calc(${SOLOMON_BOTTOM_NAV_HEIGHT_PX}px + 1.25rem + env(safe-area-inset-bottom, 0px))`
-    : 'max(6rem, env(safe-area-inset-bottom, 0px))';
+    ? solomonBottomNavScrollPadding(1.25)
+    : solomonFooterScrollPadding(6);
 
   return (
     <>
       <main
-        className={`min-h-screen bg-[var(--solomon-bg-shell)] text-white px-5 max-w-lg mx-auto ${className}`}
-        style={{ ...topInset, ...solomonSafeBottom, paddingBottom }}
+        className={`min-h-screen min-w-0 overflow-x-hidden bg-[var(--solomon-bg-shell)] text-white px-5 max-w-lg mx-auto ${className}`}
+        style={{ ...topInset, paddingBottom }}
       >
         {children}
       </main>
