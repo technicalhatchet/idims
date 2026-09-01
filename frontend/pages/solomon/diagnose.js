@@ -21,6 +21,7 @@ import {
 } from '../../utils/standaloneDiagnostic';
 import { hasSolomonDiagnosticProgress } from '../../utils/solomonDiagnosticProgress';
 import { confirmSolomonTemplateChange } from '../../utils/solomonTemplateChange';
+import useSolomonTheme from '../../hooks/useSolomonTheme';
 
 function syncHintText(syncHint, isDiyer) {
   if (syncHint === 'saved') {
@@ -45,6 +46,7 @@ export default function SolomonDiagnosePage() {
     rolesLoading,
     rolesResolved,
   } = useSolomonAuth();
+  const { interfaceStyle } = useSolomonTheme();
   const outcomeId = typeof router.query.outcome_id === 'string' ? router.query.outcome_id : null;
   const templateParam = typeof router.query.template === 'string' ? router.query.template : null;
 
@@ -166,6 +168,24 @@ export default function SolomonDiagnosePage() {
 
   const templateLabel = getDiagnosticTemplate(payload?.templateId)?.label;
 
+  const solomonSession = useMemo(() => ({
+    id: diagnosticId,
+    template_id: payload?.templateId,
+    template_label: templateLabel,
+    equipment_make: equipment.equipment_make,
+    equipment_model: equipment.equipment_model,
+    equipment_serial: equipment.equipment_serial,
+    status: 'in_progress',
+    payload,
+  }), [
+    diagnosticId,
+    payload,
+    templateLabel,
+    equipment.equipment_make,
+    equipment.equipment_model,
+    equipment.equipment_serial,
+  ]);
+
   return (
     <>
       <SolomonHead title={copy('diagnosticNew')} />
@@ -208,6 +228,8 @@ export default function SolomonDiagnosePage() {
           hideTemplateSelector
           insightPeekPlacement="external"
           solomonMobileLayout
+          interfaceStyle={interfaceStyle}
+          solomonSession={solomonSession}
           onInsightPeeksChange={setInsightPeeks}
         />
         </SolomonAccessGuard>

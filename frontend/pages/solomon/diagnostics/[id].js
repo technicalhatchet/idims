@@ -48,6 +48,7 @@ import {
   solomonDiagnosticDetailPanelClass,
   SolomonDiagnosticStatusBadge,
 } from '../../../components/solomon/solomonDiagnosticStatus';
+import useSolomonTheme from '../../../hooks/useSolomonTheme';
 
 export default function SolomonDiagnosticDetailPage() {
   const router = useRouter();
@@ -68,6 +69,7 @@ export default function SolomonDiagnosticDetailPage() {
   const [insightPeeks, setInsightPeeks] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const { isStaff, isDiyer } = useSolomonAuth();
+  const { interfaceStyle } = useSolomonTheme();
   const [editEquipment, setEditEquipment] = useState({
     equipment_make: '',
     equipment_model: '',
@@ -401,6 +403,8 @@ export default function SolomonDiagnosticDetailPage() {
             hideTemplateSelector
             insightPeekPlacement="external"
             solomonMobileLayout
+            interfaceStyle={interfaceStyle}
+            solomonSession={row}
             onInsightPeeksChange={setInsightPeeks}
           />
         </SolomonMobileShell>
@@ -532,7 +536,13 @@ export default function SolomonDiagnosticDetailPage() {
 
         {row.payload ? (
           <div className="mt-6">
-            <SolomonDiagnosticReasoningView payload={row.payload} variant="mobile" mobileSheetLayout />
+            <SolomonDiagnosticReasoningView
+              payload={row.payload}
+              diagnostic={row}
+              variant="mobile"
+              mobileSheetLayout
+              interfaceStyle={interfaceStyle}
+            />
           </div>
         ) : null}
 
