@@ -325,6 +325,8 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ## Phase 7 — Settings + theme persistence
 
+**Status:** ✅ Implemented (2026-08-31)
+
 **Objective:** User-facing toggle that survives reload.
 
 ### Tasks
@@ -344,10 +346,10 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ### Verification
 
-- [ ] Toggle persists across reload
-- [ ] Toggle persists across logout/login (authenticated users)
-- [ ] Guest/DIY offline: localStorage only
-- [ ] Default remains Signature for existing users
+- [x] Toggle persists across reload
+- [x] Toggle persists across logout/login (authenticated users)
+- [x] Guest/DIY offline: localStorage only
+- [x] Default remains Signature for existing users
 
 **Estimated touch:** 4–6 files · **Risk:** Low
 

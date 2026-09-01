@@ -36,6 +36,7 @@ export function isSolomonNavActive(pathname, tab) {
       return path === '/solomon/knowledge' || path.startsWith('/solomon/codes');
     case 'more':
       return path === '/solomon/more'
+        || path === '/solomon/settings'
         || path === '/solomon/outcomes'
         || path.startsWith('/solomon/outcomes/');
     default:

@@ -31,6 +31,7 @@ router = APIRouter()
 class UIPreferences(BaseModel):
     """Schema for UI preferences"""
     railPosition: Optional[str] = None  # 'left' | 'right'
+    solomonInterfaceStyle: Optional[str] = None  # 'signature' | 'professional'
 
 class UserPreferencesUpdate(BaseModel):
     """Schema for updating user preferences"""
@@ -138,6 +139,8 @@ async def update_user_settings(
             # Update only provided fields
             if update_data.ui_preferences.railPosition is not None:
                 ui_prefs['railPosition'] = update_data.ui_preferences.railPosition
+            if update_data.ui_preferences.solomonInterfaceStyle is not None:
+                ui_prefs['solomonInterfaceStyle'] = update_data.ui_preferences.solomonInterfaceStyle
             current_prefs['ui_preferences'] = ui_prefs
         
         # Save to database - assign new dict so SQLAlchemy detects the change

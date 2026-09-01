@@ -69,6 +69,13 @@ export default function SolomonMorePage() {
           icon={FaHashtag}
           accentClass="bg-[color:var(--solomon-status-reference)]/15 text-[color:var(--solomon-status-reference)]"
         />
+        <MoreLinkRow
+          href="/solomon/settings"
+          label="Settings"
+          subtitle="Appearance and preferences"
+          icon={FaCog}
+          accentClass="bg-white/5 text-[var(--solomon-text-secondary)]"
+        />
         {isStaff ? (
           <MoreLinkRow
             href="/settings"

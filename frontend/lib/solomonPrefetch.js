@@ -12,6 +12,7 @@ const SOLOMON_PATHS = [
   '/solomon/outcomes',
   '/solomon/knowledge',
   '/solomon/more',
+  '/solomon/settings',
   '/solomon/codes',
 ];
 
