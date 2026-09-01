@@ -1,0 +1,3479 @@
+
+
+===== PAGE 1 =====
+
+1
+FOR SERVICE TECHNICIAN’S USE ONLY
+   NOTE: This sheet contains important Technical Service Data.
+ W10751166C                                                     Tech Sheet                                              Do Not Remove Or Destroy
+Control Assembly
+Meter Check of Loads and Fuses
+Fuse Service Check:
+F8 = Motor Fuse.
+F9 = Small-triac Load Fuse.
+Check operation of loads during the Service Diagnostics cycle.
+■
+If any of the triac loads work, F9 Fuse is OK.
+■
+If all triac loads fail to work, F9 Fuse could be open. See “Fuse Resistance 
+Check.”
+■
+If Wash Motor does not work, F8 Fuse could be open. See “Fuse 
+Resistance Check.”
+Fuse Resistance Check:
+1.
+Unplug the dishwasher or disconnect power.
+2.
+Measure resistance of F8 Fuse and/or F9 Fuse. 
+NOTE: Fuses are on the bottom of the Control Board but can be checked 
+from the top side. See “Control Pinout” diagram.
+■
+If resistance is <3 ?) then fuse is OK.
+■
+If resistance is >3 ?) then fuse is open.
+ What To Do If Fuse Open:
+Inspect and check resistance of all loads on fuse. If any loads are open, 
+shorted, or have evidence of overheating or pinched wires, replace them.
+DANGER
+Electrical Shock Hazard
+Only authorized technicians should perform diagnostic 
+voltage measurements.
+After performing voltage measurements, disconnect 
+power before servicing.
+Failure to follow these instructions can result in death 
+or electrical shock.
+WARNING
+Electrical Shock Hazard
+Disconnect power before servicing.
+Replace all parts and panels before operating.
+Failure to do so can result in death or electrical shock.
+SPECIFICATIONS
+Electrical Supply:
+(Under load) 60 Hz, 120 VAC
+Lower Spray Arm Rotation:
+12 to 40 rpm
+Supply Water Flow Rate:
+To fill 2 qt (1.9 L) in 27 seconds, 120 psi maximum, 20 psi minimum.
+Upper Spray Arm Rotation:
+12 to 30 rpm
+Supply Water Temperature:
+120°F (49°C) (Before starting a cycle, run water from sink faucet until hot.)
+REPAIR KITS
+Water Charge:
+0.9 gal. (3.5 L) Approximate
+Vinyl Touch-up Kits:
+675576 (Blue), 676453 (White), 676455 (Gray)
+Voltage Measurement Safety Information
+When performing live voltage measurements, you must do the following:
+■  Verify the controls are in the off position so that the appliance does not start when energized.
+■  Allow enough space to perform the voltage measurements without obstructions.
+■  Keep other people a safe distance away from the appliance to prevent potential injury.
+■  Always use the proper testing equipment.
+■  After voltage measurements, always disconnect power before servicing.
+ 
+ 
+ 
+Pin 1 
+Rast Connector Pinout
+Pin 1 
+Control
+Assembly
+Pinch to
+release
+Rotate
+Connector Box
+Connector Brace
+(To remove, pinch
+arms and rotate)
+Control panel snap
+locks control in place
+Buttons on bottom
+of control housing 
+slide into keyhole 
+slots on control 
+panel to support
+the control
+
+
+===== PAGE 2 =====
+
+2
+Wiring Diagram
+Schematic shown with door switch and all other normally-open contacts open.                          
+*Denotes energy-efficient components. Do not substitute.
+Most used test points on
+PC board for multimeter
+checks.
+N
+WH
+BK
+Ferrite
+(1 Loop)
+BK
+WH
+Heater
+Element
+Thermostat
+(Hi-Limit)
+BU/R
+BU-R
+N.C.
+Micro Pin
+K1
+HTR-N
+Relay
+K3
+HTR-L
+Relay
+P4
+P4-4
+P4-3
+P4-2
+P4-1
+BK
+WH
+K4
+Sense
+Motor
+Relay
+Optional
+P5
+F9
+Fuse
+P5-2
+P5-1
+LB
+LB
+L1
+N
+3
+2
+1
+1 - PH Sync
+Wash
+Motor
+Pump
+Drain
+Motor
+1
+3
+3
+3
+3
+3
+1
+1
+1
+Overfill
+(Float)
+Switch
+FillValve*
+Softener
+Regen Valve
+(Not All
+Models)
+Diverter
+Motor
+1
+3
+1
+3
+1
+3
+1
+3
+1
+3
+1
+3
+1
+2
+1
+3
+1
+2
+3
+4
+3
+1
+3
+1
+3
+1
+2
+4
+5
+6
+(Spare)
+(Spare)
+Future
+Future
+Vent Wax
+Motor
+Fan Motor
+Optional
+Flow
+Meter
+39K
+Softener
+Salt Sensor
+(Closed When
+Empty)
+(Not All Models)
+Diverter
+Position
+Switch Contact
+(Closed During
+Transitions)
+(Spare)
+Future
+O.W.I*
+(NTC, Foam, & Turbidity Sensor)
+BR
+BR
+BR
+BR
+BR
+BR
+BU
+BU
+BU
+BU
+RD
+RD
+RD
+RD
+V
+V
+V
+V
+BR
+BR
+BR
+BR
+13V
+VCC
+REF
+(+8V)
+(N)
+(-5V)
+7
+P
+6
+P
+P8
+P9
+P10
+P11
+P12
+P13
+3
+Door Open Detection
+P2
+1
+2
+3
+4
+13V
+Pilot L1
+Test
+Pad For
+All
+Triac
+Loads
+Fan Load
+(Current)
+Sense
+Analog
+Input
+Digital
+Input
+Analog
+Input
+NTC
+Input
+Opt
+Sig
+Foam
+Drive
+Turbo
+Drive
+13V
+VCC
+Wide
+Data
+13V
+Beeper
+REF
+VCC
+Wide Data 
+P1A
+P1B
+LED
+Displays
+14-pin
+Mechanical
+Push-Button
+Boards
+20-pin
+Active
+Overlays
+19-pin
+ZIF
+1
+3
+2
+4
+5
+6
+7
+Black Stripe On Connector
+Red
+ Stripe On Connector
+P6-1
+P6-3
+P6-4
+P6-6
+P6-7
+P6-9
+P7-1
+P7-3
+P7-4
+P7-6
+P8-1
+P8-3
+P8-4
+P8-6
+P9-1
+P9-3
+P9-5
+P9-6
+P10-1
+P10-3
+P10-5
+P10-4
+Micro Pin
+Micro Pin
+Micro Pin
+K2
+F8
+Fuse
+Or
+5
+1
+Dispenser
+Wax Motor
+P13-1
+P13-2
+P13-3
+P13-4
+LCD UI
+4-pin
+Pilot
+Relay
+W2
+P11-3 RD
+P11-3 RD
+P11-2 RD
+P11-4 RD
+P11-5 RD
+P11-6 RD
+P12-1 YL
+P12-2 YL
+P12-3 YL
+P12-4 YL
+P12-5 YL
+P12-6 YL
+Dispenser
+Solenoid
+Door Switch
+On some models
+Temporary
+Connection Port
+for Development
+Tools (& future 
+service tools)
+P1A and P1B
+User Interface
+Connector Options
+Capacitive Touch
+Keyboards 4-pin
+P1-VCC
+P4-REF
+Electronic Control* CCU1
+PC Board 190.28 x 81.01 mm
+2-sided FR4
+Power Supply
+Level    1-3W
+Level 2-4.4W
+Level 3-7.4W
+Motor Sense circuit 
+is different for
+High vs Low Power motors
+Return Line 13 Volt relay coils go through Door Switch 
+           AC Input
+Overfull/Leak Detection
+(and Pilot Relay detection)
+Load (current) Sense for drain, vent and all other triac loads on Pilot
+In Factory programming port
+(on top surface of PCB)
+(Depopulate in production; use pads)
+CR-
+  1
+BU/WH
+BU/RD
+1
+2
+3
+4
+P1C
+L1
+1
+2
+3
+1
+2
+3
+1
+2
+3
+1
+2
+ 3
+ 4
+Light
+Light
+Light
+To Connector P13
+     Light In tub 
+(on some models)
+GY
+GY
+3
+1
+Fan Motor
+or
+
+
+===== PAGE 3 =====
+
+3
+Service Diagnostics Cycle
+Service Diagnostics Cycle Notes:
+Customer Cycle Operation
+To quickly advance through customer cycles, invoke the Rapid Advance mode 
+by pressing HIGH TEMP - HEATED DRY - HIGH TEMP - HEATED DRY, after 
+starting the cycle. Then, press START/RESUME to advance through cycle 
+intervals. 
+NOTE: Rapid Advance mode is automatically enabled in the Service Diagnostic 
+cycle but must be manually invoked in customer cycles.
+26 25 24 23
+22 21
+18
+17
+16
+15
+14 13
+12
+11
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+INTERVAL
+CYCLE, OPTION, AND STATUS LEDs
+NORMAL
+HI TEMP
+DRY OPTION
+1 HR WASH
+START/RESUME
+RUNNING (Front Status light)
+SANITIZED
+CLEAN/ 7-Seg
+ALL OTHER CYCLE, OPTION, AND STATUS LEDs
+NRM
+NRM
+NRM
+NRM
+NRM
+NRM
+NRM
+NRM
+NRM
+NRM
+NRM
+NRM
+HIT
+HIT
+HIT
+HIT
+HIT
+HIT
+HIT
+HIT
+HIT
+HIT
+HIT
+HIT
+DRY
+DRY
+DRY
+DRY
+DRY
+DRY
+DRY
+DRY
+DRY
+DRY
+DRY
+1HR
+1HR
+1HR
+1HR
+1HR
+1HR
+1HR
+1HR
+1HR
+1HR
+1HR
+1HR
+STA
+STA STA
+STA
+STA
+STA
+STA
+STA
+STA
+STA
+STA
+STA
+STA
+STA
+STA STA
+STA
+STA
+STA
+STA
+STA
+STA
+STA
+RUN RUN RUN RUN RUN RUN
+RUN
+RUN
+RUN
+RUN
+RUN RUN RUN
+RUN
+RUN RUN RUN
+RUN
+RUN RUN
+RUN
+RUN
+RUN
+RUN
+SAN
+(SAN)
+(SAN)
+CLN
+7-Seg
+(CLN)
+(CLN)
+(CLN)
+ALL
+NOTE
+5
+4,5,6
+NOTES
+INTERVAL TIME (min:sec)
+TOTAL TIME (MAX.): 22:57
+SOIL SENSING INTERVALS 
+AND SENSOR CHECKS
+NOTE 5
+OWI (SOIL SENSOR) CHECK INTERVALS NOTE 6
+NOTE: OWI has thermistor built in - see check above
+THERMISTOR (TEMPERATURE SENSOR)
+CHECK INTERVAL
+NOTE 8
+SALT LEVEL REED SWITCH/
+FLOWMETER INPUT TEST
+LOADS
+PILOT RELAY
+VENT
+FILL
+WASH MOTOR
+DISPENSER (DETERGENT/RINSE AID)
+DRAIN MOTOR
+DC FAN MOTOR (IF PRESENT)
+HEATER
+REGEN (IF PRESENT)
+0:06
+0:08
+0:08
+0:08
+0:08
+0:10
+0:05
+0:23
+0:05
+1:00
+2:00
+0:30
+1:00
+0:30
+4:00
+0:01
+0:01
+0:01
+0:01
+1:52
+0:06
+2:30
+0:08
+0:08
+OWI
+OWI
+OWI
+THR
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+PLT
+VNT
+VNT
+VNT
+VNT
+VNT VNT
+VNT
+VNT
+VNT VNT VNT
+VNT
+VNT VNT
+VNT
+VNT
+FIL
+FIL
+FIL
+WSH
+WSH
+WSH WSH
+WSH
+WSH
+WSH
+DSP
+DRN
+DRN
+DRN
+FAN
+HTR
+HTR
+REG
+2
+CUSTOMER ERROR 1
+CUSTOMER ERROR 2
+CUSTOMER ERROR 3
+CUSTOMER ERROR 4
+SERVICE ERROR 1
+SERVICE ERROR 2
+S
+T
+A
+N
+D
+B
+Y
+1
+1
+6
+6
+8
+19
+NRM
+DRY
+STA
+RUN
+(CLN)
+0:44
+4
+5
+HIT
+HIT
+PLT
+VNT
+DRN
+S
+T
+A
+N
+D
+B
+Y
+1
+1
+1
+1
+6
+6
+6
+1HR
+STA
+SRM
+NOTE 7
+DIVERTER POSITION SENSOR CHECK
+NOTE 3
+DIVERTER
+DIVERTER POSITION
+DIV
+(DIV)
+(DIV)
+(DIV)
+(DIV)
+DIV
+UPR
+UPR
+UPR
+UPR
+UPR
+UPR
+UPR
+ON
+LOW
+LOW LOW LOW LOW
+LOW LOW
+TZ
+FAN
+FAN
+FAN
+3
+3
+3
+3
+3
+7
+20
+1HR
+STA
+RUN
+(CLN)
+9
+0:01
+HIT
+7-Seg 7-Seg 7-Seg
+7-Seg
+7-Seg
+AC FAN MOTOR (IF PRESENT)
+1
+To invoke the Diagnostics Cycle, perform the following while in 
+standby:
+■
+Press any 3 keys in the sequence 1-2-3-1-2-3-1-2-3 with no more 
+than 1 second between key presses.
+■
+The Service Diagnostics Cycle will start when the door is closed.
+■
+To rapid advance 1 interval at a time, press the Start/Resume key. 
+Rapid advance may skip sensor checks as some checks require 
+2 complete intervals.
+NOTE: While you are in the Diagnostic Cycle, the Start/Resume 
+feature is turned Off (for example, Auto Resume after door interrupts) 
+and the Start/Resume key becomes an interval advance key. 
+■
+Invoking Service Diagnostics Cycle clears all status and last run 
+information from memory and restores defaults. It also forces the 
+next cycle to be a sensor calibration cycle.
+■
+Drain and wash motors will pulsate on and off. 
+■
+Last run cycles and options returned to default. 
+■
+Last run delay returns to the lowest delay increment.
+■
+Calibration cycle may force an extra rinse to occur prior to Final 
+Rinse (to assure clear water), then calibrates the OWI and the fill 
+amount during the final rinse.
+■
+Operating state returns to Standby upon completing or 
+terminating the Service Diagnostics Cycle.
+■
+Reference the “Service Diagnostics with Error Codes” section for 
+details. 
+2
+Turn on all LEDs immediately upon receiving the entry sequence (even 
+if the door is open) for 5 seconds as a display test. Turn off all LEDs for 
+1 second prior to reporting customer error history.
+3
+Diverter will be on continuously in interval 14. In all other diverter 
+intervals, diverter will be on only until it reaches the intended position 
+for that interval.
+4
+Press HI TEMP key in this interval to clear customer error history.
+5
+Thermistor (temperature sensor) checks - turn clean LED on if 
+thermistor is in its normal temperature range 32°F to 167°F (0°C to 
+75°C) Turn sanitized LED on if fill temperature is above 65°F (18.3°C).
+6
+OWI (optical soil sensor) checks:
+■
+Check OWI sensor for the presence of water during the 5 sec. 
+pause in interval 16 and turn on the Clean LED in interval 15 if 
+water detected.
+■
+Check OWI sensor for presence of bulk soil during pause interval 
+13 and turn on the Clean LED in interval 12 if bulk soil detected.
+■
+Drain until OWI sensor sees the presence of air or a maximum of 
+1:52 during interval 5 and turn on the Clean LED in interval 4 if air 
+detected.
+7
+DC Fan Motor is on during upper rack washing intervals.
+8
+Turn on Sanitized LED in this interval to indicate that the salt level reed 
+switch is closed.
+9
+Turn on Clean LED in this interval to indicate that vent current is 
+detected.
+
+
+===== PAGE 4 =====
+
+4
+Control Pinout
+Meter Check of Loads and Fuses  
+Dishwasher Strip Circuits
+The following individual circuits are for use in diagnoses. Do not continue with 
+the diagnosis of the appliance if a fuse is blown, a circuit breaker is tripped, or if 
+there is less than a 120-volt power supply at the wall outlet.
+■
+Unplug dishwasher or disconnect power.
+■
+Perform resistance checks. To check resistance of a component, 
+disconnect harness leads first.
+Door Switch
+Wash/Rinse
+Water Heating/Heat Dry and Water Sensing with O.W.I. Sensor (Water/Air/Soil/Temperature)
+Pump is washing and control monitors temperature during water heating periods. See “Wash/Rinse” and “Water Sensing with O.W.I. Sensor (Water/Air/Soil/
+Temperature)” circuits).  
+Fill
+(Top)
+W2
+P5
+P6
+P7
+P8
+P9
+P10
+P11
+P12
+P13
+-4
+-3 -2 -1
+-2 -1
+-1
+-6
+-9
+-1
+-6 -1
+-6
+-1
+-5-6
+-1 -3 -5 -1 -2 -4 -6
+-1 -3
+(OWI)
+P12
+(Wide Out)
+P13
+P4
+P5
+P6
+BR
+P7
+BU
+P8
+RD
+P9
+V
+P10
+BR
+P11
+RD
+P12
+YL
+Ω of F9 Triac Fuse
+Ω of F8 Motor Fuse
+Electronic Control
+Electronic Control
+Micro Pin
+Micro Pin
+Micro Pin
+Micro Pin
+          K4
+Motor (N) Relay
+           K3
+Heater (L1) Relay
+         K2
+Pilot (L1) Relay
+            K1
+Heater (N) Relay
+N.O.
+N.O.
+N.O.
+N.O.
+(To Wash Motor)
+(To Heater)
+     (To Wash Motor,
+Vent, and Triac Loads)
+(To Heater)
+N.O.
+  Door
+ Switch
+Sensing
+  Input
+Ref
+P9-5
+P10-4
+  Door
+ Switch
+P9-6
+13V
+V
+V
+Motor Power
+  Sense
+ Resistor
+or Jumper
+     0Ω 
+L1
+BK
+P4-2
+P5-2
+P5-1
+P4-1
+N
+WH
+          K4
+ Motor N Relay
+(Also see Door
+ Switch Circuit)
+ N.O.
+   1-PH Sync
+Wash Motor
+(Power Supply)
+Electronic Control
+Electronic Control
+Pin 3
+Pin 2
+  120V, 60 Hz
+  5-15Ω, 60W 
+Fuse
+  F8
+          K2
+ Pilot L1 Relay
+(Also see Door
+ Switch Circuit)
+   Use holes of jumper
+W2 as test points for F8.
+(Top Hole)
+(Bottom
+   Hole)
+ N.O.
+W2
+(LB)
+TURQ
+TURQ
+(LB)
+L1
+BK
+Electronic Control
+N.O.
+         K3
+Heater L1 Relay
+ (Also see Door 
+ Switch Circuit) 
+   Hi-Limit
+ Thermostat
+     Opens 
+ 207°F - 217°F
+(97°C - 103°C)
+ Heater Element
+     8Ω - 30Ω 
+   120V, 60 Hz
+    Plastic Models: 
+805W Wet / 385W Dry
+Stainless Steel Models: 
+785W / 500W Dry
+N.C.
+P4-2
+P4-3 BU/RD
+BU/RD
+BU/WHP4-4
+P4-1 WH
+N
+Electronic Control
+N.O.
+         K1
+Heater N Relay
+ (Also see Door 
+ Switch Circuit) 
+Electronic
+ Control
+P12-6
+P12-5
+P12-4
+P12-3
+P12-2
+P12-1
+YL
+YL
+YL
+YL
+YL
+YL
+Pin 1
+Pin 2
+Pin 3
+Pin 4
+Pin 5
+Pin 6
+  Measure NTC resistance at P12-1 and 
+P12-3 connector disconnected from control.
+Turbidity Drive
+Foam Drive
+OPT Sig
+VCC
+Ref
+NTC
+O.W.I. Sensor
+Temperature: NTC Thermistor 
+46KΩ - 52KΩ at 77°F (25°C)
+11KΩ - 13KΩ at 140°F (60°C)
+Heater
+L1
+BK
+P4-2
+P6-4
+P10-1
+P6-6
+P6-7
+P6-9
+P4-1
+Use top hole of jumper
+W2 as test point for F9.
+N.O.
+        K2
+ Pilot L1 Relay
+(Also see Door
+ Switch Circuit)
+Fuse
+  F9
+Electronic Control
+Electronic Control
+          Float
+ (In normal position,
+holds switch closed.)
+BR
+BR
+N.O.
+Pin 3
+Pin 1
+   Overfill 
+Float Switch
+No test pad on P6-4.
+Recommend using test pad on P10-1.
+No test pad on P6-7.
+Recommend using test pad on P6-6.
+Electronic Control
+Float Switch
+      Input
+BR
+BR
+Pin 3
+Pin 1
+Triac
+       Fill Valve
+ 890Ω - 1,600Ω 
+120V, 60 Hz, 6W
+WH
+N
+
+
+===== PAGE 5 =====
+
+5
+Drain
+Dispenser (Detergent and Rinse Aid)
+Diverter Valve
+Water Softener
+Drying
+For Heated Dry, heater is also running. See “Heater” circuit under “Water Heating/Heat Dry and Water Sensing with O.W.I. Sensor (Water/Air/Soil/Temperature).” 
+L1
+BK
+P4-2
+P6-3
+P10-1
+P6-1
+P4-1
+BR
+BR
+WH
+N
+Use top hole of jumper
+W2 as test point for F9.
+N.O.
+         K2
+ Pilot L1 Relay
+(Also see Door 
+ Switch Circuit)
+Fuse
+  F9
+Electronic Control
+Electronic Control
+              No test pad on P6-3.
+Recommend using test pad on P10-1.
+Pin 1
+Pin 3
+    Drain Motor
+    15Ω - 60Ω 
+120V, 60 Hz, 60W
+Triac
+N
+P4-1
+Pin 1 
+Pin 3 
+N.O.
+        K2
+P4-2
+P9-3
+P9-1
+BK
+L1
+P10-1
+Fuse
+  F9
+Dispenser Wax Motor
+    1.4KΩ - 3.0KΩ
+  120V, 60 Hz, 10W 
+Pin 1 
+Pin 5 
+Triac
+Electronic Control
+Use top hole of jumper
+W2 as test point for F9.
+Pilot L1 Relay
+(also see Door
+Switch Circuit)
+Test pad on P9-3 might crowd P9-1
+Recommend using test pad on P10-1.
+Dispenser Solenoid
+    260Ω - 300Ω
+120V, 60Hz, 17W
+Electronic Control
+VI
+VI
+WH
+Electronic Control
+Sensor
+ Input
+       Switch closes momentarily
+       and then reopens as the diverter
+       reaches each potential diverter position.
+Diverter
+Position
+ Switch
+Electronic Control
+             No test pad on P11-3.
+Recommend using test pad on P11-2.
+P11-4
+P11-3
+P11-2
+5V
+N.O.
+Diverter Sensor
+Diverter Motor
+L1
+BK
+P4-2
+P7-4
+P10-1
+P7-6
+P4-1
+N
+WH
+BU
+BU
+Pin 3
+Pin 1
+Use top hole of jumper
+W2 as test point for F9.
+N.O.
+         K2
+ Pilot L1 Relay
+(Also see Door
+ Switch Circuit)
+Fuse
+  F9
+Electronic Control
+              No test pad on P7-4.
+Recommend using test pad on P10-1.
+Electronic
+ Control
+Triac
+ Diverter Motor
+     1,100Ω - 1,400Ω 
+      120V, 60 Hz, 3W
+L1
+Regeneration Valve
+BK
+P4-2
+P7-3
+P10-1
+P7-1
+P4-1
+N
+WH
+V
+V
+Use top hole of jumper
+W2 as test point for F9.
+         K2
+ Pilot L1 Relay
+(Also see Door
+ Switch Circuit)
+Fuse
+  F9
+Pin 1
+Pin 3
+N.O.
+Electronic Control
+Electronic 
+Control
+Triac
+           No test pad on P7-3.
+Recommend using test pad on P10-1.
+Regeneration Valve
+   890Ω - 1,090Ω 
+   120V, 60 Hz, 6W
+Electronic Control
+P11-2
+P11-1
+RD
+RD
+(RD)
+N.O.
+N.O.
+5V
+(Optional Flowmeter)
+Sensor
+  Input
+(Closed when salt low)
+Salt Level Reed Switch
+39 KΩ
+Salt Level Sensing
+Pin 1
+Pin 1
+Pin 4
+Pin 2
+Pin 3
+Pin 3
+Electronic
+ Control
+(RD)
+L1
+BK
+P4-2
+P10-1
+P10-3
+P4-1
+BR
+BR
+WH
+N
+Use top hole of jumper
+W2 as test point for F9.
+N.O.
+         K2
+ Pilot L1 Relay
+(Also see Door
+ Switch Circuit)
+Fuse
+ F9
+Electronic Control
+Electronic Control
+(Red stripe
+on plug)
+(Red stripe
+on plug)
+Pin 5
+Pin 1
+Vent Wax Motor 
+600Ω - 1,800Ω 
+120V, 60 Hz, 6W
+Electronic Control
+Electronic Control
+(Red stripe
+on plug)
+(Red stripe
+on plug)
+P10-5
+P10-4
+P11-5
+DC Ref
+BR
+BR
+Pin 1
+Pin 3
+        Fan Motor 
+    31KΩ - 41KΩ
+        5 VDC, 1W
+Must measure resistance
+with correct polarity and
+disconnected from controls.
+5V
+_
++
+Vent
+Fan 
+                         No test pad on P10-4.
+Recommend using test pad on P11-5.
+L1
+BK
+P4-2
+P7-3
+P10-1
+P7-1
+P4-1
+N
+WH
+BU
+BU
+         K2
+Fuse
+  F9
+Pin 1
+Pin 3
+N.O.
+Electronic Control
+Electronic Control
+Triac
+           No test pad on P7-3.
+Recommend using test pad on P10-1.
+AC Fan (not on all models)
+        Fan Motor
+       60Ω -80Ω
+   120 V, 60 Hz, 12 Watts
+Pilot L1 Relay
+(Also see Door
+Switch Circuit)
+
+
+===== PAGE 6 =====
+
+6
+Service Diagnostics with Error Codes
+Entry sequence: Press any 3 keys in the sequence 1-2-3-1-2-3-1-2-3 with no 
+more than 1 second between key presses.
+NOTE: Some models have replaced the “CLEAN” LED with “COMPLETE.” 
+If no error, “Clean” LED stays on for 5 seconds or display shows “F-” or “E-”.  
+NOTE: Once error codes are extracted, refer to the “Service Error Codes” table 
+to diagnose and correctly resolve the root cause condition.
+Service Error Codes
+Example: 6-1 means “Inlet Water” function, “Low/No Water” problem.  
+         DISPLAY TEST - ALL LEDS ON
+INTERVAL 26
+ 
+ERROR 1 - MOST RECENT
+INTERVAL 25
+SHOW 
+FUNCTION 
+CODE 
+PAUSE
+SHOW 
+PROBLEM 
+CODE 
+PAUSE Repeat 3 
+times 
+unless 
+advanced 
+by Start 
+key.
+Count Clean 
+LED flashes 
+2 sec. 
+Count Clean 
+LED flashes 
+5 sec.
+OR ON DISPLAY MODELS
+Read “F#” on 
+Display 
+0.5 sec.
+Read “E#” 
+on Display 
+1 sec.
+ERROR 2
+INTERVAL 24
+SHOW 
+FUNCTION 
+CODE 
+PAUSE
+SHOW 
+PROBLEM 
+CODE 
+PAUSE Repeat 3 
+times 
+unless 
+advanced 
+by Start 
+key.
+Count Clean 
+LED flashes  
+2 sec.
+Count Clean 
+LED flashes 
+ 5 sec.
+OR ON DISPLAY MODELS
+Read “F#” on 
+Display 
+0.5 sec.
+Read “E#” 
+on Display 
+1 sec.
+ERROR 3
+INTERVAL 23
+SHOW 
+FUNCTION 
+CODE 
+PAUSE
+SHOW 
+PROBLEM 
+CODE 
+PAUSE Repeat 3 
+times 
+unless 
+advanced 
+by Start 
+key.
+Count Clean 
+LED flashes 
+2 sec.
+Count Clean 
+LED flashes 
+5 sec.
+OR ON DISPLAY MODELS
+Read “F#” on 
+Display 
+0.5 sec.
+Read “E#” 
+on Display 
+1 sec.
+ERROR 4 - OLDEST
+INTERVAL 22
+SHOW 
+FUNCTION 
+CODE 
+PAUSE
+SHOW 
+PROBLEM 
+CODE 
+PAUSE Repeat 3 
+times 
+unless 
+advanced 
+by Start 
+key.
+Count Clean 
+LED flashes 
+2 sec. 
+Count Clean 
+LED flashes 
+5 
+seconds
+OR ON DISPLAY MODELS
+Read “F#” on 
+Display 
+0.5 sec. 
+Read “E#” 
+on Display 
+1 second
+10 seconds pause
+Hi Temp LED will be on 
+INTERVAL 21
+Press Hi Temp key to clear errors. 
+Hi Temp LED will blink twice to indicate errors have been 
+cleared.
+Service Diagnostics Cycle 
+INTERVAL 20-3
+Turns on loads and checks sensors.
+SERVICE CYCLE ERROR 1 
+INTERVAL 2
+A tone will play when service error code 1 is 
+displayed
+SHOW 
+FUNCTION 
+CODE 
+PAUSE
+SHOW 
+PROBLEM 
+CODE 
+PAUSE Repeat 3 
+times 
+unless 
+advanced 
+by Start 
+key.
+Count Clean 
+LED flashes 
+2 sec. 
+Count Clean 
+LED flashes 
+5 sec.
+OR ON DISPLAY MODELS
+Read “F#” on 
+Display 
+0.5 sec.
+Read “E#” 
+on Display 
+1 sec.
+SERVICE CYCLE ERROR 2 
+INTERVAL 1
+SHOW 
+FUNCTION 
+CODE 
+PAUSE
+SHOW 
+PROBLEM 
+CODE 
+PAUSE Repeat 3 
+times 
+unless 
+advanced 
+by Start 
+key.
+Count Clean 
+LED flashes 
+2 sec. 
+Count Clean 
+LED flashes 
+5 sec.
+OR ON DISPLAY MODELS
+Read “F#” on 
+Display 
+0.5 sec.
+Read “E#” 
+on Display 
+1 sec.
+Function 
+Code
+Problem 
+Code
+Causes
+What to Check
+1-Control
+1-
+Pilot Stuck 
+On
+Control detected 
+K2 pilot relay 
+stuck closed.
+1. Unplug dishwasher or 
+disconnect power.
+2. Check all loads on K2 pilot relay 
+for shorts.
+3. Replace control and all shorted 
+components.
+2-
+Control 
+Software 
+Issue
+1. Damaged or 
+corrupted 
+memory or control 
+board. 
+incompatible 
+software 
+components 
+inside micro.
+1. Unplug dishwasher or 
+disconnect power.
+2. Replace control board.
+2. All LED’s are 
+on.
+1. Unplug dishwasher or 
+disconnect power.
+2. Replace UI (for numeric display 
+models only).
+2-
+User 
+Interface
+1-
+Stuck Key
+Control detected 
+stuck key(s) in 
+keypad or keypad 
+connection. 
+NOTE: If any keys 
+are stuck, the 
+stuck key(s) will 
+be ignored and an 
+error recorded to 
+service history, 
+but no alert to 
+customer.
+Check responsiveness of each
+key.
+1. If some keys do not respond,
+then:
+- Unplug dishwasher or
+disconnect power.
+- Disassemble door and
+disconnect keypad connection
+from control or LCD display
+module.
+- Verify all other connections to
+control are made.
+- Reassemble door but do not
+close door.
+- Plug in dishwasher or reconnect
+power.
+- Wait at least 7 seconds for
+control to power up completely.
+- Close dishwasher door and
+monitor control response:
+A. If control is OK (no longer
+sees stuck keys with keypad
+unplugged), it will respond by
+turning on the drain motor for
+2 minutes. Replace keypad
+and console.
+
+
+===== PAGE 7 =====
+
+7
+FOR SERVICE TECHNICIAN’S USE ONLY
+2-
+User 
+Interface 
+(cont.)
+1-
+Stuck Key 
+(cont.)
+Control detected 
+stuck key(s) in 
+keypad or keypad 
+connection. 
+NOTE: If any keys 
+are stuck, the 
+stuck key(s) will 
+be ignored and an 
+error recorded to 
+service history, 
+but no alert to 
+customer. (cont.)
+B. If control is not OK (still
+sees stuck keys with keypad
+unplugged), it will not turn on
+drain motor. Wait for at least
+10 seconds. If still no drain
+response, then replace control
+or LCD display module
+(whichever one the keypad
+was connected to).
+2. If all keys appear OK or 
+intermittent, and keypad is 
+capacitive touch type, then:
+- Verify tub brackets are screwed 
+to underside of countertop and not 
+hanging over keys (if screw head 
+too close, relocate screw to 
+alternate hole).
+- Check for evidence of moisture 
+or debris on the surface of the 
+keys. If evident, clean and instruct 
+customer about keeping surface 
+clean.
+- Check error code history for Fan 
+Error 10-3 as potential cause of 
+condensation on user interface.
+- Verify presence of vent current if 
+model has a vent wax motor. Refer 
+to “Leaks or Drips On Cabinet or 
+Floor” in the “Troubleshooting 
+Guide” section.
+2-
+No 
+response 
+from UI
+User interface 
+cannot 
+communicate 
+with main control. 
+Loose user 
+interface 
+connection.
+1. Unplug dishwasher or 
+disconnect power.
+2.Check the connection between 
+the UI and the control P1C 
+connector. If the connection(s) is 
+loose or if wires are loose or 
+damaged, reconnect, repair or 
+replace as needed.
+3. Refer to Service Error Codes 
+table for stuck key (2-1). Run the 
+diagnostic check, item (1).
+- If drain motor turns on, replace 
+the console.
+- If drain motor does not turn on, 
+replace the control.
+3-
+Ther-
+mistor/
+OWI
+1-
+Open
+- Open connector 
+or component in 
+Temperature 
+Sensing circuit.
+- Open or faulty 
+temperature 
+sensor.
+- Temperature 
+sensor input on 
+control.
+1. Check operation of temperature 
+sensor in Service Diagnostics 
+cycle.
+2. Unplug dishwasher or 
+disconnect power.
+3. Check all components and 
+connections in the Temperature 
+Sensing circuit with meter. Fix/
+replace open connection/part.
+2-Shorted
+- Incoming water 
+temperature 
+above 167°F 
+(75°C).
+- Shorted 
+connection or 
+component in 
+Temperature 
+Sensing circuit.
+- Shorted or faulty 
+temperature 
+sensor.
+- Temperature 
+sensor input on 
+control.
+1. Check incoming water 
+temperature.
+2. Check operation of temperature 
+sensor in Service Diagnostics 
+cycle.
+3. Unplug dishwasher or 
+disconnect power.
+4. Check all components and 
+connections in the Temperature 
+Sensing circuit with meter. Fix/
+replace shorted connection/part. 
+(See OWI Sensor strip circuit.)
+3-
+Failed 
+Calibration
+1. OWI failure.
+1. Run Service Diagnostics to 
+check OWI operation. OWI should 
+see low soil with clear water.
+2. Check OWI lens surface. Clean 
+if needed.
+3. Unplug dishwasher or 
+disconnect power.
+4. Check all connections in Soil 
+Sensing circuit with meter. Fix/
+replace bad connection/part. 
+NOTE: Run Diagnostics after 
+replacing new OWI to force 
+calibration on next wash cycle.
+Function 
+Code
+Problem 
+Code
+Causes
+What to Check
+3-
+Ther-
+mistor/
+OWI (cont.)
+3-
+Failed 
+Calibration 
+(cont.)
+2. Drain hose 
+check valve not 
+sealing.
+Dirty water backs into dishwasher 
+after draining.
+1. Disconnect drain hose at 
+plumbing connection.
+2. Elevate hose above dishwasher 
+and fill with water. If water flows 
+into dishwasher, replace entire 
+drain loop. Install as high as 
+possible and attach to underside 
+of counter top if possible.
+4-
+Wash 
+Motor
+3- 
+Motor Not 
+Running
+1. Loose 
+connection in 
+Motor circuit and/
+or faulty wash 
+motor.
+1. Check operation of wash motor 
+during diagnostics.
+2. Unplug dishwasher or 
+disconnect power.
+3. Check resistances of 
+connections in the Wash circuit.
+- Check for loose connections or 
+replace wash motor.
+2. Control Motor 
+Drive circuit or 
+Sense circuit.
+1. Unplug dishwasher or 
+disconnect power.
+2. If meter check of Wash Motor 
+circuit shows normal resistance 
+and still not getting power to the 
+wash motor, replace control.
+5-
+Door 
+Switch
+1-
+Door Stuck 
+Open
+1. Door was not 
+latched within 
+4 seconds of 
+pressing the 
+Start/Resume key.
+Instruct customer. Refer to Use 
+and Care Guide.
+2. Loose 
+connection in 
+Door Switch 
+circuit and/or 
+door switch 
+contacts stuck 
+open and/or door 
+switch not making 
+contact:
+- Sloppy door 
+latch assembly, 
+which can be 
+aggravated by 
+high door closure 
+force, keeping 
+strike plate from 
+fully seating.
+- Door switch 
+(high resistance).
+1. Check strike plate and door 
+closure force. Verify door seal is 
+seated properly. Check for 
+interference between dish racks 
+and door. Try bending strike plate 
+down for better engagement.
+2. Unplug dishwasher or 
+disconnect power.
+3. Check resistances of door 
+switch contacts and all 
+connections in the Door Switch 
+circuit with meter while opening 
+and closing the door latch.
+- If high resistance with door 
+closed, check/fix loose 
+connections.
+4. Measure resistance of door 
+switch contacts while checking 
+mechanical operation of latch 
+assembly. Check for broken 
+plastic pieces on latch assembly. 
+Replace latch if faulty.
+3. If none of the 
+above.
+1. With door open, verify 13 VDC 
+present across P9-5 and P9-6.
+2. If no voltage present, unplug 
+dishwasher or disconnect power 
+and replace control.
+2-
+Door Stuck 
+Closed
+Control 
+programmed to 
+not start if it 
+suspects the door 
+switch is stuck 
+closed. Control 
+looks for the door 
+switch to open 
+between cycles.
+- Customer didn’t 
+open the door 
+between cycles or 
+door switch 
+contacts stuck 
+closed.
+1. Open and close door and then 
+press Start/Resume key. If it works 
+now, instruct customer to open 
+door between cycles.
+2. Unplug dishwasher or 
+disconnect power.
+3. Measure resistance of door 
+switch contacts while checking 
+mechanical operation of latch 
+assembly.
+6-
+Inlet Water
+1-
+Low/No 
+Water 
+(Mecha-
+nical 
+Problem)
+1. No water to 
+dishwasher.
+Verify water supply is turned on 
+and supply line adequate.
+2. Bowls or pots 
+loaded or flipped 
+and captured 
+wash water.
+Instruct customer on loading. 
+Refer to Use and Care Guide.
+Function 
+Code
+Problem 
+Code
+Causes
+What to Check
+
+
+===== PAGE 8 =====
+
+8
+6-
+Inlet Water 
+(cont.)
+1-
+Low/No 
+Water 
+(Mecha-
+nical 
+Problem) 
+(cont.)
+3. Drain loop 
+detached from 
+tub and/or 
+improper drain 
+connection.
+Check for water siphoning out of 
+unit:
+1. Allow dishwasher to complete 
+normal fill.
+2. Drain for 5 - 10 seconds by 
+pressing CANCEL/DRAIN.
+3. Open door and confirm water 
+does not siphon out of unit. If it 
+does, confirm drain loop is 
+attached to side of dishwasher 
+and drain hose is connected to a 
+drain at least 20" (50.8 cm) off the 
+floor.
+4. Water leaking 
+from dishwasher.
+Check for leaks under dishwasher.
+5. Fill valve or 
+water line plugged 
+with debris.
+Turn off water supply to 
+dishwasher, disconnect water line 
+to inlet valve, and inspect/clean 
+the inlet screen of fill valve, and 
+reconnect water.
+6. Overfill switch 
+stuck in “Overfill” 
+position and/or 
+dishwasher not 
+level.
+Check other error codes to see if 
+6-4 also occurred. See 6-4 Error 
+Code.
+7. Fill valve 
+electrical 
+problem.
+Check other error codes to see if 
+6-2 also occurred. See 6-2 Error 
+Code.
+2-
+Fill Valve 
+(Electrical 
+Problem)
+1. Loose 
+connection in Fill 
+Valve circuit and/
+or open Fill Valve 
+Solenoid.
+Unplug dishwasher or disconnect 
+power and check resistances of fill 
+valve solenoid and all connection 
+in the Fill circuit with meter. 
+-Fix/replace open connection/part.
+2. Open fuse on 
+control to fill 
+valve.
+Refer to “Fuse Service Check” in 
+“Meter Check of Loads and 
+Fuses” section.
+3. Fill Valve Drive 
+circuit on the 
+control.
+Unplug dishwasher or disconnect 
+power and replace control.
+3-
+Suds/Air in 
+Pump
+1. Too many suds. 1. Allow unit to fill and wash for 
+1 minute. Open door and check 
+for excessive sudsing.
+2. Confirm using proper 
+dishwasher detergent, not hand 
+detergent.
+3. Check for excessive rinse aid 
+leakage.
+2. Bowls or pots 
+loaded or flipped 
+and captured 
+wash water.
+Instruct customer on loading. 
+Refer to Use and Care Guide.
+3. Water leaking 
+from dishwasher.
+Check for leaks under dishwasher.
+4. Diverter disk in 
+sump is missing.
+Remove lower spray arm, 
+TurboZone® assembly, rear feed 
+tube and outlet cover and verify 
+whether the red diverter disk is 
+installed.
+4-
+Float 
+Switch 
+Open
+1. Overfill switch 
+stuck in “Overfill” 
+position and/or 
+dishwasher not 
+level.
+Remove any items stuck under the 
+float. Verify that the float moves 
+freely and you hear the “click” of 
+the switch contacts. Check/adjust 
+level of the dishwasher.
+2. Drain hose 
+check valve not 
+sealing.
+Water backs into dishwasher after 
+draining and elevates water level.
+1. Disconnect drain hose at 
+plumbing connection.
+2. Elevate hose above dishwasher 
+and fill with water. If water flows 
+into dishwasher, replace entire 
+drain loop. Install as high as 
+possible and attach to underside 
+of countertop if possible.
+Function 
+Code
+Problem 
+Code
+Causes
+What to Check
+6-
+Inlet Water 
+(cont.)
+4-
+Float 
+Switch 
+Open 
+(cont.)
+3. Fill valve triac 
+on control 
+shorted.
+If still filling while door is open, fill 
+valve is mechanically stuck open 
+(see below). If not filling with the 
+door open, check operation in 
+Service Diagnostics Test Cycle. 
+Advance Service Cycle until 
+detergent dispenser opens. Fill 
+valve should be off. Listen to see if 
+dishwasher is still filling. If still 
+filling, unplug dishwasher or 
+disconnect power and replace 
+control.
+4. Fill valve 
+mechanically 
+stuck open.
+Confirm dishwasher fills while the 
+door is open. If yes, unplug 
+dishwasher or disconnect power, 
+turn off water to dishwasher, 
+replace fill valve, and turn water 
+back on.
+5. Too many suds. 1. Allow unit to fill and wash for 
+1 minute. Open door and check 
+for excessive sudsing.
+2. Instruct customer if using 
+improper dishwasher detergent 
+(hand detergent).
+3. Disconnect power and replace 
+dispenser if see excessive rinse 
+aid leakage.
+6. Open fuse F9 
+to fill valve and 
+other triac loads.
+Refer to “Fuse Service Check” in 
+“Meter Check of Loads and 
+Fuses” section.
+7-
+Flowmeter
+Disconnected or 
+damaged 
+flowmeter.
+1. Disconnect power or unplug 
+unit.
+2. Check connections at salt level 
+sensor and at flowmeter.
+3. Use meter to check for 
+flowmeter switch closed. Use 
+meter to check salt level sensor. 
+Switch is open when salt reservoir 
+is filled and closed when salt 
+reservoir is low/empty.
+4. Disconnect flowmeter and leave 
+salt sensor connected. Apply a 
+magnet to side of the salt tank 
+near the sensor connection to 
+force the switch closed.
+5. With the magnet in place, run 
+the complete service diagnostics 
+cycle. If the sanitized LED turns on 
+in interval 3, the control is good; 
+replace the flowmeter assembly. If 
+the sanitized LED does not turn 
+on, the control input has failed; 
+replace the control.
+8-
+Regen 
+Valve 
+Electrical 
+Problem
+1. Loose 
+connection in 
+Regen valve 
+circuit, and/or 
+open Regen valve 
+solenoid.
+Unplug dishwasher or disconnect 
+power and check resistances of 
+Regen valve solenoid and all 
+connections in the Regen Valve 
+circuit. Fix/replace open 
+connection/part.
+2. Open fuse on 
+control to Regen 
+valve.
+Refer to “Fuse Service Check” in 
+“Meter Check of Loads and 
+Fuses” section.
+3. Regen valve 
+drive circuit on the 
+control.
+Unplug dishwasher or disconnect 
+power and replace control.
+7-
+Heating
+1-
+No Heat
+1. Control 
+programmed to 
+disable heater, but 
+continue running 
+cycles if it detects 
+a water heating 
+problem.
+Running diagnostics clears the 
+control and allows the heater to 
+turn on again. Water heating 
+problem must be corrected, or the 
+control will disable the heater 
+again. See Heater circuit problem 
+below.
+2. Heater circuit 
+problem:
+- Open in heater.
+- Open 
+connection or 
+component in 
+heater circuit.
+1. Unplug dishwasher or 
+disconnect power.
+2. Measure resistance of heater 
+and all components and 
+connections in Water Heating 
+circuit/Heat Dry circuit. Fix/replace 
+open connection/part.
+3. Heater Drive 
+circuit on the 
+control.
+Unplug dishwasher or disconnect 
+power and replace control.
+Function 
+Code
+Problem 
+Code
+Causes
+What to Check
+
+
+===== PAGE 9 =====
+
+9
+Troubleshooting Guide
+NOTES:
+■
+For resistance checks, refer to “Dishwasher Strip Circuits” section.
+■
+For checking operation with diagnostics, refer to “Service Diagnostics 
+Cycle” section. 
+7-
+Heating 
+(cont.)
+2-
+Heater 
+Stuck On
+Heater Drive 
+circuit on the 
+control.
+1. Unplug dishwasher or 
+disconnect power and replace 
+control.
+2. Inspect heater and connections 
+for overheating/shorting. If 
+evidence of overheating or shorts 
+exists, replace.
+8-
+Draining
+1-
+Slow Drain
+1. Obstructed 
+drain hose or 
+path.
+1. Unplug dishwasher or 
+disconnect power.
+2. Check for blockages from Sump 
+Check Valve to customer’s 
+plumbing. Potential items: plugged 
+garbage disposal or plug not 
+knocked out, drain loop Check 
+Valve stuck and/or plugged hoses.
+2. Drain Pump 
+impeller fractured.
+1. Unplug dishwasher or 
+disconnect power.
+2. Remove Drain Pump and check 
+impeller (normally there is some 
+uneven resistance). If it is stripped, 
+replace Drain Pump.
+2-
+Drain 
+Motor 
+Electrical 
+Problem
+1. Loose 
+connection in 
+Drain Motor 
+circuit and/or 
+open Drain Motor 
+winding.
+Unplug dishwasher or disconnect 
+power and check resistances of 
+drain motor winding and all 
+connections in the drain motor 
+circuit. Fix/replace open 
+connection/part.
+2. Debris stuck in 
+drain motor 
+impeller.
+1. Unplug dishwasher or 
+disconnect power.
+2. Remove drain motor and 
+dislodge debris from impeller. 
+3. Open fuse on 
+control to Drain 
+Motor.
+Refer to “Fuse Service Check” in 
+“Meter Check of Loads and 
+Fuses” section.
+4. Drain Motor 
+Drive circuit on 
+the control.
+Unplug dishwasher or disconnect 
+power and replace control.
+3-
+Drain Stuck 
+On
+Drain Motor Drive 
+circuit on the 
+control.
+1. Unplug dishwasher or 
+disconnect power and replace 
+control.
+2. Inspect Drain Motor and 
+connections for overheating/
+shorting. If evidence of 
+overheating/shorting exists, 
+replace.
+9-
+Diverter
+1-
+Can’t Find 
+Position
+1. Corroded or 
+loose connection 
+in diverter sensor/
+motor circuit, or 
+open/shorted 
+sensor/motor.
+1. Check operation in Service 
+Diagnostics Cycle. Listen for cam 
+clicking as it rotates or inspect 
+shaft with mirror to see if rotating 
+during diverter interval. If rotating, 
+it is likely the sensor circuit.
+2. Unplug dishwasher or 
+disconnect power and check 
+connections in Diverter Sensor 
+and Motor circuit with meter. Fix/
+replace open connections/parts.
+3. Inspect diverter sensor for 
+evidence of water or 
+contaminants. If yes, replace.
+2. Mechanical 
+binding of diverter 
+shaft/disc.
+Check operation of diverter motor 
+during diagnostics. Inspect 
+diverter shaft with mirror. If motor 
+appears to be on (vibrates, hums), 
+but you see limited rotation, 
+replace diverter and seal.
+3. Open fuse on 
+control to diverter 
+motor.
+Refer to “Fuse Service Check” in 
+“Meter Check of Loads and 
+Fuses” section.
+4.  Diverter Motor 
+Drive circuit on 
+the control.
+Unplug dishwasher or disconnect 
+power and replace control.
+2- 
+Stuck On
+Diverter Drive 
+Circuit on the 
+control.
+1. Unplug dishwasher or 
+disconnect power and replace 
+control.
+2. Inspect diverter motor and 
+connections for overheating/
+shorting. If evidence of 
+overheating/shorting exists, 
+replace.
+Function 
+Code
+Problem 
+Code
+Causes
+What to Check
+9-
+Diverter 
+(cont.)
+3-
+Disk 
+Missing
+Control detected 
+diverter disk in 
+sump is missing.
+Remove lower spray arm, 
+TurboZone® assembly, rear feed 
+tube and outlet cover. Verify the 
+round diverter disk is installed.
+10-
+Other
+1-
+Dispenser 
+Electrical 
+Problem
+1. Loose 
+connection in 
+Dispenser circuit 
+and/or open 
+dispenser 
+solenoid.
+Unplug dishwasher or disconnect 
+power and check resistances of 
+dispenser solenoid and all 
+connections in the Dispenser 
+circuit. Fix/replace open 
+connection/part.
+2. Open fuse on 
+control to 
+dispenser.
+Refer to “Fuse Service Check” in 
+“Meter Check of Loads and 
+Fuses” section.
+3. Dispenser Drive 
+circuit on the 
+control.
+Unplug dishwasher or disconnect 
+power and replace control.
+3-
+Drying Fan 
+Error
+1. Loose 
+connection in fan 
+circuit, and/or 
+open fan motor.
+Unplug dishwasher or disconnect 
+power and check resistances of 
+fan motor and all connections in 
+the fan circuit. Fix/replace open 
+connections or fan.
+2. Fan drive circuit 
+on the control.
+Unplug dishwasher or disconnect 
+power and replace control.
+Customer 
+Description
+Potential Causes
+Check
+Related 
+Error 
+Code
+Clean LED 
+Flashes
+Control programmed 
+with self diagnostics.
+Read error code from the 
+dishwasher and refer to 
+“Service Error Codes” 
+table. Run service 
+diagnostics test cycle to 
+read full history of error 
+codes.
+Won’t Run or 
+Power Up (“Dead” 
+Keypad/ Console)
+- No operation
+- No keypad    
+response
+- No LEDs or 
+display
+1. No power to unit or 
+bad connection.
+Check fuses, circuit 
+breakers, and junction box 
+connections.
+2. Loose connections 
+in dishwasher power-
+up circuit or between 
+keypad(s) and 
+control.
+1. Unplug dishwasher or 
+disconnect power.
+2. Check continuity of 
+power connections to 
+control and connections 
+between keypad(s) and 
+control.
+3. Model has an LCD 
+display and the 
+control has been 
+exchanged for one 
+that is not compatible 
+with the LCD display 
+module.
+Unplug dishwasher or 
+disconnect power.
+Verify correct control is 
+installed. Control should 
+have no 4-pin user 
+interface connector 
+present at P1B if it is 
+configured for an LCD 
+model. Replace control.
+4. Control detected 
+door switch problem
+Refer to “Service Error 
+Codes” table. 
+5-1
+5. User interface or 
+control.
+1. Unplug dishwasher or 
+disconnect power. 
+Disassemble door and 
+inspect control power 
+connector (P4) and 
+adjacent PC board for 
+damage. Replace as 
+needed.
+2. Refer to Service Error 
+Codes table for stuck key 
+(2-1). Run the diagnostic 
+check, Item (1).
+- If drain motor turns on, 
+control is OK. Replace the 
+UI.
+- If drain motor does not 
+turn on, replace control.
+Function 
+Code
+Problem 
+Code
+Causes
+What to Check
+
+
+===== PAGE 10 =====
+
+10
+Won’t Run or 
+Power Up (“Dead” 
+Keypad/ Console)
+- No operation
+- No keypad    
+response
+- No LEDs or 
+display (cont.)
+5. User interface or 
+control.(cont.)
+3. Inspect UI cable for 
+loose or damaged wiring. 
+Replace as needed. 
+4. Inspect UI assembly for 
+damage or contamination. 
+Replace UI as needed
+2-1
+Won’t Run and 
+LED for Start/ 
+Resume Key is 
+Blinking Slowly
+1. By design, if the 
+door is opened for 
+more than 
+5 seconds or power 
+is interrupted during 
+a cycle, the user 
+must press the Start/
+Resume key to 
+resume operation.
+Instruct customer. Refer to 
+Use and Care Guide.
+2. Start/Resume key 
+not responding.
+See “One or More Keys 
+Won’t Respond.”
+3. Control detected 
+door switch problem.
+Refer to “Service Error 
+Codes” table.
+5-1
+Won’t Run and All
+LEDs On
+Software or hardware 
+incompatibility 
+problem with control.
+Refer to “Service Error 
+Codes Table.”
+1-2
+Won’t Start and 
+Start/Resume Key 
+LED Flashes 
+3 Times When 
+Start/Resume Key 
+is Pressed
+Control looks for 
+door to open 
+between cycles.
+- Customer has not 
+opened door since 
+last cycle.
+- Door switch 
+contacts stuck 
+closed.
+Refer to “Service Error 
+Codes” table.
+5-2
+Won’t Accept Key 
+Presses and 
+Control Lock LED 
+On
+Control Lockout 
+feature accidentally 
+turned on by 
+customer.
+Instruct customer. Refer to 
+Use and Care Guide. 
+Press and hold Control 
+Lock key 5 seconds to 
+turn On/Off.
+One or More Keys 
+Won’t Respond or 
+Unusual LED/ 
+Display/Key 
+Behavior
+1. Stuck key or short 
+circuit(s) in keypad or 
+in control’s input lines 
+that read the keys.
+Refer to “Service Error 
+Codes” table.
+2-1
+2. Capacitive touch 
+keypad adhesive 
+coming loose from 
+console.
+1. Unplug dishwasher or 
+disconnect power. 
+2. Inspect keypad board 
+for separation from 
+console. Replace keypad 
+and console if separation 
+is seen.
+3. Loose connections 
+between keypad and 
+control and/or bent 
+or contaminated 
+connector pins.
+1. Unplug dishwasher or 
+disconnect power.
+2. Inspect connections in 
+user interface circuits. 
+Reconnect loose 
+connections. Replace 
+part(s) if pins are damaged 
+or contaminated.
+2-2
+4. Excessive 
+condensation on user 
+interface parts due to 
+vent and/or fan 
+problem.
+Check error history for 
+10-3 fan error.
+Refer to “Service Error 
+Codes” table.
+Verify presence of vent 
+current if model has a vent 
+wax motor. 
+Refer to “Leaks or Drips 
+Onto Cabinet or Floor.” 
+10-3
+5. Defective user 
+interface.
+1. Unplug dishwasher or 
+disconnect power.
+2. Replace user interface 
+console assembly.
+Dishwasher 
+Beeps Constantly 
+(for Models with 
+Beepers)
+1. User opened door 
+during cycle and 
+closed door without 
+pressing Start/
+Resume to resume 
+cycle.
+Instruct customer. 
+Dishwasher control is 
+designed to beep if 
+dishwasher is in “Cycle 
+Interrupt” mode with door 
+latched. Control will stop 
+beeping when door is 
+opened and/or Start/
+Resume key is pressed to 
+resume cycle.
+Customer 
+Description
+Potential Causes
+Check
+Related 
+Error 
+Code
+Dishwasher 
+Beeps Constantly 
+(for Models with 
+Beepers) (cont.)
+2. Normal beeper 
+operation is 
+excessive to 
+customer
+Instruct customer how to 
+turn beeper off and on. 
+Press and hold Hi Temp 
+key for 3 seconds (tone 
+sounds).
+Long Cycles and/
+or Stuck in Certain 
+Part of Cycle
+1. As part of normal 
+operation, the 
+dishwasher pauses 2 
+or 3 times during the 
+cycle for thermal 
+holds and advances 
+once temperature is 
+met.
+Instruct customer. Explain 
+thermal holds and how the 
+cycle pauses when they 
+occur.
+2. OWI soil sensor 
+picking high soil 
+cycle too often.
+1. Run Service 
+Diagnostics cycle to check 
+if OWI is showing high soil 
+with clear water.
+2. Check lens surface. 
+Clean if needed.
+3. Unplug dishwasher or 
+disconnect power.
+4. Replace OWI and run 
+Diagnostics after installing 
+new OWI to force 
+calibration on next wash 
+cycle.
+3. Diverter problem 
+prevented water from 
+heating (plastic tub 
+models only).
+Refer to “Service Error 
+Codes” table.
+9-1
+9-2
+4. A water heating 
+problem could cause 
+long cycles but will 
+typically cause a 
+“water heating fault.”
+Refer to “Service Error 
+Codes” table.
+7-1
+5. Heater takes a 
+long time to heat 
+water with low 
+voltage.
+Check for at least 
+100 VAC at power source.
+6. Incoming water 
+under 84ºF (29ºC).
+1. Be sure dishwasher is 
+connected to the hot 
+water supply.
+2. Confirm temperature at 
+sink (recommend 120°F 
+[49°C]). Instruct customer 
+to run water at sink before 
+running dishwasher.
+3. Unplug dishwasher or 
+disconnect power and 
+check all connections and 
+measure resistance in 
+Temperature Sensing 
+circuit. Replace OWI if 
+resistance is high.
+7. Suds or air in 
+pump requires 
+repeated wash 
+periods.
+Refer to “Service Error 
+Codes” table.
+6-3
+8. Motor problems 
+force cycle to start 
+and stop repeatedly.
+Refer to “Service Error 
+Codes” table.
+9. OWI or NTC 
+sensor problem.
+Refer to “Service Error 
+Codes” table.
+3-1
+3-3
+LEDs or Displays 
+Run For Short 
+Time (but No 
+Loads Running) 
+and then Shuts Off
+1. Unit is in Sales 
+Demo mode.
+Check operation of Cancel 
+key. If there is no Cancel 
+LED response to multiple 
+Cancel key presses, the 
+control is likely in Sales 
+Demo Mode. Run Service 
+Diagnostics Cycle to clear 
+Demo mode.
+2. Open F8 (Wash 
+motor fuse) or F9 
+(Triac load fuse) on 
+control disabled 
+loads.
+Refer to “Fuse Service and 
+Resistance Checks” in 
+“Meter Check of Loads 
+and Fuses” section.
+Can Start a Cycle, 
+but Only Runs for 
+a Short Time - 
+Cycle Does Not 
+Complete (Clean 
+LED or Completed 
+May Blink)
+1. Control canceled 
+cycle due to error 
+detected with wash 
+motor.
+Refer to “Service Error 
+Codes” table.
+4-3
+2. Unit in Sales Demo 
+mode.
+Run Service Diagnostics 
+cycle to clear Demo mode.
+Customer 
+Description
+Potential Causes
+Check
+Related 
+Error 
+Code
+
+
+===== PAGE 11 =====
+
+11
+FOR SERVICE TECHNICIAN’S USE ONLY
+Will Not Drain, or 
+Excess Water Left 
+in Dishwasher. 
+NOTE: Check 
+error history. If no 
+error codes for 
+electrical 
+problems, 
+problem is 
+mechanical. Do 
+not replace 
+control.
+1. Drain loop check 
+valve not sealing.
+1. Disconnect drain hose 
+at plumbing connection.
+2. Elevate hose above 
+dishwasher and fill with 
+water. If water flows into 
+dishwasher, replace entire 
+drain loop. Install as high 
+as possible.
+2. Customer 
+misunderstands 
+water level after 
+drain.
+Instruct customer. Sump 
+will normally have about 
+1" (2.4 cm) of water 
+remaining in filter cup hole 
+after cycle.
+3. Draining problem
+Refer to “Service Error 
+Codes” table.
+8-1
+8-2
+Detergent Not 
+Dispensing or 
+Detergent Left In 
+Dispenser
+NOTE:
+Check error 
+history. If no error 
+codes for 
+electrical 
+problems, 
+problem is 
+mechanical. Do 
+not replace 
+control.
+1. Item in lower rack 
+blocked lid or 
+blocked spray of 
+water to dispenser.
+Instruct customer on 
+proper dish loading.
+2. Mechanical 
+binding of dispenser 
+lid.
+1. Unplug dishwasher or 
+disconnect power.
+2. Check/replace 
+dispenser.
+3. Lid latch binding 
+due to excess 
+detergent in 
+mechanism.
+Instruct customer on 
+proper dispenser filling.
+4. Dispenser 
+electrical problem.
+Refer to “Service Error 
+Codes” table.
+10-1
+5. Control canceled 
+cycle before 
+dispensing due to 
+error detected with 
+wash motor.
+Refer to “Service Error 
+Codes” table.
+4-3
+Poor Wash
+1. Cycle selection of 
+customer not 
+appropriate for dish 
+load.
+Instruct customer on cycle 
+selection. Recommend 
+“High Temp” option for 
+wash performance boost.
+2. Plugged or 
+damaged screens.
+Inspect following 
+3 screens:
+- Filter cup coarse screen
+- Filter cup fine screen
+- Sump fine screen
+3. Spray arms not 
+rotating or plugged.
+1. Check arm rotation. If 
+arms are blocked by dish 
+item, instruct customer. 
+Also check for correct 
+upper spray arm 
+alignment with docking 
+station located on feed 
+tube back wall.
+2. Check nozzles. If they 
+are plugged, clean nozzles 
+and confirm filters 
+installed properly.
+4. Poor wash due to 
+draining, dispensing, 
+and/or temperature 
+problem.
+See “Will Not Drain or 
+Excess Water Left in Unit,” 
+or “Detergent Not 
+Dispensing or Detergent 
+Left in Dispenser,” or 
+details on temperature 
+sensing in “Long Cycles 
+and/or Stuck in Certain 
+Part Of Cycle.”
+5. Control canceled 
+cycle due to error 
+detected with wash 
+motor.
+Refer to “Service Error 
+Codes” table.
+4-3
+6. Soil sensor 
+problem.
+Refer to “Service Error 
+Codes” table. 
+NOTE: Even if no error 
+code recorded, confirm 
+OWI passes all OWI 
+checks in Service 
+Diagnostics cycle and see 
+checks for Error 3-3.
+3-2
+3-3
+7. Diverter problem.
+Refer to “Service Error 
+Codes” table.
+9-1
+9-2
+Customer 
+Description
+Potential Causes
+Check
+Related 
+Error 
+Code
+Poor Wash (cont.) 8. Diverter disk 
+missing.
+Remove outlet cover and 
+inspect for red plastic disk 
+through holes in outlet. 
+Install new disk if missing.
+9. Heating problem.
+Refer to “Service Error 
+Codes” table.
+7-1
+10. Softener problem 
+(on some models).
+Refer to “Service Error 
+Codes” table.
+6-8
+Film or Spots On 
+Glasses and/or 
+Dishes
+1. Customer not 
+using rinse aid and/or 
+heated dry.
+Check rinse aid gauge 
+level on dispenser. Instruct 
+customer how to fill and 
+monitor, add or use rinse 
+aid.
+2. RInse aid 
+dispenser problem.
+Refer to “Service Error 
+Codes” table.
+10-1
+3. Hard water leaving 
+film on dishes.
+Check water hardness. If 
+hard, instruct customer to 
+use maximum detergent 
+or try pouring ¹⁄₄ cup 
+(60 mL) of Glass Magic 
+into bottom of dishwasher. 
+Also recommend the 1 HR 
+Wash cycle. 
+For models with water 
+softener, check for “Add 
+Salt” LED at the end of 
+cycle. If on, add salt and 
+instruct customer.
+For models with water 
+softener, Regen valve 
+electrical problem. Refer 
+to “Service Error Codes” 
+table.
+6-8
+4. Detergent 
+carryover or over 
+sudsing.
+Check water hardness. If 
+below 10 grains, instruct 
+customer to use less 
+detergent and recommend 
+the 1 HR Wash cycle.
+6-3
+5. Etching of glass 
+from too much 
+detergent at too high 
+of temperature.
+Check water hardness. If 
+below 10 grains, instruct 
+customer to use less 
+detergent and recommend 
+the 1 HR Wash cycle.
+6. Diverter problems. Refer to “Service Error 
+Codes” table.
+9-1
+9-2
+7. Drain loop check 
+valve not sealing.
+1. Disconnect drain hose 
+at plumbing connection.
+2. Elevate hose above 
+dishwasher and fill with 
+water. If water flows into 
+dishwasher, replace entire 
+drain loop. Install as high 
+as possible and attach to 
+underside of counter top if 
+possible.
+Poor Dry
+1. Customer not 
+using rinse aid and/or 
+dispenser empty.
+Check rinse aid gauge 
+level on dispenser. Instruct 
+customer how to fill and 
+monitor, add or use rinse 
+aid.
+2. Customer not 
+using Heated Dry 
+option.
+Recommend use of 
+Heated Dry or Smart Dry 
+to customer.
+3. Rinse aid 
+dispenser problem.
+Refer to “Service Error 
+Codes” table.
+10-1
+4. Vent stuck closed 
+due to pilot relay 
+stuck on.
+Refer to “Service Error 
+Codes” table.
+1-1
+5. Diverter problem 
+kept water from 
+heating in final rinse 
+(plastic tub models 
+only).
+Refer to “Service Error 
+Codes” table.
+9-1
+9-2
+6. Fan problem (on 
+models with fan).
+Refer to “Service Error 
+Codes” table.
+10-3
+Customer 
+Description
+Potential Causes
+Check
+Related 
+Error 
+Code
+
+
+===== PAGE 12 =====
+
+12
+Poor Dry (cont.)
+7. Control canceled 
+cycle due to error 
+detected with wash 
+motor.
+Refer to “Service Error 
+Codes” table.
+4-3
+8. Heating problem.
+Refer to “Service Error 
+Codes” table.
+7-1
+Sanitized LED 
+Blinks or 
+Incomplete 
+Sanitization 
+Message at End of 
+Cycle (Control 
+Could Not 
+Confirm 
+Sanitization 
+Achieved)
+1. Door opened 
+during final rinse or 
+dry.
+Instruct customer
+2.Incoming water 
+under 84ºF (29ºC).
+1. Be sure dishwasher is 
+connected to the hot 
+water supply.
+2. Confirm temperature at 
+sink (recommend 120°F 
+[49°C]). Instruct customer 
+to run water at sink before 
+running dishwasher.
+3. Unplug dishwasher or 
+disconnect power and 
+check all connections and 
+measure resistance in 
+Temperature Sensing 
+circuit. Replace OWI if 
+resistance is high.
+3. Heating problem.
+Refer to “Service Error 
+Codes” table.
+7-1
+4. Thermistor/OWI 
+sensor problem.
+Refer to “Service Error 
+Codes” table.
+3-1
+3-2
+5. Intermittent door 
+switch/latch 
+connection.
+See same checks as for 
+5-1 Error. Refer to “Service 
+Error Codes” table.
+6. Diverter problem 
+prevented water from 
+heating in final rinse 
+(plastic tub models 
+only).
+Refer to “Service Error 
+Codes” table.
+9-1
+9-2
+7. Line voltage too 
+low to heat fast 
+enough.
+Check power source. 
+Confirm at least 100 VAC.
+8. Air pressure surges 
+in dishwasher due to 
+washing with high 
+suds causes brief 
+opening of door 
+switch contacts 
+during final rinse.
+Refer to “Service Error 
+Codes” table.
+6-3
+Melted Dishware 
+and/or Spray Arm 
+and/or 
+Dishwasher 
+Always Hot
+1. Customer uses 
+non-dishwasher safe 
+dishes or loads 
+plastic dishes directly 
+over heater.
+Instruct customer
+2. Temperature 
+sensing problem.
+Refer to “Service Error 
+Codes” table.
+3-1
+3. Water heating 
+problem. Heater 
+stuck on.
+Refer to “Service Error 
+Codes” table.
+7-2
+4. Water heater 
+displaced from 
+mounting clip and/or 
+pulled off center.
+Inspect heater. Adjust 
+back into position if 
+needed.
+Noisy Operation
+1. Spray arm stalled 
+or blocked and 
+spraying on the door.
+- Instruct customer if 
+blocked.
+- Check spray arm rotation 
+and inspect for plugged 
+nozzles. If plugged, clean 
+nozzles and confirm filters 
+are installed properly.
+2. Diverter problem.
+Refer to “Service Error 
+Codes” table.
+9-1, 9-2
+9-3
+3. Motor problems 
+force cycle to start 
+and stop repeatedly.
+Refer to “Service Error 
+Codes” table.
+4. No or low water.
+Refer to “Service Error 
+Codes” table.
+6-1, 6-2
+6-3, 6-4
+Customer 
+Description
+Potential Causes
+Check
+Related 
+Error 
+Code
+Noisy Operation 
+(cont.)
+5. Drains too long.
+1. Long drain due to OWI 
+sensor problem. Refer to 
+“Service Error Codes” 
+table for 3-3.
+2. Slow drain problem. 
+Refer to “Service Error 
+Codes” table for 8-1.
+3-3
+8-1
+6. Loose connection 
+in vent circuit and/or 
+open vent wax motor.
+Unplug dishwasher or 
+disconnect power and 
+check resistances of vent 
+wax motor and all 
+connections in the vent 
+circuit. Fix/replace open 
+connection/part.
+7. Open fuse on 
+control to vent.
+Refer to “Fuse Service 
+Check” in “Meter Check of 
+Loads and Fuses” section.
+8. Vent drive circuit 
+on the control.
+Unplug dishwasher or 
+disconnect power and 
+replace control.
+9. Fan runs (makes 
+noise) after cycle 
+completed (on 
+models with fan).
+Dishwasher is designed to 
+keep fan running after 
+cycle to avoid moisture 
+buildup in dishwasher. Fan 
+will turn off if door is 
+opened longer than 
+5 seconds. Instruct 
+customer.
+10. Excessive fan 
+noise due to faulty 
+fan (on models with 
+fan).
+1. Check fan operation 
+during Service Diagnostics 
+test cycle.
+2. Unplug dishwasher or 
+disconnect power.
+3. Replace fan if fan does 
+not spin freely.
+Leaks or Drips 
+Onto Cabinet or 
+Floor
+1. Loose connection 
+in vent circuit and/or 
+open vent wax motor.
+Unplug dishwasher or 
+disconnect power and 
+check resistances of vent 
+wax motor and all 
+connections in the vent 
+circuit. Fix/replace open 
+connection/part.
+2. Open fuse on 
+control to vent.
+Refer to “Fuse Service 
+Check” in “Meter Check of 
+Loads and Fuses” section.
+3. Vent drive circuit 
+on the control.
+Unplug dishwasher or 
+disconnect power and 
+replace control.
+4. Fan problem (on 
+models with fan).
+Refer to “Service Error 
+Codes” table.
+10-3
+5. Too many suds.
+Refer to “Service Error 
+Codes” table.
+6-3
+6-4
+6. Leaking 
+dishwasher.
+Check door/tub gasket 
+and all water connections 
+under dishwasher. Refer to 
+“Service Error Codes” 
+table.
+6-1 
+6-3
+7. Unit not level 
+(leaning forward) and 
+water surges over 
+front lip during cycle.
+Check error history for 
+Float Error 6-4. Error 6-4 is 
+likely to occur if unit is 
+significantly out of level 
+and leaning forward. Refer 
+to “Service Error Codes” 
+table.
+6-4
+8. Air pressure surge 
+when door is opened 
+and immediately 
+closed while 
+dishwasher is hot can 
+force droplets out of 
+the vent duct.
+Instruct customer to leave 
+door open a few minutes 
+before re-closing, if 
+opened while dishwasher 
+is hot.
+Customer 
+Description
+Potential Causes
+Check
+Related 
+Error 
+Code
+W10751166C
+© 2015. All rights reserved. 
+9/15
