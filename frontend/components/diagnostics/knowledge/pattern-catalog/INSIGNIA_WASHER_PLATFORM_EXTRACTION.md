@@ -6,7 +6,7 @@
 
 **Extracted text:** `*-extracted.txt` in `backend/docs/manuals/`  
 **Scope:** Best Buy Insignia top-load washers (shared OEM platform; WMT41WA5 adds impact switch + frequency level sensor)  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (shared washer template — chips, routing, evidence).
 
 ---
 
@@ -43,4 +43,18 @@
 - Field guidance: frequency level sensor vs capacitive platform
 - All Insignia washer codes seeded as **new manufacturer** in DMA batch
 
-**Pending:** `NS-TWM35W1` DOCX not extracted — add when converted.
+**NS-TWM35W1** (`NS-TWM35W1 Service Manual.pdf`, 50 pp.):
+
+| Code | Meaning | Notes vs TWM41 |
+|------|---------|----------------|
+| E1 | Fill timeout (30 min) | Same family |
+| E2 | Drain timeout (10 min) | Same |
+| E3 | Lid open / not level | Same |
+| E4 | Unbalance (3 retries) | Same |
+| E5 | Impact switch pressed | Same as WMT41WA5 |
+| **F5** | Load sensing failed | **New** — belt tension |
+| F2 / C9 | PCB failure | Same |
+| F8 | Level sensor failed | Same |
+| Fd | Door lock failed | Same |
+
+Extracted: `NS-TWM35W1 Service Manual-extracted.txt`

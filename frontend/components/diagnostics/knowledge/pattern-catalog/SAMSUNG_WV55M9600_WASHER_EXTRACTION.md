@@ -3,7 +3,7 @@
 **Source:** `backend/docs/manuals/wv55m9600av.pdf` (FlexWash dual-load)  
 **Extracted text:** `backend/docs/manuals/wv55m9600av-extracted.txt`  
 **Scope:** Upper + lower washer compartments; shared main PCB; inverter DD motor on lower; sub PBA on upper  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + **Phase B/C merged** (washer template: flexwash chips, flex_compartment field, routing tokens, evidence)
 
 ---
 
@@ -61,10 +61,12 @@ Refer to §4-3 corrective actions in extracted text for motor, valve, and heater
 
 ---
 
-## 5. Phase B/C (deferred)
+## 5. Phase B/C (merged)
 
-- Template: dual-load selector or manufacturer chip `flexwash`
-- Routing tokens: `AC7`, `DC4`, `4C2`, `SF`
-- Evidence: compartment-specific door lock vs shared drain
+- **Template:** `washer` — `flex_compartment` choice (upper / lower / both)
+- **Chips:** `flexwash`, `flexwash_upper`
+- **Routing:** `routingEngine.ts` tokens AC7, DC4, 4C2, AC6, TC4, SF, DC1, BC2
+- **Evidence:** `knowledge/evidence/washer.json` — AC7, DC4, 4C2, system fault, flexwash_upper chip
+- **Guidance:** `washerFieldGuidance.ts`, `washerFieldVisibility.ts`
 
 **DMA:** Samsung `washing_machine` rows in `append_manual_batch_dma_seed.py`

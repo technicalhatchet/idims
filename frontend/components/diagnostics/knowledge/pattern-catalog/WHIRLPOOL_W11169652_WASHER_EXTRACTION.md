@@ -3,7 +3,7 @@
 **Source:** `backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers.pdf` (94 pp., W11169652A)  
 **Extracted text:** `backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt`  
 **Scope:** Whirlpool/Maytag 27" front-load; console and LCD HMI; direct-drive; optional heat/steam/dry/WiFi  
-**Status:** Phase A complete — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (batch8 measurements, chips, routing, evidence).
 
 Cross-reference: existing Whirlpool `washing_machine` seed (top-load codes overlap partially).
 

@@ -870,6 +870,26 @@
       "explanation": "Arcing with damaged waveguide/stirrer cover — metal exposure or burn-through.",
       "recommendStepKey": "visual",
       "dmaTags": ["magnetron_check", "no_heat_issue"]
+    },
+    {
+      "id": "mw_kw_f1_thermistor",
+      "when": [{ "type": "keyword", "match": "f-1" }],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "LG F-1 PCB thermistor short — cabinet sensor or PCB.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["no_heat_issue"]
+    },
+    {
+      "id": "mw_kw_f2_thermistor_open",
+      "when": [{ "type": "keyword", "match": "f-2" }],
+      "target": "magnetron",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "LG F-2 PCB thermistor open.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["no_heat_issue"]
     }
   ]
 }

@@ -2121,6 +2121,36 @@
       "dmaTags": [
         "thermistor_check"
       ]
+    },
+    {
+      "id": "ed_kw_d85_vent",
+      "when": [{ "type": "keyword", "match": "d85" }],
+      "target": "vent",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "LG d85 intermediate duct restriction — clean vent path.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["vent_restriction"]
+    },
+    {
+      "id": "ed_kw_insignia_e5_outlet",
+      "when": [{ "type": "keyword", "match": "e5" }],
+      "target": "outlet_thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Insignia E5 outlet temp sensor — heat and motor stop in fault.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "ed_kw_insignia_c9_comm",
+      "when": [{ "type": "keyword", "match": "c9" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Insignia C9 display communication timeout.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["control_board"]
     }
   ]
 }

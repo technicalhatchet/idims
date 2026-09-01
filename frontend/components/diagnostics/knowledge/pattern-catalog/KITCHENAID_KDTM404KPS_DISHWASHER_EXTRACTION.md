@@ -3,7 +3,7 @@
 **Source:** `Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142.pdf`  
 **Extracted text:** `Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142-extracted.txt`  
 **Scope:** KitchenAid premium dishwasher; ACU + variable-speed wash motor; RIF filter; diverter  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (shared dishwasher ACU routing/evidence).
 
 Cross-reference: [WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md](./WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md) for shared F#E# matrix.
 

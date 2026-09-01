@@ -175,6 +175,19 @@ NEW_ROWS = [
     row("Whirlpool", "dryer", "F2 E5", "UI parameter memory invalid", "Corrupt UI EEPROM", "Replace UI"),
     row("Whirlpool", "dryer", "F4 E2", "Heater 2 relay failure", "Heater 2 wiring (electric)", "Check heater 2 relay and wiring"),
     row("Whirlpool", "dryer", "F6 E3", "ACU cannot hear UI", "ACU-UI harness fault", "Check ACU↔UI harness"),
+    # Insignia supplement (trio + dishwasher OCR)
+    row("Insignia", "dishwasher", "E1", "Water inlet failure", "No fill in 4 min", "Check supply, inlet valve, flow meter, pressure switch, drain, PCB"),
+    row("Insignia", "dishwasher", "E3", "Heater failure", "Temp not reached in 90 min", "Test heater and thermistor"),
+    row("Insignia", "dishwasher", "E4", "Overflow", "Base pan switch activated", "Level unit; locate leak; check overflow switch and drain pump"),
+    row("Insignia", "dishwasher", "E6", "NTC open circuit", "Thermal sensor open", "Test thermistor; inlet water temperature"),
+    row("Insignia", "dishwasher", "E7", "NTC short circuit", "Thermal sensor short", "Test thermistor circuit"),
+    row("Insignia", "dishwasher", "E8", "Diverter valve fault", "Diverter motor or micro switch", "Test diverter valve motor and switch"),
+    row("Insignia", "dishwasher", "E9", "Stuck button", "Button pressed over 30 seconds", "Check control panel assembly"),
+    row("Insignia", "dishwasher", "Ed", "Display communication failure", "UI-main signal loss over 20 seconds", "Check display board harness and PCB"),
+    row("Insignia", "dryer", "E4", "Humidity sensor error", "Humidity sensor fault during cycle", "Test humidity sensor; cycle uses timed dry fallback"),
+    row("Insignia", "dryer", "E5", "Outlet temperature sensor error", "Outlet NTC open or short", "Test outlet temp sensor; fault stops heat and motor"),
+    row("Insignia", "dryer", "C9", "Communication error", "Display-main comm timeout", "Check display communication harness; replace PCB"),
+    row("Insignia", "washing_machine", "F5", "Load sensing failed", "Belt tension or load sensor fault", "Adjust belt tension; test load sensing"),
 ]
 
 

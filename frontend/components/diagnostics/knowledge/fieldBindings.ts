@@ -29,6 +29,8 @@ const WASHER_FIELD_KNOWLEDGE: Record<string, string> = {
   'electrical_measurements.drain_pump_ohms': 'washerDrainPumpOhms',
   'electrical_measurements.drain_pump_amps': 'washerDrainPumpAmps',
   'electrical_measurements.inlet_valve_ohms': 'washerWaterValveOhms',
+  'electrical_measurements.wash_heater_ohms': 'whirlpoolFlWasherHeaterOhms',
+  'electrical_measurements.recirc_pump_ohms': 'whirlpoolFlWasherRecircPumpOhms',
   'mechanical_controls.door_lock_ohms': 'washerDoorLockSwitchOhms',
 };
 

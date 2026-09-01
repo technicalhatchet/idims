@@ -7,7 +7,7 @@
 
 **Extracted text:** `*-extracted.txt` in `backend/docs/manuals/`  
 **Scope:** Whirlpool ADA legacy (E-series) + modern ACU F#E# matrix (W10751166/W10867183)  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (shared dishwasher ACU routing/evidence).
 
 **Phase B warning:** Existing Whirlpool `dishwasher` DMA rows may mis-map F# function numbers vs tech sheets — reconcile during merge.
 

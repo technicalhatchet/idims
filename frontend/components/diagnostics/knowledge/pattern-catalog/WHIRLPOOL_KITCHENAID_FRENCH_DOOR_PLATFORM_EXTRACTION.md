@@ -7,7 +7,7 @@
 
 **Extracted text:** `*-extracted.txt` in `backend/docs/manuals/`  
 **Scope:** ~27 cu ft French door; bottom freezer; dispenser UI + ACU; EMD55CLT compressor; RC ice-in-compartment  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (ice maker E0–E5 evidence, routing).
 
 Cross-reference: No consumer alphanumeric codes like Samsung/LG — **service test mode** + ice maker E-codes only.
 

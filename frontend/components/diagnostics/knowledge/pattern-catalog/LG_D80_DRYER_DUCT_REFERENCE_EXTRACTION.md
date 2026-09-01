@@ -3,7 +3,7 @@
 **Source:** `DRY_D80 – LG Error Codes.pdf` (third-party reference sheet)  
 **Extracted text:** `backend/docs/manuals/DRY_D80 – LG Error Codes-extracted.txt`  
 **Scope:** LG dryer exhaust blockage codes d80–d95; not a full service manual  
-**Status:** Phase A — **Phase B/C not merged**
+**Status:** Phase A + B + C merged (d80–d95 + Insignia dryer evidence).
 
 Cross-reference: [DRYER_SERVICE_MANUAL_EXTRACTION.md](./DRYER_SERVICE_MANUAL_EXTRACTION.md), [SAMSUNG_DRYER_MANUAL_COMPARISON.md](./SAMSUNG_DRYER_MANUAL_COMPARISON.md).
 

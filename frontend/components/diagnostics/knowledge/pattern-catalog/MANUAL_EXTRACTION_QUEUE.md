@@ -1,6 +1,6 @@
 # Service manual extraction queue
 
-**Batch run:** Phase A only (PDF extract + extraction docs + DMA seed). **Phase B/C not merged** to Solomon templates/evidence/routing yet.
+**Batch run:** Phase A (PDF extract + extraction docs + DMA seed) complete. **Phase B/C merged** for all batch platforms except Cabrio dryer near-dup.
 
 **Regenerate text:** `python backend/docs/manuals/extract_pdf.py <pdf>`
 
@@ -25,7 +25,7 @@
 | `panasonic_th-p65vt50_chassis_gpf15d-a.pdf` | TV |
 | `samsung-service-bulletin-ice-maker.pdf` | Service bulletin |
 | `WPL Top load Dryer Service Manual.pdf` | **Duplicate** of `whirlpool-electric-gas-dryers` CCU sheet (French pages only) |
-| `cabrio.pdf` | **Mislabeled** — content is Whirlpool dryer W10680150D, not Cabrio washer; see [CABRIO_MISFILE_NOTE.md](./CABRIO_MISFILE_NOTE.md) |
+| `cabrio.pdf` | **Cabrio-tier dryer** sheet W10680150D (trim line ≠ appliance type); near-dup of Whirlpool CCU dryer — see [CABRIO_MISFILE_NOTE.md](./CABRIO_MISFILE_NOTE.md) |
 
 ---
 
@@ -51,7 +51,13 @@
 | `gud27essmww.pdf` | Unitized laundry (dryer section) | [GE_GUD27_UNITIZED_EXTRACTION.md](./GE_GUD27_UNITIZED_EXTRACTION.md) | ✅ | Mechanical — no codes |
 | `DRY_D80 – LG Error Codes.pdf` | Dryer (LG duct ref) | [LG_D80_DRYER_DUCT_REFERENCE_EXTRACTION.md](./LG_D80_DRYER_DUCT_REFERENCE_EXTRACTION.md) | ✅ | d85 + enrich |
 | `Samsung ME11A7510DSAA microwave.pdf` | Microwave OTR | [MICROWAVE_OTR_BATCH_EXTRACTION.md](./MICROWAVE_OTR_BATCH_EXTRACTION.md) | ✅ | C-20, C-F1, C-F2 |
-| `LMHM2237BD.pdf` | Microwave OTR (LG) | ↑ | ✅ | F-1, F-2, F-4 |
+| `LMHM2237BD.pdf` | Microwave OTR (LG) | [MICROWAVE_OTR_BATCH_EXTRACTION.md](./MICROWAVE_OTR_BATCH_EXTRACTION.md) | ✅ | F-1, F-2, F-4 |
+| `NS-DWR3SS1 service manual again-ocr.pdf` | Dishwasher (Insignia) | [INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md](./INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md) | ✅ | E1–E9, Ed |
+| `NS-TDRE75W1 Service Manual.pdf` | Dryer (Insignia electric/gas) | [INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md](./INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md) | ✅ | E4, E5, C9 |
+| `NS-RTM18SS2 Service Manual.pdf` | Refrigerator (Insignia top-freezer) | [INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md](./INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md) | ✅ | Uses existing E-family |
+| `NS-TWM35W1 Service Manual.pdf` | Washer (Insignia) | [INSIGNIA_WASHER_PLATFORM_EXTRACTION.md](./INSIGNIA_WASHER_PLATFORM_EXTRACTION.md) | ✅ | +F5 load sense |
+
+**Note:** Use `NS-DWR3SS1 service manual again-ocr.pdf` — non-OCR PDF has image pages PyMuPDF cannot read.
 
 ---
 
@@ -59,33 +65,23 @@
 
 | File | Issue | Action |
 |------|-------|--------|
-| `NS-DWR3SS1 service manual again.pdf` | 24/30 pages empty in extract; error table on p.26 missing | Re-scan PDF or alternate manual |
-| `NS-TDRE75W1 insignia electric dryer Service Manual.docx` | DOCX — not extracted | Convert to PDF or text pass |
-| `NS-RTM18SS2 insignia fridgedService Manual.docx` | DOCX | Same |
-| `NS-TWM35W1 insignia washer Service Manual.docx` | DOCX | Same |
+| `NS-DWR3SS1 service manual again.pdf` | Image pages — use **`-ocr.pdf`** instead | Canonical source is `-ocr` variant |
 | `ME21A706BQN Service Manual.html` | HTML Samsung microwave | Optional HTML→text pass |
-| `cabrio.pdf` | Wrong appliance (dryer sheet) | Source real Cabrio **washer** manual if needed |
+| Cabrio **washer** tech sheet | Not in folder yet | Cabrio is a trim line; `cabrio.pdf` is the **dryer** sheet only — add WTW\*/MVW\* washer PDF separately if needed |
+| `Samsung ME11A7510DSAA microwave.pdf` | Removed by user | LG LMHM2237BD covers OTR microwave batch |
 
 ---
 
-## Phase B/C backlog (when ready to merge)
+## Phase B/C backlog
 
-Use paste template from user — one manual/platform at a time:
+**Merged:** W11169652 washer, Insignia washer, Midea/Insignia fridge+freezer+RTM18, dishwasher ACU (Whirlpool/KitchenAid/Insignia/LG), French door ice E-codes, Frigidaire Er t*, Insignia dryer, LG duct, LG microwave OTR, **Samsung FlexWash WV55M9600**, **GE GUD27 unitized**.
 
-1. Template fields + `fieldBindings.ts` + `diagnosticTemplates.js`
-2. Measurement knowledge batch JSON + `knowledgeRegistry.ts`
-3. Complaint chips + field guidance
-4. `routingEngine.ts` token expansion
-5. Evidence + elimination JSON
-6. `npx tsc --noEmit` in frontend
+**Still deferred:**
 
-**Priority platforms for merge:**
-
-1. Whirlpool front-load washer W11169652 (`washer` template)
-2. Midea/Insignia refrigerator E-codes (cross-ref Samsung/LG patterns)
-3. KitchenAid dishwasher F#E# ACU platform
-4. Whirlpool dishwasher F#-E# + fix legacy mis-mapped Whirlpool dishwasher seed rows
-5. Frigidaire Professional Er t* family
+| Platform | Why |
+|----------|-----|
+| Cabrio dryer PDF | Near-dup of merged Whirlpool CCU dryer |
+| Whirlpool dishwasher DMA F# mis-map fix | Seed cleanup only |
 
 **Supabase:** After DMA seed changes, re-run `backend/database/supabase_dma_error_codes_seed.sql` in Supabase.
 

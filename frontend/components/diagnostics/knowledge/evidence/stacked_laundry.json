@@ -1160,6 +1160,49 @@
       "explanation": "Failed spin with motor open — replace wash motor.",
       "recommendStepKey": "washerElectrical",
       "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "sl_chip_timer_not_advancing_airflow",
+      "when": [{ "type": "chip", "id": "timer_not_advancing" }],
+      "target": "dryer_airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 24 },
+      "explanation": "Timer not advancing on auto dry — vent restriction stalls outlet thermostat.",
+      "recommendStepKey": "complaint",
+      "dmaTags": ["airflow_check", "vent_restriction"]
+    },
+    {
+      "id": "sl_chip_timer_not_advancing_heat",
+      "when": [{ "type": "chip", "id": "timer_not_advancing" }],
+      "target": "dryer_heat",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Timer stuck — cycling/outlet thermostat or element path on GUD27 mechanical timer.",
+      "recommendStepKey": "dryer",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "sl_chip_unitized_timer_airflow",
+      "when": [{ "type": "chip", "id": "unitized_timer" }],
+      "target": "dryer_airflow",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Unitized laundry center — verify vent run before condemning timer.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["vent_restriction"]
+    },
+    {
+      "id": "sl_timer_no_advance_field",
+      "when": [
+        { "type": "chip", "id": "timer_not_advancing" },
+        { "type": "field", "path": "dryer_section.timer_advances", "equals": "no" }
+      ],
+      "target": "dryer_vent",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Timer will not advance — outlet thermostat or vent restriction on auto dry.",
+      "recommendStepKey": "dryer",
+      "dmaTags": ["airflow_check", "vent_restriction"]
     }
   ]
 }

@@ -21,6 +21,13 @@ export const ELECTRIC_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
       'af',
       'f3e6',
       'f3e7',
+      'd80',
+      'd85',
+      'd90',
+      'd95',
+      'e4',
+      'e5',
+      'c9',
     ],
   },
   {

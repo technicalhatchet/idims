@@ -34,16 +34,30 @@ export const WASHER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'vibration',
     label: 'Walking / Vibration',
-    keywords: ['vibrat', 'walking', 'shaking', 'out of balance', 'off balance'],
+    keywords: ['vibrat', 'walking', 'shaking', 'out of balance', 'off balance', 'f0e5', 'ob', 'ue'],
   },
   {
     id: 'lid_lock',
     label: 'Door / Lid Lock Issue',
-    keywords: ['lid lock', 'door lock', 'won\'t unlock', 'f dl', 'dl code', 'locked'],
+    keywords: ['lid lock', 'door lock', 'won\'t unlock', 'f dl', 'dl code', 'locked', 'f5e1', 'f5e2', 'f5e3', 'f5e4', 'dr'],
   },
   {
     id: 'error_code',
     label: 'Error Code on Display',
-    keywords: ['error', 'fault', 'code', 'f1', 'e1', 'oe', 'ue'],
+    keywords: [
+      'error', 'fault', 'code', 'f1', 'e1', 'oe', 'ue', 'f0e2', 'sd', 'oversuds',
+      'f8e1', 'lo fl', 'f9e1', 'fce0', 'f3e1', 'f4e1', 'f4e2', 'f7e9', 'f6e1',
+      'ac7', 'dc4', '4c2', 'ac6', 'tc4', 'sf',
+    ],
+  },
+  {
+    id: 'flexwash_upper',
+    label: 'Upper FlexWash Compartment',
+    keywords: ['upper washer', 'top washer', 'flexwash upper', 'small load', 'dc4', 'upper door', 'upper compartment'],
+  },
+  {
+    id: 'flexwash',
+    label: 'Samsung FlexWash / Dual Load',
+    keywords: ['flexwash', 'flex wash', 'dual load', 'ac7', 'wv55', 'two washers', 'lower washer'],
   },
 ];

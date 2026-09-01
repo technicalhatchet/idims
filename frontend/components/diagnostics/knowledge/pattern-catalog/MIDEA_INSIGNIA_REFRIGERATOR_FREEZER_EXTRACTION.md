@@ -4,7 +4,7 @@
 - `NS-RSS26SS Service Manual.pdf` — SxS refrigerator (OEM UR-BCD746WE-DT)
 - `NS-UZ21WH0 insignia freezer.pdf` — upright freezer (OEM HS-772FWE)
 
-**Status:** Phase A — **Phase B/C not merged**  
+**Status:** Phase A + B + C merged (E-family + Er t* routing/evidence).  
 Cross-reference: [SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md](./SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md), [LG_LRMVS3006S_EXTRACTION.md](./LG_LRMVS3006S_EXTRACTION.md) for duplicate *patterns* only.
 
 ---

@@ -163,6 +163,191 @@ function expandErrorCodeTokens(text: string): string {
     extras.push('demo mode', 'cooling off', 'not cooling');
   }
 
+  // Whirlpool front-load washer (W11169652 / direct-drive ACU)
+  if (/\bf0e5\b|\bob\b/.test(base)) {
+    extras.push('vibration', 'off balance', 'unbalance', 'wont spin');
+  }
+  if (/\bf0e2\b|\bsd\b/.test(base)) {
+    extras.push('oversuds', 'he detergent', 'no spin');
+  }
+  if (/\bf5e4\b|\bdr\b/.test(base)) {
+    extras.push('door lock', 'lid lock', 'f5e1');
+  }
+  if (/\bf8e1\b|\blo fl\b/.test(base)) {
+    extras.push('no fill', 'long fill', 'fill', 'inlet');
+  }
+  if (/\bf9e1\b/.test(base)) {
+    extras.push('wont drain', 'long drain', 'drain', 'nd');
+  }
+  if (/\bf5e[123]\b/.test(base)) {
+    extras.push('door lock', 'lid lock');
+  }
+  if (/\bf7e[289]\b|\bf7ea\b|\bf7ec\b/.test(base)) {
+    extras.push('wont spin', 'motor', 'drive motor');
+  }
+  if (/\bf3e1\b/.test(base)) {
+    extras.push('pressure switch', 'fill', 'no fill');
+  }
+  if (/\bf4e[124]\b/.test(base)) {
+    extras.push('no heat', 'heater', 'wash heater');
+  }
+  if (/\bf6e[123]\b/.test(base)) {
+    extras.push('control board', 'communication', 'error');
+  }
+  if (/\bfce0\b/.test(base)) {
+    extras.push('wifi', 'control board', 'communication');
+  }
+  // Insignia top-load washer E/F codes (avoid F8E* dishwasher overlap via word boundaries)
+  if (/\be4\b/.test(base) && !/\bf4e/.test(base)) {
+    extras.push('vibration', 'unbalance', 'off balance');
+  }
+  if (/\bf8\b/.test(base) && !/\bf8e/.test(base)) {
+    extras.push('level sensor', 'fill', 'no fill');
+  }
+  if (/\bfd\b/.test(base)) {
+    extras.push('door lock', 'lid lock');
+  }
+  if (/\bf5\b/.test(base) && !/\bf5e/.test(base)) {
+    extras.push('load sensing', 'belt');
+  }
+
+  // Midea / Insignia refrigerator & freezer E-family
+  if (/\be0\b/.test(base) && !/\bf0e/.test(base)) {
+    extras.push('ice maker', 'no ice');
+  }
+  if (/\be1\b/.test(base) && !/\bf1e/.test(base) && !/\be1[0-9]/.test(base)) {
+    extras.push('thermistor', 'fresh food', 'refrigerator sensor');
+  }
+  if (/\be2\b/.test(base) && !/\bf2e/.test(base) && !/\be2[0-9]/.test(base)) {
+    extras.push('thermistor', 'freezer', 'sensor');
+  }
+  if (/\be4\b/.test(base) && !/\bf4e/.test(base)) {
+    extras.push('defrost', 'thermistor', 'refrigerator');
+  }
+  if (/\be5\b/.test(base) && !/\bf5e/.test(base)) {
+    extras.push('defrost', 'thermistor', 'freezer');
+  }
+  if (/\be6\b/.test(base) && !/\bf6e/.test(base)) {
+    extras.push('communication', 'display panel', 'control board');
+  }
+  if (/\be7\b/.test(base) && !/\bf7e/.test(base)) {
+    extras.push('thermistor', 'ambient', 'sensor');
+  }
+  if (/\be9\b/.test(base) && !/\bf9e/.test(base)) {
+    extras.push('not cooling', 'high temp', 'door gasket');
+  }
+  if (/\bee\b/.test(base)) {
+    extras.push('ice maker', 'thermistor', 'sensor');
+  }
+  if (/\bep\b/.test(base)) {
+    extras.push('ice maker');
+  }
+  // Frigidaire Professional Er t*
+  if (/\ber\s*t1\b|\bert1\b/.test(base)) {
+    extras.push('thermistor', 'freezer', 'sensor');
+  }
+  if (/\ber\s*t[23]\b|\bert[23]\b/.test(base)) {
+    extras.push('thermistor', 'fresh food', 'sensor');
+  }
+  if (/\ber\s*t5\b|\bert5\b/.test(base)) {
+    extras.push('thermistor', 'convert drawer', 'sensor');
+  }
+  if (/\ber\s*t6\b|\bert6\b/.test(base)) {
+    extras.push('ice maker', 'thermistor', 'tray sensor');
+  }
+  if (/\ber\s*ce\b|\berce\b/.test(base)) {
+    extras.push('communication', 'display panel', 'ui');
+  }
+  if (/\bdemo\b/.test(base) && base.includes('show')) {
+    extras.push('demo mode', 'cooling off', 'not cooling');
+  }
+  // Whirlpool/KitchenAid ice maker service codes (test 56)
+  if (/\bice\s*e1\b|\be1\s*ice\b/.test(base)) {
+    extras.push('ice maker', 'no cooling', 'sealed system');
+  }
+
+  // Dishwasher ACU / Insignia / LG
+  if (/\bf3e2\b/.test(base)) {
+    extras.push('owi', 'calibration', 'not cleaning');
+  }
+  if (/\bf7e4\b/.test(base)) {
+    extras.push('rif filter', 'not cleaning', 'filter');
+  }
+  if (/\bf10e5\b|\bfae5\b/.test(base)) {
+    extras.push('leak', 'diverter', 'leaking');
+  }
+  if (/\bvario\b/.test(base)) {
+    extras.push('wash', 'top rack', 'diverter');
+  }
+  if (/\be8\b/.test(base) && !/\bf8e/.test(base)) {
+    extras.push('diverter', 'top rack', 'wash');
+  }
+  if (/\bae\b/.test(base) && !/\bfae/.test(base)) {
+    extras.push('leak', 'leaking', 'overflow');
+  }
+  if (/\bbe\b/.test(base)) {
+    extras.push('suds', 'detergent', 'bubble');
+  }
+  if (/\bed\b/.test(base) && !/\bfed/.test(base)) {
+    extras.push('display panel', 'communication', 'dead');
+  }
+
+  // Insignia dryer + LG duct codes
+  if (/\bd80\b|\bd85\b|\bd90\b|\bd95\b/.test(base)) {
+    extras.push('not drying', 'vent restriction', 'restricted air', 'af');
+  }
+  if (/\bc9\b/.test(base) && !/\b9c/.test(base)) {
+    extras.push('communication', 'control board', 'dead');
+  }
+
+  // LG microwave OTR
+  if (/\bf-1\b|\bf-2\b/.test(base)) {
+    extras.push('no heat', 'thermistor', 'pcb');
+  }
+  if (/\bf-4\b/.test(base)) {
+    extras.push('sensor', 'humidity');
+  }
+
+  // Samsung FlexWash dual-load (WV55M9600*)
+  if (/\bac7\b/.test(base)) {
+    extras.push('flexwash', 'upper washer', 'communication', 'control board');
+  }
+  if (/\bdc4\b/.test(base)) {
+    extras.push('flexwash upper', 'door lock', 'lid lock', 'upper door');
+  }
+  if (/\b4c2\b/.test(base)) {
+    extras.push('hot cold hose', 'fill', 'no fill', 'water supply');
+  }
+  if (/\bac6\b/.test(base)) {
+    extras.push('inverter', 'motor', 'wont spin', 'drive motor');
+  }
+  if (/\btc4\b/.test(base)) {
+    extras.push('inverter', 'motor', 'overheat');
+  }
+  if (/\bsf\b/.test(base) && !/\bsf6/.test(base)) {
+    extras.push('system fault', 'control board', 'main pcb');
+  }
+  if (/\bdc1\b/.test(base)) {
+    extras.push('door lock', 'lid lock');
+  }
+  if (/\bbc2\b/.test(base)) {
+    extras.push('stuck button', 'user interface');
+  }
+
+  // GE GUD27 / unitized laundry center — mechanical timer dryer (no display codes)
+  if (/\bgud27\b|\bgud24\b/.test(base) || base.includes('unitized') || base.includes('laundry center')) {
+    extras.push('timer dryer', 'mechanical timer', 'no error codes');
+  }
+  if (
+    base.includes('timer not advancing')
+    || base.includes('timer stuck')
+    || base.includes('timer wont advance')
+    || base.includes("timer won't advance")
+    || base.includes('stuck on')
+  ) {
+    extras.push('timer not advancing', 'cycling thermostat', 'outlet thermostat', 'vent restriction');
+  }
+
   return extras.length ? `${base} ${extras.join(' ')}` : base;
 }
 

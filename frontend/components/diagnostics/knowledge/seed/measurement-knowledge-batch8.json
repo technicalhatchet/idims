@@ -1,0 +1,157 @@
+[
+  {
+    "id": "whirlpoolFlWasherMotorOhms",
+    "name": "Whirlpool FL DD Motor Winding Resistance (J6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 6, "max": 20 },
+      "warning": { "min": 4, "max": 25 },
+      "critical": { "below": 2, "above": 40 }
+    },
+    "typical": { "min": 8, "max": 18 },
+    "openCircuitCritical": true,
+    "purpose": "Whirlpool/Maytag 27 in. front-load direct-drive stator — all pairs at motor J6.",
+    "failureModes": [
+      "Open winding — F7E2/E8/E9/EA/EC motor faults",
+      "Very low — shorted stator"
+    ],
+    "testingTips": [
+      "Disconnect power; test all phase pairs at J6 per W11169652 TEST #3",
+      "Locked rotor F7E9 — check drum obstruction before replacing stator"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"]
+    },
+    "dmaTags": ["motor_check", "spin_issue"]
+  },
+  {
+    "id": "whirlpoolFlWasherInletValveOhms",
+    "name": "Whirlpool FL Inlet Valve Coil Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1100, "max": 1350 },
+      "warning": { "min": 900, "max": 1600 },
+      "critical": { "below": 50, "above": 3000 }
+    },
+    "typical": { "min": 1150, "max": 1300 },
+    "openCircuitCritical": true,
+    "purpose": "Dual inlet valve solenoid coils — W11169652 platform.",
+    "failureModes": [
+      "Open coil — no fill on that leg (F8E1)",
+      "Shorted coil — inlet valve fault"
+    ],
+    "testingTips": [
+      "TEST #6 fill valve; verify hot ≥120°F at tap for proper wash temp"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"]
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "whirlpoolFlWasherDrainPumpOhms",
+    "name": "Whirlpool FL Drain Pump Resistance (J11)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 18.5, "max": 21.5 },
+      "warning": { "min": 15, "max": 25 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 19, "max": 21 },
+    "openCircuitCritical": true,
+    "purpose": "Drain pump winding at J11 — W11169652 TEST #8.",
+    "failureModes": [
+      "Open — F9E1 long drain",
+      "Pump hums with normal ohms — impeller jam"
+    ],
+    "testingTips": [
+      "Check drain filter and hose height before pump replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"]
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "whirlpoolFlWasherHeaterOhms",
+    "name": "Whirlpool FL Wash Heater Resistance (J3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 7, "max": 30 },
+      "warning": { "min": 5, "max": 40 },
+      "critical": { "below": 2, "above": 60 }
+    },
+    "typical": { "min": 10, "max": 25 },
+    "openCircuitCritical": true,
+    "purpose": "Wash/dry combo tub heater — F4E1/F4E2 heat relay faults.",
+    "failureModes": [
+      "Open heater — no temp rise",
+      "Relay stuck — heater always on"
+    ],
+    "testingTips": [
+      "TEST #9 heating element; torque heater nut 4.5 Nm on reinstall"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"]
+    },
+    "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherRecircPumpOhms",
+    "name": "Whirlpool FL Recirculation Pump Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 36, "max": 46 },
+      "warning": { "min": 30, "max": 55 },
+      "critical": { "below": 10, "above": 80 }
+    },
+    "typical": { "min": 38, "max": 44 },
+    "openCircuitCritical": true,
+    "purpose": "Recirc pump motor winding on heat/steam FL variants.",
+    "failureModes": [
+      "Open winding — poor wash performance, no recirc"
+    ],
+    "testingTips": [
+      "Verify pump turns freely before ohms test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"]
+    },
+    "dmaTags": ["pump_check"]
+  },
+  {
+    "id": "insigniaWasherLevelSensorFrequency",
+    "name": "Insignia Washer Level Sensor Frequency (empty tub)",
+    "unit": "kHz",
+    "inputKind": "frequency",
+    "ranges": {
+      "normal": { "min": 26.4, "max": 27.0 },
+      "warning": { "min": 25, "max": 30 },
+      "critical": { "below": 18, "above": 30 }
+    },
+    "typical": { "min": 26.6, "max": 26.9 },
+    "purpose": "WMT41WA5 frequency level sensor — F8 when <18 or >30 kHz.",
+    "failureModes": [
+      "Out of band — F8 level sensor fault",
+      "TWM41 capacitive platform uses 40–50 nF instead"
+    ],
+    "testingTips": [
+      "Empty tub, stable power; compare to 26.70±0.3 kHz spec on WMT41"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"]
+    },
+    "dmaTags": ["fill_issue"]
+  }
+]

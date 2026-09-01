@@ -7933,5 +7933,161 @@
     "related_codes": [
       "F6E3"
     ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "E1",
+    "code_normalized": "E1",
+    "meaning": "Water inlet failure",
+    "common_causes": "No fill in 4 min",
+    "recommended_fix": "Check supply, inlet valve, flow meter, pressure switch, drain, PCB",
+    "alias_group_id": "fff9baac-7247-454a-aea7-75c4b07c2e75",
+    "related_codes": [
+      "E1"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "E3",
+    "code_normalized": "E3",
+    "meaning": "Heater failure",
+    "common_causes": "Temp not reached in 90 min",
+    "recommended_fix": "Test heater and thermistor",
+    "alias_group_id": "a1783a15-360d-4c18-bcd4-1999884f4301",
+    "related_codes": [
+      "E3"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "E4",
+    "code_normalized": "E4",
+    "meaning": "Overflow",
+    "common_causes": "Base pan switch activated",
+    "recommended_fix": "Level unit; locate leak; check overflow switch and drain pump",
+    "alias_group_id": "f8548f3c-999d-4d2d-bb8a-d66915a8276e",
+    "related_codes": [
+      "E4"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "E6",
+    "code_normalized": "E6",
+    "meaning": "NTC open circuit",
+    "common_causes": "Thermal sensor open",
+    "recommended_fix": "Test thermistor; inlet water temperature",
+    "alias_group_id": "4f19b1a6-f5e9-4c30-8156-f78eda497866",
+    "related_codes": [
+      "E6"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "E7",
+    "code_normalized": "E7",
+    "meaning": "NTC short circuit",
+    "common_causes": "Thermal sensor short",
+    "recommended_fix": "Test thermistor circuit",
+    "alias_group_id": "79a42680-bdbc-45d6-a57c-a2327187d78f",
+    "related_codes": [
+      "E7"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "E8",
+    "code_normalized": "E8",
+    "meaning": "Diverter valve fault",
+    "common_causes": "Diverter motor or micro switch",
+    "recommended_fix": "Test diverter valve motor and switch",
+    "alias_group_id": "e3f807fd-1ce1-4bd3-a2f0-006dead30b03",
+    "related_codes": [
+      "E8"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "E9",
+    "code_normalized": "E9",
+    "meaning": "Stuck button",
+    "common_causes": "Button pressed over 30 seconds",
+    "recommended_fix": "Check control panel assembly",
+    "alias_group_id": "48289311-5e78-4305-8804-8ad2e0a7aa65",
+    "related_codes": [
+      "E9"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dishwasher",
+    "code": "Ed",
+    "code_normalized": "ED",
+    "meaning": "Display communication failure",
+    "common_causes": "UI-main signal loss over 20 seconds",
+    "recommended_fix": "Check display board harness and PCB",
+    "alias_group_id": "8cedf7fe-0f5b-4c3e-ba37-78e3e8c26dc6",
+    "related_codes": [
+      "ED"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dryer",
+    "code": "E4",
+    "code_normalized": "E4",
+    "meaning": "Humidity sensor error",
+    "common_causes": "Humidity sensor fault during cycle",
+    "recommended_fix": "Test humidity sensor; cycle uses timed dry fallback",
+    "alias_group_id": "b801a9f1-a776-4eaa-903a-3d9a73046aa2",
+    "related_codes": [
+      "E4"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dryer",
+    "code": "E5",
+    "code_normalized": "E5",
+    "meaning": "Outlet temperature sensor error",
+    "common_causes": "Outlet NTC open or short",
+    "recommended_fix": "Test outlet temp sensor; fault stops heat and motor",
+    "alias_group_id": "f0bea6b0-14dc-48d3-83cc-e0632b31c3fb",
+    "related_codes": [
+      "E5"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "dryer",
+    "code": "C9",
+    "code_normalized": "C9",
+    "meaning": "Communication error",
+    "common_causes": "Display-main comm timeout",
+    "recommended_fix": "Check display communication harness; replace PCB",
+    "alias_group_id": "e489e22d-04ec-417f-89fd-1c3b14b12099",
+    "related_codes": [
+      "C9"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "F5",
+    "code_normalized": "F5",
+    "meaning": "Load sensing failed",
+    "common_causes": "Belt tension or load sensor fault",
+    "recommended_fix": "Adjust belt tension; test load sensing",
+    "alias_group_id": "8e941035-da66-4f67-9910-4b1c84a89f57",
+    "related_codes": [
+      "F5"
+    ]
   }
 ]

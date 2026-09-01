@@ -1676,6 +1676,26 @@
       "explanation": "Condenser fan runs but blade, bearing, or airflow is bad.",
       "recommendStepKey": "fans",
       "dmaTags": ["condenser_fan"]
+    },
+    {
+      "id": "sf_kw_midea_e2_sensor",
+      "when": [{ "type": "keyword", "match": "e2" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Insignia/Midea E2 — freezer temp sensor (B3839 NTC).",
+      "recommendStepKey": "temperature",
+      "dmaTags": ["thermistor"]
+    },
+    {
+      "id": "sf_kw_midea_e9_high_temp",
+      "when": [{ "type": "keyword", "match": "e9" }],
+      "target": "door_switch",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "E9 high temp — door seal and evaporator fan before sealed system.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["door_alignment"]
     }
   ]
 }

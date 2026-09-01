@@ -46,4 +46,14 @@ export const stackedLaundryFieldVisibilityRules: FieldVisibilityRule[] = [
     field: 'dryer_measurements.heater_ohms',
     showWhen: [{ type: 'chip', id: 'dryer_no_heat' }],
   },
+  {
+    id: 'timer_advances',
+    field: 'dryer_section.timer_advances',
+    showWhen: [{ type: 'chip', id: 'timer_not_advancing' }, { type: 'chip', id: 'unitized_timer' }],
+  },
+  {
+    id: 'timer_platform_chk',
+    field: 'commonly_missed.timer_platform',
+    showWhen: [{ type: 'chip', id: 'timer_not_advancing' }, { type: 'chip', id: 'unitized_timer' }],
+  },
 ];

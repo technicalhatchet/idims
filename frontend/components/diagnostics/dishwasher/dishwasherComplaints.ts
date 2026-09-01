@@ -39,6 +39,6 @@ export const DISHWASHER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'error_code',
     label: 'Error Code on Display',
-    keywords: ['error', 'fault', 'code', 'i30', 'oe', 'le'],
+    keywords: ['error', 'fault', 'code', 'i30', 'oe', 'le', 'f3e2', 'f8e1', 'f9e1', 'f10e5', 'f7e4', 'vario', 'e8', 'ae', 'be', 'ed', 'fae'],
   },
 ];
