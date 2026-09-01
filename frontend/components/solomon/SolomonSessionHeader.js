@@ -4,6 +4,7 @@ import SolomonApplianceIcon from './SolomonApplianceIcon';
 import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
 import { SolomonLifecycleStatusBadge } from './solomonListPageUi';
 import { getEquipmentTypeForTemplate } from './solomonTemplateEquipment';
+import SolomonApplianceLabel from './solomonApplianceLabel';
 
 function equipmentLine(target) {
   const parts = [
@@ -25,10 +26,6 @@ export default function SolomonSessionHeader({
   const resolvedTemplateId = templateId
     || diagnostic?.template_id
     || diagnostic?.payload?.templateId;
-  const label = templateLabel
-    || diagnostic?.template_label
-    || resolvedTemplateId
-    || 'Diagnostic';
   const status = resolveSolomonDiagnosticStatus(diagnostic || { payload: { templateId: resolvedTemplateId } });
   const equipmentType = getEquipmentTypeForTemplate(resolvedTemplateId);
   const equipment = equipmentLine(diagnostic);
@@ -48,8 +45,14 @@ export default function SolomonSessionHeader({
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <h2 className="text-base font-semibold leading-tight text-[var(--solomon-text-primary)] truncate">
-              {label}
+            <h2 className="text-base font-semibold leading-tight text-[var(--solomon-text-primary)] min-w-0 flex-1">
+              <SolomonApplianceLabel
+                templateId={resolvedTemplateId}
+                templateLabel={templateLabel || diagnostic?.template_label}
+                truncate
+                className="font-semibold"
+                suffixClassName="font-semibold text-[var(--solomon-text-muted)]"
+              />
             </h2>
             <SolomonLifecycleStatusBadge status={status} />
           </div>

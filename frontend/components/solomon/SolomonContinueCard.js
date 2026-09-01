@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { formatSolomonDateTime } from '../../utils/solomonFormat';
+import SolomonApplianceLabel from './solomonApplianceLabel';
 
 export default function SolomonContinueCard({ target, isDiyer }) {
   if (!target) return null;
 
-  const label = target.template_label || target.template_id || 'Diagnostic';
+  const templateId = target.template_id || target.payload?.templateId;
   const when = formatSolomonDateTime(target.updated_at, 'MMM d, h:mm a');
   const stepHint = target.payload?.currentStepKey
     ? 'Resume where you left off'
@@ -18,7 +19,12 @@ export default function SolomonContinueCard({ target, isDiyer }) {
       <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300/90">
         Continue
       </p>
-      <p className="text-lg font-semibold mt-1">{label}</p>
+      <SolomonApplianceLabel
+        templateId={templateId}
+        templateLabel={target.template_label}
+        className="text-lg font-semibold mt-1"
+        suffixClassName="font-semibold text-white/55"
+      />
       <p className="text-sm text-white/70 mt-1">{stepHint}</p>
       {when ? <p className="text-xs text-white/40 mt-2">Updated {when}</p> : null}
       <p className="text-xs text-cyan-400 mt-2">
