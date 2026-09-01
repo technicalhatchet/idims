@@ -14,6 +14,7 @@ import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
 import { prefetchSolomonShell } from '../lib/solomonPrefetch';
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
+import SolomonThemeScope from '../components/solomon/SolomonThemeScope';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -183,11 +184,13 @@ function MyApp({ Component, pageProps }) {
           <ClientOnlyPrefetch />
           <ClientOnlySolomonPrefetch />
           <SolomonDiyEnrollment />
-          {Component.getLayout ? (
-            Component.getLayout(<Component {...pageProps} />)
-          ) : (
-            <Component {...pageProps} />
-          )}
+          <SolomonThemeScope>
+            {Component.getLayout ? (
+              Component.getLayout(<Component {...pageProps} />)
+            ) : (
+              <Component {...pageProps} />
+            )}
+          </SolomonThemeScope>
           <Toaster position="top-right" />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

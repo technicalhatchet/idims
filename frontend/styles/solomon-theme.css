@@ -1,0 +1,133 @@
+/**
+ * Solomon interface themes — semantic design tokens.
+ *
+ * Signature values match the existing hard-coded palette exactly.
+ * Professional values are restrained (less glow/blur) for later phases.
+ *
+ * Applied via: document.documentElement[data-solomon-interface="signature|professional"]
+ * Scoped to /solomon routes by SolomonThemeProvider.
+ */
+
+:root,
+[data-solomon-interface='signature'] {
+  /* Canvas & shells */
+  --solomon-bg-canvas: #070b14;
+  --solomon-bg-shell: #0a0f1e;
+  --solomon-bg-mobile-shell: #0f172a;
+
+  /* Surfaces */
+  --solomon-surface: #060a12;
+  --solomon-surface-elevated: #0d1525;
+  --solomon-surface-glass: rgba(6, 10, 18, 0.78);
+  --solomon-surface-glass-hover: rgba(6, 10, 18, 0.86);
+
+  /* Borders */
+  --solomon-border-subtle: rgba(255, 255, 255, 0.15);
+  --solomon-border-muted: rgba(255, 255, 255, 0.1);
+
+  /* Text */
+  --solomon-text-primary: #ffffff;
+  --solomon-text-secondary: rgba(156, 163, 175, 1);
+  --solomon-text-muted: rgba(255, 255, 255, 0.35);
+  --solomon-text-placeholder: rgba(255, 255, 255, 0.35);
+
+  /* Brand primary */
+  --solomon-primary-from: #0089b9;
+  --solomon-primary-to: #006a94;
+  --solomon-primary-hover-from: #0099cc;
+  --solomon-primary-hover-to: #007aa8;
+  --solomon-primary-border: rgba(34, 211, 238, 0.3);
+  --solomon-primary-shadow: 0 4px 18px rgba(0, 137, 185, 0.38);
+
+  /* Effects — Signature keeps glass/blur personality */
+  --solomon-glass-blur: 12px;
+  --solomon-shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --solomon-shadow-card: 0 8px 22px rgba(0, 0, 0, 0.32);
+  --solomon-focus-ring: rgba(34, 211, 238, 0.4);
+
+  /* Radius */
+  --solomon-radius-control: 0.5rem;
+  --solomon-radius-card: 0.75rem;
+
+  /* PWA meta */
+  --solomon-theme-color: #0a0f1e;
+
+  /* Status semantics — lifecycle (Signature: current Tailwind-aligned hues) */
+  --solomon-status-diagnostic: #22d3ee;
+  --solomon-status-repair: #fb923c;
+  --solomon-status-complete: #34d399;
+  --solomon-status-memory: #c084fc;
+  --solomon-status-sync: #38bdf8;
+  --solomon-status-abandoned: #9ca3af;
+}
+
+[data-solomon-interface='professional'] {
+  --solomon-bg-canvas: #0b0f17;
+  --solomon-bg-shell: #0b0f17;
+  --solomon-bg-mobile-shell: #0e131c;
+
+  --solomon-surface: #121820;
+  --solomon-surface-elevated: #171e28;
+  --solomon-surface-glass: rgba(18, 24, 32, 0.96);
+  --solomon-surface-glass-hover: rgba(22, 28, 38, 0.98);
+
+  --solomon-border-subtle: rgba(255, 255, 255, 0.1);
+  --solomon-border-muted: rgba(255, 255, 255, 0.06);
+
+  --solomon-text-primary: #f3f4f6;
+  --solomon-text-secondary: #9ca3af;
+  --solomon-text-muted: rgba(156, 163, 175, 0.85);
+  --solomon-text-placeholder: rgba(156, 163, 175, 0.55);
+
+  --solomon-primary-from: #2563eb;
+  --solomon-primary-to: #1d4ed8;
+  --solomon-primary-hover-from: #3b82f6;
+  --solomon-primary-hover-to: #2563eb;
+  --solomon-primary-border: rgba(59, 130, 246, 0.35);
+  --solomon-primary-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+
+  --solomon-glass-blur: 0px;
+  --solomon-shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --solomon-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --solomon-focus-ring: rgba(59, 130, 246, 0.45);
+
+  --solomon-radius-control: 0.5rem;
+  --solomon-radius-card: 0.625rem;
+
+  --solomon-theme-color: #0b0f17;
+
+  /* Same semantic hues, slightly desaturated for restraint */
+  --solomon-status-diagnostic: #38bdf8;
+  --solomon-status-repair: #f59e0b;
+  --solomon-status-complete: #10b981;
+  --solomon-status-memory: #a78bfa;
+  --solomon-status-sync: #0ea5e9;
+  --solomon-status-abandoned: #6b7280;
+}
+
+/* Utility classes for gradual migration — optional in components */
+.solomon-bg-canvas {
+  background-color: var(--solomon-bg-canvas);
+}
+
+.solomon-bg-shell {
+  background-color: var(--solomon-bg-shell);
+}
+
+.solomon-bg-mobile-shell {
+  background-color: var(--solomon-bg-mobile-shell);
+}
+
+.solomon-surface-glass {
+  background-color: var(--solomon-surface-glass);
+  border-color: var(--solomon-border-subtle);
+}
+
+.solomon-text-primary {
+  color: var(--solomon-text-primary);
+}
+
+.solomon-backdrop-blur {
+  -webkit-backdrop-filter: blur(var(--solomon-glass-blur));
+  backdrop-filter: blur(var(--solomon-glass-blur));
+}

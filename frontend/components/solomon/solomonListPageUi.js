@@ -3,13 +3,13 @@ import { FaCheckCircle, FaClock, FaPlus } from 'react-icons/fa';
 import { SOLOMON_DIAGNOSTIC_STATUS } from './solomonDiagnosticStatus';
 import SolomonCategoryIcon from './categoryIcons';
 
-export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[#070b14] relative overflow-hidden !px-4 max-w-lg';
+export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[var(--solomon-bg-canvas)] relative overflow-hidden !px-4 max-w-lg';
 
 export const SOLOMON_FILTER_ACTIVE_CLASS =
   'bg-cyan-500/10 backdrop-blur-md border-cyan-400/45 text-cyan-50 shadow-[0_0_12px_rgba(34,211,238,0.12)]';
 
 export const SOLOMON_FILTER_IDLE_CLASS =
-  'bg-[#060a12]/78 backdrop-blur-md border-white/15 text-white/42 hover:border-white/22 hover:text-white/58';
+  'bg-[var(--solomon-surface-glass)] solomon-backdrop-blur border-[color:var(--solomon-border-subtle)] text-white/42 hover:border-white/22 hover:text-white/58';
 
 /** Home-menu tile icon shells — semantic lifecycle colors. */
 export const SOLOMON_ICON_SHELL_BY_LIFECYCLE = {
@@ -44,9 +44,9 @@ const BADGE_GLOW_BY_LIFECYCLE = {
 export function solomonLifecycleListSurfaceClass(status) {
   const isMemory = status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
   return [
-    'relative block rounded-xl border border-t-2 border-white/15 overflow-hidden backdrop-blur-md transition-colors duration-200',
-    'bg-[#060a12]/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_22px_rgba(0,0,0,0.32)]',
-    'hover:border-white/22 hover:bg-[#060a12]/86',
+    'relative block rounded-xl border border-t-2 border-white/15 overflow-hidden solomon-backdrop-blur transition-colors duration-200',
+    'bg-[var(--solomon-surface-glass)] shadow-[var(--solomon-shadow-inset-highlight),var(--solomon-shadow-card)]',
+    'hover:border-white/22 hover:bg-[var(--solomon-surface-glass-hover)]',
     status.topAccentClass,
     status.cardGlowClass,
     isMemory ? 'ring-1 ring-purple-400/12' : '',
@@ -270,12 +270,12 @@ export function SolomonOrangeAddButton({ href, ariaLabel, label = 'Add' }) {
 }
 
 export const SOLOMON_GLASS_INPUT_CLASS =
-  'w-full rounded-lg border border-white/15 bg-[#060a12] px-3 py-2.5 text-sm text-white placeholder:text-white/35 backdrop-blur-md focus:border-cyan-400/40 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-colors [color-scheme:dark] [&:-webkit-autofill]:shadow-[inset_0_0_0px_1000px_#060a12] [&:-webkit-autofill]:[-webkit-text-fill-color:#fff]';
+  'w-full rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2.5 text-sm text-white placeholder:text-[color:var(--solomon-text-placeholder)] solomon-backdrop-blur focus:border-cyan-400/40 focus:outline-none focus:ring-1 focus:ring-[color:var(--solomon-focus-ring)] transition-colors [color-scheme:dark] [&:-webkit-autofill]:shadow-[inset_0_0_0px_1000px_var(--solomon-surface)] [&:-webkit-autofill]:[-webkit-text-fill-color:#fff]';
 
-export const SOLOMON_GLASS_SELECT_OPTION_CLASS = 'bg-[#060a12] text-white';
+export const SOLOMON_GLASS_SELECT_OPTION_CLASS = 'bg-[var(--solomon-surface)] text-white';
 
 export const SOLOMON_GLASS_PANEL_CLASS =
-  'rounded-xl border border-white/15 bg-[#060a12]/78 backdrop-blur-md p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_22px_rgba(0,0,0,0.32)]';
+  'rounded-xl border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-glass)] solomon-backdrop-blur p-4 shadow-[var(--solomon-shadow-inset-highlight),var(--solomon-shadow-card)]';
 
 export const SOLOMON_LIST_CARD_PADDING_CLASS = 'p-3.5';
 export const SOLOMON_LIST_STACK_CLASS = 'space-y-2.5';
