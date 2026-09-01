@@ -27,6 +27,16 @@ export const SOLOMON_ICON_SHELL_BY_LIFECYCLE = {
   [SOLOMON_DIAGNOSTIC_STATUS.pending_sync]: 'bg-sky-500/12 text-sky-400 border-sky-500/20 shadow-[0_0_10px_rgba(56,189,248,0.08)]',
 };
 
+/** Professional — same semantics, no glow shadows. */
+export const SOLOMON_PRO_ICON_SHELL_BY_LIFECYCLE = {
+  [SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress]: 'bg-cyan-500/10 text-[var(--solomon-status-diagnostic)] border-cyan-500/20',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending]: 'bg-orange-500/10 text-[var(--solomon-status-repair)] border-orange-500/20',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_successful]: 'bg-emerald-500/10 text-[var(--solomon-status-complete)] border-emerald-500/20',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_memory]: 'bg-purple-500/10 text-[var(--solomon-status-memory)] border-purple-500/25',
+  [SOLOMON_DIAGNOSTIC_STATUS.abandoned]: 'bg-white/5 text-gray-400 border-white/12',
+  [SOLOMON_DIAGNOSTIC_STATUS.pending_sync]: 'bg-sky-500/10 text-[var(--solomon-status-sync)] border-sky-500/20',
+};
+
 /** @deprecated Use SOLOMON_ICON_SHELL_BY_LIFECYCLE */
 export const SOLOMON_ICON_BORDER_BY_LIFECYCLE = {
   [SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress]: 'border-cyan-500/20',
@@ -47,7 +57,16 @@ const BADGE_GLOW_BY_LIFECYCLE = {
 };
 
 /** List card shell — home-menu glass + lifecycle accent from status resolver. */
-export function solomonLifecycleListSurfaceClass(status) {
+export function solomonLifecycleListSurfaceClass(status, { isProfessional = false } = {}) {
+  if (isProfessional) {
+    return [
+      'relative block rounded-[var(--solomon-radius-card)] border border-t-2 overflow-hidden transition-colors duration-200',
+      'bg-[var(--solomon-surface)] shadow-[var(--solomon-shadow-card)]',
+      'hover:bg-[var(--solomon-surface-elevated)] hover:border-[color:var(--solomon-border-subtle)]',
+      status.topAccentClass,
+    ].filter(Boolean).join(' ');
+  }
+
   const isMemory = status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
   return [
     'relative block rounded-xl border border-t-2 border-white/15 overflow-hidden solomon-backdrop-blur transition-colors duration-200',
@@ -59,7 +78,7 @@ export function solomonLifecycleListSurfaceClass(status) {
   ].filter(Boolean).join(' ');
 }
 
-export function SolomonLifecycleStatusBadge({ status }) {
+export function SolomonLifecycleStatusBadge({ status, isProfessional = false }) {
   const lifecycleKey = status.lifecycleKey || status.key;
   const showSpinner = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress
     || lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending
@@ -67,13 +86,15 @@ export function SolomonLifecycleStatusBadge({ status }) {
   const showCheck = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_successful
     || lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
   const showDash = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.abandoned;
-  const glow = BADGE_GLOW_BY_LIFECYCLE[lifecycleKey] || '';
+  const glow = isProfessional ? '' : (BADGE_GLOW_BY_LIFECYCLE[lifecycleKey] || '');
 
   return (
     <span
       role="status"
       aria-label={status.label}
-      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm bg-[var(--solomon-surface-elevated)] ${status.badgeClass} ${glow}`}
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] ${
+        isProfessional ? '' : 'backdrop-blur-sm'
+      } bg-[var(--solomon-surface-elevated)] ${status.badgeClass} ${glow}`}
     >
       {showSpinner ? (
         <span className="h-2.5 w-2.5 rounded-full border border-current border-t-transparent animate-spin" aria-hidden />
@@ -130,6 +151,7 @@ export function SolomonListLifecycleHeadline({
   categoryLabel = null,
   categoryId = null,
   className = '',
+  isProfessional = false,
 }) {
   const lifecycleKey = status?.lifecycleKey || status?.key;
   const systemLabel = categoryLabel || lead?.categoryLabel;
@@ -180,8 +202,8 @@ export function SolomonListLifecycleHeadline({
   if (!systemLabel && !primaryLine) return null;
 
   const meterColorClass = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress
-    ? 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.5)]'
-    : 'bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]';
+    ? (isProfessional ? 'bg-[var(--solomon-status-diagnostic)]' : 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.5)]')
+    : (isProfessional ? 'bg-[var(--solomon-status-complete)]' : 'bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]');
 
   return (
     <div className={`shrink-0 min-w-0 max-w-[52%] text-right ${className}`}>
@@ -233,21 +255,21 @@ export function SolomonListLeadMeter({ lead, status, className }) {
 }
 
 /** Bottom row — timestamp left, workflow badge right (when distinct from top headline). */
-export function SolomonListCardFooter({ when, status, showClock = false }) {
+export function SolomonListCardFooter({ when, status, showClock = false, isProfessional = false }) {
   const showWorkflowBadge = shouldShowListCardWorkflowBadge(status);
   if (!when && !showWorkflowBadge) return null;
 
   return (
-    <div className="flex items-end justify-between gap-2 mt-2">
+    <div className={`flex items-end justify-between gap-2 ${isProfessional ? 'mt-1.5' : 'mt-2'}`}>
       {when ? (
-        <p className="flex items-center gap-1 text-[10px] text-gray-500 min-w-0">
+        <p className={`flex items-center gap-1 min-w-0 ${isProfessional ? 'text-[9px] text-[var(--solomon-text-muted)]' : 'text-[10px] text-gray-500'}`}>
           {showClock ? <FaClock size={9} className="shrink-0 opacity-75" aria-hidden /> : null}
           {when}
         </p>
       ) : (
         <span />
       )}
-      {showWorkflowBadge ? <SolomonLifecycleStatusBadge status={status} /> : null}
+      {showWorkflowBadge ? <SolomonLifecycleStatusBadge status={status} isProfessional={isProfessional} /> : null}
     </div>
   );
 }
@@ -288,8 +310,11 @@ export const SOLOMON_GLASS_PANEL_CLASS =
   'rounded-xl border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-glass)] solomon-backdrop-blur p-4 shadow-[var(--solomon-shadow-inset-highlight),var(--solomon-shadow-card)]';
 
 export const SOLOMON_LIST_CARD_PADDING_CLASS = 'p-3.5';
+export const SOLOMON_PRO_LIST_CARD_PADDING_CLASS = 'p-2.5';
 export const SOLOMON_LIST_STACK_CLASS = 'space-y-2.5';
+export const SOLOMON_PRO_LIST_STACK_CLASS = 'space-y-2';
 export const SOLOMON_LIST_ICON_BOX_CLASS = 'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border';
+export const SOLOMON_PRO_LIST_ICON_BOX_CLASS = 'flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--solomon-radius-control)] border';
 
 export const SOLOMON_SEARCH_BUTTON_CLASS =
   'flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] border border-[color:var(--solomon-primary-border)] px-4 py-3 text-sm font-medium text-white shadow-[var(--solomon-primary-shadow)] transition-colors hover:opacity-95 disabled:opacity-50';
