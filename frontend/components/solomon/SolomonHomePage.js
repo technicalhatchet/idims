@@ -9,13 +9,18 @@ import SolomonHeroArtboard from './SolomonHeroArtboard';
 import SolomonHomeMenuGrid from './SolomonHomeMenuGrid';
 import SolomonSmarterCard from './SolomonSmarterCard';
 import SolomonOfflineFooter from './SolomonOfflineFooter';
+import SolomonProfessionalHome from './SolomonProfessionalHome';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
+import { useSolomonTheme } from '../../hooks/useSolomonTheme';
 import { useSolomonTopInset, solomonSafeBottom } from './solomonSafeArea';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 import { SOLOMON_Z, SOLOMON_PRIMARY_CTA_CLASS, solomonContentSpacerStyle, solomonPrimaryCtaLabelStyle } from './solomonHeroComposition';
+import useSolomonBottomNavVisible from '../../hooks/useSolomonBottomNavVisible';
+import SolomonBottomNav from './SolomonBottomNav';
+import { SOLOMON_BOTTOM_NAV_HEIGHT_PX } from './solomonNavigation';
 
-export default function SolomonHomePage() {
+function SolomonSignatureHome() {
   const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
   const { continueTarget, isLoading: continueLoading } = useSolomonContinue();
   const topInset = useSolomonTopInset();
@@ -28,15 +33,19 @@ export default function SolomonHomePage() {
   const installHint = useSolomonInstallHint();
   const ctaRef = useRef(null);
   const ctaLabels = solomonPrimaryCtaLabelStyle({ longTitle: isDiyer, singleLine: !newSubtitle });
+  const showBottomNav = useSolomonBottomNavVisible();
+  const mainPaddingBottom = showBottomNav
+    ? `calc(${SOLOMON_BOTTOM_NAV_HEIGHT_PX}px + 1rem + env(safe-area-inset-bottom, 0px))`
+    : 'max(4rem, env(safe-area-inset-bottom, 0px))';
 
   return (
-    <div className="relative min-h-screen text-white bg-[#070b14]">
+    <div className="relative min-h-screen text-white bg-[var(--solomon-bg-canvas)]">
       <main
         className="relative mx-auto max-w-lg"
         style={{
           ...topInset,
           ...solomonSafeBottom,
-          paddingBottom: 'max(4rem, env(safe-area-inset-bottom, 0px))',
+          paddingBottom: mainPaddingBottom,
         }}
       >
         <SolomonHeroArtboard
@@ -140,6 +149,17 @@ export default function SolomonHomePage() {
           </div>
         </div>
       </main>
+      {showBottomNav ? <SolomonBottomNav /> : null}
     </div>
   );
+}
+
+export default function SolomonHomePage() {
+  const { isProfessional } = useSolomonTheme();
+
+  if (isProfessional) {
+    return <SolomonProfessionalHome />;
+  }
+
+  return <SolomonSignatureHome />;
 }

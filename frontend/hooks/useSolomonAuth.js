@@ -62,6 +62,7 @@ export function useSolomonAuth() {
   const effectiveRoles = dbRoles ?? [];
   const rolesResolved = Boolean(user) && dbRoles !== null;
   const isDiyer = effectiveRoles.includes('diyer');
+  const isAdmin = effectiveRoles.includes('admin');
   const isStaff = effectiveRoles.some((r) => STAFF_ROLES.has(r));
   const canUseSolomon = isDiyer || isStaff;
 
@@ -128,6 +129,7 @@ export function useSolomonAuth() {
     rolesResolved,
     role: effectiveRoles[0] || null,
     isDiyer,
+    isAdmin,
     isStaff,
     canUseSolomon,
     needsDiyEnrollment,

@@ -12,6 +12,36 @@ import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementC
 import { getDiagnosticTemplate } from '../../constants/diagnosticTemplates';
 
 /**
+ * Synchronous leading-hypothesis readout (metrics, non-hook contexts).
+ * @param {object | null | undefined} target Diagnostic row or continue target
+ */
+export function computeSolomonDiagnosticLead(target) {
+  const templateId = target?.payload?.templateId || target?.template_id;
+  if (!templateId) return null;
+
+  const fields = target?.payload?.fields || {};
+  const visitedStepKeys = target?.payload?.visitedStepKeys || [];
+  const wizardDefinition = getWizardDefinition(templateId);
+  const template = getDiagnosticTemplate(templateId);
+  const wizardSteps = resolveWizardSteps(wizardDefinition, template);
+  const stepKeyLabels = buildStepKeyLabels(wizardDefinition);
+  const fieldLabels = buildFieldLabelsForTemplate(templateId);
+  const defaultStepOrder = extractDefaultStepOrder(wizardSteps);
+  const measurementStatuses = buildMeasurementStatusMap(templateId, fields);
+
+  const intelligence = evaluateDiagnosticIntelligence(templateId, fields, measurementStatuses, {
+    visitedStepKeys,
+    defaultStepOrder,
+    complaintChips: wizardDefinition?.complaintChips || [],
+    dmaNudges: null,
+    fieldLabels,
+    stepKeyLabels,
+  });
+
+  return formatDiyLeadCard(intelligence);
+}
+
+/**
  * Leading hypothesis readout for Solomon list / session cards.
  * @param {object | null | undefined} target Diagnostic row or continue target
  */

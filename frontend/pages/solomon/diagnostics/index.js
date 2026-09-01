@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import ApplianceIcon from '../../../components/ui/ApplianceIcon';
 import SolomonPageHeader from '../../../components/solomon/SolomonPageHeader';
 import SolomonPageAtmosphere from '../../../components/solomon/SolomonPageAtmosphere';
 import SolomonHead from '../../../components/solomon/SolomonHead';
@@ -9,144 +8,18 @@ import SolomonErrorBoundary from '../../../components/solomon/SolomonErrorBounda
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
-import { formatSolomonDateTime } from '../../../utils/solomonFormat';
 import { SYNC_EVENT } from '../../../lib/offlineMutations';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import { listStandaloneDiagnosticsOffline } from '../../../lib/solomonOfflineWrites';
 import SolomonAccessGuard from '../../../components/solomon/SolomonAccessGuard';
 import {
-  SOLOMON_DIAGNOSTIC_STATUS,
-  resolveSolomonDiagnosticStatus,
-} from '../../../components/solomon/solomonDiagnosticStatus';
-import {
   SOLOMON_FILTER_ACTIVE_CLASS,
   SOLOMON_FILTER_IDLE_CLASS,
-  SOLOMON_ICON_SHELL_BY_LIFECYCLE,
-  SOLOMON_LIST_CARD_PADDING_CLASS,
-  SOLOMON_LIST_ICON_BOX_CLASS,
   SOLOMON_LIST_STACK_CLASS,
   SOLOMON_PAGE_SHELL_CLASS,
   SolomonCyanAddButton,
-  SolomonListCardFooter,
-  SolomonListLifecycleHeadline,
-  solomonLifecycleListSurfaceClass,
 } from '../../../components/solomon/solomonListPageUi';
-import { getEquipmentTypeForTemplate } from '../../../components/solomon/solomonTemplateEquipment';
-import { useSolomonDiagnosticLead } from '../../../components/solomon/useSolomonDiagnosticLead';
-import { getWizardDefinition, resolveWizardSteps } from '../../../components/diagnostics';
-import { DIAGNOSTIC_REVIEW_STEP_ID } from '../../../components/diagnostics/shared/createWizardDefinitionFromTemplate';
-import { getDiagnosticTemplate } from '../../../constants/diagnosticTemplates';
-
-/** Home-menu tile glass + lifecycle accent — diagnostics list only. */
-const CYAN_STEP_PROGRESS_ACTIVE = 'bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.45)]';
-
-function getDiagnosticStepProgress(item) {
-  const payload = item?.payload || {};
-  const templateId = payload.templateId || item.template_id;
-  if (!templateId) return null;
-
-  const wizardDefinition = getWizardDefinition(templateId);
-  const template = getDiagnosticTemplate(templateId);
-  const wizardSteps = resolveWizardSteps(wizardDefinition, template);
-  const reviewStepKey = wizardDefinition?.routing?.reviewStepKey || 'review';
-  const diagnosticSteps = wizardSteps.filter(
-    (step) => step.id !== DIAGNOSTIC_REVIEW_STEP_ID && step.meta?.stepKey !== reviewStepKey,
-  );
-  const totalSteps = diagnosticSteps.length;
-  if (!totalSteps) return null;
-
-  const visitedStepKeys = payload.visitedStepKeys || [];
-  const currentIndex = payload.currentStepKey
-    ? diagnosticSteps.findIndex((step) => step.meta?.stepKey === payload.currentStepKey)
-    : -1;
-  const stepNumber = currentIndex >= 0
-    ? currentIndex + 1
-    : Math.min(
-      visitedStepKeys.filter((key) => diagnosticSteps.some((step) => step.meta?.stepKey === key)).length + 1,
-      totalSteps,
-    );
-
-  return { stepNumber, totalSteps };
-}
-
-/** Segmented progress — matches Solomon Current Session card language. */
-function StepProgressBar({ stepNumber, totalSteps }) {
-  if (!totalSteps) return null;
-  return (
-    <div className="mt-2.5">
-      <p className="text-[10px] uppercase tracking-[0.08em] font-medium text-cyan-400/85 mb-1">
-        Step {stepNumber} of {totalSteps}
-      </p>
-      <div className="flex gap-[2px]">
-        {Array.from({ length: totalSteps }).map((_, index) => (
-          <div
-            key={index}
-            className={`h-1 flex-1 rounded-full ${
-              index < stepNumber
-                ? CYAN_STEP_PROGRESS_ACTIVE
-                : 'bg-white/55 ring-1 ring-inset ring-white/20'
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function DiagnosticRow({ item }) {
-  if (!item?.id) return null;
-  const templateId = item.template_id || item.payload?.templateId;
-  const label = item.template_label || templateId || 'Diagnostic';
-  const equipment = [item.equipment_make, item.equipment_model].filter(Boolean).join(' • ');
-  const when = formatSolomonDateTime(item.updated_at);
-  const status = resolveSolomonDiagnosticStatus(item);
-  const equipmentType = getEquipmentTypeForTemplate(templateId);
-  const iconShell = SOLOMON_ICON_SHELL_BY_LIFECYCLE[status.lifecycleKey]
-    || SOLOMON_ICON_SHELL_BY_LIFECYCLE[SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress];
-  const stepProgress = getDiagnosticStepProgress(item);
-  const showStepProgress = status.lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress && stepProgress;
-  const lead = useSolomonDiagnosticLead(item);
-
-  return (
-    <Link
-      href={`/solomon/diagnostics/${item.id}`}
-      className={solomonLifecycleListSurfaceClass(status)}
-    >
-      <div className={SOLOMON_LIST_CARD_PADDING_CLASS}>
-        <div className="flex gap-3">
-          <div className={`${SOLOMON_LIST_ICON_BOX_CLASS} ${iconShell}`}>
-            <ApplianceIcon
-              equipmentType={equipmentType}
-              className="w-6 h-6"
-              glow="subtle"
-            />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-start justify-between gap-2">
-              <p className="font-semibold text-[15px] leading-tight text-white truncate min-w-0 flex-1">
-                {label}
-              </p>
-              <SolomonListLifecycleHeadline status={status} lead={lead} />
-            </div>
-            {equipment ? (
-              <p className="text-[11px] text-gray-400 mt-0.5 truncate">{equipment}</p>
-            ) : null}
-            {item.customer_complaint ? (
-              <p className="text-xs text-gray-400/95 mt-1.5 line-clamp-2 leading-snug">{item.customer_complaint}</p>
-            ) : null}
-            {showStepProgress ? (
-              <StepProgressBar
-                stepNumber={stepProgress.stepNumber}
-                totalSteps={stepProgress.totalSteps}
-              />
-            ) : null}
-            <SolomonListCardFooter when={when} status={status} showClock />
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-}
+import SolomonDiagnosticListCard from '../../../components/solomon/SolomonDiagnosticListCard';
 
 export default function SolomonDiagnosticsListPage() {
   const { canUseSolomon, isLoading: authLoading, isDiyer, rolesLoading } = useSolomonAuth();
@@ -269,7 +142,7 @@ export default function SolomonDiagnosticsListPage() {
             ) : (
               <div className={SOLOMON_LIST_STACK_CLASS}>
                 {items.map((item) => (
-                  <DiagnosticRow key={item.id} item={item} />
+                  <SolomonDiagnosticListCard key={item.id} item={item} />
                 ))}
               </div>
             )}

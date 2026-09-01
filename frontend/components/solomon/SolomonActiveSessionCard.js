@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { getWizardDefinition, resolveWizardSteps } from '../diagnostics';
-import { DIAGNOSTIC_REVIEW_STEP_ID } from '../diagnostics/shared/createWizardDefinitionFromTemplate';
-import { getDiagnosticTemplate } from '../../constants/diagnosticTemplates';
 import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
 import { useSolomonDiagnosticLead } from './useSolomonDiagnosticLead';
 import SolomonCategoryIcon from './categoryIcons';
+import { getDiagnosticStepProgress } from './solomonDiagnosticStepProgress';
 
 function equipmentMakeModel(target) {
   const parts = [
@@ -37,34 +35,10 @@ function SegmentedProgress({ stepNumber, totalSteps, compact = false, progressAc
 }
 
 export default function SolomonActiveSessionCard({ target, variant = 'default' }) {
-  const templateId = target?.payload?.templateId;
-  const wizardDefinition = getWizardDefinition(templateId);
-  const template = getDiagnosticTemplate(templateId);
-
-  const wizardSteps = resolveWizardSteps(wizardDefinition, template);
-
-  const visitedStepKeys = target?.payload?.visitedStepKeys || [];
+  const stepProgress = getDiagnosticStepProgress(target);
+  const totalSteps = stepProgress?.totalSteps || 0;
+  const stepNumber = stepProgress?.stepNumber || 0;
   const lead = useSolomonDiagnosticLead(target);
-  const reviewStepKey = wizardDefinition?.routing?.reviewStepKey || 'review';
-  const diagnosticSteps = wizardSteps.filter(
-    (step) => step.id !== DIAGNOSTIC_REVIEW_STEP_ID && step.meta?.stepKey !== reviewStepKey,
-  );
-  const totalSteps = diagnosticSteps.length;
-  const currentIndex = target?.payload?.currentStepKey
-    ? diagnosticSteps.findIndex(
-      (step) => step.meta?.stepKey === target.payload.currentStepKey,
-    )
-    : visitedStepKeys.filter((key) => diagnosticSteps.some(
-      (step) => step.meta?.stepKey === key,
-    )).length;
-  const stepNumber = currentIndex >= 0
-    ? currentIndex + 1
-    : Math.min(
-      visitedStepKeys.filter((key) => diagnosticSteps.some(
-        (step) => step.meta?.stepKey === key,
-      )).length + 1,
-      totalSteps,
-    );
   const applianceTitle = target.template_label || target.template_id || 'Diagnostic';
   const makeModelLine = equipmentMakeModel(target);
 
