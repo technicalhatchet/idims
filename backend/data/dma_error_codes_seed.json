@@ -2914,9 +2914,13 @@
     "code_normalized": "FDH",
     "meaning": "Freezer defrost heater failure",
     "common_causes": "Open defrost heater, Fuse-M, iced drain, failed defrost cycle",
-    "recommended_fix": "Manual defrost 1–3 days; Test Mode 3 — heater 112–116 V at CON9; heater Ω 62–70 (F) per §8-6",
+    "recommended_fix": "Manual defrost 1\u20133 days; Test Mode 3 \u2014 heater 112\u2013116 V at CON9; heater \u03a9 62\u201370 (F) per \u00a78-6",
     "alias_group_id": "a1b2c3d4-1111-4222-8333-444455556601",
-    "related_codes": ["F dH", "FdH", "dH"]
+    "related_codes": [
+      "F dH",
+      "FdH",
+      "dH"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -2925,9 +2929,13 @@
     "code_normalized": "RDH",
     "meaning": "Refrigerator compartment defrost heater failure",
     "common_causes": "Open FF defrost heater, Fuse-M, door gasket air leak prolonging defrost",
-    "recommended_fix": "Test Mode 3 — CON9 pin 7–13 heater 112–116 V; resistance 103–119 Ω per §8-7",
+    "recommended_fix": "Test Mode 3 \u2014 CON9 pin 7\u201313 heater 112\u2013116 V; resistance 103\u2013119 \u03a9 per \u00a78-7",
     "alias_group_id": "a1b2c3d4-1111-4222-8333-444455556601",
-    "related_codes": ["r dH", "RdH", "dH"]
+    "related_codes": [
+      "r dH",
+      "RdH",
+      "dH"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -2935,10 +2943,14 @@
     "code": "dH",
     "code_normalized": "DH",
     "meaning": "Defrost heater failure (freezer or refrigerator)",
-    "common_causes": "Defrost did not complete in time — heater, sensor, fuse, or drain ice dam",
-    "recommended_fix": "Identify F dH vs r dH; forced defrost Test Mode 3 (button ×3 on main PCB)",
+    "common_causes": "Defrost did not complete in time \u2014 heater, sensor, fuse, or drain ice dam",
+    "recommended_fix": "Identify F dH vs r dH; forced defrost Test Mode 3 (button \u00d73 on main PCB)",
     "alias_group_id": "a1b2c3d4-1111-4222-8333-444455556601",
-    "related_codes": ["F dH", "r dH", "dH"]
+    "related_codes": [
+      "F dH",
+      "r dH",
+      "dH"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -2946,10 +2958,14 @@
     "code": "F dS",
     "code_normalized": "FDS",
     "meaning": "Freezer defrost sensor error",
-    "common_causes": "Open/short defrost thermistor CON4 pins 22–21",
-    "recommended_fix": "Resistance table §8-4; replace defrost sensor if off-spec",
+    "common_causes": "Open/short defrost thermistor CON4 pins 22\u201321",
+    "recommended_fix": "Resistance table \u00a78-4; replace defrost sensor if off-spec",
     "alias_group_id": "a1b2c3d4-2222-4222-8333-444455556602",
-    "related_codes": ["F dS", "FdS", "dS"]
+    "related_codes": [
+      "F dS",
+      "FdS",
+      "dS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -2957,10 +2973,14 @@
     "code": "r dS",
     "code_normalized": "RDS",
     "meaning": "Refrigerator defrost sensor error",
-    "common_causes": "Open/short FF defrost thermistor CON4 pins 20–19",
-    "recommended_fix": "Check sensor Ω vs temperature chart §8-5",
+    "common_causes": "Open/short FF defrost thermistor CON4 pins 20\u201319",
+    "recommended_fix": "Check sensor \u03a9 vs temperature chart \u00a78-5",
     "alias_group_id": "a1b2c3d4-2222-4222-8333-444455556602",
-    "related_codes": ["r dS", "RdS", "dS"]
+    "related_codes": [
+      "r dS",
+      "RdS",
+      "dS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -2969,9 +2989,13 @@
     "code_normalized": "DS",
     "meaning": "Defrost sensor error",
     "common_causes": "Defrost thermistor open, short, or loose CON4 harness",
-    "recommended_fix": "Distinguish F dS vs r dS; verify connector and kΩ table",
+    "recommended_fix": "Distinguish F dS vs r dS; verify connector and k\u03a9 table",
     "alias_group_id": "a1b2c3d4-2222-4222-8333-444455556602",
-    "related_codes": ["F dS", "r dS", "dS"]
+    "related_codes": [
+      "F dS",
+      "r dS",
+      "dS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -2979,10 +3003,13 @@
     "code": "E FS",
     "code_normalized": "EFS",
     "meaning": "Freezer temperature sensor error",
-    "common_causes": "Open/short freezer thermistor CON4 pins 18–17",
-    "recommended_fix": "Ω table §8-1 — 8kΩ at 32°F; 0Ω=short, OFF=open",
+    "common_causes": "Open/short freezer thermistor CON4 pins 18\u201317",
+    "recommended_fix": "\u03a9 table \u00a78-1 \u2014 8k\u03a9 at 32\u00b0F; 0\u03a9=short, OFF=open",
     "alias_group_id": "a1b2c3d4-3333-4222-8333-444455556603",
-    "related_codes": ["E FS", "FS"]
+    "related_codes": [
+      "E FS",
+      "FS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -2991,9 +3018,12 @@
     "code_normalized": "FS",
     "meaning": "Freezer temperature sensor error",
     "common_causes": "Failed freezer cabinet thermistor",
-    "recommended_fix": "Same as E FS — CON4 18–17 pin resistance vs temp chart",
+    "recommended_fix": "Same as E FS \u2014 CON4 18\u201317 pin resistance vs temp chart",
     "alias_group_id": "a1b2c3d4-3333-4222-8333-444455556603",
-    "related_codes": ["E FS", "FS"]
+    "related_codes": [
+      "E FS",
+      "FS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3002,9 +3032,12 @@
     "code_normalized": "ERS",
     "meaning": "Refrigerator temperature sensor error",
     "common_causes": "Open/short fresh-food thermistor",
-    "recommended_fix": "Resistance check per §8-2 chart",
+    "recommended_fix": "Resistance check per \u00a78-2 chart",
     "alias_group_id": "a1b2c3d4-4444-4222-8333-444455556604",
-    "related_codes": ["E rS", "rS"]
+    "related_codes": [
+      "E rS",
+      "rS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3013,9 +3046,12 @@
     "code_normalized": "RS",
     "meaning": "Refrigerator temperature sensor error",
     "common_causes": "Failed R-compartment thermistor",
-    "recommended_fix": "Verify harness and kΩ vs temperature §8-2",
+    "recommended_fix": "Verify harness and k\u03a9 vs temperature \u00a78-2",
     "alias_group_id": "a1b2c3d4-4444-4222-8333-444455556604",
-    "related_codes": ["E rS", "rS"]
+    "related_codes": [
+      "E rS",
+      "rS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3024,9 +3060,12 @@
     "code_normalized": "EIS",
     "meaning": "Ice maker / icing room sensor error",
     "common_causes": "Open/short icing room thermistor",
-    "recommended_fix": "Resistance table §8-3; check Craft Ice compartment sensor",
+    "recommended_fix": "Resistance table \u00a78-3; check Craft Ice compartment sensor",
     "alias_group_id": "a1b2c3d4-5555-4222-8333-444455556605",
-    "related_codes": ["E IS", "IS"]
+    "related_codes": [
+      "E IS",
+      "IS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3035,9 +3074,12 @@
     "code_normalized": "IS",
     "meaning": "Icing room sensor error",
     "common_causes": "Icing sensor harness or failed thermistor",
-    "recommended_fix": "Same as E IS §8-3",
+    "recommended_fix": "Same as E IS \u00a78-3",
     "alias_group_id": "a1b2c3d4-5555-4222-8333-444455556605",
-    "related_codes": ["E IS", "IS"]
+    "related_codes": [
+      "E IS",
+      "IS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3046,9 +3088,12 @@
     "code_normalized": "ERF",
     "meaning": "Refrigerator evaporator fan error",
     "common_causes": "Failed R-fan motor, ice blockage, main PCB",
-    "recommended_fix": "Test Mode 1 — CON3 pins 28–25 = 11.4–12.6 V; check feedback/PWM pins",
+    "recommended_fix": "Test Mode 1 \u2014 CON3 pins 28\u201325 = 11.4\u201312.6 V; check feedback/PWM pins",
     "alias_group_id": "a1b2c3d4-6666-4222-8333-444455556606",
-    "related_codes": ["E rF", "rF"]
+    "related_codes": [
+      "E rF",
+      "rF"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3057,9 +3102,12 @@
     "code_normalized": "RF",
     "meaning": "Refrigerator compartment fan error",
     "common_causes": "Sticky fan, open motor, PCB output fault",
-    "recommended_fix": "Airflow with freezer door open; fan voltage §8-8",
+    "recommended_fix": "Airflow with freezer door open; fan voltage \u00a78-8",
     "alias_group_id": "a1b2c3d4-6666-4222-8333-444455556606",
-    "related_codes": ["E rF", "rF"]
+    "related_codes": [
+      "E rF",
+      "rF"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3068,9 +3116,12 @@
     "code_normalized": "EFF",
     "meaning": "Freezer evaporator fan error",
     "common_causes": "Failed F-fan motor, ice on evaporator, PCB",
-    "recommended_fix": "Test Mode 1 — CON3 pins 16–13 = 11.4–12.6 V §8-9",
+    "recommended_fix": "Test Mode 1 \u2014 CON3 pins 16\u201313 = 11.4\u201312.6 V \u00a78-9",
     "alias_group_id": "a1b2c3d4-7777-4222-8333-444455556607",
-    "related_codes": ["E FF", "FF"]
+    "related_codes": [
+      "E FF",
+      "FF"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3079,9 +3130,12 @@
     "code_normalized": "FF",
     "meaning": "Freezer fan motor abnormality",
     "common_causes": "Ice-blocked evaporator fan or failed motor",
-    "recommended_fix": "Defrost if iced; verify 11.4–12.6 V at fan connector in Test Mode 1",
+    "recommended_fix": "Defrost if iced; verify 11.4\u201312.6 V at fan connector in Test Mode 1",
     "alias_group_id": "a1b2c3d4-7777-4222-8333-444455556607",
-    "related_codes": ["E FF", "FF"]
+    "related_codes": [
+      "E FF",
+      "FF"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3089,10 +3143,14 @@
     "code": "E IF",
     "code_normalized": "EIF",
     "meaning": "Ice maker / icing compartment fan error",
-    "common_causes": "Failed icing fan, harness CON3 pins 24–21",
-    "recommended_fix": "Test Mode 1 fan voltage 11.4–12.6 V §8-10",
+    "common_causes": "Failed icing fan, harness CON3 pins 24\u201321",
+    "recommended_fix": "Test Mode 1 fan voltage 11.4\u201312.6 V \u00a78-10",
     "alias_group_id": "a1b2c3d4-8888-4222-8333-444455556608",
-    "related_codes": ["E IF", "IF", "ER"]
+    "related_codes": [
+      "E IF",
+      "IF",
+      "ER"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3101,9 +3159,13 @@
     "code_normalized": "IF",
     "meaning": "Icing fan motor error",
     "common_causes": "Ice room fan frozen or motor failure",
-    "recommended_fix": "Same as E IF — icing fan airflow and voltage test",
+    "recommended_fix": "Same as E IF \u2014 icing fan airflow and voltage test",
     "alias_group_id": "a1b2c3d4-8888-4222-8333-444455556608",
-    "related_codes": ["E IF", "IF", "ER"]
+    "related_codes": [
+      "E IF",
+      "IF",
+      "ER"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3111,10 +3173,14 @@
     "code": "ER",
     "code_normalized": "ER",
     "meaning": "Icing fan error (legacy alias)",
-    "common_causes": "Same as E IF — icing compartment fan",
+    "common_causes": "Same as E IF \u2014 icing compartment fan",
     "recommended_fix": "Treat as IF / E IF per LRMVS3006 service manual",
     "alias_group_id": "a1b2c3d4-8888-4222-8333-444455556608",
-    "related_codes": ["E IF", "IF", "ER"]
+    "related_codes": [
+      "E IF",
+      "IF",
+      "ER"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3123,9 +3189,12 @@
     "code_normalized": "ECF",
     "meaning": "Condenser fan motor error",
     "common_causes": "Failed condenser fan, grille blockage, PCB",
-    "recommended_fix": "Test Mode 1 — CON3 pins 12–9 = 11.4–12.6 V §8-11",
+    "recommended_fix": "Test Mode 1 \u2014 CON3 pins 12\u20139 = 11.4\u201312.6 V \u00a78-11",
     "alias_group_id": "a1b2c3d4-9999-4222-8333-444455556609",
-    "related_codes": ["E CF", "CF"]
+    "related_codes": [
+      "E CF",
+      "CF"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3136,18 +3205,24 @@
     "common_causes": "Condenser fan not spinning, bearing drag",
     "recommended_fix": "Clean grille coils; verify fan voltage and PWM feedback",
     "alias_group_id": "a1b2c3d4-9999-4222-8333-444455556609",
-    "related_codes": ["E CF", "CF"]
+    "related_codes": [
+      "E CF",
+      "CF"
+    ]
   },
   {
     "manufacturer": "LG",
     "equipment_subtype": "refrigerator",
     "code": "E CO",
     "code_normalized": "ECO",
-    "meaning": "Main ↔ display communication error",
+    "meaning": "Main \u2194 display communication error",
     "common_causes": "Loose door-hinge harness CON101, display PCB",
-    "recommended_fix": "CON101 12 V and 5 V checks §8-12; reseat hinge connector",
+    "recommended_fix": "CON101 12 V and 5 V checks \u00a78-12; reseat hinge connector",
     "alias_group_id": "a1b2c3d4-aaaa-4222-8333-44445555660a",
-    "related_codes": ["E CO", "CO"]
+    "related_codes": [
+      "E CO",
+      "CO"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3158,7 +3233,10 @@
     "common_causes": "Hinge wiring, display PCB, main PCB",
     "recommended_fix": "Check CON101 voltages before board swap",
     "alias_group_id": "a1b2c3d4-aaaa-4222-8333-44445555660a",
-    "related_codes": ["E CO", "CO"]
+    "related_codes": [
+      "E CO",
+      "CO"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3167,9 +3245,12 @@
     "code_normalized": "ECH",
     "meaning": "High-side refrigerant leak / sealed system fault",
     "common_causes": "High-side leak, restriction, bad compressor or valve",
-    "recommended_fix": "UV leak check §8-22; sealed-system diagnosis — not a fan/defrost part",
+    "recommended_fix": "UV leak check \u00a78-22; sealed-system diagnosis \u2014 not a fan/defrost part",
     "alias_group_id": "a1b2c3d4-bbbb-4222-8333-44445555660b",
-    "related_codes": ["E CH", "CH"]
+    "related_codes": [
+      "E CH",
+      "CH"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3178,9 +3259,12 @@
     "code_normalized": "CH",
     "meaning": "High-side cycle leak detected",
     "common_causes": "Refrigerant leak on high side, compressor fault",
-    "recommended_fix": "Sealed-system repair per §8-22 steps 1–6",
+    "recommended_fix": "Sealed-system repair per \u00a78-22 steps 1\u20136",
     "alias_group_id": "a1b2c3d4-bbbb-4222-8333-44445555660b",
-    "related_codes": ["E CH", "CH"]
+    "related_codes": [
+      "E CH",
+      "CH"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3191,7 +3275,10 @@
     "common_causes": "Low-side leak, long door-open, weak compressor",
     "recommended_fix": "UV leak test; verify charge on R-600a system",
     "alias_group_id": "c1b2c3d4-bbbb-4222-8333-44445555660c",
-    "related_codes": ["E CL", "CL"]
+    "related_codes": [
+      "E CL",
+      "CL"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3200,9 +3287,12 @@
     "code_normalized": "CL",
     "meaning": "Low-side cycle leak detected",
     "common_causes": "Evaporator leak, cap tube restriction, compressor weak",
-    "recommended_fix": "Sealed-system — distinguish from defrost codes",
+    "recommended_fix": "Sealed-system \u2014 distinguish from defrost codes",
     "alias_group_id": "c1b2c3d4-bbbb-4222-8333-44445555660c",
-    "related_codes": ["E CL", "CL"]
+    "related_codes": [
+      "E CL",
+      "CL"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3210,10 +3300,13 @@
     "code": "E CS",
     "code_normalized": "ECS",
     "meaning": "Full Convert / pantry sensor error",
-    "common_causes": "Open convertible drawer thermistor CON4 pins 13–14",
-    "recommended_fix": "Resistance check §8-22; replace pantry sensor",
+    "common_causes": "Open convertible drawer thermistor CON4 pins 13\u201314",
+    "recommended_fix": "Resistance check \u00a78-22; replace pantry sensor",
     "alias_group_id": "a1b2c3d4-cccc-4222-8333-44445555660d",
-    "related_codes": ["E CS", "CS"]
+    "related_codes": [
+      "E CS",
+      "CS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3224,7 +3317,10 @@
     "common_causes": "Pantry/convert drawer sensor harness",
     "recommended_fix": "Same as E CS",
     "alias_group_id": "a1b2c3d4-cccc-4222-8333-44445555660d",
-    "related_codes": ["E CS", "CS"]
+    "related_codes": [
+      "E CS",
+      "CS"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3233,9 +3329,12 @@
     "code_normalized": "EOD",
     "meaning": "Wi-Fi modem communication error",
     "common_causes": "ThinQ WiFi module harness J1/J3, failed modem",
-    "recommended_fix": "Check modem connector voltage §8-20; cooling usually OK",
+    "recommended_fix": "Check modem connector voltage \u00a78-20; cooling usually OK",
     "alias_group_id": "a1b2c3d4-dddd-4222-8333-44445555660e",
-    "related_codes": ["E Od", "Od"]
+    "related_codes": [
+      "E Od",
+      "Od"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3244,9 +3343,12 @@
     "code_normalized": "EID",
     "meaning": "Ice maker tray sensor error",
     "common_causes": "Ice maker tray thermistor open/short",
-    "recommended_fix": "Check sensor at ice maker connector §6 error summary",
+    "recommended_fix": "Check sensor at ice maker connector \u00a76 error summary",
     "alias_group_id": "a1b2c3d4-eeee-4222-8333-44445555660f",
-    "related_codes": ["E ID", "ID"]
+    "related_codes": [
+      "E ID",
+      "ID"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3255,9 +3357,12 @@
     "code_normalized": "EIU",
     "meaning": "Ice maker kit electrical error",
     "common_causes": "Motor, gear, hall IC, or heater open in I/M kit",
-    "recommended_fix": "Ice maker test switch diagnosis §6; refer to §8-24",
+    "recommended_fix": "Ice maker test switch diagnosis \u00a76; refer to \u00a78-24",
     "alias_group_id": "a1b2c3d4-ffff-4222-8333-444455556610",
-    "related_codes": ["E IU", "IU"]
+    "related_codes": [
+      "E IU",
+      "IU"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3265,10 +3370,13 @@
     "code": "OFF",
     "code_normalized": "OFF",
     "meaning": "Display / demo mode (cooling off)",
-    "common_causes": "Showroom Display Mode — all cooling disabled",
-    "recommended_fix": "Door open + Ice Plus ×3 while holding Fridge button to exit §13-1-15",
+    "common_causes": "Showroom Display Mode \u2014 all cooling disabled",
+    "recommended_fix": "Door open + Ice Plus \u00d73 while holding Fridge button to exit \u00a713-1-15",
     "alias_group_id": "e9f81cea-dee1-4a39-986c-07c66dca4903",
-    "related_codes": ["OFF", "O"]
+    "related_codes": [
+      "OFF",
+      "O"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -3276,10 +3384,13 @@
     "code": "O",
     "code_normalized": "O",
     "meaning": "Display / demo mode active",
-    "common_causes": "Retail display mode — compressor and fans off except lamp/UI",
+    "common_causes": "Retail display mode \u2014 compressor and fans off except lamp/UI",
     "recommended_fix": "Exit display mode before diagnosing warm cabinet",
     "alias_group_id": "e9f81cea-dee1-4a39-986c-07c66dca4903",
-    "related_codes": ["OFF", "O"]
+    "related_codes": [
+      "OFF",
+      "O"
+    ]
   },
   {
     "manufacturer": "LG",
@@ -4470,10 +4581,14 @@
     "code": "22E",
     "code_normalized": "22E",
     "meaning": "Freezer evaporator fan error (F-FAN)",
-    "common_causes": "Ice on evaporator, failed F-FAN motor, open CN20 harness (pins 15–17)",
-    "recommended_fix": "Defrost; CN20 fan feedback 7–12 V at pins 22–24; replace fan motor if voltage OK but no spin",
+    "common_causes": "Ice on evaporator, failed F-FAN motor, open CN20 harness (pins 15\u201317)",
+    "recommended_fix": "Defrost; CN20 fan feedback 7\u201312 V at pins 22\u201324; replace fan motor if voltage OK but no spin",
     "alias_group_id": "911cb0e8-56ab-4845-9e57-c16b48b71a92",
-    "related_codes": ["22E", "22C", "22ER"]
+    "related_codes": [
+      "22E",
+      "22C",
+      "22ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4482,9 +4597,13 @@
     "code_normalized": "22C",
     "meaning": "Fridge compartment fan error (C-FAN)",
     "common_causes": "Ice buildup, failed C-FAN motor, CN20 harness fault",
-    "recommended_fix": "Defrost; verify C-FAN feedback 7–12 V; test motor — weak FF cooling common",
+    "recommended_fix": "Defrost; verify C-FAN feedback 7\u201312 V; test motor \u2014 weak FF cooling common",
     "alias_group_id": "911cb0e8-56ab-4845-9e57-c16b48b71a92",
-    "related_codes": ["22E", "22C", "22ER"]
+    "related_codes": [
+      "22E",
+      "22C",
+      "22ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4492,10 +4611,14 @@
     "code": "22ER",
     "code_normalized": "22ER",
     "meaning": "Evaporator fan error (service LED F-FAN / C-FAN)",
-    "common_causes": "Same as 22E/22C — ice, fan motor, harness CN20",
-    "recommended_fix": "Service manual §4-2 fan voltage test; defrost then fan motor",
+    "common_causes": "Same as 22E/22C \u2014 ice, fan motor, harness CN20",
+    "recommended_fix": "Service manual \u00a74-2 fan voltage test; defrost then fan motor",
     "alias_group_id": "911cb0e8-56ab-4845-9e57-c16b48b71a92",
-    "related_codes": ["22E", "22C", "22ER"]
+    "related_codes": [
+      "22E",
+      "22C",
+      "22ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4503,10 +4626,13 @@
     "code": "33E",
     "code_normalized": "33E",
     "meaning": "Ice pipe heater error",
-    "common_causes": "Open ice-pipe heater, CN90 harness pins 1–5",
+    "common_causes": "Open ice-pipe heater, CN90 harness pins 1\u20135",
     "recommended_fix": "Check heater voltage at CN90; continuity of ice-pipe heater assembly",
     "alias_group_id": "5fb07505-578c-4ddf-a248-e5d8ff887a3d",
-    "related_codes": ["33E", "33ER"]
+    "related_codes": [
+      "33E",
+      "33ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4517,7 +4643,10 @@
     "common_causes": "Frozen fan duct, failed ice-maker fan motor",
     "recommended_fix": "Defrost ice room; test fan motor and harness at ice maker module",
     "alias_group_id": "4caef159-d4f6-4727-ae6c-341bc18ade33",
-    "related_codes": ["40E", "40C"]
+    "related_codes": [
+      "40E",
+      "40C"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4528,73 +4657,94 @@
     "common_causes": "Frozen fan or failed motor in ice room",
     "recommended_fix": "Defrost and test ice maker compartment fan",
     "alias_group_id": "4caef159-d4f6-4727-ae6c-341bc18ade33",
-    "related_codes": ["40E", "40C"]
+    "related_codes": [
+      "40E",
+      "40C"
+    ]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "41E",
     "code_normalized": "41E",
-    "meaning": "Main board ↔ display panel communication error",
+    "meaning": "Main board \u2194 display panel communication error",
     "common_causes": "Loose UI harness, failed display PCB or main PCB (41Er on service LED)",
-    "recommended_fix": "Reseat display harness; verify 41Er — not ice maker on SxS service manual",
+    "recommended_fix": "Reseat display harness; verify 41Er \u2014 not ice maker on SxS service manual",
     "alias_group_id": "137e71bb-00bf-42ec-af31-b8c80867eaa6",
-    "related_codes": ["41E", "41ER"]
+    "related_codes": [
+      "41E",
+      "41ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "41ER",
     "code_normalized": "41ER",
-    "meaning": "Main board ↔ display panel communication error",
+    "meaning": "Main board \u2194 display panel communication error",
     "common_causes": "Display harness, UI PCB, or main PCB communication fault",
-    "recommended_fix": "Service manual §4-2 41Er — check panel ↔ main harness before replacing boards",
+    "recommended_fix": "Service manual \u00a74-2 41Er \u2014 check panel \u2194 main harness before replacing boards",
     "alias_group_id": "137e71bb-00bf-42ec-af31-b8c80867eaa6",
-    "related_codes": ["41E", "41ER"]
+    "related_codes": [
+      "41E",
+      "41ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "44E",
     "code_normalized": "44E",
-    "meaning": "Main board ↔ inverter communication error",
+    "meaning": "Main board \u2194 inverter communication error",
     "common_causes": "Inverter harness CN70, failed inverter PCB or main PCB (44Er)",
-    "recommended_fix": "Reseat inverter harness; check inverter LED blink codes §4-2",
+    "recommended_fix": "Reseat inverter harness; check inverter LED blink codes \u00a74-2",
     "alias_group_id": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8",
-    "related_codes": ["44E", "44ER"]
+    "related_codes": [
+      "44E",
+      "44ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "44ER",
     "code_normalized": "44ER",
-    "meaning": "Main board ↔ inverter communication error",
+    "meaning": "Main board \u2194 inverter communication error",
     "common_causes": "Inverter comm harness, inverter board, main PCB",
-    "recommended_fix": "44Er service LED — harness then inverter then main board",
+    "recommended_fix": "44Er service LED \u2014 harness then inverter then main board",
     "alias_group_id": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8",
-    "related_codes": ["44E", "44ER"]
+    "related_codes": [
+      "44E",
+      "44ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "46E",
     "code_normalized": "46E",
-    "meaning": "Main board ↔ I/O expander communication error",
+    "meaning": "Main board \u2194 I/O expander communication error",
     "common_causes": "I/O expander harness, failed expander or main PCB (46Er)",
     "recommended_fix": "Reseat I/O expander connector; replace expander before main if isolated",
     "alias_group_id": "9e4b3c2d-5e6f-7081-92a3-b4c5d6e7f809",
-    "related_codes": ["46E", "46ER"]
+    "related_codes": [
+      "46E",
+      "46ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
     "equipment_subtype": "refrigerator",
     "code": "46ER",
     "code_normalized": "46ER",
-    "meaning": "Main board ↔ I/O expander communication error",
+    "meaning": "Main board \u2194 I/O expander communication error",
     "common_causes": "I/O expander PCB or harness fault",
-    "recommended_fix": "Service manual §4-2 46Er — expander harness and board",
+    "recommended_fix": "Service manual \u00a74-2 46Er \u2014 expander harness and board",
     "alias_group_id": "9e4b3c2d-5e6f-7081-92a3-b4c5d6e7f809",
-    "related_codes": ["46E", "46ER"]
+    "related_codes": [
+      "46E",
+      "46ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4605,7 +4755,10 @@
     "common_causes": "Dispenser UI harness, dispenser PCB (47Er)",
     "recommended_fix": "Check dispenser panel harness at door; reseat before board swap",
     "alias_group_id": "af5c4d3e-6f70-8192-a3b4-c5d6e7f8091a",
-    "related_codes": ["47E", "47ER"]
+    "related_codes": [
+      "47E",
+      "47ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4614,9 +4767,12 @@
     "code_normalized": "47ER",
     "meaning": "Dispenser panel communication error",
     "common_causes": "Dispenser display/harness fault",
-    "recommended_fix": "47Er — dispenser panel comm; door harness first",
+    "recommended_fix": "47Er \u2014 dispenser panel comm; door harness first",
     "alias_group_id": "af5c4d3e-6f70-8192-a3b4-c5d6e7f8091a",
-    "related_codes": ["47E", "47ER"]
+    "related_codes": [
+      "47E",
+      "47ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4625,9 +4781,12 @@
     "code_normalized": "52E",
     "meaning": "WiFi module communication error",
     "common_causes": "WiFi module harness, failed SmartThings/WiFi board (52Er)",
-    "recommended_fix": "Reseat WiFi module; cooling unaffected — disable module to verify if needed",
+    "recommended_fix": "Reseat WiFi module; cooling unaffected \u2014 disable module to verify if needed",
     "alias_group_id": "b06d5e4f-7081-92a3-b4c5-d6e7f8091a2b",
-    "related_codes": ["52E", "52ER"]
+    "related_codes": [
+      "52E",
+      "52ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4636,9 +4795,12 @@
     "code_normalized": "52ER",
     "meaning": "WiFi module communication error",
     "common_causes": "WiFi PCB or harness to main board",
-    "recommended_fix": "52Er service LED — WiFi module harness and board",
+    "recommended_fix": "52Er service LED \u2014 WiFi module harness and board",
     "alias_group_id": "b06d5e4f-7081-92a3-b4c5-d6e7f8091a2b",
-    "related_codes": ["52E", "52ER"]
+    "related_codes": [
+      "52E",
+      "52ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4647,9 +4809,12 @@
     "code_normalized": "21E",
     "meaning": "Door hinge / display harness error",
     "common_causes": "Broken LVDS at top hinge, flex fatigue from door swing",
-    "recommended_fix": "Inspect top-hinge harness; related to PC ER flicker — reseat or replace door harness",
+    "recommended_fix": "Inspect top-hinge harness; related to PC ER flicker \u2014 reseat or replace door harness",
     "alias_group_id": "c17e6f50-8192-a3b4-c5d6-e7f8091a2b3c",
-    "related_codes": ["21E", "PCER"]
+    "related_codes": [
+      "21E",
+      "PCER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4657,10 +4822,13 @@
     "code": "8E",
     "code_normalized": "8E",
     "meaning": "Fridge compartment sensor error (R-Sensor)",
-    "common_causes": "Open fridge thermistor, CN40 pins 18–20 harness",
-    "recommended_fix": "Thermistor voltage ~4.5–1.0 V warm→cold at CN40; replace R-Sensor",
+    "common_causes": "Open fridge thermistor, CN40 pins 18\u201320 harness",
+    "recommended_fix": "Thermistor voltage ~4.5\u20131.0 V warm\u2192cold at CN40; replace R-Sensor",
     "alias_group_id": "d28f7051-92a3-b4c5-d6e7-f8091a2b3c4d",
-    "related_codes": ["8E", "8ER"]
+    "related_codes": [
+      "8E",
+      "8ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4669,9 +4837,12 @@
     "code_normalized": "14E",
     "meaning": "Humidity sensor error",
     "common_causes": "Failed humidity sensor at CN40, harness fault",
-    "recommended_fix": "Check humidity sensor voltage per §4-2; replace sensor if out of range",
+    "recommended_fix": "Check humidity sensor voltage per \u00a74-2; replace sensor if out of range",
     "alias_group_id": "e3908162-a3b4-c5d6-e7f8-091a2b3c4d5e",
-    "related_codes": ["14E", "14ER"]
+    "related_codes": [
+      "14E",
+      "14ER"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4680,9 +4851,12 @@
     "code_normalized": "84C",
     "meaning": "Compressor lock / failed start",
     "common_causes": "Locked compressor rotor, failed inverter, low supply voltage",
-    "recommended_fix": "Inverter LED blink pattern; amp draw on start; compressor Ω if inverter OK",
+    "recommended_fix": "Inverter LED blink pattern; amp draw on start; compressor \u03a9 if inverter OK",
     "alias_group_id": "c687735c-b314-49e4-bc47-9467104f52bf",
-    "related_codes": ["84C", "86E"]
+    "related_codes": [
+      "84C",
+      "86E"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4691,9 +4865,13 @@
     "code_normalized": "86E",
     "meaning": "Inverter compressor fault",
     "common_causes": "Inverter PCB IPM fault, over/under voltage, harness CN70",
-    "recommended_fix": "Read inverter fault LEDs §4-2; test supply; replace inverter before compressor",
+    "recommended_fix": "Read inverter fault LEDs \u00a74-2; test supply; replace inverter before compressor",
     "alias_group_id": "6ece3fe8-659a-403f-97b3-5eae2a01be54",
-    "related_codes": ["84C", "86E", "44E"]
+    "related_codes": [
+      "84C",
+      "86E",
+      "44E"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4704,7 +4882,10 @@
     "common_causes": "Loose LVDS connector at top hinge, flex harness damage",
     "recommended_fix": "Reseat door harness at hinge; check 21E if display drops when door moves",
     "alias_group_id": "29e0346a-473c-4a19-abf4-0297e43b3259",
-    "related_codes": ["PCER", "21E"]
+    "related_codes": [
+      "PCER",
+      "21E"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4712,10 +4893,14 @@
     "code": "OF  OF",
     "code_normalized": "OFOF",
     "meaning": "Cooling off mode (demo / showroom)",
-    "common_causes": "Demo mode enabled — compressor off, fans run, lights on",
+    "common_causes": "Demo mode enabled \u2014 compressor off, fans run, lights on",
     "recommended_fix": "Hold Fridge + Power Cool ~6 s to exit; not a sealed-system fault",
     "alias_group_id": "97ff9b29-d518-4897-a9d3-cadb8ddac42a",
-    "related_codes": ["OFOF", "OFF", "O FF"]
+    "related_codes": [
+      "OFOF",
+      "OFF",
+      "O FF"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4724,9 +4909,13 @@
     "code_normalized": "OFF",
     "meaning": "Cooling off mode (demo / showroom)",
     "common_causes": "Cooling Off enabled at install or accidental key sequence",
-    "recommended_fix": "Exit Cooling Off before diagnosing warm cabinet — compressor is intentionally off",
+    "recommended_fix": "Exit Cooling Off before diagnosing warm cabinet \u2014 compressor is intentionally off",
     "alias_group_id": "97ff9b29-d518-4897-a9d3-cadb8ddac42a",
-    "related_codes": ["OFOF", "OFF", "O FF"]
+    "related_codes": [
+      "OFOF",
+      "OFF",
+      "O FF"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4734,10 +4923,13 @@
     "code": "5E",
     "code_normalized": "5E",
     "meaning": "Defrost sensor error (F-DEF-Sensor)",
-    "common_causes": "Open defrost thermistor, CN20 pins 5–7 harness",
-    "recommended_fix": "Defrost thermistor ~4.5–1.0 V at CN20; F-DEF heater ~63 Ω CN70/CN85 if defrost fault LED",
+    "common_causes": "Open defrost thermistor, CN20 pins 5\u20137 harness",
+    "recommended_fix": "Defrost thermistor ~4.5\u20131.0 V at CN20; F-DEF heater ~63 \u03a9 CN70/CN85 if defrost fault LED",
     "alias_group_id": "91d3fc5e-95d1-4bd0-94b1-1c2015215a0f",
-    "related_codes": ["5E", "SE"]
+    "related_codes": [
+      "5E",
+      "SE"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4746,9 +4938,12 @@
     "code_normalized": "SE",
     "meaning": "Defrost sensor error (F-DEF-Sensor)",
     "common_causes": "Defrost thermistor out of range or open",
-    "recommended_fix": "Same as 5E — CN20 defrost sensor voltage; check defrost heater and thermal fuse if icing",
+    "recommended_fix": "Same as 5E \u2014 CN20 defrost sensor voltage; check defrost heater and thermal fuse if icing",
     "alias_group_id": "91d3fc5e-95d1-4bd0-94b1-1c2015215a0f",
-    "related_codes": ["5E", "SE"]
+    "related_codes": [
+      "5E",
+      "SE"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -4759,7 +4954,9 @@
     "common_causes": "Stuck damper motor, failed damper heater, CN40 harness",
     "recommended_fix": "Check damper motor movement and heater voltage at CN40; weak FF cooling typical",
     "alias_group_id": "157bd1bd-e10f-487b-a447-f81e0962fc13",
-    "related_codes": ["RD"]
+    "related_codes": [
+      "RD"
+    ]
   },
   {
     "manufacturer": "Samsung",
@@ -6275,6 +6472,1466 @@
     "alias_group_id": "f0668895-380d-5b03-8619-32d52cf8652a",
     "related_codes": [
       "POWERFAILURE"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F0 E5",
+    "code_normalized": "F0E5",
+    "meaning": "Off-balance load",
+    "common_causes": "Unbalanced or oversized load",
+    "recommended_fix": "Rebalance load; level unit",
+    "alias_group_id": "0e6d264d-a7e5-4b5c-99dd-5ebeb03fe5b9",
+    "related_codes": [
+      "F0E5",
+      "OB"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "ob",
+    "code_normalized": "OB",
+    "meaning": "Off-balance load",
+    "common_causes": "Unbalanced or oversized load",
+    "recommended_fix": "Rebalance load",
+    "alias_group_id": "daed988d-5a2e-45f8-8186-e58ae33312a0",
+    "related_codes": [
+      "F0E5",
+      "OB"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F3 E2",
+    "code_normalized": "F3E2",
+    "meaning": "Wash NTC fault",
+    "common_causes": "Open/short wash temp sensor",
+    "recommended_fix": "TEST #10 wash temp sensor",
+    "alias_group_id": "d5a524f5-7369-4c99-b04b-9f7343a75459",
+    "related_codes": [
+      "F3E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F3 E5",
+    "code_normalized": "F3E5",
+    "meaning": "Dry NTC fault",
+    "common_causes": "Dry thermistor out of range",
+    "recommended_fix": "TEST #16; wash still works",
+    "alias_group_id": "70e4c1cf-4766-4e5e-8c30-f1a6b5a62999",
+    "related_codes": [
+      "F3E5"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F3 E6",
+    "code_normalized": "F3E6",
+    "meaning": "Accelerometer fault",
+    "common_causes": "ACU self-test failure",
+    "recommended_fix": "Replace ACU",
+    "alias_group_id": "8ce534a7-13dc-4d05-ae20-b8e5f884ed91",
+    "related_codes": [
+      "F3E6"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F4 E1",
+    "code_normalized": "F4E1",
+    "meaning": "Wash heater relay error",
+    "common_causes": "No temp rise detected",
+    "recommended_fix": "TEST #9 heating element",
+    "alias_group_id": "3c1dcf72-2cbf-4a1c-bbaa-767726a986d4",
+    "related_codes": [
+      "F4E1"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F4 E2",
+    "code_normalized": "F4E2",
+    "meaning": "Heater not turning on",
+    "common_causes": "Heater relay open",
+    "recommended_fix": "TEST #9",
+    "alias_group_id": "423d8815-8bf0-4812-8d24-e1969c5da8f8",
+    "related_codes": [
+      "F4E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F4 E4",
+    "code_normalized": "F4E4",
+    "meaning": "Vent/dry blower motor fault",
+    "common_causes": "Open/short fan motor",
+    "recommended_fix": "TEST #13 or #17",
+    "alias_group_id": "63582e71-3a61-41eb-858e-8291566f4e11",
+    "related_codes": [
+      "F4E4"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F5 E1",
+    "code_normalized": "F5E1",
+    "meaning": "Door switch fault",
+    "common_causes": "Switch open while locked",
+    "recommended_fix": "TEST #4 door lock",
+    "alias_group_id": "961eb21a-69cd-473b-813f-62d773e3c24c",
+    "related_codes": [
+      "F5E1"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F5 E4",
+    "code_normalized": "F5E4",
+    "meaning": "Door not open between cycles",
+    "common_causes": "User did not open door",
+    "recommended_fix": "Open door; TEST #4",
+    "alias_group_id": "617f3ec3-3691-48fb-ada3-78895ce071f8",
+    "related_codes": [
+      "F5E4",
+      "DR"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "dr",
+    "code_normalized": "DR",
+    "meaning": "Door not open between cycles",
+    "common_causes": "User did not open door",
+    "recommended_fix": "Open door between cycles",
+    "alias_group_id": "51fa8864-a1f5-4910-93bd-580772fed232",
+    "related_codes": [
+      "F5E4",
+      "DR"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F6 E1",
+    "code_normalized": "F6E1",
+    "meaning": "ACU cannot hear HMI",
+    "common_causes": "HMI communication loss",
+    "recommended_fix": "Check J19 harness; TEST #2",
+    "alias_group_id": "c685fed4-ce06-4e7e-aa8b-4db4176563f8",
+    "related_codes": [
+      "F6E1"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F6 E2",
+    "code_normalized": "F6E2",
+    "meaning": "HMI cannot hear ACU",
+    "common_causes": "UI communication loss",
+    "recommended_fix": "Check J19 harness; TEST #2",
+    "alias_group_id": "ae155a64-f43a-448e-8d2b-f5ce420dabe9",
+    "related_codes": [
+      "F6E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F6 E3",
+    "code_normalized": "F6E3",
+    "meaning": "ACU-MCU communication",
+    "common_causes": "Motor controller comm loss",
+    "recommended_fix": "TEST #1, #3",
+    "alias_group_id": "32826668-f3c7-425c-946f-c8aa95ea289c",
+    "related_codes": [
+      "F6E3"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F7 E2",
+    "code_normalized": "F7E2",
+    "meaning": "Motor control internal fault",
+    "common_causes": "ACU motor section fault",
+    "recommended_fix": "TEST #3; replace ACU/stator",
+    "alias_group_id": "1142f35f-ff9e-47df-a5f4-389c48f9970c",
+    "related_codes": [
+      "F7E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F7 E8",
+    "code_normalized": "F7E8",
+    "meaning": "Motor over-temp",
+    "common_causes": "Overload or friction",
+    "recommended_fix": "TEST #3; clear obstruction",
+    "alias_group_id": "c1afb13f-6412-40f3-b4fa-ba4ba48fe4b0",
+    "related_codes": [
+      "F7E8"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F7 E9",
+    "code_normalized": "F7E9",
+    "meaning": "Motor locked rotor",
+    "common_causes": "Mechanical bind",
+    "recommended_fix": "TEST #3; check drum",
+    "alias_group_id": "6a8b2075-52b4-4051-919f-580844cf43e7",
+    "related_codes": [
+      "F7E9"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F7 EA",
+    "code_normalized": "F7EA",
+    "meaning": "Motor lost phase",
+    "common_causes": "Stator/harness fault",
+    "recommended_fix": "TEST #3",
+    "alias_group_id": "ba72b5f4-f885-4eaa-9fdb-2807bab530af",
+    "related_codes": [
+      "F7EA"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F7 EC",
+    "code_normalized": "F7EC",
+    "meaning": "Motor overload",
+    "common_causes": "Excessive load",
+    "recommended_fix": "TEST #3; reduce load",
+    "alias_group_id": "130f72b7-54f3-4b04-a424-5243a06e54c4",
+    "related_codes": [
+      "F7EC"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "FCE0",
+    "code_normalized": "FCE0",
+    "meaning": "WiFi module error",
+    "common_causes": "HMI-WiFi comm failure",
+    "recommended_fix": "Check WiFi module; Section 5",
+    "alias_group_id": "7e92dd7a-5b01-4fb5-9e0f-7fb9bef23355",
+    "related_codes": [
+      "FCE0"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "AC",
+    "code_normalized": "AC",
+    "meaning": "Sub-main PBA communication",
+    "common_causes": "Loose sub PBA connector",
+    "recommended_fix": "Reseat sub PBA; inspect soldering",
+    "alias_group_id": "6c92bf36-3e94-4352-bf23-f23b7d0b5870",
+    "related_codes": [
+      "AC"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "AC4",
+    "code_normalized": "AC4",
+    "meaning": "WiFi module communication",
+    "common_causes": "WiFi harness fault",
+    "recommended_fix": "Check WiFi module connections",
+    "alias_group_id": "d095fc05-2dc2-42c9-96a6-d81fa4c529c8",
+    "related_codes": [
+      "AC4"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "AC6",
+    "code_normalized": "AC6",
+    "meaning": "Inverter PBA communication",
+    "common_causes": "Inverter harness fault",
+    "recommended_fix": "Check inverter PBA connector",
+    "alias_group_id": "e0156d67-a9f7-426d-a718-a58816f1a58b",
+    "related_codes": [
+      "AC6"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "AC7",
+    "code_normalized": "AC7",
+    "meaning": "Upper-lower PCB communication",
+    "common_causes": "Dual-washer interconnect fault",
+    "recommended_fix": "Check upper\u2194lower main PCB harness",
+    "alias_group_id": "12a7bd28-4636-4276-a3a8-c80c5388b324",
+    "related_codes": [
+      "AC7"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "BC2",
+    "code_normalized": "BC2",
+    "meaning": "Stuck button / main relay",
+    "common_causes": "Panel deformation or stuck key",
+    "recommended_fix": "Inspect buttons; sub PBA mounting",
+    "alias_group_id": "f7484750-d1f0-4eeb-980d-e97ffb396a81",
+    "related_codes": [
+      "BC2"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "DC1",
+    "code_normalized": "DC1",
+    "meaning": "Door lock switch fault",
+    "common_causes": "Lock terminal broken or leakage",
+    "recommended_fix": "Inspect door lock switch wiring",
+    "alias_group_id": "f94291f6-48c6-43e8-ae54-6e625a431422",
+    "related_codes": [
+      "DC1"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "DC4",
+    "code_normalized": "DC4",
+    "meaning": "Upper washer door open",
+    "common_causes": "Upper door not closed",
+    "recommended_fix": "Close upper washer door",
+    "alias_group_id": "fbe1e29b-151f-453c-8059-3ba45977eead",
+    "related_codes": [
+      "DC4"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "4C2",
+    "code_normalized": "4C2",
+    "meaning": "Hot/cold hose mis-routed",
+    "common_causes": "Wrong hose engagement or high temp",
+    "recommended_fix": "Correct hoses; check Wool/Lingerie temp",
+    "alias_group_id": "57157a37-185f-4e9e-9170-1400d61f62cd",
+    "related_codes": [
+      "4C2"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "HC1",
+    "code_normalized": "HC1",
+    "meaning": "Heater fault (variant)",
+    "common_causes": "Heater short/open with false level",
+    "recommended_fix": "Check heater and tub temp sensor",
+    "alias_group_id": "7aad0939-e267-498f-bc2b-aaaab898f57b",
+    "related_codes": [
+      "HC1"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "TC1",
+    "code_normalized": "TC1",
+    "meaning": "Wash heater temp sensor",
+    "common_causes": "Sensor contact or disconnect",
+    "recommended_fix": "Check heater sensor connector",
+    "alias_group_id": "918c0313-a10c-4979-9d65-56c33b9f1f31",
+    "related_codes": [
+      "TC1"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "TC4",
+    "code_normalized": "TC4",
+    "meaning": "Inverter over-temp",
+    "common_causes": "Inverter PBA overheating",
+    "recommended_fix": "Inspect inverter PBA cooling",
+    "alias_group_id": "955773e5-7092-477f-b582-bdfaf4ccc830",
+    "related_codes": [
+      "TC4"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "washing_machine",
+    "code": "SF",
+    "code_normalized": "SF",
+    "meaning": "System fault / MCU fail",
+    "common_causes": "Main PCB microcontroller failure",
+    "recommended_fix": "Replace main PCB assembly",
+    "alias_group_id": "28ffb53a-b779-4405-8971-4d0f2d1159f4",
+    "related_codes": [
+      "SF"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "E1",
+    "code_normalized": "E1",
+    "meaning": "Abnormal water intake",
+    "common_causes": "Faucets off, low pressure, clogged screens",
+    "recommended_fix": "Open faucets; clean screens; check inlet valve",
+    "alias_group_id": "a448807e-0eac-4310-b0db-d743ba2eb4dd",
+    "related_codes": [
+      "E1"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "E2",
+    "code_normalized": "E2",
+    "meaning": "Drain timeout",
+    "common_causes": "Blocked hose/pump, lid open",
+    "recommended_fix": "Straighten hose; test pump; clear pump",
+    "alias_group_id": "0f3290ed-72a1-4373-bdc3-3e37171df7f8",
+    "related_codes": [
+      "E2"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "E3",
+    "code_normalized": "E3",
+    "meaning": "Lid open",
+    "common_causes": "Lid switch or magnet failure",
+    "recommended_fix": "Close lid; test lid switch/magnet",
+    "alias_group_id": "307c240b-66a1-403c-8af4-0c755444f77a",
+    "related_codes": [
+      "E3"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "E4",
+    "code_normalized": "E4",
+    "meaning": "Unbalance in spin",
+    "common_causes": "Uneven load",
+    "recommended_fix": "Level unit; rebalance load",
+    "alias_group_id": "8fa31854-0925-44c1-b7fa-0dd2500848ed",
+    "related_codes": [
+      "E4"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "E5",
+    "code_normalized": "E5",
+    "meaning": "Impact switch disconnected",
+    "common_causes": "Tub pressing switch; loose terminals",
+    "recommended_fix": "Reinstall suspension; test impact switch",
+    "alias_group_id": "82bc5301-f8fc-4559-bb0d-e463f8be20e4",
+    "related_codes": [
+      "E5"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "F2",
+    "code_normalized": "F2",
+    "meaning": "PCB failure",
+    "common_causes": "Power PCB fault",
+    "recommended_fix": "Replace power PCB",
+    "alias_group_id": "4e606072-ef26-4cc1-b03f-39a5c9ae49c5",
+    "related_codes": [
+      "F2"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "F8",
+    "code_normalized": "F8",
+    "meaning": "Water level sensor fault",
+    "common_causes": "Sensor out of spec",
+    "recommended_fix": "Test sensor frequency or capacitance; replace",
+    "alias_group_id": "63db6475-ef10-4e2d-9380-26c6ecb53e1d",
+    "related_codes": [
+      "F8"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "Fd",
+    "code_normalized": "FD",
+    "meaning": "Door lock failed",
+    "common_causes": "Lid lock actuator or harness",
+    "recommended_fix": "Inspect door lock",
+    "alias_group_id": "86ed3ed7-ec29-4f56-958d-e791af6492a5",
+    "related_codes": [
+      "FD"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "C9",
+    "code_normalized": "C9",
+    "meaning": "PCB failure",
+    "common_causes": "Main PCB fault",
+    "recommended_fix": "Replace PCBs",
+    "alias_group_id": "95aae2d5-0ad8-42e1-81fb-278fb439c8f4",
+    "related_codes": [
+      "C9"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "washing_machine",
+    "code": "CL",
+    "code_normalized": "CL",
+    "meaning": "Child lock door timeout",
+    "common_causes": "Door open >20 min with child lock",
+    "recommended_fix": "Power off; disable child lock",
+    "alias_group_id": "af3b45ee-1c88-4c8a-931a-707b8b59788b",
+    "related_codes": [
+      "CL"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dishwasher",
+    "code": "E1",
+    "code_normalized": "E1",
+    "meaning": "Water inlet failure",
+    "common_causes": "No fill in 4 min",
+    "recommended_fix": "Check supply, inlet valve, flow meter, pressure switch",
+    "alias_group_id": "291161b3-590e-4251-a959-669afba16e32",
+    "related_codes": [
+      "E1"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dishwasher",
+    "code": "E3",
+    "code_normalized": "E3",
+    "meaning": "Heater failure",
+    "common_causes": "Temp not reached in 90 min",
+    "recommended_fix": "Test heater and thermistor",
+    "alias_group_id": "26935397-10d0-4ff2-8331-b9fb35a7311a",
+    "related_codes": [
+      "E3"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dishwasher",
+    "code": "E4",
+    "code_normalized": "E4",
+    "meaning": "Overflow",
+    "common_causes": "Base pan switch tripped",
+    "recommended_fix": "Level unit; locate leak; check overflow switch",
+    "alias_group_id": "cc87750c-81f4-4606-ac0f-122154e306be",
+    "related_codes": [
+      "E4"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dishwasher",
+    "code": "E6",
+    "code_normalized": "E6",
+    "meaning": "NTC open circuit",
+    "common_causes": "Open thermistor or harness",
+    "recommended_fix": "Test thermistor circuit",
+    "alias_group_id": "d2fbceef-1d67-4819-9e5d-18fb8695f582",
+    "related_codes": [
+      "E6"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dishwasher",
+    "code": "E7",
+    "code_normalized": "E7",
+    "meaning": "NTC short circuit",
+    "common_causes": "Shorted thermistor or harness",
+    "recommended_fix": "Test thermistor circuit",
+    "alias_group_id": "e9fa565a-deee-406d-a529-4d4f22e3b614",
+    "related_codes": [
+      "E7"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F1 E1",
+    "code_normalized": "F1E1",
+    "meaning": "ACU failure",
+    "common_causes": "Main control fault",
+    "recommended_fix": "Replace ACU",
+    "alias_group_id": "49b4ccba-9e1d-49e5-8578-a458eac8fcba",
+    "related_codes": [
+      "F1E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F1 E2",
+    "code_normalized": "F1E2",
+    "meaning": "MCU failure",
+    "common_causes": "Motor control section fault",
+    "recommended_fix": "Replace ACU",
+    "alias_group_id": "449fa8fe-ea76-4694-82d7-4942dcbb9d58",
+    "related_codes": [
+      "F1E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F2 E1",
+    "code_normalized": "F2E1",
+    "meaning": "Stuck key",
+    "common_causes": "UI button stuck",
+    "recommended_fix": "Replace console or control",
+    "alias_group_id": "e3ad73f4-4983-40fa-afe8-9835be483fc5",
+    "related_codes": [
+      "F2E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F3 E1",
+    "code_normalized": "F3E1",
+    "meaning": "Thermistor/OWI open or short",
+    "common_causes": "NTC or OWI circuit fault",
+    "recommended_fix": "Test OWI/thermistor harness",
+    "alias_group_id": "261a3321-613b-4198-82b5-316866cec1b2",
+    "related_codes": [
+      "F3E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F3 E2",
+    "code_normalized": "F3E2",
+    "meaning": "OWI calibration failed",
+    "common_causes": "Dirty OWI lens or bad sensor",
+    "recommended_fix": "Clean OWI; fix drain loop check valve",
+    "alias_group_id": "b4379df8-955d-451a-89f6-76845624ebac",
+    "related_codes": [
+      "F3E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F4 E2",
+    "code_normalized": "F4E2",
+    "meaning": "Heater open or relay failed",
+    "common_causes": "Open heater circuit",
+    "recommended_fix": "Test heater and relay",
+    "alias_group_id": "1d08c71f-8a89-4c68-ab69-56ef82bcddaf",
+    "related_codes": [
+      "F4E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F4 E3",
+    "code_normalized": "F4E3",
+    "meaning": "Heater relay shorted",
+    "common_causes": "Heater stuck on",
+    "recommended_fix": "Replace control; inspect heater",
+    "alias_group_id": "c0a847ff-1114-489d-b416-3d03516e0daf",
+    "related_codes": [
+      "F4E3"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F5 E1",
+    "code_normalized": "F5E1",
+    "meaning": "Door stuck open",
+    "common_causes": "Door not latched",
+    "recommended_fix": "Test latch and door switch",
+    "alias_group_id": "8db17968-adb8-40c1-8932-9675cd37bc17",
+    "related_codes": [
+      "F5E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F5 E2",
+    "code_normalized": "F5E2",
+    "meaning": "Door stuck closed",
+    "common_causes": "Switch stuck; door not opened between cycles",
+    "recommended_fix": "Test latch; educate user",
+    "alias_group_id": "6c701121-a723-4473-9f76-75b68aaee808",
+    "related_codes": [
+      "F5E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F6 E1",
+    "code_normalized": "F6E1",
+    "meaning": "No response from ACU",
+    "common_causes": "UI-ACU communication",
+    "recommended_fix": "Reseat HMI harness",
+    "alias_group_id": "280d3569-808e-400a-a780-2fd271ea775b",
+    "related_codes": [
+      "F6E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F7 E1",
+    "code_normalized": "F7E1",
+    "meaning": "Single-speed wash motor failure",
+    "common_causes": "Motor or drive circuit",
+    "recommended_fix": "Test wash motor",
+    "alias_group_id": "87ed11f2-71ea-4cf8-a9a9-0c64331cb647",
+    "related_codes": [
+      "F7E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F7 E2",
+    "code_normalized": "F7E2",
+    "meaning": "Variable-speed wash motor failure",
+    "common_causes": "Motor or drive circuit",
+    "recommended_fix": "Test wash motor",
+    "alias_group_id": "d8cbf1a4-cc17-4ce9-b122-b19a04dc2bf4",
+    "related_codes": [
+      "F7E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F7 E4",
+    "code_normalized": "F7E4",
+    "meaning": "RIF filter plugged",
+    "common_causes": "Removable filter blocked",
+    "recommended_fix": "Clean RIF filter",
+    "alias_group_id": "20d07388-c306-4775-bebd-c49170870393",
+    "related_codes": [
+      "F7E4"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F8 E1",
+    "code_normalized": "F8E1",
+    "meaning": "No water / tap closed",
+    "common_causes": "Supply off or inlet fault",
+    "recommended_fix": "Open tap; test fill valve",
+    "alias_group_id": "d86fea48-81c6-4873-9e47-974922f329e1",
+    "related_codes": [
+      "F8E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F8 E2",
+    "code_normalized": "F8E2",
+    "meaning": "Fill valve electrical",
+    "common_causes": "Open solenoid or fuse",
+    "recommended_fix": "Test fill valve coil",
+    "alias_group_id": "07502ddf-e872-4ddd-9c3d-3e326b33936f",
+    "related_codes": [
+      "F8E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F8 E3",
+    "code_normalized": "F8E3",
+    "meaning": "Low water / suds in pump",
+    "common_causes": "Wrong detergent or air in pump",
+    "recommended_fix": "Correct detergent; check sump",
+    "alias_group_id": "25e80495-6b57-4226-a112-19094f83dcc1",
+    "related_codes": [
+      "F8E3"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F8 E4",
+    "code_normalized": "F8E4",
+    "meaning": "Overfill / float open",
+    "common_causes": "Stuck inlet or float fault",
+    "recommended_fix": "Test float and inlet valve",
+    "alias_group_id": "1c5c30b9-a6c1-4793-b12b-fd6cf3728097",
+    "related_codes": [
+      "F8E4"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F8 E5",
+    "code_normalized": "F8E5",
+    "meaning": "Fill valve stuck on",
+    "common_causes": "Inlet valve stuck open",
+    "recommended_fix": "Replace fill valve",
+    "alias_group_id": "a33e947d-0948-4791-9bfe-86aa5a0b7e45",
+    "related_codes": [
+      "F8E5"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F8 E6",
+    "code_normalized": "F8E6",
+    "meaning": "Flow meter failed",
+    "common_causes": "Flow meter or harness",
+    "recommended_fix": "Test flow meter",
+    "alias_group_id": "fbbe9535-1252-442b-9df7-e3be139be785",
+    "related_codes": [
+      "F8E6"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F9 E1",
+    "code_normalized": "F9E1",
+    "meaning": "Not draining",
+    "common_causes": "Drain path obstruction",
+    "recommended_fix": "Clear drain hose and filter",
+    "alias_group_id": "9f28cf12-f295-4944-8271-8062a9b70938",
+    "related_codes": [
+      "F9E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F9 E2",
+    "code_normalized": "F9E2",
+    "meaning": "Drain motor electrical",
+    "common_causes": "Open drain motor winding",
+    "recommended_fix": "Test drain motor",
+    "alias_group_id": "806f63a5-d96c-4cfd-882f-dbf4a2cfd4e7",
+    "related_codes": [
+      "F9E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F9 E4",
+    "code_normalized": "F9E4",
+    "meaning": "Tub light failure",
+    "common_causes": "Tub light circuit",
+    "recommended_fix": "Test tub light",
+    "alias_group_id": "afb70bbc-d02f-42da-b3bb-9c6952fe3685",
+    "related_codes": [
+      "F9E4"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F10 E1",
+    "code_normalized": "F10E1",
+    "meaning": "Dispenser electrical",
+    "common_causes": "Open dispenser solenoid",
+    "recommended_fix": "Test dispenser coil",
+    "alias_group_id": "5fa32023-a1a9-450f-a94b-706f40246c73",
+    "related_codes": [
+      "F10E1"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F10 E2",
+    "code_normalized": "F10E2",
+    "meaning": "Vent wax motor electrical",
+    "common_causes": "Open vent motor",
+    "recommended_fix": "Test vent wax motor",
+    "alias_group_id": "4d4f42af-fae1-47e7-9bf5-95061bd8e1ef",
+    "related_codes": [
+      "F10E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F10 E3",
+    "code_normalized": "F10E3",
+    "meaning": "Drying fan electrical",
+    "common_causes": "Open drying fan",
+    "recommended_fix": "Test drying fan motor",
+    "alias_group_id": "b850c481-b302-430c-811a-a32981f7103c",
+    "related_codes": [
+      "F10E3"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F10 E4",
+    "code_normalized": "F10E4",
+    "meaning": "Diverter cannot find position",
+    "common_causes": "Diverter motor/sensor",
+    "recommended_fix": "Test diverter",
+    "alias_group_id": "563a1653-c272-447c-903f-eb0b6b7a0e5e",
+    "related_codes": [
+      "F10E4"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "dishwasher",
+    "code": "F10 E5",
+    "code_normalized": "F10E5",
+    "meaning": "Diverter leak detected",
+    "common_causes": "Diverter seal leak",
+    "recommended_fix": "Inspect diverter and sump",
+    "alias_group_id": "cbad7bff-1966-43cf-b7b9-b79214de2b72",
+    "related_codes": [
+      "F10E5"
+    ]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "dishwasher",
+    "code": "VARIO ERROR",
+    "code_normalized": "VARIOERROR",
+    "meaning": "Vario cam position fault",
+    "common_causes": "Misassembled vario switch; failed motor",
+    "recommended_fix": "Reassemble vario switch; test 4 k\u03a9 motor",
+    "alias_group_id": "8d35b0ca-cacb-4c83-85e7-e4575e8df847",
+    "related_codes": [
+      "VARIOERROR"
+    ]
+  },
+  {
+    "manufacturer": "Frigidaire",
+    "equipment_subtype": "refrigerator",
+    "code": "Er t1",
+    "code_normalized": "ERT1",
+    "meaning": "Freezer temp sensor fault",
+    "common_causes": "Open/short FZ sensor",
+    "recommended_fix": "Test FZ thermistor",
+    "alias_group_id": "6ea5da2a-6874-46d4-b19d-8fd9ef673fdd",
+    "related_codes": [
+      "ERT1"
+    ]
+  },
+  {
+    "manufacturer": "Frigidaire",
+    "equipment_subtype": "refrigerator",
+    "code": "Er t2",
+    "code_normalized": "ERT2",
+    "meaning": "FZ defrost sensor fault",
+    "common_causes": "Open/short defrost sensor",
+    "recommended_fix": "Test defrost thermistor",
+    "alias_group_id": "6348de9c-93b4-4840-9c07-30cc8196de11",
+    "related_codes": [
+      "ERT2"
+    ]
+  },
+  {
+    "manufacturer": "Frigidaire",
+    "equipment_subtype": "refrigerator",
+    "code": "Er t3",
+    "code_normalized": "ERT3",
+    "meaning": "Fresh food temp sensor fault",
+    "common_causes": "Open/short FF sensor",
+    "recommended_fix": "Test FF thermistor",
+    "alias_group_id": "2e488092-2581-496d-8180-030a299729c1",
+    "related_codes": [
+      "ERT3"
+    ]
+  },
+  {
+    "manufacturer": "Frigidaire",
+    "equipment_subtype": "refrigerator",
+    "code": "Er t4",
+    "code_normalized": "ERT4",
+    "meaning": "FF defrost sensor fault",
+    "common_causes": "Open/short FF defrost sensor",
+    "recommended_fix": "Test sensor",
+    "alias_group_id": "d43255f7-3a06-4777-8406-f38f6e330e4e",
+    "related_codes": [
+      "ERT4"
+    ]
+  },
+  {
+    "manufacturer": "Frigidaire",
+    "equipment_subtype": "refrigerator",
+    "code": "Er t5",
+    "code_normalized": "ERT5",
+    "meaning": "VCZ temp sensor fault",
+    "common_causes": "Variable zone sensor fault",
+    "recommended_fix": "Test VCZ thermistor",
+    "alias_group_id": "b796c3d1-9fb2-41fb-8f4a-f6c79fdf571e",
+    "related_codes": [
+      "ERT5"
+    ]
+  },
+  {
+    "manufacturer": "Frigidaire",
+    "equipment_subtype": "refrigerator",
+    "code": "Er t6",
+    "code_normalized": "ERT6",
+    "meaning": "FFIM tray sensor fault",
+    "common_causes": "Ice tray sensor open/short",
+    "recommended_fix": "Test FFIM sensor",
+    "alias_group_id": "e6e5d278-4628-4c63-84cc-ed9fe03cd204",
+    "related_codes": [
+      "ERT6"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E0",
+    "code_normalized": "E0",
+    "meaning": "Ice maker fault",
+    "common_causes": "Ice maker assembly or sensor",
+    "recommended_fix": "Run EYE test mode; inspect I/M",
+    "alias_group_id": "660023b2-efc4-4ee3-9f33-232f539664af",
+    "related_codes": [
+      "E0"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E1",
+    "code_normalized": "E1",
+    "meaning": "Refrigerator temp sensor",
+    "common_causes": "RC thermistor fault",
+    "recommended_fix": "Test NTC B3839",
+    "alias_group_id": "05057cf7-8ee7-4496-9f7c-656a049fd36c",
+    "related_codes": [
+      "E1"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E2",
+    "code_normalized": "E2",
+    "meaning": "Freezer temp sensor",
+    "common_causes": "FZ thermistor fault",
+    "recommended_fix": "Test NTC B3839",
+    "alias_group_id": "44148d58-2803-4aa5-bc82-1d352e5a6482",
+    "related_codes": [
+      "E2"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E4",
+    "code_normalized": "E4",
+    "meaning": "RC defrost sensor",
+    "common_causes": "Defrost thermistor fault",
+    "recommended_fix": "Test defrost sensor",
+    "alias_group_id": "a31294c5-0196-4e46-8d08-decfa8955cd6",
+    "related_codes": [
+      "E4"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E5",
+    "code_normalized": "E5",
+    "meaning": "FZ defrost sensor",
+    "common_causes": "Defrost thermistor fault",
+    "recommended_fix": "Test defrost sensor",
+    "alias_group_id": "7a007c40-ea45-4368-9326-9fbacdc4d64f",
+    "related_codes": [
+      "E5"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E6",
+    "code_normalized": "E6",
+    "meaning": "Communication failure",
+    "common_causes": "Display-main CN9 harness",
+    "recommended_fix": "Reseat CN9 harness",
+    "alias_group_id": "09f3aa96-02ea-4cbb-b748-c686d74586ee",
+    "related_codes": [
+      "E6"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E7",
+    "code_normalized": "E7",
+    "meaning": "Ambient temp sensor",
+    "common_causes": "Ambient thermistor fault",
+    "recommended_fix": "Test ambient sensor",
+    "alias_group_id": "2bee36e0-a79e-41c9-99c7-5328fdfbc010",
+    "related_codes": [
+      "E7"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "E9",
+    "code_normalized": "E9",
+    "meaning": "High temp alarm FZ",
+    "common_causes": "Door seal; compressor; sealed system",
+    "recommended_fix": "Check gasket; verify compressor run",
+    "alias_group_id": "845239ec-487f-4bf8-8a13-89c2f3f0779b",
+    "related_codes": [
+      "E9"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "EE",
+    "code_normalized": "EE",
+    "meaning": "Ice maker sensor circuit",
+    "common_causes": "Ice maker sensor fault",
+    "recommended_fix": "Test ice maker sensor",
+    "alias_group_id": "70fb849e-6664-4d39-9768-7e453b7c6dbf",
+    "related_codes": [
+      "EE"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "EH",
+    "code_normalized": "EH",
+    "meaning": "Ambient humidity sensor",
+    "common_causes": "Humidity sensor fault",
+    "recommended_fix": "Test humidity sensor",
+    "alias_group_id": "f130ccd0-dadd-4fe5-864e-f9eb199e721f",
+    "related_codes": [
+      "EH"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "EF",
+    "code_normalized": "EF",
+    "meaning": "Water tank not installed",
+    "common_causes": "Tank missing or mis-seated",
+    "recommended_fix": "Install water tank correctly",
+    "alias_group_id": "9d1d4572-92d1-433d-81ab-72dada938cfd",
+    "related_codes": [
+      "EF"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "CA",
+    "code_normalized": "CA",
+    "meaning": "Main-ice maker board comm",
+    "common_causes": "Ice maker PCB harness",
+    "recommended_fix": "Check ice maker board connections",
+    "alias_group_id": "244f3c5a-1f4d-4d11-99a7-098b125edfb5",
+    "related_codes": [
+      "CA"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "refrigerator",
+    "code": "EP",
+    "code_normalized": "EP",
+    "meaning": "Ice maker off-ice fault",
+    "common_causes": "Ice maker mechanical fault",
+    "recommended_fix": "Inspect ice maker assembly",
+    "alias_group_id": "05350772-7cfd-4af9-a579-3b3e840eaff5",
+    "related_codes": [
+      "EP"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "freezer",
+    "code": "E2",
+    "code_normalized": "E2",
+    "meaning": "Freezer temp sensor",
+    "common_causes": "FZ thermistor fault",
+    "recommended_fix": "Test NTC B3839",
+    "alias_group_id": "56336258-8a2e-44f1-9cf6-c4832b031f8b",
+    "related_codes": [
+      "E2"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "freezer",
+    "code": "E5",
+    "code_normalized": "E5",
+    "meaning": "FZ defrost sensor",
+    "common_causes": "Defrost thermistor fault",
+    "recommended_fix": "Test defrost sensor",
+    "alias_group_id": "9ce48dd6-8271-4dca-84b3-ff7b70cf4ebc",
+    "related_codes": [
+      "E5"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "freezer",
+    "code": "E6",
+    "code_normalized": "E6",
+    "meaning": "Communication failure",
+    "common_causes": "Display-main harness",
+    "recommended_fix": "Reseat harness",
+    "alias_group_id": "ac9e0802-055f-4dde-b23d-f55209fb69fd",
+    "related_codes": [
+      "E6"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "freezer",
+    "code": "E7",
+    "code_normalized": "E7",
+    "meaning": "Ambient temp sensor",
+    "common_causes": "Ambient thermistor fault",
+    "recommended_fix": "Test ambient sensor",
+    "alias_group_id": "86b4bfe1-954a-4097-b52b-0d054457b352",
+    "related_codes": [
+      "E7"
+    ]
+  },
+  {
+    "manufacturer": "Insignia",
+    "equipment_subtype": "freezer",
+    "code": "E9",
+    "code_normalized": "E9",
+    "meaning": "High temp alarm",
+    "common_causes": "Door seal; frost; sealed system",
+    "recommended_fix": "Check gasket and evaporator fan",
+    "alias_group_id": "382fc3e3-fa43-48b7-a455-de8880d0cb81",
+    "related_codes": [
+      "E9"
+    ]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "dryer",
+    "code": "d85",
+    "code_normalized": "D85",
+    "meaning": "Duct restriction (intermediate)",
+    "common_causes": "Restricted exhaust path",
+    "recommended_fix": "Clean vent; verify \u22640.6 in. W.C. static pressure",
+    "alias_group_id": "33883676-339d-4920-9b4d-26a48e2fdeec",
+    "related_codes": [
+      "D85"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "microwave",
+    "code": "C-20",
+    "code_normalized": "C20",
+    "meaning": "Temp sensor error",
+    "common_causes": "Sensor unit or substrate connection",
+    "recommended_fix": "Check sensor; short = black wire",
+    "alias_group_id": "3db00fab-31b3-4fd5-873a-5f7d8b7d84f0",
+    "related_codes": [
+      "C20"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "microwave",
+    "code": "C-F1",
+    "code_normalized": "CF1",
+    "meaning": "PBA defect",
+    "common_causes": "Main PCB failure",
+    "recommended_fix": "Replace PBA",
+    "alias_group_id": "f3fdc5c1-5987-40c3-9ea9-2611383dafce",
+    "related_codes": [
+      "CF1"
+    ]
+  },
+  {
+    "manufacturer": "Samsung",
+    "equipment_subtype": "microwave",
+    "code": "C-F2",
+    "code_normalized": "CF2",
+    "meaning": "Touch defect",
+    "common_causes": "Touch film or connector",
+    "recommended_fix": "Check touch film tape and connector",
+    "alias_group_id": "59a7b034-d115-4a9f-af51-f040a4dbfe43",
+    "related_codes": [
+      "CF2"
+    ]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "microwave",
+    "code": "F-1",
+    "code_normalized": "F1",
+    "meaning": "PCB thermistor short",
+    "common_causes": "Cabinet thermistor shorted",
+    "recommended_fix": "Replace thermistor or PCB",
+    "alias_group_id": "63504161-fa62-4086-a2bc-57b5edf36020",
+    "related_codes": [
+      "F1"
+    ]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "microwave",
+    "code": "F-2",
+    "code_normalized": "F2",
+    "meaning": "PCB thermistor open",
+    "common_causes": "Cabinet thermistor open",
+    "recommended_fix": "Replace thermistor or PCB",
+    "alias_group_id": "27c0bc17-6034-4653-b5ff-0c568fa93834",
+    "related_codes": [
+      "F2"
+    ]
+  },
+  {
+    "manufacturer": "LG",
+    "equipment_subtype": "microwave",
+    "code": "F-4",
+    "code_normalized": "F4",
+    "meaning": "Humidity sensor fault",
+    "common_causes": "Humidity sensor open or short",
+    "recommended_fix": "Test humidity sensor",
+    "alias_group_id": "ae9468f5-6b20-4701-bfcb-83a7fd25fa36",
+    "related_codes": [
+      "F4"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
+    "code": "F1 E3",
+    "code_normalized": "F1E3",
+    "meaning": "Incorrect controller installed",
+    "common_causes": "ACU/UI part mismatch",
+    "recommended_fix": "Verify and replace mismatched board",
+    "alias_group_id": "19131dcf-5fa6-457e-bdc5-8e4c1708eaa1",
+    "related_codes": [
+      "F1E3"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
+    "code": "F1 E5",
+    "code_normalized": "F1E5",
+    "meaning": "Parameter memory invalid",
+    "common_causes": "Missing ACU parameter file",
+    "recommended_fix": "Replace ACU",
+    "alias_group_id": "bca140a2-7bde-4d64-8061-88b7d5eca03b",
+    "related_codes": [
+      "F1E5"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
+    "code": "F2 E4",
+    "code_normalized": "F2E4",
+    "meaning": "UI incompatible parameter file",
+    "common_causes": "UI software mismatch",
+    "recommended_fix": "Replace UI",
+    "alias_group_id": "7d8d2d91-20cd-4be9-a445-f937a2211b32",
+    "related_codes": [
+      "F2E4"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
+    "code": "F2 E5",
+    "code_normalized": "F2E5",
+    "meaning": "UI parameter memory invalid",
+    "common_causes": "Corrupt UI EEPROM",
+    "recommended_fix": "Replace UI",
+    "alias_group_id": "cc8bb57f-ca43-436c-b897-122f83a28678",
+    "related_codes": [
+      "F2E5"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
+    "code": "F4 E2",
+    "code_normalized": "F4E2",
+    "meaning": "Heater 2 relay failure",
+    "common_causes": "Heater 2 wiring (electric)",
+    "recommended_fix": "Check heater 2 relay and wiring",
+    "alias_group_id": "8e362bc1-87b7-4345-8bb4-6099fe7ac845",
+    "related_codes": [
+      "F4E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
+    "code": "F6 E3",
+    "code_normalized": "F6E3",
+    "meaning": "ACU cannot hear UI",
+    "common_causes": "ACU-UI harness fault",
+    "recommended_fix": "Check ACU\u2194UI harness",
+    "alias_group_id": "fc0ce491-6355-4bb5-a9e8-27f8d62b34b6",
+    "related_codes": [
+      "F6E3"
     ]
   }
 ]

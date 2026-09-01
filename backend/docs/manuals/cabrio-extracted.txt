@@ -1,0 +1,6482 @@
+
+
+===== PAGE 1 =====
+
+PAGE 1
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+IMPORTANT SAFETY NOTICE — “For Technicians only” 
+This service data sheet is intended for use by persons having electrical, electronic, and 
+mechanical experience and knowledge at a level generally considered acceptable in the 
+appliance repair trade. Any attempt to repair a major appliance may result in personal injury 
+and property damage. The manufacturer or seller cannot be responsible, nor assume any 
+liability for injury or damage of any kind arising from the use of this data sheet. 
+Whirlpool, Maytag, and Kenmore Control Panels... 2–4
+Diagnostic Guide.................................................. 5
+Activating the Service Diagnostic Mode................. 5
+Key Activation & Encoder Test............................... 6
+Service Test Mode................................................ 6
+Service Test Mode Chart................................... 7, 8
+Software Version Display...................................... 9
+Contents
+Fault/Error Codes............................................ 9, 10
+Troubleshooting Guide........................................ 11
+Troubleshooting Tests................................... 12–23
+Strip Circuits....................................................... 24
+Wiring Diagrams........................................... 25, 26
+Component Locations......................................... 27
+PART NO. W10680150D
+IMPORTANT: Electrostatic Discharge (ESD) Sensitive Electronics           
+ESD problems are present everywhere. Most people begin to feel an ESD discharge at 
+approximately 3000V. It takes as little as 10V to destroy, damage, or weaken the main control 
+assembly. The new main control assembly may appear to work well after repair is finished,  
+but a malfunction may occur at a later date due to ESD stress. 
+	 Use an anti-static wrist strap. Connect wrist strap to green ground connection point or 
+unpainted metal in the appliance 
+	
+	
+	
+	
+	
+-OR- 
+	
+Touch your finger repeatedly to a green ground connection point or unpainted metal  
+in the appliance.
+	 Before removing the part from its package, touch the anti-static bag to a green ground 
+connection point or unpainted metal in the appliance.
+	 Avoid touching electronic parts or terminal contacts; handle electronic control assembly  
+by edges only.
+	 When repackaging main control assembly in anti-static bag, observe above instructions.
+Voltage Measurement Safety Information
+When performing live voltage measurements, you must do the following:
+	 Verify the controls are in the off position so that the appliance does not start when energized. 
+	 Allow enough space to perform the voltage measurements without obstructions. 
+	 Keep other people a safe distance away from the appliance to prevent potential injury. 
+	 Always use the proper testing equipment. 
+	 After voltage measurements, always disconnect power before servicing. 
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 2 =====
+
+PAGE 2
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+WHIRLPOOL CONTROL PANEL (features and appearances may vary between models)
+POWER button: press once to turn off 
+indicator. Press twice to exit service 
+diagnostic mode and return to  
+standby mode.
+START/PAUSE button:  
+press once to turn 
+off indicator.
+Option buttons: press each  
+button once to turn off  
+its respective indicator.
+Figure 1a - Key Activation & Encoder Test for Service Diagnostic Mode, Whirlpool Models
+Press each modifier button  
+once to turn off its respective 
+display segment.
+Timed Dry Adjust “–” or “+” 
+button: press once to turn off  
+its respective indicator.
+Option buttons: press each  
+button once to turn off  
+its respective indicator.
+Pressing each “WHAT TO DRY”  
+button turns off each  
+corresponding indicator.
+Pressing each “HOW TO DRY”  
+button turns off each corresponding 
+indicator. Pressing “Normal” also turns 
+off the seven-segment display.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 3 =====
+
+PAGE 3
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+MAYTAG CONTROL PANEL (features and appearances may vary between models)
+Rotating the cycle selector knob  
+turns off each corresponding cycle  
+indicator. (Features and  
+appearances vary between models).
+POWER button: press once to turn  
+off indicator. Press twice to exit  
+service diagnostic mode and return  
+to standby mode.
+START/PAUSE button:  
+press once to turn  
+off indicator.
+Option buttons: press each  
+button once to turn off  
+its respective indicator.
+Figure 1b - Key Activation & Encoder Test for Service Diagnostic Mode, Maytag Models
+Timed Dry Adjust “+” button:  
+press once to turn off the  
+status LEDs.
+Press each modifier button  
+once to turn off its respective 
+display segment.
+Timed Dry Adjust “–” button:  
+press once to turn off the  
+seven-segment display.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 4 =====
+
+PAGE 4
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+KENMORE CONTROL PANEL (features and appearances may vary between models)
+Rotating the cycle selector knob  
+turns off each corresponding cycle  
+indicator. (Features and  
+appearances vary between models).
+POWER button: press once to turn  
+off indicator. Press twice to exit  
+service diagnostic mode and return  
+to standby mode.
+START/PAUSE button:  
+press once to turn  
+off indicator.
+Option buttons: press each  
+button once to turn off  
+its respective indicator.
+Figure 1c - Key Activation & Encoder Test for Service Diagnostic Mode, Kenmore Models
+Time Adjust “+” button:  
+press once to turn off the  
+status LEDs.
+Press each modifier button  
+once to turn off its respective 
+display segment.
+Time Adjust “–” button:  
+press once to turn off the  
+seven-segment display.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 5 =====
+
+PAGE 5
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+DIAGNOSTIC GUIDE
+Before servicing, check the following:
+ Make sure there is power at the wall outlet.
+ Has a household fuse blown or circuit breaker 
+tripped? Was a regular fuse used? Inform 
+customer that a time-delay fuse is required.
+ Is dryer vent properly installed and clear  
+of lint or obstructions?
+ All tests/checks should be made with a 
+VOM (volt-ohm-milliammeter) or DVM 
+(digital-voltmeter) having a sensitivity of 
+20,000 Ω per volt DC or greater.
+ Resistance checks must be made with 
+dryer unplugged or power disconnected.
+ IMPORTANT: Avoid using large  
+diameter probes when checking harness 
+connectors as the probes may damage  
+the connectors upon insertion.
+ Check all harnesses and connections 
+before replacing components. Look for 
+connectors not fully seated, broken or 
+loose wires and terminals, pin insertion,  
+or wires not pressed into connectors  
+far enough to engage metal barbs.
+ A potential cause of a control not 
+functioning is corrosion or contamination on 
+connections. Use an ohmmeter to check for 
+continuity across suspected connections.
+SERVICE DIAGNOSTIC MODE
+These tests allow service personnel to test  
+and verify all inputs to the machine control  
+electronics. You may want to do a quick and 
+overall checkup of the dryer with these tests 
+before going to specific troubleshooting tests.
+ACTIVATING SERVICE DIAGNOSTIC MODE
+1.	 Be sure the dryer is in standby mode 
+(plugged in with all indicators off). 
+2.	 Select any three (3) buttons (except 
+POWER) and follow the steps below, using 
+the same buttons (remember the buttons and 
+the order that the buttons were pressed):
+Within 8 seconds,
+•	 Press and Release the 1st selected button,
+•	 Press and Release the 2nd selected button,
+•	 Press and Release the 3rd selected button;
+•	 Repeat this 3 button sequence 2 more times.
+3.	 If this test mode has been entered 
+successfully, all indicators on the console 
+will be illuminated for 5 seconds with “888” 
+showing in the three-digit display and a tone 
+will sound. If there are no saved fault codes, 
+all indicators on the console will momentarily 
+turn off, and then only the seven segment 
+display will come back on and display “888”.
+NOTE: The Service Diagnostic mode will time 
+out after 10 minutes of user inactivity, or shut 
+down if AC power is removed from the dryer.
+Button Press
+Function Behavior
+1st Button
+- Momentary press
+- Press and hold for 5 secs.
+- Activates Key Activation 
+- Exits Service Diagnostics
+2nd Button
+- Momentary press
+- Press and hold for 5 secs.
+- Activates Service Test Mode
+- Software Version Display
+3rd Button
+- Momentary press
+- Press and hold for 5 secs.
+- Displays Next Error Code
+- Clears the Error Codes
+SERVICE DIAGNOSTIC MENU TABLE
+& Encoder Test
+• See “Activating Service Diagnostic Mode” to activate these buttons. Make sure all of step 3 is complete before 
+activation.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 6 =====
+
+PAGE 6
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+Unsuccessful Activation
+If entry into diagnostic mode is unsuccessful, 
+refer to the following indications and actions:
+Indication 1: None of the indicators or display 
+turn on.
+Action: Select any cycle.
+	 If indicators come on, try to change the 
+function for the three buttons used to activate 
+the diagnostic test mode. If any button is 
+unable to change the function, something 
+is faulty with the button, and it will not be 
+possible to enter the diagnostic mode using 
+that button. Replace the user interface and 
+housing assembly.
+	 If no indicators come on after selecting the 
+cycle, go to TEST #1, ACU Power Check, 
+page 12.
+Indication 2: Console indicators begin flashing 
+immediately.
+Action: If console indicators begin flashing on 
+and off immediately, replace the user interface.
+Activation with Saved Fault Codes
+If there is a saved fault code, it will be flashing 
+in the display. Review the Fault/Error Codes 
+table on page 10 for the recommended 
+procedure. If there is no saved fault code, 
+“888” will be displayed.
+KEY ACTIVATION & ENCODER TEST
+NOTE: The Service Diagnostic mode must be 
+activated before entering the Key Activation & 
+Encoder Test; see procedure on page 5.
+Active Fault Code Display  
+in Key Activation & Encoder Test
+If the display begins flashing while in the Key 
+Activation & Encoder Test, it is displaying an 
+active fault code. Active fault codes are codes 
+that are currently detected. Only one active 
+fault code can be displayed at a time.
+Entry Procedure
+Press and release the 1st button used  
+to activate Service Diagnostic mode.  
+The following test will be available:
+DIAGNOSTIC: Key Activation  
+& Encoder Test
+Pressing each button will turn off its 
+corresponding indicator(s) or display segment  
+and sound a beep (see figures 1a, 1b, or 1c, 
+pages 2–4).
+Rotating the cycle selector knob (on some 
+models) turns off each corresponding cycle 
+indicator.
+NOTE: A second press of the POWER button 
+while in Key Activation & Encoder Test mode 
+exits the Service Diagnostic mode and returns 
+the dryer to standby mode.
+	 If indicators do not turn off and beep  
+after pressing buttons and rotating the cycle 
+selector knob (on some models), go to TEST 
+#6: Buttons and Indicators, page 22.
+Exit Procedure
+To exit Key Activation & Encoder Test, press 
+the POWER button once or twice (depending 
+on diagnostic procedure) or press and hold  
+the first button used to activate Service 
+Diagnostic mode.
+SERVICE TEST MODE
+NOTE: The Service Diagnostic mode must be 
+activated before entering Service Test Mode; 
+see procedure on page 5.
+NOTE: If, at any point, the user presses the 
+POWER button or opens the door during 
+Service Test Mode, the dryer exits to standby 
+mode.
+NOTE: Door must be closed to perform test. 
+Dryer must be cool before test to run correctly.
+Active Fault Code Display  
+in Service Test Mode
+If the display begins flashing while in Service 
+Test Mode, it is displaying an active fault code. 
+Active fault codes are codes that are currently 
+detected. Only one active fault code can be 
+displayed at a time.
+Entry Procedure
+To enter Service Test Mode, press and release 
+the 2nd button used to activate the Service 
+Diagnostic mode. All LEDs (except for POWER) 
+turn off, “888” is displayed for 2 seconds, and 
+the START button begins to flash.
+PERFORM ALL TESTS: Press and release the 
+START button to run ALL tests indicated in the 
+chart on pages 7 and 8.
+VOLTAGE AND WATER SYSTEM-ONLY 
+TESTS: Press and hold the START button for 
+5 seconds after step 3 to run only the voltage 
+and water system tests.
+Exit Procedure
+When the test is complete, press the POWER 
+button to exit Service Test Mode and return  
+to standby mode.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 7 =====
+
+PAGE 7
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+	 Step #	
+Action	
+Component	
+User Interface Response
+	
+1	
+User enters Service Test Mode	
+	
+Display shows “888” for  
+	
+	
+through Service Diagnostics.	
+	
+2 seconds. All LEDs (except  
+	
+	
+	
+	
+for POWER) are off, and  
+	
+	
+	
+	
+the START button is flashing.
+	
+2	
+Press and release START	
+Motor On	
+The display will show “---” until 
+	
+	
+to begin the L2 Voltage Check.	
+	
+the voltage is available at the UI. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+If START is pressed again or  
+	
+	
+	
+	
+pressed and held before L2 voltage is  
+	
+	
+	
+	
+available, a tone will sound 3 times.
+	
+3	
+L2 Voltage Check completes.	
+Motor On	
+If electric (Fuel = Electric): 
+	
+	
+Vrms_L2 and Fuel are published	
+Heater(s) On	
+The UI will report findings per the 
+	
+	
+to the UI.	
+	
+“Electric Dryer Results Display” 
+	
+	
+	
+	
+section where L2 Voltage is available,  
+	
+	
+L1 Voltage Check	
+	
+L1 Voltage is not available,  
+	
+	
+starts automatically.	
+	
+Heater Voltage is not available,  
+	
+	
+	
+	
+and Airflow is not available. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+If gas (Fuel = Gas): 
+	
+	
+	
+	
+The display will continue  
+	
+	
+	
+	
+to show “---”.
+	
+	
+	
+	
+If START is pressed again or  
+	
+	
+	
+	
+pressed and held before L1 voltage is  
+	
+	
+	
+	
+available, a tone will sound 3 times.
+	
+4	
+L1 voltage check completes.	
+Motor On	
+If electric (Fuel = Electric): 
+	
+	
+Vrms_L1 and Heater_Voltage	
+Heater(s) On/Off	
+The UI will report findings per the 
+	
+	
+are published to the UI.	
+	
+“Electric Dryer Results Display” 
+	
+	
+	
+	
+section where L2 Voltage is 
+	
+	
+Check for Warm Machine begins	
+	
+available, L1 Voltage is available,  
+	
+	
+automatically. Airflow begins 	
+	
+Heater Voltage is available,  
+	
+	
+detection algorithm: Status_Airflow =	
+	
+and Airflow is not available. 
+	
+	
+3 (Detecting).	
+	
+ 
+	
+	
+	
+	
+If gas (Fuel = Gas): 
+	
+	
+	
+	
+The UI will report findings per the 
+	
+	
+	
+	
+“Gas Dryer Results Display” section 
+	
+	
+	
+	
+where Heater Voltage is available 
+	
+	
+	
+	
+and Airflow is not available.
+	
+	
+Press and hold START	
+	
+If a “Detecting Airflow” indicator 
+	
+	
+to jump to Step 8 and start the	
+	
+is present, it is displayed on 
+	
+	
+Steam Test (steam models only).	
+	
+the UI.
+	
+5	
+Check for Warm Machine completes.	
+Motor On	
+UI continues to display 	
+	
+	
+	
+Heater(s) On	
+as in Step 4. 
+ 
+	
+	
+Load Mass for Airflow	
+	
+ 
+	
+	
+begins automatically.	
+	
+ 
+	
+	
+ 
+	
+	
+Press and hold START 	
+	
+ 
+	
+	
+to jump to Step 8 and start the	
+	
+ 
+	
+	
+Steam Test (steam models only).
+SERVICE TEST MODE CHART
+NOTE: After step 3, press and hold the START button for 5 seconds to jump to the water system test.
+Electric dryer performance is optimized for 2-phase, 240 VAC service. If complaint is made regarding electric dryer performance and the  
+L1 to L2 voltage is ~208 VAC, dryer may be connected to a 3-phase service with reduced wattage that will decrease dryer performance.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 8 =====
+
+PAGE 8
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+	 Step #	
+Action	
+Component	
+User Interface Response
+	
+6	
+Load Mass for Airflow completes.	
+Motor On/Off	
+If electric (Fuel = Electric): 
+	
+	
+The update for Status_Airflow	
+Heater(s) On/Off	
+The UI will report findings per the 
+	
+	
+is published to the UI.	
+	
+“Electric Dryer Results Display” 
+	
+	
+	
+	
+section where L2 Voltage is available, 
+	
+	
+	
+	
+L1 Voltage is available, Heater Voltage 
+	
+	
+	
+	
+is available, and Airflow is available. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+If gas (Fuel = Gas): 
+	
+	
+	
+	
+The UI will report findings per the 
+	
+	
+	
+	
+“Gas Dryer Results Display” section 
+	
+	
+	
+	
+where Heater Voltage is available 
+	
+	
+	
+	
+and Airflow is available.
+	
+	
+	
+	
+If a “Detecting Airflow” LED  
+	
+	
+	
+	
+is present, it is turned off. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+If a “Good Airflow” LED is 
+	
+	
+	
+	
+present, it also displays when 
+	
+	
+	
+	
+the Status_Airflow = 0. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+If a “Check Vent” LED is  
+	
+	
+	
+	
+present, it also displays when  
+	
+	
+	
+	
+the Status_Airflow = 2.
+	
+7	
+Service Loads	
+Motor Off	
+UI & Status LEDs continue 
+	
+	
+Test complete.	
+Heater(s) Off	
+to display as in step 6. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Steam Models Only: “START” is 
+	
+	
+	
+	
+flashing to start the Steam Test. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Non-Steam Models: The UI waits 
+	
+	
+	
+	
+for “ServiceTimeout” or pressing 
+	
+	
+	
+	
+of POWER to go to Standby mode.
+STEAM DRYERS ONLY
+	
+8	
+Pressing START begins	
+	
+Display shows “h2o” when test 
+	
+	
+STEAM_TEST.	
+	
+is running.
+	
+9	
+Steam Test begins.	
+Water Valve On	
+If applicable, UI turns on Drum Light 
+	
+	
+	
+Drum Light On	
+LED. Drum light is turned on for a 
+	
+	
+	
+	
+maximum of 30 seconds.
+	
+10	
+STEAM_TEST complete.	
+Water Valve Off	
+Display goes blank and waits  
+	
+	
+	
+Drum Light Off	
+for “ServiceTimeout” or pressing 
+	
+	
+	
+	
+of POWER to go to Standby mode.
+SERVICE TEST MODE CHART (continued)
+NOTE: After step 3, press and hold the START button for 5 seconds to jump to the water system test.
+Electric dryer performance is optimized for 2-phase, 240 VAC service. If complaint is made regarding electric dryer performance and the  
+L1 to L2 voltage is ~208 VAC, dryer may be connected to a 3-phase service with reduced wattage that will decrease dryer performance.
+Electric Dryer Results Display
+The frame rate will be 0.5 seconds per frame. This sequence will 
+repeat. The text will be right aligned.
+Frame 1: L2
+Frame 2: When the voltage is available to the UI, it will display it 
+without illuminating the colon (range 0 to 200).
+Frame 3: L1
+Frame 4: When the voltage is available to the UI, it will display it 
+without illuminating the colon (range 0 to 200).
+Frame 5: Htr
+Frame 6: When the voltage is available to the UI, it will display it 
+without illuminating the colon (range 0 to 200).
+Frame 7: Air
+Frame 8: See “Airflow Display Section”.
+When the voltage or airflow is not yet available to the UI, the display 
+will show “---”.
+Gas Dryer Results Display
+The frame rate will be 0.5 seconds per frame. This sequence will 
+repeat. The text will be right aligned.
+Frame 1: Htr
+Frame 2: When the voltage is available to the UI, it will display it 
+without illuminating the colon (range 0 to 200).
+Frame 3: Air
+Frame 4: See “Airflow Display Section”.
+When the voltage or airflow is not yet available to the UI, the display 
+will show “---”.
+Airflow Display
+		 Value	
+Setting
+		
+0	
+Airflow not bad
+		
+1	
+Cannot detect
+		
+2	
+Airflow bad; check vent
+		
+3 (Default)	
+Detecting
+If the result is not yet available, it will be displayed as “---”.
+Status_Airflow = 0 will be displayed as: “0:00”. 
+Status_Airflow = 1 will be displayed as: “0:01”. 
+Status_Airflow = 2 will be displayed as: “0:02”. 
+Status_Airflow = 3 will be displayed as: “0:03”.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 9 =====
+
+PAGE 9
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+SOFTWARE VERSION DISPLAY
+NOTE: The Software Version Display mode will 
+time out after 10 minutes of user inactivity and 
+return to standby mode.
+Entry Procedure
+To enter Software Version Display, press 
+and hold the 2nd button used to activate the 
+Service Diagnostic mode for 5 seconds.  
+Upon entry, the display will automatically  
+cycle through the following information:
+•	 UI software revision code (U: major revision 
+number, U: minor revision number, U: test 
+revision number)
+•	 UI cycle GEE revision code (y: major 
+revision number, y: minor revision number, 
+y: test revision number)
+•	 UI HW GEE revision code (H: major revision 
+number, H: minor revision number, H: test 
+revision number)
+•	 UI touch control software revision code  
+(t: major revision number, t: minor revision 
+number, t: test revision number)
+•	 UI touch parameters revision code  
+(o: major revision number, o: minor revision 
+number, o: test revision number)
+•	 UI audio software revision code (A: major 
+revision number, A: minor revision number, 
+A: test revision number)
+•	 ACU software revision code (C: major 
+revision number, C: minor revision number, 
+C: test revision number)
+•	 ACU GEE revision code (h: major revision 
+number, h: minor revision number, h: test 
+revision number)
+•	 ACU cycle designer revision code (d: major 
+revision number, d: minor revision number, 
+d: test revision number)
+Exit Procedure
+Pressing the POWER button will exit Software  
+Version Display and return dryer to standby mode.
+FAULT/ERROR CODES
+Refer to customer fault/error codes below and 
+service fault/error codes on page 10.
+Fault/Error Code Display Method
+Fault codes are displayed by alternately 
+showing F# and E#. All fault codes have 
+an F# and an E#. The F# indicates the 
+suspect System/Category. The E# indicates 
+the suspect Component system.
+Up to four Fault/Error codes may be stored. 
+When the oldest fault code is displayed, 
+additional presses of the 3rd button will result 
+in a triple beep, then display of the most recent 
+fault code. If each press of the 3rd button 
+results in a triple beep and the display shows 
+“888”, no saved fault codes are present.
+Advancing Through Saved Fault/ 
+Error Codes
+Procedure for advancing through saved  
+fault codes:
+	 Press and release	 g	 beep tone	 g	 most recent fault  
+	
+the 3rd button	
+	
+	
+	
+code is displayed. 
+	 used to activate	
+	
+	
+	
+ 
+	Service Diagnostics
+	
+Repeat	
+g	 beep tone	 g	 second most  
+	
+	
+	
+	
+	
+recent fault code   
+	
+	
+	
+	
+	
+is displayed.
+	
+Repeat	
+g	 beep tone	 g	 third most  
+	
+	
+	
+	
+	
+recent fault code   
+	
+	
+	
+	
+	
+is displayed.
+	
+Repeat	
+g	 beep tone	 g	 fourth most  
+	
+	
+	
+	
+	
+recent fault code   
+	
+	
+	
+	
+	
+is displayed.
+	
+Repeat	
+g	triple beep	 g	 back to the most  
+	
+	
+	
+	
+	
+recent fault code.
+Clearing Fault Codes
+To clear stored fault codes, enter Service 
+Diagnostic mode. Then press and hold the 
+3rd button used to enter Service Diagnostic 
+mode for 5 seconds. Once the stored fault 
+codes are successfully erased, the seven 
+segment display will show “888”.
+EXITING SERVICE DIAGNOSTIC MODE
+Use either of the two methods below to exit 
+diagnostic mode.
+•	 Pressing and holding the 1st button  
+used to activate the Service Diagnostic  
+mode for 5 seconds.
+•	 Pressing the POWER button once or twice, 
+depending on diagnostic procedure.
+CODE
+DESCRIPTION
+EXPLANATION AND RECOMMENDED PROCEDURE
+PF
+Power Failure
+PF indicates that a power failure occurred while the dryer was running. 
+Press START to continue the cycle, or press POWER to clear the display.
+AF
+Restricted Airflow
+AF indicates low airflow that may affect dryer performance. Confirm that 
+airflow system is not blocked. Check lint screen, exhaust duct, exhaust fan.
+L2
+Low Line Voltage
+L2 indicates low L2 voltage (less than 30 V) is detected at the CCU. 
+• Refer to Fault/Error Code "F4E4" for recommended procedure.  
+CUSTOMER DIAGNOSTIC CODES
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 10 =====
+
+PAGE 10
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+	 CODE	
+DESCRIPTION	
+EXPLANATION AND RECOMMENDED PROCEDURE
+	 F1E1	
+Motor Relay	
+Indicates an ACU problem. 
+	
+	
+Stuck On	
+•	Replace the ACU.
+	 F1E3	
+Incorrect Controller 	
+Verify that the part numbers of the ACU and the User Interface are  
+	
+	
+Installed (on electric	
+correct for the dryer model displaying the fault/error code. Replace  
+	
+	
+models only)	
+the ACU and/or UI that does not match.
+	 F1E5	
+Parameter Memory	
+ACU parameter file missing; replace the ACU.  
+	
+	
+Invalid
+	 F2E1	
+User Interface (UI)	
+Indicates a stuck button (depressed for over 20 seconds).  
+	
+	
+Stuck Button	
+This fault code will ONLY appear when in the service diagnostic  
+	
+	
+	
+mode. See TEST #6: Buttons and Indicators, page 22.
+	 F2E4	
+UI Software Error:	
+Replace the User Interface. 
+	
+	
+Incompatible 	
+ 
+	
+	
+Parameter File	
+	 F2E5	
+UI Software Error:	
+Replace the User Interface. 
+	
+	
+Parameter Memory	
+ 
+	
+	
+Invalid	
+	 F3E1	
+Exhaust Thermistor	
+Indicates that the exhaust thermistor is open or shorted. If the  
+	
+	
+Open/Shorted	
+temperature drops below 18° F (> 50k ohms), the exhaust  
+	
+	
+	
+thermistor is open. If the temperature is above 250° F (< 500  
+	
+	
+	
+ohms), the exhaust thermistor has shorted. May occur if the  
+	
+	
+	
+P14 connector is not plugged into the ACU. See TEST #4a:  
+	
+	
+	
+Thermistors, page 18.
+	 F3E2	
+Moisture Sensor	
+Indicates the moisture sensor strip is open or shorted.  
+	
+	
+Open/Shorted	
+This fault code will only appear when in the service diagnostic  
+	
+	
+	
+mode. See TEST #5: Moisture Sensor, page 21.
+	 F3E3	
+Inlet Thermistor	
+Indicates that the inlet thermistor is open or shorted. If the  
+	
+	
+Open/Shorted	
+temperature drops below 18° F (> 245k ohms), the inlet  
+	
+	
+	
+thermistor is open. If the temperature is above 391° F (< 328  
+	
+	
+	
+ohms), the inlet thermistor has shorted. See TEST #4a:  
+	
+	
+	
+Thermistors, page 18.
+	 F4E1	
+Heater 1 Failure or	
+Indicates no voltage detected at the heater relay.  
+	
+	
+Connector Problem	
+•	Unplug dryer or disconnect power and check that the wires  
+	
+	
+	
+	 are plugged into the heater element(s) and the relay(s) on  
+	
+	
+	
+	 the ACU.
+	 F4E2	
+Heater 2 Failure or	
+Indicates no voltage detected at the heater relay.  
+	
+	
+Connector Problem	
+•	Unplug dryer or disconnect power and check that the wires  
+	
+	
+(on electric	
+	 are plugged into the heater element(s) and the relay(s) on  
+	
+	
+models only)	
+	 the ACU.
+	 F4E3	
+Restricted Airflow	
+Indicates low airflow that may affect dryer performance.  
+	
+	
+	
+•	Confirm that airflow system is not blocked; check lint screen,  
+	
+	
+	
+	 exhaust duct, exhaust fan.
+	 F4E4	
+L2 Line Voltage	
+Indicates low L2 voltage (less than 50 V) is detected at the ACU. 
+	
+	
+Error	
+•	Check to see if a household fuse has blown or a circuit breaker  
+	
+	
+(on electric	
+	 has tripped.
+	
+	
+models only)	
+•	Confirm the power cord is properly installed and plugged  
+	
+	
+	
+	 into the power outlet.
+	
+	
+	
+•	Unplug dryer or disconnect power and check the relay  
+	
+	
+	
+	 connections on the ACU.
+	
+	
+	
+•	Gas Models Only: Unplug dryer or disconnect power and check  
+	
+	
+	
+	 the P14 connection on the ACU (harness loopback on pins 4 & 5).
+F6E2	
+Communication Error:	 Communication between the ACU and UI has not been detected.  
+	
+	
+UI Cannot Hear ACU	
+•	Unplug dryer or disconnect power. 
+F6E3	
+Communication Error:	 •	Check the harness continuity and connections between the ACU  
+	
+	
+ACU Cannot Hear UI	
+	 and UI. 
+	
+	
+	
+•	Check AC and DC supplies. See TEST #1: ACU Power Check,  
+	
+	
+	
+	 page 12. 
+	
+	
+	
+•	Replace the User Interface. 
+	
+	
+	
+•	Replace the ACU.
+SERVICE FAULT/ERROR CODES
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 11 =====
+
+PAGE 11
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+TROUBLESHOOTING GUIDE
+PROBLEM
+POSSIBLE CAUSE
+CHECKS & TESTS
+No power to dryer. 
+Check power at outlet, check circuit breaker, 
+fuses, or junction box connections. 
+Connection problem between AC plug and dryer. See Test #2: Supply Connections, page 13. 
+Connection problem between ACU and UI.
+Check connections and harness continuity 
+between ACU and UI. 
+Power supplies not present at machine electronics. See Test #1: ACU Power Check, page 12. 
+User Interface problem. 
+See Test #6: Buttons & Indicators, page 22. 
+Door not fully closed or striking the door latch.
+Be sure the door is completely closed,  
+then press and hold the START button. 
+Door Switch problem. 
+See Test #7: Door Switch, page 22. 
+Drive Belt / Belt Switch problem. 
+See Test #3: Motor Circuit, page 15. 
+Thermal Fuse / Motor problem.
+See Test #3: Motor Circuit, page 15. 
+User Interface problem. 
+See Test #6: Buttons & Indicators, page 22. 
+ACU problem.
+See Test #1: ACU Power Check, page 12. 
+Poor airflow.
+Check lint screen and exhaust vent. Clean 
+if necessary. 
+Check the Start/Pause button.
+Perform Key Activation & Encoder Test. 
+Moisture Sensor problem. 
+See Test #5: Moisture Sensor, page 21. 
+Thermistor problem. 
+See Test #4a: Thermistors, page 18. 
+User Interface problem. 
+See Test #6: Buttons & Indicators, page 22. 
+ACU problem.
+See Test #1: ACU Power Check, page 12. 
+User selected invalid option. 
+Refer customer to “Use and Care Guide”.
+User Interface problem. 
+See Test #6: Buttons & Indicators, page 22. 
+Drive Belt / Belt Switch problem. 
+See Test #3: Motor Circuit, page 15. 
+Thermal Fuse (elect. only).
+See Test #4b: Thermal Fuse, page 20. 
+Door switch problem. 
+See Test #7: Door Switch, page 22. 
+Motor problem.
+See Test #3: Motor Circuit, page 15. 
+ACU problem.
+See Test #1: ACU Power Check, page 12. 
+Check installation.
+Verify proper dryer installation. 
+Check for L1 and L2.
+Perform ACU L1 and L2 tests under Service 
+Test Mode. 
+Heater system malfunction or open heater coil. 
+See Test #4: Heat System, page 16. 
+ACU problem.
+See Test #1: ACU Power Check, page 12. 
+Heater coil shorted.
+See Test #4: Heat System, page 16. 
+Heater relay shorted.
+See Test #4: Heat System, page 16. 
+Heater system problem. 
+See Test #4: Heat System, page 16. 
+Dryness or Dry Level setting for auto cycles.
+Increase Dryness or Dry Level setting  
+Lint screen full. 
+Clean if necessary. Refer customer 
+to “Use and Care Guide”.
+Heater vent clogged.
+Clean if necessary. Refer customer  
+to “Use and Care Guide”.
+Moisture Sensor problem. 
+See Test #5: Moisture Sensor, page 21. 
+Adjust Customer Focused Dryness Level.
+See Test #5a: Adjusting Customer-Focused 
+Dryness Level, page 21. 
+Steam cycle not selected.
+Refer customer to “Use and Care Guide”.
+No water to valve.
+Verify water supply is turned on.
+No water from valve.
+See Test #9: Water Valve, page 23. 
+WATER VALVE NOT DISPENSING
+(Water valve is activated intermittently 
+during the steam cycle.)
+WILL NOT HEAT
+HEATS IN AIR CYCLE
+SHUTS OFF BEFORE CLOTHES 
+ARE DRY
+DRUM WILL NOT SPIN
+CONSOLE WON’T ACCEPT 
+SELECTIONS
+WILL NOT POWER UP
+- No operation
+- No keypad response
+- No LED's or display
+WILL NOT START CYCLE
+(No response when Start button 
+is pressed.)
+WILL NOT SHUT OFF 
+WHEN EXPECTED
+for one or more auto cycles. 
+WATER LEAKING FROM DRYER
+(ON SOME MODELS)
+(Too much water being dispensed 
+during steam cycles)
+Residue buildup on water nozzle opening.
+Unscrew nozzle and clean if necessary.
+(ON SOME MODELS)
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 12 =====
+
+PAGE 12
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+TROUBLESHOOTING TESTS
+IMPORTANT: The following procedures  
+may require the use of needle probes  
+to measure voltage. Failure to use needle 
+probes will damage the connectors.
+TEST #1: ACU Power Check
+This test is used to determine if power is 
+present at the machine control electronics. 
+This test assumes that proper voltage is 
+present at the outlet.
+1.	 Unplug dryer or disconnect power.
+2.	 Check for appropriate line voltages at the 
+outlet: 240VAC (electric 2-phase), 208VAC 
+(electric 3-phase), or 120VAC (gas).
+ If line voltage is present, go to step 3.
+ If line voltage is not present, check for 
+tripped circuit breaker or blown household 
+fuse. If CB (circuit breaker) is not tripped, 
+have customer check with qualified 
+electrician.
+3.	 Remove console to access the machine 
+electronics.
+4.	 ACU VAC – With voltmeter set to AC, 
+connect black probe to ACU P8-3 (N) and  
+red probe to P9-2 (L1). (See Figure 2.)  
+Plug in dryer or reconnect power.
+ If 120VAC is present, unplug dryer or 
+disconnect power and go to step 5.
+ If 120VAC is not present, unplug dryer or 
+disconnect power and perform TEST #2: 
+Supply Connections, page 13.
+5.	 ACU +5VDC – With voltmeter set to DC,  
+unplug connector P2 from the ACU and 
+connect black probe to ACU P2-3 (ground) 
+and red probe to P2-1 (+5V DC). Plug in 
+dryer or reconnect power.
+ If +5VDC is present, unplug dryer or 
+disconnect power and go to step 8.
+ If +5VDC is not present, go to step 6.
+6.	 Unplug dryer or disconnect power. Unplug 
+P14 from the ACU. Plug in dryer or reconnect 
+power and repeat step 5.
+ If +5VDC returns, one of the thermistors 
+has shorted. To diagnose thermistors,  
+see TEST #4a, page 18.
+ If +5VDC is not present, go to step 7.
+7.	 Unplug dryer or disconnect power. 
+Reconnect P14 to the ACU and unplug P2 from 
+the ACU. Plug in dryer or reconnect power and 
+repeat step 5. Perform voltage check inside 
+header P2 on ACU, between pins 1 & 3—DO 
+NOT SHORT PINS TOGETHER.
+Figure 2 - ACU Connectors & Pinouts
+8
+3
+P2 – WIDE TO UI (+5 VDC)
+P2-1	 BLK	 +5VDC
+P2-2	 BLU	 DATA
+P2-3	 YEL	 5V GND
+P8 – WATER VALVE/DOOR SWITCH
+P8-5	 	
+OPEN
+P8-4	 TAN	 DOOR SWITCH
+P8-3	 WHT	 NEUTRAL
+P8-2	 G/Y	 CHASSIS GND
+P8-1	 RED	 WATER VALVE 
+	
+	
+(ON SOME MODELS)
+P5 – +12VDC
+P5-1
+P5-2
+P5-3	 12V GND
+P5-4
+P5-5
+P5-6
+P5-7
+P5-8	 +12VDC
+P9 – MOTOR/L1
+P9-2	
+BLK	
+L1
+P9-1	
+LT BLU	MOTOR
+P13 – MOISTURE SENSOR
+P13-2	 RED	
+MOISTURE SENSOR
+P13-1	 BLK	
+MOISTURE SENSOR
+P14 – THERMISTORS
+P14-6	 R/W	
+OUTLET THERMISTOR
+P14-5	 BLK	
+MODEL RTN (GAS MODEL)
+P14-4	 BLK	
+MODEL (GAS MODEL)
+P14-3	 R/W	
+OUTLET THERMISTOR
+P14-2	 RED	
+INLET THERMISTOR
+P14-1	 RED	
+INLET THERMISTOR
+P13
+P5-1
+P2
+P9
+P14
+P8
+K3
+K2
+K1
+Heater Relay #1 
+(Gas & Elect.)
+L1 – BLK
+Heater (E) – VLT 
+Heater (G) – RED
+Heater Relay #2 
+(Elect. Only)
+L1 – BLK
+Heater – VLT
+Motor Relay
+• = pin-1
+P5-3
+P5-8
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 13 =====
+
+PAGE 13
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+ If +5VDC is still missing, unplug dryer or 
+disconnect power and replace the ACU.
+ If +5VDC returns, unplug dryer or 
+disconnect power and check harnesses 
+and connections between the ACU and user 
+interface (UI). If acceptable, replace the UI.
+8.	 ACU +12VDC – with voltmeter set to DC, 
+connect black probe to ACU P5-3 (ground) 
+and red probe to P5-8 (+12VDC). Plug in 
+dryer or reconnect power.
+ If +12VDC is present, go to step 9.
+ If +12VDC is not present, unplug dryer  
+or disconnect power and replace the ACU.
+9.	 Unplug dryer or disconnect power.
+10.	 Reassemble all parts and panels.
+11.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+TEST #2: Supply Connections
+This test assumes that proper voltage is present 
+at the outlet, and for U.S. installations, a visual 
+inspection indicates that the power cord is 
+securely fastened to the terminal block (electric 
+dryer) or wire harness connection (gas dryer).
+ELECTRIC DRYER (U.S. Installations):
+1.	 Unplug dryer or disconnect power.
+2.	 Remove the cover plate from the top right 
+corner of the back of the dryer. See figure 3.
+3.	 With an ohmmeter, check for continuity 
+between the neutral (N) terminal of the plug 
+and the center contact on the terminal block. 
+See figure 4a.
+ If there is no continuity, replace the power 
+cord and test the dryer.
+ If there is continuity, go to step 4.
+4.	 In a similar way, check which terminal of 
+the plug is connected to the left-most contact 
+on the terminal block and make a note of 
+it. This will be L1 (black wire) in the wiring 
+diagram. See figure 4a.
+ When this is found, go to step 5.
+ If neither of the plug terminals have 
+continuity with the left-most contact of the 
+terminal block, replace the power cord and 
+retest dryer.
+5.	 Access the machine electronics without 
+disconnecting any wiring to the ACU.
+6.	 With an ohmmeter, check for continuity 
+between the L1 terminal of the plug (found  
+in step 4) and P9-2 (black wire) on the ACU.
+ If there is continuity, go to step 7.
+ If there is no continuity, check that wires to 
+the terminal block are mechanically secure. 
+If so, replace the main wire harness and 
+test the dryer.
+7.	 Check for continuity between the neutral 
+(N) terminal of the plug and P8-3 (white wire) 
+on the ACU.
+ If there is continuity, go to step 8.
+ If there is no continuity, and the mechanical 
+connections of the wire are secure, replace 
+the main wire harness.
+8.	 Visually check that ALL connectors are 
+fully inserted into the ACU.
+9.	 Visually check that ALL connectors are 
+fully inserted into the UI.
+10.	 Reassemble all parts and panels.
+11.	 Plug in dryer or reconnect power.
+12.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+ELECTRIC DRYER (Canadian Installations):
+1.	 Unplug dryer or disconnect power.
+2.	 Remove the cover plate from the top right 
+corner of the back of the dryer. See figure 3.
+3.	 Access the machine electronics without 
+disconnecting any wiring to the ACU.
+Figure 3 - Remove the cover plate.
+COM
+N
+L1
+Figure 4a - Plug-to-terminal connections  
+for electric dryer.
+Power Cord 
+Plug
+Terminal Block
+Cover Plate
+Remove  
+Screw
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 14 =====
+
+PAGE 14
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+4.	 With an ohmmeter, check the continuity 
+from L1 and N plug terminals of the power 
+cord to the terminals for L1 and N on the 
+ACU. See figure 4b.
+ If continuity exists for both connections,  
+go to step 6.
+ If an open circuit is found, check the integrity 
+of the connections of the power cord to the 
+harness in the dryer; harness to the ACU; 
+and the integrity of the power cord itself.
+5.	 If it is necessary to replace the power 
+cord, remove the retaining clip that secures 
+the cord to the back panel. Disconnect the 
+cord from the main harness and the ground 
+wire from the rear panel, then pull out the 
+power cord.
+6.	 Visually check that ALL connectors are 
+fully inserted into the ACU.
+7.	 Visually check that ALL connectors are 
+fully inserted into the UI.
+8.	 Reassemble all parts and panels.
+9.	 Plug in dryer or reconnect power.
+10.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+GAS DRYER (U.S. and Canadian Installations):
+1.	 Unplug dryer or disconnect power.
+2.	 Remove the cover plate from the top right 
+corner of the back of the dryer. See figure 3.
+3.	 Check that the power cord is firmly 
+connected to the dryer’s wire harness.  
+See figure 5.
+4.	 Access the machine electronics without 
+disconnecting any wiring to the ACU.
+5.	 With an ohmmeter, check for continuity 
+between the neutral (N) terminal of the plug and 
+P8-3 (white wire) on the ACU. The left-hand 
+side of figure 6 shows the position of the neutral 
+terminal (N) on the power cord plug. Also see 
+figure 2, page 12.
+ If there is continuity, go to step 6.
+ If there is no continuity, disconnect the 
+white wire of the main harness from the 
+power cord at the location illustrated in 
+figure 5. Test the continuity of the power 
+cord neutral wire as illustrated in figure 6.  
+If an open circuit is found, replace the 
+power cord. Otherwise, go to step 6.
+6.	 In a similar way, check for continuity 
+between the L1 terminal of the plug and P9-2 
+(black wire) on the ACU.
+ If there is continuity, go to step 7.
+ If there is no continuity, check the continuity 
+of the power cord in a similar way to that 
+illustrated in figure 6, but for power cord’s 
+L1 wire.
+ If an open circuit is found, replace the power 
+cord. Otherwise, replace the main harness.
+7.	 Visually check that ALL connectors are fully 
+inserted into the ACU.
+8.	 Visually check that ALL connectors are fully 
+inserted into the UI.
+COM
+Neu
+G
+L1
+L1
+Masse
+N
+Neu
+N
+G
+Masse
+Figure 5 - Power cord-to-wire harness  
+connection for gas dryer.
+Figure 6 - Power cord terminals, gas dryer.
+Power Cord 
+Plug
+P9
+1
+5
+1
+P/N XXXXXX   Rev X
+Date Code YDDD-xx
+XXXX-XXX
+MADE IN COO
+L1
+COM
+P8
+L1
+N Neu
+N
+Neu
+Power Cord 
+Plug
+ACU
+Figure 4b - Plug-to-terminal connections  
+for electric dryer.
+Power 
+Cord
+Wire 
+Harness
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 15 =====
+
+PAGE 15
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+9.	 Reassemble all parts and panels.
+10.	 Plug in dryer or reconnect power.
+11.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+TEST #3: Motor Circuit
+This test will check the wiring to the motor 
+and the motor itself. The following items are 
+part of this motor system:
+NOTE: Refer to strip circuit on page 24  
+to diagnose drive motor.
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the machine 
+electronics.
+3.	 Check for loose, worn, or damaged drum 
+belt—repair as necessary.
+4.	 Door Switch problems can be uncovered 
+by following procedure under TEST #7: Door 
+Switch, page 22; however, if this was not 
+done, the following can be performed without 
+applying power to the dryer. Connect an 
+ohmmeter across ACU P8-3 (neutral, white 
+wire) and P8-4 (door, tan wire).
+ With the door properly closed, the ohmmeter 
+should indicate a closed circuit (0–2 Ω).
+ If not, check harnesses and connections 
+between ACU and door switch. If good, 
+replace the door switch assembly.
+5.	 Motor Circuit Check - Access the ACU and 
+measure the resistance across P8-4 and P9-1.
+ If resistance across P8-4 and P9-1 is in 
+the range of 1 to 6 Ω, the motor circuit is 
+acceptable. Replace the ACU.
+ Otherwise, continue to step 6.
+6.	 Check the wiring and components in the path  
+between these measurement points by referring  
+to the appropriate wiring diagram (gas or electric)  
+on pages 25 or 26. NOTE: To access motor  
+system components, slide the top back and 
+remove the front panel.
+ELECTRIC DRYER ONLY: Check the thermal fuse. 
+See TEST #4b: Thermal Fuse, page 20.
+ALL DRYERS: Continue with step 7 below to test  
+the remaining components in the motor circuit.
+7.	 Check the drive motor. Slowly remove the 
+drum belt from the spring-loaded pulley, gently 
+letting the pulley down. See figure 7.
+8.	 Remove the white connector from the drive 
+motor switch. See figure 8.
+9.	 Remove the bare copper wire terminal from 
+pin 5 of black drive motor switch. See figure 9a.
+Part of Motor System
+Electric 
+Dryer
+Gas 
+Dryer
+ Drum belt
+ü
+ü
+ Door switch
+ü
+ü
+ Harness/connection
+ü
+ü
+ Thermal fuse
+ü
+no
+ Drive motor
+ü
+ü
+ Motor capacitors
+ü
+ü
+ Centrifugal switch
+ü
+ü
+ Machine control electronics
+ü
+ü
+ Belt switch
+ü
+ü
+Figure 7 - Slowly remove drum belt.
+Drum 
+Belt
+Pulley
+1
+5
+3
+4
+6
+2
+Figure 8 - Remove white connector.
+White 
+Connector
+Drive Motor Switch
+1
+5
+3
+4
+6
+2
+Main Winding: Lt. Blue Wire  
+in Back and Bare Copper Wire
+Start 
+Winding: 
+Lt. Blue Wire 
+in Back and 
+Bare Copper 
+Wire
+Figure 9a - Main and start winding measure points.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 16 =====
+
+PAGE 16
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+10.	 Using figure 9a and the strip circuit on 
+page 24, check for the resistance values of 
+the motor’s Main and Start winding coils as 
+shown in the following table.
+NOTE: Main and Start winding coils must be 
+checked at the motor.
+ If the resistance at the motor is correct, 
+there is an open circuit between the motor 
+and ACU. Go to step 11 to check for belt 
+switch problem.
+ If the Main or Start winding resistance is 
+much greater or less than the values listed 
+in the table above, replace the motor.
+11.	 Check the belt switch by measuring 
+resistance between the two light blue wires, 
+as shown in figure 9b, while pushing up the 
+pulley.
+ If the resistance reading goes from open 
+to a few ohms as pulley arm closes the 
+switch, belt switch is good. If not, replace 
+the belt switch.
+ If belt switch is good and there is still an 
+open circuit, check and repair the main 
+wiring harness.
+12.	 If the motor has two capacitors attached 
+as shown in figure 9c, perform the following. 
+Otherwise, skip to step 13. Remove and 
+check motor capacitors: each capacitor can 
+be removed by disconnecting the capacitor 
+connector and removing the nut on the 
+capacitor end (see figure 9c). The capacitor 
+connectors are keyed to facilitate correct 
+connection, and are black on black for the 
+Winding
+Resistance
+in ohms
+Contact Points
+of Measurement
+MAIN
+3.3–3.6
+Lt. blue wire in back at pin 4 
+and bare copper wire terminal 
+removed from pin 5 of black 
+drive motor switch
+START
+2.7–3.0
+Lt. blue wire in back at pin 4 
+and bare copper wire terminal 
+on pin 3 of black drive 
+motor switch
+run capacitor and light green and gray for the 
+start capacitor. Contact both leads to check 
+inductance of capacitors. Start capacitor 
+inductance should be 189–227 µF; run 
+capacitor inductance should be 22.3–24.7  
+µF. Proper torque is 9–12 Nm for each.
+13.	 Reassemble all parts and panels.
+14.	 Plug in dryer or reconnect power.
+15.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+TEST #4: Heat System
+This test is performed when either of the 
+following situations occurs:
+3 Dryer does not heat
+3 Heat will not shut off
+This test checks the components making up 
+the heating circuit. The following items are 
+part of this system:
+Part of Heating System
+Electric 
+Dryer
+Gas 
+Dryer
+Harness/connection
+
+
+Heater relay
+
+
+Thermal cut-off
+
+
+Thermal fuse
+no
+
+High limit thermostat
+
+
+Heat element assembly
+
+no
+Gas valve assembly
+no
+
+Centrifugal switch
+
+
+Outlet thermistor
+
+
+Inlet thermistor
+
+
+Machine control electronics
+
+
+Console electronics and housing 
+assembly
+
+
+Gas supply
+no
+
+Figure 9c - Motor capacitors.
+1
+5
+3
+4
+6
+2
+Figure 9b - Checking the belt switch.
+Pulley
+Belt Switch
+Lt. Blue 
+Wires
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 17 =====
+
+PAGE 17
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+NOTE: On the gas dryer, the inlet thermistor 
+is located at the drum inlet vent. Refer to strip 
+circuit on page 24 to diagnose heater system.
+Dryer does not heat:
+Locate the components using figures 10a  
+and 10b. To access heater system components, 
+remove the console, top panel, and front panel.
+ELECTRIC DRYER ONLY:
+3 Quick Check: Perform steps under “Service 
+Test Mode”, page 6, to test for L1 and L2 
+line voltage.
+•	 If L1 is present, the thermal cutoff is 
+functional.
+•	 If L2 is present, the centrifugal switch, high 
+limit thermostat, and the side of the heater 
+connected to heater relay 1 are functional.
+1.	 Unplug dryer or disconnect power.
+2.	 Slide the top back, remove the front panel, 
+front bulkhead, and drum to access thermal 
+components.
+3.	 Check Heaters—on the ACU, use an 
+ohmmeter to measure the resistance between 
+the violet wire terminal on heater relay #1  
+and the violet wire terminal on heater relay #2.
+ If the resistance is ≤ 50 Ω, go to step 5.
+ If an open circuit is detected, go to step 4.
+Figure 10b - Thermal components, 
+gas dryer, viewed from front.
+Outlet 
+Thermistor
+Thermal Fuse
+Gas Dryer
+Thermal 
+Cut-Off
+High Limit Thermostat
+Flame 
+Sensor
+4.	 Visually check the wire connections between 
+each relay and their respective heaters. If the 
+connections look good, check for continuity 
+across each heater (violet wire to center red 
+wire). Refer to strip circuit on page 24.
+ Replace the heater if it is electrically open.
+5.	 Check Thermal Cut-off—on the ACU, use 
+an ohmmeter to measure continuity between 
+P9-2 (L1) and the black wire terminal on heater  
+relay #1. Then, measure continuity between P9-2  
+(L1) and the black terminal on heater relay #2.
+ If there is continuity, go to step 7.
+ If an open circuit is detected, go to step 6.
+6.	 Visually check the wire connections 
+between each relay (black wire) and the 
+thermal cut-off. If the connections look good, 
+check for continuity across the thermal cut-off.
+ Replace the thermal cut-off if it is 
+electrically open.
+7.	 Check High Limit Thermostat—visually 
+check the wire connections from the heaters 
+and centrifugal switch to the high limit 
+thermostat. If the connections look good, check 
+for continuity across the high limit thermostat.
+ Replace the high limit thermostat if it is 
+electrically open.
+Figure 10a - Thermal components, 
+electric dryer, viewed from front.
+Inlet Thermistor/High Limit 
+Thermostat Assembly
+Heater 
+Element
+Electric Dryer
+Thermal Fuse
+Outlet 
+Thermistor
+Thermal 
+Cut-Off
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 18 =====
+
+PAGE 18
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+8.	 If no open circuit is detected, remove the 
+P14 connector from the ACU and measure the 
+outlet thermistor resistance between P14-3 
+and P14-6 at the connector. Refer to “Outlet 
+Thermistor Resistance” table on page 19 for 
+temperatures and their associated values.
+ If the resistance corresponds to the 
+temperature, the outlet thermistor is good. 
+Go to step 9.
+ If the thermistor resistance does not agree 
+with the table, replace the outlet thermistor.
+9.	 If the preceding steps did not correct the 
+problem and L1 and L2 were both detected, 
+replace the ACU. If L2 was not detected, 
+suspect the centrifugal switch before 
+replacing the ACU.
+10.	 Reassemble all parts and panels.
+11.	 Plug in dryer or reconnect power.
+12.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+GAS DRYER ONLY:
+1.	 Verify the gas supply to the dryer is turned on.
+2.	 Unplug dryer or disconnect power.
+3.	 Perform TEST #4b: Thermal Fuse on page 
+20. If the thermal fuse is OK, go to step 4.
+4.	 Perform TEST #4c: Thermal Cut-Off on 
+page 20. If the thermal cut-off is OK, go to 
+step 5.
+5.	 Locate the high limit thermostat (see 
+figure 10b, page 17). Measure the continuity 
+through it by connecting the meter probes to 
+the red and black wire terminals.
+ If there is an open circuit, replace both the  
+high limit thermostat and the thermal cut-off.
+ Otherwise, go to step 6.
+6.	 Perform TEST #4d: Gas Valve on page 
+20. If the gas valve is OK, go to step 7.
+7.	 If the preceding steps did not correct 
+the problem, suspect the centrifugal switch 
+before replacing the ACU.
+8.	 Reassemble all parts and panels.
+9.	 Plug in dryer or reconnect power.
+10.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+Heat will not shut off:
+ALL DRYERS:
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the machine 
+electronics.
+3.	 Remove connector P14 from the ACU 
+and measure the resistance between P14-3 
+and P14-6 at the connector. Refer to “Outlet 
+Thermistor Resistance” table on page 19 for 
+temperatures and their associated values.
+ If the resistance corresponds to the 
+temperature, the outlet thermistor is good.
+ If the thermistor resistance does not agree 
+with the table, replace the outlet thermistor.
+4.	 Check heater coil(s) for a short to ground 
+(usually inside the heater box). Repair or 
+replace if necessary.
+5.	 Plug in dryer or reconnect power.
+6.	 Run an “AIR” only timed dry cycle (no 
+heat). Check heater relay output(s) on ACU. 
+Unplug dryer or disconnect power. With a 
+voltmeter set to AC, connect voltmeter to 
+terminals 1 & 2 for heater relay #1. Plug 
+in dryer or reconnect power. Measure the 
+voltage across terminals 1 & 2 for heater 
+relay #1. If equipped, repeat procedure  
+with heater relay #2.
+ If voltage is present (~240VAC for electric, 
+~120VAC for gas), the relay is open and 
+working normally.
+ If little or no voltage is present, the relay is 
+closed and heater is activated. Unplug dryer 
+or disconnect power and replace the ACU.
+7.	 Unplug dryer or disconnect power.
+8.	 Reassemble all parts and panels.
+9.	 Plug in dryer or reconnect power.
+10.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+TEST #4a: Thermistors
+NOTE: Refer to strip circuit on page 24 
+to diagnose outlet and inlet temperature 
+thermistors.
+Outlet (Exhaust) Thermistor
+The ACU monitors the exhaust temperature 
+using the outlet thermistor, and cycles the 
+heater relay on and off to maintain the desired 
+temperature. NOTE: Begin with an empty dryer 
+and a clean lint screen.
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the machine 
+electronics.
+3.	 Remove connector P14 from the ACU 
+and measure the resistance between P14-3 
+and P14-6 at the connector. The following 
+table on page 19 gives temperatures and their 
+associated resistance values.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 19 =====
+
+PAGE 19
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+NOTE: All thermistor resistance measurements  
+must be made while dryer is unplugged and 
+connector removed from ACU.
+ If the resistance is OK, the outlet thermistor 
+is good. Proceed to step 4.
+ If the thermistor resistance does not agree 
+with the table, replace the outlet thermistor.
+4.	 Check P14-3 and P14-6 to dryer cabinet 
+ground. If either pin indicates continuity 
+to ground (short), replace wiring harness; 
+otherwise, proceed to step 5.
+5.	 If the preceding steps did not correct the 
+problem, replace the ACU.
+Temperature Levels Incorrect – If no error code 
+is displayed and the connections to the thermistor 
+are good, check the exhaust temperature value 
+at any or all of the temperature levels in question, 
+using the Timed Dry cycle.
+IMPORTANT: Be sure EcoBoost or Energy Saver 
+(if available) is turned OFF before testing.
+1.	 Remove load from dryer and disconnect 
+external vent.
+2.	 Plug in dryer or reconnect power.
+3.	 Run a TIMED DRY cycle (Mixed + Timed  
+Dry on Whirlpool models) of at least 2 minutes  
+in duration and select a temperature setting  
+using heat.
+4.	 Using a calibrated temperature probe,  
+take a temperature measurement in the center 
+of the exhaust outlet. The correct exhaust 
+temperatures are as follows:
+ If the temperature is not reached within 
+~7 minutes, check voltage level and vent 
+blockage, and then retest.
+ If the temperature probe does not agree 
+with temperature setting, replace the outlet 
+thermistor.
+TEMP.
+°F (°C)
+RES. 
+RANGE
+k ohms
+TEMP.
+°F (°C)
+RES. 
+RANGE
+k ohms
+50° (10°)
+19.0–22.0
+80° (27°)
+8.5–10.5
+60° (16°)
+14.8–16.8
+90° (32°)
+6.8–8.8
+70° (21°)
+11.5–13.5
+100° (38°)
+5.0–7.0
+OUTLET THERMISTOR RESISTANCE
+TEMPERATURE
+SETTING
+HEAT TURNS OFF*
+°F (°C)
+HEAT TURNS ON
+°F (°C)
+155° ± 5°  (68° ± 3°)
+140° ± 5°  (60° ± 3°)
+125° ± 5°  (52° ± 3°)
+105° ± 5°  (41° ± 3°)
+EXHAUST TEMPERATURES
+10–15° (6–8°)
+below the
+heat turn off
+temperature
+(appearance may vary)
+ If the temperature probe confirms the 
+temperature setting, retest at a different 
+temperature setting.
+5.	 If the preceding steps did not correct the 
+problem, replace the ACU.
+Inlet Thermistor
+NOTE: On the electric dryer, the inlet thermistor 
+is part of the high thermostat assembly 
+(see figure 10a). On the gas dryer, the inlet 
+thermistor is located at the drum inlet duct  
+(see figure 16, page 27).
+The ACU monitors the inlet temperature using 
+the inlet thermistor. The inlet thermistor (along 
+with the outlet thermistor) is used to detect air 
+flow, and assists in calculating load size.
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the machine 
+electronics.
+3.	 Remove connector P14 from the ACU and 
+measure the resistance between P14-1 and 
+P14-2 at the connector. The following tables 
+(electric & gas) give temperatures and their 
+associated resistance values.
+NOTE: All thermistor resistance measurements 
+must be made while dryer is unplugged and 
+connector removed from ACU.
+ If the resistance is OK, the inlet thermistor 
+is good. Proceed to step 4.
+ If the thermistor resistance does not agree 
+with the table, replace the inlet thermistor.
+TEMP.
+°F (°C)
+RES. 
+RANGE
+k ohms
+TEMP.
+°F (°C)
+RES. 
+RANGE
+k ohms
+68°  (20°)
+61.2–63.7
+131°  (55°)
+14.5–15.3
+77°  (25°)
+49.0–51.0
+140°  (60°)
+12.1–12.8
+86°  (30°)
+39.5–41.1
+149°  (65°)
+10.2–10.7
+95°  (35°)
+32.0–33.3
+158°  (70°)
+8.5–9.0
+104°  (40°)
+26.1–27.2
+167°  (75°)
+7.2–7.6
+113°  (45°)
+21.4–22.3
+176°  (80°)
+6.1–6.5
+122°  (50°)
+17.6–18.5
+ELECT - INLET THERMISTOR RESISTANCE
+TEMP.
+°F (°C)
+RES. 
+RANGE
+k ohms
+TEMP.
+°F (°C)
+RES. 
+RANGE
+k ohms
+68°  (20°)
+57.5–67.6
+131°  (55°)
+14.1–15.6
+77°  (25°)
+46.1–53.8
+140°  (60°)
+11.8–12.9
+86°  (30°)
+37.4–43.1
+149°  (65°)
+9.9–10.8
+95°  (35°)
+30.4–34.7
+158°  (70°)
+8.4–9.0
+104°  (40°)
+24.9–28.2
+167°  (75°)
+7.1–7.6
+113°  (45°)
+20.5–23.0
+176°  (80°)
+6.0–6.4
+122°  (50°)
+16.9–18.9
+GAS - INLET THERMISTOR RESISTANCE
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 20 =====
+
+PAGE 20
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+4.	 Check P14-1 and P14-2 to dryer cabinet 
+ground. If either pin indicates continuity 
+to ground (short), replace wiring harness; 
+otherwise, proceed to step 5.
+5.	 If the preceding steps did not correct the 
+problem, replace the ACU.
+TEST #4b: Thermal Fuse
+ELECTRIC DRYER: The thermal fuse is wired 
+in series with the dryer drive motor.
+GAS DRYER: The thermal fuse is wired  
+in series with the dryer gas valve.
+ALL DRYERS:
+1.	 Unplug dryer or disconnect power.
+2.	 Slide the top back, remove the front panel, 
+front bulkhead, and drum to access the 
+thermal fuse.
+3.	 Using an ohmmeter, check the continuity 
+across the thermal fuse.
+ If the ohmmeter indicates an open circuit, 
+replace the thermal fuse.
+TEST #4c: Thermal Cut-Off
+If the dryer does not produce heat, check the 
+status of the thermal cut-off.
+1.	 Unplug dryer or disconnect power.
+2.	 Access the thermal cut-off by removing 
+console, top panel, front panel, front 
+bulkhead, and drum.
+3.	 Using an ohmmeter, check the continuity 
+across the thermal cut-off. See figures 10a 
+and 10b, page 17, for location.
+4.	 If the ohmmeter indicates an open circuit, 
+perform the following:
+ALL DRYERS: Replace both the thermal 
+cut-off and high limit thermostat. In addition, 
+check for blocked or improper exhaust 
+system, and, on electric dryers, for heat 
+element malfunction.
+TEST #4d: Gas Valve (Gas Dryer)
+1.	 Unplug dryer or disconnect power.
+2.	 Access the gas valve by sliding the top 
+back and removing the front panel, front 
+bulkhead, and drum.
+3.	 Use an ohmmeter to determine if a 
+gas valve coil has malfunctioned. Remove 
+harness plugs. Measure resistance across  
+the terminals (see figure 11). Readings should 
+match those shown in the following chart;  
+if not, replace coils.
+4.	 Disconnect the ignitor plug from the 
+burner. Using an ohmmeter, measure 
+the resistance across the ignitor’s 2-pin 
+connector. Resistance should be 50-500 Ω.
+ If resistance readings are outside the range 
+or open, replace the ignitor.
+ If resistance readings are within range, 
+reconnect the ignitor plug and continue  
+to step 5.
+5.	 Disconnect the wires going to the flame  
+sensor terminals. Using an ohmmeter, measure 
+across the two sensor terminals for continuity.
+ If there is continuity, reconnect the sensor 
+wires and continue to step 6.
+ If the reading is open, the flame sensor 
+needs replacing.
+6.	 Reassemble all parts and panels before 
+reconnecting power.
+7.	 Plug in dryer or reconnect power.
+8.	 Run a high-temp TIMED DRY cycle  
+(mixed/timed dry on Whirlpool) of at least 2 
+minutes in duration.
+9.	 Watch the ignitor for a couple of minutes 
+through the “peek window” in the side. If the 
+ignitor stays red hot and the gas does not come 
+out and ignite, the flame sensor needs replacing.
+NOTE: If ignitor does not come on, line voltage 
+may not be present at the gas burner. The motor 
+centrifugal switch may be suspect.
+Black
+Light Blue
+White
+Figure 11 - Measuring gas valve resistance.
+Terminals
+Resistance
+in ohms
+1 to 2
+1400 ± 70
+1 to 3
+570 ± 28.5
+4 to 5
+1300 ± 65
+GAS VALVE RESISTANCE
+White
+Light Blue
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 21 =====
+
+PAGE 21
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+IMPORTANT: To avoid damage to the gas burner 
+wire harness, ensure the harness is routed 
+exactly as it was prior to service.
+10.	Unplug dryer or disconnect power.
+11.	 Reassemble all parts and panels.
+12.	 Plug in dryer or reconnect power.
+13.	 Perform steps under “Service Test Mode”, 
+page 6, to verify repair.
+TEST #5: Moisture Sensor
+This test is performed when an automatic 
+cycle stops too soon, or runs much longer 
+than expected.
+NOTE: Dryer will shut down automatically  
+after 2½ hours.
+The following items are part of this system:
+NOTE: Refer to strip circuit on page 24  
+to diagnose moisture sensor.
+NOTE: Overdrying may be caused by a short 
+circuit in the sensor system.
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the machine 
+electronics.
+3.	 Access the moisture sensor wires by 
+sliding the top panel back and removing 
+the front panel. Disconnect the 3-wire 
+moisture sensor connector located below the 
+door opening between the front panel and 
+bulkhead.
+4.	 Access the ACU and remove connector 
+P13 from the circuit board. Check the wire 
+harness for continuity between P13 and the 
+moisture sensor connector.
+ If there is continuity, go to step 5.
+ If there is no continuity, replace the main 
+harness.
+Part of Moisture System
+Electric 
+Dryer
+Gas 
+Dryer
+Harness/connection
+
+
+Metal sensor strips
+
+
+Machine control electronics
+
+
+5.	 Measure the resistance across the 
+outermost contacts of the connector that 
+includes the two MOVs.
+ If a small resistance is measured, clean the 
+two metal moisture strips inside the drum. 
+If a small resistance is measured after 
+cleaning, replace the sensor harness.
+ If a small resistance is not measured,  
+go to step 6.
+6.	 Measure the resistance across each of the 
+outermost contacts and the center terminal 
+(ground connection).
+ If a resistance less than infinity is 
+measured, replace the sensor harness.
+7.	 If the moisture sensor diagnostic test 
+passes, check the outlet thermistor: TEST 
+#4a, page 18.
+ If the problem persists after replacing the 
+moisture sensor and thermistor, consider 
+adjusting the dryness level (see TEST #5a:  
+Adjusting Customer-Focused Dryness Level).
+8.	 If the preceding steps did not correct the 
+problem, replace the ACU.
+TEST #5a: Adjusting Customer- 
+Focused Dryness Level
+NOTE: If the customer complains about 
+the clothes being less dry or more dry than 
+desired and the moisture sensor passes TEST 
+#5: Moisture Sensor, the total dry time can 
+be lengthened or shortened by changing the 
+Customer-Focused Dryness Level from “2” 
+(standard auto cycle) to a “3” (15% more drying 
+time), “4” (30% more drying time), “1” (15% 
+less drying time), or “0” (30% less drying time) 
+auto cycle.
+1.	 In standby mode (dryer plugged in but not 
+powered up), press and hold the DRYNESS 
+or DRY LEVEL button for approximately 3 
+seconds. 
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 22 =====
+
+PAGE 22
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+The dryer will beep and the current dryness 
+setting will be displayed on the 7-segment 
+display. The factory default value is “2”.
+2.	 Pressing the dryness or dry level button 
+cycles the dryness setting between 0, 1, 2, 3, 
+and 4, starting at the current setting. The new 
+setting is displayed in the 7-segment display.
+3.	 With the display showing the desired dryness  
+setting, press the START button to save the  
+drying mode and exit to standby mode (the  
+START button in this mode does not start a drying 
+cycle). The result will be stored in EEPROM of  
+the ACU and will be retained after a power loss.
+NOTE: If there is no user activity for 20 seconds, 
+or a button other than START, DRYNESS, or 
+DRY LEVEL is pressed, the dryness setting is 
+reverted back to its previous setting.
+4.	 Press the POWER button at any time  
+to cancel changes and exit from this mode.
+TEST #6: Buttons and Indicators
+This test is performed when any of the following 
+situations occurs during the “Key Activation & 
+Encoder Test” (see page 6).
+3 None of the indicators or display turn on
+3 Some buttons do not light
+3 No beep sound is heard
+None of the indicators or display turn on:
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the ACU and 
+user interface (UI).
+3.	 Visually check that ALL ACU connectors 
+are inserted all the way into the ACU.
+4.	 Visually check that ALL UI connectors  
+are inserted all the way into the UI.
+5.	 If all visual checks pass, perform TEST 
+#1: ACU Power Check, page 12, to verify 
+supply voltages.
+ If supply voltages are present, replace  
+the user interface and housing assembly.
+ If supply voltages are not present, replace 
+the ACU.
+6.	 Reassemble all parts and panels.
+7.	 Plug in dryer or reconnect power.
+8.	 Perform the “Key Activation & Encoder 
+Test” (see page 6) to verify repair.
+Some buttons do not light:
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the ACU and 
+user interface (UI).
+3.	 Replace the UI and housing assembly.
+4.	 Reassemble all parts and panels.
+5.	 Plug in dryer or reconnect power.
+6.	 Perform the “Key Activation & Encoder 
+Test” (see page 6) to verify repair.
+No beep sound is heard:
+1.	 Verify that the “End Beep”, “Audio Level”, 
+or “Cycle Signal” volume is turned on. Press 
+the END BEEP, AUDIO LEVEL, or CYCLE 
+SIGNAL button to adjust the volume level.
+2.	 Unplug dryer or disconnect power.
+3.	 Remove console to access the ACU  
+and user interface (UI).
+4.	 Visually check that ALL ACU connectors 
+are inserted all the way into the ACU.
+5.	 Visually check that ALL UI connectors  
+are inserted all the way into the UI.
+6.	 If all visual checks pass, replace the  
+UI and housing assembly.
+7.	 Reassemble all parts and panels.
+8.	 Plug in dryer or reconnect power.
+9.	 Perform the “Key Activation & Encoder 
+Test” (see page 6) to verify repair.
+TEST #7: Door Switch
+Functionality is verified when opening the 
+door turns on the drum light. Closing the door 
+should turn off the drum light.
+If the preceding conditions are not met:
+1.	 Unplug dryer or disconnect power.
+2.	 Remove console to access the machine 
+electronics.
+3.	 Check that the wires between the door 
+switch and ACU are connected. (Refer to 
+wiring diagrams on pages 25 and 26.)
+ If the connections are good, replace the 
+wire and door switch assembly and retest.
+ If wire and door switch assembly have 
+been replaced and dryer still does not start, 
+replace the ACU.
+4.	 Reassemble all parts and panels.
+5.	 Plug in dryer or reconnect power.
+6.	 Verify that the dryer will start with the door 
+closed, and that it stops when the door opens.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 23 =====
+
+PAGE 23
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+TEST #8: Drum LED
+This test is performed if the drum LED does  
+not light.
+1.	 Unplug dryer or disconnect power.
+2.	 Remove the console to access ACU  
+and user interface (UI).
+3.	 Verify that the drum LED connector J20  
+(see wiring diagrams, pages 25 and 26)  
+is securely connected to the UI.
+4.	 Check harness and inline connections 
+between the drum LED and UI.
+ If the harness and connections are good, 
+go to step 5.
+ If not, repair or replace as needed.
+5.	 Unplug the drum LED connector J20  
+(see wiring diagrams, pages 25 and 26)  
+from the UI.
+6.	 With a multimeter set to milliamps, connect 
+multimeter to UI connector J20, pins 1 and 
+3. Plug in dryer or reconnect power. Open 
+the door. Measure the current across UI 
+connector J20, pins 1 and 3. If the drum LED 
+driver is working properly, there should be a 
+measurement of 150 mA.
+ If the current is present, unplug dryer or  
+disconnect power and replace the drum LED.
+ If the current is not present, unplug dryer  
+or disconnect power and replace the UI.
+7.	 Reassemble all parts and panels.
+TEST #9: Water Valve  
+(on some models)
+Activate Service Test Mode (see page 6).  
+Skip to Step 8 in Service Test Mode Chart (see 
+page 8). Verify that water is being sprayed into 
+the drum. See figure 12.
+NOTE: Refer to strip circuit on page 24 to 
+diagnose water valve.
+If water leaks from the dryer/too much water 
+being sprayed into the drum:
+1.	 Inside the drum, unscrew the water nozzle.
+2.	 Inspect nozzle opening for residue buildup; 
+clean and replace it.
+If no water is sprayed in the drum:
+1.	 Verify that water is connected and turned on.
+2.	 Unplug dryer or disconnect power.
+3.	 Remove console to access the machine 
+electronics.
+4.	 Verify that the red wire coming from the 
+water valve is connected to the ACU, P8-1. 
+Refer to wiring diagrams on pages 25 and 26.
+5.	 Check Water Valve & Harness—using an  
+ohmmeter, measure the resistance between  
+the ACU P8-1 (red wire) and P9-2 (black wire).
+ If the resistance is 1300 Ω (±5%), go to 
+step 6; if not, replace the water valve.
+ If an open circuit is detected, go to step 7.
+6.	 Inside the drum, unscrew and replace the 
+water nozzle using a 7/16" wrench or socket. 
+Retest water valve.
+ If water does not dispense, go to step 7.
+7.	 Access the water valve by removing the  
+back panel.
+ Check that the hose and wires are connected 
+to the water valve assembly (see figure 12).
+ Check that the water valve assembly hose 
+is connected to the nozzle.
+8.	 If everything is connected and the water 
+still does not dispense:
+ Unplug dryer or disconnect power.
+ Replace the valve assembly and retest.
+9.	 If the preceding steps did not correct  
+the problem, replace the ACU.
+Water Valve Assembly
+Figure 12 - Water System Components.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 24 =====
+
+PAGE 24
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+STRIP CIRCUITS
+MOTOR CIRCUIT
+HEATER (ELECTRIC)
+HEATER (GAS)
+THERMISTORS (INLET/OUTLET)
+MOISTURE SENSOR
+WATER VALVE CIRCUIT
+L1
+BK
+P9-1
+K1
+MOTOR RELAY
+ACU
+LBU
+(ELECT. ONLY)
+THERMAL
+FUSE
+LBU
+4M
+DRIVE MOTOR
+1/3 HP
+MAIN
+START
+2.7-3.0 Ω
+3.3-3.6 Ω
+5M
+3M
+6M
+2M
+1M
+See Heater Circuit
+LBU
+BU
+N.O.
+DOOR
+SWITCH
+W
+N
+P9-2
+CENTRIFUGAL
+SWITCH
+BELT
+SWITCH
+RUN CAP.
+23.5 uF
+START CAP.
+189 uF
+L1
+ACU
+BK
+HEATER RELAY 1
+K2
+K3
+HEATER RELAY 2
+N.O.
+N.O.
+COM1
+COM2
+BK
+V
+V
+HEATER 1
+HEATER 2
+19.6 Ω
+R
+R-W
+N.C.
+HIGH LIMIT
+THERMOSTAT
+CENTRIFUGAL SWITCH
+See
+Motor
+Circuit
+1M
+2M
+3M
+5M
+6M
+R
+L2
+THERMAL
+CUT-OFF
+19.6 Ω
+L1
+ACU
+BK
+K2
+HEATER RELAY 1
+N.O.
+50-500 Ω
+HIGH LIMIT
+THERMOSTAT
+CENTRIFUGAL SWITCH
+1M
+2M
+3M
+5M
+6M
+N
+COM
+R
+N.C.
+BK
+THERMAL
+CUT-OFF
+R-W
+BU
+THERMAL
+FUSE
+MOV
+BK
+LBU
+FS1
+FS2
+4
+5
+1
+3
+2
+1V
+IG
+IGR
+HEATER GAS VALVE
+1400 ± 70 Ω 570 ± 28.5 Ω
+1300 ± 65 Ω
+W
+W
+W
+FLAME
+SENSOR
+VALVE 1
+VALVE 2
+IGNITOR
+R
+R
+LBU
+See
+Motor
+Circuit
+BU
+W
+DOOR
+SWITCH
+ACU
+P14-2
+50K Ω
+R
+P14-3
+R-W
+R
+R-W
+10K Ω
+INLET TEMP THERMISTOR
+OUTLET TEMP THERMISTOR
+P14-1
+P14-6
+INLET THERMISTOR
+OUTLET THERMISTOR
+ACU
+INLET THERMISTOR RTN
+OUTLET THERMISTOR RTN
+ACU
+P13-1
+BK
+MOISTURE SENSOR
+ACU
+MOISTURE SENSOR RTN
+MOISTURE SENSOR
+P13-2
+P8-2
+CHASSIS GND
+Y-R
+MOV
+MOV
+BK
+R
+G-Y
+G-Y
+G-Y
+CHASSIS GND
+L1
+N
+WATER VALVE
+P8-1
+K4
+VALVE RELAY
+510-590 Ω
+BK
+R
+ACU
+P8-3
+W
+Figure 13 - Strip circuits.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 25 =====
+
+PAGE 25
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+IMPORTANT: Electrostatic discharge may cause damage to machine control electronics. See page 1 for ESD information. 
+ELECTRIC DRYER WIRING DIAGRAM
+Figure 14 - Wiring Diagram, Electric
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 26 =====
+
+PAGE 26
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+IMPORTANT: Electrostatic discharge may cause damage to machine control electronics. See page 1 for ESD information. 
+GAS DRYER WIRING DIAGRAM
+Figure 15 - Wiring Diagram, Gas
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 27 =====
+
+PAGE 27
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+1M 2M 3M
+5M 6M
+=
+Contacts
+Function
+Start
+Run
+Contacts closed
+Black
+Light Blue
+Light Blue
+White
+White
+Centrifugal Switch (Motor)
+Gas Valve, Gas Dryer
+Pluggable Drive Motor Switch
+COMPONENT LOCATIONS
+• ACU (beneath console) 
+• User Interface (UI) 
+• Inlet Thermistor (Gas)
+• Water Nozzle 
+• Water Valve 
+• Thermal Cut-off 
+• Inlet Thermistor (Electric) 
+• High Limit Thermostat 
+• Heater Assembly
+Drum Light 
+Assembly
+Door Switch 
+(Location may vary 
+between models)
+• Motor Assembly 
+• Thermal Fuse 
+• Outlet Thermistor 
+• Moisture Sensor Strips
+Figure 16 - Component locations.
+NOTE: Refer to Figure 10b, page 17,  
+for gas dryer component locations.
+Red
+Lt. Blue
+White
+Green-Yellow
+Red-White (Electric)
+Red (Gas)
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 28 =====
+
+PAGE 28
+FOR SERVICE TECHNICIAN’S USE ONLY
+DO NOT REMOVE OR DESTROY
+Notes
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 29 =====
+
+PAGE 29
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+IMPORTANTE NOTE DE SÉCURITÉ — “Pour les techniciens uniquement”
+Cette fiche de données de service est conçue pour être utilisée par des personnes ayant une 
+expérience en électricité, en électronique et en mécanique d’un niveau généralement considéré 
+comme acceptable dans le secteur de la réparation d’appareils électriques. Toute tentative de 
+réparation d’un appareil important peut causer des blessures corporelles et des dégâts matériels. 
+Le fabricant ou le vendeur ne peut être tenu pour responsable et ne prend aucune responsabilité 
+quant aux blessures ou aux dégâts matériels causés par l’utilisation de cette fiche de données.
+Tableaus de commande Whirlpool,  
+Maytag et Kenmore...........................................30–32
+Guide de diagnostic..................................................33
+Activation de mode de diagnostic de service............33
+Test d’activation des boutons et encodeurs..................34
+Mode de test de service............................................34
+Tableau de mode de test de service....................35–37
+Mode d’affichage de la version logicielle...................37
+Table des matières
+Codes d’anomalie/d’erreur..................................38, 39
+Guide de dépannage........................................... 40
+Tests de dépannage...................................... 41–53
+Schémas des circuits......................................... 54
+Schémas de câblage..................................... 55, 56
+Positions des composants.................................. 57
+Informations de sécurité concernant la mesure de la tension
+La mesure de la tension doit être effectuée de la manière suivante :
+	 Vérifier que les commandes sont à la position OFF (Arrêt) pour que l’appareil ne démarre pas 
+lorsqu’il est mis sous tension. 
+	 Laisser suffisamment d’espace pour pouvoir faire les mesures de tension sans qu’il y ait d’obstacle.
+	 Éloigner toutes les autres personnes présentes suffisamment loin de l’appareil pour éviter les risques 
+de blessure.
+	 Toujours utiliser l’équipement de test approprié.
+	 Après les mesures de tension, toujours déconnecter la source de courant électrique avant de procéder au service.
+IMPORTANT : Circuits électroniques sensibles aux décharges électrostatiques
+Les problèmes d’ESD sont présents partout. La plupart des gens commencent à sentir 
+une décharge ESD à environ 3000V. Il suffit de 10V pour détruire, endommager ou affaiblir 
+l’assemblage de la commande principale. Le nouvel assemblage peut sembler bien 
+fonctionner après la fin de la réparation, mais il peut très bien mal fonctionner par la suite  
+à cause de contraintes dues au phénomène ESD.
+	 Utiliser un bracelet de décharge électrostatique. Connecter le bracelet à la vis verte de 
+liaison à la terre ou sur une surface métallique non peinte de l’appareil
+	
+	
+	
+	
+	
+-OU- 
+	
+Toucher plusieurs fois du doigt la vis verte de liaison à la terre ou une surface métallique 
+non peinte de l’appareil.
+	 Avant de retirer la pièce de son sachet, placer le sachet antistatique en contact avec la vis 
+verte de liaison à la terre ou une surface métallique non peinte de l’appareil.
+	 Éviter de toucher les composants électroniques ou les broches de contact; tenir les 
+circuits électroniques de la machine par les bords seulement lors des manipulations.
+	 Pour réemballer l’assemblage de la commande principale dans le sachet antistatique, 
+appliquer les instructions ci-dessus.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 30 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 30
+NE PAS ENLEVER NI DÉTRUIRE
+TABLEAU DE COMMANDE WHIRLPOOL (les caractéristiques et l’aspect peuvent varier entre les modèles)
+Bouton POWER (mise sous tension) : 
+appuyer une fois pour éteindre le témoin. 
+Appuyer deux fois pour quitter le mode  
+de diagnostic de service et revenir  
+au mode d’attente.
+Bouton START/PAUSE (mise en 
+marche/pause) : appuyer une 
+fois pour éteindre le témoin.
+Boutons d’option : appuyer 
+sur chaque bouton une fois 
+pour éteindre sa témoin.
+Figure 1a - Test d’activation des boutons et encodeurs, mode de diagnostic de service, modèles Whirlpool
+Appuyer sur chaque bouton 
+de modification une fois pour 
+éteindre sa segment  
+de l’affichage.
+Bouton Timed Dry Adjust “–” 
+ou “+” (ajustement – ou + de 
+séchage minuté) : appuyer une 
+fois pour éteindre sa témoin.
+Boutons d’option : appuyer 
+sur chaque bouton une fois 
+pour éteindre sa témoin.
+Appuyer chaque bouton “WHAT  
+TO DRY” pour éteindre chaque  
+témoin correspondant.
+Appuyer chaque bouton “HOW TO 
+DRY” pour éteindre chaque témoin 
+correspondant. Appuyer “Normal” pour 
+éteindre l’affichage de sept segments.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 31 =====
+
+PAGE 31
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+TABLEAU DE COMMANDE MAYTAG (les caractéristiques et l’aspect peuvent varier entre les modèles)
+La rotation du bouton sélecteur de 
+programme éteint les témoins DEL  
+des programmes. (Les caractéristiques  
+et l’aspect peuvent varier selon  
+les modèles).
+Bouton POWER (mise sous tension) : 
+appuyer une fois pour éteindre le témoin. 
+Appuyer deux fois pour quitter le mode  
+de diagnostic de service et revenir  
+au mode d’attente.
+Bouton START/PAUSE (mise en 
+marche/pause) : appuyer une 
+fois pour éteindre le témoin.
+Boutons d’option : appuyer 
+sur chaque bouton une fois 
+pour éteindre sa témoin.
+Figure 1b - Test d’activation des boutons et encodeurs, mode de diagnostic de service, modèles Maytag
+Bouton Timed Dry Adjust “+” :  
+(ajustement + de séchage minuté) : 
+appuyer une fois pour éteindre  
+les témoins d’état.
+Appuyer sur chaque bouton 
+de modification une fois pour 
+éteindre sa segment  
+de l’affichage.
+Bouton Timed Dry Adjust “–” :  
+(ajustement – de séchage minuté) : 
+appuyer une fois pour éteindre  
+l’affichage de sept segments.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 32 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 32
+NE PAS ENLEVER NI DÉTRUIRE
+TABLEAU DE COMMANDE KENMORE (les caractéristiques et l’aspect peuvent varier entre les modèles)
+La rotation du bouton sélecteur de 
+programme éteint les témoins DEL  
+des programmes. (Les caractéristiques  
+et l’aspect peuvent varier selon  
+les modèles).
+Bouton POWER (mise sous tension) : 
+appuyer une fois pour éteindre le témoin. 
+Appuyer deux fois pour quitter le mode  
+de diagnostic de service et revenir  
+au mode d’attente.
+Bouton START/PAUSE (mise en 
+marche/pause) : appuyer une 
+fois pour éteindre le témoin.
+Boutons d’option : appuyer 
+sur chaque bouton une fois 
+pour éteindre sa témoin.
+Figure 1c - Test d’activation des boutons et encodeurs, mode de diagnostic de service, modèles Kenmore
+Bouton Time Adjust “+” :  
+(ajustement + de durée) : appuyer une 
+fois pour éteindre les témoins d’état.
+Appuyer sur chaque bouton 
+de modification une fois pour 
+éteindre sa segment  
+de l’affichage.
+Bouton Time Adjust “–” :  
+(ajustement – de durée) : appuyer 
+une fois pour éteindre  
+l’affichage de sept segments.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 33 =====
+
+PAGE 33
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+GUIDE DE DIAGNOSTIC
+Avant d’entreprendre une réparation, contrôler 
+ce qui suit :
+ Vérifier que la prise de courant est alimentée.
+ Fusible grillé ou disjoncteur ouvert? A-t-on 
+utilisé un fusible ordinaire? Informer le client 
+qu’il faut utiliser un fusible temporisé.
+ Conduit d’évacuation convenablement installé  
+et pas obstrué par charpie ou débris?
+ Utiliser pour tous les contrôles/tests 
+un multimètre (VOM) ou un voltmètre 
+numérique (DVM) dont la résistance interne 
+est de 20 000 Ω par volt CC ou plus.
+ Lors de toute mesure de résistance, vérifier 
+que la sécheuse est débranchée de la prise 
+de courant, ou que la source de courant 
+électrique est déconnectée.
+ IMPORTANT : Éviter d’utiliser des capteurs  
+de grand diamètre lors de la vérification des 
+connexions du câblage car ils pourraient  
+endommager les connecteurs lors de l’insertion.
+ Vérifier tous les harnais et connexions avant 
+de remplacer des composants. Faire attention 
+aux connecteurs mal calés, aux fils ou 
+bornes brisés ou de surplus, à l’insertion des 
+broches, ou encore aux fils pas suffisamment 
+enfoncés dans les connecteurs pour être 
+engagés dans les crochets métalliques.
+ La corrosion ou la contamination des pièces 
+de connexion est une cause potentielle 
+d’anomalie de fonctionnement des organes 
+de commande. Inspecter les connexions et 
+vérifier la continuité à l’aide d’un ohmmètre.
+MODE DE DIAGNOSTIC DE SERVICE
+Ces tests permettent au technicien de 
+contrôler tous les signaux d’entrée parvenant 
+a la commande électronique de la machine. 
+Ces tests permettent l’exécution d’un contrôle 
+global et rapide de la sécheuse avant le 
+passage à des tests de dépannage spécifiques. 
+ACTIVATION DE MODE DE DIAGNOSTIC  
+DE SERVICE
+1.	 Vérifier que la sécheuse est en mode 
+d’attente (branchée; tous les témoins éteints). 
+2.	 Sélectionner n’importe lequel des trois 
+boutons (sauf POWER) et suivre les étapes 
+ci-dessous, en utilisant les mêmes boutons 
+(souvenez-vous des boutons et de l’ordre  
+dans lequel vous avez appuyé sur les boutons) :
+En-dedans de 8 secondes,
+•	 Appuyer momentanément sur le 1er 
+bouton sélectionné,
+•	 Appuyer momentanément sur le 2e  
+bouton sélectionné,
+•	 Appuyer momentanément sur le 3e  
+bouton sélectionné;
+•	 Répéter cette séquence de 3 boutons  
+2 fois de plus.
+3.	 Si le passage au mode de test a été réussi, 
+tous les témoins de la console sont illuminés 
+pendant 5 secondes, et l’afficheur présente 888 
+dans le champ de trois caractères et un signal 
+sonore retentit. S’il n’y a aucun code d’anomalie 
+mémorisé, tous les témoins de la console 
+s’éteindront momentanément, puis seul l’afficheur 
+à sept segments se rallumera et affichera 888.
+NOTE : Le mode de diagnostic de service 
+expire après 10 minutes d’inactivité ou se 
+ferme si l’alimentation du secteur est coupée.
+Activation manquée
+En cas d’échec de la tentative de passage au 
+mode de diagnostic, on peut exécuter certaines 
+actions, selon l’indication spécifique :
+Indication 1 : Aucune illumination (témoins 
+lumineux ou affichage).
+Action : Sélectionner un programme quelconque.
+	 Si des témoins s’illuminent, essayer de changer 
+la fonction pour les trois boutons utilisés pour 
+l’activation du mode de test de diagnostic. Si un
+Pression sur le bouton
+Comportement de la fonction
+1er bouton
+- Pression momentanée
+- Appuyer pendant 5 secs.
+- Active le test d’activation 
+- Quitte le diagnostic de service
+2e bouton
+- Pression momentanée
+- Appuyer pendant 5 secs.
+- Active le mode de test de service
+- Affichage de version du logiciel
+3e bouton
+- Pression momentanée
+- Appuyer pendant 5 secs.
+- Affiche le code d’erreur suivant
+- Supprime les codes d’erreur
+TABLEAU DU MENU DE DIAGNOSTIC DE SERVICE
+des boutons et encodeurs
+• Voir “Activation de mode de diagnostic de service” pour l’activation de ces boutons. Vérifier que tout l’étape 3 est 
+terminée avant l’activation.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 34 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 34
+NE PAS ENLEVER NI DÉTRUIRE
+bouton quelconque ne réussit pas à changer la 
+fonction, le bouton est défectueux et il ne sera 
+pas possible d’utiliser ce bouton pour initier le 
+mode de diagnostic. Remplacer l’ensemble de 
+l’interface utilisateur/carter.
+	 Si aucun témoin ne s’illumine après la sélection 
+du programme, passer au TEST Nº 1, Contrôle 
+de la tension du MCP, page 41.
+Indication 2 : Les témoins de la console se 
+mettent à clignoter immédiatement.
+Action : Si les témoins de la console se 
+mettent à clignoter immédiatement, remplacer 
+l’interface utilisateur.
+Activation en utilisant les codes  
+d’anomalie mémorisés
+S’il y a un code d’anomalie mémorisé, celui- 
+ci clignote sur l’afficheur. Pour déterminer la 
+procédure recommandée, consulter le tableau 
+des codes d’anomalie/d’erreur, page 39. 
+S’il n’y a aucun code d’anomalie mémorisé, 
+l’afficheur présente 888.
+TEST D’ACTIVATION DES BOUTONS 
+ET ENCODEURS
+NOTE : Le mode de diagnostic de service  
+doit être activé avant d’entrer le test d’activation 
+des boutons et encodeurs; voir la procédure  
+à la page 33.
+Affichage d’un code d’anomalie actif  
+dans le test d’activation des boutons  
+et encodeurs
+Si l’afficheur se met à clignoter alors qu’il est  
+en le Test d’activation des boutons et encodeurs, 
+il affiche un code d’anomalie actif. Les codes 
+d’anomalie actifs sont des codes qui sont 
+présentement détectés. Un seul code d’anomalie 
+actif peut être affiché à la fois.
+Procédure d’entrée
+Appuyer brièvement sur le premier bouton  
+utilisé pour l’activation du mode de diagnostic 
+de service. Le test suivant sera disponible :
+DIAGNOSTIC : Test d’activation  
+des boutons et encodeurs
+Appuyer sur chaque bouton éteint sa témoin  
+ou segment de l’affichage et provoque l’émission 
+d’un signal sonore (voir figures 1a, 1b ou 1c, 
+pages 30–32).
+La rotation du sélecteur de programme 
+(sur certains modèles) éteint les témoins 
+correspondants des programmes.
+NOTE : Une seconde pression sur le bouton 
+POWER pendant le mode de Test d’activation 
+des boutons et encodeurs fera quitter le mode 
+diagnostic et ramènera la sécheuse au mode 
+d’attente.
+	 Si les témoins ne s’éteignent pas et 
+n’émettent aucun signal sonore, lors des 
+pressions sur les touches ou la rotation 
+du sélecteur de programme (sur certains 
+modèles), passer au TEST nº 6 : Boutons  
+et témoins, page 51.
+Procédure de sortie
+Pour quitter le test d’activation des boutons 
+et encodeurs, appuyer une ou deux fois 
+sur le bouton POWER (selon la procédure 
+de diagnostic) ou appuyer sans relâcher le 
+premier bouton utilisé pour l’activation du 
+mode de diagnostic de service.
+MODE DE TEST DE SERVICE
+NOTE : Le mode de diagnostic de service doit  
+être activé avant d’accéder au mode de test de  
+service ; voir la procédure à la page 33.
+NOTE : Si l’utilisateur appuie sur le bouton 
+POWER ou ouvre la porte à tout moment 
+durant le mode de test de service, la sécheuse 
+quitte le mode et revient au mode d’attente.
+NOTE : La porte doit être fermée pour 
+l’exécution des tests. La sécheuse doit avoir 
+refroidi pour l’exécution correcte du test.
+Affichage d’un code d’anomalie actif  
+dans le mode de test de service
+Si l’afficheur commence à clignoter durant 
+le mode de test de service, cela veut dire 
+qu’il affiche un code d’anomalie. Les 
+codes d’anomalie actifs sont les codes qui 
+sont actuellement détectés. Un seul code 
+d’anomalie actif peut être affiché à la fois.
+Procédure d’entrée
+Pour accéder au mode de test de service, 
+appuyer et relâcher le 2e bouton utilisé pour 
+activer le mode de diagnostic de service. Tous 
+les témoins à DEL (à l’exception du témoin 
+POWER) s’éteignent, “888” s’affiche pendant  
+2 secondes et le bouton START commence  
+à clignoter.
+EXÉCUTER TOUS LES TESTS : Appuyer sur 
+le bouton START et le relâcher pour exécuter 
+TOUS les tests indiqués dans le tableau des 
+pages 35–37.
+TESTS RELATIFS À LA TENSION ET AU 
+SYSTÈME D’EAU UNIQUEMENT : Appuyer 
+sur le bouton START et le maintenir enfoncé 
+pendant 5 secondes après l’étape 3 pour faire 
+fonctionner les tests relatifs à la tension et au 
+système d’eau seulement.
+Procédure de sortie
+Une fois le test terminé, appuyer sur le bouton 
+POWER pour quitter le mode de test de service 
+et revenir au mode d’attente.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 35 =====
+
+PAGE 35
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+	 Étape #	
+Action	
+Composant	
+Réponse de l’interface utilisateur
+	
+1	
+L’utilisateur accède au mode de test 	
+	
+L’afficheur indique “888” pendant  
+	
+	
+de service par l’intermédiaire	
+	
+2 secondes. Tous les témoins à DEL 
+	
+	
+des diagnostics de service.	
+	
+(à l’exception du témoin POWER) sont  
+	
+	
+	
+	
+éteints et le bouton START clignote.
+	
+2	
+Appuyer sur le bouton START 	
+Moteur allumé	
+L’afficheur indique “---” avant d’afficher 
+	
+	
+et le relâcher pour lancer	
+	
+la tension sur l’IU. 
+	
+	
+le contrôle de tension L2.	
+	
+ 
+	
+	
+	
+	
+En appuyant une nouvelle fois sur le  
+	
+	
+	
+	
+bouton START ou en le maintenant enfoncé  
+	
+	
+	
+	
+avant que la tension L2 soit determinée,  
+	
+	
+	
+	
+un signal sonore retentit 3 fois.
+	
+3	
+Fin du contrôle de la tension L2.	
+Moteur allumé	
+Si l’appareil est électrique  
+	
+	
+Vrms_L2 et Fuel sont indiqués	
+Éléments(s)	
+(source d’énergie = électrique) : 
+	
+	
+sur l’IU.	
+chauffant(s) allumé(s)	
+L’IU indique les résultats conformément  
+	
+	
+	
+	
+à la section “Affichage des résultats  
+	
+	
+	
+	
+sur la sécheuse électrique”, où la  
+	
+	
+Le contrôle de la tension L1	
+	
+tension L2 est disponible, la tension L1 
+	
+	
+débute automatiquement.	
+	
+n’est pas disponible, la tension de  
+	
+	
+	
+	
+l’élément chauffant n’est pas disponible  
+	
+	
+	
+	
+et la circulation d’air n’est pas disponible. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Si l’appareil est alimenté au gaz 
+	
+	
+	
+	
+(source d’énergie = gaz) :  
+	
+	
+	
+	
+L’afficheur continue d’indiquer “---”.
+	
+	
+	
+	
+En appuyant une nouvelle fois  
+	
+	
+	
+	
+sur le bouton START ou en le maintenant  
+	
+	
+	
+	
+enfoncé avant que la tension L1 soit  
+	
+	
+	
+	
+déterminée, un signal sonore retentit 3 fois.
+	
+4	
+Fin du contrôle de la tension L1.	
+Moteur allumé	
+Si l’appareil est électrique  
+	
+	
+Vrms_L1 et Heater_Voltage sont	
+Élément(s)	
+(source d’énergie = électrique) : 
+	
+	
+indiqués sur l’IU.	
+chauffant(s) allumé(s)/	
+L’IU indique les résultats conformément  
+	
+	
+	
+éteint(s)	
+à la section “Affichage des résultats  
+	
+	
+Le contrôle du chauffage de la	
+	
+sur la sécheuse électrique” où la  
+	
+	
+machine commence automatiquement.	
+	
+tension L2 est disponible, la tension L1  
+	
+	
+La circulation d’air débute l’algorithme	
+	
+est disponible, la tension de l’élément 
+	
+	
+de détection : Status_Airflow = 3	
+	
+chauffant est disponible et la  
+	
+	
+(détection en cours).	
+	
+circulation d’air n’est pas disponible. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Si l’appareil est alimenté au gaz  
+	
+	
+	
+	
+(source d’énergie = gaz) :  
+	
+	
+	
+	
+L’IU indique les résultats conformément  
+	
+	
+	
+	
+à la section “Affichage des résultats  
+	
+	
+	
+	
+sur la sécheuse à gaz”, où la tension  
+	
+	
+	
+	
+de l’élément chauffant est disponible  
+	
+	
+	
+	
+et la circulation d’air n’est pas disponible.
+	
+	
+Appuyer sur le bouton START	
+	
+Si un témoin “Detecting Airflow” 
+	
+	
+et le maintenir enfoncé pour passer	
+	
+(circulation d’air en cours de détection)  
+	
+	
+à l’étape 8 et démarrer le test de vapeur	
+	
+est présent, il est affiché sur l’IU. 
+	
+	
+(modèles de vapeur uniquement).
+	
+5	
+Fin du contrôle du chauffage	
+Moteur allumé	
+L’IU affiche les mêmes 	
+	
+	
+de la machine.	
+Élément(s)	
+informations que dans l’étape 4. 
+	
+	
+	
+chauffant(s) allumé(s)	
+ 
+	
+	
+	
+	
+ 
+	
+	
+Load Mass for Airflow (poids de 	
+	
+ 
+	
+	
+la charge pour la circulation d’air)	
+	
+ 
+	
+	
+débute automatiquement.	
+	
+ 
+	
+	
+ 
+	
+	
+Appuyer sur le bouton START	
+	
+ 
+	
+	
+et le maintenir enfoncé pour passer	
+	
+ 
+	
+	
+à l’étape 8 et démarrer le test de vapeur 
+	
+	
+(modèles de vapeur uniquement).	
+	
+TABLEAU DE MODE DE TEST DE SERVICE
+NOTE : Après l’étape 3, appuyer sur le bouton START pendant 5 secondes pour progresser au test du système d’eau.
+Le fonctionnement de la sécheuse électrique est optimisé pour un service biphasé, 240 V CA. Si le fonctionnement n’est pas satisfaisant et la 
+tension de L1 à L2 est ~208 V CA, la sécheuse électrique peut être reliée à un service électrique triphasé à la puissance en watts réduite qui 
+diminuera le fonctionnement de la sécheuse.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 36 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 36
+NE PAS ENLEVER NI DÉTRUIRE
+	 Étape #	
+Action	
+Composant	
+Réponse de l’interface utilisateur
+	
+6	
+Fin du test Load Mass for Airflow	
+Moteur allumé/éteint	
+Si l’appareil est électrique  
+	
+	
+(poids de la charge pour la	
+Élément(s)	
+(source d’énergie = électrique) :  
+	
+	
+circulation d’air). La mise à jour	
+chauffant(s) allumé(s)/	
+L’IU indique les résultats conformément  
+	
+	
+de Status_Airflow est indiquée	
+éteint(s)	
+à la section “Affichage des résultats  
+	
+	
+sur l’IU.	
+	
+sur la sécheuse électrique”, où la  
+	
+	
+	
+	
+tension L2 est disponible, la tension L1 
+	
+	
+	
+	
+est disponible, la tension de l’élément  
+	
+	
+	
+	
+chauffant est disponible et la circulation  
+	
+	
+	
+	
+d’air est disponible. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Si l’appareil est alimenté au gaz  
+	
+	
+	
+	
+(source d’énergie = gaz) :  
+	
+	
+	
+	
+L’IU indique les résultats conformément  
+	
+	
+	
+	
+à la section “Affichage des résultats  
+	
+	
+	
+	
+sur la sécheuse à gaz”, où la tension 
+	
+	
+	
+	
+de l’élément chauffant est disponible  
+	
+	
+	
+	
+et la circulation d’air est disponible.
+	
+	
+	
+	
+Si un témoin à DEL “Detecting Airflow”  
+	
+	
+	
+	
+(circulation d’air en cours de détection)  
+	
+	
+	
+	
+est présent, il est éteint. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Si un témoin à DEL “Good Airflow” 
+	
+	
+	
+	
+(circulation d’air correcte) est présent,  
+	
+	
+	
+	
+il est également affiché lorsque  
+	
+	
+	
+	
+Status_Airflow = 0. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Si un témoin à DEL “Check Vent”  
+	
+	
+	
+	
+(contrôler l’évent) est présent,  
+	
+	
+	
+	
+il est également affiché lorsque  
+	
+	
+	
+	
+Status_Airflow = 2.
+	
+7	
+Fin du test des charges	
+Moteur éteint	
+L’IU et les DEL d’état sont  
+	
+	
+de service.	
+Élément(s)	
+identiques à l’étape 6. 
+	
+	
+	
+chauffant(s) éteint(s)	
+ 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Modèles de vapeur uniquement :  
+	
+	
+	
+	
+Le bouton “START” clignote pour  
+	
+	
+	
+	
+démarrer le test de vapeur. 
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+Modèles sans vapeur : L’IU attend  
+	
+	
+	
+	
+“ServiceTimeout” (dépassement du  
+	
+	
+	
+	
+délai de service) ou une pression  
+	
+	
+	
+	
+sur le bouton POWER pour passer  
+	
+	
+	
+	
+à mode d’attente.
+SÉCHEUSES DE VAPEUR UNIQUEMENT
+	
+8	
+Appuyer sur START pour 	
+	
+L’affichage indique “h2o” lorsque  
+	
+	
+commencer STEAM_TEST.	
+	
+le test est en cours.
+	
+9	
+Le test de vapeur débute.	
+Électrovanne 	
+Le cas échéant, l’IU allume  
+	
+	
+	
+d’admission d’eau	
+le témoin à DEL Drum Light. 
+	
+	
+	
+en marche	
+La lampe du tambour est allumée  
+	
+	
+	
+Lampe du	
+pendant 30 secondes au maximum. 
+	
+	
+	
+tambour allumée	
+	
+10	
+Fin de STEAM_TEST.	
+Électrovanne	
+L’affichage s’éteint et attend  
+	
+	
+	
+d’admission d’eau	
+“ServiceTimeout” (dépassement du  
+	
+	
+	
+fermée	
+délai de service) ou une pression  
+	
+	
+	
+Lampe du	
+sur le bouton POWER pour passer  
+	
+	
+	
+tambour éteinte	
+à mode d’attente.
+TABLEAU DE MODE DE TEST DE SERVICE (suite)
+NOTE : Après l’étape 3, appuyer sur le bouton START pendant 5 secondes pour progresser au test du système d’eau.
+Le fonctionnement de la sécheuse électrique est optimisé pour un service biphasé, 240 V CA. Si le fonctionnement n’est pas satisfaisant et la 
+tension de L1 à L2 est ~208 V CA, la sécheuse électrique peut être reliée à un service électrique triphasé à la puissance en watts réduite qui 
+diminuera le fonctionnement de la sécheuse.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 37 =====
+
+PAGE 37
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+AFFICHAGE DE LA VERSION LOGICIELLE
+NOTE : Le mode Affichage de la version 
+logicielle expire après 10 minutes d’inactivité  
+et revient au mode d’attente.
+Procédure d’entrée
+Pour entrer dans l’affichage de version 
+logicielle, appuyer pendant 5 secondes sur 
+le 2e bouton qui sert à activer le mode de 
+diagnostic de service. Lors de l’accès à ce 
+mode, les informations ci-dessous défileront 
+automatiquement à l’affichage :
+•	 Code de revision logicielle de l’IU (U : numéro 
+de révision majeure, U : numéro de révision 
+mineure, U : numéro de révision de test)
+•	 Code de révision GEE du cycle d’IU (y : numéro 
+de révision majeure, y : numéro de révision 
+mineure, y : numéro de révision de test)
+•	 Code de révision GEE du matériel de l’IU  
+(H : numéro de révision majeure, H : numéro 
+de révision mineure, H : numéro de révision 
+de test)
+•	 Code de révision du logiciel de commande 
+tactile de l’IU (t : numéro de révision majeure, 
+t : numéro de révision mineure, t : numéro  
+de révision de test)
+•	 Code de révision de paramètres de 
+commande tactile d’IU (o : numéro de 
+révision majeure, o : numéro de révision 
+mineure, o : numéro de révision de test)
+•	 Code de révision du logiciel audio de l’IU  
+(A : numéro de révision majeure, A : numéro 
+de révision mineure, A : numéro de révision 
+de test)
+•	 Code de révision logicielle du MCA (C : numéro 
+de révision majeure, C : numéro de révision 
+mineure, C : numéro de révision de test)
+•	 Code de révision GEE du MCA (h : numéro 
+de révision majeure, h : numéro de révision 
+mineure, h : numéro de révision de test)
+•	 Code de révision de conception du cycle  
+du MCA (d : numéro de révision majeure,  
+d : numéro de révision mineure, d : numéro 
+de révision de test)
+Procédure pour quitter
+Appuyer sur le bouton POWER pour quitter 
+l’affichage de version logicielle et revenir  
+la sécheuse au mode d’attente.
+Affichage des résultats sur la sécheuse électrique
+L’affichage de chaque information dure 0,5 seconde. Cette séquence 
+s’affiche en boucle. Le texte est aligné à droite.
+Affichage 1 : L2
+Affichage 2 : Lorsque la tension est accessible à l’IU, elle s’affiche 
+sans signe deux-points (entre 0 et 200).
+Affichage 3 : L1
+Affichage 4 : Lorsque la tension est accessible à l’IU, elle s’affiche 
+sans signe deux-points (entre 0 et 200).
+Affichage 5 : Htr (élément chauffant)
+Affichage 6 : Lorsque la tension est accessible à l’interface 
+utilisateur, elle s’affiche sans signe deux-points (entre 0 et 200).
+Affichage 7 : Air (circulation d’air)
+Affichage 8 : Voir la section “Affichage de la circulation d’air”.
+Lorsque la tension ou la circulation d’air n’est pas encore accessible 
+à l’IU, l’affichage indique “---”.
+Affichage des résultats sur la sécheuse à gaz
+L’affichage de chaque information dure 0,5 seconde. Cette séquence 
+s’affiche en boucle. Le texte est aligné à droite.
+Affichage 1 : Htr (élément chauffant)
+Affichage 2 : Lorsque la tension est accessible à l’IU, elle s’affiche 
+sans signe deux-points (entre 0 et 200).
+Affichage 3 : Air (circulation d’air)
+Affichage 4 : Voir la section “Affichage de la circulation d’air”.
+Lorsque la tension ou la circulation d’air n’est pas encore accessible 
+à l’IU, l’affichage indique “---”.
+Affichage de la circulation d’air
+		 Valeur	
+Signification
+		
+0	
+Circulation d’air correcte
+		
+1	
+Détection impossible
+		
+2	
+Circulation d’air insuffisante;  
+		
+	
+contrôler l’évent
+		
+3 (par défaut)	
+Détection en cours
+Si le résultat n’est pas encore accessible, l’affichage indique “---”.
+Status_Airflow = 0 s’affiche sous la forme : “0:00”. 
+Status_Airflow = 1 s’affiche sous la forme : “0:01”. 
+Status_Airflow = 2 s’affiche sous la forme : “0:02”. 
+Status_Airflow = 3 s’affiche sous la forme : “0:03”.
+TABLEAU DE MODE DE TEST DE SERVICE (suite)
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 38 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 38
+NE PAS ENLEVER NI DÉTRUIRE
+Code
+Description
+Explications et opérations recommandées
+PF
+Panne de courant
+PF indique qu’une panne de courant est survenue durant le fonctionnement  
+de la sécheuse. Appuyer sur START pour continuer le programme, ou 
+appuyer sur POWER pour effacer l’affichage. 
+L2
+Faible tension 
+sur la ligne
+L2 indique qu’une faible tension L2 (moins de 30 V) est détectée sur le MCP. 
+• Voir le code d’anomalie/erreur “F4E4”, pour connaître la procédure recommandée.  
+CODES D’ANOMALIE/D’ERREUR DU CLIENT
+AF
+Circulation d’air
+limitée
+AF indique une faible circulation d’air qui peut affecter le fonctionnement de 
+la sécheuse. Confirmer que le système de circulation d’air n’est pas bloqué. 
+Vérifier le filtre à charpie, le conduit d’évacuation et le ventilateur d’évacuation.  
+CODES D’ANOMALIE/D’ERREUR
+Consulter le tableau des codes d’anomalie/
+d’erreur du client, ci-dessous, et le tableau des 
+codes d’anomalie/d’erreur de service, page 39.
+Méthode d’affichage des codes d’anomalie/
+codes d’erreur
+Les codes d’anomalie sont affichés en 
+affichant en alternance nº F et nº E. Tous les 
+codes d’anomalie ont un nº F et un nº E. Le nº 
+F indique le système/la catégorie suspect(e).  
+Le nº E indique le composant suspect du système.
+Jusqu’à quatre codes d’anomalie/erreur 
+peuvent être enregistrés. Lorsque le code 
+d’anomalie le plus ancien est affiché, appuyer 
+de nouveau sur le 3e bouton causera un triple 
+bip, puis l’affichage du code d’anomalie le plus  
+récent. Si chaque pression du 3e bouton cause 
+le triple bip et l’afficheur indique “888”, aucun 
+code d’anomalie n’a été mémorisé.
+Progresser parmi les codes d’anomalie/
+codes d’erreur mémorisés
+Procédure pour progresser à travers  
+les codes d’anomalie mémorisés :
+	Appuyer brièvement	g	signal sonore	g	 Le code d’anomalie  
+	sur le 3e bouton utilisé	 	
+	
+	
+le plus récent 
+	 pour l’activation du	 	
+	
+	
+s’affiche. 
+	diagnostic de service
+	
+Répéter	
+g	signal sonore	g	 Affichage de   
+	
+	
+	
+	
+	
+l’avant-dernier code   
+	
+	
+	
+	
+	
+d’anomalie.
+	
+Répéter	
+g	signal sonore	g	 Affichage du  
+	
+	
+	
+	
+	
+second code    
+	
+	
+	
+	
+	
+d’anomalie  
+	
+	
+	
+	
+	
+avant le dernier.
+	
+Répéter	
+g	signal sonore	g	 Affichage du  
+	
+	
+	
+	
+	
+troisème code   
+	
+	
+	
+	
+	
+d’anomalie 
+	
+	
+	
+	
+	
+avant le dernier.
+	
+Répéter	
+g	 triple bip	
+g	 Retour au code  
+	
+	
+	
+	
+	
+d’anomalie 
+	
+	
+	
+	
+	
+le plus récent.
+QUITTER LE MODE DE DIAGNOSTIC 
+DE SERVICE
+On peut quitter ce mode en utilisant une  
+des deux méthodes listées ci-dessous :
+•	 Appuyer pendant 5 secondes sur le 1er 
+bouton utilisé pour activer le mode de 
+diagnostic de service.
+•	 Appuyer une ou deux fois sur le bouton 
+POWER conformément à la procédure  
+de diagnostic.
+Suppression de codes d’anomalie
+Pour supprimer les codes d’anomalie 
+mémorisés, initier le mode de diagnostic de 
+service. Puis appuyer pendant 5 secondes 
+sur le 3e bouton servant à initier le mode de 
+diagnostic de service. Une fois que les codes 
+d’anomalie mémorisés auront été effacés, 
+l’afficheur à sept segments affichera “888”.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 39 =====
+
+PAGE 39
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+	 Code	
+Description	
+Explication et opération recommandée
+	
+F1E1	
+Relais du moteur	
+Indique un problème avec le MCA. 
+	
+	
+collé en position fermée	
+•	Remplacer le MCA.
+	
+F1E3	
+Contrôleur incorrect	
+Vérifier que les références du MCA et de l’interface utilisateur correspondent  
+	
+	
+installé (modèles	
+au modèle de sécheuse qui affiche le code d’anomalie/d’erreur. Remplacer  
+	
+	
+électriques seulement)	
+le MCA et/ou l’IU qui ne correspond pas.
+	
+F1E5	
+Mémoire de paramètres	
+Fichier de paramètres est manquant; remplacer le MCA.  
+	
+	
+non valide
+	
+F2E1	
+Bouton bloqué	
+Indique un bouton bloqué (enfoncé pendant plus de 20 secondes).  
+	
+	
+sur l’IU	
+Ce code d’anomalie apparaîtra SEULEMENT en mode de diagnostic  
+	
+	
+	
+de service. Voir TEST n° 6 : Boutons et témoins, page 51.
+	
+F2E4	
+Erreur du logiciel de l’IU :	 Remplacer l’interface utilisateur. 
+	
+	
+fichier de paramètres 	
+ 
+	
+	
+non compatible	
+	
+F2E5	
+Erreur du logiciel de l’IU :	 Remplacer l’interface utilisateur. 
+	
+	
+mémoire de paramètres	
+ 
+	
+	
+non valide	
+	
+F3E1	
+Thermistance de 	
+Indique que la thermistance de décharge est ouverte ou en court- 
+	
+	
+décharge ouverte	
+circuit. Si la température est inférieure à –8° C (18° F) (> 50k ohms), 
+	
+	
+ou en court-circuit	
+la thermistance de décharge est ouverte. Si la température est  
+	
+	
+	
+supérieure à 120° C (250° F) (< 500 ohms), la thermistance de décharge  
+	
+	
+	
+est en court-circuit. Ce code d’erreur se produit si le connecteur P14  
+	
+	
+	
+n’est pas branché au MCA. Voir TEST n° 4a : Thermistances, page 47.
+	
+F3E2	
+Capteur d’humidité	
+Indique un circuit ouvert ou un court-circuit affectant le capteur   
+	
+	
+ouvert/en court-	
+d’humidité. Ce code d’anomalie apparaîtra SEULEMENT en mode  
+	
+	
+circuit	
+de diagnostic de service. Voir TEST n° 5 : Capteur d’humidité, page 50.
+	
+F3E3	
+Thermistance d’entrée	
+Indique que la thermistance d’entrée est ouverte ou court-circuitée. Si la  
+	
+	
+ouverte/court-circuitée	
+température est inférieure à –8° C (18° F) (> 245k ohms), la thermistance  
+	
+	
+	
+d’entrée est ouverte. Si la température est supérieure à 200° C (391° F)  
+	
+	
+	
+(< 328 ohms), la thermistance d’entrée est court-circuitée. Voir TEST  
+	
+	
+	
+n° 4a : Thermistances, page 47.
+	
+F4E1	
+Défaillance de	
+Indique qu’aucune tension n’est détectée sur le relais de chauffage.  
+	
+	
+l’élément chauffant n° 1	
+•	Débrancher la sécheuse ou déconnecter la source de courant électrique  
+	
+	
+ou problème sur le	
+	 et vérifier le bon branchement des conducteurs sur les éléments  
+	
+	
+connecteur	
+	 chauffants et sur le(s) relais du MCA.
+	
+F4E2	
+Défaillance de	
+Indique qu’aucune tension n’est détectée sur le relais de chauffage.  
+	
+	
+l’élément chauffant n° 2	
+•	Débrancher la sécheuse ou déconnecter la source de courant électrique 
+	
+	
+ou problème sur le	
+	 et vérifier le bon branchement des conducteurs sur les éléments 
+	
+	
+connecteur (modèles	
+	 chauffants et sur le(s) relais du MCA. 
+	
+	
+électriques seulement)
+	
+F4E3	
+Circulation d’air limitée	
+Indique une faible circulation d’air qui peut affecter le fonctionnement  
+	
+	
+	
+de la sécheuse. 
+	
+	
+	
+•	Confirmer que le système de circulation d’air n’est pas bloqué; contrôler  
+	
+	
+	
+	 le filtre à charpie, le conduit d’évacuation et le ventilateur d’évacuation.
+	
+F4E4	
+Erreur de tension	
+Indique qu’une faible tension L2 (moins de 50 V) est détectée sur le MCA. 
+	
+	
+sur la ligne L2	
+•	Vérifier si un fusible est grillé ou si un disjoncteur s’est déclenché.
+	
+	
+(modèles électriques	
+•	Confirmer que le cordon d’alimentation est correctement installé et  
+	
+	
+seulement)	
+	 branché dans la prise électrique.
+	
+	
+	
+•	Débrancher la sécheuse ou déconnecter la source de courant électrique  
+	
+	
+	
+	 et vérifier les connexions du relais sur le MCA.
+	
+	
+	
+•	Modèles à gaz uniquement : Débrancher la sécheuse ou déconnecter  
+	
+	
+	
+	 la source de courant électrique et vérifier la connexion P14 sur le MCA  
+	
+	
+	
+	 (bouclage du câblage sur les broches 4 et 5).
+	
+F6E2	
+Erreur de communication :	 La communication entre le MCA at l’IU n’a pas été détectée. 
+	
+	
+L’IU ne peut pas entendre	•	Débrancher la sécheuse ou déconnecter la source de courant électrique.  
+	
+	
+le MCA	
+•	Vérifier la continuité des câblages et les connexions entre le MCA et l’IU. 
+	
+F6E3	
+Erreur de communication :	 •	Contrôler les alimentations CA et CC. Voir TEST n° 1 : Contrôle de la  
+	
+	
+Le MCA ne peut pas	
+	 tension du MCA, page 41. 
+	
+	
+entendre l’IU	
+•	Remplacer l’interface utilisateur. 
+	
+	
+	
+•	Remplacer le MCA.
+CODES D’ANOMALIE/D’ERREUR DE SERVICE
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 40 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 40
+NE PAS ENLEVER NI DÉTRUIRE
+GUIDE DE DÉPANNAGE
+Problème
+Cause possible
+Contrôles et tests
+La sécheuse n’a pas d’alimentation électrique. 
+Vérifier l’alimentation électrique à la prise 
+murale, vérifier les disjoncteurs, les fusibles 
+ou les raccordements à la boîte de jonction.
+Problème de connexion entre la prise secteur 
+et la sécheuse.
+Voir Test nº 2 : Connexions d’alimentation, 
+page 42. 
+Problème de connexion entre le MCA et l’IU.
+Vérifier les connexions et la continuité du câblage   
+entre le MCA et l’IU. 
+Les alimentations électriques ne sont pas présentes 
+sur les composants électroniques de la machine. 
+Voir Test nº 1 : Contrôle de la tension 
+du MCA, page 41. 
+Problème avec l’interface utilisateur. 
+Voir Test nº 6 : Boutons et témoins, page 51. 
+La porte n'est pas complètement fermée ou 
+touche le loquet de la porte.
+S’assurer que la porte est parfaitement fermée, 
+et appuyer et relâcher le bouton START.
+Problème du contacteur de la porte. 
+Voir Test nº 7 : Contacteur de la porte, page 52. 
+Problème de courroie d'entraînement/
+contacteur du tensionneur de courroie.
+Voir Test nº 3 : Circuit du moteur, page 43. 
+Problème sur le fusible thermique/moteur.
+Voir Test nº 3 : Circuit du moteur, page 43. 
+Problème avec l’interface utilisateur. 
+Voir Test nº 6: Boutons et témoins, page 51. 
+Problème sur le MCA.
+Voir Test nº 1 : Contrôle de la tension du MCA, page 41. 
+Faible circulation d’air.
+Vérifier le filtre à charpie et le conduit 
+d'évacuation. Nettoyer au besoin.  
+Vérifier le bouton Start/Pause.
+Exécuter le test d’activation des boutons et encodeurs.
+Problème sur le capteur d’humidité. 
+Voir Test nº 5 : Capteur d’humidité, page 50. 
+Problème sur la thermistance. 
+Voir Test nº 4a : Thermistances, page 47. 
+Problème avec l’interface utilisateur. 
+Voir Test nº 6 : Boutons et témoins, page 51. 
+Problème sur le MCA.
+Voir Test nº 1 : Contrôle de la tension du MCA, page 41. 
+L'utilisateur sélectionne une option non valide. 
+Orienter le client vers le “Guide d’utilisation 
+et d’entretien”.
+Problème avec l’interface utilisateur. 
+Voir Test nº 6 : Boutons et témoins, page 51. 
+Problème de courroie d'entraînement/
+contacteur du tensionneur de courroie. 
+Voir Test nº 3 : Circuit du moteur, page 43. 
+Fusible thermique (électrique seulement).
+Voir Test nº 4b : Fusible thermique, page 49. 
+Problème sur le contacteur de la porte. 
+Voir Test nº 7 : Contacteur de la porte, page 52. 
+Problème sur le moteur.
+Voir Test nº 3 : Circuit du moteur, page 43. 
+Problème sur le MCA.
+Voir Test nº 1 : Contrôle de la tension du MCA, page 41. 
+Contrôler l’installation.
+Vérifier que l’installation de la sécheuse est correcte.
+Vérifier L1 et L2.
+Exécuter les tests L1 et L2 du MCA sous 
+mode de test de service. 
+Anomalie du système de chauffage ou circuit 
+ouvert sur le serpentin de chauffage. 
+Voir Test nº 4 : Système de chauffage, 
+page 45. 
+Problème sur le MCA.
+Voir Test nº 1 : Contrôle de la tension du MCA, page 41. 
+Serpentin de chauffage court-circuité.
+Voir Test nº 4 : Système de chauffage, page 45. 
+Relais de chauffage court-circuité.
+Voir Test nº 4 : Système de chauffage, page 45. 
+Problème sur le système de chauffage. 
+Voir Test nº 4 : Système de chauffage, page 45. 
+Degré de séchage pour programmes auto 
+(automatiques).
+Augmente la durée de séchage pour un 
+programme de séchage automatique ou plus.  
+Filtre à charpie plein. 
+Nettoyer le filtre, au besoin. Orienter le client 
+vers le “Guide d’utilisation et d’entretien”. 
+Conduit d’évacuation de chauffage bouché.
+Nettoyer le filtre, au besoin. Orienter le client 
+vers le “Guide d’utilisation et d’entretien”.
+Problème sur le capteur d’humidité. 
+Voir Test nº 5 : Capteur d’humidité, page 50. 
+Ajuster le degré de séchage centré sur le client.
+Voir Test nº 5a : Ajuster le degré de séchage 
+centré sur le client, page 50. 
+Programme Steam (vapeur) non sélectionné.
+Orienter le client vers le “Guide d’utilisation 
+et d’entretien”.
+Pas d’eau vers l’électrovanne.
+Vérifier que l’arrivée d’eau est ouverte.
+Pas d’eau en provenance de l'électrovanne.
+Voir Test  nº 9 : Électrovanne d’admission d’eau, 
+page 52. 
+Pas d’écoulement de  
+l’électrovanne d’admission d’eau 
+(sur certains modèles)
+(L’électrovanne d’admission d’eau 
+est activée de manière intermittente
+durant le programme steam [vapeur])
+Ne chauffe pas
+Chauffage pour le programme 
+du séchage à l’air
+Linge humide lors de l’arrêt 
+de la sécheuse
+Le tambour ne tourne pas
+La console n’accepte pas 
+les sélections
+Ne se met pas en marche
+- Non fonctionnel
+- Absence de réponse du clavier
+- Pas de témoin DEL ou d’affichage
+Ne démarre pas le programme
+(Aucune réponse lorsqu’on appuie  
+sur le bouton Start.)
+Ne s’arrête pas comme prevu
+Fuite d’eau en provenance de la sécheuse
+(sur certains modèles)
+(Trop d’eau distribuée au cours 
+des programmes avec vapeur)  
+Ouverture de la buse d’introduction d’eau 
+obstruée par une accumulation de résidus.
+Dévisser la buse et la nettoyer le cas échéant. 
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 41 =====
+
+PAGE 41
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+TESTS DE DÉPANNAGE
+IMPORTANT : Les procédures suivantes peuvent 
+nécessiter l’utilisation de sondes à aiguilles pour 
+mesurer la tension. Ne pas utiliser des sondes à 
+aiguilles endommagera les connecteurs. 
+TEST Nº 1 : Contrôle de la tension  
+du MCA
+Ce test permet de déterminer la présence de la  
+tension d’alimentation adéquate pour les circuits  
+de commande électroniques de la machine. On  
+assume dans ce test que le courant d’alimentation 
+est à la tension requise à la prise murale.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Vérifier que les tensions de ligne de la 
+prise de courant sont bonnes, 240 V CA 
+(électrique biphasée), 208 V CA (électrique 
+triphasée) ou 120 V CA (gaz).
+ S’il y a une tension sur la ligne, passer  
+à l’étape 3.
+ S’il n’y a pas de tension sur la ligne, vérifier 
+si le disjoncteur s’est déclenché ou si un 
+fusible est grillé. Si le disjoncteur ne s’est 
+pas déclenché, demander au client de 
+consulter un électricien qualifié.
+3.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+4.	 MCA V CA – Avec un voltmètre réglé sur 
+courant alternatif CA, brancher la sonde noire 
+à P8-3 (N) du MCA et la sonde rouge à P9-2 
+(L1). (Voir figure 2.) Brancher la sécheuse ou 
+reconnecter la source de courant électrique.
+ S’il y a une tension de 120 V CA, débrancher  
+la sécheuse ou déconnecter la source de 
+courant électrique et passer à l’étape 5.
+ S’il n’y a pas une tension de 120 V CA, 
+débrancher la sécheuse ou déconnecter 
+la source de courant électrique et exécuter 
+le TEST nº 2 : Connexions d’alimentation, 
+page 42.
+5.	 MCA +5V CC – Avec un voltmètre 
+réglé sur courant continu CC, débrancher le 
+connecteur P2 du MCA et brancher la sonde 
+noire à P2-3 (mise à la terre) du MCA et la 
+sonde rouge à P2-1 (+5 V CC). Brancher 
+la sécheuse ou reconnecter la source de 
+courant électrique.
+ S’il y a une tension de +5 V CC, 
+débrancher la sécheuse ou déconnecter  
+la source de courant électrique et passer  
+à l’étape 8.
+ S’il n’y a pas une tension de +5 V CC, 
+passer à l’étape 6.
+6.	 Débrancher la sécheuse ou déconnecter la 
+source de courant électrique. Débrancher P14 
+du MCA. Brancher la sécheuse ou reconnecter  
+la source de courant électrique et répéter l’étape 5.
+Figure 2 - Brochages et connecteurs du MCA
+8
+3
+P2 – LARGE VERS L’IU (+5 V CC)
+P2-1	 N	
++5 V CC
+P2-2	 BU	
+DONNÉES
+P2-3	 JA	
+5 V TERRE
+P8 – ÉLECTROVANNE D’ADMISSION 
+D’EAU/CONTACTEUR DE LA PORTE
+P8-5	 	
+OUVERT
+P8-4	 TAN	 CONT. DE LA PORTE
+P8-3	 BL	
+NEUTRE
+P8-2	 VE/JA	TERRE DE CHASSIS
+P8-1	 R	
+ÉLECTROVANNE 
+	
+	
+D’ADMISSION D’EAU (SUR CERTAINS MODÈLES)
+P5 – +12 V CC
+P5-1
+P5-2
+P5-3	 12 V TERRE
+P5-4
+P5-5
+P5-6
+P5-7
+P5-8	 +12 V CC
+P9 – MOTEUR/L1
+P9-2	
+N	
+L1
+P9-1	
+BU CL	 MOTEUR
+P13 – CAPTEUR D’HUMIDITÉ
+P13-2	 R	
+CAPTEUR D’HUMIDITÉ
+P13-1	 N	
+CAPTEUR D’HUMIDITÉ
+P14 – THERMISTANCES
+P14-6	 R/BL	
+THERM. DE DÉCHARGE
+P14-5	 N	
+MODÈLE RTN (À GAZ)
+P14-4	 N	
+MODÈLE (À GAZ)
+P14-3	 R/BL	
+THERM. DE DÉCHARGE
+P14-2	 R	
+THERM. D’ENTRÉE
+P14-1	 R	
+THERM. D’ENTRÉE
+P13
+P2
+P9
+P14
+P8
+K3
+K2
+K1
+Relais de chauffage nº 1 
+(Gaz et élect.)
+L1 – N
+Élément chauffant (E) – V 
+Élément chauffant (G) – R
+Relais de chauffage nº 2 
+(Élect. seulement)
+L1 – N
+Élément chauffant – V
+Relais du moteur
+• = broche 1
+P5-1
+P5-3
+P5-8
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 42 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 42
+NE PAS ENLEVER NI DÉTRUIRE
+ Si une tension de +5 V CC est mesurée, 
+l’une des thermistances est court-circuitée.  
+Pour diagnostiquer les thermistances, voir 
+TEST nº4a, page 47.
+ S’il n’y a pas une tension de +5 VCC, 
+passer à l’étape 7.
+7.	 Débrancher la sécheuse ou déconnecter la 
+source de courant électrique. Rebrancher P14 
+au MCA et débrancher P2 du MCA. Brancher la 
+sécheuse ou reconnecter la source de courant 
+électrique et répéter l’étape 5. Exécuter un 
+contrôle de tension à l’intérieur du connecteur 
+P2 du MCA, entre les broches 1 et 3—NE PAS 
+COURT-CIRCUITER LES BROCHES ENSEMBLE.
+ S’il n’y a toujours pas une tension de 
++5 V CC, débrancher la sécheuse ou 
+déconnecter la source de courant électrique 
+et remplacer le MCA.
+ Si la tension +5 V CC revient, débrancher 
+la sécheuse ou déconnecter la source de 
+courant électrique et vérifier les câblages et 
+les connexions entre le MCA et l’interface 
+utilisateur (IU). Si cela est acceptable, 
+remplacer l’IU.
+8.	 MCA +12 VCC – avec un voltmètre 
+réglé sur courant continu CC, brancher la 
+sonde noire à P5-3 (mise à la terre) et la 
+sonde rouge à P5-8 (+12 V CC). Brancher 
+la sécheuse ou reconnecter la source de 
+courant électrique.
+ S’il y a une tension de +12 V CC, passer  
+à l’étape 9.
+ S’il n’y a pas une tension de +12 V CC, 
+débrancher la sécheuse ou déconnecter la 
+source de courant électrique et remplacer  
+le MCA.
+9.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+10.	 Réassembler tous les pièces et panneaux.
+11.	 Exécuter les étapes sous “Mode de 
+test de service”, page 34, pour vérifier la 
+réparation.
+TEST nº 2 : Connexions d’alimentation
+Ce test suppose que la tension de la prise  
+de courant est bonne.
+SÉCHEUSE ÉLECTRIQUE :
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer le couvercle qui se trouve sur le 
+coin supérieur droit à l’arrière de la sécheuse. 
+Voir figure 3.
+Figure 3 - Retirer le couvercle.
+3.	 Accéder aux composants électroniques de 
+la machine sans débrancher de câblage allant 
+vers le MCA.
+4.	 Avec un ohmmètre, contrôler la continuité 
+entre les broches L1 et N de la fiche de 
+branchement du cordon d’alimentation et les 
+bornes L1 et N du MCA. Voir figure 4.
+ Si la continuité est bonne pour les deux 
+conducteurs, passer à l’étape 6.
+ S’il y a un circuit ouvert, contrôler 
+l’intégrité des connexions entre le cordon 
+d’alimentation et le câblage de la sécheuse, 
+et entre le câblage et le MCA, ainsi que 
+l’intégrité du cordon d’alimentation lui-même.
+5.	 S’il est nécessaire de remplacer le cordon 
+d’alimentation, enlever l’agrafe qui retient le 
+cordon d’alimentation sur le panneau arrière. 
+Débrancher le cordon d’alimentation du 
+câblage principal et débrancher le conducteur 
+de liaison à la terre du panneau arrière, puis 
+enlever le cordon d’alimentation.
+6.	 Vérifier visuellement que TOUS les 
+connecteurs sont complètement insérés  
+dans le MCA.
+P9
+1
+5
+1
+P/N XXXXXX   Rev X
+Date Code YDDD-xx
+XXXX-XXX
+MADE IN COO
+L1
+COM
+P8
+L1
+N Neu
+N
+Neu
+Fiche de 
+branchement
+MCA
+Figure 4 - Raccordement entre fiche et borne  
+pour une sécheuse électrique.
+Couvercle
+Ôter  
+la vis
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 43 =====
+
+PAGE 43
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+7.	 Vérifier visuellement que TOUS les connecteurs 
+sont complètement insérés dans l’IU.
+8.	 Réassembler tous les pièces et panneaux.
+9.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+10.	 Exécuter les étapes sous “Mode de test 
+de service”, page 34, pour vérifier la réparation.
+SÉCHEUSE À GAZ :
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer le couvercle qui se trouve sur le 
+coin supérieur droit à l’arrière de la sécheuse. 
+Voir figure 3, page 42.
+3.	 Vérifier que le cordon d’alimentation est 
+correctement raccordé au câblage de la 
+sécheuse. Voir figure 5.
+4.	 Accéder aux composants électroniques de la 
+machine sans débrancher de câblage allant vers 
+le MCA.
+5.	 Avec un ohmmètre, vérifier la continuité entre 
+la broche neutre (N) de la fiche de branchement 
+et la broche P8-3 (conducteur blanc) du MCA. 
+La partie gauche de l’illustration à la figure 6 
+identifie la position de la broche neutre (N) de la 
+fiche de branchement. Voir également figure 2, 
+page 41.
+ S’il y a continuité, passer à l’étape 6.
+ S’il n’y a pas de continuité, défaire la 
+connexion entre le conducteur blanc 
+du câblage principal et le cordon 
+d’alimentation, à l’emplacement indiqué à la 
+figure 5. Tester la continuité du conducteur 
+neutre du cordon d’alimentation selon les 
+indications de la figure 6. S’il y a un circuit 
+ouvert, remplacer le cordon d’alimentation. 
+Sinon passer à l’étape 6.
+6.	 D’une manière similaire, vérifier la continuité 
+entre la broche L1 de la fiche de branchement  
+et la broche P9-2 (conducteur noir) sur le MCA.
+ S’il y a continuité, passer à l’étape 7.
+ S’il n’y a pas de continuité, contrôler la  
+continuité sur le cordon d’alimentation  
+d’une manière similaire à ce qui est décrit  
+à la figure 6, mais pour le conducteur L1  
+du cordon d’alimentation.
+ S’il y a un circuit ouvert, remplacer le cordon 
+d’alimentation. Sinon, réinstaller le câblage 
+principal.
+7.	 Vérifier visuellement que TOUS les connecteurs 
+sont complètement insérés dans le MCA.
+8.	 Vérifier visuellement que TOUS les connecteurs 
+sont complètement insérés dans l’IU.
+9.	 Réassembler tous les pièces et panneaux.
+10.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+11.	 Exécuter les étapes sous “Mode de test  
+de service”, page 34, pour vérifier la réparation.
+TEST nº 3 : Circuit du moteur
+Ce test permet de contrôler le câblage du 
+moteur et le moteur lui-même. Les composants 
+suivants font partie du système du moteur :
+COM
+Neu
+G
+L1
+L1
+Masse
+N
+Neu
+N
+G
+Masse
+Figure 5 - Raccordement entre cordon 
+d’alimentation et câblage pour une sécheuse à gaz.
+Figure 6 - Bornes du cordon d’alimentation  
+électrique, sécheuse à gaz.
+Fiche de 
+branchement
+Composant du 
+système du moteur
+Sécheuse 
+électrique
+Sécheuse 
+à gaz
+ Courroie du tambour
+ü
+ü
+ Contacteur de la porte
+ü
+ü
+ Câblage/raccordement
+ü
+ü
+ Fusible thermique
+ü
+non
+ Moteur d’entraînement
+ü
+ü
+ Contacteur du tensionneur
+ de courroie
+ü
+ü
+ Contacteur centrifuge
+ü
+ü
+ Module de commande 
+ électronique de la machine
+ü
+ü
+ Condensateurs du moteur
+ü
+ü
+Cordon 
+d’alimentation
+Câblage
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 44 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 44
+NE PAS ENLEVER NI DÉTRUIRE
+NOTE : Consulter le schéma des circuits en page 
+54 pour diagnostiquer le moteur d’entraînement.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+3.	 Vérifier si la courroie n’est pas lâche,  
+usée ou endommagée—réparer si nécessaire.
+4.	 Les problèmes du contacteur de la 
+porte peuvent être découverts en suivant 
+la procédure donnée dans le TEST nº 7 : 
+Contacteur de la porte, page 52; cependant, 
+si cela n’a pas été fait, on peut exécuter les 
+opérations suivantes sans mettre la sécheuse 
+sous tension. Brancher un ohmmètre entre les 
+broches P8-3 (neutre, conducteur blanc) et 
+P8-4 (porte, conducteur tan) du MCA.
+ Lorsque la porte est correctement fermée, 
+l’ohmmètre doit indiquer un circuit fermé  
+(0 à 2 Ω).
+ Sinon, vérifier les câblages et les 
+raccordements entre le MCA et le 
+contacteur de la porte. S’ils sont bons, 
+remplacer le contacteur de la porte.
+5.	 Contrôle du circuit du moteur - Accéder au  
+MCA et mesurer la résistance entre P8-4 et P9-1.
+ Si la résistance à travers P8-4 et P9-1  
+est entre 1 et 6 Ω, le circuit du moteur  
+est acceptable. Remplacer le MCA.
+ Sinon, passer à l’étape 6.
+6.	 Contrôler le câblage et les composants  
+dans le chemin entre ces points de mesure en 
+se référant au schéma de câblage approprié (gaz 
+ou électrique) en page 55 ou 56. NOTE : Pour 
+accéder aux composants du système du moteur, 
+glisser la partie supérieure vers l’arrière et retirer 
+le panneau avant.
+SÉCHEUSE ÉLECTRIQUE SEULEMENT : Vérifier 
+le fusible thermique. Voir TEST nº 4b : Fusible 
+thermique, page 49.
+TOUTES LES SÉCHEUSES : Passer à l’étape 
+7 ci-dessous pour tester les composants 
+restants du circuit du moteur.
+7.	 Vérifier le moteur d’entraînement. Séparer 
+lentement la courroie du tambour de la poulie 
+de tensionnement chargée par ressort, en 
+laissant la poulie descendre doucement. Voir 
+figure 7.
+8.	 Débrancher le connecteur blanc  
+du contacteur du moteur d’entraînement.  
+Voir figure 8.
+9.	 Débrancher le connecteur du conducteur  
+de cuivre nu de la broche 5 du commutateur 
+noir du moteur d’entraînement. Voir figure 9a.
+10.	 En utilisant la figure 9a et le schéma des 
+circuits de la page 54, vérifier les valeurs de 
+résistance des bobinages du moteur (bobinage 
+principal et bobinage de démarrage) comme 
+montré dans le tableau suivant (page 45).
+NOTE : Le bobinage principal et le bobinage de 
+démarrage doivent être contrôlés sur le moteur.
+Figure 7 - Retirer la courroie du tambour lentement.
+Courroie  
+du tambour
+Poulie de tensionnement
+1
+5
+3
+4
+6
+2
+Figure 8 - Débrancher le connecteur blanc.
+Connecteur 
+blanc
+Contacteur du moteur 
+d’entraînement
+1
+5
+3
+4
+6
+2
+Bobinage principal : Conducteur 
+bleu clair à l’arrière, et  
+conducteur de cuivre nu
+Circuit de 
+démarrage : 
+Conducteur 
+bleu clair à 
+l’arrière, et 
+conducteur 
+de cuivre nu
+Figure 9a - Points de mesure pour le bobinage du 
+moteur (bobinage principal et bobinage de démarrage)
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 45 =====
+
+PAGE 45
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+ Si la résistance du bobinage du moteur  
+est correcte, il doit y avoir un circuit ouvert 
+entre le moteur et le MCA. Passer à l’étape 
+11 pour vérifier s’il y a un problème sur le 
+contacteur du tensionneur de courroie.
+ Si la résistance de la bobine principale  
+ou de démarrage est beaucoup plus 
+grande ou beaucoup moins que les valeurs 
+énumérées dans le tableau ci-dessus, 
+remplacer le moteur.
+11.	 Contrôler le contacteur du tensionneur de  
+courroie en mesurant la résistance entre les deux  
+conducteurs bleus (voir la figure 9b) tout en  
+poussant vers le haut la poulie de tensionnement.
+ Si la résistance mesurée passe de l’infini 
+à quelques ohms lors de la fermeture du 
+contacteur par le bras de poulie, le contacteur 
+du tensionneur de la courroie est en bon état. 
+Sinon, remplacer le contacteur de la courroie.
+ Si le contacteur de la courroie est en bon 
+état et s’il y a toujours un circuit ouvert, 
+vérifier et réparer le câblage.
+12.	 Si le moteur est doté de deux condensateurs 
+attachés, comme illustré à la figure 9c, exécuter 
+la procédure suivante. Dans le cas contraire, 
+passer à l’étape 13. Retirer les condensateurs 
+du moteur et les vérifier : pour retirer chaque 
+condensateur, débrancher son connecteur et  
+dévisser l’écrou à son extrémité (voir la figure 9c). 
+Les connecteurs des condensateurs sont dotés 
+de détrompeurs pour faciliter leur connexion 
+dans le bon sens. Ils sont noirs pour le 
+Bobinage
+Résistance
+en ohms
+Points
+de mesure
+PRINCIPAL
+3,3–3,6
+Conducteur bleu clair à l’arrière 
+sur la broche 4, et conducteur  
+en cuivre nu déconnecté de   
+la broche 5 du contacteur 
+noir du moteur d’entraînement.
+MISE EN
+MARCHE
+2,7–3,0
+Conducteur bleu clair à l’arrière
+sur la broche 4, et conducteur 
+en cuivre nu sur la broche 3 
+du contacteur noir du moteur 
+d’entraînement.
+1
+5
+3
+4
+6
+2
+Figure 9b - Contrôler le contacteur du tensionneur 
+de courroie.
+Poulie de  
+tensionnement
+Contacteur du tensionneur 
+de courroie
+Conducteurs 
+bleu clair
+condensateur de marche et vert clair et gris  
+pour le condensateur de démarrage. Brancher 
+les deux conducteurs pour vérifier l’inductance 
+des condensateurs. L’inductance du condensateur 
+de démarrage doit être comprise entre 189 et 
+227 μF; celle du condensateur de marche doit 
+être comprise entre 22,3 et 24,7 μF. Appliquer 
+un couple de 9 à 12 Nm pour chacun.
+13.	 Réassembler tous les pièces et panneaux.
+14.	 Brancher la sécheuse ou reconnecter la 
+source de courant électrique.
+15.	 Exécuter les étapes sous “Mode de test  
+de service”, page 34, pour vérifier la réparation.
+TEST nº 4 : Système de chauffage
+On exécute ce test lorsque l’une des 
+situations suivantes se manifeste :
+3 La sécheuse ne chauffe pas
+3 Impossibilité d’arrêt du chauffage
+Avec ce test, on contrôle les composants 
+du circuit de chauffage. Les composants 
+suivants font partie de ce système :
+NOTE : Sur la sécheuse à gaz, la thermistance  
+d’entrée est située dans l’évent d’entrée du  
+tambour. Consulter le schéma des circuits en page 
+54 pour diagnostiquer le système de chauffage.
+Composant du système 
+de chauffage
+Sécheuse 
+électrique
+Sécheuse 
+à gaz
+Câblage/raccordement
+
+
+Relais de chauffage
+
+
+Coupe-circuit thermique
+
+
+Fusible thermique
+non
+
+Thermostat – limite haute
+
+
+Élément chauffant
+
+non
+Électrovanne à gaz
+non
+
+Contacteur centrifuge
+
+
+Thermistance de décharge
+
+
+Thermistance d’entrée
+
+
+Module de commande électronique
+de la machine
+
+
+Composants électroniques  
+et logement de la console
+
+
+Alimentation en gaz
+non
+
+Figure 9c - Condensateurs du moteur.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 46 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 46
+NE PAS ENLEVER NI DÉTRUIRE
+Absence de chauffage :
+Repérer les composants à l’aide des figures 
+10a et 10b. Pour accéder aux composants du 
+système de chauffage, retirer la console, le 
+panneau supérieur et le panneau avant.
+SÉCHEUSE ÉLECTRIQUE SEULEMENT :
+3 Vérification rapide : Exécuter les étapes sous 
+“Mode de test de service”, page 34, pour 
+tester la tension de ligne L1 et L2.
+•	 Si L1 est présent, le coupe-circuit 
+thermique est fonctionnel.
+•	 Si L2 est présent, le contacteur centrifuge, 
+le thermostat de température maximale et 
+le côté de l’élément chauffant branché au 
+relais chauffage 1 sont en bon état.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Glisser la partie supérieure vers l’arrière, retirer 
+le panneau avant, la cloison avant et le tambour 
+pour accéder aux composants thermiques.
+3.	 Contrôler les éléments chauffants—sur 
+le MCA, utiliser un ohmmètre pour mesurer 
+la résistance entre le conducteur violet sur 
+le relais de chauffage nº 1 et le conducteur 
+violet sur le relais de chauffage nº 2.
+ Si la résistance est ≤ 50 Ω, passer à l’étape 5.
+ Si un circuit ouvert est détecté, passer à l’étape 4.
+4.	 Vérifier visuellement les connexions 
+électriques entre tous les relais et leurs éléments 
+chauffants respectifs. Si les connexions sont en 
+bon état, vérifier la continuité à travers chaque 
+élément chauffant (entre le conducteur violet et 
+le conducteur rouge du centre). Consulter  
+le schéma des circuits en page 54.
+ Remplacer l’élément chauffant s’il manifeste 
+un circuit ouvert.
+Figure 10b - Composants thermiques,  
+sécheuse à gaz, vue de face.
+Thermistance 
+de décharge
+Fusible thermique
+Sécheuse à gaz
+Coupe-circuit thermique
+Thermostat – limite haute
+Détecteur 
+de flamme
+5.	 Contrôler le coupe-circuit thermique— sur 
+le MCA, utiliser un ohmmètre pour mesurer la  
+continuité entre P9-2 (L1) et le conducteur noir 
+sur le relais de chauffage nº 1. Ensuite, mesurer la 
+continuité entre P9-2 (L1) et le conducteur noir  
+sur le relais de chauffage nº 2.
+ S’il y a continuité, passer à l’étape 7.
+ Si un circuit ouvert est détecté, passer  
+à l’étape 6.
+6.	 Vérifier visuellement les connexions 
+électriques entre tous les relais (conducteur 
+noir) et le coupe-circuit thermique. Si les 
+connexions sont en bon état, vérifier la 
+continuité à travers le coupe-circuit thermique.
+ Remplacer le coupe-circuit thermique  
+s’il manifeste un circuit ouvert.
+7.	 Contrôler le thermostat de température  
+maximale—contrôler visuellement les  
+connexions sur les éléments chauffants et le  
+contacteur centrifuge allant vers le thermostat  
+de température maximale. Si les connexions  
+sont en bon état, vérifier la continuité à travers  
+le thermostat de température maximale.
+ Remplacer le thermostat de température 
+maximale, s’il manifeste un circuit ouvert.
+8.	 Si aucun circuit ouvert n’est détecté, 
+débrancher P14 du MCA et mesurer la 
+résistance de la thermistance de décharge entre 
+P14-3 et P14-6 sur le connecteur. Voir le tableau 
+“Résistance de la thermistance de décharge”, 
+page 48, pour la correspondance entre les 
+températures et leurs valeurs de résistance.
+ Si la résistance correspond à la 
+température, la thermistance de décharge 
+est en bon état. Passer à l’étape 9.
+Figure 10a - Composants thermiques,  
+sécheuse électrique, vue de face.
+Ensemble thermistance d’entrée/
+thermostat de température maximum
+Élément 
+chauffant
+Sécheuse électrique
+Fusible thermique
+Thermistance 
+de décharge
+Coupe-circuit 
+thermique
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 47 =====
+
+PAGE 47
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+ Si la résistance de la thermistance ne  
+correspond pas aux valeurs indiquées dans le  
+tableau, remplacer la thermistance de décharge. 
+9.	 Si les étapes précédentes ne résolvent pas 
+le problème et que L1 et L2 sont détectées, 
+remplacer le MCA. Si L2 n’est pas détectée, 
+vérifier le contacteur centrifuge avant de 
+remplacer le MCA.
+10.	 Réassembler tous les pièces et panneaux.
+11.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+12.	 Exécuter les étapes sous “Mode de test de 
+service”, page 34, pour vérifier la réparation.
+SÉCHEUSE À GAZ SEULEMENT :
+1.	 Vérifier que l’alimentation en gaz  
+de la sécheuse est ouverte.
+2.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+3.	 Exécuter le TEST nº4b : Fusible thermique 
+en page 49. Si le fusible thermique est en bon 
+état, passer à l’étape 4.
+4.	 Exécuter le TEST nº4c : Coupe-circuit 
+thermique en page 49. Si le coupe-circuit 
+thermique est en bon état, passer à l’étape 5.
+5.	 Identifier le thermostat de température 
+maximale (voir figure 10b, page 46). 
+Contrôler la continuité à travers le thermostat 
+en connectant les sondes de l’instrument de 
+mesure sur les broches rouge et noir.
+ S’il y a un circuit ouvert, remplacer le 
+thermostat de température maximale  
+et le coupe-circuit thermique.
+ Sinon, passer à l’étape 6.
+6.	 Exécuter le TEST nº4d : Électrovanne à 
+gaz en page 49. Si l’électrovanne à gaz est  
+en bon état, passer à l’étape 7.
+7.	 Si les étapes précédentes ne résolvent pas 
+le problème, vérifier le contacteur centrifuge 
+avant de remplacer le MCA.
+8.	 Réassembler tous les pièces et panneaux.
+9.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+10.	 Exécuter les étapes sous “Mode de test  
+de service”, page 34, pour vérifier la réparation.
+Impossibilité d’arrêt du chauffage :
+TOUTES LES SÉCHEUSES :
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+3.	 Retirer le connecteur P14 du MCA 
+et mesurer la résistance entre P14-3 et 
+P14-6 sur le connecteur. Voir le tableau 
+“Résistance de la thermistance de décharge”, 
+page 48, pour la correspondance entre les 
+températures et leurs valeurs de résistance.
+ Si la résistance correspond à la température, 
+la thermistance de décharge est en bon état.
+ Si la résistance de la thermistance ne  
+correspond pas aux valeurs indiquées dans le  
+tableau, remplacer la thermistance de décharge.
+4.	 Vérifier que les serpentins de chauffage n’ont 
+pas de court-circuit à la terre (habituellement 
+l’intérieur du boîtier de chauffage). Réparer et 
+remplacer si nécessaire.
+5.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+6.	 Lancer un programme de séchage  
+minuté avec l’option “AIR” seulement (pas  
+de chaleur). Contrôler les sorties du relais  
+de chauffage sur le MCA. Débrancher la  
+sécheuse ou déconnecter la source de  
+courant électrique. À l’aide d’un voltmètre  
+réglé sur courant alternatif CA, brancher le  
+voltmètre aux broches 1 et 2 du relais de  
+chauffage nº 1. Brancher la sécheuse ou  
+reconnecter la source de courant électrique.  
+Mesurer la tension entre les broches 1 et 2  
+du relais de chauffage nº 1. Si équipé, répéter 
+la procédure avec le relais de chauffage nº 2.
+ Si une tension est présente (~240 V CA 
+pour la sécheuse électrique, ~120 V CA 
+pour la sécheuse à gaz), le relais est ouvert 
+et fonctionne normalement.
+ S’il y a une faible tension ou s’il n’y a 
+aucune tension, le relais est fermé et 
+l’élément chauffant est activé. Débrancher 
+la sécheuse ou déconnecter la source de 
+courant électrique et remplacer le MCA.
+7.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+8.	 Réassembler tous les pièces et panneaux.
+9.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+10.	 Exécuter les étapes sous “Mode de test  
+de service”, page 34, pour vérifier la réparation.
+TEST nº 4a : Thermistances
+NOTE : Consulter le schéma des circuits en 
+page 54 pour diagnostiquer les thermistances 
+d’entrée et de décharge.
+Thermistance de décharge (sortie)
+Le MCA assure un suivi de la température 
+dans le circuit de décharge, au moyen d’une 
+thermistance de décharge; et allume et 
+éteint le relais de chauffage pour maintenir la 
+température désirée. NOTE : Travailler sur une 
+sécheuse vide, avec tamis à charpie propre.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+3.	 Retirer le connecteur P14 du MCA et 
+mesurer la résistance entre P14-3 et P14-6 
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 48 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 48
+NE PAS ENLEVER NI DÉTRUIRE
+sur le connecteur. Le tableau présente la 
+correspondance entre les températures et 
+leurs valeurs de résistance.
+NOTE : Toute mesure de la résistance de la  
+thermistance doit se faire pendant que la sécheuse  
+est débranchée de la source d’alimentation électrique 
+et que le connecteur est débranché du MCA.
+ Si la résistance est en bon état, la thermistance 
+de sortie est en bon état. Passer à l’étape 4.
+ Si la résistance de la thermistance ne 
+correspond pas aux valeurs indiquées dans 
+le tableau, remplacer la thermistance de 
+décharge.
+4.	 Contrôler la résistance entre P14-3 et P14-6, 
+et la mise à la terre de la sécheuse. Si l’une 
+des broches indique une continuité à la terre 
+(court-circuit), remplacer le câblage; sinon, 
+passer à l’étape 5.
+5.	 Si les étapes précédentes ne résolvent pas 
+le problème, remplacer le MCA.
+Niveaux de température incorrects – Si aucun code  
+d’anomalie n’est affiché et si les connexions avec la 
+thermistance sont bonnes, contrôler la température  
+au point de décharge à n’importe quel niveau de  
+température ou à tous les niveaux de température en  
+utilisant le programme Timed Dry (séchage minuté).
+IMPORTANT : S’assurer qu’EcoBoost ou Energy 
+Saver (si disponible) est désactivé avant de tester.
+1.	 Retirer la charge de la sécheuse  
+et débrancher l’évent externe.
+2.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+3.	 Lancer un programme TIMED DRY (séchage  
+minuté) (mixed/timed dry sur les modèles  
+Whirlpool) d’une durée de 2 minutes au moins.  
+Choisir un réglage de la température avec chaleur.
+4.	 En utilisant une sonde de température calibrée, 
+prendre une mesure de température au centre de la 
+sortie d’évacuation. Le tableau suivant indique les 
+températures correctes à la décharge :
+Temp.
+°F (°C)
+Rés. 
+k Ω
+Temp.
+°F (°C)
+Rés. 
+k Ω
+50° (10°)
+19,0–22,0
+80° (27°)
+8,5–10,5
+60° (16°)
+14,8–16,8
+90° (32°)
+6,8–8,8
+70° (21°)
+11,5–13,5
+100° (38°)
+5,0–7,0
+Résistance de la thermistance de décharge
+Réglage de
+température
+Arrêt du chauffage
+°C (°F)
+Chauffant actif
+°C (°F)
+68° ± 3°  (155° ± 5°)
+60° ± 3°  (140° ± 5°)
+52° ± 3°  (125° ± 5°)
+41° ± 3°  (105° ± 5°)
+Températures au point de décharge
+6–8° (10–15°)
+au-dessous du
+point d’interruption
+du chauffage
+(l’apparence peut varier)
+ Si la température n’est pas atteinte 
+sous ~7 minutes, vérifier la tension et 
+l’obstruction de l’évent, et refaire le test.
+ Si la lecture de la sonde de température ne 
+correspond pas au réglage de température, 
+remplacer la thermistance de décharge.
+ Si la sonde de température confirme le 
+réglage de température, tester de nouveau 
+avec un autre réglage de température.
+5.	 Si les étapes précédentes ne résolvent  
+pas le problème, remplacer le MCA.
+Thermistance d’entrée
+NOTE : La thermistance d’entrée fait partie  
+du thermostat de température maximale sur  
+la sécheuse électrique (voir figure 10a). Sur la  
+sécheuse à gaz, la thermistance d’entrée est 
+située dans le conduit d’entrée du tambour  
+(voir figure 16, page 57).
+Le MCA contrôle la température interne 
+en utilisant la thermistance d’entrée. La 
+thermistance d’entrée (avec la thermistance de 
+décharge) est utilisée pour détecter la circulation 
+d’air, et aide à calculer la taille de la charge.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+3.	 Retirer le connecteur P14 du MCA et 
+mesurer la résistance entre P14-1 et P14-2 sur 
+le connecteur. Les tableaux (électrique et à gaz) 
+suivants présentent la correspondance entre 
+les températures et leurs valeurs de résistance.
+NOTE : Toute mesure de la résistance de la  
+thermistance doit se faire pendant que la sécheuse 
+est débranchée de la source d’alimentation électrique 
+et que le connecteur est débranché du MCA.
+ Si la résistance est en bon état, la thermistance 
+d’entrée est en bon état. Passer à l’étape 4.
+ Si la résistance de la thermistance ne  
+correspond pas aux valeurs indiquées dans  
+le tableau, remplacer la thermistance d’entrée.
+Temp.
+°F (°C)
+Rés. 
+k Ω
+Temp.
+°F (°C)
+Rés. 
+k Ω
+68°  (20°)
+61,2–63,7
+131°  (55°)
+14,5–15,3
+77°  (25°)
+49,0–51,0
+140°  (60°)
+12,1–12,8
+86°  (30°)
+39,5–41,1
+149°  (65°)
+10,2–10,7
+95°  (35°)
+32,0–33,3
+158°  (70°)
+8,5–9,0
+104°  (40°)
+26,1–27,2
+167°  (75°)
+7,2–7,6
+113°  (45°)
+21,4–22,3
+176°  (80°)
+6,1–6,5
+122°  (50°)
+17,6–18,5
+Élect - Résistance de la thermistance d’entrée
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 49 =====
+
+PAGE 49
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+4.	 Contrôler la résistance entre P14-1 et P14-2, 
+et la mise à la terre de la sécheuse. Si l’une des  
+broches indique une continuité à la terre (court-circuit), 
+remplacer le câblage; sinon, passer à l’étape 5.
+5.	 Si les étapes précédentes ne résolvent  
+pas le problème, remplacer le MCA.
+TEST nº 4b : Fusible thermique
+SÉCHEUSE ÉLECTRIQUE : Le fusible 
+thermique est raccordé en série avec le 
+moteur d’entraînement de la sécheuse.
+SÉCHEUSE À GAZ : Le fusible thermique est raccordé 
+en série avec l’électrovanne à gaz de la sécheuse.
+TOUTES LES SÉCHEUSES :
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Glisser la partie supérieure vers l’arrière, 
+retirer le panneau avant, la cloison avant et le 
+tambour pour accéder au fusible thermique.
+3.	 Avec un ohmmètre, contrôler la continuité 
+à travers le fusible thermique.
+ Si l’ohmmètre indique un circuit ouvert, 
+remplacer le fusible thermique.
+TEST nº 4c : Coupe-circuit thermique
+Si la sécheuse ne produit pas de chaleur, 
+contrôler l’état du coupe-circuit thermique.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console, le panneau supérieur, le 
+panneau avant, la cloison avant et le tambour 
+pour accéder au coupe-circuit thermique.
+3.	 À l’aide d’un ohmmètre, contrôler la continuité 
+à travers le coupe-circuit thermique. Voir les 
+figures 10a et 10b, page 46, pour l’emplacement.
+4.	 Si l’ohmmètre indique un circuit ouvert, 
+exécuter ce qui suit :
+TOUTES LES SÉCHEUSES : Remplacer le 
+coupe-circuit thermique et le thermostat de 
+température maximale. De plus, rechercher une  
+obstruction ou autre anomalie dans le circuit 
+d’évacuation de l’air humide, ou, sur modèles 
+électriques, un élément chauffant défaillant.
+Temp.
+°F (°C)
+Rés. 
+k ohms
+Temp.
+°F (°C)
+Rés. 
+k ohms
+68°  (20°)
+57,5–67,6
+131°  (55°)
+14,1–15,6
+77°  (25°)
+46,1–53,8
+140°  (60°)
+11,8–12,9
+86°  (30°)
+37,4–43,1
+149°  (65°)
+9,9–10,8
+95°  (35°)
+30,4–34,7
+158°  (70°)
+8,4–9,0
+104°  (40°)
+24,9–28,2
+167°  (75°)
+7,1–7,6
+113°  (45°)
+20,5–23,0
+176°  (80°)
+6,0–6,4
+122°  (50°)
+16,9–18,9
+Gaz - Résistance de la thermistance d’entrée
+TEST nº 4d : Électrovanne à gaz 
+(sécheuse à gaz)
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Glisser la partie supérieure vers l’arrière, 
+retirer le panneau avant, la cloison avant et le 
+tambour pour accéder à l’électrovanne à gaz.
+3.	 Utiliser un ohmmètre pour déterminer 
+si la bobine de l’électrovanne à gaz a mal 
+fonctionné : Débrancher les conducteurs. 
+Mesurer la résistance entre les broches (voir 
+figure 11). Les lectures doivent correspondre 
+à ce qui est donné dans le tableau ci-après; 
+sinon, remplacer les bobinages.
+4.	 Débrancher la fiche de l’allumeur du brûleur. 
+Utiliser un ohmmètre pour mesurer la résistance 
+à travers le connecteur à deux broches de 
+l’allumeur. La valeur de la résistance doit être 
+contenue entre 50 et 500 Ω.
+ Si la valeur de la résistance mesurée se 
+situe en dehors de cette gamme ou est 
+infinie, remplacer l’allumeur.
+ Si la valeur de la résistance mesurée se 
+situe dans cette gamme, rebrancher la fiche 
+de l’allumeur et continuer vers l’étape 5.
+5.	 Déconnecter les conducteurs allant vers 
+les bornes du détecteur de flamme. À l’aide 
+d’un ohmmètre, vérifier s’il y a continuité 
+entre les deux bornes du capteur.
+ S’il y a continuité, reconnecter les 
+conducteurs du capteur et passer à l’étape 6.
+ Si la mesure indique un circuit ouvert,  
+le détecteur de flamme doit être remplacé.
+6.	 Réassembler tous les pièces et panneaux 
+avant de reconnecter la source de courant 
+électrique.
+7.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+8.	 Lancer un programme TIMED DRY  
+(séchage minuté) (mixed/timed dry sur les 
+modèles Whirlpool) à haute température  
+d’une durée de 2 minutes au moins.
+9.	 Observer l’allumeur pendant quelques minutes 
+par la fenêtre dans le côté. Si l’allumeur reste 
+chauffé au rouge et que le gaz n’aboutit pas pour 
+allumer, le détecteur de flamme doit être changé.
+Figure 11 - Mesure de la résistance  
+de l’électrovanne à gaz.
+Bornes
+Résistance
+en ohms
+1 à 2
+1400 ± 70
+1 à 3
+570 ± 28,5
+4 à 5
+1300 ± 65
+Résistance de
+l’électrovanne à gaz
+Noire
+Bleue claire
+Blanche
+Blanche
+Bleue claire
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 50 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 50
+NE PAS ENLEVER NI DÉTRUIRE
+NOTE : Si l’allumeur ne se met pas en marche, 
+la tension de ligne peut ne pas être présente 
+au brûleur à gaz. Le contacteur centrifuge du 
+moteur peut être suspect.
+IMPORTANT : Pour éviter d’endommager le câblage 
+du bruleur à gaz, vérifier que le câblage est regroupé  
+exactement comme il était avant le service.
+10.	Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+11.	 Réassembler tous les pièces et panneaux.
+12.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+13.	 Exécuter les étapes sous “Mode de test  
+de service”, page 34, pour vérifier la réparation.
+TEST nº 5 : Capteur d’humidité
+On exécute ce test lorsqu’un programme 
+automatique prend fin trop tôt, ou se poursuit 
+plus longtemps qu’il ne devrait.
+NOTE : La sécheuse cesse automatiquement  
+de fonctionner après 2½ heures.
+Il s’agit des composants suivants :
+NOTE : Consulter le schéma des circuits en  
+page 54 pour diagnostiquer le capteur d’humidité.
+NOTE : La durée excessive de la période de 
+chauffage peut être due à un court-circuit dans 
+le système de détection d’humidité.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+3.	 Accéder aux câbles du capteur d’humidité 
+en faisant glisser le panneau supérieur 
+vers l’arrière et retrait du panneau avant. 
+Débrancher le connecteur du capteur 
+d’humidité à 3 conducteurs situé sous 
+l’ouverture de la porte qui se trouve entre  
+le panneau avant et la cloison.
+4.	 Accéder au MCA et débrancher le 
+connecteur P13 de la carte des circuits. 
+Contrôler la continuité du câblage entre P13  
+et le connecteur du capteur d’humidité.
+Composant du système 
+d’humidité
+Sécheuse 
+électrique
+Sécheuse 
+à gaz
+Câblage/raccordement
+
+
+Rubans métalliques du capteur
+
+
+Commande électronique de la machine
+
+
+ S’il y a continuité, passer à l’étape 5.
+ S’il n’y a pas de continuité, remplacer  
+le câblage principal.
+5.	 Mesurer la résistance entre les contacts 
+externes du connecteur qui inclut les deux 
+MOV.
+ Si une faible résistance est mesurée, 
+nettoyer les deux rubans métalliques qui 
+se trouvent dans le tambour. Si une faible 
+résistance est mesurée après le nettoyage, 
+remplacer le câblage du capteur.
+ Si on ne mesure pas une petite résistance, 
+passer à l’étape 6.
+6.	 Mesurer la résistance entre chacun des 
+contacts externes et la borne centrale (mise  
+à la terre).
+ Si on mesure une résistance inférieure à 
+l’infini, remplacer le câblage du capteur.
+7.	 Si les tests de diagnostic ne détectent 
+aucune anomalie du capteur d’humidité, 
+contrôler la thermistance de décharge :  
+TEST nº 4a, page 47.
+ Si le problème persiste après le 
+remplacement du capteur d’humidité et de 
+la thermistance, penser à ajuster le degré 
+de séchage (voir TEST nº 5a : Ajuster le 
+degré de séchage centré sur le client).
+8.	 Si les étapes précédentes ne résolvent pas 
+le problème, remplacer le MCA.
+TEST nº 5a : Ajuster le degré  
+de séchage centré sur le client
+NOTE : Si le client se plaint que les vêtements 
+ne sont pas aussi secs qu’il le souhaite ou qu’ils 
+sont trop secs, et que le capteur d’humidité 
+a passé le TEST nº 5 : Capteur d’humidité, il 
+est possible d’augmenter ou de diminuer le 
+temps de séchage total en changeant le degré 
+de séchage centré sur le client du programme 
+automatique de “2” (programme automatique 
+standard) à “3” (15 % de durée de séchage en 
+plus), “4” (30 % de durée de séchage en plus), 
+“1” (15 % de durée de séchage en moins) ou 
+“0” (30 % de durée de séchage en moins).
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 51 =====
+
+PAGE 51
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+1.	 En mode d’attente (sécheuse branchée 
+mais à l’arrêt), appuyer sans relâcher le bouton 
+DRYNESS ou DRY LEVEL pendant environ 3 
+secondes. La sécheuse émet un signal sonore, 
+et le réglage de séchage actuel s’affichera sur 
+l’afficheur à 7 segments. La valeur par défaut 
+correspondant à la configuration d’usine  
+est “2”.
+2.	 Appuyer sur le bouton de degré de séchage 
+fait basculer le réglage de séchage entre 0, 1, 
+2, 3 et 4, en commençant par le réglage actuel. 
+Le nouveau réglage est affiché dans l’afficheur 
+à 7 segments.
+3.	 Tandis que l’afficheur présente le mode  
+de séchage sélectionné, appuyer sur le bouton 
+START pour mémoriser le mode de séchage, et 
+passer au mode d’attente (le bouton START ne 
+lance pas un programme de séchage dans ce 
+mode). Le résultat de l’opération sera conservé 
+dans la mémoire EEPROM du MCA, et ne 
+disparaîtra pas à l’occasion d’une interruption 
+d’alimentation électrique.
+NOTE : S’il n’y a pas d’activité utilisateur 
+pendant 20 secondes, ou si un bouton autre 
+que START, DRYNESS ou DRY LEVEL est 
+enfoncé, le réglage de séchage est ramené  
+à sa configuration antérieure.
+4.	 Appuyer à tout moment sur le bouton 
+POWER pour annuler les changements et 
+quitter ce mode.
+TEST nº 6 : Boutons et témoins
+On exécute ce test lorsqu’une des situations 
+suivantes survient durant le “Test d’activation 
+des boutons et encodeurs” (voir page 34).
+3 Les témoins et l’afficheur ne s’allument pas
+3 Pas d’illumination de certains boutons
+3 Pas d’emission de signal sonore
+Les témoins et l’afficheur ne s’allument pas :
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder au MCA  
+et à l’interface utilisateur (IU).
+3.	 Vérifier visuellement que TOUS les connecteurs 
+du MCA sont complètement insérés dans le MCA.
+4.	 Vérifier visuellement que TOUS les connecteurs 
+de l’IU sont complètement insérés dans l’IU.
+5.	 Si tous les contrôles visuels sont réussis, 
+exécuter le TEST nº 1 : Contrôle de la tension 
+du MCA, page 41, pour vérifier les tensions 
+d’alimentation.
+ Si les tensions d’alimentation sont présentes, 
+remplacer l’interface utilisateur et le logement.
+ Si les tensions d’alimentation ne sont pas 
+présentes, remplacer le MCA.
+6.	 Réassembler tous les pièces et panneaux.
+7.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+8.	 Exécuter le “Test d’activation des boutons 
+et encodeurs” (page 34) pour vérifier la 
+réparation.
+Pas d’illumination de certains boutons :
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder au MCA  
+et à l’interface utilisateur (IU).
+3.	 Remplacer l’interface utilisateur et le 
+logement.
+4.	 Réassembler tous les pièces et panneaux.
+5.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+6.	 Exécuter le “Test d’activation des boutons 
+et encodeurs” (page 34) pour vérifier la 
+réparation.
+Pas d’émission de signal sonore :
+1.	 Vérifier que le volume de “End Beep”, 
+“Audio Level” ou “Cycle Signal” est activé. 
+Appuyer sur le bouton END BEEP, AUDIO 
+LEVEL ou CYCLE SIGNAL pour ajuster  
+le niveau du volume.
+2.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+3.	 Retirer la console pour accéder au MCA  
+et à l’interface utilisateur (IU).
+4.	 Vérifier visuellement que TOUS les connecteurs 
+du MCA sont complètement insérés dans le MCA.
+5.	 Vérifier visuellement que TOUS les connecteurs 
+de l’IU sont complètement insérés dans l’IU.
+6.	 Si le résultat du contrôle visuel est OK, 
+remplacer l’IU et le logement.
+7.	 Réassembler tous les pièces et panneaux.
+8.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+9.	 Exécuter le “Test d’activation des boutons 
+et encodeurs” (page 34) pour vérifier la 
+réparation.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 52 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 52
+NE PAS ENLEVER NI DÉTRUIRE
+TEST nº 7 : Contacteur de la porte
+L’illumination de la lampe du tambour lors de 
+chaque manœuvre d’ouverture de la porte vérifie 
+la fonctionnalité du contacteur. La fermeture de 
+la porte doit éteindre la lampe du tambour.
+Si l’une de ces conditions n’est pas satisfaite :
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+3.	 Vérifier que les conducteurs sont bien 
+connectés entre le contacteur de la porte et le 
+MCA. (Consulter les schémas de câblage des 
+pages 55 et 56).
+ Si les connexions sont en bon état,  
+remplacer le conducteur et le contacteur  
+de la porte, et tester de nouveau.
+ Si la sécheuse ne peut toujours pas se 
+mettre en marche après le remplacement 
+du conducteur et du contacteur de la porte, 
+remplacer le MCA.
+4.	 Réassembler tous les pièces et panneaux.
+5.	 Brancher la sécheuse ou reconnecter  
+la source de courant électrique.
+6.	 Vérifier que la sécheuse se met en marche 
+lorsque la porte est fermée et qu’elle s’arrête 
+en ouvrant la porte.
+TEST nº 8 : Lampe DEL du tambour
+Ce test est exécuté si la lampe DEL du tambour 
+ne s’allume pas.
+1.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+2.	 Retirer la console pour accéder au MCA  
+et à l’interface utilisateur (IU).
+3.	 Vérifier que le connecteur J20 de l’ampoule 
+DEL du tambour (voir les schémas de câblage, 
+pages 55 et 56) est parfaitement connecté à l’IU.
+4.	 Vérifier le câblage et les connexions en 
+ligne entre la DEL du tambour et l’IU.
+ Si le câblage et les connexions sont  
+en bon état, passer à l’étape 5.
+ Sinon, réparer et remplacer si nécessaire.
+5.	 Débrancher le connecteur J20 de 
+l’ampoule DEL du tambour (voir les schémas 
+de câblage, pages 55 et 56) de l’IU.
+6.	 À l’aide d’un multimètre réglé sur 
+milliampères, brancher le multimètre aux 
+broches 1 et 3 du connecteur J20 de l’IU. 
+Brancher la sécheuse ou reconnecter la 
+source de courant électrique. Ouvrir la porte.  
+Mesurer le courant à travers les broches 1  
+et 3 du connecteur J20 de l’IU. Si l’ampoule  
+DEL du tambour fonctionne correctement,  
+on mesure 150 mA.
+ Si le courant circule, débrancher la 
+sécheuse ou déconnecter la source de 
+courant électrique et remplacer l’ampoule 
+DEL du tambour.
+ S’il n’y a pas de courant, débrancher la 
+sécheuse ou déconnecter la source de 
+courant électrique et remplacer l’IU.
+7.	 Réassembler tous les pièces et panneaux.
+TEST nº 9 : Électrovanne d’admission  
+d’eau (sur certains modèles)
+Activer le Mode de test de service (voir page 
+34). Exécuter l’étape 8 du tableau de mode 
+de test de service (voir page 36). Contrôler 
+l’introduction d’eau dans le tambour. Voir  
+figure 12.
+NOTE : Consulter le schéma des circuits en 
+page 54 pour diagnostiquer l’électrovanne 
+d’admission d’eau.
+Si de l’eau fuit en provenance de la sécheuse/
+trop d’eau pulvérisée dans le tambour :
+1.	 À l’intérieur du tambour, dévisser la buse 
+d’introduction d’eau.
+2.	 Vérifier que l’ouverture de la buse 
+d’introduction d’eau n’est pas obstruée par 
+une accumulation de résidus; le cas échéant, 
+nettoyer et remettre en place la buse.
+S’il n’y a pas de pulvérisation d’eau  
+dans le tambour :
+1.	 Vérifier que le circuit d’arrivée d’eau est 
+connecté et que l’arrivée d’eau est ouverte.
+2.	 Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 53 =====
+
+PAGE 53
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+5.	 Contrôler l’électrovanne d’admission 
+d’eau et le câblage—à l’aide d’un ohmmètre, 
+mesurer la résistance entre P8-1 (conducteur 
+rouge) et P9-2 (conducteur noir) sur le MCA.
+ Si la valeur de la résistance est 1300 Ω  
+(± 5 %), passer à l’étape 6; sinon, 
+remplacer l’électrovanne d’admission d’eau.
+ Si un circuit ouvert est détecté, passer  
+à l’étape 7.
+6.	 À l’intérieur du tambour, dévisser/
+remplacer la buse d’introduction d’eau –  
+utiliser une clé ou une douille de 7/16". Tester 
+l’électrovanne d’admission d’eau de nouveau.
+ Si l’eau ne s’écoule pas, passer à l’étape 7.
+7.	 Accéder à l’électrovanne d’admission 
+d’eau en retirant le panneau arrière.
+ Vérifier que les conducteurs et le tuyau 
+d’alimentation sont connectés sur 
+l’électrovanne d’admission d’eau  
+(voir figure 12).
+ Vérifier que le tuyau de l’électrovanne 
+d’admission d’eau est connecté à la buse 
+d’aspersion.
+8.	 Si tout est connecté sans que l’eau 
+s’écoule :
+ Débrancher la sécheuse ou déconnecter  
+la source de courant électrique.
+ Remplacer l’électrovanne d’admission 
+d’eau et tester de nouveau.
+9.	 Si les étapes précédentes ne résolvent  
+pas le problème, remplacer le MCA.
+3.	 Retirer la console pour accéder aux 
+composants électroniques de la machine.
+4.	 Vérifier que le conducteur rouge provenant 
+de l’électrovanne d’admission d’eau est 
+connecté à P8-1 sur le MCA. Consulter les 
+schémas de câblage des pages 55 et 56.
+Électrovanne d’admission d’eau
+Figure 12 - Composants du système d’eau.
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 54 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 54
+NE PAS ENLEVER NI DÉTRUIRE
+SCHÉMAS DES CIRCUITS
+CIRCUIT DU MOTEUR
+ÉLÉMENT CHAUFFANT (ÉLECTRIQUE)
+ÉLÉMENT CHAUFFANT (GAZ)
+THERMISTANCES (ENTRÉE/DÉCHARGE)
+CAPTEUR D’HUMIDITÉ
+CIRCUIT DE L’ÉLECTROVANNE D’ADMISSION D’EAU
+L1
+MCA
+N
+RELAIS CHAUFFAGE 1
+K2
+K3
+RELAIS CHAUFFAGE 2
+N.O.
+N.O.
+COM1
+COM2
+N
+V
+V
+CHAUFFAGE 1
+CHAUFFAGE 2
+19,6 Ω
+19,6 Ω
+R
+R-BL
+N.F.
+THERMOSTAT –
+TEMPÉRATURE
+MAXIMUM
+CONTACTEUR CENTRIFUGE
+Voir
+circuit
+du
+moteur
+1M
+2M
+3M
+5M
+6M
+R
+L2
+COUPE-CIRCUIT
+THERMIQUE
+L1
+MCA
+N
+K2
+RELAIS CHAUFFAGE 1
+N.O.
+50-500 Ω
+THERMOSTAT –
+TEMPÉRATURE
+MAXIMUM
+CONTACTEUR CENTRIFUGE
+1M
+2M
+3M
+5M
+6M
+N
+COM
+R
+N.F.
+N
+COUPE-CIRCUIT
+THERMIQUE
+R-BL
+BU
+FUSIBLE
+THERMIQUE
+MOV
+N
+BU CL
+FS1
+FS2
+4
+5
+1
+3
+2
+1V
+IG
+IGR
+ÉLECTROVANNE À GAZ
+1400 ± 70 Ω 570 ± 28,5 Ω
+1300 ± 65 Ω
+BL
+BL
+BL
+DÉTECTEUR
+DE FLAMME
+VANNE 1
+VANNE 2
+ALLUMEUR
+R
+R
+BU CL
+Voir
+circuit
+du
+moteur
+BU
+BL
+CONTACTEUR
+DE LA PORTE
+MCA
+P14-2
+50K Ω
+R
+P14-3
+R-BL
+R
+R-BL
+10K Ω
+THERMISTANCE DE TEMPÉRATURE D’ENTRÉE
+THERMISTANCE DE TEMPÉRATURE DE DÉCHARGE
+P14-1
+P14-6
+THERMISTANCE
+D’ENTRÉE
+THERMISTANCE
+DE DÉCHARGE
+MCA
+THERMISTANCE
+D’ENTRÉE RTN
+THERMISTANCE
+DE DÉCHARGE RTN
+MCA
+P13-1
+N
+CAPTEUR
+D’HUMIDITÉ
+MCA
+CAPTEUR
+D’HUMIDITÉ
+RTN
+CAPTEUR D’HUMIDITÉ
+P13-2
+P8-2
+LIAISON À LA TERRE
+DU CHÂSSIS
+JA-R
+MOV
+MOV
+N
+R
+VE-JA
+VE-JA
+VE-JA
+LIAISON À LA TERRE DU CHÂSSIS
+L1
+N
+ÉLECTROVANNE D’ADMISSION D’EAU
+P8-1
+K4
+RELAIS – ÉLECTROVANNE
+510 à 590 Ω
+N
+R
+MCA
+P8-3
+BL
+Figure 13 - Schémas des circuits.
+L1
+N
+P9-1
+K1
+RELAIS DU MOTEUR
+MCA
+BU CL
+(ELECT.
+SEULEMENT)
+FUSIBLE
+THERMIQUE
+BU CL
+4M
+MOTEUR D’ENTRAÎNEMENT
+1/3 HP
+PRINCIPAL
+MISE EN MARCHE
+2,7-3,0 Ω
+3,3-3,6 Ω
+5M
+3M
+6M
+2M
+1M
+Voir circuit de chauffage
+BU CL
+BU
+N.O.
+CONTACTEUR
+DE LA PORTE
+BL
+N
+P9-2
+CONTACTEUR
+CENTRIFUGE
+CONTACTEUR
+DU TENSIONNEUR
+DE COURROIE
+COND. DE
+DÉMARRAGE
+23,5 uF
+COND. DE MARCHE
+189 uF
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 55 =====
+
+PAGE 55
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+IMPORTANT : Une décharge d’électricité statique peut faire subir des dommages aux circuits électroniques. Pour les détails, voir la page 29.
+SCHÉMA DE CÂBLAGE DE SÉCHEUSE ÉLECTRIQUE
+Figure 14 - Schéma de câblage, sécheuse électrique
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 56 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 56
+NE PAS ENLEVER NI DÉTRUIRE
+IMPORTANT : Une décharge d’électricité statique peut faire subir des dommages aux circuits électroniques. Pour les détails, voir la page 29.
+SCHÉMA DE CÂBLAGE DE SÉCHEUSE À GAZ
+Figure 15 - Schéma de câblage, sécheuse à gaz
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 57 =====
+
+PAGE 57
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+POSITIONS DES COMPOSANTS
+1M 2M 3M
+5M 6M
+=
+Contacts
+Fonction
+Démarrage
+Fonctionnement
+Contacts fermés
+Contacteur centrifuge (moteur)
+• MCA (sous la console) 
+• Interface utilisateur (IU) 
+• Thermistance d’entrée 
+(Gaz)
+• Buse d’introduction d’eau 
+• Électrovanne d’admission d’eau 
+• Coupe-circuit thermique 
+• Thermistance d’entrée 
+(Électrique)
+• Thermostat de température  
+maximale
+• Élément chauffant
+Lampe du 
+tambour
+Contacteur  
+de la porte  
+(La position  
+peut varier  
+entre les  
+modèles)
+• Module du moteur 
+• Fusible thermique 
+• Thermistance de décharge 
+• Rubans du détecteur d’humidité
+Figure 16 - Positions des composants.
+NOTE: Consulter la Figure 10b, 
+page 46, pour avoir les positions des 
+composants de la sécheuse à gaz.
+Noir
+Bleu clair
+Bleu clair
+Blanc
+Blanc
+Électrovanne à gaz, sécheuse à gaz
+Contacteur du moteur  
+d’entraînement enfichable
+Rouge
+Bleu clair
+Blanc
+Vert-Jaune
+Rouge-Blanc (Électrique)
+Rouge (Gaz)
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 58 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 58
+NE PAS ENLEVER NI DÉTRUIRE
+NOTES
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 59 =====
+
+PAGE 59
+POUR LE TECHNICIEN SEULEMENT
+NE PAS ENLEVER NI DÉTRUIRE
+NOTES
+Downloaded from www.Manualslib.com manuals search engine 
+
+
+===== PAGE 60 =====
+
+POUR LE TECHNICIEN SEULEMENT
+PAGE 60
+NE PAS ENLEVER NI DÉTRUIRE
+04/15
+NOTES
+Downloaded from www.Manualslib.com manuals search engine 
