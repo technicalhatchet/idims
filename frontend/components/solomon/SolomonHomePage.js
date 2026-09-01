@@ -57,7 +57,7 @@ function SolomonSignatureHome() {
           <SolomonInstallHint installHint={installHint} />
 
           <div className="relative" style={{ zIndex: SOLOMON_Z.header }} data-solomon-home-header>
-            <SolomonHomeHeader isStaff={isStaff} />
+            <SolomonHomeHeader />
           </div>
 
           <div

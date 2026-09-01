@@ -138,7 +138,7 @@ export default function SolomonProfessionalHome() {
         <SolomonInstallHint installHint={installHint} />
 
         <div className="pt-1 pb-4">
-          <SolomonHomeHeader isStaff={isStaff} />
+          <SolomonHomeHeader />
         </div>
 
         {canUseSolomon ? (

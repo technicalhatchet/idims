@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaChevronRight, FaInfoCircle, FaUser, FaWrench } from 'react-icons/fa';
+import { FaArrowLeft, FaChevronRight, FaCog, FaInfoCircle, FaUser, FaWrench } from 'react-icons/fa';
 import SolomonListPage from '../../components/solomon/SolomonListPage';
 import SolomonAppearanceSettings from '../../components/solomon/SolomonAppearanceSettings';
 import { SOLOMON_GLASS_PANEL_CLASS } from '../../components/solomon/solomonListPageUi';
@@ -41,7 +41,7 @@ function SettingsLinkRow({ href, label, subtitle, icon: Icon, external = false }
 }
 
 export default function SolomonSettingsPage() {
-  const { isDiyer, user } = useSolomonAuth();
+  const { isDiyer, isStaff, user } = useSolomonAuth();
   const outcomesLabel = solomonCopy(isDiyer, 'outcomesTitle');
 
   return (
@@ -55,6 +55,28 @@ export default function SolomonSettingsPage() {
     >
       <div className="space-y-5">
         <SolomonAppearanceSettings />
+
+        {isStaff ? (
+          <section aria-labelledby="solomon-settings-idims">
+            <h2 id="solomon-settings-idims" className="text-[11px] uppercase tracking-[0.08em] text-[var(--solomon-text-muted)] mb-2.5">
+              IDIMS
+            </h2>
+            <ul className="space-y-2.5">
+              <SettingsLinkRow
+                href="/techboard"
+                label="Back to IDIMS"
+                subtitle="Tech board, work orders, and shop tools"
+                icon={FaArrowLeft}
+              />
+              <SettingsLinkRow
+                href="/settings"
+                label="Company settings"
+                subtitle="Account and shop preferences"
+                icon={FaCog}
+              />
+            </ul>
+          </section>
+        ) : null}
 
         <section aria-labelledby="solomon-settings-links">
           <h2 id="solomon-settings-links" className="text-[11px] uppercase tracking-[0.08em] text-[var(--solomon-text-muted)] mb-2.5">
