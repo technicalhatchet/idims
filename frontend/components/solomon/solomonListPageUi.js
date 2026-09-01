@@ -56,13 +56,26 @@ const BADGE_GLOW_BY_LIFECYCLE = {
   [SOLOMON_DIAGNOSTIC_STATUS.pending_sync]: 'shadow-[0_0_10px_rgba(56,189,248,0.16)]',
 };
 
+const PRO_LIST_CARD_HOVER_BORDER = {
+  [SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress]: 'hover:border-cyan-500/25',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending]: 'hover:border-orange-500/25',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_successful]: 'hover:border-emerald-500/25',
+  [SOLOMON_DIAGNOSTIC_STATUS.repair_memory]: 'hover:border-purple-500/25',
+  [SOLOMON_DIAGNOSTIC_STATUS.abandoned]: 'hover:border-white/15',
+  [SOLOMON_DIAGNOSTIC_STATUS.pending_sync]: 'hover:border-sky-500/25',
+};
+
 /** List card shell — home-menu glass + lifecycle accent from status resolver. */
 export function solomonLifecycleListSurfaceClass(status, { isProfessional = false } = {}) {
   if (isProfessional) {
+    const lifecycleKey = status.lifecycleKey || status.key;
+    const hoverBorder = PRO_LIST_CARD_HOVER_BORDER[lifecycleKey]
+      || 'hover:border-[color:var(--solomon-border-subtle)]';
     return [
-      'relative block rounded-[var(--solomon-radius-card)] border border-t-2 overflow-hidden transition-colors duration-200',
+      'relative block rounded-[var(--solomon-radius-card)] border border-t-2 border-[color:var(--solomon-border-muted)] overflow-hidden transition-colors duration-200',
       'bg-[var(--solomon-surface)] shadow-[var(--solomon-shadow-card)]',
-      'hover:bg-[var(--solomon-surface-elevated)] hover:border-[color:var(--solomon-border-subtle)]',
+      'hover:bg-[var(--solomon-surface-elevated)]',
+      hoverBorder,
       status.topAccentClass,
     ].filter(Boolean).join(' ');
   }
