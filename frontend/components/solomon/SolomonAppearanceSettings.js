@@ -7,7 +7,7 @@ import { SOLOMON_INTERFACE_OPTIONS } from './solomonThemeTokens';
 function StyleOption({ option, isSelected, onSelect, disabled }) {
   return (
     <label
-      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${
+      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[color:var(--solomon-focus-ring)] ${
         disabled ? 'opacity-50 cursor-not-allowed' : ''
       } ${
         isSelected

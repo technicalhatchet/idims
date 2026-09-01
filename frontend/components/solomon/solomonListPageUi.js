@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaCheckCircle, FaClock, FaPlus } from 'react-icons/fa';
+import { FaCheckCircle, FaClock, FaMinus, FaPlus } from 'react-icons/fa';
 import { SOLOMON_DIAGNOSTIC_STATUS } from './solomonDiagnosticStatus';
 import SolomonCategoryIcon from './categoryIcons';
 
@@ -66,17 +66,21 @@ export function SolomonLifecycleStatusBadge({ status }) {
     || status.key === SOLOMON_DIAGNOSTIC_STATUS.pending_sync;
   const showCheck = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_successful
     || lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.repair_memory;
+  const showDash = lifecycleKey === SOLOMON_DIAGNOSTIC_STATUS.abandoned;
   const glow = BADGE_GLOW_BY_LIFECYCLE[lifecycleKey] || '';
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm bg-[#060a12]/80 ${status.badgeClass} ${glow}`}
+      role="status"
+      aria-label={status.label}
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm bg-[var(--solomon-surface-elevated)] ${status.badgeClass} ${glow}`}
     >
       {showSpinner ? (
         <span className="h-2.5 w-2.5 rounded-full border border-current border-t-transparent animate-spin" aria-hidden />
       ) : null}
       {showCheck ? <FaCheckCircle size={10} aria-hidden /> : null}
-      {status.label}
+      {showDash ? <FaMinus size={10} aria-hidden /> : null}
+      <span>{status.label}</span>
     </span>
   );
 }

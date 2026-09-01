@@ -2,6 +2,7 @@
 
 import SolomonApplianceIcon from './SolomonApplianceIcon';
 import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
+import { SolomonLifecycleStatusBadge } from './solomonListPageUi';
 import { getEquipmentTypeForTemplate } from './solomonTemplateEquipment';
 
 function equipmentLine(target) {
@@ -50,9 +51,7 @@ export default function SolomonSessionHeader({
             <h2 className="text-base font-semibold leading-tight text-[var(--solomon-text-primary)] truncate">
               {label}
             </h2>
-            <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${status.badgeClass}`}>
-              {status.label}
-            </span>
+            <SolomonLifecycleStatusBadge status={status} />
           </div>
           {equipment ? (
             <p className="mt-0.5 text-[11px] text-[var(--solomon-text-secondary)] truncate">{equipment}</p>

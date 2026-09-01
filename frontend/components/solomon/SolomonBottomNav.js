@@ -18,7 +18,7 @@ function NavTab({ href, label, icon: Icon, isActive, ariaLabel }) {
       href={href}
       aria-label={ariaLabel || label}
       aria-current={isActive ? 'page' : undefined}
-      className={`flex min-h-[44px] min-w-[44px] flex-1 flex-col items-center justify-center gap-0.5 px-1 pt-1.5 pb-1 transition-colors ${
+      className={`flex min-h-[44px] min-w-[44px] flex-1 flex-col items-center justify-center gap-0.5 px-1 pt-1.5 pb-1 transition-colors solomon-focus-ring rounded-lg ${
         isActive
           ? 'text-[var(--solomon-primary-from)]'
           : 'text-[var(--solomon-text-muted)] hover:text-[var(--solomon-text-secondary)]'
@@ -67,7 +67,7 @@ export default function SolomonBottomNav() {
           <Link
             href={newHref}
             aria-label={newLabel}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] text-white shadow-[var(--solomon-primary-shadow)] transition-transform active:scale-95"
+            className="solomon-focus-ring flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] text-white shadow-[var(--solomon-primary-shadow)] transition-transform active:scale-95"
           >
             <FaPlus size={18} aria-hidden />
           </Link>

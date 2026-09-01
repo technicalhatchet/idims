@@ -382,6 +382,8 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ## Phase 9 — Accessibility
 
+**Status:** ✅ Implemented (2026-08-31)
+
 **Objective:** Professional = readable in sunlight, usable with gloves.
 
 ### Tasks
@@ -395,8 +397,8 @@ Or use React DevTools to call `setInterfaceStyle('professional')` from `SolomonT
 
 ### Verification
 
-- [ ] VoiceOver spot check on home + wizard + reasoning sheet
-- [ ] Keyboard tab through settings toggle
+- [x] VoiceOver spot check on home + wizard + reasoning sheet
+- [x] Keyboard tab through settings toggle
 
 **Estimated touch:** cross-cutting · **Risk:** Low
 

@@ -27,6 +27,8 @@ export default function SolomonConfidenceBadge({
 
   return (
     <div
+      role="group"
+      aria-label={`Diagnostic confidence: ${confidence.percent} percent, ${tierLabel}`}
       className={`rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] ${
         compact ? 'px-2.5 py-2' : 'px-3 py-2.5'
       } ${className}`}
@@ -39,7 +41,10 @@ export default function SolomonConfidenceBadge({
           {confidence.percent}%
         </p>
       </div>
-      <div className={`mt-1.5 h-1.5 overflow-hidden rounded-full bg-[var(--solomon-border-muted)] ${compact ? 'mt-1' : ''}`}>
+      <div
+        className={`mt-1.5 h-1.5 overflow-hidden rounded-full bg-[var(--solomon-border-muted)] ${compact ? 'mt-1' : ''}`}
+        aria-hidden
+      >
         <div
           className={`h-full rounded-full transition-all ${barClass}`}
           style={{ width: `${Math.min(100, confidence.percent)}%` }}
