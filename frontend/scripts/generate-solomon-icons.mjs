@@ -1,8 +1,8 @@
 /**
  * Generate Solomon PWA icons from the black-glass master artwork.
  *
- * iOS home-screen icons use a squircle mask — inset the artwork so the glowing
- * border is not clipped. Android sizes use a slightly tighter crop.
+ * The source is already a square icon with the cyan/orange border baked in —
+ * resize with cover so that border fills the canvas edge-to-edge.
  *
  * Usage: npm run pwa:icons:solomon
  * Source: public/images/solomonwiz/solomonblackglass.png
@@ -19,8 +19,8 @@ const source = path.join(publicDir, 'images', 'solomonwiz', 'solomonblackglass.p
 const SOLOMON_BG = { r: 10, g: 15, b: 30, alpha: 1 }; // #0A0F1E
 
 const targets = [
-  { outPrefix: 'solomonicon-ios', sizes: [180], inset: 0.07 },
-  { outPrefix: 'solomonicon-android', sizes: [192, 512], inset: 0.045 },
+  { outPrefix: 'solomonicon-ios', sizes: [180] },
+  { outPrefix: 'solomonicon-android', sizes: [192, 512] },
 ];
 
 if (!fs.existsSync(source)) {
@@ -28,37 +28,22 @@ if (!fs.existsSync(source)) {
   process.exit(1);
 }
 
-async function writeIcon(size, outPath, inset) {
-  const inner = Math.round(size * (1 - inset * 2));
-  const offset = Math.round((size - inner) / 2);
-
-  const artwork = await sharp(source)
-    .resize(inner, inner, {
-      fit: 'contain',
-      background: SOLOMON_BG,
+async function writeIcon(size, outPath) {
+  await sharp(source)
+    .resize(size, size, {
+      fit: 'cover',
+      position: 'centre',
     })
     .flatten({ background: SOLOMON_BG })
     .png()
-    .toBuffer();
-
-  await sharp({
-    create: {
-      width: size,
-      height: size,
-      channels: 4,
-      background: SOLOMON_BG,
-    },
-  })
-    .composite([{ input: artwork, left: offset, top: offset }])
-    .png()
     .toFile(outPath);
 
-  console.log('Wrote', outPath, `(inset ${(inset * 100).toFixed(1)}%)`);
+  console.log('Wrote', outPath);
 }
 
-for (const { outPrefix, sizes, inset } of targets) {
+for (const { outPrefix, sizes } of targets) {
   for (const size of sizes) {
     const out = path.join(publicDir, `${outPrefix}-${size}x${size}.png`);
-    await writeIcon(size, out, inset);
+    await writeIcon(size, out);
   }
 }
