@@ -16,6 +16,7 @@ export const DMA_PROBLEM_CODES = {
   door_seal: 'Door seal / gasket',
   error_code_display: 'Error code on display',
   poor_drying: 'Poor drying / heating element',
+  restricted_ventilation: 'Restricted ventilation / duct',
   display_issue: 'Display / UI issue',
   other: 'Other',
 };
@@ -26,6 +27,9 @@ export const DMA_RESOLUTION_CODES = {
   mechanical_part_replaced: 'Mechanical part replaced',
   electrical_part_replaced: 'Electrical part replaced',
   cleaning_maintenance: 'Cleaning / maintenance',
+  external_cause: 'External cause — not appliance fault',
+  customer_education: 'Customer education / usage',
+  referred_third_party: 'Referred third-party service',
   reset_software: 'Reset / software update',
   wiring_repair: 'Wiring / connection repair',
   other: 'Other',
@@ -43,8 +47,8 @@ export const REPAIR_MEMORY_MATCH_OPTIONS = [
 
 export const REPAIR_SUCCESSFUL_OPTIONS = [
   { value: '', label: 'Select one…' },
-  { value: 'true', label: 'Yes — repair successful' },
-  { value: 'false', label: 'No — not successful' },
+  { value: 'true', label: 'Yes — issue resolved' },
+  { value: 'false', label: 'No — issue not resolved' },
 ];
 
 export function repairMemoryMatchLabel(value) {
@@ -53,8 +57,8 @@ export function repairMemoryMatchLabel(value) {
 }
 
 export function repairSuccessfulLabel(value) {
-  if (value === true || value === 'true') return 'Yes — repair successful';
-  if (value === false || value === 'false') return 'No — not successful';
+  if (value === true || value === 'true') return 'Yes — issue resolved';
+  if (value === false || value === 'false') return 'No — issue not resolved';
   return '';
 }
 

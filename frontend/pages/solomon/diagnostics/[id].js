@@ -492,6 +492,14 @@ export default function SolomonDiagnosticDetailPage() {
               >
                 {isDiyer ? 'Add repair note' : 'Create outcome'}
               </Link>
+              {!isDiyer ? (
+                <Link
+                  href={`/solomon/outcomes/new?diagnostic_id=${id}&preset=clogged_dryer_vent`}
+                  className="rounded-lg border border-amber-500/35 px-3 py-2 text-sm text-amber-200"
+                >
+                  Not appliance fault
+                </Link>
+              ) : null}
               <button
                 type="button"
                 onClick={openLinkPicker}
@@ -525,6 +533,12 @@ export default function SolomonDiagnosticDetailPage() {
                 className="block rounded-lg bg-[#EF8209] px-3 py-2 text-sm text-center font-medium"
               >
                 Create repair outcome
+              </Link>
+              <Link
+                href={`/solomon/outcomes/new?diagnostic_id=${id}&preset=clogged_dryer_vent`}
+                className="block rounded-lg border border-amber-500/35 px-3 py-2 text-sm text-center text-amber-200"
+              >
+                Not appliance fault
               </Link>
               <button type="button" onClick={openLinkPicker} className="w-full rounded-lg border border-white/15 px-3 py-2 text-sm">
                 Link to existing outcome

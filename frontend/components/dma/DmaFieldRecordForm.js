@@ -8,6 +8,8 @@ import {
   OUTCOME_CONFIDENCE_OPTIONS_DIY,
 } from '../../constants/dmaEquipmentOptions';
 import { codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
+import { applyExternalCausePreset } from '../../constants/externalCauseOutcomes';
+import ExternalCauseOutcomePick from './ExternalCauseOutcomePick';
 import { getDmaCodes } from '../../services/api/dmaApi';
 import DmaTagPicker from './DmaTagPicker';
 import {
@@ -119,6 +121,15 @@ export default function DmaFieldRecordForm({
         <p className={sectionTitleCls}>
           {isDiy ? 'What happened' : 'Repair outcome'}
         </p>
+
+        {!isDiy ? (
+          <ExternalCauseOutcomePick
+            variant={isSolomon ? 'solomon' : 'default'}
+            onSelectPreset={(presetId) => {
+              setValues((prev) => applyExternalCausePreset(presetId, prev));
+            }}
+          />
+        ) : null}
 
         {!isDiy ? (
           <div>
@@ -238,7 +249,7 @@ export default function DmaFieldRecordForm({
         <div className="flex flex-wrap gap-4 text-sm text-gray-300">
           <label className="flex items-center gap-2">
             <input type="checkbox" checked={values.repair_successful} onChange={set('repair_successful')} className="rounded" />
-            {isDiy ? 'Issue resolved' : 'Repair successful'}
+            {isDiy ? 'Issue resolved' : 'Visit resolved (includes external cause / no parts)'}
           </label>
           {!isDiy ? (
             <label className="flex items-center gap-2">

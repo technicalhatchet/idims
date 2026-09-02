@@ -32,6 +32,7 @@ class UIPreferences(BaseModel):
     """Schema for UI preferences"""
     railPosition: Optional[str] = None  # 'left' | 'right'
     solomonInterfaceStyle: Optional[str] = None  # 'signature' | 'professional'
+    displayName: Optional[str] = None
 
 class UserPreferencesUpdate(BaseModel):
     """Schema for updating user preferences"""
@@ -141,6 +142,8 @@ async def update_user_settings(
                 ui_prefs['railPosition'] = update_data.ui_preferences.railPosition
             if update_data.ui_preferences.solomonInterfaceStyle is not None:
                 ui_prefs['solomonInterfaceStyle'] = update_data.ui_preferences.solomonInterfaceStyle
+            if update_data.ui_preferences.displayName is not None:
+                ui_prefs['displayName'] = update_data.ui_preferences.displayName.strip()
             current_prefs['ui_preferences'] = ui_prefs
         
         # Save to database - assign new dict so SQLAlchemy detects the change

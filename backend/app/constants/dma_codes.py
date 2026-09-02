@@ -13,6 +13,7 @@ DMA_PROBLEM_CODES = {
     "door_seal": "Door seal / gasket",
     "error_code_display": "Error code on display",
     "poor_drying": "Poor drying / heating element",
+    "restricted_ventilation": "Restricted ventilation / duct",
     "display_issue": "Display / UI issue",
     "other": "Other",
 }
@@ -23,6 +24,9 @@ DMA_RESOLUTION_CODES = {
     "mechanical_part_replaced": "Mechanical part replaced",
     "electrical_part_replaced": "Electrical part replaced",
     "cleaning_maintenance": "Cleaning / maintenance",
+    "external_cause": "External cause — not appliance fault",
+    "customer_education": "Customer education / usage",
+    "referred_third_party": "Referred third-party service",
     "reset_software": "Reset / software update",
     "wiring_repair": "Wiring / connection repair",
     "other": "Other",
