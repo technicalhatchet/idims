@@ -1,0 +1,62 @@
+export const LOGIT_TYPE_LABELS = {
+  problem: 'Problem',
+  idea: 'Idea',
+  blocker: 'Blocker',
+  positive: 'Positive',
+};
+
+export const LOGIT_TYPE_EMOJI = {
+  problem: '🐛',
+  idea: '💡',
+  blocker: '⚠️',
+  positive: '✨',
+};
+
+export const LOGIT_CATEGORY_LABELS = {
+  scheduling: 'Scheduling',
+  job_details: 'Job Details',
+  diagnostics: 'Diagnostics',
+  parts: 'Parts',
+  documentation: 'Documentation',
+  photos: 'Photos',
+  customer: 'Customer',
+  performance: 'Performance',
+  ui_ux: 'UI/UX',
+  other: 'Other',
+};
+
+export const LOGIT_SEVERITY_LABELS = {
+  minor: 'Minor',
+  moderate: 'Moderate',
+  major: 'Major',
+  critical: 'Critical',
+  not_applicable: 'Not applicable',
+};
+
+export const LOGIT_FREQUENCY_LABELS = {
+  once: 'Once',
+  occasional: 'Occasional',
+  frequent: 'Frequent',
+  unknown: 'Unknown',
+};
+
+export const LOGIT_GLASS_CARD =
+  'rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md';
+
+export const LOGIT_BUTTON_PRIMARY =
+  'min-h-[44px] px-5 py-2.5 rounded-xl bg-cyan-500/90 text-white font-medium hover:bg-cyan-400 transition disabled:opacity-50';
+
+export const LOGIT_BUTTON_SECONDARY =
+  'min-h-[44px] px-5 py-2.5 rounded-xl border border-white/15 bg-white/[0.04] text-white/90 hover:bg-white/[0.08] transition disabled:opacity-50';
+
+export const LOGIT_INPUT =
+  'w-full min-h-[44px] px-3 py-2 rounded-xl border border-white/10 bg-white/[0.04] text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-500/50';
+
+export const LOGIT_TEXTAREA =
+  'w-full px-3 py-2 rounded-xl border border-white/10 bg-white/[0.04] text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-500/50 resize-y';
+
+export const LOGIT_CANVAS = 'min-h-screen bg-[#0A0F1E] text-white';
+
+export const LOGIT_LAST_PROJECT_KEY = 'logit_last_project_id';
+export const LOGIT_DRAFTS_KEY = 'logit_drafts';
+export const LOGIT_PENDING_SAVES_KEY = 'logit_pending_saves';
