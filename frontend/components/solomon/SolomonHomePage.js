@@ -20,7 +20,7 @@ import useSolomonBottomNavVisible from '../../hooks/useSolomonBottomNavVisible';
 import SolomonBottomNav from './SolomonBottomNav';
 
 function SolomonSignatureHome() {
-  const { isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
+  const { isDiyer, canUseSolomon } = useSolomonAuth();
   const { continueTarget, isLoading: continueLoading } = useSolomonContinue();
   const topInset = useSolomonTopInset();
 
@@ -53,10 +53,12 @@ function SolomonSignatureHome() {
           topInset={topInset.paddingTop}
         />
 
-        <div className="relative px-4" style={{ zIndex: SOLOMON_Z.pageContent }}>
-          <SolomonInstallHint installHint={installHint} />
+        <div className="relative px-4 pointer-events-none" style={{ zIndex: SOLOMON_Z.pageContent }}>
+          <div className="pointer-events-auto">
+            <SolomonInstallHint installHint={installHint} />
+          </div>
 
-          <div className="relative" style={{ zIndex: SOLOMON_Z.header }} data-solomon-home-header>
+          <div className="relative pointer-events-auto" style={{ zIndex: SOLOMON_Z.header }} data-solomon-home-header>
             <SolomonHomeHeader />
           </div>
 
@@ -67,7 +69,7 @@ function SolomonSignatureHome() {
           />
 
           {canUseSolomon ? (
-            <div className="space-y-2">
+            <div className="pointer-events-auto space-y-2">
               <Link
                 ref={ctaRef}
                 href={newHref}
@@ -119,32 +121,21 @@ function SolomonSignatureHome() {
               <SolomonOfflineFooter syncReferenceTime={continueTarget?.updated_at} />
             </div>
           ) : (
-            <div>
+            <div className="pointer-events-auto space-y-2">
               <Link
                 href="/solomon/signup"
                 className="block rounded-xl bg-gradient-to-r from-[#0089B9] to-[#006a94] px-3 py-2.5 text-center text-sm font-semibold"
               >
                 Create homeowner account to start
               </Link>
+              <a
+                href={solomonLoginUrl()}
+                className="block rounded-xl bg-gradient-to-r from-[#FF7A00] to-[#e56a00] px-3 py-2.5 text-center text-sm font-semibold text-white shadow-[0_4px_16px_rgba(255,122,0,0.3)] hover:from-[#ff8a1a] hover:to-[#f07000] transition-colors"
+              >
+                Sign in
+              </a>
             </div>
           )}
-
-          <div className="mt-5 space-y-2 border-t border-white/10 pt-4">
-            {!isStaff && !isDiyer ? (
-              <Link
-                href="/solomon/signup"
-                className="block text-center text-xs text-cyan-400 hover:text-cyan-300"
-              >
-                Homeowner? Create a free account →
-              </Link>
-            ) : null}
-            <a
-              href={solomonLoginUrl()}
-              className="block text-center text-[11px] text-white/45 hover:text-white/65"
-            >
-              Sign in with another account
-            </a>
-          </div>
         </div>
       </main>
       {showBottomNav ? <SolomonBottomNav /> : null}
