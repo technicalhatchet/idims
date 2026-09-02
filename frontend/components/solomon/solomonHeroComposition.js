@@ -71,9 +71,9 @@ export const SOLOMON_FRONT_HAND = {
  * Anchored to the same % coordinate frame as session card / wizard layers.
  */
 export const SOLOMON_GREETING = {
-  x: '3.8%',
+  x: '2.2%',
   y: '13.8%',
-  maxWidth: '42%',
+  maxWidth: '44%',
 };
 
 export const SOLOMON_Z = {
