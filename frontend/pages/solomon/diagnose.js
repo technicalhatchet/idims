@@ -157,15 +157,6 @@ export default function SolomonDiagnosePage() {
   const authSettled = !authLoading && !rolesLoading && rolesResolved;
   const showWizard = mounted && routerReady && authSettled;
 
-  if (!showWizard) {
-    return (
-      <>
-        <SolomonHead title={copy('diagnosticNew')} />
-        <main className="min-h-screen bg-[#0A0F1E] text-white p-6">Loading…</main>
-      </>
-    );
-  }
-
   const templateLabel = getDiagnosticTemplate(payload?.templateId)?.label;
 
   const solomonSession = useMemo(() => ({
@@ -185,6 +176,15 @@ export default function SolomonDiagnosePage() {
     equipment.equipment_model,
     equipment.equipment_serial,
   ]);
+
+  if (!showWizard) {
+    return (
+      <>
+        <SolomonHead title={copy('diagnosticNew')} />
+        <main className="min-h-screen bg-[#0A0F1E] text-white p-6">Loading…</main>
+      </>
+    );
+  }
 
   return (
     <>
