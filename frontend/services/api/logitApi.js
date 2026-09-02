@@ -32,10 +32,14 @@ export async function fetchLogitEntry(entryId) {
   return apiClient(`logit/entries/${entryId}`);
 }
 
-export async function classifyLogitObservation(projectId, transcript) {
+export async function classifyLogitObservation(projectId, transcript, observationType) {
   return apiClient('logit/classify', {
     method: 'POST',
-    body: JSON.stringify({ project_id: projectId, transcript }),
+    body: JSON.stringify({
+      project_id: projectId,
+      transcript,
+      observation_type: observationType,
+    }),
   });
 }
 

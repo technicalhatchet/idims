@@ -1,3 +1,4 @@
+import LogitHeader from './LogitHeader';
 import { LOGIT_BUTTON_PRIMARY, LOGIT_BUTTON_SECONDARY, LOGIT_GLASS_CARD, LOGIT_TEXTAREA } from './logitUi';
 
 export default function LogitTranscriptPreview({
@@ -10,7 +11,9 @@ export default function LogitTranscriptPreview({
   saveError,
 }) {
   return (
-    <div className="max-w-lg mx-auto w-full px-4 py-8">
+    <div className="min-h-screen flex flex-col">
+      <LogitHeader title="Transcript" leftLabel="← Back" onLeft={onCancel} />
+      <div className="flex-1 max-w-lg mx-auto w-full px-4 py-6">
       <h2 className="text-lg font-medium mb-4">I heard:</h2>
       <div className={`p-4 mb-6 ${LOGIT_GLASS_CARD}`}>
         <textarea
@@ -46,6 +49,7 @@ export default function LogitTranscriptPreview({
         >
           {processing ? 'Processing…' : 'Process'}
         </button>
+      </div>
       </div>
     </div>
   );

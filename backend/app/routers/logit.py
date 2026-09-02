@@ -177,6 +177,7 @@ async def classify_observation(
             project.name,
             project.context or "",
             transcript,
+            body.observation_type,
         )
     except Exception as exc:
         logger.warning("LoGiT classification failed: %s", exc)
