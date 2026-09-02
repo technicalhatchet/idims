@@ -1,9 +1,11 @@
 import type { MeasurementContext } from './types';
-import { normalizeMake, resolvePlatformId } from './platformRegistry';
+import { getPlatformRule, normalizeMake, resolvePlatformIdFromModel } from './platformRegistry';
 
 export interface FieldKnowledgeCandidate {
   knowledgeId: string;
+  /** Platform-specific — only used when model matches platform modelPattern. */
   platformId?: string;
+  /** Brand-level — used when make matches and no explicit platform from model. */
   manufacturers?: string[];
   isDefault?: boolean;
 }
@@ -11,6 +13,8 @@ export interface FieldKnowledgeCandidate {
 export interface FieldKnowledgeBinding {
   candidates: FieldKnowledgeCandidate[];
 }
+
+const INSIGNIA = ['Insignia'] as const;
 
 const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledgeBinding>> = {
   washer: {
@@ -21,7 +25,11 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolFlWasherMotorOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashMotorOhms', platformId: 'samsung_flexwash' },
-        { knowledgeId: 'insigniaWasherFreqDriveMotorOhms', platformId: 'insignia_washer_freq' },
+        {
+          knowledgeId: 'insigniaWasherFreqDriveMotorOhms',
+          platformId: 'insignia_washer_freq',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'washerMotorWindingOhms', isDefault: true },
       ],
     },
@@ -29,7 +37,11 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolFlWasherDrainPumpOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashDrainPumpOhms', platformId: 'samsung_flexwash' },
-        { knowledgeId: 'insigniaWasherCapDrainPumpOhms', platformId: 'insignia_washer_cap' },
+        {
+          knowledgeId: 'insigniaWasherCapDrainPumpOhms',
+          platformId: 'insignia_washer_cap',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'insigniaWasherFreqDrainPumpOhms', platformId: 'insignia_washer_freq' },
         { knowledgeId: 'washerDrainPumpOhms', isDefault: true },
       ],
@@ -41,7 +53,11 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolFlWasherInletValveOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashInletValveOhms', platformId: 'samsung_flexwash' },
-        { knowledgeId: 'insigniaWasherCapInletValveOhms', platformId: 'insignia_washer_cap' },
+        {
+          knowledgeId: 'insigniaWasherCapInletValveOhms',
+          platformId: 'insignia_washer_cap',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'insigniaWasherFreqInletValveOhms', platformId: 'insignia_washer_freq' },
         { knowledgeId: 'washerWaterValveOhms', isDefault: true },
       ],
@@ -57,7 +73,11 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'mechanical_controls.door_lock_ohms': {
       candidates: [
-        { knowledgeId: 'insigniaWasherCapDoorLockOhms', platformId: 'insignia_washer_cap' },
+        {
+          knowledgeId: 'insigniaWasherCapDoorLockOhms',
+          platformId: 'insignia_washer_cap',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'washerDoorLockSwitchOhms', isDefault: true },
       ],
     },
@@ -66,14 +86,22 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'heat_water.heater_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuHeaterOhms', platformId: 'whirlpool_dishwasher_acu' },
-        { knowledgeId: 'insigniaDishwasherHeaterOhms', platformId: 'insignia_dishwasher' },
+        {
+          knowledgeId: 'insigniaDishwasherHeaterOhms',
+          platformId: 'insignia_dishwasher',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'dishwasherHeatingElementOhms', isDefault: true },
       ],
     },
     'heat_water.thermistor': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuOwiThermistorOhms', platformId: 'whirlpool_dishwasher_acu' },
-        { knowledgeId: 'insigniaDishwasherTubThermistorOhms', platformId: 'insignia_dishwasher' },
+        {
+          knowledgeId: 'insigniaDishwasherTubThermistorOhms',
+          platformId: 'insignia_dishwasher',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'dishwasherTubThermistorOhms', isDefault: true },
       ],
     },
@@ -86,14 +114,22 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'motor_electrical.drain_motor_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuDrainMotorOhms', platformId: 'whirlpool_dishwasher_acu' },
-        { knowledgeId: 'insigniaDishwasherDrainPumpOhms', platformId: 'insignia_dishwasher' },
+        {
+          knowledgeId: 'insigniaDishwasherDrainPumpOhms',
+          platformId: 'insignia_dishwasher',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'dishwasherDrainPumpOhms', isDefault: true },
       ],
     },
     'motor_electrical.inlet_valve_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuFillValveOhms', platformId: 'whirlpool_dishwasher_acu' },
-        { knowledgeId: 'insigniaDishwasherFillValveOhms', platformId: 'insignia_dishwasher' },
+        {
+          knowledgeId: 'insigniaDishwasherFillValveOhms',
+          platformId: 'insignia_dishwasher',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'dishwasherWaterValveOhms', isDefault: true },
       ],
     },
@@ -102,13 +138,21 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'heat_circuit.heater_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolCcuDryerHeaterOhms', platformId: 'whirlpool_ccu_dryer' },
-        { knowledgeId: 'insigniaDryerHeaterOhms', platformId: 'insignia_dryer_tdre' },
+        {
+          knowledgeId: 'insigniaDryerHeaterOhms',
+          platformId: 'insignia_dryer_tdre',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'electricDryerHeatingElementOhms', isDefault: true },
       ],
     },
     'heat_circuit.outlet_thermistor_kohm': {
       candidates: [
-        { knowledgeId: 'insigniaDryerOutletThermistorKohm', platformId: 'insignia_dryer_tdre' },
+        {
+          knowledgeId: 'insigniaDryerOutletThermistorKohm',
+          platformId: 'insignia_dryer_tdre',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'dryerExhaustThermistorOhms', isDefault: true },
       ],
     },
@@ -122,7 +166,11 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
   gas_dryer: {
     'motor_electrical.outlet_thermistor_kohm': {
       candidates: [
-        { knowledgeId: 'insigniaDryerOutletThermistorKohm', platformId: 'insignia_dryer_tdre' },
+        {
+          knowledgeId: 'insigniaDryerOutletThermistorKohm',
+          platformId: 'insignia_dryer_tdre',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'dryerExhaustThermistorOhms', isDefault: true },
       ],
     },
@@ -136,19 +184,31 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
   standalone_freezer: {
     'defrost_circuit.defrost_heater_ohms': {
       candidates: [
-        { knowledgeId: 'mideaUz21DefrostHeaterOhms', platformId: 'midea_uz21' },
+        {
+          knowledgeId: 'mideaUz21DefrostHeaterOhms',
+          platformId: 'midea_uz21',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'defrostHeaterOhms', isDefault: true },
       ],
     },
     'defrost_circuit.defrost_thermistor': {
       candidates: [
-        { knowledgeId: 'mideaB3839ThermistorKohm', platformId: 'midea_uz21' },
+        {
+          knowledgeId: 'mideaB3839ThermistorKohm',
+          platformId: 'midea_uz21',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'cabinetThermistorOhms', isDefault: true },
       ],
     },
     'fans_and_electrical.freezer_thermistor': {
       candidates: [
-        { knowledgeId: 'mideaB3839ThermistorKohm', platformId: 'midea_uz21' },
+        {
+          knowledgeId: 'mideaB3839ThermistorKohm',
+          platformId: 'midea_uz21',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'cabinetThermistorOhms', isDefault: true },
       ],
     },
@@ -166,7 +226,11 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'defrost_circuit.defrost_heater_ohms': {
       candidates: [
         { knowledgeId: 'samsungRefrigeratorDefrostHeaterOhms', platformId: 'samsung_sxs' },
-        { knowledgeId: 'mideaRssDefrostHeaterOhms', platformId: 'midea_rss' },
+        {
+          knowledgeId: 'mideaRssDefrostHeaterOhms',
+          platformId: 'midea_rss',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'defrostHeaterOhms', isDefault: true },
       ],
     },
@@ -178,7 +242,11 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_thermistor': {
       candidates: [
-        { knowledgeId: 'mideaB3839ThermistorKohm', platformId: 'midea_rss' },
+        {
+          knowledgeId: 'mideaB3839ThermistorKohm',
+          platformId: 'midea_rss',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'cabinetThermistorOhms', isDefault: true },
       ],
     },
@@ -202,13 +270,21 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'fans_and_electrical.freezer_thermistor': {
       candidates: [
-        { knowledgeId: 'mideaB3839ThermistorKohm', platformId: 'midea_rss' },
+        {
+          knowledgeId: 'mideaB3839ThermistorKohm',
+          platformId: 'midea_rss',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'cabinetThermistorOhms', isDefault: true },
       ],
     },
     'fans_and_electrical.fresh_food_thermistor': {
       candidates: [
-        { knowledgeId: 'mideaB3839ThermistorKohm', platformId: 'midea_rss' },
+        {
+          knowledgeId: 'mideaB3839ThermistorKohm',
+          platformId: 'midea_rss',
+          manufacturers: [...INSIGNIA],
+        },
         { knowledgeId: 'cabinetThermistorOhms', isDefault: true },
       ],
     },
@@ -237,6 +313,21 @@ function bindingFromFlat(knowledgeId: string): FieldKnowledgeBinding {
   return { candidates: [{ knowledgeId, isDefault: true }] };
 }
 
+function candidateMatchesBrand(
+  candidate: FieldKnowledgeCandidate,
+  make: string,
+): boolean {
+  if (candidate.manufacturers?.includes(make)) return true;
+
+  if (!candidate.platformId) return false;
+
+  const rule = getPlatformRule(candidate.platformId);
+  if (!rule?.manufacturers.includes(make)) return false;
+
+  // Brand-wide platform rules (no model pattern) apply at make level.
+  return !rule.modelPatterns?.length;
+}
+
 export function getFieldBinding(
   templateId: string,
   fieldKey: string,
@@ -261,24 +352,30 @@ export function resolveFieldKnowledgeId(
   if (!binding) return null;
 
   const context: MeasurementContext = ctx || { templateId };
-  const platformId = resolvePlatformId(context);
+  const explicitPlatformId = resolvePlatformIdFromModel(context);
   const make = normalizeMake(context.equipmentMake);
 
-  for (const tier of ['platform', 'manufacturer', 'default'] as const) {
+  // 1. Explicit platform from model number
+  if (explicitPlatformId) {
+    const platformMatch = binding.candidates.find(
+      (candidate) => candidate.platformId === explicitPlatformId,
+    );
+    if (platformMatch) return platformMatch.knowledgeId;
+  }
+
+  // 2. Brand (make) — not platform-specific unless model selected above
+  if (make) {
     for (const candidate of binding.candidates) {
-      if (tier === 'platform' && platformId && candidate.platformId === platformId) {
-        return candidate.knowledgeId;
-      }
-      if (tier === 'manufacturer' && make && candidate.manufacturers?.includes(make)) {
-        return candidate.knowledgeId;
-      }
-      if (tier === 'default' && candidate.isDefault) {
+      if (candidate.isDefault) continue;
+      if (candidateMatchesBrand(candidate, make)) {
         return candidate.knowledgeId;
       }
     }
   }
 
-  return null;
+  // 3. Generic default
+  const defaultCandidate = binding.candidates.find((candidate) => candidate.isDefault);
+  return defaultCandidate?.knowledgeId ?? null;
 }
 
 export function listLayeredFieldKeysForTemplate(templateId: string): string[] {

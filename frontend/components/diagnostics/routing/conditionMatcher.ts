@@ -1,5 +1,5 @@
 import type { MeasurementEvaluation, MeasurementContext } from '../knowledge/types';
-import { normalizeMake, resolvePlatformId } from '../knowledge/platformRegistry';
+import { normalizeMake, platformMatches, resolvePlatformIdFromModel } from '../knowledge/platformRegistry';
 import type { RoutingWhenClause } from './types';
 
 function normalizeText(value: unknown): string {
@@ -59,7 +59,22 @@ function clauseMatches(
 
   if (clause.type === 'platform') {
     if (!measurementContext?.templateId) return false;
-    return resolvePlatformId(measurementContext) === clause.id;
+    return platformMatches(measurementContext, clause.id);
+  }
+
+  if (clause.type === 'all') {
+    const nested = clause.clauses || [];
+    if (!nested.length) return false;
+    return nested.every((sub) =>
+      clauseMatches(
+        sub,
+        complaintChipIds,
+        complaintText,
+        fields,
+        measurementStatuses,
+        measurementContext,
+      ),
+    );
   }
 
   return false;

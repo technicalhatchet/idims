@@ -1,7 +1,8 @@
-import type { FieldRecommendationRule } from '../routing/types';
+import { allWhen, makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
 /** Refrigerator field help + contextual recommendations — config only. */
-export const refrigeratorFieldHelp: Record<string, string> = {
+export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
   'commonly_missed.condenser_cleanliness':
     'Vacuum condenser coils and confirm toe-kick / grille airflow is clear.',
   'commonly_missed.door_alignment':
@@ -42,28 +43,103 @@ export const refrigeratorFieldHelp: Record<string, string> = {
     'Check fill tube freeze-up, filter, saddle valve, and harvest cycle if equipped.',
   'functional_checks.water_dispenser':
     'Verify filter, reservoir freeze, inlet valve, and door switch if no water.',
-  'defrost_circuit.defrost_heater_ohms':
-    'Open heater = no defrost. Many brands ~26–32 Ω; Samsung SxS ~63 Ω; LG LRMVS F heater 62–70 Ω, R heater 103–119 Ω.',
-  'commonly_missed.cooling_off_ruled_out':
-    'Display O FF / OF OF or OFF on panel? Samsung: Fridge + Power Cool ~6 s. LG LRMVS: door open + Ice Plus ×3 while holding Fridge to exit display mode.',
-  'functional_checks.door_switch':
-    'Samsung: door open ≈5 V, closed ≈0 V at CN20. Stuck open stops F-fan and triggers door alarm.',
+  'defrost_circuit.defrost_heater_ohms': scopedHelp(
+    [
+      {
+        when: [makeWhen('samsung')],
+        text: 'Open heater = no defrost. Samsung SxS defrost heater ~63 Ω.',
+      },
+      {
+        when: [makeWhen('insignia')],
+        text: 'Insignia/Midea RSS: freezer defrost heater ~53–58 Ω. Open = no defrost cycle.',
+      },
+      {
+        when: [makeWhen('lg')],
+        text: 'LG: F heater 62–70 Ω, R heater 103–119 Ω. Open heater = no defrost.',
+      },
+    ],
+    'Open heater = no defrost. Many brands ~26–32 Ω at room temp.',
+  ),
+  'commonly_missed.cooling_off_ruled_out': scopedHelp([
+    {
+      when: [makeWhen('samsung')],
+      text: 'Display O FF / OF OF? Samsung Cooling Off — hold Fridge + Power Cool ~6 s to exit.',
+    },
+    {
+      when: [makeWhen('lg')],
+      text: 'LG display mode: door open + Ice Plus ×3 while holding Fridge — panel shows OFF, all cooling disabled.',
+    },
+  ]),
+  'functional_checks.door_switch': scopedHelp([
+    {
+      when: [makeWhen('samsung')],
+      text: 'Samsung: door open ≈5 V, closed ≈0 V at CN20. Stuck open stops F-fan and triggers door alarm.',
+    },
+  ]),
   'functional_checks.fans_on_compressor_off':
     'Fans run with compressor off = Cooling Off / exhibition mode until proven otherwise.',
-  'functional_checks.display_panel':
-    'Dead keys or partial segments — check top-hinge LVDS before main board swap (41E, PC ER, 21E).',
-  'fans_and_electrical.thermistor_voltage_v':
-    'At board connector: ~4.5 V warm → 1.0 V cold (Samsung §4-2). Stuck high/low = open/short.',
-  'fans_and_electrical.evap_fan_feedback_voltage':
-    'BLDC evap fan feedback 7–12 V while commanded (Samsung F-FAN/C-FAN). LG Test Mode 1: fan supply 11.4–12.6 V at CON3.',
-  'fans_and_electrical.lg_fan_voltage':
-    'LG LRMVS: main PCB test button ×1 → Test Mode 1 (all fans). F-fan CON3 16–13; R-fan 28–25; C-fan 12–9; I-fan 24–21 vs GND.',
-  'fans_and_electrical.inverter_ipm_voltage':
-    'Inverter IPM DC must exceed 13.5 V or comp will not start (84C/86E). Read after 5-min lockout.',
-  'defrost_circuit.lg_defrost_heater_voltage':
-    'LG Test Mode 3 (test button ×3, display 33 33): F heater CON9 5–13, R heater 7–13 should read 112–116 V.',
-  'customer_complaint.error_codes':
-    'Samsung: 22E=fan, 5E=defrost sensor, 84C/86E=inverter, 41E=display comm, O FF=demo, RD=damper. LG: FF=F-fan, rF=R-fan, F/r dH=defrost heater, CH/CL=sealed system, CO=display comm.',
+  'functional_checks.display_panel': scopedHelp([
+    {
+      when: [makeWhen('samsung')],
+      text: 'Dead keys or partial segments — check top-hinge LVDS before main board swap (41E, PC ER, 21E).',
+    },
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia E6 — display ↔ main CN9 comm. Reseat door-hinge harness and verify 12 V / 5 V before board swap.',
+    },
+  ], 'Dead keys or partial segments — check door-hinge display harness before main board swap.'),
+  'fans_and_electrical.thermistor_voltage_v': scopedHelp([
+    {
+      when: [makeWhen('samsung')],
+      text: 'At board connector: ~4.5 V warm → 1.0 V cold (Samsung §4-2). Stuck high/low = open/short.',
+    },
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia B3839 NTC: ~2.0 kΩ at 25°C — much lower than generic 5–16 kΩ bands. Use RSS manual R/T table.',
+    },
+  ]),
+  'fans_and_electrical.evap_fan_feedback_voltage': scopedHelp([
+    {
+      when: [makeWhen('samsung')],
+      text: 'BLDC evap fan feedback 7–12 V while commanded (Samsung F-FAN/C-FAN).',
+    },
+    {
+      when: [makeWhen('lg')],
+      text: 'LG Test Mode 1: fan supply 11.4–12.6 V at CON3 while commanded.',
+    },
+  ]),
+  'fans_and_electrical.lg_fan_voltage': scopedHelp([
+    {
+      when: [makeWhen('lg')],
+      text: 'LG LRMVS: main PCB test button ×1 → Test Mode 1 (all fans). F-fan CON3 16–13; R-fan 28–25; C-fan 12–9; I-fan 24–21 vs GND.',
+    },
+  ]),
+  'fans_and_electrical.inverter_ipm_voltage': scopedHelp([
+    {
+      when: [makeWhen('samsung')],
+      text: 'Inverter IPM DC must exceed 13.5 V or comp will not start (84C/86E). Read after 5-min lockout.',
+    },
+  ]),
+  'defrost_circuit.lg_defrost_heater_voltage': scopedHelp([
+    {
+      when: [makeWhen('lg')],
+      text: 'LG Test Mode 3 (test button ×3, display 33 33): F heater CON9 5–13, R heater 7–13 should read 112–116 V.',
+    },
+  ]),
+  'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [makeWhen('samsung')],
+      text: 'Samsung: 22E=fan, 5E=defrost sensor, 84C/86E=inverter, 41E=display comm, O FF=demo, RD=damper.',
+    },
+    {
+      when: [makeWhen('lg')],
+      text: 'LG: FF=F-fan, rF=R-fan, F/r dH=defrost heater, CH/CL=sealed system, CO=display comm.',
+    },
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia/Midea: E0=ice maker, E1=FF sensor, E2=FZ sensor (B3839 NTC), E5=defrost, E6=display comm.',
+    },
+  ]),
   'diagnosis.root_cause':
     'Tie findings to measured temps, frost pattern, and amp draws — not guesswork.',
 };
@@ -292,7 +368,10 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'samsung_22e_fan',
     field: 'functional_checks.evaporator_fan_running',
-    when: [{ type: 'chip', id: 'error_code' }],
+    when: [allWhen(
+      { type: 'chip', id: 'error_code' },
+      makeWhen('samsung'),
+    )],
     message:
       'Samsung 22E/22C (F-FAN / C-FAN): check CN20 fan feedback 7–12 V, ice on evaporator, then fan motor. Service manual §4-2.',
     tone: 'action',
@@ -300,7 +379,10 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'samsung_5e_defrost_sensor',
     field: 'functional_checks.defrost_heater_ohms',
-    when: [{ type: 'chip', id: 'error_code' }],
+    when: [allWhen(
+      { type: 'chip', id: 'error_code' },
+      makeWhen('samsung'),
+    )],
     message:
       'Samsung 5E/SE (F-DEF-Sensor): defrost thermistor CN20 pins 5–7 should read ~4.5–1.0 V warm→cold. Replace thermistor before board.',
     tone: 'tip',
@@ -308,7 +390,10 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'samsung_84c_compressor',
     field: 'functional_checks.compressor_running',
-    when: [{ type: 'chip', id: 'error_code' }],
+    when: [allWhen(
+      { type: 'chip', id: 'error_code' },
+      makeWhen('samsung'),
+    )],
     message:
       'Samsung 84C/86E: inverter/compressor fault — check inverter LED blink pattern, harness CN70, locked rotor vs board.',
     tone: 'action',
@@ -316,7 +401,10 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'samsung_cooling_off',
     field: 'functional_checks.compressor_running',
-    when: [{ type: 'chip', id: 'not_cooling' }],
+    when: [allWhen(
+      { type: 'chip', id: 'not_cooling' },
+      makeWhen('samsung'),
+    )],
     message:
       'Display shows O FF / OF OF? That is Cooling Off (demo) — compressor off, fans on. Hold Fridge + Power Cool ~6 s to exit before sealed-system work.',
     tone: 'tip',
@@ -324,7 +412,10 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'samsung_pcer_door',
     field: 'visual_inspection.door_alignment',
-    when: [{ type: 'chip', id: 'error_code' }],
+    when: [allWhen(
+      { type: 'chip', id: 'error_code' },
+      makeWhen('samsung'),
+    )],
     message:
       'Samsung PC ER: reseat top-hinge door harness (LVDS). Also check 21E if display flickers when door moves.',
     tone: 'action',
@@ -332,7 +423,10 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'samsung_comm_codes',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'chip', id: 'error_code' }],
+    when: [allWhen(
+      { type: 'chip', id: 'error_code' },
+      makeWhen('samsung'),
+    )],
     message:
       '41Er = main↔display, 44Er = inverter, 46Er = I/O expander, 47Er = dispenser panel, 52Er = WiFi — check harness first, then board.',
     tone: 'tip',
@@ -362,21 +456,27 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'display_dead_hinge',
     field: 'functional_checks.display_panel',
-    when: [{ type: 'chip', id: 'display_dead' }],
+    when: [allWhen(
+      { type: 'chip', id: 'display_dead' },
+      makeWhen('samsung'),
+    )],
     message: 'Reseat top-hinge LVDS harness first — pairs with 21E and PC ER on Samsung SxS.',
     tone: 'action',
   },
   {
     id: 'damper_weak_ff',
     field: 'functional_checks.damper_operation',
-    when: [{ type: 'chip', id: 'weak_cooling_ff' }],
+    when: [allWhen(
+      { type: 'chip', id: 'weak_cooling_ff' },
+      makeWhen('samsung'),
+    )],
     message: 'Weak FF with cold freezer — verify damper opens and RD code before sealed system.',
     tone: 'tip',
   },
   {
     id: 'lg_fdh_defrost',
     field: 'functional_checks.defrost_cycle_observed',
-    when: [{ type: 'keyword', match: 'f dh' }],
+    when: [allWhen({ type: 'keyword', match: 'f dh' }, makeWhen('lg'))],
     message:
       'LG F dH: manual defrost 1–3 days if heavily iced; Test Mode 3 — heater 112–116 V at CON9; F heater 62–70 Ω, Fuse-M 0 Ω.',
     tone: 'action',
@@ -384,7 +484,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_rdh_defrost',
     field: 'defrost_circuit.defrost_heater_ohms',
-    when: [{ type: 'keyword', match: 'r dh' }],
+    when: [allWhen({ type: 'keyword', match: 'r dh' }, makeWhen('lg'))],
     message:
       'LG r dH: FF defrost heater path — CON9 pin 7–13, resistance 103–119 Ω; check door gasket air leak prolonging defrost.',
     tone: 'action',
@@ -392,7 +492,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_ff_fan',
     field: 'functional_checks.evaporator_fan_running',
-    when: [{ type: 'keyword', match: 'e ff' }],
+    when: [allWhen({ type: 'keyword', match: 'e ff' }, makeWhen('lg'))],
     message:
       'LG E FF: freezer evap fan — defrost ice first; Test Mode 1 CON3 pins 16–13 = 11.4–12.6 V §8-9.',
     tone: 'action',
@@ -400,7 +500,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_rf_fan',
     field: 'functional_checks.evaporator_fan_running',
-    when: [{ type: 'keyword', match: 'e rf' }],
+    when: [allWhen({ type: 'keyword', match: 'e rf' }, makeWhen('lg'))],
     message:
       'LG E rF: refrigerator evap fan — check airflow with freezer door open; CON3 pins 28–25 = 11.4–12.6 V §8-8.',
     tone: 'action',
@@ -408,7 +508,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_cf_condenser',
     field: 'functional_checks.condenser_fan_running',
-    when: [{ type: 'keyword', match: 'e cf' }],
+    when: [allWhen({ type: 'keyword', match: 'e cf' }, makeWhen('lg'))],
     message:
       'LG E CF: condenser fan — clean grille/coils; Test Mode 1 CON3 pins 12–9 = 11.4–12.6 V §8-11.',
     tone: 'action',
@@ -416,7 +516,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_co_display',
     field: 'functional_checks.display_panel',
-    when: [{ type: 'keyword', match: 'e co' }],
+    when: [allWhen({ type: 'keyword', match: 'e co' }, makeWhen('lg'))],
     message:
       'LG E CO: main ↔ display comm — reseat door-hinge CON101; verify 12 V and 5 V before board swap §8-12.',
     tone: 'action',
@@ -424,7 +524,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_ch_cl_sealed',
     field: 'functional_checks.compressor_running',
-    when: [{ type: 'keyword', match: 'e ch' }],
+    when: [allWhen({ type: 'keyword', match: 'e ch' }, makeWhen('lg'))],
     message:
       'LG E CH / E CL: sealed-system leak cycle — UV leak check §8-22; not a fan/defrost part swap.',
     tone: 'action',
@@ -432,7 +532,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_display_mode',
     field: 'commonly_missed.cooling_off_ruled_out',
-    when: [{ type: 'chip', id: 'cooling_off' }],
+    when: [allWhen({ type: 'chip', id: 'cooling_off' }, makeWhen('lg'))],
     message:
       'LG display mode: door open + Ice Plus ×3 while holding Fridge — panel shows OFF, all cooling disabled §13-1-15.',
     tone: 'action',
@@ -440,7 +540,7 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_error_clear',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'chip', id: 'error_code' }],
+    when: [allWhen({ type: 'chip', id: 'error_code' }, makeWhen('lg'))],
     message:
       'LG: within 3 h of fault — Ice Plus + Freezer buttons together to clear; after 3 h most codes stay on display until repaired.',
     tone: 'tip',
@@ -448,9 +548,33 @@ export const refrigeratorRecommendations: FieldRecommendationRule[] = [
   {
     id: 'lg_test_mode',
     field: 'functional_checks.evaporator_fan_running',
-    when: [{ type: 'chip', id: 'error_code' }],
+    when: [allWhen({ type: 'chip', id: 'error_code' }, makeWhen('lg'))],
     message:
       'LG main PCB test button: ×1 all fans/comp/damper; ×2 damper closed; ×3 forced defrost (33 33 on display).',
     tone: 'tip',
+  },
+  {
+    id: 'insignia_e2_freezer_sensor',
+    field: 'temperature_checks.freezer_temp',
+    when: [allWhen({ type: 'keyword', match: 'e2' }, makeWhen('insignia'))],
+    message:
+      'Insignia E2 — freezer compartment sensor (B3839 NTC ~2 kΩ at 25°C). Do not use generic 5–16 kΩ refrigerator band.',
+    tone: 'action',
+  },
+  {
+    id: 'insignia_e6_display',
+    field: 'functional_checks.display_panel',
+    when: [allWhen({ type: 'keyword', match: 'e6' }, makeWhen('insignia'))],
+    message:
+      'Insignia E6 — display ↔ main CN9 communication. Reseat door-hinge harness; verify 12 V and 5 V before PCB swap.',
+    tone: 'action',
+  },
+  {
+    id: 'insignia_e5_defrost',
+    field: 'defrost_circuit.defrost_heater_ohms',
+    when: [allWhen({ type: 'keyword', match: 'e5' }, makeWhen('insignia'))],
+    message:
+      'Insignia E5 — defrost fault: heater ~53–58 Ω, defrost sensor on evaporator, and control output.',
+    tone: 'action',
   },
 ];

@@ -83,7 +83,7 @@ export interface DiagnosticWizardContext {
   /** Phase 4c — conditional field rules for the active appliance. */
   fieldVisibilityRules?: FieldVisibilityRule[];
   /** Phase 4d */
-  fieldHelp?: Record<string, string>;
+  fieldHelp?: Record<string, import('./routing/types').FieldHelpEntry>;
   activeRecommendations?: ActiveFieldRecommendation[];
   /** Phase 5 — prior readings for this serial, keyed by field path or knowledge id. */
   lastReadings?: Record<string, { value?: string; unit?: string; recordedAt?: string }>;

@@ -7,7 +7,7 @@ import { getMeasurementKnowledge } from './knowledge/knowledgeRegistry';
 import { evaluateFieldMeasurement } from './knowledge/measurementContext';
 import { filterVisibleSectionFields } from './routing/fieldVisibilityEngine';
 import {
-  getFieldHelp,
+  resolveFieldHelp,
   recommendationsForField,
   recommendationsForSection,
 } from './routing/recommendationEngine';
@@ -389,7 +389,7 @@ export default function DiagnosticSectionFields({
                 onChange={onFieldChange}
                 readOnly={readOnly}
                 variant={variant}
-                helpText={getFieldHelp(fieldKey, fieldHelp)}
+                helpText={resolveFieldHelp(fieldKey, fieldHelp, fields, null, measurementContext)}
                 recommendations={fieldRecs}
                 templateId={templateId}
                 lastReadings={lastReadings}

@@ -1,6 +1,7 @@
-import type { FieldRecommendationRule } from '../routing/types';
+import { makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
-export const standaloneFreezerFieldHelp: Record<string, string> = {
+export const standaloneFreezerFieldHelp: Record<string, FieldHelpEntry> = {
   'commonly_missed.door_sealing':
     'Chest and upright freezers rely on a tight lid/door seal — gasket gaps cause frost and warm spots.',
   'commonly_missed.frost_source':
@@ -33,8 +34,18 @@ export const standaloneFreezerFieldHelp: Record<string, string> = {
     'Evap fan out causes warm cabinet and heavy coil frost on upright units.',
   'functional_checks.defrost_operational':
     'Force defrost or manual test to confirm heater, fuse, and termination thermostat.',
-  'defrost_circuit.defrost_heater_ohms':
-    'Open heater = no defrost cycle. Compare to spec — typically tens of ohms.',
+  'defrost_circuit.defrost_heater_ohms': scopedHelp([
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia/Midea UZ21 defrost heater — compare to manual; open = no defrost cycle.',
+    },
+  ], 'Open heater = no defrost cycle. Compare to spec — typically tens of ohms.'),
+  'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia/Midea: E2=freezer temp sensor (B3839 NTC ~2 kΩ at 25°C) — not generic 5–16 kΩ band.',
+    },
+  ]),
   'compressor_sealed_system.suction_line_feel':
     'Cold suction with warm cabinet can indicate low charge or restriction.',
 };

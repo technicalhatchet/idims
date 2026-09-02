@@ -1,6 +1,7 @@
-import type { FieldRecommendationRule } from '../routing/types';
+import { allWhen, makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
-export const dishwasherFieldHelp: Record<string, string> = {
+export const dishwasherFieldHelp: Record<string, FieldHelpEntry> = {
   'commonly_missed.disposal_knockout':
     'New installs — knockout plug in disposal drain causes immediate drain failure.',
   'commonly_missed.drain_restrictions':
@@ -19,10 +20,24 @@ export const dishwasherFieldHelp: Record<string, string> = {
     'Pump should run audibly — silence may mean dead motor or stuck impeller.',
   'heat_water.incoming_water_temp':
     'Low inlet temp extends wash time and hurts drying performance.',
-  'heat_water.heater_ohms':
-    'Open heater = no dry heat. Compare to spec before board diagnosis.',
-  'motor_electrical.drain_motor_ohms':
-    'Open drain motor winding = standing water after cycle.',
+  'heat_water.heater_ohms': scopedHelp([
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia DWR3 tub heater ~10–15 Ω. Open = no heat during wash/dry.',
+    },
+  ], 'Open heater = no dry heat. Compare to spec before board diagnosis.'),
+  'motor_electrical.drain_motor_ohms': scopedHelp([
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia DWR3 drain pump ~28–32 Ω. Open = standing water after cycle.',
+    },
+  ], 'Open drain motor winding = standing water after cycle.'),
+  'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia DWR3: E8=diverter valve motor/switch, fill/drain/heat faults map to inlet, pump, and heater ohms.',
+    },
+  ]),
   'diagnosis.root_cause':
     'Document fill, wash, drain, and heat findings — many complaints overlap.',
 };
@@ -106,6 +121,19 @@ export const dishwasherRecommendations: FieldRecommendationRule[] = [
       { type: 'field', path: 'visual_inspection.spray_arms_clear', equals: 'no' },
     ],
     message: 'Blocked spray arms can rattle and mimic pump failure — clear holes and spin freely first.',
+    tone: 'tip',
+  },
+  {
+    id: 'insignia_e8_diverter',
+    when: [allWhen({ type: 'keyword', match: 'e8' }, makeWhen('insignia'))],
+    message: 'Insignia E8 — diverter valve motor (~4 kΩ class) or micro switch. Check cam position before motor swap.',
+    tone: 'action',
+  },
+  {
+    id: 'insignia_fill_valve',
+    field: 'heat_water.heater_ohms',
+    when: [allWhen({ type: 'chip', id: 'no_fill' }, makeWhen('insignia'))],
+    message: 'Insignia DWR3 inlet valve ~0.95–1.05 kΩ per coil — verify screens and supply before valve.',
     tone: 'tip',
   },
 ];

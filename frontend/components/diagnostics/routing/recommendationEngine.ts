@@ -1,4 +1,4 @@
-import type { MeasurementEvaluation } from '../knowledge/types';
+import type { MeasurementContext, MeasurementEvaluation } from '../knowledge/types';
 import { getComplaintChipIds, getDiagnosticMatchText } from './routingEngine';
 import { ruleWhenMatches } from './conditionMatcher';
 import type { ActiveFieldRecommendation, FieldRecommendationRule } from './types';
@@ -7,6 +7,7 @@ export function evaluateRecommendations(
   rules: FieldRecommendationRule[] | undefined,
   fields: Record<string, unknown> = {},
   measurementStatuses?: Map<string, MeasurementEvaluation>,
+  measurementContext?: MeasurementContext | null,
 ): ActiveFieldRecommendation[] {
   if (!rules?.length) return [];
 
@@ -16,7 +17,18 @@ export function evaluateRecommendations(
   const active: ActiveFieldRecommendation[] = [];
 
   for (const rule of rules) {
-    if (!ruleWhenMatches(rule.when, complaintChipIds, complaintText, fields, measurementStatuses)) continue;
+    if (
+      !ruleWhenMatches(
+        rule.when,
+        complaintChipIds,
+        complaintText,
+        fields,
+        measurementStatuses,
+        measurementContext,
+      )
+    ) {
+      continue;
+    }
     if (seen.has(rule.id)) continue;
     seen.add(rule.id);
     active.push({
@@ -49,8 +61,11 @@ export function recommendationsForField(
 
 export function getFieldHelp(
   fieldKey: string,
-  fieldHelp: Record<string, string> | undefined,
+  fieldHelp: Record<string, import('./types').FieldHelpEntry> | undefined,
 ): string | null {
   const text = fieldHelp?.[fieldKey];
-  return text?.trim() ? text.trim() : null;
+  if (typeof text === 'string') return text.trim() || null;
+  return text?.default?.trim() || null;
 }
+
+export { resolveFieldHelp } from './scopedFieldHelp';
