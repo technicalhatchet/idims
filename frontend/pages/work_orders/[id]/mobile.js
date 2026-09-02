@@ -166,6 +166,7 @@ function WorkOrderDetail() {
   });
   const [notesAddSheetOpen, setNotesAddSheetOpen] = useState(false);
   const [notesAddNoteType, setNotesAddNoteType] = useState(null);
+  const [repairOutcomePreset, setRepairOutcomePreset] = useState(null);
   const [showNoteTypePicker, setShowNoteTypePicker] = useState(false);
   const [notesPhotoSheetOpen, setNotesPhotoSheetOpen] = useState(false);
   const [guidedDiagnosticsOpen, setGuidedDiagnosticsOpen] = useState(false);
@@ -255,6 +256,13 @@ function WorkOrderDetail() {
 
   const openRepairOutcomeNote = useCallback(() => {
     setShowRepairOutcomePrompt(false);
+    setRepairOutcomePreset(null);
+    openNoteWithType(REPAIR_OUTCOME_NOTE_TYPE);
+  }, [openNoteWithType]);
+
+  const openExternalCauseOutcomeNote = useCallback(() => {
+    setShowRepairOutcomePrompt(false);
+    setRepairOutcomePreset('clogged_dryer_vent');
     openNoteWithType(REPAIR_OUTCOME_NOTE_TYPE);
   }, [openNoteWithType]);
 
@@ -1215,9 +1223,13 @@ function WorkOrderDetail() {
                 addSheetOpen={notesAddSheetOpen}
                 onAddSheetOpenChange={(open) => {
                   setNotesAddSheetOpen(open);
-                  if (!open) setNotesAddNoteType(null);
+                  if (!open) {
+                    setNotesAddNoteType(null);
+                    setRepairOutcomePreset(null);
+                  }
                 }}
                 addNoteType={notesAddNoteType}
+                repairOutcomePreset={repairOutcomePreset}
                 photoSheetOpen={notesPhotoSheetOpen}
                 onPhotoSheetOpenChange={setNotesPhotoSheetOpen}
                 onGuidedDiagnosticsOpenChange={(open) => {
@@ -2786,6 +2798,7 @@ function WorkOrderDetail() {
         open={showRepairOutcomePrompt}
         onClose={() => setShowRepairOutcomePrompt(false)}
         onAddOutcome={openRepairOutcomeNote}
+        onAddExternalCause={openExternalCauseOutcomeNote}
         variant="mobile"
       />
 

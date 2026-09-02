@@ -202,10 +202,12 @@ function TabIcon({ type, className }) {
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState('interface');
-  const { preferences, setRailPosition } = useUIPreferences();
+  const { preferences, setRailPosition, setDisplayName } = useUIPreferences();
   
   // UI saving state
   const [saving, setSaving] = useState(false);
+  const [displayNameDraft, setDisplayNameDraft] = useState('');
+  const [savingDisplayName, setSavingDisplayName] = useState(false);
   
   // Shop Hours state
   const [savingHours, setSavingHours] = useState(false);
@@ -628,10 +630,26 @@ export default function Settings() {
     loadSettings();
   }, []);
 
+  useEffect(() => {
+    setDisplayNameDraft(preferences.displayName || '');
+  }, [preferences.displayName]);
+
   const handleRailPositionChange = async (position) => {
     setSaving(true);
     await setRailPosition(position);
     setSaving(false);
+  };
+
+  const handleDisplayNameSave = async () => {
+    setSavingDisplayName(true);
+    try {
+      await setDisplayName(displayNameDraft);
+      toast.success('Display name saved');
+    } catch (err) {
+      toast.error('Failed to save display name');
+    } finally {
+      setSavingDisplayName(false);
+    }
   };
 
   const updateDayHours = (day, period, field, value) => {
@@ -1036,6 +1054,32 @@ export default function Settings() {
 
   // Render tab content
   const renderInterfaceTab = () => (
+    <div className="space-y-5">
+      <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <h2 className="text-lg font-semibold text-white mb-1">Display name</h2>
+        <p className="text-xs text-gray-500 mb-4">
+          Shown in the profile menu and greetings. Leave blank to use your Auth0 account name.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <input
+            type="text"
+            value={displayNameDraft}
+            onChange={(e) => setDisplayNameDraft(e.target.value)}
+            placeholder="e.g. Alex"
+            maxLength={80}
+            className="flex-1 rounded-lg border border-white/10 bg-[#0B0F1A] px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-cyan-500/50 focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={handleDisplayNameSave}
+            disabled={savingDisplayName}
+            className="rounded-lg bg-cyan-600 px-4 py-2.5 text-sm font-medium text-white disabled:opacity-60"
+          >
+            {savingDisplayName ? 'Saving…' : 'Save name'}
+          </button>
+        </div>
+      </section>
+
     <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
       <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
         <TabIcon type="layout" className="w-5 h-5 stroke-cyan-400" />
@@ -1093,6 +1137,7 @@ export default function Settings() {
         </p>
       )}
     </section>
+    </div>
   );
 
   const renderAvailabilityTab = () => (

@@ -2,6 +2,7 @@ export default function RepairOutcomePromptSheet({
   open,
   onClose,
   onAddOutcome,
+  onAddExternalCause,
   variant = 'mobile',
 }) {
   if (!open) return null;
@@ -37,6 +38,19 @@ export default function RepairOutcomePromptSheet({
           >
             Add Repair Outcome
           </button>
+          {onAddExternalCause ? (
+            <button
+              type="button"
+              onClick={onAddExternalCause}
+              className={`h-11 rounded-xl border text-sm font-medium ${
+                variant === 'mobile'
+                  ? 'border-amber-500/35 text-amber-200 hover:bg-amber-500/10'
+                  : 'border-amber-300 text-amber-800 dark:border-amber-500/40 dark:text-amber-200'
+              }`}
+            >
+              Not appliance fault (vent, plumbing, etc.)
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onClose}

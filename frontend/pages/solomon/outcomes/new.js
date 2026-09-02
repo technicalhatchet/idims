@@ -10,6 +10,7 @@ import {
   linkDmaDiagnosticToOutcome,
 } from '../../../services/api/dmaApi';
 import { formValuesToPayload, EMPTY_FIELD_RECORD } from '../../../constants/dmaEquipmentOptions';
+import { applyExternalCausePreset } from '../../../constants/externalCauseOutcomes';
 import { complaintFromPayload, templateIdToEquipmentSubtype } from '../../../utils/standaloneDiagnostic';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
@@ -19,6 +20,7 @@ export default function SolomonNewOutcomePage() {
   const { isDiyer } = useSolomonAuth();
   const copy = (key) => solomonCopy(isDiyer, key);
   const diagnosticId = typeof router.query.diagnostic_id === 'string' ? router.query.diagnostic_id : null;
+  const presetId = typeof router.query.preset === 'string' ? router.query.preset : null;
   const [initialValues, setInitialValues] = useState(EMPTY_FIELD_RECORD);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -30,18 +32,27 @@ export default function SolomonNewOutcomePage() {
       .then((diag) => {
         if (cancelled) return;
         const payload = diag.payload || {};
-        setInitialValues({
+        let base = {
           ...EMPTY_FIELD_RECORD,
           equipment_make: diag.equipment_make || '',
           equipment_model: diag.equipment_model || '',
           equipment_subtype: diag.equipment_subtype || templateIdToEquipmentSubtype(payload.templateId) || '',
           customer_complaint: diag.customer_complaint || complaintFromPayload(payload) || '',
           outcome_confidence: isDiyer ? 'unconfirmed' : '',
-        });
+        };
+        if (presetId) {
+          base = applyExternalCausePreset(presetId, base);
+        }
+        setInitialValues(base);
       })
       .catch(() => {});
     return () => { cancelled = true; };
-  }, [diagnosticId]);
+  }, [diagnosticId, presetId, isDiyer]);
+
+  useEffect(() => {
+    if (diagnosticId || !presetId) return;
+    setInitialValues((prev) => applyExternalCausePreset(presetId, prev));
+  }, [diagnosticId, presetId]);
 
   const handleSubmit = async (values) => {
     setIsSaving(true);

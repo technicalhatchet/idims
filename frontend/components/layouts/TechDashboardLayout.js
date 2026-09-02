@@ -8,6 +8,7 @@ import { apiClient } from '../../utils/api-client';
 import { ensureWebPushSubscription } from '../../utils/webPush';
 import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../../lib/deployReminderScheduler';
 import { useUIPreferences } from '../../context/UIPreferencesContext';
+import { resolveUserDisplayName, resolveUserInitial } from '../../utils/userDisplayName';
 import TechIconRail from '../navigation/TechIconRail';
 
 import {
@@ -96,6 +97,8 @@ export default function TechDashboardLayout({ children }) {
   const router = useRouter();
   const { user, isLoading } = useUser();
   const { preferences } = useUIPreferences();
+  const displayName = resolveUserDisplayName({ preferences, user });
+  const displayInitial = resolveUserInitial({ preferences, user });
   
   // Rail position from user preferences (default: 'right')
   const railPosition = preferences.railPosition || 'right';
@@ -276,7 +279,7 @@ export default function TechDashboardLayout({ children }) {
                 <img src={user.picture} alt="" className="w-full h-full object-cover" />
               ) : (
                 <span className="text-sm font-bold" style={{ color: '#22D3EE' }}>
-                  {user?.name?.charAt(0) || user?.email?.charAt(0) || 'U'}
+                  {displayInitial}
                 </span>
               )}
             </button>
@@ -293,7 +296,7 @@ export default function TechDashboardLayout({ children }) {
               >
                 {/* User Info */}
                 <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                  <p className="text-sm font-medium text-white truncate">{user?.name || 'User'}</p>
+                  <p className="text-sm font-medium text-white truncate">{displayName}</p>
                   <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                 </div>
 

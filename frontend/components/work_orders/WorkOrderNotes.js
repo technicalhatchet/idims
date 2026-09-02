@@ -17,6 +17,8 @@ import {
   repairMemoryMatchLabel,
   repairSuccessfulLabel,
 } from '../../constants/dmaCodes';
+import { applyExternalCauseToWorkOrderFields } from '../../constants/externalCauseOutcomes';
+import ExternalCauseOutcomePick from '../dma/ExternalCauseOutcomePick';
 import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
@@ -86,7 +88,7 @@ const NOTE_FIELDS = {
     },
     {
       id: 'repairSuccessful',
-      label: 'Repair successful? (required)',
+      label: 'Issue resolved? (required)',
       type: 'select',
       options: REPAIR_SUCCESSFUL_OPTIONS,
     },
@@ -207,6 +209,7 @@ export default function WorkOrderNotes({
   addSheetOpen: addSheetOpenProp,
   onAddSheetOpenChange,
   addNoteType = null,
+  repairOutcomePreset = null,
   photoSheetOpen = false,
   onPhotoSheetOpenChange = null,
   onGuidedDiagnosticsOpenChange = null,
@@ -312,13 +315,20 @@ export default function WorkOrderNotes({
         setGuidedDiagMode('add');
         setAddSheetOpen(false);
       } else if (addNoteType && MANUAL_NOTE_TYPES.includes(addNoteType)) {
-        setNewNote(buildNewNoteState(addNoteType));
+        let nextNote = buildNewNoteState(addNoteType);
+        if (addNoteType === NOTE_TYPES.REPAIR_OUTCOME && repairOutcomePreset) {
+          nextNote = {
+            ...nextNote,
+            fieldValues: applyExternalCauseToWorkOrderFields(repairOutcomePreset, nextNote.fieldValues),
+          };
+        }
+        setNewNote(nextNote);
       } else {
         resetNewNoteForm();
       }
     }
     prevAddSheetOpen.current = addSheetOpen;
-  }, [addSheetOpen, resetNewNoteForm, addNoteType, buildNewNoteState, isMobile, setAddSheetOpen]);
+  }, [addSheetOpen, resetNewNoteForm, addNoteType, repairOutcomePreset, buildNewNoteState, isMobile, setAddSheetOpen]);
 
   useEffect(() => {
     if (!isMobile || !addSheetOpen || !addPanelRef.current) return;
@@ -781,6 +791,21 @@ export default function WorkOrderNotes({
 
     return (
       <div className="space-y-4">
+        {noteType === NOTE_TYPES.REPAIR_OUTCOME && !readOnly ? (
+          <ExternalCauseOutcomePick
+            variant={isMobile ? 'dark' : 'default'}
+            onSelectPreset={(presetId) => {
+              const merged = applyExternalCauseToWorkOrderFields(presetId, fieldValues);
+              if (idSuffix === '-edit') {
+                setEditFieldValues(merged);
+              } else if (onFieldChange === handleFieldChange) {
+                setNewNote((prev) => ({ ...prev, fieldValues: merged }));
+              } else {
+                Object.entries(merged).forEach(([key, val]) => onFieldChange(key, val));
+              }
+            }}
+          />
+        ) : null}
         {NOTE_FIELDS[noteType].map(field => (
           <div key={field.id} className="mb-4">
             {renderField(field, fieldValues[field.id], readOnly, onFieldChange, idSuffix)}
