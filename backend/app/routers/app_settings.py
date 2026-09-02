@@ -6,6 +6,7 @@ import copy
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status, Request, UploadFile, File, Form
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.attributes import flag_modified
 from typing import Dict, Any, Optional
 from pydantic import BaseModel
 
@@ -63,21 +64,10 @@ async def get_user_settings(
     token = auth_header.replace('Bearer ', '')
     
     try:
-        user = await auth_handler.get_current_user(token)
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid authentication credentials"
-            )
-        
-        # Always query fresh from current session
-        user_auth_id = getattr(user, 'auth_id', None) or getattr(user, 'sub', None)
-        db_user = db.query(User).filter(User.auth_id == user_auth_id).first()
-        
+        db_user = await auth_handler.get_current_user(token, db=db)
         if not db_user:
-            # Return empty preferences if user not in DB yet
             return UserPreferencesResponse(ui_preferences={})
-        
+
         preferences = db_user.preferences or {}
         return UserPreferencesResponse(
             ui_preferences=preferences.get('ui_preferences', {})
@@ -114,21 +104,11 @@ async def update_user_settings(
     token = auth_header.replace('Bearer ', '')
     
     try:
-        user = await auth_handler.get_current_user(token)
-        if not user:
+        db_user = await auth_handler.get_current_user(token, db=db)
+        if not db_user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid authentication credentials"
-            )
-        
-        # Always query fresh from current session to avoid detached instance errors
-        user_auth_id = getattr(user, 'auth_id', None) or getattr(user, 'sub', None)
-        db_user = db.query(User).filter(User.auth_id == user_auth_id).first()
-        
-        if not db_user:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="User not found"
             )
         
         # Merge with existing preferences
@@ -148,6 +128,7 @@ async def update_user_settings(
         
         # Save to database - assign new dict so SQLAlchemy detects the change
         db_user.preferences = current_prefs
+        flag_modified(db_user, 'preferences')
         db.commit()
         db.refresh(db_user)
         

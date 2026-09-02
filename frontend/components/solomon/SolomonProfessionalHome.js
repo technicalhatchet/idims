@@ -18,19 +18,14 @@ import SolomonInstallHint, { useSolomonInstallHint } from './SolomonInstallHint'
 import SolomonBottomNav from './SolomonBottomNav';
 import { SOLOMON_PRO_LIST_STACK_CLASS } from './solomonListPageUi';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
+import { useUIPreferences } from '../../context/UIPreferencesContext';
+import { resolveUserFirstName } from '../../utils/userDisplayName';
 import { useSolomonContinue } from '../../hooks/useSolomonContinue';
 import { useSolomonHomeDashboard } from '../../hooks/useSolomonHomeDashboard';
 import { useSolomonTopInset, solomonBottomNavScrollPadding, solomonFooterScrollPadding } from './solomonSafeArea';
 import { solomonLoginUrl } from '../../utils/solomonAuthUrls';
 import useSolomonBottomNavVisible from '../../hooks/useSolomonBottomNavVisible';
 import LoadingSpinner from '../ui/LoadingSpinner';
-
-function solomonUserFirstName(user) {
-  if (!user) return null;
-  if (user.given_name) return user.given_name;
-  if (user.name) return user.name.split(' ')[0];
-  return null;
-}
 
 function greetingForHour(hour) {
   if (hour < 12) return 'Good morning';
@@ -116,6 +111,7 @@ function SectionLabel({ id, children, action }) {
 
 export default function SolomonProfessionalHome() {
   const { user, isDiyer, isStaff, canUseSolomon } = useSolomonAuth();
+  const { preferences } = useUIPreferences();
   const { continueTarget, isLoading: continueLoading } = useSolomonContinue();
   const { diagnostics, metrics, isLoading: dashboardLoading } = useSolomonHomeDashboard({
     enabled: canUseSolomon,
@@ -128,7 +124,7 @@ export default function SolomonProfessionalHome() {
   const newTitle = isDiyer ? 'Start troubleshooting' : 'New diagnostic';
   const hasActiveSession = canUseSolomon && !continueLoading && continueTarget;
 
-  const firstName = solomonUserFirstName(user);
+  const firstName = resolveUserFirstName({ preferences, user });
   const greeting = greetingForHour(new Date().getHours());
   const greetingLine = firstName ? `${greeting}, ${firstName}` : greeting;
 

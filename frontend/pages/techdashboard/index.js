@@ -4,6 +4,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format, isToday, isFuture } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUIPreferences } from '../../context/UIPreferencesContext';
+import { resolveUserFirstName } from '../../utils/userDisplayName';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
@@ -410,6 +412,7 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
 // ── Main Page ─────────────────────────────────────────────────────────────
 export default function TechDashboardTest() {
   const { user } = useUser();
+  const { preferences } = useUIPreferences();
   const [schedule, setSchedule] = useState([]);
   const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0, partsWaiting: 0 });
   const [isLoading, setIsLoading] = useState(true);
@@ -531,7 +534,7 @@ export default function TechDashboardTest() {
 
   const nextJob = pickNextJobToday(todayAppts);
 
-  const firstName = user?.given_name || user?.name?.split(' ')[0] || 'Tech';
+  const firstName = resolveUserFirstName({ preferences, user, fallback: 'Tech' });
 
   return (
     <>

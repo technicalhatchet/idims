@@ -4,6 +4,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format, isToday } from 'date-fns';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUIPreferences } from '../../context/UIPreferencesContext';
+import { resolveUserFirstName } from '../../utils/userDisplayName';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import StatusBadge from '../../components/ui/StatusBadge';
@@ -755,6 +757,7 @@ function DeployButton({ workOrderId, appointmentId, onSuccess }) {
 // ── Main Page ─────────────────────────────────────────────────────────────
 export default function TechDashboardTest() {
   const { user } = useUser();
+  const { preferences } = useUIPreferences();
   const { isAdmin } = useUserRole();
   const gridTapLayerRef = useHudGridDoubleTapRail();
   const [schedule, setSchedule] = useState([]);
@@ -1000,13 +1003,13 @@ export default function TechDashboardTest() {
   }, [nextJobDriveSignature, isOnline, visibilityTick]);
 
   const techFirstName = headerReady
-    ? (user?.given_name || user?.name?.split(' ')[0] || 'your technician')
+    ? resolveUserFirstName({ preferences, user, fallback: 'your technician' })
     : 'your technician';
 
   const driveTimeLabel = formatDriveDuration(routeDrive.totalSeconds);
 
   const titleplateFirstName = headerReady
-    ? (user?.given_name || user?.name?.split(' ')[0] || 'Tech')
+    ? resolveUserFirstName({ preferences, user, fallback: 'Tech' })
     : 'Tech';
   const titleplateGreeting = headerReady ? getGreeting() : 'morning';
   const titleplateDateLabel = headerReady

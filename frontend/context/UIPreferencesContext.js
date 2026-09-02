@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { getUserSettings, updateUserSettings } from '../services/api/settingsApi';
 
@@ -8,26 +7,26 @@ const DEFAULT_PREFERENCES = {
   displayName: '',
 };
 
-const UIPreferencesContext = createContext({
-  preferences: DEFAULT_PREFERENCES,
-  setRailPosition: () => {},
-  setDisplayName: () => {},
-  isLoading: true,
-});
+function readCachedPreferences() {
+  if (typeof window === 'undefined') {
+    return DEFAULT_PREFERENCES;
+  }
+
+  return {
+    railPosition: localStorage.getItem('ui_railPosition') || 'right',
+    displayName: localStorage.getItem('ui_displayName') ?? '',
+  };
+}
+
+const UIPreferencesContext = createContext(null);
 
 export function UIPreferencesProvider({ children }) {
-  const router = useRouter();
   const { user, isLoading: authLoading } = useUser();
-  const [preferences, setPreferences] = useState(DEFAULT_PREFERENCES);
+  const [preferences, setPreferences] = useState(readCachedPreferences);
   const [isLoading, setIsLoading] = useState(true);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || authLoading) return;
+    if (authLoading) return;
 
     async function loadPreferences() {
       const cachedRailPosition =
@@ -48,29 +47,32 @@ export function UIPreferencesProvider({ children }) {
         return;
       }
 
-      if (router.pathname.startsWith('/solomon')) {
-        setIsLoading(false);
-        return;
-      }
-
       try {
         const response = await getUserSettings();
 
         if (response?.ui_preferences) {
           const dbPrefs = response.ui_preferences;
-          const newPosition = dbPrefs.railPosition || 'right';
-          const newDisplayName = dbPrefs.displayName || '';
 
-          setPreferences((prev) => ({
-            ...prev,
-            railPosition: newPosition,
-            displayName: newDisplayName,
-          }));
+          setPreferences((prev) => {
+            const next = { ...prev };
+            if (dbPrefs.railPosition != null) {
+              next.railPosition = dbPrefs.railPosition || 'right';
+            }
+            if (Object.prototype.hasOwnProperty.call(dbPrefs, 'displayName')) {
+              next.displayName = String(dbPrefs.displayName || '').trim();
+            }
+            return next;
+          });
+
           if (typeof window !== 'undefined') {
-            localStorage.setItem('ui_railPosition', newPosition);
-            localStorage.setItem('ui_displayName', newDisplayName);
+            if (dbPrefs.railPosition != null) {
+              localStorage.setItem('ui_railPosition', dbPrefs.railPosition || 'right');
+            }
+            if (Object.prototype.hasOwnProperty.call(dbPrefs, 'displayName')) {
+              localStorage.setItem('ui_displayName', String(dbPrefs.displayName || '').trim());
+            }
           }
-        } else if (typeof window !== 'undefined') {
+        } else if (typeof window !== 'undefined' && !cachedRailPosition) {
           localStorage.setItem('ui_railPosition', 'right');
         }
       } catch (error) {
@@ -85,7 +87,7 @@ export function UIPreferencesProvider({ children }) {
 
     setIsLoading(true);
     loadPreferences();
-  }, [mounted, user, authLoading, router.pathname]);
+  }, [user, authLoading]);
 
   const setRailPosition = useCallback(
     async (position) => {
@@ -137,15 +139,11 @@ export function UIPreferencesProvider({ children }) {
           },
         });
       } catch (error) {
-        // localStorage already has the value
+        throw error;
       }
     },
     [user],
   );
-
-  if (!mounted) {
-    return <>{children}</>;
-  }
 
   return (
     <UIPreferencesContext.Provider
