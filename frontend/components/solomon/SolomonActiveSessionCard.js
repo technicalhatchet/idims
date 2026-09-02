@@ -84,7 +84,7 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
         aria-label={totalSteps > 0
           ? `Last session, step ${stepNumber} of ${totalSteps}`
           : 'Last session'}
-        className={`flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-xl border transition-colors ${padClass} ${surfaceClass} ${lifecycleStatus.hoverBorderClass}`}
+        className={`flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-xl border transition-colors pointer-events-auto ${padClass} ${surfaceClass} ${lifecycleStatus.hoverBorderClass}`}
       >
         <div className="shrink-0">
           <p className={`shrink-0 overflow-hidden whitespace-nowrap text-[0.79em] uppercase tracking-[0.06em] font-medium leading-[1.1em] ${lifecycleStatus.labelTextClass}`}>
