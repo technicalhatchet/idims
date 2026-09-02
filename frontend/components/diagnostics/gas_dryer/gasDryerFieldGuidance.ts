@@ -1,6 +1,7 @@
-import type { FieldRecommendationRule } from '../routing/types';
+import { allWhen, makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
-export const gasDryerFieldHelp: Record<string, string> = {
+export const gasDryerFieldHelp: Record<string, FieldHelpEntry> = {
   'commonly_missed.vent_restriction':
     'Poor vent airflow extends dry time and can cause weak flame or hi-limit trips — F4E3 / Restricted Air Flow starts here.',
   'commonly_missed.gas_supply':
@@ -9,8 +10,20 @@ export const gasDryerFieldHelp: Record<string, string> = {
     'Clean lint screen before airflow and heat tests — restriction blows thermal fuse in the gas valve circuit.',
   'commonly_missed.lp_orifices':
     'Wrong LP orifice causes weak flame and long dry times — verify conversion before replacing the valve.',
-  'customer_complaint.error_codes':
-    'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet; F3E6/F3E7 moisture; F4E3/AF vent; F4E4 supply; F1E1/F6Ex control. Samsung: tC/tC5 thermistor+vent; dC/dF door; 9C1/FC supply; AC/HC control/heat; bC2 UI. Ignitor ~40–400 Ω (Samsung) or 50–500 Ω (Whirlpool).',
+  'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [makeWhen('whirlpool')],
+      text: 'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet; F3E6/F3E7 moisture; F4E3/AF vent; F4E4 supply; F1E1/F6Ex control. Ignitor ~50–500 Ω.',
+    },
+    {
+      when: [makeWhen('samsung')],
+      text: 'Samsung: tC/tC5 thermistor+vent; dC/dF door; 9C1/FC supply; AC/HC control/heat; bC2 UI. Ignitor ~40–400 Ω.',
+    },
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia TDRE: E5=outlet NTC, C9=display comm, D80–D95=duct restriction. Ignitor per manual spec.',
+    },
+  ]),
   'visual_inspection.vent_condition':
     'Restricted vent starves the burner — weak flame and long dry times before condemning gas parts.',
   'visual_inspection.lint_accumulation':
@@ -119,28 +132,28 @@ export const gasDryerRecommendations: FieldRecommendationRule[] = [
   {
     id: 'error_tc_thermistor',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'tc' }],
+    when: [allWhen({ type: 'keyword', match: 'tc' }, makeWhen('samsung'))],
     message: 'tC / tC5 (Samsung) — thermistor + vent path: clean lint and duct before replacing sensors.',
     tone: 'action',
   },
   {
     id: 'error_f4e3_vent',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'f4e3' }],
+    when: [allWhen({ type: 'keyword', match: 'f4e3' }, makeWhen('whirlpool'))],
     message: 'F4E3 / restricted airflow — clean lint screen and duct; weak vent can starve the burner flame.',
     tone: 'action',
   },
   {
     id: 'error_f3e1_exhaust_thermistor',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'f3e1' }],
+    when: [allWhen({ type: 'keyword', match: 'f3e1' }, makeWhen('whirlpool'))],
     message: 'F3E1 — exhaust thermistor open. Test outlet thermistor resistance; clear vent before replacing parts.',
     tone: 'action',
   },
   {
     id: 'error_f3e6_moisture',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'f3e6' }],
+    when: [allWhen({ type: 'keyword', match: 'f3e6' }, makeWhen('whirlpool'))],
     message: 'F3E6 — moisture sensor open. Clean drum strips and test sensor harness.',
     tone: 'action',
   },
@@ -162,5 +175,18 @@ export const gasDryerRecommendations: FieldRecommendationRule[] = [
     when: [{ type: 'chip', id: 'error_code' }],
     message: 'Enter the displayed fault code — common codes map to vent, thermistor, moisture, and ignition paths.',
     tone: 'info',
+  },
+  {
+    id: 'insignia_e5_outlet',
+    field: 'motor_electrical.outlet_thermistor_kohm',
+    when: [allWhen({ type: 'keyword', match: 'e5' }, makeWhen('insignia'))],
+    message: 'Insignia E5 — outlet thermistor fault stops heat and motor. Clean vent, then measure outlet NTC.',
+    tone: 'action',
+  },
+  {
+    id: 'insignia_duct_codes',
+    when: [allWhen({ type: 'keyword', match: 'd80' }, makeWhen('insignia'))],
+    message: 'Insignia D80–D95 — duct restriction: lint screen, housing, and vent run before sensor replacement.',
+    tone: 'action',
   },
 ];

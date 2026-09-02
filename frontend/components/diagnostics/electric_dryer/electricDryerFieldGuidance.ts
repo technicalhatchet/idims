@@ -1,6 +1,7 @@
-import type { FieldRecommendationRule } from '../routing/types';
+import { allWhen, makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
-export const electricDryerFieldHelp: Record<string, string> = {
+export const electricDryerFieldHelp: Record<string, FieldHelpEntry> = {
   'commonly_missed.vent_restriction':
     'Restricted vent is the #1 long-dry cause — check run length, elbows, and exterior hood. F4E3 / Restricted Air Flow points here first.',
   'commonly_missed.crushed_vent':
@@ -11,8 +12,20 @@ export const electricDryerFieldHelp: Record<string, string> = {
     'Overloading extends auto cycles and can trip high-limit devices — test with a small timed load when in doubt.',
   'commonly_missed.lint_trap':
     'Clean the lint screen before heat/airflow tests. Built-up housing blocks airflow and trips hi-limits and thermal fuse.',
-  'customer_complaint.error_codes':
-    'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet/harness; F3E6/F3E7 moisture; F4E3/AF vent; F4E4/L2 supply; F4E1 relay; F1E1/F6Ex control. Samsung: tC/tC5 thermistor+vent; dC/dF door; 9C1/FC supply; AC/HC control/heat; bC2 UI.',
+  'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [makeWhen('whirlpool')],
+      text: 'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet/harness; F3E6/F3E7 moisture; F4E3/AF vent; F4E4/L2 supply; F4E1 relay; F1E1/F6Ex control.',
+    },
+    {
+      when: [makeWhen('samsung')],
+      text: 'Samsung: tC/tC5 thermistor+vent; dC/dF door; 9C1/FC supply; AC/HC control/heat; bC2 UI.',
+    },
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia TDRE: E5=outlet NTC (heat+motor stop), C9=display comm, D80–D95=duct restriction codes.',
+    },
+  ]),
   'visual_inspection.vent_condition':
     'Crushed flex, bird nests, and long runs mimic heater failures — clear the path before condemning the element.',
   'visual_inspection.lint_accumulation':
@@ -39,16 +52,24 @@ export const electricDryerFieldHelp: Record<string, string> = {
     'Touch both strips in service mode — status should toggle. F3E6/F3E7 or odd auto-cycle length points here.',
   'heat_circuit.thermal_cutoff':
     'Open cut-off = no heat. Replace cut-off and high-limit together; fix vent restriction that caused the trip.',
-  'heat_circuit.outlet_thermistor_kohm':
-    'At room temp often 5–15 kΩ at the connector. F3E1 open (>50 kΩ) or F3E2 short (<0.5 kΩ).',
   'heat_circuit.inlet_thermistor_kohm':
     'Electric inlet at ~68°F often 61–64 kΩ. F3E3/F3E4 inlet faults; F3E5 = harness unplugged.',
   'motor_electrical.belt_switch':
     'Pulley up should close switch (open → few Ω). Open with good belt → replace switch or harness.',
   'motor_electrical.motor_circuit_ohms':
     'Door neutral to motor relay path often 1–6 Ω when wiring and motor are good — suspect CCU if in range but no run.',
-  'heat_circuit.heater_ohms':
-    'Typical single element ~10–20 Ω; dual elements in parallel often ≤50 Ω relay-to-relay. Open = no heat.',
+  'heat_circuit.heater_ohms': scopedHelp([
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia TDRE75 heater element — compare to manual spec; open = no heat.',
+    },
+  ], 'Typical single element ~10–20 Ω; dual elements in parallel often ≤50 Ω relay-to-relay. Open = no heat.'),
+  'heat_circuit.outlet_thermistor_kohm': scopedHelp([
+    {
+      when: [makeWhen('insignia')],
+      text: 'Insignia E5 outlet NTC — fault stops heat and motor. Measure at connector per TDRE manual.',
+    },
+  ], 'At room temp often 5–15 kΩ at the connector. F3E1 open (>50 kΩ) or F3E2 short (<0.5 kΩ).'),
   'heat_circuit.heater_amps':
     'Low amps on heat call with good voltage → open element, fuse, or limit. Near 30 A sustained → circuit/load issue.',
   'heat_circuit.thermal_fuse':
@@ -116,35 +137,35 @@ export const electricDryerRecommendations: FieldRecommendationRule[] = [
   {
     id: 'error_tc_thermistor',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'tc' }],
+    when: [allWhen({ type: 'keyword', match: 'tc' }, makeWhen('samsung'))],
     message: 'tC / tC5 (Samsung) — thermistor fault: clean lint screen and vent first, then measure thermistor resistance.',
     tone: 'action',
   },
   {
     id: 'error_f4e3_vent',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'f4e3' }],
+    when: [allWhen({ type: 'keyword', match: 'f4e3' }, makeWhen('whirlpool'))],
     message: 'F4E3 / restricted airflow — clean lint screen, duct, and verify blower; retest thermistors after airflow is clear.',
     tone: 'action',
   },
   {
     id: 'error_f4e4_supply',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'f4e4' }],
+    when: [allWhen({ type: 'keyword', match: 'f4e4' }, makeWhen('whirlpool'))],
     message: 'F4E4 / L2 low voltage — verify 240 V supply, both legs at the terminal block, and cord connections.',
     tone: 'action',
   },
   {
     id: 'error_f3e1_exhaust_thermistor',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'f3e1' }],
+    when: [allWhen({ type: 'keyword', match: 'f3e1' }, makeWhen('whirlpool'))],
     message: 'F3E1 — exhaust thermistor open (>50 kΩ). Test P14 outlet thermistor; check harness before CCU.',
     tone: 'action',
   },
   {
     id: 'error_f3e6_moisture',
     field: 'customer_complaint.error_codes',
-    when: [{ type: 'keyword', match: 'f3e6' }],
+    when: [allWhen({ type: 'keyword', match: 'f3e6' }, makeWhen('whirlpool'))],
     message: 'F3E6 — moisture sensor open. Clean strips, test harness, and run moisture sensor activation.',
     tone: 'action',
   },
@@ -180,5 +201,24 @@ export const electricDryerRecommendations: FieldRecommendationRule[] = [
     when: [{ type: 'chip', id: 'error_code' }],
     message: 'Enter the displayed fault code — Solomon will map common F-codes to vent, thermistor, moisture, and supply paths.',
     tone: 'info',
+  },
+  {
+    id: 'insignia_e5_outlet',
+    field: 'heat_circuit.outlet_thermistor_kohm',
+    when: [allWhen({ type: 'keyword', match: 'e5' }, makeWhen('insignia'))],
+    message: 'Insignia E5 — outlet thermistor fault stops heat and motor. Clean vent first, then measure outlet NTC.',
+    tone: 'action',
+  },
+  {
+    id: 'insignia_c9_display',
+    when: [allWhen({ type: 'keyword', match: 'c9' }, makeWhen('insignia'))],
+    message: 'Insignia C9 — display communication timeout. Reseat UI harness before control board swap.',
+    tone: 'action',
+  },
+  {
+    id: 'insignia_duct_codes',
+    when: [allWhen({ type: 'keyword', match: 'd80' }, makeWhen('insignia'))],
+    message: 'Insignia D80–D95 — duct restriction path: clean lint screen, housing, and full vent run before thermistor parts.',
+    tone: 'action',
   },
 ];

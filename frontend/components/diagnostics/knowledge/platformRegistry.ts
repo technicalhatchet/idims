@@ -154,7 +154,37 @@ export function normalizeMake(value: string | null | undefined): string | null {
   return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
 }
 
+export function getPlatformRule(platformId: string | null | undefined): PlatformRule | null {
+  if (!platformId) return null;
+  return PLATFORM_RULES.find((rule) => rule.id === platformId) || null;
+}
+
+/** Platform resolved only when model matches a platform modelPattern (explicit platform). */
+export function resolvePlatformIdFromModel(ctx: MeasurementContext): PlatformId | null {
+  const make = normalizeMake(ctx.equipmentMake);
+  if (!make || !ctx.templateId) return null;
+
+  const model = String(ctx.equipmentModel || '').trim();
+  if (!model) return null;
+
+  const candidates = PLATFORM_RULES.filter(
+    (rule) =>
+      rule.templateId === ctx.templateId
+      && rule.manufacturers.includes(make)
+      && rule.modelPatterns?.some((pattern) => pattern.test(model)),
+  );
+
+  return candidates[0]?.id ?? null;
+}
+
+/**
+ * @deprecated Prefer resolvePlatformIdFromModel for platform-specific logic.
+ * Returns explicit model match, else a make-wide platform rule (no modelPatterns).
+ */
 export function resolvePlatformId(ctx: MeasurementContext): PlatformId | null {
+  const fromModel = resolvePlatformIdFromModel(ctx);
+  if (fromModel) return fromModel;
+
   const make = normalizeMake(ctx.equipmentMake);
   if (!make || !ctx.templateId) return null;
 
@@ -163,16 +193,28 @@ export function resolvePlatformId(ctx: MeasurementContext): PlatformId | null {
   );
   if (!candidates.length) return null;
 
-  const model = String(ctx.equipmentModel || '').trim();
-  if (model) {
-    const modelMatch = candidates.find((rule) =>
-      rule.modelPatterns?.some((pattern) => pattern.test(model)),
-    );
-    if (modelMatch) return modelMatch.id;
-  }
+  const brandWide = candidates.find((rule) => !rule.modelPatterns?.length);
+  return brandWide?.id ?? null;
+}
 
-  const generic = candidates.find((rule) => !rule.modelPatterns?.length);
-  return generic?.id ?? null;
+/** Platform clause / field visibility: explicit model match, or brand-wide platform for make. */
+export function platformMatches(
+  ctx: MeasurementContext | null | undefined,
+  platformId: string,
+): boolean {
+  if (!ctx?.templateId) return false;
+
+  const explicit = resolvePlatformIdFromModel(ctx);
+  if (explicit) return explicit === platformId;
+
+  const make = normalizeMake(ctx.equipmentMake);
+  if (!make) return false;
+
+  const rule = getPlatformRule(platformId);
+  if (!rule || rule.templateId !== ctx.templateId) return false;
+  if (!rule.manufacturers.includes(make)) return false;
+
+  return !rule.modelPatterns?.length;
 }
 
 export function getPlatformLabel(platformId: string | null | undefined): string | null {

@@ -29,6 +29,22 @@ export type RoutingWhenClause =
   | {
       type: 'platform';
       id: string;
+    }
+  | {
+      type: 'all';
+      /** Every nested clause must match (AND). */
+      clauses: RoutingWhenClause[];
+    };
+
+/** Static field help — plain string (always shown) or scoped variants by make/platform. */
+export type FieldHelpEntry =
+  | string
+  | {
+      default?: string;
+      variants?: Array<{
+        when: RoutingWhenClause[];
+        text: string;
+      }>;
     };
 
 export interface RoutingRule {
@@ -75,7 +91,7 @@ export interface RoutingConfig {
   /** Phase 4c — conditional fields within steps (yn/tri/chip answers only). */
   fieldVisibility?: FieldVisibilityRule[];
   /** Phase 4d — static help copy keyed by sectionId.fieldId */
-  fieldHelp?: Record<string, string>;
+  fieldHelp?: Record<string, FieldHelpEntry>;
   /** Phase 4d — contextual tips when answers/chips match */
   recommendations?: FieldRecommendationRule[];
 }

@@ -171,8 +171,9 @@ export default function DiagnosticResultsForm({
       wizardDefinition?.routing?.recommendations,
       payload?.fields || {},
       measurementStatuses,
+      measurementContext,
     ),
-    [wizardDefinition?.routing?.recommendations, payload?.fields, measurementStatuses],
+    [wizardDefinition?.routing?.recommendations, payload?.fields, measurementStatuses, measurementContext],
   );
 
   const eliminationResult = useMemo(
