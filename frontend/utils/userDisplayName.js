@@ -19,3 +19,9 @@ export function resolveUserInitial({ preferences, user } = {}) {
   const name = resolveUserDisplayName({ preferences, user });
   return (name.charAt(0) || 'U').toUpperCase();
 }
+
+export function resolveUserFirstName({ preferences, user, fallback } = {}) {
+  const name = resolveUserDisplayName({ preferences, user });
+  const first = name.split(/\s+/).filter(Boolean)[0];
+  return first || fallback || null;
+}

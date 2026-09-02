@@ -13,6 +13,8 @@ import UserDropdown from '../user/UserDropdown';
 import { useTheme } from '../../context/ThemeContext';
 import ErrorBoundary from '../../context/ErrorBoundary';
 import { getUserRole, useUserRole } from '../../utils/auth0-helpers';
+import { useUIPreferences } from '../../context/UIPreferencesContext';
+import { resolveUserInitial } from '../../utils/userDisplayName';
 import { apiClient } from '../../utils/api-client';
 import { ensureWebPushSubscription } from '../../utils/webPush';
 import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../../lib/deployReminderScheduler';
@@ -28,6 +30,8 @@ export default function DashboardLayout({ children }) {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { user, error, isLoading } = useUser();
+  const { preferences } = useUIPreferences();
+  const profileInitial = resolveUserInitial({ preferences, user });
   const { isTechnician } = useUserRole();
   const { theme, toggleTheme } = useTheme();
   
@@ -320,7 +324,7 @@ export default function DashboardLayout({ children }) {
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
                     <span className="text-gray-600 text-sm font-bold">
-                      {user?.name?.charAt(0) || 'U'}
+                      {profileInitial}
                     </span>
                   </div>
                 )}
