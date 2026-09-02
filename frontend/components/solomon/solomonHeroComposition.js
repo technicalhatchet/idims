@@ -66,8 +66,19 @@ export const SOLOMON_FRONT_HAND = {
   originY: '41.4%',
 };
 
+/**
+ * Greeting overlay — upper-left negative space on the artboard.
+ * Anchored to the same % coordinate frame as session card / wizard layers.
+ */
+export const SOLOMON_GREETING = {
+  x: '3.8%',
+  y: '13.8%',
+  maxWidth: '42%',
+};
+
 export const SOLOMON_Z = {
   backdrop: 0,
+  greeting: 10,
   sessionCard: 15,
   frontHand: 16,
   pageContent: 20,
