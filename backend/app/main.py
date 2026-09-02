@@ -29,7 +29,7 @@ from app.routers import (
     inventory,
     quotes, technicians, notifications, reports, public,
     media, mobile, admin, chat, dashboard, properties, app_settings,
-    health, users, debug, services, skills, stripe, distance, dma, job_economics, push, diagnostics
+    health, users, debug, services, skills, stripe, distance, dma, job_economics, push, diagnostics, logit
 )
 from app.core.middleware import (
     RequestLoggingMiddleware, 
@@ -742,6 +742,7 @@ app.include_router(technicians.router, prefix="/api/technicians", tags=["technic
 app.include_router(work_orders.router, prefix="/api/work-orders", tags=["work_orders"])
 app.include_router(dma.router, prefix="/api/dma", tags=["dma"])
 app.include_router(diagnostics.router, prefix="/api/diagnostics", tags=["diagnostics"])
+app.include_router(logit.router, prefix="/api/logit", tags=["logit"])
 app.include_router(job_economics.router, prefix="/api/job-economics", tags=["job_economics"])
 
 from app.services.google_drive_service import log_drive_status_on_startup

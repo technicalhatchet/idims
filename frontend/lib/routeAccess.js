@@ -7,6 +7,7 @@ export const TECH_ROUTE_PREFIXES = [
   '/techboard',
   '/techdashboard',
   '/work_orders',
+  '/logit',
   '/clients',
   '/appointments',
   '/payments',
@@ -78,6 +79,7 @@ export const SOLOMON_STANDALONE_ALLOW_PREFIXES = [
 export const SOLOMON_STANDALONE_ALLOW_EXACT = [
   '/manifest.json',
   '/manifest-solomon.json',
+  '/manifest-logit.json',
   '/sw.js',
   '/robots.txt',
 ];

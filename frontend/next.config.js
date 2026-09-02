@@ -56,6 +56,31 @@ const withPWA = require('next-pwa')({
         },
       },
     },
+    // LoGiT — lightweight capture shell
+    {
+      urlPattern: /\/_next\/data\/.*\/logit\/.*\.json/i,
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'logit-next-data',
+        networkTimeoutSeconds: 4,
+        expiration: {
+          maxEntries: 8,
+          maxAgeSeconds: 60 * 60 * 24 * 7,
+        },
+      },
+    },
+    {
+      urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.startsWith('/logit'),
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'logit-pages',
+        networkTimeoutSeconds: 4,
+        expiration: {
+          maxEntries: 8,
+          maxAgeSeconds: 60 * 60 * 24 * 7,
+        },
+      },
+    },
     // Never cache Next.js data routes — build ID changes every deploy; stale cache = 404 spam
     {
       urlPattern: /\/_next\/data\/.*/i,

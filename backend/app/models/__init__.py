@@ -16,6 +16,7 @@ from app.models.technician_skill import TechnicianSkill
 from app.models.property import Property
 from app.models.job_economics import ExpenseVendor, WorkOrderExpense, ExpenseReceipt
 from app.models.push_subscription import PushSubscription, DeployReminder
+from app.models.logit import LogitProject, LogitEntry
 from app.models.inventory import InventoryCategory, InventoryItem, InventoryTransaction
 
 # Export all models
@@ -57,6 +58,8 @@ __all__ = [
     'ExpenseReceipt',
     'PushSubscription',
     'DeployReminder',
+    'LogitProject',
+    'LogitEntry',
     'InventoryCategory',
     'InventoryItem',
     'InventoryTransaction',
