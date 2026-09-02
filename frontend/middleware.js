@@ -3,10 +3,28 @@ import {
   isPublicPath,
   isPortalPath,
   isTechPath,
+  isSolomonStandaloneAllowedPath,
+  isSolomonStandaloneMode,
 } from './lib/routeAccess';
+
+function solomonStandaloneResponse(req, pathname) {
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/solomon', req.url));
+  }
+
+  if (isSolomonStandaloneAllowedPath(pathname)) {
+    return NextResponse.next();
+  }
+
+  return NextResponse.redirect(new URL('/solomon', req.url));
+}
 
 export function middleware(req) {
   const { pathname } = req.nextUrl;
+
+  if (isSolomonStandaloneMode()) {
+    return solomonStandaloneResponse(req, pathname);
+  }
 
   if (isPublicPath(pathname)) {
     return NextResponse.next();
