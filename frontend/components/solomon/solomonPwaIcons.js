@@ -1,4 +1,4 @@
-export const SOLOMON_PWA_VERSION = 5;
+export const SOLOMON_PWA_VERSION = 6;
 
 export const SOLOMON_PWA_ICONS = {
   ios: `/solomonicon-ios-180x180.png?v=${SOLOMON_PWA_VERSION}`,
