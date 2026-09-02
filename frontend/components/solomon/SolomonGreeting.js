@@ -76,10 +76,12 @@ function AtomGlyph() {
 
 /** Arcane HUD greeting — absolute overlay on the hero artboard only. */
 export default function SolomonGreeting() {
-  const { user } = useSolomonAuth();
+  const { user, isLoading, canUseSolomon } = useSolomonAuth();
   const { preferences } = useUIPreferences();
-  const firstName = resolveUserFirstName({ preferences, user });
 
+  if (isLoading || !user || !canUseSolomon) return null;
+
+  const firstName = resolveUserFirstName({ preferences, user });
   if (!firstName) return null;
 
   const stageW = solomonStageWidthExpr();
