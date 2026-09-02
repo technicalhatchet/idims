@@ -26,6 +26,7 @@ import { buildFieldLabelsForTemplate } from '../diagnostics/intelligence/fieldLa
 import { formatGeneratedServiceNote } from '../diagnostics/intelligence/formatGeneratedServiceNote';
 import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
 import { buildMeasurementContext } from '../diagnostics/knowledge/fieldBindings';
+import { useOemSpecsToast } from '../../hooks/useOemSpecsToast';
 import { getEliminationConfig } from '../diagnostics/knowledge/knowledgeRegistry';
 import { evaluateElimination } from '../diagnostics/elimination/eliminationEngine';
 import { evaluateDiagnosticIntelligence } from '../diagnostics/intelligence/diagnosticIntelligenceEngine';
@@ -155,6 +156,8 @@ export default function DiagnosticResultsForm({
       solomonSession?.equipment_model,
     ],
   );
+
+  useOemSpecsToast(measurementContext);
 
   const measurementStatuses = useMemo(
     () => buildMeasurementStatusMap(payload?.templateId, payload?.fields || {}, measurementContext),
