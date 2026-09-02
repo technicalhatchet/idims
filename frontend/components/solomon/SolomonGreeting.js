@@ -160,21 +160,11 @@ export default function SolomonGreeting() {
             aria-hidden
           >
             <div
-              className="absolute inset-y-0 left-0 rounded-full"
+              className="absolute inset-0 rounded-full"
               style={{
-                right: `calc(${stageW} * 0.04)`,
                 background:
                   'linear-gradient(90deg, rgba(158,234,247,0.55) 0%, rgba(158,234,247,0.15) 72%, transparent 100%)',
                 boxShadow: '0 0 8px rgba(126, 232, 255, 0.35)',
-              }}
-            />
-            <div
-              className="absolute top-1/2 -translate-y-1/2 rotate-45 border border-cyan-200/60 bg-cyan-300/25"
-              style={{
-                right: 0,
-                width: `calc(${stageW} * 0.014)`,
-                height: `calc(${stageW} * 0.014)`,
-                boxShadow: '0 0 8px rgba(126, 232, 255, 0.55)',
               }}
             />
           </div>
