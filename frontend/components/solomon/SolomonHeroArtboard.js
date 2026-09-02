@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import SolomonActiveSessionCard from './SolomonActiveSessionCard';
+import SolomonGreeting from './SolomonGreeting';
 import SolomonHeroDiagnostics from './SolomonHeroDiagnostics';
 import {
   SOLOMON_ARTBOARD,
@@ -68,6 +69,8 @@ export default function SolomonHeroArtboard({
             </>
           ) : null}
         </div>
+
+        <SolomonGreeting />
 
         {hasActiveSession && continueTarget ? (
           <div
