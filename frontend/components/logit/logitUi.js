@@ -2,15 +2,58 @@ export const LOGIT_TYPE_LABELS = {
   problem: 'Problem',
   idea: 'Idea',
   blocker: 'Blocker',
-  positive: 'Positive',
+  positive: 'Good Stuff',
 };
 
 export const LOGIT_TYPE_EMOJI = {
   problem: '🐛',
   idea: '💡',
   blocker: '⚠️',
-  positive: '✨',
+  positive: '❤️',
 };
+
+export const LOGIT_OBSERVATION_TYPES = [
+  {
+    id: 'problem',
+    emoji: '🐛',
+    label: 'Problem',
+    subtitle: "Something isn't working",
+    prompt: 'What went wrong?',
+  },
+  {
+    id: 'idea',
+    emoji: '💡',
+    label: 'Idea',
+    subtitle: 'Something should change',
+    prompt: 'What are you thinking?',
+  },
+  {
+    id: 'blocker',
+    emoji: '⚠️',
+    label: 'Blocker',
+    subtitle: "Can't complete the task",
+    prompt: "What's blocking you?",
+  },
+  {
+    id: 'positive',
+    emoji: '❤️',
+    label: 'Good Stuff',
+    subtitle: 'They nailed it',
+    prompt: 'What worked well?',
+  },
+];
+
+export const LOGIT_PRIORITY_OPTIONS = [
+  { id: 'minor', label: 'Minor', color: '#22c55e', emoji: '🟢' },
+  { id: 'moderate', label: 'Moderate', color: '#eab308', emoji: '🟡' },
+  { id: 'major', label: 'Major', color: '#f97316', emoji: '🟠' },
+  { id: 'critical', label: 'Critical', color: '#ef4444', emoji: '🔴' },
+];
+
+export function logitPriorityMeta(severity) {
+  if (!severity || severity === 'not_applicable') return null;
+  return LOGIT_PRIORITY_OPTIONS.find((p) => p.id === severity) || null;
+}
 
 export const LOGIT_CATEGORY_LABELS = {
   scheduling: 'Scheduling',

@@ -44,6 +44,7 @@ class LogitClassification(BaseModel):
 class LogitClassifyRequest(BaseModel):
     project_id: UUID
     transcript: str = Field(min_length=1, max_length=8000)
+    observation_type: LogitType
 
 
 class LogitClassifyResponse(BaseModel):

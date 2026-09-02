@@ -1,9 +1,10 @@
 import {
-  LOGIT_BUTTON_SECONDARY,
   LOGIT_CATEGORY_LABELS,
   LOGIT_GLASS_CARD,
   LOGIT_TYPE_EMOJI,
+  logitPriorityMeta,
 } from './logitUi';
+import LogitHeader from './LogitHeader';
 
 function formatTime(iso) {
   try {
@@ -38,6 +39,19 @@ function groupEntriesByDay(entries) {
   return groups;
 }
 
+function EntryPriorityDot({ severity }) {
+  const meta = logitPriorityMeta(severity);
+  if (!meta) return <span className="w-2.5 h-2.5 shrink-0" aria-hidden="true" />;
+  return (
+    <span
+      className="w-2.5 h-2.5 rounded-full shrink-0 border border-white/20"
+      style={{ backgroundColor: meta.color }}
+      title={meta.label}
+      aria-label={`Priority: ${meta.label}`}
+    />
+  );
+}
+
 export default function LogitEntryList({
   project,
   entries,
@@ -46,57 +60,69 @@ export default function LogitEntryList({
   onSelectEntry,
 }) {
   const groups = groupEntriesByDay(entries);
+  const draftCount = entries.filter((e) => e.status === 'draft').length;
 
   return (
-    <div className="max-w-lg mx-auto w-full px-4 py-6">
-      <div className="flex items-center justify-between mb-6">
-        <button type="button" className={`${LOGIT_BUTTON_SECONDARY} !min-h-[40px] !px-3 text-sm`} onClick={onBack}>
-          ← Capture
-        </button>
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <LogitHeader
+        title="Project log"
+        subtitle={`${project.icon || '📝'} ${project.name}`}
+        leftLabel="← Capture"
+        onLeft={onBack}
+      />
 
-      <header className="mb-6">
-        <p className="text-xs uppercase tracking-[0.2em] text-white/40">Project log</p>
-        <h1 className="text-xl font-medium mt-1">{project.icon} {project.name}</h1>
-      </header>
+      <div className="flex-1 max-w-lg mx-auto w-full px-4 py-4">
+        {draftCount > 0 && (
+          <p className="text-sm text-amber-300/90 mb-4" role="status">
+            {draftCount} unreviewed — tap a draft to process or finish logging.
+          </p>
+        )}
 
-      {loading && <p className="text-white/50 text-sm">Loading…</p>}
+        {loading && <p className="text-white/50 text-sm">Loading…</p>}
 
-      {!loading && entries.length === 0 && (
-        <div className={`p-6 text-center ${LOGIT_GLASS_CARD}`}>
-          <p className="text-white/60">No observations yet.</p>
-        </div>
-      )}
+        {!loading && entries.length === 0 && (
+          <div className={`p-6 text-center ${LOGIT_GLASS_CARD}`}>
+            <p className="text-white/60">No observations yet.</p>
+          </div>
+        )}
 
-      <div className="space-y-6">
-        {groups.map((group) => (
-          <section key={group.day}>
-            <h2 className="text-xs uppercase tracking-wider text-white/40 mb-3">{group.day}</h2>
-            <ul className="space-y-2">
-              {group.items.map((entry) => (
-                <li key={entry.id}>
-                  <button
-                    type="button"
-                    className={`w-full text-left p-4 ${LOGIT_GLASS_CARD} hover:bg-white/[0.06] min-h-[64px]`}
-                    onClick={() => onSelectEntry(entry)}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span aria-hidden="true">{LOGIT_TYPE_EMOJI[entry.type] || '📝'}</span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs text-white/50">
-                          {LOGIT_CATEGORY_LABELS[entry.category] || entry.category}
-                          {entry.status === 'draft' ? ' · Draft' : ''}
-                        </p>
-                        <p className="font-medium truncate mt-0.5">{entry.title || 'Untitled'}</p>
+        <div className="space-y-6">
+          {groups.map((group) => (
+            <section key={group.day}>
+              <h2 className="text-xs uppercase tracking-wider text-white/40 mb-3">{group.day}</h2>
+              <ul className="space-y-2">
+                {group.items.map((entry) => (
+                  <li key={entry.id}>
+                    <button
+                      type="button"
+                      className={`w-full text-left p-4 ${LOGIT_GLASS_CARD} hover:bg-white/[0.06] min-h-[64px] ${
+                        entry.status === 'draft' ? 'border-amber-500/30' : ''
+                      }`}
+                      onClick={() => onSelectEntry(entry)}
+                    >
+                      <div className="flex items-start gap-2.5">
+                        <EntryPriorityDot severity={entry.severity} />
+                        <span className="text-base shrink-0" aria-hidden="true">
+                          {LOGIT_TYPE_EMOJI[entry.type] || '📝'}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs text-white/50">
+                            {LOGIT_CATEGORY_LABELS[entry.category] || entry.category || 'Uncategorized'}
+                            {entry.status === 'draft' ? ' · Draft' : ''}
+                          </p>
+                          <p className="font-medium truncate mt-0.5">
+                            {entry.title || entry.original_transcript?.slice(0, 60) || 'Untitled'}
+                          </p>
+                        </div>
+                        <span className="text-xs text-white/40 shrink-0">{formatTime(entry.created_at)}</span>
                       </div>
-                      <span className="text-xs text-white/40 shrink-0">{formatTime(entry.created_at)}</span>
-                    </div>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );

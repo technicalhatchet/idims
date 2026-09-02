@@ -9,6 +9,7 @@ import {
   deleteLogitProject,
   fetchLogitEntries,
   fetchLogitProjects,
+  updateLogitEntry,
   updateLogitProject,
 } from '../../services/api/logitApi';
 import {
@@ -21,7 +22,8 @@ import {
   setLastProjectId,
 } from './logitStorage';
 import { LOGIT_CANVAS } from './logitUi';
-import LogitCapture from './LogitCapture';
+import LogitTypeCapture from './LogitTypeCapture';
+import LogitTypeSelect from './LogitTypeSelect';
 import LogitEntryDetail from './LogitEntryDetail';
 import LogitEntryList from './LogitEntryList';
 import LogitProcessing from './LogitProcessing';
@@ -32,6 +34,7 @@ import LogitTranscriptPreview from './LogitTranscriptPreview';
 const SCREENS = {
   PROJECTS: 'projects',
   CAPTURE: 'capture',
+  TYPE_CAPTURE: 'type_capture',
   TRANSCRIPT: 'transcript',
   PROCESSING: 'processing',
   REVIEW: 'review',
@@ -59,6 +62,8 @@ export default function LogitApp() {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState(null);
   const [localDraftId, setLocalDraftId] = useState(null);
+  const [selectedObservationType, setSelectedObservationType] = useState(null);
+  const [editingEntryId, setEditingEntryId] = useState(null);
   const hasAutoOpenedRef = useRef(false);
 
   const refreshProjects = useCallback(async () => {
@@ -118,6 +123,8 @@ export default function LogitApp() {
     speech.resetTranscript();
     setTranscript('');
     setClassification(null);
+    setSelectedObservationType(null);
+    setEditingEntryId(null);
     setSaveError(null);
   };
 
@@ -153,13 +160,25 @@ export default function LogitApp() {
   };
 
   const handleProcess = async () => {
-    if (!activeProject || !transcript.trim()) return;
+    if (!activeProject || !transcript.trim() || !selectedObservationType) return;
     setProcessing(true);
     setScreen(SCREENS.PROCESSING);
     setSaveError(null);
     try {
-      const result = await classifyLogitObservation(activeProject.id, transcript.trim());
-      setClassification(result.classification);
+      const result = await classifyLogitObservation(
+        activeProject.id,
+        transcript.trim(),
+        selectedObservationType,
+      );
+      const classificationResult = {
+        ...result.classification,
+        type: selectedObservationType,
+        severity: result.classification.severity
+          || (selectedObservationType === 'idea' || selectedObservationType === 'positive'
+            ? 'not_applicable'
+            : 'minor'),
+      };
+      setClassification(classificationResult);
       setAiMeta({ model: result.model, source: result.source });
       setScreen(SCREENS.REVIEW);
     } catch {
@@ -176,6 +195,7 @@ export default function LogitApp() {
       project_id: activeProject.id,
       original_transcript: transcript.trim(),
       status,
+      type: selectedObservationType || classification?.type,
     };
     if (!classification) return base;
     return {
@@ -205,7 +225,16 @@ export default function LogitApp() {
     const payload = buildEntryPayload(status);
 
     try {
-      await createLogitEntry(payload);
+      if (editingEntryId) {
+        const {
+          project_id: _projectId,
+          original_transcript: _transcript,
+          ...updateFields
+        } = payload;
+        await updateLogitEntry(editingEntryId, updateFields);
+      } else {
+        await createLogitEntry(payload);
+      }
       removeLocalDraft(localId);
       removePendingSave(localId);
       await refreshProjects();
@@ -213,6 +242,8 @@ export default function LogitApp() {
       setTranscript('');
       setClassification(null);
       setLocalDraftId(null);
+      setEditingEntryId(null);
+      setSelectedObservationType(null);
       speech.resetTranscript();
       setScreen(SCREENS.CAPTURE);
       toast.success(status === 'draft' ? 'Saved as draft' : 'Logged');
@@ -233,6 +264,36 @@ export default function LogitApp() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const resumeEntryToReview = (entry) => {
+    setEditingEntryId(entry.id);
+    setTranscript(entry.original_transcript || '');
+    setSelectedObservationType(entry.type || null);
+    setClassification({
+      type: entry.type || 'problem',
+      category: entry.category || 'other',
+      severity: entry.severity || 'not_applicable',
+      frequency: entry.frequency || 'unknown',
+      title: entry.title || '',
+      description: entry.description || '',
+      impact: entry.impact || '',
+      suggested_fix: entry.suggested_fix || '',
+      confidence: entry.ai_confidence ?? 0.5,
+    });
+    setScreen(SCREENS.REVIEW);
+  };
+
+  const resumeEntryToProcess = (entry) => {
+    setEditingEntryId(entry.id);
+    setTranscript(entry.original_transcript || '');
+    setSelectedObservationType(entry.type || 'idea');
+    setClassification(null);
+    if (entry.type) {
+      setScreen(SCREENS.TRANSCRIPT);
+      return;
+    }
+    setScreen(SCREENS.TYPE_CAPTURE);
   };
 
   if (authLoading) {
@@ -273,15 +334,31 @@ export default function LogitApp() {
       )}
 
       {screen === SCREENS.CAPTURE && activeProject && (
-        <LogitCapture
+        <LogitTypeSelect
           project={activeProject}
           unreviewedCount={unreviewedCount}
-          speech={speech}
+          onSelectType={(type) => {
+            setSelectedObservationType(type);
+            speech.resetTranscript();
+            setScreen(SCREENS.TYPE_CAPTURE);
+          }}
           onOpenLog={() => {
             refreshEntries(activeProject.id);
             setScreen(SCREENS.LOG);
           }}
           onSwitchProject={() => setScreen(SCREENS.PROJECTS)}
+        />
+      )}
+
+      {screen === SCREENS.TYPE_CAPTURE && activeProject && selectedObservationType && (
+        <LogitTypeCapture
+          project={activeProject}
+          observationType={selectedObservationType}
+          speech={speech}
+          onBack={() => {
+            speech.resetTranscript();
+            setScreen(SCREENS.CAPTURE);
+          }}
           onTranscriptReady={handleTranscriptReady}
         />
       )}
@@ -293,7 +370,7 @@ export default function LogitApp() {
           onProcess={handleProcess}
           onSaveDraft={() => persistEntry('draft')}
           onCancel={() => {
-            setScreen(SCREENS.CAPTURE);
+            setScreen(selectedObservationType ? SCREENS.TYPE_CAPTURE : SCREENS.CAPTURE);
             setSaveError(null);
           }}
           processing={processing}
@@ -311,7 +388,6 @@ export default function LogitApp() {
           onChange={setClassification}
           onLogIt={() => persistEntry('logged')}
           onEdit={() => setScreen(SCREENS.TRANSCRIPT)}
-          onSaveDraft={() => persistEntry('draft')}
           saving={saving}
           saveError={saveError}
         />
@@ -325,6 +401,10 @@ export default function LogitApp() {
           onBack={() => setScreen(SCREENS.CAPTURE)}
           onSelectEntry={(entry) => {
             setSelectedEntry(entry);
+            if (entry.status === 'draft') {
+              setScreen(SCREENS.ENTRY);
+              return;
+            }
             setScreen(SCREENS.ENTRY);
           }}
         />
@@ -335,6 +415,8 @@ export default function LogitApp() {
           entry={selectedEntry}
           project={activeProject}
           onBack={() => setScreen(SCREENS.LOG)}
+          onProcessDraft={() => resumeEntryToProcess(selectedEntry)}
+          onContinueReview={() => resumeEntryToReview(selectedEntry)}
         />
       )}
     </main>

@@ -41,7 +41,7 @@ export default function LogitProjectList({
   };
 
   return (
-    <div className="max-w-lg mx-auto w-full px-4 py-8">
+    <div className="max-w-lg mx-auto w-full px-4 py-8" style={{ paddingTop: 'max(env(safe-area-inset-top), 24px)' }}>
       <header className="text-center mb-8">
         <h1 className="text-2xl font-semibold tracking-wide">LoGiT</h1>
         <p className="text-white/60 mt-2">What are you working on?</p>
