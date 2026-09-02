@@ -64,3 +64,40 @@ export function isTechPath(pathname) {
 export function isProtectedPath(pathname) {
   return !isPublicPath(pathname) && (isTechPath(pathname) || isPortalPath(pathname));
 }
+
+/** Solomon-only deploy — set SOLOMON_STANDALONE=true on the dedicated Vercel project. */
+export const SOLOMON_STANDALONE_ALLOW_PREFIXES = [
+  '/solomon',
+  '/api/auth',
+  '/api/proxy',
+  '/api/public',
+];
+
+export const SOLOMON_STANDALONE_ALLOW_EXACT = [
+  '/manifest.json',
+  '/sw.js',
+  '/robots.txt',
+];
+
+export function isSolomonStandaloneMode() {
+  return (
+    process.env.SOLOMON_STANDALONE === 'true'
+    || process.env.NEXT_PUBLIC_SOLOMON_STANDALONE === 'true'
+  );
+}
+
+export function isSolomonStandaloneAllowedPath(pathname) {
+  if (!pathname) return false;
+
+  if (SOLOMON_STANDALONE_ALLOW_EXACT.includes(pathname)) {
+    return true;
+  }
+
+  if (pathname.startsWith('/worker-')) {
+    return true;
+  }
+
+  return SOLOMON_STANDALONE_ALLOW_PREFIXES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
+}
