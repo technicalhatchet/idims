@@ -65,7 +65,9 @@ export function isProtectedPath(pathname) {
   return !isPublicPath(pathname) && (isTechPath(pathname) || isPortalPath(pathname));
 }
 
-/** Solomon-only deploy — set SOLOMON_STANDALONE=true on the dedicated Vercel project. */
+/** Solomon-only deploy — env flag or feature/solomon-standalone Vercel branch. */
+export const SOLOMON_STANDALONE_BRANCH = 'feature/solomon-standalone';
+
 export const SOLOMON_STANDALONE_ALLOW_PREFIXES = [
   '/solomon',
   '/api/auth',
@@ -75,15 +77,21 @@ export const SOLOMON_STANDALONE_ALLOW_PREFIXES = [
 
 export const SOLOMON_STANDALONE_ALLOW_EXACT = [
   '/manifest.json',
+  '/manifest-solomon.json',
   '/sw.js',
   '/robots.txt',
 ];
 
 export function isSolomonStandaloneMode() {
-  return (
+  if (
     process.env.SOLOMON_STANDALONE === 'true'
     || process.env.NEXT_PUBLIC_SOLOMON_STANDALONE === 'true'
-  );
+  ) {
+    return true;
+  }
+
+  const branch = process.env.VERCEL_GIT_COMMIT_REF || '';
+  return branch === SOLOMON_STANDALONE_BRANCH;
 }
 
 export function isSolomonStandaloneAllowedPath(pathname) {

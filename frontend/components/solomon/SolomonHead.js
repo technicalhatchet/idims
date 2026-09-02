@@ -1,16 +1,23 @@
 import Head from 'next/head';
-import { SOLOMON_PWA_ICONS, SOLOMON_PWA_VERSION } from './solomonPwaIcons';
+import {
+  SOLOMON_PLATFORM_TITLE,
+  SOLOMON_PWA_ICONS,
+  SOLOMON_PWA_VERSION,
+} from './solomonPwaIcons';
 
 /** Fallback until SolomonThemeColorSync applies --solomon-theme-color from active tokens. */
 const SOLOMON_SHELL_FALLBACK = '#0A0F1E';
 
 export default function SolomonHead({ title = 'Solomon' }) {
-  const pageTitle = title === 'Solomon' ? 'Solomon' : `${title} | Solomon`;
+  const pageTitle = title === 'Solomon'
+    ? SOLOMON_PLATFORM_TITLE
+    : `${title} | Solomon`;
   const manifestHref = `/manifest-solomon.json?v=${SOLOMON_PWA_VERSION}`;
 
   return (
     <Head>
       <title>{pageTitle}</title>
+      <meta name="description" content={SOLOMON_PLATFORM_TITLE} />
       <meta name="application-name" content="Solomon" />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />

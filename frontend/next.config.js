@@ -155,8 +155,18 @@ const withPWA = require('next-pwa')({
   ],
 });
 
+const isSolomonStandaloneBranch =
+  process.env.VERCEL_GIT_COMMIT_REF === 'feature/solomon-standalone';
+
 const nextConfig = {
   reactStrictMode: true,
+
+  env: {
+    SOLOMON_STANDALONE: isSolomonStandaloneBranch ? 'true' : process.env.SOLOMON_STANDALONE,
+    NEXT_PUBLIC_SOLOMON_STANDALONE: isSolomonStandaloneBranch
+      ? 'true'
+      : process.env.NEXT_PUBLIC_SOLOMON_STANDALONE,
+  },
 
   staticPageGenerationTimeout: 1000,
 
