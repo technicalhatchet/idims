@@ -78,6 +78,7 @@ function ServiceWorkerMigration() {
             names
               .filter((name) =>
                 /fallback-cache|workbox|precache|pages-cache|solomon-/i.test(name)
+                && !name.startsWith('logit-shell-')
               )
               .map((name) => caches.delete(name))
           );
@@ -85,7 +86,15 @@ function ServiceWorkerMigration() {
 
         if ('serviceWorker' in navigator) {
           const registrations = await navigator.serviceWorker.getRegistrations();
-          await Promise.all(registrations.map((reg) => reg.unregister()));
+          await Promise.all(
+            registrations
+              .filter((reg) => {
+                const worker = reg.active || reg.installing || reg.waiting;
+                const scriptUrl = worker?.scriptURL || '';
+                return !scriptUrl.includes('logit-sw.js');
+              })
+              .map((reg) => reg.unregister()),
+          );
         }
 
         localStorage.setItem(SW_MIGRATION_KEY, '1');

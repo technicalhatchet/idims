@@ -64,6 +64,7 @@ FOOTER_HEIGHT = 0.32 * inch
 HEADER_LEFT_W = 1.55 * inch
 HEADER_RIGHT_W = 1.25 * inch
 HEADER_CENTER_W = CONTENT_WIDTH - HEADER_LEFT_W - HEADER_RIGHT_W
+HEADER_TOTAL_CARD_H = 0.68 * inch
 SUMMARY_BAND_LEFT_W = CONTENT_WIDTH * 0.50
 SUMMARY_BAND_RIGHT_W = CONTENT_WIDTH - SUMMARY_BAND_LEFT_W
 SUMMARY_ROW_H = 0.66 * inch
@@ -77,7 +78,20 @@ MATRIX_LABEL_W = 1.05 * inch
 FINDING_TEXT_W = CONTENT_WIDTH - ICON_COL_W - BADGE_COL_W
 
 _REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DEFAULT_LOGIT_LOGO_PATH = os.path.join(_REPO_ROOT, "frontend", "public", "logitlogo.png")
+_PDF_ASSETS_DIR = os.path.join(os.path.dirname(__file__), "assets")
+DEFAULT_LOGIT_LOGO_PATH = os.path.join(_PDF_ASSETS_DIR, "logitlogo.png")
+
+
+def _resolve_logit_logo_path(logo_path: Optional[str] = None) -> str:
+    if logo_path and os.path.isfile(logo_path):
+        return logo_path
+    for candidate in (
+        os.path.join(_PDF_ASSETS_DIR, "logitlogo.png"),
+        os.path.join(_REPO_ROOT, "frontend", "public", "logitlogo.png"),
+    ):
+        if os.path.isfile(candidate):
+            return candidate
+    return DEFAULT_LOGIT_LOGO_PATH
 
 # LoGiT semantic colors (local — do not modify atomic_theme)
 LOGIT_CRITICAL = colors.HexColor("#EF4444")
@@ -772,20 +786,19 @@ def _build_report_header(report: dict, styles: Dict[str, ParagraphStyle], varian
     project = report.get("project") or {}
     meta = report.get("report") or {}
     total = report.get("totals", {}).get("observations", 0)
+    resolved_logo = _resolve_logit_logo_path(logo_path)
 
-    logo_cell: Any
-    if os.path.isfile(logo_path):
+    logo_cell: Any = Spacer(1, 0.02 * inch)
+    if os.path.isfile(resolved_logo):
         try:
-            reader = ImageReader(logo_path)
+            reader = ImageReader(resolved_logo)
             iw, ih = reader.getSize()
-            logo_h = 0.36 * inch
+            logo_h = 0.44 * inch
             logo_w = logo_h * (iw / ih)
             from reportlab.platypus import Image as RLImage
-            logo_cell = RLImage(logo_path, width=logo_w, height=logo_h)
+            logo_cell = RLImage(resolved_logo, width=logo_w, height=logo_h)
         except Exception:
-            logo_cell = _para("LO G I T", styles["title"])
-    else:
-        logo_cell = _para("LO G I T", styles["title"])
+            logo_cell = Spacer(1, 0.02 * inch)
 
     left_block = Table(
         [[logo_cell], [_para("OBSERVATION REPORT", styles["logo_tag"])]],
@@ -828,21 +841,34 @@ def _build_report_header(report: dict, styles: Dict[str, ParagraphStyle], varian
         )
     )
 
-    total_card = Table(
+    total_inner = Table(
         [
             [_para("Total Observations", styles["meta_center"])],
             [_para(str(total), styles["total_big"])],
         ],
-        colWidths=[HEADER_RIGHT_W - 0.1 * inch],
-        rowHeights=[None, 0.38 * inch],
+        colWidths=[HEADER_RIGHT_W - 0.12 * inch],
     )
+    total_inner.setStyle(
+        TableStyle(
+            [
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (0, 0), 1),
+                ("BOTTOMPADDING", (0, 1), (0, 1), 0),
+                ("TOPPADDING", (0, 1), (0, 1), 0),
+            ]
+        )
+    )
+
+    total_card = Table([[total_inner]], colWidths=[HEADER_RIGHT_W], rowHeights=[HEADER_TOTAL_CARD_H])
     total_card.setStyle(
         TableStyle(
             [
                 ("BACKGROUND", (0, 0), (-1, -1), p["surface"]),
                 ("BOX", (0, 0), (-1, -1), 0.75, p["card_border"]),
-                ("TOPPADDING", (0, 0), (-1, -1), 8),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
                 ("LEFTPADDING", (0, 0), (-1, -1), 6),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 6),
                 ("ALIGN", (0, 0), (-1, -1), "CENTER"),
@@ -1458,7 +1484,7 @@ def build_logit_pdf_v2(
     report = enrich_summary_percentages(dict(report_dict))
     include_transcripts = _resolve_include_original_transcripts(report, include_original_transcripts)
     buffer = BytesIO()
-    logo = logo_path or DEFAULT_LOGIT_LOGO_PATH
+    logo = _resolve_logit_logo_path(logo_path)
     doc = LogitDocTemplate(
         buffer,
         report,

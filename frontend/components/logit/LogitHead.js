@@ -25,6 +25,11 @@ export default function LogitHead({ title = 'LoGiT' }) {
       {/* iOS Add to Home Screen uses apple-touch-icon, not manifest icons */}
       <link rel="apple-touch-icon" sizes="180x180" href={LOGIT_PWA_ICONS.ios} />
       <link rel="apple-touch-icon" href={LOGIT_PWA_ICONS.ios} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){if(!('serviceWorker'in navigator))return;function boot(){navigator.serviceWorker.getRegistrations().then(function(regs){var origin=location.origin;regs.forEach(function(reg){var worker=reg.active||reg.installing||reg.waiting;var script=worker&&worker.scriptURL||'';if(script.indexOf('logit-sw.js')===-1&&(reg.scope===origin+'/'||reg.scope===origin)){reg.unregister();}});return navigator.serviceWorker.register('/logit-sw.js?v=${LOGIT_PWA_VERSION}',{scope:'/logit',updateViaCache:'none'});}).catch(function(){});}if(document.readyState==='complete'){boot();}else{window.addEventListener('load',boot,{once:true});}})();`,
+        }}
+      />
     </Head>
   );
 }
