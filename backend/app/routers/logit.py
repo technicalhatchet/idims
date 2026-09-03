@@ -244,3 +244,15 @@ async def update_entry(
     db.commit()
     db.refresh(entry)
     return entry
+
+
+@router.delete("/entries/{entry_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_entry(
+    entry_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    entry = _get_owned_entry(db, entry_id, current_user.id)
+    db.delete(entry)
+    db.commit()
+    return None

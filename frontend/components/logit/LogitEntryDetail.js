@@ -15,6 +15,8 @@ export default function LogitEntryDetail({
   onBack,
   onProcessDraft,
   onContinueReview,
+  onDelete,
+  deleting,
 }) {
   const isDraft = entry.status === 'draft';
   const priority = logitPriorityMeta(entry.severity);
@@ -104,6 +106,18 @@ export default function LogitEntryDetail({
             <p className="text-xs text-white/50 mb-2">Original note</p>
             <p className="text-sm text-white/60 italic">&ldquo;{entry.original_transcript}&rdquo;</p>
           </div>
+        </div>
+
+        <div className="pt-10 pb-8 text-center">
+          <button
+            type="button"
+            className="text-[11px] text-white/20 hover:text-red-400/70 transition min-h-[44px] px-3"
+            onClick={onDelete}
+            disabled={deleting}
+            aria-label="Delete this observation"
+          >
+            {deleting ? 'Deleting…' : 'Delete observation'}
+          </button>
         </div>
       </div>
     </div>
