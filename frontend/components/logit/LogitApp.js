@@ -31,6 +31,8 @@ import LogitProcessing from './LogitProcessing';
 import LogitProjectList from './LogitProjectList';
 import LogitReview from './LogitReview';
 import LogitTranscriptPreview from './LogitTranscriptPreview';
+import LogitPwaBootstrap from './LogitPwaBootstrap';
+import LogitInstallHint, { useLogitInstallHint } from './LogitInstallHint';
 
 const SCREENS = {
   PROJECTS: 'projects',
@@ -46,6 +48,7 @@ const SCREENS = {
 export default function LogitApp() {
   const { user, isLoading: authLoading } = useUser();
   const speech = useLogitSpeech();
+  const installHint = useLogitInstallHint();
 
   const [screen, setScreen] = useState(SCREENS.PROJECTS);
   const [projects, setProjects] = useState([]);
@@ -345,11 +348,13 @@ export default function LogitApp() {
 
   return (
     <main className={LOGIT_CANVAS}>
+      <LogitPwaBootstrap />
       {screen === SCREENS.PROJECTS && (
         <LogitProjectList
           projects={projects}
           loading={projectsLoading}
           error={projectsError}
+          installHint={installHint}
           onSelectProject={selectProject}
           onCreateProject={handleCreateProject}
           onUpdateProject={handleUpdateProject}

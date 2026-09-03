@@ -1,4 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { isIosDevice, isLogitStandalone } from '../components/logit/logitPwaIcons';
+
+export { isIosDevice };
+export function isStandalonePwa() {
+  return isLogitStandalone();
+}
 
 const MIC_GRANTED_KEY = 'logit_mic_granted';
 
@@ -7,24 +13,20 @@ function getSpeechRecognition() {
   return window.SpeechRecognition || window.webkitSpeechRecognition || null;
 }
 
-export function isIosDevice() {
-  if (typeof navigator === 'undefined') return false;
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
-export function isStandalonePwa() {
-  if (typeof window === 'undefined') return false;
-  return (
-    window.navigator.standalone === true
-    || window.matchMedia('(display-mode: standalone)').matches
-  );
-}
-
 function micDeniedMessage() {
-  if (isStandalonePwa()) {
-    return 'Microphone is off for LoGiT. Open Settings → LoGiT → Microphone and turn it on, then try again. Or use Type instead.';
+  if (isLogitStandalone()) {
+    return (
+      'Microphone is off for LoGiT. Open Settings → LoGiT → Microphone, allow access, then reload. '
+      + 'Or use Type instead.'
+    );
   }
-  return 'Microphone is off. Open Settings → Apps → Safari → Microphone and allow access, then reload. Or use Type instead.';
+  if (isIosDevice()) {
+    return (
+      'Microphone is off. Install LoGiT to your home screen first (Share → Add to Home Screen), '
+      + 'then allow the mic when prompted. Or use Type instead.'
+    );
+  }
+  return 'Microphone is off for this site. Check browser site permissions, then reload. Or use Type instead.';
 }
 
 async function requestMicrophoneAccess() {

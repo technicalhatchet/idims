@@ -7,6 +7,7 @@ import {
   LOGIT_TEXTAREA,
   LOGIT_TYPE_LABELS,
 } from './logitUi';
+import { isLogitStandalone } from './logitPwaIcons';
 import LogitHeader from './LogitHeader';
 
 const LOCK_SLIDE_THRESHOLD_PX = 80;
@@ -149,13 +150,24 @@ export default function LogitTypeCapture({
               </p>
             )}
 
-            {speech.isIos && speech.supported && recState === 'idle' && (
+            {speech.isIos && speech.supported && recState === 'idle' && !isLogitStandalone() && (
               <p className="text-xs text-white/45 text-center leading-relaxed px-2">
-                On iPhone, tap Enable Microphone once. iOS may not show &ldquo;While Using&rdquo; — use
+                For a persistent mic permission, install LoGiT from Safari:
+                {' '}
+                <span className="text-white/60">Share → Add to Home Screen</span>
+                . Then open LoGiT from your home screen — it will appear in
+                {' '}
+                <span className="text-white/60">Settings → LoGiT</span>
+                .
+              </p>
+            )}
+
+            {speech.isIos && speech.supported && recState === 'idle' && isLogitStandalone() && (
+              <p className="text-xs text-white/45 text-center leading-relaxed px-2">
+                If voice fails, check
                 {' '}
                 <span className="text-white/60">Settings → LoGiT → Microphone</span>
-                {' '}
-                if voice still fails.
+                .
               </p>
             )}
 

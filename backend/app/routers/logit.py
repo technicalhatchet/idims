@@ -1,8 +1,10 @@
 import logging
+from io import BytesIO
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi.responses import StreamingResponse
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
@@ -21,6 +23,7 @@ from app.schemas.logit import (
     LogitProjectUpdate,
 )
 from app.services.gemini_logit_service import classify_logit_observation
+from app.services.logit_report_service import generate_logit_project_report_pdf
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -150,6 +153,38 @@ async def list_entries(
         .all()
     )
     return entries
+
+
+@router.get("/projects/{project_id}/report.pdf")
+async def get_project_report_pdf(
+    project_id: UUID,
+    variant: str = Query("light", pattern="^(dark|light)$"),
+    include_original_transcripts: bool = Query(False),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        pdf_bytes, filename = await generate_logit_project_report_pdf(
+            db,
+            project_id,
+            current_user.id,
+            variant=variant,
+            include_original_transcripts=include_original_transcripts,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+    except Exception as exc:
+        logger.error("LoGiT report PDF error: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Could not generate report PDF right now.",
+        ) from exc
+
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @router.get("/entries/{entry_id}", response_model=LogitEntryResponse)
