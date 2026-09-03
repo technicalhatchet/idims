@@ -1,10 +1,11 @@
 import Head from 'next/head';
+import { LOGIT_PWA_ICONS, LOGIT_PWA_VERSION } from './logitPwaIcons';
 
 const LOGIT_THEME = '#0A0F1E';
 
 export default function LogitHead({ title = 'LoGiT' }) {
   const pageTitle = title === 'LoGiT' ? 'LoGiT' : `${title} | LoGiT`;
-  const manifestHref = '/manifest-logit.json';
+  const manifestHref = `/manifest-logit.json?v=${LOGIT_PWA_VERSION}`;
 
   return (
     <Head>
@@ -20,8 +21,8 @@ export default function LogitHead({ title = 'LoGiT' }) {
       <meta name="color-scheme" content="dark" />
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <link rel="manifest" href={manifestHref} />
-      <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
-      <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+      <link rel="icon" type="image/png" href={LOGIT_PWA_ICONS.icon} />
+      <link rel="apple-touch-icon" href={LOGIT_PWA_ICONS.icon} />
     </Head>
   );
 }
