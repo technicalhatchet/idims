@@ -210,10 +210,8 @@ export function useLogitSpeech() {
       return false;
     }
 
-    if (micAccess !== 'granted') {
-      const micReady = await prepareMicrophone();
-      if (!micReady) return false;
-    }
+    const micReady = await prepareMicrophone();
+    if (!micReady) return false;
 
     setError(null);
     setInterimTranscript('');
@@ -222,7 +220,7 @@ export function useLogitSpeech() {
     setElapsedMs(0);
     beginRecognition();
     return true;
-  }, [beginRecognition, micAccess, prepareMicrophone]);
+  }, [beginRecognition, prepareMicrophone]);
 
   const resetTranscript = useCallback(() => {
     setTranscript('');
