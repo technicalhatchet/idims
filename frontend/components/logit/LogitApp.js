@@ -31,7 +31,6 @@ import LogitProcessing from './LogitProcessing';
 import LogitProjectList from './LogitProjectList';
 import LogitReview from './LogitReview';
 import LogitTranscriptPreview from './LogitTranscriptPreview';
-import LogitPwaBootstrap from './LogitPwaBootstrap';
 import LogitInstallHint, { useLogitInstallHint } from './LogitInstallHint';
 
 const SCREENS = {
@@ -348,7 +347,6 @@ export default function LogitApp() {
 
   return (
     <main className={LOGIT_CANVAS}>
-      <LogitPwaBootstrap />
       {screen === SCREENS.PROJECTS && (
         <LogitProjectList
           projects={projects}
