@@ -14,7 +14,6 @@ export default function LogitTypeSelect({
   return (
     <div className="min-h-screen flex flex-col">
       <LogitHeader
-        title="LoGiT"
         subtitle={`${project.icon || '📝'} ${project.name}`}
         onLeft={onSwitchProject}
         rightLabel="Log"
