@@ -4,6 +4,7 @@ import {
   LOGIT_BUTTON_SECONDARY,
   LOGIT_CATEGORY_LABELS,
   LOGIT_FREQUENCY_LABELS,
+  LOGIT_FREQUENCY_OPTIONS,
   LOGIT_GLASS_CARD,
   LOGIT_INPUT,
   LOGIT_TEXTAREA,
@@ -14,7 +15,6 @@ import LogitHeader from './LogitHeader';
 import LogitPriorityPicker from './LogitPriorityPicker';
 
 const CATEGORY_OPTIONS = Object.keys(LOGIT_CATEGORY_LABELS);
-const FREQUENCY_OPTIONS = Object.keys(LOGIT_FREQUENCY_LABELS);
 
 export default function LogitReview({
   project,
@@ -85,7 +85,7 @@ export default function LogitReview({
               value={classification.frequency}
               onChange={(e) => onChange({ ...classification, frequency: e.target.value })}
             >
-              {FREQUENCY_OPTIONS.map((key) => (
+              {LOGIT_FREQUENCY_OPTIONS.map((key) => (
                 <option key={key} value={key} className="bg-[#0A0F1E]">
                   {LOGIT_FREQUENCY_LABELS[key]}
                 </option>

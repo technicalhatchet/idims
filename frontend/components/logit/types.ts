@@ -14,7 +14,7 @@ export type LogitCategory =
 
 export type LogitSeverity = 'minor' | 'moderate' | 'major' | 'critical' | 'not_applicable';
 
-export type LogitFrequency = 'once' | 'occasional' | 'frequent' | 'unknown';
+export type LogitFrequency = 'once' | 'occasional' | 'frequent' | 'every_time' | 'unknown' | 'not_applicable';
 
 export type LogitStatus = 'draft' | 'logged';
 

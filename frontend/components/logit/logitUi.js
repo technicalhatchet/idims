@@ -76,11 +76,22 @@ export const LOGIT_SEVERITY_LABELS = {
   not_applicable: 'Not applicable',
 };
 
+export const LOGIT_FREQUENCY_OPTIONS = [
+  'every_time',
+  'frequent',
+  'occasional',
+  'once',
+  'unknown',
+  'not_applicable',
+];
+
 export const LOGIT_FREQUENCY_LABELS = {
-  once: 'Once',
-  occasional: 'Occasional',
+  every_time: 'Every time',
   frequent: 'Frequent',
+  occasional: 'Occasional',
+  once: 'Once',
   unknown: 'Unknown',
+  not_applicable: 'N/A',
 };
 
 export const LOGIT_GLASS_CARD =
