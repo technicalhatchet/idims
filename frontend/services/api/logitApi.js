@@ -56,3 +56,9 @@ export async function updateLogitEntry(entryId, payload) {
     body: JSON.stringify(payload),
   });
 }
+
+export async function deleteLogitEntry(entryId) {
+  return apiClient(`logit/entries/${entryId}`, {
+    method: 'DELETE',
+  });
+}

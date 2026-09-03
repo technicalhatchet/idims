@@ -7,6 +7,7 @@ import {
   createLogitEntry,
   createLogitProject,
   deleteLogitProject,
+  deleteLogitEntry,
   fetchLogitEntries,
   fetchLogitProjects,
   updateLogitEntry,
@@ -64,6 +65,7 @@ export default function LogitApp() {
   const [localDraftId, setLocalDraftId] = useState(null);
   const [selectedObservationType, setSelectedObservationType] = useState(null);
   const [editingEntryId, setEditingEntryId] = useState(null);
+  const [deletingEntry, setDeletingEntry] = useState(false);
   const hasAutoOpenedRef = useRef(false);
 
   const refreshProjects = useCallback(async () => {
@@ -296,6 +298,28 @@ export default function LogitApp() {
     setScreen(SCREENS.TYPE_CAPTURE);
   };
 
+  const handleDeleteEntry = async (entry) => {
+    const label = entry.title || 'this observation';
+    const confirmed = window.confirm(
+      `Delete "${label}" permanently? This cannot be undone.`,
+    );
+    if (!confirmed) return;
+
+    setDeletingEntry(true);
+    try {
+      await deleteLogitEntry(entry.id);
+      await refreshProjects();
+      await refreshEntries(activeProject.id);
+      setSelectedEntry(null);
+      setScreen(SCREENS.LOG);
+      toast.success('Observation deleted');
+    } catch {
+      toast.error('Could not delete — try again');
+    } finally {
+      setDeletingEntry(false);
+    }
+  };
+
   if (authLoading) {
     return (
       <main className={`${LOGIT_CANVAS} flex items-center justify-center`}>
@@ -417,6 +441,8 @@ export default function LogitApp() {
           onBack={() => setScreen(SCREENS.LOG)}
           onProcessDraft={() => resumeEntryToProcess(selectedEntry)}
           onContinueReview={() => resumeEntryToReview(selectedEntry)}
+          onDelete={() => handleDeleteEntry(selectedEntry)}
+          deleting={deletingEntry}
         />
       )}
     </main>

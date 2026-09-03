@@ -21,8 +21,8 @@ export default function LogitHead({ title = 'LoGiT' }) {
       <meta name="color-scheme" content="dark" />
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <link rel="manifest" href={manifestHref} />
-      <link rel="icon" type="image/png" href={LOGIT_PWA_ICONS.icon} />
-      <link rel="apple-touch-icon" href={LOGIT_PWA_ICONS.icon} />
+      <link rel="icon" type="image/png" href={LOGIT_PWA_ICONS.android192} />
+      <link rel="apple-touch-icon" href={LOGIT_PWA_ICONS.ios} />
     </Head>
   );
 }
