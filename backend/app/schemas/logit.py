@@ -20,7 +20,7 @@ LogitCategory = Literal[
     "other",
 ]
 LogitSeverity = Literal["minor", "moderate", "major", "critical", "not_applicable"]
-LogitFrequency = Literal["once", "occasional", "frequent", "unknown"]
+LogitFrequency = Literal["once", "occasional", "frequent", "every_time", "unknown", "not_applicable"]
 LogitStatus = Literal["draft", "logged"]
 
 

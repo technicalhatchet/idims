@@ -26,18 +26,18 @@ export default function LogitPriorityPicker({
               aria-checked={selected}
               disabled={disabled}
               onClick={() => onChange(option.id)}
-              className={`flex flex-col items-center gap-1.5 min-h-[72px] rounded-xl border transition ${
+              className={`flex h-[76px] flex-col items-center justify-center gap-1.5 rounded-xl border px-1 py-2 transition ${
                 selected
                   ? 'border-white/30 bg-white/[0.08]'
                   : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.05]'
               }`}
             >
               <span
-                className="w-5 h-5 rounded-full border border-white/20"
+                className="w-5 h-5 shrink-0 rounded-full border border-white/20"
                 style={{ backgroundColor: option.color }}
                 aria-hidden="true"
               />
-              <span className="text-[10px] text-white/70 leading-tight text-center px-1">
+              <span className="text-[10px] text-white/70 leading-tight text-center">
                 {option.label}
               </span>
             </button>

@@ -40,7 +40,7 @@ CLASSIFICATION_SCHEMA: Dict[str, Any] = {
         },
         "frequency": {
             "type": "string",
-            "enum": ["once", "occasional", "frequent", "unknown"],
+            "enum": ["once", "occasional", "frequent", "every_time", "unknown", "not_applicable"],
         },
         "title": {"type": "string"},
         "description": {"type": "string"},
@@ -74,6 +74,8 @@ The user has ALREADY selected the observation type. Do NOT change or guess the t
 RULES:
 - Use ONLY information present in the user's transcript. Do not invent facts, frequency, or impact.
 - Use frequency "unknown" when not stated.
+- Use frequency "not_applicable" when frequency does not apply.
+- Use frequency "every_time" when the user indicates it happens every time or always.
 - Use severity "not_applicable" for ideas and positive feedback when priority does not apply.
 - For problems and blockers, infer severity only when clearly implied; otherwise use minor.
 - Clean up rambling language in title/description/impact/suggested_fix while preserving meaning.
