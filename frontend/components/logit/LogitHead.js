@@ -22,6 +22,8 @@ export default function LogitHead({ title = 'LoGiT' }) {
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <link rel="manifest" href={manifestHref} />
       <link rel="icon" type="image/png" href={LOGIT_PWA_ICONS.android192} />
+      {/* iOS Add to Home Screen uses apple-touch-icon, not manifest icons */}
+      <link rel="apple-touch-icon" sizes="180x180" href={LOGIT_PWA_ICONS.ios} />
       <link rel="apple-touch-icon" href={LOGIT_PWA_ICONS.ios} />
     </Head>
   );

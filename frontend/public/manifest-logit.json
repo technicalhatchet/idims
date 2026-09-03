@@ -6,21 +6,29 @@
   "start_url": "/logit",
   "scope": "/logit",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#0A0F1E",
   "theme_color": "#0A0F1E",
   "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities"],
   "icons": [
     {
-      "src": "/logiticon-android-192x192.png?v=2",
+      "src": "/logiticon-ios-180x180.png?v=3",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logiticon-android-192x192.png?v=3",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/logiticon-android-512x512.png?v=2",
+      "src": "/logiticon-android-512x512.png?v=3",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { LogitCenteredLogo } from './LogitHeader';
+import LogitInstallHint from './LogitInstallHint';
 import { LOGIT_BUTTON_SECONDARY, LOGIT_GLASS_CARD } from './logitUi';
 import { LogitProjectModalControlled } from './LogitProjectModal';
 
@@ -6,6 +8,7 @@ export default function LogitProjectList({
   projects,
   loading,
   error,
+  installHint,
   onSelectProject,
   onCreateProject,
   onUpdateProject,
@@ -43,9 +46,13 @@ export default function LogitProjectList({
   return (
     <div className="max-w-lg mx-auto w-full px-4 py-8" style={{ paddingTop: 'max(env(safe-area-inset-top), 24px)' }}>
       <header className="text-center mb-8">
-        <h1 className="text-2xl font-semibold tracking-wide">LoGiT</h1>
+        <div className="flex justify-center mb-2">
+          <LogitCenteredLogo className="h-12 sm:h-14" />
+        </div>
         <p className="text-white/60 mt-2">What are you working on?</p>
       </header>
+
+      {installHint ? <LogitInstallHint installHint={installHint} /> : null}
 
       {loading && <p className="text-center text-white/50">Loading projects…</p>}
       {error && (
