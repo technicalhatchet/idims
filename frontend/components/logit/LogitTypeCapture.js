@@ -66,7 +66,7 @@ export default function LogitTypeCapture({
   };
 
   const handlePointerDown = async (e) => {
-    if (typedMode || recState === 'locked' || !speech.supported) return;
+    if (typedMode || recState === 'locked' || !speech.voiceReady) return;
     e.preventDefault();
     micButtonRef.current?.setPointerCapture(e.pointerId);
     pointerStartYRef.current = e.clientY;
@@ -124,7 +124,7 @@ export default function LogitTypeCapture({
     onTranscriptReady(text);
   };
 
-  const showEnableMic = false;
+  const showEnableMic = speech.supported && !speech.micReady;
   const slideProgress = Math.min(slideOffset / LOCK_SLIDE_THRESHOLD_PX, 1);
   const lockZoneActive = slideProgress >= 0.65;
 
@@ -186,7 +186,7 @@ export default function LogitTypeCapture({
               <p className="text-sm text-amber-300/90 text-center" role="alert">{speech.error}</p>
             )}
 
-            {speech.supported && recState !== 'locked' && (
+            {speech.voiceReady && recState !== 'locked' && (
               <div className="flex flex-col items-center gap-4">
                 {recState === 'holding' && (
                   <p className="text-xs text-white/50 text-center" aria-live="polite">
@@ -243,7 +243,7 @@ export default function LogitTypeCapture({
               </div>
             )}
 
-            {speech.supported && recState === 'locked' && (
+            {speech.voiceReady && recState === 'locked' && (
               <div className="flex flex-col items-center gap-5 w-full" role="status" aria-live="polite">
                 <div className="w-40 h-40 rounded-full flex flex-col items-center justify-center gap-2 border-2 border-cyan-400 bg-cyan-500/20">
                   <span className="text-5xl" aria-hidden="true">🎙️</span>

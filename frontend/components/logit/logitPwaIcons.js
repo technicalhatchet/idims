@@ -1,4 +1,4 @@
-export const LOGIT_PWA_VERSION = 4;
+export const LOGIT_PWA_VERSION = 5;
 
 export const LOGIT_LOGO_SRC = `/logitlogo.png?v=${LOGIT_PWA_VERSION}`;
 
