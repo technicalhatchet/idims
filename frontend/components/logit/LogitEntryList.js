@@ -1,5 +1,7 @@
+import { useMemo, useState } from 'react';
 import {
   LOGIT_CATEGORY_LABELS,
+  LOGIT_CATEGORY_OPTIONS,
   LOGIT_GLASS_CARD,
   LOGIT_TYPE_EMOJI,
   logitPriorityMeta,
@@ -52,6 +54,24 @@ function EntryPriorityDot({ severity }) {
   );
 }
 
+function CategoryFilterChip({ active, label, count, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`shrink-0 min-h-[36px] px-3 py-1.5 rounded-full text-xs border transition ${
+        active
+          ? 'border-cyan-500/50 bg-cyan-500/15 text-white'
+          : 'border-white/10 bg-white/[0.03] text-white/60 hover:bg-white/[0.06] hover:text-white/80'
+      }`}
+    >
+      {label}
+      {count != null ? ` (${count})` : ''}
+    </button>
+  );
+}
+
 export default function LogitEntryList({
   project,
   entries,
@@ -59,8 +79,31 @@ export default function LogitEntryList({
   onBack,
   onSelectEntry,
 }) {
-  const groups = groupEntriesByDay(entries);
-  const draftCount = entries.filter((e) => e.status === 'draft').length;
+  const [categoryFilter, setCategoryFilter] = useState('all');
+
+  const categoryCounts = useMemo(() => {
+    const counts = { all: entries.length };
+    LOGIT_CATEGORY_OPTIONS.forEach((key) => {
+      counts[key] = entries.filter((e) => e.category === key).length;
+    });
+    counts.uncategorized = entries.filter((e) => !e.category).length;
+    return counts;
+  }, [entries]);
+
+  const filteredEntries = useMemo(() => {
+    if (categoryFilter === 'all') return entries;
+    if (categoryFilter === 'uncategorized') {
+      return entries.filter((e) => !e.category);
+    }
+    return entries.filter((e) => e.category === categoryFilter);
+  }, [entries, categoryFilter]);
+
+  const groups = groupEntriesByDay(filteredEntries);
+  const draftCount = filteredEntries.filter((e) => e.status === 'draft').length;
+
+  const visibleCategories = LOGIT_CATEGORY_OPTIONS.filter(
+    (key) => categoryCounts[key] > 0,
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -72,9 +115,43 @@ export default function LogitEntryList({
       />
 
       <div className="flex-1 max-w-lg mx-auto w-full px-4 py-4">
+        {!loading && entries.length > 0 && (
+          <div className="mb-4">
+            <p className="text-xs uppercase tracking-wider text-white/40 mb-2">Category</p>
+            <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1" role="group" aria-label="Filter by category">
+              <CategoryFilterChip
+                active={categoryFilter === 'all'}
+                label="All"
+                count={categoryCounts.all}
+                onClick={() => setCategoryFilter('all')}
+              />
+              {visibleCategories.map((key) => (
+                <CategoryFilterChip
+                  key={key}
+                  active={categoryFilter === key}
+                  label={LOGIT_CATEGORY_LABELS[key]}
+                  count={categoryCounts[key]}
+                  onClick={() => setCategoryFilter(key)}
+                />
+              ))}
+              {categoryCounts.uncategorized > 0 && (
+                <CategoryFilterChip
+                  active={categoryFilter === 'uncategorized'}
+                  label="Uncategorized"
+                  count={categoryCounts.uncategorized}
+                  onClick={() => setCategoryFilter('uncategorized')}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
         {draftCount > 0 && (
           <p className="text-sm text-amber-300/90 mb-4" role="status">
-            {draftCount} unreviewed — tap a draft to process or finish logging.
+            {draftCount} unreviewed
+            {categoryFilter !== 'all' ? ' in this category' : ''}
+            {' '}
+            — tap a draft to process or finish logging.
           </p>
         )}
 
@@ -83,6 +160,19 @@ export default function LogitEntryList({
         {!loading && entries.length === 0 && (
           <div className={`p-6 text-center ${LOGIT_GLASS_CARD}`}>
             <p className="text-white/60">No observations yet.</p>
+          </div>
+        )}
+
+        {!loading && entries.length > 0 && filteredEntries.length === 0 && (
+          <div className={`p-6 text-center ${LOGIT_GLASS_CARD}`}>
+            <p className="text-white/60">No observations in this category.</p>
+            <button
+              type="button"
+              className="mt-3 text-sm text-cyan-400/90 min-h-[44px]"
+              onClick={() => setCategoryFilter('all')}
+            >
+              Show all
+            </button>
           </div>
         )}
 

@@ -68,6 +68,8 @@ export const LOGIT_CATEGORY_LABELS = {
   other: 'Other',
 };
 
+export const LOGIT_CATEGORY_OPTIONS = Object.keys(LOGIT_CATEGORY_LABELS);
+
 export const LOGIT_SEVERITY_LABELS = {
   minor: 'Minor',
   moderate: 'Moderate',
