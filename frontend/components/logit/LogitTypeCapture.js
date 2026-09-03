@@ -35,16 +35,23 @@ export default function LogitTypeCapture({
 }) {
   const [typedMode, setTypedMode] = useState(false);
   const [typedText, setTypedText] = useState('');
+  const [enablingMic, setEnablingMic] = useState(false);
   const typeMeta = getTypeMeta(observationType);
 
   const displayText = typedMode
     ? typedText
     : `${speech.transcript}${speech.interimTranscript ? ` ${speech.interimTranscript}` : ''}`.trim();
 
-  const handleHoldStart = () => {
-    if (typedMode) return;
+  const handleEnableMic = async () => {
+    setEnablingMic(true);
+    await speech.prepareMicrophone();
+    setEnablingMic(false);
+  };
+
+  const handleHoldStart = async () => {
+    if (typedMode || speech.listening) return;
     speech.resetTranscript();
-    speech.startListening();
+    await speech.startListening();
   };
 
   const handleHoldEnd = () => {
@@ -60,6 +67,8 @@ export default function LogitTypeCapture({
     onTranscriptReady(text);
   };
 
+  const showEnableMic = speech.supported && !speech.micReady;
+
   return (
     <div className="min-h-screen flex flex-col">
       <LogitHeader
@@ -70,7 +79,7 @@ export default function LogitTypeCapture({
       />
 
       <div className="flex-1 max-w-lg mx-auto w-full px-4 py-8 flex flex-col items-center">
-        <h1 className="text-lg font-medium text-center mb-8">
+        <h1 className="text-lg font-medium text-center mb-6">
           {typeMeta.prompt || 'What are you thinking?'}
         </h1>
 
@@ -78,45 +87,68 @@ export default function LogitTypeCapture({
           <div className="flex flex-col items-center gap-5 w-full">
             {!speech.supported && (
               <p className="text-sm text-amber-300/90 text-center" role="status">
-                Speech recognition isn&apos;t available here. Use typed input instead.
+                Voice capture isn&apos;t supported in this browser. Use Type instead.
               </p>
             )}
+
+            {speech.isIos && speech.supported && (
+              <p className="text-xs text-white/45 text-center leading-relaxed px-2">
+                On iPhone, tap Enable Microphone once. iOS may not show &ldquo;While Using&rdquo; — use
+                {' '}
+                <span className="text-white/60">Settings → LoGiT → Microphone</span>
+                {' '}
+                if voice still fails.
+              </p>
+            )}
+
+            {showEnableMic && (
+              <button
+                type="button"
+                className={`w-full max-w-xs ${LOGIT_BUTTON_PRIMARY}`}
+                onClick={handleEnableMic}
+                disabled={enablingMic}
+              >
+                {enablingMic ? 'Checking microphone…' : 'Enable microphone'}
+              </button>
+            )}
+
             {speech.error && (
               <p className="text-sm text-amber-300/90 text-center" role="alert">{speech.error}</p>
             )}
 
-            <button
-              type="button"
-              className={`w-40 h-40 rounded-full flex flex-col items-center justify-center gap-2 border-2 transition select-none touch-none ${
-                speech.listening
-                  ? 'border-cyan-400 bg-cyan-500/20 scale-105'
-                  : 'border-white/20 bg-white/[0.04] hover:bg-white/[0.08]'
-              }`}
-              aria-label={speech.listening ? 'Recording — release to stop' : 'Hold to talk'}
-              aria-pressed={speech.listening}
-              disabled={!speech.supported}
-              onMouseDown={handleHoldStart}
-              onMouseUp={handleHoldEnd}
-              onMouseLeave={speech.listening ? handleHoldEnd : undefined}
-              onTouchStart={(e) => {
-                e.preventDefault();
-                handleHoldStart();
-              }}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                handleHoldEnd();
-              }}
-            >
-              <span className="text-5xl" aria-hidden="true">🎙️</span>
-              <span className="text-xs uppercase tracking-wide text-white/70">
-                {speech.listening ? 'Listening…' : 'Hold to talk'}
-              </span>
-              {speech.listening && (
-                <span className="text-xs text-cyan-300" aria-live="polite">
-                  {formatElapsed(speech.elapsedMs)}
+            {speech.voiceReady && (
+              <button
+                type="button"
+                className={`w-40 h-40 rounded-full flex flex-col items-center justify-center gap-2 border-2 transition select-none touch-none ${
+                  speech.listening
+                    ? 'border-cyan-400 bg-cyan-500/20 scale-105'
+                    : 'border-white/20 bg-white/[0.04] hover:bg-white/[0.08]'
+                }`}
+                aria-label={speech.listening ? 'Recording — release to stop' : 'Hold to talk'}
+                aria-pressed={speech.listening}
+                onMouseDown={handleHoldStart}
+                onMouseUp={handleHoldEnd}
+                onMouseLeave={speech.listening ? handleHoldEnd : undefined}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  void handleHoldStart();
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  handleHoldEnd();
+                }}
+              >
+                <span className="text-5xl" aria-hidden="true">🎙️</span>
+                <span className="text-xs uppercase tracking-wide text-white/70">
+                  {speech.listening ? 'Listening…' : 'Hold to talk'}
                 </span>
-              )}
-            </button>
+                {speech.listening && (
+                  <span className="text-xs text-cyan-300" aria-live="polite">
+                    {formatElapsed(speech.elapsedMs)}
+                  </span>
+                )}
+              </button>
+            )}
 
             {displayText && !speech.listening && (
               <p className="text-sm text-white/60 text-center px-4">{displayText}</p>
