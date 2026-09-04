@@ -38,7 +38,13 @@
     { "id": "gasket_ok", "category": "door_seal", "label": "Door gasket OK", "oppositeId": "gasket_fault" },
     { "id": "gasket_fault", "category": "door_seal", "label": "Door gasket fault", "oppositeId": "gasket_ok" },
     { "id": "supply_ok", "category": "electrical_supply", "label": "Supply voltage OK", "oppositeId": "supply_fault" },
-    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" }
+    { "id": "supply_fault", "category": "electrical_supply", "label": "Supply / voltage issue", "oppositeId": "supply_ok" },
+    { "id": "im_mold_heater_ok", "category": "ice_maker", "label": "Mold heater good (72 Ω)", "oppositeId": "im_mold_heater_failed" },
+    { "id": "im_mold_heater_failed", "category": "ice_maker", "label": "Mold heater failed / open", "oppositeId": "im_mold_heater_ok" },
+    { "id": "im_motor_ok", "category": "ice_maker", "label": "Ejector motor good (8800 Ω)", "oppositeId": "im_motor_failed" },
+    { "id": "im_motor_failed", "category": "ice_maker", "label": "Ejector motor open / home fault", "oppositeId": "im_motor_ok" },
+    { "id": "im_harness_fuse_ok", "category": "ice_maker", "label": "Ice maker harness fuse good", "oppositeId": "im_harness_fuse_failed" },
+    { "id": "im_harness_fuse_failed", "category": "ice_maker", "label": "Ice maker harness fuse open", "oppositeId": "im_harness_fuse_ok" }
   ],
   "rules": [
     {
@@ -262,6 +268,47 @@
       "id": "weak_ff_damper_suspect",
       "when": { "type": "chip", "id": "weak_cooling_ff" },
       "suspect": ["damper_failed", "evap_fan_failed"]
+    },
+    {
+      "id": "im_mold_heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerMoldHeaterOhms", "statusIn": ["critical"] },
+      "eliminate": ["im_mold_heater_ok"],
+      "confirm": ["im_mold_heater_failed"]
+    },
+    {
+      "id": "im_mold_heater_normal",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerMoldHeaterOhms", "statusIn": ["normal"] },
+      "eliminate": ["im_mold_heater_failed"],
+      "confirm": ["im_mold_heater_ok"]
+    },
+    {
+      "id": "im_motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerMotorOhms", "statusIn": ["critical"] },
+      "eliminate": ["im_motor_ok"],
+      "confirm": ["im_motor_failed"]
+    },
+    {
+      "id": "im_motor_normal",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerMotorOhms", "statusIn": ["normal"] },
+      "eliminate": ["im_motor_failed"],
+      "confirm": ["im_motor_ok"]
+    },
+    {
+      "id": "im_fuse_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerHarnessFuseOhms", "statusIn": ["critical"] },
+      "eliminate": ["im_harness_fuse_ok"],
+      "confirm": ["im_harness_fuse_failed"]
+    },
+    {
+      "id": "im_fuse_good",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerHarnessFuseOhms", "statusIn": ["normal"] },
+      "eliminate": ["im_harness_fuse_failed"],
+      "confirm": ["im_harness_fuse_ok"]
+    },
+    {
+      "id": "ice_maker_chip",
+      "when": { "type": "chip", "id": "ice_maker" },
+      "suspect": ["im_mold_heater_failed", "im_motor_failed", "im_harness_fuse_failed"]
     }
   ]
 }

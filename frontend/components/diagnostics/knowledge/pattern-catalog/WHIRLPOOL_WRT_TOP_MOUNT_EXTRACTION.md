@@ -137,7 +137,7 @@ Highlights:
 |-----|-----------|
 | Model-specific thermistor Ω tables | Not on W10674984 wiring sheet — separate tech sheet if needed |
 | Electronic display E0–F9 pin-level tests | French-door tech sheets / separate manual |
-| Modular ice maker full test procedure (harvest, service test 56) | `whirlpoolmodularicemakerservicesheet-2225623.pdf` (queued) |
+| Modular ice maker full test procedure (harvest, service test 56) | [WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md](./WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md) |
 | Inverter / variable-capacity compressor | §5-7 overview only — no WRT pinouts |
 | Evaporator fan Ω (stepper vs shaded pole) | Functional test only for stepper |
 | Cabinet thermistor R/T for ADC models | Per-model tech sheet |

@@ -67,6 +67,51 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
     showWhen: [{ type: 'chip', id: 'ice_maker' }],
   },
   {
+    id: 'im_diag_power',
+    field: 'ice_maker_diagnostics.im_power_ln',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_mold_heater',
+    field: 'ice_maker_diagnostics.im_mold_heater_ohms',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_motor',
+    field: 'ice_maker_diagnostics.im_motor_ohms',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_bimetal',
+    field: 'ice_maker_diagnostics.im_bimetal_ohms',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_bimetal_v',
+    field: 'ice_maker_diagnostics.im_bimetal_th_voltage',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_valve',
+    field: 'ice_maker_diagnostics.im_water_valve_nv',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_fuse',
+    field: 'ice_maker_diagnostics.im_harness_fuse_ohms',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_fill_adj',
+    field: 'ice_maker_diagnostics.im_water_fill_adjustment',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
+    id: 'im_diag_notes',
+    field: 'ice_maker_diagnostics.im_test_point_notes',
+    showWhen: [{ type: 'chip', id: 'ice_maker' }],
+  },
+  {
     id: 'water_dispenser_functional',
     field: 'functional_checks.water_dispenser',
     showWhen: [{ type: 'chip', id: 'water_dispenser' }],

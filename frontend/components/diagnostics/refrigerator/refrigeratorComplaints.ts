@@ -49,7 +49,7 @@ export const REFRIGERATOR_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'ice_maker',
     label: 'Ice Maker Issue',
-    keywords: ['ice maker', 'no ice', 'not making ice', 'ice dispenser'],
+    keywords: ['ice maker', 'no ice', 'not making ice', 'ice dispenser', 'dry cycle', 'harvest', 'mold heater', 'test 56', 'im e2', 'im e3', 'im e4', 'im e5', '2225623', 'modular ice'],
   },
   {
     id: 'water_dispenser',
