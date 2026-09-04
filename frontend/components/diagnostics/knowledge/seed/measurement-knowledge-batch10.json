@@ -1,0 +1,150 @@
+[
+  {
+    "id": "whirlpoolWrtDefrostHeaterOhms",
+    "name": "Whirlpool Top-Mount Defrost Heater (W10330404)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 28, "max": 35 },
+      "warning": { "min": 25, "max": 40 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 29, "max": 33 },
+    "openCircuitCritical": true,
+    "purpose": "Dual-loop defrost heater on WRT/W8T/W4T top-mount — verify against tech sheet when available.",
+    "failureModes": [
+      "Open heater — no defrost, heavy evaporator frost",
+      "Short to sheath — ground fault; verify infinity from lead to sheath"
+    ],
+    "testingTips": [
+      "Power disconnected; unplug heater harness at evaporator",
+      "Example spec: ~30 Ω installed, ~33 Ω uninstalled (W10330404 §4-5)",
+      "Lead-to-sheath must read infinity"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt_top_mount"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolWrtDefrostBimetalOhms",
+    "name": "Whirlpool Top-Mount Defrost Bimetal / Terminator",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "warning": { "min": 0, "max": 5 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Defrost termination thermostat — closes below ~40°F frosted evaporator; opens 45–60°F after defrost.",
+    "failureModes": [
+      "Open when evaporator frosted — heater never energizes",
+      "Stuck closed — extended defrost / warm product"
+    ],
+    "testingTips": [
+      "Test at harness with power off",
+      "Frosted evaporator and bimetal cold: <1 Ω closed",
+      "Warm bimetal after defrost: infinity (open)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt_top_mount"
+    },
+    "dmaTags": ["defrost_thermostat", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolWrtPtcStartOhms",
+    "name": "Whirlpool Top-Mount PTC Start Device (cold)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3, "max": 8 },
+      "warning": { "min": 2, "max": 15 },
+      "critical": { "below": 1, "above": 1000 }
+    },
+    "typical": { "min": 4, "max": 6 },
+    "openCircuitCritical": true,
+    "purpose": "PTC thermistor start relay — cold resistance before heat-up; hot/open = failed or recently tripped.",
+    "failureModes": [
+      "OL when cold — open PTC; compressor won't start",
+      "Stays low after heat — stuck; allow 10 min cool-down before retest"
+    ],
+    "testingTips": [
+      "Disconnect from compressor; test cold only",
+      "~5 Ω cold; within 1–3 s under power rises to 100kΩ+",
+      "Do not rapid-cycle — wait ~10 min between attempts"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt_top_mount"
+    },
+    "dmaTags": ["compressor", "start_device"]
+  },
+  {
+    "id": "whirlpoolWrtCondenserFanOhms",
+    "name": "Whirlpool Top-Mount Condenser Fan (shaded pole)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 600, "max": 800 },
+      "warning": { "min": 500, "max": 900 },
+      "critical": { "below": 50, "above": 1200 }
+    },
+    "typical": { "min": 680, "max": 720 },
+    "openCircuitCritical": true,
+    "purpose": "Shaded-pole condenser fan motor winding — forced-air condenser models only.",
+    "failureModes": [
+      "OL — open winding; replace motor",
+      "Stepper evap/condenser motors cannot be ohm-tested — use 120 VAC functional test"
+    ],
+    "testingTips": [
+      "Disconnect wires; ohm across motor leads",
+      "Example: ~700 Ω shaded pole (W10330404 §5-3)",
+      "Do not ohm-test stepper motors"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt_top_mount"
+    },
+    "dmaTags": ["condenser_fan", "airflow"]
+  },
+  {
+    "id": "whirlpoolWrtIceMakerThermalFuseOhms",
+    "name": "Whirlpool Modular Ice Maker Harness Thermal Fuse",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "In-harness fuse on modular ice maker — opens if mold heater overheats.",
+    "failureModes": [
+      "OL — fuse blown; ice maker dead",
+      "Replace harness; verify mold heater after fuse event"
+    ],
+    "testingTips": [
+      "Ice maker removed and unplugged from cabinet",
+      "Ohm across thermal fuse (black wire) — 0 Ω closed"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana", "KitchenAid"],
+      "platformId": "whirlpool_wrt_top_mount"
+    },
+    "dmaTags": ["ice_maker"]
+  }
+]

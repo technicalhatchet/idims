@@ -1600,6 +1600,109 @@
       "explanation": "Whirlpool ice maker E4 dry cycle — no water detected at mold.",
       "recommendStepKey": "functional",
       "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_ms_wp_wrt_defrost_heater",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolWrtDefrostHeaterOhms", "statusIn": ["critical"] }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "WRT defrost heater out of ~30 Ω installed spec — open or shorted.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_ms_wp_wrt_bimetal_open",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolWrtDefrostBimetalOhms", "statusIn": ["critical"] }],
+      "target": "defrost_thermostat",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Defrost bimetal open at frosted evaporator — heater circuit cannot complete.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_thermostat"]
+    },
+    {
+      "id": "ref_ms_wp_wrt_ptc_open",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolWrtPtcStartOhms", "statusIn": ["critical"] }],
+      "target": "start_device",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "PTC start device open or out of cold ~5 Ω spec — compressor won't start.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor", "start_device"]
+    },
+    {
+      "id": "ref_ms_wp_wrt_im_fuse",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolWrtIceMakerThermalFuseOhms", "statusIn": ["critical"] }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Ice maker harness thermal fuse open — replace harness; check mold heater.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_kw_wp_rd",
+      "when": [{ "type": "keyword", "match": "rd" }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Whirlpool RD — defrost heater fault; WRT ~30 Ω at heater terminals.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_kw_wp_df",
+      "when": [{ "type": "keyword", "match": "df" }],
+      "target": "defrost_thermostat",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Whirlpool DF — defrost failure; check heater, bimetal, timer/ADC.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost"]
+    },
+    {
+      "id": "ref_kw_wp_ptc",
+      "when": [{ "type": "keyword", "match": "ptc" }],
+      "target": "start_device",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "PTC start device — cold ~5 Ω; allow 10 min cool-down between start attempts.",
+      "recommendStepKey": "sealedSystem",
+      "dmaTags": ["compressor"]
+    },
+    {
+      "id": "ref_kw_wp_im_fuse",
+      "when": [{ "type": "keyword", "match": "im fuse" }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Ice maker thermal fuse open — dead ice maker until harness replaced.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_kw_wp_control_off",
+      "when": [{ "type": "keyword", "match": "control off" }],
+      "target": "cold_control",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Temperature control at OFF — unit will not cool until control is advanced.",
+      "recommendStepKey": "commonly_missed",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_ms_wp_wrt_frost_heater_combo",
+      "when": [
+        { "type": "chip", "id": "frost_buildup" },
+        { "type": "measurement", "knowledgeId": "whirlpoolWrtDefrostHeaterOhms", "statusIn": ["critical"] }
+      ],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 24 },
+      "explanation": "Heavy frost + open WRT defrost heater — primary defrost path.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater", "frost_buildup"]
     }
   ]
 }

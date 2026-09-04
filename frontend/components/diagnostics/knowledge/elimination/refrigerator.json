@@ -60,6 +60,36 @@
       "confirm": ["defrost_heater_failed"]
     },
     {
+      "id": "wrt_heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolWrtDefrostHeaterOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_heater_ok"],
+      "confirm": ["defrost_heater_failed"]
+    },
+    {
+      "id": "wrt_heater_normal",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolWrtDefrostHeaterOhms", "statusIn": ["normal"] },
+      "eliminate": ["defrost_heater_failed"],
+      "confirm": ["defrost_heater_ok"]
+    },
+    {
+      "id": "wrt_bimetal_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolWrtDefrostBimetalOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_thermostat_ok"],
+      "confirm": ["defrost_thermostat_failed"]
+    },
+    {
+      "id": "wrt_bimetal_good",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolWrtDefrostBimetalOhms", "statusIn": ["normal"] },
+      "eliminate": ["defrost_thermostat_failed"],
+      "confirm": ["defrost_thermostat_ok"]
+    },
+    {
+      "id": "wrt_cold_control_off",
+      "when": { "type": "field", "path": "commonly_missed.cold_control_not_off", "equals": "unchecked" },
+      "eliminate": ["cooling_off_cleared"],
+      "confirm": ["cooling_off_active"]
+    },
+    {
       "id": "defrost_thermostat_ol",
       "when": { "type": "measurement", "knowledgeId": "defrostThermostatOhms", "statusIn": ["critical"] },
       "eliminate": ["defrost_thermostat_ok"],

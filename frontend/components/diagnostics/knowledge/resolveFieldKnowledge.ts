@@ -225,6 +225,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolWrtDefrostHeaterOhms', platformId: 'whirlpool_wrt_top_mount' },
         { knowledgeId: 'samsungRefrigeratorDefrostHeaterOhms', platformId: 'samsung_sxs' },
         {
           knowledgeId: 'mideaRssDefrostHeaterOhms',
@@ -235,7 +236,10 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       ],
     },
     'defrost_circuit.defrost_thermostat': {
-      candidates: [{ knowledgeId: 'defrostThermostatOhms', isDefault: true }],
+      candidates: [
+        { knowledgeId: 'whirlpoolWrtDefrostBimetalOhms', platformId: 'whirlpool_wrt_top_mount' },
+        { knowledgeId: 'defrostThermostatOhms', isDefault: true },
+      ],
     },
     'defrost_circuit.defrost_fuse': {
       candidates: [{ knowledgeId: 'defrostThermalFuseOhms', isDefault: true }],
@@ -258,6 +262,16 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'compressor_sealed_system.start_winding_ohms': {
       candidates: [{ knowledgeId: 'compressorRunWindingOhms', isDefault: true }],
+    },
+    'compressor_sealed_system.start_relay_overload': {
+      candidates: [
+        { knowledgeId: 'whirlpoolWrtPtcStartOhms', platformId: 'whirlpool_wrt_top_mount' },
+      ],
+    },
+    'compressor_sealed_system.ptc_start_ohms': {
+      candidates: [
+        { knowledgeId: 'whirlpoolWrtPtcStartOhms', platformId: 'whirlpool_wrt_top_mount' },
+      ],
     },
     'fans_and_electrical.condenser_fan_amps': {
       candidates: [{ knowledgeId: 'condenserFanAmps', isDefault: true }],
