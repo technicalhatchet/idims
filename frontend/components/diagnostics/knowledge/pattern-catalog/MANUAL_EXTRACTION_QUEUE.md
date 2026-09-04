@@ -14,6 +14,14 @@
 | `samsung-dryer-electric-gas.pdf` | [SAMSUNG_DRYER_MANUAL_COMPARISON.md](./SAMSUNG_DRYER_MANUAL_COMPARISON.md) | ✅ | ✅ merged |
 | `samsung-refrigerator-sxs-svc manual.pdf` | [SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md](./SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md) | ✅ | ✅ merged |
 | `Lg-lrmvs3006s-refrigerator-svc manual.pdf` | [LG_LRMVS3006S_EXTRACTION.md](./LG_LRMVS3006S_EXTRACTION.md) | ✅ | ✅ merged |
+| `w10330404-r-111.pdf` | [WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md](./WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md) | ✅ | ✅ merged |
+
+**Next in queue (user):**
+
+| PDF | Appliance | Notes |
+|-----|-----------|--------|
+| `wiring-sheet-W10674984-RevA wrt311fzdt00.pdf` | Refrigerator | WRT311FDZT00 model-specific measurements |
+| `whirlpoolmodularicemakerservicesheet-2225623.pdf` | Ice maker (reference) | Company-wide modular I/M test procedure — display or inline testing steps |
 
 ---
 

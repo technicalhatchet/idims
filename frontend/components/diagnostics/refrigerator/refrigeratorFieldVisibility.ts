@@ -132,4 +132,30 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
     field: 'defrost_circuit.lg_defrost_heater_voltage',
     showWhen: [{ type: 'platform', id: 'lg_lrmvs' }],
   },
+  {
+    id: 'wrt_defrost_timer_platform',
+    field: 'defrost_circuit.defrost_timer_test',
+    showWhen: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
+  },
+  {
+    id: 'wrt_defrost_timer_frost',
+    field: 'defrost_circuit.defrost_timer_test',
+    showWhen: [{ type: 'chip', id: 'frost_buildup' }],
+  },
+  {
+    id: 'wrt_ptc_start_ohms',
+    field: 'compressor_sealed_system.ptc_start_ohms',
+    showWhen: [
+      { type: 'platform', id: 'whirlpool_wrt_top_mount' },
+      { type: 'chip', id: 'compressor_wont_start' },
+    ],
+  },
+  {
+    id: 'wrt_cold_control_not_off',
+    field: 'commonly_missed.cold_control_not_off',
+    showWhen: [
+      { type: 'platform', id: 'whirlpool_wrt_top_mount' },
+      { type: 'chip', id: 'not_cooling' },
+    ],
+  },
 ];

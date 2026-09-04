@@ -103,6 +103,7 @@ export const DIAGNOSTIC_TEMPLATES = [
         chk('leveling', 'Unit level / door swing'),
         chk('ice_maker_fill_tube', 'Ice maker fill tube / filter'),
         chk('cooling_off_ruled_out', 'Cooling Off / demo mode ruled out'),
+        chk('cold_control_not_off', 'Cold control not at OFF'),
       ]),
       {
         id: 'temperature_checks',
@@ -160,6 +161,7 @@ export const DIAGNOSTIC_TEMPLATES = [
           txt('common_to_start_ohms', 'Common to start (Ω)'),
           txt('compressor_voltage', 'Voltage at compressor / relay'),
           txt('start_relay_overload', 'Start relay / overload (part # or test)'),
+          txt('ptc_start_ohms', 'PTC start device resistance (Ω, cold)'),
           txt('start_capacitor_uf', 'Start capacitor (µF)'),
           txt('suction_line_feel', 'Suction line temp / frost pattern'),
           txt('discharge_line_feel', 'Discharge line temp / feel'),
@@ -172,6 +174,7 @@ export const DIAGNOSTIC_TEMPLATES = [
         fields: [
           txt('defrost_heater_ohms', 'Defrost heater resistance (Ω)'),
           txt('defrost_thermostat', 'Defrost thermostat / bi-metal'),
+          txt('defrost_timer_test', 'Defrost timer contacts (1-2 / 1-4)'),
           txt('defrost_fuse', 'Defrost fuse / thermal fuse'),
           txt('defrost_thermistor', 'Defrost thermistor (Ω or °F)'),
           txt('lg_defrost_heater_voltage', 'LG defrost heater voltage Test Mode 3 (V, 112–116)'),

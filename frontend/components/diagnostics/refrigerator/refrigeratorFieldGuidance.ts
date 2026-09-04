@@ -57,6 +57,10 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
         when: [makeWhen('lg')],
         text: 'LG: F heater 62–70 Ω, R heater 103–119 Ω. Open heater = no defrost.',
       },
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
+        text: 'Whirlpool WRT top-mount: defrost heater ~30 Ω installed / ~33 Ω uninstalled (W10330404). Lead-to-sheath must be infinity.',
+      },
     ],
     'Open heater = no defrost. Many brands ~26–32 Ω at room temp.',
   ),
@@ -76,6 +80,35 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
       text: 'Samsung: door open ≈5 V, closed ≈0 V at CN20. Stuck open stops F-fan and triggers door alarm.',
     },
   ]),
+  'defrost_circuit.defrost_thermostat': scopedHelp(
+    [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
+        text: 'WRT bimetal: <1 Ω closed when evaporator frosted (<40°F); infinity when warm. Opens at 45–60°F to end defrost.',
+      },
+    ],
+    'Closed (near 0 Ω) when evaporator is frosted/cold — opens when warm after defrost.',
+  ),
+  'defrost_circuit.defrost_timer_test': scopedHelp(
+    [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
+        text: 'Cool mode: 1-2 = 0 Ω, 1-4 = OL. Defrost mode: 1-2 = OL, 1-4 = 0 Ω. Advance cam until snap into defrost to verify.',
+      },
+    ],
+    'Mechanical timer only — ADC models use adaptive defrost board instead.',
+  ),
+  'compressor_sealed_system.ptc_start_ohms': scopedHelp(
+    [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
+        text: 'Cold PTC ~5 Ω; heats to 100kΩ+ in 1–3 s. Wait 10 min cool-down between start attempts.',
+      },
+    ],
+    'PTC/solid-state start device — test cold only with power disconnected.',
+  ),
+  'commonly_missed.cold_control_not_off':
+    'Mechanical top-mount: temperature control at OFF stops all cooling — verify before sealed-system work.',
   'functional_checks.fans_on_compressor_off':
     'Fans run with compressor off = Cooling Off / exhibition mode until proven otherwise.',
   'functional_checks.display_panel': scopedHelp([
@@ -138,6 +171,10 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
     {
       when: [makeWhen('insignia')],
       text: 'Insignia/Midea: E0=ice maker, E1=FF sensor, E2=FZ sensor (B3839 NTC), E5=defrost, E6=display comm.',
+    },
+    {
+      when: [makeWhen('whirlpool')],
+      text: 'Whirlpool WRT (mechanical): RD/DF=defrost, PTC/OL=compressor start. Electronic display: E1–E3 sensors, E5 ice maker, PO power loss.',
     },
   ]),
   'diagnosis.root_cause':

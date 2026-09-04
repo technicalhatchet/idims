@@ -163,6 +163,35 @@ function expandErrorCodeTokens(text: string): string {
     extras.push('demo mode', 'cooling off', 'not cooling');
   }
 
+  // Whirlpool top-mount refrigerator (W10330404 / WRT family) — mechanical + electronic codes
+  if (/\b(rd|df)\b/.test(base)) {
+    extras.push('defrost heater', 'defrost', 'frost buildup');
+  }
+  if (/\bptc\b/.test(base) || /\bptcopen\b/.test(base)) {
+    extras.push('compressor', 'start device', 'compressor wont start');
+  }
+  if (/\b(im\s*fuse|imfuse)\b/.test(base)) {
+    extras.push('ice maker', 'no ice');
+  }
+  if (/\btimer\b/.test(base) && base.includes('defrost')) {
+    extras.push('defrost', 'frost buildup');
+  }
+  if (/\bcontrol\s*off\b/.test(base) || /\bcontroloff\b/.test(base)) {
+    extras.push('not cooling', 'cold control');
+  }
+  if (/\b(ol|overload)\b/.test(base) && (base.includes('compressor') || base.includes('comp'))) {
+    extras.push('compressor wont start', 'ptc');
+  }
+  if (/\b(e\s*)?[0-9]\b/.test(base) && /\b(e0|e1|e2|e3|e5|e6|e9|f0|f1|f2|f3|f5|f6|f9)\b/.test(base)) {
+    extras.push('error code', 'thermistor', 'defrost');
+  }
+  if (/\bdefrost\b/.test(base) && /\b(cycle|progress|in progress)\b/.test(base)) {
+    extras.push('running often', 'not cooling');
+  }
+  if (/\btemperature control\b/.test(base) && /\boff\b/.test(base)) {
+    extras.push('not cooling', 'cold control');
+  }
+
   // Whirlpool front-load washer (W11169652 / direct-drive ACU)
   if (/\bf0e5\b|\bob\b/.test(base)) {
     extras.push('vibration', 'off balance', 'unbalance', 'wont spin');
