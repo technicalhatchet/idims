@@ -191,6 +191,12 @@ function expandErrorCodeTokens(text: string): string {
   if (/\btemperature control\b/.test(base) && /\boff\b/.test(base)) {
     extras.push('not cooling', 'cold control');
   }
+  if (/\badc\b/.test(base) || /\badc2000\b/.test(base) || /\badc test\b/.test(base)) {
+    extras.push('defrost', 'frost buildup', 'defrost heater');
+  }
+  if (/\bwrt311\b/.test(base)) {
+    extras.push('defrost', 'compressor', 'not cooling');
+  }
 
   // Whirlpool front-load washer (W11169652 / direct-drive ACU)
   if (/\bf0e5\b|\bob\b/.test(base)) {

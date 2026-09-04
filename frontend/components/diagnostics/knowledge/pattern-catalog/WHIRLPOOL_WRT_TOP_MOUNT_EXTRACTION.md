@@ -7,7 +7,7 @@
 
 Cross-reference: [SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md](./SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md), [LG_LRMVS3006S_EXTRACTION.md](./LG_LRMVS3006S_EXTRACTION.md), [WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md](./WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md) (electronic-display codes).
 
-**Follow-up manual (model-specific):** `wiring-sheet-W10674984-RevA wrt311fzdt00.pdf` — WRT311FDZT00 pin/measurement sheet (queue).
+**Follow-up manual (model-specific):** [WRT311FDZT00_W10674984_EXTRACTION.md](./WRT311FDZT00_W10674984_EXTRACTION.md) — ADC 2000 wiring sheet (WRT311* heater 30–42 Ω, voltage test points).
 
 ---
 
@@ -135,7 +135,7 @@ Highlights:
 
 | Gap | Follow-up |
 |-----|-----------|
-| Model-specific thermistor Ω tables | WRT311FDZT00 wiring sheet (queued) |
+| Model-specific thermistor Ω tables | Not on W10674984 wiring sheet — separate tech sheet if needed |
 | Electronic display E0–F9 pin-level tests | French-door tech sheets / separate manual |
 | Modular ice maker full test procedure (harvest, service test 56) | `whirlpoolmodularicemakerservicesheet-2225623.pdf` (queued) |
 | Inverter / variable-capacity compressor | §5-7 overview only — no WRT pinouts |

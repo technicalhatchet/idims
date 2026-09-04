@@ -84,6 +84,24 @@
       "confirm": ["defrost_thermostat_ok"]
     },
     {
+      "id": "wrt311_heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolWrt311DefrostHeaterOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_heater_ok"],
+      "confirm": ["defrost_heater_failed"]
+    },
+    {
+      "id": "wrt311_heater_normal",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolWrt311DefrostHeaterOhms", "statusIn": ["normal"] },
+      "eliminate": ["defrost_heater_failed"],
+      "confirm": ["defrost_heater_ok"]
+    },
+    {
+      "id": "wrt311_bimetal_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolWrt311DefrostBimetalOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_thermostat_ok"],
+      "confirm": ["defrost_thermostat_failed"]
+    },
+    {
       "id": "wrt_cold_control_off",
       "when": { "type": "field", "path": "commonly_missed.cold_control_not_off", "equals": "unchecked" },
       "eliminate": ["cooling_off_cleared"],

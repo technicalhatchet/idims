@@ -1,0 +1,144 @@
+[
+  {
+    "id": "whirlpoolWrt311DefrostHeaterOhms",
+    "name": "Whirlpool WRT311 ADC Defrost Heater (W10674984)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 30, "max": 42 },
+      "warning": { "min": 26, "max": 48 },
+      "critical": { "below": 5, "above": 55 }
+    },
+    "typical": { "min": 32, "max": 38 },
+    "openCircuitCritical": true,
+    "purpose": "WRT311FDZT00 wiring sheet — 350–480 W @ 120 VAC (42–30 Ω). Embraco EM3Z/EM3D platform.",
+    "failureModes": [
+      "Open heater — no defrost, evaporator frost",
+      "Out of 30–42 Ω band — wrong heater or partial short"
+    ],
+    "testingTips": [
+      "Power off; ohm at defrost heater terminals on evaporator",
+      "Differs from W10330404 job-aid ~30 Ω — use this sheet for WRT311* ADC models"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt311_adc"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolWrt311DefrostBimetalOhms",
+    "name": "Whirlpool WRT311 Defrost Bi-Metal (W10674984)",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "warning": { "min": 0, "max": 5 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Service bi-metal opens at 58°F per W10674984 — closed when evaporator cold/frosted.",
+    "failureModes": [
+      "Open when frosted — heater never runs",
+      "Stuck closed — extended defrost"
+    ],
+    "testingTips": [
+      "Test at harness with power disconnected",
+      "Closed when cold/frosted; opens at ~58°F on this platform"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt311_adc"
+    },
+    "dmaTags": ["defrost_thermostat", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolWrt311AdcDefrostHeaterVoltage",
+    "name": "Whirlpool WRT311 ADC Defrost Heater Output (P2–P6)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 110, "max": 125 },
+      "warning": { "min": 100, "max": 130 },
+      "critical": { "below": 90, "above": 135 }
+    },
+    "typical": { "min": 115, "max": 120 },
+    "purpose": "ADC 2000 pin P2 (PK) to P6 (WH) — 120 VAC to defrost heater when energized (defrost or test mode).",
+    "failureModes": [
+      "0 V during forced defrost — ADC relay or wiring",
+      "120 V present but no heat — open heater or bi-metal"
+    ],
+    "testingTips": [
+      "Enter ADC defrost test mode (thermostat sequence) with bi-metal closed",
+      "Measure P2 (PK) to P6 (WH) at ADC connector"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt311_adc"
+    },
+    "dmaTags": ["defrost_heater", "defrost"]
+  },
+  {
+    "id": "whirlpoolWrt311AdcCoolingOutputVoltage",
+    "name": "Whirlpool WRT311 ADC Cooling Output (P6–P4)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 110, "max": 125 },
+      "warning": { "min": 100, "max": 130 },
+      "critical": { "below": 90, "above": 135 }
+    },
+    "typical": { "min": 115, "max": 120 },
+    "purpose": "ADC 2000 P6 (WH) to P4 (OR) — 120 VAC to compressor, evap fan, and condenser fan when cooling.",
+    "failureModes": [
+      "No voltage when thermostat calling — ADC or thermostat",
+      "Voltage present but compressor off — PTC, overload, or compressor"
+    ],
+    "testingTips": [
+      "Thermostat calling; compressor should be running or starting",
+      "Also verify P1 (BK) to P6 (WH) constant 120 VAC when plugged in"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt311_adc"
+    },
+    "dmaTags": ["compressor", "control_board"]
+  },
+  {
+    "id": "whirlpoolWrt311SealedSystemWatts70F",
+    "name": "Whirlpool WRT311 Total Wattage @ 70°F Ambient",
+    "unit": "W",
+    "inputKind": "power",
+    "ranges": {
+      "normal": { "min": 100, "max": 140 },
+      "warning": { "min": 80, "max": 160 },
+      "critical": { "below": 50, "above": 200 }
+    },
+    "typical": { "min": 110, "max": 130 },
+    "purpose": "W10674984 performance table — total watts at 70°F ambient during normal run.",
+    "failureModes": [
+      "Very low watts — compressor not pumping or off",
+      "Very high watts — high ambient, restriction, or shorted load"
+    ],
+    "testingTips": [
+      "Compare to 90°F (130±20 W) and 110°F (140±20 W) bands when room is hot",
+      "Pair with high/low side PSIG from same table when gauges available"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt311_adc"
+    },
+    "dmaTags": ["sealed_system", "compressor"]
+  }
+]

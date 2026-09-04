@@ -61,6 +61,10 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
         when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
         text: 'Whirlpool WRT top-mount: defrost heater ~30 Ω installed / ~33 Ω uninstalled (W10330404). Lead-to-sheath must be infinity.',
       },
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
+        text: 'WRT311 (W10674984): defrost heater 30–42 Ω (350–480 W). Not the same as older W10330404 ~30 Ω spec.',
+      },
     ],
     'Open heater = no defrost. Many brands ~26–32 Ω at room temp.',
   ),
@@ -83,11 +87,38 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
   'defrost_circuit.defrost_thermostat': scopedHelp(
     [
       {
-        when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
-        text: 'WRT bimetal: <1 Ω closed when evaporator frosted (<40°F); infinity when warm. Opens at 45–60°F to end defrost.',
+        when: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
+        text: 'WRT311 bi-metal opens at 58°F per wiring sheet. Closed when evaporator frosted/cold.',
       },
     ],
     'Closed (near 0 Ω) when evaporator is frosted/cold — opens when warm after defrost.',
+  ),
+  'defrost_circuit.adc_heater_output_v': scopedHelp(
+    [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
+        text: 'ADC 2000: P2 (PK) to P6 (WH) = 120 VAC when defrost heater energized. Enter test mode via thermostat OFF/ON sequence; bi-metal must be closed.',
+      },
+    ],
+    'ADC defrost heater line voltage at board connector.',
+  ),
+  'fans_and_electrical.adc_cooling_output_v': scopedHelp(
+    [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
+        text: 'ADC 2000: P6 (WH) to P4 (OR) = 120 VAC to compressor, evap fan, and cond fan when cooling. P1 (BK) to P6 (WH) constant 120 VAC plugged in.',
+      },
+    ],
+    'ADC cooling relay output voltage.',
+  ),
+  'functional_checks.adc_defrost_test_entered': scopedHelp(
+    [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
+        text: 'W10674984: OFF 30 s → therm OFF → power on, OR therm OFF 15 s / ON 5 s ×3 → OFF. Relay click; heater up to 18 min or until bi-metal opens.',
+      },
+    ],
+    'Electronic defrost test mode — ADC 2000 models only.',
   ),
   'defrost_circuit.defrost_timer_test': scopedHelp(
     [
@@ -174,7 +205,7 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
     },
     {
       when: [makeWhen('whirlpool')],
-      text: 'Whirlpool WRT (mechanical): RD/DF=defrost, PTC/OL=compressor start. Electronic display: E1–E3 sensors, E5 ice maker, PO power loss.',
+      text: 'Whirlpool WRT (mechanical): RD/DF=defrost, PTC/OL=compressor start. WRT311 ADC: use defrost test mode + P2–P6 voltage. Electronic display: E1–E3 sensors, E5 ice maker, PO power loss.',
     },
   ]),
   'diagnosis.root_cause':
