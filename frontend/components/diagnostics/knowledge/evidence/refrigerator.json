@@ -1741,6 +1741,69 @@
       "dmaTags": ["control_board", "compressor"]
     },
     {
+      "id": "ref_kw_im_e2_motor",
+      "when": [{ "type": "keyword", "match": "ice e2" }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "IM E2 — motor home not found; L–M should read 8800 Ω off support.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_kw_im_e3_heater",
+      "when": [{ "type": "keyword", "match": "ice e3" }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "IM E3 — mold heater timeout; L–H should read 72 Ω.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_ms_im_mold_heater",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerMoldHeaterOhms", "statusIn": ["critical"] }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Modular ice maker L–H heater out of 72 Ω spec — open mold heater.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_ms_im_motor_open",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerMotorOhms", "statusIn": ["critical"] }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Modular ice maker L–M motor open — 8800 Ω expected off support.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_ms_im_fuse_open",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolModularIceMakerHarnessFuseOhms", "statusIn": ["critical"] }],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Ice maker harness thermal fuse open — replace harness; check L–H heater.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
+      "id": "ref_ms_im_e4_dry_valve",
+      "when": [
+        { "type": "chip", "id": "ice_maker" },
+        { "type": "keyword", "match": "dry cycle" }
+      ],
+      "target": "ice_maker_module",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "Dry cycle — no water at mold; check N–V valve voltage and fill.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["ice_maker"]
+    },
+    {
       "id": "ref_kw_wp_adc_test",
       "when": [{ "type": "keyword", "match": "adc test" }],
       "target": "control_board",

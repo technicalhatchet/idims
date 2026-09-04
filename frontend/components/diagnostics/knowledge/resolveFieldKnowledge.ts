@@ -331,6 +331,26 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'defrost_circuit.lg_defrost_heater_voltage': {
       candidates: [{ knowledgeId: 'lgDefrostHeaterVoltage', platformId: 'lg_lrmvs' }],
     },
+    'ice_maker_diagnostics.im_mold_heater_ohms': {
+      candidates: [
+        { knowledgeId: 'whirlpoolModularIceMakerMoldHeaterOhms', platformId: 'whirlpool_modular_ice_maker' },
+      ],
+    },
+    'ice_maker_diagnostics.im_motor_ohms': {
+      candidates: [
+        { knowledgeId: 'whirlpoolModularIceMakerMotorOhms', platformId: 'whirlpool_modular_ice_maker' },
+      ],
+    },
+    'ice_maker_diagnostics.im_bimetal_ohms': {
+      candidates: [
+        { knowledgeId: 'whirlpoolModularIceMakerBimetalOhms', platformId: 'whirlpool_modular_ice_maker' },
+      ],
+    },
+    'ice_maker_diagnostics.im_harness_fuse_ohms': {
+      candidates: [
+        { knowledgeId: 'whirlpoolModularIceMakerHarnessFuseOhms', platformId: 'whirlpool_modular_ice_maker' },
+      ],
+    },
   },
 };
 

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "whirlpoolModularIceMakerMoldHeaterOhms",
+    "name": "Whirlpool Modular Ice Maker Mold Heater (L–H)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 65, "max": 79 },
+      "warning": { "min": 55, "max": 90 },
+      "critical": { "below": 10, "above": 120 }
+    },
+    "typical": { "min": 70, "max": 74 },
+    "openCircuitCritical": true,
+    "purpose": "2225623 service sheet — mold heater 185 W @ 120 V = 72 Ω at test points L–H (module on support).",
+    "failureModes": [
+      "Open L–H — no harvest heat (IM E3 heater timeout on test 56)",
+      "Out of band — wrong module or partial short"
+    ],
+    "testingTips": [
+      "Power off; ejector blades in park; heater attached to support",
+      "Live: L–H line voltage = heater ON; 0 V = OFF"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator", "standalone_freezer"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+      "platformId": "whirlpool_modular_ice_maker"
+    },
+    "dmaTags": ["ice_maker", "defrost_heater"]
+  },
+  {
+    "id": "whirlpoolModularIceMakerMotorOhms",
+    "name": "Whirlpool Modular Ice Maker Motor (L–M)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 7500, "max": 9500 },
+      "warning": { "min": 6000, "max": 11000 },
+      "critical": { "below": 1000, "above": 15000 }
+    },
+    "typical": { "min": 8600, "max": 9000 },
+    "openCircuitCritical": true,
+    "purpose": "2225623 — ejector motor 8800 Ω at L–M with motor disconnected from support.",
+    "failureModes": [
+      "Open winding — no harvest (IM E2 motor home not found)",
+      "Motor runs but no eject — module cam or blade coupling"
+    ],
+    "testingTips": [
+      "Disconnect motor from support before ohm test",
+      "Live: L–M line voltage = motor ON during cycle"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator", "standalone_freezer"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+      "platformId": "whirlpool_modular_ice_maker"
+    },
+    "dmaTags": ["ice_maker"]
+  },
+  {
+    "id": "whirlpoolModularIceMakerBimetalOhms",
+    "name": "Whirlpool Modular Ice Maker Bimetal (cold)",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "warning": { "min": 0, "max": 10 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Module bimetal closes ≤17°F ±3°; opens 32°F ±3° — harvest thermostat.",
+    "failureModes": [
+      "Stuck open when cold — no harvest cycle",
+      "Stuck closed — heater runs continuously"
+    ],
+    "testingTips": [
+      "Unpowered: continuity when mold cold",
+      "Powered: T–H 0 V = closed; line voltage = open"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator", "standalone_freezer"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+      "platformId": "whirlpool_modular_ice_maker"
+    },
+    "dmaTags": ["ice_maker", "defrost_thermostat"]
+  },
+  {
+    "id": "whirlpoolModularIceMakerHarnessFuseOhms",
+    "name": "Whirlpool Modular Ice Maker Harness Thermal Fuse",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "In-harness fuse opens if mold heater overheats — dead ice maker until harness replaced.",
+    "failureModes": [
+      "OL — fuse blown after mold heater fault",
+      "Replace harness; verify L–H heater after event"
+    ],
+    "testingTips": [
+      "Ice maker unplugged from cabinet; ohm fuse in harness (often black wire)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator", "freezer"],
+      "templates": ["refrigerator", "standalone_freezer"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+      "platformId": "whirlpool_modular_ice_maker"
+    },
+    "dmaTags": ["ice_maker"]
+  }
+]

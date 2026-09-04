@@ -296,9 +296,27 @@ function expandErrorCodeTokens(text: string): string {
   if (/\bdemo\b/.test(base) && base.includes('show')) {
     extras.push('demo mode', 'cooling off', 'not cooling');
   }
-  // Whirlpool/KitchenAid ice maker service codes (test 56)
+  // Whirlpool/KitchenAid ice maker service codes (test 56) + modular 2225623
   if (/\bice\s*e1\b|\be1\s*ice\b/.test(base)) {
     extras.push('ice maker', 'no cooling', 'sealed system');
+  }
+  if (/\bice\s*e2\b|\be2\s*ice\b|\b8800\b/.test(base)) {
+    extras.push('ice maker', 'motor', 'harvest');
+  }
+  if (/\bice\s*e3\b|\be3\s*ice\b/.test(base) && base.includes('ice')) {
+    extras.push('ice maker', 'mold heater', '72');
+  }
+  if (/\bdry cycle\b/.test(base) || (/\be4\b/.test(base) && base.includes('ice'))) {
+    extras.push('ice maker', 'water valve', 'fill', 'no ice');
+  }
+  if (/\bice\s*e5\b|\be5\s*ice\b/.test(base)) {
+    extras.push('ice maker', 'thermistor', 'sensor');
+  }
+  if (/\btest\s*56\b|\b2225623\b|\bmodular ice\b/.test(base)) {
+    extras.push('ice maker', 'module test', 'harvest');
+  }
+  if (/\b72\s*ohm\b/.test(base) && base.includes('ice')) {
+    extras.push('ice maker', 'mold heater');
   }
 
   // Dishwasher ACU / Insignia / LG

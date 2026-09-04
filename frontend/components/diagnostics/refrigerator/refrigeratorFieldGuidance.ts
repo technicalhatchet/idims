@@ -40,7 +40,7 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
   'functional_checks.defrost_cycle_observed':
     'Manual defrost or forced defrost mode helps confirm heater and termination thermostat.',
   'functional_checks.ice_maker_operation':
-    'Check fill tube freeze-up, filter, saddle valve, and harvest cycle if equipped.',
+    'Check shut-off arm, fill tube freeze, filter, and harvest. Whirlpool modular: use L–N / L–H / L–M / N–V test points (2225623).',
   'functional_checks.water_dispenser':
     'Verify filter, reservoir freeze, inlet valve, and door switch if no water.',
   'defrost_circuit.defrost_heater_ohms': scopedHelp(
@@ -137,6 +137,60 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
       },
     ],
     'PTC/solid-state start device — test cold only with power disconnected.',
+  ),
+  'ice_maker_diagnostics.im_mold_heater_ohms': scopedHelp(
+    [
+      {
+        when: [makeWhen('whirlpool'), makeWhen('maytag'), makeWhen('kitchenaid'), makeWhen('amana')],
+        text: '2225623: L–H = 72 Ω (185 W) with heater on support, blades in park, power off.',
+      },
+    ],
+    'Modular ice maker mold heater resistance at test points L–H.',
+  ),
+  'ice_maker_diagnostics.im_motor_ohms': scopedHelp(
+    [
+      {
+        when: [makeWhen('whirlpool'), makeWhen('maytag'), makeWhen('kitchenaid'), makeWhen('amana')],
+        text: '2225623: L–M = 8800 Ω with motor disconnected from support.',
+      },
+    ],
+    'Ejector motor winding — disconnect from support before ohm test.',
+  ),
+  'ice_maker_diagnostics.im_bimetal_th_voltage': scopedHelp(
+    [
+      {
+        when: [makeWhen('whirlpool'), makeWhen('maytag'), makeWhen('kitchenaid'), makeWhen('amana')],
+        text: 'Powered: T–H line voltage = bimetal open; 0 V = closed. Closes ≤17°F; opens 32°F ±3°.',
+      },
+    ],
+    'Live bimetal state at module test points T–H.',
+  ),
+  'ice_maker_diagnostics.im_water_valve_nv': scopedHelp(
+    [
+      {
+        when: [makeWhen('whirlpool'), makeWhen('maytag'), makeWhen('kitchenaid'), makeWhen('amana')],
+        text: 'During fill: N–V should read line voltage. No voltage = dry cycle / IM E4 path.',
+      },
+    ],
+    'Water valve energize check at test points N–V.',
+  ),
+  'ice_maker_diagnostics.im_water_fill_adjustment': scopedHelp(
+    [
+      {
+        when: [makeWhen('whirlpool'), makeWhen('maytag'), makeWhen('kitchenaid'), makeWhen('amana')],
+        text: 'Clockwise decreases fill. 1/2 turn ≈ 20 cc; 1 turn ≈ 40 cc. Max 1 turn either way.',
+      },
+    ],
+    'Factory fill 140 cc / 7.5 s — adjust only if over/under filling.',
+  ),
+  'ice_maker_diagnostics.im_test_point_notes': scopedHelp(
+    [
+      {
+        when: [makeWhen('whirlpool'), makeWhen('maytag'), makeWhen('kitchenaid'), makeWhen('amana')],
+        text: 'Test points L,N,M,T,H,V on module face. Ohms: L–H heater, L–M motor. Voltage: L–N power, T–H bimetal, N–V valve.',
+      },
+    ],
+    'Whirlpool modular ice maker 2225623 procedure reference.',
   ),
   'commonly_missed.cold_control_not_off':
     'Mechanical top-mount: temperature control at OFF stops all cooling — verify before sealed-system work.',

@@ -118,7 +118,7 @@ Bi-metal must be **closed** to enter.
 | Cabinet thermistor R/T table | Not on this 2-page wiring sheet — use separate tech sheet if needed |
 | Evap fan Ω | Wattage only; no winding ohms on sheet |
 | PTC / run cap values | Refer to part numbers on component (NOTE #6) |
-| Modular ice maker test | Queued: `whirlpoolmodularicemakerservicesheet-2225623.pdf` |
+| Modular ice maker test | [WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md](./WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md) |
 | OCR layer | PDF is pure scan — transcription in `-extracted.txt` |
 
 ---

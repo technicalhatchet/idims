@@ -6027,7 +6027,7 @@
     "code_normalized": "IMFUSE",
     "meaning": "Ice maker harness thermal fuse open",
     "common_causes": "Mold heater stuck on; prior overheat event",
-    "recommended_fix": "0 Ω across fuse when closed. If open, replace harness and verify mold heater operation",
+    "recommended_fix": "0 Ω across fuse when closed. If open, replace harness; verify L–H mold heater 72 Ω (2225623)",
     "alias_group_id": "9a6c1e34-5b78-6dab-bf23-4e0a718c9d03",
     "related_codes": [
       "IMFUSE"
@@ -6071,6 +6071,120 @@
     "related_codes": [
       "ADCTEST",
       "DF"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E2",
+    "code_normalized": "IME2",
+    "meaning": "Ice maker motor home not found (test 56)",
+    "common_causes": "Open ejector motor; cam coupling; module fault",
+    "recommended_fix": "2225623: L–M 8800 Ω off support; live L–M = motor ON during cycle. Replace module if motor open",
+    "alias_group_id": "de0a5268-9f1b-4d2c-a013-704e85cf0d41",
+    "related_codes": [
+      "IME2",
+      "E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E3",
+    "code_normalized": "IME3",
+    "meaning": "Ice maker mold heater time-out (test 56)",
+    "common_causes": "Open mold heater; stuck bimetal; harness fuse blown",
+    "recommended_fix": "2225623: L–H 72 Ω heater; T–H bimetal closes cold; check IMFUSE harness",
+    "alias_group_id": "ef1b6379-a02c-5e3d-b124-815f96de1e52",
+    "related_codes": [
+      "IME3",
+      "E3",
+      "IMFUSE"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E4",
+    "code_normalized": "IME4",
+    "meaning": "Ice maker dry cycle — no water at mold (test 56)",
+    "common_causes": "Water valve not opening; low fill; frozen fill tube; fill adjustment",
+    "recommended_fix": "2225623: N–V line voltage during fill; spec 140 cc / 7.5 s. Adjust fill CW decreases (½ turn ≈ 20 cc)",
+    "alias_group_id": "f02c7480-b13d-6f4e-c235-9260a7ef2f63",
+    "related_codes": [
+      "IME4",
+      "E4"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E5",
+    "code_normalized": "IME5",
+    "meaning": "Ice maker thermistor fault (test 56)",
+    "common_causes": "Open/short ice maker thermistor; harness",
+    "recommended_fix": "French-door test 56 E5 path; modular 2225623 uses bimetal T–H (closes ≤17°F, opens 32°F)",
+    "alias_group_id": "a13d8591-c24e-705f-d346-a371b8f03741",
+    "related_codes": [
+      "IME5",
+      "E5"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E2",
+    "code_normalized": "IME2",
+    "meaning": "Ice maker motor home not found (test 56)",
+    "common_causes": "Open ejector motor; cam coupling; module fault",
+    "recommended_fix": "2225623: L–M 8800 Ω off support; live L–M = motor ON during cycle",
+    "alias_group_id": "de0a5268-9f1b-4d2c-a013-704e85cf0d41",
+    "related_codes": [
+      "IME2",
+      "E2"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E3",
+    "code_normalized": "IME3",
+    "meaning": "Ice maker mold heater time-out (test 56)",
+    "common_causes": "Open mold heater; stuck bimetal; harness fuse blown",
+    "recommended_fix": "2225623: L–H 72 Ω heater; T–H bimetal; check harness fuse",
+    "alias_group_id": "ef1b6379-a02c-5e3d-b124-815f96de1e52",
+    "related_codes": [
+      "IME3",
+      "E3",
+      "IMFUSE"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E4",
+    "code_normalized": "IME4",
+    "meaning": "Ice maker dry cycle — no water at mold (test 56)",
+    "common_causes": "Water valve not opening; low fill; frozen fill tube",
+    "recommended_fix": "2225623: N–V line voltage during fill; 140 cc / 7.5 s spec",
+    "alias_group_id": "f02c7480-b13d-6f4e-c235-9260a7ef2f63",
+    "related_codes": [
+      "IME4",
+      "E4"
+    ]
+  },
+  {
+    "manufacturer": "KitchenAid",
+    "equipment_subtype": "refrigerator",
+    "code": "IM E5",
+    "code_normalized": "IME5",
+    "meaning": "Ice maker thermistor fault (test 56)",
+    "common_causes": "Open/short ice maker thermistor; harness",
+    "recommended_fix": "Test 56 E5 thermistor path; modular uses bimetal T–H per 2225623",
+    "alias_group_id": "a13d8591-c24e-705f-d346-a371b8f03741",
+    "related_codes": [
+      "IME5",
+      "E5"
     ]
   },
   {
