@@ -1703,6 +1703,52 @@
       "explanation": "Heavy frost + open WRT defrost heater — primary defrost path.",
       "recommendStepKey": "defrost",
       "dmaTags": ["defrost_heater", "frost_buildup"]
+    },
+    {
+      "id": "ref_ms_wp_wrt311_defrost_heater",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolWrt311DefrostHeaterOhms", "statusIn": ["critical"] }],
+      "target": "heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "WRT311 defrost heater out of 30–42 Ω (W10674984) — open or wrong heater.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_ms_wp_wrt311_adc_heater_v",
+      "when": [
+        { "type": "measurement", "knowledgeId": "whirlpoolWrt311AdcDefrostHeaterVoltage", "statusIn": ["critical"] },
+        { "type": "field", "path": "functional_checks.adc_defrost_test_entered", "equals": "yes" }
+      ],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "ADC test mode entered but no 120 V at P2–P6 — ADC relay or harness.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater", "control_board"]
+    },
+    {
+      "id": "ref_ms_wp_wrt311_adc_cooling_v",
+      "when": [
+        { "type": "chip", "id": "not_cooling" },
+        { "type": "measurement", "knowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage", "statusIn": ["critical"] }
+      ],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "increase", "value": 20 },
+      "explanation": "Not cooling + no ADC P6–P4 output — thermostat, ADC, or wiring before sealed system.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["control_board", "compressor"]
+    },
+    {
+      "id": "ref_kw_wp_adc_test",
+      "when": [{ "type": "keyword", "match": "adc test" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "WRT311 ADC 2000 defrost test — thermostat OFF/ON sequence; verify P2–P6 heater voltage.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost"]
     }
   ]
 }

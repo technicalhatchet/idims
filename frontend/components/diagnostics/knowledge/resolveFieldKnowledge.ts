@@ -225,6 +225,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolWrt311DefrostHeaterOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostHeaterOhms', platformId: 'whirlpool_wrt_top_mount' },
         { knowledgeId: 'samsungRefrigeratorDefrostHeaterOhms', platformId: 'samsung_sxs' },
         {
@@ -237,6 +238,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_thermostat': {
       candidates: [
+        { knowledgeId: 'whirlpoolWrt311DefrostBimetalOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostBimetalOhms', platformId: 'whirlpool_wrt_top_mount' },
         { knowledgeId: 'defrostThermostatOhms', isDefault: true },
       ],
@@ -266,11 +268,23 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'compressor_sealed_system.start_relay_overload': {
       candidates: [
         { knowledgeId: 'whirlpoolWrtPtcStartOhms', platformId: 'whirlpool_wrt_top_mount' },
+        { knowledgeId: 'whirlpoolWrtPtcStartOhms', platformId: 'whirlpool_wrt311_adc' },
       ],
     },
     'compressor_sealed_system.ptc_start_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolWrtPtcStartOhms', platformId: 'whirlpool_wrt_top_mount' },
+        { knowledgeId: 'whirlpoolWrtPtcStartOhms', platformId: 'whirlpool_wrt311_adc' },
+      ],
+    },
+    'defrost_circuit.adc_heater_output_v': {
+      candidates: [
+        { knowledgeId: 'whirlpoolWrt311AdcDefrostHeaterVoltage', platformId: 'whirlpool_wrt311_adc' },
+      ],
+    },
+    'fans_and_electrical.adc_cooling_output_v': {
+      candidates: [
+        { knowledgeId: 'whirlpoolWrt311AdcCoolingOutputVoltage', platformId: 'whirlpool_wrt311_adc' },
       ],
     },
     'fans_and_electrical.condenser_fan_amps': {

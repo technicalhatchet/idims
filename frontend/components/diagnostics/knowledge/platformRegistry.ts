@@ -6,6 +6,7 @@ export const PLATFORM_IDS = {
   SAMSUNG_SXS: 'samsung_sxs',
   LG_LRMVS: 'lg_lrmvs',
   WHIRLPOOL_WRT_TOP_MOUNT: 'whirlpool_wrt_top_mount',
+  WHIRLPOOL_WRT311_ADC: 'whirlpool_wrt311_adc',
   WHIRLPOOL_KA_FRENCH_DOOR: 'whirlpool_ka_french_door',
   MIDEA_RSS: 'midea_rss',
   MIDEA_UZ21: 'midea_uz21',
@@ -53,6 +54,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     label: 'LG InstaView 4-door',
     manufacturers: ['LG'],
     templateId: 'refrigerator',
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_WRT311_ADC,
+    label: 'Whirlpool WRT311 ADC 2000 top-mount',
+    manufacturers: ['Whirlpool', 'Maytag', 'Amana'],
+    templateId: 'refrigerator',
+    modelPatterns: [/WRT311/i],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_WRT_TOP_MOUNT,

@@ -133,6 +133,24 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
     showWhen: [{ type: 'platform', id: 'lg_lrmvs' }],
   },
   {
+    id: 'wrt311_adc_heater_voltage',
+    field: 'defrost_circuit.adc_heater_output_v',
+    showWhen: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
+  },
+  {
+    id: 'wrt311_adc_cooling_voltage',
+    field: 'fans_and_electrical.adc_cooling_output_v',
+    showWhen: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
+  },
+  {
+    id: 'wrt311_adc_defrost_test',
+    field: 'functional_checks.adc_defrost_test_entered',
+    showWhen: [
+      { type: 'platform', id: 'whirlpool_wrt311_adc' },
+      { type: 'chip', id: 'frost_buildup' },
+    ],
+  },
+  {
     id: 'wrt_defrost_timer_platform',
     field: 'defrost_circuit.defrost_timer_test',
     showWhen: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],

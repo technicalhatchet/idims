@@ -5988,7 +5988,7 @@
     "code_normalized": "DF",
     "meaning": "Defrost failure",
     "common_causes": "Heater, bimetal, defrost timer/ADC, or defrost thermistor",
-    "recommended_fix": "Test heater Ω, bimetal continuity when frosted, timer contacts 1-2/1-4, or ADC board (ESD sensitive)",
+    "recommended_fix": "WRT311 ADC: enter defrost test mode (therm OFF/ON seq); verify P2–P6 heater V. Else test heater 30–42 Ω, bimetal (opens 58°F), ADC board",
     "alias_group_id": "1f17a07e-f78c-4fd1-bc21-554dafddf3be",
     "related_codes": [
       "DF"
@@ -6057,6 +6057,20 @@
     "alias_group_id": "bc8e3046-7d9a-8fed-d145-602c93ae1f25",
     "related_codes": [
       "CONTROLOFF"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "refrigerator",
+    "code": "ADC TEST",
+    "code_normalized": "ADCTEST",
+    "meaning": "ADC 2000 electronic defrost test mode",
+    "common_causes": "Forced defrost for diagnosis; bi-metal must be closed to enter",
+    "recommended_fix": "W10674984: power off 30s + therm OFF + power on, OR therm OFF 15s / ON 5s ×3 → OFF. Relay click; heater up to 18 min. Measure P2–P6 = 120 VAC",
+    "alias_group_id": "cd9f4157-8e0a-4c1d-9e56-703d84bf2f36",
+    "related_codes": [
+      "ADCTEST",
+      "DF"
     ]
   },
   {

@@ -1,0 +1,63 @@
+
+===== PAGE 1 =====
+SERVICE AND WIRING SHEET — W10674984 A
+Model family: WRT311FDZT00 (top-mount, ADC 2000)
+
+ELECTRICAL SHOCK HAZARD — Disconnect power before servicing.
+
+PERFORMANCE DATA (sealed system, normal run):
+| Ambient | Watts | High side PSIG | Low side |
+|---------|-------|----------------|----------|
+| 70°F    | 120±20 | 120±20        | -6" to 3# |
+| 90°F    | 130±20 | 160±20        | -4" to 3# |
+| 110°F   | 140±20 | 220±20        | -2" to 4# |
+
+SERVICE INFORMATION (W10674986 A):
+1. Compressor stubs (suction/process) must not be interchanged.
+2. Refrigerant charge must be applied to the high side only.
+3. Ice maker and water valve are not original equipment on all models.
+4. Caution: Ice maker cycle must be initiated electrically; do not manually start.
+5. Service defrost bi-metals open at 58°F.
+6. Part numbers are found on the components.
+
+COMPONENT DATA — Embraco EM3Z (W10445423) / EM3D (W10575980):
+| Component      | EM3Z        | EM3D        |
+|----------------|-------------|-------------|
+| Defrost heater | 350-480 W @ 120V = 42-30 Ω | same |
+| Evap fan       | 1.5-2.5 W   | 1.7-3.7 W   |
+| Condenser fan  | 3.1-5.1 W   | 1.6-3.6 W   |
+Relay, overload, run capacitor — see part numbers on component (NOTE #6).
+
+ELECTRONIC DEFROST CONTROL TEST MODE (bi-metal must be closed):
+Option 1: Power off 30 s → thermostat OFF → power on.
+Option 2: Thermostat OFF 15 s → ON 5 s (repeat 3×) → OFF.
+In test mode: defrost heater on up to 18 min or until bi-metal opens. Relay click confirms entry.
+WARNING: Do not overheat evaporator if bi-metal bypassed for testing.
+
+===== PAGE 2 =====
+WIRING DIAGRAM — ADC 2000 adaptive defrost control (P1–P8)
+
+115 VAC 60 Hz service cord → ADC → loads:
+- Evap fan (GN/YL, RD/WH, WH)
+- Compressor (overload, PTC, run cap)
+- Condenser fan
+- Defrost bi-metal + heater
+- Thermostat (OR)
+- Refrigerator lamps, optional ice maker / water valve
+
+VOLTAGE TEST POINTS — ADC 2000:
+| Test | Expected |
+|------|----------|
+| P1 (BK) to P3 (RD) | 120 VAC — compressor run-time feedback input |
+| P1 (BK) to P2 (PK) | 120 VAC — defrost heater run-time feedback input |
+| P2 (PK) to P6 (WH) | 120 VAC — output to defrost heater when energized |
+| P6 (WH) to P4 (OR) | 120 VAC — output to compressor / evap / cond fan when cooling |
+| P1 (BK) to P6 (WH) | 120 VAC — constant input when plugged in |
+
+Wire colors: BK black, WH white, RD red, BU blue, YL yellow, OR orange, BR brown, GY gray, PK pink, PU purple, TN tan.
+
+Evap fan connector detail A: RD/WH, WH, GN/YL.
+
+Printed in Mexico. Patents listed on sheet.
+
+— Transcribed from image scan (PyMuPDF text layer empty). Source: wiring-sheet-W10674984-RevA wrt311fzdt00.pdf
