@@ -6,10 +6,7 @@ export default function Document() {
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="description" content="Atomic Repair - Appliance Repair Management Portal" />
-        <meta name="theme-color" content="#000000" />
-        <link rel="icon" href="/favicon.ico" />
-        {/* apple-touch-icon is set per PWA route (e.g. /techboard) — avoid a global icon overriding the manifest */}
+        {/* theme-color, favicon, apple-touch-icon, and description are set per route (PWA + marketing pages). */}
         
         {/* Add any preconnect links if needed */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

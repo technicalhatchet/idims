@@ -78,7 +78,6 @@ function ServiceWorkerMigration() {
             names
               .filter((name) =>
                 /fallback-cache|workbox|precache|pages-cache|solomon-/i.test(name)
-                && !name.startsWith('logit-shell-')
               )
               .map((name) => caches.delete(name))
           );
