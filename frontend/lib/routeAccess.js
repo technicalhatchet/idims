@@ -81,7 +81,6 @@ export const SOLOMON_STANDALONE_ALLOW_EXACT = [
   '/manifest-solomon.json',
   '/manifest-logit.json',
   '/sw.js',
-  '/logit-sw.js',
   '/robots.txt',
 ];
 
