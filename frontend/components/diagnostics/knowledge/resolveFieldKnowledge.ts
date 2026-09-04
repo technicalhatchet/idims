@@ -23,6 +23,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.drive_motor_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportWasherMotorOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherMotorOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashMotorOhms', platformId: 'samsung_flexwash' },
         {
@@ -35,6 +36,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.drain_pump_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportWasherDrainPumpOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherDrainPumpOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashDrainPumpOhms', platformId: 'samsung_flexwash' },
         {
@@ -51,6 +53,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.inlet_valve_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportWasherInletValveOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherInletValveOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashInletValveOhms', platformId: 'samsung_flexwash' },
         {
@@ -64,6 +67,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.wash_heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportWasherHeaterOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherHeaterOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashHeaterOhms', platformId: 'samsung_flexwash' },
       ],
@@ -73,6 +77,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'mechanical_controls.door_lock_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportWasherDoorLockSolenoidOhms', platformId: 'whirlpool_duet_sport' },
         {
           knowledgeId: 'insigniaWasherCapDoorLockOhms',
           platformId: 'insignia_washer_cap',

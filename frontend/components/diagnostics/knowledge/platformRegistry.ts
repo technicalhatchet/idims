@@ -2,6 +2,7 @@ import type { MeasurementContext } from './types';
 
 export const PLATFORM_IDS = {
   WHIRLPOOL_FL_DD: 'whirlpool_fl_dd',
+  WHIRLPOOL_DUET_SPORT: 'whirlpool_duet_sport',
   SAMSUNG_FLEXWASH: 'samsung_flexwash',
   SAMSUNG_SXS: 'samsung_sxs',
   LG_LRMVS: 'lg_lrmvs',
@@ -32,10 +33,18 @@ export interface PlatformRule {
 
 export const PLATFORM_RULES: PlatformRule[] = [
   {
+    id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT,
+    label: 'Whirlpool Duet Sport CCU/MCU front-load',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'washer',
+    modelPatterns: [/WFW83/i, /WFW85/i, /WFW92/i, /WFW94/i, /WFW95/i],
+  },
+  {
     id: PLATFORM_IDS.WHIRLPOOL_FL_DD,
     label: 'Whirlpool 27" front-load direct drive',
     manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
     templateId: 'washer',
+    modelPatterns: [/WFW/i, /MHW/i, /CHW/i],
   },
   {
     id: PLATFORM_IDS.SAMSUNG_FLEXWASH,

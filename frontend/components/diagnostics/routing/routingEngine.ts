@@ -232,6 +232,25 @@ function expandErrorCodeTokens(text: string): string {
   if (/\bfce0\b/.test(base)) {
     extras.push('wifi', 'control board', 'communication');
   }
+  // Whirlpool Duet Sport CCU/MCU (8178558 — F/xx LED codes)
+  if (/\bf20\b|\bf\/20\b/.test(base)) {
+    extras.push('no fill', 'fill', 'inlet', 'pressure switch');
+  }
+  if (/\bf21\b|\bf\/21\b/.test(base)) {
+    extras.push('wont drain', 'long drain', 'drain', 'sd', 'oversuds');
+  }
+  if (/\bf22\b|\bf26\b|\bf29\b/.test(base)) {
+    extras.push('door lock', 'lid lock');
+  }
+  if (/\bf27\b/.test(base)) {
+    extras.push('overflow', 'leak', 'fill', 'drain');
+  }
+  if (/\bf28\b|\bf06\b|\bf31\b/.test(base)) {
+    extras.push('motor', 'control board', 'communication', 'mcu');
+  }
+  if (/\bf25\b/.test(base)) {
+    extras.push('wont spin', 'motor', 'shipping bolts');
+  }
   // Insignia top-load washer E/F codes (avoid F8E* dishwasher overlap via word boundaries)
   if (/\be4\b/.test(base) && !/\bf4e/.test(base)) {
     extras.push('vibration', 'unbalance', 'off balance');

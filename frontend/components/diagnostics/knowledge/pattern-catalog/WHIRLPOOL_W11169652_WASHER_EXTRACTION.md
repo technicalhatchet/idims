@@ -79,10 +79,12 @@ Cross-reference: existing Whirlpool `washing_machine` seed (top-load codes overl
 
 ---
 
-## 5. Phase B/C proposals (not merged)
+## 5. Phase B/C — merged
 
-- Evidence rules for F5E1/F5E4 door path, F8E1 fill, F9E1 drain, F0E5 ob
+- Evidence rules for F5E1/F5E4 door path, F8E1 fill, F9E1 drain, F0E5 ob (washer.json)
 - Chip keyword: `ob`, `dr`, `long_fill`, `long_drain`
 - Routing tokens: `F0E5`, `F5E4`, `FCE0`, `F7E9`
 
-**DMA:** `backend/data/dma_error_codes_seed.json` — new rows via `append_manual_batch_dma_seed.py`
+**Older platform:** [WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md](./WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md) — CCU/MCU Duet Sport F/xx codes (batch13).
+
+**DMA:** `backend/data/dma_error_codes_seed.json` — W11169652 rows + Duet Sport F20–F31 append.

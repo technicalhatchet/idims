@@ -1,0 +1,176 @@
+[
+  {
+    "id": "whirlpoolDuetSportWasherMotorOhms",
+    "name": "Whirlpool Duet Sport Belt-Drive Motor (pins 1-2-3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 8 },
+      "warning": { "min": 4, "max": 10 },
+      "critical": { "below": 2, "above": 15 }
+    },
+    "typical": { "min": 5.5, "max": 6.5 },
+    "openCircuitCritical": true,
+    "purpose": "8178558 Duet Sport — ~6 Ω on all motor pin pairs (belt drive via MCU).",
+    "failureModes": [
+      "Open winding — F25 tach / no spin",
+      "MCU harness fault — F28 serial comm"
+    ],
+    "testingTips": [
+      "Disconnect 5-wire motor connector; test pins 1-2, 2-3, 1-3",
+      "Remove shipping bolts before motor diagnosis"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport"
+    },
+    "dmaTags": ["motor_check", "spin_issue"]
+  },
+  {
+    "id": "whirlpoolDuetSportWasherDrainPumpOhms",
+    "name": "Whirlpool Duet Sport Drain Pump",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 11, "max": 14 },
+      "warning": { "min": 9, "max": 16 },
+      "critical": { "below": 5, "above": 25 }
+    },
+    "typical": { "min": 12, "max": 13 },
+    "openCircuitCritical": true,
+    "purpose": "Drain pump DP2 at CCU — ~12.3 Ω (8178558).",
+    "failureModes": [
+      "Open — F21 long drain after Sd",
+      "Normal ohms, no drain — filter or impeller jam"
+    ],
+    "testingTips": [
+      "Check coin trap and drain hose before pump",
+      "Sd oversuds can precede F21 — rule out detergent first"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "whirlpoolDuetSportWasherInletValveOhms",
+    "name": "Whirlpool Duet Sport Inlet Valve Coils",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 750, "max": 850 },
+      "warning": { "min": 650, "max": 950 },
+      "critical": { "below": 50, "above": 2000 }
+    },
+    "typical": { "min": 780, "max": 820 },
+    "openCircuitCritical": true,
+    "purpose": "VCH7 cold pins 1&3 / hot pins 5&7 — 750–850 Ω per coil.",
+    "failureModes": [
+      "Open coil — F20 no fill / pressure switch not tripped",
+      "Screens clogged — mimics valve fault"
+    ],
+    "testingTips": [
+      "Verify 20–100 PSI and both faucets open",
+      "Pressure switch hose must be connected to tub"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "whirlpoolDuetSportWasherHeaterOhms",
+    "name": "Whirlpool Duet Sport Wash Heater (HE2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10, "max": 15 },
+      "warning": { "min": 8, "max": 18 },
+      "critical": { "below": 3, "above": 30 }
+    },
+    "typical": { "min": 11, "max": 14 },
+    "openCircuitCritical": true,
+    "purpose": "Duet Sport Ht tub heater HE2 — 10–15 Ω; F23 if <86°F rise in 40 min.",
+    "failureModes": [
+      "Open heater — F23 heater failure",
+      "NTC fault — F24 with heater OK"
+    ],
+    "testingTips": [
+      "Heat models only — base Sport may lack heater",
+      "Check TH2 NTC with heater circuit"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport"
+    },
+    "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+    "name": "Whirlpool Duet Sport Door Lock Solenoids (DL3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 52, "max": 68 },
+      "warning": { "min": 45, "max": 75 },
+      "critical": { "below": 10, "above": 120 }
+    },
+    "typical": { "min": 58, "max": 62 },
+    "openCircuitCritical": true,
+    "purpose": "Lock pins 1&3 and unlock pins 2&3 — 60 Ω each; DS2 door switch 0 Ω closed.",
+    "failureModes": [
+      "Open solenoid — F22 lock / F29 unlock",
+      "Door switch open — F26 after 3 cycles"
+    ],
+    "testingTips": [
+      "F26 — customer must open door between cycles",
+      "Manually unlock procedure in job aid §6"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport"
+    },
+    "dmaTags": ["door_lock_check"]
+  },
+  {
+    "id": "whirlpoolDuetSportWasherWashNtcOhms",
+    "name": "Whirlpool Duet Sport Wash NTC (TH2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2000, "max": 12000 },
+      "warning": { "min": 1000, "max": 20000 },
+      "critical": { "below": 500, "above": 40000 }
+    },
+    "typical": { "min": 2200, "max": 2800 },
+    "openCircuitCritical": true,
+    "purpose": "Water temp sensor TH2 — ~2.3 kΩ @ 70°F; F24 if out of range during heat step.",
+    "failureModes": [
+      "Open/short — F24 water temperature sensor",
+      "Heater open — F23 with good NTC"
+    ],
+    "testingTips": [
+      "Use job aid R/T table: 9.7k @ 86°F, 35.9k @ 32°F",
+      "Disconnect TH2 at CCU for ohm test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport"
+    },
+    "dmaTags": ["thermistor", "heating_element_check"]
+  }
+]

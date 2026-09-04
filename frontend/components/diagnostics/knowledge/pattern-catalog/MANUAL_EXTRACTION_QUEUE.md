@@ -17,6 +17,7 @@
 | `w10330404-r-111.pdf` | [WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md](./WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md) | ✅ | ✅ merged |
 | `wiring-sheet-W10674984-RevA wrt311fzdt00.pdf` | [WRT311FDZT00_W10674984_EXTRACTION.md](./WRT311FDZT00_W10674984_EXTRACTION.md) | ✅ | ✅ merged |
 | `whirlpoolmodularicemakerservicesheet-2225623.pdf` | [WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md](./WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md) | ✅ | ✅ merged |
+| `jobaid-8178558-l-78 whirlpool fl washer 2013 era.pdf` | [WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md](./WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md) | ✅ | ✅ merged |
 
 **Next in queue (user):** *(empty — add next manual when ready)*
 
@@ -98,7 +99,8 @@
 
 | Platform | `platformId` | Seed batch | Key bindings |
 |----------|--------------|------------|--------------|
-| Whirlpool FL washer | `whirlpool_fl_dd` | batch8 | motor, inlet, drain, heater, recirc |
+| Whirlpool FL washer (DD) | `whirlpool_fl_dd` | batch8 | motor, inlet, drain, heater, recirc — WFW/MHW model match |
+| Whirlpool Duet Sport FL | `whirlpool_duet_sport` | batch13 | CCU/MCU belt-drive; F/xx codes |
 | Samsung FlexWash | `samsung_flexwash` | batch8 | motor, drain, heater, inlet |
 | Insignia washer TWM/TWM35 | `insignia_washer_cap` | batch9 | inlet kΩ, drain, door lock |
 | Insignia washer WMT41 | `insignia_washer_freq` | batch8+9 | inlet, drain, motor, level kHz |

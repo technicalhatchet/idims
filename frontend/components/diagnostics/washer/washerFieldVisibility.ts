@@ -79,6 +79,7 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     field: 'electrical_measurements.wash_heater_ohms',
     showWhen: [
       { type: 'platform', id: 'whirlpool_fl_dd' },
+      { type: 'platform', id: 'whirlpool_duet_sport' },
       { type: 'platform', id: 'samsung_flexwash' },
     ],
   },
