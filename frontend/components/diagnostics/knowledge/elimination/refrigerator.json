@@ -309,6 +309,18 @@
       "id": "ice_maker_chip",
       "when": { "type": "chip", "id": "ice_maker" },
       "suspect": ["im_mold_heater_failed", "im_motor_failed", "im_harness_fuse_failed"]
+    },
+    {
+      "id": "jazz_defrost_heater_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolJazzFdDefrostHeaterOhms", "statusIn": ["critical"] },
+      "eliminate": ["defrost_heater_ok"],
+      "confirm": ["defrost_heater_failed"]
+    },
+    {
+      "id": "jazz_thermistor_bad",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolJazzFdThermistorOhms", "statusIn": ["critical"] },
+      "eliminate": ["thermistor_ok"],
+      "confirm": ["thermistor_failed"]
     }
   ]
 }

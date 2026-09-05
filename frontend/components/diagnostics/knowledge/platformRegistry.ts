@@ -10,6 +10,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_WRT_TOP_MOUNT: 'whirlpool_wrt_top_mount',
   WHIRLPOOL_WRT311_ADC: 'whirlpool_wrt311_adc',
   WHIRLPOOL_MODULAR_ICE_MAKER: 'whirlpool_modular_ice_maker',
+  WHIRLPOOL_JAZZ_FRENCH_DOOR: 'whirlpool_jazz_french_door',
   WHIRLPOOL_KA_FRENCH_DOOR: 'whirlpool_ka_french_door',
   MIDEA_RSS: 'midea_rss',
   MIDEA_UZ21: 'midea_uz21',
@@ -87,10 +88,18 @@ export const PLATFORM_RULES: PlatformRule[] = [
     templateId: 'refrigerator',
   },
   {
-    id: PLATFORM_IDS.WHIRLPOOL_KA_FRENCH_DOOR,
-    label: 'Whirlpool / KitchenAid French door',
+    id: PLATFORM_IDS.WHIRLPOOL_JAZZ_FRENCH_DOOR,
+    label: 'Whirlpool Jazz French door (W10322959)',
     manufacturers: ['Whirlpool', 'KitchenAid', 'Maytag'],
     templateId: 'refrigerator',
+    modelPatterns: [/WRF53/i, /WRF54/i, /WRF55/i, /WRF56/i, /WRF98/i, /WRF99/i, /KRMF55/i, /KRFF5/i, /GI5F/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_KA_FRENCH_DOOR,
+    label: 'Whirlpool / KitchenAid French door (ACU)',
+    manufacturers: ['Whirlpool', 'KitchenAid', 'Maytag'],
+    templateId: 'refrigerator',
+    modelPatterns: [/WRF7/i, /WRF8/i, /KRMF70/i, /KRMF706/i, /KRFF7/i],
   },
   {
     id: PLATFORM_IDS.MIDEA_RSS,

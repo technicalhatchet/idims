@@ -1812,6 +1812,56 @@
       "explanation": "WRT311 ADC 2000 defrost test — thermostat OFF/ON sequence; verify P2–P6 heater voltage.",
       "recommendStepKey": "defrost",
       "dmaTags": ["defrost"]
+    },
+    {
+      "id": "ref_kw_jazz_service_test",
+      "when": [{ "type": "keyword", "match": "service test" }],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Jazz FD S-E service mode — tests 1–9 for defrost, compressor, evap fan, thermistors, damper.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ref_kw_jazz_thermistor_o",
+      "when": [{ "type": "keyword", "match": "thermistor o" }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Jazz service test 4/5 shows O — open FF or FZ thermistor circuit.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "ref_ms_jazz_defrost_heater",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolJazzFdDefrostHeaterOhms", "statusIn": ["critical"] }],
+      "target": "defrost_heater",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Jazz defrost heater open — 28–33 Ω expected by model size.",
+      "recommendStepKey": "defrost",
+      "dmaTags": ["defrost_heater"]
+    },
+    {
+      "id": "ref_ms_jazz_thermistor",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolJazzFdThermistorOhms", "statusIn": ["critical"] }],
+      "target": "thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Jazz cabinet thermistor out of spec — ~10 kΩ @ 77°F.",
+      "recommendStepKey": "fans",
+      "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "ref_ms_jazz_compressor_run",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolJazzFdCompressorRunOhms", "statusIn": ["critical"] }],
+      "target": "compressor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "EM2Y60 run winding not 4.75 Ω — compressor or start device path.",
+      "recommendStepKey": "sealed",
+      "dmaTags": ["compressor_check"]
     }
   ]
 }
