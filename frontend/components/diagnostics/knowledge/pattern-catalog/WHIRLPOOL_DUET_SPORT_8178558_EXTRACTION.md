@@ -106,7 +106,7 @@ Status lights flash; some models have no alphanumeric display — use LED chart 
 | F11 / F33 LED-only codes | No prose definition on sheet — LED chart only |
 | Model coverage beyond WFW83/85 | Pattern may miss WFW70-era; extend patterns if needed |
 | ECO valve specifics | Removal §4-19 — no dedicated Ω in extraction |
-| Maytag MHWE rebadges | Same platform likely — patterns not added |
+| Maytag MHWE rebadges | Resolved — `MHWE`→`WFW` prefix map + explicit patterns |
 
 ---
 

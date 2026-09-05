@@ -62,7 +62,7 @@ Full F#E# matrix shared with KitchenAid/Whirlpool premium dishwashers:
 
 ## 4. Measurements (Phase D — brand-aware)
 
-Platform: `whirlpool_dishwasher_acu` (Whirlpool + KitchenAid)
+Platform: `whirlpool_dishwasher_acu` (Whirlpool + Maytag + KitchenAid; Maytag `MDB*` ≡ Whirlpool `WDT*`)
 
 | knowledgeId | Spec | Field |
 |-------------|------|-------|

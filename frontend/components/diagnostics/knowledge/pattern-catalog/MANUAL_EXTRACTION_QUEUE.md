@@ -174,7 +174,7 @@
 - **LG DRY `[~]`** — `DRY_D80 – LG Error Codes.pdf` only (duct codes); need full dryer service manual.
 - **KitchenAid REF `[~]`** — shares [WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md](./WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md) with Whirlpool.
 - **GE STK `[x]`** — [GE_GUD27_UNITIZED_EXTRACTION.md](./GE_GUD27_UNITIZED_EXTRACTION.md); dryer timer platform; washer is mechanical in same cabinet.
-- **Maytag / Kenmore** — usually Whirlpool or Electrolux rebadge; source parent OEM manual when possible.
+- **Maytag / Kenmore** — usually Whirlpool or Electrolux rebadge; source parent OEM manual when possible. Maytag model prefixes resolve to Whirlpool platforms via `whirlpoolOemRebadge.ts` (MED→WED, MHWE→WFW, MDB→WDT, MFI→WRF, MER→WFE, MGR→WFG, …). Range platforms await WFE/WFG manual extraction.
 - **Bosch** — DMA seed rows exist; no manual ingested yet.
 
 ---
