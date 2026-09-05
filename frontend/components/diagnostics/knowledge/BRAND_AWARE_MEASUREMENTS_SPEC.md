@@ -154,7 +154,7 @@ const PLATFORM_RULES: PlatformRule[] = [
 
 | Make | Resolves via |
 |------|----------------|
-| Maytag | Whirlpool platform rules (same OEM) — `expandOemModelVariants()` maps MED→WED, MHWE→WFW, MFI→WRF, etc. |
+| Maytag | Whirlpool platform rules (same OEM) — `expandOemModelVariants()` maps MED→WED, MHWE→WFW, MDB→WDT, MFI→WRF, MER→WFE, MGR→WFG, etc. |
 | KitchenAid | Whirlpool platform rules where shared; own only when manual differs |
 | Insignia | Midea platform IDs from extraction docs |
 | Kenmore | Parent OEM inferred later (v2); v1 = generic fallback |

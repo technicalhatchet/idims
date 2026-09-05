@@ -142,8 +142,8 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,
-    label: 'Whirlpool / KitchenAid ACU dishwasher',
-    manufacturers: ['Whirlpool', 'KitchenAid'],
+    label: 'Whirlpool/Maytag/KitchenAid ACU dishwasher',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
     templateId: 'dishwasher',
   },
   {
