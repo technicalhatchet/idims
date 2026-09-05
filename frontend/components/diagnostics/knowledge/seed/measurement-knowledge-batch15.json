@@ -1,0 +1,149 @@
+[
+  {
+    "id": "whirlpoolJazzFdThermistorOhms",
+    "name": "Whirlpool Jazz FD Cabinet Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8500, "max": 11500 },
+      "warning": { "min": 5000, "max": 95000 },
+      "critical": { "below": 500, "above": 120000 }
+    },
+    "typical": { "min": 9800, "max": 10200 },
+    "openCircuitCritical": true,
+    "purpose": "W10322959 Jazz — 10,000 Ω @ 77°F; 29,500 Ω @ 36°F; 86,300 Ω @ 0°F. Service tests 4 (FF) and 5 (FZ) show P/O/S.",
+    "failureModes": [
+      "Open — service test 4 or 5 shows O",
+      "Short — service test shows S",
+      "In range but warm cabinet — damper (test 6) or sealed system"
+    ],
+    "testingTips": [
+      "Enter Service Test Mode: door switch held + Fridge UP ×3 → S-E",
+      "Run test 4 FF or test 5 FZ — P=pass, O=open, S=short",
+      "Measure at control harness with power disconnected for bench ohms"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_jazz_french_door"
+    },
+    "dmaTags": ["thermistor_check", "sensor_fault"]
+  },
+  {
+    "id": "whirlpoolJazzFdDefrostHeaterOhms",
+    "name": "Whirlpool Jazz FD Defrost Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 26, "max": 36 },
+      "warning": { "min": 20, "max": 42 },
+      "critical": { "below": 5, "above": 60 }
+    },
+    "typical": { "min": 28, "max": 33 },
+    "openCircuitCritical": true,
+    "purpose": "19 cu 33 Ω / 22 cu 30 Ω / 20–25 cu 28 Ω @ 115 VAC (395–470 W). Service test 1 energizes heater.",
+    "failureModes": [
+      "Open — no defrost; heavy evap frost",
+      "Good ohms but no heat in test 1 — control board relay"
+    ],
+    "testingTips": [
+      "Service test 1: defrost thermostat O=open, S=closed while heater on",
+      "Adaptive defrost: 15 min optimum; 25 min max if bimetal stuck closed"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_jazz_french_door"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolJazzFdDefrostBimetalOhms",
+    "name": "Whirlpool Jazz FD Defrost Thermostat (Bimetal)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "warning": { "min": 0, "max": 5 },
+      "critical": { "above": 10 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Closes above 42°F ±5°; opens below 12°F ±7°. Service test 1 shows O (open) or S (closed).",
+    "failureModes": [
+      "Open when frosted — no defrost heat path",
+      "Stuck closed — extended defrost; 25 min board timeout resets interval to 8 hr"
+    ],
+    "testingTips": [
+      "Must be closed (few Ω) when evaporator is frosted/cold",
+      "Opens when warm after successful defrost"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_jazz_french_door"
+    },
+    "dmaTags": ["defrost_thermostat", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolJazzFdCompressorRunOhms",
+    "name": "Whirlpool Jazz FD Compressor Run Winding (EM2Y60)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 4.3, "max": 5.2 },
+      "warning": { "min": 3.5, "max": 6.0 },
+      "critical": { "below": 1, "above": 15 }
+    },
+    "typical": { "min": 4.6, "max": 4.9 },
+    "openCircuitCritical": true,
+    "purpose": "Embraco EM2Y60 run winding 4.75 Ω ±8%. Service test 2 toggles compressor/condenser fan.",
+    "failureModes": [
+      "Open winding — compressor silent; relay clicks",
+      "Run OK but no start — check start winding and relay/capacitor"
+    ],
+    "testingTips": [
+      "Disconnect power before terminal ohms",
+      "Service test 2: freezer 2, fridge O=compressor on"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_jazz_french_door"
+    },
+    "dmaTags": ["compressor_check", "sealed_system"]
+  },
+  {
+    "id": "whirlpoolJazzFdCompressorStartOhms",
+    "name": "Whirlpool Jazz FD Compressor Start Winding (EM2Y60)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5.5, "max": 6.7 },
+      "warning": { "min": 4.5, "max": 8.0 },
+      "critical": { "below": 1, "above": 20 }
+    },
+    "typical": { "min": 5.9, "max": 6.3 },
+    "openCircuitCritical": true,
+    "purpose": "Start winding 6.1 Ω ±8% @ 77°F. Run cap 12 µfd ±10%.",
+    "failureModes": [
+      "Open start winding — hum/no run",
+      "Relay TSD2/5sP or 12 µfd cap failure with good windings"
+    ],
+    "testingTips": [
+      "Full load 1.60 A; LRA 10.8 A per spec table",
+      "Test relay and 12 µfd cap before condemning compressor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_jazz_french_door"
+    },
+    "dmaTags": ["compressor_check", "start_device"]
+  }
+]

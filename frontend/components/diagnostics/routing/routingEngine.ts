@@ -281,7 +281,26 @@ function expandErrorCodeTokens(text: string): string {
       extras.push('control board', 'stuck button');
     }
   }
-  // Insignia top-load washer E/F codes (avoid F8E* dishwasher overlap via word boundaries)
+  // Whirlpool Jazz FD service test mode (W10322959)
+  if (/\bs[\s-]?e\b/.test(base) || base.includes('service test')) {
+    extras.push('defrost', 'thermistor', 'damper', 'compressor', 'control board');
+  }
+  if (/\bf[\s-]?d\b/.test(base) || base.includes('forced defrost')) {
+    extras.push('defrost', 'frost', 'defrost heater');
+  }
+  if (/\bp[\s-]?e\b/.test(base) || base.includes('program code')) {
+    extras.push('control board', 'no power', 'not cooling');
+  }
+  if (base.includes('thermistor') && (/\btest\s*4\b/.test(base) || /\bo\b.*\bopen\b/.test(base))) {
+    extras.push('weak cooling', 'fresh food', 'thermistor');
+  }
+  if (base.includes('thermistor') && /\btest\s*5\b/.test(base)) {
+    extras.push('not cooling', 'freezer', 'thermistor');
+  }
+  if (/\btest\s*6\b/.test(base) || base.includes('damper')) {
+    extras.push('weak cooling', 'damper', 'fresh food');
+  }
+
   if (/\be4\b/.test(base) && !/\bf4e/.test(base)) {
     extras.push('vibration', 'unbalance', 'off balance');
   }

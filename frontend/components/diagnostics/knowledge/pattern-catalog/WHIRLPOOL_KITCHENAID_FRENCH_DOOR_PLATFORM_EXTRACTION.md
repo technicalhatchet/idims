@@ -9,7 +9,9 @@
 **Scope:** ~27 cu ft French door; bottom freezer; dispenser UI + ACU; EMD55CLT compressor; RC ice-in-compartment  
 **Status:** Phase A + B + C merged (ice maker E0–E5 evidence, routing).
 
-Cross-reference: No consumer alphanumeric codes like Samsung/LG — **service test mode** + ice maker E-codes only.
+Cross-reference: No consumer alphanumeric codes like Samsung/LG — **service test mode** + ice maker E-codes only on ACU-era models.
+
+**Jazz era (W10322959):** [WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md](./WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md) — S-E service tests, EM2Y60 specs; no IM E-codes on sheet.
 
 ---
 

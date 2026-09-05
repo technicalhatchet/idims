@@ -251,6 +251,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolJazzFdDefrostHeaterOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'whirlpoolWrt311DefrostHeaterOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostHeaterOhms', platformId: 'whirlpool_wrt_top_mount' },
         { knowledgeId: 'samsungRefrigeratorDefrostHeaterOhms', platformId: 'samsung_sxs' },
@@ -264,6 +265,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_thermostat': {
       candidates: [
+        { knowledgeId: 'whirlpoolJazzFdDefrostBimetalOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'whirlpoolWrt311DefrostBimetalOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostBimetalOhms', platformId: 'whirlpool_wrt_top_mount' },
         { knowledgeId: 'defrostThermostatOhms', isDefault: true },
@@ -274,6 +276,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_thermistor': {
       candidates: [
+        { knowledgeId: 'whirlpoolJazzFdThermistorOhms', platformId: 'whirlpool_jazz_french_door' },
         {
           knowledgeId: 'mideaB3839ThermistorKohm',
           platformId: 'midea_rss',
@@ -286,10 +289,16 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [{ knowledgeId: 'compressorRunAmps', isDefault: true }],
     },
     'compressor_sealed_system.run_winding_ohms': {
-      candidates: [{ knowledgeId: 'compressorRunWindingOhms', isDefault: true }],
+      candidates: [
+        { knowledgeId: 'whirlpoolJazzFdCompressorRunOhms', platformId: 'whirlpool_jazz_french_door' },
+        { knowledgeId: 'compressorRunWindingOhms', isDefault: true },
+      ],
     },
     'compressor_sealed_system.start_winding_ohms': {
-      candidates: [{ knowledgeId: 'compressorRunWindingOhms', isDefault: true }],
+      candidates: [
+        { knowledgeId: 'whirlpoolJazzFdCompressorStartOhms', platformId: 'whirlpool_jazz_french_door' },
+        { knowledgeId: 'compressorRunWindingOhms', isDefault: true },
+      ],
     },
     'compressor_sealed_system.start_relay_overload': {
       candidates: [
@@ -324,6 +333,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'fans_and_electrical.freezer_thermistor': {
       candidates: [
+        { knowledgeId: 'whirlpoolJazzFdThermistorOhms', platformId: 'whirlpool_jazz_french_door' },
         {
           knowledgeId: 'mideaB3839ThermistorKohm',
           platformId: 'midea_rss',
@@ -334,6 +344,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'fans_and_electrical.fresh_food_thermistor': {
       candidates: [
+        { knowledgeId: 'whirlpoolJazzFdThermistorOhms', platformId: 'whirlpool_jazz_french_door' },
         {
           knowledgeId: 'mideaB3839ThermistorKohm',
           platformId: 'midea_rss',

@@ -18,6 +18,8 @@
 | `wiring-sheet-W10674984-RevA wrt311fzdt00.pdf` | [WRT311FDZT00_W10674984_EXTRACTION.md](./WRT311FDZT00_W10674984_EXTRACTION.md) | ✅ | ✅ merged |
 | `whirlpoolmodularicemakerservicesheet-2225623.pdf` | [WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md](./WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md) | ✅ | ✅ merged |
 | `jobaid-8178558-l-78 whirlpool fl washer 2013 era.pdf` | [WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md](./WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md) | ✅ | ✅ merged |
+| `jobaid-8178559-l-79 whirlpool fl dryer 2013 era.pdf` | [WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md](./WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md) | ✅ | ✅ merged |
+| `techsheet-w10322959-revb whirlpool FD fridge 2013.pdf` | [WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md](./WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md) | — | ✅ merged |
 
 **Next in queue (user):** *(empty — add next manual when ready)*
 
@@ -104,6 +106,7 @@
 | Whirlpool FL washer (DD) | `whirlpool_fl_dd` | batch8 | motor, inlet, drain, heater, recirc — WFW/MHW model match |
 | Whirlpool Duet Sport FL | `whirlpool_duet_sport` | batch13 | CCU/MCU belt-drive; F/xx codes |
 | Whirlpool Duet Sport dryer | `whirlpool_duet_sport_dryer` | batch14 | MCE era; F-xx codes; 7–12 Ω element |
+| Whirlpool Jazz FD (2013) | `whirlpool_jazz_french_door` | batch15 | S-E service tests; EM2Y60; 10 kΩ NTC |
 | Samsung FlexWash | `samsung_flexwash` | batch8 | motor, drain, heater, inlet |
 | Insignia washer TWM/TWM35 | `insignia_washer_cap` | batch9 | inlet kΩ, drain, door lock |
 | Insignia washer WMT41 | `insignia_washer_freq` | batch8+9 | inlet, drain, motor, level kHz |
@@ -118,7 +121,7 @@
 | LG LRMVS fridge | `lg_lrmvs` | batch7 | fan V, defrost V/Ω |
 | GE GUD27 unitized | — | — | Symptom/timer only (no Ω layer) |
 | Frigidaire Pro PRMC | — | — | Er t* codes only; no numeric specs in sheet |
-| Whirlpool/KA French door | `whirlpool_ka_french_door` | generic | Ice E-codes; defrost still generic |
+| Whirlpool/KA French door | `whirlpool_ka_french_door` | generic | ACU WRF7/8; ice E-codes; batch15 for Jazz FD |
 
 **Deferred:** FlexWash upper door lock (175 Ω), bubble pump; Insignia level-sensor dedicated field; LG dishwasher wash-motor Ω from garbled LDT PDF.
 

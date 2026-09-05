@@ -58,6 +58,10 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
         text: 'LG: F heater 62–70 Ω, R heater 103–119 Ω. Open heater = no defrost.',
       },
       {
+        when: [{ type: 'platform', id: 'whirlpool_jazz_french_door' }],
+        text: 'Jazz FD (W10322959): defrost heater 28–33 Ω by cu ft (19=33, 22=30, 25=28). Service test 1 energizes heater.',
+      },
+      {
         when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
         text: 'Whirlpool WRT top-mount: defrost heater ~30 Ω installed / ~33 Ω uninstalled (W10330404). Lead-to-sheath must be infinity.',
       },
@@ -86,6 +90,10 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
   ]),
   'defrost_circuit.defrost_thermostat': scopedHelp(
     [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_jazz_french_door' }],
+        text: 'Jazz bimetal: closed above 42°F, open below 12°F. Service test 1 shows O (open) or S (closed) while heater on.',
+      },
       {
         when: [{ type: 'platform', id: 'whirlpool_wrt311_adc' }],
         text: 'WRT311 bi-metal opens at 58°F per wiring sheet. Closed when evaporator frosted/cold.',
@@ -131,6 +139,10 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
   ),
   'compressor_sealed_system.ptc_start_ohms': scopedHelp(
     [
+      {
+        when: [{ type: 'platform', id: 'whirlpool_jazz_french_door' }],
+        text: 'Jazz EM2Y60: run 4.75 Ω, start 6.1 Ω @ 77°F; relay TSD2/5sP + 12 µfd cap. Service test 2 = compressor/cond fan.',
+      },
       {
         when: [{ type: 'platform', id: 'whirlpool_wrt_top_mount' }],
         text: 'Cold PTC ~5 Ω; heats to 100kΩ+ in 1–3 s. Wait 10 min cool-down between start attempts.',
@@ -245,6 +257,10 @@ export const refrigeratorFieldHelp: Record<string, FieldHelpEntry> = {
     },
   ]),
   'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [{ type: 'platform', id: 'whirlpool_jazz_french_door' }],
+      text: 'Jazz FD: no alphanumeric codes — use Service Test S-E (tests 1–9). FF test 4 / FZ test 5: P/O/S thermistor. F-d forced defrost. P-E program code (OO = won\'t run).',
+    },
     {
       when: [makeWhen('samsung')],
       text: 'Samsung: 22E=fan, 5E=defrost sensor, 84C/86E=inverter, 41E=display comm, O FF=demo, RD=damper.',
