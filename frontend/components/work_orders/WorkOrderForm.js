@@ -12,8 +12,7 @@ import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { formatPropertyAddress } from '../../utils/appointment-scheduling';
 import {
-  SYMPTOMS_BY_TYPE,
-  SUBTYPE_TO_SYMPTOM_KEY,
+  getSymptomsForEquipmentSubtype,
 } from '../../constants/applianceSymptoms';
 
 
@@ -1187,8 +1186,10 @@ const handleCreateProperty = async () => {
           
           {/* Symptom Tags */}
           {(values.equipment_subtype || values.equipment_type === 'tv') && (() => {
-            const symptomKey = values.equipment_type === 'tv' ? 'tv' : SUBTYPE_TO_SYMPTOM_KEY[values.equipment_subtype];
-            const symptoms = symptomKey ? SYMPTOMS_BY_TYPE[symptomKey] : null;
+            const symptoms = getSymptomsForEquipmentSubtype(
+              values.equipment_subtype,
+              values.equipment_type,
+            );
             if (!symptoms) return null;
             return (
               <div className="col-span-2">
