@@ -138,13 +138,21 @@ export function getBookingSymptomsForAppliance(applianceId) {
 /** Work order equipment_subtype → symptom group (staff forms). */
 export const SUBTYPE_TO_SYMPTOM_KEY = {
   refrigerator: 'refrigerator',
+  freezer: 'freezer',
   washing_machine: 'washing_machine',
   dryer: 'dryer',
+  electric_dryer: 'dryer',
+  gas_dryer: 'dryer',
+  stacked_laundry: 'aiolaundry',
+  aio_laundry: 'aiolaundry',
   dishwasher: 'dishwasher',
   oven: 'oven',
   range: 'oven',
+  electric_range: 'oven',
+  gas_range: 'oven',
+  wall_oven: 'oven',
+  cooktop: 'oven',
   microwave: 'microwave',
-  freezer: 'freezer',
 };
 
 export function getSymptomsForEquipmentSubtype(subtype, equipmentType) {
