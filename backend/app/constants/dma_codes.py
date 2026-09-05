@@ -33,3 +33,49 @@ DMA_RESOLUTION_CODES = {
 }
 
 REPAIR_OUTCOME_NOTE_TYPE = "Repair Outcome"
+
+
+def parse_dma_code_list(value: str | None) -> list[str]:
+    """Split comma-separated DMA code slugs into a de-duplicated list."""
+    if not value:
+        return []
+    seen: set[str] = set()
+    out: list[str] = []
+    for part in str(value).split(","):
+        token = part.strip()
+        if token and token not in seen:
+            seen.add(token)
+            out.append(token)
+    return out
+
+
+def join_dma_code_list(value: str | list[str] | None) -> str | None:
+    """Normalize chip list storage as comma-separated slugs."""
+    if value is None:
+        return None
+    if isinstance(value, list):
+        tokens = [str(item).strip() for item in value if str(item).strip()]
+    else:
+        tokens = parse_dma_code_list(value)
+    if not tokens:
+        return None
+    return ", ".join(tokens)
+
+
+def validate_dma_code_list(
+    value: str | None,
+    allowed: dict[str, str],
+    field_name: str,
+) -> str | None:
+    """Validate each slug in a comma-separated code list."""
+    if not value:
+        return value
+    tokens = parse_dma_code_list(value)
+    invalid = [token for token in tokens if token not in allowed]
+    if invalid:
+        allowed_keys = sorted(allowed.keys())
+        raise ValueError(
+            f"{field_name} contains invalid value(s): {invalid}. "
+            f"Each code must be one of {allowed_keys}"
+        )
+    return join_dma_code_list(tokens)

@@ -21,6 +21,9 @@ import { applyExternalCauseToWorkOrderFields } from '../../constants/externalCau
 import ExternalCauseOutcomePick from '../dma/ExternalCauseOutcomePick';
 import { NOTE_TYPES, MANUAL_NOTE_TYPES, getNoteTypePickerLabel } from '../../constants/workOrderNoteTypes';
 import DmaTagPicker from '../dma/DmaTagPicker';
+import DmaChipInput from '../dma/DmaChipInput';
+import DmaDropdownChipPicker from '../dma/DmaDropdownChipPicker';
+import { joinChipList } from '../../utils/dmaListField';
 import WorkOrderPhotosSection from './WorkOrderPhotosSection';
 import DiagnosticResultsForm, {
   clearDiagnosticDraft,
@@ -68,18 +71,20 @@ const NOTE_FIELDS = {
     {
       id: 'problemCode',
       label: 'Problem Code',
-      type: 'select',
-      options: [{ value: '', label: 'Select problem…' }, ...codeOptions(DMA_PROBLEM_CODES)],
+      type: 'codeChips',
+      chipKind: 'problem',
+      options: codeOptions(DMA_PROBLEM_CODES),
     },
     {
       id: 'resolutionCode',
       label: 'Resolution Code',
-      type: 'select',
-      options: [{ value: '', label: 'Select resolution…' }, ...codeOptions(DMA_RESOLUTION_CODES)],
+      type: 'codeChips',
+      chipKind: 'resolution',
+      options: codeOptions(DMA_RESOLUTION_CODES),
     },
     { id: 'confirmedFix', label: 'Confirmed Fix (required)', type: 'text' },
     { id: 'errorCodeText', label: 'Error Code (optional)', type: 'text' },
-    { id: 'replacedParts', label: 'Replaced Parts', type: 'text' },
+    { id: 'replacedParts', label: 'Replaced Parts', type: 'chips', chipKind: 'parts' },
     {
       id: 'repairMemoryMatch',
       label: 'Did Repair Memory match what you fixed? (required)',
@@ -148,6 +153,8 @@ const formatFieldsForDisplay = (fieldValues, noteType, workOrder = null) => {
       value = codeLabel(DMA_PROBLEM_CODES, value);
     } else if (field.id === 'resolutionCode') {
       value = codeLabel(DMA_RESOLUTION_CODES, value);
+    } else if (field.id === 'replacedParts') {
+      value = joinChipList(value) || value;
     } else if (field.id === 'repairMemoryMatch') {
       value = repairMemoryMatchLabel(value);
     } else if (field.id === 'repairSuccessful') {
@@ -163,6 +170,15 @@ const formatFieldsForAPI = (fieldValues, noteType) => {
     return serializeDiagnosticNotePayload(fieldValues);
   }
   if (!NOTE_FIELDS[noteType]) return fieldValues.text || '';
+  if (noteType === NOTE_TYPES.REPAIR_OUTCOME) {
+    const normalized = {
+      ...fieldValues,
+      problemCode: joinChipList(fieldValues.problemCode) || '',
+      resolutionCode: joinChipList(fieldValues.resolutionCode) || '',
+      replacedParts: joinChipList(fieldValues.replacedParts) || '',
+    };
+    return JSON.stringify(normalized);
+  }
   return JSON.stringify(fieldValues);
 };
 
@@ -719,6 +735,51 @@ export default function WorkOrderNotes({
             onChange={(tags) => onChange(field.id, tags)}
           />
         );
+      case 'chips': {
+        if (readOnly) {
+          const display = joinChipList(value) || 'None';
+          return (
+            <div>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{field.label}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{display}</p>
+            </div>
+          );
+        }
+        return (
+          <DmaChipInput
+            label={field.label}
+            value={value || ''}
+            onChange={(next) => onChange(field.id, next)}
+            uppercase
+            variant={isMobile ? 'dark' : 'light'}
+            placeholder="Part # then Enter (e.g. W11169652)"
+            hint="Press Enter after each part. Multiple allowed."
+          />
+        );
+      }
+      case 'codeChips': {
+        const codeMap = field.chipKind === 'problem' ? DMA_PROBLEM_CODES : DMA_RESOLUTION_CODES;
+        if (readOnly) {
+          const display = codeLabel(codeMap, value) || 'None';
+          return (
+            <div>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{field.label}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{display}</p>
+            </div>
+          );
+        }
+        return (
+          <DmaDropdownChipPicker
+            label={field.label}
+            value={value || ''}
+            onChange={(next) => onChange(field.id, next)}
+            options={field.options}
+            variant={isMobile ? 'dark' : 'light'}
+            placeholder={field.chipKind === 'problem' ? 'Select problem…' : 'Select resolution…'}
+            hint="Pick from the list — each selection appears below. Multiple allowed."
+          />
+        );
+      }
       default:
         return (
           <TextInput
