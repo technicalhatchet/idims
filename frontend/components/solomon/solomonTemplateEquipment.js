@@ -25,9 +25,14 @@ export function getEquipmentTypeForSubtype(subtype) {
     refrigerator: 'refrigerator',
     freezer: 'freezer',
     washing_machine: 'washer',
+    electric_dryer: 'dryer',
+    gas_dryer: 'dryer',
     dryer: 'dryer',
     aio_laundry: 'aiolaundry',
     dishwasher: 'dishwasher',
+    electric_range: 'range',
+    gas_range: 'range',
+    oven: 'range',
   };
   return map[subtype] || subtype.replace(/_/g, '');
 }

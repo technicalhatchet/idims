@@ -4,16 +4,12 @@ import {
   resolveSolomonDiagnosticStatus,
   SolomonDiagnosticStatusBadge,
 } from './solomonDiagnosticStatus';
+import { sanitizeSolomonAlphanumeric } from '../../utils/solomonFieldSanitize';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-base text-white placeholder:text-gray-500 focus:border-cyan-500/50 focus:outline-none';
 
 const labelClass = 'block text-xs uppercase tracking-wide text-gray-400 mb-1';
-
-/** Model and serial: uppercase letters and digits only. */
-function sanitizeModelSerial(value) {
-  return String(value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-}
 
 function equipmentSummary(equipment) {
   return [
@@ -136,7 +132,7 @@ export default function SolomonEquipmentBar({
                 value={equipment.equipment_model}
                 onChange={(e) => onEquipmentChange({
                   ...equipment,
-                  equipment_model: sanitizeModelSerial(e.target.value),
+                  equipment_model: sanitizeSolomonAlphanumeric(e.target.value),
                 })}
                 placeholder="Model #"
                 className={inputClass}
@@ -152,7 +148,7 @@ export default function SolomonEquipmentBar({
                 value={equipment.equipment_serial}
                 onChange={(e) => onEquipmentChange({
                   ...equipment,
-                  equipment_serial: sanitizeModelSerial(e.target.value),
+                  equipment_serial: sanitizeSolomonAlphanumeric(e.target.value),
                 })}
                 placeholder="Optional"
                 className={inputClass}

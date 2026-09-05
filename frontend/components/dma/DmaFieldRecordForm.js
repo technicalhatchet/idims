@@ -12,6 +12,7 @@ import { applyExternalCausePreset } from '../../constants/externalCauseOutcomes'
 import ExternalCauseOutcomePick from './ExternalCauseOutcomePick';
 import { getDmaCodes } from '../../services/api/dmaApi';
 import DmaTagPicker from './DmaTagPicker';
+import { sanitizeSolomonAlphanumeric } from '../../utils/solomonFieldSanitize';
 import {
   SOLOMON_FORM_LABEL_CLASS,
   SOLOMON_FORM_PANEL_CLASS,
@@ -64,9 +65,24 @@ export default function DmaFieldRecordForm({
     setValues((prev) => ({ ...prev, [field]: v }));
   };
 
+  const setAlphanumeric = (field) => (e) => {
+    setValues((prev) => ({
+      ...prev,
+      [field]: isSolomon ? sanitizeSolomonAlphanumeric(e.target.value) : e.target.value,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(values);
+    if (!isSolomon) {
+      onSubmit(values);
+      return;
+    }
+    onSubmit({
+      ...values,
+      equipment_model: sanitizeSolomonAlphanumeric(values.equipment_model),
+      replaced_parts: sanitizeSolomonAlphanumeric(values.replaced_parts),
+    });
   };
 
   const problemOptions = codes?.problem_codes || DMA_PROBLEM_CODES;
@@ -101,9 +117,12 @@ export default function DmaFieldRecordForm({
             <input
               type="text"
               value={values.equipment_model}
-              onChange={set('equipment_model')}
+              onChange={isSolomon ? setAlphanumeric('equipment_model') : set('equipment_model')}
               placeholder="e.g. WFW5620HW"
               className={inputCls}
+              autoCapitalize={isSolomon ? 'characters' : 'off'}
+              autoCorrect="off"
+              spellCheck={false}
             />
           </div>
           <div>
@@ -222,9 +241,12 @@ export default function DmaFieldRecordForm({
           <input
             type="text"
             value={values.replaced_parts}
-            onChange={set('replaced_parts')}
-            placeholder="Part # or description, or None"
+            onChange={isSolomon ? setAlphanumeric('replaced_parts') : set('replaced_parts')}
+            placeholder="Part # or NONE"
             className={inputCls}
+            autoCapitalize={isSolomon ? 'characters' : 'off'}
+            autoCorrect="off"
+            spellCheck={false}
           />
         </div>
 

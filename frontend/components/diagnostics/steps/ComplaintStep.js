@@ -86,6 +86,7 @@ export default function ComplaintStep({ context, meta, readOnly, variant }) {
         activeRecommendations={context?.activeRecommendations}
         templateId={context?.payload?.templateId}
         measurementContext={context?.measurementContext || null}
+        solomonAlphanumericFields={context?.solomonAlphanumericFields}
       />
     </div>
   );
