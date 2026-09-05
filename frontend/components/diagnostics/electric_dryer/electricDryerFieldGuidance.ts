@@ -1,4 +1,4 @@
-import { allWhen, makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import { allWhen, makeWhen, platformWhen, scopedHelp } from '../routing/scopedFieldHelp';
 import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
 export const electricDryerFieldHelp: Record<string, FieldHelpEntry> = {
@@ -13,6 +13,10 @@ export const electricDryerFieldHelp: Record<string, FieldHelpEntry> = {
   'commonly_missed.lint_trap':
     'Clean the lint screen before heat/airflow tests. Built-up housing blocks airflow and trips hi-limits and thermal fuse.',
   'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport MCE (8178559): PF power fail; F-01 MCE; F-02 UI (diag only); F-22/F-23 exhaust thermistor; F-26 motor drive; F-28/F-29 moisture (diag only).',
+    },
     {
       when: [makeWhen('whirlpool')],
       text: 'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet/harness; F3E6/F3E7 moisture; F4E3/AF vent; F4E4/L2 supply; F4E1 relay; F1E1/F6Ex control.',
@@ -60,11 +64,19 @@ export const electricDryerFieldHelp: Record<string, FieldHelpEntry> = {
     'Door neutral to motor relay path often 1–6 Ω when wiring and motor are good — suspect CCU if in range but no run.',
   'heat_circuit.heater_ohms': scopedHelp([
     {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport single element 7–12 Ω (8178559 §5). ~10 Ω thermal cut-off to heater red. Not CCU dual ≤50 Ω.',
+    },
+    {
       when: [makeWhen('insignia')],
       text: 'Insignia TDRE75 heater element — compare to manual spec; open = no heat.',
     },
   ], 'Typical single element ~10–20 Ω; dual elements in parallel often ≤50 Ω relay-to-relay. Open = no heat.'),
   'heat_circuit.outlet_thermistor_kohm': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport exhaust NTC — F-22/F-23 in first 60 s Timed Dry. ~12 kΩ @ 70°F; P14-3 to P14-6 <1 kΩ = bad thermistor.',
+    },
     {
       when: [makeWhen('insignia')],
       text: 'Insignia E5 outlet NTC — fault stops heat and motor. Measure at connector per TDRE manual.',
@@ -82,8 +94,12 @@ export const electricDryerFieldHelp: Record<string, FieldHelpEntry> = {
     'Timed dry, empty drum, vent disconnected: High ~155°F off, Medium ~140°F, Low ~125°F (±5°F). Should reach setpoint in ~7 min.',
   'motor_electrical.supply_voltage':
     '240 V line-to-line (200–260 V). F4E4/L2 = less than ~30 V on L2 at control — check breaker, cord, and terminal block.',
-  'motor_electrical.motor_ohms':
-    'Main winding 3.3–3.6 Ω, start 2.7–3.0 Ω at motor. Start much above 3 Ω → replace motor.',
+  'motor_electrical.motor_ohms': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport: main 2.4–3.6 Ω (pins 4–5), start 2.4–3.8 Ω (pins 4–3) at motor. F-26 — check belt switch if motor OK.',
+    },
+  ], 'Main winding 3.3–3.6 Ω, start 2.7–3.0 Ω at motor. Start much above 3 Ω → replace motor.'),
   'motor_electrical.motor_amps':
     'High amps can indicate seized drum, bad bearing, or locked blower — check mechanical path first.',
   'motor_electrical.belt_idler':

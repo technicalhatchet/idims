@@ -1758,6 +1758,56 @@
       "explanation": "Insignia E5 outlet thermistor — fault stops heat and motor.",
       "recommendStepKey": "gas",
       "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "gd_kw_duet_f22_exhaust",
+      "when": [{ "type": "keyword", "match": "f22" }],
+      "target": "outlet_thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F-22 — exhaust thermistor open (TEST #3a).",
+      "recommendStepKey": "gas",
+      "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "gd_kw_duet_f26_motor",
+      "when": [{ "type": "keyword", "match": "f26" }],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F-26 — motor drive; TEST #2 belt switch and windings.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "gd_ms_duet_motor",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportDryerMotorOhms", "statusIn": ["critical"] }],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport motor out of 2.4–3.8 Ω — replace motor or check harness.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "gd_ms_duet_ignitor",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportDryerIgnitorOhms", "statusIn": ["critical"] }],
+      "target": "igniter",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport ignitor not 50–250 Ω — no ignition path.",
+      "recommendStepKey": "gas",
+      "dmaTags": ["igniter_check"]
+    },
+    {
+      "id": "gd_ms_duet_gas_coil",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms", "statusIn": ["critical"] }],
+      "target": "gas_valve",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport gas valve coil open — glow but no gas.",
+      "recommendStepKey": "gas",
+      "dmaTags": ["gas_valve_check"]
     }
   ]
 }

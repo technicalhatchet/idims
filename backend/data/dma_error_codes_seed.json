@@ -5578,8 +5578,8 @@
     "code": "F01",
     "code_normalized": "F01",
     "meaning": "Main control failure",
-    "common_causes": "Failed control board",
-    "recommended_fix": "Replace control",
+    "common_causes": "Failed machine control electronics (MCE) or CCU",
+    "recommended_fix": "Duet Sport MCE (8178559): F-01 primary control — replace machine control electronics after harness check; CCU-era: replace CCU",
     "alias_group_id": "6735fefb-eff6-417d-b576-547ef3ff98e9",
     "related_codes": [
       "F01"
@@ -5591,8 +5591,8 @@
     "code": "F02",
     "code_normalized": "F02",
     "meaning": "Keypad/UI issue",
-    "common_causes": "Stuck button",
-    "recommended_fix": "Inspect console",
+    "common_causes": "Stuck button or UI mismatch",
+    "recommended_fix": "Duet Sport: F-02 only in diagnostic mode (TEST #5) — inspect console electronics; CCU-era: inspect UI/console",
     "alias_group_id": "b74804f8-8817-447d-82cb-8c4342ea3812",
     "related_codes": [
       "F02"
@@ -5617,8 +5617,8 @@
     "code": "F22",
     "code_normalized": "F22",
     "meaning": "Exhaust thermistor open",
-    "common_causes": "Thermistor failure",
-    "recommended_fix": "Test thermistor",
+    "common_causes": "Open exhaust thermistor or harness (F-22 within 60 s on Duet Sport Timed Dry)",
+    "recommended_fix": "TEST #3a: check P14 harness; thermistor ~12 kΩ @ 70°F; replace thermistor if open",
     "alias_group_id": "7cda3466-0b61-49de-9b0f-f91e109e5778",
     "related_codes": [
       "F22"
@@ -5630,8 +5630,8 @@
     "code": "F23",
     "code_normalized": "F23",
     "meaning": "Exhaust thermistor shorted",
-    "common_causes": "Sensor short",
-    "recommended_fix": "Replace thermistor",
+    "common_causes": "Shorted exhaust thermistor or harness (F-23 within 60 s on Duet Sport)",
+    "recommended_fix": "TEST #3a: disconnect thermistor wires; replace thermistor; P14-3 to P14-6 <1 kΩ confirms short",
     "alias_group_id": "d5e6c9fb-61ab-42b4-8984-528aeb6a6fc6",
     "related_codes": [
       "F23"
@@ -5653,11 +5653,24 @@
   {
     "manufacturer": "Whirlpool",
     "equipment_subtype": "dryer",
+    "code": "F26",
+    "code_normalized": "F26",
+    "meaning": "Motor drive system failure",
+    "common_causes": "Open motor winding, open belt switch, or harness fault between motor and MCE",
+    "recommended_fix": "TEST #2: main 2.4–3.6 Ω, start 2.4–3.8 Ω at motor; belt switch closes when pulley up; repair harness or replace motor",
+    "alias_group_id": "c4e8a1f2-9b3d-4e7a-8c1f-2d6e5a9b0c3d",
+    "related_codes": [
+      "F26"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
     "code": "F28",
     "code_normalized": "F28",
     "meaning": "Moisture sensor issue",
-    "common_causes": "Sensor harness/open circuit",
-    "recommended_fix": "Clean and test moisture strips",
+    "common_causes": "Moisture strip open (F-28 diagnostic mode only on Duet Sport; F3E6 on CCU)",
+    "recommended_fix": "TEST #4: wet-cloth moisture sensor test in diagnostics; clean strips; check harness to MCE",
     "alias_group_id": "2fd4ae92-c47a-4ddf-85a8-4d7dabe9f8bb",
     "related_codes": [
       "F28",
@@ -5670,8 +5683,8 @@
     "code": "F29",
     "code_normalized": "F29",
     "meaning": "Moisture sensor issue",
-    "common_causes": "Sensor harness/open circuit",
-    "recommended_fix": "Clean and test moisture strips",
+    "common_causes": "Moisture strip shorted (F-29 diagnostic mode only on Duet Sport; F3E7 on CCU)",
+    "recommended_fix": "TEST #4: moisture sensor diagnostic; inspect strip short to cabinet; replace sensor harness",
     "alias_group_id": "2fd4ae92-c47a-4ddf-85a8-4d7dabe9f8bb",
     "related_codes": [
       "F28",

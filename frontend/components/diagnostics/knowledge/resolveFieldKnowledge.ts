@@ -142,6 +142,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
   electric_dryer: {
     'heat_circuit.heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportDryerHeaterOhms', platformId: 'whirlpool_duet_sport_dryer' },
         { knowledgeId: 'whirlpoolCcuDryerHeaterOhms', platformId: 'whirlpool_ccu_dryer' },
         {
           knowledgeId: 'insigniaDryerHeaterOhms',
@@ -153,6 +154,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'heat_circuit.outlet_thermistor_kohm': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportDryerExhaustThermistorKohm', platformId: 'whirlpool_duet_sport_dryer' },
         {
           knowledgeId: 'insigniaDryerOutletThermistorKohm',
           platformId: 'insignia_dryer_tdre',
@@ -162,15 +164,31 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       ],
     },
     'motor_electrical.motor_ohms': {
-      candidates: [{ knowledgeId: 'dryerDrumMotorWindingOhms', isDefault: true }],
+      candidates: [
+        { knowledgeId: 'whirlpoolDuetSportDryerMotorOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'dryerDrumMotorWindingOhms', isDefault: true },
+      ],
     },
     'motor_electrical.motor_circuit_ohms': {
       candidates: [{ knowledgeId: 'dryerMotorCircuitOhms', isDefault: true }],
     },
   },
   gas_dryer: {
+    'gas_ignition.igniter_ohms': {
+      candidates: [
+        { knowledgeId: 'whirlpoolDuetSportDryerIgnitorOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'hotSurfaceIgniterOhms', isDefault: true },
+      ],
+    },
+    'gas_ignition.gas_valve_coils': {
+      candidates: [
+        { knowledgeId: 'whirlpoolDuetSportDryerGasValveCoilOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'gasValveCoilOhms', isDefault: true },
+      ],
+    },
     'motor_electrical.outlet_thermistor_kohm': {
       candidates: [
+        { knowledgeId: 'whirlpoolDuetSportDryerExhaustThermistorKohm', platformId: 'whirlpool_duet_sport_dryer' },
         {
           knowledgeId: 'insigniaDryerOutletThermistorKohm',
           platformId: 'insignia_dryer_tdre',
@@ -180,7 +198,10 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       ],
     },
     'motor_electrical.motor_ohms': {
-      candidates: [{ knowledgeId: 'dryerDrumMotorWindingOhms', isDefault: true }],
+      candidates: [
+        { knowledgeId: 'whirlpoolDuetSportDryerMotorOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'dryerDrumMotorWindingOhms', isDefault: true },
+      ],
     },
     'motor_electrical.motor_circuit_ohms': {
       candidates: [{ knowledgeId: 'dryerMotorCircuitOhms', isDefault: true }],

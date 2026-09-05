@@ -122,3 +122,5 @@ Re-run `backend/database/supabase_dma_error_codes_seed.sql` in Supabase.
 ---
 
 *Regenerate PDF text: `python backend/docs/manuals/extract_pdf.py "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era.pdf"`*
+
+**Dryer pair:** [WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md](./WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md) — MCE dryer batch14.

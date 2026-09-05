@@ -192,6 +192,15 @@
         { "type": "measurement", "knowledgeId": "hotSurfaceIgniterOhms", "statusIn": ["normal"] }
       ],
       "suspect": ["flame_sensor_failed", "gas_valve_failed"]
+    },
+    {
+      "id": "duet_motor_bad_no_spin",
+      "when": [
+        { "type": "chip", "id": "no_spin" },
+        { "type": "measurement", "knowledgeId": "whirlpoolDuetSportDryerMotorOhms", "statusIn": ["critical"] }
+      ],
+      "confirm": ["motor_failed"],
+      "eliminate": ["belt_switch_failed"]
     }
   ]
 }

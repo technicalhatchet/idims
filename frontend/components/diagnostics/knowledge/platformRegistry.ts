@@ -3,6 +3,7 @@ import type { MeasurementContext } from './types';
 export const PLATFORM_IDS = {
   WHIRLPOOL_FL_DD: 'whirlpool_fl_dd',
   WHIRLPOOL_DUET_SPORT: 'whirlpool_duet_sport',
+  WHIRLPOOL_DUET_SPORT_DRYER: 'whirlpool_duet_sport_dryer',
   SAMSUNG_FLEXWASH: 'samsung_flexwash',
   SAMSUNG_SXS: 'samsung_sxs',
   LG_LRMVS: 'lg_lrmvs',
@@ -154,16 +155,32 @@ export const PLATFORM_RULES: PlatformRule[] = [
     modelPatterns: [/TDRE/i],
   },
   {
+    id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT_DRYER,
+    label: 'Whirlpool Duet Sport MCE dryer',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'electric_dryer',
+    modelPatterns: [/WED83/i, /WED85/i, /WGD83/i, /WGD85/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT_DRYER,
+    label: 'Whirlpool Duet Sport MCE dryer (gas)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'gas_dryer',
+    modelPatterns: [/WED83/i, /WED85/i, /WGD83/i, /WGD85/i],
+  },
+  {
     id: PLATFORM_IDS.WHIRLPOOL_CCU_DRYER,
     label: 'Whirlpool / Maytag CCU dryer',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'electric_dryer',
+    modelPatterns: [/WED/i, /WGD/i, /MED/i, /MGD/i],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_CCU_DRYER,
     label: 'Whirlpool / Maytag CCU dryer (gas)',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'gas_dryer',
+    modelPatterns: [/WED/i, /WGD/i, /MED/i, /MGD/i],
   },
 ];
 

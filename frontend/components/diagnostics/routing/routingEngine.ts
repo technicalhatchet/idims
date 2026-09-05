@@ -47,6 +47,11 @@ function expandErrorCodeTokens(text: string): string {
   while ((match = fCodeRe.exec(source)) !== null) {
     extras.push(`f${match[1]}e${match[2]}`);
   }
+  // MCE-era display codes (F-22, F-26) — normalize to f22, f26
+  const mceFRe = /\bf[\s-]?(\d{2})\b/g;
+  while ((match = mceFRe.exec(source)) !== null) {
+    extras.push(`f${match[1]}`);
+  }
   if (base.includes('restricted air')) {
     extras.push('f4e3', 'af', 'not drying', 'restricted air flow');
   }
@@ -232,24 +237,49 @@ function expandErrorCodeTokens(text: string): string {
   if (/\bfce0\b/.test(base)) {
     extras.push('wifi', 'control board', 'communication');
   }
-  // Whirlpool Duet Sport CCU/MCU (8178558 — F/xx LED codes)
+  // Whirlpool Duet Sport CCU/MCU washer (8178558 — F/xx LED codes)
+  const isDuetSportDryer = /\b(wed|wgd)\d/.test(base);
   if (/\bf20\b|\bf\/20\b/.test(base)) {
     extras.push('no fill', 'fill', 'inlet', 'pressure switch');
   }
   if (/\bf21\b|\bf\/21\b/.test(base)) {
     extras.push('wont drain', 'long drain', 'drain', 'sd', 'oversuds');
   }
-  if (/\bf22\b|\bf26\b|\bf29\b/.test(base)) {
+  if (!isDuetSportDryer && (/\bf22\b|\bf26\b|\bf29\b/.test(base))) {
     extras.push('door lock', 'lid lock');
   }
   if (/\bf27\b/.test(base)) {
     extras.push('overflow', 'leak', 'fill', 'drain');
   }
-  if (/\bf28\b|\bf06\b|\bf31\b/.test(base)) {
+  if (!isDuetSportDryer && (/\bf28\b|\bf06\b|\bf31\b/.test(base))) {
     extras.push('motor', 'control board', 'communication', 'mcu');
   }
-  if (/\bf25\b/.test(base)) {
+  if (/\bf25\b/.test(base) && !isDuetSportDryer) {
     extras.push('wont spin', 'motor', 'shipping bolts');
+  }
+  // Whirlpool Duet Sport MCE dryer (8178559 — F-xx display codes)
+  if (isDuetSportDryer) {
+    if (/\bf22\b/.test(base)) {
+      extras.push('exhaust thermistor', 'no heat', 'f3e1', 'thermistor');
+    }
+    if (/\bf23\b/.test(base)) {
+      extras.push('exhaust thermistor', 'f3e2', 'thermistor');
+    }
+    if (/\bf26\b/.test(base)) {
+      extras.push('no spin', 'no tumble', 'motor', 'belt switch');
+    }
+    if (/\bf28\b/.test(base)) {
+      extras.push('moisture sensor', 'f3e6', 'not drying');
+    }
+    if (/\bf29\b/.test(base)) {
+      extras.push('moisture sensor', 'f3e7', 'not drying');
+    }
+    if (/\bf01\b/.test(base)) {
+      extras.push('control board', 'no power');
+    }
+    if (/\bf02\b/.test(base)) {
+      extras.push('control board', 'stuck button');
+    }
   }
   // Insignia top-load washer E/F codes (avoid F8E* dishwasher overlap via word boundaries)
   if (/\be4\b/.test(base) && !/\bf4e/.test(base)) {
