@@ -1,10 +1,19 @@
 export const DMA_EQUIPMENT_SUBTYPE_LABELS = {
   washing_machine: 'Washing Machine',
+  electric_dryer: 'Electric Dryer',
+  gas_dryer: 'Gas Dryer',
   dryer: 'Dryer',
   refrigerator: 'Refrigerator',
+  freezer: 'Freezer',
   dishwasher: 'Dishwasher',
+  electric_range: 'Electric Range',
+  gas_range: 'Gas Range',
   oven: 'Oven / Range',
+  aio_laundry: 'AIO Laundry',
   microwave: 'Microwave',
+  cooktop: 'Cooktop',
+  range_hood: 'Range Hood',
+  other: 'Other',
 };
 
 export function formatDmaSubtype(subtype) {

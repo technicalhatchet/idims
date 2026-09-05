@@ -1,16 +1,17 @@
 import { getDiagnosticTemplate } from '../constants/diagnosticTemplates';
+import { sanitizeSolomonAlphanumeric } from './solomonFieldSanitize';
 
 const TEMPLATE_TO_SUBTYPE = {
   refrigerator: 'refrigerator',
   standalone_freezer: 'freezer',
   dishwasher: 'dishwasher',
   washer: 'washing_machine',
-  electric_dryer: 'dryer',
-  gas_dryer: 'dryer',
+  electric_dryer: 'electric_dryer',
+  gas_dryer: 'gas_dryer',
   stacked_laundry: 'aio_laundry',
   aio_laundry: 'aio_laundry',
-  electric_range: 'oven',
-  gas_range: 'oven',
+  electric_range: 'electric_range',
+  gas_range: 'gas_range',
   microwave: 'microwave',
 };
 
@@ -34,13 +35,13 @@ export function buildStandaloneDiagnosticBody(payload, equipmentMeta = {}) {
 
   return {
     equipment_make: equipmentMeta.equipment_make?.trim() || null,
-    equipment_model: equipmentMeta.equipment_model?.trim() || null,
+    equipment_model: sanitizeSolomonAlphanumeric(equipmentMeta.equipment_model) || null,
     equipment_type: equipmentMeta.equipment_type || 'appliance',
     equipment_subtype:
       equipmentMeta.equipment_subtype?.trim()
       || templateIdToEquipmentSubtype(templateId)
       || null,
-    equipment_serial: equipmentMeta.equipment_serial?.trim() || null,
+    equipment_serial: sanitizeSolomonAlphanumeric(equipmentMeta.equipment_serial) || null,
     customer_complaint: equipmentMeta.customer_complaint?.trim() || complaintFromPayload(payload),
     payload: cleanPayload,
     outcome_id: equipmentMeta.outcome_id || null,

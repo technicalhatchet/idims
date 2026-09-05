@@ -626,6 +626,7 @@ export default function DiagnosticResultsForm({
       activeRecommendations,
       lastReadings,
       measurementContext,
+      solomonAlphanumericFields: solomonMobileLayout,
       elimination: eliminationResult,
       intelligence: intelligenceResult
         ? {
@@ -664,6 +665,7 @@ export default function DiagnosticResultsForm({
       wizardDefinition?.routing?.fieldHelp,
       workOrder,
       readOnly,
+      solomonMobileLayout,
       handleAutoNoteBulletsChange,
       handleIncludeAutoNoteChange,
       handleRefreshAutoNote,

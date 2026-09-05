@@ -16,6 +16,10 @@ import {
   FieldRecommendationNote,
   SectionRecommendations,
 } from './FieldGuidance';
+import {
+  sanitizeSolomonAlphanumeric,
+  shouldSolomonSanitizeField,
+} from '../../utils/solomonFieldSanitize';
 
 const TRI_OPTIONS = [
   { value: '', label: '—' },
@@ -113,6 +117,7 @@ export function DiagnosticFieldControl({
   templateId = null,
   lastReadings = {},
   measurementContext = null,
+  solomonAlphanumericFields = false,
 }) {
   const key = diagnosticFieldKey(sectionId, field.id);
   const disabled = readOnly;
@@ -184,13 +189,16 @@ export function DiagnosticFieldControl({
     const fieldKey = diagnosticFieldKey(sectionId, field.id);
     const knowledgeId = getFieldKnowledgeId(templateId, fieldKey, measurementContext);
     const definition = knowledgeId ? getMeasurementKnowledge(knowledgeId) : null;
+    const sanitizeValue = solomonAlphanumericFields && shouldSolomonSanitizeField(field)
+      ? sanitizeSolomonAlphanumeric
+      : null;
     if (definition) {
       const evaluation = evaluateFieldMeasurement(templateId, fieldKey, value, measurementContext);
       return (
         <SmartMeasurementField
           label={field.label}
           value={value}
-          onChange={(next) => onChange(fieldKey, next)}
+          onChange={(next) => onChange(fieldKey, sanitizeValue ? sanitizeValue(next) : next)}
           disabled={disabled}
           variant={variant}
           definition={definition}
@@ -209,7 +217,7 @@ export function DiagnosticFieldControl({
           type="text"
           value={value || ''}
           disabled={disabled}
-          onChange={(e) => onChange(fieldKey, e.target.value)}
+          onChange={(e) => onChange(fieldKey, sanitizeValue ? sanitizeValue(e.target.value) : e.target.value)}
           className={`w-full rounded-lg border px-3 py-2 ${
             variant === 'mobile' ? 'text-base' : 'text-sm'
           } ${
@@ -217,6 +225,9 @@ export function DiagnosticFieldControl({
               ? 'border-white/10 bg-[#0A0F1E] text-white'
               : 'border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white'
           }`}
+          autoCapitalize={sanitizeValue ? 'characters' : 'off'}
+          autoCorrect="off"
+          spellCheck={false}
         />
         {recommendations.map((rec) => (
           <FieldRecommendationNote
@@ -273,6 +284,7 @@ export default function DiagnosticSectionFields({
   templateId = null,
   lastReadings = {},
   measurementContext = null,
+  solomonAlphanumericFields = false,
 }) {
   const isMobile = variant === 'mobile';
   const visibleFields = fieldVisibilityRules?.length
@@ -394,6 +406,7 @@ export default function DiagnosticSectionFields({
                 templateId={templateId}
                 lastReadings={lastReadings}
                 measurementContext={measurementContext}
+                solomonAlphanumericFields={solomonAlphanumericFields}
               />
             </div>
           );
