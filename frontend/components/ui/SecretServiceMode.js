@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback } from 'react';
-import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
@@ -14,7 +13,6 @@ import { motion, AnimatePresence } from 'framer-motion';
  * </SecretServiceMode>
  */
 export default function SecretServiceMode({ children, tapCount = 5, timeWindow = 3000 }) {
-  const router = useRouter();
   const [showServiceMode, setShowServiceMode] = useState(false);
   const [taps, setTaps] = useState(0);
   const timeoutRef = useRef(null);
@@ -47,7 +45,8 @@ export default function SecretServiceMode({ children, tapCount = 5, timeWindow =
 
   const handleServiceModeClick = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    router.push('/api/auth/login?returnTo=/techboard');
+    // Full navigation — router.push fetches /_next/data/.../login.json and breaks Auth0 redirect (SW/CORS).
+    window.location.href = '/api/auth/login?returnTo=/techboard';
   };
 
   const handleDismiss = () => {
