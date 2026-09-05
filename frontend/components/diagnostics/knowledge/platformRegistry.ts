@@ -1,4 +1,5 @@
 import type { MeasurementContext } from './types';
+import { expandOemModelVariants } from './whirlpoolOemRebadge';
 
 export const PLATFORM_IDS = {
   WHIRLPOOL_FL_DD: 'whirlpool_fl_dd',
@@ -36,10 +37,13 @@ export interface PlatformRule {
 export const PLATFORM_RULES: PlatformRule[] = [
   {
     id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT,
-    label: 'Whirlpool Duet Sport CCU/MCU front-load',
+    label: 'Whirlpool/Maytag Duet Sport CCU/MCU front-load',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'washer',
-    modelPatterns: [/WFW83/i, /WFW85/i, /WFW92/i, /WFW94/i, /WFW95/i],
+    modelPatterns: [
+      /WFW83/i, /WFW85/i, /WFW92/i, /WFW94/i, /WFW95/i,
+      /MHWE83/i, /MHWE85/i, /MHWE92/i, /MHWE94/i, /MHWE95/i, /MHWE/i,
+    ],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_FL_DD,
@@ -89,17 +93,24 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_JAZZ_FRENCH_DOOR,
-    label: 'Whirlpool Jazz French door (W10322959)',
+    label: 'Whirlpool/Maytag/KA Jazz French door (W10322959)',
     manufacturers: ['Whirlpool', 'KitchenAid', 'Maytag'],
     templateId: 'refrigerator',
-    modelPatterns: [/WRF53/i, /WRF54/i, /WRF55/i, /WRF56/i, /WRF98/i, /WRF99/i, /KRMF55/i, /KRFF5/i, /GI5F/i],
+    modelPatterns: [
+      /WRF53/i, /WRF54/i, /WRF55/i, /WRF56/i, /WRF98/i, /WRF99/i,
+      /KRMF55/i, /KRFF5/i, /GI5F/i,
+      /MFF5/i, /MFI5/i, /MFT5/i, /MFW5/i,
+    ],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_KA_FRENCH_DOOR,
-    label: 'Whirlpool / KitchenAid French door (ACU)',
+    label: 'Whirlpool/Maytag/KA French door (ACU)',
     manufacturers: ['Whirlpool', 'KitchenAid', 'Maytag'],
     templateId: 'refrigerator',
-    modelPatterns: [/WRF7/i, /WRF8/i, /KRMF70/i, /KRMF706/i, /KRFF7/i],
+    modelPatterns: [
+      /WRF7/i, /WRF8/i, /KRMF70/i, /KRMF706/i, /KRFF7/i,
+      /MFI7/i, /MFT7/i, /MFF7/i,
+    ],
   },
   {
     id: PLATFORM_IDS.MIDEA_RSS,
@@ -165,17 +176,23 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT_DRYER,
-    label: 'Whirlpool Duet Sport MCE dryer',
+    label: 'Whirlpool/Maytag Duet Sport MCE dryer',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'electric_dryer',
-    modelPatterns: [/WED83/i, /WED85/i, /WGD83/i, /WGD85/i],
+    modelPatterns: [
+      /WED83/i, /WED85/i, /WGD83/i, /WGD85/i,
+      /MED83/i, /MED85/i, /MGD83/i, /MGD85/i,
+    ],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT_DRYER,
-    label: 'Whirlpool Duet Sport MCE dryer (gas)',
+    label: 'Whirlpool/Maytag Duet Sport MCE dryer (gas)',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'gas_dryer',
-    modelPatterns: [/WED83/i, /WED85/i, /WGD83/i, /WGD85/i],
+    modelPatterns: [
+      /WED83/i, /WED85/i, /WGD83/i, /WGD85/i,
+      /MED83/i, /MED85/i, /MGD83/i, /MGD85/i,
+    ],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_CCU_DRYER,
@@ -225,11 +242,15 @@ export function resolvePlatformIdFromModel(ctx: MeasurementContext): PlatformId 
   const model = String(ctx.equipmentModel || '').trim();
   if (!model) return null;
 
+  const modelVariants = expandOemModelVariants(make, model);
+
   const candidates = PLATFORM_RULES.filter(
     (rule) =>
       rule.templateId === ctx.templateId
       && rule.manufacturers.includes(make)
-      && rule.modelPatterns?.some((pattern) => pattern.test(model)),
+      && rule.modelPatterns?.some((pattern) =>
+        modelVariants.some((variant) => pattern.test(variant)),
+      ),
   );
 
   return candidates[0]?.id ?? null;

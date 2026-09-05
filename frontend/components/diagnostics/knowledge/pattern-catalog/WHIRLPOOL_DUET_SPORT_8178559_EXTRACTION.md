@@ -87,7 +87,7 @@ Enter via button hold sequence §6 — saved/active fault codes, component tests
 
 | Gap | Notes |
 |-----|-------|
-| MED/MGD Maytag rebadges | Same MCE likely — patterns not added beyond WED/WGD |
+| MED/MGD Maytag rebadges | Resolved — `MED`/`MGD`→`WED`/`WGD` prefix map + explicit 83/85 patterns |
 | Models outside 83/85 prefix | Extend patterns if field data shows overlap |
 | Inlet thermistor (F-25 on some platforms) | Not in Duet Sport display table — deferred |
 | Flame sensor µA spec | Functional test only on job aid |

@@ -82,7 +82,7 @@ Door light switch held + **Fridge UP ×3** within 10 s → display **S-E** → F
 | No ice maker diagnostics on sheet | Modular IM uses separate 2225623 doc |
 | Model list incomplete | Extend WRF5x patterns if field data shows more Jazz models |
 | In-door dispenser specifics | Valve watts only — no flow test procedure |
-| MED/Maytag rebadges | Patterns not added beyond WRF/KRMF/GI5F |
+| Maytag MFF/MFI rebadges | Resolved — `MFF`/`MFI`→`WRF` prefix map + explicit MFF5/MFI5 patterns |
 
 ---
 
