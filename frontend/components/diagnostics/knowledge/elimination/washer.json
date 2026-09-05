@@ -110,6 +110,42 @@
       "id": "lid_lock_chip",
       "when": { "type": "chip", "id": "lid_lock" },
       "suspect": ["door_lock_failed"]
+    },
+    {
+      "id": "duet_motor_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherMotorOhms", "statusIn": ["critical"] },
+      "eliminate": ["drive_motor_ok"],
+      "confirm": ["drive_motor_failed"]
+    },
+    {
+      "id": "duet_motor_normal",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherMotorOhms", "statusIn": ["normal"] },
+      "eliminate": ["drive_motor_failed"],
+      "confirm": ["drive_motor_ok"]
+    },
+    {
+      "id": "duet_pump_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms", "statusIn": ["critical"] },
+      "eliminate": ["drain_pump_ok"],
+      "confirm": ["drain_pump_failed"]
+    },
+    {
+      "id": "duet_pump_normal",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms", "statusIn": ["normal"] },
+      "eliminate": ["drain_pump_failed"],
+      "confirm": ["drain_pump_ok"]
+    },
+    {
+      "id": "duet_inlet_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherInletValveOhms", "statusIn": ["critical"] },
+      "eliminate": ["inlet_valve_ok"],
+      "confirm": ["inlet_valve_failed"]
+    },
+    {
+      "id": "duet_door_lock_ol",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms", "statusIn": ["critical"] },
+      "eliminate": ["door_lock_ok"],
+      "confirm": ["door_lock_failed"]
     }
   ]
 }

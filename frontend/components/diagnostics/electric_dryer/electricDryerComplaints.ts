@@ -21,6 +21,11 @@ export const ELECTRIC_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
       'af',
       'f3e6',
       'f3e7',
+      'f22',
+      'f23',
+      'f26',
+      'f28',
+      'f29',
       'd80',
       'd85',
       'd90',
@@ -66,6 +71,6 @@ export const ELECTRIC_DRYER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
   {
     id: 'error_code',
     label: 'Error Code on Display',
-    keywords: ['error', 'fault', 'code', 'f01', 'e1', 'tc', 'tc5', '9c1', 'dc', 'df', 'hc'],
+    keywords: ['error', 'fault', 'code', 'f01', 'f22', 'f26', 'f28', 'e1', 'tc', 'tc5', '9c1', 'dc', 'df', 'hc'],
   },
 ];

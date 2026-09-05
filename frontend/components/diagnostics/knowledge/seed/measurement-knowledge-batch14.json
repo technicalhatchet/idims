@@ -1,0 +1,151 @@
+[
+  {
+    "id": "whirlpoolDuetSportDryerMotorOhms",
+    "name": "Whirlpool Duet Sport Dryer Motor Windings",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2.4, "max": 3.8 },
+      "warning": { "min": 2.0, "max": 4.5 },
+      "critical": { "below": 0.1, "above": 8 }
+    },
+    "typical": { "min": 2.4, "max": 3.6 },
+    "openCircuitCritical": true,
+    "purpose": "8178559 MCE dryer — main 2.4–3.6 Ω (pin 4–5), start 2.4–3.8 Ω (pin 4–3) at motor switch.",
+    "failureModes": [
+      "Open winding — F-26 motor drive failure",
+      "Good motor ohms but open to MCE — belt switch or harness"
+    ],
+    "testingTips": [
+      "Test at motor pluggable switch with connector disconnected",
+      "Belt switch: infinity → few Ω when pulley pushed up",
+      "Start winding >4 Ω — replace motor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport_dryer"
+    },
+    "dmaTags": ["motor_check", "no_tumble_issue"]
+  },
+  {
+    "id": "whirlpoolDuetSportDryerHeaterOhms",
+    "name": "Whirlpool Duet Sport Electric Heater Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 7, "max": 12 },
+      "warning": { "min": 5, "max": 15 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 9, "max": 11 },
+    "openCircuitCritical": true,
+    "purpose": "Single element 7–12 Ω red-to-red at heater (8178559 §5). Not CCU dual-element ≤50 Ω.",
+    "failureModes": [
+      "Open — no heat; check thermal cut-off and high-limit in series",
+      "~10 Ω element path but no heat — MCE heater relay or P14 harness"
+    ],
+    "testingTips": [
+      "Thermal cut-off red to heater red should read ~10 Ω when circuit intact",
+      "P14-3 to P14-6: 5–15 kΩ = bad MCE; <1 kΩ = replace thermistor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport_dryer"
+    },
+    "dmaTags": ["heating_element_check", "no_heat_issue"]
+  },
+  {
+    "id": "whirlpoolDuetSportDryerExhaustThermistorKohm",
+    "name": "Whirlpool Duet Sport Exhaust Thermistor",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 20 },
+      "warning": { "min": 2, "max": 25 },
+      "critical": { "below": 0.5, "above": 55 }
+    },
+    "typical": { "min": 9, "max": 13 },
+    "openCircuitCritical": true,
+    "purpose": "Exhaust NTC at MCE — F-22 open / F-23 short within 60 s of Timed Dry start.",
+    "failureModes": [
+      "Open — F-22 flashes, dryer shuts off",
+      "Short — F-23 flashes",
+      "In-range ohms but wrong temp — MCE if table checks pass"
+    ],
+    "testingTips": [
+      "~12 kΩ @ 70°F; 9.2 kΩ @ 80°F; 19.9 kΩ @ 50°F (§6 TEST #3a table)",
+      "Measure at thermistor with wires removed, power disconnected",
+      "P14-3 to P14-6: <1 kΩ = replace thermistor; 5–15 kΩ = replace MCE"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport_dryer"
+    },
+    "dmaTags": ["thermistor_check", "no_heat_issue"]
+  },
+  {
+    "id": "whirlpoolDuetSportDryerIgnitorOhms",
+    "name": "Whirlpool Duet Sport Gas Ignitor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50, "max": 250 },
+      "warning": { "min": 30, "max": 300 },
+      "critical": { "below": 5, "above": 500 }
+    },
+    "typical": { "min": 80, "max": 200 },
+    "openCircuitCritical": true,
+    "purpose": "8178559 gas burner ignitor cold resistance 50–250 Ω.",
+    "failureModes": [
+      "Open — no glow, no ignition",
+      "In spec but weak glow — check amp draw before condemning valve"
+    ],
+    "testingTips": [
+      "Disconnect ignitor connector at harness",
+      "After ignitor OK, proceed to gas valve coil test (TEST #3d)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport_dryer"
+    },
+    "dmaTags": ["igniter_check", "ignition_issue"]
+  },
+  {
+    "id": "whirlpoolDuetSportDryerGasValveCoilOhms",
+    "name": "Whirlpool Duet Sport Gas Valve Coils",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 500, "max": 1400 },
+      "warning": { "min": 400, "max": 1600 },
+      "critical": { "below": 100, "above": 2000 }
+    },
+    "typical": { "min": 1000, "max": 1350 },
+    "openCircuitCritical": true,
+    "purpose": "2-pin coil 1000–1300 Ω; 3-pin pins 1&2 = 1300–1400 Ω, 1&3 = 500–600 Ω.",
+    "failureModes": [
+      "Open coil — glow but no gas",
+      "All coils OK — flame sensor or MCE if ignitor amps good"
+    ],
+    "testingTips": [
+      "Gas off, power disconnected",
+      "Use R×100 scale per job aid §5",
+      "Thermal fuse in gas valve circuit — check before valve"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_duet_sport_dryer"
+    },
+    "dmaTags": ["gas_valve_check", "ignition_issue"]
+  }
+]

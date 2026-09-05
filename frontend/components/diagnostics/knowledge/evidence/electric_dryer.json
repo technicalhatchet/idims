@@ -2151,6 +2151,86 @@
       "explanation": "Insignia C9 display communication timeout.",
       "recommendStepKey": "motor",
       "dmaTags": ["control_board"]
+    },
+    {
+      "id": "ed_kw_duet_f22_exhaust",
+      "when": [{ "type": "keyword", "match": "f22" }],
+      "target": "exhaust_thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F-22 — exhaust thermistor open; TEST #3a within 60 s of Timed Dry.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "ed_kw_duet_f23_exhaust_short",
+      "when": [{ "type": "keyword", "match": "f23" }],
+      "target": "exhaust_thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F-23 — exhaust thermistor shorted.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["thermistor_check"]
+    },
+    {
+      "id": "ed_kw_duet_f26_motor",
+      "when": [{ "type": "keyword", "match": "f26" }],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F-26 — motor drive; TEST #2 windings and belt switch.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "ed_kw_duet_f28_moisture",
+      "when": [{ "type": "keyword", "match": "f28" }],
+      "target": "moisture_sensor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F-28 — moisture strip open (diagnostic mode TEST #4).",
+      "recommendStepKey": "functional",
+      "dmaTags": ["airflow_check"]
+    },
+    {
+      "id": "ed_kw_duet_f29_moisture",
+      "when": [{ "type": "keyword", "match": "f29" }],
+      "target": "moisture_sensor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F-29 — moisture strip shorted (diagnostic mode).",
+      "recommendStepKey": "functional",
+      "dmaTags": ["airflow_check"]
+    },
+    {
+      "id": "ed_ms_duet_motor",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportDryerMotorOhms", "statusIn": ["critical"] }],
+      "target": "motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport motor out of 2.4–3.8 Ω spec — F-26 motor drive failure.",
+      "recommendStepKey": "motor",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "ed_ms_duet_heater",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportDryerHeaterOhms", "statusIn": ["critical"] }],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport element not 7–12 Ω — no heat path open.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["heating_element_check"]
+    },
+    {
+      "id": "ed_ms_duet_exhaust_ntc",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportDryerExhaustThermistorKohm", "statusIn": ["critical"] }],
+      "target": "exhaust_thermistor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport exhaust thermistor out of spec — F-22/F-23 pattern.",
+      "recommendStepKey": "heat",
+      "dmaTags": ["thermistor_check"]
     }
   ]
 }

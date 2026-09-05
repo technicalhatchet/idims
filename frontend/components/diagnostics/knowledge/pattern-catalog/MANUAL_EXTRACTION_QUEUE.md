@@ -17,6 +17,7 @@
 | `w10330404-r-111.pdf` | [WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md](./WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md) | ✅ | ✅ merged |
 | `wiring-sheet-W10674984-RevA wrt311fzdt00.pdf` | [WRT311FDZT00_W10674984_EXTRACTION.md](./WRT311FDZT00_W10674984_EXTRACTION.md) | ✅ | ✅ merged |
 | `whirlpoolmodularicemakerservicesheet-2225623.pdf` | [WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md](./WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md) | ✅ | ✅ merged |
+| `jobaid-8178558-l-78 whirlpool fl washer 2013 era.pdf` | [WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md](./WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md) | ✅ | ✅ merged |
 
 **Next in queue (user):** *(empty — add next manual when ready)*
 
@@ -100,7 +101,9 @@
 
 | Platform | `platformId` | Seed batch | Key bindings |
 |----------|--------------|------------|--------------|
-| Whirlpool FL washer | `whirlpool_fl_dd` | batch8 | motor, inlet, drain, heater, recirc |
+| Whirlpool FL washer (DD) | `whirlpool_fl_dd` | batch8 | motor, inlet, drain, heater, recirc — WFW/MHW model match |
+| Whirlpool Duet Sport FL | `whirlpool_duet_sport` | batch13 | CCU/MCU belt-drive; F/xx codes |
+| Whirlpool Duet Sport dryer | `whirlpool_duet_sport_dryer` | batch14 | MCE era; F-xx codes; 7–12 Ω element |
 | Samsung FlexWash | `samsung_flexwash` | batch8 | motor, drain, heater, inlet |
 | Insignia washer TWM/TWM35 | `insignia_washer_cap` | batch9 | inlet kΩ, drain, door lock |
 | Insignia washer WMT41 | `insignia_washer_freq` | batch8+9 | inlet, drain, motor, level kHz |
@@ -110,7 +113,7 @@
 | Midea/Insignia RSS + RTM18 | `midea_rss` | batch9 | B3839 NTC, defrost heater |
 | Midea/Insignia UZ21 freezer | `midea_uz21` | batch9 | B3839 NTC, defrost heater |
 | Insignia TDRE dryer | `insignia_dryer_tdre` | batch9 | heater, outlet NTC |
-| Whirlpool/Maytag CCU dryer | `whirlpool_ccu_dryer` | batch9 | dual element ≤50 Ω |
+| Whirlpool/Maytag CCU dryer | `whirlpool_ccu_dryer` | batch9 | dual element ≤50 Ω; WED/WGD/MED/MGD model match |
 | Samsung SxS fridge | `samsung_sxs` | batch6 | defrost 63 Ω, voltage checks |
 | LG LRMVS fridge | `lg_lrmvs` | batch7 | fan V, defrost V/Ω |
 | GE GUD27 unitized | — | — | Symptom/timer only (no Ω layer) |

@@ -1246,6 +1246,86 @@
       "explanation": "Upper FlexWash complaint — door lock and AC7 harness first.",
       "recommendStepKey": "complaint",
       "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "w_kw_f20_fill",
+      "when": [{ "type": "keyword", "match": "f20" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F20 — no water in 6 min; inlet 750–850 Ω, pressure switch PR6.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["water_valve_check", "fill_issue"]
+    },
+    {
+      "id": "w_kw_f21_drain",
+      "when": [{ "type": "keyword", "match": "f21" }],
+      "target": "drain_pump",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F21 long drain — pump ~12.3 Ω; Sd may precede on oversuds.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check", "drain_issue"]
+    },
+    {
+      "id": "w_kw_f28_mcu",
+      "when": [{ "type": "keyword", "match": "f28" }],
+      "target": "drive_motor",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport F28 — CCU–MCU serial comm; check harness orientation at MCU.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["motor_check", "control_board"]
+    },
+    {
+      "id": "w_kw_f26_door",
+      "when": [{ "type": "keyword", "match": "f26" }],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": { "effect": "increase", "value": 18 },
+      "explanation": "F26 — door not opened 3 cycles or switch open while locked.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["door_lock_check"]
+    },
+    {
+      "id": "w_kw_f27_overflow",
+      "when": [{ "type": "keyword", "match": "f27" }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "F27 overflow — inlet stuck on, drain pump, pressure switch.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["fill_issue", "pump_check"]
+    },
+    {
+      "id": "w_ms_duet_motor",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherMotorOhms", "statusIn": ["critical"] }],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport motor out of ~6 Ω spec — F25 tach or no spin.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["motor_check"]
+    },
+    {
+      "id": "w_ms_duet_pump",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms", "statusIn": ["critical"] }],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport drain pump open — ~12.3 Ω expected at DP2.",
+      "recommendStepKey": "functional",
+      "dmaTags": ["pump_check"]
+    },
+    {
+      "id": "w_ms_duet_inlet",
+      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherInletValveOhms", "statusIn": ["critical"] }],
+      "target": "fill_supply",
+      "targetLayer": "category",
+      "effect": { "effect": "confirm" },
+      "explanation": "Duet Sport inlet coil open — 750–850 Ω per leg.",
+      "recommendStepKey": "electrical",
+      "dmaTags": ["water_valve_check"]
     }
   ]
 }

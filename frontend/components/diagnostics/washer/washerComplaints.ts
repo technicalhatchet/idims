@@ -47,6 +47,8 @@ export const WASHER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
     keywords: [
       'error', 'fault', 'code', 'f1', 'e1', 'oe', 'ue', 'f0e2', 'sd', 'oversuds',
       'f8e1', 'lo fl', 'f9e1', 'fce0', 'f3e1', 'f4e1', 'f4e2', 'f7e9', 'f6e1',
+      'f20', 'f21', 'f22', 'f23', 'f24', 'f25', 'f26', 'f27', 'f28', 'f29', 'f30', 'f31',
+      'f06', 'f01', 'rl',
       'ac7', 'dc4', '4c2', 'ac6', 'tc4', 'sf',
     ],
   },

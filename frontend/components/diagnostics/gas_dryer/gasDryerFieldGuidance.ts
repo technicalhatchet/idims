@@ -1,4 +1,4 @@
-import { allWhen, makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import { allWhen, makeWhen, platformWhen, scopedHelp } from '../routing/scopedFieldHelp';
 import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
 export const gasDryerFieldHelp: Record<string, FieldHelpEntry> = {
@@ -11,6 +11,10 @@ export const gasDryerFieldHelp: Record<string, FieldHelpEntry> = {
   'commonly_missed.lp_orifices':
     'Wrong LP orifice causes weak flame and long dry times — verify conversion before replacing the valve.',
   'customer_complaint.error_codes': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport MCE: PF; F-01 MCE; F-22/F-23 exhaust thermistor; F-26 motor; F-28/F-29 moisture (diag). Ignitor 50–250 Ω; coils 1000–1300 / 500–600 Ω.',
+    },
     {
       when: [makeWhen('whirlpool')],
       text: 'Whirlpool: F3E1/F3E2 exhaust; F3E3–F3E5 inlet; F3E6/F3E7 moisture; F4E3/AF vent; F4E4 supply; F1E1/F6Ex control. Ignitor ~50–500 Ω.',
@@ -32,8 +36,12 @@ export const gasDryerFieldHelp: Record<string, FieldHelpEntry> = {
     'Cracked igniter = low amps; valve may never open. Cold resistance typically 50–500 Ω.',
   'visual_inspection.gas_valve':
     'Coil pairs: ~1400 Ω, ~570 Ω, ~1300 Ω. Open coil = no gas even with a glowing ignitor.',
-  'functional_checks.drum_turning':
-    'No tumble — belt, belt switch, door switch, and motor windings (main 3.3–3.6 Ω, start 2.7–3.0 Ω) before CCU.',
+  'functional_checks.drum_turning': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport: main 2.4–3.6 Ω, start 2.4–3.8 Ω; belt switch closes when pulley up; F-26 motor drive.',
+    },
+  ], 'No tumble — belt, belt switch, door switch, and motor windings (main 3.3–3.6 Ω, start 2.7–3.0 Ω) before CCU.'),
   'functional_checks.ignition':
     'Ignitor should draw ~2.5–4.5 A before the valve opens. Glow with no flame → flame sensor or valve.',
   'functional_checks.airflow':
@@ -52,8 +60,18 @@ export const gasDryerFieldHelp: Record<string, FieldHelpEntry> = {
     'Belt switch must close when pulley is raised — common no-tumble cause with good motor ohms.',
   'motor_electrical.motor_circuit_ohms':
     '1–6 Ω door-to-motor path suggests wiring OK — check belt switch and CCU if drum still won’t run.',
-  'motor_electrical.outlet_thermistor_kohm':
-    'Exhaust thermistor at connector — F3E1/F3E2. Room temp often 5–15 kΩ.',
+  'motor_electrical.motor_ohms': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport: main 2.4–3.6 Ω, start 2.4–3.8 Ω at motor switch. F-26 — belt switch if motor OK.',
+    },
+  ], 'Main 3.3–3.6 Ω, start 2.7–3.0 Ω at motor. Motor circuit 1–6 Ω door-to-motor path → wiring OK, suspect CCU.'),
+  'motor_electrical.outlet_thermistor_kohm': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport exhaust NTC — F-22/F-23 in first 60 s. ~12 kΩ @ 70°F at thermistor.',
+    },
+  ], 'Exhaust thermistor at connector — F3E1/F3E2. Room temp often 5–15 kΩ.'),
   'motor_electrical.inlet_thermistor_kohm':
     'Gas inlet curve — ~58–68 kΩ at ~68°F on many models. F3E3–F3E5 inlet/harness faults.',
   'functional_checks.flame_quality':
@@ -62,18 +80,24 @@ export const gasDryerFieldHelp: Record<string, FieldHelpEntry> = {
     'Burner/heat on AIR or fluff → stuck gas valve relay or shorted heat circuit — verify on timed AIR cycle.',
   'gas_ignition.igniter_amps':
     'Below ~2.5 A = weak glow; gas may not ignite. Silicon carbide types often need ~3.2–3.6 A.',
-  'gas_ignition.igniter_ohms':
-    'Cold resistance 50–500 Ω typical. Open or out of range → replace ignitor.',
-  'gas_ignition.gas_valve_coils':
-    'Measure each coil pair: terminals 1–2 ~1400 Ω, 1–3 ~570 Ω, 4–5 ~1300 Ω (±5%).',
+  'gas_ignition.igniter_ohms': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: 'Duet Sport ignitor 50–250 Ω cold (8178559 §5). Glow with no flame → valve coils or flame sensor.',
+    },
+  ], 'Cold resistance 50–500 Ω typical. Open or out of range → replace ignitor.'),
+  'gas_ignition.gas_valve_coils': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport_dryer')],
+      text: '2-pin coil 1000–1300 Ω; 3-pin 1&2 = 1300–1400 Ω, 1&3 = 500–600 Ω. Thermal fuse in valve circuit on gas.',
+    },
+  ], 'Measure each coil pair: terminals 1–2 ~1400 Ω, 1–3 ~570 Ω, 4–5 ~1300 Ω (±5%).'),
   'gas_ignition.flame_sensor':
     'Open flame sensor with glowing ignitor and no gas → replace sensor. Clean carbon before testing.',
   'gas_ignition.gas_pressure_note':
     'Manifold pressure affects flame quality — verify supply and orifice when flame is weak but parts test good.',
   'motor_electrical.supply_voltage':
     '120 VAC (100–130 V). Low voltage affects motor, ignitor, and controls.',
-  'motor_electrical.motor_ohms':
-    'Main 3.3–3.6 Ω, start 2.7–3.0 Ω at motor. Motor circuit 1–6 Ω door-to-motor path → wiring OK, suspect CCU.',
   'motor_electrical.thermal_fuse':
     'On gas dryers the thermal fuse is often in series with the gas valve — drum may run with no heat.',
   'motor_electrical.exhaust_temp':

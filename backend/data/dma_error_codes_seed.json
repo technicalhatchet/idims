@@ -5339,7 +5339,7 @@
     "code_normalized": "F0E2",
     "meaning": "Oversuds  condition",
     "common_causes": "Too much detergent",
-    "recommended_fix": "Run rinse/spin, use HE detergent",
+    "recommended_fix": "Run rinse/spin, use HE detergent; Duet Sport: Sd displays 4 min before F21 on drain faults",
     "alias_group_id": "6a6ff3ef-c34c-4123-a787-aafd0d225d00",
     "related_codes": [
       "F0E2"
@@ -5578,8 +5578,8 @@
     "code": "F01",
     "code_normalized": "F01",
     "meaning": "Main control failure",
-    "common_causes": "Failed control board",
-    "recommended_fix": "Replace control",
+    "common_causes": "Failed machine control electronics (MCE) or CCU",
+    "recommended_fix": "Duet Sport MCE (8178559): F-01 primary control — replace machine control electronics after harness check; CCU-era: replace CCU",
     "alias_group_id": "6735fefb-eff6-417d-b576-547ef3ff98e9",
     "related_codes": [
       "F01"
@@ -5591,8 +5591,8 @@
     "code": "F02",
     "code_normalized": "F02",
     "meaning": "Keypad/UI issue",
-    "common_causes": "Stuck button",
-    "recommended_fix": "Inspect console",
+    "common_causes": "Stuck button or UI mismatch",
+    "recommended_fix": "Duet Sport: F-02 only in diagnostic mode (TEST #5) — inspect console electronics; CCU-era: inspect UI/console",
     "alias_group_id": "b74804f8-8817-447d-82cb-8c4342ea3812",
     "related_codes": [
       "F02"
@@ -5617,8 +5617,8 @@
     "code": "F22",
     "code_normalized": "F22",
     "meaning": "Exhaust thermistor open",
-    "common_causes": "Thermistor failure",
-    "recommended_fix": "Test thermistor",
+    "common_causes": "Open exhaust thermistor or harness (F-22 within 60 s on Duet Sport Timed Dry)",
+    "recommended_fix": "TEST #3a: check P14 harness; thermistor ~12 kΩ @ 70°F; replace thermistor if open",
     "alias_group_id": "7cda3466-0b61-49de-9b0f-f91e109e5778",
     "related_codes": [
       "F22"
@@ -5630,8 +5630,8 @@
     "code": "F23",
     "code_normalized": "F23",
     "meaning": "Exhaust thermistor shorted",
-    "common_causes": "Sensor short",
-    "recommended_fix": "Replace thermistor",
+    "common_causes": "Shorted exhaust thermistor or harness (F-23 within 60 s on Duet Sport)",
+    "recommended_fix": "TEST #3a: disconnect thermistor wires; replace thermistor; P14-3 to P14-6 <1 kΩ confirms short",
     "alias_group_id": "d5e6c9fb-61ab-42b4-8984-528aeb6a6fc6",
     "related_codes": [
       "F23"
@@ -5653,11 +5653,24 @@
   {
     "manufacturer": "Whirlpool",
     "equipment_subtype": "dryer",
+    "code": "F26",
+    "code_normalized": "F26",
+    "meaning": "Motor drive system failure",
+    "common_causes": "Open motor winding, open belt switch, or harness fault between motor and MCE",
+    "recommended_fix": "TEST #2: main 2.4–3.6 Ω, start 2.4–3.8 Ω at motor; belt switch closes when pulley up; repair harness or replace motor",
+    "alias_group_id": "c4e8a1f2-9b3d-4e7a-8c1f-2d6e5a9b0c3d",
+    "related_codes": [
+      "F26"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "dryer",
     "code": "F28",
     "code_normalized": "F28",
     "meaning": "Moisture sensor issue",
-    "common_causes": "Sensor harness/open circuit",
-    "recommended_fix": "Clean and test moisture strips",
+    "common_causes": "Moisture strip open (F-28 diagnostic mode only on Duet Sport; F3E6 on CCU)",
+    "recommended_fix": "TEST #4: wet-cloth moisture sensor test in diagnostics; clean strips; check harness to MCE",
     "alias_group_id": "2fd4ae92-c47a-4ddf-85a8-4d7dabe9f8bb",
     "related_codes": [
       "F28",
@@ -5670,8 +5683,8 @@
     "code": "F29",
     "code_normalized": "F29",
     "meaning": "Moisture sensor issue",
-    "common_causes": "Sensor harness/open circuit",
-    "recommended_fix": "Clean and test moisture strips",
+    "common_causes": "Moisture strip shorted (F-29 diagnostic mode only on Duet Sport; F3E7 on CCU)",
+    "recommended_fix": "TEST #4: moisture sensor diagnostic; inspect strip short to cabinet; replace sensor harness",
     "alias_group_id": "2fd4ae92-c47a-4ddf-85a8-4d7dabe9f8bb",
     "related_codes": [
       "F28",
@@ -6929,6 +6942,202 @@
     "alias_group_id": "7e92dd7a-5b01-4fb5-9e0f-7fb9bef23355",
     "related_codes": [
       "FCE0"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F01",
+    "code_normalized": "F01",
+    "meaning": "CCU EEPROM communication error (Duet Sport)",
+    "common_causes": "Power glitch; corrupted CCU EEPROM",
+    "recommended_fix": "8178558: unplug 2 min; run diagnostic test. Replace CCU if persistent",
+    "alias_group_id": "a1b2c3d4-e5f6-4789-a012-3456789abcde",
+    "related_codes": [
+      "F01",
+      "F1E1"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F06",
+    "code_normalized": "F06",
+    "meaning": "Motor control unit internal failure (Duet Sport MCU)",
+    "common_causes": "MCU over-voltage, over-current, or internal fault",
+    "recommended_fix": "Check motor-MCU-CCU harness; motor ~6 Ω; replace MCU",
+    "alias_group_id": "b2c3d4e5-f6a7-4890-b123-456789abcdef",
+    "related_codes": [
+      "F06",
+      "F28"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F20",
+    "code_normalized": "F20",
+    "meaning": "No water detected / pressure switch not tripped",
+    "common_causes": "Faucets off; clogged screens; inlet valve; pressure hose",
+    "recommended_fix": "8178558: inlet 750–850 Ω; verify fill in 6 min; pressure switch PR6 continuity",
+    "alias_group_id": "c3d4e5f6-a7b8-4901-c234-56789abcdef0",
+    "related_codes": [
+      "F20",
+      "F8E1"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F21",
+    "code_normalized": "F21",
+    "meaning": "Long drain (>8 min)",
+    "common_causes": "Kinked hose; pump jam; open pump winding",
+    "recommended_fix": "Sd may display first. Pump ~12.3 Ω; clean filter; check drain hose",
+    "alias_group_id": "d4e5f6a7-b8c9-4012-d345-6789abcdef01",
+    "related_codes": [
+      "F21",
+      "F9E1",
+      "SD"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F22",
+    "code_normalized": "F22",
+    "meaning": "Door lock error (6 failed lock attempts)",
+    "common_causes": "Broken lock mechanism; open lock solenoid (~60 Ω)",
+    "recommended_fix": "DL3 lock solenoid pins 1&3 = 60 Ω; door switch DS2 closed = 0 Ω",
+    "alias_group_id": "e5f6a7b8-c9d0-4123-e456-789abcdef012",
+    "related_codes": [
+      "F22",
+      "F5E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F23",
+    "code_normalized": "F23",
+    "meaning": "Heater failure (Duet Sport Ht)",
+    "common_causes": "Open tub heater; wiring; insufficient temp rise",
+    "recommended_fix": "HE2 heater 10–15 Ω; verify <86°F rise in first 40 min",
+    "alias_group_id": "f6a7b8c9-d0e1-4234-f567-89abcdef0123",
+    "related_codes": [
+      "F23",
+      "F4E1"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F24",
+    "code_normalized": "F24",
+    "meaning": "Water temperature sensor out of range",
+    "common_causes": "Open/short NTC at TH2",
+    "recommended_fix": "TH2 NTC per R/T chart (~2.3 kΩ @ 70°F); check heater if heat fault",
+    "alias_group_id": "a7b8c9d0-e1f2-4345-a678-9abcdef01234",
+    "related_codes": [
+      "F24",
+      "F3E2"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F25",
+    "code_normalized": "F25",
+    "meaning": "Drive motor tachometer error",
+    "common_causes": "Shipping bolts; motor-MCU harness; motor winding",
+    "recommended_fix": "Motor pins ~6 Ω all pairs; remove shipping system; check MCU",
+    "alias_group_id": "b8c9d0e1-f2a3-4456-b789-abcdef012345",
+    "related_codes": [
+      "F25",
+      "F7E9"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F26",
+    "code_normalized": "F26",
+    "meaning": "Door switch error",
+    "common_causes": "Door not opened 3 cycles; switch open while locked",
+    "recommended_fix": "Open door between cycles; DS2 = 0 Ω closed; educate customer",
+    "alias_group_id": "c9d0e1f2-a3b4-4567-c89a-bcdef0123456",
+    "related_codes": [
+      "F26",
+      "F5E4",
+      "DR"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F27",
+    "code_normalized": "F27",
+    "meaning": "Overflow condition",
+    "common_causes": "Stuck inlet valve; pressure switch; drain pump",
+    "recommended_fix": "Turn off water; drain runs constantly — check valve shutoff, pump, PR6",
+    "alias_group_id": "d0e1f2a3-b4c5-4678-d9ab-cdef01234567",
+    "related_codes": [
+      "F27",
+      "F8E3"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F28",
+    "code_normalized": "F28",
+    "meaning": "CCU–MCU serial communication error",
+    "common_causes": "Harness upside down at MCU; loose CCU connector",
+    "recommended_fix": "MCU serial harness wires left when facing connectors; motor-MCU-CCU continuity",
+    "alias_group_id": "e1f2a3b4-c5d6-4789-eabc-def012345678",
+    "related_codes": [
+      "F28",
+      "F6E3"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F29",
+    "code_normalized": "F29",
+    "meaning": "Door unlock error",
+    "common_causes": "Broken lock; unlock solenoid open",
+    "recommended_fix": "DL3 unlock pins 2&3 = 60 Ω; manual unlock procedure §6",
+    "alias_group_id": "f2a3b4c5-d6e7-4890-fbcd-ef0123456789",
+    "related_codes": [
+      "F29",
+      "F5E3"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F30",
+    "code_normalized": "F30",
+    "meaning": "Dispenser motor position error",
+    "common_causes": "Dispenser linkage; motor open (~1400 Ω)",
+    "recommended_fix": "DI6 motor pins 1&3 = 1400 Ω; check mechanical linkage",
+    "alias_group_id": "a3b4c5d6-e7f8-4901-acde-f01234567890",
+    "related_codes": [
+      "F30"
+    ]
+  },
+  {
+    "manufacturer": "Whirlpool",
+    "equipment_subtype": "washing_machine",
+    "code": "F31",
+    "code_normalized": "F31",
+    "meaning": "MCU heat sink over-temperature",
+    "common_causes": "Poor ventilation; drive system drag; repeated MCU resets",
+    "recommended_fix": "Verify clearance/ventilation; check belt, motor, MCU harness",
+    "alias_group_id": "b4c5d6e7-f8a9-4012-bdef-012345678901",
+    "related_codes": [
+      "F31"
     ]
   },
   {

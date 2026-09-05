@@ -1,4 +1,4 @@
-import { allWhen, makeWhen, scopedHelp } from '../routing/scopedFieldHelp';
+import { allWhen, makeWhen, platformWhen, scopedHelp } from '../routing/scopedFieldHelp';
 import type { FieldHelpEntry, FieldRecommendationRule } from '../routing/types';
 
 export const washerFieldHelp: Record<string, FieldHelpEntry> = {
@@ -29,6 +29,14 @@ export const washerFieldHelp: Record<string, FieldHelpEntry> = {
     'No spin with good drain often = shift actuator, clutch, or motor.',
   'electrical_measurements.drive_motor_ohms': scopedHelp([
     {
+      when: [platformWhen('whirlpool_duet_sport')],
+      text: 'Duet Sport belt-drive motor: ~6 Ω all pin pairs (8178558). F25 tach — remove shipping bolts first.',
+    },
+    {
+      when: [platformWhen('whirlpool_fl_dd')],
+      text: 'Whirlpool FL DD motor J6: 6–20 Ω all pairs (TEST #3). F7E9 = locked rotor — check obstruction first.',
+    },
+    {
       when: [makeWhen('whirlpool')],
       text: 'Whirlpool FL DD motor J6: 6–20 Ω all pairs (TEST #3). F7E9 = locked rotor — check obstruction first.',
     },
@@ -38,6 +46,14 @@ export const washerFieldHelp: Record<string, FieldHelpEntry> = {
     },
   ]),
   'electrical_measurements.drain_pump_ohms': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport')],
+      text: 'Duet Sport drain pump DP2: ~12.3 Ω. Sd may show 4 min before F21 long drain.',
+    },
+    {
+      when: [platformWhen('whirlpool_fl_dd')],
+      text: 'Whirlpool FL drain pump J11: 18.5–21.5 Ω. F9E1 long drain — filter and hose height before pump.',
+    },
     {
       when: [makeWhen('whirlpool')],
       text: 'Whirlpool FL drain pump J11: 18.5–21.5 Ω. F9E1 long drain — filter and hose height before pump.',
@@ -49,6 +65,14 @@ export const washerFieldHelp: Record<string, FieldHelpEntry> = {
   ]),
   'electrical_measurements.inlet_valve_ohms': scopedHelp([
     {
+      when: [platformWhen('whirlpool_duet_sport')],
+      text: 'Duet Sport inlet VCH7: 750–850 Ω per coil (cold 1&3, hot 5&7). F20 = no fill in 6 min.',
+    },
+    {
+      when: [platformWhen('whirlpool_fl_dd')],
+      text: 'Whirlpool FL inlet valve: 1.1–1.35 kΩ per coil. F8E1/Lo FL — screens, pressure, and valve.',
+    },
+    {
       when: [makeWhen('whirlpool')],
       text: 'Whirlpool FL inlet valve: 1.1–1.35 kΩ per coil. F8E1/Lo FL — screens, pressure, and valve.',
     },
@@ -58,6 +82,14 @@ export const washerFieldHelp: Record<string, FieldHelpEntry> = {
     },
   ]),
   'electrical_measurements.wash_heater_ohms': scopedHelp([
+    {
+      when: [platformWhen('whirlpool_duet_sport')],
+      text: 'Duet Sport Ht heater HE2: 10–15 Ω. F23 if wash temp rise <86°F in 40 min.',
+    },
+    {
+      when: [platformWhen('whirlpool_fl_dd')],
+      text: 'Heat/steam FL: wash heater J3 7–30 Ω (TEST #9). F4E1/F4E2 heat relay faults.',
+    },
     {
       when: [makeWhen('whirlpool')],
       text: 'Heat/steam FL: wash heater J3 7–30 Ω (TEST #9). F4E1/F4E2 heat relay faults.',
@@ -71,6 +103,10 @@ export const washerFieldHelp: Record<string, FieldHelpEntry> = {
   ]),
   'mechanical_controls.door_lock_ohms': scopedHelp([
     {
+      when: [platformWhen('whirlpool_duet_sport')],
+      text: 'Duet Sport DL3 lock/unlock solenoids 60 Ω; DS2 door switch 0 Ω closed. F22/F26/F29.',
+    },
+    {
       when: [makeWhen('whirlpool')],
       text: 'Front-load door lock — TEST #4. F5E1/E4 door faults; F5E4/dr = open door between cycles.',
     },
@@ -80,7 +116,7 @@ export const washerFieldHelp: Record<string, FieldHelpEntry> = {
     },
   ]),
   'mechanical_controls.pressure_switch':
-    'Pinched air dome hose causes fill/drain/spin logic errors — F3E1 pressure sensor.',
+    'Pinched air dome hose causes fill/drain/spin logic errors — F3E1 (DD) or F20 (Duet Sport).',
   'customer_complaint.flex_compartment': scopedHelp([
     {
       when: [makeWhen('samsung')],
