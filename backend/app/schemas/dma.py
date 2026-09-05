@@ -104,6 +104,9 @@ class DmaRepairRecordCreate(BaseModel):
     @classmethod
     def validate_resolution_code(cls, v):
         return validate_dma_code_list(v, DMA_RESOLUTION_CODES, "resolution_code")
+
+
+class DmaRepairRecordUpdate(BaseModel):
     equipment_make: Optional[str] = None
     equipment_model: Optional[str] = None
     equipment_type: Optional[str] = None
