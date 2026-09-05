@@ -18,7 +18,7 @@ import {
 } from './FieldGuidance';
 import {
   sanitizeSolomonAlphanumeric,
-  shouldSolomonSanitizeField,
+  shouldUppercaseSolomonField,
 } from '../../utils/solomonFieldSanitize';
 
 const TRI_OPTIONS = [
@@ -189,7 +189,7 @@ export function DiagnosticFieldControl({
     const fieldKey = diagnosticFieldKey(sectionId, field.id);
     const knowledgeId = getFieldKnowledgeId(templateId, fieldKey, measurementContext);
     const definition = knowledgeId ? getMeasurementKnowledge(knowledgeId) : null;
-    const sanitizeValue = solomonAlphanumericFields && shouldSolomonSanitizeField(field)
+    const sanitizeValue = solomonAlphanumericFields && shouldUppercaseSolomonField(field)
       ? sanitizeSolomonAlphanumeric
       : null;
     if (definition) {

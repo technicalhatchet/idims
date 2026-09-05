@@ -1,5 +1,5 @@
 import { getDiagnosticTemplate } from '../constants/diagnosticTemplates';
-import { sanitizeSolomonAlphanumeric } from './solomonFieldSanitize';
+import { uppercasePreserve } from './solomonFieldSanitize';
 
 const TEMPLATE_TO_SUBTYPE = {
   refrigerator: 'refrigerator',
@@ -35,13 +35,13 @@ export function buildStandaloneDiagnosticBody(payload, equipmentMeta = {}) {
 
   return {
     equipment_make: equipmentMeta.equipment_make?.trim() || null,
-    equipment_model: sanitizeSolomonAlphanumeric(equipmentMeta.equipment_model) || null,
+    equipment_model: uppercasePreserve(equipmentMeta.equipment_model) || null,
     equipment_type: equipmentMeta.equipment_type || 'appliance',
     equipment_subtype:
       equipmentMeta.equipment_subtype?.trim()
       || templateIdToEquipmentSubtype(templateId)
       || null,
-    equipment_serial: sanitizeSolomonAlphanumeric(equipmentMeta.equipment_serial) || null,
+    equipment_serial: uppercasePreserve(equipmentMeta.equipment_serial) || null,
     customer_complaint: equipmentMeta.customer_complaint?.trim() || complaintFromPayload(payload),
     payload: cleanPayload,
     outcome_id: equipmentMeta.outcome_id || null,

@@ -3,6 +3,8 @@
  * Labels must stay in sync with backend/app/constants/dma_codes.py
  */
 
+import { formatCodeListLabels } from '../utils/dmaListField';
+
 export const DMA_PROBLEM_CODES = {
   not_cooling: 'Not cooling / no cool',
   not_heating: 'Not heating',
@@ -68,5 +70,8 @@ export function codeOptions(codeMap) {
 
 export function codeLabel(codeMap, value) {
   if (!value) return '';
+  if (String(value).includes(',')) {
+    return formatCodeListLabels(codeMap, value);
+  }
   return codeMap[value] || value.replace(/_/g, ' ');
 }

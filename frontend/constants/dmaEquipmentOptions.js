@@ -1,4 +1,4 @@
-/** Equipment options for standalone DMA field records */
+import { joinChipList } from '../utils/dmaListField';
 
 export const DMA_EQUIPMENT_TYPES = [
   { value: '', label: 'Select type…' },
@@ -111,11 +111,11 @@ export function formValuesToPayload(values) {
     equipment_model: values.equipment_model?.trim() || null,
     equipment_subtype: values.equipment_subtype || null,
     customer_complaint: values.customer_complaint?.trim() || null,
-    problem_code: values.problem_code || null,
-    resolution_code: values.resolution_code || null,
+    problem_code: joinChipList(values.problem_code) || null,
+    resolution_code: joinChipList(values.resolution_code) || null,
     confirmed_fix: values.confirmed_fix?.trim(),
     error_code_text: values.error_code_text?.trim() || null,
-    replaced_parts: values.replaced_parts?.trim() || null,
+    replaced_parts: joinChipList(values.replaced_parts) || null,
     repair_successful: !!values.repair_successful,
     outcome_confidence: values.outcome_confidence || null,
     callback_required: !!values.callback_required,

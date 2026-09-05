@@ -4,7 +4,7 @@ import {
   resolveSolomonDiagnosticStatus,
   SolomonDiagnosticStatusBadge,
 } from './solomonDiagnosticStatus';
-import { sanitizeSolomonAlphanumeric } from '../../utils/solomonFieldSanitize';
+import { uppercasePreserve } from '../../utils/solomonFieldSanitize';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-base text-white placeholder:text-gray-500 focus:border-cyan-500/50 focus:outline-none';
@@ -132,7 +132,7 @@ export default function SolomonEquipmentBar({
                 value={equipment.equipment_model}
                 onChange={(e) => onEquipmentChange({
                   ...equipment,
-                  equipment_model: sanitizeSolomonAlphanumeric(e.target.value),
+                  equipment_model: uppercasePreserve(e.target.value),
                 })}
                 placeholder="Model #"
                 className={inputClass}
@@ -148,7 +148,7 @@ export default function SolomonEquipmentBar({
                 value={equipment.equipment_serial}
                 onChange={(e) => onEquipmentChange({
                   ...equipment,
-                  equipment_serial: sanitizeSolomonAlphanumeric(e.target.value),
+                  equipment_serial: uppercasePreserve(e.target.value),
                 })}
                 placeholder="Optional"
                 className={inputClass}

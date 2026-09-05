@@ -3,7 +3,11 @@ from typing import Optional, List, Any, Literal
 from datetime import datetime, date
 from uuid import UUID
 
-from app.constants.dma_codes import DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES
+from app.constants.dma_codes import (
+    DMA_PROBLEM_CODES,
+    DMA_RESOLUTION_CODES,
+    validate_dma_code_list,
+)
 
 
 class DmaCodesResponse(BaseModel):
@@ -94,19 +98,12 @@ class DmaRepairRecordCreate(BaseModel):
     @field_validator("problem_code")
     @classmethod
     def validate_problem_code(cls, v):
-        if v and v not in DMA_PROBLEM_CODES:
-            raise ValueError(f"problem_code must be one of {list(DMA_PROBLEM_CODES.keys())}")
-        return v
+        return validate_dma_code_list(v, DMA_PROBLEM_CODES, "problem_code")
 
     @field_validator("resolution_code")
     @classmethod
     def validate_resolution_code(cls, v):
-        if v and v not in DMA_RESOLUTION_CODES:
-            raise ValueError(f"resolution_code must be one of {list(DMA_RESOLUTION_CODES.keys())}")
-        return v
-
-
-class DmaRepairRecordUpdate(BaseModel):
+        return validate_dma_code_list(v, DMA_RESOLUTION_CODES, "resolution_code")
     equipment_make: Optional[str] = None
     equipment_model: Optional[str] = None
     equipment_type: Optional[str] = None
@@ -174,16 +171,12 @@ class DmaRepairRecordUpdate(BaseModel):
     @field_validator("problem_code")
     @classmethod
     def validate_problem_code(cls, v):
-        if v and v not in DMA_PROBLEM_CODES:
-            raise ValueError(f"problem_code must be one of {list(DMA_PROBLEM_CODES.keys())}")
-        return v
+        return validate_dma_code_list(v, DMA_PROBLEM_CODES, "problem_code")
 
     @field_validator("resolution_code")
     @classmethod
     def validate_resolution_code(cls, v):
-        if v and v not in DMA_RESOLUTION_CODES:
-            raise ValueError(f"resolution_code must be one of {list(DMA_RESOLUTION_CODES.keys())}")
-        return v
+        return validate_dma_code_list(v, DMA_RESOLUTION_CODES, "resolution_code")
 
 
 class DmaRepairRecordResponse(BaseModel):

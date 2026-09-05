@@ -12,7 +12,10 @@ import { applyExternalCausePreset } from '../../constants/externalCauseOutcomes'
 import ExternalCauseOutcomePick from './ExternalCauseOutcomePick';
 import { getDmaCodes } from '../../services/api/dmaApi';
 import DmaTagPicker from './DmaTagPicker';
-import { sanitizeSolomonAlphanumeric } from '../../utils/solomonFieldSanitize';
+import { joinChipList } from '../../utils/dmaListField';
+import DmaChipInput from './DmaChipInput';
+import DmaDropdownChipPicker from './DmaDropdownChipPicker';
+import { uppercasePreserve } from '../../utils/solomonFieldSanitize';
 import {
   SOLOMON_FORM_LABEL_CLASS,
   SOLOMON_FORM_PANEL_CLASS,
@@ -65,23 +68,21 @@ export default function DmaFieldRecordForm({
     setValues((prev) => ({ ...prev, [field]: v }));
   };
 
-  const setAlphanumeric = (field) => (e) => {
+  const setUppercase = (field) => (e) => {
     setValues((prev) => ({
       ...prev,
-      [field]: isSolomon ? sanitizeSolomonAlphanumeric(e.target.value) : e.target.value,
+      [field]: uppercasePreserve(e.target.value),
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isSolomon) {
-      onSubmit(values);
-      return;
-    }
     onSubmit({
       ...values,
-      equipment_model: sanitizeSolomonAlphanumeric(values.equipment_model),
-      replaced_parts: sanitizeSolomonAlphanumeric(values.replaced_parts),
+      equipment_model: uppercasePreserve(values.equipment_model),
+      replaced_parts: joinChipList(values.replaced_parts),
+      problem_code: joinChipList(values.problem_code),
+      resolution_code: joinChipList(values.resolution_code),
     });
   };
 
@@ -117,10 +118,10 @@ export default function DmaFieldRecordForm({
             <input
               type="text"
               value={values.equipment_model}
-              onChange={isSolomon ? setAlphanumeric('equipment_model') : set('equipment_model')}
+              onChange={setUppercase('equipment_model')}
               placeholder="e.g. WFW5620HW"
               className={inputCls}
-              autoCapitalize={isSolomon ? 'characters' : 'off'}
+              autoCapitalize="characters"
               autoCorrect="off"
               spellCheck={false}
             />
@@ -170,24 +171,24 @@ export default function DmaFieldRecordForm({
 
         {!isDiy ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className={labelCls}>Problem code</label>
-              <select value={values.problem_code} onChange={set('problem_code')} className={inputCls}>
-                <option value="">Select problem…</option>
-                {codeOptions(problemOptions).map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className={labelCls}>Resolution code</label>
-              <select value={values.resolution_code} onChange={set('resolution_code')} className={inputCls}>
-                <option value="">Select resolution…</option>
-                {codeOptions(resolutionOptions).map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
-              </select>
-            </div>
+            <DmaDropdownChipPicker
+              label="Problem code"
+              value={values.problem_code}
+              onChange={(next) => setValues((prev) => ({ ...prev, problem_code: next }))}
+              options={codeOptions(problemOptions)}
+              variant={isSolomon ? 'dark' : 'light'}
+              placeholder="Select problem…"
+              hint="Pick from the list — each selection appears below. Multiple allowed."
+            />
+            <DmaDropdownChipPicker
+              label="Resolution code"
+              value={values.resolution_code}
+              onChange={(next) => setValues((prev) => ({ ...prev, resolution_code: next }))}
+              options={codeOptions(resolutionOptions)}
+              variant={isSolomon ? 'dark' : 'light'}
+              placeholder="Select resolution…"
+              hint="Pick from the list — each selection appears below. Multiple allowed."
+            />
           </div>
         ) : null}
 
@@ -236,19 +237,15 @@ export default function DmaFieldRecordForm({
           ) : null}
         </div>
 
-        <div>
-          <label className={labelCls}>Replaced parts</label>
-          <input
-            type="text"
-            value={values.replaced_parts}
-            onChange={isSolomon ? setAlphanumeric('replaced_parts') : set('replaced_parts')}
-            placeholder="Part # or NONE"
-            className={inputCls}
-            autoCapitalize={isSolomon ? 'characters' : 'off'}
-            autoCorrect="off"
-            spellCheck={false}
-          />
-        </div>
+        <DmaChipInput
+          label="Replaced parts"
+          value={values.replaced_parts}
+          onChange={(next) => setValues((prev) => ({ ...prev, replaced_parts: next }))}
+          uppercase
+          variant={isSolomon ? 'dark' : 'light'}
+          placeholder="Part # then Enter (e.g. W11169652)"
+          hint="Press Enter after each part. Use NONE if no parts replaced."
+        />
 
         {!isDiy ? (
           <DmaTagPicker
