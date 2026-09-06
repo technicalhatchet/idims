@@ -59,6 +59,49 @@ _BOOKING_APPLIANCE_NAME_KEYWORD = {
     "range_hood": "other",
 }
 
+# Fuel-specific diagnostic SKUs (name match) — checked before generic appliance chains.
+_BOOKING_SUBTYPE_NAME_KEYWORD = {
+    "electric_dryer": "electric dryer",
+    "gas_dryer": "gas dryer",
+    "electric_range": "electric range",
+    "gas_range": "gas range",
+}
+
+_BOOKING_APPLIANCE_TO_SUBTYPE = {
+    "refrigerator": "refrigerator",
+    "washer": "washing_machine",
+    "dryer": "dryer",
+    "aiolaundry": "aio_laundry",
+    "aio_laundry": "aio_laundry",
+    "oven": "oven",
+    "dishwasher": "dishwasher",
+    "microwave": "microwave",
+    "freezer": "freezer",
+    "tv": "tv",
+}
+
+_BOOKING_APPLIANCE_LABELS = {
+    "refrigerator": "Refrigerator",
+    "washer": "Washer",
+    "dryer": "Dryer",
+    "aiolaundry": "AIO Laundry",
+    "oven": "Oven / Range",
+    "dishwasher": "Dishwasher",
+    "microwave": "Microwave",
+    "freezer": "Freezer",
+    "tv": "TV",
+    "other": "Appliance",
+}
+
+_SUBTYPE_DISPLAY_LABELS = {
+    "electric_dryer": "Electric Dryer",
+    "gas_dryer": "Gas Dryer",
+    "electric_range": "Electric Range",
+    "gas_range": "Gas Range",
+    "washing_machine": "Washer",
+    "aio_laundry": "AIO Laundry",
+}
+
 
 def appliance_to_booking_key(appliance: ClientAppliance) -> str:
     """Map registry appliance type/subtype to public booking appliance id."""
@@ -104,8 +147,19 @@ def _query_diagnostic_by_name_keyword(db: Session, keyword: str) -> Optional[Ser
     )
 
 
-def lookup_diagnostic_service(db: Session, appliance_key: str) -> Optional[Service]:
+def lookup_diagnostic_service(
+    db: Session,
+    appliance_key: str,
+    equipment_subtype: Optional[str] = None,
+) -> Optional[Service]:
     """Resolve the diagnostic SKU for a booking appliance selection."""
+    subtype = (equipment_subtype or "").strip().lower()
+    if subtype in _BOOKING_SUBTYPE_NAME_KEYWORD:
+        keyword = _BOOKING_SUBTYPE_NAME_KEYWORD[subtype]
+        service = _query_diagnostic_by_name_keyword(db, keyword)
+        if service:
+            return service
+
     key = (appliance_key or "").strip().lower()
 
     chain = _BOOKING_EQUIPMENT_TYPE_CHAIN.get(key)
@@ -188,8 +242,9 @@ def build_booking_estimate(
     address: str,
     *,
     zone_exempt: bool = False,
+    equipment_subtype: Optional[str] = None,
 ) -> dict:
-    diagnostic_service = lookup_diagnostic_service(db, appliance_key)
+    diagnostic_service = lookup_diagnostic_service(db, appliance_key, equipment_subtype)
     trip = estimate_trip_charge(db, address, skip_drive_time_lookup=zone_exempt)
     serviceable = is_address_serviceable(trip)
 
@@ -235,4 +290,43 @@ def build_booking_estimate(
         "serviceable": serviceable,
         "service_area_message": None if serviceable else OUT_OF_SERVICE_AREA_MESSAGE,
         "zone_exempt": zone_exempt,
+    }
+
+
+def resolve_booking_equipment_fields(
+    appliance: str,
+    *,
+    equipment_subtype: Optional[str] = None,
+    custom_appliance: Optional[str] = None,
+) -> dict:
+    """Map public booking payload → work order equipment fields + display label."""
+    appliance_key = (appliance or "").strip().lower()
+    subtype = (equipment_subtype or "").strip().lower() or None
+
+    if not subtype and appliance_key in _BOOKING_APPLIANCE_TO_SUBTYPE:
+        subtype = _BOOKING_APPLIANCE_TO_SUBTYPE[appliance_key]
+
+    if appliance_key == "tv":
+        equipment_type = "tv"
+    elif appliance_key == "other":
+        equipment_type = None
+    elif appliance_key:
+        equipment_type = "appliance"
+    else:
+        equipment_type = None
+
+    if subtype == "tv":
+        equipment_type = "tv"
+
+    if appliance_key == "other" and custom_appliance:
+        display = custom_appliance.strip()
+    elif subtype and subtype in _SUBTYPE_DISPLAY_LABELS:
+        display = _SUBTYPE_DISPLAY_LABELS[subtype]
+    else:
+        display = _BOOKING_APPLIANCE_LABELS.get(appliance_key, appliance_key or "Appliance")
+
+    return {
+        "equipment_type": equipment_type,
+        "equipment_subtype": subtype,
+        "display_label": display,
     }

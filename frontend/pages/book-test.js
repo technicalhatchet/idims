@@ -11,6 +11,12 @@ import HomeLayout from '../components/layouts/HomeLayout';
 import NeonIcon from '../components/ui/NeonIcon';
 import SecretServiceMode from '../components/ui/SecretServiceMode';
 import { getBookingSymptomsForAppliance } from '../constants/applianceSymptoms';
+import {
+  BOOKING_FUEL_OPTIONS,
+  bookingNeedsFuel,
+  resolveBookingEquipmentSubtype,
+  formatBookingApplianceLabel,
+} from '../constants/bookingAppliances';
 
 function isErrorCodeSymptom(issue) {
   return typeof issue === 'string' && issue !== 'other' && /error code/i.test(issue);
@@ -78,6 +84,7 @@ export default function BookService() {
   const [direction, setDirection] = useState(1);
   const [formData, setFormData] = useState({
     appliance: '',
+    applianceFuel: '',
     customAppliance: '',
     issue: '',
     customIssue: '',
@@ -96,6 +103,11 @@ export default function BookService() {
   const [pricingLoading, setPricingLoading] = useState(false);
   const [pricingError, setPricingError] = useState(null);
 
+  const resolvedEquipmentSubtype = resolveBookingEquipmentSubtype(
+    formData.appliance,
+    formData.applianceFuel,
+  );
+
   const fetchPricingEstimate = useCallback(async (signal) => {
     const response = await fetch('/api/public/booking-estimate', {
       method: 'POST',
@@ -105,6 +117,7 @@ export default function BookService() {
         appliance: formData.appliance,
         address: formData.address.trim(),
         custom_appliance: formData.appliance === 'other' ? formData.customAppliance : undefined,
+        equipment_subtype: resolvedEquipmentSubtype || undefined,
       }),
     });
 
@@ -118,7 +131,7 @@ export default function BookService() {
     }
 
     return response.json();
-  }, [formData.appliance, formData.address, formData.customAppliance]);
+  }, [formData.appliance, formData.applianceFuel, formData.address, formData.customAppliance, resolvedEquipmentSubtype]);
 
   const isOutOfServiceArea = pricingEstimate?.serviceable === false;
   const canConfirmBooking = Boolean(
@@ -165,7 +178,7 @@ export default function BookService() {
 
     loadEstimate();
     return () => controller.abort();
-  }, [currentStep, isComplete, formData.appliance, formData.address, formData.customAppliance, fetchPricingEstimate]);
+  }, [currentStep, isComplete, formData.appliance, formData.applianceFuel, formData.address, formData.customAppliance, fetchPricingEstimate]);
 
   // Early service-area check while entering address (step 4)
   useEffect(() => {
@@ -195,12 +208,13 @@ export default function BookService() {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [currentStep, formData.address, formData.appliance, formData.customAppliance, fetchPricingEstimate]);
+  }, [currentStep, formData.address, formData.appliance, formData.applianceFuel, formData.customAppliance, fetchPricingEstimate]);
 
   const updateFormData = (field, value) => {
     setFormData((prev) => {
       const next = { ...prev, [field]: value };
       if (field === 'appliance') {
+        next.applianceFuel = '';
         next.issue = '';
         next.customIssue = '';
         next.additionalIssues = [];
@@ -221,7 +235,10 @@ export default function BookService() {
     });
   };
 
-  const symptomOptions = getBookingSymptomsForAppliance(formData.appliance);
+  const symptomOptions = getBookingSymptomsForAppliance(
+    formData.appliance,
+    resolvedEquipmentSubtype,
+  );
 
   const toggleAdditionalIssue = (symptom) => {
     if (!symptom || symptom === formData.issue) return;
@@ -239,6 +256,9 @@ export default function BookService() {
       case 1: 
         if (formData.appliance === 'other') {
           return formData.customAppliance.trim() !== '';
+        }
+        if (bookingNeedsFuel(formData.appliance)) {
+          return formData.applianceFuel !== '';
         }
         return formData.appliance !== '';
       case 2: 
@@ -302,7 +322,9 @@ export default function BookService() {
           phone: formData.phone,
           email: formData.email.trim() || undefined,
           address: formData.address,
-          appliance: formData.appliance === 'other' ? formData.customAppliance : formData.appliance,
+          appliance: formData.appliance === 'other' ? 'other' : formData.appliance,
+          custom_appliance: formData.appliance === 'other' ? formData.customAppliance : undefined,
+          equipment_subtype: resolvedEquipmentSubtype || undefined,
           issue: buildBookingIssueText(formData),
           time_preference: formData.time,
         })
@@ -342,10 +364,15 @@ export default function BookService() {
   };
 
   const getSelectedAppliance = () => {
-    if (formData.appliance === 'other' && formData.customAppliance) {
-      return { name: formData.customAppliance };
+    if (!formData.appliance) return null;
+    const name = formatBookingApplianceLabel(formData.appliance, {
+      fuel: formData.applianceFuel,
+      customAppliance: formData.customAppliance,
+    });
+    if (formData.appliance === 'other' && !formData.customAppliance) {
+      return { name: 'Other' };
     }
-    return APPLIANCES.find(a => a.id === formData.appliance);
+    return { name };
   };
   const getSelectedIssue = () => {
     const summary = buildBookingIssueText(formData);
@@ -544,6 +571,44 @@ export default function BookService() {
                                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                                 autoFocus
                               />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <AnimatePresence>
+                        {bookingNeedsFuel(formData.appliance) && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pt-2">
+                              <label className="block text-sm text-gray-400 mb-2">
+                                Is it gas or electric?
+                              </label>
+                              <div className="flex flex-wrap gap-2">
+                                {BOOKING_FUEL_OPTIONS[formData.appliance].map((option) => {
+                                  const selected = formData.applianceFuel === option.value;
+                                  return (
+                                    <motion.button
+                                      key={option.value}
+                                      type="button"
+                                      onClick={() => updateFormData('applianceFuel', option.value)}
+                                      className={`px-4 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 ${
+                                        selected
+                                          ? 'bg-orange-500/20 text-orange-100 border-orange-500/50 shadow-[0_0_16px_rgba(251,146,60,0.15)]'
+                                          : 'bg-white/5 text-gray-200 border-white/10 hover:bg-white/10 hover:border-white/20'
+                                      }`}
+                                      whileHover={{ scale: 1.02 }}
+                                      whileTap={{ scale: 0.98 }}
+                                    >
+                                      {option.label}
+                                    </motion.button>
+                                  );
+                                })}
+                              </div>
                             </div>
                           </motion.div>
                         )}
