@@ -92,22 +92,29 @@ function FilterChip({ active, label, count, onClick, className = '' }) {
   );
 }
 
-function TypeFilterButton({ active, emoji, label, count, onClick }) {
+const TYPE_FILTER_SHORT_LABELS = {
+  positive: 'Good',
+};
+
+function TypeFilterButton({ active, emoji, label, count, onClick, shortLabel }) {
+  const displayLabel = shortLabel || label;
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`min-h-[52px] px-2 py-2 rounded-xl border text-center transition ${
+      className={`min-h-[40px] px-0.5 py-1 rounded-lg border text-center transition ${
         active
           ? 'border-cyan-500/50 bg-cyan-500/15 text-white'
           : 'border-white/10 bg-white/[0.03] text-white/60 hover:bg-white/[0.06] hover:text-white/80'
       }`}
     >
-      <span className="text-lg block" aria-hidden="true">{emoji}</span>
-      <span className="text-[11px] font-medium leading-tight block mt-0.5">{label}</span>
+      <span className="text-sm leading-none block" aria-hidden="true">{emoji}</span>
+      <span className="text-[9px] font-medium leading-tight block mt-0.5 px-0.5 truncate">
+        {displayLabel}
+      </span>
       {count != null && (
-        <span className="text-[10px] text-white/45 block mt-0.5">{count}</span>
+        <span className="text-[8px] text-white/45 block leading-none mt-0.5">{count}</span>
       )}
     </button>
   );
@@ -301,7 +308,7 @@ export default function LogitEntryList({
             </div>
 
             <p className="text-xs uppercase tracking-wider text-white/40 mb-2">Type</p>
-            <div className="grid grid-cols-2 gap-2 mb-2" role="group" aria-label="Filter by observation type">
+            <div className="grid grid-cols-5 gap-1 mb-2" role="group" aria-label="Filter by observation type">
               <TypeFilterButton
                 active={typeFilter === 'all'}
                 emoji="📋"
@@ -315,6 +322,7 @@ export default function LogitEntryList({
                   active={typeFilter === item.id}
                   emoji={item.emoji}
                   label={item.label}
+                  shortLabel={TYPE_FILTER_SHORT_LABELS[item.id]}
                   count={typeCounts[item.id]}
                   onClick={() => handleTypeFilter(item.id)}
                 />
