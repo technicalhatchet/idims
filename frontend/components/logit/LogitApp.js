@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useLogitSpeech } from '../../hooks/useLogitSpeech';
@@ -32,24 +33,26 @@ import LogitProjectList from './LogitProjectList';
 import LogitReview from './LogitReview';
 import LogitTranscriptPreview from './LogitTranscriptPreview';
 import LogitInstallHint, { useLogitInstallHint } from './LogitInstallHint';
-
-const SCREENS = {
-  PROJECTS: 'projects',
-  CAPTURE: 'capture',
-  TYPE_CAPTURE: 'type_capture',
-  TRANSCRIPT: 'transcript',
-  PROCESSING: 'processing',
-  REVIEW: 'review',
-  LOG: 'log',
-  ENTRY: 'entry',
-};
+import {
+  logitCapturePath,
+  logitEntryPath,
+  logitLogPath,
+  logitProjectsPath,
+  logitReviewPath,
+  logitTranscriptPath,
+  logitTypeCapturePath,
+  parseLogitSlug,
+} from './logitRoutes';
 
 export default function LogitApp() {
+  const router = useRouter();
   const { user, isLoading: authLoading } = useUser();
   const speech = useLogitSpeech();
   const installHint = useLogitInstallHint();
 
-  const [screen, setScreen] = useState(SCREENS.PROJECTS);
+  const route = useMemo(() => parseLogitSlug(router.query.slug), [router.query.slug]);
+  const screen = route.screen;
+
   const [projects, setProjects] = useState([]);
   const [projectsLoading, setProjectsLoading] = useState(true);
   const [projectsError, setProjectsError] = useState(null);
@@ -68,7 +71,16 @@ export default function LogitApp() {
   const [selectedObservationType, setSelectedObservationType] = useState(null);
   const [editingEntryId, setEditingEntryId] = useState(null);
   const [deletingEntry, setDeletingEntry] = useState(false);
+  const [resolvingEntry, setResolvingEntry] = useState(false);
   const hasAutoOpenedRef = useRef(false);
+
+  const navigate = useCallback((path, { replace = false } = {}) => {
+    if (replace) {
+      void router.replace(path);
+    } else {
+      void router.push(path);
+    }
+  }, [router]);
 
   const refreshProjects = useCallback(async () => {
     setProjectsLoading(true);
@@ -76,7 +88,7 @@ export default function LogitApp() {
     try {
       const data = await fetchLogitProjects();
       setProjects(Array.isArray(data) ? data : []);
-    } catch (err) {
+    } catch {
       setProjectsError('Could not load projects. Check your connection and try again.');
       setProjects([]);
     } finally {
@@ -103,16 +115,52 @@ export default function LogitApp() {
   }, [user, refreshProjects]);
 
   useEffect(() => {
-    if (!user || projectsLoading || projects.length === 0 || hasAutoOpenedRef.current) return;
+    if (!router.isReady || !user || projectsLoading || projects.length === 0 || hasAutoOpenedRef.current) {
+      return;
+    }
+    if (screen !== 'projects') return;
+
     const lastId = getLastProjectId();
     const lastProject = projects.find((p) => p.id === lastId);
     if (lastProject) {
       hasAutoOpenedRef.current = true;
-      setActiveProject(lastProject);
-      setScreen(SCREENS.CAPTURE);
-      refreshEntries(lastProject.id);
+      navigate(logitCapturePath(lastProject.id), { replace: true });
     }
-  }, [user, projects, projectsLoading, refreshEntries]);
+  }, [user, projects, projectsLoading, screen, router.isReady, navigate]);
+
+  useEffect(() => {
+    if (!route.projectId || projects.length === 0) {
+      setActiveProject(null);
+      return;
+    }
+    const project = projects.find((p) => p.id === route.projectId);
+    setActiveProject(project || null);
+    if (project) {
+      setLastProjectId(project.id);
+      refreshEntries(project.id);
+    }
+  }, [route.projectId, projects, refreshEntries]);
+
+  useEffect(() => {
+    if (route.observationType) {
+      setSelectedObservationType(route.observationType);
+    }
+  }, [route.observationType]);
+
+  useEffect(() => {
+    if (screen !== 'entry' || !route.entryId) {
+      setSelectedEntry(null);
+      return;
+    }
+    const entry = entries.find((item) => item.id === route.entryId);
+    if (entry) {
+      setSelectedEntry(entry);
+      return;
+    }
+    if (!entriesLoading) {
+      setSelectedEntry(null);
+    }
+  }, [screen, route.entryId, entries, entriesLoading]);
 
   const unreviewedCount = useMemo(() => {
     if (activeProject?.unreviewed_count != null) return activeProject.unreviewed_count;
@@ -120,16 +168,14 @@ export default function LogitApp() {
   }, [activeProject, entries]);
 
   const selectProject = (project) => {
-    setActiveProject(project);
     setLastProjectId(project.id);
-    setScreen(SCREENS.CAPTURE);
-    refreshEntries(project.id);
     speech.resetTranscript();
     setTranscript('');
     setClassification(null);
     setSelectedObservationType(null);
     setEditingEntryId(null);
     setSaveError(null);
+    navigate(logitCapturePath(project.id));
   };
 
   const handleCreateProject = async (payload) => {
@@ -152,7 +198,7 @@ export default function LogitApp() {
     await deleteLogitProject(projectId);
     if (activeProject?.id === projectId) {
       setActiveProject(null);
-      setScreen(SCREENS.PROJECTS);
+      navigate(logitProjectsPath());
     }
     await refreshProjects();
     toast.success('Project deleted');
@@ -160,13 +206,14 @@ export default function LogitApp() {
 
   const handleTranscriptReady = (text) => {
     setTranscript(text);
-    setScreen(SCREENS.TRANSCRIPT);
+    if (route.projectId) {
+      navigate(logitTranscriptPath(route.projectId));
+    }
   };
 
   const handleProcess = async () => {
     if (!activeProject || !transcript.trim() || !selectedObservationType) return;
     setProcessing(true);
-    setScreen(SCREENS.PROCESSING);
     setSaveError(null);
     try {
       const result = await classifyLogitObservation(
@@ -184,9 +231,9 @@ export default function LogitApp() {
       };
       setClassification(classificationResult);
       setAiMeta({ model: result.model, source: result.source });
-      setScreen(SCREENS.REVIEW);
+      navigate(logitReviewPath(activeProject.id));
     } catch {
-      setScreen(SCREENS.TRANSCRIPT);
+      navigate(logitTranscriptPath(activeProject.id));
       setSaveError('AI processing is unavailable. Save as draft or try again.');
       toast.error('Could not process observation');
     } finally {
@@ -249,7 +296,7 @@ export default function LogitApp() {
       setEditingEntryId(null);
       setSelectedObservationType(null);
       speech.resetTranscript();
-      setScreen(SCREENS.CAPTURE);
+      navigate(logitCapturePath(activeProject.id));
       toast.success(status === 'draft' ? 'Saved as draft' : 'Logged');
     } catch {
       savePendingSave({ localId, payload, savedAt: new Date().toISOString() });
@@ -285,7 +332,7 @@ export default function LogitApp() {
       suggested_fix: entry.suggested_fix || '',
       confidence: entry.ai_confidence ?? 0.5,
     });
-    setScreen(SCREENS.REVIEW);
+    navigate(logitReviewPath(activeProject.id));
   };
 
   const resumeEntryToProcess = (entry) => {
@@ -294,10 +341,10 @@ export default function LogitApp() {
     setSelectedObservationType(entry.type || 'idea');
     setClassification(null);
     if (entry.type) {
-      setScreen(SCREENS.TRANSCRIPT);
+      navigate(logitTranscriptPath(activeProject.id));
       return;
     }
-    setScreen(SCREENS.TYPE_CAPTURE);
+    navigate(logitTypeCapturePath(activeProject.id, entry.type || 'idea'));
   };
 
   const handleDeleteEntry = async (entry) => {
@@ -313,7 +360,7 @@ export default function LogitApp() {
       await refreshProjects();
       await refreshEntries(activeProject.id);
       setSelectedEntry(null);
-      setScreen(SCREENS.LOG);
+      navigate(logitLogPath(activeProject.id));
       toast.success('Observation deleted');
     } catch {
       toast.error('Could not delete — try again');
@@ -322,7 +369,22 @@ export default function LogitApp() {
     }
   };
 
-  if (authLoading) {
+  const handleToggleResolved = async (entry, resolved) => {
+    if (!activeProject || resolvingEntry) return;
+    setResolvingEntry(true);
+    try {
+      const updated = await updateLogitEntry(entry.id, { resolved });
+      await refreshEntries(activeProject.id);
+      setSelectedEntry(updated);
+      toast.success(resolved ? 'Marked resolved' : 'Marked unresolved');
+    } catch {
+      toast.error('Could not update — try again');
+    } finally {
+      setResolvingEntry(false);
+    }
+  };
+
+  if (authLoading || !router.isReady) {
     return (
       <main className={`${LOGIT_CANVAS} flex items-center justify-center`}>
         <p className="text-white/60">Loading…</p>
@@ -345,9 +407,24 @@ export default function LogitApp() {
     );
   }
 
+  if (route.projectId && !activeProject && !projectsLoading) {
+    return (
+      <main className={`${LOGIT_CANVAS} flex flex-col items-center justify-center px-6 text-center`}>
+        <p className="text-white/60 mb-4">Project not found.</p>
+        <button
+          type="button"
+          className="min-h-[44px] px-6 py-2.5 rounded-xl border border-white/15 text-white/80"
+          onClick={() => navigate(logitProjectsPath())}
+        >
+          Back to projects
+        </button>
+      </main>
+    );
+  }
+
   return (
     <main className={LOGIT_CANVAS}>
-      {screen === SCREENS.PROJECTS && (
+      {screen === 'projects' && (
         <LogitProjectList
           projects={projects}
           loading={projectsLoading}
@@ -360,92 +437,95 @@ export default function LogitApp() {
         />
       )}
 
-      {screen === SCREENS.CAPTURE && activeProject && (
+      {screen === 'capture' && activeProject && (
         <LogitTypeSelect
           project={activeProject}
           unreviewedCount={unreviewedCount}
           onSelectType={(type) => {
             setSelectedObservationType(type);
             speech.resetTranscript();
-            setScreen(SCREENS.TYPE_CAPTURE);
+            navigate(logitTypeCapturePath(activeProject.id, type));
           }}
           onOpenLog={() => {
             refreshEntries(activeProject.id);
-            setScreen(SCREENS.LOG);
+            navigate(logitLogPath(activeProject.id));
           }}
-          onSwitchProject={() => setScreen(SCREENS.PROJECTS)}
+          onSwitchProject={() => navigate(logitProjectsPath())}
         />
       )}
 
-      {screen === SCREENS.TYPE_CAPTURE && activeProject && selectedObservationType && (
+      {screen === 'type_capture' && activeProject && selectedObservationType && (
         <LogitTypeCapture
           project={activeProject}
           observationType={selectedObservationType}
           speech={speech}
           onBack={() => {
             speech.resetTranscript();
-            setScreen(SCREENS.CAPTURE);
+            navigate(logitCapturePath(activeProject.id));
           }}
           onTranscriptReady={handleTranscriptReady}
         />
       )}
 
-      {screen === SCREENS.TRANSCRIPT && (
-        <LogitTranscriptPreview
-          transcript={transcript}
-          onTranscriptChange={setTranscript}
-          onProcess={handleProcess}
-          onSaveDraft={() => persistEntry('draft')}
-          onCancel={() => {
-            setScreen(selectedObservationType ? SCREENS.TYPE_CAPTURE : SCREENS.CAPTURE);
-            setSaveError(null);
-          }}
-          processing={processing}
-          saveError={saveError}
-        />
+      {screen === 'transcript' && (
+        processing ? (
+          <LogitProcessing />
+        ) : (
+          <LogitTranscriptPreview
+            transcript={transcript}
+            onTranscriptChange={setTranscript}
+            onProcess={handleProcess}
+            onSaveDraft={() => persistEntry('draft')}
+            onCancel={() => {
+              if (activeProject) {
+                navigate(
+                  selectedObservationType
+                    ? logitTypeCapturePath(activeProject.id, selectedObservationType)
+                    : logitCapturePath(activeProject.id),
+                );
+              }
+              setSaveError(null);
+            }}
+            processing={processing}
+            saveError={saveError}
+          />
+        )
       )}
 
-      {screen === SCREENS.PROCESSING && <LogitProcessing />}
-
-      {screen === SCREENS.REVIEW && activeProject && classification && (
+      {screen === 'review' && activeProject && classification && (
         <LogitReview
           project={activeProject}
           transcript={transcript}
           classification={classification}
           onChange={setClassification}
           onLogIt={() => persistEntry('logged')}
-          onEdit={() => setScreen(SCREENS.TRANSCRIPT)}
+          onEdit={() => navigate(logitTranscriptPath(activeProject.id))}
           saving={saving}
           saveError={saveError}
         />
       )}
 
-      {screen === SCREENS.LOG && activeProject && (
+      {screen === 'log' && activeProject && (
         <LogitEntryList
           project={activeProject}
           entries={entries}
           loading={entriesLoading}
-          onBack={() => setScreen(SCREENS.CAPTURE)}
-          onSelectEntry={(entry) => {
-            setSelectedEntry(entry);
-            if (entry.status === 'draft') {
-              setScreen(SCREENS.ENTRY);
-              return;
-            }
-            setScreen(SCREENS.ENTRY);
-          }}
+          onBack={() => navigate(logitCapturePath(activeProject.id))}
+          onSelectEntry={(entry) => navigate(logitEntryPath(activeProject.id, entry.id))}
         />
       )}
 
-      {screen === SCREENS.ENTRY && activeProject && selectedEntry && (
+      {screen === 'entry' && activeProject && selectedEntry && (
         <LogitEntryDetail
           entry={selectedEntry}
           project={activeProject}
-          onBack={() => setScreen(SCREENS.LOG)}
+          onBack={() => navigate(logitLogPath(activeProject.id))}
           onProcessDraft={() => resumeEntryToProcess(selectedEntry)}
           onContinueReview={() => resumeEntryToReview(selectedEntry)}
+          onToggleResolved={(resolved) => handleToggleResolved(selectedEntry, resolved)}
           onDelete={() => handleDeleteEntry(selectedEntry)}
           deleting={deletingEntry}
+          resolving={resolvingEntry}
         />
       )}
     </main>

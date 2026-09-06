@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from io import BytesIO
 from typing import List
 from uuid import UUID
@@ -274,6 +275,9 @@ async def update_entry(
 ):
     entry = _get_owned_entry(db, entry_id, current_user.id)
     updates = body.model_dump(exclude_unset=True)
+    if "resolved" in updates:
+        resolved = updates.pop("resolved")
+        entry.resolved_at = datetime.utcnow() if resolved else None
     for key, value in updates.items():
         setattr(entry, key, value)
     db.commit()

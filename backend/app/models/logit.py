@@ -52,6 +52,7 @@ class LogitEntry(Base):
     ai_model = Column(String(120), nullable=True)
 
     status = Column(String(32), nullable=False, default="draft")
+    resolved_at = Column(DateTime(timezone=True), nullable=True, index=True)
 
     project = relationship("LogitProject", back_populates="entries")
     user = relationship("User", backref="logit_entries")

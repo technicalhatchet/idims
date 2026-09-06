@@ -67,3 +67,7 @@ CREATE POLICY logit_entries_deny_public ON logit_entries
   WITH CHECK (false);
 
 COMMIT;
+
+-- Migration: mark observations as resolved (run once on existing DBs)
+ALTER TABLE logit_entries ADD COLUMN IF NOT EXISTS resolved_at TIMESTAMPTZ;
+CREATE INDEX IF NOT EXISTS ix_logit_entries_resolved_at ON logit_entries (resolved_at);

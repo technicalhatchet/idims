@@ -57,4 +57,5 @@ export type LogitEntry = {
   ai_confidence?: number | null;
   ai_model?: string | null;
   status: LogitStatus;
+  resolved_at?: string | null;
 };
