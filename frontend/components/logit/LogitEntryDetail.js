@@ -2,6 +2,7 @@ import {
   LOGIT_CATEGORY_LABELS,
   LOGIT_FREQUENCY_LABELS,
   LOGIT_GLASS_CARD,
+  LOGIT_RESOLVED_ACCENT,
   LOGIT_SEVERITY_LABELS,
   LOGIT_TYPE_EMOJI,
   LOGIT_TYPE_LABELS,
@@ -65,9 +66,7 @@ export default function LogitEntryDetail({
 
         {canResolve && (
           <div
-            className={`p-4 ${LOGIT_GLASS_CARD} ${
-              isResolved ? 'border-emerald-500/50 shadow-[0_0_18px_rgba(16,185,129,0.22)]' : ''
-            }`}
+            className={`p-4 ${LOGIT_GLASS_CARD} ${isResolved ? LOGIT_RESOLVED_ACCENT : ''}`}
           >
             <p className="text-sm text-white/70 mb-3">
               {isResolved
@@ -94,9 +93,7 @@ export default function LogitEntryDetail({
         )}
 
         <div
-          className={`p-5 space-y-4 ${LOGIT_GLASS_CARD} ${
-            isResolved ? 'border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.18)]' : ''
-          }`}
+          className={`p-5 space-y-4 ${LOGIT_GLASS_CARD} ${isResolved ? LOGIT_RESOLVED_ACCENT : ''}`}
         >
           <div className="flex items-center gap-2">
             {priority && (
