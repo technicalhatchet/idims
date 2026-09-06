@@ -10,15 +10,15 @@ from app.db.database import get_db
 from app.models.client import Client
 from app.models.property import Property
 from app.models.work_order import WorkOrder
-from app.models.service import Service, ServiceType, EquipmentType
-from app.services.zone_service import ZoneService
 from app.services.tax_service import get_tax_service
 from app.services.work_order_service import WorkOrderService
-from app.utils.address_utils import extract_zip_code
-from app.utils.travel_calculator import (
-    get_travel_time_and_distance,
-    get_default_shop_address,
-    sanitize_address_for_routing,
+from app.services.diagnostic_booking_service import (
+    build_booking_estimate,
+    lookup_diagnostic_service,
+    resolve_booking_equipment_fields,
+    estimate_trip_charge,
+    is_address_serviceable,
+    OUT_OF_SERVICE_AREA_MESSAGE,
 )
 
 logger = logging.getLogger(__name__)
@@ -34,45 +34,20 @@ class BookingRequest(BaseModel):
     appliance: str
     issue: str
     time_preference: str
-
-
-# Booking flow appliance ids → service catalog equipment_type (single-type fallback)
-_BOOKING_APPLIANCE_EQUIPMENT = {
-    "refrigerator": EquipmentType.refrigerator,
-    "washer": EquipmentType.washer,
-    "dryer": EquipmentType.dryer,
-    "aiolaundry": EquipmentType.aio_laundry,
-    "oven": EquipmentType.range,
-    "dishwasher": EquipmentType.dishwasher,
-    "tv": EquipmentType.tv,
-    "other": EquipmentType.other,
-}
-
-# Washer/dryer share the laundry diagnostic; AIO is a separate heat-pump combo SKU (not stacked).
-_BOOKING_EQUIPMENT_TYPE_CHAIN = {
-    "washer": (EquipmentType.washer, EquipmentType.stacked_laundry),
-    "dryer": (EquipmentType.washer, EquipmentType.stacked_laundry),
-    "aiolaundry": (EquipmentType.aio_laundry,),
-}
-
-# Name fallbacks after equipment_type chain misses (per appliance — not shared across types).
-_BOOKING_NAME_KEYWORD_FALLBACKS = {
-    "washer": ("laundry",),
-    "dryer": ("laundry",),
-    "aiolaundry": ("aio", "all-in-one"),
-}
-
-# Appliances without a dedicated equipment_type enum — match diagnostic by name
-_BOOKING_APPLIANCE_NAME_KEYWORD = {
-    "microwave": "microwave",
-    "freezer": "freezer",
-}
+    equipment_subtype: Optional[str] = None
+    custom_appliance: Optional[str] = None
 
 
 class BookingEstimateRequest(BaseModel):
     appliance: str = Field(..., description="Booking flow appliance id (e.g. washer, refrigerator)")
     address: str = Field(..., min_length=5)
     custom_appliance: Optional[str] = None
+    equipment_subtype: Optional[str] = None
+
+
+def _lookup_diagnostic_service(db: Session, appliance: str, equipment_subtype: Optional[str] = None):
+    """Thin wrapper for tests and legacy imports."""
+    return lookup_diagnostic_service(db, appliance, equipment_subtype)
 
 
 class DiagnosticEstimate(BaseModel):
@@ -96,116 +71,6 @@ class BookingEstimateResponse(BaseModel):
     note: Optional[str] = None
     serviceable: bool = True
     service_area_message: Optional[str] = None
-
-
-OUT_OF_SERVICE_AREA_MESSAGE = (
-    "This address is outside our online booking area. "
-    "We serve the greater Toledo and northwest Ohio region. "
-    "If you think this is a mistake, call (419) 740-0146."
-)
-
-
-def _query_diagnostic_by_equipment(db: Session, equipment_type: EquipmentType) -> Optional[Service]:
-    return (
-        db.query(Service)
-        .filter(
-            Service.is_active.is_(True),
-            Service.service_type == ServiceType.diagnostic,
-            Service.equipment_type == equipment_type,
-        )
-        .order_by(Service.base_price.desc())
-        .first()
-    )
-
-
-def _query_diagnostic_by_name_keyword(db: Session, keyword: str) -> Optional[Service]:
-    return (
-        db.query(Service)
-        .filter(
-            Service.is_active.is_(True),
-            Service.service_type == ServiceType.diagnostic,
-            Service.name.ilike(f"%{keyword}%"),
-        )
-        .order_by(Service.base_price.desc())
-        .first()
-    )
-
-
-def _lookup_diagnostic_service(db: Session, appliance: str) -> Optional[Service]:
-    """Resolve the diagnostic SKU for a public booking appliance selection."""
-    appliance_key = (appliance or "").strip().lower()
-
-    chain = _BOOKING_EQUIPMENT_TYPE_CHAIN.get(appliance_key)
-    if chain:
-        for equipment_type in chain:
-            service = _query_diagnostic_by_equipment(db, equipment_type)
-            if service:
-                return service
-        for keyword in _BOOKING_NAME_KEYWORD_FALLBACKS.get(appliance_key, ()):
-            service = _query_diagnostic_by_name_keyword(db, keyword)
-            if service:
-                return service
-    else:
-        equipment_type = _BOOKING_APPLIANCE_EQUIPMENT.get(appliance_key)
-        if equipment_type is not None:
-            service = _query_diagnostic_by_equipment(db, equipment_type)
-            if service:
-                return service
-
-    keyword = _BOOKING_APPLIANCE_NAME_KEYWORD.get(appliance_key)
-    if keyword:
-        service = _query_diagnostic_by_name_keyword(db, keyword)
-        if service:
-            return service
-
-    # Last resort: generic diagnostic for miscellaneous appliances
-    return (
-        db.query(Service)
-        .filter(
-            Service.is_active.is_(True),
-            Service.service_type == ServiceType.diagnostic,
-            Service.equipment_type == EquipmentType.other,
-        )
-        .order_by(Service.base_price.asc())
-        .first()
-    )
-
-
-def _estimate_trip_charge(db: Session, address: str) -> dict:
-    """Zone + trip charge for a service address (zip list first, then shop drive time)."""
-    zone_service = ZoneService(db)
-    property_zip = extract_zip_code(address)
-    drive_time_minutes = None
-
-    if address and (not property_zip or not zone_service.get_zone_by_zip(property_zip)):
-        shop_address = get_default_shop_address()
-        routed_address = sanitize_address_for_routing(address) or address
-        travel_time, _ = get_travel_time_and_distance(shop_address, routed_address)
-        if travel_time is not None:
-            drive_time_minutes = float(travel_time)
-
-    zone_result = zone_service.determine_zone(
-        zip_code=property_zip,
-        drive_time_minutes=drive_time_minutes,
-        address=address,
-    )
-
-    return {
-        "zone_key": zone_result.get("zoneKey", "custom"),
-        "zone_name": zone_result.get("zoneName", "Custom"),
-        "amount": zone_result.get("tripCharge"),
-        "is_custom": bool(zone_result.get("isCustom")),
-        "method": zone_result.get("method", "default"),
-    }
-
-
-def _is_address_serviceable(trip: dict) -> bool:
-    """Custom zone (typically 50+ min drive) is not bookable online."""
-    if trip.get("zone_key") == "custom":
-        return False
-    if trip.get("is_custom") and trip.get("amount") is None:
-        return False
-    return True
 
 
 def _booking_address_to_location(address: str) -> dict:
@@ -396,38 +261,32 @@ async def estimate_booking_pricing(
     if not address:
         raise HTTPException(status_code=400, detail="Address is required")
 
-    diagnostic_service = _lookup_diagnostic_service(db, request.appliance)
+    subtype = (request.equipment_subtype or "").strip().lower() or None
+    result = build_booking_estimate(
+        db,
+        request.appliance,
+        address,
+        equipment_subtype=subtype,
+    )
+
     diagnostic = None
-    diagnostic_price = None
-    if diagnostic_service:
-        diagnostic_price = float(diagnostic_service.base_price)
+    if result.get("diagnostic"):
+        d = result["diagnostic"]
         diagnostic = DiagnosticEstimate(
-            name=diagnostic_service.name,
-            price=diagnostic_price,
-            sku_code=diagnostic_service.sku_code,
+            name=d["name"],
+            price=d["price"],
+            sku_code=d.get("sku_code"),
         )
 
-    trip = _estimate_trip_charge(db, address)
-    trip_charge = TripChargeEstimate(**trip)
-    serviceable = _is_address_serviceable(trip)
-
-    estimated_total = None
-    if serviceable and diagnostic_price is not None and trip_charge.amount is not None:
-        estimated_total = round(diagnostic_price + trip_charge.amount, 2)
-
-    note = "Diagnostic fee is applied toward repair if you proceed."
-    service_area_message = None
-    if not serviceable:
-        note = None
-        service_area_message = OUT_OF_SERVICE_AREA_MESSAGE
+    trip_charge = TripChargeEstimate(**result["trip_charge"])
 
     return BookingEstimateResponse(
         diagnostic=diagnostic,
         trip_charge=trip_charge,
-        estimated_total=estimated_total,
-        note=note,
-        serviceable=serviceable,
-        service_area_message=service_area_message,
+        estimated_total=result.get("estimated_total"),
+        note=result.get("note"),
+        serviceable=result.get("serviceable", True),
+        service_area_message=result.get("service_area_message"),
     )
 
 
@@ -444,9 +303,16 @@ async def create_booking(
         if not address:
             raise HTTPException(status_code=400, detail="Service address is required")
 
-        trip = _estimate_trip_charge(db, address)
-        if not _is_address_serviceable(trip):
+        trip = estimate_trip_charge(db, address)
+        if not is_address_serviceable(trip):
             raise HTTPException(status_code=403, detail=OUT_OF_SERVICE_AREA_MESSAGE)
+
+        equipment = resolve_booking_equipment_fields(
+            booking.appliance,
+            equipment_subtype=booking.equipment_subtype,
+            custom_appliance=booking.custom_appliance,
+        )
+        display_label = equipment["display_label"]
 
         name_parts = booking.name.strip().split(maxsplit=1)
         first_name = name_parts[0]
@@ -490,9 +356,14 @@ async def create_booking(
             client_id=client.id,
             property_id=prop.id,
             order_number=order_number,
-            equipment_type=booking.appliance,
+            equipment_type=equipment["equipment_type"],
+            equipment_subtype=equipment["equipment_subtype"],
             symptoms=[booking.issue],
-            description=f"Online booking - {booking.appliance} issue: {booking.issue}. Service address: {booking.address}. Customer preferred time: {booking.time_preference}.",
+            description=(
+                f"Online booking - {display_label} issue: {booking.issue}. "
+                f"Service address: {booking.address}. "
+                f"Customer preferred time: {booking.time_preference}."
+            ),
             priority="medium",
             status="pending",
             service_location=service_location or None,
@@ -509,7 +380,7 @@ async def create_booking(
             booking.name,
             booking.phone,
             booking.address,
-            booking.appliance,
+            display_label,
             booking.issue,
             booking.time_preference,
             str(work_order.id),

@@ -127,9 +127,14 @@ export const BOOKING_GENERIC_SYMPTOMS = [
   'Showing error code',
 ];
 
-export function getBookingSymptomsForAppliance(applianceId) {
+export function getBookingSymptomsForAppliance(applianceId, equipmentSubtype = null) {
   if (!applianceId || applianceId === 'other') {
     return BOOKING_GENERIC_SYMPTOMS;
+  }
+  if (equipmentSubtype) {
+    const equipmentType = applianceId === 'tv' ? 'tv' : 'appliance';
+    const fromSubtype = getSymptomsForEquipmentSubtype(equipmentSubtype, equipmentType);
+    if (fromSubtype) return fromSubtype;
   }
   const key = BOOK_APPLIANCE_SYMPTOM_KEY[applianceId];
   return (key && SYMPTOMS_BY_TYPE[key]) || BOOKING_GENERIC_SYMPTOMS;

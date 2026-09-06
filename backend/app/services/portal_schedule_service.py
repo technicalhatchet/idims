@@ -45,6 +45,7 @@ def _portal_booking_estimate(db: Session, client: Client, appliance: ClientAppli
         appliance_to_booking_key(appliance),
         address,
         zone_exempt=appliance_svc.client_scheduling_zone_exempt(client),
+        equipment_subtype=appliance.equipment_subtype,
     )
 
 
