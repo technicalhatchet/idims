@@ -7,6 +7,7 @@ import {
   LOGIT_CATEGORY_OPTIONS,
   LOGIT_GLASS_CARD,
   LOGIT_OBSERVATION_TYPES,
+  LOGIT_RESOLVED_ACCENT,
   LOGIT_TYPE_EMOJI,
   LOGIT_TYPE_LABELS,
   logitPriorityMeta,
@@ -51,11 +52,11 @@ function isEntryResolved(entry) {
 }
 
 function entryCardClass(entry) {
+  if (isEntryResolved(entry)) {
+    return LOGIT_RESOLVED_ACCENT;
+  }
   if (entry.status === 'draft') {
     return 'border-amber-500/30';
-  }
-  if (isEntryResolved(entry)) {
-    return 'border-emerald-500/50 shadow-[0_0_18px_rgba(16,185,129,0.22)]';
   }
   return '';
 }
