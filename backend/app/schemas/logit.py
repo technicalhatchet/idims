@@ -100,6 +100,7 @@ class LogitEntryCreate(BaseModel):
 
 class LogitEntryUpdate(BaseModel):
     status: Optional[LogitStatus] = None
+    resolved: Optional[bool] = None
     type: Optional[LogitType] = None
     category: Optional[LogitCategory] = None
     severity: Optional[LogitSeverity] = None
@@ -130,5 +131,6 @@ class LogitEntryResponse(BaseModel):
     ai_confidence: Optional[float] = None
     ai_model: Optional[str] = None
     status: str
+    resolved_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}

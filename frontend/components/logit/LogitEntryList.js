@@ -46,6 +46,20 @@ function groupEntriesByDay(entries) {
   return groups;
 }
 
+function isEntryResolved(entry) {
+  return Boolean(entry?.resolved_at);
+}
+
+function entryCardClass(entry) {
+  if (entry.status === 'draft') {
+    return 'border-amber-500/30';
+  }
+  if (isEntryResolved(entry)) {
+    return 'border-emerald-500/50 shadow-[0_0_18px_rgba(16,185,129,0.22)]';
+  }
+  return '';
+}
+
 function EntryPriorityDot({ severity }) {
   const meta = logitPriorityMeta(severity);
   if (!meta) return <span className="w-2.5 h-2.5 shrink-0" aria-hidden="true" />;
@@ -107,8 +121,27 @@ export default function LogitEntryList({
 }) {
   const [typeFilter, setTypeFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [resolvedFilter, setResolvedFilter] = useState('active');
   const [exporting, setExporting] = useState(false);
   const [includeOriginalTranscripts, setIncludeOriginalTranscripts] = useState(false);
+
+  const resolvedCount = useMemo(
+    () => entries.filter((entry) => isEntryResolved(entry)).length,
+    [entries],
+  );
+
+  const activeCount = useMemo(
+    () => entries.filter((entry) => !isEntryResolved(entry)).length,
+    [entries],
+  );
+
+  const entriesByResolved = useMemo(() => {
+    if (resolvedFilter === 'resolved') {
+      return entries.filter((entry) => isEntryResolved(entry));
+    }
+    if (resolvedFilter === 'all') return entries;
+    return entries.filter((entry) => !isEntryResolved(entry));
+  }, [entries, resolvedFilter]);
 
   const loggedCount = useMemo(
     () => entries.filter((entry) => entry.status === 'logged').length,
@@ -116,17 +149,17 @@ export default function LogitEntryList({
   );
 
   const typeCounts = useMemo(() => {
-    const counts = { all: entries.length };
+    const counts = { all: entriesByResolved.length };
     LOGIT_OBSERVATION_TYPES.forEach(({ id }) => {
-      counts[id] = entries.filter((e) => e.type === id).length;
+      counts[id] = entriesByResolved.filter((e) => e.type === id).length;
     });
     return counts;
-  }, [entries]);
+  }, [entriesByResolved]);
 
   const entriesForCategoryCounts = useMemo(() => {
-    if (typeFilter === 'all') return entries;
-    return entries.filter((e) => e.type === typeFilter);
-  }, [entries, typeFilter]);
+    if (typeFilter === 'all') return entriesByResolved;
+    return entriesByResolved.filter((e) => e.type === typeFilter);
+  }, [entriesByResolved, typeFilter]);
 
   const categoryCounts = useMemo(() => {
     const counts = { all: entriesForCategoryCounts.length };
@@ -138,7 +171,7 @@ export default function LogitEntryList({
   }, [entriesForCategoryCounts]);
 
   const filteredEntries = useMemo(() => {
-    let result = entries;
+    let result = entriesByResolved;
     if (typeFilter !== 'all') {
       result = result.filter((e) => e.type === typeFilter);
     }
@@ -147,7 +180,7 @@ export default function LogitEntryList({
       return result.filter((e) => !e.category);
     }
     return result.filter((e) => e.category === categoryFilter);
-  }, [entries, typeFilter, categoryFilter]);
+  }, [entriesByResolved, typeFilter, categoryFilter]);
 
   const groups = groupEntriesByDay(filteredEntries);
   const draftCount = filteredEntries.filter((e) => e.status === 'draft').length;
@@ -175,6 +208,7 @@ export default function LogitEntryList({
   const clearFilters = () => {
     setTypeFilter('all');
     setCategoryFilter('all');
+    setResolvedFilter('active');
   };
 
   const visibleCategories = LOGIT_CATEGORY_OPTIONS.filter(
@@ -242,6 +276,29 @@ export default function LogitEntryList({
 
         {!loading && entries.length > 0 && (
           <div className="mb-4">
+            <p className="text-xs uppercase tracking-wider text-white/40 mb-2">Status</p>
+            <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 mb-4" role="group" aria-label="Filter by resolution status">
+              <FilterChip
+                active={resolvedFilter === 'active'}
+                label="Open"
+                count={activeCount}
+                onClick={() => setResolvedFilter('active')}
+              />
+              <FilterChip
+                active={resolvedFilter === 'resolved'}
+                label="Resolved"
+                count={resolvedCount}
+                onClick={() => setResolvedFilter('resolved')}
+                className={resolvedFilter === 'resolved' ? '!border-emerald-500/50 !bg-emerald-500/15' : ''}
+              />
+              <FilterChip
+                active={resolvedFilter === 'all'}
+                label="All"
+                count={entries.length}
+                onClick={() => setResolvedFilter('all')}
+              />
+            </div>
+
             <p className="text-xs uppercase tracking-wider text-white/40 mb-2">Type</p>
             <div className="grid grid-cols-2 gap-2 mb-2" role="group" aria-label="Filter by observation type">
               <TypeFilterButton
@@ -311,14 +368,31 @@ export default function LogitEntryList({
 
         {!loading && entries.length > 0 && filteredEntries.length === 0 && (
           <div className={`p-6 text-center ${LOGIT_GLASS_CARD}`}>
-            <p className="text-white/60">No observations match these filters.</p>
-            <button
-              type="button"
-              className="mt-3 text-sm text-cyan-400/90 min-h-[44px]"
-              onClick={clearFilters}
-            >
-              Show all
-            </button>
+            <p className="text-white/60">
+              {resolvedFilter === 'active' && activeCount === 0 && resolvedCount > 0
+                ? 'All observations are resolved.'
+                : resolvedFilter === 'active' && resolvedCount > 0
+                  ? 'No open observations match these filters.'
+                  : 'No observations match these filters.'}
+            </p>
+            {resolvedFilter === 'active' && resolvedCount > 0 && (
+              <button
+                type="button"
+                className="mt-3 text-sm text-emerald-400/90 min-h-[44px]"
+                onClick={() => setResolvedFilter('resolved')}
+              >
+                View {resolvedCount} resolved
+              </button>
+            )}
+            {(typeFilter !== 'all' || categoryFilter !== 'all' || resolvedFilter !== 'active') && (
+              <button
+                type="button"
+                className="mt-3 block mx-auto text-sm text-cyan-400/90 min-h-[44px]"
+                onClick={clearFilters}
+              >
+                Reset filters
+              </button>
+            )}
           </div>
         )}
 
@@ -331,9 +405,7 @@ export default function LogitEntryList({
                   <li key={entry.id}>
                     <button
                       type="button"
-                      className={`w-full text-left p-4 ${LOGIT_GLASS_CARD} hover:bg-white/[0.06] min-h-[64px] ${
-                        entry.status === 'draft' ? 'border-amber-500/30' : ''
-                      }`}
+                      className={`w-full text-left p-4 ${LOGIT_GLASS_CARD} hover:bg-white/[0.06] min-h-[64px] ${entryCardClass(entry)}`}
                       onClick={() => onSelectEntry(entry)}
                     >
                       <div className="flex items-start gap-2.5">
@@ -345,6 +417,7 @@ export default function LogitEntryList({
                           <p className="text-xs text-white/50">
                             {LOGIT_CATEGORY_LABELS[entry.category] || entry.category || 'Uncategorized'}
                             {entry.status === 'draft' ? ' · Draft' : ''}
+                            {isEntryResolved(entry) ? ' · Resolved' : ''}
                           </p>
                           <p className="font-medium truncate mt-0.5">
                             {entry.title || entry.original_transcript?.slice(0, 60) || 'Untitled'}

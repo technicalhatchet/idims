@@ -9,17 +9,25 @@ import {
 } from './logitUi';
 import LogitHeader from './LogitHeader';
 
+function isEntryResolved(entry) {
+  return Boolean(entry?.resolved_at);
+}
+
 export default function LogitEntryDetail({
   entry,
   project,
   onBack,
   onProcessDraft,
   onContinueReview,
+  onToggleResolved,
   onDelete,
   deleting,
+  resolving,
 }) {
   const isDraft = entry.status === 'draft';
+  const isResolved = isEntryResolved(entry);
   const priority = logitPriorityMeta(entry.severity);
+  const canResolve = !isDraft && entry.status === 'logged';
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -55,7 +63,41 @@ export default function LogitEntryDetail({
           </div>
         )}
 
-        <div className={`p-5 space-y-4 ${LOGIT_GLASS_CARD}`}>
+        {canResolve && (
+          <div
+            className={`p-4 ${LOGIT_GLASS_CARD} ${
+              isResolved ? 'border-emerald-500/50 shadow-[0_0_18px_rgba(16,185,129,0.22)]' : ''
+            }`}
+          >
+            <p className="text-sm text-white/70 mb-3">
+              {isResolved
+                ? 'This observation has been marked resolved.'
+                : 'Mark this observation resolved when it has been addressed.'}
+            </p>
+            <button
+              type="button"
+              className={`w-full min-h-[44px] rounded-xl text-sm font-medium transition ${
+                isResolved
+                  ? 'border border-white/15 text-white/80 hover:bg-white/[0.04]'
+                  : 'bg-emerald-500/90 text-white hover:bg-emerald-500'
+              }`}
+              onClick={() => onToggleResolved(!isResolved)}
+              disabled={resolving}
+            >
+              {resolving
+                ? 'Saving…'
+                : isResolved
+                  ? 'Mark unresolved'
+                  : 'Mark resolved'}
+            </button>
+          </div>
+        )}
+
+        <div
+          className={`p-5 space-y-4 ${LOGIT_GLASS_CARD} ${
+            isResolved ? 'border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.18)]' : ''
+          }`}
+        >
           <div className="flex items-center gap-2">
             {priority && (
               <span
@@ -66,6 +108,7 @@ export default function LogitEntryDetail({
             )}
             <p className="text-sm text-white/50">
               {LOGIT_TYPE_EMOJI[entry.type]} {LOGIT_TYPE_LABELS[entry.type]}
+              {isResolved ? ' · Resolved' : ''}
             </p>
           </div>
           <p className="text-xs text-white/40">
