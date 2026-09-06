@@ -101,7 +101,7 @@ export const LOGIT_GLASS_CARD =
 
 /** Neon green border + glow for resolved log entries (overrides LOGIT_GLASS_CARD border). */
 export const LOGIT_RESOLVED_ACCENT =
-  '!border-2 !border-[#39ff14] bg-[#39ff14]/[0.06] shadow-[0_0_6px_#39ff14,0_0_18px_rgba(57,255,20,0.85),0_0_36px_rgba(57,255,20,0.45),0_0_64px_rgba(57,255,20,0.2)]';
+  '!border-2 !border-[#39ff14] bg-[#39ff14]/[0.06] shadow-[0_0_5px_#39ff14,0_0_12px_rgba(57,255,20,0.75),0_0_22px_rgba(57,255,20,0.22)]';
 
 export const LOGIT_BUTTON_PRIMARY =
   'min-h-[44px] px-5 py-2.5 rounded-xl bg-cyan-500/90 text-white font-medium hover:bg-cyan-400 transition disabled:opacity-50';
