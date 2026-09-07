@@ -36,6 +36,7 @@ import WorkOrderSquarePaymentSheet from '../../../components/work_orders/WorkOrd
 import EstimateSkuModal from '../../../components/work_orders/EstimateSkuModal';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee, deleteWorkOrderEstimateLine } from '../../../services/api/workOrdersApi';
 import {
+  billingDisplayServices,
   computeWorkOrderDueToday,
   formatTaxPercent,
   isPartLinePaid,
@@ -185,6 +186,10 @@ function WorkOrderDetail() {
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
+  const billingServices = useMemo(
+    () => billingDisplayServices(allServices),
+    [allServices],
+  );
   const billingTotals = useMemo(
     () => computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticDiscount),
     [workOrder, allServices, halfDiagnosticDiscount]
@@ -1063,10 +1068,10 @@ function WorkOrderDetail() {
                 </div>
               </div>
               <div className="px-6 py-5">
-                {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
+                {(billingServices.length > 0 || workOrder?.parts?.length > 0) ? (
                   <div className="space-y-6">
                     {/* Services Section */}
-                    {allServices?.length > 0 && (
+                    {billingServices.length > 0 && (
                       <div>
                         <h3 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">Services</h3>
                         <div className="overflow-x-auto">
@@ -1082,7 +1087,7 @@ function WorkOrderDetail() {
                                  </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                              {allServices.map((item, index) => {
+                              {billingServices.map((item, index) => {
                                 const isBillable = item.billing_status === 'billable' || item.billing_status === 'paid';
                                 const isPaid = item.billing_status === 'paid';
                                 const isWaived = item.billing_status === 'waived';

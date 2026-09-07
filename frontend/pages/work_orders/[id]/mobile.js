@@ -51,6 +51,7 @@ import { getWorkOrderOutcomeStatus } from '../../../services/api/dmaApi';
 import { REPAIR_OUTCOME_NOTE_TYPE } from '../../../constants/dmaCodes';
 import { hasCompletedRepairAppointment } from '../../../utils/appointmentStatusLabels';
 import {
+  billingDisplayServices,
   computeWorkOrderDueToday,
   formatTaxPercent,
   isPartLinePaid,
@@ -398,6 +399,10 @@ function WorkOrderDetail() {
 
   // Services come directly from the work order
   const allServices = workOrder?.services || [];
+  const billingServices = useMemo(
+    () => billingDisplayServices(allServices),
+    [allServices],
+  );
 
   const toggleGlassSection = useCallback((key) => {
     setGlassSectionsOpen((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -1537,17 +1542,17 @@ function WorkOrderDetail() {
                 </div>
               </div>
               <div className="min-w-0 px-0.5 py-2 md:px-6 md:py-5">
-                {(allServices?.length > 0 || workOrder?.parts?.length > 0) ? (
+                {(billingServices.length > 0 || workOrder?.parts?.length > 0) ? (
                   <div className="space-y-6">
                     {/* Services Section */}
-                    {allServices?.length > 0 && (
+                    {billingServices.length > 0 && (
                       <div className="min-w-0">
                         <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2 md:text-md md:font-medium md:normal-case md:tracking-normal md:text-gray-700 md:dark:text-gray-300 md:mb-3">
                           Services
                         </h3>
                         {/* Mobile service cards */}
                         <div className="md:hidden space-y-2">
-                          {allServices.map((item, index) => {
+                          {billingServices.map((item, index) => {
                             const isBillable = item.billing_status === 'billable' || item.billing_status === 'paid';
                             const isPaid = item.billing_status === 'paid';
                             const isWaived = item.billing_status === 'waived';
@@ -1737,7 +1742,7 @@ function WorkOrderDetail() {
                                  </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                              {allServices.map((item, index) => {
+                              {billingServices.map((item, index) => {
                                 const isBillable = item.billing_status === 'billable' || item.billing_status === 'paid';
                                 const isPaid = item.billing_status === 'paid';
                                 const isWaived = item.billing_status === 'waived';
