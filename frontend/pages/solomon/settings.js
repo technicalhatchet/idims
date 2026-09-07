@@ -50,8 +50,8 @@ export default function SolomonSettingsPage() {
       title="Settings"
       description="Appearance and Solomon preferences."
       back="arrow"
-      backHref="/solomon"
-      backLabel="Back to Solomon home"
+      backHref="/solomon/more"
+      backLabel="Back to More"
     >
       <div className="space-y-5">
         <SolomonAppearanceSettings />
