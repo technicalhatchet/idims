@@ -244,6 +244,32 @@ export function formatServiceLocationAddress(serviceLocation) {
   return parts.length ? parts.join(', ') : null;
 }
 
+const US_COUNTRY_ALIASES = new Set([
+  'usa',
+  'us',
+  'u.s.',
+  'u.s.a.',
+  'united states',
+  'united states of america',
+]);
+
+/** Mailing address for service location — omits default US country and empty-only values. */
+export function formatClientAddress(clientOrAddress) {
+  const addr = clientOrAddress?.address ? clientOrAddress.address : clientOrAddress;
+  if (!addr || typeof addr !== 'object') return null;
+
+  const parts = [addr.street1, addr.street2, addr.city, addr.state, addr.zip]
+    .map((part) => (part || '').trim())
+    .filter(Boolean);
+
+  const country = (addr.country || '').trim();
+  if (country && !US_COUNTRY_ALIASES.has(country.toLowerCase())) {
+    parts.push(country);
+  }
+
+  return parts.length ? parts.join(', ') : null;
+}
+
 /** Build address string from a property record */
 export function formatPropertyAddress(property) {
   if (!property) return null;

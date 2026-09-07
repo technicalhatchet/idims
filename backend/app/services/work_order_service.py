@@ -35,6 +35,7 @@ from app.schemas.work_order import (
 )
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException, BadRequestException
 from app.utils import travel_calculator
+from app.utils.address_format import format_client_address, format_property_address
 from app.models.technician import Technician
 from app.models.technician_skill import TechnicianSkill
 from app.models.skill import Skill
@@ -249,6 +250,48 @@ class WorkOrderService:
             raise NotFoundException(f"Work order with ID {work_order_id} not found")
 
         return work_order
+
+    @staticmethod
+    def _apply_default_service_location(db: Session, work_order_data: Dict[str, Any]) -> None:
+        """Fill service_location from linked property or client mailing address when missing."""
+        service_location = work_order_data.get("service_location")
+        existing_address = ""
+        if isinstance(service_location, dict):
+            existing_address = (service_location.get("address") or "").strip()
+        elif isinstance(service_location, str):
+            existing_address = service_location.strip()
+        if existing_address:
+            return
+
+        from app.models.client import Client
+        from app.models.property import Property
+
+        property_id = work_order_data.get("property_id")
+        prop = None
+        if property_id:
+            prop = db.query(Property).filter(Property.id == property_id).first()
+        else:
+            props = (
+                db.query(Property)
+                .filter(Property.client_id == work_order_data["client_id"])
+                .order_by(Property.created_at.asc())
+                .all()
+            )
+            if props:
+                prop = props[0]
+                work_order_data["property_id"] = prop.id
+
+        if prop:
+            formatted = format_property_address(prop.address, prop.unit_number)
+            if formatted:
+                work_order_data["service_location"] = {"address": formatted}
+                return
+
+        client = db.query(Client).filter(Client.id == work_order_data["client_id"]).first()
+        if client and client.address:
+            formatted = format_client_address(client.address)
+            if formatted:
+                work_order_data["service_location"] = {"address": formatted}
     
     @staticmethod
     async def create_work_order(
@@ -274,6 +317,8 @@ class WorkOrderService:
                 # Verify the provided order number is unique
                 if db.query(WorkOrder).filter(WorkOrder.order_number == order_number).first():
                     raise ValidationException(f"Work order number {order_number} already exists")
+
+            WorkOrderService._apply_default_service_location(db, work_order_data)
             
             # Create work order with mandatory fields
             work_order = WorkOrder(

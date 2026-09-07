@@ -10,7 +10,7 @@ import { createClient, getAllClients, clientToSelectOption } from '../../service
 import { format } from 'date-fns';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
-import { formatPropertyAddress } from '../../utils/appointment-scheduling';
+import { formatPropertyAddress, formatClientAddress } from '../../utils/appointment-scheduling';
 import {
   getSymptomsForEquipmentSubtype,
 } from '../../constants/applianceSymptoms';
@@ -658,29 +658,17 @@ const [newPropertyError, setNewPropertyError] = useState(null);
         const client = await apiClient(`clients/${clientId}`);
         console.log('[DEBUG] Received client data:', client);
         setClientData(client);
-        
-        // Auto-populate service location with client's address
-        if (client && client.address) {
-          const addressStr = [
-            client.address.street1,
-            client.address.street2,
-            client.address.city,
-            client.address.state,
-            client.address.zip,
-            client.address.country
-          ].filter(Boolean).join(', ');
-          
-          console.log('[DEBUG] Setting service location to:', addressStr);
-          
-          // Update values with both client ID and service location
-          setFormValues({
-            ...updatedValues,
-            service_location: {
-              ...updatedValues.service_location,
-              address: addressStr
-            }
-          });
-        }
+        defaultPropertyAppliedRef.current = false;
+        defaultClientAddressAppliedRef.current = false;
+        initialPropertyAppliedRef.current = false;
+        setSelectedPropertyId('');
+
+        // Clear service location until properties load (or client address fallback applies).
+        setFormValues({
+          ...updatedValues,
+          property_id: null,
+          service_location: { address: '' },
+        });
       } catch (error) {
         console.error('Error fetching client details:', error);
         // Keep the client ID even if we couldn't fetch details
@@ -758,8 +746,8 @@ const [newPropertyError, setNewPropertyError] = useState(null);
           setAllServicesRaw([]); // Set to empty array on error
         }
         
-        // If in edit mode and we have an initial client ID, load the client details
-        if (isEdit && initialData?.client_id) {
+        // Load client details when creating from a client link or editing
+        if (initialData?.client_id) {
           try {
             const client = await apiClient(`clients/${initialData.client_id}`);
             setClientData(client);
@@ -905,8 +893,14 @@ const [newPropertyError, setNewPropertyError] = useState(null);
       setClientData(created);
       // Auto-populate address if available
       if (created.address) {
-        const addressStr = [created.address.street1, created.address.street2, created.address.city, created.address.state, created.address.zip].filter(Boolean).join(', ');
-        setFormValues(prev => ({ ...prev, client_id: created.id, service_location: { address: addressStr } }));
+        const addressStr = formatClientAddress(created);
+        if (addressStr) {
+          setFormValues((prev) => ({
+            ...prev,
+            client_id: created.id,
+            service_location: { address: addressStr },
+          }));
+        }
       }
       setShowNewClientForm(false);
       setNewClientData({ first_name: '', last_name: '', email: '', phone: '' });
@@ -933,6 +927,8 @@ useEffect(() => {
 
 // Track if we've applied the initial property selection
 const initialPropertyAppliedRef = useRef(false);
+const defaultPropertyAppliedRef = useRef(false);
+const defaultClientAddressAppliedRef = useRef(false);
 
 // Apply initial property_id once properties have loaded
 useEffect(() => {
@@ -944,17 +940,68 @@ useEffect(() => {
   const property = clientProperties.find(p => String(p.id) === String(initialData.property_id));
   if (property) {
     initialPropertyAppliedRef.current = true;
+    defaultPropertyAppliedRef.current = true;
     setSelectedPropertyId(property.id);
     setFieldValue('property_id', property.id);
-    // Auto-fill address from property
-    const addr = [property.address, property.unit_number ? `Unit ${property.unit_number}` : ''].filter(Boolean).join(', ');
+    const addr = formatPropertyAddress(property);
     if (addr) {
       setFieldValue('service_location', { address: addr });
     }
   }
 }, [clientProperties, initialData?.property_id, setFieldValue]);
 
-// When properties load, sync service location from the linked property if address is empty
+// Default service location from first property or client mailing address
+useEffect(() => {
+  if (!values.client_id || loadingProperties) return;
+  if (initialData?.property_id && !initialPropertyAppliedRef.current) return;
+
+  const existingAddress = values.service_location?.address?.trim();
+  const hasPropertySelected = Boolean(selectedPropertyId || values.property_id);
+
+  if (isEdit && existingAddress && initialData?.service_location?.address?.trim()) {
+    return;
+  }
+
+  if (existingAddress && !hasPropertySelected) {
+    return;
+  }
+
+  if (clientProperties.length > 0) {
+    if (!hasPropertySelected && !defaultPropertyAppliedRef.current) {
+      defaultPropertyAppliedRef.current = true;
+      const property = clientProperties[0];
+      setSelectedPropertyId(property.id);
+      setFieldValue('property_id', property.id);
+      const addr = formatPropertyAddress(property);
+      if (addr) {
+        setFieldValue('service_location', { address: addr });
+      }
+    }
+    return;
+  }
+
+  if (!existingAddress && clientData?.address && !defaultClientAddressAppliedRef.current) {
+    const addr = formatClientAddress(clientData);
+    if (addr) {
+      defaultClientAddressAppliedRef.current = true;
+      setFieldValue('service_location', { address: addr });
+    }
+  }
+}, [
+  values.client_id,
+  values.property_id,
+  values.service_location?.address,
+  selectedPropertyId,
+  clientProperties,
+  loadingProperties,
+  clientData,
+  isEdit,
+  initialData?.property_id,
+  initialData?.service_location?.address,
+  setFieldValue,
+]);
+
+// When user picks a different property, sync the service location
 useEffect(() => {
   if (!selectedPropertyId || !clientProperties.length) return;
   const property = clientProperties.find((p) => String(p.id) === String(selectedPropertyId));
@@ -968,12 +1015,13 @@ useEffect(() => {
 
 const handlePropertySelect = (propertyId) => {
   setSelectedPropertyId(propertyId);
-  // Set the property_id in the form values
   setFieldValue('property_id', propertyId || null);
   const property = clientProperties.find(p => p.id === propertyId);
   if (property) {
-    const addr = [property.address, property.unit_number ? `Unit ${property.unit_number}` : ''].filter(Boolean).join(', ');
-    setFieldValue('service_location', { address: addr });
+    const addr = formatPropertyAddress(property);
+    if (addr) {
+      setFieldValue('service_location', { address: addr });
+    }
   }
 };
 
@@ -1392,7 +1440,7 @@ const handleCreateProperty = async () => {
       )}
 
       {/* Location */}
-      <div className="relative">
+      <div>
         <TextInput
           label="Service Location"
           name="service_location.address"
@@ -1404,18 +1452,6 @@ const handleCreateProperty = async () => {
           error={touched['service_location.address'] && errors['service_location.address']}
           placeholder="Full address where service will be performed"
         />
-        {values.client_id && clientData && clientData.address && (
-          <button
-            type="button"
-            className={`absolute right-2 top-8 text-sm ${isMobile ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'}`}
-            onClick={() => {
-              const addressStr = [clientData.address.street1, clientData.address.street2, clientData.address.city, clientData.address.state, clientData.address.zip, clientData.address.country].filter(Boolean).join(', ');
-              setFieldValue('service_location', { ...values.service_location, address: addressStr });
-            }}
-          >
-            Use Client Address
-          </button>
-        )}
       </div>
       </MobileSection>
       
