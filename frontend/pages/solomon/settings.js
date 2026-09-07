@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaArrowLeft, FaChevronRight, FaCog, FaFlask, FaInfoCircle, FaUser, FaWrench } from 'react-icons/fa';
+import { FaArrowLeft, FaChevronRight, FaCog, FaInfoCircle, FaUser, FaWrench } from 'react-icons/fa';
 import SolomonListPage from '../../components/solomon/SolomonListPage';
 import SolomonAppearanceSettings from '../../components/solomon/SolomonAppearanceSettings';
 import { SOLOMON_GLASS_PANEL_CLASS } from '../../components/solomon/solomonListPageUi';
@@ -62,12 +62,6 @@ export default function SolomonSettingsPage() {
               IDIMS
             </h2>
             <ul className="space-y-2.5">
-              <SettingsLinkRow
-                href="/solomon/procedures/dev"
-                label="Procedure harness"
-                subtitle="Staff dev tool — OEM test runner"
-                icon={FaFlask}
-              />
               <SettingsLinkRow
                 href="/techboard"
                 label="Back to IDIMS"
