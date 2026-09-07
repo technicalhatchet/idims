@@ -22,13 +22,23 @@ export interface ProcedureRunLogEntry {
   at: string;
 }
 
-export function useProcedureRun(procedureId: string | null | undefined) {
+export interface UseProcedureRunOptions {
+  initialRunState?: ProcedureRunState | null;
+  onRunStateChange?: (runState: ProcedureRunState | null) => void;
+}
+
+export function useProcedureRun(
+  procedureId: string | null | undefined,
+  options: UseProcedureRunOptions = {},
+) {
+  const { initialRunState = null, onRunStateChange } = options;
+
   const procedure = useMemo(
     () => getServiceProcedure(procedureId),
     [procedureId],
   );
 
-  const [runState, setRunState] = useState<ProcedureRunState | null>(null);
+  const [runState, setRunState] = useState<ProcedureRunState | null>(() => initialRunState);
   const [lastResult, setLastResult] = useState<ProcedureStepResult | null>(null);
   const [log, setLog] = useState<ProcedureRunLogEntry[]>([]);
   const [measurementDraft, setMeasurementDraft] = useState('');
@@ -37,6 +47,14 @@ export function useProcedureRun(procedureId: string | null | undefined) {
     if (!procedure || !runState) return null;
     return getCurrentStep(procedure, runState);
   }, [procedure, runState]);
+
+  const commitRunState = useCallback(
+    (nextRunState: ProcedureRunState | null) => {
+      setRunState(nextRunState);
+      onRunStateChange?.(nextRunState);
+    },
+    [onRunStateChange],
+  );
 
   const appendLog = useCallback((proc: ServiceProcedure, result: ProcedureStepResult) => {
     const step = proc.steps.find((item) => item.id === result.stepId);
@@ -57,30 +75,30 @@ export function useProcedureRun(procedureId: string | null | undefined) {
   const start = useCallback(() => {
     if (!procedure) return;
     const nextRun = createProcedureRun(procedure);
-    setRunState(nextRun);
+    commitRunState(nextRun);
     setLastResult(null);
     setLog([]);
     setMeasurementDraft('');
-  }, [procedure]);
+  }, [commitRunState, procedure]);
 
   const reset = useCallback(() => {
-    setRunState(null);
+    commitRunState(null);
     setLastResult(null);
     setLog([]);
     setMeasurementDraft('');
-  }, []);
+  }, [commitRunState]);
 
   const submit = useCallback(
     (input?: ProcedureStepInput) => {
       if (!procedure || !runState) return null;
       const result = submitProcedureStep(procedure, runState, input);
-      setRunState(result.runState);
+      commitRunState(result.runState);
       setLastResult(result);
       appendLog(procedure, result);
       setMeasurementDraft('');
       return result;
     },
-    [appendLog, procedure, runState],
+    [appendLog, commitRunState, procedure, runState],
   );
 
   const continueStep = useCallback(() => {

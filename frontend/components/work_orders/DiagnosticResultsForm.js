@@ -54,6 +54,8 @@ import SolomonLeadingHypothesisCard from '../solomon/SolomonLeadingHypothesisCar
 import SolomonReasoningSheet from '../solomon/SolomonReasoningSheet';
 import SolomonProfessionalSessionChrome from '../solomon/SolomonProfessionalSessionChrome';
 import SolomonFaultRanking from '../solomon/SolomonFaultRanking';
+import SolomonProcedurePanel from '../solomon/SolomonProcedurePanel';
+import { recommendServiceProcedures } from '../diagnostics/procedures/recommendServiceProcedures';
 import { SOLOMON_INTERFACE } from '../solomon/solomonThemeTokens';
 import SolomonInsightPeekBanner from '../solomon/SolomonInsightPeekBanner';
 import {
@@ -348,6 +350,28 @@ export default function DiagnosticResultsForm({
 
   intelligenceResultRef.current = intelligenceResult;
 
+  const complaintChipIds = useMemo(
+    () => getComplaintChipIds(payload?.fields || {}),
+    [payload?.fields],
+  );
+
+  const procedureRecommendations = useMemo(
+    () => recommendServiceProcedures({
+      templateId: payload?.templateId,
+      measurementContext,
+      intelligence: intelligenceResult,
+      complaintChipIds,
+      procedureRuns: payload?.procedureRuns || {},
+    }),
+    [
+      payload?.templateId,
+      payload?.procedureRuns,
+      measurementContext,
+      intelligenceResult,
+      complaintChipIds,
+    ],
+  );
+
   useEffect(() => {
     if (readOnly) return;
     if (evidencePeekDismissedRef.current) {
@@ -410,6 +434,8 @@ export default function DiagnosticResultsForm({
         includeAutoNoteInSummary: draft.includeAutoNoteInSummary !== false,
         visitedStepKeys: Array.isArray(draft.visitedStepKeys) ? draft.visitedStepKeys : [],
         currentStepKey: draft.currentStepKey || null,
+        procedureRuns: draft.procedureRuns || {},
+        activeProcedureId: draft.activeProcedureId || null,
       });
     }
   }, [draftKey, draftNoteId, onChange, readOnly]);
@@ -439,6 +465,48 @@ export default function DiagnosticResultsForm({
     },
     [draftKey, onChange, readOnly, scheduleProgressSave],
   );
+
+  const handleProcedureRunChange = useCallback(
+    (procedureId, nextRunState) => {
+      const currentRuns = payloadRef.current?.procedureRuns || {};
+      const nextRuns = { ...currentRuns };
+      if (nextRunState) {
+        nextRuns[procedureId] = nextRunState;
+      } else {
+        delete nextRuns[procedureId];
+      }
+      const nextPayload = {
+        ...payloadRef.current,
+        procedureRuns: nextRuns,
+        activeProcedureId:
+          nextRunState?.status === 'in_progress'
+            ? procedureId
+            : payloadRef.current?.activeProcedureId === procedureId
+              ? null
+              : payloadRef.current?.activeProcedureId || null,
+      };
+      payloadRef.current = nextPayload;
+      emitChange(nextPayload);
+    },
+    [emitChange],
+  );
+
+  const handleActiveProcedureChange = useCallback(
+    (procedureId) => {
+      const nextPayload = {
+        ...payloadRef.current,
+        activeProcedureId: procedureId,
+      };
+      payloadRef.current = nextPayload;
+      emitChange(nextPayload);
+    },
+    [emitChange],
+  );
+
+  const showProcedurePanel = !readOnly
+    && !isDiyAudience
+    && solomonMobileLayout
+    && procedureRecommendations.length > 0;
 
   useEffect(() => {
     if (readOnly || payload?.autoNoteEdited || !intelligenceResult?.autoNoteBullets?.length) {
@@ -976,6 +1044,18 @@ export default function DiagnosticResultsForm({
               </aside>
 
               <div className="min-w-0 space-y-2 md:col-start-2">
+                {showProcedurePanel ? (
+                  <SolomonProcedurePanel
+                    recommendations={procedureRecommendations}
+                    procedureRuns={payload?.procedureRuns || {}}
+                    activeProcedureId={payload?.activeProcedureId || null}
+                    onProcedureRunChange={handleProcedureRunChange}
+                    onActiveProcedureChange={handleActiveProcedureChange}
+                    variant={variant}
+                    density="compact"
+                  />
+                ) : null}
+
                 <Wizard
                   steps={steps}
                   context={wizardContext}
@@ -1009,6 +1089,17 @@ export default function DiagnosticResultsForm({
                   onOpenReasoning={() => setReasoningSheetOpen(true)}
                   variant={variant}
                   density="default"
+                />
+              ) : null}
+
+              {showProcedurePanel ? (
+                <SolomonProcedurePanel
+                  recommendations={procedureRecommendations}
+                  procedureRuns={payload?.procedureRuns || {}}
+                  activeProcedureId={payload?.activeProcedureId || null}
+                  onProcedureRunChange={handleProcedureRunChange}
+                  onActiveProcedureChange={handleActiveProcedureChange}
+                  variant={variant}
                 />
               ) : null}
 

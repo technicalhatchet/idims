@@ -1018,6 +1018,8 @@ export function buildInitialDiagnosticStateForTemplate(templateId) {
     autoNoteEdited: false,
     autoNoteFormat: 'bullets',
     includeAutoNoteInSummary: true,
+    procedureRuns: {},
+    activeProcedureId: null,
   };
 }
 
