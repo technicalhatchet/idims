@@ -105,6 +105,30 @@ export interface ServiceProcedure {
   tags?: string[];
 }
 
+/** Links a parent procedure to a reusable service-mode step bundle. */
+export interface ServiceModeRef {
+  bundleId: string;
+  /** Parent step after which the bundle is inserted. */
+  attachAfterStepId: string;
+  /** Parent step to resume after the bundle completes (@continue target). */
+  continueToStepId: string;
+}
+
+export interface ServiceModeBundle {
+  id: string;
+  version: string;
+  platformId: string;
+  manualId: string;
+  title: string;
+  entryStepId: string;
+  steps: ProcedureStep[];
+  source?: Record<string, unknown>;
+}
+
+export interface ServiceProcedureSeed extends ServiceProcedure {
+  serviceMode?: ServiceModeRef;
+}
+
 export type ProcedureStepInputKind = 'measurement' | 'checkpoint';
 
 export interface ProcedureStepInput {

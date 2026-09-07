@@ -1,0 +1,78 @@
+{
+  "id": "w11169652-service-mode",
+  "version": "1.0.0",
+  "platformId": "whirlpool_fl_dd",
+  "manualId": "W11169652",
+  "title": "W11169652 Service Diagnostic & Quick Service Cycle",
+  "entryStepId": "identify_ui_type",
+  "source": {
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "consolePages": [22, 24, 25],
+    "lcdPages": [27, 30]
+  },
+  "steps": [
+    {
+      "id": "identify_ui_type",
+      "order": 1,
+      "type": "visual_check",
+      "title": "Console control panel?",
+      "body": "Console models use membrane buttons and a seven-segment display. LCD-in-door models use the TOOLS menu and touchscreen — answer No for those.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ui_console",
+          "label": "Console control panel",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "console_service_diagnostic_entry"
+        },
+        {
+          "id": "ui_lcd",
+          "label": "LCD in door",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "lcd_service_diagnostic_entry"
+        }
+      ]
+    },
+    {
+      "id": "console_service_diagnostic_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Console — enter Service Diagnostic mode",
+      "body": "Washer in standby (plugged in, indicators off). Wait 30 seconds after applying power. Choose any three buttons except POWER and remember them. Within 8 seconds, press and release button 1, then 2, then 3 — repeat that same 3-button sequence two more times (3 rounds total). Success: all console indicators illuminate for 5 seconds and the seven-segment display shows 888.",
+      "sourceExcerpt": "Select any three (3) buttons (except POWER)... Press and Release the 1st, 2nd, 3rd selected button; Repeat this 3 button sequence 2 more times. If entered successfully, all indicators are illuminated for 5 seconds with 888 showing in the display.",
+      "requiresInput": false,
+      "defaultNextStepId": "console_quick_service_cycle"
+    },
+    {
+      "id": "console_quick_service_cycle",
+      "order": 3,
+      "type": "instruction",
+      "title": "Console — run Quick Service Cycle",
+      "body": "Press the 2nd button used to enter Service Diagnostic mode (momentary). Display should show 001. Use Soil to increment or Temp to decrement until function 012 (Quick Service Cycle) is selected. Press START — display flashes 012 while the cycle runs (drum must be empty). During the cycle, watch for display 009 and 013 — motor should run at spin (step 9) and tumble (step 13). Exit with POWER or hold the 1st diagnostic button for 5 seconds.",
+      "sourceExcerpt": "Press and release the 2nd button used to activate Service Diagnostic mode... Use Soil and Temp buttons to select function 012 Quick Service Cycle... Press START... display will flash 012 while the cycle runs.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    },
+    {
+      "id": "lcd_service_diagnostic_entry",
+      "order": 4,
+      "type": "instruction",
+      "title": "LCD — enter Service Diagnostic mode",
+      "body": "Washer in standby. Open and close the door. Press POWER until the home screen displays. Press TOOLS → scroll to INFO → SERVICE & SUPPORT. Press and hold DIAGNOSTICS until ENTER PASSWORD appears. Enter 123, 123, 123 and press ENTER. On the warning screen, touch ENTER to reach DIAGNOSTICS HOME.",
+      "sourceExcerpt": "Press the TOOLS button. From the TOOLS menu, scroll down to INFO. From the INFO menu, select SERVICE & SUPPORT. Press and hold the DIAGNOSTICS button until ENTER PASSWORD is displayed. Input 123, 123, 123, and press ENTER.",
+      "requiresInput": false,
+      "defaultNextStepId": "lcd_quick_service_cycle"
+    },
+    {
+      "id": "lcd_quick_service_cycle",
+      "order": 5,
+      "type": "instruction",
+      "title": "LCD — run Quick Service Cycle",
+      "body": "From DIAGNOSTICS HOME, scroll to Component Activation. Select Quick Service Cycle 1 and toggle ON (door will lock). Drum must be empty. During the cycle, verify motor runs at spin (step 9) and tumble (step 13). Toggle OFF when finished. Exit diagnostic mode: scroll to top, press < twice, then HOME.",
+      "sourceExcerpt": "Scroll down and select Component Activation... Turn Quick Service Cycle 1 On.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}
