@@ -37,6 +37,7 @@ export * from './procedures/serviceModeCatalog';
 export * from './procedures/resolveServiceModeBundle';
 export * from './procedures/wireColorRegistry';
 export * from './procedures/useProcedureRun';
+export * from './procedures/recommendServiceProcedures';
 export { refrigeratorWizard } from './refrigerator/refrigeratorWizard';
 export { electricRangeWizard } from './electric_range/electricRangeWizard';
 export { gasRangeWizard } from './gas_range/gasRangeWizard';
