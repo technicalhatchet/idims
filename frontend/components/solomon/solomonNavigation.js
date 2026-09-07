@@ -39,9 +39,9 @@ export function isSolomonNavActive(pathname, tab) {
     case 'more':
       return path === '/solomon/more'
         || path === '/solomon/settings'
+        || path.startsWith('/solomon/procedures/')
         || path === '/solomon/outcomes'
-        || path.startsWith('/solomon/outcomes/')
-        || path.startsWith('/solomon/procedures/');
+        || path.startsWith('/solomon/outcomes/');
     default:
       return false;
   }
