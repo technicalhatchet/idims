@@ -9,7 +9,7 @@ AFTERMARKET_WARRANTY_DAYS = 0
 ALLOWED_PART_SOURCES = frozenset({"oem", "aftermarket"})
 
 # Statuses that clear install / warranty tracking
-WARRANTY_RESET_STATUSES = frozenset({"needed", "ordered", "received", "not_installed"})
+WARRANTY_RESET_STATUSES = frozenset({"needed", "on_hand", "ordered", "received", "not_installed"})
 
 
 def effective_warranty_days(

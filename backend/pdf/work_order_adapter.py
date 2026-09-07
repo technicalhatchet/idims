@@ -38,6 +38,7 @@ COMPANY = {
 
 PART_STATUS_LABELS = {
     "needed": "Estimated",
+    "on_hand": "On hand",
     "ordered": "Ordered",
     "received": "Received",
     "phone_payment": "Paid",
