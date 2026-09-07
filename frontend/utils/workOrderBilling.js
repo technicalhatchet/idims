@@ -12,6 +12,25 @@ export const SERVICE_BILLING_STATUS_OPTIONS = [
   { value: 'waived', label: 'Waived' },
 ];
 
+export function isTripChargeServiceLine(service) {
+  if (!service) return false;
+  const sku = (service.sku_code || service.service_definition?.sku_code || '').toUpperCase();
+  const name = (service.name || '').toLowerCase();
+  if (sku.includes('TRIP')) return true;
+  return name.includes('trip charge');
+}
+
+/** Hide $0 trip charge lines on billing UI — local zone still adds the SKU at zero. */
+export function isHiddenZeroTripChargeLine(service) {
+  if (!isTripChargeServiceLine(service)) return false;
+  const price = parseFloat(service.price ?? service.unit_price ?? 0);
+  return !Number.isFinite(price) || price <= 0;
+}
+
+export function billingDisplayServices(services) {
+  return (services || []).filter((service) => !isHiddenZeroTripChargeLine(service));
+}
+
 /** Unscheduled estimate line — no visit, not yet billable. */
 export function isUnscheduledEstimateLine(item) {
   return !item?.appointment_id && item?.billing_status === 'not_billable';
