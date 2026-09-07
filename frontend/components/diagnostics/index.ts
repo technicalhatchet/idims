@@ -33,6 +33,8 @@ export * from './procedures/procedureRegistry';
 export * from './procedures/procedureRunner';
 export * from './procedures/evaluateProcedureMeasurement';
 export * from './procedures/applyProcedureDiagnosticEffects';
+export * from './procedures/wireColorRegistry';
+export * from './procedures/useProcedureRun';
 export { refrigeratorWizard } from './refrigerator/refrigeratorWizard';
 export { electricRangeWizard } from './electric_range/electricRangeWizard';
 export { gasRangeWizard } from './gas_range/gasRangeWizard';
