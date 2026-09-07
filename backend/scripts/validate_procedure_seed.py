@@ -24,6 +24,16 @@ REQUIRED_PROCEDURE_KEYS = {
     "steps",
 }
 
+REQUIRED_BUNDLE_KEYS = {
+    "id",
+    "version",
+    "platformId",
+    "manualId",
+    "title",
+    "entryStepId",
+    "steps",
+}
+
 REQUIRED_SOURCE_KEYS = {
     "manualId",
     "manualTitle",
@@ -54,6 +64,8 @@ KNOWN_WIRE_COLOR_CODES = {
 
 WIRE_COLOR_CONFIDENCE = {"verified", "inferred"}
 
+CONTINUE_TOKEN = "@continue"
+
 
 def load_measurement_knowledge_ids() -> set[str]:
     ids: set[str] = set()
@@ -66,24 +78,19 @@ def load_measurement_knowledge_ids() -> set[str]:
     return ids
 
 
-def validate_procedure(data: dict, path: Path, knowledge_ids: set[str]) -> list[str]:
+def is_bundle_path(path: Path) -> bool:
+    return "bundles" in path.parts
+
+
+def validate_steps(
+    steps: list[dict],
+    path: Path,
+    knowledge_ids: set[str],
+    *,
+    allow_continue: bool = False,
+) -> list[str]:
     errors: list[str] = []
 
-    missing = REQUIRED_PROCEDURE_KEYS - data.keys()
-    if missing:
-        errors.append(f"{path}: missing keys {sorted(missing)}")
-        return errors
-
-    source = data.get("source", {})
-    source_missing = REQUIRED_SOURCE_KEYS - source.keys()
-    if source_missing:
-        errors.append(f"{path}: source missing keys {sorted(source_missing)}")
-
-    for forbidden in FORBIDDEN_SOURCE_KEYS:
-        if forbidden in source:
-            errors.append(f"{path}: source must not include PDF field '{forbidden}'")
-
-    steps = data.get("steps", [])
     if not isinstance(steps, list) or not steps:
         errors.append(f"{path}: steps must be a non-empty array")
         return errors
@@ -91,10 +98,6 @@ def validate_procedure(data: dict, path: Path, knowledge_ids: set[str]) -> list[
     step_ids = {step["id"] for step in steps if "id" in step}
     if len(step_ids) != len(steps):
         errors.append(f"{path}: duplicate or missing step ids")
-
-    entry_step_id = data.get("entryStepId")
-    if entry_step_id not in step_ids:
-        errors.append(f"{path}: entryStepId '{entry_step_id}' not found in steps")
 
     for step in steps:
         step_id = step.get("id", "<unknown>")
@@ -124,13 +127,17 @@ def validate_procedure(data: dict, path: Path, knowledge_ids: set[str]) -> list[
                     f"{path}: step {step_id} branch {branch.get('id')} has invalid when.kind '{kind}'"
                 )
             next_step_id = branch.get("nextStepId")
-            if next_step_id and next_step_id not in step_ids:
+            if next_step_id and next_step_id not in step_ids and not (
+                allow_continue and next_step_id == CONTINUE_TOKEN
+            ):
                 errors.append(
                     f"{path}: step {step_id} branch {branch.get('id')} references unknown nextStepId '{next_step_id}'"
                 )
 
         default_next = step.get("defaultNextStepId")
-        if default_next and default_next not in step_ids:
+        if default_next and default_next not in step_ids and not (
+            allow_continue and default_next == CONTINUE_TOKEN
+        ):
             errors.append(
                 f"{path}: step {step_id} defaultNextStepId '{default_next}' not found in steps"
             )
@@ -153,6 +160,76 @@ def validate_procedure(data: dict, path: Path, knowledge_ids: set[str]) -> list[
     return errors
 
 
+def validate_bundle(data: dict, path: Path, knowledge_ids: set[str]) -> list[str]:
+    errors: list[str] = []
+    missing = REQUIRED_BUNDLE_KEYS - data.keys()
+    if missing:
+        errors.append(f"{path}: missing keys {sorted(missing)}")
+        return errors
+
+    entry_step_id = data.get("entryStepId")
+    steps = data.get("steps", [])
+    step_ids = {step["id"] for step in steps if "id" in step}
+    if entry_step_id not in step_ids:
+        errors.append(f"{path}: entryStepId '{entry_step_id}' not found in steps")
+
+    errors.extend(
+        validate_steps(steps, path, knowledge_ids, allow_continue=True),
+    )
+    return errors
+
+
+def validate_procedure(
+    data: dict,
+    path: Path,
+    knowledge_ids: set[str],
+    bundle_ids: set[str],
+) -> list[str]:
+    errors: list[str] = []
+
+    missing = REQUIRED_PROCEDURE_KEYS - data.keys()
+    if missing:
+        errors.append(f"{path}: missing keys {sorted(missing)}")
+        return errors
+
+    source = data.get("source", {})
+    source_missing = REQUIRED_SOURCE_KEYS - source.keys()
+    if source_missing:
+        errors.append(f"{path}: source missing keys {sorted(source_missing)}")
+
+    for forbidden in FORBIDDEN_SOURCE_KEYS:
+        if forbidden in source:
+            errors.append(f"{path}: source must not include PDF field '{forbidden}'")
+
+    steps = data.get("steps", [])
+    step_ids = {step["id"] for step in steps if isinstance(step, dict) and "id" in step}
+
+    entry_step_id = data.get("entryStepId")
+    if entry_step_id not in step_ids:
+        errors.append(f"{path}: entryStepId '{entry_step_id}' not found in steps")
+
+    service_mode = data.get("serviceMode")
+    if service_mode:
+        bundle_id = service_mode.get("bundleId")
+        attach_after = service_mode.get("attachAfterStepId")
+        continue_to = service_mode.get("continueToStepId")
+        if not bundle_id:
+            errors.append(f"{path}: serviceMode.bundleId is required")
+        elif bundle_id not in bundle_ids:
+            errors.append(f"{path}: serviceMode references unknown bundleId '{bundle_id}'")
+        if not attach_after or attach_after not in step_ids:
+            errors.append(
+                f"{path}: serviceMode.attachAfterStepId '{attach_after}' not found in steps"
+            )
+        if not continue_to or continue_to not in step_ids:
+            errors.append(
+                f"{path}: serviceMode.continueToStepId '{continue_to}' not found in steps"
+            )
+
+    errors.extend(validate_steps(steps, path, knowledge_ids, allow_continue=False))
+    return errors
+
+
 def main() -> int:
     knowledge_ids = load_measurement_knowledge_ids()
     seed_files = sorted(PROCEDURE_SEED_DIR.rglob("*.json"))
@@ -160,17 +237,30 @@ def main() -> int:
         print("No procedure seed files found.", file=sys.stderr)
         return 1
 
-    all_errors: list[str] = []
-    procedure_ids: set[str] = set()
+    bundle_files = [path for path in seed_files if is_bundle_path(path)]
+    procedure_files = [path for path in seed_files if not is_bundle_path(path)]
 
-    for path in seed_files:
+    all_errors: list[str] = []
+    bundle_ids: set[str] = set()
+
+    for path in bundle_files:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        bundle_id = data.get("id")
+        if bundle_id in bundle_ids:
+            all_errors.append(f"Duplicate bundle id '{bundle_id}'")
+        elif bundle_id:
+            bundle_ids.add(bundle_id)
+        all_errors.extend(validate_bundle(data, path, knowledge_ids))
+
+    procedure_ids: set[str] = set()
+    for path in procedure_files:
         data = json.loads(path.read_text(encoding="utf-8"))
         proc_id = data.get("id")
         if proc_id in procedure_ids:
             all_errors.append(f"Duplicate procedure id '{proc_id}'")
         elif proc_id:
             procedure_ids.add(proc_id)
-        all_errors.extend(validate_procedure(data, path, knowledge_ids))
+        all_errors.extend(validate_procedure(data, path, knowledge_ids, bundle_ids))
 
     if all_errors:
         print("Procedure seed validation failed:", file=sys.stderr)
@@ -178,7 +268,10 @@ def main() -> int:
             print(f"  - {error}", file=sys.stderr)
         return 1
 
-    print(f"Validated {len(seed_files)} procedure seed file(s).")
+    print(
+        f"Validated {len(procedure_files)} procedure seed file(s) "
+        f"and {len(bundle_files)} service-mode bundle(s)."
+    )
     return 0
 
 
