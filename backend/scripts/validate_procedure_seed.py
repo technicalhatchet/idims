@@ -47,6 +47,13 @@ BRANCH_KINDS = {
 
 FORBIDDEN_SOURCE_KEYS = {"pdfUrl", "pdfPath", "documentUrl"}
 
+KNOWN_WIRE_COLOR_CODES = {
+    "BK", "BLK", "BL", "BU", "BR", "BN", "GN", "GRN", "GY", "GR", "OR", "OG",
+    "PK", "R", "RD", "V", "VI", "W", "WH", "WT", "Y", "YL", "W/B", "BK/W",
+}
+
+WIRE_COLOR_CONFIDENCE = {"verified", "inferred"}
+
 
 def load_measurement_knowledge_ids() -> set[str]:
     ids: set[str] = set()
@@ -127,6 +134,21 @@ def validate_procedure(data: dict, path: Path, knowledge_ids: set[str]) -> list[
             errors.append(
                 f"{path}: step {step_id} defaultNextStepId '{default_next}' not found in steps"
             )
+
+        test_point = step.get("testPoint") or {}
+        for pin in test_point.get("pinDetails", []) or []:
+            wire_color = pin.get("wireColor")
+            confidence = pin.get("wireColorConfidence")
+            if wire_color and confidence and confidence not in WIRE_COLOR_CONFIDENCE:
+                errors.append(
+                    f"{path}: step {step_id} pin {pin.get('pin')} has invalid wireColorConfidence '{confidence}'"
+                )
+            if wire_color and confidence == "verified":
+                normalized = str(wire_color).strip().upper()
+                if normalized not in KNOWN_WIRE_COLOR_CODES:
+                    errors.append(
+                        f"{path}: step {step_id} pin {pin.get('pin')} has unknown verified wireColor '{wire_color}'"
+                    )
 
     return errors
 

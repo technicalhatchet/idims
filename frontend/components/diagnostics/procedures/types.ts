@@ -56,11 +56,15 @@ export interface DecisionBranch {
   terminal?: boolean;
 }
 
+export type WireColorConfidence = 'verified' | 'inferred';
+
 export interface TestPointPin {
   pin: string;
   signal: string;
   /** Harness wire color when verified from OEM pinout or wiring diagram text. */
   wireColor?: string;
+  /** Visual swatch shown only when confidence is verified. */
+  wireColorConfidence?: WireColorConfidence;
 }
 
 export interface TestPoint {
