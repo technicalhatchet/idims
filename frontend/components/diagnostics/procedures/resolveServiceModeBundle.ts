@@ -1,3 +1,8 @@
+import {
+  getServiceModeKindsForRefs,
+  listServiceModeBundles,
+  normalizeServiceModeRefs,
+} from './serviceModeCatalog';
 import type {
   DecisionBranch,
   ProcedureStep,
@@ -50,6 +55,14 @@ function renumberSteps(steps: ProcedureStep[]): ProcedureStep[] {
   }));
 }
 
+function assertBundleMatchesRef(bundle: ServiceModeBundle, ref: ServiceModeRef): void {
+  if (ref.modeKind && bundle.modeKind !== ref.modeKind) {
+    throw new Error(
+      `Bundle '${bundle.id}' modeKind '${bundle.modeKind}' does not match ref modeKind '${ref.modeKind}'`,
+    );
+  }
+}
+
 export function injectServiceModeBundle(
   steps: ProcedureStep[],
   bundle: ServiceModeBundle,
@@ -68,6 +81,8 @@ export function injectServiceModeBundle(
       `Procedure serviceMode.continueToStepId '${ref.continueToStepId}' not found in steps`,
     );
   }
+
+  assertBundleMatchesRef(bundle, ref);
 
   const bundleSteps = bundle.steps.map((step) =>
     resolveContinueToken(step, ref.continueToStepId),
@@ -96,18 +111,22 @@ export function resolveServiceProcedureSeed(
   bundleById: Map<string, ServiceModeBundle>,
 ): ServiceProcedure {
   let steps = [...seed.steps];
+  const serviceModeRefs = normalizeServiceModeRefs(seed);
 
-  if (seed.serviceMode) {
-    const bundle = bundleById.get(seed.serviceMode.bundleId);
+  for (const ref of serviceModeRefs) {
+    const bundle = bundleById.get(ref.bundleId);
     if (!bundle) {
-      throw new Error(`Unknown serviceMode.bundleId '${seed.serviceMode.bundleId}'`);
+      throw new Error(`Unknown serviceMode.bundleId '${ref.bundleId}'`);
     }
-    steps = injectServiceModeBundle(steps, bundle, seed.serviceMode);
+    steps = injectServiceModeBundle(steps, bundle, ref);
   }
 
-  const { serviceMode, ...procedure } = seed;
+  const { serviceMode, serviceModes, ...procedure } = seed;
   return {
     ...procedure,
     steps: renumberSteps(steps),
+    serviceModePlan: serviceModeRefs.length ? serviceModeRefs : undefined,
   };
 }
+
+export { getServiceModeKindsForRefs, normalizeServiceModeRefs };

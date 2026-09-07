@@ -30,9 +30,24 @@ REQUIRED_BUNDLE_KEYS = {
     "platformId",
     "manualId",
     "title",
+    "modeKind",
+    "uiVariants",
     "entryStepId",
     "steps",
 }
+
+SERVICE_MODE_KINDS = {
+    "service_diagnostic_entry",
+    "quick_service_cycle",
+    "combined_qsc",
+    "component_activation",
+    "load_test",
+    "fault_codes",
+    "hmi_test",
+    "voltage_check",
+}
+
+UI_VARIANTS = {"console", "lcd_in_door", "any"}
 
 REQUIRED_SOURCE_KEYS = {
     "manualId",
@@ -173,6 +188,16 @@ def validate_bundle(data: dict, path: Path, knowledge_ids: set[str]) -> list[str
     if entry_step_id not in step_ids:
         errors.append(f"{path}: entryStepId '{entry_step_id}' not found in steps")
 
+    mode_kind = data.get("modeKind")
+    if mode_kind not in SERVICE_MODE_KINDS:
+        errors.append(f"{path}: invalid modeKind '{mode_kind}'")
+
+    ui_variants = data.get("uiVariants") or []
+    if not isinstance(ui_variants, list) or not ui_variants:
+        errors.append(f"{path}: uiVariants must be a non-empty array")
+    elif any(variant not in UI_VARIANTS for variant in ui_variants):
+        errors.append(f"{path}: uiVariants contains invalid value(s)")
+
     errors.extend(
         validate_steps(steps, path, knowledge_ids, allow_continue=True),
     )
@@ -209,21 +234,37 @@ def validate_procedure(
         errors.append(f"{path}: entryStepId '{entry_step_id}' not found in steps")
 
     service_mode = data.get("serviceMode")
+    service_modes = data.get("serviceModes") or []
+    refs: list[dict] = []
     if service_mode:
-        bundle_id = service_mode.get("bundleId")
-        attach_after = service_mode.get("attachAfterStepId")
-        continue_to = service_mode.get("continueToStepId")
+        refs.append(service_mode)
+    if service_modes:
+        refs.extend(service_modes)
+
+    if service_mode and service_modes:
+        errors.append(f"{path}: use serviceModes only, not both serviceMode and serviceModes")
+
+    for index, ref in enumerate(refs):
+        bundle_id = ref.get("bundleId")
+        mode_kind = ref.get("modeKind")
+        attach_after = ref.get("attachAfterStepId")
+        continue_to = ref.get("continueToStepId")
+        label = f"serviceModes[{index}]" if len(refs) > 1 else "serviceMode"
         if not bundle_id:
-            errors.append(f"{path}: serviceMode.bundleId is required")
+            errors.append(f"{path}: {label}.bundleId is required")
         elif bundle_id not in bundle_ids:
-            errors.append(f"{path}: serviceMode references unknown bundleId '{bundle_id}'")
+            errors.append(f"{path}: {label} references unknown bundleId '{bundle_id}'")
+        if not mode_kind:
+            errors.append(f"{path}: {label}.modeKind is required")
+        elif mode_kind not in SERVICE_MODE_KINDS:
+            errors.append(f"{path}: {label}.modeKind '{mode_kind}' is invalid")
         if not attach_after or attach_after not in step_ids:
             errors.append(
-                f"{path}: serviceMode.attachAfterStepId '{attach_after}' not found in steps"
+                f"{path}: {label}.attachAfterStepId '{attach_after}' not found in steps"
             )
         if not continue_to or continue_to not in step_ids:
             errors.append(
-                f"{path}: serviceMode.continueToStepId '{continue_to}' not found in steps"
+                f"{path}: {label}.continueToStepId '{continue_to}' not found in steps"
             )
 
     errors.extend(validate_steps(steps, path, knowledge_ids, allow_continue=False))
