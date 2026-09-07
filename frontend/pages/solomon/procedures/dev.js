@@ -49,8 +49,8 @@ export default function SolomonProcedureDevPage() {
       headTitle="Procedure Dev"
       title="Procedure harness"
       description={headerDescription}
-      backHref="/solomon/more"
-      backLabel="More"
+      backHref="/solomon/settings"
+      backLabel="Settings"
       accessGuard
       accessGuardTitle="Sign in to use procedure dev tools"
       loading={rolesLoading}
