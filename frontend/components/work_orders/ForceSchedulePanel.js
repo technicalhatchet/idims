@@ -23,6 +23,13 @@ import {
 } from '../../utils/visitSku';
 import WoForceScheduleDayView from './WoForceScheduleDayView';
 import { forceOrange } from './forceScheduleTheme';
+import EstimateSkuPullPanel from './EstimateSkuPullPanel';
+import {
+  estimateLineCatalogId,
+  getEstimateCatalogIds,
+  getUnscheduledEstimateLines,
+  mergeCatalogIdsIntoVisit,
+} from '../../utils/estimateVisitSkus';
 
 const SHOP_CLOSED_DATE_MESSAGE = 'Shop is closed on this day. Select another date.';
 
@@ -175,6 +182,7 @@ function buildDefaultSlotTimes() {
 
 export default function ForceSchedulePanel({
   workOrderId,
+  workOrder = null,
   technicians = [],
   techniciansLoading = false,
   defaultTechnicianId = '',
@@ -234,6 +242,11 @@ export default function ForceSchedulePanel({
     }
     return total > 0 ? total : DEFAULT_MIN_SLOT_MINUTES;
   }, [formData.service_ids, allServices]);
+
+  const unscheduledEstimateLines = useMemo(
+    () => getUnscheduledEstimateLines(workOrder?.services),
+    [workOrder?.services]
+  );
 
   const scheduleConflicts = useMemo(() => {
     if (!formData.assigned_technician_id || !formData.scheduled_start || !formData.scheduled_end) {
@@ -406,6 +419,45 @@ export default function ForceSchedulePanel({
     }));
   };
 
+  const syncServiceCategoryForCatalogId = (catalogId) => {
+    if (!catalogId || !allServices.length) return;
+    const svc = allServices.find((s) => serviceIdsMatch(s.id, catalogId));
+    if (svc?.service_type) {
+      setSelectedServiceCategory(svc.service_type);
+    }
+  };
+
+  const applyEstimateCatalogIds = (catalogIds) => {
+    const ids = (catalogIds || []).map(String).filter(Boolean);
+    if (!ids.length) return;
+
+    setFormData((prev) => {
+      const merged = mergeCatalogIdsIntoVisit(prev.service_ids, ids);
+      let scheduled_end = prev.scheduled_end;
+      if (prev.scheduled_start) {
+        scheduled_end = formatDateTimeForInput(
+          addMinutes(parseISO(prev.scheduled_start), sumPlannedDurationMinutes(merged, allServices))
+        );
+      }
+      return { ...prev, service_ids: merged, scheduled_end };
+    });
+    setFormErrors((prev) => {
+      const next = { ...prev };
+      delete next.service_ids;
+      return next;
+    });
+    syncServiceCategoryForCatalogId(ids[0]);
+  };
+
+  const handlePullAllFromEstimate = () => {
+    applyEstimateCatalogIds(getEstimateCatalogIds(unscheduledEstimateLines));
+  };
+
+  const handlePullEstimateLine = (line) => {
+    const catalogId = estimateLineCatalogId(line);
+    if (catalogId) applyEstimateCatalogIds([catalogId]);
+  };
+
   const handleClearForceSchedule = async () => {
     if (!editingAppointment?.id || scheduleConflicts.length > 0) return;
     setIsSubmitting(true);
@@ -561,6 +613,18 @@ export default function ForceSchedulePanel({
               Overlaps are allowed — this visit will still be saved as forced.
             </li>
           </ul>
+        )}
+
+        {unscheduledEstimateLines.length > 0 && (
+          <EstimateSkuPullPanel
+            estimateLines={unscheduledEstimateLines}
+            selectedCatalogIds={formData.service_ids}
+            catalogServices={allServices}
+            onAddAll={handlePullAllFromEstimate}
+            onAddLine={handlePullEstimateLine}
+            compact={isMobile}
+            isMobile={isMobile}
+          />
         )}
 
         <div>
