@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import {
   FaClipboardList,
+  FaEllipsisH,
   FaHashtag,
   FaSearch,
   FaWrench,
@@ -40,6 +41,14 @@ const TILES = [
     icon: FaHashtag,
     accent: 'bg-emerald-400',
     iconBg: 'bg-emerald-500/15 text-emerald-400',
+  },
+  {
+    href: '/solomon/more',
+    label: 'More',
+    subtitle: 'Settings, staff tools, and account options',
+    icon: FaEllipsisH,
+    accent: 'bg-slate-400',
+    iconBg: 'bg-white/10 text-gray-300',
   },
 ];
 
