@@ -477,7 +477,7 @@ class WorkOrderPartBase(BaseModel):
     price: float
     part_source: str = Field(..., description="oem or aftermarket")
     vendor: Optional[str] = None
-    status: str = "needed"  # 'needed', 'ordered', 'received', 'installed', 'not_installed', 'completed', 'phone_payment', 'up_front'
+    status: str = "needed"  # 'needed', 'on_hand', 'ordered', 'received', ...
     tracking_number: Optional[str] = None
     notes: Optional[str] = None
     warranty_days_override: Optional[int] = Field(None, ge=0, description="Custom warranty length in days")
@@ -497,7 +497,7 @@ class WorkOrderPartBase(BaseModel):
 
     @validator('status')
     def validate_status(cls, v):
-        allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment", "paid_not_installed"]
+        allowed_statuses = ["needed", "on_hand", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment", "paid_not_installed"]
         if v not in allowed_statuses:
             raise ValueError(f"Status must be one of {allowed_statuses}")
         return v
@@ -539,7 +539,7 @@ class WorkOrderPartUpdate(BaseModel):
     @validator('status')
     def validate_status(cls, v):
         if v is not None:
-            allowed_statuses = ["needed", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment", "paid_not_installed"]
+            allowed_statuses = ["needed", "on_hand", "ordered", "received", "installed", "not_installed", "upfront_50", "phone_payment", "paid_not_installed"]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
         return v

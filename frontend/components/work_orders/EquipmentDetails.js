@@ -23,6 +23,10 @@ import {
   normalizePartSource,
 } from '../../utils/partWarranty';
 import {
+  PART_STATUSES,
+  getPartTrackingFieldMeta,
+} from '../../utils/workOrderPartStatuses';
+import {
   normalizePartsSettings,
   getVendorSelectOptions,
   getVendorLabel,
@@ -89,18 +93,6 @@ const MANUFACTURERS = [
   { value: 'Hisense', label: 'Hisense' },
   { value: 'Vizio', label: 'Vizio' },
   { value: 'Other', label: 'Other' }
-];
-
-// Part statuses
-const PART_STATUSES = [
-  { value: 'needed', label: 'Needed', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' },
-  { value: 'ordered', label: 'Ordered', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
-  { value: 'received', label: 'Received', color: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200' },
-  { value: 'upfront_50', label: '50% Upfront', color: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' },
-  { value: 'phone_payment', label: 'Phone Payment', color: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200' },
-  { value: 'paid_not_installed', label: 'PdNI', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
-  { value: 'installed', label: 'Installed', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' },
-  { value: 'not_installed', label: 'Not Installed', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }
 ];
 
 export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false }, ref) {
@@ -285,6 +277,10 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
       cost: Number.isFinite(cost) ? cost.toFixed(2) : '',
       price: Number.isFinite(price) ? price.toFixed(2) : '',
       vendor: 'Shop',
+      status: 'on_hand',
+      part_source: 'aftermarket',
+      tracking_number: item.location || '',
+      warranty_days_override: '0',
     });
   };
 
@@ -496,7 +492,7 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
         ? price  // full price committed
         : newStatus === 'upfront_50'
         ? price * 0.5  // half committed
-        : newStatus === 'installed' || newStatus === 'needed' || newStatus === 'ordered' || newStatus === 'received'
+        : newStatus === 'installed' || newStatus === 'needed' || newStatus === 'on_hand' || newStatus === 'ordered' || newStatus === 'received'
         ? 0  // reset on earlier statuses
         : parseFloat(part.amount_upfront_collected || 0);  // keep existing
       
@@ -840,10 +836,14 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
                   />
                   
                   <TextInput 
-                    label="Tracking Number" 
+                    label={getPartTrackingFieldMeta(currentPart).label}
                     value={currentPart.tracking_number} 
-                    onChange={(e) => handlePartChange('tracking_number', e.target.value.toUpperCase())}
-                    placeholder="Enter tracking number"
+                    onChange={(e) => {
+                      const meta = getPartTrackingFieldMeta(currentPart);
+                      const value = meta.uppercase ? e.target.value.toUpperCase() : e.target.value;
+                      handlePartChange('tracking_number', value);
+                    }}
+                    placeholder={getPartTrackingFieldMeta(currentPart).placeholder}
                   />
 
                   <TextInput
@@ -1072,7 +1072,9 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
                 </div>
                 
                 <div>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Tracking Number</p>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    {getPartTrackingFieldMeta(selectedPart).label}
+                  </p>
                   <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedPart.tracking_number || '-'}</p>
                 </div>
                 

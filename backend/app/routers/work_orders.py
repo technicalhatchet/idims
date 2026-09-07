@@ -2630,7 +2630,7 @@ async def update_work_order_part(
             remaining_tax = round(remaining * tax_rate, 2)
             new_tax_total = already_taxed + remaining_tax
             update_data['tax_collected'] = new_tax_total
-    elif new_status in ['needed', 'ordered', 'received', 'not_installed']:
+    elif new_status in ['needed', 'on_hand', 'ordered', 'received', 'not_installed']:
         # Reset on non-payment statuses
         update_data['amount_upfront_collected'] = 0
         update_data['tax_collected'] = 0

@@ -520,7 +520,7 @@ class WorkOrderPart(Base):
     cost = Column(Float, nullable=False, default=0.0)
     price = Column(Float, nullable=False, default=0.0)
     vendor = Column(String(50), nullable=True)  # Tribles, ShopJimmy, Encompass, Sears, Amazon, PartsSelect, AppliancePartsPros, Other
-    status = Column(String(50), nullable=False, default="needed")  # 'needed', 'ordered', 'received', 'upfront_50', 'phone_payment', 'paid_not_installed', 'installed', 'not_installed'
+    status = Column(String(50), nullable=False, default="needed")  # needed, on_hand, ordered, received, upfront_50, phone_payment, paid_not_installed, installed, not_installed
     tracking_number = Column(String(100), nullable=True)
     notes = Column(Text, nullable=True)
     amount_upfront_collected = Column(Numeric(10, 2), nullable=False, default=0.00)

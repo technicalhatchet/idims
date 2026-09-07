@@ -12,6 +12,10 @@ import {
   normalizePartSource,
 } from '../../utils/partWarranty';
 import {
+  PART_STATUSES,
+  getPartTrackingFieldMeta,
+} from '../../utils/workOrderPartStatuses';
+import {
   resolvePartsLogoUrl,
   isBackendHostedPartsLogo,
 } from '../../utils/partsSettings';
@@ -70,17 +74,6 @@ const MANUFACTURERS = [
   { value: 'Hisense', label: 'Hisense' },
   { value: 'Vizio', label: 'Vizio' },
   { value: 'Other', label: 'Other' },
-];
-
-const PART_STATUSES = [
-  { value: 'needed', label: 'Needed', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' },
-  { value: 'ordered', label: 'Ordered', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
-  { value: 'received', label: 'Received', color: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200' },
-  { value: 'upfront_50', label: '50% Upfront', color: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' },
-  { value: 'phone_payment', label: 'Phone Payment', color: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200' },
-  { value: 'paid_not_installed', label: 'PdNI', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
-  { value: 'installed', label: 'Installed', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' },
-  { value: 'not_installed', label: 'Not Installed', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' },
 ];
 
 function MobileAccordionSection({ id, title, summary, isOpen, onToggle, children }) {
@@ -437,10 +430,14 @@ export default function EquipmentDetailsMobile({
               options={vendorSelectOptions}
             />
             <TextInput
-              label="Tracking Number"
+              label={getPartTrackingFieldMeta(currentPart).label}
               value={currentPart.tracking_number}
-              onChange={(e) => handlePartChange('tracking_number', e.target.value.toUpperCase())}
-              placeholder="Enter tracking number"
+              onChange={(e) => {
+                const meta = getPartTrackingFieldMeta(currentPart);
+                const value = meta.uppercase ? e.target.value.toUpperCase() : e.target.value;
+                handlePartChange('tracking_number', value);
+              }}
+              placeholder={getPartTrackingFieldMeta(currentPart).placeholder}
             />
             <TextInput
               label="Custom warranty (days)"
@@ -627,6 +624,14 @@ export default function EquipmentDetailsMobile({
                 <div>
                   <p className="text-gray-500 text-xs">Parts warranty</p>
                   <p className="text-white">{formatPartWarrantySummary(selectedPart, partsWarrantyDefaults)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Vendor</p>
+                  <p className="text-white">{getVendorLabel(selectedPart.vendor) || '-'}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">{getPartTrackingFieldMeta(selectedPart).label}</p>
+                  <p className="text-white">{selectedPart.tracking_number || '-'}</p>
                 </div>
               </div>
               {selectedPart.notes && (
