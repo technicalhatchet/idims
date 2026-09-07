@@ -37,8 +37,15 @@ import {
   calendarBlockMinutes,
   resolveAppointmentServiceIds,
 } from '../../utils/visitSku';
+import {
+  estimateLineCatalogId,
+  getEstimateCatalogIds,
+  getUnscheduledEstimateLines,
+  mergeCatalogIdsIntoVisit,
+} from '../../utils/estimateVisitSkus';
 import VisitSkuAccordion from './VisitSkuAccordion';
 import ForceSchedulePanel from './ForceSchedulePanel';
+import EstimateSkuPullPanel from './EstimateSkuPullPanel';
 import { forceOrange, scheduleTab } from './forceScheduleTheme';
 import WindowScheduler from './WindowScheduler';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
@@ -232,6 +239,11 @@ export default forwardRef(function AppointmentScheduler({
       workOrderServices: workOrder?.services || [],
     }),
     [allServices, workOrder?.services]
+  );
+
+  const unscheduledEstimateLines = useMemo(
+    () => getUnscheduledEstimateLines(workOrder?.services),
+    [workOrder?.services]
   );
 
   const toggleVisitSkuPanel = (appointmentId) => {
@@ -796,6 +808,36 @@ export default forwardRef(function AppointmentScheduler({
       setSkuBlockWarning(skuWarning);
       return next;
     });
+  };
+
+  const syncServiceCategoryForCatalogId = (catalogId) => {
+    if (!catalogId || !allServices.length) return;
+    const svc = allServices.find((s) => serviceIdsMatch(s.id, catalogId));
+    if (svc?.service_type) {
+      setSelectedServiceCategory(svc.service_type);
+    }
+  };
+
+  const applyEstimateCatalogIds = (catalogIds) => {
+    const ids = (catalogIds || []).map(String).filter(Boolean);
+    if (!ids.length) return;
+
+    setFormData((prev) => {
+      const merged = mergeCatalogIdsIntoVisit(prev.service_ids, ids);
+      const { next, skuWarning } = reconcileVisitEndForSkus(prev, merged);
+      setSkuBlockWarning(skuWarning);
+      return next;
+    });
+    syncServiceCategoryForCatalogId(ids[0]);
+  };
+
+  const handlePullAllFromEstimate = () => {
+    applyEstimateCatalogIds(getEstimateCatalogIds(unscheduledEstimateLines));
+  };
+
+  const handlePullEstimateLine = (line) => {
+    const catalogId = estimateLineCatalogId(line);
+    if (catalogId) applyEstimateCatalogIds([catalogId]);
   };
 
   const handleMoveSkuToNewVisit = (sourceAppointment, serviceId) => {
@@ -2051,6 +2093,7 @@ export default forwardRef(function AppointmentScheduler({
               {schedulingTab === 'force' && canForceSchedule ? (
                 <ForceSchedulePanel
                   workOrderId={workOrderId}
+                  workOrder={workOrder}
                   technicians={technicians}
                   techniciansLoading={techniciansLoading}
                   defaultTechnicianId={defaultTechnicianId}
@@ -2079,6 +2122,18 @@ export default forwardRef(function AppointmentScheduler({
                   <p className="text-sm text-cyan-700 dark:text-cyan-300 rounded-md border border-cyan-500/30 bg-cyan-500/10 px-3 py-2">
                     Scheduling a new visit for a moved SKU. The SKU will be removed from the previous visit when you save.
                   </p>
+                )}
+
+                {unscheduledEstimateLines.length > 0 && (
+                  <EstimateSkuPullPanel
+                    estimateLines={unscheduledEstimateLines}
+                    selectedCatalogIds={formData.service_ids}
+                    catalogServices={allServices}
+                    onAddAll={handlePullAllFromEstimate}
+                    onAddLine={handlePullEstimateLine}
+                    compact={isMobile}
+                    isMobile={isMobile}
+                  />
                 )}
 
                 <div className="space-y-4">
