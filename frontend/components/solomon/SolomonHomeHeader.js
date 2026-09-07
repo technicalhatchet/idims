@@ -2,7 +2,7 @@
 
 import { useCallback, useRef } from 'react';
 import Link from 'next/link';
-import { FaCog } from 'react-icons/fa';
+import { FaEllipsisH } from 'react-icons/fa';
 import useSolomonTheme from '../../hooks/useSolomonTheme';
 import { toggleSolomonHeroDebug } from './solomonHeroDebug';
 
@@ -65,15 +65,15 @@ export default function SolomonHomeHeader({ className = '' }) {
       </div>
       <div className="flex items-center gap-0.5 shrink-0 self-start">
         <Link
-          href="/solomon/settings"
+          href="/solomon/more"
           className={`solomon-focus-ring flex items-center justify-center rounded-[var(--solomon-radius-control)] border transition-colors ${
             isProfessional
               ? 'h-9 w-9 border-[color:var(--solomon-border-subtle)] text-[var(--solomon-text-secondary)] hover:bg-[var(--solomon-surface-elevated)]'
               : 'h-8 w-8 rounded-full border-white/15 text-cyan-300/90 hover:bg-white/5'
           }`}
-          aria-label="Solomon settings"
+          aria-label="More options"
         >
-          <FaCog size={isProfessional ? 15 : 14} />
+          <FaEllipsisH size={isProfessional ? 15 : 14} />
         </Link>
       </div>
     </header>
