@@ -103,11 +103,28 @@ export interface ServiceProcedure {
   entryStepId: string;
   steps: ProcedureStep[];
   tags?: string[];
+  /** Resolved plan of injected service/test-mode bundles (for UI hints). */
+  serviceModePlan?: ServiceModeRef[];
 }
+
+/** OEM UI / test-mode taxonomy — bundles declare one or more kinds. */
+export type ServiceModeKind =
+  | 'service_diagnostic_entry'
+  | 'quick_service_cycle'
+  | 'combined_qsc'
+  | 'component_activation'
+  | 'load_test'
+  | 'fault_codes'
+  | 'hmi_test'
+  | 'voltage_check';
+
+export type ServiceModeUiVariant = 'console' | 'lcd_in_door' | 'any';
 
 /** Links a parent procedure to a reusable service-mode step bundle. */
 export interface ServiceModeRef {
   bundleId: string;
+  /** Expected bundle kind — validated against bundle metadata at resolve time. */
+  modeKind: ServiceModeKind;
   /** Parent step after which the bundle is inserted. */
   attachAfterStepId: string;
   /** Parent step to resume after the bundle completes (@continue target). */
@@ -120,13 +137,21 @@ export interface ServiceModeBundle {
   platformId: string;
   manualId: string;
   title: string;
+  modeKind: ServiceModeKind;
+  /** UI paths this bundle covers (console membrane vs LCD-in-door, etc.). */
+  uiVariants: ServiceModeUiVariant[];
+  description?: string;
+  tags?: string[];
   entryStepId: string;
   steps: ProcedureStep[];
   source?: Record<string, unknown>;
 }
 
-export interface ServiceProcedureSeed extends ServiceProcedure {
+export interface ServiceProcedureSeed extends Omit<ServiceProcedure, 'serviceModePlan'> {
+  /** @deprecated Prefer serviceModes — kept for single-bundle seeds. */
   serviceMode?: ServiceModeRef;
+  /** Ordered bundles to splice into the procedure (e.g. entry then activation). */
+  serviceModes?: ServiceModeRef[];
 }
 
 export type ProcedureStepInputKind = 'measurement' | 'checkpoint';

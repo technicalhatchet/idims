@@ -1,6 +1,6 @@
 {
   "id": "w11169652-test-03-motor-circuit",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "title": "TEST #3: Motor Circuit",
   "platformId": "whirlpool_fl_dd",
   "componentIds": ["drive_motor"],
@@ -20,11 +20,14 @@
     "verifiedBy": "manual-extraction"
   },
   "entryStepId": "safety_power_off",
-  "serviceMode": {
-    "bundleId": "w11169652-service-mode",
-    "attachAfterStepId": "reconnect_harness_power",
-    "continueToStepId": "live_test_motor_movement"
-  },
+  "serviceModes": [
+    {
+      "bundleId": "w11169652-service-mode",
+      "modeKind": "combined_qsc",
+      "attachAfterStepId": "reconnect_harness_power",
+      "continueToStepId": "live_test_motor_movement"
+    }
+  ],
   "steps": [
     {
       "id": "safety_power_off",
