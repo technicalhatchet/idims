@@ -3,6 +3,7 @@ import {
   FaChevronRight,
   FaClipboardList,
   FaCog,
+  FaFlask,
   FaHashtag,
   FaWrench,
 } from 'react-icons/fa';
@@ -76,6 +77,15 @@ export default function SolomonMorePage() {
           icon={FaCog}
           accentClass="bg-white/5 text-[var(--solomon-text-secondary)]"
         />
+        {isStaff ? (
+          <MoreLinkRow
+            href="/solomon/procedures/dev"
+            label="Procedure harness"
+            subtitle="Staff dev tool — OEM test runner"
+            icon={FaFlask}
+            accentClass="bg-violet-500/15 text-violet-300"
+          />
+        ) : null}
         {isStaff ? (
           <MoreLinkRow
             href="/settings"
