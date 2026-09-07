@@ -1,0 +1,299 @@
+{
+  "id": "w11169652-test-03-motor-circuit",
+  "version": "1.0.0",
+  "title": "TEST #3: Motor Circuit",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": ["drive_motor"],
+  "tags": ["motor_check", "spin_issue", "F7E2", "F7E9"],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "oemTestNumber": "3",
+    "oemTestTitle": "Motor Circuit",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "pages": [48, 49],
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction"
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING — Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "basket_free_spin"
+    },
+    {
+      "id": "basket_free_spin",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Basket turns freely",
+      "body": "Manually check that the basket turns freely. Mechanical lockup must be resolved before electrical testing.",
+      "sourceExcerpt": "Check to see if basket will turn freely. If basket does not turn freely, determine what is causing the mechanical friction or lockup.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "basket_free_yes",
+          "label": "Basket turns freely",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "access_acu_j6"
+        },
+        {
+          "id": "basket_free_no",
+          "label": "Basket does not turn freely",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "mechanical_lockup",
+          "terminal": true,
+          "oemOutcome": "Resolve mechanical friction or lockup before repeating motor circuit test."
+        }
+      ]
+    },
+    {
+      "id": "mechanical_lockup",
+      "order": 3,
+      "type": "outcome",
+      "title": "Mechanical lockup",
+      "oemOutcome": "Determine and correct mechanical friction or lockup; then repeat TEST #3 from step 1.",
+      "requiresInput": false
+    },
+    {
+      "id": "access_acu_j6",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access ACU and verify J6",
+      "body": "Remove the top to access the ACU. Perform TEST #1 ACU power check, then verify connector J6 is fully seated in the ACU. Disconnect the motor harness from the ACU before resistance checks.",
+      "sourceExcerpt": "Remove the top to access the ACU. Perform TEST #1: ACU Power Check, then visually check that connector J6 is inserted all the way into the ACU. Check the motor windings — disconnect the motor harness from the ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_j6_pins_1_2"
+    },
+    {
+      "id": "motor_j6_pins_1_2",
+      "order": 5,
+      "type": "measurement",
+      "title": "Motor windings J6 pins 1 & 2",
+      "body": "With an ohmmeter at the motor harness disconnected from the ACU, measure resistance between J6 pins 1 (Motor U, BU) and 2 (Motor V, W). Wire colors are at the stator harness (J36) per Figure 2.",
+      "sourceExcerpt": "With an ohmmeter, verify the resistance values as shown: J6, Pins 1 & 2 — 6–20 Ω.",
+      "measurementKnowledgeId": "whirlpoolFlWasherMotorOhms",
+      "testPoint": {
+        "connector": "J6",
+        "pins": "1 & 2",
+        "label": "Phase pair U–V",
+        "pinDetails": [
+          { "pin": "1", "signal": "Motor U", "wireColor": "BU" },
+          { "pin": "2", "signal": "Motor V", "wireColor": "W" }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j6_12_fail",
+          "label": "Outside range or open",
+          "when": { "kind": "measurement_warning" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly.",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "drive_motor", "evidenceId": "confirm_drive_motor_ol_drive_motor_failed" }
+          ]
+        },
+        {
+          "id": "j6_12_open",
+          "label": "Open circuit (OL)",
+          "when": { "kind": "measurement_open" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly.",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "drive_motor", "evidenceId": "confirm_drive_motor_ol_drive_motor_failed" }
+          ]
+        },
+        {
+          "id": "j6_12_critical",
+          "label": "Critical out of range",
+          "when": { "kind": "measurement_critical" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly.",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "drive_motor", "evidenceId": "confirm_drive_motor_ol_drive_motor_failed" }
+          ]
+        },
+        {
+          "id": "j6_12_pass",
+          "label": "6–20 Ω",
+          "when": { "kind": "measurement_normal" },
+          "nextStepId": "motor_j6_pins_2_3",
+          "diagnosticEffects": [
+            { "type": "eliminate", "componentId": "drive_motor", "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_j6_pins_2_3",
+      "order": 6,
+      "type": "measurement",
+      "title": "Motor windings J6 pins 2 & 3",
+      "body": "Measure resistance between J6 pins 2 and 3.",
+      "sourceExcerpt": "J6, Pins 2 & 3 — 6–20 Ω.",
+      "measurementKnowledgeId": "whirlpoolFlWasherMotorOhms",
+      "testPoint": {
+        "connector": "J6",
+        "pins": "2 & 3",
+        "label": "Phase pair V–W",
+        "pinDetails": [
+          { "pin": "2", "signal": "Motor V", "wireColor": "W" },
+          { "pin": "3", "signal": "Motor W", "wireColor": "R" }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j6_23_fail",
+          "label": "Outside range or open",
+          "when": { "kind": "measurement_warning" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly."
+        },
+        {
+          "id": "j6_23_open",
+          "label": "Open circuit (OL)",
+          "when": { "kind": "measurement_open" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly."
+        },
+        {
+          "id": "j6_23_critical",
+          "label": "Critical out of range",
+          "when": { "kind": "measurement_critical" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly."
+        },
+        {
+          "id": "j6_23_pass",
+          "label": "6–20 Ω",
+          "when": { "kind": "measurement_normal" },
+          "nextStepId": "motor_j6_pins_1_3"
+        }
+      ]
+    },
+    {
+      "id": "motor_j6_pins_1_3",
+      "order": 7,
+      "type": "measurement",
+      "title": "Motor windings J6 pins 1 & 3",
+      "body": "Measure resistance between J6 pins 1 and 3.",
+      "sourceExcerpt": "J6, Pins 1 & 3 — 6–20 Ω. If values are outside the range or open, replace stator assembly; otherwise reconnect the motor harness and go to step 7.",
+      "measurementKnowledgeId": "whirlpoolFlWasherMotorOhms",
+      "testPoint": {
+        "connector": "J6",
+        "pins": "1 & 3",
+        "label": "Phase pair U–W",
+        "pinDetails": [
+          { "pin": "1", "signal": "Motor U", "wireColor": "BU" },
+          { "pin": "3", "signal": "Motor W", "wireColor": "R" }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j6_13_fail",
+          "label": "Outside range or open",
+          "when": { "kind": "measurement_warning" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly."
+        },
+        {
+          "id": "j6_13_open",
+          "label": "Open circuit (OL)",
+          "when": { "kind": "measurement_open" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly."
+        },
+        {
+          "id": "j6_13_critical",
+          "label": "Critical out of range",
+          "when": { "kind": "measurement_critical" },
+          "nextStepId": "replace_stator",
+          "terminal": true,
+          "oemOutcome": "Replace stator assembly."
+        },
+        {
+          "id": "j6_13_pass",
+          "label": "6–20 Ω — reconnect harness",
+          "when": { "kind": "measurement_normal" },
+          "nextStepId": "reconnect_live_test"
+        }
+      ]
+    },
+    {
+      "id": "replace_stator",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace stator assembly",
+      "oemOutcome": "Replace stator assembly. Reassemble, restore power, and run Quick Service Cycle to verify repair.",
+      "requiresInput": false
+    },
+    {
+      "id": "reconnect_live_test",
+      "order": 9,
+      "type": "instruction",
+      "title": "Reconnect and run live motor test",
+      "body": "Reconnect the motor harness. Restore power. Run Quick Service Cycle — when display shows 009 & 013 the motor should be moving. Door must be closed and locked.",
+      "sourceExcerpt": "Plug in washer or reconnect power. Run the Quick Service Cycle. When the test shows 009 & 013 on the display, the motor is powered and the motor should be moving. If it is not, replace the ACU. IMPORTANT: Door must be closed and locked to run motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_motor_movement"
+    },
+    {
+      "id": "live_test_motor_movement",
+      "order": 10,
+      "type": "visual_check",
+      "title": "Motor movement during 009 & 013",
+      "body": "During Quick Service Cycle test 009 & 013, is the motor moving?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_moves_yes",
+          "label": "Motor is moving",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "repair_verified",
+          "terminal": true,
+          "oemOutcome": "Motor circuit OK — reassemble and verify with Quick Service Cycle."
+        },
+        {
+          "id": "motor_moves_no",
+          "label": "Motor not moving",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Replace ACU."
+        }
+      ]
+    },
+    {
+      "id": "replace_acu",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace appliance control unit (ACU). Reassemble, restore power, and run Quick Service Cycle to verify repair.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Repair verified",
+      "oemOutcome": "Disconnect power, reassemble all parts and panels, then run Quick Service Cycle to verify repair.",
+      "requiresInput": false
+    }
+  ]
+}
