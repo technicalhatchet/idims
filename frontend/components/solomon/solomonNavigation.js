@@ -40,7 +40,8 @@ export function isSolomonNavActive(pathname, tab) {
       return path === '/solomon/more'
         || path === '/solomon/settings'
         || path === '/solomon/outcomes'
-        || path.startsWith('/solomon/outcomes/');
+        || path.startsWith('/solomon/outcomes/')
+        || path.startsWith('/solomon/procedures/');
     default:
       return false;
   }
