@@ -1,0 +1,329 @@
+{
+  "id": "w8178559-gas-valve",
+  "version": "1.0.0",
+  "title": "TEST #3d: Gas Valve Coils",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "gas_valve"
+  ],
+  "tags": [
+    "no_heat",
+    "gas_valve_check",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3d",
+    "oemTestTitle": "Gas Valve Test",
+    "pages": [
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_gas_valve"
+    },
+    {
+      "id": "access_gas_valve",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access gas valve",
+      "body": "Remove toe panel. Disconnect gas valve harness. Gas supply off, power disconnected.",
+      "sourceExcerpt": "Remove toe panel. Disconnect gas valve harness. Gas supply off, power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "coil_1_2"
+    },
+    {
+      "id": "coil_1_2",
+      "order": 3,
+      "type": "measurement",
+      "title": "Coil terminals 1 to 2",
+      "body": "Measure resistance across terminals 1 and 2. Spec 1365 \u03a9 \u00b1 25.",
+      "sourceExcerpt": "Measure resistance across terminals 1 and 2. Spec 1365 \u03a9 \u00b1 25.",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "1\u20132",
+        "label": "Coil terminals 1 to 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "coil12_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_1_3"
+        },
+        {
+          "id": "coil12_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "coil12_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "coil12_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w8178559-gas-valve-3d",
+          "caption": "Gas valve coils \u2014 TEST #3b\u20133d",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-gas-valve-3d.png"
+        },
+        {
+          "id": "w8178559-mce-pinout-figure17",
+          "caption": "MCE connectors & pinouts (Figure 17)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-mce-pinout-figure17.png"
+        }
+      ]
+    },
+    {
+      "id": "coil_1_3",
+      "order": 4,
+      "type": "measurement",
+      "title": "Coil terminals 1 to 3",
+      "body": "Measure resistance across terminals 1 and 3. Spec 560 \u03a9 \u00b1 25.",
+      "sourceExcerpt": "Measure resistance across terminals 1 and 3. Spec 560 \u03a9 \u00b1 25.",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "1\u20133",
+        "label": "Coil terminals 1 to 3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "coil13_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_4_5"
+        },
+        {
+          "id": "coil13_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "coil13_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "coil13_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w8178559-gas-valve-3d",
+          "caption": "Gas valve coils \u2014 TEST #3b\u20133d",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-gas-valve-3d.png"
+        },
+        {
+          "id": "w8178559-mce-pinout-figure17",
+          "caption": "MCE connectors & pinouts (Figure 17)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-mce-pinout-figure17.png"
+        }
+      ]
+    },
+    {
+      "id": "coil_4_5",
+      "order": 5,
+      "type": "measurement",
+      "title": "Coil terminals 4 to 5",
+      "body": "Measure resistance across terminals 4 and 5. Spec 1220 \u03a9 \u00b1 50.",
+      "sourceExcerpt": "Measure resistance across terminals 4 and 5. Spec 1220 \u03a9 \u00b1 50.",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "4\u20135",
+        "label": "Coil terminals 4 to 5"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "coil45_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "gas_valve_verified"
+        },
+        {
+          "id": "coil45_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "coil45_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "coil45_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w8178559-gas-valve-3d",
+          "caption": "Gas valve coils \u2014 TEST #3b\u20133d",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-gas-valve-3d.png"
+        },
+        {
+          "id": "w8178559-mce-pinout-figure17",
+          "caption": "MCE connectors & pinouts (Figure 17)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-mce-pinout-figure17.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_coils",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace valve coils",
+      "oemOutcome": "Replace failed gas valve coil assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "gas_valve_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Gas valve coils verified",
+      "oemOutcome": "All coil resistance readings within OEM chart.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -28,6 +28,14 @@ const SMOKE_PRESETS = [
     errorCodes: 'F21',
   },
   {
+    id: 'duet_sport_dryer_gas',
+    label: 'Duet Sport gas dryer (WGD85…)',
+    templateId: 'gas_dryer',
+    equipmentMake: 'Whirlpool',
+    equipmentModel: 'WGD85HEFW0',
+    errorCodes: 'F-26',
+  },
+  {
     id: 'duet_sport_dryer',
     label: 'Duet Sport dryer (WED85…)',
     templateId: 'electric_dryer',

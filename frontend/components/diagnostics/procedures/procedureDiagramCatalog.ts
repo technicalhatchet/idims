@@ -162,10 +162,61 @@ const W8178558_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
   PR6: ['w8178558-pressure-switch-pr6', 'w8178558-ccu-pinout-figure4-5'],
 };
 
+const W8178559_ASSET_BASE = '/images/procedures/whirlpool_duet_sport_dryer';
+
+export const W8178559_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w8178559-mce-pinout-figure17': {
+    id: 'w8178559-mce-pinout-figure17',
+    caption: 'MCE connectors & pinouts (Figure 17)',
+    assetPath: `${W8178559_ASSET_BASE}/w8178559-mce-pinout-figure17.png`,
+  },
+  'w8178559-motor-figure7-9': {
+    id: 'w8178559-motor-figure7-9',
+    caption: 'Motor & belt switch — Figures 7–9 (TEST #2)',
+    assetPath: `${W8178559_ASSET_BASE}/w8178559-motor-figure7-9.png`,
+  },
+  'w8178559-heater-figure11': {
+    id: 'w8178559-heater-figure11',
+    caption: 'Thermal components — Figure 11 (TEST #3)',
+    assetPath: `${W8178559_ASSET_BASE}/w8178559-heater-figure11.png`,
+  },
+  'w8178559-exhaust-thermistor-3a': {
+    id: 'w8178559-exhaust-thermistor-3a',
+    caption: 'Exhaust thermistor — TEST #3a',
+    assetPath: `${W8178559_ASSET_BASE}/w8178559-exhaust-thermistor-3a.png`,
+  },
+  'w8178559-gas-valve-3d': {
+    id: 'w8178559-gas-valve-3d',
+    caption: 'Gas valve coils — TEST #3b–3d',
+    assetPath: `${W8178559_ASSET_BASE}/w8178559-gas-valve-3d.png`,
+  },
+  'w8178559-moisture-figure12': {
+    id: 'w8178559-moisture-figure12',
+    caption: 'Moisture sensor — Figure 12 (TEST #4)',
+    assetPath: `${W8178559_ASSET_BASE}/w8178559-moisture-figure12.png`,
+  },
+};
+
+const W8178559_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  'Motor main': ['w8178559-motor-figure7-9', 'w8178559-mce-pinout-figure17'],
+  'Motor start': ['w8178559-motor-figure7-9', 'w8178559-mce-pinout-figure17'],
+  Heater: ['w8178559-heater-figure11', 'w8178559-mce-pinout-figure17'],
+  'P14 thermistor': ['w8178559-exhaust-thermistor-3a', 'w8178559-mce-pinout-figure17'],
+  Ignitor: ['w8178559-heater-figure11', 'w8178559-gas-valve-3d'],
+  'Gas valve': ['w8178559-gas-valve-3d', 'w8178559-mce-pinout-figure17'],
+};
+
 export function resolveDiagramsForConnector(
   connector: string,
   platformId?: string,
 ): ProcedureImage[] {
+  if (platformId === 'whirlpool_duet_sport_dryer') {
+    const ids = W8178559_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => W8178559_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
   const catalog =
     platformId === 'whirlpool_duet_sport'
       ? W8178558_DIAGRAMS

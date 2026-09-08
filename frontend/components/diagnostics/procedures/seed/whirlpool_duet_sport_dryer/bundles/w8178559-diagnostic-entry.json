@@ -1,0 +1,47 @@
+{
+  "id": "w8178559-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "manualId": "W8178559",
+  "title": "W8178559 \u2014 Diagnostic test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter MCE diagnostic mode, review saved/active F-xx codes, console button check (\u00a76-1).",
+  "tags": [
+    "service_diagnostic",
+    "fault_codes"
+  ],
+  "entryStepId": "prep_standby",
+  "source": {
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "pages": [
+      73,
+      74
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_standby",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby mode",
+      "body": "Dryer plugged in with all indicators off, or only Cycle Complete on.",
+      "sourceExcerpt": "Be sure the dryer is in standby mode (plugged in with all indicators off).",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_touchpad_entry"
+    },
+    {
+      "id": "diag_touchpad_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Diagnostic entry \u2014 3 sec \u00d7 3 pattern (\u00a76-1)",
+      "body": "Select any one button (except PAUSE/CANCEL) and use the same button throughout. Press and hold 3 seconds \u2192 release 3 seconds \u2192 press and hold 3 seconds \u2192 release 3 seconds \u2192 press and hold 3 seconds. All indicators illuminate 5 seconds with 88 in Estimated Time Remaining. Saved codes show F-XX on display; active codes flash. Press PAUSE/CANCEL to exit diagnostic mode.",
+      "sourceExcerpt": "Press/hold 3 seconds \u2014 Release 3 seconds \u2014 (repeat 3 holds).",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

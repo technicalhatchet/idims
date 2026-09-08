@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "frontend" / "components" / "diagnostics" / "procedures" / "seed" / "whirlpool_duet_sport_dryer"
+BUNDLE_OUT = OUT / "bundles"
 
 SOURCE = {
     "manualId": "W8178559",
@@ -413,14 +414,258 @@ MOISTURE_SENSOR = proc(
     ],
 )
 
-PROCEDURES = [MOTOR_CIRCUIT, HEATER_ELECTRIC, EXHAUST_THERMISTOR, MOISTURE_SENSOR]
+THERMAL_FUSE = proc(
+    "w8178559-thermal-fuse",
+    "TEST #3b: Thermal Fuse",
+    "3b",
+    "Thermal Fuse Test",
+    [84],
+    ["thermal_fuse"],
+    ["no_heat", "thermal_fuse_check"],
+    [
+        instr(
+            "access_thermal_fuse",
+            2,
+            "Access thermal fuse",
+            "Remove toe panel. Electric: fuse in series with drive motor. Gas: fuse in series with gas valve. See Figure 11.",
+            "thermal_fuse_continuity",
+        ),
+        visual(
+            "thermal_fuse_continuity",
+            3,
+            "Thermal fuse continuity",
+            "With ohmmeter on thermal fuse terminals: does the fuse show continuity (0 Ω)? Open circuit = failed fuse.",
+            checkpoint_yes_no(
+                "fuse_ok",
+                "thermal_fuse_verified",
+                "fuse_open",
+                "replace_thermal_fuse",
+                "Replace failed thermal fuse.",
+            ),
+        ),
+        outcome("replace_thermal_fuse", 4, "Replace thermal fuse", "Replace thermal fuse."),
+        outcome("thermal_fuse_verified", 5, "Thermal fuse verified", "Thermal fuse shows continuity."),
+    ],
+)
+
+THERMAL_CUTOFF = proc(
+    "w8178559-thermal-cutoff",
+    "TEST #3c: Thermal Cut-Off",
+    "3c",
+    "Thermal Cut-Off Test",
+    [84],
+    ["thermal_cutoff"],
+    ["no_heat", "heating_element_check"],
+    [
+        instr(
+            "access_cutoff",
+            2,
+            "Access thermal cut-off",
+            "Remove toe panel. Locate thermal cut-off per Figure 11.",
+            "cutoff_continuity",
+        ),
+        visual(
+            "cutoff_continuity",
+            3,
+            "Thermal cut-off continuity",
+            "Does the thermal cut-off show continuity (0 Ω)? Open = replace cut-off and high-limit thermostat; check vent path and heater (electric).",
+            checkpoint_yes_no(
+                "cutoff_ok",
+                "cutoff_verified",
+                "cutoff_open",
+                "replace_cutoff",
+                "Replace thermal cut-off and high-limit thermostat; inspect exhaust and heater.",
+            ),
+        ),
+        outcome(
+            "replace_cutoff",
+            4,
+            "Replace cut-off & high-limit",
+            "Replace thermal cut-off and high-limit thermostat.",
+        ),
+        outcome("cutoff_verified", 5, "Cut-off verified", "Thermal cut-off shows continuity."),
+    ],
+)
+
+GAS_IGNITOR = proc(
+    "w8178559-gas-ignitor",
+    "TEST #3 (gas): Ignitor",
+    "3-gas-ignitor",
+    "Gas Ignitor Check",
+    [82],
+    ["igniter"],
+    ["no_heat", "igniter_check", "ignition_issue"],
+    [
+        instr(
+            "access_ignitor",
+            2,
+            "Access ignitor",
+            "Remove toe panel. Disconnect ignitor connector at harness.",
+            "ignitor_ohms",
+        ),
+        meas(
+            "ignitor_ohms",
+            3,
+            "Ignitor resistance",
+            "Measure ignitor cold resistance. Spec 50–250 Ω. Open = no glow. In spec but weak glow — check amp draw before condemning valve.",
+            "whirlpoolDuetSportDryerIgnitorOhms",
+            "Ignitor",
+            "harness",
+            pass_fail_branches(
+                "ignitor_ok",
+                "ignitor_verified",
+                "ignitor_bad",
+                "replace_ignitor",
+                "Replace gas ignitor.",
+            ),
+        ),
+        outcome("replace_ignitor", 4, "Replace ignitor", "Replace gas ignitor."),
+        outcome("ignitor_verified", 5, "Ignitor verified", "Ignitor resistance within 50–250 Ω."),
+    ],
+)
+
+GAS_VALVE = proc(
+    "w8178559-gas-valve",
+    "TEST #3d: Gas Valve Coils",
+    "3d",
+    "Gas Valve Test",
+    [84],
+    ["gas_valve"],
+    ["no_heat", "gas_valve_check", "ignition_issue"],
+    [
+        instr(
+            "access_gas_valve",
+            2,
+            "Access gas valve",
+            "Remove toe panel. Disconnect gas valve harness. Gas supply off, power disconnected.",
+            "coil_1_2",
+        ),
+        meas(
+            "coil_1_2",
+            3,
+            "Coil terminals 1 to 2",
+            "Measure resistance across terminals 1 and 2. Spec 1365 Ω ± 25.",
+            "whirlpoolDuetSportDryerGasValveCoilOhms",
+            "Gas valve",
+            "1–2",
+            pass_fail_branches(
+                "coil12_ok",
+                "coil_1_3",
+                "coil12_bad",
+                "replace_coils",
+                "Replace gas valve coil(s) — terminals 1–2 out of spec.",
+            ),
+        ),
+        meas(
+            "coil_1_3",
+            4,
+            "Coil terminals 1 to 3",
+            "Measure resistance across terminals 1 and 3. Spec 560 Ω ± 25.",
+            "whirlpoolDuetSportDryerGasValveCoilOhms",
+            "Gas valve",
+            "1–3",
+            pass_fail_branches(
+                "coil13_ok",
+                "coil_4_5",
+                "coil13_bad",
+                "replace_coils",
+                "Replace gas valve coil(s) — terminals 1–3 out of spec.",
+            ),
+        ),
+        meas(
+            "coil_4_5",
+            5,
+            "Coil terminals 4 to 5",
+            "Measure resistance across terminals 4 and 5. Spec 1220 Ω ± 50.",
+            "whirlpoolDuetSportDryerGasValveCoilOhms",
+            "Gas valve",
+            "4–5",
+            pass_fail_branches(
+                "coil45_ok",
+                "gas_valve_verified",
+                "coil45_bad",
+                "replace_coils",
+                "Replace gas valve coil(s) — terminals 4–5 out of spec.",
+            ),
+        ),
+        outcome("replace_coils", 6, "Replace valve coils", "Replace failed gas valve coil assembly."),
+        outcome("gas_valve_verified", 7, "Gas valve coils verified", "All coil resistance readings within OEM chart."),
+    ],
+)
+
+
+def diagnostic_entry_bundle() -> dict:
+    return {
+        "id": "w8178559-diagnostic-entry",
+        "version": "1.0.0",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "manualId": "W8178559",
+        "title": "W8178559 — Diagnostic test mode entry",
+        "modeKind": "service_diagnostic_entry",
+        "uiVariants": ["any"],
+        "description": "Enter MCE diagnostic mode, review saved/active F-xx codes, console button check (§6-1).",
+        "tags": ["service_diagnostic", "fault_codes"],
+        "entryStepId": "prep_standby",
+        "source": {
+            "manualTitle": SOURCE["manualTitle"],
+            "extractedTextFile": SOURCE["extractedTextFile"],
+            "pages": [73, 74],
+        },
+        "steps": [
+            {
+                "id": "prep_standby",
+                "order": 1,
+                "type": "instruction",
+                "title": "Standby mode",
+                "body": "Dryer plugged in with all indicators off, or only Cycle Complete on.",
+                "sourceExcerpt": "Be sure the dryer is in standby mode (plugged in with all indicators off).",
+                "requiresInput": False,
+                "defaultNextStepId": "diag_touchpad_entry",
+            },
+            {
+                "id": "diag_touchpad_entry",
+                "order": 2,
+                "type": "instruction",
+                "title": "Diagnostic entry — 3 sec × 3 pattern (§6-1)",
+                "body": (
+                    "Select any one button (except PAUSE/CANCEL) and use the same button throughout. "
+                    "Press and hold 3 seconds → release 3 seconds → press and hold 3 seconds → "
+                    "release 3 seconds → press and hold 3 seconds. All indicators illuminate 5 seconds "
+                    "with 88 in Estimated Time Remaining. Saved codes show F-XX on display; active codes flash. "
+                    "Press PAUSE/CANCEL to exit diagnostic mode."
+                ),
+                "sourceExcerpt": "Press/hold 3 seconds — Release 3 seconds — (repeat 3 holds).",
+                "requiresInput": False,
+                "defaultNextStepId": "@continue",
+            },
+        ],
+    }
+
+
+PROCEDURES = [
+    MOTOR_CIRCUIT,
+    HEATER_ELECTRIC,
+    EXHAUST_THERMISTOR,
+    MOISTURE_SENSOR,
+    THERMAL_FUSE,
+    THERMAL_CUTOFF,
+    GAS_IGNITOR,
+    GAS_VALVE,
+]
 
 PROCEDURE_FILES = [
     "w8178559-motor-circuit.json",
     "w8178559-heater-electric.json",
     "w8178559-exhaust-thermistor.json",
     "w8178559-moisture-sensor.json",
+    "w8178559-thermal-fuse.json",
+    "w8178559-thermal-cutoff.json",
+    "w8178559-gas-ignitor.json",
+    "w8178559-gas-valve.json",
 ]
+
+BUNDLES = [diagnostic_entry_bundle()]
+BUNDLE_FILES = ["w8178559-diagnostic-entry.json"]
 
 
 def write_catalog() -> None:
@@ -455,17 +700,31 @@ def write_catalog() -> None:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    BUNDLE_OUT.mkdir(parents=True, exist_ok=True)
 
     for item, filename in zip(PROCEDURES, PROCEDURE_FILES, strict=True):
         path = OUT / filename
         path.write_text(json.dumps(item, indent=2) + "\n", encoding="utf-8")
         print(f"Wrote {path.name}")
 
+    for item, filename in zip(BUNDLES, BUNDLE_FILES, strict=True):
+        path = BUNDLE_OUT / filename
+        path.write_text(json.dumps(item, indent=2) + "\n", encoding="utf-8")
+        print(f"Wrote bundles/{path.name}")
+
     write_catalog()
 
     effects_script = ROOT / "backend" / "scripts" / "attach_w8178559_diagnostic_effects.py"
     if effects_script.exists():
         subprocess.run([sys.executable, str(effects_script)], check=True, cwd=ROOT)
+
+    service_modes_script = ROOT / "backend" / "scripts" / "attach_w8178559_service_modes.py"
+    if service_modes_script.exists():
+        subprocess.run([sys.executable, str(service_modes_script)], check=True, cwd=ROOT)
+
+    diagrams_script = ROOT / "backend" / "scripts" / "attach_w8178559_procedure_diagrams.py"
+    if diagrams_script.exists():
+        subprocess.run([sys.executable, str(diagrams_script)], check=True, cwd=ROOT)
 
     registry_script = ROOT / "backend" / "scripts" / "generate_procedure_registry.py"
     subprocess.run([sys.executable, str(registry_script)], check=True, cwd=ROOT)

@@ -17,6 +17,10 @@ PROCEDURE_COMPONENT: dict[str, str] = {
     "w8178559-heater-electric": "heating_element",
     "w8178559-exhaust-thermistor": "exhaust_thermistor",
     "w8178559-moisture-sensor": "moisture_sensor",
+    "w8178559-thermal-fuse": "thermal_fuse",
+    "w8178559-thermal-cutoff": "thermal_cutoff",
+    "w8178559-gas-ignitor": "igniter",
+    "w8178559-gas-valve": "gas_valve",
 }
 
 COMPONENT_DEFAULT_EVIDENCE: dict[str, tuple[str, str, str]] = {
@@ -40,6 +44,26 @@ COMPONENT_DEFAULT_EVIDENCE: dict[str, tuple[str, str, str]] = {
         "confirm_moisture_sensor_bad",
         "eliminate_heater_ol_heating_element_ok",
     ),
+    "thermal_fuse": (
+        "thermal_fuse",
+        "confirm_thermal_fuse_open_thermal_fuse_failed",
+        "eliminate_thermal_fuse_open_thermal_fuse_ok",
+    ),
+    "thermal_cutoff": (
+        "thermal_cutoff",
+        "confirm_thermal_cutoff_open",
+        "eliminate_thermal_fuse_open_thermal_fuse_ok",
+    ),
+    "igniter": (
+        "igniter",
+        "confirm_igniter_ol_igniter_failed",
+        "eliminate_igniter_ol_igniter_ok",
+    ),
+    "gas_valve": (
+        "gas_valve",
+        "confirm_gas_valve_ol_gas_valve_failed",
+        "eliminate_gas_valve_ol_gas_valve_ok",
+    ),
 }
 
 KNOWLEDGE_EVIDENCE: dict[str, tuple[str, str, str]] = {
@@ -57,6 +81,16 @@ KNOWLEDGE_EVIDENCE: dict[str, tuple[str, str, str]] = {
         "exhaust_thermistor",
         "confirm_exhaust_thermistor_bad",
         "eliminate_heater_ol_heating_element_ok",
+    ),
+    "whirlpoolDuetSportDryerIgnitorOhms": (
+        "igniter",
+        "confirm_igniter_ol_igniter_failed",
+        "eliminate_igniter_ol_igniter_ok",
+    ),
+    "whirlpoolDuetSportDryerGasValveCoilOhms": (
+        "gas_valve",
+        "confirm_gas_valve_ol_gas_valve_failed",
+        "eliminate_gas_valve_ol_gas_valve_ok",
     ),
 }
 

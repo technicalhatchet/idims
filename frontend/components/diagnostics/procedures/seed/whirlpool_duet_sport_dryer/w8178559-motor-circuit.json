@@ -37,8 +37,18 @@
       "defaultNextStepId": "mce_p8_p9_precheck"
     },
     {
-      "id": "mce_p8_p9_precheck",
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
       "order": 2,
+      "defaultNextStepId": "mce_p8_p9_precheck"
+    },
+    {
+      "id": "mce_p8_p9_precheck",
+      "order": 3,
       "type": "instruction",
       "title": "MCE P8-4 to P9-1 pre-check",
       "body": "Access machine control electronics. Measure resistance across P8-4 and P9-1. If 1\u20136 \u03a9, replace MCE. Otherwise continue to belt switch and motor at component.",
@@ -48,7 +58,7 @@
     },
     {
       "id": "access_motor",
-      "order": 3,
+      "order": 4,
       "type": "instruction",
       "title": "Access belt switch and motor",
       "body": "Remove back panel. Release drum belt from belt switch pulley. Disconnect white connector from drive motor switch.",
@@ -58,7 +68,7 @@
     },
     {
       "id": "main_winding",
-      "order": 4,
+      "order": 5,
       "type": "measurement",
       "title": "Main winding \u2014 pin 4 to pin 5",
       "body": "At motor switch: measure main winding between lt. blue wire at pin 4 and bare copper at pin 5. Spec 2.4\u20133.6 \u03a9.",
@@ -130,11 +140,23 @@
             }
           ]
         }
+      ],
+      "images": [
+        {
+          "id": "w8178559-motor-figure7-9",
+          "caption": "Motor & belt switch \u2014 Figures 7\u20139 (TEST #2)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-motor-figure7-9.png"
+        },
+        {
+          "id": "w8178559-mce-pinout-figure17",
+          "caption": "MCE connectors & pinouts (Figure 17)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-mce-pinout-figure17.png"
+        }
       ]
     },
     {
       "id": "start_winding",
-      "order": 5,
+      "order": 6,
       "type": "measurement",
       "title": "Start winding \u2014 pin 4 to pin 3",
       "body": "At motor switch: measure start winding between lt. blue at pin 4 and bare copper at pin 3. Spec 2.4\u20133.8 \u03a9.",
@@ -206,11 +228,23 @@
             }
           ]
         }
+      ],
+      "images": [
+        {
+          "id": "w8178559-motor-figure7-9",
+          "caption": "Motor & belt switch \u2014 Figures 7\u20139 (TEST #2)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-motor-figure7-9.png"
+        },
+        {
+          "id": "w8178559-mce-pinout-figure17",
+          "caption": "MCE connectors & pinouts (Figure 17)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-mce-pinout-figure17.png"
+        }
       ]
     },
     {
       "id": "belt_switch_checkpoint",
-      "order": 6,
+      "order": 7,
       "type": "visual_check",
       "title": "Belt switch \u2014 infinity down, few \u03a9 up",
       "body": "With belt off pulley, belt switch should read infinity (OL). Push pulley up \u2014 should read a few ohms. Door switch with door closed: 0\u20132 \u03a9.",
@@ -246,7 +280,7 @@
     },
     {
       "id": "replace_motor",
-      "order": 7,
+      "order": 8,
       "type": "outcome",
       "title": "Replace motor",
       "oemOutcome": "Replace drive motor assembly.",
@@ -254,7 +288,7 @@
     },
     {
       "id": "service_belt_switch",
-      "order": 8,
+      "order": 9,
       "type": "outcome",
       "title": "Service belt/door switch",
       "oemOutcome": "Replace failed belt switch or door switch.",
@@ -262,11 +296,19 @@
     },
     {
       "id": "motor_verified",
-      "order": 9,
+      "order": 10,
       "type": "outcome",
       "title": "Motor circuit verified at component",
       "oemOutcome": "Motor windings and belt/door switches OK \u2014 inspect harness to MCE if F-26 persists.",
       "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178559-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
     }
   ]
 }

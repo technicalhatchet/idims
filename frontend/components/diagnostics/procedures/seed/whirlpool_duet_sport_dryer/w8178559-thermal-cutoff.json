@@ -1,0 +1,100 @@
+{
+  "id": "w8178559-thermal-cutoff",
+  "version": "1.0.0",
+  "title": "TEST #3c: Thermal Cut-Off",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "thermal_cutoff"
+  ],
+  "tags": [
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3c",
+    "oemTestTitle": "Thermal Cut-Off Test",
+    "pages": [
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_cutoff"
+    },
+    {
+      "id": "access_cutoff",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access thermal cut-off",
+      "body": "Remove toe panel. Locate thermal cut-off per Figure 11.",
+      "sourceExcerpt": "Remove toe panel. Locate thermal cut-off per Figure 11.",
+      "requiresInput": false,
+      "defaultNextStepId": "cutoff_continuity"
+    },
+    {
+      "id": "cutoff_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Thermal cut-off continuity",
+      "body": "Does the thermal cut-off show continuity (0 \u03a9)? Open = replace cut-off and high-limit thermostat; check vent path and heater (electric).",
+      "sourceExcerpt": "Does the thermal cut-off show continuity (0 \u03a9)? Open = replace cut-off and high-limit thermostat; check vent path and heater (electric).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cutoff_verified"
+        },
+        {
+          "id": "cutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace thermal cut-off and high-limit thermostat; inspect exhaust and heater.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutoff",
+              "evidenceId": "confirm_thermal_cutoff_open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_cutoff",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace cut-off & high-limit",
+      "oemOutcome": "Replace thermal cut-off and high-limit thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "cutoff_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Cut-off verified",
+      "oemOutcome": "Thermal cut-off shows continuity.",
+      "requiresInput": false
+    }
+  ]
+}
