@@ -834,6 +834,9 @@ def main() -> None:
     effects_script = ROOT / "backend" / "scripts" / "attach_w11169652_diagnostic_effects.py"
     subprocess.run([sys.executable, str(effects_script)], check=True)
 
+    service_modes_script = ROOT / "backend" / "scripts" / "attach_w11169652_service_modes.py"
+    subprocess.run([sys.executable, str(service_modes_script)], check=True)
+
 
 if __name__ == "__main__":
     main()

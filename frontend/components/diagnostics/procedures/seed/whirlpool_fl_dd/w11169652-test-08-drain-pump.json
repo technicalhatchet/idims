@@ -29,9 +29,15 @@
   "entryStepId": "safety_power_off",
   "serviceModes": [
     {
-      "bundleId": "w11169652-service-mode",
-      "modeKind": "combined_qsc",
+      "bundleId": "w11169652-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
       "attachAfterStepId": "reconnect_harness_power",
+      "continueToStepId": "service_mode_before_qsc"
+    },
+    {
+      "bundleId": "w11169652-quick-service-cycle",
+      "modeKind": "quick_service_cycle",
+      "attachAfterStepId": "service_mode_before_qsc",
       "continueToStepId": "live_test_drain_pump"
     }
   ],
@@ -542,8 +548,17 @@
       "requiresInput": false
     },
     {
+      "id": "service_mode_before_qsc",
+      "type": "instruction",
+      "title": "Continue to Quick Service Cycle",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Quick Service Cycle instructions.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Load Test / Quick Service Cycle.",
+      "requiresInput": false,
+      "order": 18
+    },
+    {
       "id": "live_test_drain_pump",
-      "order": 18,
+      "order": 19,
       "type": "visual_check",
       "title": "Drain pump runs during QSC step 004",
       "body": "During Quick Service Cycle function 004 (Drain Pump), does the drain pump turn on and run?",
@@ -585,7 +600,7 @@
     },
     {
       "id": "repair_verified",
-      "order": 19,
+      "order": 20,
       "type": "outcome",
       "title": "Drain pump verified",
       "oemOutcome": "Drain pump operates in Quick Service Cycle \u2014 reassemble and return washer to service.",
@@ -593,7 +608,7 @@
     },
     {
       "id": "suspect_acu_after_live",
-      "order": 20,
+      "order": 21,
       "type": "outcome",
       "title": "ACU or wiring fault",
       "oemOutcome": "Replace ACU or repair harness/output circuit if drain pump does not energize during step 004.",

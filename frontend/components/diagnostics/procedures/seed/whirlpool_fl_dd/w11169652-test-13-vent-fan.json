@@ -196,7 +196,7 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "replace_acu_fan",
+          "nextStepId": "reconnect_j12_power",
           "diagnosticEffects": [
             {
               "type": "eliminate",
@@ -220,8 +220,65 @@
       ]
     },
     {
+      "id": "reconnect_j12_power",
+      "type": "instruction",
+      "title": "Reconnect J12 and restore power",
+      "body": "Reconnect J12 at the ACU. Reassemble panels as needed. Plug in or restore power.",
+      "requiresInput": false,
+      "order": 6
+    },
+    {
+      "id": "live_test_vent_fan",
+      "type": "visual_check",
+      "title": "Vent fan runs in component activation",
+      "body": "During Component Activation (LCD: Dry Heater & Combo Fan \u2014 fan only), does the rear vent fan spin?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_runs_yes",
+          "label": "Fan runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vent_fan_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "vent_fan",
+              "evidenceId": "eliminate_vent_fan_ol_vent_fan_ok"
+            }
+          ]
+        },
+        {
+          "id": "fan_runs_no",
+          "label": "Fan does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_fan",
+          "terminal": true,
+          "oemOutcome": "Fan ohms in range but does not run \u2014 replace ACU.",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "vent_fan"
+            }
+          ]
+        }
+      ],
+      "order": 7
+    },
+    {
+      "id": "vent_fan_verified",
+      "type": "outcome",
+      "title": "Vent fan verified",
+      "oemOutcome": "Vent fan operates \u2014 reassemble and verify with Quick Service Cycle.",
+      "requiresInput": false,
+      "order": 8
+    },
+    {
       "id": "clear_vent",
-      "order": 6,
+      "order": 9,
       "type": "outcome",
       "title": "Clear vent",
       "oemOutcome": "Remove vent obstruction.",
@@ -229,7 +286,7 @@
     },
     {
       "id": "replace_upper_harness_fan",
-      "order": 7,
+      "order": 10,
       "type": "outcome",
       "title": "Replace upper harness",
       "oemOutcome": "Replace upper harness J12 to fan.",
@@ -237,7 +294,7 @@
     },
     {
       "id": "replace_vent_fan",
-      "order": 8,
+      "order": 11,
       "type": "outcome",
       "title": "Replace vent fan",
       "oemOutcome": "Replace vent fan assembly.",
@@ -245,11 +302,19 @@
     },
     {
       "id": "replace_acu_fan",
-      "order": 9,
+      "order": 12,
       "type": "outcome",
       "title": "Replace ACU",
-      "oemOutcome": "Fan ohms in range but does not run \u2014 replace ACU.",
+      "oemOutcome": "Fan ohms in range but does not run in service mode \u2014 replace ACU.",
       "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11169652-component-activation-vent-fan",
+      "modeKind": "component_activation",
+      "attachAfterStepId": "reconnect_j12_power",
+      "continueToStepId": "live_test_vent_fan"
     }
   ]
 }

@@ -199,9 +199,7 @@
           "when": {
             "kind": "checkpoint_yes"
           },
-          "nextStepId": "replace_acu_blower",
-          "terminal": true,
-          "oemOutcome": "Replace ACU \u2014 motor and wheel OK but no run."
+          "nextStepId": "reconnect_j12_blower_power"
         },
         {
           "id": "bw_bad",
@@ -223,8 +221,65 @@
       ]
     },
     {
+      "id": "reconnect_j12_blower_power",
+      "type": "instruction",
+      "title": "Reconnect J12 and restore power",
+      "body": "Reconnect J12 and Heater Channel Assembly. Reassemble panels. Plug in or restore power.",
+      "requiresInput": false,
+      "order": 6
+    },
+    {
+      "id": "live_test_dry_blower",
+      "type": "visual_check",
+      "title": "Dry blower runs in component activation",
+      "body": "During Component Activation (Dry Blower) or QSC step 010, does the dry blower run?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "blower_runs_yes",
+          "label": "Blower runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "blower_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dry_blower",
+              "evidenceId": "eliminate_dry_blower_ol_dry_blower_ok"
+            }
+          ]
+        },
+        {
+          "id": "blower_runs_no",
+          "label": "Blower does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_blower",
+          "terminal": true,
+          "oemOutcome": "Blower and wheel OK but motor does not run \u2014 replace ACU.",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "dry_blower"
+            }
+          ]
+        }
+      ],
+      "order": 7
+    },
+    {
+      "id": "blower_verified",
+      "type": "outcome",
+      "title": "Dry blower verified",
+      "oemOutcome": "Dry blower operates \u2014 reassemble and verify with Quick Service Cycle.",
+      "requiresInput": false,
+      "order": 8
+    },
+    {
       "id": "replace_upper_harness_blower",
-      "order": 6,
+      "order": 9,
       "type": "outcome",
       "title": "Replace upper harness",
       "oemOutcome": "Replace upper harness to blower.",
@@ -232,7 +287,7 @@
     },
     {
       "id": "replace_heater_channel_blower",
-      "order": 7,
+      "order": 10,
       "type": "outcome",
       "title": "Replace heater channel",
       "oemOutcome": "Replace Heater Channel Assembly \u2014 motor not separately serviceable.",
@@ -240,7 +295,7 @@
     },
     {
       "id": "service_blower_wheel",
-      "order": 8,
+      "order": 11,
       "type": "outcome",
       "title": "Service blower wheel",
       "oemOutcome": "Remove debris or replace Heater Channel Assembly.",
@@ -248,11 +303,19 @@
     },
     {
       "id": "replace_acu_blower",
-      "order": 9,
+      "order": 12,
       "type": "outcome",
       "title": "Replace ACU",
       "oemOutcome": "Replace ACU and verify with Quick Service Cycle.",
       "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11169652-component-activation-dry-blower",
+      "modeKind": "component_activation",
+      "attachAfterStepId": "reconnect_j12_blower_power",
+      "continueToStepId": "live_test_dry_blower"
     }
   ]
 }
