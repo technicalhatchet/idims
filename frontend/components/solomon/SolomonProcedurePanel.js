@@ -74,7 +74,10 @@ function ProcedureRunCard({
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-[var(--solomon-text-primary)]">{procedure.title}</p>
           <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-            {procedure.source.manualId} · TEST #{procedure.source.oemTestNumber}
+            {procedure.source.manualId}
+            {procedure.source.oemTestNumber
+              ? ` · ${String(procedure.source.oemTestNumber).includes('-') ? '§' : 'TEST #'}${procedure.source.oemTestNumber}`
+              : ''}
           </p>
           {showReason && reason ? (
             <p className="mt-1 text-xs leading-relaxed text-[var(--solomon-text-secondary)]">{reason}</p>
@@ -232,7 +235,7 @@ export default function SolomonProcedurePanel({
                   All OEM tests{manualId ? ` (${manualId})` : ''}
                 </p>
                 <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-                  Browse {catalogOnly.length} manual tests by TEST #
+                  Browse {catalogOnly.length} manual tests
                 </p>
               </div>
               <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
@@ -241,7 +244,7 @@ export default function SolomonProcedurePanel({
             </button>
           ) : (
             <p className="text-xs text-[var(--solomon-text-secondary)]">
-              {manualId ? `${manualId} · ` : ''}{catalogOnly.length} OEM tests sorted by TEST #
+              {manualId ? `${manualId} · ` : ''}{catalogOnly.length} OEM tests
             </p>
           )}
 

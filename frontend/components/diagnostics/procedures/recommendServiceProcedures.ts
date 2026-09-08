@@ -3,6 +3,7 @@ import type { MeasurementContext } from '../knowledge/types';
 import { resolvePlatformIdFromModel } from '../knowledge/platformRegistry';
 import { getServiceModeBundle, getServiceProceduresForPlatform } from './procedureRegistry';
 import { isProcedureAllowedForTemplate } from './procedurePlatformAccess';
+import { procedureMatchesErrorCode } from './parseProcedureErrorCodes';
 import { SERVICE_MODE_KIND_LABELS } from './serviceModeCatalog';
 import type { ProcedureRunState, ServiceModeUiVariant, ServiceProcedure } from './types';
 
@@ -11,6 +12,7 @@ export interface ProcedureRecommendation {
   procedure: ServiceProcedure;
   reason: string;
   priority: number;
+  matchedErrorCodes?: string[];
 }
 
 export interface RecommendServiceProceduresInput {
@@ -18,6 +20,7 @@ export interface RecommendServiceProceduresInput {
   measurementContext?: MeasurementContext | null;
   intelligence?: DiagnosticIntelligenceResult | null;
   complaintChipIds?: string[];
+  errorCodes?: string[];
   procedureRuns?: Record<string, ProcedureRunState>;
 }
 
@@ -75,7 +78,13 @@ function buildReason(
   procedure: ServiceProcedure,
   components: ComponentEvidenceScore[],
   complaintChipIds: string[],
+  matchedErrorCodes: string[],
 ): string {
+  if (matchedErrorCodes.length) {
+    const codeLabel = matchedErrorCodes.join(', ');
+    return `Fault code ${codeLabel} maps to ${procedure.title} on this platform.`;
+  }
+
   const matchedComponents = procedure.componentIds
     .map((id) => components.find((item) => item.id === id))
     .filter(Boolean) as ComponentEvidenceScore[];
@@ -102,6 +111,7 @@ function scoreProcedure(
   procedure: ServiceProcedure,
   components: ComponentEvidenceScore[],
   complaintChipIds: string[],
+  errorCodes: string[],
   procedureRuns: Record<string, ProcedureRunState>,
 ): number {
   const saved = procedureRuns[procedure.id];
@@ -109,6 +119,9 @@ function scoreProcedure(
   if (saved?.status === 'completed') return 80;
 
   let score = 0;
+
+  const matchedErrorCodes = procedureMatchesErrorCode(procedure.tags, errorCodes);
+  score += matchedErrorCodes.length * 35;
 
   for (const componentId of procedure.componentIds) {
     const component = components.find((item) => item.id === componentId);
@@ -183,6 +196,7 @@ export function recommendServiceProcedures({
   measurementContext,
   intelligence,
   complaintChipIds = [],
+  errorCodes = [],
   procedureRuns = {},
 }: RecommendServiceProceduresInput): ProcedureRecommendation[] {
   const platformId = resolvePlatformIdFromModel(measurementContext || { templateId: templateId || '' });
@@ -194,12 +208,20 @@ export function recommendServiceProcedures({
   return getServiceProceduresForPlatform(platformId)
     .filter((procedure) => isProcedureAllowedForTemplate(procedure, templateId))
     .map((procedure) => {
-      const priority = scoreProcedure(procedure, components, complaintChipIds, procedureRuns);
+      const matchedErrorCodes = procedureMatchesErrorCode(procedure.tags, errorCodes);
+      const priority = scoreProcedure(
+        procedure,
+        components,
+        complaintChipIds,
+        errorCodes,
+        procedureRuns,
+      );
       return {
         procedureId: procedure.id,
         procedure,
-        reason: buildReason(procedure, components, complaintChipIds),
+        reason: buildReason(procedure, components, complaintChipIds, matchedErrorCodes),
         priority,
+        matchedErrorCodes: matchedErrorCodes.length ? matchedErrorCodes : undefined,
       };
     })
     .filter(
