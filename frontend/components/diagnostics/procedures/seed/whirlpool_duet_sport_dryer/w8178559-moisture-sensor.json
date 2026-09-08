@@ -37,8 +37,18 @@
       "defaultNextStepId": "diag_mode_entry"
     },
     {
-      "id": "diag_mode_entry",
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
       "order": 2,
+      "defaultNextStepId": "diag_mode_entry"
+    },
+    {
+      "id": "diag_mode_entry",
+      "order": 3,
       "type": "instruction",
       "title": "Enter diagnostic test mode",
       "body": "Activate diagnostic test mode and advance past saved fault codes. Machine fully assembled.",
@@ -48,7 +58,7 @@
     },
     {
       "id": "door_short_check",
-      "order": 3,
+      "order": 4,
       "type": "visual_check",
       "title": "Door open short check",
       "body": "Open dryer door. If beep + alphanumeric display immediately, short exists in moisture sensor system \u2014 inspect harness and sensor.",
@@ -84,7 +94,7 @@
     },
     {
       "id": "wet_cloth_test",
-      "order": 4,
+      "order": 5,
       "type": "visual_check",
       "title": "Wet cloth bridge test",
       "body": "Bridge lint screen housing sensor strips with wet cloth. Beep + software revision on console = pass.",
@@ -120,7 +130,7 @@
     },
     {
       "id": "bench_sensor",
-      "order": 5,
+      "order": 6,
       "type": "instruction",
       "title": "Bench moisture sensor",
       "body": "Disconnect power. Remove toe panel, disconnect sensor from harness. Measure outermost contacts on cable with red MOVs. Replace sensor/harness if shorted.",
@@ -130,7 +140,7 @@
     },
     {
       "id": "repair_short",
-      "order": 6,
+      "order": 7,
       "type": "outcome",
       "title": "Repair moisture short",
       "oemOutcome": "Clear short or replace moisture sensor / wire harness / MCE.",
@@ -138,11 +148,19 @@
     },
     {
       "id": "moisture_verified",
-      "order": 7,
+      "order": 8,
       "type": "outcome",
       "title": "Moisture sensor verified",
       "oemOutcome": "Moisture sensor responds in diagnostic and bench checks.",
       "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178559-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
     }
   ]
 }

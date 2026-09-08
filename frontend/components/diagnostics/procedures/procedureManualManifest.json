@@ -39,9 +39,9 @@
       "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_duet_sport_dryer/procedureCatalog.json",
       "pipeline": {
         "generate": "backend/scripts/generate_w8178559_procedure_seeds.py",
-        "attachDiagrams": null,
+        "attachDiagrams": "backend/scripts/attach_w8178559_procedure_diagrams.py",
         "attachDiagnosticEffects": "backend/scripts/attach_w8178559_diagnostic_effects.py",
-        "attachServiceModes": null
+        "attachServiceModes": "backend/scripts/attach_w8178559_service_modes.py"
       }
     }
   ]

@@ -1,0 +1,153 @@
+{
+  "id": "w8178559-gas-ignitor",
+  "version": "1.0.0",
+  "title": "TEST #3 (gas): Ignitor",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "igniter"
+  ],
+  "tags": [
+    "no_heat",
+    "igniter_check",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-gas-ignitor",
+    "oemTestTitle": "Gas Ignitor Check",
+    "pages": [
+      82
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_ignitor"
+    },
+    {
+      "id": "access_ignitor",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access ignitor",
+      "body": "Remove toe panel. Disconnect ignitor connector at harness.",
+      "sourceExcerpt": "Remove toe panel. Disconnect ignitor connector at harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "ignitor_ohms"
+    },
+    {
+      "id": "ignitor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ignitor resistance",
+      "body": "Measure ignitor cold resistance. Spec 50\u2013250 \u03a9. Open = no glow. In spec but weak glow \u2014 check amp draw before condemning valve.",
+      "sourceExcerpt": "Measure ignitor cold resistance. Spec 50\u2013250 \u03a9. Open = no glow. In spec but weak glow \u2014 check amp draw before condemning valve.",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerIgnitorOhms",
+      "testPoint": {
+        "connector": "Ignitor",
+        "pins": "harness",
+        "label": "Ignitor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ignitor_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified"
+        },
+        {
+          "id": "ignitor_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace gas ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ignitor_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace gas ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ignitor_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace gas ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w8178559-heater-figure11",
+          "caption": "Thermal components \u2014 Figure 11 (TEST #3)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-heater-figure11.png"
+        },
+        {
+          "id": "w8178559-gas-valve-3d",
+          "caption": "Gas valve coils \u2014 TEST #3b\u20133d",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-gas-valve-3d.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_ignitor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ignitor",
+      "oemOutcome": "Replace gas ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "ignitor_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ignitor verified",
+      "oemOutcome": "Ignitor resistance within 50\u2013250 \u03a9.",
+      "requiresInput": false
+    }
+  ]
+}

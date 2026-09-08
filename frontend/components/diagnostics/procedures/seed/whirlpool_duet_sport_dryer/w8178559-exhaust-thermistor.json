@@ -38,8 +38,18 @@
       "defaultNextStepId": "timed_dry_fault_check"
     },
     {
-      "id": "timed_dry_fault_check",
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
       "order": 2,
+      "defaultNextStepId": "timed_dry_fault_check"
+    },
+    {
+      "id": "timed_dry_fault_check",
+      "order": 3,
       "type": "instruction",
       "title": "Timed Dry fault check (optional)",
       "body": "Empty dryer, clean lint screen. Start Timed Dry. If F-22 or F-23 flashes within 60 s and dryer shuts off, thermistor or harness is open/short \u2014 disconnect power before bench tests.",
@@ -49,7 +59,7 @@
     },
     {
       "id": "disconnect_p14",
-      "order": 3,
+      "order": 4,
       "type": "instruction",
       "title": "Disconnect P14 at MCE",
       "body": "Access MCE. Disconnect P14 connector. Measure thermistor at component or through harness per wiring diagram.",
@@ -59,7 +69,7 @@
     },
     {
       "id": "thermistor_ohms",
-      "order": 4,
+      "order": 5,
       "type": "measurement",
       "title": "Exhaust thermistor resistance",
       "body": "Measure exhaust thermistor. ~12 k\u03a9 @ 70\u00b0F; 9.2 k\u03a9 @ 80\u00b0F; 19.9 k\u03a9 @ 50\u00b0F (OEM R/T table). Open \u2192 F-22. Short \u2192 F-23.",
@@ -131,11 +141,23 @@
             }
           ]
         }
+      ],
+      "images": [
+        {
+          "id": "w8178559-exhaust-thermistor-3a",
+          "caption": "Exhaust thermistor \u2014 TEST #3a",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-exhaust-thermistor-3a.png"
+        },
+        {
+          "id": "w8178559-mce-pinout-figure17",
+          "caption": "MCE connectors & pinouts (Figure 17)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport_dryer/w8178559-mce-pinout-figure17.png"
+        }
       ]
     },
     {
       "id": "replace_thermistor",
-      "order": 5,
+      "order": 6,
       "type": "outcome",
       "title": "Replace thermistor",
       "oemOutcome": "Replace exhaust thermistor.",
@@ -143,11 +165,19 @@
     },
     {
       "id": "thermistor_verified",
-      "order": 6,
+      "order": 7,
       "type": "outcome",
       "title": "Thermistor verified",
       "oemOutcome": "Exhaust thermistor within OEM R/T expectations.",
       "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178559-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
     }
   ]
 }

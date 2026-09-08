@@ -1,0 +1,100 @@
+{
+  "id": "w8178559-thermal-fuse",
+  "version": "1.0.0",
+  "title": "TEST #3b: Thermal Fuse",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "thermal_fuse"
+  ],
+  "tags": [
+    "no_heat",
+    "thermal_fuse_check"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3b",
+    "oemTestTitle": "Thermal Fuse Test",
+    "pages": [
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_thermal_fuse"
+    },
+    {
+      "id": "access_thermal_fuse",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access thermal fuse",
+      "body": "Remove toe panel. Electric: fuse in series with drive motor. Gas: fuse in series with gas valve. See Figure 11.",
+      "sourceExcerpt": "Remove toe panel. Electric: fuse in series with drive motor. Gas: fuse in series with gas valve. See Figure 11.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermal_fuse_continuity"
+    },
+    {
+      "id": "thermal_fuse_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Thermal fuse continuity",
+      "body": "With ohmmeter on thermal fuse terminals: does the fuse show continuity (0 \u03a9)? Open circuit = failed fuse.",
+      "sourceExcerpt": "With ohmmeter on thermal fuse terminals: does the fuse show continuity (0 \u03a9)? Open circuit = failed fuse.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermal_fuse_verified"
+        },
+        {
+          "id": "fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermal_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace failed thermal fuse.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_fuse",
+              "evidenceId": "confirm_thermal_fuse_open_thermal_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_thermal_fuse",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace thermal fuse",
+      "oemOutcome": "Replace thermal fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermal_fuse_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Thermal fuse verified",
+      "oemOutcome": "Thermal fuse shows continuity.",
+      "requiresInput": false
+    }
+  ]
+}
