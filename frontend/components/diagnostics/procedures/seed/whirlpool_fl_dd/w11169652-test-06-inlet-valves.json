@@ -28,9 +28,15 @@
   "entryStepId": "safety_power_off",
   "serviceModes": [
     {
-      "bundleId": "w11169652-service-mode",
-      "modeKind": "combined_qsc",
+      "bundleId": "w11169652-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
       "attachAfterStepId": "reconnect_j8",
+      "continueToStepId": "service_mode_before_qsc"
+    },
+    {
+      "bundleId": "w11169652-quick-service-cycle",
+      "modeKind": "quick_service_cycle",
+      "attachAfterStepId": "service_mode_before_qsc",
       "continueToStepId": "live_valve_test"
     }
   ],
@@ -179,8 +185,17 @@
       "defaultNextStepId": "live_valve_test"
     },
     {
+      "id": "service_mode_before_qsc",
+      "type": "instruction",
+      "title": "Continue to Quick Service Cycle",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Quick Service Cycle instructions.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Load Test / Quick Service Cycle.",
+      "requiresInput": false,
+      "order": 6
+    },
+    {
       "id": "live_valve_test",
-      "order": 6,
+      "order": 7,
       "type": "visual_check",
       "title": "Valve energizes with line voltage",
       "body": "During load test or component activation, does the suspect valve receive line voltage and open?",
@@ -223,7 +238,7 @@
     },
     {
       "id": "replace_valve",
-      "order": 7,
+      "order": 8,
       "type": "outcome",
       "title": "Replace valve assembly",
       "oemOutcome": "Replace inlet valve assembly when coil open or out of range.",
@@ -231,7 +246,7 @@
     },
     {
       "id": "valve_verified",
-      "order": 8,
+      "order": 9,
       "type": "outcome",
       "title": "Valve verified",
       "oemOutcome": "Valve operates \u2014 reassemble and verify with Quick Service Cycle.",
@@ -239,7 +254,7 @@
     },
     {
       "id": "replace_acu_valve",
-      "order": 9,
+      "order": 10,
       "type": "outcome",
       "title": "Replace ACU",
       "oemOutcome": "Replace ACU when ohms good but no activation voltage.",

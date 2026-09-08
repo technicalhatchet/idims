@@ -30,9 +30,15 @@
   "entryStepId": "safety_power_off",
   "serviceModes": [
     {
-      "bundleId": "w11169652-service-mode",
-      "modeKind": "combined_qsc",
+      "bundleId": "w11169652-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
       "attachAfterStepId": "reconnect_harness_power",
+      "continueToStepId": "service_mode_before_qsc"
+    },
+    {
+      "bundleId": "w11169652-quick-service-cycle",
+      "modeKind": "quick_service_cycle",
+      "attachAfterStepId": "service_mode_before_qsc",
       "continueToStepId": "live_test_door_lock"
     }
   ],
@@ -429,8 +435,17 @@
       "requiresInput": false
     },
     {
+      "id": "service_mode_before_qsc",
+      "type": "instruction",
+      "title": "Continue to Quick Service Cycle",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Quick Service Cycle instructions.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Load Test / Quick Service Cycle.",
+      "requiresInput": false,
+      "order": 15
+    },
+    {
       "id": "live_test_door_lock",
-      "order": 15,
+      "order": 16,
       "type": "visual_check",
       "title": "Door locks during Quick Service Cycle",
       "body": "When starting Quick Service Cycle (function 012), does the door lock engage (click) and remain locked during the cycle?",
@@ -472,7 +487,7 @@
     },
     {
       "id": "repair_verified",
-      "order": 16,
+      "order": 17,
       "type": "outcome",
       "title": "Door lock verified",
       "oemOutcome": "Door lock operates in Quick Service Cycle \u2014 reassemble and return washer to service.",
@@ -480,7 +495,7 @@
     },
     {
       "id": "suspect_acu",
-      "order": 17,
+      "order": 18,
       "type": "outcome",
       "title": "Replace ACU",
       "oemOutcome": "If preceding steps did not correct the lock problem, replace the ACU and retest with Quick Service Cycle.",

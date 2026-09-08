@@ -1,0 +1,80 @@
+{
+  "id": "w11169652-load-test-detergent-pump",
+  "version": "1.0.0",
+  "platformId": "whirlpool_fl_dd",
+  "manualId": "W11169652",
+  "title": "W11169652 — Load test: detergent pump (fn 010)",
+  "modeKind": "load_test",
+  "uiVariants": ["console", "lcd_in_door"],
+  "description": "Enter service mode and activate the detergent dosing pump for live verification.",
+  "tags": ["dispenser_check", "load_test", "live_test"],
+  "entryStepId": "identify_ui_type",
+  "source": {
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "consolePages": [24, 25],
+    "lcdPages": [29, 30]
+  },
+  "steps": [
+    {
+      "id": "identify_ui_type",
+      "order": 1,
+      "type": "visual_check",
+      "title": "Console control panel?",
+      "body": "Console models use membrane buttons and a seven-segment display. LCD-in-door models use the TOOLS menu and touchscreen — answer No for those.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ui_console",
+          "label": "Console control panel",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "console_service_diagnostic_entry"
+        },
+        {
+          "id": "ui_lcd",
+          "label": "LCD in door",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "lcd_service_diagnostic_entry"
+        }
+      ]
+    },
+    {
+      "id": "console_service_diagnostic_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Console — enter Service Diagnostic mode",
+      "body": "Washer in standby. Enter Service Diagnostic mode (3-button sequence × 3 rounds) until display shows 888.",
+      "requiresInput": false,
+      "defaultNextStepId": "console_load_test_fn010"
+    },
+    {
+      "id": "console_load_test_fn010",
+      "order": 3,
+      "type": "instruction",
+      "title": "Console — activate detergent pump (function 010)",
+      "body": "Press the 2nd diagnostic button (display shows 001). Use Soil/Temp to select function 010 (Detergent Pump). Press START — display flashes 010 while the pump runs. Press POWER to turn off when finished.",
+      "sourceExcerpt": "010 — Detergent Pump — Turns on the detergent pump.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    },
+    {
+      "id": "lcd_service_diagnostic_entry",
+      "order": 4,
+      "type": "instruction",
+      "title": "LCD — enter Service Diagnostic mode",
+      "body": "Enter DIAGNOSTICS HOME via TOOLS → INFO → SERVICE & SUPPORT (password 123 × 3).",
+      "requiresInput": false,
+      "defaultNextStepId": "lcd_detergent_pump_on"
+    },
+    {
+      "id": "lcd_detergent_pump_on",
+      "order": 5,
+      "type": "instruction",
+      "title": "LCD — toggle Detergent Pump ON",
+      "body": "Scroll to Component Activation. Turn Detergent Pump ON — confirm pump runs. Toggle OFF when finished. Activate only one load at a time.",
+      "sourceExcerpt": "Turn Detergent Pump On — confirm voltage measurement.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

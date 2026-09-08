@@ -196,7 +196,7 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "replace_acu_pump",
+          "nextStepId": "reconnect_j10_power",
           "diagnosticEffects": [
             {
               "type": "eliminate",
@@ -244,12 +244,79 @@
       "requiresInput": false
     },
     {
+      "id": "reconnect_j10_power",
+      "type": "instruction",
+      "title": "Reconnect J10 and restore power",
+      "body": "Reconnect J10 at the ACU. Reassemble panels as needed. Plug in or restore power.",
+      "sourceExcerpt": "Reconnect J10 at the ACU. Restore power for live pump activation.",
+      "requiresInput": false,
+      "order": 9
+    },
+    {
+      "id": "live_test_dosing_pump",
+      "type": "visual_check",
+      "title": "Dosing pump runs in load test",
+      "body": "During load test function 010 (console) or Component Activation Detergent Pump (LCD), does the dosing pump run?",
+      "sourceExcerpt": "010 \u2014 Detergent Pump \u2014 If pump does not turn on, see TEST #11B.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_runs_yes",
+          "label": "Pump runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dosing_pump",
+              "evidenceId": "eliminate_dosing_pump_ol_dosing_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "pump_runs_no",
+          "label": "Pump does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_pump",
+          "terminal": true,
+          "oemOutcome": "Pump ohms in range but does not run \u2014 replace ACU and verify with Quick Service Cycle.",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "dosing_pump"
+            }
+          ]
+        }
+      ],
+      "order": 10
+    },
+    {
+      "id": "pump_verified",
+      "type": "outcome",
+      "title": "Dosing pump verified",
+      "oemOutcome": "Dosing pump operates in service mode \u2014 reassemble and verify dispense.",
+      "requiresInput": false,
+      "order": 11
+    },
+    {
       "id": "replace_acu_pump",
-      "order": 9,
+      "order": 12,
       "type": "outcome",
       "title": "Replace ACU",
-      "oemOutcome": "Pump ohms good but no dispense \u2014 replace ACU.",
+      "oemOutcome": "Pump ohms in range but does not run in service mode \u2014 replace ACU.",
       "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11169652-load-test-detergent-pump",
+      "modeKind": "load_test",
+      "attachAfterStepId": "reconnect_j10_power",
+      "continueToStepId": "live_test_dosing_pump"
     }
   ]
 }

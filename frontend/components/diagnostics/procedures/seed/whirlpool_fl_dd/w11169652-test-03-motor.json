@@ -39,9 +39,15 @@
   "entryStepId": "safety_power_off",
   "serviceModes": [
     {
-      "bundleId": "w11169652-service-mode",
-      "modeKind": "combined_qsc",
+      "bundleId": "w11169652-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
       "attachAfterStepId": "reconnect_harness_power",
+      "continueToStepId": "service_mode_before_qsc"
+    },
+    {
+      "bundleId": "w11169652-quick-service-cycle",
+      "modeKind": "quick_service_cycle",
+      "attachAfterStepId": "service_mode_before_qsc",
       "continueToStepId": "live_test_motor_movement"
     }
   ],
@@ -392,8 +398,17 @@
       "requiresInput": false
     },
     {
+      "id": "service_mode_before_qsc",
+      "type": "instruction",
+      "title": "Continue to Quick Service Cycle",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Quick Service Cycle instructions.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Load Test / Quick Service Cycle.",
+      "requiresInput": false,
+      "order": 10
+    },
+    {
       "id": "live_test_motor_movement",
-      "order": 10,
+      "order": 11,
       "type": "visual_check",
       "title": "Motor movement during 009 & 013",
       "body": "During Quick Service Cycle steps 9 (spin) and 13 (tumble), is the motor/drum moving?",
@@ -423,7 +438,7 @@
     },
     {
       "id": "replace_acu",
-      "order": 11,
+      "order": 12,
       "type": "outcome",
       "title": "Replace ACU",
       "oemOutcome": "Replace appliance control unit (ACU). Reassemble, restore power, and run Quick Service Cycle to verify repair.",
@@ -431,7 +446,7 @@
     },
     {
       "id": "repair_verified",
-      "order": 12,
+      "order": 13,
       "type": "outcome",
       "title": "Repair verified",
       "oemOutcome": "Disconnect power, reassemble all parts and panels, then run Quick Service Cycle to verify repair.",

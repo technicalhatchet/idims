@@ -1,4 +1,9 @@
 import w11169652ServiceMode from './seed/whirlpool_fl_dd/bundles/w11169652-service-mode.json';
+import w11169652ServiceDiagnosticEntry from './seed/whirlpool_fl_dd/bundles/w11169652-service-diagnostic-entry.json';
+import w11169652QuickServiceCycle from './seed/whirlpool_fl_dd/bundles/w11169652-quick-service-cycle.json';
+import w11169652LoadTestDetergentPump from './seed/whirlpool_fl_dd/bundles/w11169652-load-test-detergent-pump.json';
+import w11169652ComponentActivationVentFan from './seed/whirlpool_fl_dd/bundles/w11169652-component-activation-vent-fan.json';
+import w11169652ComponentActivationDryBlower from './seed/whirlpool_fl_dd/bundles/w11169652-component-activation-dry-blower.json';
 import w11169652Test01AcuPowerSeed from './seed/whirlpool_fl_dd/w11169652-test-01-acu-power.json';
 import w11169652Test02HmiSeed from './seed/whirlpool_fl_dd/w11169652-test-02-hmi.json';
 import w11169652Test03MotorSeed from './seed/whirlpool_fl_dd/w11169652-test-03-motor.json';
@@ -37,6 +42,11 @@ export type { ServiceModeLookupOptions } from './serviceModeCatalog';
 
 const SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   w11169652ServiceMode as ServiceModeBundle,
+  w11169652ServiceDiagnosticEntry as ServiceModeBundle,
+  w11169652QuickServiceCycle as ServiceModeBundle,
+  w11169652LoadTestDetergentPump as ServiceModeBundle,
+  w11169652ComponentActivationVentFan as ServiceModeBundle,
+  w11169652ComponentActivationDryBlower as ServiceModeBundle,
 ];
 
 const BUNDLE_BY_ID = new Map(SERVICE_MODE_BUNDLES.map((bundle) => [bundle.id, bundle]));
@@ -118,6 +128,11 @@ export function getServiceProceduresForPlatform(platformId: string): ServiceProc
 
 export {
   w11169652ServiceMode,
+  w11169652ServiceDiagnosticEntry,
+  w11169652QuickServiceCycle,
+  w11169652LoadTestDetergentPump,
+  w11169652ComponentActivationVentFan,
+  w11169652ComponentActivationDryBlower,
   w11169652Test01AcuPowerSeed as w11169652Test01AcuPower,
   w11169652Test02HmiSeed as w11169652Test02Hmi,
   w11169652Test03MotorSeed as w11169652Test03Motor,
