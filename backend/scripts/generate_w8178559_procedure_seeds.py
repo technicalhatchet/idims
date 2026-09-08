@@ -31,6 +31,10 @@ SAFETY = {
 }
 
 
+ELECTRIC_DRYER_ONLY = ["electric_dryer"]
+GAS_DRYER_ONLY = ["gas_dryer"]
+
+
 def proc(
     pid: str,
     title: str,
@@ -40,11 +44,12 @@ def proc(
     component_ids: list[str],
     tags: list[str],
     steps: list[dict],
+    template_ids: list[str] | None = None,
 ) -> dict:
     if not steps:
         raise ValueError(f"{pid} must define at least one step after safety")
     safety = {**SAFETY, "defaultNextStepId": steps[0]["id"]}
-    return {
+    result = {
         "id": pid,
         "version": "1.0.0",
         "title": title,
@@ -60,6 +65,9 @@ def proc(
         "entryStepId": "safety_power_off",
         "steps": [safety, *steps],
     }
+    if template_ids:
+        result["templateIds"] = template_ids
+    return result
 
 
 def meas(
@@ -185,6 +193,465 @@ def checkpoint_yes_no(yes_id: str, yes_next: str, no_id: str, no_next: str, no_o
         },
     ]
 
+
+def fuel_variant_step(electric_next: str, gas_next: str) -> dict:
+    return visual(
+        "fuel_variant",
+        2,
+        "Electric or gas dryer?",
+        "Identify fuel type: WED/MED = electric element; WGD/MGD = gas burner.",
+        [
+            {
+                "id": "fuel_electric",
+                "label": "Electric (WED/MED)",
+                "when": {"kind": "checkpoint_yes"},
+                "nextStepId": electric_next,
+            },
+            {
+                "id": "fuel_gas",
+                "label": "Gas (WGD/MGD)",
+                "when": {"kind": "checkpoint_no"},
+                "nextStepId": gas_next,
+            },
+        ],
+        excerpt="Electric dryer terminal block vs gas dryer wire harness connection.",
+    )
+
+
+SUPPLY_CONNECTIONS = proc(
+    "w8178559-supply-connections",
+    "TEST #1: Supply Connections",
+    "1",
+    "Supply Connections",
+    [78, 79],
+    ["supply"],
+    ["supply_issue", "voltage_check", "no_power", "hmi_check"],
+    [
+        fuel_variant_step("electric_cover_plate", "gas_cover_plate"),
+        instr(
+            "electric_cover_plate",
+            3,
+            "Electric — access terminal block",
+            "Remove cover plate from top right rear. Verify power cord is secure at terminal block.",
+            "electric_n_to_block",
+        ),
+        visual(
+            "electric_n_to_block",
+            4,
+            "Neutral plug to terminal block center",
+            "Ohmmeter: continuity between plug neutral (N) and center terminal block contact.",
+            checkpoint_yes_no(
+                "electric_n_ok",
+                "electric_identify_l1",
+                "electric_n_bad",
+                "replace_power_cord",
+                "Replace power cord — open neutral.",
+            ),
+        ),
+        instr(
+            "electric_identify_l1",
+            5,
+            "Identify L1 at terminal block",
+            "Find which plug terminal connects to left-most terminal block contact (L1 / black wire). Note for step 6.",
+            "electric_l1_to_p9",
+        ),
+        visual(
+            "electric_l1_to_p9",
+            6,
+            "L1 plug to P9-2 at MCE",
+            "Access MCE without disconnecting board wiring. Continuity from L1 plug terminal to P9-2 (black).",
+            checkpoint_yes_no(
+                "electric_l1_ok",
+                "electric_n_to_p8",
+                "electric_l1_bad",
+                "replace_harness_or_cord",
+                "Secure terminal block wires or replace main harness / power cord.",
+            ),
+        ),
+        visual(
+            "electric_n_to_p8",
+            7,
+            "Neutral plug to P8-3 at MCE",
+            "Continuity from plug neutral (N) to P8-3 (white) on machine control board.",
+            checkpoint_yes_no(
+                "electric_p8_ok",
+                "console_visual_checks",
+                "electric_p8_bad",
+                "replace_harness",
+                "Replace main wire harness — open neutral path to MCE.",
+            ),
+        ),
+        instr(
+            "gas_cover_plate",
+            3,
+            "Gas — access power connection",
+            "Remove rear cover plate. Verify power cord is firmly connected to wire harness.",
+            "gas_n_to_p8",
+        ),
+        visual(
+            "gas_n_to_p8",
+            4,
+            "Gas — neutral to P8-3",
+            "Access MCE. Continuity from plug neutral (N) to P8-3 (white). If open, test cord neutral per Figure 6.",
+            checkpoint_yes_no(
+                "gas_n_ok",
+                "gas_l1_to_p9",
+                "gas_n_bad",
+                "replace_power_cord",
+                "Replace power cord — open neutral.",
+            ),
+        ),
+        visual(
+            "gas_l1_to_p9",
+            5,
+            "Gas — L1 plug to P9-2",
+            "Continuity from L1 plug terminal to P9-2 (black) on MCE.",
+            checkpoint_yes_no(
+                "gas_l1_ok",
+                "console_visual_checks",
+                "gas_l1_bad",
+                "replace_harness_or_cord",
+                "Replace power cord or main harness per OEM Figure 6 path.",
+            ),
+        ),
+        visual(
+            "console_visual_checks",
+            8,
+            "P5 and console housing seated",
+            "P5 fully inserted into MCE; console electronics and housing assembly fully seated in front console.",
+            checkpoint_yes_no(
+                "console_seated_ok",
+                "supply_verified_reconnect",
+                "console_seated_bad",
+                "replace_console",
+                "Replace console electronics and housing assembly.",
+            ),
+        ),
+        instr(
+            "supply_verified_reconnect",
+            9,
+            "Reconnect and verify console diag",
+            "Plug in dryer. Run Console Buttons and Indicators diagnostic test from diagnostic mode.",
+            "supply_verified",
+        ),
+        outcome("replace_power_cord", 10, "Replace power cord", "Replace power cord and retest."),
+        outcome(
+            "replace_harness_or_cord",
+            11,
+            "Replace harness or cord",
+            "Replace main wire harness or power cord per failed continuity path.",
+        ),
+        outcome("replace_harness", 12, "Replace main harness", "Replace main wire harness."),
+        outcome(
+            "replace_console",
+            13,
+            "Replace console assembly",
+            "Replace console electronics and housing; retest. If indicators still fail, replace MCE.",
+        ),
+        outcome(
+            "supply_verified",
+            14,
+            "Supply path verified",
+            "Line/neutral paths and console connections OK — if UI still dead, replace MCE.",
+        ),
+    ],
+)
+
+BUTTON_INDICATOR = proc(
+    "w8178559-button-indicator",
+    "TEST #5: Button and Indicator Test",
+    "5",
+    "Button and Indicator Test",
+    [86, 87],
+    ["user_interface"],
+    ["hmi_check", "F02", "error_code", "supply_issue"],
+    [
+        instr(
+            "advance_console_diag",
+            2,
+            "Console Buttons and Indicators diagnostic",
+            "In diagnostic test mode (past saved/active fault codes), press buttons and rotate cycle selector. "
+            "Each control should extinguish its indicator and beep; MORE/LESS time toggles display digits.",
+            "console_diag_pass",
+        ),
+        visual(
+            "console_diag_pass",
+            3,
+            "Console button / indicator test result",
+            "Do all indicators light and beep correctly when buttons and selector are exercised?",
+            [
+                {
+                    "id": "console_pass",
+                    "label": "Yes / all respond",
+                    "when": {"kind": "checkpoint_yes"},
+                    "nextStepId": "button_verified",
+                },
+                {
+                    "id": "console_fail",
+                    "label": "No / fault present",
+                    "when": {"kind": "checkpoint_no"},
+                    "nextStepId": "p5_seated_check",
+                },
+            ],
+        ),
+        visual(
+            "p5_seated_check",
+            4,
+            "P5 connector fully seated",
+            "Access electronic assemblies. Is P5 fully inserted into the machine control electronics?",
+            checkpoint_yes_no(
+                "p5_ok",
+                "console_housing_seated",
+                "p5_bad",
+                "reseat_p5",
+                "Reseat P5 connector and retest console diagnostic.",
+            ),
+        ),
+        visual(
+            "console_housing_seated",
+            5,
+            "Console housing fully seated",
+            "Is the console electronics and housing assembly properly inserted into the front console?",
+            checkpoint_yes_no(
+                "housing_ok",
+                "replace_console_asm",
+                "housing_bad",
+                "reseat_console",
+                "Reseat console assembly and retest.",
+            ),
+        ),
+        instr(
+            "reseat_p5",
+            6,
+            "Reseat P5 and retest",
+            "Reseat P5, reassemble, restore power, and rerun Console Buttons and Indicators diagnostic.",
+            "button_verified",
+        ),
+        instr(
+            "reseat_console",
+            7,
+            "Reseat console and retest",
+            "Reseat console assembly, restore power, and rerun console diagnostic.",
+            "button_verified",
+        ),
+        outcome(
+            "replace_console_asm",
+            8,
+            "Replace console assembly",
+            "Replace console electronics and housing assembly; retest. If still failed, replace MCE.",
+        ),
+        outcome(
+            "button_verified",
+            9,
+            "Console UI verified",
+            "Console buttons and indicators respond correctly in diagnostic mode.",
+        ),
+    ],
+)
+
+DOOR_SWITCH = proc(
+    "w8178559-door-switch",
+    "TEST #6: Door Switch Test",
+    "6",
+    "Door Switch Test",
+    [87],
+    ["door_switch"],
+    ["door_switch_check", "wont_start", "no_power", "motor_check"],
+    [
+        instr(
+            "advance_door_diag",
+            2,
+            "Door Switch diagnostic (live)",
+            "In diagnostic mode, advance to Door Switch diagnostic. Opening/closing door should beep and show "
+            "alphanumeric codes (e.g. 0E, 09). Wrong model code with door closed indicates a fault.",
+            "door_diag_pass",
+        ),
+        visual(
+            "door_diag_pass",
+            3,
+            "Door switch diagnostic result",
+            "Does door open/close produce beep and expected display codes with door properly closed?",
+            [
+                {
+                    "id": "door_diag_ok",
+                    "label": "Yes / passes",
+                    "when": {"kind": "checkpoint_yes"},
+                    "nextStepId": "door_switch_verified",
+                },
+                {
+                    "id": "door_diag_fail",
+                    "label": "No / failed",
+                    "when": {"kind": "checkpoint_no"},
+                    "nextStepId": "bench_door_switch",
+                },
+            ],
+        ),
+        instr(
+            "bench_door_switch",
+            4,
+            "Bench door switch — P8-3 to P8-4",
+            "Disconnect power. Ohmmeter across P8-3 (neutral, white) and P8-4 (door, tan) at MCE. Door closed: 0–2 Ω.",
+            "door_switch_ohms",
+        ),
+        visual(
+            "door_switch_ohms",
+            5,
+            "Door closed resistance 0–2 Ω",
+            "With door properly closed, does P8-3 to P8-4 read 0–2 Ω?",
+            checkpoint_yes_no(
+                "door_ohms_ok",
+                "inspect_door_harness",
+                "door_ohms_bad",
+                "replace_door_switch",
+                "Replace wire and door switch assembly.",
+            ),
+        ),
+        instr(
+            "inspect_door_harness",
+            6,
+            "Inspect door switch harness",
+            "Verify harness between door switch and MCE. Repair opens; replace door switch assembly if wiring OK.",
+            "door_switch_verified",
+        ),
+        outcome(
+            "replace_door_switch",
+            7,
+            "Replace door switch",
+            "Replace wire and door switch assembly; retest. If still fails, replace MCE.",
+        ),
+        outcome(
+            "door_switch_verified",
+            8,
+            "Door switch verified",
+            "Door switch diagnostic and/or bench checks pass.",
+        ),
+    ],
+)
+
+DRYNESS_ADJUST = proc(
+    "w8178559-dryness-adjust",
+    "TEST #4a: Customer Drying Mode",
+    "4a",
+    "Adjusting Customer-Focused Drying Modes",
+    [86],
+    ["moisture_sensor"],
+    ["long_dry", "moisture_sensor_check"],
+    [
+        instr(
+            "diag_past_faults",
+            2,
+            "Enter diagnostic mode",
+            "Activate diagnostic test mode and advance past saved fault codes. Moisture sensor should already pass TEST #4.",
+            "dryness_hold_entry",
+        ),
+        instr(
+            "dryness_hold_entry",
+            3,
+            "Hold Dryness 5 seconds",
+            "In diagnostic mode, press and hold the Dryness button 5 seconds. Dryer beeps; current mode (factory default 1) displays.",
+            "dryness_cycle_mode",
+        ),
+        instr(
+            "dryness_cycle_mode",
+            4,
+            "Select longer auto cycle",
+            "Press Dryness again to cycle display through 2, 3, or 1 (longer auto dry times).",
+            "dryness_save",
+        ),
+        instr(
+            "dryness_save",
+            5,
+            "Save with START",
+            "With desired mode flashing, press START to save to EEPROM and exit diagnostics. PAUSE/CANCEL cancels without saving.",
+            "dryness_adjusted",
+        ),
+        outcome(
+            "dryness_adjusted",
+            6,
+            "Drying mode updated",
+            "Customer auto-dry aggressiveness increased — stored in MCE EEPROM across power loss.",
+        ),
+    ],
+)
+
+HEATER_GAS = proc(
+    "w8178559-heater-gas",
+    "TEST #3: Heater (gas)",
+    "3-gas",
+    "Heater Test — Gas Dryer",
+    [82, 83],
+    ["gas_valve", "thermal_fuse", "thermal_cutoff"],
+    ["no_heat", "ignition_issue", "gas_heater_check", "heating_element_check"],
+    [
+        instr(
+            "access_gas_thermal",
+            2,
+            "Access thermal components (gas)",
+            "Remove toe panel. Gas dryer heating path: thermal fuse → thermal cut-off → high-limit → gas valve coils.",
+            "gas_thermal_fuse",
+        ),
+        visual(
+            "gas_thermal_fuse",
+            3,
+            "TEST #3b — thermal fuse continuity",
+            "Thermal fuse in series with gas valve: 0 Ω = good. Open = replace fuse (see w8178559-thermal-fuse).",
+            checkpoint_yes_no(
+                "gas_fuse_ok",
+                "gas_thermal_cutoff",
+                "gas_fuse_open",
+                "replace_thermal_fuse",
+                "Replace failed thermal fuse.",
+            ),
+        ),
+        visual(
+            "gas_thermal_cutoff",
+            4,
+            "TEST #3c — thermal cut-off continuity",
+            "Thermal cut-off shows continuity (0 Ω)? Open = replace cut-off and high-limit.",
+            checkpoint_yes_no(
+                "gas_cutoff_ok",
+                "gas_high_limit",
+                "gas_cutoff_open",
+                "replace_cutoff_hilimit",
+                "Replace thermal cut-off and high-limit thermostat.",
+            ),
+        ),
+        visual(
+            "gas_high_limit",
+            5,
+            "High-limit thermostat continuity",
+            "Measure continuity red wire to blue wire at high-limit thermostat. Open = replace high-limit and cut-off.",
+            checkpoint_yes_no(
+                "gas_hilimit_ok",
+                "gas_valve_next",
+                "gas_hilimit_open",
+                "replace_cutoff_hilimit",
+                "Replace high-limit thermostat and thermal cut-off.",
+            ),
+        ),
+        instr(
+            "gas_valve_next",
+            6,
+            "TEST #3d — gas valve coils",
+            "Perform gas valve coil resistance checks (procedure w8178559-gas-valve). Also verify ignitor 50–250 Ω if flame never appears.",
+            "gas_heater_verified",
+        ),
+        outcome("replace_thermal_fuse", 7, "Replace thermal fuse", "Replace thermal fuse."),
+        outcome(
+            "replace_cutoff_hilimit",
+            8,
+            "Replace cut-off & high-limit",
+            "Replace thermal cut-off and high-limit thermostat; inspect vent path.",
+        ),
+        outcome(
+            "gas_heater_verified",
+            9,
+            "Gas heat path verified at components",
+            "Thermal limits and gas valve coils within spec — if still no heat, replace MCE.",
+        ),
+    ],
+    GAS_DRYER_ONLY,
+)
 
 MOTOR_CIRCUIT = proc(
     "w8178559-motor-circuit",
@@ -314,6 +781,7 @@ HEATER_ELECTRIC = proc(
         outcome("replace_mce", 6, "Replace MCE", "Replace machine control electronics."),
         outcome("heater_verified", 7, "Heater circuit verified", "Heating circuit and P14 thermistor path within spec at test points."),
     ],
+    ELECTRIC_DRYER_ONLY,
 )
 
 EXHAUST_THERMISTOR = proc(
@@ -522,6 +990,7 @@ GAS_IGNITOR = proc(
         outcome("replace_ignitor", 4, "Replace ignitor", "Replace gas ignitor."),
         outcome("ignitor_verified", 5, "Ignitor verified", "Ignitor resistance within 50–250 Ω."),
     ],
+    GAS_DRYER_ONLY,
 )
 
 GAS_VALVE = proc(
@@ -591,6 +1060,7 @@ GAS_VALVE = proc(
         outcome("replace_coils", 6, "Replace valve coils", "Replace failed gas valve coil assembly."),
         outcome("gas_valve_verified", 7, "Gas valve coils verified", "All coil resistance readings within OEM chart."),
     ],
+    GAS_DRYER_ONLY,
 )
 
 
@@ -643,25 +1113,35 @@ def diagnostic_entry_bundle() -> dict:
 
 
 PROCEDURES = [
+    SUPPLY_CONNECTIONS,
     MOTOR_CIRCUIT,
     HEATER_ELECTRIC,
+    HEATER_GAS,
     EXHAUST_THERMISTOR,
     MOISTURE_SENSOR,
+    DRYNESS_ADJUST,
     THERMAL_FUSE,
     THERMAL_CUTOFF,
     GAS_IGNITOR,
     GAS_VALVE,
+    BUTTON_INDICATOR,
+    DOOR_SWITCH,
 ]
 
 PROCEDURE_FILES = [
+    "w8178559-supply-connections.json",
     "w8178559-motor-circuit.json",
     "w8178559-heater-electric.json",
+    "w8178559-heater-gas.json",
     "w8178559-exhaust-thermistor.json",
     "w8178559-moisture-sensor.json",
+    "w8178559-dryness-adjust.json",
     "w8178559-thermal-fuse.json",
     "w8178559-thermal-cutoff.json",
     "w8178559-gas-ignitor.json",
     "w8178559-gas-valve.json",
+    "w8178559-button-indicator.json",
+    "w8178559-door-switch.json",
 ]
 
 BUNDLES = [diagnostic_entry_bundle()]

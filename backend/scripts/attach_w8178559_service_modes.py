@@ -23,6 +23,9 @@ ATTACH_MAP: dict[str, str] = {
     "w8178559-motor-circuit.json": "mce_p8_p9_precheck",
     "w8178559-moisture-sensor.json": "diag_mode_entry",
     "w8178559-exhaust-thermistor.json": "timed_dry_fault_check",
+    "w8178559-button-indicator.json": "advance_console_diag",
+    "w8178559-door-switch.json": "advance_door_diag",
+    "w8178559-dryness-adjust.json": "diag_past_faults",
 }
 
 

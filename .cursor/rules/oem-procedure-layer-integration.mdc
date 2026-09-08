@@ -1,0 +1,62 @@
+---
+description: OEM procedure layer product intent, WO integration gaps, and fix order (ingestion first)
+alwaysApply: true
+---
+
+# OEM Procedure Layer — Product Intent & Integration Plan
+
+## What it is (not an alternative)
+
+The OEM procedure layer is an **additional** diagnostic source alongside the existing guided wizard, evidence graph, and intelligence — **not** a replacement.
+
+- **Wizard** = complaint routing, pre-checks, generic fields, elimination/intelligence, note output.
+- **OEM procedures** = platform-matched manual tests (step-through, ohms, diagrams, service modes) that **feed** diagnostic effects into the same evidence graph when run.
+- UX goal: **lead** the tech (surface the right OEM test when complaint/chips/error codes/platform match), not suggest backwards wizard steps like "Client Complaint" after that step is done.
+
+## Known WO smoke-test failure (Mar 2026)
+
+Real work-order guided diagnostics (`WorkOrderNotes` → `DiagnosticResultsForm`) did **not** show OEM content even with correct template (washer), make (Whirlpool), and model (e.g. WFW8300 → `whirlpool_duet_sport`).
+
+**Root cause:** `showProcedurePanel` requires `solomonMobileLayout === true`, which WO diagnostics do **not** pass (only Solomon diagnose pages do). This is a wiring bug, not user error.
+
+Other gaps (fix after ingestion):
+- No visible "platform/manual loaded" indicator on WO diagnostics.
+- Error-code → procedure scoring exists but is useless while panel is hidden.
+- Wizard `rankNextWizardSteps` can recommend already-completed steps (e.g. complaint).
+- `functional_checks.lid_lock_operation` asks obvious questions when lock failure is already asserted.
+- OEM procedures are not yet **primary lead** in the wizard flow (parallel UI, not integrated step).
+
+**Do not** tell users to field smoke-test OEM procedures on work orders until WO panel gating is fixed.
+
+Dev smoke test: `/solomon/procedures/dev` (recommendation harness) until WO integration ships.
+
+## Fix order (do not reorder without user ask)
+
+### Phase 1 — Manual ingestion pipeline (FIRST)
+
+Build/extend the **assisted ingestion tool** for new service manuals before more WO UX work:
+- PDF extract → section index → draft procedure seeds → human review → validate → registry.
+- Family templates (Duet Sport washer/dryer, FL DD, etc.), not one-off generators forever.
+- Human-in-the-loop on branches, diagnostic effects, and evidence links — no blind LLM ingest to prod.
+
+Rationale: WO integration should surface **stable, reviewed** procedure content; ingesting more manuals without the pipeline creates more drift.
+
+### Phase 2 — Work-order diagnostic integration
+
+1. Show `SolomonProcedurePanel` on WO guided diagnostics when `procedureCatalog.length > 0` (remove or replace `solomonMobileLayout` gate for procedures only).
+2. Platform resolution banner: manual id, platform label, procedure count when `resolvePlatformIdFromModel` succeeds from WO `equipment_make` + `equipment_model`.
+3. Lead with OEM: complaint chips / error codes / intelligence suspects boost procedure panel; do not rely on hidden sidecar.
+4. Pull WO appliance fields into diagnostic header/context (make, model, subtype) — already used for `measurementContext`, make visible.
+
+### Phase 3 — Wizard + intelligence alignment
+
+1. Never recommend `complaint` (or any visited step) as "next suggested step".
+2. Map top OEM procedure recommendations into wizard lead (e.g. door lock → highlight mechanical + offer `w8178558-door-lock`).
+3. Skip or rephrase redundant functional questions when complaint/chips already assert the failure mode.
+
+## Platform notes
+
+- `WFW8300` matches `whirlpool_duet_sport` when make is Whirlpool/Maytag and template is `washer`.
+- Duet Sport door lock OEM: `w8178558-door-lock` (tags: F22, F26, F29, `door_lock_check`).
+- Duet Sport dryer: 13 procedures on `whirlpool_duet_sport_dryer`; gas-only seeds use `templateIds: ["gas_dryer"]`, electric heater uses `["electric_dryer"]`.
+- Ingestion playbook (per-manual checklists): `.cursor/rules/oem-manual-ingestion-playbook.mdc`.

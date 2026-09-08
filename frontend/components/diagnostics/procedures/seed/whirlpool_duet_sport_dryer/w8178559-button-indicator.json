@@ -1,0 +1,204 @@
+{
+  "id": "w8178559-button-indicator",
+  "version": "1.0.0",
+  "title": "TEST #5: Button and Indicator Test",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "hmi_check",
+    "F02",
+    "error_code",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Button and Indicator Test",
+    "pages": [
+      86,
+      87
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "advance_console_diag"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "advance_console_diag"
+    },
+    {
+      "id": "advance_console_diag",
+      "order": 3,
+      "type": "instruction",
+      "title": "Console Buttons and Indicators diagnostic",
+      "body": "In diagnostic test mode (past saved/active fault codes), press buttons and rotate cycle selector. Each control should extinguish its indicator and beep; MORE/LESS time toggles display digits.",
+      "sourceExcerpt": "In diagnostic test mode (past saved/active fault codes), press buttons and rotate cycle selector. Each control should extinguish its indicator and beep; MORE/LESS time toggles display digits.",
+      "requiresInput": false,
+      "defaultNextStepId": "console_diag_pass"
+    },
+    {
+      "id": "console_diag_pass",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Console button / indicator test result",
+      "body": "Do all indicators light and beep correctly when buttons and selector are exercised?",
+      "sourceExcerpt": "Do all indicators light and beep correctly when buttons and selector are exercised?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "console_pass",
+          "label": "Yes / all respond",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "button_verified"
+        },
+        {
+          "id": "console_fail",
+          "label": "No / fault present",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "p5_seated_check"
+        }
+      ]
+    },
+    {
+      "id": "p5_seated_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "P5 connector fully seated",
+      "body": "Access electronic assemblies. Is P5 fully inserted into the machine control electronics?",
+      "sourceExcerpt": "Access electronic assemblies. Is P5 fully inserted into the machine control electronics?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "p5_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "console_housing_seated"
+        },
+        {
+          "id": "p5_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_p5",
+          "terminal": true,
+          "oemOutcome": "Reseat P5 connector and retest console diagnostic.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "console_housing_seated",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Console housing fully seated",
+      "body": "Is the console electronics and housing assembly properly inserted into the front console?",
+      "sourceExcerpt": "Is the console electronics and housing assembly properly inserted into the front console?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "housing_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_console_asm"
+        },
+        {
+          "id": "housing_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_console",
+          "terminal": true,
+          "oemOutcome": "Reseat console assembly and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_p5",
+      "order": 7,
+      "type": "instruction",
+      "title": "Reseat P5 and retest",
+      "body": "Reseat P5, reassemble, restore power, and rerun Console Buttons and Indicators diagnostic.",
+      "sourceExcerpt": "Reseat P5, reassemble, restore power, and rerun Console Buttons and Indicators diagnostic.",
+      "requiresInput": false,
+      "defaultNextStepId": "button_verified"
+    },
+    {
+      "id": "reseat_console",
+      "order": 8,
+      "type": "instruction",
+      "title": "Reseat console and retest",
+      "body": "Reseat console assembly, restore power, and rerun console diagnostic.",
+      "sourceExcerpt": "Reseat console assembly, restore power, and rerun console diagnostic.",
+      "requiresInput": false,
+      "defaultNextStepId": "button_verified"
+    },
+    {
+      "id": "replace_console_asm",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace console assembly",
+      "oemOutcome": "Replace console electronics and housing assembly; retest. If still failed, replace MCE.",
+      "requiresInput": false
+    },
+    {
+      "id": "button_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Console UI verified",
+      "oemOutcome": "Console buttons and indicators respond correctly in diagnostic mode.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178559-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

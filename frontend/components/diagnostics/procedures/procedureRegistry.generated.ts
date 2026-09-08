@@ -21,12 +21,17 @@ import whirlpool_duet_sport_w8178558_motor_circuit from './seed/whirlpool_duet_s
 import whirlpool_duet_sport_w8178558_pressure_switch from './seed/whirlpool_duet_sport/w8178558-pressure-switch.json';
 import whirlpool_duet_sport_w8178558_wash_heater from './seed/whirlpool_duet_sport/w8178558-wash-heater.json';
 import whirlpool_duet_sport_w8178558_wash_ntc from './seed/whirlpool_duet_sport/w8178558-wash-ntc.json';
+import whirlpool_duet_sport_dryer_w8178559_button_indicator from './seed/whirlpool_duet_sport_dryer/w8178559-button-indicator.json';
+import whirlpool_duet_sport_dryer_w8178559_door_switch from './seed/whirlpool_duet_sport_dryer/w8178559-door-switch.json';
+import whirlpool_duet_sport_dryer_w8178559_dryness_adjust from './seed/whirlpool_duet_sport_dryer/w8178559-dryness-adjust.json';
 import whirlpool_duet_sport_dryer_w8178559_exhaust_thermistor from './seed/whirlpool_duet_sport_dryer/w8178559-exhaust-thermistor.json';
 import whirlpool_duet_sport_dryer_w8178559_gas_ignitor from './seed/whirlpool_duet_sport_dryer/w8178559-gas-ignitor.json';
 import whirlpool_duet_sport_dryer_w8178559_gas_valve from './seed/whirlpool_duet_sport_dryer/w8178559-gas-valve.json';
 import whirlpool_duet_sport_dryer_w8178559_heater_electric from './seed/whirlpool_duet_sport_dryer/w8178559-heater-electric.json';
+import whirlpool_duet_sport_dryer_w8178559_heater_gas from './seed/whirlpool_duet_sport_dryer/w8178559-heater-gas.json';
 import whirlpool_duet_sport_dryer_w8178559_moisture_sensor from './seed/whirlpool_duet_sport_dryer/w8178559-moisture-sensor.json';
 import whirlpool_duet_sport_dryer_w8178559_motor_circuit from './seed/whirlpool_duet_sport_dryer/w8178559-motor-circuit.json';
+import whirlpool_duet_sport_dryer_w8178559_supply_connections from './seed/whirlpool_duet_sport_dryer/w8178559-supply-connections.json';
 import whirlpool_duet_sport_dryer_w8178559_thermal_cutoff from './seed/whirlpool_duet_sport_dryer/w8178559-thermal-cutoff.json';
 import whirlpool_duet_sport_dryer_w8178559_thermal_fuse from './seed/whirlpool_duet_sport_dryer/w8178559-thermal-fuse.json';
 import whirlpool_fl_dd_w11169652_test_01_acu_power from './seed/whirlpool_fl_dd/w11169652-test-01-acu-power.json';
@@ -73,12 +78,17 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_duet_sport_w8178558_pressure_switch as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_wash_heater as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_wash_ntc as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_button_indicator as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_door_switch as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_dryness_adjust as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_exhaust_thermistor as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_gas_ignitor as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_gas_valve as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_heater_electric as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_heater_gas as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_moisture_sensor as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_motor_circuit as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_supply_connections as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_thermal_cutoff as ServiceProcedureSeed,
   whirlpool_duet_sport_dryer_w8178559_thermal_fuse as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_01_acu_power as ServiceProcedureSeed,

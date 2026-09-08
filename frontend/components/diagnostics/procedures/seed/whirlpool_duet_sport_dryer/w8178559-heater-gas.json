@@ -1,0 +1,198 @@
+{
+  "id": "w8178559-heater-gas",
+  "version": "1.0.0",
+  "title": "TEST #3: Heater (gas)",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "gas_valve",
+    "thermal_fuse",
+    "thermal_cutoff"
+  ],
+  "tags": [
+    "no_heat",
+    "ignition_issue",
+    "gas_heater_check",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-gas",
+    "oemTestTitle": "Heater Test \u2014 Gas Dryer",
+    "pages": [
+      82,
+      83
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_gas_thermal"
+    },
+    {
+      "id": "access_gas_thermal",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access thermal components (gas)",
+      "body": "Remove toe panel. Gas dryer heating path: thermal fuse \u2192 thermal cut-off \u2192 high-limit \u2192 gas valve coils.",
+      "sourceExcerpt": "Remove toe panel. Gas dryer heating path: thermal fuse \u2192 thermal cut-off \u2192 high-limit \u2192 gas valve coils.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_thermal_fuse"
+    },
+    {
+      "id": "gas_thermal_fuse",
+      "order": 3,
+      "type": "visual_check",
+      "title": "TEST #3b \u2014 thermal fuse continuity",
+      "body": "Thermal fuse in series with gas valve: 0 \u03a9 = good. Open = replace fuse (see w8178559-thermal-fuse).",
+      "sourceExcerpt": "Thermal fuse in series with gas valve: 0 \u03a9 = good. Open = replace fuse (see w8178559-thermal-fuse).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_thermal_cutoff"
+        },
+        {
+          "id": "gas_fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermal_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace failed thermal fuse.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_thermal_cutoff",
+      "order": 4,
+      "type": "visual_check",
+      "title": "TEST #3c \u2014 thermal cut-off continuity",
+      "body": "Thermal cut-off shows continuity (0 \u03a9)? Open = replace cut-off and high-limit.",
+      "sourceExcerpt": "Thermal cut-off shows continuity (0 \u03a9)? Open = replace cut-off and high-limit.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_cutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_high_limit"
+        },
+        {
+          "id": "gas_cutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace thermal cut-off and high-limit thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_high_limit",
+      "order": 5,
+      "type": "visual_check",
+      "title": "High-limit thermostat continuity",
+      "body": "Measure continuity red wire to blue wire at high-limit thermostat. Open = replace high-limit and cut-off.",
+      "sourceExcerpt": "Measure continuity red wire to blue wire at high-limit thermostat. Open = replace high-limit and cut-off.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_valve_next"
+        },
+        {
+          "id": "gas_hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace high-limit thermostat and thermal cut-off.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_valve_next",
+      "order": 6,
+      "type": "instruction",
+      "title": "TEST #3d \u2014 gas valve coils",
+      "body": "Perform gas valve coil resistance checks (procedure w8178559-gas-valve). Also verify ignitor 50\u2013250 \u03a9 if flame never appears.",
+      "sourceExcerpt": "Perform gas valve coil resistance checks (procedure w8178559-gas-valve). Also verify ignitor 50\u2013250 \u03a9 if flame never appears.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_heater_verified"
+    },
+    {
+      "id": "replace_thermal_fuse",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace thermal fuse",
+      "oemOutcome": "Replace thermal fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_cutoff_hilimit",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace cut-off & high-limit",
+      "oemOutcome": "Replace thermal cut-off and high-limit thermostat; inspect vent path.",
+      "requiresInput": false
+    },
+    {
+      "id": "gas_heater_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Gas heat path verified at components",
+      "oemOutcome": "Thermal limits and gas valve coils within spec \u2014 if still no heat, replace MCE.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

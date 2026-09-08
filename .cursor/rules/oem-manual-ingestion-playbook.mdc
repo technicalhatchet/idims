@@ -1,0 +1,154 @@
+---
+description: OEM manual procedure ingestion — per-manual specs, pipeline, and completion checklists
+alwaysApply: true
+---
+
+# OEM Manual Ingestion Playbook (persistent spec)
+
+Human-in-the-loop assisted extraction only — **no blind LLM ingest to prod**. Field smoke tests are **not** a ship gate; `validate_procedure_seed.py` + extraction doc + tsc are.
+
+Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCEDURE_ONBOARDING.md`
+
+## Global pipeline (every manual)
+
+1. **Extract PDF** → `backend/docs/manuals/<name>-extracted.txt` (`python backend/docs/manuals/extract_pdf.py`)
+2. **Extraction doc** → `frontend/components/diagnostics/knowledge/pattern-catalog/*_EXTRACTION.md` (fault table, TEST # index, Ω specs, complaint routing)
+3. **platformRegistry** → `platformId`, model patterns, `templateId`(s); dual fuel = two rules same `platformId` (e.g. `electric_dryer` + `gas_dryer`)
+4. **Measurement batch** → `knowledge/seed/measurement-knowledge-batchN.json` + `resolveFieldKnowledge` bindings
+5. **Manifest** → `procedureManualManifest.json` entry (generate, attachDiagrams, attachDiagnosticEffects, attachServiceModes)
+6. **Generator** → `backend/scripts/generate_{manual}_procedure_seeds.py` (preferred) or hand JSON
+7. **Attach scripts** (order in generator `main()`): write seeds → diagnostic effects → service modes → diagrams → `generate_procedure_registry.py` → `validate_procedure_seed.py`
+8. **Seed folder** → `procedures/seed/{platformId}/` + `procedureCatalog.json` + `README.md`
+9. **Diagrams** (optional): `crop_*_procedure_figures.py` → `public/images/procedures/{platformId}/` → `attach_*_procedure_diagrams.py` + `procedureDiagramCatalog.ts`
+10. **Ship gate**: validate + `cd frontend && npx tsc --noEmit`; dev smoke `/solomon/procedures/dev` (not WO until Phase 2 ungate)
+
+### Procedure seed requirements
+
+- `id`, `platformId`, `componentIds`, `tags` (include `Fxx` for error-code routing), `source` (manualId, oemTestNumber, pages)
+- `templateIds` when fuel-specific: `["electric_dryer"]` or `["gas_dryer"]` — gated in `procedurePlatformAccess.ts`; omit when both fuels share the procedure
+- Steps: `safety` → content; `measurement` needs `measurementKnowledgeId` + `testPoint`; branches use `checkpoint_yes`/`checkpoint_no` or measurement kinds
+- `serviceModes[]`: `bundleId`, `attachAfterStepId: safety_power_off`, `continueToStepId` → bridge step with `defaultNextStepId`
+- Tags codegen: `relatedCodes` in catalog = tags starting with `F`
+
+### Fuel-type split (dryers)
+
+| templateIds | Procedures (W8178559) |
+|-------------|----------------------|
+| `electric_dryer` only | `w8178559-heater-electric` |
+| `gas_dryer` only | `w8178559-heater-gas`, `w8178559-gas-ignitor`, `w8178559-gas-valve` |
+| both (omit field) | supply, motor, 3a/3b/3c, moisture, 4a, 5, 6 |
+
+---
+
+## Manual W11169652 — Whirlpool FL direct drive washer
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_fl_dd` |
+| templateId | `washer` |
+| PDF | `service-manual-w11169652-reva-27in-front-load-washers.pdf` |
+| Extraction | `WHIRLPOOL_W11169652_WASHER_EXTRACTION.md` |
+| Knowledge | batch8 |
+| Status | **Complete** — 17 TEST procedures + 6 service-mode bundles |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W11169652`
+
+**Patterns:** TEST #1–17; console vs LCD-in-door variants; QSC + component activation bundles; diagram attach on ACU pinouts.
+
+---
+
+## Manual W8178558 — Duet Sport washer (CCU/MCU)
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_duet_sport` |
+| templateId | `washer` |
+| Models | `WFW83`, `WFW85`, `MHW*` (83/85 prefixes) |
+| PDF | `jobaid-8178558-l-78 whirlpool fl washer 2013 era.pdf` |
+| Extraction | `WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md` |
+| Knowledge | batch13 |
+| Status | **Complete** — 9 procedures + 2 bundles; 8 diagram crops |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W8178558`
+
+### Procedure checklist (all generated)
+
+| ID | OEM | Tags / codes |
+|----|-----|--------------|
+| `w8178558-motor-circuit` | §5-8 / §6 motor | F25, F28, F06 |
+| `w8178558-drain-pump` | §5-6 | F21, Sd |
+| `w8178558-inlet-valves` | §5-1 | F20, F27 |
+| `w8178558-door-lock` | §5-5 | **F22, F26, F29**, door_lock_check |
+| `w8178558-wash-heater` | §5-7 | F23, F24 |
+| `w8178558-wash-ntc` | §5-7 TH2 | F24 |
+| `w8178558-pressure-switch` | §5-2 | F20, Sd |
+| `w8178558-dispenser-motor` | §5-4 | F30 |
+| `w8178558-interlock-switch` | §5-8 NC ground | voltage_check |
+
+**Bundles:** `w8178558-diagnostic-history-entry`, `w8178558-manual-diagnostic-test`
+
+**Do not** reuse W11169652 Ω specs (motor ~6 Ω vs DD, different pump/inlet).
+
+**WO smoke:** WFW8300 + Whirlpool → `whirlpool_duet_sport`; door lock → `w8178558-door-lock`.
+
+---
+
+## Manual W8178559 — Duet Sport dryer (MCE)
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_duet_sport_dryer` |
+| templateId | `electric_dryer` + `gas_dryer` (dual registry rules) |
+| Models | `WED83/85`, `WGD83/85`, `MED/MGD` 83/85 |
+| PDF | `jobaid-8178559-l-79 whirlpool fl dryer 2013 era.pdf` |
+| Extraction | `WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md` |
+| Knowledge | batch14 |
+| Status | **Complete** — 13 procedures + 1 bundle; 6 diagram crops |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W8178559`
+
+### Procedure checklist (all generated)
+
+| ID | OEM | templateIds | Tags / codes |
+|----|-----|-------------|--------------|
+| `w8178559-supply-connections` | TEST #1 | both | supply_issue, no_power |
+| `w8178559-motor-circuit` | TEST #2 | both | F26 |
+| `w8178559-heater-electric` | TEST #3 electric | electric | F01, no_heat |
+| `w8178559-heater-gas` | TEST #3 gas path | gas | no_heat, ignition_issue |
+| `w8178559-exhaust-thermistor` | TEST #3a | both | F22, F23 |
+| `w8178559-thermal-fuse` | TEST #3b | both | no_heat |
+| `w8178559-thermal-cutoff` | TEST #3c | both | no_heat |
+| `w8178559-gas-ignitor` | gas ignitor | gas | igniter_check |
+| `w8178559-gas-valve` | TEST #3d | gas | gas_valve_check |
+| `w8178559-moisture-sensor` | TEST #4 | both | F28, F29, long_dry |
+| `w8178559-dryness-adjust` | TEST #4a | both | long_dry |
+| `w8178559-button-indicator` | TEST #5 | both | **F02**, hmi_check |
+| `w8178559-door-switch` | TEST #6 | both | door_switch_check |
+
+**Bundle:** `w8178559-diagnostic-entry` (3 sec × 3 touchpad §6-1) — attached to motor, moisture, exhaust, button, door, dryness
+
+**Do not** reuse CCU dryer dual-element ≤50 Ω — Duet Sport = single 7–12 Ω element.
+
+**Deferred:** flame sensor µA, F-25 inlet thermistor (not in MCE display table).
+
+---
+
+## Next manual candidates (not started)
+
+Priority by field volume + extraction already done:
+
+1. **Whirlpool CCU dryer** (`whirlpool_ccu_dryer`) — `DRYER_SERVICE_MANUAL_EXTRACTION.md`; needs `templateIds` gas/electric split like W8178559
+2. **Insignia TDRE dryer** (`insignia_dryer_tdre`) — `INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md`
+3. **Whirlpool dishwasher ACU** — high call volume; extraction docs exist
+
+Use family templates: copy W8178559 generator structure for next MCE/CCU dryer manual; extend manifest, don't one-off forever.
+
+---
+
+## Fix order vs new manuals
+
+See `oem-procedure-layer-integration.mdc`. **Duet Sport washer+dryer ingestion is done.**
+
+**Recommend next:** Phase 2 WO ungate (remove `solomonMobileLayout` gate for procedures only) — small diff, unlocks real WO validation for 41 procedures. Then ingest **one** high-volume manual (CCU dryer) before more WO UX polish.
+
+**Do not** tell users to field WO smoke-test OEM until ungate ships.

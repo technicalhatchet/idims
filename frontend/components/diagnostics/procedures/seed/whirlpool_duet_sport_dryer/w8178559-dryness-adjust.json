@@ -1,0 +1,104 @@
+{
+  "id": "w8178559-dryness-adjust",
+  "version": "1.0.0",
+  "title": "TEST #4a: Customer Drying Mode",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "long_dry",
+    "moisture_sensor_check"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4a",
+    "oemTestTitle": "Adjusting Customer-Focused Drying Modes",
+    "pages": [
+      86
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_past_faults"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "diag_past_faults"
+    },
+    {
+      "id": "diag_past_faults",
+      "order": 3,
+      "type": "instruction",
+      "title": "Enter diagnostic mode",
+      "body": "Activate diagnostic test mode and advance past saved fault codes. Moisture sensor should already pass TEST #4.",
+      "sourceExcerpt": "Activate diagnostic test mode and advance past saved fault codes. Moisture sensor should already pass TEST #4.",
+      "requiresInput": false,
+      "defaultNextStepId": "dryness_hold_entry"
+    },
+    {
+      "id": "dryness_hold_entry",
+      "order": 4,
+      "type": "instruction",
+      "title": "Hold Dryness 5 seconds",
+      "body": "In diagnostic mode, press and hold the Dryness button 5 seconds. Dryer beeps; current mode (factory default 1) displays.",
+      "sourceExcerpt": "In diagnostic mode, press and hold the Dryness button 5 seconds. Dryer beeps; current mode (factory default 1) displays.",
+      "requiresInput": false,
+      "defaultNextStepId": "dryness_cycle_mode"
+    },
+    {
+      "id": "dryness_cycle_mode",
+      "order": 5,
+      "type": "instruction",
+      "title": "Select longer auto cycle",
+      "body": "Press Dryness again to cycle display through 2, 3, or 1 (longer auto dry times).",
+      "sourceExcerpt": "Press Dryness again to cycle display through 2, 3, or 1 (longer auto dry times).",
+      "requiresInput": false,
+      "defaultNextStepId": "dryness_save"
+    },
+    {
+      "id": "dryness_save",
+      "order": 6,
+      "type": "instruction",
+      "title": "Save with START",
+      "body": "With desired mode flashing, press START to save to EEPROM and exit diagnostics. PAUSE/CANCEL cancels without saving.",
+      "sourceExcerpt": "With desired mode flashing, press START to save to EEPROM and exit diagnostics. PAUSE/CANCEL cancels without saving.",
+      "requiresInput": false,
+      "defaultNextStepId": "dryness_adjusted"
+    },
+    {
+      "id": "dryness_adjusted",
+      "order": 7,
+      "type": "outcome",
+      "title": "Drying mode updated",
+      "oemOutcome": "Customer auto-dry aggressiveness increased \u2014 stored in MCE EEPROM across power loss.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178559-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}
