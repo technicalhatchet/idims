@@ -1,0 +1,189 @@
+{
+  "id": "w11169652-test-17-dry-blower",
+  "version": "1.0.0",
+  "title": "TEST #17: Dry Blower Motor",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "vent_fan_check",
+    "dry_heat"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "17",
+    "oemTestTitle": "Dry Blower Motor",
+    "pages": [
+      64,
+      65
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "access_j12_blower",
+      "order": 2,
+      "type": "instruction",
+      "title": "Verify J12 and blower harness",
+      "body": "Remove top panel. Verify J12 seated and blower motor harness secure.",
+      "sourceExcerpt": "Remove top panel. Verify J12 seated and blower motor harness secure.",
+      "requiresInput": false,
+      "defaultNextStepId": "blower_continuity"
+    },
+    {
+      "id": "blower_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Harness continuity to blower",
+      "body": "Continuity between ACU J12 and blower motor?",
+      "sourceExcerpt": "Continuity between ACU J12 and blower motor?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bc_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "blower_ohms"
+        },
+        {
+          "id": "bc_no",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_upper_harness_blower",
+          "terminal": true,
+          "oemOutcome": "Replace upper machine harness."
+        }
+      ]
+    },
+    {
+      "id": "blower_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Blower motor resistance",
+      "body": "Measure across blower motor terminals. Expected 9.0\u201310.6 \u03a9.",
+      "sourceExcerpt": "Measure across blower motor terminals. Expected 9.0\u201310.6 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolFlWasherDryBlowerOhms",
+      "testPoint": {
+        "connector": "Blower",
+        "pins": "Motor terminals",
+        "label": "Blower motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "blower_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_channel_blower"
+        },
+        {
+          "id": "blower_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_channel_blower"
+        },
+        {
+          "id": "blower_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_channel_blower"
+        },
+        {
+          "id": "blower_pass",
+          "label": "9.0\u201310.6 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_blower_wheel"
+        }
+      ]
+    },
+    {
+      "id": "check_blower_wheel",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Blower wheel free",
+      "body": "With Heater Channel Assembly removed, does blower wheel turn freely without obstruction?",
+      "sourceExcerpt": "With Heater Channel Assembly removed, does blower wheel turn freely without obstruction?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bw_ok",
+          "label": "Turns freely",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_blower",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 motor and wheel OK but no run."
+        },
+        {
+          "id": "bw_bad",
+          "label": "Obstructed or seized",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_blower_wheel",
+          "terminal": true,
+          "oemOutcome": "Clear obstruction or replace Heater Channel Assembly if wheel does not turn freely."
+        }
+      ]
+    },
+    {
+      "id": "replace_upper_harness_blower",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace upper harness",
+      "oemOutcome": "Replace upper harness to blower.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater_channel_blower",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace heater channel",
+      "oemOutcome": "Replace Heater Channel Assembly \u2014 motor not separately serviceable.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_blower_wheel",
+      "order": 8,
+      "type": "outcome",
+      "title": "Service blower wheel",
+      "oemOutcome": "Remove debris or replace Heater Channel Assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_blower",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU and verify with Quick Service Cycle.",
+      "requiresInput": false
+    }
+  ]
+}

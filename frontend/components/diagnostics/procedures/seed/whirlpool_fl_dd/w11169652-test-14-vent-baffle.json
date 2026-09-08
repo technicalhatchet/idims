@@ -1,0 +1,186 @@
+{
+  "id": "w11169652-test-14-vent-baffle",
+  "version": "1.0.0",
+  "title": "TEST #14: Vent Baffle Solenoid",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "vent_fan_check"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "14",
+    "oemTestTitle": "Vent Baffle Solenoid",
+    "pages": [
+      61,
+      62
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "baffle_clear",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Vent/baffle unobstructed",
+      "body": "Rear vent and baffle path clear?",
+      "sourceExcerpt": "Rear vent and baffle path clear?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "baf_ok",
+          "label": "Clear",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "access_j9"
+        },
+        {
+          "id": "baf_bad",
+          "label": "Obstructed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_baffle_vent",
+          "terminal": true,
+          "oemOutcome": "Clear obstruction and retest."
+        }
+      ]
+    },
+    {
+      "id": "access_j9",
+      "order": 3,
+      "type": "instruction",
+      "title": "Verify J9 at ACU",
+      "body": "Remove top panel. Verify J9 seated and solenoid harness connected.",
+      "sourceExcerpt": "Remove top panel. Verify J9 seated and solenoid harness connected.",
+      "requiresInput": false,
+      "defaultNextStepId": "solenoid_continuity"
+    },
+    {
+      "id": "solenoid_continuity",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Harness continuity to solenoid",
+      "body": "Continuity between ACU and vent baffle solenoid?",
+      "sourceExcerpt": "Continuity between ACU and vent baffle solenoid?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sol_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "solenoid_ohms"
+        },
+        {
+          "id": "sol_no",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_upper_harness_baffle",
+          "terminal": true,
+          "oemOutcome": "Replace upper machine harness."
+        }
+      ]
+    },
+    {
+      "id": "solenoid_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Baffle solenoid resistance",
+      "body": "Measure across solenoid terminals. Should be less than 10 M\u03a9 (not open).",
+      "sourceExcerpt": "Measure across solenoid terminals. Should be less than 10 M\u03a9 (not open).",
+      "measurementKnowledgeId": "whirlpoolFlWasherVentBaffleSolenoidOhms",
+      "testPoint": {
+        "connector": "J9",
+        "pins": "Solenoid",
+        "label": "Baffle solenoid resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "baffle_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_baffle_solenoid"
+        },
+        {
+          "id": "baffle_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_baffle_solenoid"
+        },
+        {
+          "id": "baffle_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_baffle_solenoid"
+        },
+        {
+          "id": "baffle_pass",
+          "label": "<10 M\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu_baffle"
+        }
+      ]
+    },
+    {
+      "id": "clear_baffle_vent",
+      "order": 6,
+      "type": "outcome",
+      "title": "Clear vent",
+      "oemOutcome": "Clear vent/baffle obstruction.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_upper_harness_baffle",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace upper harness",
+      "oemOutcome": "Replace upper harness to solenoid.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_baffle_solenoid",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace solenoid",
+      "oemOutcome": "Replace vent baffle solenoid when open.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_baffle",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Solenoid good but does not activate \u2014 replace ACU.",
+      "requiresInput": false
+    }
+  ]
+}

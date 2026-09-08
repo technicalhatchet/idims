@@ -1,0 +1,180 @@
+{
+  "id": "w11169652-test-06-inlet-valves",
+  "version": "1.0.0",
+  "title": "TEST #6: Water Inlet Valves",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "water_valve_check",
+    "fill_issue",
+    "no_fill",
+    "F8E1"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Water Inlet Valves",
+    "pages": [
+      51,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "serviceModes": [
+    {
+      "bundleId": "w11169652-service-mode",
+      "modeKind": "combined_qsc",
+      "attachAfterStepId": "reconnect_j8",
+      "continueToStepId": "live_valve_test"
+    }
+  ],
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "qsc_assumed_fail",
+      "order": 2,
+      "type": "instruction",
+      "title": "Live valve test failed",
+      "body": "This procedure continues after Quick Service Cycle / load test did not activate the suspect valve.",
+      "sourceExcerpt": "This procedure continues after Quick Service Cycle / load test did not activate the suspect valve.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_j8"
+    },
+    {
+      "id": "access_j8",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect J8 at ACU",
+      "body": "Remove top panel. Disconnect connector J8. Verify harness continuity to valve coils.",
+      "sourceExcerpt": "Remove top panel. Disconnect connector J8. Verify harness continuity to valve coils.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_ohms"
+    },
+    {
+      "id": "valve_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Inlet valve coil resistance",
+      "body": "Measure coil resistance: C1 J8-1&2, C2 J8-1&3, Hot J8-1&5. Expected 1.1\u20131.35 k\u03a9 each.",
+      "sourceExcerpt": "Measure coil resistance: C1 J8-1&2, C2 J8-1&3, Hot J8-1&5. Expected 1.1\u20131.35 k\u03a9 each.",
+      "measurementKnowledgeId": "whirlpoolFlWasherInletValveOhms",
+      "testPoint": {
+        "connector": "J8",
+        "pins": "1 & 2 (C1)",
+        "label": "Inlet valve coil resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve"
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve"
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve"
+        },
+        {
+          "id": "valve_pass",
+          "label": "1.1\u20131.35 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_j8"
+        }
+      ]
+    },
+    {
+      "id": "reconnect_j8",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect J8",
+      "body": "Reconnect J8 to ACU. Restore power for live activation test via QSC/load test.",
+      "sourceExcerpt": "Reconnect J8 to ACU. Restore power for live activation test via QSC/load test.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_valve_test"
+    },
+    {
+      "id": "live_valve_test",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Valve energizes with line voltage",
+      "body": "During load test or component activation, does the suspect valve receive line voltage and open?",
+      "sourceExcerpt": "During load test or component activation, does the suspect valve receive line voltage and open?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lv_yes",
+          "label": "Voltage present, valve opens",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_verified"
+        },
+        {
+          "id": "lv_no_volt",
+          "label": "No line voltage at valve",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_valve",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 no drive voltage to valve."
+        }
+      ]
+    },
+    {
+      "id": "replace_valve",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace valve assembly",
+      "oemOutcome": "Replace inlet valve assembly when coil open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Valve verified",
+      "oemOutcome": "Valve operates \u2014 reassemble and verify with Quick Service Cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_valve",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU when ohms good but no activation voltage.",
+      "requiresInput": false
+    }
+  ]
+}

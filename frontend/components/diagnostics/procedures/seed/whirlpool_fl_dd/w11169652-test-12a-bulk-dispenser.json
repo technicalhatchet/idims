@@ -1,0 +1,119 @@
+{
+  "id": "w11169652-test-12a-bulk-dispenser",
+  "version": "1.0.0",
+  "title": "TEST #12A: Drawer Bulk Dispenser",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "dispenser_check"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "12A",
+    "oemTestTitle": "Drawer Bulk Dispenser",
+    "pages": [
+      58,
+      59
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "tanks_clear",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Dispenser tanks and docking clean",
+      "body": "Are bulk tanks, docking interfaces, hoses, and recirc nozzle free of clogs/kinks?",
+      "sourceExcerpt": "Are bulk tanks, docking interfaces, hoses, and recirc nozzle free of clogs/kinks?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tanks_ok",
+          "label": "Mechanical path OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "refer_pump_test"
+        },
+        {
+          "id": "tanks_bad",
+          "label": "Clog/kink found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_bulk_path",
+          "terminal": true,
+          "oemOutcome": "Clean tanks, hoses, nozzle; verify drain/recirc path."
+        }
+      ]
+    },
+    {
+      "id": "refer_pump_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Dosing pump electrical (J10)",
+      "body": "Run dosing pump ohms/test per TEST #11B / pump section of TEST #12A.",
+      "sourceExcerpt": "Run dosing pump ohms/test per TEST #11B / pump section of TEST #12A.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_ok",
+          "label": "Pump circuit OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulk_verified"
+        },
+        {
+          "id": "pump_bad",
+          "label": "Pump/harness fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "run_11b",
+          "terminal": true,
+          "oemOutcome": "Complete TEST #11B dosing pump procedure."
+        }
+      ]
+    },
+    {
+      "id": "service_bulk_path",
+      "order": 4,
+      "type": "outcome",
+      "title": "Service bulk dispenser path",
+      "oemOutcome": "Clear mechanical faults in bulk dispense system.",
+      "requiresInput": false
+    },
+    {
+      "id": "run_11b",
+      "order": 5,
+      "type": "outcome",
+      "title": "Run TEST #11B",
+      "oemOutcome": "Repair dosing pump per TEST #11B.",
+      "requiresInput": false
+    },
+    {
+      "id": "bulk_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Bulk dispense verified",
+      "oemOutcome": "Mechanical and pump checks pass \u2014 verify with Quick Service Cycle.",
+      "requiresInput": false
+    }
+  ]
+}

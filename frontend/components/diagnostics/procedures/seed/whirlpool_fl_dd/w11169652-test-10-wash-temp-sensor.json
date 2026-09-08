@@ -1,0 +1,179 @@
+{
+  "id": "w11169652-test-10-wash-temp-sensor",
+  "version": "1.0.0",
+  "title": "TEST #10: Wash Temperature Sensor",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "wash_heater"
+  ],
+  "tags": [
+    "thermistor",
+    "F4E1",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10",
+    "oemTestTitle": "Wash Temperature Sensor",
+    "pages": [
+      55,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "disconnect_j15",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect J15 at ACU",
+      "body": "Remove top panel. Disconnect wash temperature sensor connector J15 from ACU.",
+      "sourceExcerpt": "Remove top panel. Disconnect wash temperature sensor connector J15 from ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "j15_ntc"
+    },
+    {
+      "id": "j15_ntc",
+      "order": 3,
+      "type": "measurement",
+      "title": "Wash NTC J15 pins 1 & 3",
+      "body": "Measure resistance across J15 pins 1 and 3. Compare to OEM thermistor table at ambient temperature (~20 k\u03a9 @ 77\u00b0F).",
+      "sourceExcerpt": "Measure resistance across J15 pins 1 and 3. Compare to OEM thermistor table at ambient temperature (~20 k\u03a9 @ 77\u00b0F).",
+      "measurementKnowledgeId": "whirlpoolFlWasherWashNtcOhms",
+      "testPoint": {
+        "connector": "J15",
+        "pins": "1 & 3",
+        "label": "Wash NTC J15 pins 1 & 3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j15_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "access_ntc_sensor"
+        },
+        {
+          "id": "j15_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "access_ntc_sensor"
+        },
+        {
+          "id": "j15_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "access_ntc_sensor"
+        },
+        {
+          "id": "j15_pass",
+          "label": "Within R/T table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "suspect_acu_ntc"
+        }
+      ]
+    },
+    {
+      "id": "access_ntc_sensor",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access wash NTC at heater bracket",
+      "body": "Remove back panel. Disconnect wash temperature sensor at heating element bracket.",
+      "sourceExcerpt": "Remove back panel. Disconnect wash temperature sensor at heating element bracket.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_at_sensor"
+    },
+    {
+      "id": "ntc_at_sensor",
+      "order": 5,
+      "type": "measurement",
+      "title": "Wash NTC at sensor terminals",
+      "body": "Measure resistance at the temperature sensor terminals on the heater bracket.",
+      "sourceExcerpt": "Measure resistance at the temperature sensor terminals on the heater bracket.",
+      "measurementKnowledgeId": "whirlpoolFlWasherWashNtcOhms",
+      "testPoint": {
+        "connector": "Wash NTC",
+        "pins": "Sensor pins",
+        "label": "Wash NTC at sensor terminals"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wash_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace wash temperature sensor."
+        },
+        {
+          "id": "ntc_bad",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wash_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace wash temperature sensor."
+        },
+        {
+          "id": "ntc_good",
+          "label": "In range at sensor",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_lower_harness_ntc",
+          "terminal": true,
+          "oemOutcome": "Sensor good \u2014 replace lower main harness."
+        }
+      ]
+    },
+    {
+      "id": "replace_wash_ntc",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace wash NTC",
+      "oemOutcome": "Replace wash temperature sensor; verify with QSC.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness_ntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Replace lower main harness between ACU and sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_acu_ntc",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "NTC and harness good at J15 \u2014 replace ACU if fault persists.",
+      "requiresInput": false
+    }
+  ]
+}

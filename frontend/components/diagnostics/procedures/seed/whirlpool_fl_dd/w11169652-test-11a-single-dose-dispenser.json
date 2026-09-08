@@ -1,0 +1,122 @@
+{
+  "id": "w11169652-test-11a-single-dose-dispenser",
+  "version": "1.0.0",
+  "title": "TEST #11A: Single Dose Dispenser",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "dispenser_check",
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "11A",
+    "oemTestTitle": "Single Dose Dispenser",
+    "pages": [
+      56,
+      57
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "water_supply",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Water supply and drawer",
+      "body": "Are house water supply, fill hoses, and dispenser drawer clear of clogs?",
+      "sourceExcerpt": "Are house water supply, fill hoses, and dispenser drawer clear of clogs?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ws_ok",
+          "label": "Supply and drawer OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valves_via_test6"
+        },
+        {
+          "id": "ws_bad",
+          "label": "Clog or supply issue",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_dispenser",
+          "terminal": true,
+          "oemOutcome": "Clear clogged drawer/chambers and verify water supply."
+        }
+      ]
+    },
+    {
+      "id": "valves_via_test6",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Inlet valves operate (TEST #6)",
+      "body": "Did TEST #6 confirm Cold 1, Cold 2, and Hot valves operate for detergent/bleach/softener paths?",
+      "sourceExcerpt": "Did TEST #6 confirm Cold 1, Cold 2, and Hot valves operate for detergent/bleach/softener paths?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v6_ok",
+          "label": "Valves OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_dispenser_asm",
+          "terminal": true,
+          "oemOutcome": "Replace dispensing system \u2014 valves functional but dispense fails."
+        },
+        {
+          "id": "v6_bad",
+          "label": "Valve fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "run_test6",
+          "terminal": true,
+          "oemOutcome": "Complete TEST #6 Water Inlet Valves first."
+        }
+      ]
+    },
+    {
+      "id": "clear_dispenser",
+      "order": 4,
+      "type": "outcome",
+      "title": "Service dispenser",
+      "oemOutcome": "Clean drawer and verify water paths.",
+      "requiresInput": false
+    },
+    {
+      "id": "run_test6",
+      "order": 5,
+      "type": "outcome",
+      "title": "Run TEST #6",
+      "oemOutcome": "Repair inlet valves per TEST #6.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_dispenser_asm",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace dispenser",
+      "oemOutcome": "Replace single-dose dispensing system.",
+      "requiresInput": false
+    }
+  ]
+}

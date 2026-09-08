@@ -1,0 +1,239 @@
+{
+  "id": "w11169652-test-15-dry-heater",
+  "version": "1.0.0",
+  "title": "TEST #15: Dry Heating Element",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "wash_heater"
+  ],
+  "tags": [
+    "heating_element_check",
+    "dry_heat",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "15",
+    "oemTestTitle": "Dry Heating Element",
+    "pages": [
+      62,
+      63
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "disconnect_j4",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect J4 at ACU",
+      "body": "Remove top panel. Disconnect dry heater connector J4 from ACU.",
+      "sourceExcerpt": "Remove top panel. Disconnect dry heater connector J4 from ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_variant"
+    },
+    {
+      "id": "heater_variant",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Dry heater wattage variant",
+      "body": "Which dry heater is equipped: 1100 W (~12.3\u201313.6 \u03a9) or 450 W (~30\u201335 \u03a9)?",
+      "sourceExcerpt": "Which dry heater is equipped: 1100 W (~12.3\u201313.6 \u03a9) or 450 W (~30\u201335 \u03a9)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hv_1100",
+          "label": "1100 W heater",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "j4_1100"
+        },
+        {
+          "id": "hv_450",
+          "label": "450 W heater",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "j4_450"
+        }
+      ]
+    },
+    {
+      "id": "j4_1100",
+      "order": 4,
+      "type": "measurement",
+      "title": "Dry heater J4 \u2014 1100 W",
+      "body": "Measure J4 pins 1 & 2. Expected 12.32\u201313.6 \u03a9.",
+      "sourceExcerpt": "Measure J4 pins 1 & 2. Expected 12.32\u201313.6 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolFlWasherDryHeater1100WOms",
+      "testPoint": {
+        "connector": "J4",
+        "pins": "1 & 2",
+        "label": "Dry heater J4 \u2014 1100 W"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dh1100_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "access_dry_heater"
+        },
+        {
+          "id": "dh1100_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "access_dry_heater"
+        },
+        {
+          "id": "dh1100_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "access_dry_heater"
+        },
+        {
+          "id": "dh1100_pass",
+          "label": "12.32\u201313.6 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dry_heater_good"
+        }
+      ]
+    },
+    {
+      "id": "j4_450",
+      "order": 4,
+      "type": "measurement",
+      "title": "Dry heater J4 \u2014 450 W",
+      "body": "Measure J4 pins 1 & 2. Expected 30.1\u201334.9 \u03a9.",
+      "sourceExcerpt": "Measure J4 pins 1 & 2. Expected 30.1\u201334.9 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolFlWasherDryHeater450WOms",
+      "testPoint": {
+        "connector": "J4",
+        "pins": "1 & 2",
+        "label": "Dry heater J4 \u2014 450 W"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dh450_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "access_dry_heater"
+        },
+        {
+          "id": "dh450_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "access_dry_heater"
+        },
+        {
+          "id": "dh450_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "access_dry_heater"
+        },
+        {
+          "id": "dh450_pass",
+          "label": "30.1\u201334.9 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dry_heater_good"
+        }
+      ]
+    },
+    {
+      "id": "access_dry_heater",
+      "order": 5,
+      "type": "instruction",
+      "title": "Access dry heater element",
+      "body": "Access dry heating element. Disconnect wires at element terminals.",
+      "sourceExcerpt": "Access dry heating element. Disconnect wires at element terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "dry_heater_at_element"
+    },
+    {
+      "id": "dry_heater_at_element",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Element ohms at terminals",
+      "body": "Measure element terminals \u2014 in range for your heater wattage variant?",
+      "sourceExcerpt": "Measure element terminals \u2014 in range for your heater wattage variant?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "de_ok",
+          "label": "In range at element",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_upper_harness_dh",
+          "terminal": true,
+          "oemOutcome": "Element good \u2014 check harness continuity J4 to element; replace upper harness if open."
+        },
+        {
+          "id": "de_bad",
+          "label": "Open/out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_heater_channel",
+          "terminal": true,
+          "oemOutcome": "Replace Heater Channel Assembly (dry heater not separately serviceable)."
+        }
+      ]
+    },
+    {
+      "id": "dry_heater_good",
+      "order": 7,
+      "type": "outcome",
+      "title": "Dry heater circuit OK",
+      "oemOutcome": "J4 resistance in range \u2014 if heat fault persists, replace ACU.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_upper_harness_dh",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace upper harness",
+      "oemOutcome": "Replace upper harness to dry heater.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater_channel",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace heater channel",
+      "oemOutcome": "Replace Heater Channel Assembly.",
+      "requiresInput": false
+    }
+  ]
+}

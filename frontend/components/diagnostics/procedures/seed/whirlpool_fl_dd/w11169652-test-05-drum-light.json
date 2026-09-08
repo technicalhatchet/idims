@@ -1,0 +1,147 @@
+{
+  "id": "w11169652-test-05-drum-light",
+  "version": "1.0.0",
+  "title": "TEST #5: Drum Light",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "voltage_check"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Drum Light",
+    "pages": [
+      50,
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "access_j16",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access ACU J16",
+      "body": "Remove top panel. Verify drum light connector J16 is secure at ACU and drum light harness.",
+      "sourceExcerpt": "Remove top panel. Verify drum light connector J16 is secure at ACU and drum light harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "j16_ok"
+    },
+    {
+      "id": "j16_ok",
+      "order": 3,
+      "type": "visual_check",
+      "title": "J16 and harness OK",
+      "body": "Are J16 and drum light harness connections secure?",
+      "sourceExcerpt": "Are J16 and drum light harness connections secure?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j16_yes",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "unplug_drum_light"
+        },
+        {
+          "id": "j16_no",
+          "label": "Harness issue",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_drum_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace drum light harness, then retest."
+        }
+      ]
+    },
+    {
+      "id": "unplug_drum_light",
+      "order": 4,
+      "type": "instruction",
+      "title": "Unplug drum light",
+      "body": "Unplug drum light from harness at ACU side. Restore power for voltage check.",
+      "sourceExcerpt": "Unplug drum light from harness at ACU side. Restore power for voltage check.",
+      "requiresInput": false,
+      "defaultNextStepId": "drum_light_v"
+    },
+    {
+      "id": "drum_light_v",
+      "order": 5,
+      "type": "measurement",
+      "title": "Drum light driver J16 pins 1 & 3",
+      "body": "Measure VDC across J16 pins 1 and 3 with drum light disconnected. Expected 2.9\u20133.5 VDC.",
+      "sourceExcerpt": "Measure VDC across J16 pins 1 and 3 with drum light disconnected. Expected 2.9\u20133.5 VDC.",
+      "measurementKnowledgeId": "whirlpoolFlWasherDrumLightVdc",
+      "testPoint": {
+        "connector": "J16",
+        "pins": "1 & 3",
+        "label": "Drum light driver J16 pins 1 & 3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dl_v_ok",
+          "label": "2.9\u20133.5 VDC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_drum_led",
+          "terminal": true,
+          "oemOutcome": "Replace drum LED \u2014 driver voltage present."
+        },
+        {
+          "id": "dl_v_bad",
+          "label": "Voltage not present",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu_drum",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 drum light driver fault."
+        }
+      ]
+    },
+    {
+      "id": "replace_drum_led",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace drum LED",
+      "oemOutcome": "Replace drum LED assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_drum",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU when driver voltage missing.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_drum_harness",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair drum light harness connections.",
+      "requiresInput": false
+    }
+  ]
+}
