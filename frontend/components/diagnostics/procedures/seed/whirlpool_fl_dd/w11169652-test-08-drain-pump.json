@@ -3,15 +3,26 @@
   "version": "1.0.0",
   "title": "TEST #8: Drain/Recirculation Pump",
   "platformId": "whirlpool_fl_dd",
-  "componentIds": ["drain_pump"],
-  "tags": ["drain_issue", "pump_check", "F9E1", "wont_drain"],
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "drain_issue",
+    "pump_check",
+    "F9E1",
+    "wont_drain"
+  ],
   "source": {
     "manualId": "W11169652",
     "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
     "oemTestNumber": "8",
     "oemTestTitle": "Drain/Recirculation Pump",
     "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
-    "pages": [52, 53, 54],
+    "pages": [
+      52,
+      53,
+      54
+    ],
     "verifiedAt": "2026-03-07",
     "verifiedBy": "manual-extraction"
   },
@@ -31,7 +42,7 @@
       "type": "safety",
       "title": "Disconnect power",
       "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
-      "sourceExcerpt": "WARNING — Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock. Replace all parts and panels before operating.",
       "requiresInput": false,
       "defaultNextStepId": "check_obstructions"
     },
@@ -47,13 +58,17 @@
         {
           "id": "obstructions_cleared_yes",
           "label": "Areas checked and clear",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "access_acu_j11"
         },
         {
           "id": "obstructions_cleared_no",
           "label": "Obstruction found or not yet cleared",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "clear_obstructions_first",
           "terminal": true,
           "oemOutcome": "Clear obstructions in the drain filter, hose, and pump area; then repeat TEST #8 from step 1."
@@ -89,13 +104,17 @@
         {
           "id": "j11_seated_yes",
           "label": "J11 fully seated",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "drain_j11_1_2"
         },
         {
           "id": "j11_seated_no",
           "label": "J11 loose or not seated",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "reseat_j11",
           "terminal": true,
           "oemOutcome": "Reconnect J11 at the ACU, reassemble, restore power, and repeat Quick Service Cycle step 004 (Drain Pump)."
@@ -108,15 +127,25 @@
       "type": "measurement",
       "title": "Drain pump J11 pins 1 & 2",
       "body": "Remove connector J11 from the ACU. Measure resistance between J11-1 (Drain Pump) and J11-2 (LINE_MR) at room temperature.",
-      "sourceExcerpt": "Remove connector J11 from the ACU. With an ohmmeter, measure the resistance across connector pins. Drain Pump — J11-1 to J11-2 — 18.5–21.5 Ω.",
+      "sourceExcerpt": "Remove connector J11 from the ACU. With an ohmmeter, measure the resistance across connector pins. Drain Pump \u2014 J11-1 to J11-2 \u2014 18.5\u201321.5 \u03a9.",
       "measurementKnowledgeId": "whirlpoolFlWasherDrainPumpOhms",
       "testPoint": {
         "connector": "J11",
         "pins": "1 & 2",
         "label": "Drain pump winding",
         "pinDetails": [
-          { "pin": "1", "signal": "Drain pump", "wireColor": "W", "wireColorConfidence": "verified" },
-          { "pin": "2", "signal": "LINE_MR", "wireColor": "BK", "wireColorConfidence": "inferred" }
+          {
+            "pin": "1",
+            "signal": "Drain pump",
+            "wireColor": "W",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "LINE_MR",
+            "wireColor": "BK",
+            "wireColorConfidence": "inferred"
+          }
         ]
       },
       "requiresInput": true,
@@ -124,38 +153,69 @@
         {
           "id": "drain_j11_fail",
           "label": "Outside range",
-          "when": { "kind": "measurement_warning" },
+          "when": {
+            "kind": "measurement_warning"
+          },
           "nextStepId": "inspect_pump_mechanical",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "drain_pump", "evidenceId": "confirm_drain_pump_ol_drain_pump_failed" }
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
           ]
         },
         {
           "id": "drain_j11_open",
           "label": "Open circuit (OL)",
-          "when": { "kind": "measurement_open" },
+          "when": {
+            "kind": "measurement_open"
+          },
           "nextStepId": "inspect_pump_mechanical",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "drain_pump", "evidenceId": "confirm_drain_pump_ol_drain_pump_failed" }
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
           ]
         },
         {
           "id": "drain_j11_critical",
           "label": "Critical out of range",
-          "when": { "kind": "measurement_critical" },
+          "when": {
+            "kind": "measurement_critical"
+          },
           "nextStepId": "inspect_pump_mechanical",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "drain_pump", "evidenceId": "confirm_drain_pump_ol_drain_pump_failed" }
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
           ]
         },
         {
           "id": "drain_j11_pass",
-          "label": "18.5–21.5 Ω",
-          "when": { "kind": "measurement_normal" },
+          "label": "18.5\u201321.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
           "nextStepId": "recirc_j11_3_4",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "drain_pump", "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
           ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11169652-acu-pinout-figure2",
+          "caption": "ACU connectors & pinouts (Figure 2, manual p. 3-7)",
+          "assetPath": "/images/procedures/whirlpool_fl_dd/w11169652-acu-pinout-figure2.png"
         }
       ]
     },
@@ -164,16 +224,26 @@
       "order": 7,
       "type": "measurement",
       "title": "Recirc pump J11 pins 3 & 4 (optional)",
-      "body": "At the same J11 connector, measure between J11-3 (Recirc pump L) and J11-4 (Recirc pump N). Expected 36–46 Ω at room temperature.",
-      "sourceExcerpt": "Recirculation Pump — J11-3 to J11-4 — 36–46 Ω.",
+      "body": "At the same J11 connector, measure between J11-3 (Recirc pump L) and J11-4 (Recirc pump N). Expected 36\u201346 \u03a9 at room temperature.",
+      "sourceExcerpt": "Recirculation Pump \u2014 J11-3 to J11-4 \u2014 36\u201346 \u03a9.",
       "measurementKnowledgeId": "whirlpoolFlWasherRecircPumpOhms",
       "testPoint": {
         "connector": "J11",
         "pins": "3 & 4",
         "label": "Recirculation pump winding",
         "pinDetails": [
-          { "pin": "3", "signal": "Recirc pump L", "wireColor": "R", "wireColorConfidence": "verified" },
-          { "pin": "4", "signal": "Recirc pump N", "wireColor": "R", "wireColorConfidence": "verified" }
+          {
+            "pin": "3",
+            "signal": "Recirc pump L",
+            "wireColor": "R",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "Recirc pump N",
+            "wireColor": "R",
+            "wireColorConfidence": "verified"
+          }
         ]
       },
       "requiresInput": true,
@@ -181,26 +251,41 @@
         {
           "id": "recirc_fail",
           "label": "Outside range or open",
-          "when": { "kind": "measurement_warning" },
+          "when": {
+            "kind": "measurement_warning"
+          },
           "nextStepId": "inspect_pump_mechanical"
         },
         {
           "id": "recirc_open",
           "label": "Open circuit (OL)",
-          "when": { "kind": "measurement_open" },
+          "when": {
+            "kind": "measurement_open"
+          },
           "nextStepId": "inspect_pump_mechanical"
         },
         {
           "id": "recirc_critical",
           "label": "Critical out of range",
-          "when": { "kind": "measurement_critical" },
+          "when": {
+            "kind": "measurement_critical"
+          },
           "nextStepId": "inspect_pump_mechanical"
         },
         {
           "id": "recirc_pass",
-          "label": "36–46 Ω — reconnect for live test",
-          "when": { "kind": "measurement_normal" },
+          "label": "36\u201346 \u03a9 \u2014 reconnect for live test",
+          "when": {
+            "kind": "measurement_normal"
+          },
           "nextStepId": "reconnect_harness_power"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11169652-acu-pinout-figure2",
+          "caption": "ACU connectors & pinouts (Figure 2, manual p. 3-7)",
+          "assetPath": "/images/procedures/whirlpool_fl_dd/w11169652-acu-pinout-figure2.png"
         }
       ]
     },
@@ -225,13 +310,17 @@
         {
           "id": "connections_ok_yes",
           "label": "Connections OK",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "harness_continuity"
         },
         {
           "id": "connections_ok_no",
           "label": "Loose connections found",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "reseat_pump_connections",
           "terminal": true,
           "oemOutcome": "Reconnect pump electrical connections, reassemble, restore power, and repeat Quick Service Cycle step 004."
@@ -250,13 +339,17 @@
         {
           "id": "harness_ok",
           "label": "Continuity OK",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "pump_ohms_at_terminals"
         },
         {
           "id": "harness_open",
           "label": "No continuity",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "replace_lower_harness",
           "terminal": true,
           "oemOutcome": "Replace the lower machine harness, reassemble, restore power, and repeat Quick Service Cycle."
@@ -268,7 +361,7 @@
       "order": 11,
       "type": "measurement",
       "title": "Drain pump ohms at pump terminals",
-      "body": "Measure resistance across the two drain pump terminals using the same 18.5–21.5 Ω specification.",
+      "body": "Measure resistance across the two drain pump terminals using the same 18.5\u201321.5 \u03a9 specification.",
       "sourceExcerpt": "With an ohmmeter, measure the resistance across the two pump terminals using the chart in step 6. If the reading is infinite (open), replace the drain pump assembly.",
       "measurementKnowledgeId": "whirlpoolFlWasherDrainPumpOhms",
       "requiresInput": true,
@@ -276,45 +369,69 @@
         {
           "id": "pump_terminals_open",
           "label": "Open (OL)",
-          "when": { "kind": "measurement_open" },
+          "when": {
+            "kind": "measurement_open"
+          },
           "nextStepId": "replace_drain_pump",
           "terminal": true,
           "oemOutcome": "Replace the drain pump assembly. Reassemble, restore power, and run Quick Service Cycle step 004 to verify.",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "drain_pump", "evidenceId": "confirm_drain_pump_ol_drain_pump_failed" }
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
           ]
         },
         {
           "id": "pump_terminals_fail",
           "label": "Outside range",
-          "when": { "kind": "measurement_warning" },
+          "when": {
+            "kind": "measurement_warning"
+          },
           "nextStepId": "replace_drain_pump",
           "terminal": true,
           "oemOutcome": "Replace the drain pump assembly.",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "drain_pump", "evidenceId": "confirm_drain_pump_ol_drain_pump_failed" }
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
           ]
         },
         {
           "id": "pump_terminals_critical",
           "label": "Critical out of range",
-          "when": { "kind": "measurement_critical" },
+          "when": {
+            "kind": "measurement_critical"
+          },
           "nextStepId": "replace_drain_pump",
           "terminal": true,
           "oemOutcome": "Replace the drain pump assembly.",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "drain_pump", "evidenceId": "confirm_drain_pump_ol_drain_pump_failed" }
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
           ]
         },
         {
           "id": "pump_terminals_pass",
-          "label": "18.5–21.5 Ω at pump",
-          "when": { "kind": "measurement_normal" },
+          "label": "18.5\u201321.5 \u03a9 at pump",
+          "when": {
+            "kind": "measurement_normal"
+          },
           "nextStepId": "suspect_acu",
           "terminal": true,
-          "oemOutcome": "Pump windings and harness test good at the pump — replace the ACU if drain still fails.",
+          "oemOutcome": "Pump windings and harness test good at the pump \u2014 replace the ACU if drain still fails.",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "drain_pump", "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
           ]
         }
       ]
@@ -374,27 +491,38 @@
       "type": "visual_check",
       "title": "Drain pump runs during QSC step 004",
       "body": "During Quick Service Cycle function 004 (Drain Pump), does the drain pump turn on and run?",
-      "sourceExcerpt": "004 — Drain Pump — Turns on the drain pump. If drain pump does not turn on, see TEST #8: Drain/Recirculation Pump.",
+      "sourceExcerpt": "004 \u2014 Drain Pump \u2014 Turns on the drain pump. If drain pump does not turn on, see TEST #8: Drain/Recirculation Pump.",
       "requiresInput": true,
       "branches": [
         {
           "id": "drain_runs_yes",
           "label": "Drain pump runs",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "repair_verified",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "drain_pump", "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
           ]
         },
         {
           "id": "drain_runs_no",
           "label": "Drain pump does not run",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "suspect_acu_after_live",
           "terminal": true,
-          "oemOutcome": "Windings test in range but pump did not run in service mode — inspect wiring, harness, and ACU output; replace ACU if outputs are missing.",
+          "oemOutcome": "Windings test in range but pump did not run in service mode \u2014 inspect wiring, harness, and ACU output; replace ACU if outputs are missing.",
           "diagnosticEffects": [
-            { "type": "suspect", "componentId": "drain_pump" }
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
           ]
         }
       ]
@@ -404,7 +532,7 @@
       "order": 19,
       "type": "outcome",
       "title": "Drain pump verified",
-      "oemOutcome": "Drain pump operates in Quick Service Cycle — reassemble and return washer to service.",
+      "oemOutcome": "Drain pump operates in Quick Service Cycle \u2014 reassemble and return washer to service.",
       "requiresInput": false
     },
     {
