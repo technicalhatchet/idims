@@ -4,7 +4,7 @@
   "title": "TEST #11A: Single Dose Dispenser",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "inlet_valve"
+    "dosing_pump"
   ],
   "tags": [
     "dispenser_check",
@@ -60,7 +60,14 @@
           },
           "nextStepId": "clear_dispenser",
           "terminal": true,
-          "oemOutcome": "Clear clogged drawer/chambers and verify water supply."
+          "oemOutcome": "Clear clogged drawer/chambers and verify water supply.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
         }
       ]
     },
@@ -91,7 +98,14 @@
           },
           "nextStepId": "run_test6",
           "terminal": true,
-          "oemOutcome": "Complete TEST #6 Water Inlet Valves first."
+          "oemOutcome": "Complete TEST #6 Water Inlet Valves first.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
         }
       ]
     },

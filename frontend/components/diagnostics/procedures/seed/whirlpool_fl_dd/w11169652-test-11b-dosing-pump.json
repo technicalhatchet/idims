@@ -4,7 +4,7 @@
   "title": "TEST #11B: Optimal Dosing Pump",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "inlet_valve"
+    "dosing_pump"
   ],
   "tags": [
     "dispenser_check"
@@ -59,7 +59,14 @@
           },
           "nextStepId": "clean_reservoir",
           "terminal": true,
-          "oemOutcome": "Remove and rinse reservoirs with hot water; retest."
+          "oemOutcome": "Remove and rinse reservoirs with hot water; retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
         }
       ]
     },
@@ -98,7 +105,14 @@
           },
           "nextStepId": "replace_lower_harness_pump",
           "terminal": true,
-          "oemOutcome": "Replace lower harness and retest."
+          "oemOutcome": "Replace lower harness and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
         }
       ]
     },
@@ -137,7 +151,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "replace_pump"
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
         },
         {
           "id": "pump_warn",
@@ -145,7 +166,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "replace_pump"
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
         },
         {
           "id": "pump_crit",
@@ -153,7 +181,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "replace_pump"
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
         },
         {
           "id": "pump_pass",
@@ -161,7 +196,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "replace_acu_pump"
+          "nextStepId": "replace_acu_pump",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dosing_pump",
+              "evidenceId": "eliminate_dosing_pump_ol_dosing_pump_ok"
+            }
+          ]
         }
       ],
       "images": [

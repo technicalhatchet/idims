@@ -4,7 +4,7 @@
   "title": "TEST #17: Dry Blower Motor",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "supply"
+    "dry_blower"
   ],
   "tags": [
     "vent_fan_check",
@@ -70,7 +70,14 @@
           },
           "nextStepId": "replace_upper_harness_blower",
           "terminal": true,
-          "oemOutcome": "Replace upper machine harness."
+          "oemOutcome": "Replace upper machine harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_blower",
+              "evidenceId": "confirm_dry_blower_ol_dry_blower_failed"
+            }
+          ]
         }
       ]
     },
@@ -109,7 +116,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "replace_heater_channel_blower"
+          "nextStepId": "replace_heater_channel_blower",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_blower",
+              "evidenceId": "confirm_dry_blower_ol_dry_blower_failed"
+            }
+          ]
         },
         {
           "id": "blower_warn",
@@ -117,7 +131,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "replace_heater_channel_blower"
+          "nextStepId": "replace_heater_channel_blower",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_blower",
+              "evidenceId": "confirm_dry_blower_ol_dry_blower_failed"
+            }
+          ]
         },
         {
           "id": "blower_crit",
@@ -125,7 +146,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "replace_heater_channel_blower"
+          "nextStepId": "replace_heater_channel_blower",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_blower",
+              "evidenceId": "confirm_dry_blower_ol_dry_blower_failed"
+            }
+          ]
         },
         {
           "id": "blower_pass",
@@ -133,7 +161,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "check_blower_wheel"
+          "nextStepId": "check_blower_wheel",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dry_blower",
+              "evidenceId": "eliminate_dry_blower_ol_dry_blower_ok"
+            }
+          ]
         }
       ],
       "images": [
@@ -176,7 +211,14 @@
           },
           "nextStepId": "service_blower_wheel",
           "terminal": true,
-          "oemOutcome": "Clear obstruction or replace Heater Channel Assembly if wheel does not turn freely."
+          "oemOutcome": "Clear obstruction or replace Heater Channel Assembly if wheel does not turn freely.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_blower",
+              "evidenceId": "confirm_dry_blower_ol_dry_blower_failed"
+            }
+          ]
         }
       ]
     },

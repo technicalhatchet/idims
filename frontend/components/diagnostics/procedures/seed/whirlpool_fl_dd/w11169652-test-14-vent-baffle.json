@@ -4,7 +4,7 @@
   "title": "TEST #14: Vent Baffle Solenoid",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "supply"
+    "vent_baffle"
   ],
   "tags": [
     "vent_fan_check"
@@ -59,7 +59,14 @@
           },
           "nextStepId": "clear_baffle_vent",
           "terminal": true,
-          "oemOutcome": "Clear obstruction and retest."
+          "oemOutcome": "Clear obstruction and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_baffle",
+              "evidenceId": "confirm_vent_baffle_ol_vent_baffle_failed"
+            }
+          ]
         }
       ]
     },
@@ -98,7 +105,14 @@
           },
           "nextStepId": "replace_upper_harness_baffle",
           "terminal": true,
-          "oemOutcome": "Replace upper machine harness."
+          "oemOutcome": "Replace upper machine harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_baffle",
+              "evidenceId": "confirm_vent_baffle_ol_vent_baffle_failed"
+            }
+          ]
         }
       ]
     },
@@ -137,7 +151,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "replace_baffle_solenoid"
+          "nextStepId": "replace_baffle_solenoid",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_baffle",
+              "evidenceId": "confirm_vent_baffle_ol_vent_baffle_failed"
+            }
+          ]
         },
         {
           "id": "baffle_warn",
@@ -145,7 +166,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "replace_baffle_solenoid"
+          "nextStepId": "replace_baffle_solenoid",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_baffle",
+              "evidenceId": "confirm_vent_baffle_ol_vent_baffle_failed"
+            }
+          ]
         },
         {
           "id": "baffle_crit",
@@ -153,7 +181,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "replace_baffle_solenoid"
+          "nextStepId": "replace_baffle_solenoid",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_baffle",
+              "evidenceId": "confirm_vent_baffle_ol_vent_baffle_failed"
+            }
+          ]
         },
         {
           "id": "baffle_pass",
@@ -161,7 +196,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "replace_acu_baffle"
+          "nextStepId": "replace_acu_baffle",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "vent_baffle",
+              "evidenceId": "eliminate_vent_baffle_ol_vent_baffle_ok"
+            }
+          ]
         }
       ],
       "images": [

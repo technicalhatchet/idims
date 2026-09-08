@@ -49,6 +49,50 @@
         "heating_element_check",
         "no_heat_issue"
       ]
+    },
+    {
+      "id": "control_hmi",
+      "label": "HMI / User Interface",
+      "dmaTags": [
+        "hmi_check",
+        "error_code",
+        "F3E1"
+      ]
+    },
+    {
+      "id": "water_level",
+      "label": "Water Level / Pressure Switch",
+      "dmaTags": [
+        "fill_issue",
+        "water_valve_check",
+        "F8E1"
+      ]
+    },
+    {
+      "id": "dispenser",
+      "label": "Dispenser System",
+      "dmaTags": [
+        "dispenser_check",
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "vent_dry",
+      "label": "Vent / Dry Airflow",
+      "dmaTags": [
+        "vent_fan_check",
+        "noisy",
+        "dry_heat"
+      ]
+    },
+    {
+      "id": "dry_heating",
+      "label": "Dry Heating",
+      "dmaTags": [
+        "heating_element_check",
+        "dry_heat",
+        "no_heat"
+      ]
     }
   ],
   "components": [
@@ -105,6 +149,95 @@
         "heating_element_check",
         "no_heat_issue"
       ]
+    },
+    {
+      "id": "hmi_control",
+      "label": "HMI / UI control",
+      "categoryId": "control_hmi",
+      "dmaTags": [
+        "hmi_check",
+        "error_code"
+      ]
+    },
+    {
+      "id": "water_level_sensor",
+      "label": "Water level sensor (APS)",
+      "categoryId": "water_level",
+      "dmaTags": [
+        "fill_issue",
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "wash_ntc",
+      "label": "Wash temperature sensor",
+      "categoryId": "wash_heating",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat"
+      ]
+    },
+    {
+      "id": "dosing_pump",
+      "label": "Dosing pump",
+      "categoryId": "dispenser",
+      "dmaTags": [
+        "dispenser_check"
+      ]
+    },
+    {
+      "id": "bulk_level_switch",
+      "label": "Bulk dispenser level switch",
+      "categoryId": "dispenser",
+      "dmaTags": [
+        "dispenser_check"
+      ]
+    },
+    {
+      "id": "vent_fan",
+      "label": "Vent fan motor",
+      "categoryId": "vent_dry",
+      "dmaTags": [
+        "vent_fan_check",
+        "noisy"
+      ]
+    },
+    {
+      "id": "vent_baffle",
+      "label": "Vent baffle solenoid",
+      "categoryId": "vent_dry",
+      "dmaTags": [
+        "vent_fan_check"
+      ]
+    },
+    {
+      "id": "dry_heater",
+      "label": "Dry heating element",
+      "categoryId": "dry_heating",
+      "dmaTags": [
+        "heating_element_check",
+        "dry_heat",
+        "no_heat"
+      ]
+    },
+    {
+      "id": "dry_ntc",
+      "label": "Dry temperature sensor",
+      "categoryId": "dry_heating",
+      "dmaTags": [
+        "heating_element_check",
+        "dry_heat",
+        "no_heat"
+      ]
+    },
+    {
+      "id": "dry_blower",
+      "label": "Dry blower motor",
+      "categoryId": "vent_dry",
+      "dmaTags": [
+        "vent_fan_check",
+        "noisy"
+      ]
     }
   ],
   "rules": [
@@ -124,7 +257,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "explanation": "Drain pump failed \u2014 supported by diagnostic evidence.",
       "dmaTags": [
         "pump_check"
       ]
@@ -146,7 +279,7 @@
         "effect": "increase",
         "value": 38
       },
-      "explanation": "Drain pump failed — category evidence increased."
+      "explanation": "Drain pump failed \u2014 category evidence increased."
     },
     {
       "id": "eliminate_drain_pump_ol_drain_pump_ok",
@@ -183,7 +316,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "explanation": "Drain pump failed \u2014 supported by diagnostic evidence.",
       "dmaTags": [
         "pump_check"
       ]
@@ -206,7 +339,7 @@
         "effect": "increase",
         "value": 38
       },
-      "explanation": "Drain pump failed — category evidence increased."
+      "explanation": "Drain pump failed \u2014 category evidence increased."
     },
     {
       "id": "eliminate_drain_pump_low_amps_drain_pump_ok",
@@ -243,7 +376,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Inlet valve failed — supported by diagnostic evidence.",
+      "explanation": "Inlet valve failed \u2014 supported by diagnostic evidence.",
       "dmaTags": [
         "water_valve_check"
       ]
@@ -265,7 +398,7 @@
         "effect": "increase",
         "value": 38
       },
-      "explanation": "Inlet valve failed — category evidence increased."
+      "explanation": "Inlet valve failed \u2014 category evidence increased."
     },
     {
       "id": "eliminate_inlet_valve_ol_inlet_valve_ok",
@@ -301,7 +434,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Drive motor failed — supported by diagnostic evidence.",
+      "explanation": "Drive motor failed \u2014 supported by diagnostic evidence.",
       "dmaTags": [
         "motor_check"
       ]
@@ -323,7 +456,7 @@
         "effect": "increase",
         "value": 38
       },
-      "explanation": "Drive motor failed — category evidence increased."
+      "explanation": "Drive motor failed \u2014 category evidence increased."
     },
     {
       "id": "eliminate_drive_motor_ol_drive_motor_ok",
@@ -359,7 +492,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Door lock failed — supported by diagnostic evidence.",
+      "explanation": "Door lock failed \u2014 supported by diagnostic evidence.",
       "dmaTags": [
         "door_lock_check"
       ]
@@ -381,7 +514,7 @@
         "effect": "increase",
         "value": 38
       },
-      "explanation": "Door lock failed — category evidence increased."
+      "explanation": "Door lock failed \u2014 category evidence increased."
     },
     {
       "id": "eliminate_door_lock_open_door_lock_ok",
@@ -417,7 +550,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Wash heater failed — supported by diagnostic evidence.",
+      "explanation": "Wash heater failed \u2014 supported by diagnostic evidence.",
       "dmaTags": [
         "heating_element_check"
       ]
@@ -439,7 +572,7 @@
         "effect": "increase",
         "value": 38
       },
-      "explanation": "Wash heater failed — category evidence increased."
+      "explanation": "Wash heater failed \u2014 category evidence increased."
     },
     {
       "id": "eliminate_wash_heater_ol_wash_heater_ok",
@@ -475,7 +608,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Supply / voltage issue — supported by diagnostic evidence.",
+      "explanation": "Supply / voltage issue \u2014 supported by diagnostic evidence.",
       "dmaTags": [
         "voltage_check"
       ]
@@ -497,7 +630,7 @@
         "effect": "increase",
         "value": 38
       },
-      "explanation": "Supply / voltage issue — category evidence increased."
+      "explanation": "Supply / voltage issue \u2014 category evidence increased."
     },
     {
       "id": "eliminate_supply_critical_supply_ok",
@@ -531,7 +664,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Drain pump failed — supported by diagnostic evidence.",
+      "explanation": "Drain pump failed \u2014 supported by diagnostic evidence.",
       "recommendStepKey": "functional",
       "dmaTags": [
         "pump_check"
@@ -552,7 +685,7 @@
         "effect": "increase",
         "value": 35
       },
-      "explanation": "Drain pump failed — category evidence increased.",
+      "explanation": "Drain pump failed \u2014 category evidence increased.",
       "recommendStepKey": "functional"
     },
     {
@@ -586,7 +719,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Inlet valve failed — supported by diagnostic evidence.",
+      "explanation": "Inlet valve failed \u2014 supported by diagnostic evidence.",
       "recommendStepKey": "functional",
       "dmaTags": [
         "water_valve_check"
@@ -607,7 +740,7 @@
         "effect": "increase",
         "value": 35
       },
-      "explanation": "Inlet valve failed — category evidence increased.",
+      "explanation": "Inlet valve failed \u2014 category evidence increased.",
       "recommendStepKey": "functional"
     },
     {
@@ -641,7 +774,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Drive motor failed — supported by diagnostic evidence.",
+      "explanation": "Drive motor failed \u2014 supported by diagnostic evidence.",
       "recommendStepKey": "functional",
       "dmaTags": [
         "motor_check"
@@ -662,7 +795,7 @@
         "effect": "increase",
         "value": 35
       },
-      "explanation": "Drive motor failed — category evidence increased.",
+      "explanation": "Drive motor failed \u2014 category evidence increased.",
       "recommendStepKey": "functional"
     },
     {
@@ -696,7 +829,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Drive motor failed — supported by diagnostic evidence.",
+      "explanation": "Drive motor failed \u2014 supported by diagnostic evidence.",
       "recommendStepKey": "functional",
       "dmaTags": [
         "motor_check"
@@ -717,7 +850,7 @@
         "effect": "increase",
         "value": 35
       },
-      "explanation": "Drive motor failed — category evidence increased.",
+      "explanation": "Drive motor failed \u2014 category evidence increased.",
       "recommendStepKey": "functional"
     },
     {
@@ -751,7 +884,7 @@
       "effect": {
         "effect": "confirm"
       },
-      "explanation": "Door lock failed — supported by diagnostic evidence.",
+      "explanation": "Door lock failed \u2014 supported by diagnostic evidence.",
       "recommendStepKey": "functional",
       "dmaTags": [
         "door_lock_check"
@@ -772,7 +905,7 @@
         "effect": "increase",
         "value": 35
       },
-      "explanation": "Door lock failed — category evidence increased.",
+      "explanation": "Door lock failed \u2014 category evidence increased.",
       "recommendStepKey": "functional"
     },
     {
@@ -806,7 +939,7 @@
         "effect": "increase",
         "value": 22
       },
-      "explanation": "Complaint: won't drain — points toward Drain Pump.",
+      "explanation": "Complaint: won't drain \u2014 points toward Drain Pump.",
       "recommendStepKey": "complaint",
       "dmaTags": [
         "pump_check",
@@ -827,7 +960,7 @@
         "effect": "increase",
         "value": 22
       },
-      "explanation": "Complaint: no fill — points toward Fill / Water Supply.",
+      "explanation": "Complaint: no fill \u2014 points toward Fill / Water Supply.",
       "recommendStepKey": "complaint",
       "dmaTags": [
         "water_valve_check",
@@ -848,7 +981,7 @@
         "effect": "increase",
         "value": 22
       },
-      "explanation": "Complaint: won't spin — points toward Drive Motor.",
+      "explanation": "Complaint: won't spin \u2014 points toward Drive Motor.",
       "recommendStepKey": "complaint",
       "dmaTags": [
         "motor_check",
@@ -869,7 +1002,7 @@
         "effect": "increase",
         "value": 22
       },
-      "explanation": "Complaint: won't agitate — points toward Drive Motor.",
+      "explanation": "Complaint: won't agitate \u2014 points toward Drive Motor.",
       "recommendStepKey": "complaint",
       "dmaTags": [
         "motor_check",
@@ -890,7 +1023,7 @@
         "effect": "increase",
         "value": 22
       },
-      "explanation": "Complaint: lid lock issue — points toward Door / Lid Lock.",
+      "explanation": "Complaint: lid lock issue \u2014 points toward Door / Lid Lock.",
       "recommendStepKey": "complaint",
       "dmaTags": [
         "door_lock_check",
@@ -900,507 +1033,1681 @@
     {
       "id": "w_ms_001_wont_drain_drain_bad",
       "when": [
-        { "type": "chip", "id": "wont_drain" },
-        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "wont_drain"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
       ],
       "target": "drain_pump",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Won't drain complaint with failed drain operation — drain pump path.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Won't drain complaint with failed drain operation \u2014 drain pump path.",
       "recommendStepKey": "functional",
-      "dmaTags": ["pump_check", "drain_issue"]
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
     },
     {
       "id": "w_ms_002_wont_drain_pump_ol",
       "when": [
-        { "type": "chip", "id": "wont_drain" },
-        { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] }
+        {
+          "type": "chip",
+          "id": "wont_drain"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
       ],
       "target": "drain_pump",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Won't drain with drain pump open at meter — pump failure confirmed.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Won't drain with drain pump open at meter \u2014 pump failure confirmed.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["pump_check"]
+      "dmaTags": [
+        "pump_check"
+      ]
     },
     {
       "id": "w_ms_003_no_fill_fill_bad",
       "when": [
-        { "type": "chip", "id": "no_fill" },
-        { "type": "field", "path": "functional_checks.fill_operation", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "no_fill"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.fill_operation",
+          "equals": "bad"
+        }
       ],
       "target": "inlet_valve",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "No fill complaint with failed fill operation — inlet valve or supply path.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "No fill complaint with failed fill operation \u2014 inlet valve or supply path.",
       "recommendStepKey": "functional",
-      "dmaTags": ["water_valve_check", "fill_issue"]
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
     },
     {
       "id": "w_ms_004_no_fill_valve_ol",
       "when": [
-        { "type": "chip", "id": "no_fill" },
-        { "type": "measurement", "knowledgeId": "washerWaterValveOhms", "statusIn": ["critical"] }
+        {
+          "type": "chip",
+          "id": "no_fill"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerWaterValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
       ],
       "target": "inlet_valve",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "No fill with inlet valve coil open — valve failure confirmed.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "No fill with inlet valve coil open \u2014 valve failure confirmed.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["water_valve_check"]
+      "dmaTags": [
+        "water_valve_check"
+      ]
     },
     {
       "id": "w_ms_005_wont_spin_spin_bad",
       "when": [
-        { "type": "chip", "id": "wont_spin" },
-        { "type": "field", "path": "functional_checks.spin_operation", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "wont_spin"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.spin_operation",
+          "equals": "bad"
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Won't spin with failed spin operation — drive motor or transmission path.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Won't spin with failed spin operation \u2014 drive motor or transmission path.",
       "recommendStepKey": "functional",
-      "dmaTags": ["motor_check", "spin_issue"]
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
     },
     {
       "id": "w_ms_006_wont_spin_motor_ol",
       "when": [
-        { "type": "chip", "id": "wont_spin" },
-        { "type": "measurement", "knowledgeId": "washerMotorWindingOhms", "statusIn": ["critical"] }
+        {
+          "type": "chip",
+          "id": "wont_spin"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerMotorWindingOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Won't spin with drive motor open — motor failure confirmed.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Won't spin with drive motor open \u2014 motor failure confirmed.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "w_ms_007_wont_agitate_agitate_bad",
       "when": [
-        { "type": "chip", "id": "wont_agitate" },
-        { "type": "field", "path": "functional_checks.agitation", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "wont_agitate"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.agitation",
+          "equals": "bad"
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Won't agitate with failed agitation — drive motor or mode shifter path.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Won't agitate with failed agitation \u2014 drive motor or mode shifter path.",
       "recommendStepKey": "functional",
-      "dmaTags": ["motor_check", "agitate_issue"]
+      "dmaTags": [
+        "motor_check",
+        "agitate_issue"
+      ]
     },
     {
       "id": "w_ms_008_lid_lock_lock_bad",
       "when": [
-        { "type": "chip", "id": "lid_lock" },
-        { "type": "field", "path": "functional_checks.lid_lock_operation", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "bad"
+        }
       ],
       "target": "door_lock",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Door/lid lock complaint with failed lock operation — latch or switch path.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Door/lid lock complaint with failed lock operation \u2014 latch or switch path.",
       "recommendStepKey": "functional",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "w_ms_009_lid_lock_switch_open",
       "when": [
-        { "type": "chip", "id": "lid_lock" },
-        { "type": "measurement", "knowledgeId": "washerDoorLockSwitchOhms", "statusIn": ["critical"] }
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDoorLockSwitchOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
       ],
       "target": "door_lock",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Lock issue with door lock switch open — lock assembly failure.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Lock issue with door lock switch open \u2014 lock assembly failure.",
       "recommendStepKey": "mechanical",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "w_ms_010_drain_bad_pump_ol",
       "when": [
-        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" },
-        { "type": "measurement", "knowledgeId": "washerDrainPumpOhms", "statusIn": ["critical"] }
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
       ],
       "target": "drain_pump",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Failed drain operation with pump open — replace drain pump.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Failed drain operation with pump open \u2014 replace drain pump.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["pump_check"]
+      "dmaTags": [
+        "pump_check"
+      ]
     },
     {
       "id": "w_ms_011_leaking_hoses_bad",
       "when": [
-        { "type": "chip", "id": "leaking" },
-        { "type": "field", "path": "visual_inspection.hoses_condition", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "leaking"
+        },
+        {
+          "type": "field",
+          "path": "visual_inspection.hoses_condition",
+          "equals": "bad"
+        }
       ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 28 },
-      "explanation": "Leak complaint with bad hoses/connections — fill path leak source.",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "Leak complaint with bad hoses/connections \u2014 fill path leak source.",
       "recommendStepKey": "visual",
-      "dmaTags": ["fill_issue"]
+      "dmaTags": [
+        "fill_issue"
+      ]
     },
     {
       "id": "w_ms_012_vibration_balance_bad",
       "when": [
-        { "type": "chip", "id": "vibration" },
-        { "type": "field", "path": "functional_checks.balance", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "vibration"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.balance",
+          "equals": "bad"
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 22 },
-      "explanation": "Walking/vibration with poor balance on spin — suspension or load issue; check drive if mechanical OK.",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Walking/vibration with poor balance on spin \u2014 suspension or load issue; check drive if mechanical OK.",
       "recommendStepKey": "visual",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "w_ms_013_wont_drain_pump_low_amps",
       "when": [
-        { "type": "chip", "id": "wont_drain" },
-        { "type": "measurement", "knowledgeId": "washerDrainPumpAmps", "statusIn": ["warning", "critical"] }
+        {
+          "type": "chip",
+          "id": "wont_drain"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpAmps",
+          "statusIn": [
+            "warning",
+            "critical"
+          ]
+        }
       ],
       "target": "drain_pump",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Won't drain with weak drain pump amps — pump struggling or blocked.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Won't drain with weak drain pump amps \u2014 pump struggling or blocked.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["pump_check"]
+      "dmaTags": [
+        "pump_check"
+      ]
     },
     {
       "id": "w_ms_014_leaking_door_boot_bad",
       "when": [
-        { "type": "chip", "id": "leaking" },
-        { "type": "field", "path": "visual_inspection.door_boot", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "leaking"
+        },
+        {
+          "type": "field",
+          "path": "visual_inspection.door_boot",
+          "equals": "bad"
+        }
       ],
       "target": "door_lock",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 25 },
-      "explanation": "Leak with damaged door boot — front-load seal path.",
+      "effect": {
+        "effect": "increase",
+        "value": 25
+      },
+      "explanation": "Leak with damaged door boot \u2014 front-load seal path.",
       "recommendStepKey": "visual",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "chip_noisy_drive_motor",
-      "when": [{ "type": "chip", "id": "noisy" }],
+      "when": [
+        {
+          "type": "chip",
+          "id": "noisy"
+        }
+      ],
       "target": "drive_motor",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 14 },
-      "explanation": "Complaint: noisy / banging — drive motor, bearing, or suspension path.",
+      "effect": {
+        "effect": "increase",
+        "value": 14
+      },
+      "explanation": "Complaint: noisy / banging \u2014 drive motor, bearing, or suspension path.",
       "recommendStepKey": "mechanical",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "chip_noisy_drain_pump",
-      "when": [{ "type": "chip", "id": "noisy" }],
+      "when": [
+        {
+          "type": "chip",
+          "id": "noisy"
+        }
+      ],
       "target": "drain_pump",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 12 },
-      "explanation": "Complaint: noisy / grinding — drain pump impeller or obstruction common.",
+      "effect": {
+        "effect": "increase",
+        "value": 12
+      },
+      "explanation": "Complaint: noisy / grinding \u2014 drain pump impeller or obstruction common.",
       "recommendStepKey": "mechanical",
-      "dmaTags": ["pump_check"]
+      "dmaTags": [
+        "pump_check"
+      ]
     },
     {
       "id": "w_noisy_tub_movement_bad",
       "when": [
-        { "type": "chip", "id": "noisy" },
-        { "type": "field", "path": "visual_inspection.tub_movement", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "noisy"
+        },
+        {
+          "type": "field",
+          "path": "visual_inspection.tub_movement",
+          "equals": "bad"
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 22 },
-      "explanation": "Noisy with excessive tub movement — bearing or suspension likely.",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Noisy with excessive tub movement \u2014 bearing or suspension likely.",
       "recommendStepKey": "visual",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "w_noisy_tub_movement_bad_component",
       "when": [
-        { "type": "chip", "id": "noisy" },
-        { "type": "field", "path": "visual_inspection.tub_movement", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "noisy"
+        },
+        {
+          "type": "field",
+          "path": "visual_inspection.tub_movement",
+          "equals": "bad"
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "component",
-      "effect": { "effect": "increase", "value": 18 },
-      "explanation": "Noisy with bad tub movement — suspect tub bearing or drive shaft."
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Noisy with bad tub movement \u2014 suspect tub bearing or drive shaft."
     },
     {
       "id": "w_noisy_suspension_bad",
       "when": [
-        { "type": "chip", "id": "noisy" },
-        { "type": "field", "path": "visual_inspection.suspension", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "noisy"
+        },
+        {
+          "type": "field",
+          "path": "visual_inspection.suspension",
+          "equals": "bad"
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 20 },
-      "explanation": "Noisy with failed suspension — banging on spin or agitate.",
+      "effect": {
+        "effect": "increase",
+        "value": 20
+      },
+      "explanation": "Noisy with failed suspension \u2014 banging on spin or agitate.",
       "recommendStepKey": "visual",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "w_noisy_belt_bad",
       "when": [
-        { "type": "chip", "id": "noisy" },
-        { "type": "field", "path": "visual_inspection.drive_belt", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "noisy"
+        },
+        {
+          "type": "field",
+          "path": "visual_inspection.drive_belt",
+          "equals": "bad"
+        }
       ],
       "target": "drive_motor",
       "targetLayer": "component",
-      "effect": { "effect": "increase", "value": 16 },
-      "explanation": "Noisy with worn belt or pulley — squeal or slap common.",
+      "effect": {
+        "effect": "increase",
+        "value": 16
+      },
+      "explanation": "Noisy with worn belt or pulley \u2014 squeal or slap common.",
       "recommendStepKey": "visual",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "w_noisy_drain_bad",
       "when": [
-        { "type": "chip", "id": "noisy" },
-        { "type": "field", "path": "functional_checks.drain_operation", "equals": "bad" }
+        {
+          "type": "chip",
+          "id": "noisy"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.drain_operation",
+          "equals": "bad"
+        }
       ],
       "target": "drain_pump",
       "targetLayer": "component",
-      "effect": { "effect": "increase", "value": 18 },
-      "explanation": "Noisy with failed drain — pump grinding or obstruction.",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Noisy with failed drain \u2014 pump grinding or obstruction.",
       "recommendStepKey": "functional",
-      "dmaTags": ["pump_check"]
+      "dmaTags": [
+        "pump_check"
+      ]
     },
     {
       "id": "w_noisy_drain_pump_amps_abnormal",
       "when": [
-        { "type": "chip", "id": "noisy" },
-        { "type": "measurement", "knowledgeId": "washerDrainPumpAmps", "statusIn": ["warning", "critical"] }
+        {
+          "type": "chip",
+          "id": "noisy"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDrainPumpAmps",
+          "statusIn": [
+            "warning",
+            "critical"
+          ]
+        }
       ],
       "target": "drain_pump",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Noisy with abnormal drain pump amps — pump motor path supported.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Noisy with abnormal drain pump amps \u2014 pump motor path supported.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["pump_check"]
+      "dmaTags": [
+        "pump_check"
+      ]
     },
     {
       "id": "w_kw_f8e1_fill",
-      "when": [{ "type": "keyword", "match": "f8e1" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f8e1"
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "F8E1 / Lo FL long fill — inlet path primary.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "F8E1 / Lo FL long fill \u2014 inlet path primary.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["water_valve_check", "fill_issue"]
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
     },
     {
       "id": "w_kw_f9e1_drain",
-      "when": [{ "type": "keyword", "match": "f9e1" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f9e1"
+        }
+      ],
       "target": "drain_pump",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "F9E1 long drain — pump and drain path primary.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "F9E1 long drain \u2014 pump and drain path primary.",
       "recommendStepKey": "functional",
-      "dmaTags": ["pump_check", "drain_issue"]
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
     },
     {
       "id": "w_kw_f5e_door_lock",
-      "when": [{ "type": "keyword", "match": "f5e1" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f5e1"
+        }
+      ],
       "target": "door_lock",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "F5E1 door switch open while locked — TEST #4.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "F5E1 door switch open while locked \u2014 TEST #4.",
       "recommendStepKey": "functional",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "w_kw_f5e4_door",
-      "when": [{ "type": "keyword", "match": "f5e4" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f5e4"
+        }
+      ],
       "target": "door_lock",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 18 },
-      "explanation": "F5E4/dr — door not opened between cycles (user or lock).",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "F5E4/dr \u2014 door not opened between cycles (user or lock).",
       "recommendStepKey": "functional"
     },
     {
       "id": "w_kw_f0e5_balance",
-      "when": [{ "type": "keyword", "match": "f0e5" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f0e5"
+        }
+      ],
       "target": "drive_motor",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 12 },
-      "explanation": "F0E5/ob off-balance — rebalance load before motor work.",
+      "effect": {
+        "effect": "increase",
+        "value": 12
+      },
+      "explanation": "F0E5/ob off-balance \u2014 rebalance load before motor work.",
       "recommendStepKey": "complaint"
     },
     {
       "id": "w_kw_f0e2_oversuds",
-      "when": [{ "type": "keyword", "match": "f0e2" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f0e2"
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 15 },
-      "explanation": "F0E2/Sd oversuds — HE detergent and pressure hose.",
+      "effect": {
+        "effect": "increase",
+        "value": 15
+      },
+      "explanation": "F0E2/Sd oversuds \u2014 HE detergent and pressure hose.",
       "recommendStepKey": "commonly_missed"
     },
     {
       "id": "w_kw_f7e9_motor",
-      "when": [{ "type": "keyword", "match": "f7e9" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f7e9"
+        }
+      ],
       "target": "drive_motor",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "F7E9 locked rotor — obstruction or motor fault (TEST #3).",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "F7E9 locked rotor \u2014 obstruction or motor fault (TEST #3).",
       "recommendStepKey": "mechanical",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "w_kw_e1_insignia_fill",
-      "when": [{ "type": "keyword", "match": "e1" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "e1"
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 14 },
-      "explanation": "Insignia E1 fill timeout — faucets, screens, inlet valve.",
+      "effect": {
+        "effect": "increase",
+        "value": 14
+      },
+      "explanation": "Insignia E1 fill timeout \u2014 faucets, screens, inlet valve.",
       "recommendStepKey": "complaint",
-      "dmaTags": ["fill_issue"]
+      "dmaTags": [
+        "fill_issue"
+      ]
     },
     {
       "id": "w_kw_e2_insignia_drain",
-      "when": [{ "type": "keyword", "match": "e2" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "e2"
+        }
+      ],
       "target": "drain_pump",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 14 },
-      "explanation": "Insignia E2 drain timeout — hose, pump, lid closed.",
+      "effect": {
+        "effect": "increase",
+        "value": 14
+      },
+      "explanation": "Insignia E2 drain timeout \u2014 hose, pump, lid closed.",
       "recommendStepKey": "complaint",
-      "dmaTags": ["drain_issue"]
+      "dmaTags": [
+        "drain_issue"
+      ]
     },
     {
       "id": "w_kw_f8_level_sensor",
-      "when": [{ "type": "keyword", "match": "f8" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f8"
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "Insignia F8 level sensor — frequency or capacitance out of spec.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Insignia F8 level sensor \u2014 frequency or capacitance out of spec.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["fill_issue"]
+      "dmaTags": [
+        "fill_issue"
+      ]
     },
     {
       "id": "w_kw_ac7_flexwash",
-      "when": [{ "type": "keyword", "match": "ac7" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "ac7"
+        }
+      ],
       "target": "door_lock",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "FlexWash AC7 — upper↔lower PCB communication; check interconnect harness.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "FlexWash AC7 \u2014 upper\u2194lower PCB communication; check interconnect harness.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "w_kw_dc4_upper_door",
-      "when": [{ "type": "keyword", "match": "dc4" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "dc4"
+        }
+      ],
       "target": "door_lock",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "FlexWash DC4 — upper compartment door not closed.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "FlexWash DC4 \u2014 upper compartment door not closed.",
       "recommendStepKey": "functional",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "w_kw_4c2_hose_swap",
-      "when": [{ "type": "keyword", "match": "4c2" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "4c2"
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "4C2 — hot/cold hoses swapped or Wool/Lingerie water too hot.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "4C2 \u2014 hot/cold hoses swapped or Wool/Lingerie water too hot.",
       "recommendStepKey": "commonly_missed",
-      "dmaTags": ["water_valve_check", "fill_issue"]
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
     },
     {
       "id": "w_kw_sf_system",
-      "when": [{ "type": "keyword", "match": "system fault" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "system fault"
+        }
+      ],
       "target": "electrical_supply",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 20 },
-      "explanation": "Samsung SF system fault — main PCB microcontroller failure.",
+      "effect": {
+        "effect": "increase",
+        "value": 20
+      },
+      "explanation": "Samsung SF system fault \u2014 main PCB microcontroller failure.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["control_board"]
+      "dmaTags": [
+        "control_board"
+      ]
     },
     {
       "id": "w_chip_flexwash_upper_door",
-      "when": [{ "type": "chip", "id": "flexwash_upper" }],
+      "when": [
+        {
+          "type": "chip",
+          "id": "flexwash_upper"
+        }
+      ],
       "target": "door_lock",
       "targetLayer": "component",
-      "effect": { "effect": "increase", "value": 22 },
-      "explanation": "Upper FlexWash complaint — door lock and AC7 harness first.",
+      "effect": {
+        "effect": "increase",
+        "value": 22
+      },
+      "explanation": "Upper FlexWash complaint \u2014 door lock and AC7 harness first.",
       "recommendStepKey": "complaint",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "w_kw_f20_fill",
-      "when": [{ "type": "keyword", "match": "f20" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f20"
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "Duet Sport F20 — no water in 6 min; inlet 750–850 Ω, pressure switch PR6.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Duet Sport F20 \u2014 no water in 6 min; inlet 750\u2013850 \u03a9, pressure switch PR6.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["water_valve_check", "fill_issue"]
+      "dmaTags": [
+        "water_valve_check",
+        "fill_issue"
+      ]
     },
     {
       "id": "w_kw_f21_drain",
-      "when": [{ "type": "keyword", "match": "f21" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f21"
+        }
+      ],
       "target": "drain_pump",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "Duet Sport F21 long drain — pump ~12.3 Ω; Sd may precede on oversuds.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Duet Sport F21 long drain \u2014 pump ~12.3 \u03a9; Sd may precede on oversuds.",
       "recommendStepKey": "functional",
-      "dmaTags": ["pump_check", "drain_issue"]
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
     },
     {
       "id": "w_kw_f28_mcu",
-      "when": [{ "type": "keyword", "match": "f28" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f28"
+        }
+      ],
       "target": "drive_motor",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "Duet Sport F28 — CCU–MCU serial comm; check harness orientation at MCU.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Duet Sport F28 \u2014 CCU\u2013MCU serial comm; check harness orientation at MCU.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["motor_check", "control_board"]
+      "dmaTags": [
+        "motor_check",
+        "control_board"
+      ]
     },
     {
       "id": "w_kw_f26_door",
-      "when": [{ "type": "keyword", "match": "f26" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f26"
+        }
+      ],
       "target": "door_lock",
       "targetLayer": "category",
-      "effect": { "effect": "increase", "value": 18 },
-      "explanation": "F26 — door not opened 3 cycles or switch open while locked.",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "F26 \u2014 door not opened 3 cycles or switch open while locked.",
       "recommendStepKey": "functional",
-      "dmaTags": ["door_lock_check"]
+      "dmaTags": [
+        "door_lock_check"
+      ]
     },
     {
       "id": "w_kw_f27_overflow",
-      "when": [{ "type": "keyword", "match": "f27" }],
+      "when": [
+        {
+          "type": "keyword",
+          "match": "f27"
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "F27 overflow — inlet stuck on, drain pump, pressure switch.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "F27 overflow \u2014 inlet stuck on, drain pump, pressure switch.",
       "recommendStepKey": "functional",
-      "dmaTags": ["fill_issue", "pump_check"]
+      "dmaTags": [
+        "fill_issue",
+        "pump_check"
+      ]
     },
     {
       "id": "w_ms_duet_motor",
-      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherMotorOhms", "statusIn": ["critical"] }],
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolDuetSportWasherMotorOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
       "target": "drive_motor",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Duet Sport motor out of ~6 Ω spec — F25 tach or no spin.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Duet Sport motor out of ~6 \u03a9 spec \u2014 F25 tach or no spin.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["motor_check"]
+      "dmaTags": [
+        "motor_check"
+      ]
     },
     {
       "id": "w_ms_duet_pump",
-      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms", "statusIn": ["critical"] }],
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
       "target": "drain_pump",
       "targetLayer": "component",
-      "effect": { "effect": "confirm" },
-      "explanation": "Duet Sport drain pump open — ~12.3 Ω expected at DP2.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Duet Sport drain pump open \u2014 ~12.3 \u03a9 expected at DP2.",
       "recommendStepKey": "functional",
-      "dmaTags": ["pump_check"]
+      "dmaTags": [
+        "pump_check"
+      ]
     },
     {
       "id": "w_ms_duet_inlet",
-      "when": [{ "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherInletValveOhms", "statusIn": ["critical"] }],
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolDuetSportWasherInletValveOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
       "target": "fill_supply",
       "targetLayer": "category",
-      "effect": { "effect": "confirm" },
-      "explanation": "Duet Sport inlet coil open — 750–850 Ω per leg.",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Duet Sport inlet coil open \u2014 750\u2013850 \u03a9 per leg.",
       "recommendStepKey": "electrical",
-      "dmaTags": ["water_valve_check"]
+      "dmaTags": [
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "confirm_hmi_control_5v_hmi_control_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHmi5Vdc",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "hmi_control",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "hmi control failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "hmi_check"
+      ]
+    },
+    {
+      "id": "cat_up_hmi_control_5v_hmi_control_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHmi5Vdc",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "control_hmi",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "hmi control failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_hmi_control_5v_hmi_control_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHmi5Vdc",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "hmi_control",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "hmi control OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_hmi_control_12v_hmi_control_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHmi12Vdc",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "hmi_control",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "hmi control failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "hmi_check"
+      ]
+    },
+    {
+      "id": "cat_up_hmi_control_12v_hmi_control_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHmi12Vdc",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "control_hmi",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "hmi control failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_hmi_control_12v_hmi_control_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHmi12Vdc",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "hmi_control",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "hmi control OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_water_level_sensor_5v_water_level_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherAps5Vdc",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "water_level_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "water level sensor failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "cat_up_water_level_sensor_5v_water_level_sensor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherAps5Vdc",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "water_level",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "water level sensor failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_water_level_sensor_5v_water_level_sensor_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherAps5Vdc",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "water_level_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "water level sensor OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_wash_ntc_ol_wash_ntc_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherWashNtcOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "wash_ntc",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "wash ntc failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_ntc_ol_wash_ntc_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherWashNtcOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "wash_heating",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "wash ntc failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_wash_ntc_ol_wash_ntc_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherWashNtcOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "wash_ntc",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "wash ntc OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_dosing_pump_ol_dosing_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDosingPumpOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dosing_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "dosing pump failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "dispenser_check"
+      ]
+    },
+    {
+      "id": "cat_up_dosing_pump_ol_dosing_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDosingPumpOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dispenser",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "dosing pump failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_dosing_pump_ol_dosing_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDosingPumpOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "dosing_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "dosing pump OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_bulk_level_switch_ol_bulk_level_switch_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherBulkLevelSwitchClosedOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "bulk_level_switch",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "bulk level switch failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "dispenser_check"
+      ]
+    },
+    {
+      "id": "cat_up_bulk_level_switch_ol_bulk_level_switch_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherBulkLevelSwitchClosedOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dispenser",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "bulk level switch failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_bulk_level_switch_ol_bulk_level_switch_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherBulkLevelSwitchClosedOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "bulk_level_switch",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "bulk level switch OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_vent_fan_ol_vent_fan_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherVentFanOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "vent_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "vent fan failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "vent_fan_check"
+      ]
+    },
+    {
+      "id": "cat_up_vent_fan_ol_vent_fan_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherVentFanOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "vent_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "vent fan failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_vent_fan_ol_vent_fan_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherVentFanOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "vent_fan",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "vent fan OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_vent_baffle_ol_vent_baffle_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherVentBaffleSolenoidOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "vent_baffle",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "vent baffle failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "vent_fan_check"
+      ]
+    },
+    {
+      "id": "cat_up_vent_baffle_ol_vent_baffle_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherVentBaffleSolenoidOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "vent_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "vent baffle failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_vent_baffle_ol_vent_baffle_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherVentBaffleSolenoidOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "vent_baffle",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "vent baffle OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_dry_heater_ol_dry_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryHeater1100WOms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dry_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "dry heater failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_dry_heater_ol_dry_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryHeater1100WOms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dry_heating",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "dry heater failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_dry_heater_ol_dry_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryHeater1100WOms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "dry_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "dry heater OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_dry_ntc_ol_dry_ntc_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryNtcOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dry_ntc",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "dry ntc failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_dry_ntc_ol_dry_ntc_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryNtcOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dry_heating",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "dry ntc failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_dry_ntc_ol_dry_ntc_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryNtcOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "dry_ntc",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "dry ntc OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_dry_blower_ol_dry_blower_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryBlowerOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "dry_blower",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "dry blower failed \u2014 supported by OEM procedure measurement.",
+      "dmaTags": [
+        "vent_fan_check"
+      ]
+    },
+    {
+      "id": "cat_up_dry_blower_ol_dry_blower_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryBlowerOhms",
+          "statusIn": [
+            "critical",
+            "warning",
+            "open"
+          ]
+        }
+      ],
+      "target": "vent_dry",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "dry blower failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_dry_blower_ol_dry_blower_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherDryBlowerOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "dry_blower",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "dry blower OK ruled out by OEM procedure measurement."
     }
   ]
 }

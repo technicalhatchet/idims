@@ -4,7 +4,7 @@
   "title": "TEST #13: Vent Fan Motor",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "supply"
+    "vent_fan"
   ],
   "tags": [
     "vent_fan_check"
@@ -59,7 +59,14 @@
           },
           "nextStepId": "clear_vent",
           "terminal": true,
-          "oemOutcome": "Clear vent obstruction and retest component activation."
+          "oemOutcome": "Clear vent obstruction and retest component activation.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_fan",
+              "evidenceId": "confirm_vent_fan_ol_vent_fan_failed"
+            }
+          ]
         }
       ]
     },
@@ -98,7 +105,14 @@
           },
           "nextStepId": "replace_upper_harness_fan",
           "terminal": true,
-          "oemOutcome": "Replace upper machine harness."
+          "oemOutcome": "Replace upper machine harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_fan",
+              "evidenceId": "confirm_vent_fan_ol_vent_fan_failed"
+            }
+          ]
         }
       ]
     },
@@ -137,7 +151,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "replace_vent_fan"
+          "nextStepId": "replace_vent_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_fan",
+              "evidenceId": "confirm_vent_fan_ol_vent_fan_failed"
+            }
+          ]
         },
         {
           "id": "fan_warn",
@@ -145,7 +166,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "replace_vent_fan"
+          "nextStepId": "replace_vent_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_fan",
+              "evidenceId": "confirm_vent_fan_ol_vent_fan_failed"
+            }
+          ]
         },
         {
           "id": "fan_crit",
@@ -153,7 +181,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "replace_vent_fan"
+          "nextStepId": "replace_vent_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "vent_fan",
+              "evidenceId": "confirm_vent_fan_ol_vent_fan_failed"
+            }
+          ]
         },
         {
           "id": "fan_pass",
@@ -161,7 +196,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "replace_acu_fan"
+          "nextStepId": "replace_acu_fan",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "vent_fan",
+              "evidenceId": "eliminate_vent_fan_ol_vent_fan_ok"
+            }
+          ]
         }
       ],
       "images": [

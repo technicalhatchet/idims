@@ -37,6 +37,9 @@ const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
   vibration: ['motor_check'],
   noisy: ['motor_check', 'pump_check', 'vent_fan_check'],
   error_code: ['error_code', 'F3E1', 'F8E1', 'F4E1', 'voltage_check', 'hmi_check', 'supply_issue'],
+  hmi_check: ['hmi_check', 'error_code', 'F3E1'],
+  dispenser_check: ['dispenser_check', 'fill_issue'],
+  vent_fan_check: ['vent_fan_check', 'noisy', 'dry_heat'],
 };
 
 const UI_VARIANT_LABELS: Record<ServiceModeUiVariant, string> = {

@@ -4,7 +4,7 @@
   "title": "TEST #10: Wash Temperature Sensor",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "wash_heater"
+    "wash_ntc"
   ],
   "tags": [
     "thermistor",
@@ -81,7 +81,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "access_ntc_sensor"
+          "nextStepId": "access_ntc_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
         },
         {
           "id": "j15_warn",
@@ -89,7 +96,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "access_ntc_sensor"
+          "nextStepId": "access_ntc_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
         },
         {
           "id": "j15_crit",
@@ -97,7 +111,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "access_ntc_sensor"
+          "nextStepId": "access_ntc_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
         },
         {
           "id": "j15_pass",
@@ -105,7 +126,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "suspect_acu_ntc"
+          "nextStepId": "suspect_acu_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_ntc",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+            }
+          ]
         }
       ],
       "images": [
@@ -168,7 +196,14 @@
           },
           "nextStepId": "replace_wash_ntc",
           "terminal": true,
-          "oemOutcome": "Replace wash temperature sensor."
+          "oemOutcome": "Replace wash temperature sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
         },
         {
           "id": "ntc_bad",
@@ -178,7 +213,14 @@
           },
           "nextStepId": "replace_wash_ntc",
           "terminal": true,
-          "oemOutcome": "Replace wash temperature sensor."
+          "oemOutcome": "Replace wash temperature sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
         },
         {
           "id": "ntc_good",
@@ -188,7 +230,14 @@
           },
           "nextStepId": "replace_lower_harness_ntc",
           "terminal": true,
-          "oemOutcome": "Sensor good \u2014 replace lower main harness."
+          "oemOutcome": "Sensor good \u2014 replace lower main harness.",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_ntc",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+            }
+          ]
         }
       ],
       "images": [

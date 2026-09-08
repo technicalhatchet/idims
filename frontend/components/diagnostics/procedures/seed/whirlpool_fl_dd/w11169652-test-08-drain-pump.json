@@ -71,7 +71,14 @@
           },
           "nextStepId": "clear_obstructions_first",
           "terminal": true,
-          "oemOutcome": "Clear obstructions in the drain filter, hose, and pump area; then repeat TEST #8 from step 1."
+          "oemOutcome": "Clear obstructions in the drain filter, hose, and pump area; then repeat TEST #8 from step 1.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
         }
       ]
     },
@@ -117,7 +124,14 @@
           },
           "nextStepId": "reseat_j11",
           "terminal": true,
-          "oemOutcome": "Reconnect J11 at the ACU, reassemble, restore power, and repeat Quick Service Cycle step 004 (Drain Pump)."
+          "oemOutcome": "Reconnect J11 at the ACU, reassemble, restore power, and repeat Quick Service Cycle step 004 (Drain Pump).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
         }
       ]
     },
@@ -254,7 +268,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "inspect_pump_mechanical"
+          "nextStepId": "inspect_pump_mechanical",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
         },
         {
           "id": "recirc_open",
@@ -262,7 +283,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "inspect_pump_mechanical"
+          "nextStepId": "inspect_pump_mechanical",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
         },
         {
           "id": "recirc_critical",
@@ -270,7 +298,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "inspect_pump_mechanical"
+          "nextStepId": "inspect_pump_mechanical",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
         },
         {
           "id": "recirc_pass",
@@ -278,7 +313,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "reconnect_harness_power"
+          "nextStepId": "reconnect_harness_power",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
         }
       ],
       "images": [
@@ -323,7 +365,14 @@
           },
           "nextStepId": "reseat_pump_connections",
           "terminal": true,
-          "oemOutcome": "Reconnect pump electrical connections, reassemble, restore power, and repeat Quick Service Cycle step 004."
+          "oemOutcome": "Reconnect pump electrical connections, reassemble, restore power, and repeat Quick Service Cycle step 004.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
         }
       ]
     },
@@ -352,7 +401,14 @@
           },
           "nextStepId": "replace_lower_harness",
           "terminal": true,
-          "oemOutcome": "Replace the lower machine harness, reassemble, restore power, and repeat Quick Service Cycle."
+          "oemOutcome": "Replace the lower machine harness, reassemble, restore power, and repeat Quick Service Cycle.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
         }
       ]
     },

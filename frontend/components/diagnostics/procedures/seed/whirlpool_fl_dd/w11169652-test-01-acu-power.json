@@ -72,7 +72,14 @@
           },
           "nextStepId": "repair_connections",
           "terminal": true,
-          "oemOutcome": "Repair or reconnect loose harness/connector terminals, then repeat TEST #1."
+          "oemOutcome": "Repair or reconnect loose harness/connector terminals, then repeat TEST #1.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         }
       ]
     },
@@ -121,7 +128,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "line_if_output"
+          "nextStepId": "line_if_output",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
         },
         {
           "id": "line_in_bad",
@@ -131,7 +145,14 @@
           },
           "nextStepId": "replace_cord",
           "terminal": true,
-          "oemOutcome": "Verify outlet and cord continuity; replace power cord if cord fails continuity check."
+          "oemOutcome": "Verify outlet and cord continuity; replace power cord if cord fails continuity check.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         },
         {
           "id": "line_in_warn",
@@ -141,7 +162,14 @@
           },
           "nextStepId": "replace_cord",
           "terminal": true,
-          "oemOutcome": "Correct supply voltage issue or replace power cord before further ACU testing."
+          "oemOutcome": "Correct supply voltage issue or replace power cord before further ACU testing.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         }
       ],
       "images": [
@@ -187,7 +215,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "line_j2"
+          "nextStepId": "line_j2",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
         },
         {
           "id": "line_out_bad",
@@ -197,7 +232,14 @@
           },
           "nextStepId": "replace_rfi",
           "terminal": true,
-          "oemOutcome": "Replace the interference (RFI) filter."
+          "oemOutcome": "Replace the interference (RFI) filter.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         },
         {
           "id": "line_out_warn",
@@ -207,7 +249,14 @@
           },
           "nextStepId": "replace_rfi",
           "terminal": true,
-          "oemOutcome": "Replace the interference (RFI) filter."
+          "oemOutcome": "Replace the interference (RFI) filter.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         }
       ],
       "images": [
@@ -253,7 +302,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "acu_led_status"
+          "nextStepId": "acu_led_status",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
         },
         {
           "id": "j2_bad",
@@ -263,7 +319,14 @@
           },
           "nextStepId": "repair_j2_harness",
           "terminal": true,
-          "oemOutcome": "Inspect harness between RFI filter and ACU J2; repair bent terminals or replace harness."
+          "oemOutcome": "Inspect harness between RFI filter and ACU J2; repair bent terminals or replace harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         }
       ],
       "images": [
@@ -299,7 +362,14 @@
           },
           "nextStepId": "replace_acu_led",
           "terminal": true,
-          "oemOutcome": "Replace the ACU \u2014 microcontroller or 5 VDC supply fault indicated."
+          "oemOutcome": "Replace the ACU \u2014 microcontroller or 5 VDC supply fault indicated.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         }
       ]
     },
@@ -338,7 +408,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "hmi_12v"
+          "nextStepId": "hmi_12v",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+            }
+          ]
         },
         {
           "id": "hmi5_bad",
@@ -348,7 +425,14 @@
           },
           "nextStepId": "replace_acu_hmi",
           "terminal": true,
-          "oemOutcome": "Replace ACU \u2014 HMI supply fault."
+          "oemOutcome": "Replace ACU \u2014 HMI supply fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
         }
       ],
       "images": [
@@ -394,7 +478,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "power_verified"
+          "nextStepId": "power_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_12v_hmi_control_ok"
+            }
+          ]
         },
         {
           "id": "hmi12_bad",
@@ -404,7 +495,14 @@
           },
           "nextStepId": "replace_acu_hmi",
           "terminal": true,
-          "oemOutcome": "Replace ACU \u2014 HMI supply fault."
+          "oemOutcome": "Replace ACU \u2014 HMI supply fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_12v_hmi_control_failed"
+            }
+          ]
         }
       ],
       "images": [
