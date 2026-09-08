@@ -21,10 +21,25 @@ export interface RecommendServiceProceduresInput {
 }
 
 /** Restrict procedures to compatible diagnostic templates until broader coverage ships. */
-function isProcedureAllowedForTemplate(procedureId: string, templateId: string | null | undefined): boolean {
+export function isProcedureAllowedForTemplate(
+  procedureId: string,
+  templateId: string | null | undefined,
+): boolean {
   if (!templateId) return false;
   if (procedureId.startsWith('w11169652-test-') && templateId === 'washer') return true;
   return false;
+}
+
+function compareOemTestNumber(a: string, b: string): number {
+  const parse = (value: string) => {
+    const match = value.match(/^(\d+)([a-z]*)$/i);
+    if (!match) return { num: 999, suffix: value.toLowerCase() };
+    return { num: Number.parseInt(match[1], 10), suffix: (match[2] || '').toLowerCase() };
+  };
+  const left = parse(a);
+  const right = parse(b);
+  if (left.num !== right.num) return left.num - right.num;
+  return left.suffix.localeCompare(right.suffix);
 }
 
 const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
@@ -140,6 +155,26 @@ export function formatServiceModeRequirements(procedure: ServiceProcedure): stri
   }
 
   return badges;
+}
+
+export function listServiceProcedureCatalog({
+  templateId,
+  measurementContext,
+}: Pick<RecommendServiceProceduresInput, 'templateId' | 'measurementContext'>): ProcedureRecommendation[] {
+  const platformId = resolvePlatformIdFromModel(measurementContext || { templateId: templateId || '' });
+  if (!platformId) return [];
+
+  return getServiceProceduresForPlatform(platformId)
+    .filter((procedure) => isProcedureAllowedForTemplate(procedure.id, templateId))
+    .map((procedure) => ({
+      procedureId: procedure.id,
+      procedure,
+      reason: '',
+      priority: 0,
+    }))
+    .sort((a, b) =>
+      compareOemTestNumber(a.procedure.source.oemTestNumber, b.procedure.source.oemTestNumber),
+    );
 }
 
 export function recommendServiceProcedures({

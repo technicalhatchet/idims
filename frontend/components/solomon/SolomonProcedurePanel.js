@@ -6,6 +6,7 @@ import {
 } from '../diagnostics/procedures/recommendServiceProcedures';
 import { useProcedureRun } from '../diagnostics/procedures/useProcedureRun';
 import ProcedureStepView from '../diagnostics/procedures/ui/ProcedureStepView';
+import ProcedureRunReview from '../diagnostics/procedures/ui/ProcedureRunReview';
 import {
   SOLOMON_GLASS_PANEL_CLASS,
   SOLOMON_REFERENCE_EYEBROW_CLASS,
@@ -18,6 +19,7 @@ function ProcedureRunCard({
   onToggle,
   onRunStateChange,
   variant,
+  showReason = true,
 }) {
   const { procedure, reason } = recommendation;
   const serviceModeBadges = useMemo(
@@ -74,7 +76,9 @@ function ProcedureRunCard({
           <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
             {procedure.source.manualId} · TEST #{procedure.source.oemTestNumber}
           </p>
-          <p className="mt-1 text-xs leading-relaxed text-[var(--solomon-text-secondary)]">{reason}</p>
+          {showReason && reason ? (
+            <p className="mt-1 text-xs leading-relaxed text-[var(--solomon-text-secondary)]">{reason}</p>
+          ) : null}
           {serviceModeBadges.length ? (
             <div className="mt-2 flex flex-wrap gap-1.5">
               {serviceModeBadges.map((badge) => (
@@ -113,11 +117,12 @@ function ProcedureRunCard({
             </button>
           )}
 
-          {isComplete && runState?.oemOutcome ? (
-            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-emerald-300/90">OEM outcome</p>
-              <p className="mt-1 text-sm text-emerald-100">{runState.oemOutcome}</p>
-            </div>
+          {isComplete && runState ? (
+            <ProcedureRunReview
+              procedureId={procedure.id}
+              runState={runState}
+              defaultExpanded
+            />
           ) : null}
 
           {isRunning && currentStep ? (
@@ -144,6 +149,7 @@ function ProcedureRunCard({
 
 export default function SolomonProcedurePanel({
   recommendations = [],
+  catalog = [],
   procedureRuns = {},
   activeProcedureId = null,
   onProcedureRunChange,
@@ -151,7 +157,20 @@ export default function SolomonProcedurePanel({
   variant = 'mobile',
   density = 'default',
 }) {
+  const recommendedIds = useMemo(
+    () => new Set(recommendations.map((item) => item.procedureId)),
+    [recommendations],
+  );
+  const catalogOnly = useMemo(
+    () => catalog.filter((item) => !recommendedIds.has(item.procedureId)),
+    [catalog, recommendedIds],
+  );
+  const manualId = catalog[0]?.procedure.source.manualId
+    || recommendations[0]?.procedure.source.manualId
+    || null;
+
   const [expandedId, setExpandedId] = useState(activeProcedureId || recommendations[0]?.procedureId || null);
+  const [catalogOpen, setCatalogOpen] = useState(false);
   const isCompact = density === 'compact';
 
   const handleToggle = useCallback(
@@ -175,7 +194,7 @@ export default function SolomonProcedurePanel({
     [onActiveProcedureChange, onProcedureRunChange],
   );
 
-  if (!recommendations.length) return null;
+  if (!recommendations.length && !catalog.length) return null;
 
   return (
     <section className={SOLOMON_GLASS_PANEL_CLASS}>
@@ -183,19 +202,67 @@ export default function SolomonProcedurePanel({
       <p className={`text-[var(--solomon-text-secondary)] ${isCompact ? 'mt-1 text-xs' : 'mt-1.5 text-sm'}`}>
         Platform-matched tests from the service manual — step through with wire colors and service mode entry.
       </p>
-      <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-3'}`}>
-        {recommendations.map((recommendation) => (
-          <ProcedureRunCard
-            key={recommendation.procedureId}
-            recommendation={recommendation}
-            savedRunState={procedureRuns[recommendation.procedureId] || null}
-            isExpanded={expandedId === recommendation.procedureId}
-            onToggle={() => handleToggle(recommendation.procedureId)}
-            onRunStateChange={handleRunStateChange}
-            variant={variant}
-          />
-        ))}
-      </div>
+
+      {recommendations.length ? (
+        <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-3'}`}>
+          {recommendations.map((recommendation) => (
+            <ProcedureRunCard
+              key={recommendation.procedureId}
+              recommendation={recommendation}
+              savedRunState={procedureRuns[recommendation.procedureId] || null}
+              isExpanded={expandedId === recommendation.procedureId}
+              onToggle={() => handleToggle(recommendation.procedureId)}
+              onRunStateChange={handleRunStateChange}
+              variant={variant}
+            />
+          ))}
+        </div>
+      ) : null}
+
+      {catalogOnly.length ? (
+        <div className={recommendations.length ? (isCompact ? 'mt-3' : 'mt-4') : (isCompact ? 'mt-2' : 'mt-3')}>
+          {recommendations.length ? (
+            <button
+              type="button"
+              onClick={() => setCatalogOpen((current) => !current)}
+              className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
+            >
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
+                  All OEM tests{manualId ? ` (${manualId})` : ''}
+                </p>
+                <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
+                  Browse {catalogOnly.length} manual tests by TEST #
+                </p>
+              </div>
+              <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
+                {catalogOpen ? 'Hide' : 'Show'}
+              </span>
+            </button>
+          ) : (
+            <p className="text-xs text-[var(--solomon-text-secondary)]">
+              {manualId ? `${manualId} · ` : ''}{catalogOnly.length} OEM tests sorted by TEST #
+            </p>
+          )}
+
+          {(catalogOpen || !recommendations.length) ? (
+            <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
+              {catalogOnly.map((entry) => (
+                <ProcedureRunCard
+                  key={entry.procedureId}
+                  recommendation={entry}
+                  savedRunState={procedureRuns[entry.procedureId] || null}
+                  isExpanded={expandedId === entry.procedureId}
+                  onToggle={() => handleToggle(entry.procedureId)}
+                  onRunStateChange={handleRunStateChange}
+                  variant={variant}
+                  showReason={false}
+                />
+              ))}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </section>
   );
 }

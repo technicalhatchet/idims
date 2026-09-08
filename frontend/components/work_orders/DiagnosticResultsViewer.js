@@ -6,6 +6,7 @@ import {
   getDiagnosticTemplate,
 } from '../../constants/diagnosticTemplates';
 import { formatAutoNoteForTextarea } from '../diagnostics/intelligence/formatAutoNoteSection';
+import DiagnosticProcedureRunsSummary from '../diagnostics/procedures/ui/DiagnosticProcedureRunsSummary';
 import DiagnosticPdfSheet from './DiagnosticPdfSheet';
 import Button from '../ui/Button';
 
@@ -108,6 +109,11 @@ export default function DiagnosticResultsViewer({
           </p>
         )}
       </div>
+
+      <DiagnosticProcedureRunsSummary
+        procedureRuns={payload?.procedureRuns}
+        variant={variant}
+      />
 
       <div className="space-y-2">
         <p

@@ -55,7 +55,10 @@ import SolomonReasoningSheet from '../solomon/SolomonReasoningSheet';
 import SolomonProfessionalSessionChrome from '../solomon/SolomonProfessionalSessionChrome';
 import SolomonFaultRanking from '../solomon/SolomonFaultRanking';
 import SolomonProcedurePanel from '../solomon/SolomonProcedurePanel';
-import { recommendServiceProcedures } from '../diagnostics/procedures/recommendServiceProcedures';
+import {
+  listServiceProcedureCatalog,
+  recommendServiceProcedures,
+} from '../diagnostics/procedures/recommendServiceProcedures';
 import { SOLOMON_INTERFACE } from '../solomon/solomonThemeTokens';
 import SolomonInsightPeekBanner from '../solomon/SolomonInsightPeekBanner';
 import {
@@ -376,6 +379,14 @@ export default function DiagnosticResultsForm({
     ],
   );
 
+  const procedureCatalog = useMemo(
+    () => listServiceProcedureCatalog({
+      templateId: payload?.templateId,
+      measurementContext,
+    }),
+    [payload?.templateId, measurementContext],
+  );
+
   useEffect(() => {
     if (readOnly) return;
     if (evidencePeekDismissedRef.current) {
@@ -510,7 +521,7 @@ export default function DiagnosticResultsForm({
   const showProcedurePanel = !readOnly
     && !isDiyAudience
     && solomonMobileLayout
-    && procedureRecommendations.length > 0;
+    && procedureCatalog.length > 0;
 
   useEffect(() => {
     if (readOnly || payload?.autoNoteEdited || !intelligenceResult?.autoNoteBullets?.length) {
@@ -1051,6 +1062,7 @@ export default function DiagnosticResultsForm({
                 {showProcedurePanel ? (
                   <SolomonProcedurePanel
                     recommendations={procedureRecommendations}
+                    catalog={procedureCatalog}
                     procedureRuns={payload?.procedureRuns || {}}
                     activeProcedureId={payload?.activeProcedureId || null}
                     onProcedureRunChange={handleProcedureRunChange}
@@ -1099,6 +1111,7 @@ export default function DiagnosticResultsForm({
               {showProcedurePanel ? (
                 <SolomonProcedurePanel
                   recommendations={procedureRecommendations}
+                  catalog={procedureCatalog}
                   procedureRuns={payload?.procedureRuns || {}}
                   activeProcedureId={payload?.activeProcedureId || null}
                   onProcedureRunChange={handleProcedureRunChange}
