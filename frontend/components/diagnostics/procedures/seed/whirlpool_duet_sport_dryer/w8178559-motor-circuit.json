@@ -1,0 +1,272 @@
+{
+  "id": "w8178559-motor-circuit",
+  "version": "1.0.0",
+  "title": "TEST #2: Motor Circuit",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "motor"
+  ],
+  "tags": [
+    "motor_check",
+    "wont_spin",
+    "F26"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2",
+    "oemTestTitle": "Motor Circuit Test",
+    "pages": [
+      80,
+      81
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "mce_p8_p9_precheck"
+    },
+    {
+      "id": "mce_p8_p9_precheck",
+      "order": 2,
+      "type": "instruction",
+      "title": "MCE P8-4 to P9-1 pre-check",
+      "body": "Access machine control electronics. Measure resistance across P8-4 and P9-1. If 1\u20136 \u03a9, replace MCE. Otherwise continue to belt switch and motor at component.",
+      "sourceExcerpt": "Access machine control electronics. Measure resistance across P8-4 and P9-1. If 1\u20136 \u03a9, replace MCE. Otherwise continue to belt switch and motor at component.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_motor"
+    },
+    {
+      "id": "access_motor",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access belt switch and motor",
+      "body": "Remove back panel. Release drum belt from belt switch pulley. Disconnect white connector from drive motor switch.",
+      "sourceExcerpt": "Remove back panel. Release drum belt from belt switch pulley. Disconnect white connector from drive motor switch.",
+      "requiresInput": false,
+      "defaultNextStepId": "main_winding"
+    },
+    {
+      "id": "main_winding",
+      "order": 4,
+      "type": "measurement",
+      "title": "Main winding \u2014 pin 4 to pin 5",
+      "body": "At motor switch: measure main winding between lt. blue wire at pin 4 and bare copper at pin 5. Spec 2.4\u20133.6 \u03a9.",
+      "sourceExcerpt": "At motor switch: measure main winding between lt. blue wire at pin 4 and bare copper at pin 5. Spec 2.4\u20133.6 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+      "testPoint": {
+        "connector": "Motor main",
+        "pins": "4\u20135",
+        "label": "Main winding \u2014 pin 4 to pin 5"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "main_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding"
+        },
+        {
+          "id": "main_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 main winding out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "main_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 main winding out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "main_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 main winding out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "start_winding",
+      "order": 5,
+      "type": "measurement",
+      "title": "Start winding \u2014 pin 4 to pin 3",
+      "body": "At motor switch: measure start winding between lt. blue at pin 4 and bare copper at pin 3. Spec 2.4\u20133.8 \u03a9.",
+      "sourceExcerpt": "At motor switch: measure start winding between lt. blue at pin 4 and bare copper at pin 3. Spec 2.4\u20133.8 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+      "testPoint": {
+        "connector": "Motor start",
+        "pins": "4\u20133",
+        "label": "Start winding \u2014 pin 4 to pin 3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "start_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "belt_switch_checkpoint"
+        },
+        {
+          "id": "start_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 start winding out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "start_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 start winding out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "start_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 start winding out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "belt_switch_checkpoint",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Belt switch \u2014 infinity down, few \u03a9 up",
+      "body": "With belt off pulley, belt switch should read infinity (OL). Push pulley up \u2014 should read a few ohms. Door switch with door closed: 0\u20132 \u03a9.",
+      "sourceExcerpt": "With belt off pulley, belt switch should read infinity (OL). Push pulley up \u2014 should read a few ohms. Door switch with door closed: 0\u20132 \u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "belt_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified"
+        },
+        {
+          "id": "belt_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_belt_switch",
+          "terminal": true,
+          "oemOutcome": "Replace belt switch or door switch per failed check.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace drive motor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_belt_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Service belt/door switch",
+      "oemOutcome": "Replace failed belt switch or door switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Motor circuit verified at component",
+      "oemOutcome": "Motor windings and belt/door switches OK \u2014 inspect harness to MCE if F-26 persists.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -20,6 +20,10 @@ import whirlpool_duet_sport_w8178558_motor_circuit from './seed/whirlpool_duet_s
 import whirlpool_duet_sport_w8178558_pressure_switch from './seed/whirlpool_duet_sport/w8178558-pressure-switch.json';
 import whirlpool_duet_sport_w8178558_wash_heater from './seed/whirlpool_duet_sport/w8178558-wash-heater.json';
 import whirlpool_duet_sport_w8178558_wash_ntc from './seed/whirlpool_duet_sport/w8178558-wash-ntc.json';
+import whirlpool_duet_sport_dryer_w8178559_exhaust_thermistor from './seed/whirlpool_duet_sport_dryer/w8178559-exhaust-thermistor.json';
+import whirlpool_duet_sport_dryer_w8178559_heater_electric from './seed/whirlpool_duet_sport_dryer/w8178559-heater-electric.json';
+import whirlpool_duet_sport_dryer_w8178559_moisture_sensor from './seed/whirlpool_duet_sport_dryer/w8178559-moisture-sensor.json';
+import whirlpool_duet_sport_dryer_w8178559_motor_circuit from './seed/whirlpool_duet_sport_dryer/w8178559-motor-circuit.json';
 import whirlpool_fl_dd_w11169652_test_01_acu_power from './seed/whirlpool_fl_dd/w11169652-test-01-acu-power.json';
 import whirlpool_fl_dd_w11169652_test_02_hmi from './seed/whirlpool_fl_dd/w11169652-test-02-hmi.json';
 import whirlpool_fl_dd_w11169652_test_03_motor from './seed/whirlpool_fl_dd/w11169652-test-03-motor.json';
@@ -63,6 +67,10 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_duet_sport_w8178558_pressure_switch as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_wash_heater as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_wash_ntc as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_exhaust_thermistor as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_heater_electric as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_moisture_sensor as ServiceProcedureSeed,
+  whirlpool_duet_sport_dryer_w8178559_motor_circuit as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_02_hmi as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_03_motor as ServiceProcedureSeed,

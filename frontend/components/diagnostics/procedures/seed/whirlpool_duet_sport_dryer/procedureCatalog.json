@@ -1,0 +1,58 @@
+{
+  "manualId": "W8178559",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "templateId": "electric_dryer",
+  "label": "Whirlpool Duet Sport MCE dryer (Job Aid 8178559)",
+  "notes": "Also applies to gas_dryer template (shared platformId). Gas heater path uses TEST #3d for valve \u2014 electric heater procedure is electric-specific.",
+  "plannedProcedures": [
+    {
+      "id": "w8178559-motor-circuit",
+      "oemSection": "2",
+      "title": "TEST #2: Motor Circuit",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportDryerMotorOhms",
+        "whirlpoolDuetSportDryerMotorOhms"
+      ],
+      "relatedCodes": [
+        "F26"
+      ]
+    },
+    {
+      "id": "w8178559-heater-electric",
+      "oemSection": "3",
+      "title": "TEST #3: Heater (electric)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportDryerHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F01"
+      ]
+    },
+    {
+      "id": "w8178559-exhaust-thermistor",
+      "oemSection": "3a",
+      "title": "TEST #3a: Exhaust Thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportDryerExhaustThermistorKohm"
+      ],
+      "relatedCodes": [
+        "F22",
+        "F23"
+      ]
+    },
+    {
+      "id": "w8178559-moisture-sensor",
+      "oemSection": "4",
+      "title": "TEST #4: Moisture Sensor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F28",
+        "F29"
+      ]
+    }
+  ]
+}
