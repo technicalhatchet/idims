@@ -95,6 +95,19 @@ export default function ProcedureStepView({
         </div>
       ) : null}
 
+      {isMeasurement && knowledge?.testingTips?.length ? (
+        <div className="rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-glass)] px-3 py-2">
+          <p className="text-[10px] uppercase tracking-[0.12em] text-[color:var(--solomon-status-reference)]/90">
+            Testing tips
+          </p>
+          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs leading-relaxed text-[var(--solomon-text-secondary)]">
+            {knowledge.testingTips.map((tip) => (
+              <li key={tip}>{tip}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       {isMeasurement ? (
         <div className="flex gap-2">
           <input
