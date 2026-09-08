@@ -2,6 +2,7 @@ import type { DiagnosticIntelligenceResult, ComponentEvidenceScore } from '../in
 import type { MeasurementContext } from '../knowledge/types';
 import { resolvePlatformIdFromModel } from '../knowledge/platformRegistry';
 import { getServiceModeBundle, getServiceProceduresForPlatform } from './procedureRegistry';
+import { isProcedureAllowedForTemplate } from './procedurePlatformAccess';
 import { SERVICE_MODE_KIND_LABELS } from './serviceModeCatalog';
 import type { ProcedureRunState, ServiceModeUiVariant, ServiceProcedure } from './types';
 
@@ -20,14 +21,14 @@ export interface RecommendServiceProceduresInput {
   procedureRuns?: Record<string, ProcedureRunState>;
 }
 
-/** Restrict procedures to compatible diagnostic templates until broader coverage ships. */
-export function isProcedureAllowedForTemplate(
+/** @deprecated Import from procedurePlatformAccess — kept for callers passing procedureId only. */
+export function isProcedureAllowedForTemplateById(
   procedureId: string,
   templateId: string | null | undefined,
+  procedures: ServiceProcedure[],
 ): boolean {
-  if (!templateId) return false;
-  if (procedureId.startsWith('w11169652-test-') && templateId === 'washer') return true;
-  return false;
+  const procedure = procedures.find((item) => item.id === procedureId);
+  return isProcedureAllowedForTemplate(procedure, templateId);
 }
 
 function compareOemTestNumber(a: string, b: string): number {
@@ -165,7 +166,7 @@ export function listServiceProcedureCatalog({
   if (!platformId) return [];
 
   return getServiceProceduresForPlatform(platformId)
-    .filter((procedure) => isProcedureAllowedForTemplate(procedure.id, templateId))
+    .filter((procedure) => isProcedureAllowedForTemplate(procedure, templateId))
     .map((procedure) => ({
       procedureId: procedure.id,
       procedure,
@@ -191,7 +192,7 @@ export function recommendServiceProcedures({
   const minScore = 20;
 
   return getServiceProceduresForPlatform(platformId)
-    .filter((procedure) => isProcedureAllowedForTemplate(procedure.id, templateId))
+    .filter((procedure) => isProcedureAllowedForTemplate(procedure, templateId))
     .map((procedure) => {
       const priority = scoreProcedure(procedure, components, complaintChipIds, procedureRuns);
       return {

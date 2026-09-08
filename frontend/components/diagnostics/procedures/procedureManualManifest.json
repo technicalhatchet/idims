@@ -1,0 +1,18 @@
+{
+  "manuals": [
+    {
+      "manualId": "W11169652",
+      "platformId": "whirlpool_fl_dd",
+      "templateId": "washer",
+      "seedDir": "whirlpool_fl_dd",
+      "label": "Whirlpool & Maytag 27 in. front-load direct drive",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11169652_WASHER_EXTRACTION.md",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11169652_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_w11169652_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_w11169652_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11169652_service_modes.py"
+      }
+    }
+  ]
+}
