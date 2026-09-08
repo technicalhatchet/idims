@@ -2,6 +2,8 @@
 // Re-run after adding or removing procedure seed JSON files.
 
 
+import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
+import whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test from './seed/whirlpool_duet_sport/bundles/w8178558-manual-diagnostic-test.json';
 import whirlpool_fl_dd_bundles_w11169652_component_activation_dry_blower from './seed/whirlpool_fl_dd/bundles/w11169652-component-activation-dry-blower.json';
 import whirlpool_fl_dd_bundles_w11169652_component_activation_vent_fan from './seed/whirlpool_fl_dd/bundles/w11169652-component-activation-vent-fan.json';
 import whirlpool_fl_dd_bundles_w11169652_load_test_detergent_pump from './seed/whirlpool_fl_dd/bundles/w11169652-load-test-detergent-pump.json';
@@ -9,6 +11,15 @@ import whirlpool_fl_dd_bundles_w11169652_quick_service_cycle from './seed/whirlp
 import whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry from './seed/whirlpool_fl_dd/bundles/w11169652-service-diagnostic-entry.json';
 import whirlpool_fl_dd_bundles_w11169652_service_mode from './seed/whirlpool_fl_dd/bundles/w11169652-service-mode.json';
 
+import whirlpool_duet_sport_w8178558_dispenser_motor from './seed/whirlpool_duet_sport/w8178558-dispenser-motor.json';
+import whirlpool_duet_sport_w8178558_door_lock from './seed/whirlpool_duet_sport/w8178558-door-lock.json';
+import whirlpool_duet_sport_w8178558_drain_pump from './seed/whirlpool_duet_sport/w8178558-drain-pump.json';
+import whirlpool_duet_sport_w8178558_inlet_valves from './seed/whirlpool_duet_sport/w8178558-inlet-valves.json';
+import whirlpool_duet_sport_w8178558_interlock_switch from './seed/whirlpool_duet_sport/w8178558-interlock-switch.json';
+import whirlpool_duet_sport_w8178558_motor_circuit from './seed/whirlpool_duet_sport/w8178558-motor-circuit.json';
+import whirlpool_duet_sport_w8178558_pressure_switch from './seed/whirlpool_duet_sport/w8178558-pressure-switch.json';
+import whirlpool_duet_sport_w8178558_wash_heater from './seed/whirlpool_duet_sport/w8178558-wash-heater.json';
+import whirlpool_duet_sport_w8178558_wash_ntc from './seed/whirlpool_duet_sport/w8178558-wash-ntc.json';
 import whirlpool_fl_dd_w11169652_test_01_acu_power from './seed/whirlpool_fl_dd/w11169652-test-01-acu-power.json';
 import whirlpool_fl_dd_w11169652_test_02_hmi from './seed/whirlpool_fl_dd/w11169652-test-02-hmi.json';
 import whirlpool_fl_dd_w11169652_test_03_motor from './seed/whirlpool_fl_dd/w11169652-test-03-motor.json';
@@ -32,6 +43,8 @@ import whirlpool_fl_dd_w11169652_test_17_dry_blower from './seed/whirlpool_fl_dd
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
+  whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
+  whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_component_activation_dry_blower as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_component_activation_vent_fan as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_load_test_detergent_pump as ServiceModeBundle,
@@ -41,6 +54,15 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
+  whirlpool_duet_sport_w8178558_dispenser_motor as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_door_lock as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_drain_pump as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_inlet_valves as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_interlock_switch as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_motor_circuit as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_pressure_switch as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_wash_heater as ServiceProcedureSeed,
+  whirlpool_duet_sport_w8178558_wash_ntc as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_02_hmi as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_03_motor as ServiceProcedureSeed,

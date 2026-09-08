@@ -1,0 +1,289 @@
+{
+  "id": "w8178558-dispenser-motor",
+  "version": "1.0.0",
+  "title": "\u00a75-4: Detergent Dispenser Motor",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "dosing_pump"
+  ],
+  "tags": [
+    "dispenser_check",
+    "F30"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-4",
+    "oemTestTitle": "Detergent Dispenser Motor & Switch",
+    "pages": [
+      74
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_dispenser_motor"
+    },
+    {
+      "id": "disconnect_dispenser_motor",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect motor and switch at component",
+      "body": "Refer to job aid \u00a74-13. Disconnect the two wire connectors from the dispenser motor and switch terminals.",
+      "sourceExcerpt": "Refer to job aid \u00a74-13. Disconnect the two wire connectors from the dispenser motor and switch terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "dispenser_at_component"
+    },
+    {
+      "id": "dispenser_at_component",
+      "order": 3,
+      "type": "measurement",
+      "title": "Dispenser motor at component terminals",
+      "body": "Set ohmmeter to R\u00d7100. Motor terminals should read 1400 \u03a9; switch terminals should read 0 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d7100. Motor terminals should read 1400 \u03a9; switch terminals should read 0 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherDispenserMotorOhms",
+      "testPoint": {
+        "connector": "Dispenser motor",
+        "pins": "Motor terminals",
+        "label": "Dispenser motor at component terminals"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "disp_comp_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dispenser_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "disp_comp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dispenser_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "disp_comp_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dispenser_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "disp_comp_pass",
+          "label": "1400 \u03a9 motor",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disconnect_di6",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dosing_pump",
+              "evidenceId": "eliminate_dosing_pump_ol_dosing_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_di6",
+      "order": 4,
+      "type": "instruction",
+      "title": "Disconnect DI6 at CCU",
+      "body": "Disconnect detergent dispenser connector DI6 from the CCU.",
+      "sourceExcerpt": "Disconnect detergent dispenser connector DI6 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "dispenser_motor_ccu"
+    },
+    {
+      "id": "dispenser_motor_ccu",
+      "order": 5,
+      "type": "measurement",
+      "title": "Dispenser motor DI6 pins 1 & 3",
+      "body": "Set ohmmeter to R\u00d71. Measure DI6 pins 1 and 3 (motor). Expected 1400 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71. Measure DI6 pins 1 and 3 (motor). Expected 1400 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherDispenserMotorOhms",
+      "testPoint": {
+        "connector": "DI6",
+        "pins": "1 & 3 (motor)",
+        "label": "Dispenser motor DI6 pins 1 & 3",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Dispenser motor"
+          },
+          {
+            "pin": "3",
+            "signal": "Dispenser motor return"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "disp_motor_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dispenser_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "disp_motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dispenser_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "disp_motor_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dispenser_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "disp_motor_pass",
+          "label": "1400 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dispenser_switch_checkpoint",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dosing_pump",
+              "evidenceId": "eliminate_dosing_pump_ol_dosing_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dispenser_switch_checkpoint",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Dispenser switch DI6 pins 5 & 6 = 0 \u03a9",
+      "body": "Measure DI6 pins 5 and 6 (dispenser contact switch). Expected 0 \u03a9 when contact is made.",
+      "sourceExcerpt": "Switch Pins 5 & 6 = 0 \u03a9 at CCU.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "switch_ok",
+          "label": "0 \u03a9 (contact made)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dispenser_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dosing_pump",
+              "evidenceId": "eliminate_dosing_pump_ol_dosing_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "switch_bad",
+          "label": "Open or fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_dispenser_asm",
+          "terminal": true,
+          "oemOutcome": "Replace dispenser assembly when switch does not read 0 \u03a9.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dosing_pump",
+              "evidenceId": "confirm_dosing_pump_ol_dosing_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_dispenser_motor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace dispenser motor",
+      "oemOutcome": "Replace dispenser motor when open or out of range (F30).",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_dispenser_asm",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace dispenser assembly",
+      "oemOutcome": "Replace detergent dispenser assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "dispenser_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Dispenser motor verified",
+      "oemOutcome": "DI6 motor and switch within OEM spec.",
+      "requiresInput": false
+    }
+  ]
+}

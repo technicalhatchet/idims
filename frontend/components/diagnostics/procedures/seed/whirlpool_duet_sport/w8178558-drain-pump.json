@@ -1,0 +1,370 @@
+{
+  "id": "w8178558-drain-pump",
+  "version": "1.0.0",
+  "title": "\u00a75-6: Drain Pump Circuit",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "drain_issue",
+    "pump_check",
+    "wont_drain",
+    "F21",
+    "Sd"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-6",
+    "oemTestTitle": "Drain Pump",
+    "pages": [
+      76
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "precheck_filter_sd"
+    },
+    {
+      "id": "precheck_filter_sd",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Coin trap clear and Sd ruled out",
+      "body": "Check the drain pump filter (coin trap) and drain hose for obstructions. Rule out Sd (oversuds) \u2014 use HE detergent only; run rinse/spin if suds suspected.",
+      "sourceExcerpt": "Sd oversuds can precede F21 \u2014 rule out detergent first.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "precheck_ok",
+          "label": "Filter/hose clear; Sd not suspected",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_pump_connector"
+        },
+        {
+          "id": "precheck_bad",
+          "label": "Obstruction or Sd issue found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_drain_path",
+          "terminal": true,
+          "oemOutcome": "Clear coin trap, drain hose, or correct oversuds condition; retest before pump replacement."
+        }
+      ]
+    },
+    {
+      "id": "disconnect_pump_connector",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect drain pump connector",
+      "body": "Refer to job aid \u00a74-17 for pump access. Disconnect the wire connector from the drain pump.",
+      "sourceExcerpt": "Refer to job aid \u00a74-17 for pump access. Disconnect the wire connector from the drain pump.",
+      "requiresInput": false,
+      "defaultNextStepId": "pump_at_component"
+    },
+    {
+      "id": "pump_at_component",
+      "order": 4,
+      "type": "measurement",
+      "title": "Drain pump resistance at component",
+      "body": "Set ohmmeter to R\u00d71. Measure across drain pump terminals. Expected approximately 12.3 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71. Measure across drain pump terminals. Expected approximately 12.3 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "Drain pump",
+        "pins": "1 & 2",
+        "label": "Drain pump resistance at component"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_comp_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_comp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_comp_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_comp_pass",
+          "label": "~12.3 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disconnect_dp2",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_dp2",
+      "order": 5,
+      "type": "instruction",
+      "title": "Disconnect DP2 at CCU",
+      "body": "Remove top/rear access. Disconnect drain pump connector DP2 from the CCU.",
+      "sourceExcerpt": "Remove top/rear access. Disconnect drain pump connector DP2 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "pump_at_ccu"
+    },
+    {
+      "id": "pump_at_ccu",
+      "order": 6,
+      "type": "measurement",
+      "title": "Drain pump resistance at DP2",
+      "body": "Set ohmmeter to R\u00d71. Measure across DP2 pins 1 and 2. Expected approximately 12.3 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71. Measure across DP2 pins 1 and 2. Expected approximately 12.3 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "DP2",
+        "pins": "1 & 2",
+        "label": "Drain pump resistance at DP2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Drain pump"
+          },
+          {
+            "pin": "2",
+            "signal": "Drain pump return"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_ccu_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump_or_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_ccu_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump_or_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_ccu_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump_or_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_ccu_pass",
+          "label": "~12.3 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_pump_harness",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_pump_harness",
+      "order": 7,
+      "type": "instruction",
+      "title": "Reconnect DP2 and restore power",
+      "body": "Reconnect DP2 at the CCU. Reassemble panels. Plug in or restore power for Manual Diagnostic Test drain step (\u00a76-7).",
+      "sourceExcerpt": "Reconnect DP2 at the CCU. Reassemble panels. Plug in or restore power for Manual Diagnostic Test drain step (\u00a76-7).",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_drain_pump"
+    },
+    {
+      "id": "service_mode_before_manual_test",
+      "type": "instruction",
+      "title": "Continue to Manual Diagnostic Test",
+      "body": "You should now be in Diagnostic Test mode (error history reviewed if applicable). Continue below for Manual Diagnostic Test component exercise.",
+      "sourceExcerpt": "After service history / diagnostic entry, use Manual Diagnostic Test for live component checks (\u00a76-7).",
+      "requiresInput": false,
+      "order": 8
+    },
+    {
+      "id": "live_test_drain_pump",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Drain pump runs in Manual Diagnostic Test",
+      "body": "During Manual Diagnostic Test, advance to the drain pump ON step (4 min). Does the drain pump run and evacuate water?",
+      "sourceExcerpt": "Drain Pump is on (4 min) \u2014 Manual Overview Test Program \u00a76-7.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_runs_yes",
+          "label": "Pump runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "pump_runs_no",
+          "label": "Pump does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_ccu_pump",
+          "terminal": true,
+          "oemOutcome": "Pump ohms good but does not run \u2014 suspect CCU or harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clear_drain_path",
+      "order": 10,
+      "type": "outcome",
+      "title": "Clear drain path",
+      "oemOutcome": "Service filter, hose, and suds condition; retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pump",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Replace drain pump when open or out of range at component.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pump_or_harness",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace pump or harness",
+      "oemOutcome": "Pump good at component but fault at DP2 \u2014 replace pump or harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "pump_verified",
+      "order": 13,
+      "type": "outcome",
+      "title": "Drain pump verified",
+      "oemOutcome": "Pump resistance and live run verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_ccu_pump",
+      "order": 14,
+      "type": "outcome",
+      "title": "Suspect CCU/harness",
+      "oemOutcome": "Replace CCU or harness when pump ohms good but no run.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178558-diagnostic-history-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_pump_harness",
+      "continueToStepId": "service_mode_before_manual_test"
+    },
+    {
+      "bundleId": "w8178558-manual-diagnostic-test",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_test",
+      "continueToStepId": "live_test_drain_pump"
+    }
+  ]
+}

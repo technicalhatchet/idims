@@ -1,0 +1,117 @@
+{
+  "id": "w8178558-interlock-switch",
+  "version": "1.0.0",
+  "title": "\u00a75-8: Interlock Switch (NC ground)",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "voltage_check",
+    "ground_check"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-8",
+    "oemTestTitle": "Interlock Switch",
+    "pages": [
+      78
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_interlock"
+    },
+    {
+      "id": "access_interlock",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access interlock switch",
+      "body": "Refer to job aid \u00a74-25 for interlock switch access. Unplug washer or disconnect power.",
+      "sourceExcerpt": "Refer to job aid \u00a74-25 for interlock switch access. Unplug washer or disconnect power.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_interlock"
+    },
+    {
+      "id": "disconnect_interlock",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect interlock terminals",
+      "body": "Disconnect the wire connectors from either interlock switch terminals (front S1 or rear S2 ground switch).",
+      "sourceExcerpt": "Disconnect the wire connectors from either interlock switch terminals (front S1 or rear S2 ground switch).",
+      "requiresInput": false,
+      "defaultNextStepId": "interlock_nc_checkpoint"
+    },
+    {
+      "id": "interlock_nc_checkpoint",
+      "order": 4,
+      "type": "visual_check",
+      "title": "NC interlock \u2014 open pressed, 0 \u03a9 released",
+      "body": "Set ohmmeter to R\u00d71. Touch leads to the two interlock switch terminals. Meter should indicate open circuit (OL) with the actuator button pushed in, and closed circuit (0 \u03a9) with the actuator button out (normal cabinet position).",
+      "sourceExcerpt": "Open circuit with actuator pushed in; closed circuit (0 \u03a9) with actuator button out.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "interlock_ok",
+          "label": "OL pressed / 0 \u03a9 released",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "interlock_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "interlock_bad",
+          "label": "Switch fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_interlock",
+          "terminal": true,
+          "oemOutcome": "Replace interlock switch when NC contact does not open/close per spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_interlock",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace interlock switch",
+      "oemOutcome": "Replace front or rear interlock (ground) switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "interlock_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Interlock switch verified",
+      "oemOutcome": "NC interlock operates correctly for grounding system.",
+      "requiresInput": false
+    }
+  ]
+}

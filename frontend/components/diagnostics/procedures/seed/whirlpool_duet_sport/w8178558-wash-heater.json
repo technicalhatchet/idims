@@ -1,0 +1,292 @@
+{
+  "id": "w8178558-wash-heater",
+  "version": "1.0.0",
+  "title": "\u00a75-7: Wash Heater (Ht models)",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "wash_heater"
+  ],
+  "tags": [
+    "heating_element_check",
+    "no_heat",
+    "F23",
+    "F24"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-7",
+    "oemTestTitle": "Temperature Sensor & Heater",
+    "pages": [
+      77
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "ht_model_check"
+    },
+    {
+      "id": "ht_model_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Duet Sport Ht model with heater",
+      "body": "This procedure applies to Duet Sport Ht models equipped with a tub heater. Base Sport models may not have HE2 \u2014 skip if no heater is installed.",
+      "sourceExcerpt": "This procedure applies to Duet Sport Ht models equipped with a tub heater. Base Sport models may not have HE2 \u2014 skip if no heater is installed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ht_yes",
+          "label": "Ht model \u2014 heater equipped",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_he2"
+        },
+        {
+          "id": "ht_no",
+          "label": "No heater equipped",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "no_heater_outcome",
+          "terminal": true,
+          "oemOutcome": "No wash heater on this model \u2014 investigate other causes of heat complaints.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_he2",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect heater at component",
+      "body": "Refer to job aid \u00a74-22. Disconnect the wire connector from the heater.",
+      "sourceExcerpt": "Refer to job aid \u00a74-22. Disconnect the wire connector from the heater.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_at_component"
+    },
+    {
+      "id": "heater_at_component",
+      "order": 4,
+      "type": "measurement",
+      "title": "Wash heater resistance at component",
+      "body": "Set ohmmeter to R\u00d71. Measure across heater terminals. Expected 10\u201315 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71. Measure across heater terminals. Expected 10\u201315 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherHeaterOhms",
+      "testPoint": {
+        "connector": "Heater",
+        "pins": "1 & 2",
+        "label": "Wash heater resistance at component"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_comp_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_comp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_comp_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_comp_pass",
+          "label": "10\u201315 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disconnect_he2_ccu",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_heater",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_he2_ccu",
+      "order": 5,
+      "type": "instruction",
+      "title": "Disconnect HE2 at CCU",
+      "body": "Disconnect heater connector HE2 from the CCU.",
+      "sourceExcerpt": "Disconnect heater connector HE2 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_at_ccu"
+    },
+    {
+      "id": "heater_at_ccu",
+      "order": 6,
+      "type": "measurement",
+      "title": "Wash heater HE2 pins 1 & 2",
+      "body": "Set ohmmeter to R\u00d71. Measure HE2 pins 1 and 2. Expected 10\u201315 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71. Measure HE2 pins 1 and 2. Expected 10\u201315 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherHeaterOhms",
+      "testPoint": {
+        "connector": "HE2",
+        "pins": "1 & 2",
+        "label": "Wash heater HE2 pins 1 & 2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Wash heater"
+          },
+          {
+            "pin": "2",
+            "signal": "Wash heater return"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_ccu_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_or_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_ccu_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_or_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_ccu_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_or_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_ccu_pass",
+          "label": "10\u201315 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_heater",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no_heater_outcome",
+      "order": 7,
+      "type": "outcome",
+      "title": "No heater equipped",
+      "oemOutcome": "Not an Ht model \u2014 no HE2 heater circuit to test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace wash heater",
+      "oemOutcome": "Replace heater when open or out of range at component (F23).",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater_or_harness",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace heater or harness",
+      "oemOutcome": "Heater good at component but fault at HE2 \u2014 replace heater or harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Wash heater verified",
+      "oemOutcome": "Heater resistance within OEM range \u2014 verify heat with Manual Diagnostic Test on Ht models.",
+      "requiresInput": false
+    }
+  ]
+}

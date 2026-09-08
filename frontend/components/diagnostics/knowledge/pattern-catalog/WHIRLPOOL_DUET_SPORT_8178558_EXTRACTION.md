@@ -80,6 +80,28 @@ Status lights flash; some models have no alphanumeric display — use LED chart 
 
 ---
 
+## 4b. Service procedures (OEM guided tests)
+
+**Platform folder:** `frontend/components/diagnostics/procedures/seed/whirlpool_duet_sport/`  
+**Catalog:** `procedureCatalog.json` — roadmap and status  
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W8178558`
+
+| Procedure ID | OEM section | Status | Related codes |
+|--------------|-------------|--------|---------------|
+| `w8178558-motor-circuit` | §5-8 Drive Motor | Generated | F25, F28, F06 |
+| `w8178558-drain-pump` | §5-6 Drain Pump | Generated | F21, Sd |
+| `w8178558-inlet-valves` | §5-1 Inlet valve | Generated | F20, F27 |
+| `w8178558-door-lock` | §5-5 Door lock/switch | Generated | F22, F26, F29 |
+| `w8178558-wash-heater` | §5-7 Heater (Ht) | Generated | F23, F24 |
+| `w8178558-wash-ntc` | §5-7 Wash NTC | Generated | F24 |
+| `w8178558-pressure-switch` | §5-2 Pressure switch | Generated | F20, Sd |
+| `w8178558-dispenser-motor` | §5-4 Dispenser motor | Generated | F30 |
+| `w8178558-interlock-switch` | §5-8 Interlock switch | Generated | — |
+
+Duet Sport uses **section numbers**, not W11169652 `TEST #` labels. Cross-reference: [PROCEDURE_ONBOARDING.md](./PROCEDURE_ONBOARDING.md).
+
+---
+
 ## 5. Diagnostic modes
 
 - **Error history** — display prior faults before automated test  

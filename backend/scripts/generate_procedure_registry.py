@@ -43,6 +43,10 @@ def is_bundle(path: Path) -> bool:
 
 
 def is_procedure_seed(path: Path) -> bool:
+    if is_bundle(path.relative_to(SEED_DIR)):
+        return False
+    if path.name in {"procedureCatalog.json"}:
+        return False
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
@@ -60,7 +64,7 @@ def main() -> int:
     procedure_files = [
         path
         for path in seed_files
-        if not is_bundle(path.relative_to(SEED_DIR)) and is_procedure_seed(path)
+        if is_procedure_seed(path)
     ]
 
     lines = [HEADER]

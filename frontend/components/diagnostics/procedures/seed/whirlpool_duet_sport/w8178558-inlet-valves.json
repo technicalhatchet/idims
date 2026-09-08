@@ -1,0 +1,449 @@
+{
+  "id": "w8178558-inlet-valves",
+  "version": "1.0.0",
+  "title": "\u00a75-1: Water Inlet Valve Solenoids",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "water_valve_check",
+    "fill_issue",
+    "no_fill",
+    "F20",
+    "F27"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1",
+    "oemTestTitle": "Inlet Valve Solenoids",
+    "pages": [
+      71
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "faucet_psi_ok"
+    },
+    {
+      "id": "faucet_psi_ok",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Water supply and PSI OK",
+      "body": "Verify both hot and cold faucets are open, fill hoses are unobstructed, inlet screens are clear, and household water pressure is 20\u2013100 PSI. F20 occurs if no fill in 6 minutes.",
+      "sourceExcerpt": "Verify both hot and cold faucets are open, fill hoses are unobstructed, inlet screens are clear, and household water pressure is 20\u2013100 PSI. F20 occurs if no fill in 6 minutes.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Supply OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_valve_coils"
+        },
+        {
+          "id": "supply_bad",
+          "label": "Supply issue found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_supply",
+          "terminal": true,
+          "oemOutcome": "Open faucets, clear screens, correct PSI, and verify pressure switch hose to tub before valve replacement."
+        }
+      ]
+    },
+    {
+      "id": "disconnect_valve_coils",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect solenoid connectors at valve",
+      "body": "Refer to job aid \u00a74-6 for inlet valve access. Disconnect solenoid connectors from cold and hot valve terminals.",
+      "sourceExcerpt": "Refer to job aid \u00a74-6 for inlet valve access. Disconnect solenoid connectors from cold and hot valve terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_at_component"
+    },
+    {
+      "id": "valve_at_component",
+      "order": 4,
+      "type": "measurement",
+      "title": "Inlet valve coil resistance at component",
+      "body": "Set ohmmeter to R\u00d7100. Measure cold and hot solenoid terminals. Each coil should read 750\u2013850 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d7100. Measure cold and hot solenoid terminals. Each coil should read 750\u2013850 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherInletValveOhms",
+      "testPoint": {
+        "connector": "Inlet valve",
+        "pins": "Cold & hot coils",
+        "label": "Inlet valve coil resistance at component"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_comp_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_comp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_comp_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_comp_pass",
+          "label": "750\u2013850 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disconnect_vch7",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_vch7",
+      "order": 5,
+      "type": "instruction",
+      "title": "Disconnect VCH7 at CCU",
+      "body": "Disconnect inlet valve solenoid connector VCH7 from the CCU.",
+      "sourceExcerpt": "Disconnect inlet valve solenoid connector VCH7 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_cold_ccu"
+    },
+    {
+      "id": "valve_cold_ccu",
+      "order": 6,
+      "type": "measurement",
+      "title": "Cold valve VCH7 pins 1 & 3",
+      "body": "Set ohmmeter to R\u00d7100. Measure VCH7 pins 1 and 3 (cold). Expected 750\u2013850 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d7100. Measure VCH7 pins 1 and 3 (cold). Expected 750\u2013850 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherInletValveOhms",
+      "testPoint": {
+        "connector": "VCH7",
+        "pins": "1 & 3 (cold)",
+        "label": "Cold valve VCH7 pins 1 & 3",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Cold valve coil +"
+          },
+          {
+            "pin": "3",
+            "signal": "Cold valve coil \u2212"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_cold_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_cold_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_cold_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_cold_pass",
+          "label": "750\u2013850 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_hot_ccu",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "valve_hot_ccu",
+      "order": 7,
+      "type": "measurement",
+      "title": "Hot valve VCH7 pins 5 & 7",
+      "body": "Measure VCH7 pins 5 and 7 (hot). Expected 750\u2013850 \u03a9.",
+      "sourceExcerpt": "Measure VCH7 pins 5 and 7 (hot). Expected 750\u2013850 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherInletValveOhms",
+      "testPoint": {
+        "connector": "VCH7",
+        "pins": "5 & 7 (hot)",
+        "label": "Hot valve VCH7 pins 5 & 7",
+        "pinDetails": [
+          {
+            "pin": "5",
+            "signal": "Hot valve coil +"
+          },
+          {
+            "pin": "7",
+            "signal": "Hot valve coil \u2212"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_hot_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_hot_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_hot_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_hot_pass",
+          "label": "750\u2013850 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_valve_harness",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_valve_harness",
+      "order": 8,
+      "type": "instruction",
+      "title": "Reconnect VCH7 and restore power",
+      "body": "Reconnect VCH7 at the CCU. Reassemble panels. Plug in or restore power for Manual Diagnostic Test fill steps (\u00a76-7).",
+      "sourceExcerpt": "Reconnect VCH7 at the CCU. Reassemble panels. Plug in or restore power for Manual Diagnostic Test fill steps (\u00a76-7).",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_inlet_valves"
+    },
+    {
+      "id": "service_mode_before_manual_test",
+      "type": "instruction",
+      "title": "Continue to Manual Diagnostic Test",
+      "body": "You should now be in Diagnostic Test mode (error history reviewed if applicable). Continue below for Manual Diagnostic Test component exercise.",
+      "sourceExcerpt": "After service history / diagnostic entry, use Manual Diagnostic Test for live component checks (\u00a76-7).",
+      "requiresInput": false,
+      "order": 9
+    },
+    {
+      "id": "live_test_inlet_valves",
+      "order": 10,
+      "type": "visual_check",
+      "title": "Valves fill in Manual Diagnostic Test",
+      "body": "During Manual Diagnostic Test fill steps, do cold and hot inlet valves energize and fill the tub as expected?",
+      "sourceExcerpt": "Fill by cold/hot water inlet valve \u2014 Manual Overview Test Program \u00a76-7.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valves_run_yes",
+          "label": "Valves energize and fill",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "valves_run_no",
+          "label": "Valve does not energize",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_ccu_valve",
+          "terminal": true,
+          "oemOutcome": "Valve ohms good but no fill \u2014 suspect CCU or harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "correct_supply",
+      "order": 11,
+      "type": "outcome",
+      "title": "Correct water supply",
+      "oemOutcome": "Restore water supply and pressure switch plumbing; retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_valve",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace inlet valve",
+      "oemOutcome": "Replace inlet valve assembly when coil open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_verified",
+      "order": 13,
+      "type": "outcome",
+      "title": "Inlet valves verified",
+      "oemOutcome": "Valve resistance and live fill verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_ccu_valve",
+      "order": 14,
+      "type": "outcome",
+      "title": "Suspect CCU/harness",
+      "oemOutcome": "Replace CCU or harness when valve ohms good but no energize.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178558-diagnostic-history-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_valve_harness",
+      "continueToStepId": "service_mode_before_manual_test"
+    },
+    {
+      "bundleId": "w8178558-manual-diagnostic-test",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_test",
+      "continueToStepId": "live_test_inlet_valves"
+    }
+  ]
+}

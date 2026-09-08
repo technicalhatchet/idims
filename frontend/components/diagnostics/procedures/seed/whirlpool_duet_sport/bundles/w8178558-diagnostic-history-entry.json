@@ -1,0 +1,48 @@
+{
+  "id": "w8178558-diagnostic-history-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_duet_sport",
+  "manualId": "W8178558",
+  "title": "W8178558 \u2014 Service history & Diagnostic Test entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter service mode with error history display, then automated Diagnostic Test (\u00a76-5).",
+  "tags": [
+    "service_diagnostic",
+    "fault_codes",
+    "live_test"
+  ],
+  "entryStepId": "prep_empty_drum",
+  "source": {
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "pages": [
+      83,
+      84
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_empty_drum",
+      "order": 1,
+      "type": "instruction",
+      "title": "Prepare washer",
+      "body": "Washer must be empty and control in OFF state (indicators off). Close the door before starting the touchpad sequence.",
+      "sourceExcerpt": "The washer must be empty and the control must be in the OFF state before pressing the touchpad sequence.",
+      "requiresInput": false,
+      "defaultNextStepId": "history_touchpad_entry"
+    },
+    {
+      "id": "history_touchpad_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Touchpad entry \u2014 4 sec \u00d7 3 pattern (\u00a76-5)",
+      "body": "Select any one key (except PAUSE/CANCEL) and use the same key for the entire sequence. Press and hold 4 seconds \u2192 release 4 seconds \u2192 press and hold 4 seconds \u2192 release 4 seconds \u2192 press and hold 4 seconds. On release, all console LED lights turn on for 5 seconds. Stored failure codes display on status lights (most recent first); press the same key to advance. When history is finished, the control advances to the automated Diagnostic Test. Press PAUSE/CANCEL to exit service mode.",
+      "sourceExcerpt": "Press/hold 4 seconds \u2014 Release for 4 seconds \u2014 (repeat 3 holds). This program recalls the most recent failure code first.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,301 @@
+{
+  "id": "w8178558-door-lock",
+  "version": "1.0.0",
+  "title": "\u00a75-5: Door Lock / Switch Circuit",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "door_lock_check",
+    "F22",
+    "F26",
+    "F29"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-5",
+    "oemTestTitle": "Door Switch",
+    "pages": [
+      75
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_dl3"
+    },
+    {
+      "id": "disconnect_dl3",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect DL3 at CCU",
+      "body": "Refer to job aid \u00a74-14 for door switch access. Disconnect door lock/unlock solenoids connector DL3 from the CCU.",
+      "sourceExcerpt": "Refer to job aid \u00a74-14 for door switch access. Disconnect door lock/unlock solenoids connector DL3 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_solenoid_ohms"
+    },
+    {
+      "id": "lock_solenoid_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Door lock solenoid DL3 pins 1 & 3",
+      "body": "Set ohmmeter to R\u00d71. Measure DL3 pins 1 and 3 (lock solenoid). Expected 60 \u03a9.",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71. Measure DL3 pins 1 and 3 (lock solenoid). Expected 60 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+      "testPoint": {
+        "connector": "DL3",
+        "pins": "1 & 3 (lock)",
+        "label": "Door lock solenoid DL3 pins 1 & 3",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Door lock solenoid"
+          },
+          {
+            "pin": "3",
+            "signal": "Door lock solenoid return"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_sol_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_sol_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_sol_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_sol_pass",
+          "label": "60 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "unlock_solenoid_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unlock_solenoid_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Door unlock solenoid DL3 pins 2 & 3",
+      "body": "Measure DL3 pins 2 and 3 (unlock solenoid). Expected 60 \u03a9.",
+      "sourceExcerpt": "Measure DL3 pins 2 and 3 (unlock solenoid). Expected 60 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+      "testPoint": {
+        "connector": "DL3",
+        "pins": "2 & 3 (unlock)",
+        "label": "Door unlock solenoid DL3 pins 2 & 3",
+        "pinDetails": [
+          {
+            "pin": "2",
+            "signal": "Door unlock solenoid"
+          },
+          {
+            "pin": "3",
+            "signal": "Door unlock solenoid return"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "unlock_sol_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "unlock_sol_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "unlock_sol_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "unlock_sol_pass",
+          "label": "60 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disconnect_ds2",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_ds2",
+      "order": 5,
+      "type": "instruction",
+      "title": "Disconnect DS2 at CCU",
+      "body": "Disconnect door switch connector DS2 from the CCU.",
+      "sourceExcerpt": "Disconnect door switch connector DS2 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_switch_checkpoint"
+    },
+    {
+      "id": "door_switch_checkpoint",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Door switch DS2 \u2014 closed = 0 \u03a9",
+      "body": "With ohmmeter on DS2 pins 3 and 1: does the door switch read 0 \u03a9 (continuity) when the door is fully closed, and open (OL) when the door is open?",
+      "sourceExcerpt": "Door Closed = 0 \u03a9; Door Open = infinite \u2014 DS2 pins 3 and 1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ds2_ok",
+          "label": "0 \u03a9 closed / OL open",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_lock_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
+          ]
+        },
+        {
+          "id": "ds2_bad",
+          "label": "Switch fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door lock/switch assembly when DS2 does not read 0 \u03a9 closed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door_lock",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace door lock",
+      "oemOutcome": "Replace door lock assembly when lock or unlock solenoid open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door lock/switch assembly for DS2 fault (F26).",
+      "requiresInput": false
+    },
+    {
+      "id": "door_lock_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Door lock circuit verified",
+      "oemOutcome": "DL3 solenoids and DS2 door switch within OEM spec.",
+      "requiresInput": false
+    }
+  ]
+}

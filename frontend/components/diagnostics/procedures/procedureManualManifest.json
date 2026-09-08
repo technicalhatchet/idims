@@ -13,6 +13,21 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w11169652_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w11169652_service_modes.py"
       }
+    },
+    {
+      "manualId": "W8178558",
+      "platformId": "whirlpool_duet_sport",
+      "templateId": "washer",
+      "seedDir": "whirlpool_duet_sport",
+      "label": "Whirlpool Duet Sport CCU/MCU belt-drive washer (Job Aid 8178558)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_duet_sport/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w8178558_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w8178558_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w8178558_service_modes.py"
+      }
     }
   ]
 }

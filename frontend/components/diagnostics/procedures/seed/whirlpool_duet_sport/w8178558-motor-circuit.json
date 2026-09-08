@@ -1,0 +1,359 @@
+{
+  "id": "w8178558-motor-circuit",
+  "version": "1.0.0",
+  "title": "\u00a75-8: Drive Motor Circuit",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check",
+    "spin_issue",
+    "wont_spin",
+    "F25",
+    "F28",
+    "F06"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-8",
+    "oemTestTitle": "Drive Motor",
+    "pages": [
+      78
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "shipping_bolts_removed"
+    },
+    {
+      "id": "shipping_bolts_removed",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Shipping bolts removed",
+      "body": "Confirm all shipping bolts are removed. Bolts left installed can cause F25 motor tach faults and no-spin complaints.",
+      "sourceExcerpt": "Remove all shipping bolts before operating. Failure to remove shipping bolts can cause motor tach errors.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bolts_removed_yes",
+          "label": "Shipping bolts removed",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "basket_free_spin"
+        },
+        {
+          "id": "bolts_still_installed",
+          "label": "Shipping bolts still installed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "terminal": true,
+          "oemOutcome": "Remove shipping bolts and retest before motor or MCU replacement."
+        }
+      ]
+    },
+    {
+      "id": "basket_free_spin",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drum turns freely",
+      "body": "Verify the drum turns freely by hand. Mechanical drag can mimic motor or MCU faults (F25, F31).",
+      "sourceExcerpt": "Verify the drum turns freely by hand. Mechanical drag can mimic motor or MCU faults (F25, F31).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drum_free_yes",
+          "label": "Drum turns freely",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_motor_connector"
+        },
+        {
+          "id": "drum_binding",
+          "label": "Drum does not turn freely",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "mechanical_binding",
+          "terminal": true,
+          "oemOutcome": "Resolve mechanical binding (belt, bearing, foreign object) before electrical motor diagnosis."
+        }
+      ]
+    },
+    {
+      "id": "disconnect_motor_connector",
+      "order": 4,
+      "type": "instruction",
+      "title": "Disconnect motor 5-wire connector",
+      "body": "Refer to job aid \u00a74-23 for motor access. Disconnect the 5-wire connector from the drive motor.",
+      "sourceExcerpt": "Refer to job aid \u00a74-23 for motor access. Disconnect the 5-wire connector from the drive motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_resistance"
+    },
+    {
+      "id": "motor_resistance",
+      "order": 5,
+      "type": "measurement",
+      "title": "Motor winding resistance at motor connector",
+      "body": "Set ohmmeter to R\u00d71. Measure between motor pins 1-2, 2-3, and 1-3. Each pair should read approximately 6 \u03a9 on Duet Sport belt-drive motors.",
+      "sourceExcerpt": "Pins 1 and 2, Pins 2 and 3, Pins 1 and 3 \u2014 approximately 6 \u03a9 each.",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherMotorOhms",
+      "testPoint": {
+        "connector": "Motor",
+        "pins": "1-2, 2-3, 1-3",
+        "label": "Motor winding resistance at motor connector",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Motor winding"
+          },
+          {
+            "pin": "2",
+            "signal": "Motor winding"
+          },
+          {
+            "pin": "3",
+            "signal": "Motor winding"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_pass",
+          "label": "~6 \u03a9 all pairs",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ms2_optional",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ms2_optional",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Optional \u2014 measure at CCU MS2 (harness path)",
+      "body": "If fault persists with good motor ohms at the component, disconnect MS2 at the CCU and verify harness continuity to the motor connector. Optional: re-measure motor windings through the harness path.",
+      "sourceExcerpt": "MS2 \u2014 Drive Motor at CCU (schematic \u00a77-1).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ms2_skip",
+          "label": "Skip \u2014 proceed to MCU/harness check",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_mcu_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "ms2_check",
+          "label": "MS2/harness checked \u2014 motor path OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_mcu_harness"
+        }
+      ]
+    },
+    {
+      "id": "check_mcu_harness",
+      "order": 7,
+      "type": "instruction",
+      "title": "Motor OK \u2014 inspect MCU and harness",
+      "body": "Motor windings measure normal. Inspect motor-to-MCU harness orientation and connections. F28 indicates CCU\u2013MCU serial comm; F06 indicates MCU internal fault. Verify MI3 connector at MCU and belt tension.",
+      "sourceExcerpt": "F28 CCU\u2013MCU serial comm; F06 MCU internal fault.",
+      "requiresInput": false,
+      "defaultNextStepId": "reconnect_motor_harness"
+    },
+    {
+      "id": "reconnect_motor_harness",
+      "order": 8,
+      "type": "instruction",
+      "title": "Reconnect motor harness and restore power",
+      "body": "Reconnect the 5-wire motor connector. Reassemble panels as needed. Plug in or restore power for Manual Diagnostic Test motor exercise (\u00a76-7).",
+      "sourceExcerpt": "Reconnect the 5-wire motor connector. Reassemble panels as needed. Plug in or restore power for Manual Diagnostic Test motor exercise (\u00a76-7).",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_motor_rotation"
+    },
+    {
+      "id": "service_mode_before_manual_test",
+      "type": "instruction",
+      "title": "Continue to Manual Diagnostic Test",
+      "body": "You should now be in Diagnostic Test mode (error history reviewed if applicable). Continue below for Manual Diagnostic Test component exercise.",
+      "sourceExcerpt": "After service history / diagnostic entry, use Manual Diagnostic Test for live component checks (\u00a76-7).",
+      "requiresInput": false,
+      "order": 9
+    },
+    {
+      "id": "live_test_motor_rotation",
+      "order": 10,
+      "type": "visual_check",
+      "title": "Motor runs in Manual Diagnostic Test",
+      "body": "During Manual Diagnostic Test (\u00a76-7), advance to the wash-speed reversing step (10 min) and spin ramp step. Does the drum reverse at wash speed and ramp to maximum spin?",
+      "sourceExcerpt": "Drum executes reversing movement at wash speed; drum rotates CCW and ramps to maximum speed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_runs_yes",
+          "label": "Motor reverses and spins",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "motor_runs_no",
+          "label": "Motor does not run correctly",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_mcu_ccu",
+          "terminal": true,
+          "oemOutcome": "Motor ohms good but does not run \u2014 suspect MCU, CCU, or harness (F28/F06).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "remove_shipping_bolts",
+      "order": 11,
+      "type": "outcome",
+      "title": "Remove shipping bolts",
+      "oemOutcome": "Remove shipping bolts and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "mechanical_binding",
+      "order": 12,
+      "type": "outcome",
+      "title": "Resolve mechanical binding",
+      "oemOutcome": "Correct belt, bearing, or obstruction before repeating motor test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace drive motor",
+      "oemOutcome": "Replace drive motor when any winding pair is open or out of OEM range.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 14,
+      "type": "outcome",
+      "title": "Motor circuit verified",
+      "oemOutcome": "Motor resistance and live rotation verified \u2014 reassemble and verify customer complaint.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_mcu_ccu",
+      "order": 15,
+      "type": "outcome",
+      "title": "Suspect MCU/CCU/harness",
+      "oemOutcome": "Replace MCU or CCU per F06/F28 after confirming motor and harness.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178558-diagnostic-history-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_motor_harness",
+      "continueToStepId": "service_mode_before_manual_test"
+    },
+    {
+      "bundleId": "w8178558-manual-diagnostic-test",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_test",
+      "continueToStepId": "live_test_motor_rotation"
+    }
+  ]
+}
