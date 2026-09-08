@@ -39,6 +39,9 @@ def proc(
     steps: list[dict],
     service_modes: list[dict] | None = None,
 ) -> dict:
+    if not steps:
+        raise ValueError(f"{pid} must define at least one step after safety")
+    safety = {**SAFETY, "defaultNextStepId": steps[0]["id"]}
     return {
         "id": pid,
         "version": "1.0.0",
@@ -54,7 +57,7 @@ def proc(
         },
         "entryStepId": "safety_power_off",
         **({"serviceModes": service_modes} if service_modes else {}),
-        "steps": [SAFETY, *steps],
+        "steps": [safety, *steps],
     }
 
 

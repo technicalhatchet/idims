@@ -103,8 +103,10 @@ def validate_steps(
     knowledge_ids: set[str],
     *,
     allow_continue: bool = False,
+    service_mode_attach_step_ids: set[str] | None = None,
 ) -> list[str]:
     errors: list[str] = []
+    attach_step_ids = service_mode_attach_step_ids or set()
 
     if not isinstance(steps, list) or not steps:
         errors.append(f"{path}: steps must be a non-empty array")
@@ -155,6 +157,18 @@ def validate_steps(
         ):
             errors.append(
                 f"{path}: step {step_id} defaultNextStepId '{default_next}' not found in steps"
+            )
+
+        step_type = step.get("type")
+        branches = step.get("branches") or []
+        if (
+            step_type in {"safety", "instruction"}
+            and step_id not in attach_step_ids
+            and not branches
+            and not default_next
+        ):
+            errors.append(
+                f"{path}: step {step_id} ({step_type}) must define defaultNextStepId or branches"
             )
 
         test_point = step.get("testPoint") or {}
@@ -267,7 +281,21 @@ def validate_procedure(
                 f"{path}: {label}.continueToStepId '{continue_to}' not found in steps"
             )
 
-    errors.extend(validate_steps(steps, path, knowledge_ids, allow_continue=False))
+    attach_step_ids = {
+        ref.get("attachAfterStepId")
+        for ref in refs
+        if ref.get("attachAfterStepId")
+    }
+
+    errors.extend(
+        validate_steps(
+            steps,
+            path,
+            knowledge_ids,
+            allow_continue=False,
+            service_mode_attach_step_ids=attach_step_ids,
+        ),
+    )
     return errors
 
 
