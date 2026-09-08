@@ -159,6 +159,7 @@ export default function SolomonProcedurePanel({
   onActiveProcedureChange,
   variant = 'mobile',
   density = 'default',
+  platformBanner = null,
 }) {
   const recommendedIds = useMemo(
     () => new Set(recommendations.map((item) => item.procedureId)),
@@ -199,8 +200,32 @@ export default function SolomonProcedurePanel({
 
   if (!recommendations.length && !catalog.length) return null;
 
+  const equipmentLabel = platformBanner?.equipmentMake && platformBanner?.equipmentModel
+    ? `${platformBanner.equipmentMake} ${platformBanner.equipmentModel}`
+    : null;
+
   return (
     <section className={SOLOMON_GLASS_PANEL_CLASS}>
+      {platformBanner ? (
+        <div
+          className={`rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/70 ${
+            isCompact ? 'mb-2 px-2.5 py-2' : 'mb-3 px-3 py-2.5'
+          }`}
+        >
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--solomon-text-muted)]">
+            OEM manual loaded
+          </p>
+          <p className={`font-medium text-[var(--solomon-text-primary)] ${isCompact ? 'mt-0.5 text-xs' : 'mt-1 text-sm'}`}>
+            {platformBanner.platformLabel}
+          </p>
+          <p className={`text-[var(--solomon-text-secondary)] ${isCompact ? 'mt-0.5 text-[11px]' : 'mt-1 text-xs'}`}>
+            {platformBanner.manualId ? `${platformBanner.manualId} · ` : ''}
+            {platformBanner.procedureCount} OEM test{platformBanner.procedureCount === 1 ? '' : 's'}
+            {equipmentLabel ? ` · ${equipmentLabel}` : ''}
+          </p>
+        </div>
+      ) : null}
+
       <p className={SOLOMON_REFERENCE_EYEBROW_CLASS}>OEM service procedures</p>
       <p className={`text-[var(--solomon-text-secondary)] ${isCompact ? 'mt-1 text-xs' : 'mt-1.5 text-sm'}`}>
         Platform-matched tests from the service manual — step through with wire colors and service mode entry.

@@ -46,9 +46,9 @@ export default function WizardSuggestedStep({ className = '' }) {
   let targetKey: string | null = null;
   for (const key of recommendedKeys) {
     if (!key || key === currentKey) continue;
+    if (visitedStepKeys.includes(key)) continue;
     const idx = indexForStepKey(key);
     if (idx < 0) continue;
-    if (visitedStepKeys.includes(key) && idx < currentStepIndex) continue;
     targetKey = key;
     break;
   }

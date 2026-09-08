@@ -149,6 +149,4 @@ Use family templates: copy W8178559 generator structure for next MCE/CCU dryer m
 
 See `oem-procedure-layer-integration.mdc`. **Duet Sport washer+dryer ingestion is done.**
 
-**Recommend next:** Phase 2 WO ungate (remove `solomonMobileLayout` gate for procedures only) — small diff, unlocks real WO validation for 41 procedures. Then ingest **one** high-volume manual (CCU dryer) before more WO UX polish.
-
-**Do not** tell users to field WO smoke-test OEM until ungate ships.
+**Recommend next:** Phase 2 WO ungate **shipped** — field smoke-test on WO with make+model (e.g. WFW8300 Whirlpool washer, WED83 electric / WGD83 gas dryer). Then ingest **one** high-volume manual (CCU dryer) before more WO UX polish.

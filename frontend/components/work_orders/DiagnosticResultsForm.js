@@ -26,6 +26,10 @@ import { buildFieldLabelsForTemplate } from '../diagnostics/intelligence/fieldLa
 import { formatGeneratedServiceNote } from '../diagnostics/intelligence/formatGeneratedServiceNote';
 import { buildMeasurementStatusMap } from '../diagnostics/knowledge/measurementContext';
 import { buildMeasurementContext } from '../diagnostics/knowledge/fieldBindings';
+import {
+  getPlatformLabel,
+  resolvePlatformIdFromModel,
+} from '../diagnostics/knowledge/platformRegistry';
 import { useOemSpecsToast } from '../../hooks/useOemSpecsToast';
 import { getEliminationConfig } from '../diagnostics/knowledge/knowledgeRegistry';
 import { evaluateElimination } from '../diagnostics/elimination/eliminationEngine';
@@ -395,6 +399,31 @@ export default function DiagnosticResultsForm({
     [payload?.templateId, measurementContext],
   );
 
+  const resolvedPlatformId = useMemo(
+    () => resolvePlatformIdFromModel(measurementContext),
+    [measurementContext],
+  );
+
+  const procedurePlatformBanner = useMemo(() => {
+    if (!resolvedPlatformId || !procedureCatalog.length) return null;
+    const manualId = procedureCatalog[0]?.procedure?.source?.manualId || null;
+    return {
+      platformId: resolvedPlatformId,
+      platformLabel: getPlatformLabel(resolvedPlatformId) || resolvedPlatformId,
+      manualId,
+      procedureCount: procedureCatalog.length,
+      equipmentMake: measurementContext.equipmentMake || workOrder?.equipment_make || null,
+      equipmentModel: measurementContext.equipmentModel || workOrder?.equipment_model || null,
+    };
+  }, [
+    resolvedPlatformId,
+    procedureCatalog,
+    measurementContext.equipmentMake,
+    measurementContext.equipmentModel,
+    workOrder?.equipment_make,
+    workOrder?.equipment_model,
+  ]);
+
   useEffect(() => {
     if (readOnly) return;
     if (evidencePeekDismissedRef.current) {
@@ -528,7 +557,6 @@ export default function DiagnosticResultsForm({
 
   const showProcedurePanel = !readOnly
     && !isDiyAudience
-    && solomonMobileLayout
     && procedureCatalog.length > 0;
 
   useEffect(() => {
@@ -1077,6 +1105,7 @@ export default function DiagnosticResultsForm({
                     onActiveProcedureChange={handleActiveProcedureChange}
                     variant={variant}
                     density="compact"
+                    platformBanner={procedurePlatformBanner}
                   />
                 ) : null}
 
@@ -1125,6 +1154,7 @@ export default function DiagnosticResultsForm({
                   onProcedureRunChange={handleProcedureRunChange}
                   onActiveProcedureChange={handleActiveProcedureChange}
                   variant={variant}
+                  platformBanner={procedurePlatformBanner}
                 />
               ) : null}
 
@@ -1331,6 +1361,19 @@ export default function DiagnosticResultsForm({
             title="Diagnostic Timeline"
             defaultExpanded={readOnly}
           />
+
+          {showProcedurePanel ? (
+            <SolomonProcedurePanel
+              recommendations={procedureRecommendations}
+              catalog={procedureCatalog}
+              procedureRuns={payload?.procedureRuns || {}}
+              activeProcedureId={payload?.activeProcedureId || null}
+              onProcedureRunChange={handleProcedureRunChange}
+              onActiveProcedureChange={handleActiveProcedureChange}
+              variant={variant}
+              platformBanner={procedurePlatformBanner}
+            />
+          ) : null}
 
           <Wizard
             steps={steps}
