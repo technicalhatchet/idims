@@ -30,6 +30,7 @@ export * from './intelligence/buildBaselineEvidenceConfig';
 export * from './intelligence/buildTestCatalogForTemplate';
 export * from './procedures/types';
 export * from './procedures/procedureRegistry';
+export * from './procedures/procedurePlatformAccess';
 export * from './procedures/procedureRunner';
 export * from './procedures/evaluateProcedureMeasurement';
 export * from './procedures/applyProcedureDiagnosticEffects';

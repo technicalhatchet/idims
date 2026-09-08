@@ -23,6 +23,8 @@
 
 **Next in queue (user):** *(empty — add next manual when ready)*
 
+**OEM service procedures:** See [PROCEDURE_ONBOARDING.md](./PROCEDURE_ONBOARDING.md) for the repeatable manual → seed → ship workflow (W11169652 pilot complete).
+
 ---
 
 ## Skipped (per instructions)

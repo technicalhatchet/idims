@@ -837,6 +837,9 @@ def main() -> None:
     service_modes_script = ROOT / "backend" / "scripts" / "attach_w11169652_service_modes.py"
     subprocess.run([sys.executable, str(service_modes_script)], check=True)
 
+    registry_script = ROOT / "backend" / "scripts" / "generate_procedure_registry.py"
+    subprocess.run([sys.executable, str(registry_script)], check=True)
+
 
 if __name__ == "__main__":
     main()
