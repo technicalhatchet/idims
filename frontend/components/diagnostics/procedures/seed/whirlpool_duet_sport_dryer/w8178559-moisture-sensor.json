@@ -1,0 +1,148 @@
+{
+  "id": "w8178559-moisture-sensor",
+  "version": "1.0.0",
+  "title": "TEST #4: Moisture Sensor",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "long_dry",
+    "F28",
+    "F29"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4",
+    "oemTestTitle": "Moisture Sensor Test",
+    "pages": [
+      85,
+      86
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_mode_entry"
+    },
+    {
+      "id": "diag_mode_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter diagnostic test mode",
+      "body": "Activate diagnostic test mode and advance past saved fault codes. Machine fully assembled.",
+      "sourceExcerpt": "Activate diagnostic test mode and advance past saved fault codes. Machine fully assembled.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_short_check"
+    },
+    {
+      "id": "door_short_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door open short check",
+      "body": "Open dryer door. If beep + alphanumeric display immediately, short exists in moisture sensor system \u2014 inspect harness and sensor.",
+      "sourceExcerpt": "Open dryer door. If beep + alphanumeric display immediately, short exists in moisture sensor system \u2014 inspect harness and sensor.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "no_short",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wet_cloth_test"
+        },
+        {
+          "id": "short_found",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_short",
+          "terminal": true,
+          "oemOutcome": "Repair short in moisture sensor harness or replace sensor/MCE as needed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wet_cloth_test",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Wet cloth bridge test",
+      "body": "Bridge lint screen housing sensor strips with wet cloth. Beep + software revision on console = pass.",
+      "sourceExcerpt": "Bridge lint screen housing sensor strips with wet cloth. Beep + software revision on console = pass.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wet_pass",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "moisture_verified"
+        },
+        {
+          "id": "wet_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_sensor",
+          "terminal": true,
+          "oemOutcome": "Sensor failed wet-cloth test \u2014 bench test at disconnected harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_sensor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench moisture sensor",
+      "body": "Disconnect power. Remove toe panel, disconnect sensor from harness. Measure outermost contacts on cable with red MOVs. Replace sensor/harness if shorted.",
+      "sourceExcerpt": "Disconnect power. Remove toe panel, disconnect sensor from harness. Measure outermost contacts on cable with red MOVs. Replace sensor/harness if shorted.",
+      "requiresInput": false,
+      "defaultNextStepId": "moisture_verified"
+    },
+    {
+      "id": "repair_short",
+      "order": 6,
+      "type": "outcome",
+      "title": "Repair moisture short",
+      "oemOutcome": "Clear short or replace moisture sensor / wire harness / MCE.",
+      "requiresInput": false
+    },
+    {
+      "id": "moisture_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Moisture sensor verified",
+      "oemOutcome": "Moisture sensor responds in diagnostic and bench checks.",
+      "requiresInput": false
+    }
+  ]
+}

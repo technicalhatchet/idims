@@ -28,6 +28,21 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w8178558_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w8178558_service_modes.py"
       }
+    },
+    {
+      "manualId": "W8178559",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "seedDir": "whirlpool_duet_sport_dryer",
+      "label": "Whirlpool Duet Sport MCE dryer (Job Aid 8178559)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_duet_sport_dryer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w8178559_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w8178559_diagnostic_effects.py",
+        "attachServiceModes": null
+      }
     }
   ]
 }
