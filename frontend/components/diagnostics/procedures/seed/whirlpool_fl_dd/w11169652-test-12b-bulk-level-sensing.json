@@ -140,9 +140,23 @@
       "sourceExcerpt": "Place magnet over sensor cavity while measuring pins 1 & 2. Should read less than 3 \u03a9.",
       "measurementKnowledgeId": "whirlpoolFlWasherBulkLevelSwitchClosedOhms",
       "testPoint": {
-        "connector": "Level SW",
-        "pins": "1 & 2",
-        "label": "Sensor closes with magnet (<3 \u03a9)"
+        "connector": "J17",
+        "pins": "Level SW 1 & 2",
+        "label": "Sensor closes with magnet (<3 \u03a9)",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Level switch",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Level switch return",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

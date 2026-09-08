@@ -112,8 +112,22 @@
       "measurementKnowledgeId": "whirlpoolFlWasherVentBaffleSolenoidOhms",
       "testPoint": {
         "connector": "J9",
-        "pins": "Solenoid",
-        "label": "Baffle solenoid resistance"
+        "pins": "1 & 2",
+        "label": "Baffle solenoid resistance",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Baffle solenoid L",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Baffle solenoid N",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

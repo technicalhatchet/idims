@@ -111,9 +111,23 @@
       "sourceExcerpt": "Disconnect pump connector. Measure ohms across pins 1 and 3. Expected 1.6\u20131.96 k\u03a9.",
       "measurementKnowledgeId": "whirlpoolFlWasherDosingPumpOhms",
       "testPoint": {
-        "connector": "Pump",
-        "pins": "1 & 3",
-        "label": "Dosing pump pins 1 & 3"
+        "connector": "J10",
+        "pins": "Pump 1 & 3",
+        "label": "Dosing pump pins 1 & 3",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Dosing pump N",
+            "wireColor": "Y",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Dosing pump L",
+            "wireColor": "R",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

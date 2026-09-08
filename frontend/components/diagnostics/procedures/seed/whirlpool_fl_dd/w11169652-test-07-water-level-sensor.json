@@ -125,7 +125,21 @@
       "testPoint": {
         "connector": "J14",
         "pins": "2 & 3",
-        "label": "+5 VDC at J14 (pin 2 GND, pin 3 Vcc)"
+        "label": "+5 VDC at J14 (pin 2 GND, pin 3 Vcc)",
+        "pinDetails": [
+          {
+            "pin": "2",
+            "signal": "APS GND",
+            "wireColor": "BK",
+            "wireColorConfidence": "inferred"
+          },
+          {
+            "pin": "3",
+            "signal": "+5 VDC Vcc",
+            "wireColor": "R",
+            "wireColorConfidence": "inferred"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

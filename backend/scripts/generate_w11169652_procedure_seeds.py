@@ -71,7 +71,11 @@ def meas(
     pins: str,
     branches: list[dict],
     excerpt: str = "",
+    pin_details: list[dict] | None = None,
 ) -> dict:
+    test_point: dict = {"connector": connector, "pins": pins, "label": title}
+    if pin_details:
+        test_point["pinDetails"] = pin_details
     return {
         "id": sid,
         "order": order,
@@ -80,10 +84,90 @@ def meas(
         "body": body,
         "sourceExcerpt": excerpt or body,
         "measurementKnowledgeId": kid,
-        "testPoint": {"connector": connector, "pins": pins, "label": title},
+        "testPoint": test_point,
         "requiresInput": True,
         "branches": branches,
     }
+
+
+def pin_detail(
+    pin: str,
+    signal: str,
+    wire: str | None = None,
+    confidence: str = "verified",
+) -> dict:
+    detail: dict = {"pin": pin, "signal": signal}
+    if wire:
+        detail["wireColor"] = wire
+        detail["wireColorConfidence"] = confidence
+    return detail
+
+
+# W11169652 ACU pinout + strip-circuit wire colors (manual pp. 3-7, 3-12–3-26)
+PIN_RFI_LINE = [
+    pin_detail("Line", "Filter input — cord line", "BK", "verified"),
+    pin_detail("Neutral", "Filter input — cord neutral", "WT", "verified"),
+]
+PIN_J2_AC = [
+    pin_detail("1", "LINE input", "BK", "verified"),
+    pin_detail("2", "Neutral input", "WT", "verified"),
+]
+PIN_J19_5V = [
+    pin_detail("2", "5V_UI", "BU", "inferred"),
+    pin_detail("4", "DGND", "BK", "inferred"),
+]
+PIN_J19_12V = [
+    pin_detail("1", "12.7_Lim_UI", "RD", "inferred"),
+    pin_detail("4", "DGND", "BK", "inferred"),
+]
+PIN_J16_DRUM = [
+    pin_detail("1", "Drum light +", "R", "verified"),
+    pin_detail("3", "Drum light −", "BK", "verified"),
+]
+PIN_J8_C1 = [
+    pin_detail("1", "Valves line (L)", "BK", "verified"),
+    pin_detail("2", "Cold 1 EV −", "W", "verified"),
+]
+PIN_J14_APS_5V = [
+    pin_detail("2", "APS GND", "BK", "inferred"),
+    pin_detail("3", "+5 VDC Vcc", "R", "inferred"),
+]
+PIN_J15_WASH_NTC = [
+    pin_detail("1", "5V switched", "BK", "verified"),
+    pin_detail("3", "Wash NTC", "BK", "verified"),
+]
+PIN_J10_PUMP = [
+    pin_detail("1", "Dosing pump N", "Y", "verified"),
+    pin_detail("3", "Dosing pump L", "R", "verified"),
+]
+PIN_LEVEL_SW = [
+    pin_detail("1", "Level switch", "BK", "verified"),
+    pin_detail("2", "Level switch return", "BU", "verified"),
+]
+PIN_J12_VENT_FAN = [
+    pin_detail("1", "Vent fan L", "BR", "verified"),
+    pin_detail("2", "Vent fan N", "W", "verified"),
+]
+PIN_J9_BAFFLE = [
+    pin_detail("1", "Baffle solenoid L", "BK", "verified"),
+    pin_detail("2", "Baffle solenoid N", "BK", "verified"),
+]
+PIN_J4_DRY_HEATER = [
+    pin_detail("1", "Dry heater L", "BK", "verified"),
+    pin_detail("2", "Dry heater N", "W", "verified"),
+]
+PIN_J13_DRY_NTC = [
+    pin_detail("1", "5V switched", "BK", "verified"),
+    pin_detail("3", "Dry NTC output", "BK", "verified"),
+]
+PIN_DRY_NTC_SENSOR = [
+    pin_detail("1", "Dry NTC", "BK", "verified"),
+    pin_detail("2", "Dry NTC return", "BK", "verified"),
+]
+PIN_BLOWER_MOTOR = [
+    pin_detail("1", "Blower L", "BR", "verified"),
+    pin_detail("2", "Blower N", "W", "verified"),
+]
 
 
 def instr(sid: str, order: int, title: str, body: str, nxt: str | None = None, excerpt: str = "") -> dict:
@@ -169,6 +253,7 @@ PROCEDURES = [
                     {"id": "line_in_bad", "label": "No line voltage", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_cord", "terminal": True, "oemOutcome": "Verify outlet and cord continuity; replace power cord if cord fails continuity check."},
                     {"id": "line_in_warn", "label": "Low/out of range voltage", "when": {"kind": "measurement_warning"}, "nextStepId": "replace_cord", "terminal": True, "oemOutcome": "Correct supply voltage issue or replace power cord before further ACU testing."},
                 ],
+                pin_details=PIN_RFI_LINE,
             ),
             meas(
                 "line_if_output",
@@ -183,6 +268,7 @@ PROCEDURES = [
                     {"id": "line_out_bad", "label": "No voltage at output", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_rfi", "terminal": True, "oemOutcome": "Replace the interference (RFI) filter."},
                     {"id": "line_out_warn", "label": "Out of range", "when": {"kind": "measurement_warning"}, "nextStepId": "replace_rfi", "terminal": True, "oemOutcome": "Replace the interference (RFI) filter."},
                 ],
+                pin_details=PIN_RFI_LINE,
             ),
             meas(
                 "line_j2",
@@ -196,6 +282,7 @@ PROCEDURES = [
                     {"id": "j2_ok", "label": "Line voltage at ACU", "when": {"kind": "measurement_normal"}, "nextStepId": "acu_led_status"},
                     {"id": "j2_bad", "label": "No voltage at J2", "when": {"kind": "measurement_critical"}, "nextStepId": "repair_j2_harness", "terminal": True, "oemOutcome": "Inspect harness between RFI filter and ACU J2; repair bent terminals or replace harness."},
                 ],
+                pin_details=PIN_J2_AC,
             ),
             visual(
                 "acu_led_status",
@@ -219,6 +306,7 @@ PROCEDURES = [
                     {"id": "hmi5_ok", "label": "5 VDC present", "when": {"kind": "measurement_normal"}, "nextStepId": "hmi_12v"},
                     {"id": "hmi5_bad", "label": "5 VDC missing", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_acu_hmi", "terminal": True, "oemOutcome": "Replace ACU — HMI supply fault."},
                 ],
+                pin_details=PIN_J19_5V,
             ),
             meas(
                 "hmi_12v",
@@ -232,6 +320,7 @@ PROCEDURES = [
                     {"id": "hmi12_ok", "label": "12 VDC present", "when": {"kind": "measurement_normal"}, "nextStepId": "power_verified"},
                     {"id": "hmi12_bad", "label": "12 VDC missing", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_acu_hmi", "terminal": True, "oemOutcome": "Replace ACU — HMI supply fault."},
                 ],
+                pin_details=PIN_J19_12V,
             ),
             outcome("power_verified", 11, "ACU power verified", "Incoming power, ACU LED, and HMI supplies verified — problem is likely downstream. Reassemble and verify with Quick Service Cycle."),
             outcome("repair_connections", 12, "Repair connections", "Secure all IF and ACU connections, then repeat TEST #1."),
@@ -345,6 +434,7 @@ PROCEDURES = [
                     {"id": "dl_v_ok", "label": "2.9–3.5 VDC", "when": {"kind": "measurement_normal"}, "nextStepId": "replace_drum_led", "terminal": True, "oemOutcome": "Replace drum LED — driver voltage present."},
                     {"id": "dl_v_bad", "label": "Voltage not present", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_acu_drum", "terminal": True, "oemOutcome": "Replace ACU — drum light driver fault."},
                 ],
+                pin_details=PIN_J16_DRUM,
             ),
             outcome("replace_drum_led", 6, "Replace drum LED", "Replace drum LED assembly."),
             outcome("replace_acu_drum", 7, "Replace ACU", "Replace ACU when driver voltage missing."),
@@ -371,6 +461,7 @@ PROCEDURES = [
                 "J8",
                 "1 & 2 (C1)",
                 ohm_branches("valve", "reconnect_j8", "replace_valve", "1.1–1.35 kΩ"),
+                pin_details=PIN_J8_C1,
             ),
             instr("reconnect_j8", 5, "Reconnect J8", "Reconnect J8 to ACU. Restore power for live activation test via QSC/load test.", "live_valve_test"),
             visual(
@@ -432,6 +523,7 @@ PROCEDURES = [
                     {"id": "aps5_ok", "label": "+5 VDC present", "when": {"kind": "measurement_normal"}, "nextStepId": "replace_aps", "terminal": True, "oemOutcome": "Drain tub, replace water level sensor (APS)."},
                     {"id": "aps5_bad", "label": "+5 VDC missing", "when": {"kind": "measurement_critical"}, "nextStepId": "run_test1_aps", "terminal": True, "oemOutcome": "Perform TEST #1 ACU Power Check; replace ACU if supply fault persists."},
                 ],
+                pin_details=PIN_J14_APS_5V,
             ),
             outcome("clear_hose_trap", 7, "Clear air trap/hose", "Service pressure hose and air trap; retest."),
             outcome("repair_aps_harness", 8, "Repair APS harness", "Repair harness continuity fault."),
@@ -458,6 +550,7 @@ PROCEDURES = [
                 "J15",
                 "1 & 3",
                 ohm_branches("j15", "suspect_acu_ntc", "access_ntc_sensor", "Within R/T table range"),
+                pin_details=PIN_J15_WASH_NTC,
             ),
             instr("access_ntc_sensor", 4, "Access wash NTC at heater bracket", "Remove back panel. Disconnect wash temperature sensor at heating element bracket.", "ntc_at_sensor"),
             meas(
@@ -473,6 +566,7 @@ PROCEDURES = [
                     {"id": "ntc_bad", "label": "Out of range", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_wash_ntc", "terminal": True, "oemOutcome": "Replace wash temperature sensor."},
                     {"id": "ntc_good", "label": "In range at sensor", "when": {"kind": "measurement_normal"}, "nextStepId": "replace_lower_harness_ntc", "terminal": True, "oemOutcome": "Sensor good — replace lower main harness."},
                 ],
+                pin_details=PIN_J15_WASH_NTC,
             ),
             outcome("replace_wash_ntc", 6, "Replace wash NTC", "Replace wash temperature sensor; verify with QSC."),
             outcome("replace_lower_harness_ntc", 7, "Replace lower harness", "Replace lower main harness between ACU and sensor."),
@@ -519,7 +613,7 @@ PROCEDURES = [
                 {"id": "pc_yes", "label": "Continuity OK", "when": {"kind": "checkpoint_yes"}, "nextStepId": "pump_ohms"},
                 {"id": "pc_no", "label": "Open harness", "when": {"kind": "checkpoint_no"}, "nextStepId": "replace_lower_harness_pump", "terminal": True, "oemOutcome": "Replace lower harness and retest."},
             ]),
-            meas("pump_ohms", 5, "Dosing pump pins 1 & 3", "Disconnect pump connector. Measure ohms across pins 1 and 3. Expected 1.6–1.96 kΩ.", "whirlpoolFlWasherDosingPumpOhms", "Pump", "1 & 3", ohm_branches("pump", "replace_acu_pump", "replace_pump", "1.6–1.96 kΩ")),
+            meas("pump_ohms", 5, "Dosing pump pins 1 & 3", "Disconnect pump connector. Measure ohms across pins 1 and 3. Expected 1.6–1.96 kΩ.", "whirlpoolFlWasherDosingPumpOhms", "J10", "Pump 1 & 3", ohm_branches("pump", "replace_acu_pump", "replace_pump", "1.6–1.96 kΩ"), pin_details=PIN_J10_PUMP),
             outcome("clean_reservoir", 6, "Clean reservoirs", "Clean clogged reservoirs and retest QSC."),
             outcome("replace_lower_harness_pump", 7, "Replace lower harness", "Replace lower harness between ACU and pump."),
             outcome("replace_pump", 8, "Replace dosing pump", "Replace dosing pump when open or out of range."),
@@ -570,11 +664,11 @@ PROCEDURES = [
                 {"id": "open_yes", "label": "Open at rest", "when": {"kind": "checkpoint_yes"}, "nextStepId": "magnet_close"},
                 {"id": "open_no", "label": "Not open at rest", "when": {"kind": "checkpoint_no"}, "nextStepId": "replace_level_sensor", "terminal": True, "oemOutcome": "Replace level sensor."},
             ]),
-            meas("magnet_close", 6, "Sensor closes with magnet (<3 Ω)", "Place magnet over sensor cavity while measuring pins 1 & 2. Should read less than 3 Ω.", "whirlpoolFlWasherBulkLevelSwitchClosedOhms", "Level SW", "1 & 2", [
+            meas("magnet_close", 6, "Sensor closes with magnet (<3 Ω)", "Place magnet over sensor cavity while measuring pins 1 & 2. Should read less than 3 Ω.", "whirlpoolFlWasherBulkLevelSwitchClosedOhms", "J17", "Level SW 1 & 2", [
                 {"id": "mag_ok", "label": "<3 Ω with magnet", "when": {"kind": "measurement_normal"}, "nextStepId": "replace_acu_level", "terminal": True, "oemOutcome": "Sensor good — replace ACU if level still not detected."},
                 {"id": "mag_bad", "label": "Stays open", "when": {"kind": "measurement_open"}, "nextStepId": "replace_level_sensor", "terminal": True, "oemOutcome": "Replace level sensor."},
                 {"id": "mag_crit", "label": "Out of range", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_level_sensor", "terminal": True, "oemOutcome": "Replace level sensor."},
-            ]),
+            ], pin_details=PIN_LEVEL_SW),
             outcome("replace_reservoir", 7, "Replace reservoir", "Replace bulk dispenser reservoir."),
             outcome("replace_lower_harness_lvl", 8, "Replace lower harness", "Replace lower harness to level sensors."),
             outcome("replace_level_sensor", 9, "Replace level sensor", "Replace detergent or softener level sensor."),
@@ -599,7 +693,7 @@ PROCEDURES = [
                 {"id": "fc_yes", "label": "Continuity OK", "when": {"kind": "checkpoint_yes"}, "nextStepId": "fan_ohms"},
                 {"id": "fc_no", "label": "Open harness", "when": {"kind": "checkpoint_no"}, "nextStepId": "replace_upper_harness_fan", "terminal": True, "oemOutcome": "Replace upper machine harness."},
             ]),
-            meas("fan_ohms", 5, "Vent fan motor resistance", "Measure across fan motor terminals. Expected 1.78–2.3 kΩ.", "whirlpoolFlWasherVentFanOhms", "Vent fan", "Motor terminals", ohm_branches("fan", "replace_acu_fan", "replace_vent_fan", "1.78–2.3 kΩ")),
+            meas("fan_ohms", 5, "Vent fan motor resistance", "Measure across fan motor terminals. Expected 1.78–2.3 kΩ.", "whirlpoolFlWasherVentFanOhms", "J12", "Motor 1 & 2", ohm_branches("fan", "replace_acu_fan", "replace_vent_fan", "1.78–2.3 kΩ"), pin_details=PIN_J12_VENT_FAN),
             outcome("clear_vent", 6, "Clear vent", "Remove vent obstruction."),
             outcome("replace_upper_harness_fan", 7, "Replace upper harness", "Replace upper harness J12 to fan."),
             outcome("replace_vent_fan", 8, "Replace vent fan", "Replace vent fan assembly."),
@@ -624,7 +718,7 @@ PROCEDURES = [
                 {"id": "sol_yes", "label": "Continuity OK", "when": {"kind": "checkpoint_yes"}, "nextStepId": "solenoid_ohms"},
                 {"id": "sol_no", "label": "Open harness", "when": {"kind": "checkpoint_no"}, "nextStepId": "replace_upper_harness_baffle", "terminal": True, "oemOutcome": "Replace upper machine harness."},
             ]),
-            meas("solenoid_ohms", 5, "Baffle solenoid resistance", "Measure across solenoid terminals. Should be less than 10 MΩ (not open).", "whirlpoolFlWasherVentBaffleSolenoidOhms", "J9", "Solenoid", ohm_branches("baffle", "replace_acu_baffle", "replace_baffle_solenoid", "<10 MΩ")),
+            meas("solenoid_ohms", 5, "Baffle solenoid resistance", "Measure across solenoid terminals. Should be less than 10 MΩ (not open).", "whirlpoolFlWasherVentBaffleSolenoidOhms", "J9", "1 & 2", ohm_branches("baffle", "replace_acu_baffle", "replace_baffle_solenoid", "<10 MΩ"), pin_details=PIN_J9_BAFFLE),
             outcome("clear_baffle_vent", 6, "Clear vent", "Clear vent/baffle obstruction."),
             outcome("replace_upper_harness_baffle", 7, "Replace upper harness", "Replace upper harness to solenoid."),
             outcome("replace_baffle_solenoid", 8, "Replace solenoid", "Replace vent baffle solenoid when open."),
@@ -645,8 +739,8 @@ PROCEDURES = [
                 {"id": "hv_1100", "label": "1100 W heater", "when": {"kind": "checkpoint_yes"}, "nextStepId": "j4_1100"},
                 {"id": "hv_450", "label": "450 W heater", "when": {"kind": "checkpoint_no"}, "nextStepId": "j4_450"},
             ]),
-            meas("j4_1100", 4, "Dry heater J4 — 1100 W", "Measure J4 pins 1 & 2. Expected 12.32–13.6 Ω.", "whirlpoolFlWasherDryHeater1100WOms", "J4", "1 & 2", ohm_branches("dh1100", "dry_heater_good", "access_dry_heater", "12.32–13.6 Ω")),
-            meas("j4_450", 4, "Dry heater J4 — 450 W", "Measure J4 pins 1 & 2. Expected 30.1–34.9 Ω.", "whirlpoolFlWasherDryHeater450WOms", "J4", "1 & 2", ohm_branches("dh450", "dry_heater_good", "access_dry_heater", "30.1–34.9 Ω")),
+            meas("j4_1100", 4, "Dry heater J4 — 1100 W", "Measure J4 pins 1 & 2. Expected 12.32–13.6 Ω.", "whirlpoolFlWasherDryHeater1100WOms", "J4", "1 & 2", ohm_branches("dh1100", "dry_heater_good", "access_dry_heater", "12.32–13.6 Ω"), pin_details=PIN_J4_DRY_HEATER),
+            meas("j4_450", 4, "Dry heater J4 — 450 W", "Measure J4 pins 1 & 2. Expected 30.1–34.9 Ω.", "whirlpoolFlWasherDryHeater450WOms", "J4", "1 & 2", ohm_branches("dh450", "dry_heater_good", "access_dry_heater", "30.1–34.9 Ω"), pin_details=PIN_J4_DRY_HEATER),
             instr("access_dry_heater", 5, "Access dry heater element", "Access dry heating element. Disconnect wires at element terminals.", "dry_heater_at_element"),
             visual("dry_heater_at_element", 6, "Element ohms at terminals", "Measure element terminals — in range for your heater wattage variant?", [
                 {"id": "de_ok", "label": "In range at element", "when": {"kind": "checkpoint_yes"}, "nextStepId": "replace_upper_harness_dh", "terminal": True, "oemOutcome": "Element good — check harness continuity J4 to element; replace upper harness if open."},
@@ -667,13 +761,13 @@ PROCEDURES = [
         ["thermistor", "dry_heat"],
         [
             instr("disconnect_j13", 2, "Disconnect J13 at ACU", "Empty washer at ambient temp. Disconnect dry NTC connector J13 from ACU.", "j13_ntc"),
-            meas("j13_ntc", 3, "Dry NTC J13 pins 1 & 3", "Measure resistance J13 pins 1 & 3. Compare to OEM thermistor table (~20 kΩ @ 77°F).", "whirlpoolFlWasherDryNtcOhms", "J13", "1 & 3", ohm_branches("j13", "suspect_acu_dry_ntc", "access_dry_ntc", "Within R/T table")),
+            meas("j13_ntc", 3, "Dry NTC J13 pins 1 & 3", "Measure resistance J13 pins 1 & 3. Compare to OEM thermistor table (~20 kΩ @ 77°F).", "whirlpoolFlWasherDryNtcOhms", "J13", "1 & 3", ohm_branches("j13", "suspect_acu_dry_ntc", "access_dry_ntc", "Within R/T table"), pin_details=PIN_J13_DRY_NTC),
             instr("access_dry_ntc", 4, "Access dry NTC at sensor", "Disconnect dry temperature sensor connector from NTC.", "dry_ntc_sensor"),
             meas("dry_ntc_sensor", 5, "Dry NTC at sensor pins 1 & 2", "Measure across pins 1 and 2 of dry temperature sensor.", "whirlpoolFlWasherDryNtcOhms", "Dry NTC", "1 & 2", [
                 {"id": "dntc_good", "label": "In range", "when": {"kind": "measurement_normal"}, "nextStepId": "replace_main_harness_dntc", "terminal": True, "oemOutcome": "Sensor good — replace main harness."},
                 {"id": "dntc_bad", "label": "Open/out of range", "when": {"kind": "measurement_open"}, "nextStepId": "replace_dry_ntc", "terminal": True, "oemOutcome": "Replace dry temperature sensor."},
                 {"id": "dntc_crit", "label": "Critical", "when": {"kind": "measurement_critical"}, "nextStepId": "replace_dry_ntc", "terminal": True, "oemOutcome": "Replace dry temperature sensor."},
-            ]),
+            ], pin_details=PIN_DRY_NTC_SENSOR),
             outcome("replace_dry_ntc", 6, "Replace dry NTC", "Replace dry temperature sensor."),
             outcome("replace_main_harness_dntc", 7, "Replace main harness", "Replace main harness between ACU and dry NTC."),
             outcome("suspect_acu_dry_ntc", 8, "Replace ACU", "NTC in range at J13 — replace ACU if fault persists."),
@@ -693,7 +787,7 @@ PROCEDURES = [
                 {"id": "bc_yes", "label": "Continuity OK", "when": {"kind": "checkpoint_yes"}, "nextStepId": "blower_ohms"},
                 {"id": "bc_no", "label": "Open harness", "when": {"kind": "checkpoint_no"}, "nextStepId": "replace_upper_harness_blower", "terminal": True, "oemOutcome": "Replace upper machine harness."},
             ]),
-            meas("blower_ohms", 4, "Blower motor resistance", "Measure across blower motor terminals. Expected 9.0–10.6 Ω.", "whirlpoolFlWasherDryBlowerOhms", "Blower", "Motor terminals", ohm_branches("blower", "check_blower_wheel", "replace_heater_channel_blower", "9.0–10.6 Ω")),
+            meas("blower_ohms", 4, "Blower motor resistance", "Measure across blower motor terminals. Expected 9.0–10.6 Ω.", "whirlpoolFlWasherDryBlowerOhms", "J12", "Motor 1 & 2", ohm_branches("blower", "check_blower_wheel", "replace_heater_channel_blower", "9.0–10.6 Ω"), pin_details=PIN_BLOWER_MOTOR),
             visual("check_blower_wheel", 5, "Blower wheel free", "With Heater Channel Assembly removed, does blower wheel turn freely without obstruction?", [
                 {"id": "bw_ok", "label": "Turns freely", "when": {"kind": "checkpoint_yes"}, "nextStepId": "replace_acu_blower", "terminal": True, "oemOutcome": "Replace ACU — motor and wheel OK but no run."},
                 {"id": "bw_bad", "label": "Obstructed or seized", "when": {"kind": "checkpoint_no"}, "nextStepId": "service_blower_wheel", "terminal": True, "oemOutcome": "Clear obstruction or replace Heater Channel Assembly if wheel does not turn freely."},

@@ -83,9 +83,23 @@
       "sourceExcerpt": "Measure across blower motor terminals. Expected 9.0\u201310.6 \u03a9.",
       "measurementKnowledgeId": "whirlpoolFlWasherDryBlowerOhms",
       "testPoint": {
-        "connector": "Blower",
-        "pins": "Motor terminals",
-        "label": "Blower motor resistance"
+        "connector": "J12",
+        "pins": "Motor 1 & 2",
+        "label": "Blower motor resistance",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Blower L",
+            "wireColor": "BR",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Blower N",
+            "wireColor": "W",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [
