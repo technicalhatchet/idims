@@ -77,6 +77,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'mechanical_controls.door_lock_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolFlWasherDoorLockSolenoidOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDoorLockSolenoidOhms', platformId: 'whirlpool_duet_sport' },
         {
           knowledgeId: 'insigniaWasherCapDoorLockOhms',

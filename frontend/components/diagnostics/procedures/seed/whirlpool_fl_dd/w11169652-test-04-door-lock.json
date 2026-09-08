@@ -1,0 +1,348 @@
+{
+  "id": "w11169652-test-04-door-lock",
+  "version": "1.0.0",
+  "title": "TEST #4: Door Lock System",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": ["door_lock"],
+  "tags": ["door_lock_check", "F5E1", "F5E2", "F5E3", "lid_lock", "wont_spin"],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "oemTestNumber": "4",
+    "oemTestTitle": "Door Lock System",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "pages": [48, 49],
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction"
+  },
+  "entryStepId": "safety_power_off",
+  "serviceModes": [
+    {
+      "bundleId": "w11169652-service-mode",
+      "modeKind": "combined_qsc",
+      "attachAfterStepId": "reconnect_harness_power",
+      "continueToStepId": "live_test_door_lock"
+    }
+  ],
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING — Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_mechanism_clear"
+    },
+    {
+      "id": "lock_mechanism_clear",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door lock mechanism clear",
+      "body": "Check the door lock mechanism for obstruction or binding. Repair as needed before electrical testing.",
+      "sourceExcerpt": "Check door lock mechanism for obstruction or binding. Repair as necessary.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mechanism_clear_yes",
+          "label": "No obstruction or binding",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "access_acu_j7"
+        },
+        {
+          "id": "mechanism_clear_no",
+          "label": "Obstruction or binding found",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "repair_mechanism_first",
+          "terminal": true,
+          "oemOutcome": "Clear obstruction or repair binding; then repeat TEST #4 from step 1."
+        }
+      ]
+    },
+    {
+      "id": "repair_mechanism_first",
+      "order": 3,
+      "type": "outcome",
+      "title": "Repair mechanism first",
+      "oemOutcome": "Correct mechanical obstruction or binding at the door lock; retest with Quick Service Cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "access_acu_j7",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access ACU and verify J7",
+      "body": "Remove the top panel to access the ACU. Verify connector J7 (door lock assembly) is fully seated in the ACU.",
+      "sourceExcerpt": "Remove top panel to access machine electronics. Visually check that the J7 (door lock assembly) connector is inserted all the way into the ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "j7_seated"
+    },
+    {
+      "id": "j7_seated",
+      "order": 5,
+      "type": "visual_check",
+      "title": "J7 fully seated",
+      "body": "Is connector J7 fully inserted into the ACU?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j7_seated_yes",
+          "label": "J7 fully seated",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "energize_lock_instruction"
+        },
+        {
+          "id": "j7_seated_no",
+          "label": "J7 loose or not seated",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "reseat_j7",
+          "terminal": true,
+          "oemOutcome": "Reconnect J7 at the ACU, reassemble, restore power, and retest door lock with Quick Service Cycle."
+        }
+      ]
+    },
+    {
+      "id": "energize_lock_instruction",
+      "order": 6,
+      "type": "instruction",
+      "title": "Energize door lock solenoid",
+      "body": "Disconnect J7 from the ACU. Restore power. Press POWER, select any cycle, and press START. Listen for the door lock solenoid to actuate (click) after a few seconds. Immediately unplug the washer, disconnect power, and leave J7 disconnected at the ACU for resistance checks.",
+      "sourceExcerpt": "Plug in washer or reconnect power. Press the POWER button, select any cycle, and then press START. Actuation of the door lock solenoid should be heard after a few seconds. At that point, unplug the washer and disconnect J7 from the ACU and measure resistance across pins (ACU side).",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_switch_j7_1_2"
+    },
+    {
+      "id": "lock_switch_j7_1_2",
+      "order": 7,
+      "type": "measurement",
+      "title": "Lock switch J7 pins 1 & 2",
+      "body": "With power disconnected and lock solenoid actuated, measure resistance between J7-1 and J7-2 at the ACU connector. Locked position should read 0 Ω (continuity).",
+      "sourceExcerpt": "Lock Switch — Locked = 0 ohms, Unlocked = Open Circuit — J7-1, J7-2.",
+      "measurementKnowledgeId": "whirlpoolFlWasherDoorLockSwitchLockedOhms",
+      "testPoint": {
+        "connector": "J7",
+        "pins": "1 & 2",
+        "label": "Lock switch (locked)",
+        "pinDetails": [
+          { "pin": "1", "signal": "Lock switch", "wireColor": "BR", "wireColorConfidence": "verified" },
+          { "pin": "2", "signal": "Common", "wireColor": "YL", "wireColorConfidence": "verified" }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_switch_fail",
+          "label": "Out of range",
+          "when": { "kind": "measurement_warning" },
+          "nextStepId": "inspect_door_lock_harness",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+          ]
+        },
+        {
+          "id": "lock_switch_open",
+          "label": "Open circuit (OL)",
+          "when": { "kind": "measurement_open" },
+          "nextStepId": "inspect_door_lock_harness",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+          ]
+        },
+        {
+          "id": "lock_switch_critical",
+          "label": "Critical out of range",
+          "when": { "kind": "measurement_critical" },
+          "nextStepId": "inspect_door_lock_harness",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+          ]
+        },
+        {
+          "id": "lock_switch_pass",
+          "label": "0 Ω (locked)",
+          "when": { "kind": "measurement_normal" },
+          "nextStepId": "solenoid_j7_2_3",
+          "diagnosticEffects": [
+            { "type": "eliminate", "componentId": "door_lock", "evidenceId": "eliminate_door_lock_open_door_lock_ok" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "solenoid_j7_2_3",
+      "order": 8,
+      "type": "measurement",
+      "title": "Door switch / solenoid J7 pins 2 & 3",
+      "body": "Measure resistance between J7-2 and J7-3 with the door closed and lock actuated. Expected 60–90 Ω.",
+      "sourceExcerpt": "Door Switch — Door Closed = 60-90 ohms — J7-2, J7-3. Lock Solenoid — 60-90 ohms with door closed — J7-2, J7-3.",
+      "measurementKnowledgeId": "whirlpoolFlWasherDoorLockSolenoidOhms",
+      "testPoint": {
+        "connector": "J7",
+        "pins": "2 & 3",
+        "label": "Door switch / lock solenoid",
+        "pinDetails": [
+          { "pin": "2", "signal": "Common", "wireColor": "YL", "wireColorConfidence": "verified" },
+          { "pin": "3", "signal": "Door switch / solenoid", "wireColor": "R", "wireColorConfidence": "verified" }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "solenoid_fail",
+          "label": "Outside 60–90 Ω",
+          "when": { "kind": "measurement_warning" },
+          "nextStepId": "inspect_door_lock_harness",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+          ]
+        },
+        {
+          "id": "solenoid_open",
+          "label": "Open circuit (OL)",
+          "when": { "kind": "measurement_open" },
+          "nextStepId": "inspect_door_lock_harness",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+          ]
+        },
+        {
+          "id": "solenoid_critical",
+          "label": "Critical out of range",
+          "when": { "kind": "measurement_critical" },
+          "nextStepId": "inspect_door_lock_harness",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+          ]
+        },
+        {
+          "id": "solenoid_pass",
+          "label": "60–90 Ω",
+          "when": { "kind": "measurement_normal" },
+          "nextStepId": "reconnect_harness_power",
+          "diagnosticEffects": [
+            { "type": "eliminate", "componentId": "door_lock", "evidenceId": "eliminate_door_lock_open_door_lock_ok" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_door_lock_harness",
+      "order": 9,
+      "type": "instruction",
+      "title": "Check harness and door lock assembly",
+      "body": "Check harness continuity between the ACU and door lock mechanism. Verify connections at the door lock assembly. Remove door lock screws before removing the front panel when replacing the lock.",
+      "sourceExcerpt": "If any of the measurements are out of range, check the harness of the suspected component between the ACU and door lock mechanism for continuity. If the harness and connections are good, replace the door lock mechanism.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_continuity"
+    },
+    {
+      "id": "harness_continuity",
+      "order": 10,
+      "type": "visual_check",
+      "title": "Harness continuity OK",
+      "body": "Is there continuity through the harness between the ACU and door lock assembly?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Harness continuity OK",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": "Replace the door lock mechanism. Remove door lock screws before removing the front panel. Reassemble and verify with Quick Service Cycle.",
+          "diagnosticEffects": [
+            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+          ]
+        },
+        {
+          "id": "harness_open",
+          "label": "Harness open or damaged",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness between ACU and door lock; retest with Quick Service Cycle."
+        }
+      ]
+    },
+    {
+      "id": "replace_door_lock",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace door lock assembly",
+      "oemOutcome": "Replace door lock mechanism, reassemble, and verify with Quick Service Cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_harness",
+      "order": 12,
+      "type": "outcome",
+      "title": "Repair door lock harness",
+      "oemOutcome": "Repair harness between ACU and door lock assembly; retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "reseat_j7",
+      "order": 13,
+      "type": "outcome",
+      "title": "Reseat J7",
+      "oemOutcome": "Reconnect J7 and retest door lock with Quick Service Cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "reconnect_harness_power",
+      "order": 14,
+      "type": "instruction",
+      "title": "Reconnect J7 and restore power",
+      "body": "Reinstall connector J7 on the ACU. Reassemble panels as needed. Plug in or restore power.",
+      "requiresInput": false
+    },
+    {
+      "id": "live_test_door_lock",
+      "order": 15,
+      "type": "visual_check",
+      "title": "Door locks during Quick Service Cycle",
+      "body": "When starting Quick Service Cycle (function 012), does the door lock engage (click) and remain locked during the cycle?",
+      "sourceExcerpt": "Check the relays and electrical connections to the door lock by performing the Quick Service Cycle. If door does not lock, see TEST #4.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_locks_yes",
+          "label": "Door locks properly",
+          "when": { "kind": "checkpoint_yes" },
+          "nextStepId": "repair_verified",
+          "diagnosticEffects": [
+            { "type": "eliminate", "componentId": "door_lock", "evidenceId": "eliminate_door_lock_open_door_lock_ok" }
+          ]
+        },
+        {
+          "id": "door_locks_no",
+          "label": "Door does not lock",
+          "when": { "kind": "checkpoint_no" },
+          "nextStepId": "suspect_acu",
+          "terminal": true,
+          "oemOutcome": "Resistance values were in range but lock still fails — replace the ACU and retest door lock mechanism.",
+          "diagnosticEffects": [
+            { "type": "suspect", "componentId": "door_lock" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_verified",
+      "order": 16,
+      "type": "outcome",
+      "title": "Door lock verified",
+      "oemOutcome": "Door lock operates in Quick Service Cycle — reassemble and return washer to service.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_acu",
+      "order": 17,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "If preceding steps did not correct the lock problem, replace the ACU and retest with Quick Service Cycle.",
+      "requiresInput": false
+    }
+  ]
+}
