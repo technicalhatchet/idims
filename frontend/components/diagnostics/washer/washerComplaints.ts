@@ -42,6 +42,11 @@ export const WASHER_COMPLAINT_CHIPS: ComplaintChipDefinition[] = [
     keywords: ['lid lock', 'door lock', 'won\'t unlock', 'f dl', 'dl code', 'locked', 'f5e1', 'f5e2', 'f5e3', 'f5e4', 'dr'],
   },
   {
+    id: 'no_heat',
+    label: 'No / Low Heat',
+    keywords: ['no heat', 'not heating', 'cold water', 'not hot', 'f4e1', 'f4e2', 'low temp'],
+  },
+  {
     id: 'error_code',
     label: 'Error Code on Display',
     keywords: [

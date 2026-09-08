@@ -25,6 +25,7 @@ const PROCEDURE_TEMPLATE_ALLOWLIST: Record<string, string[]> = {
   'w11169652-test-03-motor-circuit': ['washer'],
   'w11169652-test-08-drain-pump': ['washer'],
   'w11169652-test-04-door-lock': ['washer'],
+  'w11169652-test-09-wash-heater': ['washer'],
 };
 
 const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
@@ -32,6 +33,7 @@ const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
   wont_agitate: ['spin_issue', 'motor_check'],
   wont_drain: ['drain_issue', 'pump_check', 'wont_drain'],
   lid_lock: ['door_lock_check', 'lid_lock', 'F5E1', 'F5E2', 'F5E3'],
+  no_heat: ['heating_element_check', 'F4E1', 'F4E2', 'no_heat'],
   vibration: ['motor_check'],
   noisy: ['motor_check', 'pump_check'],
 };

@@ -41,6 +41,14 @@
         "voltage_check",
         "supply_issue"
       ]
+    },
+    {
+      "id": "wash_heating",
+      "label": "Wash Heating",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
     }
   ],
   "components": [
@@ -87,6 +95,15 @@
       "dmaTags": [
         "voltage_check",
         "supply_issue"
+      ]
+    },
+    {
+      "id": "wash_heater",
+      "label": "Wash heater",
+      "categoryId": "wash_heating",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
       ]
     }
   ],
@@ -383,6 +400,64 @@
         "effect": "eliminate"
       },
       "explanation": "Door lock OK ruled out by diagnostic evidence."
+    },
+    {
+      "id": "confirm_wash_heater_ol_wash_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "wash_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash heater failed — supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_heater_ol_wash_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "wash_heating",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Wash heater failed — category evidence increased."
+    },
+    {
+      "id": "eliminate_wash_heater_ol_wash_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "wash_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash heater OK ruled out by diagnostic evidence."
     },
     {
       "id": "confirm_supply_critical_supply_fault",
