@@ -1,0 +1,254 @@
+{
+  "id": "w11169652-test-02-hmi",
+  "version": "1.0.0",
+  "title": "TEST #2: Human-Machine Interface (HMI)",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "hmi_check",
+    "error_code",
+    "F3E1"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2",
+    "oemTestTitle": "Human-Machine Interface",
+    "pages": [
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "ui_variant",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Identify HMI type",
+      "body": "Is this an LCD-in-door model (display in door) or a console model (controls on top panel)?",
+      "sourceExcerpt": "TEST #2A LCD in door vs TEST #2B console models.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ui_lcd",
+          "label": "LCD in door",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lcd_visual_acu"
+        },
+        {
+          "id": "ui_console",
+          "label": "Console model",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "console_symptom"
+        }
+      ]
+    },
+    {
+      "id": "lcd_visual_acu",
+      "order": 3,
+      "type": "instruction",
+      "title": "LCD model \u2014 visual checks",
+      "body": "Remove top panel. Verify ACU connectors, HMI connectors, and door harness are fully seated.",
+      "sourceExcerpt": "Remove top panel. Verify ACU connectors, HMI connectors, and door harness are fully seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "lcd_test1"
+    },
+    {
+      "id": "lcd_test1",
+      "order": 4,
+      "type": "visual_check",
+      "title": "LCD \u2014 all connections seated",
+      "body": "Are ACU, HMI, and door harness connections fully inserted?",
+      "sourceExcerpt": "Are ACU, HMI, and door harness connections fully inserted?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lcd_vis_ok",
+          "label": "All seated",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lcd_acu_power"
+        },
+        {
+          "id": "lcd_vis_bad",
+          "label": "Connection issue found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_hmi_wiring",
+          "terminal": true,
+          "oemOutcome": "Reconnect harnesses and repeat HMI test."
+        }
+      ]
+    },
+    {
+      "id": "lcd_acu_power",
+      "order": 5,
+      "type": "visual_check",
+      "title": "LCD \u2014 TEST #1 voltages and LED OK",
+      "body": "After TEST #1 ACU Power Check: are HMI 5V/12V present and ACU LED healthy?",
+      "sourceExcerpt": "After TEST #1 ACU Power Check: are HMI 5V/12V present and ACU LED healthy?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lcd_pwr_ok",
+          "label": "Supplies OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_hmi_lcd",
+          "terminal": true,
+          "oemOutcome": "Replace HMI and housing assembly; verify with HMI test."
+        },
+        {
+          "id": "lcd_pwr_bad",
+          "label": "Supplies or LED failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_hmi",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 supply voltages not present or microcontroller fault."
+        }
+      ]
+    },
+    {
+      "id": "console_symptom",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Console symptom category",
+      "body": "Primary symptom: display/indicators completely off (no partial buttons)?",
+      "sourceExcerpt": "Primary symptom: display/indicators completely off (no partial buttons)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "console_dead",
+          "label": "Nothing lights / no display",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "console_dead_checks"
+        },
+        {
+          "id": "console_partial",
+          "label": "Some buttons or beep issue",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "console_partial_checks"
+        }
+      ]
+    },
+    {
+      "id": "console_dead_checks",
+      "order": 4,
+      "type": "instruction",
+      "title": "Console \u2014 access and inspect",
+      "body": "Remove top panel and console assembly (do not strain wires). Verify ACU and HMI connectors fully seated.",
+      "sourceExcerpt": "Remove top panel and console assembly (do not strain wires). Verify ACU and HMI connectors fully seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "console_dead_test1"
+    },
+    {
+      "id": "console_dead_test1",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Console dead \u2014 TEST #1 passed",
+      "body": "After TEST #1: HMI supplies present and ACU LED blinking slowly?",
+      "sourceExcerpt": "After TEST #1: HMI supplies present and ACU LED blinking slowly?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cde_ok",
+          "label": "TEST #1 passed",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_hmi_console",
+          "terminal": true,
+          "oemOutcome": "Replace HMI and housing assembly."
+        },
+        {
+          "id": "cde_bad",
+          "label": "TEST #1 failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_hmi",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 LED off or supplies missing."
+        }
+      ]
+    },
+    {
+      "id": "console_partial_checks",
+      "order": 4,
+      "type": "instruction",
+      "title": "Console \u2014 partial UI / beep",
+      "body": "Verify HMI seated in console. Check Use & Care for muted button sounds.",
+      "sourceExcerpt": "Some buttons do not light / no beep \u2014 replace HMI and housing if visual checks pass.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_hmi_partial"
+    },
+    {
+      "id": "replace_hmi_partial",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace HMI assembly",
+      "oemOutcome": "Replace HMI and housing assembly; run HMI test to verify.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hmi_lcd",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace LCD HMI",
+      "oemOutcome": "Replace HMI and housing assembly; run HMI test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hmi_console",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace console HMI",
+      "oemOutcome": "Replace HMI and housing assembly; run HMI test.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_hmi_wiring",
+      "order": 7,
+      "type": "outcome",
+      "title": "Repair HMI wiring",
+      "oemOutcome": "Repair connector issues and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_hmi",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU when HMI supplies or microcontroller fault confirmed.",
+      "requiresInput": false
+    }
+  ]
+}

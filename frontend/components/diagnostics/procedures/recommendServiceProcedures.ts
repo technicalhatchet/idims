@@ -21,21 +21,22 @@ export interface RecommendServiceProceduresInput {
 }
 
 /** Restrict procedures to compatible diagnostic templates until broader coverage ships. */
-const PROCEDURE_TEMPLATE_ALLOWLIST: Record<string, string[]> = {
-  'w11169652-test-03-motor-circuit': ['washer'],
-  'w11169652-test-08-drain-pump': ['washer'],
-  'w11169652-test-04-door-lock': ['washer'],
-  'w11169652-test-09-wash-heater': ['washer'],
-};
+function isProcedureAllowedForTemplate(procedureId: string, templateId: string | null | undefined): boolean {
+  if (!templateId) return false;
+  if (procedureId.startsWith('w11169652-test-') && templateId === 'washer') return true;
+  return false;
+}
 
 const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
   wont_spin: ['spin_issue', 'motor_check', 'door_lock_check', 'wont_spin'],
   wont_agitate: ['spin_issue', 'motor_check'],
   wont_drain: ['drain_issue', 'pump_check', 'wont_drain'],
   lid_lock: ['door_lock_check', 'lid_lock', 'F5E1', 'F5E2', 'F5E3'],
-  no_heat: ['heating_element_check', 'F4E1', 'F4E2', 'no_heat'],
+  no_heat: ['heating_element_check', 'F4E1', 'F4E2', 'no_heat', 'dry_heat', 'thermistor'],
+  no_fill: ['water_valve_check', 'fill_issue', 'no_fill', 'F8E1'],
   vibration: ['motor_check'],
-  noisy: ['motor_check', 'pump_check'],
+  noisy: ['motor_check', 'pump_check', 'vent_fan_check'],
+  error_code: ['error_code', 'F3E1', 'F8E1', 'F4E1', 'voltage_check', 'hmi_check', 'supply_issue'],
 };
 
 const UI_VARIANT_LABELS: Record<ServiceModeUiVariant, string> = {
@@ -152,11 +153,7 @@ export function recommendServiceProcedures({
   const minScore = 20;
 
   return getServiceProceduresForPlatform(platformId)
-    .filter((procedure) => {
-      const allowedTemplates = PROCEDURE_TEMPLATE_ALLOWLIST[procedure.id];
-      if (allowedTemplates && !allowedTemplates.includes(templateId || '')) return false;
-      return true;
-    })
+    .filter((procedure) => isProcedureAllowedForTemplate(procedure.id, templateId))
     .map((procedure) => {
       const priority = scoreProcedure(procedure, components, complaintChipIds, procedureRuns);
       return {

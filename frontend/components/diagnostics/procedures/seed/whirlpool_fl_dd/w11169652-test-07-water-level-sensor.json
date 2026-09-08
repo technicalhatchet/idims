@@ -1,0 +1,186 @@
+{
+  "id": "w11169652-test-07-water-level-sensor",
+  "version": "1.0.0",
+  "title": "TEST #7: Water Level Sensor",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "fill_issue",
+    "F8E1",
+    "no_fill"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Water Level Sensor",
+    "pages": [
+      52,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "hose_trap_ok",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Air trap and pressure hose clear",
+      "body": "Are tub-to-trap, trap-to-hose, and hose-to-APS connections secure with no kinks, leaks, or debris?",
+      "sourceExcerpt": "Are tub-to-trap, trap-to-hose, and hose-to-APS connections secure with no kinks, leaks, or debris?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Plumbing path OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "access_j14"
+        },
+        {
+          "id": "hose_bad",
+          "label": "Hose/trap issue",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_hose_trap",
+          "terminal": true,
+          "oemOutcome": "Clear hose/air trap, repair routing, replace leaking hose; retest fill."
+        }
+      ]
+    },
+    {
+      "id": "access_j14",
+      "order": 3,
+      "type": "instruction",
+      "title": "Verify J14 at ACU",
+      "body": "Remove top/rear access as needed. Verify J14 fully seated and APS harness connected.",
+      "sourceExcerpt": "Remove top/rear access as needed. Verify J14 fully seated and APS harness connected.",
+      "requiresInput": false,
+      "defaultNextStepId": "j14_continuity"
+    },
+    {
+      "id": "j14_continuity",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Harness continuity ACU to APS",
+      "body": "Is there continuity in the harness between ACU J14 and the water level sensor?",
+      "sourceExcerpt": "Is there continuity in the harness between ACU J14 and the water level sensor?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cont_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "aps_5v_power"
+        },
+        {
+          "id": "cont_no",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_aps_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness between ACU and APS."
+        }
+      ]
+    },
+    {
+      "id": "aps_5v_power",
+      "order": 5,
+      "type": "instruction",
+      "title": "Restore power for APS supply",
+      "body": "Plug in washer for DC measurement at J14.",
+      "sourceExcerpt": "Plug in washer for DC measurement at J14.",
+      "requiresInput": false,
+      "defaultNextStepId": "aps_5v"
+    },
+    {
+      "id": "aps_5v",
+      "order": 6,
+      "type": "measurement",
+      "title": "+5 VDC at J14 (pin 2 GND, pin 3 Vcc)",
+      "body": "Black probe to J14 pin 2 (GND), red to pin 3. Expect +5 VDC.",
+      "sourceExcerpt": "Black probe to J14 pin 2 (GND), red to pin 3. Expect +5 VDC.",
+      "measurementKnowledgeId": "whirlpoolFlWasherAps5Vdc",
+      "testPoint": {
+        "connector": "J14",
+        "pins": "2 & 3",
+        "label": "+5 VDC at J14 (pin 2 GND, pin 3 Vcc)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "aps5_ok",
+          "label": "+5 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_aps",
+          "terminal": true,
+          "oemOutcome": "Drain tub, replace water level sensor (APS)."
+        },
+        {
+          "id": "aps5_bad",
+          "label": "+5 VDC missing",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "run_test1_aps",
+          "terminal": true,
+          "oemOutcome": "Perform TEST #1 ACU Power Check; replace ACU if supply fault persists."
+        }
+      ]
+    },
+    {
+      "id": "clear_hose_trap",
+      "order": 7,
+      "type": "outcome",
+      "title": "Clear air trap/hose",
+      "oemOutcome": "Service pressure hose and air trap; retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_aps_harness",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair APS harness",
+      "oemOutcome": "Repair harness continuity fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_aps",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace water level sensor",
+      "oemOutcome": "Replace APS after confirming tub drained.",
+      "requiresInput": false
+    },
+    {
+      "id": "run_test1_aps",
+      "order": 10,
+      "type": "outcome",
+      "title": "Run TEST #1",
+      "oemOutcome": "Correct ACU supply per TEST #1.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "id": "w11169652-test-16-dry-temp-sensor",
+  "version": "1.0.0",
+  "title": "TEST #16: Dry Temperature Sensor",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "wash_heater"
+  ],
+  "tags": [
+    "thermistor",
+    "dry_heat"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "16",
+    "oemTestTitle": "Dry Temperature Sensor",
+    "pages": [
+      63,
+      64
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "disconnect_j13",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect J13 at ACU",
+      "body": "Empty washer at ambient temp. Disconnect dry NTC connector J13 from ACU.",
+      "sourceExcerpt": "Empty washer at ambient temp. Disconnect dry NTC connector J13 from ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "j13_ntc"
+    },
+    {
+      "id": "j13_ntc",
+      "order": 3,
+      "type": "measurement",
+      "title": "Dry NTC J13 pins 1 & 3",
+      "body": "Measure resistance J13 pins 1 & 3. Compare to OEM thermistor table (~20 k\u03a9 @ 77\u00b0F).",
+      "sourceExcerpt": "Measure resistance J13 pins 1 & 3. Compare to OEM thermistor table (~20 k\u03a9 @ 77\u00b0F).",
+      "measurementKnowledgeId": "whirlpoolFlWasherDryNtcOhms",
+      "testPoint": {
+        "connector": "J13",
+        "pins": "1 & 3",
+        "label": "Dry NTC J13 pins 1 & 3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j13_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "access_dry_ntc"
+        },
+        {
+          "id": "j13_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "access_dry_ntc"
+        },
+        {
+          "id": "j13_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "access_dry_ntc"
+        },
+        {
+          "id": "j13_pass",
+          "label": "Within R/T table",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "suspect_acu_dry_ntc"
+        }
+      ]
+    },
+    {
+      "id": "access_dry_ntc",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access dry NTC at sensor",
+      "body": "Disconnect dry temperature sensor connector from NTC.",
+      "sourceExcerpt": "Disconnect dry temperature sensor connector from NTC.",
+      "requiresInput": false,
+      "defaultNextStepId": "dry_ntc_sensor"
+    },
+    {
+      "id": "dry_ntc_sensor",
+      "order": 5,
+      "type": "measurement",
+      "title": "Dry NTC at sensor pins 1 & 2",
+      "body": "Measure across pins 1 and 2 of dry temperature sensor.",
+      "sourceExcerpt": "Measure across pins 1 and 2 of dry temperature sensor.",
+      "measurementKnowledgeId": "whirlpoolFlWasherDryNtcOhms",
+      "testPoint": {
+        "connector": "Dry NTC",
+        "pins": "1 & 2",
+        "label": "Dry NTC at sensor pins 1 & 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dntc_good",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_main_harness_dntc",
+          "terminal": true,
+          "oemOutcome": "Sensor good \u2014 replace main harness."
+        },
+        {
+          "id": "dntc_bad",
+          "label": "Open/out of range",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dry_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace dry temperature sensor."
+        },
+        {
+          "id": "dntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dry_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace dry temperature sensor."
+        }
+      ]
+    },
+    {
+      "id": "replace_dry_ntc",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace dry NTC",
+      "oemOutcome": "Replace dry temperature sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_harness_dntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace main harness",
+      "oemOutcome": "Replace main harness between ACU and dry NTC.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_acu_dry_ntc",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "NTC in range at J13 \u2014 replace ACU if fault persists.",
+      "requiresInput": false
+    }
+  ]
+}

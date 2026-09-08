@@ -1,0 +1,213 @@
+{
+  "id": "w11169652-test-12b-bulk-level-sensing",
+  "version": "1.0.0",
+  "title": "TEST #12B: Bulk Dispenser Level Sensing",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "dispenser_check"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "12B",
+    "oemTestTitle": "Bulk Dispenser Level Sensing",
+    "pages": [
+      59,
+      60
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "float_ok",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Reservoir float moves freely",
+      "body": "With reservoir empty, does float move freely when rotated? Fill with water to test.",
+      "sourceExcerpt": "With reservoir empty, does float move freely when rotated? Fill with water to test.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "float_yes",
+          "label": "Float OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "access_j17"
+        },
+        {
+          "id": "float_no",
+          "label": "Float stuck/damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_reservoir",
+          "terminal": true,
+          "oemOutcome": "Replace bulk dispenser reservoir \u2014 not serviceable."
+        }
+      ]
+    },
+    {
+      "id": "access_j17",
+      "order": 3,
+      "type": "instruction",
+      "title": "Verify J17 at ACU",
+      "body": "Remove top panel. Verify J17 fully seated at ACU.",
+      "sourceExcerpt": "Remove top panel. Verify J17 fully seated at ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "j17_continuity"
+    },
+    {
+      "id": "j17_continuity",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Harness continuity to level sensors",
+      "body": "Continuity from ACU J17 to level sensor connectors?",
+      "sourceExcerpt": "Continuity from ACU J17 to level sensor connectors?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j17_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_open"
+        },
+        {
+          "id": "j17_no",
+          "label": "Harness open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness_lvl",
+          "terminal": true,
+          "oemOutcome": "Replace lower harness."
+        }
+      ]
+    },
+    {
+      "id": "level_open",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Level sensor open without magnet",
+      "body": "With reservoir removed, sensor reads open across pins 1 & 2?",
+      "sourceExcerpt": "With reservoir removed, sensor reads open across pins 1 & 2?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "open_yes",
+          "label": "Open at rest",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "magnet_close"
+        },
+        {
+          "id": "open_no",
+          "label": "Not open at rest",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_level_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor."
+        }
+      ]
+    },
+    {
+      "id": "magnet_close",
+      "order": 6,
+      "type": "measurement",
+      "title": "Sensor closes with magnet (<3 \u03a9)",
+      "body": "Place magnet over sensor cavity while measuring pins 1 & 2. Should read less than 3 \u03a9.",
+      "sourceExcerpt": "Place magnet over sensor cavity while measuring pins 1 & 2. Should read less than 3 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolFlWasherBulkLevelSwitchClosedOhms",
+      "testPoint": {
+        "connector": "Level SW",
+        "pins": "1 & 2",
+        "label": "Sensor closes with magnet (<3 \u03a9)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mag_ok",
+          "label": "<3 \u03a9 with magnet",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu_level",
+          "terminal": true,
+          "oemOutcome": "Sensor good \u2014 replace ACU if level still not detected."
+        },
+        {
+          "id": "mag_bad",
+          "label": "Stays open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_level_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor."
+        },
+        {
+          "id": "mag_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_level_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor."
+        }
+      ]
+    },
+    {
+      "id": "replace_reservoir",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace reservoir",
+      "oemOutcome": "Replace bulk dispenser reservoir.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness_lvl",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Replace lower harness to level sensors.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_level_sensor",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace level sensor",
+      "oemOutcome": "Replace detergent or softener level sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_level",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU when sensor and harness verified.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "id": "w11169652-test-13-vent-fan",
+  "version": "1.0.0",
+  "title": "TEST #13: Vent Fan Motor",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "vent_fan_check"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "13",
+    "oemTestTitle": "Vent Fan Motor",
+    "pages": [
+      60,
+      61
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "vent_clear",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Rear vent unobstructed",
+      "body": "Is rear vent free of obstruction preventing fan spin?",
+      "sourceExcerpt": "Is rear vent free of obstruction preventing fan spin?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vent_ok",
+          "label": "Vent clear",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "access_j12_fan"
+        },
+        {
+          "id": "vent_bad",
+          "label": "Obstructed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_vent",
+          "terminal": true,
+          "oemOutcome": "Clear vent obstruction and retest component activation."
+        }
+      ]
+    },
+    {
+      "id": "access_j12_fan",
+      "order": 3,
+      "type": "instruction",
+      "title": "Verify J12 and fan harness",
+      "body": "Remove top panel. Verify J12 seated and vent fan harness connected.",
+      "sourceExcerpt": "Remove top panel. Verify J12 seated and vent fan harness connected.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_continuity"
+    },
+    {
+      "id": "fan_continuity",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Harness continuity to vent fan",
+      "body": "Continuity between ACU J12 and vent fan?",
+      "sourceExcerpt": "Continuity between ACU J12 and vent fan?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fc_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_ohms"
+        },
+        {
+          "id": "fc_no",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_upper_harness_fan",
+          "terminal": true,
+          "oemOutcome": "Replace upper machine harness."
+        }
+      ]
+    },
+    {
+      "id": "fan_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Vent fan motor resistance",
+      "body": "Measure across fan motor terminals. Expected 1.78\u20132.3 k\u03a9.",
+      "sourceExcerpt": "Measure across fan motor terminals. Expected 1.78\u20132.3 k\u03a9.",
+      "measurementKnowledgeId": "whirlpoolFlWasherVentFanOhms",
+      "testPoint": {
+        "connector": "Vent fan",
+        "pins": "Motor terminals",
+        "label": "Vent fan motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_vent_fan"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_vent_fan"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_vent_fan"
+        },
+        {
+          "id": "fan_pass",
+          "label": "1.78\u20132.3 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu_fan"
+        }
+      ]
+    },
+    {
+      "id": "clear_vent",
+      "order": 6,
+      "type": "outcome",
+      "title": "Clear vent",
+      "oemOutcome": "Remove vent obstruction.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_upper_harness_fan",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace upper harness",
+      "oemOutcome": "Replace upper harness J12 to fan.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_vent_fan",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace vent fan",
+      "oemOutcome": "Replace vent fan assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_fan",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Fan ohms in range but does not run \u2014 replace ACU.",
+      "requiresInput": false
+    }
+  ]
+}

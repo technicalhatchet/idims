@@ -186,6 +186,370 @@
     "dmaTags": ["door_lock_check"]
   },
   {
+    "id": "whirlpoolFlWasherHmi5Vdc",
+    "name": "Whirlpool FL HMI 5 VDC (J19 pins 2 & 4)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 4.75, "max": 5.25 },
+      "warning": { "min": 4.5, "max": 5.5 },
+      "critical": { "below": 4, "above": 6 }
+    },
+    "typical": { "min": 4.9, "max": 5.1 },
+    "openCircuitCritical": false,
+    "purpose": "HMI logic supply at ACU J19 — TEST #1 ACU power check.",
+    "failureModes": [
+      "Missing 5 VDC — dead display / HMI",
+      "Low supply — intermittent UI faults"
+    ],
+    "testingTips": [
+      "Measure with washer powered; use needle probes on J19",
+      "Reference pin 4 (DGND) for negative lead"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["voltage_check", "hmi_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherHmi12Vdc",
+    "name": "Whirlpool FL HMI 12 VDC (J19 pins 1 & 4)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 11.5, "max": 13.5 },
+      "warning": { "min": 10.5, "max": 14 },
+      "critical": { "below": 9, "above": 15 }
+    },
+    "typical": { "min": 12.2, "max": 12.9 },
+    "openCircuitCritical": false,
+    "purpose": "HMI backlight / LCD supply at J19 — manual specifies 12 VDC (12.7 VDC limit).",
+    "failureModes": [
+      "Missing 12 VDC — blank LCD in door",
+      "Low supply — dim display"
+    ],
+    "testingTips": [
+      "Measure with washer powered; pin 4 is DGND",
+      "If 5 V present but 12 V missing, suspect ACU supply circuit"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["voltage_check", "hmi_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherDrumLightVdc",
+    "name": "Whirlpool FL Drum Light Driver (J16 pins 1 & 3)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 2.9, "max": 3.5 },
+      "warning": { "min": 2.5, "max": 4 },
+      "critical": { "below": 1, "above": 5 }
+    },
+    "typical": { "min": 3, "max": 3.3 },
+    "openCircuitCritical": false,
+    "purpose": "Drum LED driver output with drum light unplugged — TEST #5.",
+    "failureModes": [
+      "No voltage — ACU driver fault",
+      "Voltage present but LED dark — replace drum LED"
+    ],
+    "testingTips": [
+      "Unplug drum light from harness before measuring",
+      "Door open state may affect reading per manual theory"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["voltage_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherAps5Vdc",
+    "name": "Whirlpool FL Water Level Sensor +5 VDC (J14 pin 2 GND, pin 3 Vcc)",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 4.75, "max": 5.25 },
+      "warning": { "min": 4.5, "max": 5.5 },
+      "critical": { "below": 4, "above": 6 }
+    },
+    "typical": { "min": 4.9, "max": 5.1 },
+    "openCircuitCritical": false,
+    "purpose": "APS supply at ACU J14 — TEST #7 water level sensor.",
+    "failureModes": [
+      "Missing +5 VDC — sensor cannot operate; run TEST #1",
+      "5 V present with bad level reading — replace APS or clear hose"
+    ],
+    "testingTips": [
+      "Black probe to J14-2 (GND), red to J14-3 per manual step 12",
+      "Drain tub before replacing sensor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["fill_issue", "voltage_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherWashNtcOhms",
+    "name": "Whirlpool FL Wash NTC (J15 pins 1 & 3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 700, "max": 40000 },
+      "warning": { "min": 400, "max": 60000 },
+      "critical": { "below": 50, "above": 100000 }
+    },
+    "typical": { "min": 18000, "max": 22000 },
+    "openCircuitCritical": true,
+    "purpose": "Wash temperature NTC — ~20 kΩ @ 77°F (25°C); use OEM R/T table for ambient.",
+    "failureModes": [
+      "Open or short — wash temp faults / poor heat control",
+      "Good at J15 but fault persists — harness or ACU"
+    ],
+    "testingTips": [
+      "Begin with empty washer at ambient temperature",
+      "Compare reading to thermistor table in TEST #10"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["thermistor", "heating_element_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherDryNtcOhms",
+    "name": "Whirlpool FL Dry NTC (J13 pins 1 & 3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 700, "max": 40000 },
+      "warning": { "min": 400, "max": 60000 },
+      "critical": { "below": 50, "above": 100000 }
+    },
+    "typical": { "min": 18000, "max": 22000 },
+    "openCircuitCritical": true,
+    "purpose": "Dry temperature NTC — ~20 kΩ @ 77°F; combo models with vent dry.",
+    "failureModes": [
+      "Open or short — dry temp faults",
+      "Good sensor, bad harness — replace main harness"
+    ],
+    "testingTips": [
+      "Empty washer at ambient before measuring",
+      "Use OEM R/T table in TEST #16"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["thermistor", "heating_element_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherDosingPumpOhms",
+    "name": "Whirlpool FL Dosing Pump (pins 1 & 3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1600, "max": 1960 },
+      "warning": { "min": 1400, "max": 2200 },
+      "critical": { "below": 50, "above": 5000 }
+    },
+    "typical": { "min": 1700, "max": 1850 },
+    "openCircuitCritical": true,
+    "purpose": "Bulk/optimal dosing pump coil — J10 circuit, TEST #11B / #12A.",
+    "failureModes": [
+      "Open coil — no detergent dispense",
+      "Good ohms but no run — ACU or harness"
+    ],
+    "testingTips": [
+      "Disconnect pump connector at metering bracket",
+      "Tank must be seated in drawer for live pump test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["dispenser_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherBulkLevelSwitchClosedOhms",
+    "name": "Whirlpool FL Bulk Level Switch Closed (magnet present)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 3 },
+      "warning": { "min": 0, "max": 10 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 2 },
+    "openCircuitCritical": true,
+    "purpose": "Level switch should close (<3 Ω) when magnet placed over sensor cavity — TEST #12B.",
+    "failureModes": [
+      "Stays open with magnet — bad level sensor",
+      "Float stuck — false low level"
+    ],
+    "testingTips": [
+      "Open at rest with reservoir removed",
+      "Place magnet above sensor cavity while watching meter"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["dispenser_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherVentFanOhms",
+    "name": "Whirlpool FL Vent Fan Motor (J12)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1780, "max": 2300 },
+      "warning": { "min": 1500, "max": 2800 },
+      "critical": { "below": 50, "above": 5000 }
+    },
+    "typical": { "min": 1900, "max": 2100 },
+    "openCircuitCritical": true,
+    "purpose": "Vent fan winding — combo dry models, TEST #13.",
+    "failureModes": [
+      "Open winding — fan does not run",
+      "Good ohms — obstruction or ACU"
+    ],
+    "testingTips": [
+      "Check rear vent for obstruction first",
+      "Measure across fan motor terminals with harness disconnected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["vent_fan_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherVentBaffleSolenoidOhms",
+    "name": "Whirlpool FL Vent Baffle Solenoid (J9)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1, "max": 10000000 },
+      "warning": { "min": 1, "max": 15000000 },
+      "critical": { "below": 1, "above": 20000000 }
+    },
+    "typical": { "min": 500, "max": 5000 },
+    "openCircuitCritical": true,
+    "purpose": "Vent baffle wax motor / solenoid — should read less than 10 MΩ, not open.",
+    "failureModes": [
+      "Open solenoid — baffle will not open",
+      "Good ohms — mechanical obstruction or ACU"
+    ],
+    "testingTips": [
+      "Check rear vent obstruction before electrical test",
+      "Measure across solenoid terminals with power off"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["vent_fan_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherDryHeater1100WOms",
+    "name": "Whirlpool FL Dry Heater 1100 W (J4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 12.32, "max": 13.6 },
+      "warning": { "min": 11.5, "max": 14.5 },
+      "critical": { "below": 5, "above": 20 }
+    },
+    "typical": { "min": 12.8, "max": 13.2 },
+    "openCircuitCritical": true,
+    "purpose": "1100 W dry heater element — TEST #15 variant.",
+    "failureModes": [
+      "Open element — no dry heat",
+      "Good at element, open at J4 — harness"
+    ],
+    "testingTips": [
+      "Heater is part of Heater Channel Assembly on many models",
+      "Confirm wattage variant before condemning element"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["heating_element_check", "dry_heat"]
+  },
+  {
+    "id": "whirlpoolFlWasherDryHeater450WOms",
+    "name": "Whirlpool FL Dry Heater 450 W (J4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 30.1, "max": 34.9 },
+      "warning": { "min": 28, "max": 36 },
+      "critical": { "below": 10, "above": 50 }
+    },
+    "typical": { "min": 31.5, "max": 33.5 },
+    "openCircuitCritical": true,
+    "purpose": "450 W dry heater element — TEST #15 variant.",
+    "failureModes": [
+      "Open element — no dry heat",
+      "Good at element, open at J4 — harness"
+    ],
+    "testingTips": [
+      "Dry heat may be deactivated on some models",
+      "Replace Heater Channel Assembly if element failed"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["heating_element_check", "dry_heat"]
+  },
+  {
+    "id": "whirlpoolFlWasherDryBlowerOhms",
+    "name": "Whirlpool FL Dry Blower Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 9, "max": 10.6 },
+      "warning": { "min": 8, "max": 12 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 9.5, "max": 10.2 },
+    "openCircuitCritical": true,
+    "purpose": "Dry blower motor — 9.0–10.6 Ω; part of Heater Channel Assembly.",
+    "failureModes": [
+      "Open or shorted winding — no airflow in dry",
+      "Good ohms but stuck wheel — replace assembly"
+    ],
+    "testingTips": [
+      "Verify blower wheel turns freely after electrical pass",
+      "Motor not separately serviceable on many models"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["vent_fan_check", "dry_heat"]
+  },
+  {
     "id": "insigniaWasherLevelSensorFrequency",
     "name": "Insignia Washer Level Sensor Frequency (empty tub)",
     "unit": "kHz",

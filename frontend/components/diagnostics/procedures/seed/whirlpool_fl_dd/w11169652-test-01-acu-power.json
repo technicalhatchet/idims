@@ -1,0 +1,369 @@
+{
+  "id": "w11169652-test-01-acu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: ACU Power Check",
+  "platformId": "whirlpool_fl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "voltage_check",
+    "supply_issue",
+    "F3E1",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "W11169652",
+    "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "verifiedAt": "2026-03-07",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "ACU Power Check",
+    "pages": [
+      44,
+      45
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false
+    },
+    {
+      "id": "access_electronics",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access machine electronics",
+      "body": "Remove the top panel. Visually verify all RFI filter and ACU connections are fully seated.",
+      "sourceExcerpt": "Remove the top panel. Visually verify all RFI filter and ACU connections are fully seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "visual_if_acu"
+    },
+    {
+      "id": "visual_if_acu",
+      "order": 3,
+      "type": "visual_check",
+      "title": "RFI filter and ACU connections OK",
+      "body": "Are all interference filter and ACU harness connections secure and fully inserted?",
+      "sourceExcerpt": "Are all interference filter and ACU harness connections secure and fully inserted?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vis_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "restore_power_line"
+        },
+        {
+          "id": "vis_bad",
+          "label": "Loose or damaged connection",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_connections",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect loose harness/connector terminals, then repeat TEST #1."
+        }
+      ]
+    },
+    {
+      "id": "restore_power_line",
+      "order": 4,
+      "type": "instruction",
+      "title": "Restore power for voltage checks",
+      "body": "Plug in or reconnect power for live voltage measurements only. Use needle probes on connectors.",
+      "sourceExcerpt": "Plug in or reconnect power for live voltage measurements only. Use needle probes on connectors.",
+      "requiresInput": false,
+      "defaultNextStepId": "line_if_input"
+    },
+    {
+      "id": "line_if_input",
+      "order": 5,
+      "type": "measurement",
+      "title": "Line voltage at RFI filter input",
+      "body": "With AC voltmeter, measure line voltage at the interference filter input (power cord side).",
+      "sourceExcerpt": "With AC voltmeter, measure line voltage at the interference filter input (power cord side).",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "RFI",
+        "pins": "Line in",
+        "label": "Line voltage at RFI filter input"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "line_in_ok",
+          "label": "Line voltage present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "line_if_output"
+        },
+        {
+          "id": "line_in_bad",
+          "label": "No line voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Verify outlet and cord continuity; replace power cord if cord fails continuity check."
+        },
+        {
+          "id": "line_in_warn",
+          "label": "Low/out of range voltage",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Correct supply voltage issue or replace power cord before further ACU testing."
+        }
+      ]
+    },
+    {
+      "id": "line_if_output",
+      "order": 6,
+      "type": "measurement",
+      "title": "Line voltage at RFI filter output",
+      "body": "Measure AC line voltage at the interference filter output toward the ACU.",
+      "sourceExcerpt": "Measure AC line voltage at the interference filter output toward the ACU.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "RFI",
+        "pins": "Line out",
+        "label": "Line voltage at RFI filter output"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "line_out_ok",
+          "label": "Line voltage present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "line_j2"
+        },
+        {
+          "id": "line_out_bad",
+          "label": "No voltage at output",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_rfi",
+          "terminal": true,
+          "oemOutcome": "Replace the interference (RFI) filter."
+        },
+        {
+          "id": "line_out_warn",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_rfi",
+          "terminal": true,
+          "oemOutcome": "Replace the interference (RFI) filter."
+        }
+      ]
+    },
+    {
+      "id": "line_j2",
+      "order": 7,
+      "type": "measurement",
+      "title": "AC input at ACU J2 pins 1 & 2",
+      "body": "Measure AC line voltage across J2 pins 1 (LINE) and 2 (Neutral) at the ACU with IF connected.",
+      "sourceExcerpt": "Measure AC line voltage across J2 pins 1 (LINE) and 2 (Neutral) at the ACU with IF connected.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "J2",
+        "pins": "1 & 2",
+        "label": "AC input at ACU J2 pins 1 & 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j2_ok",
+          "label": "Line voltage at ACU",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "acu_led_status"
+        },
+        {
+          "id": "j2_bad",
+          "label": "No voltage at J2",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "repair_j2_harness",
+          "terminal": true,
+          "oemOutcome": "Inspect harness between RFI filter and ACU J2; repair bent terminals or replace harness."
+        }
+      ]
+    },
+    {
+      "id": "acu_led_status",
+      "order": 8,
+      "type": "visual_check",
+      "title": "ACU service LED healthy",
+      "body": "After power-up, does the ACU status LED blink slowly (0.5s on/off) within 30 seconds? (Not off, not rapid constant blink.)",
+      "sourceExcerpt": "After power-up, does the ACU status LED blink slowly (0.5s on/off) within 30 seconds? (Not off, not rapid constant blink.)",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "led_ok",
+          "label": "LED blinks slowly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_5v"
+        },
+        {
+          "id": "led_bad",
+          "label": "LED off or not slow-blinking",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_led",
+          "terminal": true,
+          "oemOutcome": "Replace the ACU \u2014 microcontroller or 5 VDC supply fault indicated."
+        }
+      ]
+    },
+    {
+      "id": "hmi_5v",
+      "order": 9,
+      "type": "measurement",
+      "title": "HMI 5 VDC at J19 pins 2 & 4",
+      "body": "Verify 5 VDC between J19 pin 2 (+5V_UI) and pin 4 (DGND).",
+      "sourceExcerpt": "Verify 5 VDC between J19 pin 2 (+5V_UI) and pin 4 (DGND).",
+      "measurementKnowledgeId": "whirlpoolFlWasherHmi5Vdc",
+      "testPoint": {
+        "connector": "J19",
+        "pins": "2 & 4",
+        "label": "HMI 5 VDC at J19 pins 2 & 4"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hmi5_ok",
+          "label": "5 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hmi_12v"
+        },
+        {
+          "id": "hmi5_bad",
+          "label": "5 VDC missing",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu_hmi",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 HMI supply fault."
+        }
+      ]
+    },
+    {
+      "id": "hmi_12v",
+      "order": 10,
+      "type": "measurement",
+      "title": "HMI 12 VDC at J19 pins 1 & 4",
+      "body": "Verify 12 VDC between J19 pin 1 (12.7_Lim_UI) and pin 4 (DGND).",
+      "sourceExcerpt": "Verify 12 VDC between J19 pin 1 (12.7_Lim_UI) and pin 4 (DGND).",
+      "measurementKnowledgeId": "whirlpoolFlWasherHmi12Vdc",
+      "testPoint": {
+        "connector": "J19",
+        "pins": "1 & 4",
+        "label": "HMI 12 VDC at J19 pins 1 & 4"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hmi12_ok",
+          "label": "12 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "power_verified"
+        },
+        {
+          "id": "hmi12_bad",
+          "label": "12 VDC missing",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu_hmi",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 HMI supply fault."
+        }
+      ]
+    },
+    {
+      "id": "power_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "ACU power verified",
+      "oemOutcome": "Incoming power, ACU LED, and HMI supplies verified \u2014 problem is likely downstream. Reassemble and verify with Quick Service Cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_connections",
+      "order": 12,
+      "type": "outcome",
+      "title": "Repair connections",
+      "oemOutcome": "Secure all IF and ACU connections, then repeat TEST #1.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_cord",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace power cord",
+      "oemOutcome": "Replace power cord or correct outlet supply, then repeat TEST #1.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_rfi",
+      "order": 14,
+      "type": "outcome",
+      "title": "Replace RFI filter",
+      "oemOutcome": "Replace interference filter and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_j2_harness",
+      "order": 15,
+      "type": "outcome",
+      "title": "Repair J2 harness",
+      "oemOutcome": "Repair harness between filter and ACU J2.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_led",
+      "order": 16,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU per service LED fault indication.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_hmi",
+      "order": 17,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU \u2014 HMI voltage supply failure.",
+      "requiresInput": false
+    }
+  ]
+}
