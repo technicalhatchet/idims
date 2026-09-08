@@ -163,6 +163,13 @@ export interface ProcedureStepInput {
 
 export type ProcedureRunStatus = 'in_progress' | 'completed' | 'aborted';
 
+export interface AppliedDiagnosticEffectEntry {
+  stepId: string;
+  branchId?: string;
+  effects: DiagnosticEffect[];
+  at: string;
+}
+
 export interface ProcedureRunState {
   procedureId: string;
   version: string;
@@ -170,6 +177,8 @@ export interface ProcedureRunState {
   currentStepId: string;
   completedStepIds: string[];
   stepInputs: Record<string, ProcedureStepInput>;
+  /** Cumulative OEM diagnostic effects applied as steps complete. */
+  appliedDiagnosticEffects?: AppliedDiagnosticEffectEntry[];
   oemOutcome?: string;
   status: ProcedureRunStatus;
 }

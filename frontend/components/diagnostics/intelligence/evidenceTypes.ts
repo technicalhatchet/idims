@@ -58,7 +58,7 @@ export interface EvidenceLedgerEntry {
   delta: number;
   explanation: string;
   effect: EvidenceEffect['effect'];
-  source?: 'rule' | 'dma';
+  source?: 'rule' | 'dma' | 'procedure';
   trigger?: EvidenceLedgerTrigger;
 }
 

@@ -66,6 +66,7 @@ export default function SolomonDiagnosticReasoningView({
   );
 
   const visitedStepKeys = payload?.visitedStepKeys || [];
+  const procedureRuns = payload?.procedureRuns || {};
 
   const intelligence = useMemo(
     () =>
@@ -81,12 +82,14 @@ export default function SolomonDiagnosticReasoningView({
             dmaNudges: null,
             fieldLabels,
             stepKeyLabels,
+            procedureRuns,
           },
         )
         : null,
     [
       templateId,
       payload?.fields,
+      procedureRuns,
       measurementStatuses,
       visitedStepKeys,
       defaultStepOrder,

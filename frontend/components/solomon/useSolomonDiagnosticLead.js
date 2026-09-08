@@ -36,6 +36,7 @@ export function computeSolomonDiagnosticLead(target) {
     dmaNudges: null,
     fieldLabels,
     stepKeyLabels,
+    procedureRuns: target?.payload?.procedureRuns || {},
   });
 
   return formatDiyLeadCard(intelligence);
@@ -49,6 +50,7 @@ export function useSolomonDiagnosticLead(target) {
   const templateId = target?.payload?.templateId || target?.template_id;
   const fields = target?.payload?.fields || {};
   const visitedStepKeys = target?.payload?.visitedStepKeys || [];
+  const procedureRuns = target?.payload?.procedureRuns || {};
 
   const wizardDefinition = getWizardDefinition(templateId);
   const template = getDiagnosticTemplate(templateId);
@@ -88,11 +90,13 @@ export function useSolomonDiagnosticLead(target) {
           dmaNudges: null,
           fieldLabels,
           stepKeyLabels,
+          procedureRuns,
         })
         : null,
     [
       templateId,
       fields,
+      procedureRuns,
       measurementStatuses,
       visitedStepKeys,
       defaultStepOrder,
