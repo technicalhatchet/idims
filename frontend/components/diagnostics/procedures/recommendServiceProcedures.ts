@@ -23,13 +23,15 @@ export interface RecommendServiceProceduresInput {
 /** Restrict procedures to compatible diagnostic templates until broader coverage ships. */
 const PROCEDURE_TEMPLATE_ALLOWLIST: Record<string, string[]> = {
   'w11169652-test-03-motor-circuit': ['washer'],
+  'w11169652-test-08-drain-pump': ['washer'],
 };
 
 const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
   wont_spin: ['spin_issue', 'motor_check'],
   wont_agitate: ['spin_issue', 'motor_check'],
+  wont_drain: ['drain_issue', 'pump_check', 'wont_drain'],
   vibration: ['motor_check'],
-  noisy: ['motor_check'],
+  noisy: ['motor_check', 'pump_check'],
 };
 
 const UI_VARIANT_LABELS: Record<ServiceModeUiVariant, string> = {
