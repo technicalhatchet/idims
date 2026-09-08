@@ -1,0 +1,253 @@
+{
+  "id": "w8178558-wash-ntc",
+  "version": "1.0.0",
+  "title": "\u00a75-7: Wash NTC (TH2)",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "wash_ntc"
+  ],
+  "tags": [
+    "thermistor",
+    "heating_element_check",
+    "F24"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-7",
+    "oemTestTitle": "Temperature Sensor",
+    "pages": [
+      77
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_th2_component"
+    },
+    {
+      "id": "disconnect_th2_component",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect NTC at component",
+      "body": "Refer to job aid \u00a74-22. Disconnect the wire connector from the water temperature sensor.",
+      "sourceExcerpt": "Refer to job aid \u00a74-22. Disconnect the wire connector from the water temperature sensor.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_at_component"
+    },
+    {
+      "id": "ntc_at_component",
+      "order": 3,
+      "type": "measurement",
+      "title": "Wash NTC at sensor terminals",
+      "body": "Set ohmmeter to R\u00d71K. Measure across sensor terminals and compare to ambient temperature. OEM R/T table (TH2): 35.9k \u03a9 @ 32\u00b0F (0\u00b0C); 9.7k \u03a9 @ 86\u00b0F (30\u00b0C); 6.6k \u03a9 @ 104\u00b0F (40\u00b0C); 4.6k \u03a9 @ 122\u00b0F (50\u00b0C); 3.2k \u03a9 @ 140\u00b0F (60\u00b0C); 2.3k \u03a9 @ 158\u00b0F (70\u00b0C); 1k \u03a9 @ 203\u00b0F (95\u00b0C).",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71K. Measure across sensor terminals and compare to ambient temperature. OEM R/T table (TH2): 35.9k \u03a9 @ 32\u00b0F (0\u00b0C); 9.7k \u03a9 @ 86\u00b0F (30\u00b0C); 6.6k \u03a9 @ 104\u00b0F (40\u00b0C); 4.6k \u03a9 @ 122\u00b0F (50\u00b0C); 3.2k \u03a9 @ 140\u00b0F (60\u00b0C); 2.3k \u03a9 @ 158\u00b0F (70\u00b0C); 1k \u03a9 @ 203\u00b0F (95\u00b0C).",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherWashNtcOhms",
+      "testPoint": {
+        "connector": "Wash NTC",
+        "pins": "Sensor pins",
+        "label": "Wash NTC at sensor terminals"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_comp_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "ntc_comp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "ntc_comp_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "ntc_comp_pass",
+          "label": "Within R/T table",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disconnect_th2_ccu",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_ntc",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_th2_ccu",
+      "order": 4,
+      "type": "instruction",
+      "title": "Disconnect TH2 at CCU",
+      "body": "Disconnect temperature sensor connector TH2 from the CCU.",
+      "sourceExcerpt": "Disconnect temperature sensor connector TH2 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_at_ccu"
+    },
+    {
+      "id": "ntc_at_ccu",
+      "order": 5,
+      "type": "measurement",
+      "title": "Wash NTC TH2 pins 1 & 2",
+      "body": "Set ohmmeter to R\u00d71K. Measure TH2 pins 1 and 2. Compare reading to OEM R/T table at ambient. OEM R/T table (TH2): 35.9k \u03a9 @ 32\u00b0F (0\u00b0C); 9.7k \u03a9 @ 86\u00b0F (30\u00b0C); 6.6k \u03a9 @ 104\u00b0F (40\u00b0C); 4.6k \u03a9 @ 122\u00b0F (50\u00b0C); 3.2k \u03a9 @ 140\u00b0F (60\u00b0C); 2.3k \u03a9 @ 158\u00b0F (70\u00b0C); 1k \u03a9 @ 203\u00b0F (95\u00b0C).",
+      "sourceExcerpt": "Set ohmmeter to R\u00d71K. Measure TH2 pins 1 and 2. Compare reading to OEM R/T table at ambient. OEM R/T table (TH2): 35.9k \u03a9 @ 32\u00b0F (0\u00b0C); 9.7k \u03a9 @ 86\u00b0F (30\u00b0C); 6.6k \u03a9 @ 104\u00b0F (40\u00b0C); 4.6k \u03a9 @ 122\u00b0F (50\u00b0C); 3.2k \u03a9 @ 140\u00b0F (60\u00b0C); 2.3k \u03a9 @ 158\u00b0F (70\u00b0C); 1k \u03a9 @ 203\u00b0F (95\u00b0C).",
+      "measurementKnowledgeId": "whirlpoolDuetSportWasherWashNtcOhms",
+      "testPoint": {
+        "connector": "TH2",
+        "pins": "1 & 2",
+        "label": "Wash NTC TH2 pins 1 & 2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Wash NTC"
+          },
+          {
+            "pin": "2",
+            "signal": "Wash NTC return"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_ccu_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ntc_or_harness",
+          "terminal": true,
+          "oemOutcome": "Replace wash temperature sensor or harness (F24).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "ntc_ccu_bad",
+          "label": "Out of R/T range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace wash temperature sensor (F24).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "ntc_ccu_warn",
+          "label": "Marginal / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace wash temperature sensor when out of range (F24).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "ntc_ccu_pass",
+          "label": "Within R/T table",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ntc_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_ntc",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ntc",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace wash NTC",
+      "oemOutcome": "Replace water temperature sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_ntc_or_harness",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace NTC or harness",
+      "oemOutcome": "NTC good at component but open at TH2 \u2014 replace sensor or harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "ntc_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Wash NTC verified",
+      "oemOutcome": "TH2 resistance within OEM R/T table at ambient.",
+      "requiresInput": false
+    }
+  ]
+}

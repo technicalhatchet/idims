@@ -1,0 +1,185 @@
+{
+  "id": "w8178558-pressure-switch",
+  "version": "1.0.0",
+  "title": "\u00a75-2: Pressure Switch (F20)",
+  "platformId": "whirlpool_duet_sport",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "fill_issue",
+    "no_fill",
+    "F20",
+    "Sd"
+  ],
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-2",
+    "oemTestTitle": "Pressure Switch",
+    "pages": [
+      72
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "hose_routing_ok"
+    },
+    {
+      "id": "hose_routing_ok",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Pressure hose and tub connection OK",
+      "body": "Verify the pressure switch hose is connected to the tub, air trap is clear, and hose is not kinked, pinched, or leaking. F20 if pressure switch does not trip within 6 minutes of fill.",
+      "sourceExcerpt": "Verify the pressure switch hose is connected to the tub, air trap is clear, and hose is not kinked, pinched, or leaking. F20 if pressure switch does not trip within 6 minutes of fill.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Hose routing OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_pr6"
+        },
+        {
+          "id": "hose_bad",
+          "label": "Hose/trap issue",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_hose_trap",
+          "terminal": true,
+          "oemOutcome": "Clear air trap, repair hose routing, replace leaking hose; retest fill."
+        }
+      ]
+    },
+    {
+      "id": "disconnect_pr6",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect pressure switch hose",
+      "body": "Refer to job aid \u00a74-7. Disconnect wire connector and hose from the pressure switch.",
+      "sourceExcerpt": "Refer to job aid \u00a74-7. Disconnect wire connector and hose from the pressure switch.",
+      "requiresInput": false,
+      "defaultNextStepId": "blow_hose_checkpoint"
+    },
+    {
+      "id": "blow_hose_checkpoint",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Blow hose \u2014 contacts close at each level",
+      "body": "Set ohmmeter to R\u00d71. Touch leads to pressure switch pins per OEM chart while blowing into the hose inlet to activate the diaphragm. Each level should read 0 \u03a9 while activated: Empty pins 4&6; Suds Detect pins 1&2; L1 pins 4&5; Overflow pins 3&4.",
+      "sourceExcerpt": "Blow into hose inlet to activate diaphragm \u2014 0 \u03a9 for each measurement while activated.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "levels_ok",
+          "label": "All levels close (0 \u03a9) when activated",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pr6_suds_checkpoint"
+        },
+        {
+          "id": "levels_bad",
+          "label": "Level contact fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pressure_switch",
+          "terminal": true,
+          "oemOutcome": "Replace pressure switch when level contacts fail to close.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pr6_suds_checkpoint",
+      "order": 5,
+      "type": "instruction",
+      "title": "Disconnect PR6 at CCU",
+      "body": "Disconnect pressure switch connector PR6 from the CCU.",
+      "sourceExcerpt": "Disconnect pressure switch connector PR6 from the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "pr6_pins_1_2"
+    },
+    {
+      "id": "pr6_pins_1_2",
+      "order": 6,
+      "type": "visual_check",
+      "title": "PR6 pins 1 & 2 \u2014 suds detect (0 \u03a9)",
+      "body": "With ohmmeter on PR6 pins 1 and 2, does the suds-detect level read 0 \u03a9 when the pressure switch diaphragm is activated (blow into hose or simulate suds level)?",
+      "sourceExcerpt": "Connector PR6 pins 1 and 2 should indicate 0 \u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pr6_ok",
+          "label": "0 \u03a9 when activated",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pressure_switch_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "pr6_bad",
+          "label": "Does not close",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pressure_switch",
+          "terminal": true,
+          "oemOutcome": "Replace pressure switch \u2014 PR6 suds level not tripping (F20)."
+        }
+      ]
+    },
+    {
+      "id": "service_hose_trap",
+      "order": 7,
+      "type": "outcome",
+      "title": "Service hose and trap",
+      "oemOutcome": "Clear pressure hose and air trap; retest fill.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pressure_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace pressure switch",
+      "oemOutcome": "Replace pressure switch assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "pressure_switch_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Pressure switch verified",
+      "oemOutcome": "Hose path and PR6 level contacts OK \u2014 investigate inlet valves if F20 persists.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -98,6 +98,18 @@ def is_bundle_path(path: Path) -> bool:
     return "bundles" in path.parts
 
 
+def is_procedure_seed_file(path: Path) -> bool:
+    if is_bundle_path(path):
+        return False
+    if path.name in {"procedureCatalog.json"}:
+        return False
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+    return isinstance(data, dict) and "entryStepId" in data and "platformId" in data
+
+
 def validate_steps(
     steps: list[dict],
     path: Path,
@@ -327,7 +339,7 @@ def main() -> int:
         return 1
 
     bundle_files = [path for path in seed_files if is_bundle_path(path)]
-    procedure_files = [path for path in seed_files if not is_bundle_path(path)]
+    procedure_files = [path for path in seed_files if is_procedure_seed_file(path)]
 
     all_errors: list[str] = []
     bundle_ids: set[str] = set()

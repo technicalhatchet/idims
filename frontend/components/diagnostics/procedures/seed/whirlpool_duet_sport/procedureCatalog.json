@@ -1,0 +1,126 @@
+{
+  "manualId": "W8178558",
+  "platformId": "whirlpool_duet_sport",
+  "templateId": "washer",
+  "label": "Whirlpool Duet Sport CCU/MCU belt-drive washer (Job Aid 8178558)",
+  "notes": "Job Aid uses diagnostic sections (\u00a75-x, \u00a76-x), not W11169652-style TEST # labels.",
+  "plannedProcedures": [
+    {
+      "id": "w8178558-motor-circuit",
+      "oemSection": "5-8",
+      "title": "\u00a75-8: Drive Motor Circuit",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportWasherMotorOhms"
+      ],
+      "relatedCodes": [
+        "F25",
+        "F28",
+        "F06"
+      ]
+    },
+    {
+      "id": "w8178558-drain-pump",
+      "oemSection": "5-6",
+      "title": "\u00a75-6: Drain Pump Circuit",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportWasherDrainPumpOhms",
+        "whirlpoolDuetSportWasherDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "F21",
+        "Sd"
+      ]
+    },
+    {
+      "id": "w8178558-inlet-valves",
+      "oemSection": "5-1",
+      "title": "\u00a75-1: Water Inlet Valve Solenoids",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportWasherInletValveOhms",
+        "whirlpoolDuetSportWasherInletValveOhms",
+        "whirlpoolDuetSportWasherInletValveOhms"
+      ],
+      "relatedCodes": [
+        "F20",
+        "F27"
+      ]
+    },
+    {
+      "id": "w8178558-door-lock",
+      "oemSection": "5-5",
+      "title": "\u00a75-5: Door Lock / Switch Circuit",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+        "whirlpoolDuetSportWasherDoorLockSolenoidOhms"
+      ],
+      "relatedCodes": [
+        "F22",
+        "F26",
+        "F29"
+      ]
+    },
+    {
+      "id": "w8178558-wash-heater",
+      "oemSection": "5-7",
+      "title": "\u00a75-7: Wash Heater (Ht models)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportWasherHeaterOhms",
+        "whirlpoolDuetSportWasherHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F23",
+        "F24"
+      ]
+    },
+    {
+      "id": "w8178558-wash-ntc",
+      "oemSection": "5-7",
+      "title": "\u00a75-7: Wash NTC (TH2)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportWasherWashNtcOhms",
+        "whirlpoolDuetSportWasherWashNtcOhms"
+      ],
+      "relatedCodes": [
+        "F24"
+      ]
+    },
+    {
+      "id": "w8178558-pressure-switch",
+      "oemSection": "5-2",
+      "title": "\u00a75-2: Pressure Switch (F20)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F20",
+        "Sd"
+      ]
+    },
+    {
+      "id": "w8178558-dispenser-motor",
+      "oemSection": "5-4",
+      "title": "\u00a75-4: Detergent Dispenser Motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDuetSportWasherDispenserMotorOhms",
+        "whirlpoolDuetSportWasherDispenserMotorOhms"
+      ],
+      "relatedCodes": [
+        "F30"
+      ]
+    },
+    {
+      "id": "w8178558-interlock-switch",
+      "oemSection": "5-8",
+      "title": "\u00a75-8: Interlock Switch (NC ground)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}
