@@ -59,6 +59,7 @@ import {
   listServiceProcedureCatalog,
   recommendServiceProcedures,
 } from '../diagnostics/procedures/recommendServiceProcedures';
+import { getErrorCodesFromDiagnosticFields } from '../diagnostics/procedures/parseProcedureErrorCodes';
 import { SOLOMON_INTERFACE } from '../solomon/solomonThemeTokens';
 import SolomonInsightPeekBanner from '../solomon/SolomonInsightPeekBanner';
 import {
@@ -362,12 +363,18 @@ export default function DiagnosticResultsForm({
     [payload?.fields],
   );
 
+  const errorCodes = useMemo(
+    () => getErrorCodesFromDiagnosticFields(payload?.fields || {}),
+    [payload?.fields],
+  );
+
   const procedureRecommendations = useMemo(
     () => recommendServiceProcedures({
       templateId: payload?.templateId,
       measurementContext,
       intelligence: intelligenceResult,
       complaintChipIds,
+      errorCodes,
       procedureRuns: payload?.procedureRuns || {},
     }),
     [
@@ -376,6 +383,7 @@ export default function DiagnosticResultsForm({
       measurementContext,
       intelligenceResult,
       complaintChipIds,
+      errorCodes,
     ],
   );
 
