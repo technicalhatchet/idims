@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -825,6 +827,9 @@ def main() -> None:
         path = OUT / filename
         path.write_text(json.dumps(item, indent=2) + "\n", encoding="utf-8")
         print(f"Wrote {path.name}")
+
+    attach_script = ROOT / "backend" / "scripts" / "attach_w11169652_procedure_diagrams.py"
+    subprocess.run([sys.executable, str(attach_script)], check=True)
 
 
 if __name__ == "__main__":

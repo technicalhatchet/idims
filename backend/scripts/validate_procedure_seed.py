@@ -12,6 +12,7 @@ PROCEDURE_SEED_DIR = (
     ROOT / "frontend" / "components" / "diagnostics" / "procedures" / "seed"
 )
 KNOWLEDGE_SEED_DIR = ROOT / "frontend" / "components" / "diagnostics" / "knowledge" / "seed"
+PUBLIC_DIR = ROOT / "frontend" / "public"
 
 REQUIRED_PROCEDURE_KEYS = {
     "id",
@@ -185,6 +186,25 @@ def validate_steps(
                     errors.append(
                         f"{path}: step {step_id} pin {pin.get('pin')} has unknown verified wireColor '{wire_color}'"
                     )
+
+        for image in step.get("images", []) or []:
+            image_id = image.get("id", "<unknown>")
+            asset_path = image.get("assetPath")
+            if not asset_path:
+                errors.append(
+                    f"{path}: step {step_id} image '{image_id}' missing assetPath"
+                )
+                continue
+            if not str(asset_path).startswith("/"):
+                errors.append(
+                    f"{path}: step {step_id} image '{image_id}' assetPath must start with '/'"
+                )
+                continue
+            fs_path = PUBLIC_DIR / str(asset_path).lstrip("/")
+            if not fs_path.is_file():
+                errors.append(
+                    f"{path}: step {step_id} image '{image_id}' asset not found at {fs_path.relative_to(ROOT)}"
+                )
 
     return errors
 

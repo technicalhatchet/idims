@@ -3,15 +3,25 @@
   "version": "1.0.0",
   "title": "TEST #9: Wash Heating Element",
   "platformId": "whirlpool_fl_dd",
-  "componentIds": ["wash_heater"],
-  "tags": ["heating_element_check", "F4E1", "F4E2", "no_heat"],
+  "componentIds": [
+    "wash_heater"
+  ],
+  "tags": [
+    "heating_element_check",
+    "F4E1",
+    "F4E2",
+    "no_heat"
+  ],
   "source": {
     "manualId": "W11169652",
     "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
     "oemTestNumber": "9",
     "oemTestTitle": "Wash Heating Element",
     "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
-    "pages": [53, 54],
+    "pages": [
+      53,
+      54
+    ],
     "verifiedAt": "2026-03-07",
     "verifiedBy": "manual-extraction"
   },
@@ -31,7 +41,7 @@
       "type": "safety",
       "title": "Disconnect power",
       "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
-      "sourceExcerpt": "WARNING — Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock.",
       "requiresInput": false,
       "defaultNextStepId": "access_acu_j3"
     },
@@ -50,55 +60,101 @@
       "order": 3,
       "type": "measurement",
       "title": "Wash heater J3 pins 1 & 2",
-      "body": "With J3 disconnected at the ACU, measure resistance across pins 1 and 2. Expected 7–30 Ω at room temperature.",
-      "sourceExcerpt": "Using an ohmmeter, measure the resistance across pins 1 and 2 of connector J3. If the resistance is 7-30 Ω, the heating element and wiring are good.",
+      "body": "With J3 disconnected at the ACU, measure resistance across pins 1 and 2. Expected 7\u201330 \u03a9 at room temperature.",
+      "sourceExcerpt": "Using an ohmmeter, measure the resistance across pins 1 and 2 of connector J3. If the resistance is 7-30 \u03a9, the heating element and wiring are good.",
       "measurementKnowledgeId": "whirlpoolFlWasherHeaterOhms",
       "testPoint": {
         "connector": "J3",
         "pins": "1 & 2",
         "label": "Wash heater at ACU",
         "pinDetails": [
-          { "pin": "1", "signal": "Wash heater N", "wireColor": "BK", "wireColorConfidence": "verified" },
-          { "pin": "2", "signal": "Wash heater L", "wireColor": "W", "wireColorConfidence": "verified" }
+          {
+            "pin": "1",
+            "signal": "Wash heater N",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Wash heater L",
+            "wireColor": "W",
+            "wireColorConfidence": "verified"
+          }
         ]
       },
       "requiresInput": true,
       "branches": [
         {
           "id": "j3_heater_fail",
-          "label": "Outside 7–30 Ω",
-          "when": { "kind": "measurement_warning" },
+          "label": "Outside 7\u201330 \u03a9",
+          "when": {
+            "kind": "measurement_warning"
+          },
           "nextStepId": "access_heater_element",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "wash_heater", "evidenceId": "confirm_wash_heater_ol_wash_heater_failed" }
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
           ]
         },
         {
           "id": "j3_heater_open",
           "label": "Open circuit (OL)",
-          "when": { "kind": "measurement_open" },
+          "when": {
+            "kind": "measurement_open"
+          },
           "nextStepId": "access_heater_element",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "wash_heater", "evidenceId": "confirm_wash_heater_ol_wash_heater_failed" }
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
           ]
         },
         {
           "id": "j3_heater_critical",
           "label": "Critical out of range",
-          "when": { "kind": "measurement_critical" },
+          "when": {
+            "kind": "measurement_critical"
+          },
           "nextStepId": "access_heater_element",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "wash_heater", "evidenceId": "confirm_wash_heater_ol_wash_heater_failed" }
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
           ]
         },
         {
           "id": "j3_heater_pass",
-          "label": "7–30 Ω",
-          "when": { "kind": "measurement_normal" },
+          "label": "7\u201330 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
           "nextStepId": "reconnect_harness_power",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "wash_heater", "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "wash_heater",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+            }
           ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11169652-wash-heater-j3-location",
+          "caption": "Wash heater & temperature sensor \u2014 J3 / J15 (TEST #9\u201310)",
+          "assetPath": "/images/procedures/whirlpool_fl_dd/w11169652-wash-heater-j3-location.png"
+        },
+        {
+          "id": "w11169652-acu-pinout-figure2",
+          "caption": "ACU connectors & pinouts (Figure 2, manual p. 3-7)",
+          "assetPath": "/images/procedures/whirlpool_fl_dd/w11169652-acu-pinout-figure2.png"
         }
       ]
     },
@@ -117,53 +173,77 @@
       "order": 5,
       "type": "measurement",
       "title": "Heater ohms at element terminals",
-      "body": "Measure resistance across the two heating element terminals. Expected 7–30 Ω.",
-      "sourceExcerpt": "Using an ohmmeter, measure the resistance across the two heating element terminals. If the resistance is open, replace the heating element. If 7-30 Ω, replace the lower main harness.",
+      "body": "Measure resistance across the two heating element terminals. Expected 7\u201330 \u03a9.",
+      "sourceExcerpt": "Using an ohmmeter, measure the resistance across the two heating element terminals. If the resistance is open, replace the heating element. If 7-30 \u03a9, replace the lower main harness.",
       "measurementKnowledgeId": "whirlpoolFlWasherHeaterOhms",
       "requiresInput": true,
       "branches": [
         {
           "id": "element_open",
           "label": "Open circuit (OL)",
-          "when": { "kind": "measurement_open" },
+          "when": {
+            "kind": "measurement_open"
+          },
           "nextStepId": "replace_heater_element",
           "terminal": true,
-          "oemOutcome": "Replace the heating element. Torque heater nut to 4.5 Nm ± 0.5 Nm on reinstall. Verify drum clearance after install.",
+          "oemOutcome": "Replace the heating element. Torque heater nut to 4.5 Nm \u00b1 0.5 Nm on reinstall. Verify drum clearance after install.",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "wash_heater", "evidenceId": "confirm_wash_heater_ol_wash_heater_failed" }
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
           ]
         },
         {
           "id": "element_fail",
-          "label": "Outside 7–30 Ω",
-          "when": { "kind": "measurement_warning" },
+          "label": "Outside 7\u201330 \u03a9",
+          "when": {
+            "kind": "measurement_warning"
+          },
           "nextStepId": "replace_heater_element",
           "terminal": true,
           "oemOutcome": "Replace the heating element.",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "wash_heater", "evidenceId": "confirm_wash_heater_ol_wash_heater_failed" }
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
           ]
         },
         {
           "id": "element_critical",
           "label": "Critical out of range",
-          "when": { "kind": "measurement_critical" },
+          "when": {
+            "kind": "measurement_critical"
+          },
           "nextStepId": "replace_heater_element",
           "terminal": true,
           "oemOutcome": "Replace the heating element.",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "wash_heater", "evidenceId": "confirm_wash_heater_ol_wash_heater_failed" }
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
           ]
         },
         {
           "id": "element_pass",
-          "label": "7–30 Ω at element",
-          "when": { "kind": "measurement_normal" },
+          "label": "7\u201330 \u03a9 at element",
+          "when": {
+            "kind": "measurement_normal"
+          },
           "nextStepId": "replace_lower_harness",
           "terminal": true,
-          "oemOutcome": "Heating element is good — replace the lower main harness and retest with Quick Service Cycle.",
+          "oemOutcome": "Heating element is good \u2014 replace the lower main harness and retest with Quick Service Cycle.",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "wash_heater", "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "wash_heater",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+            }
           ]
         }
       ]
@@ -173,7 +253,7 @@
       "order": 6,
       "type": "outcome",
       "title": "Replace heating element",
-      "oemOutcome": "Replace heating element, torque nut 4.5 Nm ± 0.5 Nm, reassemble, and verify with Quick Service Cycle step 008.",
+      "oemOutcome": "Replace heating element, torque nut 4.5 Nm \u00b1 0.5 Nm, reassemble, and verify with Quick Service Cycle step 008.",
       "requiresInput": false
     },
     {
@@ -198,27 +278,38 @@
       "type": "visual_check",
       "title": "Heater energizes during QSC step 008",
       "body": "During Quick Service Cycle function 008 (Heater), does the wash heater turn on (tub warms / heater relay engages)?",
-      "sourceExcerpt": "008 — Heater — Adds cold water to the drum, turns on heater. If heater does not turn on, see TEST #9: Wash Heating Element.",
+      "sourceExcerpt": "008 \u2014 Heater \u2014 Adds cold water to the drum, turns on heater. If heater does not turn on, see TEST #9: Wash Heating Element.",
       "requiresInput": true,
       "branches": [
         {
           "id": "heater_runs_yes",
           "label": "Heater energizes",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "repair_verified",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "wash_heater", "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "wash_heater",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+            }
           ]
         },
         {
           "id": "heater_runs_no",
           "label": "Heater does not energize",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "suspect_acu",
           "terminal": true,
-          "oemOutcome": "Resistance was in range but heater did not energize — replace the ACU and retest with Quick Service Cycle.",
+          "oemOutcome": "Resistance was in range but heater did not energize \u2014 replace the ACU and retest with Quick Service Cycle.",
           "diagnosticEffects": [
-            { "type": "suspect", "componentId": "wash_heater" }
+            {
+              "type": "suspect",
+              "componentId": "wash_heater"
+            }
           ]
         }
       ]
@@ -228,7 +319,7 @@
       "order": 10,
       "type": "outcome",
       "title": "Wash heater verified",
-      "oemOutcome": "Wash heater operates in Quick Service Cycle — reassemble and return washer to service.",
+      "oemOutcome": "Wash heater operates in Quick Service Cycle \u2014 reassemble and return washer to service.",
       "requiresInput": false
     },
     {

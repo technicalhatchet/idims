@@ -3,6 +3,7 @@ import type { MeasurementEvaluation } from '../../knowledge/types';
 import { getMeasurementKnowledge } from '../../knowledge/knowledgeRegistry';
 import { formatRangeLabel } from '../../knowledge/measurementRulesEngine';
 import type { DecisionBranch, ProcedureStep, ProcedureStepInput } from '../types';
+import ProcedureStepImages from './ProcedureStepImages';
 import ProcedureTestPointPanel from './ProcedureTestPointPanel';
 
 const STEP_TYPE_LABELS: Record<string, string> = {
@@ -85,6 +86,8 @@ export default function ProcedureStepView({
       ) : null}
 
       {step.testPoint ? <ProcedureTestPointPanel testPoint={step.testPoint} /> : null}
+
+      {step.images?.length ? <ProcedureStepImages images={step.images} /> : null}
 
       {isMeasurement && knowledge ? (
         <div className="text-xs text-[var(--solomon-text-secondary)]">

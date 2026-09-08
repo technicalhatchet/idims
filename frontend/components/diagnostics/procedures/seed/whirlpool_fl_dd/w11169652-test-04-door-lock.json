@@ -3,15 +3,27 @@
   "version": "1.0.0",
   "title": "TEST #4: Door Lock System",
   "platformId": "whirlpool_fl_dd",
-  "componentIds": ["door_lock"],
-  "tags": ["door_lock_check", "F5E1", "F5E2", "F5E3", "lid_lock", "wont_spin"],
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "door_lock_check",
+    "F5E1",
+    "F5E2",
+    "F5E3",
+    "lid_lock",
+    "wont_spin"
+  ],
   "source": {
     "manualId": "W11169652",
     "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers",
     "oemTestNumber": "4",
     "oemTestTitle": "Door Lock System",
     "extractedTextFile": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
-    "pages": [48, 49],
+    "pages": [
+      48,
+      49
+    ],
     "verifiedAt": "2026-03-07",
     "verifiedBy": "manual-extraction"
   },
@@ -31,7 +43,7 @@
       "type": "safety",
       "title": "Disconnect power",
       "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
-      "sourceExcerpt": "WARNING — Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing. Failure to do so can result in death or electrical shock.",
       "requiresInput": false,
       "defaultNextStepId": "lock_mechanism_clear"
     },
@@ -47,13 +59,17 @@
         {
           "id": "mechanism_clear_yes",
           "label": "No obstruction or binding",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "access_acu_j7"
         },
         {
           "id": "mechanism_clear_no",
           "label": "Obstruction or binding found",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "repair_mechanism_first",
           "terminal": true,
           "oemOutcome": "Clear obstruction or repair binding; then repeat TEST #4 from step 1."
@@ -89,13 +105,17 @@
         {
           "id": "j7_seated_yes",
           "label": "J7 fully seated",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "energize_lock_instruction"
         },
         {
           "id": "j7_seated_no",
           "label": "J7 loose or not seated",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "reseat_j7",
           "terminal": true,
           "oemOutcome": "Reconnect J7 at the ACU, reassemble, restore power, and retest door lock with Quick Service Cycle."
@@ -117,16 +137,26 @@
       "order": 7,
       "type": "measurement",
       "title": "Lock switch J7 pins 1 & 2",
-      "body": "With power disconnected and lock solenoid actuated, measure resistance between J7-1 and J7-2 at the ACU connector. Locked position should read 0 Ω (continuity).",
-      "sourceExcerpt": "Lock Switch — Locked = 0 ohms, Unlocked = Open Circuit — J7-1, J7-2.",
+      "body": "With power disconnected and lock solenoid actuated, measure resistance between J7-1 and J7-2 at the ACU connector. Locked position should read 0 \u03a9 (continuity).",
+      "sourceExcerpt": "Lock Switch \u2014 Locked = 0 ohms, Unlocked = Open Circuit \u2014 J7-1, J7-2.",
       "measurementKnowledgeId": "whirlpoolFlWasherDoorLockSwitchLockedOhms",
       "testPoint": {
         "connector": "J7",
         "pins": "1 & 2",
         "label": "Lock switch (locked)",
         "pinDetails": [
-          { "pin": "1", "signal": "Lock switch", "wireColor": "BR", "wireColorConfidence": "verified" },
-          { "pin": "2", "signal": "Common", "wireColor": "YL", "wireColorConfidence": "verified" }
+          {
+            "pin": "1",
+            "signal": "Lock switch",
+            "wireColor": "BR",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Common",
+            "wireColor": "YL",
+            "wireColorConfidence": "verified"
+          }
         ]
       },
       "requiresInput": true,
@@ -134,38 +164,69 @@
         {
           "id": "lock_switch_fail",
           "label": "Out of range",
-          "when": { "kind": "measurement_warning" },
+          "when": {
+            "kind": "measurement_warning"
+          },
           "nextStepId": "inspect_door_lock_harness",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
           ]
         },
         {
           "id": "lock_switch_open",
           "label": "Open circuit (OL)",
-          "when": { "kind": "measurement_open" },
+          "when": {
+            "kind": "measurement_open"
+          },
           "nextStepId": "inspect_door_lock_harness",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
           ]
         },
         {
           "id": "lock_switch_critical",
           "label": "Critical out of range",
-          "when": { "kind": "measurement_critical" },
+          "when": {
+            "kind": "measurement_critical"
+          },
           "nextStepId": "inspect_door_lock_harness",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
           ]
         },
         {
           "id": "lock_switch_pass",
-          "label": "0 Ω (locked)",
-          "when": { "kind": "measurement_normal" },
+          "label": "0 \u03a9 (locked)",
+          "when": {
+            "kind": "measurement_normal"
+          },
           "nextStepId": "solenoid_j7_2_3",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "door_lock", "evidenceId": "eliminate_door_lock_open_door_lock_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
           ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11169652-acu-pinout-figure2",
+          "caption": "ACU connectors & pinouts (Figure 2, manual p. 3-7)",
+          "assetPath": "/images/procedures/whirlpool_fl_dd/w11169652-acu-pinout-figure2.png"
         }
       ]
     },
@@ -174,55 +235,96 @@
       "order": 8,
       "type": "measurement",
       "title": "Door switch / solenoid J7 pins 2 & 3",
-      "body": "Measure resistance between J7-2 and J7-3 with the door closed and lock actuated. Expected 60–90 Ω.",
-      "sourceExcerpt": "Door Switch — Door Closed = 60-90 ohms — J7-2, J7-3. Lock Solenoid — 60-90 ohms with door closed — J7-2, J7-3.",
+      "body": "Measure resistance between J7-2 and J7-3 with the door closed and lock actuated. Expected 60\u201390 \u03a9.",
+      "sourceExcerpt": "Door Switch \u2014 Door Closed = 60-90 ohms \u2014 J7-2, J7-3. Lock Solenoid \u2014 60-90 ohms with door closed \u2014 J7-2, J7-3.",
       "measurementKnowledgeId": "whirlpoolFlWasherDoorLockSolenoidOhms",
       "testPoint": {
         "connector": "J7",
         "pins": "2 & 3",
         "label": "Door switch / lock solenoid",
         "pinDetails": [
-          { "pin": "2", "signal": "Common", "wireColor": "YL", "wireColorConfidence": "verified" },
-          { "pin": "3", "signal": "Door switch / solenoid", "wireColor": "R", "wireColorConfidence": "verified" }
+          {
+            "pin": "2",
+            "signal": "Common",
+            "wireColor": "YL",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Door switch / solenoid",
+            "wireColor": "R",
+            "wireColorConfidence": "verified"
+          }
         ]
       },
       "requiresInput": true,
       "branches": [
         {
           "id": "solenoid_fail",
-          "label": "Outside 60–90 Ω",
-          "when": { "kind": "measurement_warning" },
+          "label": "Outside 60\u201390 \u03a9",
+          "when": {
+            "kind": "measurement_warning"
+          },
           "nextStepId": "inspect_door_lock_harness",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
           ]
         },
         {
           "id": "solenoid_open",
           "label": "Open circuit (OL)",
-          "when": { "kind": "measurement_open" },
+          "when": {
+            "kind": "measurement_open"
+          },
           "nextStepId": "inspect_door_lock_harness",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
           ]
         },
         {
           "id": "solenoid_critical",
           "label": "Critical out of range",
-          "when": { "kind": "measurement_critical" },
+          "when": {
+            "kind": "measurement_critical"
+          },
           "nextStepId": "inspect_door_lock_harness",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
           ]
         },
         {
           "id": "solenoid_pass",
-          "label": "60–90 Ω",
-          "when": { "kind": "measurement_normal" },
+          "label": "60\u201390 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
           "nextStepId": "reconnect_harness_power",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "door_lock", "evidenceId": "eliminate_door_lock_open_door_lock_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
           ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11169652-acu-pinout-figure2",
+          "caption": "ACU connectors & pinouts (Figure 2, manual p. 3-7)",
+          "assetPath": "/images/procedures/whirlpool_fl_dd/w11169652-acu-pinout-figure2.png"
         }
       ]
     },
@@ -247,18 +349,26 @@
         {
           "id": "harness_ok",
           "label": "Harness continuity OK",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "replace_door_lock",
           "terminal": true,
           "oemOutcome": "Replace the door lock mechanism. Remove door lock screws before removing the front panel. Reassemble and verify with Quick Service Cycle.",
           "diagnosticEffects": [
-            { "type": "confirm", "componentId": "door_lock", "evidenceId": "confirm_door_lock_open_door_lock_failed" }
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
           ]
         },
         {
           "id": "harness_open",
           "label": "Harness open or damaged",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "repair_harness",
           "terminal": true,
           "oemOutcome": "Repair or replace harness between ACU and door lock; retest with Quick Service Cycle."
@@ -309,21 +419,32 @@
         {
           "id": "door_locks_yes",
           "label": "Door locks properly",
-          "when": { "kind": "checkpoint_yes" },
+          "when": {
+            "kind": "checkpoint_yes"
+          },
           "nextStepId": "repair_verified",
           "diagnosticEffects": [
-            { "type": "eliminate", "componentId": "door_lock", "evidenceId": "eliminate_door_lock_open_door_lock_ok" }
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
           ]
         },
         {
           "id": "door_locks_no",
           "label": "Door does not lock",
-          "when": { "kind": "checkpoint_no" },
+          "when": {
+            "kind": "checkpoint_no"
+          },
           "nextStepId": "suspect_acu",
           "terminal": true,
-          "oemOutcome": "Resistance values were in range but lock still fails — replace the ACU and retest door lock mechanism.",
+          "oemOutcome": "Resistance values were in range but lock still fails \u2014 replace the ACU and retest door lock mechanism.",
           "diagnosticEffects": [
-            { "type": "suspect", "componentId": "door_lock" }
+            {
+              "type": "suspect",
+              "componentId": "door_lock"
+            }
           ]
         }
       ]
@@ -333,7 +454,7 @@
       "order": 16,
       "type": "outcome",
       "title": "Door lock verified",
-      "oemOutcome": "Door lock operates in Quick Service Cycle — reassemble and return washer to service.",
+      "oemOutcome": "Door lock operates in Quick Service Cycle \u2014 reassemble and return washer to service.",
       "requiresInput": false
     },
     {
