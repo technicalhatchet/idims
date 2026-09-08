@@ -130,6 +130,62 @@
     "dmaTags": ["pump_check"]
   },
   {
+    "id": "whirlpoolFlWasherDoorLockSwitchLockedOhms",
+    "name": "Whirlpool FL Door Lock Switch — Locked (J7-1 & J7-2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 5 },
+      "warning": { "min": 0, "max": 15 },
+      "critical": { "below": 0, "above": 50 }
+    },
+    "typical": { "min": 0, "max": 2 },
+    "openCircuitCritical": true,
+    "purpose": "Lock switch at J7 pins 1-2 after solenoid actuates — locked = 0 Ω, unlocked = OL.",
+    "failureModes": [
+      "Open while locked — F5E1/F5E2 door lock faults",
+      "Switch stuck — door state misread"
+    ],
+    "testingTips": [
+      "Energize lock: power on, select cycle, press START, hear click, then disconnect power before ohms",
+      "Measure at ACU side of J7 with connector removed"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["door_lock_check"]
+  },
+  {
+    "id": "whirlpoolFlWasherDoorLockSolenoidOhms",
+    "name": "Whirlpool FL Door Lock Solenoid / Door Switch (J7-2 & J7-3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 60, "max": 90 },
+      "warning": { "min": 45, "max": 100 },
+      "critical": { "below": 10, "above": 150 }
+    },
+    "typical": { "min": 65, "max": 85 },
+    "openCircuitCritical": true,
+    "purpose": "Door switch and lock solenoid at J7 pins 2-3 with door closed — 60-90 Ω.",
+    "failureModes": [
+      "Open solenoid — door will not lock",
+      "Out of range — replace door lock assembly"
+    ],
+    "testingTips": [
+      "Door must be closed; lock solenoid actuated before measurement",
+      "W11169652 TEST #4 chart"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "platformId": "whirlpool_fl_dd"
+    },
+    "dmaTags": ["door_lock_check"]
+  },
+  {
     "id": "insigniaWasherLevelSensorFrequency",
     "name": "Insignia Washer Level Sensor Frequency (empty tub)",
     "unit": "kHz",

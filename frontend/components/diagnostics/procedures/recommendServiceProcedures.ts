@@ -24,12 +24,14 @@ export interface RecommendServiceProceduresInput {
 const PROCEDURE_TEMPLATE_ALLOWLIST: Record<string, string[]> = {
   'w11169652-test-03-motor-circuit': ['washer'],
   'w11169652-test-08-drain-pump': ['washer'],
+  'w11169652-test-04-door-lock': ['washer'],
 };
 
 const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
-  wont_spin: ['spin_issue', 'motor_check'],
+  wont_spin: ['spin_issue', 'motor_check', 'door_lock_check', 'wont_spin'],
   wont_agitate: ['spin_issue', 'motor_check'],
   wont_drain: ['drain_issue', 'pump_check', 'wont_drain'],
+  lid_lock: ['door_lock_check', 'lid_lock', 'F5E1', 'F5E2', 'F5E3'],
   vibration: ['motor_check'],
   noisy: ['motor_check', 'pump_check'],
 };
