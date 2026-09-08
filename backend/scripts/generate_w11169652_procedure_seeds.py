@@ -339,7 +339,7 @@ PROCEDURES = [
         "2",
         "Human-Machine Interface",
         [46, 47],
-        ["supply"],
+        ["hmi_control"],
         ["hmi_check", "error_code", "F3E1"],
         [
             visual(
@@ -488,7 +488,7 @@ PROCEDURES = [
         "7",
         "Water Level Sensor",
         [52, 53],
-        ["inlet_valve"],
+        ["water_level_sensor"],
         ["fill_issue", "F8E1", "no_fill"],
         [
             visual(
@@ -539,7 +539,7 @@ PROCEDURES = [
         "10",
         "Wash Temperature Sensor",
         [55, 56],
-        ["wash_heater"],
+        ["wash_ntc"],
         ["thermistor", "F4E1", "no_heat"],
         [
             instr("disconnect_j15", 2, "Disconnect J15 at ACU", "Remove top panel. Disconnect wash temperature sensor connector J15 from ACU.", "j15_ntc"),
@@ -581,7 +581,7 @@ PROCEDURES = [
         "11A",
         "Single Dose Dispenser",
         [56, 57],
-        ["inlet_valve"],
+        ["dosing_pump"],
         ["dispenser_check", "fill_issue"],
         [
             visual("water_supply", 2, "Water supply and drawer", "Are house water supply, fill hoses, and dispenser drawer clear of clogs?", [
@@ -603,7 +603,7 @@ PROCEDURES = [
         "11B",
         "Optimal Dosing Pump",
         [57, 58],
-        ["inlet_valve"],
+        ["dosing_pump"],
         ["dispenser_check"],
         [
             visual("reservoir_clear", 2, "Reservoir not clogged", "Are dosing reservoirs clean and free of hardened detergent?", [
@@ -628,7 +628,7 @@ PROCEDURES = [
         "12A",
         "Drawer Bulk Dispenser",
         [58, 59],
-        ["inlet_valve"],
+        ["bulk_level_switch"],
         ["dispenser_check"],
         [
             visual("tanks_clear", 2, "Dispenser tanks and docking clean", "Are bulk tanks, docking interfaces, hoses, and recirc nozzle free of clogs/kinks?", [
@@ -650,7 +650,7 @@ PROCEDURES = [
         "12B",
         "Bulk Dispenser Level Sensing",
         [59, 60],
-        ["inlet_valve"],
+        ["bulk_level_switch"],
         ["dispenser_check"],
         [
             visual("float_ok", 2, "Reservoir float moves freely", "With reservoir empty, does float move freely when rotated? Fill with water to test.", [
@@ -683,7 +683,7 @@ PROCEDURES = [
         "13",
         "Vent Fan Motor",
         [60, 61],
-        ["supply"],
+        ["vent_fan"],
         ["vent_fan_check"],
         [
             visual("vent_clear", 2, "Rear vent unobstructed", "Is rear vent free of obstruction preventing fan spin?", [
@@ -708,7 +708,7 @@ PROCEDURES = [
         "14",
         "Vent Baffle Solenoid",
         [61, 62],
-        ["supply"],
+        ["vent_baffle"],
         ["vent_fan_check"],
         [
             visual("baffle_clear", 2, "Vent/baffle unobstructed", "Rear vent and baffle path clear?", [
@@ -733,7 +733,7 @@ PROCEDURES = [
         "15",
         "Dry Heating Element",
         [62, 63],
-        ["wash_heater"],
+        ["dry_heater"],
         ["heating_element_check", "dry_heat", "no_heat"],
         [
             instr("disconnect_j4", 2, "Disconnect J4 at ACU", "Remove top panel. Disconnect dry heater connector J4 from ACU.", "heater_variant"),
@@ -759,7 +759,7 @@ PROCEDURES = [
         "16",
         "Dry Temperature Sensor",
         [63, 64],
-        ["wash_heater"],
+        ["dry_ntc"],
         ["thermistor", "dry_heat"],
         [
             instr("disconnect_j13", 2, "Disconnect J13 at ACU", "Empty washer at ambient temp. Disconnect dry NTC connector J13 from ACU.", "j13_ntc"),
@@ -781,7 +781,7 @@ PROCEDURES = [
         "17",
         "Dry Blower Motor",
         [64, 65],
-        ["supply"],
+        ["dry_blower"],
         ["vent_fan_check", "dry_heat"],
         [
             instr("access_j12_blower", 2, "Verify J12 and blower harness", "Remove top panel. Verify J12 seated and blower motor harness secure.", "blower_continuity"),
@@ -830,6 +830,9 @@ def main() -> None:
 
     attach_script = ROOT / "backend" / "scripts" / "attach_w11169652_procedure_diagrams.py"
     subprocess.run([sys.executable, str(attach_script)], check=True)
+
+    effects_script = ROOT / "backend" / "scripts" / "attach_w11169652_diagnostic_effects.py"
+    subprocess.run([sys.executable, str(effects_script)], check=True)
 
 
 if __name__ == "__main__":

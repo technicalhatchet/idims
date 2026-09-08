@@ -4,7 +4,7 @@
   "title": "TEST #2: Human-Machine Interface (HMI)",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "supply"
+    "hmi_control"
   ],
   "tags": [
     "hmi_check",
@@ -59,7 +59,13 @@
           "when": {
             "kind": "checkpoint_no"
           },
-          "nextStepId": "console_symptom"
+          "nextStepId": "console_symptom",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "hmi_control"
+            }
+          ]
         }
       ]
     },
@@ -98,7 +104,14 @@
           },
           "nextStepId": "repair_hmi_wiring",
           "terminal": true,
-          "oemOutcome": "Reconnect harnesses and repeat HMI test."
+          "oemOutcome": "Reconnect harnesses and repeat HMI test.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
         }
       ]
     },
@@ -129,7 +142,14 @@
           },
           "nextStepId": "replace_acu_hmi",
           "terminal": true,
-          "oemOutcome": "Replace ACU \u2014 supply voltages not present or microcontroller fault."
+          "oemOutcome": "Replace ACU \u2014 supply voltages not present or microcontroller fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
         }
       ]
     },
@@ -156,7 +176,13 @@
           "when": {
             "kind": "checkpoint_no"
           },
-          "nextStepId": "console_partial_checks"
+          "nextStepId": "console_partial_checks",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "hmi_control"
+            }
+          ]
         }
       ]
     },
@@ -197,7 +223,14 @@
           },
           "nextStepId": "replace_acu_hmi",
           "terminal": true,
-          "oemOutcome": "Replace ACU \u2014 LED off or supplies missing."
+          "oemOutcome": "Replace ACU \u2014 LED off or supplies missing.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
         }
       ]
     },

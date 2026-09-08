@@ -4,7 +4,7 @@
   "title": "TEST #16: Dry Temperature Sensor",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "wash_heater"
+    "dry_ntc"
   ],
   "tags": [
     "thermistor",
@@ -80,7 +80,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "access_dry_ntc"
+          "nextStepId": "access_dry_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_ntc",
+              "evidenceId": "confirm_dry_ntc_ol_dry_ntc_failed"
+            }
+          ]
         },
         {
           "id": "j13_warn",
@@ -88,7 +95,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "access_dry_ntc"
+          "nextStepId": "access_dry_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_ntc",
+              "evidenceId": "confirm_dry_ntc_ol_dry_ntc_failed"
+            }
+          ]
         },
         {
           "id": "j13_crit",
@@ -96,7 +110,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "access_dry_ntc"
+          "nextStepId": "access_dry_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_ntc",
+              "evidenceId": "confirm_dry_ntc_ol_dry_ntc_failed"
+            }
+          ]
         },
         {
           "id": "j13_pass",
@@ -104,7 +125,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "suspect_acu_dry_ntc"
+          "nextStepId": "suspect_acu_dry_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dry_ntc",
+              "evidenceId": "eliminate_dry_ntc_ol_dry_ntc_ok"
+            }
+          ]
         }
       ],
       "images": [
@@ -167,7 +195,14 @@
           },
           "nextStepId": "replace_main_harness_dntc",
           "terminal": true,
-          "oemOutcome": "Sensor good \u2014 replace main harness."
+          "oemOutcome": "Sensor good \u2014 replace main harness.",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dry_ntc",
+              "evidenceId": "eliminate_dry_ntc_ol_dry_ntc_ok"
+            }
+          ]
         },
         {
           "id": "dntc_bad",
@@ -177,7 +212,14 @@
           },
           "nextStepId": "replace_dry_ntc",
           "terminal": true,
-          "oemOutcome": "Replace dry temperature sensor."
+          "oemOutcome": "Replace dry temperature sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_ntc",
+              "evidenceId": "confirm_dry_ntc_ol_dry_ntc_failed"
+            }
+          ]
         },
         {
           "id": "dntc_crit",
@@ -187,7 +229,14 @@
           },
           "nextStepId": "replace_dry_ntc",
           "terminal": true,
-          "oemOutcome": "Replace dry temperature sensor."
+          "oemOutcome": "Replace dry temperature sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_ntc",
+              "evidenceId": "confirm_dry_ntc_ol_dry_ntc_failed"
+            }
+          ]
         }
       ],
       "images": [

@@ -4,7 +4,7 @@
   "title": "TEST #12B: Bulk Dispenser Level Sensing",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "inlet_valve"
+    "bulk_level_switch"
   ],
   "tags": [
     "dispenser_check"
@@ -59,7 +59,14 @@
           },
           "nextStepId": "replace_reservoir",
           "terminal": true,
-          "oemOutcome": "Replace bulk dispenser reservoir \u2014 not serviceable."
+          "oemOutcome": "Replace bulk dispenser reservoir \u2014 not serviceable.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
         }
       ]
     },
@@ -98,7 +105,14 @@
           },
           "nextStepId": "replace_lower_harness_lvl",
           "terminal": true,
-          "oemOutcome": "Replace lower harness."
+          "oemOutcome": "Replace lower harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
         }
       ]
     },
@@ -127,7 +141,14 @@
           },
           "nextStepId": "replace_level_sensor",
           "terminal": true,
-          "oemOutcome": "Replace level sensor."
+          "oemOutcome": "Replace level sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
         }
       ]
     },
@@ -168,7 +189,14 @@
           },
           "nextStepId": "replace_acu_level",
           "terminal": true,
-          "oemOutcome": "Sensor good \u2014 replace ACU if level still not detected."
+          "oemOutcome": "Sensor good \u2014 replace ACU if level still not detected.",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "eliminate_bulk_level_switch_ol_bulk_level_switch_ok"
+            }
+          ]
         },
         {
           "id": "mag_bad",
@@ -178,7 +206,14 @@
           },
           "nextStepId": "replace_level_sensor",
           "terminal": true,
-          "oemOutcome": "Replace level sensor."
+          "oemOutcome": "Replace level sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
         },
         {
           "id": "mag_crit",
@@ -188,7 +223,14 @@
           },
           "nextStepId": "replace_level_sensor",
           "terminal": true,
-          "oemOutcome": "Replace level sensor."
+          "oemOutcome": "Replace level sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
         }
       ],
       "images": [

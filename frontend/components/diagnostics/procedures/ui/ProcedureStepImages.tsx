@@ -61,13 +61,13 @@ export default function ProcedureStepImages({ images }: ProcedureStepImagesProps
       {open && typeof document !== 'undefined'
         ? createPortal(
             <div
-              className="fixed inset-0 z-[9999] flex flex-col bg-[#0a0f1a]/98 touch-manipulation"
+              className="fixed inset-0 z-[99999] isolate flex flex-col bg-[#0a0f1a] touch-manipulation"
               role="dialog"
               aria-modal="true"
               aria-label="OEM service manual diagram"
             >
               <div
-                className="flex shrink-0 items-start gap-3 border-b border-white/10 px-4 pb-3 pt-[max(12px,env(safe-area-inset-top))]"
+                className="flex shrink-0 items-start gap-3 border-b border-white/10 bg-[#0a0f1a] px-4 pb-3 pt-[max(12px,env(safe-area-inset-top))]"
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90">
@@ -82,13 +82,13 @@ export default function ProcedureStepImages({ images }: ProcedureStepImagesProps
                   type="button"
                   onClick={close}
                   aria-label="Close diagram viewer"
-                  className="inline-flex h-12 min-w-12 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-2xl font-light leading-none text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                  className="inline-flex h-12 min-w-12 shrink-0 items-center justify-center rounded-xl border border-white/30 bg-[#1e293b] text-2xl font-semibold leading-none text-white shadow-lg hover:bg-[#334155] focus:outline-none focus:ring-2 focus:ring-cyan-400/60"
                 >
                   ×
                 </button>
               </div>
 
-              <div className="relative flex min-h-0 flex-1 items-center justify-center px-3 py-4">
+              <div className="relative flex min-h-0 flex-1 items-center justify-center bg-[#0a0f1a] px-3 py-4">
                 {hasMultiple ? (
                   <button
                     type="button"
@@ -125,7 +125,7 @@ export default function ProcedureStepImages({ images }: ProcedureStepImagesProps
               </div>
 
               <div
-                className="shrink-0 border-t border-white/10 px-4 pb-[max(16px,env(safe-area-inset-bottom))] pt-3"
+                className="shrink-0 border-t border-white/10 bg-[#0a0f1a] px-4 pb-[max(16px,env(safe-area-inset-bottom))] pt-3"
               >
                 <button
                   type="button"

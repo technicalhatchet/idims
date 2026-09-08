@@ -4,7 +4,7 @@
   "title": "TEST #7: Water Level Sensor",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "inlet_valve"
+    "water_level_sensor"
   ],
   "tags": [
     "fill_issue",
@@ -61,7 +61,14 @@
           },
           "nextStepId": "clear_hose_trap",
           "terminal": true,
-          "oemOutcome": "Clear hose/air trap, repair routing, replace leaking hose; retest fill."
+          "oemOutcome": "Clear hose/air trap, repair routing, replace leaking hose; retest fill.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
         }
       ]
     },
@@ -100,7 +107,14 @@
           },
           "nextStepId": "repair_aps_harness",
           "terminal": true,
-          "oemOutcome": "Repair or replace harness between ACU and APS."
+          "oemOutcome": "Repair or replace harness between ACU and APS.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
         }
       ]
     },
@@ -151,7 +165,14 @@
           },
           "nextStepId": "replace_aps",
           "terminal": true,
-          "oemOutcome": "Drain tub, replace water level sensor (APS)."
+          "oemOutcome": "Drain tub, replace water level sensor (APS).",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
         },
         {
           "id": "aps5_bad",
@@ -161,7 +182,14 @@
           },
           "nextStepId": "run_test1_aps",
           "terminal": true,
-          "oemOutcome": "Perform TEST #1 ACU Power Check; replace ACU if supply fault persists."
+          "oemOutcome": "Perform TEST #1 ACU Power Check; replace ACU if supply fault persists.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
         }
       ],
       "images": [

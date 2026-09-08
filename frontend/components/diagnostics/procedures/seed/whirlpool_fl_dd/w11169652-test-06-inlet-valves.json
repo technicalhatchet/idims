@@ -100,7 +100,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "replace_valve"
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
         },
         {
           "id": "valve_warn",
@@ -108,7 +115,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "replace_valve"
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
         },
         {
           "id": "valve_crit",
@@ -116,7 +130,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "replace_valve"
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
         },
         {
           "id": "valve_pass",
@@ -124,7 +145,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "reconnect_j8"
+          "nextStepId": "reconnect_j8",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
         }
       ],
       "images": [
@@ -165,7 +193,14 @@
           "when": {
             "kind": "checkpoint_yes"
           },
-          "nextStepId": "valve_verified"
+          "nextStepId": "valve_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
         },
         {
           "id": "lv_no_volt",
@@ -175,7 +210,14 @@
           },
           "nextStepId": "replace_acu_valve",
           "terminal": true,
-          "oemOutcome": "Replace ACU \u2014 no drive voltage to valve."
+          "oemOutcome": "Replace ACU \u2014 no drive voltage to valve.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
         }
       ]
     },

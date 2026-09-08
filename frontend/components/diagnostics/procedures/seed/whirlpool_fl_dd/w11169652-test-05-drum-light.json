@@ -69,7 +69,14 @@
           },
           "nextStepId": "repair_drum_harness",
           "terminal": true,
-          "oemOutcome": "Repair or replace drum light harness, then retest."
+          "oemOutcome": "Repair or replace drum light harness, then retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         }
       ]
     },
@@ -120,7 +127,14 @@
           },
           "nextStepId": "replace_drum_led",
           "terminal": true,
-          "oemOutcome": "Replace drum LED \u2014 driver voltage present."
+          "oemOutcome": "Replace drum LED \u2014 driver voltage present.",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
         },
         {
           "id": "dl_v_bad",
@@ -130,7 +144,14 @@
           },
           "nextStepId": "replace_acu_drum",
           "terminal": true,
-          "oemOutcome": "Replace ACU \u2014 drum light driver fault."
+          "oemOutcome": "Replace ACU \u2014 drum light driver fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
         }
       ],
       "images": [

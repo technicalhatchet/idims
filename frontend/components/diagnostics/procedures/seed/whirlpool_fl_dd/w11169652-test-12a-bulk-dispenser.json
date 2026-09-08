@@ -4,7 +4,7 @@
   "title": "TEST #12A: Drawer Bulk Dispenser",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "inlet_valve"
+    "bulk_level_switch"
   ],
   "tags": [
     "dispenser_check"
@@ -59,7 +59,14 @@
           },
           "nextStepId": "service_bulk_path",
           "terminal": true,
-          "oemOutcome": "Clean tanks, hoses, nozzle; verify drain/recirc path."
+          "oemOutcome": "Clean tanks, hoses, nozzle; verify drain/recirc path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
         }
       ]
     },
@@ -78,7 +85,14 @@
           "when": {
             "kind": "checkpoint_yes"
           },
-          "nextStepId": "bulk_verified"
+          "nextStepId": "bulk_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "eliminate_bulk_level_switch_ol_bulk_level_switch_ok"
+            }
+          ]
         },
         {
           "id": "pump_bad",
@@ -88,7 +102,14 @@
           },
           "nextStepId": "run_11b",
           "terminal": true,
-          "oemOutcome": "Complete TEST #11B dosing pump procedure."
+          "oemOutcome": "Complete TEST #11B dosing pump procedure.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
         }
       ]
     },

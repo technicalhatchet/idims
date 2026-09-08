@@ -4,7 +4,7 @@
   "title": "TEST #15: Dry Heating Element",
   "platformId": "whirlpool_fl_dd",
   "componentIds": [
-    "wash_heater"
+    "dry_heater"
   ],
   "tags": [
     "heating_element_check",
@@ -69,7 +69,13 @@
           "when": {
             "kind": "checkpoint_no"
           },
-          "nextStepId": "j4_450"
+          "nextStepId": "j4_450",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "dry_heater"
+            }
+          ]
         }
       ]
     },
@@ -108,7 +114,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "access_dry_heater"
+          "nextStepId": "access_dry_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_heater",
+              "evidenceId": "confirm_dry_heater_ol_dry_heater_failed"
+            }
+          ]
         },
         {
           "id": "dh1100_warn",
@@ -116,7 +129,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "access_dry_heater"
+          "nextStepId": "access_dry_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_heater",
+              "evidenceId": "confirm_dry_heater_ol_dry_heater_failed"
+            }
+          ]
         },
         {
           "id": "dh1100_crit",
@@ -124,7 +144,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "access_dry_heater"
+          "nextStepId": "access_dry_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_heater",
+              "evidenceId": "confirm_dry_heater_ol_dry_heater_failed"
+            }
+          ]
         },
         {
           "id": "dh1100_pass",
@@ -132,7 +159,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "dry_heater_good"
+          "nextStepId": "dry_heater_good",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dry_heater",
+              "evidenceId": "eliminate_dry_heater_ol_dry_heater_ok"
+            }
+          ]
         }
       ],
       "images": [
@@ -183,7 +217,14 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "access_dry_heater"
+          "nextStepId": "access_dry_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_heater",
+              "evidenceId": "confirm_dry_heater_ol_dry_heater_failed"
+            }
+          ]
         },
         {
           "id": "dh450_warn",
@@ -191,7 +232,14 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "access_dry_heater"
+          "nextStepId": "access_dry_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_heater",
+              "evidenceId": "confirm_dry_heater_ol_dry_heater_failed"
+            }
+          ]
         },
         {
           "id": "dh450_crit",
@@ -199,7 +247,14 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "access_dry_heater"
+          "nextStepId": "access_dry_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_heater",
+              "evidenceId": "confirm_dry_heater_ol_dry_heater_failed"
+            }
+          ]
         },
         {
           "id": "dh450_pass",
@@ -207,7 +262,14 @@
           "when": {
             "kind": "measurement_normal"
           },
-          "nextStepId": "dry_heater_good"
+          "nextStepId": "dry_heater_good",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "dry_heater",
+              "evidenceId": "eliminate_dry_heater_ol_dry_heater_ok"
+            }
+          ]
         }
       ],
       "images": [
@@ -260,7 +322,14 @@
           },
           "nextStepId": "replace_heater_channel",
           "terminal": true,
-          "oemOutcome": "Replace Heater Channel Assembly (dry heater not separately serviceable)."
+          "oemOutcome": "Replace Heater Channel Assembly (dry heater not separately serviceable).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "dry_heater",
+              "evidenceId": "confirm_dry_heater_ol_dry_heater_failed"
+            }
+          ]
         }
       ]
     },
