@@ -1,5 +1,6 @@
 import w11169652ServiceMode from './seed/whirlpool_fl_dd/bundles/w11169652-service-mode.json';
 import w11169652Test03MotorSeed from './seed/whirlpool_fl_dd/w11169652-test-03-motor.json';
+import w11169652Test08DrainPumpSeed from './seed/whirlpool_fl_dd/w11169652-test-08-drain-pump.json';
 import { resolveServiceProcedureSeed } from './resolveServiceModeBundle';
 import {
   findServiceModeBundle,
@@ -25,6 +26,7 @@ const BUNDLE_BY_ID = new Map(SERVICE_MODE_BUNDLES.map((bundle) => [bundle.id, bu
 
 const PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   w11169652Test03MotorSeed as ServiceProcedureSeed,
+  w11169652Test08DrainPumpSeed as ServiceProcedureSeed,
 ];
 
 const ALL_PROCEDURES: ServiceProcedure[] = PROCEDURE_SEEDS.map((seed) =>
@@ -80,4 +82,4 @@ export function getServiceProceduresForPlatform(platformId: string): ServiceProc
   return ALL_PROCEDURES.filter((procedure) => procedure.platformId === platformId);
 }
 
-export { w11169652Test03MotorSeed as w11169652Test03Motor, w11169652ServiceMode };
+export { w11169652Test03MotorSeed as w11169652Test03Motor, w11169652Test08DrainPumpSeed as w11169652Test08DrainPump, w11169652ServiceMode };
