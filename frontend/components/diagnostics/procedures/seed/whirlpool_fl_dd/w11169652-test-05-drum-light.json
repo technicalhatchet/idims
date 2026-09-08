@@ -94,7 +94,21 @@
       "testPoint": {
         "connector": "J16",
         "pins": "1 & 3",
-        "label": "Drum light driver J16 pins 1 & 3"
+        "label": "Drum light driver J16 pins 1 & 3",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Drum light +",
+            "wireColor": "R",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Drum light \u2212",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

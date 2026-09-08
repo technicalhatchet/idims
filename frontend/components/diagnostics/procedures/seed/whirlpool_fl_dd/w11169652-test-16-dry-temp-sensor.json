@@ -56,7 +56,21 @@
       "testPoint": {
         "connector": "J13",
         "pins": "1 & 3",
-        "label": "Dry NTC J13 pins 1 & 3"
+        "label": "Dry NTC J13 pins 1 & 3",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "5V switched",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Dry NTC output",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [
@@ -115,7 +129,21 @@
       "testPoint": {
         "connector": "Dry NTC",
         "pins": "1 & 2",
-        "label": "Dry NTC at sensor pins 1 & 2"
+        "label": "Dry NTC at sensor pins 1 & 2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Dry NTC",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Dry NTC return",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

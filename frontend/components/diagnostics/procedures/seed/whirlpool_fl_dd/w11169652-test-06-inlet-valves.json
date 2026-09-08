@@ -76,7 +76,21 @@
       "testPoint": {
         "connector": "J8",
         "pins": "1 & 2 (C1)",
-        "label": "Inlet valve coil resistance"
+        "label": "Inlet valve coil resistance",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Valves line (L)",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Cold 1 EV \u2212",
+            "wireColor": "W",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

@@ -97,7 +97,21 @@
       "testPoint": {
         "connector": "RFI",
         "pins": "Line in",
-        "label": "Line voltage at RFI filter input"
+        "label": "Line voltage at RFI filter input",
+        "pinDetails": [
+          {
+            "pin": "Line",
+            "signal": "Filter input \u2014 cord line",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "Neutral",
+            "signal": "Filter input \u2014 cord neutral",
+            "wireColor": "WT",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [
@@ -142,7 +156,21 @@
       "testPoint": {
         "connector": "RFI",
         "pins": "Line out",
-        "label": "Line voltage at RFI filter output"
+        "label": "Line voltage at RFI filter output",
+        "pinDetails": [
+          {
+            "pin": "Line",
+            "signal": "Filter input \u2014 cord line",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "Neutral",
+            "signal": "Filter input \u2014 cord neutral",
+            "wireColor": "WT",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [
@@ -187,7 +215,21 @@
       "testPoint": {
         "connector": "J2",
         "pins": "1 & 2",
-        "label": "AC input at ACU J2 pins 1 & 2"
+        "label": "AC input at ACU J2 pins 1 & 2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "LINE input",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Neutral input",
+            "wireColor": "WT",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [
@@ -251,7 +293,21 @@
       "testPoint": {
         "connector": "J19",
         "pins": "2 & 4",
-        "label": "HMI 5 VDC at J19 pins 2 & 4"
+        "label": "HMI 5 VDC at J19 pins 2 & 4",
+        "pinDetails": [
+          {
+            "pin": "2",
+            "signal": "5V_UI",
+            "wireColor": "BU",
+            "wireColorConfidence": "inferred"
+          },
+          {
+            "pin": "4",
+            "signal": "DGND",
+            "wireColor": "BK",
+            "wireColorConfidence": "inferred"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [
@@ -286,7 +342,21 @@
       "testPoint": {
         "connector": "J19",
         "pins": "1 & 4",
-        "label": "HMI 12 VDC at J19 pins 1 & 4"
+        "label": "HMI 12 VDC at J19 pins 1 & 4",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "12.7_Lim_UI",
+            "wireColor": "RD",
+            "wireColorConfidence": "inferred"
+          },
+          {
+            "pin": "4",
+            "signal": "DGND",
+            "wireColor": "BK",
+            "wireColorConfidence": "inferred"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [

@@ -111,9 +111,23 @@
       "sourceExcerpt": "Measure across fan motor terminals. Expected 1.78\u20132.3 k\u03a9.",
       "measurementKnowledgeId": "whirlpoolFlWasherVentFanOhms",
       "testPoint": {
-        "connector": "Vent fan",
-        "pins": "Motor terminals",
-        "label": "Vent fan motor resistance"
+        "connector": "J12",
+        "pins": "Motor 1 & 2",
+        "label": "Vent fan motor resistance",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Vent fan L",
+            "wireColor": "BR",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Vent fan N",
+            "wireColor": "W",
+            "wireColorConfidence": "verified"
+          }
+        ]
       },
       "requiresInput": true,
       "branches": [
