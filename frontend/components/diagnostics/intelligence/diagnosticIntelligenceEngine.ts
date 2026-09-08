@@ -20,6 +20,8 @@ import type {
   EvidenceRule,
   EvidenceWhenClause,
 } from './evidenceTypes';
+import type { ProcedureRunState } from '../procedures/types';
+import { applyProcedureRunsToIntelligence } from '../procedures/applyProcedureDiagnosticEffects';
 
 function clampScore(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
@@ -178,6 +180,7 @@ export function evaluateDiagnosticIntelligence(
     dmaNudges?: DmaEvidenceNudge[] | null;
     fieldLabels?: Record<string, string>;
     stepKeyLabels?: Record<string, string>;
+    procedureRuns?: Record<string, ProcedureRunState>;
   },
 ): DiagnosticIntelligenceResult | null {
   const config = getEvidenceConfig(templateId);
@@ -218,6 +221,14 @@ export function evaluateDiagnosticIntelligence(
   );
 
   applyDiagnosisFieldNudges(config, categoryScores, componentScores, ledger, fields || {});
+
+  applyProcedureRunsToIntelligence(
+    config,
+    options?.procedureRuns,
+    categoryScores,
+    componentScores,
+    ledger,
+  );
 
   const categories = config.categories
     .map((cat, index) => ({

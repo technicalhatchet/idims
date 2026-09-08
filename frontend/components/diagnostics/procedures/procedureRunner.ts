@@ -1,4 +1,4 @@
-import { applyProcedureDiagnosticEffects } from './applyProcedureDiagnosticEffects';
+import { appendAppliedDiagnosticEffects, applyProcedureDiagnosticEffects } from './applyProcedureDiagnosticEffects';
 import {
   evaluateProcedureMeasurement,
   matchProcedureBranch,
@@ -166,6 +166,13 @@ export function submitProcedureStep(
     ? { ...runState.stepInputs, [step.id]: stepInput }
     : runState.stepInputs;
 
+  const runWithEffects = appendAppliedDiagnosticEffects(
+    { ...runState, stepInputs: storedInputs },
+    step.id,
+    effects,
+    matchedBranch?.id,
+  );
+
   const { nextStepId, terminal, oemOutcome } = resolveNextStepId(step, matchedBranch);
 
   if (terminal || !nextStepId) {
@@ -176,7 +183,7 @@ export function submitProcedureStep(
       matchedBranch,
       completed: true,
       runState: completeRun(
-        { ...runState, stepInputs: storedInputs },
+        runWithEffects,
         step.id,
         finalOutcome,
       ),
@@ -194,7 +201,7 @@ export function submitProcedureStep(
     matchedBranch,
     completed: false,
     runState: advanceRun(
-      { ...runState, stepInputs: storedInputs },
+      runWithEffects,
       step.id,
       nextStepId,
       oemOutcome,
