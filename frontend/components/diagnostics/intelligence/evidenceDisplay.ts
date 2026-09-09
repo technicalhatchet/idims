@@ -92,6 +92,24 @@ export function computeDiagnosisConfidence(
     };
   }
 
+  const topCategoryId = top?.id;
+  const leadCategoryComponent = topCategoryId
+    ? components.find((component) => component.categoryId === topCategoryId)
+    : undefined;
+  if (top && leadCategoryComponent?.state === 'eliminated') {
+    const alternate = intelligence.topCategories?.find(
+      (category) => category.id !== top.id && category.evidence > 0,
+    );
+    const percent = clampPercent(Math.max(22, Math.min(48, (alternate?.evidence || 0) * 0.55 + 18)));
+    const label = alternate?.label || 'harness / control board';
+    return {
+      tier: 'low',
+      percent,
+      explanation: `${top.label} assembly tested good — follow ${label} path (harness, switch, CCU inputs).`,
+      stars: 2,
+    };
+  }
+
   if (top && top.evidence > 0) {
     const margin = top.evidence - (second?.evidence || 0);
     let percent = top.evidence * 0.45 + margin * 0.35 + Math.min(15, testedCount * 3);
@@ -150,17 +168,27 @@ export function formatLeadCauseStrength(
 ): LeadCauseStrengthPresentation | null {
   if (!intelligence?.topCategories?.length) return null;
 
-  const top = intelligence.topCategories[0];
-  const second = intelligence.topCategories[1];
-  const confidence = computeDiagnosisConfidence(intelligence);
   const components = flattenComponents(intelligence.componentsByCategory);
   const hasConfirmed = components.some((component) => component.state === 'confirmed');
+  const leadCategoryComponent = components.find(
+    (component) => component.categoryId === intelligence.topCategories[0]?.id,
+  );
+  const leadCategoryCleared = leadCategoryComponent?.state === 'eliminated';
+  const rankedCategories = leadCategoryCleared
+    ? intelligence.topCategories.filter((category) => {
+        const component = components.find((item) => item.categoryId === category.id);
+        return component?.state !== 'eliminated';
+      })
+    : intelligence.topCategories;
+  const top = rankedCategories[0] || intelligence.topCategories[0];
+  const second = rankedCategories[1] || intelligence.topCategories[1];
+  const confidence = computeDiagnosisConfidence(intelligence);
 
   const tier: DiagnosisConfidenceTier | 'confirmed' = hasConfirmed
     ? 'confirmed'
     : confidence?.tier || 'low';
 
-  const alternateLabels = intelligence.topCategories
+  const alternateLabels = rankedCategories
     .slice(1)
     .filter((category) => category.evidence > 0)
     .map((category) => category.label);
@@ -206,8 +234,12 @@ export function formatDiyLeadCard(
   const confidence = computeDiagnosisConfidence(intelligence);
   if (!strength || !confidence || !intelligence?.topCategories?.length) return null;
 
+  const leadCategoryId =
+    intelligence.topCategories.find((category) => category.label === strength.categoryLabel)?.id
+    ?? intelligence.topCategories[0].id;
+
   return {
-    categoryId: intelligence.topCategories[0].id,
+    categoryId: leadCategoryId,
     categoryLabel: strength.categoryLabel,
     percent: confidence.percent,
     strengthWord: DIY_STRENGTH_WORD[strength.tier],

@@ -192,11 +192,18 @@ function applyDirectProcedureEffect(
     componentScores.set(effect.componentId, { evidence: 100, state: 'confirmed' });
     evidenceEffect = 'confirm';
   } else if (effect.type === 'eliminate') {
-    if (current.state !== 'confirmed') {
-      delta = -current.evidence;
-      componentScores.set(effect.componentId, { evidence: 0, state: 'eliminated' });
-    }
+    const wasConfirmed = current.state === 'confirmed';
+    delta = wasConfirmed ? -100 : -current.evidence;
+    componentScores.set(effect.componentId, { evidence: 0, state: 'eliminated' });
     evidenceEffect = 'eliminate';
+    if (effect.componentId === 'door_lock' && component?.categoryId) {
+      const categoryId = component.categoryId;
+      const categoryScore = categoryScores.get(categoryId) ?? 0;
+      categoryScores.set(categoryId, clampScore(categoryScore - (wasConfirmed ? 40 : 28)));
+      const harnessCategory = 'control_hmi';
+      const harnessScore = categoryScores.get(harnessCategory) ?? 0;
+      categoryScores.set(harnessCategory, clampScore(harnessScore + (wasConfirmed ? 20 : 14)));
+    }
   } else {
     delta = SUSPECT_EVIDENCE_BOOST;
     componentScores.set(effect.componentId, {
