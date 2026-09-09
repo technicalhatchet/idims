@@ -16,6 +16,7 @@ export const PLATFORM_IDS = {
   SAMSUNG_FL_DRYER_DV6000: 'samsung_fl_dryer_dv6000',
   SAMSUNG_TL_WASHER_A50: 'samsung_tl_washer_a50',
   SAMSUNG_TL_DRYER_DV50: 'samsung_tl_dryer_dv50',
+  SAMSUNG_RANGE_NX60: 'samsung_range_nx60',
   LG_LRMVS: 'lg_lrmvs',
   WHIRLPOOL_WRT_TOP_MOUNT: 'whirlpool_wrt_top_mount',
   WHIRLPOOL_WRT311_ADC: 'whirlpool_wrt311_adc',
@@ -35,6 +36,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_ACU_TL_DRYER: 'whirlpool_acu_tl_dryer',
   WHIRLPOOL_MWV6200: 'whirlpool_mvw6200',
   WHIRLPOOL_TL_DD_6157: 'whirlpool_tl_dd_6157',
+  WHIRLPOOL_FREESTANDING_RANGE: 'whirlpool_freestanding_range',
 } as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[keyof typeof PLATFORM_IDS];
@@ -176,6 +178,20 @@ export const PLATFORM_RULES: PlatformRule[] = [
     manufacturers: ['Samsung'],
     templateId: 'refrigerator',
     modelPatterns: [/RF23BB/i, /RF24BB/i, /RF29BB/i, /RF30BB/i, /RF32CG/i, /RF31CG/i, /RF26CG/i, /RF27CG/i],
+  },
+  {
+    id: PLATFORM_IDS.SAMSUNG_RANGE_NX60,
+    label: 'Samsung NX60/NE63 slide-in gas range',
+    manufacturers: ['Samsung'],
+    templateId: 'gas_range',
+    modelPatterns: [/NX60/i, /NE63/i],
+  },
+  {
+    id: PLATFORM_IDS.SAMSUNG_RANGE_NX60,
+    label: 'Samsung NX60/NE63 slide-in electric range',
+    manufacturers: ['Samsung'],
+    templateId: 'electric_range',
+    modelPatterns: [/NX60/i, /NE63/i],
   },
   {
     id: PLATFORM_IDS.LG_LRMVS,
@@ -378,6 +394,26 @@ export const PLATFORM_RULES: PlatformRule[] = [
       /WED96/i, /MED96/i, /WGD96/i, /MGD96/i,
     ],
   },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_FREESTANDING_RANGE,
+    label: 'Whirlpool/Maytag/Amana freestanding range (electric)',
+    manufacturers: ['Whirlpool', 'Maytag', 'Amana'],
+    templateId: 'electric_range',
+    modelPatterns: [
+      /WFE/i, /YWFE/i, /MER/i, /AER/i, /AES/i, /WEC/i, /WEE/i, /WFC/i,
+      /4KWFE/i, /4KMER/i, /ACR/i, /YACR/i, /IES/i, /YIES/i,
+    ],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_FREESTANDING_RANGE,
+    label: 'Whirlpool/Maytag/Amana freestanding range (gas)',
+    manufacturers: ['Whirlpool', 'Maytag', 'Amana'],
+    templateId: 'gas_range',
+    modelPatterns: [
+      /WFG/i, /YWFG/i, /MGR/i, /AGR/i, /AGS/i, /WEG/i, /IGS/i, /YIGS/i,
+      /4KWFG/i, /YIEL/i,
+    ],
+  },
 ];
 
 const MAKE_ALIASES: Record<string, string> = {
@@ -389,6 +425,7 @@ const MAKE_ALIASES: Record<string, string> = {
   insignia: 'Insignia',
   ge: 'GE',
   frigidaire: 'Frigidaire',
+  amana: 'Amana',
 };
 
 export function normalizeMake(value: string | null | undefined): string | null {

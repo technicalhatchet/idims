@@ -1,0 +1,48 @@
+{
+  "id": "samsungnx60-error-recall-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_range_nx60",
+  "manualId": "SAMSUNG-NX60-RANGE",
+  "title": "Samsung NX60 \u2014 Error history recall",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Display stored failure codes before service (\u00a74-1).",
+  "tags": [
+    "fault_codes",
+    "error_code",
+    "C-20",
+    "C-21"
+  ],
+  "entryStepId": "er_enter",
+  "source": {
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "pages": [
+      57
+    ]
+  },
+  "steps": [
+    {
+      "id": "er_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter error history",
+      "body": "Clock \u2192 1,2,3,4 (Timer OFF) \u2192 Start/Set \u2192 hold Clock + 1 for 3 s. Error codes display.",
+      "sourceExcerpt": "Clock \u2192 1,2,3,4 (Timer OFF) \u2192 Start/Set \u2192 hold Clock + 1 for 3 s. Error codes display.",
+      "requiresInput": false,
+      "defaultNextStepId": "er_scroll"
+    },
+    {
+      "id": "er_scroll",
+      "order": 2,
+      "type": "instruction",
+      "title": "Scroll stored codes",
+      "body": "Press 0 to display latest 5 error codes. Press Off/Clear to exit.",
+      "sourceExcerpt": "Press 0 to display latest 5 error codes. Press Off/Clear to exit.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

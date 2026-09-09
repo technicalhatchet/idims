@@ -1,0 +1,195 @@
+{
+  "id": "w11746350-dsi-gas-valve",
+  "version": "1.0.0",
+  "title": "DSI Board & Gas Regulator",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "gas_valve"
+  ],
+  "tags": [
+    "gas_valve_check",
+    "ignition_issue",
+    "no_bake_heat_issue"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "DSI",
+    "oemTestTitle": "DSI Spark Module / Gas Regulator",
+    "pages": [
+      13,
+      17,
+      43,
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "regulator_ohms"
+    },
+    {
+      "id": "regulator_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Gas regulator solenoid resistance",
+      "body": "Power off. Disconnect leads. Measure across solenoid terminals \u2014 216 \u03a9 \u00b110%.",
+      "sourceExcerpt": "Power off. Disconnect leads. Measure across solenoid terminals \u2014 216 \u03a9 \u00b110%.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeDsiValveOhms",
+      "testPoint": {
+        "connector": "Gas regulator",
+        "pins": "solenoid",
+        "label": "Gas regulator solenoid resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reg_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_regulator",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "reg_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_regulator",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "reg_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_regulator",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "reg_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dsi_voltage",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "gas_valve",
+              "evidenceId": "eliminate_gas_valve_ol_gas_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dsi_voltage",
+      "order": 3,
+      "type": "visual_check",
+      "title": "DSI input voltage and spark gap",
+      "body": "Verify 102\u2013132 VAC L1\u2013N at DSI. Recommended spark gap 0.125 in (3.18 mm). Visually verify spark on ignition.",
+      "sourceExcerpt": "Verify 102\u2013132 VAC L1\u2013N at DSI. Recommended spark gap 0.125 in (3.18 mm). Visually verify spark on ignition.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dsi_ok",
+          "label": "Voltage OK, sparks",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dsi_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "gas_valve",
+              "evidenceId": "eliminate_gas_valve_ol_gas_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "dsi_bad",
+          "label": "No voltage or no spark",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_dsi",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_regulator",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace gas regulator / valve coil",
+      "oemOutcome": "Solenoid out of 216 \u03a9 \u00b110% range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_dsi",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace DSI spark module",
+      "oemOutcome": "DSI board or wiring fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "dsi_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "DSI / gas valve verified",
+      "oemOutcome": "Gas valve and DSI operation verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11746350-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "regulator_ohms"
+    }
+  ]
+}

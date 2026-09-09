@@ -1,0 +1,99 @@
+{
+  "id": "w11746350-surface-spark",
+  "version": "1.0.0",
+  "title": "Surface Burner Spark Module",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "surface_ignition"
+  ],
+  "tags": [
+    "ignition_issue",
+    "surface_burner"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Spark",
+    "oemTestTitle": "Spark Module (cooktop)",
+    "pages": [
+      49,
+      50
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "spark_test"
+    },
+    {
+      "id": "spark_test",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Cooktop spark visual test",
+      "body": "Turn one cooktop knob to LITE. Verify all burners spark. Expect ~120 VAC across spark module terminals.",
+      "sourceExcerpt": "Turn one cooktop knob to LITE. Verify all burners spark. Expect ~120 VAC across spark module terminals.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "spark_ok",
+          "label": "All burners spark",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "spark_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "surface_ignition",
+              "evidenceId": "eliminate_igniter_ol_igniter_ok"
+            }
+          ]
+        },
+        {
+          "id": "spark_bad",
+          "label": "No spark / weak spark",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_spark_module",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_spark_module",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace spark module",
+      "oemOutcome": "No spark at module \u2014 replace spark module or check wiring.",
+      "requiresInput": false
+    },
+    {
+      "id": "spark_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Surface spark verified",
+      "oemOutcome": "All surface burners spark normally.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "id": "samsungnx60-cooling-fan",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Display cooling fan (C-A2)",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "convection_fan"
+  ],
+  "tags": [
+    "C-A2",
+    "fan_motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "C-A2 ambient temperature very hot",
+    "pages": [
+      66
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "broil_hi"
+    },
+    {
+      "id": "broil_hi",
+      "order": 2,
+      "type": "instruction",
+      "title": "Command broil for fan test",
+      "body": "Operate oven in Broil Hi. Cooling fan should spin to cool display PCB.",
+      "sourceExcerpt": "Operate oven in Broil Hi. Cooling fan should spin to cool display PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_spin"
+    },
+    {
+      "id": "fan_spin",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Cooling fan rotation",
+      "body": "Is cooling fan rotating? Check white\u2013yellow conductors for AC 120 V.",
+      "sourceExcerpt": "Is cooling fan rotating? Check white\u2013yellow conductors for AC 120 V.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_ok"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace cooling fan."
+        }
+      ]
+    },
+    {
+      "id": "fan_wiring",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Fan wiring seated",
+      "body": "Verify cooling fan wire connected to housing.",
+      "sourceExcerpt": "Verify cooling fan wire connected to housing.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wire_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_ok"
+        },
+        {
+          "id": "connect_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "connect_fan_out",
+          "terminal": true,
+          "oemOutcome": "Connect fan to housing."
+        }
+      ]
+    },
+    {
+      "id": "replace_fan_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace cooling fan",
+      "oemOutcome": "Replace cooling fan when voltage present but not spinning.",
+      "requiresInput": false
+    },
+    {
+      "id": "connect_fan_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Connect fan wiring",
+      "oemOutcome": "Secure fan harness to housing.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Cooling fan OK",
+      "oemOutcome": "Display cooling fan verified.",
+      "requiresInput": false
+    }
+  ]
+}

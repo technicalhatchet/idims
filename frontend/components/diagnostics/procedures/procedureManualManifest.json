@@ -418,6 +418,51 @@
         "attachDiagnosticEffects": "backend/scripts/attach_samsung_fridge_bespoke_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_samsung_fridge_bespoke_service_modes.py"
       }
+    },
+    {
+      "manualId": "SAMSUNG-NX60-RANGE",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "seedDir": "samsung_range_nx60",
+      "label": "Samsung NX60T8311S / NE63 slide-in range",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_range_nx60/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_nx60_range_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_nx60_range_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_nx60_range_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11746350",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "seedDir": "whirlpool_freestanding_range",
+      "label": "Whirlpool/Maytag freestanding range (W11746350 Copernicus ACU)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_freestanding_range/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11746350_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11746350_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11746350_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11174426",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "seedDir": "whirlpool_freestanding_range",
+      "label": "Whirlpool/Maytag/Amana freestanding range (W11174426 LCX/LCC)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_freestanding_range/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11174426_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11174426_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11174426_service_modes.py"
+      }
     }
   ]
 }

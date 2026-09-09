@@ -1,0 +1,180 @@
+{
+  "id": "samsungnx60-oven-lamp",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Oven lamp",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "light_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Oven lamp not working",
+    "pages": [
+      70,
+      87
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "lockout_off"
+    },
+    {
+      "id": "lockout_off",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Control lockout off",
+      "body": "Hold lock keypad 3+ seconds with door open to disable control lockout.",
+      "sourceExcerpt": "Hold lock keypad 3+ seconds with door open to disable control lockout.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_off",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulb_check"
+        },
+        {
+          "id": "unlock",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "unlock_out",
+          "terminal": true,
+          "oemOutcome": "Disable control lock."
+        }
+      ]
+    },
+    {
+      "id": "bulb_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Bulb condition",
+      "body": "Remove lamp cover. Replace with 40 W appliance bulb if burned out.",
+      "sourceExcerpt": "Remove lamp cover. Replace with 40 W appliance bulb if burned out.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bulb_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "socket_ohms"
+        },
+        {
+          "id": "replace_bulb",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bulb_out",
+          "terminal": true,
+          "oemOutcome": "Replace 40 W appliance bulb."
+        }
+      ]
+    },
+    {
+      "id": "socket_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Lamp socket resistance",
+      "body": "Bulb removed. Measure across socket \u2014 open (\u221e \u03a9) normal.",
+      "sourceExcerpt": "Bulb removed. Measure across socket \u2014 open (\u221e \u03a9) normal.",
+      "measurementKnowledgeId": "samsungNx60OvenLampSocketOhms",
+      "testPoint": {
+        "connector": "Lamp socket",
+        "pins": "terminals",
+        "label": "Lamp socket resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lamp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_socket",
+          "terminal": true
+        },
+        {
+          "id": "lamp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_socket",
+          "terminal": true
+        },
+        {
+          "id": "lamp_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_socket",
+          "terminal": true
+        },
+        {
+          "id": "lamp_pass",
+          "label": "Open (\u221e \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lamp_ok"
+        }
+      ]
+    },
+    {
+      "id": "unlock_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Unlock controls",
+      "oemOutcome": "Disable door lock / child lock feature.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bulb_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace bulb",
+      "oemOutcome": "Install 40 W appliance bulb.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_socket",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace socket",
+      "oemOutcome": "Replace oven lamp ballast/socket or harness CN205.",
+      "requiresInput": false
+    },
+    {
+      "id": "lamp_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Oven lamp OK",
+      "oemOutcome": "Oven lamp circuit verified.",
+      "requiresInput": false
+    }
+  ]
+}

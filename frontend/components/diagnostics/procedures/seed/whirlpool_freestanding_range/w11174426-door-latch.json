@@ -1,0 +1,224 @@
+{
+  "id": "w11174426-door-latch",
+  "version": "1.0.0",
+  "title": "Door Latch (Clean Mode)",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "temp_sensor"
+  ],
+  "tags": [
+    "door_latch_check",
+    "F5E1"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Latch",
+    "oemTestTitle": "Door Latch Motor",
+    "pages": [
+      26,
+      27,
+      45,
+      46
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "clean_latch_test"
+    },
+    {
+      "id": "clean_latch_test",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Clean keypad latch test in Diagnostics",
+      "body": "In Diagnostics press CLEAN to run lock motor. Follow F5E1 tree: latch icon vs door state.",
+      "sourceExcerpt": "In Diagnostics press CLEAN to run lock motor. Follow F5E1 tree: latch icon vs door state.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mech_ok",
+          "label": "Latch cycles, icon matches",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "latch_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "temp_sensor",
+              "evidenceId": "eliminate_temp_sensor_bad_temp_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "mech_fail",
+          "label": "Motor/switch fault path",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "latch_voltage",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "temp_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "latch_voltage",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Latch motor voltage P2-3 to N",
+      "body": "When latch should run (within 20 sec of CLEAN), verify 120 VAC at P2-3 to N (LCX).",
+      "sourceExcerpt": "When latch should run (within 20 sec of CLEAN), verify 120 VAC at P2-3 to N (LCX).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v120",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "latch_ohms"
+        },
+        {
+          "id": "no_v",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "latch_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Latch motor resistance",
+      "body": "Power off. LCX: P2-3 to P1-3 WH; LCC: Con 1-4 to Con 1-1 W \u2014 expect 500\u20133000 \u03a9.",
+      "sourceExcerpt": "Power off. LCX: P2-3 to P1-3 WH; LCC: Con 1-4 to Con 1-1 W \u2014 expect 500\u20133000 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeDoorLatchOhms",
+      "testPoint": {
+        "connector": "P2 / Con1",
+        "pins": "latch motor",
+        "label": "Latch motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "latch_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "latch_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "temp_sensor",
+              "evidenceId": "eliminate_temp_sensor_bad_temp_sensor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_control_latch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace oven control",
+      "oemOutcome": "No voltage to latch motor \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_latch",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace latch motor assembly",
+      "oemOutcome": "Motor open or harness damaged.",
+      "requiresInput": false
+    },
+    {
+      "id": "latch_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Door latch verified",
+      "oemOutcome": "Latch motor and switches verified in Clean mode.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174426-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "clean_latch_test"
+    }
+  ]
+}

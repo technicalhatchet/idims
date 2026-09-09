@@ -288,6 +288,40 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       ],
     },
   },
+  gas_range: {
+    'electrical_at_board.igniter_resistance': {
+      candidates: [
+        { knowledgeId: 'samsungNx60OvenIgnitorOhms', platformId: 'samsung_range_nx60' },
+        { knowledgeId: 'hotSurfaceIgniterOhms', isDefault: true },
+      ],
+    },
+    'electrical_at_board.igniter_amps': {
+      candidates: [
+        { knowledgeId: 'samsungNx60GasSafetyValveAmps', platformId: 'samsung_range_nx60' },
+        { knowledgeId: 'hotSurfaceIgniterAmps', isDefault: true },
+      ],
+    },
+    'element_sensor_readings.temp_sensor_ohms': {
+      candidates: [
+        { knowledgeId: 'samsungNx60OvenSensorOhms', platformId: 'samsung_range_nx60' },
+        { knowledgeId: 'ovenTempSensorOhms', isDefault: true },
+      ],
+    },
+  },
+  electric_range: {
+    'element_sensor_readings.temp_sensor_ohms': {
+      candidates: [
+        { knowledgeId: 'samsungNx60OvenSensorOhms', platformId: 'samsung_range_nx60' },
+        { knowledgeId: 'ovenTempSensorOhms', isDefault: true },
+      ],
+    },
+    'board_readings.convection_output': {
+      candidates: [
+        { knowledgeId: 'samsungNx60ConvectionFanOhms', platformId: 'samsung_range_nx60' },
+        { knowledgeId: 'convectionFanMotorAmps', isDefault: true },
+      ],
+    },
+  },
   refrigerator: {
     'temperature_checks.freezer_temp': {
       candidates: [{ knowledgeId: 'freezerCabinetTemp', isDefault: true }],

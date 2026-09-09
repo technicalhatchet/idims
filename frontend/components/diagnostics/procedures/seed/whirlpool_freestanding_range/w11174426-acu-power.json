@@ -1,0 +1,246 @@
+{
+  "id": "w11174426-acu-power",
+  "version": "1.0.0",
+  "title": "Control Power & Supply",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "supply_issue",
+    "no_power",
+    "F1E0",
+    "F1E1",
+    "F1E2",
+    "F9E0"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Power",
+    "oemTestTitle": "Oven Control Supply",
+    "pages": [
+      2,
+      3,
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "control_voltage"
+    },
+    {
+      "id": "control_voltage",
+      "order": 2,
+      "type": "measurement",
+      "title": "Control supply P1-1 to P1-3",
+      "body": "Connect meter. Restore power. Confirm 120 VAC at control P1-1 to P1-3 (or terminal block L1\u2013N).",
+      "sourceExcerpt": "Connect meter. Restore power. Confirm 120 VAC at control P1-1 to P1-3 (or terminal block L1\u2013N).",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "P1",
+        "pins": "1 & 3",
+        "label": "Control supply P1-1 to P1-3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ctrl_v_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "check_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "ctrl_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "check_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "ctrl_v_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "check_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "ctrl_v_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "acu_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_wiring",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Wiring between control and terminal block",
+      "body": "Power off. Check wires/connectors between control and terminal block \u2014 fully seated?",
+      "sourceExcerpt": "Power off. Check wires/connectors between control and terminal block \u2014 fully seated?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wire_ok",
+          "label": "Wiring OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_control",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "wire_bad",
+          "label": "Damaged wiring",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_wiring",
+      "order": 4,
+      "type": "instruction",
+      "title": "Repair wiring",
+      "body": "Repair harness/terminal block, restore power, retest.",
+      "sourceExcerpt": "Repair harness/terminal block, restore power, retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "control_voltage"
+    },
+    {
+      "id": "miswire_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "F9E0 terminal block wiring",
+      "body": "For F9E0: verify 240 VAC L1\u2013L2 and 120 VAC L1\u2013N and L2\u2013N at supply; range terminal block wired correctly.",
+      "sourceExcerpt": "For F9E0: verify 240 VAC L1\u2013L2 and 120 VAC L1\u2013N and L2\u2013N at supply; range terminal block wired correctly.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "miswire_ok",
+          "label": "Wiring correct",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "acu_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "miswire_bad",
+          "label": "Miswired",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "correct_wiring",
+      "order": 6,
+      "type": "instruction",
+      "title": "Correct terminal block wiring",
+      "body": "Correct miswire per tech sheet, retest.",
+      "sourceExcerpt": "Correct miswire per tech sheet, retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "miswire_check"
+    },
+    {
+      "id": "replace_control",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace oven control",
+      "oemOutcome": "Supply good, wiring OK \u2014 replace main control.",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Control supply verified",
+      "oemOutcome": "Control has proper supply; no error codes in Diagnostics.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174426-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "control_voltage"
+    }
+  ]
+}

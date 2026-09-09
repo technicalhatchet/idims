@@ -1,0 +1,176 @@
+{
+  "id": "samsungnx60-safety-valve",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Oven gas safety valve",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "gas_valve",
+    "igniter"
+  ],
+  "tags": [
+    "gas_valve_check",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Safety valve current check",
+    "pages": [
+      83,
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_test_setup"
+    },
+    {
+      "id": "valve_test_setup",
+      "order": 2,
+      "type": "instruction",
+      "title": "Ignition sequence",
+      "body": "Start bake or broil. Confirm HSI glowing before clamping safety valve circuit.",
+      "sourceExcerpt": "Start bake or broil. Confirm HSI glowing before clamping safety valve circuit.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_amps"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component-specific OEM checks below.",
+      "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "valve_amps"
+    },
+    {
+      "id": "valve_amps",
+      "order": 4,
+      "type": "measurement",
+      "title": "Safety valve current",
+      "body": "Clamp safety valve terminal \u2014 3.3\u20133.6 A when HSI glowing.",
+      "sourceExcerpt": "Clamp safety valve terminal \u2014 3.3\u20133.6 A when HSI glowing.",
+      "measurementKnowledgeId": "samsungNx60GasSafetyValveAmps",
+      "testPoint": {
+        "connector": "Safety valve",
+        "pins": "terminal",
+        "label": "Safety valve current"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_coil_open_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_coil_open_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_coil_open_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_pass",
+          "label": "3.3\u20133.6 A",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_ok"
+        }
+      ]
+    },
+    {
+      "id": "valve_voltage",
+      "order": 5,
+      "type": "instruction",
+      "title": "Valve supply voltage",
+      "body": "Verify 120 VAC at TB201\u2013TB204 (bake) or TB201\u2013CN202 (broil) during call.",
+      "sourceExcerpt": "Verify 120 VAC at TB201\u2013TB204 (bake) or TB201\u2013CN202 (broil) during call.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_ok"
+    },
+    {
+      "id": "replace_valve",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace safety valve",
+      "oemOutcome": "Replace oven gas safety valve when current low with good HSI.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Safety valve OK",
+      "oemOutcome": "Safety valve current and voltage verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungnx60-error-recall-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    },
+    {
+      "bundleId": "samsungnx60-sub-line-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "service_mode_after_entry",
+      "continueToStepId": "valve_amps"
+    }
+  ]
+}

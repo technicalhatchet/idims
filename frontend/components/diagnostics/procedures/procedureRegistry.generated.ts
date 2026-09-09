@@ -15,6 +15,8 @@ import samsung_fridge_bespoke_bundles_samsungbespoke_fhub_engineer_entry from '.
 import samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-self-diagnosis-entry.json';
 import samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf23bb_digital from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-test-mode-rf23bb-digital.json';
 import samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf32cg_buttons from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-test-mode-rf32cg-buttons.json';
+import samsung_range_nx60_bundles_samsungnx60_error_recall_entry from './seed/samsung_range_nx60/bundles/samsungnx60-error-recall-entry.json';
+import samsung_range_nx60_bundles_samsungnx60_sub_line_test_entry from './seed/samsung_range_nx60/bundles/samsungnx60-sub-line-test-entry.json';
 import samsung_sxs_bundles_samsungrf260b_self_diagnostic_entry from './seed/samsung_sxs/bundles/samsungrf260b-self-diagnostic-entry.json';
 import samsung_sxs_bundles_samsungrf260b_test_mode_entry from './seed/samsung_sxs/bundles/samsungrf260b-test-mode-entry.json';
 import samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry from './seed/samsung_tl_dryer_dv50/bundles/samsungtldv50-smart-install-entry.json';
@@ -40,6 +42,8 @@ import whirlpool_fl_dd_bundles_w11169652_load_test_detergent_pump from './seed/w
 import whirlpool_fl_dd_bundles_w11169652_quick_service_cycle from './seed/whirlpool_fl_dd/bundles/w11169652-quick-service-cycle.json';
 import whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry from './seed/whirlpool_fl_dd/bundles/w11169652-service-diagnostic-entry.json';
 import whirlpool_fl_dd_bundles_w11169652_service_mode from './seed/whirlpool_fl_dd/bundles/w11169652-service-mode.json';
+import whirlpool_freestanding_range_bundles_w11174426_service_diagnostic_entry from './seed/whirlpool_freestanding_range/bundles/w11174426-service-diagnostic-entry.json';
+import whirlpool_freestanding_range_bundles_w11746350_service_diagnostic_entry from './seed/whirlpool_freestanding_range/bundles/w11746350-service-diagnostic-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry from './seed/whirlpool_mvw6200/bundles/w11416395-service-diagnostic-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_test_mode from './seed/whirlpool_mvw6200/bundles/w11416395-service-test-mode.json';
 import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w10864849-service-diagnostic-entry.json';
@@ -120,6 +124,22 @@ import samsung_fridge_bespoke_samsungbespoke_ice_room_fan from './seed/samsung_f
 import samsung_fridge_bespoke_samsungbespoke_ice_room_heater from './seed/samsung_fridge_bespoke/samsungbespoke-ice-room-heater.json';
 import samsung_fridge_bespoke_samsungbespoke_main_inverter_comm from './seed/samsung_fridge_bespoke/samsungbespoke-main-inverter-comm.json';
 import samsung_fridge_bespoke_samsungbespoke_main_panel_comm from './seed/samsung_fridge_bespoke/samsungbespoke-main-panel-comm.json';
+import samsung_range_nx60_samsungnx60_bake_element from './seed/samsung_range_nx60/samsungnx60-bake-element.json';
+import samsung_range_nx60_samsungnx60_bake_ignitor from './seed/samsung_range_nx60/samsungnx60-bake-ignitor.json';
+import samsung_range_nx60_samsungnx60_broil_element from './seed/samsung_range_nx60/samsungnx60-broil-element.json';
+import samsung_range_nx60_samsungnx60_broil_ignitor from './seed/samsung_range_nx60/samsungnx60-broil-ignitor.json';
+import samsung_range_nx60_samsungnx60_convection_fan from './seed/samsung_range_nx60/samsungnx60-convection-fan.json';
+import samsung_range_nx60_samsungnx60_cooling_fan from './seed/samsung_range_nx60/samsungnx60-cooling-fan.json';
+import samsung_range_nx60_samsungnx60_door_lock from './seed/samsung_range_nx60/samsungnx60-door-lock.json';
+import samsung_range_nx60_samsungnx60_heater_relays from './seed/samsung_range_nx60/samsungnx60-heater-relays.json';
+import samsung_range_nx60_samsungnx60_hmi_touch from './seed/samsung_range_nx60/samsungnx60-hmi-touch.json';
+import samsung_range_nx60_samsungnx60_oven_lamp from './seed/samsung_range_nx60/samsungnx60-oven-lamp.json';
+import samsung_range_nx60_samsungnx60_oven_sensor from './seed/samsung_range_nx60/samsungnx60-oven-sensor.json';
+import samsung_range_nx60_samsungnx60_oven_vent from './seed/samsung_range_nx60/samsungnx60-oven-vent.json';
+import samsung_range_nx60_samsungnx60_power from './seed/samsung_range_nx60/samsungnx60-power.json';
+import samsung_range_nx60_samsungnx60_safety_valve from './seed/samsung_range_nx60/samsungnx60-safety-valve.json';
+import samsung_range_nx60_samsungnx60_spark_module from './seed/samsung_range_nx60/samsungnx60-spark-module.json';
+import samsung_range_nx60_samsungnx60_touch_comm from './seed/samsung_range_nx60/samsungnx60-touch-comm.json';
 import samsung_sxs_samsungrf260b_ambient_sensor from './seed/samsung_sxs/samsungrf260b-ambient-sensor.json';
 import samsung_sxs_samsungrf260b_c_fan from './seed/samsung_sxs/samsungrf260b-c-fan.json';
 import samsung_sxs_samsungrf260b_ff_def_sensor from './seed/samsung_sxs/samsungrf260b-ff-def-sensor.json';
@@ -296,6 +316,27 @@ import whirlpool_fl_dd_w11169652_test_14_vent_baffle from './seed/whirlpool_fl_d
 import whirlpool_fl_dd_w11169652_test_15_dry_heater from './seed/whirlpool_fl_dd/w11169652-test-15-dry-heater.json';
 import whirlpool_fl_dd_w11169652_test_16_dry_temp_sensor from './seed/whirlpool_fl_dd/w11169652-test-16-dry-temp-sensor.json';
 import whirlpool_fl_dd_w11169652_test_17_dry_blower from './seed/whirlpool_fl_dd/w11169652-test-17-dry-blower.json';
+import whirlpool_freestanding_range_w11174426_acu_power from './seed/whirlpool_freestanding_range/w11174426-acu-power.json';
+import whirlpool_freestanding_range_w11174426_bake_element from './seed/whirlpool_freestanding_range/w11174426-bake-element.json';
+import whirlpool_freestanding_range_w11174426_broil_element from './seed/whirlpool_freestanding_range/w11174426-broil-element.json';
+import whirlpool_freestanding_range_w11174426_door_latch from './seed/whirlpool_freestanding_range/w11174426-door-latch.json';
+import whirlpool_freestanding_range_w11174426_dsi_board from './seed/whirlpool_freestanding_range/w11174426-dsi-board.json';
+import whirlpool_freestanding_range_w11174426_hmi from './seed/whirlpool_freestanding_range/w11174426-hmi.json';
+import whirlpool_freestanding_range_w11174426_infinite_switch from './seed/whirlpool_freestanding_range/w11174426-infinite-switch.json';
+import whirlpool_freestanding_range_w11174426_oven_sensor from './seed/whirlpool_freestanding_range/w11174426-oven-sensor.json';
+import whirlpool_freestanding_range_w11174426_surface_spark from './seed/whirlpool_freestanding_range/w11174426-surface-spark.json';
+import whirlpool_freestanding_range_w11746350_acu_power from './seed/whirlpool_freestanding_range/w11746350-acu-power.json';
+import whirlpool_freestanding_range_w11746350_bake_element from './seed/whirlpool_freestanding_range/w11746350-bake-element.json';
+import whirlpool_freestanding_range_w11746350_bridge_element from './seed/whirlpool_freestanding_range/w11746350-bridge-element.json';
+import whirlpool_freestanding_range_w11746350_broil_element from './seed/whirlpool_freestanding_range/w11746350-broil-element.json';
+import whirlpool_freestanding_range_w11746350_convect_element from './seed/whirlpool_freestanding_range/w11746350-convect-element.json';
+import whirlpool_freestanding_range_w11746350_door_latch from './seed/whirlpool_freestanding_range/w11746350-door-latch.json';
+import whirlpool_freestanding_range_w11746350_dsi_gas_valve from './seed/whirlpool_freestanding_range/w11746350-dsi-gas-valve.json';
+import whirlpool_freestanding_range_w11746350_hmi from './seed/whirlpool_freestanding_range/w11746350-hmi.json';
+import whirlpool_freestanding_range_w11746350_oven_sensor from './seed/whirlpool_freestanding_range/w11746350-oven-sensor.json';
+import whirlpool_freestanding_range_w11746350_surface_spark from './seed/whirlpool_freestanding_range/w11746350-surface-spark.json';
+import whirlpool_freestanding_range_w11746350_thermal_fuse from './seed/whirlpool_freestanding_range/w11746350-thermal-fuse.json';
+import whirlpool_freestanding_range_w11746350_vent_fan from './seed/whirlpool_freestanding_range/w11746350-vent-fan.json';
 import whirlpool_mvw6200_w11416395_test_01_acu_power from './seed/whirlpool_mvw6200/w11416395-test-01-acu-power.json';
 import whirlpool_mvw6200_w11416395_test_02_valves from './seed/whirlpool_mvw6200/w11416395-test-02-valves.json';
 import whirlpool_mvw6200_w11416395_test_03_drive_system from './seed/whirlpool_mvw6200/w11416395-test-03-drive-system.json';
@@ -376,6 +417,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry as ServiceModeBundle,
   samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf23bb_digital as ServiceModeBundle,
   samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf32cg_buttons as ServiceModeBundle,
+  samsung_range_nx60_bundles_samsungnx60_error_recall_entry as ServiceModeBundle,
+  samsung_range_nx60_bundles_samsungnx60_sub_line_test_entry as ServiceModeBundle,
   samsung_sxs_bundles_samsungrf260b_self_diagnostic_entry as ServiceModeBundle,
   samsung_sxs_bundles_samsungrf260b_test_mode_entry as ServiceModeBundle,
   samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry as ServiceModeBundle,
@@ -401,6 +444,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_fl_dd_bundles_w11169652_quick_service_cycle as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_service_mode as ServiceModeBundle,
+  whirlpool_freestanding_range_bundles_w11174426_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_freestanding_range_bundles_w11746350_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry as ServiceModeBundle,
@@ -483,6 +528,22 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fridge_bespoke_samsungbespoke_ice_room_heater as ServiceProcedureSeed,
   samsung_fridge_bespoke_samsungbespoke_main_inverter_comm as ServiceProcedureSeed,
   samsung_fridge_bespoke_samsungbespoke_main_panel_comm as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_bake_element as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_bake_ignitor as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_broil_element as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_broil_ignitor as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_convection_fan as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_cooling_fan as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_door_lock as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_heater_relays as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_hmi_touch as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_oven_lamp as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_oven_sensor as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_oven_vent as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_power as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_safety_valve as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_spark_module as ServiceProcedureSeed,
+  samsung_range_nx60_samsungnx60_touch_comm as ServiceProcedureSeed,
   samsung_sxs_samsungrf260b_ambient_sensor as ServiceProcedureSeed,
   samsung_sxs_samsungrf260b_c_fan as ServiceProcedureSeed,
   samsung_sxs_samsungrf260b_ff_def_sensor as ServiceProcedureSeed,
@@ -659,6 +720,27 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_fl_dd_w11169652_test_15_dry_heater as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_16_dry_temp_sensor as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_17_dry_blower as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_acu_power as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_bake_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_broil_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_door_latch as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_dsi_board as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_hmi as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_infinite_switch as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_oven_sensor as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174426_surface_spark as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_acu_power as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_bake_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_bridge_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_broil_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_convect_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_door_latch as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_dsi_gas_valve as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_hmi as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_oven_sensor as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_surface_spark as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_thermal_fuse as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11746350_vent_fan as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_02_valves as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_03_drive_system as ServiceProcedureSeed,

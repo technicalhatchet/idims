@@ -1,0 +1,382 @@
+{
+  "id": "w11746350-bridge-element",
+  "version": "1.0.0",
+  "title": "Bridge / Single / Warming Cooktop Elements",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "heating_element_check",
+    "surface_burner"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Cooktop",
+    "oemTestTitle": "Bridge / Single / Warming Zone Elements",
+    "pages": [
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "bridge_outer_ohms"
+    },
+    {
+      "id": "bridge_outer_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Bridge element \u2014 outer section",
+      "body": "Disconnect leads. Outer elements expect 68.5 \u03a9 \u00b15% cold.",
+      "sourceExcerpt": "Disconnect leads. Outer elements expect 68.5 \u03a9 \u00b15% cold.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeBridgeOuterOhms",
+      "testPoint": {
+        "connector": "Bridge outer",
+        "pins": "terminals",
+        "label": "Bridge element \u2014 outer section"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bridge_out_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bridge",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bridge_out_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bridge",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bridge_out_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bridge",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bridge_out_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bridge_inner_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bridge_inner_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Bridge element \u2014 inner section",
+      "body": "Inner element expect 30.5 \u03a9 \u00b15% cold.",
+      "sourceExcerpt": "Inner element expect 30.5 \u03a9 \u00b15% cold.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeBridgeInnerOhms",
+      "testPoint": {
+        "connector": "Bridge inner",
+        "pins": "terminals",
+        "label": "Bridge element \u2014 inner section"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bridge_in_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bridge",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bridge_in_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bridge",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bridge_in_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bridge",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bridge_in_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "single_element_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "single_element_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Single element resistance",
+      "body": "Single radiant element expect 45.7 \u03a9 \u00b15% cold.",
+      "sourceExcerpt": "Single radiant element expect 45.7 \u03a9 \u00b15% cold.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeSingleElementOhms",
+      "testPoint": {
+        "connector": "Single element",
+        "pins": "terminals",
+        "label": "Single element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "single_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_single",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "single_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_single",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "single_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_single",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "single_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "warming_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "warming_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Warming zone element resistance",
+      "body": "Warming zone expect 145 \u03a9 \u00b15% cold.",
+      "sourceExcerpt": "Warming zone expect 145 \u03a9 \u00b15% cold.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeWarmingZoneOhms",
+      "testPoint": {
+        "connector": "Warming zone",
+        "pins": "terminals",
+        "label": "Warming zone element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "warm_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_warming",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "warm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_warming",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "warm_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_warming",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "warm_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cooktop_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_bridge",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace bridge element",
+      "oemOutcome": "Bridge section open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_single",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace single element",
+      "oemOutcome": "Single element failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_warming",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace warming zone element",
+      "oemOutcome": "Warming zone element failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "cooktop_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Cooktop elements verified",
+      "oemOutcome": "Bridge/single/warming elements in spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

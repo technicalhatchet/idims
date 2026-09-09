@@ -1,0 +1,134 @@
+{
+  "manualId": "SAMSUNG-NX60-RANGE",
+  "platformId": "samsung_range_nx60",
+  "templateId": "gas_range",
+  "label": "Samsung NX60T8311S / NE63 slide-in range",
+  "notes": "Dual template: gas_range (NX60*) + electric_range (NE63*). \u00a74-1 error codes + component resistance checks.",
+  "plannedProcedures": [
+    {
+      "id": "samsungnx60-power",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: No power / no display",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-oven-sensor",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Oven temperature sensor (C-20 / C-21)",
+      "status": "generated",
+      "relatedCodes": [
+        "C-20",
+        "C-21"
+      ]
+    },
+    {
+      "id": "samsungnx60-heater-relays",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Heater relays \u2014 DLB / bake / broil (C-21)",
+      "status": "generated",
+      "relatedCodes": [
+        "C-21"
+      ]
+    },
+    {
+      "id": "samsungnx60-door-lock",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Door lock motor (C-d1)",
+      "status": "generated",
+      "relatedCodes": [
+        "C-d1"
+      ]
+    },
+    {
+      "id": "samsungnx60-touch-comm",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Sub \u2194 touch communication (C-F2)",
+      "status": "generated",
+      "relatedCodes": [
+        "C-F2"
+      ]
+    },
+    {
+      "id": "samsungnx60-cooling-fan",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Display cooling fan (C-A2)",
+      "status": "generated",
+      "relatedCodes": [
+        "C-A2"
+      ]
+    },
+    {
+      "id": "samsungnx60-oven-vent",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Oven vent blocked (C-24)",
+      "status": "generated",
+      "relatedCodes": [
+        "C-24"
+      ]
+    },
+    {
+      "id": "samsungnx60-bake-ignitor",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Bake burner HSI",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-broil-ignitor",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Broil burner HSI",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-safety-valve",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Oven gas safety valve",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-convection-fan",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Convection fan motor",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-oven-lamp",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Oven lamp",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-hmi-touch",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Touch keypad",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-spark-module",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Cooktop spark module",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-bake-element",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Bake element (electric NE63)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungnx60-broil-element",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Broil element (electric NE63)",
+      "status": "generated",
+      "relatedCodes": []
+    }
+  ]
+}

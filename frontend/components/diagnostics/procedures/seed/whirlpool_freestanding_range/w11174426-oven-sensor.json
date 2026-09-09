@@ -1,0 +1,214 @@
+{
+  "id": "w11174426-oven-sensor",
+  "version": "1.0.0",
+  "title": "Oven Temperature Sensor",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "temp_sensor"
+  ],
+  "tags": [
+    "sensor_check",
+    "temp_accuracy_issue",
+    "F3E0",
+    "F6E1"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "RTD",
+    "oemTestTitle": "Oven Temp Sensor",
+    "pages": [
+      25,
+      26,
+      45,
+      46
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_f3e0"
+    },
+    {
+      "id": "diag_f3e0",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Confirm F3E0 / room temp in Diagnostics",
+      "body": "Enter Diagnostics (CANCEL\u00d72+START). Verify sensor at room temp and failure code matches.",
+      "sourceExcerpt": "Enter Diagnostics (CANCEL\u00d72+START). Verify sensor at room temp and failure code matches.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "match",
+          "label": "Code matches",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_harness"
+        },
+        {
+          "id": "nomatch",
+          "label": "Does not match",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "sensor_harness",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Sensor harness connections",
+      "body": "Power off. Check sensor connections on harness and board (P3 or Con 3).",
+      "sourceExcerpt": "Power off. Check sensor connections on harness and board (P3 or Con 3).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "h_ok",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms"
+        },
+        {
+          "id": "h_bad",
+          "label": "Damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "temp_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_harness",
+      "order": 4,
+      "type": "instruction",
+      "title": "Repair sensor harness",
+      "body": "Repair harness, retest.",
+      "sourceExcerpt": "Repair harness, retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_ohms"
+    },
+    {
+      "id": "sensor_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "RTD resistance at sensor connector",
+      "body": "Disconnect sensor. Measure pins \u2014 1000\u20131200 \u03a9 at room temp. LCX: P3-4 to P3-5; LCC: Con 3-9 to Con 3-10. Check short to casing.",
+      "sourceExcerpt": "Disconnect sensor. Measure pins \u2014 1000\u20131200 \u03a9 at room temp. LCX: P3-4 to P3-5; LCC: Con 3-9 to Con 3-10. Check short to casing.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeOvenSensorOhms",
+      "testPoint": {
+        "connector": "P3 / Con3",
+        "pins": "RTD pins",
+        "label": "RTD resistance at sensor connector"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rtd_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "temp_sensor",
+              "evidenceId": "eliminate_temp_sensor_bad_temp_sensor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace oven sensor or harness",
+      "oemOutcome": "RTD out of range or shorted.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Oven sensor verified",
+      "oemOutcome": "Sensor 1000\u20131200 \u03a9 \u2014 clear code, run BAKE+START 1 min.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174426-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "diag_f3e0"
+    }
+  ]
+}

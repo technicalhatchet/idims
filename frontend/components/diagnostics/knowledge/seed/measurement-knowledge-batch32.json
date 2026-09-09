@@ -1,0 +1,194 @@
+[
+  {
+    "id": "samsungNx60OvenSensorOhms",
+    "name": "Samsung NX60/NE63 Oven Temperature Sensor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1030, "max": 1130 },
+      "warning": { "min": 930, "max": 1300 },
+      "critical": { "below": 500, "above": 2950 }
+    },
+    "typical": { "min": 1070, "max": 1090 },
+    "openCircuitCritical": true,
+    "purpose": "Verify oven RTD at room temperature per Samsung NX60T8311 service manual — C-20/C-21 sensor fault path.",
+    "failureModes": [
+      "Open (>2950 Ω): C-20 oven sensor opened",
+      "Short (<930 Ω): sensor shorted — erratic or runaway heat",
+      "1080 Ω ± at room temp is nominal at CN100 pins 11–13"
+    ],
+    "testingTips": [
+      "Disconnect power; measure at sensor or CN100 on Sub PCB with harness disconnected",
+      "Ro = 1000 Ω @ 0°C, RP = 2757 Ω — use OEM temp vs resistance chart for in-oven readings"
+    ],
+    "notes": "Samsung NX60/NE63 slide-in range — 1080 Ω at room temperature",
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["sensor_check", "temp_accuracy_issue", "C-20", "C-21"]
+  },
+  {
+    "id": "samsungNx60OvenIgnitorOhms",
+    "name": "Samsung NX60 Oven Bake/Broil HSI Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40, "max": 400 },
+      "warning": { "min": 30, "max": 500 },
+      "critical": { "below": 5, "above": 1000 }
+    },
+    "typical": { "min": 80, "max": 300 },
+    "openCircuitCritical": true,
+    "purpose": "Hot surface ignitor (HSI) cold resistance for bake and broil burners — §4-4 oven parts.",
+    "failureModes": [
+      "Open (OL): no glow, oven burner will not light",
+      "In range but weak glow: verify 3.3–3.6 A at safety valve during ignition"
+    ],
+    "testingTips": [
+      "Disconnect power before measuring at HSI terminals",
+      "Bake voltage check T504–T505; broil T504–T503 when powered"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["igniter_check", "ignition_issue", "no_heat"]
+  },
+  {
+    "id": "samsungNx60DoorLockMotorOhms",
+    "name": "Samsung NX60 Oven Door Lock Motor Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1750, "max": 1950 },
+      "warning": { "min": 1600, "max": 2100 },
+      "critical": { "below": 500, "above": 5000 }
+    },
+    "typical": { "min": 1800, "max": 1900 },
+    "openCircuitCritical": true,
+    "purpose": "Self-clean door lock motor winding — C-d1 door locking information.",
+    "failureModes": [
+      "Open winding: latch will not cycle — C-d1 fault",
+      "Verify AC 120 V at lock motor when lock commanded; CN300 pins 23–24 on Main PCB"
+    ],
+    "testingTips": [
+      "Disconnect harness from lock motor before measuring coil",
+      "Lock switch COM–NO continuity separate from motor coil"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["door_latch_check", "C-d1"]
+  },
+  {
+    "id": "samsungNx60ConvectionFanOhms",
+    "name": "Samsung NX60 Convection Fan Motor Winding",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 25, "max": 30 },
+      "warning": { "min": 20, "max": 35 },
+      "critical": { "below": 5, "above": 60 }
+    },
+    "typical": { "min": 26, "max": 29 },
+    "openCircuitCritical": true,
+    "purpose": "Convection fan motor terminal resistance when fan not spinning.",
+    "failureModes": [
+      "Open (OL): fan will not spin — check CN204 pin 1 harness and SSR200/RY204 relay",
+      "Out of range: replace burned-out fan motor"
+    ],
+    "testingTips": [
+      "Disconnect power; measure across fan motor terminals",
+      "Verify relay CN204 and display harness CN204/CNS701 when motor Ω is good"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["fan_motor_check", "convection_issue"]
+  },
+  {
+    "id": "samsungNx60HeaterRelayContactsOhms",
+    "name": "Samsung NX60 Oven Heater Relay Contacts (de-energized)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50000, "max": 999999 },
+      "warning": { "min": 10000, "max": 999999 },
+      "critical": { "below": 1000, "above": 999999 }
+    },
+    "typical": { "min": 100000, "max": 500000 },
+    "openCircuitCritical": false,
+    "purpose": "DLB, bake, and broil relay contact resistance when relays are off — C-21 overheat path.",
+    "failureModes": [
+      "Low resistance (<1 kΩ) with relay off: welded/stuck relay contacts",
+      "C-21 overheat: verify DLB TB200–TB201, broil TB202–TB203, bake TB204–TB205"
+    ],
+    "testingTips": [
+      "Power off; remove Assy Display PCB access; measure across relay contact pairs",
+      "Normal de-energized contact reading is open (∞ Ω)"
+    ],
+    "notes": "Contact-side check — coil circuits are separate from this measurement",
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["relay_check", "C-21", "no_heat"]
+  },
+  {
+    "id": "samsungNx60GasSafetyValveAmps",
+    "name": "Samsung NX60 Oven Gas Safety Valve Current",
+    "unit": "A",
+    "inputKind": "current",
+    "ranges": {
+      "normal": { "min": 3.3, "max": 3.6 },
+      "warning": { "min": 2.8, "max": 4.0 },
+      "critical": { "below": 1.5, "above": 5.0 }
+    },
+    "typical": { "min": 3.4, "max": 3.5 },
+    "openCircuitCritical": false,
+    "purpose": "Safety valve terminal current when HSI is glowing — opens gas to bake/broil burner.",
+    "failureModes": [
+      "Low amps with glowing HSI: weak ignitor or faulty safety valve",
+      "Zero amps: open ignitor circuit or valve coil failure"
+    ],
+    "testingTips": [
+      "Clamp safety valve terminal during ignition after HSI glow confirmed",
+      "Verify 120 VAC at TB201–TB204 (bake) or TB201–CN202 (broil) before condemning valve"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["gas_valve_check", "ignition_issue"]
+  },
+  {
+    "id": "samsungNx60OvenLampSocketOhms",
+    "name": "Samsung NX60 Oven Lamp Socket (no bulb)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50000, "max": 999999 },
+      "warning": { "min": 10000, "max": 999999 },
+      "critical": { "below": 1000, "above": 999999 }
+    },
+    "typical": { "min": 100000, "max": 500000 },
+    "openCircuitCritical": false,
+    "purpose": "Oven lamp ballast/socket with bulb removed — should read open.",
+    "failureModes": [
+      "Low resistance without bulb: shorted socket or wiring fault",
+      "Open with good bulb installed: burned-out 40 W appliance bulb"
+    ],
+    "testingTips": [
+      "Remove bulb; measure across light ballast/socket terminals",
+      "Check CN205 harness and RY208 oven lamp relay on Main PCB"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range", "electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["light_check"]
+  }
+]

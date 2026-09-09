@@ -1,0 +1,237 @@
+{
+  "id": "w11746350-bake-element",
+  "version": "1.0.0",
+  "title": "Hidden Bake Element",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "heating_element_check",
+    "no_bake_heat_issue",
+    "FEE6"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Bake",
+    "oemTestTitle": "Bake Element",
+    "pages": [
+      21,
+      41,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_connections"
+    },
+    {
+      "id": "bake_connections",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Bake element connections",
+      "body": "Power off. Check bake element connection at ACU P4 and element terminals.",
+      "sourceExcerpt": "Power off. Check bake element connection at ACU P4 and element terminals.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bake_conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bake_ohms"
+        },
+        {
+          "id": "bake_conn_bad",
+          "label": "Loose or burnt",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_bake_conn",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "bake_element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_bake_conn",
+      "order": 3,
+      "type": "instruction",
+      "title": "Repair bake connections",
+      "body": "Reseat or repair terminals, retest.",
+      "sourceExcerpt": "Reseat or repair terminals, retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_ohms"
+    },
+    {
+      "id": "bake_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Bake element resistance P4-3 to P4-4",
+      "body": "Disconnect element. Measure cold resistance \u2014 expect 23.3 \u03a9 \u00b15% (hidden bake).",
+      "sourceExcerpt": "Disconnect element. Measure cold resistance \u2014 expect 23.3 \u03a9 \u00b15% (hidden bake).",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeHiddenBakeOhms",
+      "testPoint": {
+        "connector": "P4",
+        "pins": "3 & 4",
+        "label": "Bake element resistance P4-3 to P4-4"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bake_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_relay_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bake_relay_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Bake relay and supply voltage",
+      "body": "Element in range. Check bake relay connection and appliance voltage at element when commanded.",
+      "sourceExcerpt": "Element in range. Check bake relay connection and appliance voltage at element when commanded.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "relay_ok",
+          "label": "Voltage present when bake on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bake_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        },
+        {
+          "id": "relay_bad",
+          "label": "No voltage / bad relay",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_bake",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_bake_element",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace bake element",
+      "oemOutcome": "Bake element open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_bake",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Bake element good but no heat \u2014 replace ACU/relay path.",
+      "requiresInput": false
+    },
+    {
+      "id": "bake_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Bake element verified",
+      "oemOutcome": "Bake element resistance and operation verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11746350-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "bake_connections"
+    }
+  ]
+}

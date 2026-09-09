@@ -1,0 +1,293 @@
+{
+  "manualId": "W11746350",
+  "platformId": "whirlpool_freestanding_range",
+  "templateId": "electric_range",
+  "label": "Whirlpool/Maytag/Amana freestanding range (W11746350 + W11174426)",
+  "notes": "Shared platformId whirlpool_freestanding_range. W11746350 Copernicus Settings diagnostics; W11174426 LCX/LCC CANCEL\u00d72+START. Fuel-specific procedures use templateIds electric_range / gas_range.",
+  "plannedProcedures": [
+    {
+      "id": "w11746350-acu-power",
+      "oemSection": "ACU",
+      "title": "ACU Power & Communication",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "supplyVoltage240"
+      ],
+      "relatedCodes": [
+        "F1E1",
+        "F1EA",
+        "F6E1",
+        "F9E0"
+      ]
+    },
+    {
+      "id": "w11746350-hmi",
+      "oemSection": "HMI",
+      "title": "HMI / Touch Interface",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1",
+        "F2E2",
+        "F2E4"
+      ]
+    },
+    {
+      "id": "w11746350-oven-sensor",
+      "oemSection": "RTD",
+      "title": "Main Oven Temperature Sensor",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeOvenSensorOhms"
+      ],
+      "relatedCodes": [
+        "F3E0",
+        "F6E1"
+      ]
+    },
+    {
+      "id": "w11746350-door-latch",
+      "oemSection": "Latch",
+      "title": "Rear Door Latch Motor",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeDoorLatchOhms"
+      ],
+      "relatedCodes": [
+        "F5E0",
+        "F5E1"
+      ]
+    },
+    {
+      "id": "w11746350-vent-fan",
+      "oemSection": "Fan",
+      "title": "Ventilation / Convection Fan",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeConvectFanOhms"
+      ],
+      "relatedCodes": [
+        "F7E5",
+        "F7E6"
+      ]
+    },
+    {
+      "id": "w11746350-bake-element",
+      "oemSection": "Bake",
+      "title": "Hidden Bake Element",
+      "status": "generated",
+      "templateIds": [
+        "electric_range"
+      ],
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeHiddenBakeOhms"
+      ],
+      "relatedCodes": [
+        "FEE6"
+      ]
+    },
+    {
+      "id": "w11746350-broil-element",
+      "oemSection": "Broil",
+      "title": "Broil Element",
+      "status": "generated",
+      "templateIds": [
+        "electric_range"
+      ],
+      "knowledgeIds": [
+        "broilElementOhms"
+      ],
+      "relatedCodes": [
+        "FEE7"
+      ]
+    },
+    {
+      "id": "w11746350-convect-element",
+      "oemSection": "Convect",
+      "title": "Convection Element (gas oven)",
+      "status": "generated",
+      "templateIds": [
+        "gas_range"
+      ],
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeConvectElementOhms",
+        "whirlpoolFreestandingRangeConvectFanOhms"
+      ],
+      "relatedCodes": [
+        "FEE8"
+      ]
+    },
+    {
+      "id": "w11746350-dsi-gas-valve",
+      "oemSection": "DSI",
+      "title": "DSI Board & Gas Regulator",
+      "status": "generated",
+      "templateIds": [
+        "gas_range"
+      ],
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeDsiValveOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11746350-surface-spark",
+      "oemSection": "Spark",
+      "title": "Surface Burner Spark Module",
+      "status": "generated",
+      "templateIds": [
+        "gas_range"
+      ],
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11746350-bridge-element",
+      "oemSection": "Cooktop",
+      "title": "Bridge / Single / Warming Cooktop Elements",
+      "status": "generated",
+      "templateIds": [
+        "electric_range"
+      ],
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeBridgeOuterOhms",
+        "whirlpoolFreestandingRangeBridgeInnerOhms",
+        "whirlpoolFreestandingRangeSingleElementOhms",
+        "whirlpoolFreestandingRangeWarmingZoneOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11746350-thermal-fuse",
+      "oemSection": "Fuse",
+      "title": "Thermal Fuse / Thermo Fuse",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174426-acu-power",
+      "oemSection": "Power",
+      "title": "Control Power & Supply",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "supplyVoltage120"
+      ],
+      "relatedCodes": [
+        "F1E0",
+        "F1E1",
+        "F1E2",
+        "F9E0"
+      ]
+    },
+    {
+      "id": "w11174426-hmi",
+      "oemSection": "HMI",
+      "title": "Keypad / HMI (F2E1)",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1"
+      ]
+    },
+    {
+      "id": "w11174426-oven-sensor",
+      "oemSection": "RTD",
+      "title": "Oven Temperature Sensor",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeOvenSensorOhms"
+      ],
+      "relatedCodes": [
+        "F3E0",
+        "F6E1"
+      ]
+    },
+    {
+      "id": "w11174426-door-latch",
+      "oemSection": "Latch",
+      "title": "Door Latch (Clean Mode)",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeDoorLatchOhms"
+      ],
+      "relatedCodes": [
+        "F5E1"
+      ]
+    },
+    {
+      "id": "w11174426-bake-element",
+      "oemSection": "Bake",
+      "title": "Bake Element",
+      "status": "generated",
+      "templateIds": [
+        "electric_range"
+      ],
+      "knowledgeIds": [
+        "bakeElementOhms"
+      ],
+      "relatedCodes": [
+        "F3E0"
+      ]
+    },
+    {
+      "id": "w11174426-broil-element",
+      "oemSection": "Broil",
+      "title": "Broil Element",
+      "status": "generated",
+      "templateIds": [
+        "electric_range"
+      ],
+      "knowledgeIds": [
+        "broilElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174426-infinite-switch",
+      "oemSection": "Switch",
+      "title": "Cooktop Infinite Switches",
+      "status": "generated",
+      "templateIds": [
+        "electric_range"
+      ],
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174426-dsi-board",
+      "oemSection": "DSI",
+      "title": "DSI Board (Gas Oven)",
+      "status": "generated",
+      "templateIds": [
+        "gas_range"
+      ],
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeDsiValveOhms",
+        "whirlpoolFreestandingRangeDsiValveOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174426-surface-spark",
+      "oemSection": "Spark",
+      "title": "Surface Spark Module",
+      "status": "generated",
+      "templateIds": [
+        "gas_range"
+      ],
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

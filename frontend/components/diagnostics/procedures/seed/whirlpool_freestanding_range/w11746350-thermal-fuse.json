@@ -1,0 +1,96 @@
+{
+  "id": "w11746350-thermal-fuse",
+  "version": "1.0.0",
+  "title": "Thermal Fuse / Thermo Fuse",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "no_heat",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Fuse",
+    "oemTestTitle": "Thermal Fuse",
+    "pages": [
+      51,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermo_fuse_continuity"
+    },
+    {
+      "id": "thermo_fuse_continuity",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Thermo fuse continuity",
+      "body": "Power off. Thermo fuse should be closed circuit (continuity). Opens if oven back exceeds 363\u00b0F (184\u00b0C).",
+      "sourceExcerpt": "Power off. Thermo fuse should be closed circuit (continuity). Opens if oven back exceeds 363\u00b0F (184\u00b0C).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuse_closed",
+          "label": "Closed (continuity)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fuse_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "fuse_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermo_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_thermo_fuse",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace thermo fuse",
+      "oemOutcome": "Thermal fuse open \u2014 replace fuse and find over-temp cause.",
+      "requiresInput": false
+    },
+    {
+      "id": "fuse_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Thermo fuse verified",
+      "oemOutcome": "Thermal fuse continuity OK.",
+      "requiresInput": false
+    }
+  ]
+}

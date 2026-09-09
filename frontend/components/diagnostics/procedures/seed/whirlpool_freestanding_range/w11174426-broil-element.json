@@ -1,0 +1,193 @@
+{
+  "id": "w11174426-broil-element",
+  "version": "1.0.0",
+  "title": "Broil Element",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "broil_element"
+  ],
+  "tags": [
+    "heating_element_check",
+    "no_broil_heat_issue"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Broil",
+    "oemTestTitle": "Broil Element",
+    "pages": [
+      45,
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "broil_ohms"
+    },
+    {
+      "id": "broil_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Broil element resistance",
+      "body": "Power off. LCX: P5-1 to P5-4 WH; LCC: Con 2-1 to Con 4-3 \u2014 expect 10\u201340 \u03a9 nominal.",
+      "sourceExcerpt": "Power off. LCX: P5-1 to P5-4 WH; LCC: Con 2-1 to Con 4-3 \u2014 expect 10\u201340 \u03a9 nominal.",
+      "measurementKnowledgeId": "broilElementOhms",
+      "testPoint": {
+        "connector": "P5 / Con2",
+        "pins": "broil terminals",
+        "label": "Broil element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "broil_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "broil_element",
+              "evidenceId": "confirm_broil_element_ol_broil_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "broil_element",
+              "evidenceId": "confirm_broil_element_ol_broil_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "broil_element",
+              "evidenceId": "confirm_broil_element_ol_broil_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_voltage",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "broil_element",
+              "evidenceId": "eliminate_broil_element_normal_broil_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "broil_voltage",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Broil mode voltage",
+      "body": "In Broil mode only broil element energized \u2014 verify 240 VAC at element.",
+      "sourceExcerpt": "In Broil mode only broil element energized \u2014 verify 240 VAC at element.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "broil_v_ok",
+          "label": "Voltage OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "broil_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "broil_element",
+              "evidenceId": "eliminate_broil_element_normal_broil_element_ok"
+            }
+          ]
+        },
+        {
+          "id": "broil_v_bad",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_broil",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "broil_element",
+              "evidenceId": "confirm_broil_element_ol_broil_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_broil",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace broil element",
+      "oemOutcome": "Broil element failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_control_broil",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace oven control",
+      "oemOutcome": "Element good, no broil voltage.",
+      "requiresInput": false
+    },
+    {
+      "id": "broil_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Broil element verified",
+      "oemOutcome": "Broil element verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174426-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "broil_ohms"
+    }
+  ]
+}
