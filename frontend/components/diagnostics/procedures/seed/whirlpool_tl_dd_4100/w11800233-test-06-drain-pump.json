@@ -1,0 +1,506 @@
+{
+  "id": "w11800233-test-06-drain-pump",
+  "version": "1.0.0",
+  "title": "TEST #6: Drain Pump",
+  "platformId": "whirlpool_tl_dd_4100",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "pump_check",
+    "drain_issue",
+    "F9E1",
+    "dr"
+  ],
+  "source": {
+    "manualId": "W11800233",
+    "manualTitle": "Whirlpool 4.0\u20134.3 cu ft Top Load Washer (WTW4100 ACU)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-W11800233-revc wtw4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Drain Pump",
+    "pages": [
+      91,
+      92
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "clear_obstructions"
+    },
+    {
+      "id": "clear_obstructions",
+      "order": 2,
+      "type": "instruction",
+      "title": "Clear drain path obstructions",
+      "body": "Check usual areas. Then test drain pump in Automatic Test Mode.",
+      "sourceExcerpt": "Check usual areas. Then test drain pump in Automatic Test Mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_auto_test"
+    },
+    {
+      "id": "drain_auto_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drain pump in Automatic Test",
+      "body": "During Automatic Test drain step, does pump run?",
+      "sourceExcerpt": "During Automatic Test drain step, does pump run?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_live_fail",
+          "label": "Does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_j6_pump",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "pump_live_ok",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j6_pump",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J6 fully seated",
+      "body": "Power off. J6 fully inserted at main control?",
+      "sourceExcerpt": "Power off. J6 fully inserted at main control?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j6p_ok",
+          "label": "J6 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "j6_pump_ohms"
+        },
+        {
+          "id": "j6p_bad",
+          "label": "J6 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j6_pump",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_j6_pump",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat J6 and retest",
+      "body": "Reconnect J6 and repeat Automatic Test drain.",
+      "sourceExcerpt": "Reconnect J6 and repeat Automatic Test drain.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_auto_test"
+    },
+    {
+      "id": "j6_pump_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Drain pump resistance J6-3 to J6-6",
+      "body": "Remove J6. Expect 14\u201325 \u03a9 across drain pump winding.",
+      "sourceExcerpt": "Remove J6. Expect 14\u201325 \u03a9 across drain pump winding.",
+      "measurementKnowledgeId": "whirlpoolWtw4100WasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "J6",
+        "pins": "3 & 6",
+        "label": "Drain pump resistance J6-3 to J6-6",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Motor CCW",
+            "wireColor": "RD",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Shifter motor",
+            "wireColor": "BR",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Drain pump",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "Motor CW",
+            "wireColor": "OR",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "6",
+            "signal": "Neutral",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_j6_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "harness_pump_cont",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_j6_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "harness_pump_cont",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_j6_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "harness_pump_cont",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_j6_pass",
+          "label": "14\u201325 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_obstruction",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Pump free of obstructions",
+      "body": "Tilt washer. Verify drain pump free from obstructions.",
+      "sourceExcerpt": "Tilt washer. Verify drain pump free from obstructions.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_clear",
+          "label": "Pump clear",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_pump_cont"
+        },
+        {
+          "id": "pump_stuck",
+          "label": "Obstruction or stuck pump",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harness_pump_cont",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Drain pump harness continuity",
+      "body": "Continuity pump pin 1\u2192J6-3 and pin 3\u2192J6-6?",
+      "sourceExcerpt": "Continuity pump pin 1\u2192J6-3 and pin 3\u2192J6-6?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ph_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_terminal_ohms"
+        },
+        {
+          "id": "ph_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness_pump",
+          "terminal": true,
+          "oemOutcome": "Replace lower machine harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_terminal_ohms",
+      "order": 9,
+      "type": "measurement",
+      "title": "Resistance at drain pump terminals",
+      "body": "At pump motor terminals expect 14\u201325 \u03a9.",
+      "sourceExcerpt": "At pump motor terminals expect 14\u201325 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolWtw4100WasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "Drain pump",
+        "pins": "1 & 3",
+        "label": "Resistance at drain pump terminals"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_pump_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_pass",
+          "label": "14\u201325 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_pump_power",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_pump_power",
+      "order": 10,
+      "type": "instruction",
+      "title": "Reconnect pump and restore power",
+      "body": "Reconnect J6 and pump harness. Restore power for Automatic Test drain.",
+      "sourceExcerpt": "Reconnect J6 and pump harness. Restore power for Automatic Test drain.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_drain_pump"
+    },
+    {
+      "id": "service_mode_before_auto_test",
+      "type": "instruction",
+      "title": "Continue to Automatic Test Mode",
+      "body": "You should now be in Service Diagnostic mode. Press Key 2, then press START (lid closed) to run Automatic Test load sequences.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Automatic Test Mode (Key 2 + START).",
+      "requiresInput": false,
+      "order": 11
+    },
+    {
+      "id": "live_test_drain_pump",
+      "order": 12,
+      "type": "visual_check",
+      "title": "Drain pump runs in Automatic Test",
+      "body": "Run Automatic Test drain step. Does pump run and evacuate water?",
+      "sourceExcerpt": "Run Automatic Test drain step. Does pump run and evacuate water?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dp_run",
+          "label": "Pump runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "dp_no_run",
+          "label": "Ohms OK but no run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_pump",
+          "terminal": true,
+          "oemOutcome": "Pump good but no run \u2014 replace main control.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clear_pump_obstruction",
+      "order": 13,
+      "type": "outcome",
+      "title": "Clear pump obstruction",
+      "oemOutcome": "Remove obstruction and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness_pump",
+      "order": 14,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Restore pump circuit continuity.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_drain_pump",
+      "order": 15,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Pump motor open or out of range at terminals.",
+      "requiresInput": false
+    },
+    {
+      "id": "pump_verified",
+      "order": 16,
+      "type": "outcome",
+      "title": "Drain pump verified",
+      "oemOutcome": "Pump resistance and Automatic Test run verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_pump",
+      "order": 17,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Pump good but no run \u2014 replace main control.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11800233-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_pump_power",
+      "continueToStepId": "service_mode_before_auto_test"
+    },
+    {
+      "bundleId": "w11800233-automatic-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_auto_test",
+      "continueToStepId": "live_test_drain_pump"
+    }
+  ]
+}

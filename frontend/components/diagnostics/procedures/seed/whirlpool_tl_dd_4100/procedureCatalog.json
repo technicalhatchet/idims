@@ -1,0 +1,132 @@
+{
+  "manualId": "W11800233",
+  "platformId": "whirlpool_tl_dd_4100",
+  "templateId": "washer",
+  "label": "Whirlpool/Maytag 4.0\u20134.3 cu ft ACU belt-drive top-load (WTW4100)",
+  "notes": "TEST #1\u20137 (+3a shifter / 3b motor). Belt-drive PSC + shifter; Service Diagnostic 3-button \u00d7 3; Automatic Test via Key 2 + START.",
+  "plannedProcedures": [
+    {
+      "id": "w11800233-test-01-acu-power",
+      "oemSection": "1",
+      "title": "TEST #1: Main Control (ACU)",
+      "status": "generated",
+      "knowledgeIds": [
+        "supplyVoltage120",
+        "whirlpoolWtw4100WasherAcu12Vdc"
+      ],
+      "relatedCodes": [
+        "F1E1",
+        "F6E1"
+      ]
+    },
+    {
+      "id": "w11800233-test-02-valves",
+      "oemSection": "2",
+      "title": "TEST #2: Valves",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4100WasherInletValveOhms"
+      ],
+      "relatedCodes": [
+        "F8E1",
+        "F8E3",
+        "LF"
+      ]
+    },
+    {
+      "id": "w11800233-test-03-drive-system",
+      "oemSection": "3",
+      "title": "TEST #3: Drive System (pre-test)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F7E1",
+        "F7E3",
+        "F7E4",
+        "F7E6",
+        "F7E7"
+      ]
+    },
+    {
+      "id": "w11800233-test-03a-shifter",
+      "oemSection": "3a",
+      "title": "TEST #3a: Drive System \u2014 Shifter",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4100WasherShifterOhms"
+      ],
+      "relatedCodes": [
+        "F7E1",
+        "F7E3",
+        "F7E4"
+      ]
+    },
+    {
+      "id": "w11800233-test-03b-motor",
+      "oemSection": "3b",
+      "title": "TEST #3b: Drive System \u2014 Motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4100WasherMotorWindingOhms",
+        "whirlpoolWtw4100WasherMotorWindingOhms"
+      ],
+      "relatedCodes": [
+        "F7E6",
+        "F7E7"
+      ]
+    },
+    {
+      "id": "w11800233-test-04-hmi",
+      "oemSection": "4",
+      "title": "TEST #4: HMI",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1",
+        "F2E3",
+        "F6E1"
+      ]
+    },
+    {
+      "id": "w11800233-test-05-water-level",
+      "oemSection": "5",
+      "title": "TEST #5: Water Level",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F3E2",
+        "F8E1",
+        "F8E3",
+        "F9E1"
+      ]
+    },
+    {
+      "id": "w11800233-test-06-drain-pump",
+      "oemSection": "6",
+      "title": "TEST #6: Drain Pump",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4100WasherDrainPumpOhms",
+        "whirlpoolWtw4100WasherDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "dr"
+      ]
+    },
+    {
+      "id": "w11800233-test-07-lid-lock",
+      "oemSection": "7",
+      "title": "TEST #7: Lid Lock",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4100WasherLidLockSolenoidOhms"
+      ],
+      "relatedCodes": [
+        "F5E1",
+        "F5E3",
+        "F5E4"
+      ]
+    }
+  ]
+}

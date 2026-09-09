@@ -1,0 +1,38 @@
+{
+  "id": "w11800233-automatic-test-mode",
+  "version": "1.0.0",
+  "platformId": "whirlpool_tl_dd_4100",
+  "manualId": "W11800233",
+  "title": "W11800233 \u2014 Automatic Test Mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Service Diagnostic Key 2 + START runs valves, drain, wash, and spin sequence (lid closed).",
+  "tags": [
+    "service_test",
+    "live_test",
+    "automatic_test"
+  ],
+  "entryStepId": "automatic_test_entry",
+  "source": {
+    "manualTitle": "Whirlpool 4.0\u20134.3 cu ft Top Load Washer (WTW4100 ACU)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-W11800233-revc wtw4100-extracted.txt",
+    "pages": [
+      63,
+      65
+    ]
+  },
+  "steps": [
+    {
+      "id": "automatic_test_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Automatic Test Mode",
+      "body": "With Service Diagnostic active, press Key 2 then press START (lid must be closed). Sequence: water valves (fill to 70 mm) \u2192 drain pump (to 3 mm) \u2192 wash (shifter agitate) \u2192 spin (140/300/500 rpm). Key 1 repeats previous step; Key 2 skips to next. POWER exits to standby.",
+      "sourceExcerpt": "Press Key 2 used to activate Service Diagnostic Mode. To start Automatic Test Mode, press Key 5/Start.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}
