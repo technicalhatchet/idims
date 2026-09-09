@@ -2,8 +2,8 @@
   "manualId": "W11633848",
   "platformId": "whirlpool_dishwasher_acu",
   "templateId": "dishwasher",
-  "label": "Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 + W11480208 + W11499711)",
-  "notes": "W11633848 Amana/Whirlpool 24\" + W11480208 filtration WDT740 (VSM motors) + W11499711 microfiltration WDT750 (SSM wash 10\u201315 \u03a9). Shared fill/dispenser/OWI/diverter-sensor from W11633848; filtration pinouts from W11480208.",
+  "label": "Whirlpool/Maytag/KitchenAid/JennAir ACU dishwasher (W11633848 + W11480208 + W11499711 + W11794121)",
+  "notes": "W11633848 Amana/Whirlpool 24\" + W11480208 filtration WDT740 (VSM motors) + W11499711 microfiltration WDT750 (SSM wash 10\u201315 \u03a9) + W11794121 JennAir filtration (D.O.S.). Shared fill/dispenser/OWI/diverter-sensor from W11633848; filtration pinouts from W11480208.",
   "plannedProcedures": [
     {
       "id": "w11633848-acu-power",
@@ -469,6 +469,205 @@
         "F4E3",
         "F7E1"
       ]
+    },
+    {
+      "id": "w11633848-triac-fuse",
+      "manualId": "W11794121",
+      "oemSection": "3-4",
+      "title": "\u00a73-4: F500 Triac Load Fuse",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11633848-acu-power",
+      "manualId": "W11794121",
+      "oemSection": "3-6",
+      "title": "\u00a73-6: ACU Power & DC Supplies",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11480208-door-switch",
+      "manualId": "W11794121",
+      "oemSection": "3-7",
+      "title": "\u00a73-7: Door Switch Circuit (P12)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "dishwasherDoorLatchSwitchOhms"
+      ],
+      "relatedCodes": [
+        "F5E1",
+        "F5E2"
+      ]
+    },
+    {
+      "id": "w11633848-fill-valve",
+      "manualId": "W11794121",
+      "oemSection": "3-8",
+      "title": "\u00a73-8: Fill Valve Circuit",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuFillValveOhms"
+      ],
+      "relatedCodes": [
+        "F8E1",
+        "F8E2",
+        "F6E2"
+      ]
+    },
+    {
+      "id": "w11633848-dispenser",
+      "manualId": "W11794121",
+      "oemSection": "3-9",
+      "title": "\u00a73-9: Dispenser Solenoid",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F10E1",
+        "F10E2",
+        "F10E3"
+      ]
+    },
+    {
+      "id": "w11480208-heater",
+      "manualId": "W11794121",
+      "oemSection": "3-10",
+      "title": "\u00a73-10: Water Heating / Heat Dry (10\u201340 \u03a9)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F4E2",
+        "F4E3",
+        "F7E1",
+        "F7E2"
+      ]
+    },
+    {
+      "id": "w11633848-owi-sensor",
+      "manualId": "W11794121",
+      "oemSection": "3-11",
+      "title": "\u00a73-11: OWI / Thermistor",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuOwiThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E1",
+        "F3E2",
+        "F3E3"
+      ]
+    },
+    {
+      "id": "w11480208-overfill-switch",
+      "manualId": "W11794121",
+      "oemSection": "3-12",
+      "title": "\u00a73-12: Overfill Float Switch (P11)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "dishwasherFloatSwitchOhms"
+      ],
+      "relatedCodes": [
+        "F6E4",
+        "F8E4"
+      ]
+    },
+    {
+      "id": "w11480208-diverter-motor",
+      "manualId": "W11794121",
+      "oemSection": "3-13",
+      "title": "\u00a73-13: Diverter Motor (P6)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationDiverterMotorOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "F10E5"
+      ]
+    },
+    {
+      "id": "w11633848-diverter-sensor",
+      "manualId": "W11794121",
+      "oemSection": "3-14",
+      "title": "\u00a73-14: Diverter Position Sensor",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F9E1",
+        "F10E5"
+      ]
+    },
+    {
+      "id": "w11499711-wash-motor-ssm",
+      "manualId": "W11794121",
+      "oemSection": "3-15",
+      "title": "\u00a73-15: Wash Motor (SSM, 10\u201315 \u03a9)",
+      "status": "reused",
+      "reusedFrom": "W11499711",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuWashMotorOhms"
+      ],
+      "relatedCodes": [
+        "F4E3",
+        "F7E1"
+      ]
+    },
+    {
+      "id": "w11633848-drain-motor",
+      "manualId": "W11794121",
+      "oemSection": "3-16",
+      "title": "\u00a73-16: Drain Motor (SSM)",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuDrainMotorOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "F9E2",
+        "F8E4"
+      ]
+    },
+    {
+      "id": "w11480208-dc-fan",
+      "manualId": "W11794121",
+      "oemSection": "3-17",
+      "title": "\u00a73-17: DC Fan Motor (ProDry)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationDcFanOhms"
+      ],
+      "relatedCodes": [
+        "F10E3"
+      ]
+    },
+    {
+      "id": "w11794121-door-opening-system",
+      "manualId": "W11794121",
+      "oemSection": "3-19",
+      "title": "\u00a73-19: Door Opening System (D.O.S.)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
     }
   ]
 }

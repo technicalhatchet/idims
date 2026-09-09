@@ -252,8 +252,15 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,
-    label: 'Whirlpool/Maytag/KitchenAid ACU dishwasher',
-    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
+    label: 'JennAir 24" Filtration ACU dishwasher',
+    manufacturers: ['JennAir'],
+    templateId: 'dishwasher',
+    modelPatterns: [/JDP/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,
+    label: 'Whirlpool/Maytag/KitchenAid/JennAir ACU dishwasher',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid', 'JennAir'],
     templateId: 'dishwasher',
   },
   {

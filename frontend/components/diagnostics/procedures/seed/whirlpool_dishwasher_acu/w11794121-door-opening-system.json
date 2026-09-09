@@ -1,0 +1,139 @@
+{
+  "id": "w11794121-door-opening-system",
+  "version": "1.0.0",
+  "title": "\u00a73-19: Door Opening System (D.O.S.)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "door_gasket"
+  ],
+  "tags": [
+    "auto_door_open",
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "W11794121",
+    "manualTitle": "JennAir 24\" Filtration Dishwasher",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-W11794121-revb-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-19",
+    "oemTestTitle": "Door Opening System (D.O.S.)",
+    "pages": [
+      139,
+      140
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "dos_service_diag"
+    },
+    {
+      "id": "dos_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "D.O.S. in Service Diagnostics",
+      "body": "Check Door Opening System operation during Service Diagnostics cycle (auto door open interval).",
+      "sourceExcerpt": "Check Door Opening System operation during Service Diagnostics cycle (auto door open interval).",
+      "requiresInput": false,
+      "defaultNextStepId": "dos_live_voltage_setup"
+    },
+    {
+      "id": "dos_live_voltage_setup",
+      "order": 3,
+      "type": "instruction",
+      "title": "Set up DC voltage test",
+      "body": "Remove outer door to access control. Set voltmeter to DC. Connect leads to test pads P9-1 and P9-2 on control board.",
+      "sourceExcerpt": "Remove outer door to access control. Set voltmeter to DC. Connect leads to test pads P9-1 and P9-2 on control board.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_dos_voltage"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics should be available (1-2-3 entry, press Key #2, close door to start). Continue with D.O.S. bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 4,
+      "defaultNextStepId": "live_dos_voltage"
+    },
+    {
+      "id": "live_dos_voltage",
+      "order": 5,
+      "type": "visual_check",
+      "title": "12 VDC at P9-1 & P9-2 during D.O.S. interval?",
+      "body": "Plug in power. Start Service Diagnostics Cycle. At the D.O.S. interval, measure DC between P9-1 and P9-2. Expect 12 VDC \u00b1 5%.",
+      "sourceExcerpt": "Plug in power. Start Service Diagnostics Cycle. At the D.O.S. interval, measure DC between P9-1 and P9-2. Expect 12 VDC \u00b1 5%.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_dos_module_yes",
+          "label": "12 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_dos_module"
+        },
+        {
+          "id": "replace_dos_module_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_dos",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_gasket",
+              "evidenceId": "confirm_gasket_bad_door_gasket_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_dos_module",
+      "order": 6,
+      "type": "instruction",
+      "title": "Replace DOS module",
+      "body": "Control output verified \u2014 replace Door Opening System (D.O.S.) module and retest.",
+      "sourceExcerpt": "Control output verified \u2014 replace Door Opening System (D.O.S.) module and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "dos_verified"
+    },
+    {
+      "id": "replace_acu_dos",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "No DC drive at P9 during D.O.S. interval \u2014 replace control board and retest.",
+      "oemOutcome": "No DC drive at P9 during D.O.S. interval \u2014 replace control board and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "dos_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "D.O.S. verified",
+      "body": "Door Opening System drive verified \u2014 reassemble and run Service Diagnostics to confirm auto door open.",
+      "oemOutcome": "Door Opening System drive verified \u2014 reassemble and run Service Diagnostics to confirm auto door open.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11480208-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

@@ -208,6 +208,7 @@ import whirlpool_dishwasher_acu_w11633848_overfill_switch from './seed/whirlpool
 import whirlpool_dishwasher_acu_w11633848_owi_sensor from './seed/whirlpool_dishwasher_acu/w11633848-owi-sensor.json';
 import whirlpool_dishwasher_acu_w11633848_triac_fuse from './seed/whirlpool_dishwasher_acu/w11633848-triac-fuse.json';
 import whirlpool_dishwasher_acu_w11633848_wash_motor from './seed/whirlpool_dishwasher_acu/w11633848-wash-motor.json';
+import whirlpool_dishwasher_acu_w11794121_door_opening_system from './seed/whirlpool_dishwasher_acu/w11794121-door-opening-system.json';
 import whirlpool_duet_sport_w8178558_dispenser_motor from './seed/whirlpool_duet_sport/w8178558-dispenser-motor.json';
 import whirlpool_duet_sport_w8178558_door_lock from './seed/whirlpool_duet_sport/w8178558-door-lock.json';
 import whirlpool_duet_sport_w8178558_drain_pump from './seed/whirlpool_duet_sport/w8178558-drain-pump.json';
@@ -524,6 +525,7 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_dishwasher_acu_w11633848_owi_sensor as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_triac_fuse as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_wash_motor as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11794121_door_opening_system as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_dispenser_motor as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_door_lock as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_drain_pump as ServiceProcedureSeed,
