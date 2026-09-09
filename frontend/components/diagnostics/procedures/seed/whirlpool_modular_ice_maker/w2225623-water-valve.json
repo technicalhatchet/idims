@@ -1,0 +1,148 @@
+{
+  "id": "w2225623-water-valve",
+  "version": "1.0.0",
+  "title": "Water valve (N\u2013V) and fill volume",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module",
+    "water_valve"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "IME4",
+    "E4",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "N\u2013V",
+    "oemTestTitle": "Water valve voltage and fill specification",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_setup"
+    },
+    {
+      "id": "valve_setup",
+      "order": 2,
+      "type": "instruction",
+      "title": "Prepare for fill test",
+      "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Confirm water supply ON and fill tube clear. Initiate cycle electrically only.",
+      "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Confirm water supply ON and fill tube clear. Initiate cycle electrically only.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_voltage"
+    },
+    {
+      "id": "valve_voltage",
+      "order": 3,
+      "type": "visual_check",
+      "title": "N\u2013V valve voltage during fill?",
+      "body": "During water-fill phase: N\u2013V line voltage = valve ON; 0 V = OFF.",
+      "sourceExcerpt": "During water-fill phase: N\u2013V line voltage = valve ON; 0 V = OFF.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_volume"
+        },
+        {
+          "id": "valve_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "valve_fault_out",
+          "terminal": true,
+          "oemOutcome": "No N\u2013V voltage during fill \u2014 module, harness, or cabinet valve path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_valve",
+              "evidenceId": "ref_ms_im_e4_dry_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fill_volume",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Fill volume ~140 cc / 7.5 sec?",
+      "body": "Measure fill: specification is 140 cc in 7.5 seconds. Under-fill causes small or hollow cubes.",
+      "sourceExcerpt": "Measure fill: specification is 140 cc in 7.5 seconds. Under-fill causes small or hollow cubes.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fill_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_ok"
+        },
+        {
+          "id": "fill_low",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fill_adjust_out",
+          "terminal": true,
+          "oemOutcome": "Under-fill \u2014 check water pressure, filter, fill tube freeze, and adjustment.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_valve",
+              "evidenceId": "ref_ms_im_e4_dry_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "valve_fault_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Valve or module fault",
+      "oemOutcome": "No fill voltage at N\u2013V \u2014 trace valve, harness, and module (IME4/E4 dry cycle).",
+      "requiresInput": false
+    },
+    {
+      "id": "fill_adjust_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Adjust fill or repair supply",
+      "oemOutcome": "Fill below 140 cc/7.5 s \u2014 check pressure, filter, fill tube; adjust fill screw.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Water fill verified",
+      "oemOutcome": "N\u2013V valve voltage and 140 cc / 7.5 s fill verified.",
+      "requiresInput": false
+    }
+  ]
+}

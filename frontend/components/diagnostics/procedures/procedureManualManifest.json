@@ -628,6 +628,51 @@
         "attachDiagnosticEffects": "backend/scripts/attach_lg_lrmvs_fridge_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_lg_lrmvs_fridge_service_modes.py"
       }
+    },
+    {
+      "manualId": "W10330404",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_wrt_top_mount",
+      "label": "Whirlpool / Maytag / Amana WRT top-mount refrigerator (Job Aid W10330404)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_wrt_top_mount/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10330404_wrt_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w10330404_wrt_diagnostic_effects.py",
+        "attachServiceModes": null
+      }
+    },
+    {
+      "manualId": "W10674984",
+      "platformId": "whirlpool_wrt311_adc",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_wrt311_adc",
+      "label": "Whirlpool WRT311 ADC 2000 wiring sheet (W10674984)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_wrt311_adc/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10674984_wrt311_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w10674984_wrt311_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10674984_wrt311_service_modes.py"
+      }
+    },
+    {
+      "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_modular_ice_maker",
+      "label": "Whirlpool modular ice maker (2225623)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_modular_ice_maker/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w2225623_ice_maker_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w2225623_ice_maker_diagnostic_effects.py",
+        "attachServiceModes": null
+      }
     }
   ]
 }

@@ -1,0 +1,114 @@
+{
+  "id": "w2225623-module-power",
+  "version": "1.0.0",
+  "title": "Module power (L\u2013N)",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module",
+    "supply"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "no_power",
+    "voltage_check",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "L\u2013N",
+    "oemTestTitle": "Module power voltage",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "module_access"
+    },
+    {
+      "id": "module_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access module test points",
+      "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall.",
+      "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall.",
+      "requiresInput": false,
+      "defaultNextStepId": "restore_power"
+    },
+    {
+      "id": "restore_power",
+      "order": 3,
+      "type": "instruction",
+      "title": "Restore power for live check",
+      "body": "Reconnect power. Use meter or test light at module L\u2013N test points.",
+      "sourceExcerpt": "Reconnect power. Use meter or test light at module L\u2013N test points.",
+      "requiresInput": false,
+      "defaultNextStepId": "ln_voltage"
+    },
+    {
+      "id": "ln_voltage",
+      "order": 4,
+      "type": "visual_check",
+      "title": "L\u2013N line voltage present?",
+      "body": "At L\u2013N: line voltage = power OK; 0 V = no power to module.",
+      "sourceExcerpt": "At L\u2013N: line voltage = power OK; 0 V = no power to module.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ln_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_ok"
+        },
+        {
+          "id": "ln_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "no_power_out",
+          "terminal": true,
+          "oemOutcome": "No line voltage at module \u2014 trace harness, shut-off arm, and cabinet supply.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_011_ice_maker_ff_temp_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no_power_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "No module power",
+      "oemOutcome": "Repair harness or supply path to ice maker module.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Module power OK",
+      "oemOutcome": "L\u2013N line voltage verified at module.",
+      "requiresInput": false
+    }
+  ]
+}

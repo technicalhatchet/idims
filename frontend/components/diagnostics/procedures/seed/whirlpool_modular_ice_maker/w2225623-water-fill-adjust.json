@@ -1,0 +1,122 @@
+{
+  "id": "w2225623-water-fill-adjust",
+  "version": "1.0.0",
+  "title": "Water level adjustment",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "small_cubes",
+    "hollow_cubes",
+    "no_ice"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "fill",
+    "oemTestTitle": "Fill screw adjustment (CW decreases)",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "adjust_access"
+    },
+    {
+      "id": "adjust_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access fill adjustment",
+      "body": "Pull water-adjustment knob and snap off cover. Index knob on reinstall.",
+      "sourceExcerpt": "Pull water-adjustment knob and snap off cover. Index knob on reinstall.",
+      "requiresInput": false,
+      "defaultNextStepId": "adjust_direction"
+    },
+    {
+      "id": "adjust_direction",
+      "order": 3,
+      "type": "instruction",
+      "title": "Fill adjustment direction",
+      "body": "Clockwise DECREASES fill. \u00bd turn \u2248 20 cc (1.2 sec); 1 full turn \u2248 40 cc (2.4 sec). Max 1 turn either direction \u2014 over-adjust damages module.",
+      "sourceExcerpt": "Clockwise DECREASES fill. \u00bd turn \u2248 20 cc (1.2 sec); 1 full turn \u2248 40 cc (2.4 sec). Max 1 turn either direction \u2014 over-adjust damages module.",
+      "requiresInput": false,
+      "defaultNextStepId": "cube_symptom"
+    },
+    {
+      "id": "cube_symptom",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Small or hollow cubes?",
+      "body": "Are cubes undersized or hollow (under-fill symptom)?",
+      "sourceExcerpt": "Are cubes undersized or hollow (under-fill symptom)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cubes_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "increase_fill"
+        },
+        {
+          "id": "cubes_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fill_ok",
+          "terminal": true,
+          "oemOutcome": "Fill volume acceptable \u2014 investigate other causes.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_011_ice_maker_ff_temp_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "increase_fill",
+      "order": 5,
+      "type": "instruction",
+      "title": "Increase fill (CCW)",
+      "body": "Turn fill screw counter-clockwise up to \u00bd turn. Run harvest cycle and re-check 140 cc / 7.5 s target.",
+      "sourceExcerpt": "Turn fill screw counter-clockwise up to \u00bd turn. Run harvest cycle and re-check 140 cc / 7.5 s target.",
+      "requiresInput": false,
+      "defaultNextStepId": "adjust_ok"
+    },
+    {
+      "id": "adjust_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Fill adjusted",
+      "oemOutcome": "Fill screw adjusted \u2014 verify 140 cc / 7.5 s after change.",
+      "requiresInput": false
+    },
+    {
+      "id": "fill_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "No fill adjustment needed",
+      "oemOutcome": "Cube size normal \u2014 fill adjustment not required.",
+      "requiresInput": false
+    }
+  ]
+}

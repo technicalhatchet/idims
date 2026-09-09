@@ -489,6 +489,14 @@ import whirlpool_ka_french_door_w11509412_test_56_ice_maker_errors from './seed/
 import whirlpool_ka_french_door_w11509412_test_57_ice_harvest from './seed/whirlpool_ka_french_door/w11509412-test-57-ice-harvest.json';
 import whirlpool_ka_french_door_w11509412_test_58_ice_heater_thermistor from './seed/whirlpool_ka_french_door/w11509412-test-58-ice-heater-thermistor.json';
 import whirlpool_ka_french_door_w11509412_test_59_ice_motor from './seed/whirlpool_ka_french_door/w11509412-test-59-ice-motor.json';
+import whirlpool_modular_ice_maker_w2225623_bimetal from './seed/whirlpool_modular_ice_maker/w2225623-bimetal.json';
+import whirlpool_modular_ice_maker_w2225623_harness_fuse from './seed/whirlpool_modular_ice_maker/w2225623-harness-fuse.json';
+import whirlpool_modular_ice_maker_w2225623_ime_errors from './seed/whirlpool_modular_ice_maker/w2225623-ime-errors.json';
+import whirlpool_modular_ice_maker_w2225623_module_power from './seed/whirlpool_modular_ice_maker/w2225623-module-power.json';
+import whirlpool_modular_ice_maker_w2225623_mold_heater from './seed/whirlpool_modular_ice_maker/w2225623-mold-heater.json';
+import whirlpool_modular_ice_maker_w2225623_motor_circuit from './seed/whirlpool_modular_ice_maker/w2225623-motor-circuit.json';
+import whirlpool_modular_ice_maker_w2225623_water_fill_adjust from './seed/whirlpool_modular_ice_maker/w2225623-water-fill-adjust.json';
+import whirlpool_modular_ice_maker_w2225623_water_valve from './seed/whirlpool_modular_ice_maker/w2225623-water-valve.json';
 import whirlpool_mvw6200_w11416395_test_01_acu_power from './seed/whirlpool_mvw6200/w11416395-test-01-acu-power.json';
 import whirlpool_mvw6200_w11416395_test_02_valves from './seed/whirlpool_mvw6200/w11416395-test-02-valves.json';
 import whirlpool_mvw6200_w11416395_test_03_drive_system from './seed/whirlpool_mvw6200/w11416395-test-03-drive-system.json';
@@ -552,6 +560,13 @@ import whirlpool_tl_dd_6157_w11455152_test_04_hmi from './seed/whirlpool_tl_dd_6
 import whirlpool_tl_dd_6157_w11455152_test_05_water_level from './seed/whirlpool_tl_dd_6157/w11455152-test-05-water-level.json';
 import whirlpool_tl_dd_6157_w11455152_test_06_drain_pump from './seed/whirlpool_tl_dd_6157/w11455152-test-06-drain-pump.json';
 import whirlpool_tl_dd_6157_w11455152_test_07_lid_lock from './seed/whirlpool_tl_dd_6157/w11455152-test-07-lid-lock.json';
+import whirlpool_wrt_top_mount_w10330404_compressor_windings from './seed/whirlpool_wrt_top_mount/w10330404-compressor-windings.json';
+import whirlpool_wrt_top_mount_w10330404_condenser_fan from './seed/whirlpool_wrt_top_mount/w10330404-condenser-fan.json';
+import whirlpool_wrt_top_mount_w10330404_defrost_bimetal from './seed/whirlpool_wrt_top_mount/w10330404-defrost-bimetal.json';
+import whirlpool_wrt_top_mount_w10330404_defrost_heater from './seed/whirlpool_wrt_top_mount/w10330404-defrost-heater.json';
+import whirlpool_wrt_top_mount_w10330404_defrost_timer from './seed/whirlpool_wrt_top_mount/w10330404-defrost-timer.json';
+import whirlpool_wrt_top_mount_w10330404_ice_maker_fuse from './seed/whirlpool_wrt_top_mount/w10330404-ice-maker-fuse.json';
+import whirlpool_wrt_top_mount_w10330404_ptc_start from './seed/whirlpool_wrt_top_mount/w10330404-ptc-start.json';
 
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
@@ -1045,6 +1060,14 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_ka_french_door_w11509412_test_57_ice_harvest as ServiceProcedureSeed,
   whirlpool_ka_french_door_w11509412_test_58_ice_heater_thermistor as ServiceProcedureSeed,
   whirlpool_ka_french_door_w11509412_test_59_ice_motor as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_bimetal as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_harness_fuse as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_ime_errors as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_module_power as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_mold_heater as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_motor_circuit as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_water_fill_adjust as ServiceProcedureSeed,
+  whirlpool_modular_ice_maker_w2225623_water_valve as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_02_valves as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_03_drive_system as ServiceProcedureSeed,
@@ -1108,4 +1131,11 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_tl_dd_6157_w11455152_test_05_water_level as ServiceProcedureSeed,
   whirlpool_tl_dd_6157_w11455152_test_06_drain_pump as ServiceProcedureSeed,
   whirlpool_tl_dd_6157_w11455152_test_07_lid_lock as ServiceProcedureSeed,
+  whirlpool_wrt_top_mount_w10330404_compressor_windings as ServiceProcedureSeed,
+  whirlpool_wrt_top_mount_w10330404_condenser_fan as ServiceProcedureSeed,
+  whirlpool_wrt_top_mount_w10330404_defrost_bimetal as ServiceProcedureSeed,
+  whirlpool_wrt_top_mount_w10330404_defrost_heater as ServiceProcedureSeed,
+  whirlpool_wrt_top_mount_w10330404_defrost_timer as ServiceProcedureSeed,
+  whirlpool_wrt_top_mount_w10330404_ice_maker_fuse as ServiceProcedureSeed,
+  whirlpool_wrt_top_mount_w10330404_ptc_start as ServiceProcedureSeed,
 ];

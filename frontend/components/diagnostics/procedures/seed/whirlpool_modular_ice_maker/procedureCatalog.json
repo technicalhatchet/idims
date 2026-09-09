@@ -1,0 +1,93 @@
+{
+  "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+  "platformId": "whirlpool_modular_ice_maker",
+  "templateId": "refrigerator",
+  "label": "Whirlpool modular ice maker (2225623)",
+  "notes": "L/N/M/T/H/V test points; 72 \u03a9 heater, 8800 \u03a9 motor, 140 cc/7.5 s fill. Brand-wide \u2014 no model pattern.",
+  "plannedProcedures": [
+    {
+      "id": "w2225623-module-power",
+      "oemSection": "L\u2013N",
+      "title": "Module power (L\u2013N)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "w2225623-mold-heater",
+      "oemSection": "L\u2013H",
+      "title": "Mold heater (L\u2013H) \u2014 72 \u03a9",
+      "status": "generated",
+      "relatedCodes": [
+        "IME3",
+        "E3",
+        "IMFUSE"
+      ]
+    },
+    {
+      "id": "w2225623-motor-circuit",
+      "oemSection": "L\u2013M",
+      "title": "Ejector motor (L\u2013M) \u2014 8800 \u03a9",
+      "status": "generated",
+      "relatedCodes": [
+        "IME2",
+        "E2"
+      ]
+    },
+    {
+      "id": "w2225623-bimetal",
+      "oemSection": "T\u2013H",
+      "title": "Harvest bimetal (T\u2013H)",
+      "status": "generated",
+      "relatedCodes": [
+        "IME3",
+        "E3",
+        "IME5",
+        "E5"
+      ]
+    },
+    {
+      "id": "w2225623-water-valve",
+      "oemSection": "N\u2013V",
+      "title": "Water valve (N\u2013V) and fill volume",
+      "status": "generated",
+      "relatedCodes": [
+        "IME4",
+        "E4"
+      ]
+    },
+    {
+      "id": "w2225623-harness-fuse",
+      "oemSection": "fuse",
+      "title": "Harness thermal fuse (IMFUSE)",
+      "status": "generated",
+      "relatedCodes": [
+        "IMFUSE",
+        "IME3",
+        "E3"
+      ]
+    },
+    {
+      "id": "w2225623-water-fill-adjust",
+      "oemSection": "fill",
+      "title": "Water level adjustment",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "w2225623-ime-errors",
+      "oemSection": "56",
+      "title": "Test 56 ice maker errors (IME2\u2013IME5)",
+      "status": "generated",
+      "relatedCodes": [
+        "IME2",
+        "IME3",
+        "IME4",
+        "IME5",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ]
+    }
+  ]
+}

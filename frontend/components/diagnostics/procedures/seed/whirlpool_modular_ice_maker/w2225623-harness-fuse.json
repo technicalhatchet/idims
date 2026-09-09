@@ -1,0 +1,150 @@
+{
+  "id": "w2225623-harness-fuse",
+  "version": "1.0.0",
+  "title": "Harness thermal fuse (IMFUSE)",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "IMFUSE",
+    "IME3",
+    "E3"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "fuse",
+    "oemTestTitle": "In-harness thermal fuse continuity",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_access"
+    },
+    {
+      "id": "fuse_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access harness fuse",
+      "body": "Disconnect ice maker from cabinet harness. Locate in-harness thermal fuse (often black wire). Power off.",
+      "sourceExcerpt": "Disconnect ice maker from cabinet harness. Locate in-harness thermal fuse (often black wire). Power off.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_ohms"
+    },
+    {
+      "id": "fuse_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Harness fuse continuity",
+      "body": "0 \u03a9 closed \u2014 fuse good. OL = blown fuse after mold heater overheat event.",
+      "sourceExcerpt": "0 \u03a9 closed \u2014 fuse good. OL = blown fuse after mold heater overheat event.",
+      "measurementKnowledgeId": "whirlpoolModularIceMakerHarnessFuseOhms",
+      "testPoint": {
+        "connector": "harness",
+        "pins": "fuse leads",
+        "label": "Harness fuse continuity"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuse_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_fuse_open"
+            }
+          ]
+        },
+        {
+          "id": "fuse_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_fuse_open"
+            }
+          ]
+        },
+        {
+          "id": "fuse_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_fuse_open"
+            }
+          ]
+        },
+        {
+          "id": "fuse_pass",
+          "label": "0 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fuse_ok"
+        }
+      ]
+    },
+    {
+      "id": "fuse_ok",
+      "order": 4,
+      "type": "instruction",
+      "title": "Verify heater after fuse OK",
+      "body": "When fuse tests good, verify L\u2013H mold heater reads 72 \u03a9 before reinstall.",
+      "sourceExcerpt": "When fuse tests good, verify L\u2013H mold heater reads 72 \u03a9 before reinstall.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_path_ok"
+    },
+    {
+      "id": "replace_harness",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace ice maker harness",
+      "oemOutcome": "Open harness fuse \u2014 replace harness; verify L\u2013H heater before reinstall.",
+      "requiresInput": false
+    },
+    {
+      "id": "fuse_path_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Harness fuse OK",
+      "oemOutcome": "In-harness thermal fuse continuity verified.",
+      "requiresInput": false
+    }
+  ]
+}

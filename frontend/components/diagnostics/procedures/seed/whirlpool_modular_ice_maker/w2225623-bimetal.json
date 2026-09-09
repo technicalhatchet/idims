@@ -1,0 +1,196 @@
+{
+  "id": "w2225623-bimetal",
+  "version": "1.0.0",
+  "title": "Harvest bimetal (T\u2013H)",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module",
+    "defrost_thermostat"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "IME3",
+    "E3",
+    "IME5",
+    "E5"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "T\u2013H",
+    "oemTestTitle": "Bimetal continuity and voltage",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "bimetal_cold"
+    },
+    {
+      "id": "bimetal_cold",
+      "order": 2,
+      "type": "instruction",
+      "title": "Cold mold condition",
+      "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold must be cold (\u226417\u00b0F \u00b13\u00b0 closes). Power off for continuity test.",
+      "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold must be cold (\u226417\u00b0F \u00b13\u00b0 closes). Power off for continuity test.",
+      "requiresInput": false,
+      "defaultNextStepId": "bimetal_ohms"
+    },
+    {
+      "id": "bimetal_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Bimetal continuity (T\u2013H, cold)",
+      "body": "Bimetal closes \u226417\u00b0F \u00b13\u00b0; opens 32\u00b0F \u00b13\u00b0. Continuity when mold cold.",
+      "sourceExcerpt": "Bimetal closes \u226417\u00b0F \u00b13\u00b0; opens 32\u00b0F \u00b13\u00b0. Continuity when mold cold.",
+      "measurementKnowledgeId": "whirlpoolModularIceMakerBimetalOhms",
+      "testPoint": {
+        "connector": "module",
+        "pins": "T \u2194 H",
+        "label": "Bimetal continuity (T\u2013H, cold)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "th_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "th_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "th_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "th_pass",
+          "label": "Closed (cold)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_live"
+        }
+      ]
+    },
+    {
+      "id": "bimetal_live",
+      "order": 4,
+      "type": "instruction",
+      "title": "Live bimetal voltage (T\u2013H)",
+      "body": "Restore power. T\u2013H: 0 V = closed; line voltage = open (warm mold).",
+      "sourceExcerpt": "Restore power. T\u2013H: 0 V = closed; line voltage = open (warm mold).",
+      "requiresInput": false,
+      "defaultNextStepId": "bimetal_voltage"
+    },
+    {
+      "id": "bimetal_voltage",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Bimetal state matches mold temperature?",
+      "body": "Cold mold: T\u2013H should read 0 V (closed). Warm mold after harvest: line voltage (open).",
+      "sourceExcerpt": "Cold mold: T\u2013H should read 0 V (closed). Warm mold after harvest: line voltage (open).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bimetal_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bimetal_ok"
+        },
+        {
+          "id": "bimetal_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bimetal_out",
+          "terminal": true,
+          "oemOutcome": "Bimetal stuck \u2014 replace ice maker module.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_011_ice_maker_ff_temp_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_bimetal",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ice maker module",
+      "oemOutcome": "Open bimetal when mold cold \u2014 no harvest cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bimetal_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ice maker module",
+      "oemOutcome": "Bimetal voltage state incorrect for mold temperature.",
+      "requiresInput": false
+    },
+    {
+      "id": "bimetal_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Bimetal verified",
+      "oemOutcome": "T\u2013H continuity and voltage state verified.",
+      "requiresInput": false
+    }
+  ]
+}
