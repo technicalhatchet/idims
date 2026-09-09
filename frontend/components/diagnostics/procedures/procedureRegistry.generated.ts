@@ -19,6 +19,8 @@ import whirlpool_acu_tl_dryer_bundles_w11798430_diagnostic_entry from './seed/wh
 import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10881701-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w10881701-service-test-mode.json';
+import whirlpool_ccu_dryer_bundles_w11169659_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w11169659-diagnostic-entry.json';
+import whirlpool_ccu_dryer_bundles_w11169659_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w11169659-service-test-mode.json';
 import whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry from './seed/whirlpool_centennial_dryer/bundles/w8178629-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11480208-service-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
@@ -165,6 +167,10 @@ import whirlpool_ccu_dryer_w10881701_thermal_cutoff from './seed/whirlpool_ccu_d
 import whirlpool_ccu_dryer_w10881701_thermal_fuse from './seed/whirlpool_ccu_dryer/w10881701-thermal-fuse.json';
 import whirlpool_ccu_dryer_w10881701_thermistors from './seed/whirlpool_ccu_dryer/w10881701-thermistors.json';
 import whirlpool_ccu_dryer_w10881701_water_valve from './seed/whirlpool_ccu_dryer/w10881701-water-valve.json';
+import whirlpool_ccu_dryer_w11169659_acu_power from './seed/whirlpool_ccu_dryer/w11169659-acu-power.json';
+import whirlpool_ccu_dryer_w11169659_drum_led from './seed/whirlpool_ccu_dryer/w11169659-drum-led.json';
+import whirlpool_ccu_dryer_w11169659_heater_electric from './seed/whirlpool_ccu_dryer/w11169659-heater-electric.json';
+import whirlpool_ccu_dryer_w11169659_moisture_sensor from './seed/whirlpool_ccu_dryer/w11169659-moisture-sensor.json';
 import whirlpool_centennial_dryer_w8178629_door_switch from './seed/whirlpool_centennial_dryer/w8178629-door-switch.json';
 import whirlpool_centennial_dryer_w8178629_drive_motor from './seed/whirlpool_centennial_dryer/w8178629-drive-motor.json';
 import whirlpool_centennial_dryer_w8178629_electric_heater from './seed/whirlpool_centennial_dryer/w8178629-electric-heater.json';
@@ -305,6 +311,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_service_test_mode as ServiceModeBundle,
+  whirlpool_ccu_dryer_bundles_w11169659_diagnostic_entry as ServiceModeBundle,
+  whirlpool_ccu_dryer_bundles_w11169659_service_test_mode as ServiceModeBundle,
   whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
@@ -453,6 +461,10 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_ccu_dryer_w10881701_thermal_fuse as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10881701_thermistors as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10881701_water_valve as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w11169659_acu_power as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w11169659_drum_led as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w11169659_heater_electric as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w11169659_moisture_sensor as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_door_switch as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_drive_motor as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_electric_heater as ServiceProcedureSeed,

@@ -329,14 +329,22 @@ export const PLATFORM_RULES: PlatformRule[] = [
     label: 'Whirlpool / Maytag CCU/ACU dryer',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'electric_dryer',
-    modelPatterns: [/WED/i, /WGD/i, /MED/i, /MGD/i, /WED95/i, /MED95/i, /WGD95/i, /MGDB955/i],
+    modelPatterns: [
+      /WED/i, /WGD/i, /MED/i, /MGD/i,
+      /WED95/i, /MED95/i, /WGD95/i, /MGDB955/i,
+      /WED96/i, /MED96/i, /WGD96/i, /MGD96/i,
+    ],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_CCU_DRYER,
     label: 'Whirlpool / Maytag CCU/ACU dryer (gas)',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'gas_dryer',
-    modelPatterns: [/WED/i, /WGD/i, /MED/i, /MGD/i, /WED95/i, /MED95/i, /WGD95/i, /MGDB955/i],
+    modelPatterns: [
+      /WED/i, /WGD/i, /MED/i, /MGD/i,
+      /WED95/i, /MED95/i, /WGD95/i, /MGDB955/i,
+      /WED96/i, /MED96/i, /WGD96/i, /MGD96/i,
+    ],
   },
 ];
 

@@ -1,0 +1,231 @@
+[
+  {
+    "id": "samsungFlDv6000DryerThermistor10KOhms",
+    "name": "Samsung FL DV6000 Dryer Thermistor (10K)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8000, "max": 12000 },
+      "warning": { "min": 5000, "max": 20000 },
+      "critical": { "below": 500, "above": 50000 }
+    },
+    "typical": { "min": 9500, "max": 10500 },
+    "openCircuitCritical": true,
+    "purpose": "Exhaust/inlet thermistor — 10 kΩ @ 25°C (77°F) per §4-6 electric thermistor table.",
+    "failureModes": [
+      "Open/shorted thermistor — tC / tC5",
+      "Restricted vent or clogged lint screen"
+    ],
+    "testingTips": [
+      "Clean lint screen and verify vent before condemning NTC",
+      "Compare thermistor1 and thermistor2 readings"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["thermistor_check", "tC", "tC5", "HC"]
+  },
+  {
+    "id": "samsungFlDv6000DryerMoistureThermistorKOhms",
+    "name": "Samsung FL DV6000 Moisture Sensor Thermistor",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 200, "max": 280 },
+      "warning": { "min": 150, "max": 320 },
+      "critical": { "below": 50, "above": 500 }
+    },
+    "typical": { "min": 230, "max": 245 },
+    "openCircuitCritical": true,
+    "purpose": "Moisture sensor thermistor — 238.23 kΩ @ 25°C per §4-6.",
+    "failureModes": [
+      "Open moisture sensor — long dry / sensor faults",
+      "Contaminated sensor bars"
+    ],
+    "testingTips": [
+      "Measure at room temperature on bench",
+      "Clean moisture sensor bars before condemning"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["long_dry", "moisture_sensor_check"]
+  },
+  {
+    "id": "samsungFlDv6000DryerHeaterSingleOhms",
+    "name": "Samsung FL DV6000 Dryer Heater (Single Element)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 9, "max": 11 },
+      "warning": { "min": 8, "max": 12 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 9.5, "max": 10.5 },
+    "openCircuitCritical": true,
+    "purpose": "Single 240 V 5300 W element — 10 Ω pin 1–3 per §4-6.",
+    "failureModes": [
+      "Open element — no heat / HC",
+      "Blown thermal fuse in heat path"
+    ],
+    "testingTips": [
+      "Disconnect power before heater ohms",
+      "Verify thermal cutoff chain if element OK"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["no_heat", "HC", "heating_element_check"]
+  },
+  {
+    "id": "samsungFlDv6000DryerHeaterDualLowOhms",
+    "name": "Samsung FL DV6000 Dryer Heater Dual (Pin 2-3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 12, "max": 14 },
+      "warning": { "min": 10, "max": 16 },
+      "critical": { "below": 3, "above": 25 }
+    },
+    "typical": { "min": 12.5, "max": 13.5 },
+    "openCircuitCritical": true,
+    "purpose": "Dual element 240 V 3700/1500 W — 13 Ω between pins 2–3 per §4-6.",
+    "failureModes": [
+      "Open low-watt element section",
+      "Thermal fuse open in heat path"
+    ],
+    "testingTips": [
+      "Also measure pin 1–2 (~34 Ω) on dual element",
+      "Identify single vs dual heater before measuring"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["no_heat", "HC"]
+  },
+  {
+    "id": "samsungFlDv6000DryerHeaterDualHighOhms",
+    "name": "Samsung FL DV6000 Dryer Heater Dual (Pin 1-2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 32, "max": 36 },
+      "warning": { "min": 28, "max": 40 },
+      "critical": { "below": 5, "above": 60 }
+    },
+    "typical": { "min": 33, "max": 35 },
+    "openCircuitCritical": true,
+    "purpose": "Dual element high section — 34 Ω between pins 1–2 per §4-6.",
+    "failureModes": [
+      "Open high-watt element section"
+    ],
+    "testingTips": [
+      "Measure both dual sections before replacing heater"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["no_heat", "HC"]
+  },
+  {
+    "id": "samsungFlDv6000DryerMotorWinding34Ohms",
+    "name": "Samsung FL DV6000 Dryer Motor Winding (Pin 3-4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2.6, "max": 3.1 },
+      "warning": { "min": 2.2, "max": 3.5 },
+      "critical": { "below": 0.5, "above": 8 }
+    },
+    "typical": { "min": 2.8, "max": 2.95 },
+    "openCircuitCritical": true,
+    "purpose": "Motor winding 2.88 Ω between pins 3–4 per §4-6 centrifugal switch table.",
+    "failureModes": [
+      "Open motor winding — 3C relay fault",
+      "Centrifugal switch not transitioning"
+    ],
+    "testingTips": [
+      "Also verify pin 4–5 (~3.5 Ω)",
+      "Check belt and belt cut-off switch"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["motor_check", "3C"]
+  },
+  {
+    "id": "samsungFlDv6000DryerMotorWinding45Ohms",
+    "name": "Samsung FL DV6000 Dryer Motor Winding (Pin 4-5)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3.2, "max": 3.8 },
+      "warning": { "min": 2.8, "max": 4.2 },
+      "critical": { "below": 0.5, "above": 10 }
+    },
+    "typical": { "min": 3.4, "max": 3.6 },
+    "openCircuitCritical": true,
+    "purpose": "Motor winding 3.5 Ω between pins 4–5 per §4-6.",
+    "failureModes": [
+      "Open motor winding",
+      "Motor relay short — 3C"
+    ],
+    "testingTips": [
+      "Verify centrifugal switch contact table Start vs Run"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["motor_check", "3C"]
+  },
+  {
+    "id": "samsungFlDv6000DryerHiLimitOhms",
+    "name": "Samsung FL DV6000 Hi-Limit Thermostat (60T21)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "warning": { "min": 0, "max": 2 },
+      "critical": { "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Hi-limit thermostat 60T21 — less than 1 Ω when closed per §4-6.",
+    "failureModes": [
+      "Open at room temp — tripped hi-limit or cutoff",
+      "No heat with open thermal chain"
+    ],
+    "testingTips": [
+      "Allow dryer to cool before ohms if recently run",
+      "Check thermal cutoff in same path"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_dv6000"
+    },
+    "dmaTags": ["no_heat", "thermal_fuse_check"]
+  }
+]

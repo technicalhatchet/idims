@@ -1,0 +1,100 @@
+{
+  "id": "samsungdv6000-hmi",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Display / buttons (bC2)",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "bC2",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-DV6000-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Button state bC2",
+    "pages": [
+      23
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_loose"
+    },
+    {
+      "id": "service_mode_after_smart_install",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Smart Install entered. Continue with component checks below.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "display_loose"
+    },
+    {
+      "id": "display_loose",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Display PCB harness",
+      "body": "Check display PCB connector seated \u2014 no loose or shorted buttons. Rule out Child Lock (Dryness + Temp 3 s).",
+      "sourceExcerpt": "Check display PCB connector seated \u2014 no loose or shorted buttons. Rule out Child Lock (Dryness + Temp 3 s).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hmi_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified"
+        },
+        {
+          "id": "replace_display",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_out",
+          "terminal": true,
+          "oemOutcome": "Replace display PCB or harness."
+        }
+      ]
+    },
+    {
+      "id": "replace_display_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace display PCB",
+      "oemOutcome": "Replace display PCB when bC2 persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "HMI OK",
+      "oemOutcome": "Display and buttons operate normally.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdv6000-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_smart_install"
+    }
+  ]
+}

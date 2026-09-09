@@ -173,6 +173,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         },
         { knowledgeId: 'samsungTlDv50DryerHeaterSingleOhms', platformId: 'samsung_tl_dryer_dv50' },
         { knowledgeId: 'samsungFlBb8700DryerHeaterOhms', platformId: 'samsung_fl_dryer_bb8700' },
+        { knowledgeId: 'samsungFlDv6000DryerHeaterSingleOhms', platformId: 'samsung_fl_dryer_dv6000' },
         { knowledgeId: 'electricDryerHeatingElementOhms', isDefault: true },
       ],
     },
