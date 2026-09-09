@@ -1,0 +1,37 @@
+{
+  "id": "w10322959-forced-defrost-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_jazz_french_door",
+  "manualId": "W10322959",
+  "title": "W10322959 \u2014 Forced Defrost (F-d) entry",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter forced defrost for manual evaporator defrost (short run \u2014 field use).",
+  "tags": [
+    "forced_defrost",
+    "defrost",
+    "frost_buildup"
+  ],
+  "entryStepId": "fd_enter",
+  "source": {
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "pages": [
+      1
+    ]
+  },
+  "steps": [
+    {
+      "id": "fd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Forced Defrost Mode",
+      "body": "Hold refrigerator door light switch closed. Press Refrigerator DOWN 3 times within 10 seconds. Release switch \u2014 display shows F-d. Press Refrigerator DOWN once more to confirm. Default short run period (S). Do not use Long (L) factory test in field. Press Refrigerator DOWN again to start defrost; close door. Exit anytime before confirm by closing door.",
+      "sourceExcerpt": "Press Refrigerator Temperature DOWN /- keypad 3 times consecutively.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

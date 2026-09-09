@@ -1,0 +1,112 @@
+{
+  "id": "w10322959-test-09-defrost-interval",
+  "version": "1.0.0",
+  "title": "Service Test 9: Defrost interval",
+  "platformId": "whirlpool_jazz_french_door",
+  "componentIds": [
+    "control_board"
+  ],
+  "tags": [
+    "defrost",
+    "frost_buildup",
+    "calibration"
+  ],
+  "source": {
+    "manualId": "W10322959",
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9",
+    "oemTestTitle": "Defrost Adjustment",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_9"
+    },
+    {
+      "id": "service_mode_after_se_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+      "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_9"
+    },
+    {
+      "id": "select_test_9",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 9",
+      "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 9. Refrigerator display blank until test is activated.",
+      "sourceExcerpt": "Service Test 9 \u2014 Defrost interval",
+      "requiresInput": false,
+      "defaultNextStepId": "defrost_interval"
+    },
+    {
+      "id": "defrost_interval",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Adaptive vs fixed defrost",
+      "body": "Press Refrigerator UP to toggle: A=Adaptive (default) or F=Fixed 6-hour defrost. Freezer displays 9. Which mode is required?",
+      "sourceExcerpt": "Press Refrigerator UP to toggle: A=Adaptive (default) or F=Fixed 6-hour defrost. Freezer displays 9. Which mode is required?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "adaptive",
+          "label": "A \u2014 Adaptive (field default)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "defrost_interval_ok"
+        },
+        {
+          "id": "fixed",
+          "label": "F \u2014 Fixed 6 hr (diagnostic)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "defrost_interval_ok"
+        }
+      ]
+    },
+    {
+      "id": "defrost_interval_ok",
+      "order": 5,
+      "type": "instruction",
+      "title": "Adaptive defrost reference",
+      "body": "Adaptive defrost: 15 min optimum; board terminates at 25 min if bimetal stuck. 4 hr continuous compressor run resets interval to 8 hr and initiates defrost. Close door to save setting and exit Service Test Mode.",
+      "sourceExcerpt": "Adaptive defrost: 15 min optimum; board terminates at 25 min if bimetal stuck. 4 hr continuous compressor run resets interval to 8 hr and initiates defrost. Close door to save setting and exit Service Test Mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "interval_documented"
+    },
+    {
+      "id": "interval_documented",
+      "order": 6,
+      "type": "outcome",
+      "title": "Defrost interval set",
+      "oemOutcome": "Defrost interval mode confirmed or adjusted per complaint.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10322959-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_se_entry"
+    }
+  ]
+}

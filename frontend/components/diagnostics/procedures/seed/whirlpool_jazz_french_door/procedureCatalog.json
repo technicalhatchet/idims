@@ -1,0 +1,99 @@
+{
+  "manualId": "W10322959",
+  "platformId": "whirlpool_jazz_french_door",
+  "templateId": "refrigerator",
+  "label": "Whirlpool Jazz French door refrigerator (W10322959)",
+  "notes": "S-E service tests 1\u20139; F-d forced defrost; P-E programming. No display fault codes \u2014 EM2Y60 compressor.",
+  "plannedProcedures": [
+    {
+      "id": "w10322959-test-01-defrost",
+      "oemSection": "1",
+      "title": "Service Test 1: Defrost thermostat & heater",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolJazzFdDefrostHeaterOhms",
+        "whirlpoolJazzFdDefrostBimetalOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-02-compressor",
+      "oemSection": "2",
+      "title": "Service Test 2: Compressor & condenser fan",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolJazzFdCompressorRunOhms",
+        "whirlpoolJazzFdCompressorStartOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-03-evap-fan",
+      "oemSection": "3",
+      "title": "Service Test 3: Evaporator / freezer fan",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-04-ff-thermistor",
+      "oemSection": "4",
+      "title": "Service Test 4: Fresh food thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolJazzFdThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-05-fz-thermistor",
+      "oemSection": "5",
+      "title": "Service Test 5: Freezer thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolJazzFdThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-06-damper",
+      "oemSection": "6",
+      "title": "Service Test 6: Fresh food damper",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-07-ff-performance",
+      "oemSection": "7",
+      "title": "Service Test 7: FF performance offset",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-08-fz-performance",
+      "oemSection": "8",
+      "title": "Service Test 8: FZ performance offset",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-test-09-defrost-interval",
+      "oemSection": "9",
+      "title": "Service Test 9: Defrost interval",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10322959-programming-mode",
+      "oemSection": "P-E",
+      "title": "Programming mode (P-E): Program code",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

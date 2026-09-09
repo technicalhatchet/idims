@@ -1,0 +1,218 @@
+{
+  "id": "w10322959-test-04-ff-thermistor",
+  "version": "1.0.0",
+  "title": "Service Test 4: Fresh food thermistor",
+  "platformId": "whirlpool_jazz_french_door",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "thermistor_check",
+    "weak_cooling_ff",
+    "sensor_fault"
+  ],
+  "source": {
+    "manualId": "W10322959",
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4",
+    "oemTestTitle": "Fresh Food Thermistor Test",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_4"
+    },
+    {
+      "id": "service_mode_after_se_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+      "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_4"
+    },
+    {
+      "id": "select_test_4",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 4",
+      "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 4. Refrigerator display blank until test is activated.",
+      "sourceExcerpt": "Service Test 4 \u2014 Fresh food thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "activate_ff_ntc"
+    },
+    {
+      "id": "activate_ff_ntc",
+      "order": 4,
+      "type": "instruction",
+      "title": "Activate test 4",
+      "body": "Press Refrigerator UP to run FF thermistor circuit test. Freezer displays 4.",
+      "sourceExcerpt": "Press Refrigerator UP to run FF thermistor circuit test. Freezer displays 4.",
+      "requiresInput": false,
+      "defaultNextStepId": "ff_ntc_result"
+    },
+    {
+      "id": "ff_ntc_result",
+      "order": 5,
+      "type": "visual_check",
+      "title": "FF thermistor service test result",
+      "body": "Refrigerator display: P=Pass, O=Open, S=Short. What does the display show?",
+      "sourceExcerpt": "Refrigerator display: P=Pass, O=Open, S=Short. What does the display show?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ff_pass",
+          "label": "P (Pass)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_4"
+        },
+        {
+          "id": "ff_open",
+          "label": "O (Open)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "deactivate_test_4"
+        },
+        {
+          "id": "ff_short",
+          "label": "S (Short)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "deactivate_test_4"
+        }
+      ]
+    },
+    {
+      "id": "deactivate_test_4",
+      "order": 6,
+      "type": "instruction",
+      "title": "Deactivate test 4",
+      "body": "Deactivate test before selecting another test number.",
+      "sourceExcerpt": "Deactivate test before selecting another test number.",
+      "requiresInput": false,
+      "defaultNextStepId": "bench_ff_ntc"
+    },
+    {
+      "id": "bench_ff_ntc",
+      "order": 7,
+      "type": "instruction",
+      "title": "Bench FF thermistor ohms",
+      "body": "Disconnect power. Measure fresh food thermistor \u2014 10 k\u03a9 @ 77\u00b0F; 29.5 k\u03a9 @ 36\u00b0F; 86.3 k\u03a9 @ 0\u00b0F.",
+      "sourceExcerpt": "Disconnect power. Measure fresh food thermistor \u2014 10 k\u03a9 @ 77\u00b0F; 29.5 k\u03a9 @ 36\u00b0F; 86.3 k\u03a9 @ 0\u00b0F.",
+      "requiresInput": false,
+      "defaultNextStepId": "ff_ntc_ohms"
+    },
+    {
+      "id": "ff_ntc_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Fresh food thermistor resistance",
+      "body": "Measure at control harness or sensor \u2014 10,000 \u03a9 \u00b11.8% @ 77\u00b0F.",
+      "sourceExcerpt": "Measure at control harness or sensor \u2014 10,000 \u03a9 \u00b11.8% @ 77\u00b0F.",
+      "measurementKnowledgeId": "whirlpoolJazzFdThermistorOhms",
+      "testPoint": {
+        "connector": "FF NTC",
+        "pins": "sensor \u2194 ground",
+        "label": "Fresh food thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ff_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ff_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_jazz_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ff_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ff_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_jazz_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ff_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ff_ntc",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_jazz_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ff_ntc_pass",
+          "label": "~10 k\u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ff_ntc_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_ff_ntc",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace FF thermistor",
+      "oemOutcome": "Replace fresh food thermistor or repair harness when open, short, or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "ff_ntc_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "FF thermistor verified",
+      "oemOutcome": "Service test 4 and bench ohms verified for fresh food thermistor.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10322959-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_se_entry"
+    }
+  ]
+}
