@@ -1,0 +1,165 @@
+{
+  "id": "lglrmvs-ff-fan",
+  "version": "1.0.0",
+  "title": "\u00a78-8: Refrigerator evaporator fan (E rF)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "evap_fan"
+  ],
+  "tags": [
+    "E_rF",
+    "E rF",
+    "evap_fan",
+    "airflow",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-fan",
+    "oemTestTitle": "R-fan fan voltage",
+    "pages": [
+      50,
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "test_mode_1"
+    },
+    {
+      "id": "test_mode_1",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Test Mode 1",
+      "body": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on).",
+      "sourceExcerpt": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on).",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_voltage"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+      "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "fan_voltage"
+    },
+    {
+      "id": "fan_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "R-fan fan supply voltage",
+      "body": "Measure CON3 28 \u2194 25 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V.",
+      "sourceExcerpt": "Measure CON3 28 \u2194 25 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V.",
+      "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+      "testPoint": {
+        "connector": "CON3",
+        "pins": "28 \u2194 25",
+        "label": "R-fan fan supply voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_lg_fan_voltage_low"
+            }
+          ]
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_lg_fan_voltage_low"
+            }
+          ]
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_lg_fan_voltage_low"
+            }
+          ]
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_fan",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace fan or PCB",
+      "oemOutcome": "Replace R-fan fan motor when voltage low or feedback/PWM stuck; main PCB if motor verified good.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Fan verified",
+      "oemOutcome": "R-fan fan supply and feedback verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lglrmvs-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "lglrmvs-damper-test",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_after_test_entry",
+      "continueToStepId": "fan_voltage"
+    }
+  ]
+}

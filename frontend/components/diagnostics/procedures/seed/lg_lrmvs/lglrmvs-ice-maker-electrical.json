@@ -1,0 +1,105 @@
+{
+  "id": "lglrmvs-ice-maker-electrical",
+  "version": "1.0.0",
+  "title": "\u00a78-24: Ice maker kit electrical (E ID / E IU)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "E_ID",
+    "E ID",
+    "E_IU",
+    "E IU",
+    "ice_maker",
+    "no_ice"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-24",
+    "oemTestTitle": "Ice maker tray sensor / kit electrical",
+    "pages": [
+      33,
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_error"
+    },
+    {
+      "id": "ice_error",
+      "order": 2,
+      "type": "visual_check",
+      "title": "E ID or E IU displayed?",
+      "body": "E ID = ice tray sensor short/open; E IU = ice maker kit motor, gear, hall IC, or heater open.",
+      "sourceExcerpt": "E ID = ice tray sensor short/open; E IU = ice maker kit motor, gear, hall IC, or heater open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ice_err_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_im_harness"
+        },
+        {
+          "id": "ice_err_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "ice_ok",
+          "terminal": true,
+          "oemOutcome": "Ice maker electrical fault not displayed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_lg_kw_eid_ice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_im_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Ice maker harness and test switch",
+      "body": "Verify ice maker connector seating. Press I/M test switch \u2014 ice should drop when kit healthy. Check tray sensor and kit resistance per \u00a78-24.",
+      "sourceExcerpt": "Verify ice maker connector seating. Press I/M test switch \u2014 ice should drop when kit healthy. Check tray sensor and kit resistance per \u00a78-24.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_repair"
+    },
+    {
+      "id": "im_repair",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice maker parts",
+      "oemOutcome": "Replace tray sensor (E ID) or complete ice maker kit (E IU) per OEM parts table.",
+      "requiresInput": false
+    },
+    {
+      "id": "ice_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "No ice maker fault",
+      "oemOutcome": "Ice maker electrical path not faulting.",
+      "requiresInput": false
+    }
+  ]
+}

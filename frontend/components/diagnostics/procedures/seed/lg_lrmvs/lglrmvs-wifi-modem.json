@@ -1,0 +1,146 @@
+{
+  "id": "lglrmvs-wifi-modem",
+  "version": "1.0.0",
+  "title": "\u00a78-20: Wi-Fi modem communication (E Od)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "control_board"
+  ],
+  "tags": [
+    "E_Od",
+    "E Od",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-20",
+    "oemTestTitle": "Wi-Fi Modem Error (E Od)",
+    "pages": [
+      77,
+      78
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "od_active"
+    },
+    {
+      "id": "od_active",
+      "order": 2,
+      "type": "visual_check",
+      "title": "E Od on display?",
+      "body": "E Od is ThinQ WiFi modem communication \u2014 cooling usually unaffected.",
+      "sourceExcerpt": "E Od is ThinQ WiFi modem communication \u2014 cooling usually unaffected.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "od_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_modem_harness"
+        },
+        {
+          "id": "od_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "modem_ok",
+          "terminal": true,
+          "oemOutcome": "WiFi error not displayed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_lg_kw_od_wifi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_modem_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Modem harness J1/J3",
+      "body": "Verify WiFi modem connector seating and voltage at J1/J3 per \u00a78-20 flowchart.",
+      "sourceExcerpt": "Verify WiFi modem connector seating and voltage at J1/J3 per \u00a78-20 flowchart.",
+      "requiresInput": false,
+      "defaultNextStepId": "modem_restored"
+    },
+    {
+      "id": "modem_restored",
+      "order": 4,
+      "type": "visual_check",
+      "title": "E Od cleared?",
+      "body": "After harness or modem replacement, is E Od cleared?",
+      "sourceExcerpt": "After harness or modem replacement, is E Od cleared?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "modem_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "modem_path_ok"
+        },
+        {
+          "id": "replace_modem",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_modem_out",
+          "terminal": true,
+          "oemOutcome": "Replace WiFi modem or main PCB.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_lg_kw_od_wifi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modem_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "No WiFi fault",
+      "oemOutcome": "WiFi modem communication normal.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_modem_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace modem/PCB",
+      "oemOutcome": "Replace WiFi modem assembly or main PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "modem_path_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "WiFi OK",
+      "oemOutcome": "E Od cleared after service.",
+      "requiresInput": false
+    }
+  ]
+}

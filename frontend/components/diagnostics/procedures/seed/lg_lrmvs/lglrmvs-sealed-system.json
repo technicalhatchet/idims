@@ -1,0 +1,106 @@
+{
+  "id": "lglrmvs-sealed-system",
+  "version": "1.0.0",
+  "title": "\u00a78-22: Sealed-system leak cycle (E CH / E CL)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "sealed_system",
+    "compressor"
+  ],
+  "tags": [
+    "E_CH",
+    "E CH",
+    "E_CL",
+    "E CL",
+    "sealed_system",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-22-CHCL",
+    "oemTestTitle": "High/Low side cycle leakage",
+    "pages": [
+      80,
+      87
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "leak_code"
+    },
+    {
+      "id": "leak_code",
+      "order": 2,
+      "type": "visual_check",
+      "title": "E CH or E CL active?",
+      "body": "CH = high-side leak cycle; CL = low-side leak cycle on R-600a linear compressor platform.",
+      "sourceExcerpt": "CH = high-side leak cycle; CL = low-side leak cycle on R-600a linear compressor platform.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "leak_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "uv_leak_check"
+        },
+        {
+          "id": "leak_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "no_leak_code",
+          "terminal": true,
+          "oemOutcome": "Sealed-system leak code not displayed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "sealed_system",
+              "evidenceId": "ref_lg_kw_ch_sealed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uv_leak_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "UV leak detection",
+      "body": "Follow \u00a78-22 steps: verify error code, inspect sealed system, check restriction/compressor, high/low side parts, then UV driver leak check.",
+      "sourceExcerpt": "Follow \u00a78-22 steps: verify error code, inspect sealed system, check restriction/compressor, high/low side parts, then UV driver leak check.",
+      "requiresInput": false,
+      "defaultNextStepId": "sealed_repair"
+    },
+    {
+      "id": "sealed_repair",
+      "order": 4,
+      "type": "outcome",
+      "title": "Sealed-system repair",
+      "oemOutcome": "Repair refrigerant leak, restriction, or compressor per OEM sealed-system procedure.",
+      "requiresInput": false
+    },
+    {
+      "id": "no_leak_code",
+      "order": 5,
+      "type": "outcome",
+      "title": "No leak code",
+      "oemOutcome": "E CH/E CL not present \u2014 investigate other cooling faults.",
+      "requiresInput": false
+    }
+  ]
+}

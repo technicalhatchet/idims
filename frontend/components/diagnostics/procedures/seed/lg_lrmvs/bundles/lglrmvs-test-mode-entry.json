@@ -1,0 +1,58 @@
+{
+  "id": "lglrmvs-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "lg_lrmvs",
+  "manualId": "LG-LRMVS-FRIDGE",
+  "title": "LG LRMVS \u2014 Main PCB test mode",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Main PCB test button: \u00d71 all loads, \u00d72 damper closed, \u00d73 forced defrost.",
+  "tags": [
+    "service_diagnostic",
+    "defrost",
+    "load_test",
+    "damper"
+  ],
+  "entryStepId": "tm_1",
+  "source": {
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "pages": [
+      88
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_1",
+      "order": 1,
+      "type": "instruction",
+      "title": "Test Mode 1 \u2014 all loads",
+      "body": "Push main PCB test button once: compressor, damper, and all fans run (all display segments on). Fan voltage checks use CON3.",
+      "sourceExcerpt": "Push main PCB test button once: compressor, damper, and all fans run (all display segments on). Fan voltage checks use CON3.",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_2"
+    },
+    {
+      "id": "tm_2",
+      "order": 2,
+      "type": "instruction",
+      "title": "Test Mode 2 \u2014 damper closed",
+      "body": "Push test button twice: damper closed (display shows 22 22).",
+      "sourceExcerpt": "Push test button twice: damper closed (display shows 22 22).",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_3"
+    },
+    {
+      "id": "tm_3",
+      "order": 3,
+      "type": "instruction",
+      "title": "Test Mode 3 \u2014 forced defrost",
+      "body": "Push test button three times: forced defrost (display shows 33 33). Defrost heater voltage at CON9.",
+      "sourceExcerpt": "Push test button three times: forced defrost (display shows 33 33). Defrost heater voltage at CON9.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

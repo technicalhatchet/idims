@@ -1,0 +1,162 @@
+{
+  "manualId": "LG-LRMVS-FRIDGE",
+  "platformId": "lg_lrmvs",
+  "templateId": "refrigerator",
+  "label": "LG LRMVS3006 InstaView 4-door refrigerator",
+  "notes": "\u00a78 error-code flowcharts + \u00a79 PCB test modes (\u00d71/\u00d72/\u00d73). Measurements batch7.",
+  "plannedProcedures": [
+    {
+      "id": "lglrmvs-fz-sensor",
+      "oemSection": "8-1",
+      "title": "\u00a78-1: Freezer cabinet sensor (E FS)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_FS"
+      ]
+    },
+    {
+      "id": "lglrmvs-ff-sensor",
+      "oemSection": "8-2",
+      "title": "\u00a78-2: Fresh-food cabinet sensor (E rS)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_rS"
+      ]
+    },
+    {
+      "id": "lglrmvs-icing-sensor",
+      "oemSection": "8-3",
+      "title": "\u00a78-3: Icing room sensor (E IS)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_IS"
+      ]
+    },
+    {
+      "id": "lglrmvs-fz-defrost-sensor",
+      "oemSection": "8-4",
+      "title": "\u00a78-4: Freezer defrost sensor (F dS)",
+      "status": "generated",
+      "relatedCodes": [
+        "F_dS"
+      ]
+    },
+    {
+      "id": "lglrmvs-ff-defrost-sensor",
+      "oemSection": "8-5",
+      "title": "\u00a78-5: Fresh-food defrost sensor (r dS)",
+      "status": "generated",
+      "relatedCodes": [
+        "r_dS"
+      ]
+    },
+    {
+      "id": "lglrmvs-fz-defrost-heater",
+      "oemSection": "8-6",
+      "title": "\u00a78-6: Freezer defrost heater (F dH)",
+      "status": "generated",
+      "relatedCodes": [
+        "F_dH"
+      ]
+    },
+    {
+      "id": "lglrmvs-ff-defrost-heater",
+      "oemSection": "8-7",
+      "title": "\u00a78-7: Fresh-food defrost heater (r dH)",
+      "status": "generated",
+      "relatedCodes": [
+        "r_dH"
+      ]
+    },
+    {
+      "id": "lglrmvs-ff-fan",
+      "oemSection": "8-fan",
+      "title": "\u00a78-8: Refrigerator evaporator fan (E rF)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_rF"
+      ]
+    },
+    {
+      "id": "lglrmvs-fz-fan",
+      "oemSection": "8-fan",
+      "title": "\u00a78-9: Freezer evaporator fan (E FF)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_FF"
+      ]
+    },
+    {
+      "id": "lglrmvs-icing-fan",
+      "oemSection": "8-fan",
+      "title": "\u00a78-10: Icing compartment fan (E IF)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_IF"
+      ]
+    },
+    {
+      "id": "lglrmvs-condenser-fan",
+      "oemSection": "8-fan",
+      "title": "\u00a78-11: Condenser fan (E CF)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_CF"
+      ]
+    },
+    {
+      "id": "lglrmvs-display-communication",
+      "oemSection": "8-12",
+      "title": "\u00a78-12: Main \u2194 display communication (E CO)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_CO"
+      ]
+    },
+    {
+      "id": "lglrmvs-convert-sensor",
+      "oemSection": "8-22-CS",
+      "title": "\u00a78-22: Convert drawer sensor (E CS)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_CS"
+      ]
+    },
+    {
+      "id": "lglrmvs-sealed-system",
+      "oemSection": "8-22-CHCL",
+      "title": "\u00a78-22: Sealed-system leak cycle (E CH / E CL)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_CH",
+        "E_CL"
+      ]
+    },
+    {
+      "id": "lglrmvs-wifi-modem",
+      "oemSection": "8-20",
+      "title": "\u00a78-20: Wi-Fi modem communication (E Od)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_Od"
+      ]
+    },
+    {
+      "id": "lglrmvs-display-mode",
+      "oemSection": "13-1-15",
+      "title": "\u00a713-1-15: Display / demo mode (OFF)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "lglrmvs-ice-maker-electrical",
+      "oemSection": "8-24",
+      "title": "\u00a78-24: Ice maker kit electrical (E ID / E IU)",
+      "status": "generated",
+      "relatedCodes": [
+        "E_ID",
+        "E_IU"
+      ]
+    }
+  ]
+}
