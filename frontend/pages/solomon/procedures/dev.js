@@ -219,6 +219,7 @@ export default function SolomonProcedureDevPage() {
                 catalog={smokeCatalog}
                 variant="mobile"
                 density="compact"
+                catalogPlacement="inline"
               />
             </div>
           </div>

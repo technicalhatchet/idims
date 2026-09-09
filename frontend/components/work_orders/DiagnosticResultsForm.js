@@ -58,7 +58,7 @@ import SolomonLeadingHypothesisCard from '../solomon/SolomonLeadingHypothesisCar
 import SolomonReasoningSheet from '../solomon/SolomonReasoningSheet';
 import SolomonProfessionalSessionChrome from '../solomon/SolomonProfessionalSessionChrome';
 import SolomonFaultRanking from '../solomon/SolomonFaultRanking';
-import SolomonProcedurePanel from '../solomon/SolomonProcedurePanel';
+import SolomonProcedurePanel, { SolomonOemCatalogAccordion } from '../solomon/SolomonProcedurePanel';
 import {
   listServiceProcedureCatalog,
   recommendServiceProcedures,
@@ -590,6 +590,7 @@ export default function DiagnosticResultsForm({
       platformBanner: procedurePlatformBanner,
       bannerOnly: !showProcedureRunner,
       showCatalog: showProcedureRunner,
+      catalogPlacement: 'none',
     }),
     [
       showProcedureRunner,
@@ -603,6 +604,10 @@ export default function DiagnosticResultsForm({
       procedurePlatformBanner,
     ],
   );
+
+  const oemCatalogAccordion = showProcedureRunner ? (
+    <SolomonOemCatalogAccordion {...procedurePanelProps} />
+  ) : null;
 
   useEffect(() => {
     if (readOnly || payload?.autoNoteEdited || !intelligenceResult?.autoNoteBullets?.length) {
@@ -1185,6 +1190,8 @@ export default function DiagnosticResultsForm({
                   footerExtra={wizardFooterExtra}
                 />
 
+                {oemCatalogAccordion}
+
                 {readOnly && payload?.evidenceSnapshot && (
                   <EvidenceSnapshotPanel
                     snapshot={payload.evidenceSnapshot}
@@ -1236,6 +1243,8 @@ export default function DiagnosticResultsForm({
                     : 'Complete each step, generate service notes on Review, then save.'
                 }
               />
+
+              {oemCatalogAccordion}
 
               {readOnly && payload?.evidenceSnapshot && (
                 <EvidenceSnapshotPanel
@@ -1398,6 +1407,8 @@ export default function DiagnosticResultsForm({
                 : 'Complete each step, generate service notes on Review, then save.'
             }
           />
+
+          {oemCatalogAccordion}
 
           {eliminationResult && (
             <EliminationBanner result={eliminationResult} variant={variant} />

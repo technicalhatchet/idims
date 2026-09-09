@@ -139,6 +139,95 @@ function ProcedureRunCard({
   );
 }
 
+/** Full manual catalog — bottom of guided flow, closed by default (tech browse). */
+export function SolomonOemCatalogAccordion({
+  recommendations = [],
+  catalog = [],
+  procedureRuns = {},
+  activeProcedureId = null,
+  onProcedureRunChange,
+  onActiveProcedureChange,
+  variant = 'mobile',
+  density = 'default',
+  className = '',
+}) {
+  const recommendedIds = useMemo(
+    () => new Set(recommendations.map((item) => item.procedureId)),
+    [recommendations],
+  );
+  const catalogOnly = useMemo(
+    () => catalog.filter((item) => !recommendedIds.has(item.procedureId)),
+    [catalog, recommendedIds],
+  );
+
+  const [catalogOpen, setCatalogOpen] = useState(false);
+  const [expandedId, setExpandedId] = useState(activeProcedureId || null);
+  const isCompact = density === 'compact';
+
+  const handleToggle = useCallback(
+    (procedureId) => {
+      setExpandedId((current) => {
+        const next = current === procedureId ? null : procedureId;
+        onActiveProcedureChange?.(next);
+        return next;
+      });
+    },
+    [onActiveProcedureChange],
+  );
+
+  const handleRunStateChange = useCallback(
+    (procedureId, nextRunState) => {
+      onProcedureRunChange?.(procedureId, nextRunState);
+      if (nextRunState?.status === 'in_progress') {
+        onActiveProcedureChange?.(procedureId);
+      }
+    },
+    [onActiveProcedureChange, onProcedureRunChange],
+  );
+
+  if (!catalogOnly.length) return null;
+
+  return (
+    <section className={`${SOLOMON_GLASS_PANEL_CLASS} ${className}`}>
+      <button
+        type="button"
+        onClick={() => setCatalogOpen((current) => !current)}
+        className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
+        aria-expanded={catalogOpen}
+      >
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
+            All OEM tests
+          </p>
+          <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
+            Browse manual tests
+          </p>
+        </div>
+        <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
+          {catalogOpen ? 'Hide' : 'Show'}
+        </span>
+      </button>
+
+      {catalogOpen ? (
+        <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
+          {catalogOnly.map((entry) => (
+            <ProcedureRunCard
+              key={entry.procedureId}
+              recommendation={entry}
+              savedRunState={procedureRuns[entry.procedureId] || null}
+              isExpanded={expandedId === entry.procedureId}
+              onToggle={() => handleToggle(entry.procedureId)}
+              onRunStateChange={handleRunStateChange}
+              variant={variant}
+              showReason={false}
+            />
+          ))}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 export default function SolomonProcedurePanel({
   recommendations = [],
   catalog = [],
@@ -150,6 +239,7 @@ export default function SolomonProcedurePanel({
   density = 'default',
   platformBanner = null,
   showCatalog = true,
+  catalogPlacement = 'none',
   bannerOnly = false,
 }) {
   const recommendedIds = useMemo(
@@ -164,6 +254,7 @@ export default function SolomonProcedurePanel({
   const [expandedId, setExpandedId] = useState(activeProcedureId || recommendations[0]?.procedureId || null);
   const [catalogOpen, setCatalogOpen] = useState(false);
   const isCompact = density === 'compact';
+  const showInlineCatalog = showCatalog && catalogPlacement === 'inline';
 
   const handleToggle = useCallback(
     (procedureId) => {
@@ -199,7 +290,7 @@ export default function SolomonProcedurePanel({
     );
   }
 
-  const hasRunnerContent = recommendations.length > 0 || (showCatalog && catalogOnly.length > 0);
+  const hasRunnerContent = recommendations.length > 0 || (showInlineCatalog && catalogOnly.length > 0);
   if (!hasRunnerContent && platformBanner) {
     return (
       <OemSpecsLoadedBanner
@@ -242,33 +333,28 @@ export default function SolomonProcedurePanel({
         </>
       ) : null}
 
-      {showCatalog && catalogOnly.length ? (
+      {showInlineCatalog && catalogOnly.length ? (
         <div className={recommendations.length ? (isCompact ? 'mt-3' : 'mt-4') : (isCompact ? 'mt-2' : 'mt-3')}>
-          {recommendations.length ? (
-            <button
-              type="button"
-              onClick={() => setCatalogOpen((current) => !current)}
-              className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
-            >
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
-                  All OEM tests
-                </p>
-                <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-                  Browse manual tests
-                </p>
-              </div>
-              <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
-                {catalogOpen ? 'Hide' : 'Show'}
-              </span>
-            </button>
-          ) : (
-            <p className="text-xs text-[var(--solomon-text-secondary)]">
-              Manual tests available for this platform
-            </p>
-          )}
+          <button
+            type="button"
+            onClick={() => setCatalogOpen((current) => !current)}
+            className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
+            aria-expanded={catalogOpen}
+          >
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
+                All OEM tests
+              </p>
+              <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
+                Browse manual tests
+              </p>
+            </div>
+            <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
+              {catalogOpen ? 'Hide' : 'Show'}
+            </span>
+          </button>
 
-          {(catalogOpen || !recommendations.length) ? (
+          {catalogOpen ? (
             <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
               {catalogOnly.map((entry) => (
                 <ProcedureRunCard
