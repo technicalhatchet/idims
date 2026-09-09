@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
+import { useScrollAnchorIntoView } from '../../hooks/useScrollAnchorIntoView';
 import {
   formatServiceModeRequirements,
 } from '../diagnostics/procedures/recommendServiceProcedures';
@@ -63,8 +64,21 @@ function ProcedureRunCard({
         ? 'Paused'
         : 'Not started';
 
+  const procedureScrollKey = isExpanded
+    ? isRunning && currentStep
+      ? `${procedure.id}:${currentStep.id}`
+      : procedure.id
+    : null;
+  const procedureAnchorRef = useScrollAnchorIntoView(procedureScrollKey, {
+    enabled: isExpanded,
+    delayMs: 140,
+  });
+
   return (
-    <div className="rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/60 overflow-hidden">
+    <div
+      ref={procedureAnchorRef}
+      className="scroll-mt-3 rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/60 overflow-hidden"
+    >
       <button
         type="button"
         onClick={onToggle}
@@ -305,7 +319,7 @@ export default function SolomonProcedurePanel({
   }
 
   return (
-    <section className={SOLOMON_GLASS_PANEL_CLASS}>
+    <section className={`${SOLOMON_GLASS_PANEL_CLASS} scroll-mt-3`} data-oem-procedure-panel>
       {platformBanner ? (
         <OemSpecsLoadedBanner
           platformLabel={platformBanner.platformLabel}

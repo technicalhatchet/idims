@@ -1053,7 +1053,10 @@ export default function DiagnosticResultsForm({
   }
 
   return (
-    <div className="space-y-4">
+    <div
+      className="space-y-4"
+      data-guided-diagnostics={variant === 'mobile' ? true : undefined}
+    >
       {/* Intro banner — appliance + guided diagnostics how-to (disabled for SOLOMON mobile flow; restore if needed)
       {!readOnly && (
         <div
