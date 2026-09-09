@@ -1,0 +1,323 @@
+{
+  "id": "w11416787-test-01-acu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: Main Control (ACU)",
+  "platformId": "whirlpool_tl_dd_5100",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "voltage_check",
+    "supply_issue",
+    "F1E1",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W11416787",
+    "manualTitle": "Whirlpool & Maytag 4.7/5.3 cu ft Top Load Washer (Direct Drive)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416787-revc wtw5100+-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "Main Control (ACU)",
+    "pages": [
+      55,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_console"
+    },
+    {
+      "id": "access_console",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access main control",
+      "body": "Remove console. Verify ALL connectors fully seated at ACU.",
+      "sourceExcerpt": "Remove console. Verify ALL connectors fully seated at ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "restore_power_line"
+    },
+    {
+      "id": "restore_power_line",
+      "order": 3,
+      "type": "instruction",
+      "title": "Restore power for line check",
+      "body": "Plug in or reconnect power for live measurements only.",
+      "sourceExcerpt": "Plug in or reconnect power for live measurements only.",
+      "requiresInput": false,
+      "defaultNextStepId": "line_voltage"
+    },
+    {
+      "id": "line_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Line voltage J1-1 to J1-2",
+      "body": "AC voltmeter: black probe J1-1 (Neutral), red probe J1-2 (Line). Expect 120 VAC.",
+      "sourceExcerpt": "AC voltmeter: black probe J1-1 (Neutral), red probe J1-2 (Line). Expect 120 VAC.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "J1",
+        "pins": "1 & 2",
+        "label": "Line voltage J1-1 to J1-2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Neutral",
+            "wireColor": "WH",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Line",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "line_ok",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "diagnostic_led",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "line_bad",
+          "label": "No line voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "check_power_cord",
+          "terminal": true,
+          "oemOutcome": "Check outlet, breaker, and AC power cord continuity.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diagnostic_led",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Diagnostic LED state",
+      "body": "Is the Diagnostic LED flashing, continuously ON, or OFF?",
+      "sourceExcerpt": "Flashing: proceed to HMI Test. ON/OFF: continue ACU DC checks.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "led_flash",
+          "label": "Flashing (+5 VDC, micro operating)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "acu_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "led_on",
+          "label": "ON steady (+5 VDC, micro failure)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "led_off",
+          "label": "OFF (+5 VDC missing)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "isolate_hmi",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "isolate_hmi",
+      "order": 6,
+      "type": "instruction",
+      "title": "Isolate HMI load on J14",
+      "body": "Disconnect power. Remove connector J14 from main control. Restore power and recheck Diagnostic LED.",
+      "sourceExcerpt": "Disconnect power. Remove connector J14 from main control. Restore power and recheck Diagnostic LED.",
+      "requiresInput": false,
+      "defaultNextStepId": "led_after_j14"
+    },
+    {
+      "id": "led_after_j14",
+      "order": 7,
+      "type": "visual_check",
+      "title": "LED flashes with J14 removed?",
+      "body": "With J14 disconnected, does Diagnostic LED flash?",
+      "sourceExcerpt": "With J14 disconnected, does Diagnostic LED flash?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j14_ui_fault",
+          "label": "No \u2014 still not flashing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "j14_12vdc",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        },
+        {
+          "id": "j14_ui_ok",
+          "label": "Yes \u2014 flashes without HMI",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ui_harness_fault",
+          "terminal": true,
+          "oemOutcome": "HMI or HMI harness fault \u2014 see TEST #4 HMI."
+        }
+      ]
+    },
+    {
+      "id": "j14_12vdc",
+      "order": 8,
+      "type": "measurement",
+      "title": "+12.7 VDC at J14",
+      "body": "DC volts: black J14-4 (Circuit Gnd), red J14-1 (+12.7 VDC). Do not short pins.",
+      "sourceExcerpt": "DC volts: black J14-4 (Circuit Gnd), red J14-1 (+12.7 VDC). Do not short pins.",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherAcu12Vdc",
+      "testPoint": {
+        "connector": "J14",
+        "pins": "1 & 4",
+        "label": "+12.7 VDC at J14",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "+12.7 VDC",
+            "wireColor": "RD",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "+5 V / WIN_DATA",
+            "wireColor": "YL",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "Circuit Gnd",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_ok",
+          "label": "+12.7 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+            }
+          ]
+        },
+        {
+          "id": "v12_bad",
+          "label": "+12.7 VDC missing",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_power_cord",
+      "order": 9,
+      "type": "outcome",
+      "title": "Check power cord",
+      "oemOutcome": "Verify outlet and AC cord continuity per wiring diagram.",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "ACU power verified",
+      "oemOutcome": "Line voltage and diagnostic LED OK \u2014 proceed to complaint-specific test or HMI Test.",
+      "requiresInput": false
+    },
+    {
+      "id": "ui_harness_fault",
+      "order": 11,
+      "type": "outcome",
+      "title": "HMI harness fault",
+      "oemOutcome": "Repair HMI harness or replace UI per TEST #4.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Replace ACU. Reassemble and run Service Diagnostics to verify.",
+      "requiresInput": false
+    }
+  ]
+}

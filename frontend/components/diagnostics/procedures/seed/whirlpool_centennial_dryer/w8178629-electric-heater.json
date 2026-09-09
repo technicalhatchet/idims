@@ -1,0 +1,313 @@
+{
+  "id": "w8178629-electric-heater",
+  "version": "1.0.0",
+  "title": "Electric Heater (Dual Element)",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "heating_element"
+  ],
+  "tags": [
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-4",
+    "oemTestTitle": "Electric Heater (Dual Element)",
+    "pages": [
+      64
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "access_heater",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access heater terminal block",
+      "body": "Disconnect wires at heater terminals.",
+      "sourceExcerpt": "Disconnect wires at heater terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "element_com_1"
+    },
+    {
+      "id": "element_com_1",
+      "order": 4,
+      "type": "measurement",
+      "title": "COM to terminal 1",
+      "body": "Rx1: COM to terminal 1 = 15\u201325 \u03a9.",
+      "sourceExcerpt": "Rx1: COM to terminal 1 = 15\u201325 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterElementOhms",
+      "testPoint": {
+        "connector": "Heater",
+        "pins": "COM\u20131",
+        "label": "COM to terminal 1"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "e1_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "element_com_2"
+        },
+        {
+          "id": "e1_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "e1_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "e1_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element_com_2",
+      "order": 5,
+      "type": "measurement",
+      "title": "COM to terminal 2",
+      "body": "Rx1: COM to terminal 2 = 15\u201325 \u03a9.",
+      "sourceExcerpt": "Rx1: COM to terminal 2 = 15\u201325 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterElementOhms",
+      "testPoint": {
+        "connector": "Heater",
+        "pins": "COM\u20132",
+        "label": "COM to terminal 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "e2_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "element_series"
+        },
+        {
+          "id": "e2_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "e2_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "e2_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element_series",
+      "order": 6,
+      "type": "measurement",
+      "title": "Terminals 1 to 2 (series)",
+      "body": "Rx1: terminals 1 & 2 = 30\u201350 \u03a9.",
+      "sourceExcerpt": "Rx1: terminals 1 & 2 = 30\u201350 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterDualParallelOhms",
+      "testPoint": {
+        "connector": "Heater",
+        "pins": "1\u20132",
+        "label": "Terminals 1 to 2 (series)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "series_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified"
+        },
+        {
+          "id": "series_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "series_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "series_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_element",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace heater",
+      "oemOutcome": "Replace dual heating element.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Heater verified",
+      "oemOutcome": "Dual element resistances within OEM spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_dryer"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178629-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

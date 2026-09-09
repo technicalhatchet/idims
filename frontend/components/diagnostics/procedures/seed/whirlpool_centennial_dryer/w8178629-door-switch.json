@@ -1,0 +1,164 @@
+{
+  "id": "w8178629-door-switch",
+  "version": "1.0.0",
+  "title": "Door Switch Test",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check",
+    "wont_start",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1",
+    "oemTestTitle": "Door Switch",
+    "pages": [
+      61,
+      71
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_door_beep"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "diag_door_beep"
+    },
+    {
+      "id": "diag_door_beep",
+      "order": 3,
+      "type": "instruction",
+      "title": "Diagnostic mode door check",
+      "body": "In diagnostic test mode, opening/closing door should produce audible beep.",
+      "sourceExcerpt": "In diagnostic test mode, opening/closing door should produce audible beep.",
+      "requiresInput": false,
+      "defaultNextStepId": "bench_door_switch"
+    },
+    {
+      "id": "bench_door_switch",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door switch plug pins 1\u20133",
+      "body": "Power off. Rx1: pins 1\u20133 closed (0 \u03a9) with door closed; open (OL) with door open.",
+      "sourceExcerpt": "Power off. Rx1: pins 1\u20133 closed (0 \u03a9) with door closed; open (OL) with door open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_check"
+        },
+        {
+          "id": "door_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harness_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Harness neutral to P2-6 (\u00a76-5)",
+      "body": "Door closed: neutral to P2-6 on control should read closed. Open with door open.",
+      "sourceExcerpt": "Door closed: neutral to P2-6 on control should read closed. Open with door open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_harness",
+      "order": 7,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair or replace door switch harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Door switch verified",
+      "oemOutcome": "Door switch and harness OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178629-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

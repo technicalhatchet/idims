@@ -1,0 +1,337 @@
+{
+  "id": "w11416787-test-09-load-and-go",
+  "version": "1.0.0",
+  "title": "TEST #9: Load & Go Detergent",
+  "platformId": "whirlpool_tl_dd_5100",
+  "componentIds": [
+    "bulk_level_switch"
+  ],
+  "tags": [
+    "bulk_dispense",
+    "F3E5",
+    "dispenser_check"
+  ],
+  "source": {
+    "manualId": "W11416787",
+    "manualTitle": "Whirlpool & Maytag 4.7/5.3 cu ft Top Load Washer (Direct Drive)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416787-revc wtw5100+-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9",
+    "oemTestTitle": "Load & Go Detergent",
+    "pages": [
+      60
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "bulk_sensor_feedback"
+    },
+    {
+      "id": "bulk_sensor_feedback",
+      "order": 2,
+      "type": "instruction",
+      "title": "Bulk sensor Sensor Feedback",
+      "body": "In Service Mode Sensor Feedback, run Detergent Level cycle with drawer fully inserted. Screen shows detergent level percentage.",
+      "sourceExcerpt": "In Service Mode Sensor Feedback, run Detergent Level cycle with drawer fully inserted. Screen shows detergent level percentage.",
+      "requiresInput": false,
+      "defaultNextStepId": "bulk_pump_activation"
+    },
+    {
+      "id": "bulk_sensor_voltage",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Bulk sensor J9 voltage checks",
+      "body": "Power on at console. Input J9-1\u21944 expect 4.75\u201315.25 VDC. Analog output J9-2\u21944 expect 1.4\u20133.10 VDC. J9 fully seated?",
+      "sourceExcerpt": "Power on at console. Input J9-1\u21944 expect 4.75\u201315.25 VDC. Analog output J9-2\u21944 expect 1.4\u20133.10 VDC. J9 fully seated?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sensor_v_ok",
+          "label": "Voltages in range",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulk_pump_activation"
+        },
+        {
+          "id": "input_v_bad",
+          "label": "Input voltage out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_bulk",
+          "terminal": true,
+          "oemOutcome": "Input voltage out of range \u2014 replace main control.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        },
+        {
+          "id": "output_v_bad",
+          "label": "Analog output out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bulk_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace bulk sensor component.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bulk_pump_activation",
+      "order": 4,
+      "type": "instruction",
+      "title": "Bulk pump Component Activation",
+      "body": "In Component Activation, run Detergent Pump cycle. Detergent should dispense into basket.",
+      "sourceExcerpt": "In Component Activation, run Detergent Pump cycle. Detergent should dispense into basket.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_j17"
+    },
+    {
+      "id": "check_j17",
+      "order": 5,
+      "type": "visual_check",
+      "title": "J17 and extension harness",
+      "body": "Power off. J17 secure at ACU. Bulk pump extension harness connected through top?",
+      "sourceExcerpt": "Power off. J17 secure at ACU. Bulk pump extension harness connected through top?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j17_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulk_pump_ohms"
+        },
+        {
+          "id": "j17_bad",
+          "label": "Loose or missing harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_bulk_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bulk_pump_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Bulk pump resistance J17-2 to J17-3",
+      "body": "Disconnect J17. Measure resistance \u2014 expect 16\u201319 \u03a9.",
+      "sourceExcerpt": "Disconnect J17. Measure resistance \u2014 expect 16\u201319 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherBulkPumpOhms",
+      "testPoint": {
+        "connector": "J17",
+        "pins": "2 & 3",
+        "label": "Bulk pump resistance J17-2 to J17-3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bulk_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bulk_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        },
+        {
+          "id": "bulk_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bulk_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        },
+        {
+          "id": "bulk_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bulk_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        },
+        {
+          "id": "bulk_pass",
+          "label": "16\u201319 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_bulk_power",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "eliminate_bulk_level_switch_ol_bulk_level_switch_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_bulk_power",
+      "order": 7,
+      "type": "instruction",
+      "title": "Reassemble and restore power",
+      "body": "Reconnect harnesses and panels. Restore power.",
+      "sourceExcerpt": "Reconnect harnesses and panels. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_bulk_pump"
+    },
+    {
+      "id": "service_mode_before_activation",
+      "type": "instruction",
+      "title": "Continue to Component Activation",
+      "body": "You should now be in Service Mode. Use Left/Right to navigate, Select/Enter to open Service Diagnostics, then Component Activation for live load tests.",
+      "sourceExcerpt": "Service Mode must be active before Component Activation (Service Diagnostics menu).",
+      "requiresInput": false,
+      "order": 8
+    },
+    {
+      "id": "live_test_bulk_pump",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Bulk pump runs in Component Activation",
+      "body": "Run Detergent Pump in Component Activation. Does detergent dispense?",
+      "sourceExcerpt": "Run Detergent Pump in Component Activation. Does detergent dispense?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bulk_run",
+          "label": "Detergent dispenses",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulk_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "eliminate_bulk_level_switch_ol_bulk_level_switch_ok"
+            }
+          ]
+        },
+        {
+          "id": "bulk_no_run",
+          "label": "No dispense",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_bulk",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_bulk_harness",
+      "order": 10,
+      "type": "outcome",
+      "title": "Repair bulk harness",
+      "oemOutcome": "Connect or repair bulk pump extension harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bulk_sensor",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace bulk sensor",
+      "oemOutcome": "Analog output voltage out of range \u2014 replace bulk sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bulk_pump",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace bulk pump",
+      "oemOutcome": "Pump resistance out of range \u2014 replace bulk dispense pump.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_bulk",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Pump and sensor good but no dispense \u2014 replace main control.",
+      "requiresInput": false
+    },
+    {
+      "id": "bulk_verified",
+      "order": 14,
+      "type": "outcome",
+      "title": "Load & Go verified",
+      "oemOutcome": "Bulk sensor, pump, and Component Activation dispense verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416787-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_bulk_power",
+      "continueToStepId": "service_mode_before_activation"
+    },
+    {
+      "bundleId": "w11416787-component-activation",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_activation",
+      "continueToStepId": "live_test_bulk_pump"
+    }
+  ]
+}

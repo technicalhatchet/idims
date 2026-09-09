@@ -1,0 +1,57 @@
+{
+  "id": "w8178629-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_centennial_dryer",
+  "manualId": "W8178629",
+  "title": "W8178629 \u2014 Diagnostic test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Less Dry pre-check and Diagnostic Test activation (\u00a76-1 / \u00a76-2). Beeps on each input change.",
+  "tags": [
+    "service_diagnostic",
+    "hmi_check"
+  ],
+  "entryStepId": "prep_assembled",
+  "source": {
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "pages": [
+      67,
+      68
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_assembled",
+      "order": 1,
+      "type": "instruction",
+      "title": "Fully assembled dryer",
+      "body": "Empty dryer, clean lint screen, connected to known good power.",
+      "sourceExcerpt": "Begin with a fully assembled, empty dryer with clean lint screen.",
+      "requiresInput": false,
+      "defaultNextStepId": "less_dry_test"
+    },
+    {
+      "id": "less_dry_test",
+      "order": 2,
+      "type": "instruction",
+      "title": "Less Dry test (\u00a76-1)",
+      "body": "Door closed, Timer Less Dry, Temperature High, End of Cycle Signal Louder. Press Push to Start \u2014 timer should advance to Off in ~16 seconds. If not, proceed to Diagnostic Test entry.",
+      "sourceExcerpt": "Timer will start to advance to the Off position after approximately 16 seconds.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_entry_wrinkle"
+    },
+    {
+      "id": "diag_entry_wrinkle",
+      "order": 3,
+      "type": "instruction",
+      "title": "Diagnostic Test entry (\u00a76-2)",
+      "body": "Door open, Temperature Air Fluff, Signal Louder, Timer Timed or Sensor Drying. Turn Wrinkle Prevent Off\u2192On three times within 5 seconds. Single beep, pause, single beep = test mode active. Each input change beeps (door, moisture sensor, temp, wrinkle, PTS, timer).",
+      "sourceExcerpt": "Wrinkle Prevent switch from Off to On three times within a five second period.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,301 @@
+{
+  "id": "w8178629-supply-connections",
+  "version": "1.0.0",
+  "title": "Supply Connections Test",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "supply_issue",
+    "voltage_check",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-3",
+    "oemTestTitle": "Supply Connections Test",
+    "pages": [
+      67,
+      70
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuel_variant"
+    },
+    {
+      "id": "fuel_variant",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Electric or gas dryer?",
+      "body": "MED/WED = electric dual-element; MGD/WGD = gas burner.",
+      "sourceExcerpt": "MED/WED = electric dual-element; MGD/WGD = gas burner.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuel_electric",
+          "label": "Electric",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_cover"
+        },
+        {
+          "id": "fuel_gas",
+          "label": "Gas",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "gas_cover"
+        }
+      ]
+    },
+    {
+      "id": "electric_cover",
+      "order": 3,
+      "type": "instruction",
+      "title": "Electric \u2014 terminal block",
+      "body": "Remove rear cover plate. Verify cord at terminal block.",
+      "sourceExcerpt": "Remove rear cover plate. Verify cord at terminal block.",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_n_block"
+    },
+    {
+      "id": "electric_n_block",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Neutral plug to terminal block center",
+      "body": "Continuity from plug N to center terminal block contact.",
+      "sourceExcerpt": "Continuity from plug N to center terminal block contact.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "en_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_l1_id"
+        },
+        {
+          "id": "en_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric_l1_id",
+      "order": 5,
+      "type": "instruction",
+      "title": "Identify L1 at block",
+      "body": "Note which plug terminal connects to left-most block contact (L1).",
+      "sourceExcerpt": "Note which plug terminal connects to left-most block contact (L1).",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_l1_timer"
+    },
+    {
+      "id": "electric_l1_timer",
+      "order": 6,
+      "type": "visual_check",
+      "title": "L1 plug to timer BK",
+      "body": "Access electronic control without disconnecting board wiring. Continuity L1 plug to BK (black) on timer.",
+      "sourceExcerpt": "Access electronic control without disconnecting board wiring. Continuity L1 plug to BK (black) on timer.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "el1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_n_p2"
+        },
+        {
+          "id": "el1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace harness or cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric_n_p2",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Neutral plug to P2-1",
+      "body": "Continuity from plug N to P2-1 (white) on electronic control.",
+      "sourceExcerpt": "Continuity from plug N to P2-1 (white) on electronic control.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "enp2_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_verified"
+        },
+        {
+          "id": "enp2_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_cover",
+      "order": 3,
+      "type": "instruction",
+      "title": "Gas \u2014 cord to harness",
+      "body": "Verify power cord firmly connected to wire harness.",
+      "sourceExcerpt": "Verify power cord firmly connected to wire harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_n_p1"
+    },
+    {
+      "id": "gas_n_p1",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Gas \u2014 neutral to P1-2",
+      "body": "Continuity plug N to P1-2 (white) on electronic control.",
+      "sourceExcerpt": "Continuity plug N to P1-2 (white) on electronic control.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gn_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_l1_timer"
+        },
+        {
+          "id": "gn_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_l1_timer",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Gas \u2014 L1 to timer BK",
+      "body": "Continuity L1 plug to BK (black) on timer.",
+      "sourceExcerpt": "Continuity L1 plug to BK (black) on timer.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gl1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_verified"
+        },
+        {
+          "id": "gl1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace cord or harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_cord",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace power cord",
+      "oemOutcome": "Replace power cord.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_harness",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace main wire harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "supply_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Supply verified",
+      "oemOutcome": "Line/neutral paths OK \u2014 proceed to timer test if needed.",
+      "requiresInput": false
+    }
+  ]
+}

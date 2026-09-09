@@ -47,6 +47,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_TL_DD,
+    label: 'Whirlpool/Maytag 3.8 cu ft PSC top-load (W11697231)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'washer',
+    modelPatterns: [/WTW49/i, /MVW49/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_TL_DD,
     label: 'Whirlpool/Maytag direct-drive top-load (W10864849)',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'washer',

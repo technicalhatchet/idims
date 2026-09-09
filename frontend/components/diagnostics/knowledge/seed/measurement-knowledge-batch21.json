@@ -1,0 +1,262 @@
+[
+  {
+    "id": "whirlpoolCentennialDryerMotorOhms",
+    "name": "Whirlpool Centennial Dryer Motor Windings",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1.4, "max": 2.8 },
+      "warning": { "min": 1.0, "max": 3.5 },
+      "critical": { "below": 0.5, "above": 5 }
+    },
+    "typical": { "min": 1.6, "max": 2.4 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §5-6 — main 1.4–2.6 Ω (pin 4–5), start 1.4–2.8 Ω (pin 4–3) at motor switch.",
+    "failureModes": [
+      "Open winding — motor hum/no start",
+      "Good motor ohms but 1–6 Ω missing at COM–P2-6 — thermal fuse or door switch"
+    ],
+    "testingTips": [
+      "Disconnect motor switch connector before ohms",
+      "Motor relay COM to P2-6 should read 1–6 Ω with harness intact (§6-4)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["motor_check", "wont_spin"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerMotorCircuitOhms",
+    "name": "Whirlpool Centennial Motor Relay Path (COM–P2-6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1, "max": 6 },
+      "warning": { "min": 0.5, "max": 8 },
+      "critical": { "below": 0.1, "above": 15 }
+    },
+    "typical": { "min": 2, "max": 5 },
+    "openCircuitCritical": true,
+    "purpose": "§6-4 Motor Test — motor relay COM to P2-6 on electronic control.",
+    "failureModes": [
+      "Open — thermal fuse, door switch, or harness",
+      "In range but no run — electronic control or PTS"
+    ],
+    "testingTips": [
+      "Door open for access; power disconnected for bench motor ohms",
+      "If out of 1–6 Ω range, run thermal fuse and door switch tests before replacing motor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["motor_check", "motor_circuit"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerHeaterElementOhms",
+    "name": "Whirlpool Centennial Dual Heater Element (single leg)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 25 },
+      "warning": { "min": 12, "max": 28 },
+      "critical": { "below": 5, "above": 35 }
+    },
+    "typical": { "min": 18, "max": 22 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §5-4 — COM to terminal 1 or COM to terminal 2: 15–25 Ω each.",
+    "failureModes": [
+      "Open leg — partial or no heat",
+      "Both legs OK but no heat — heater relay or TCO/high-limit"
+    ],
+    "testingTips": [
+      "Disconnect wires at heater terminal block",
+      "Terminals 1–2 in series should read 30–50 Ω (use dual-parallel knowledge)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["heating_element_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerHeaterDualParallelOhms",
+    "name": "Whirlpool Centennial Dual Heater (series 1–2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 30, "max": 50 },
+      "warning": { "min": 25, "max": 55 },
+      "critical": { "below": 10, "above": 70 }
+    },
+    "typical": { "min": 36, "max": 44 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §5-4 — terminals 1 & 2: 30–50 Ω (both elements). Not CCU relay parallel ≤50 Ω.",
+    "failureModes": [
+      "High reading — one open element",
+      "Low/open — shorted or open element"
+    ],
+    "testingTips": [
+      "Measure each leg COM–1 and COM–2 if series reading is out of spec"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["heating_element_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerExhaustThermistorKohm",
+    "name": "Whirlpool Centennial Exhaust Thermistor",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 22 },
+      "warning": { "min": 2, "max": 25 },
+      "critical": { "below": 0.5, "above": 55 }
+    },
+    "typical": { "min": 10, "max": 14 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §5-2 / §6-7 — exhaust NTC; 3 short beeps at PTS = open/short.",
+    "failureModes": [
+      "Open/short — 3-beep shutdown at start",
+      "In-range ohms but wrong exhaust temp — replace electronic control"
+    ],
+    "testingTips": [
+      "~12 kΩ @ 70°F; use OEM R/T table in job aid",
+      "Rx100K scale; disconnect wires at thermistor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["thermistor_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerInletThermistorKohm",
+    "name": "Whirlpool Centennial Inlet Thermistor (electric)",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 45, "max": 70 },
+      "warning": { "min": 35, "max": 80 },
+      "critical": { "below": 5, "above": 100 }
+    },
+    "typical": { "min": 60, "max": 64 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §5-5 — inlet thermistor on high-limit assembly; ~62 kΩ @ 68°F.",
+    "failureModes": [
+      "Open — erratic heat regulation",
+      "Short — heater may not cycle correctly"
+    ],
+    "testingTips": [
+      "Rx100K scale; TCO and high-limit should read 0 Ω separately",
+      "Electric models only"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["thermistor_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerIgnitorOhms",
+    "name": "Whirlpool Centennial Gas Ignitor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50, "max": 500 },
+      "warning": { "min": 30, "max": 600 },
+      "critical": { "below": 5, "above": 800 }
+    },
+    "typical": { "min": 80, "max": 300 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §5-4 — burner ignitor 2-wire connector: 50–500 Ω.",
+    "failureModes": [
+      "Open — no glow",
+      "In spec but no flame — gas coils or flame sensor"
+    ],
+    "testingTips": [
+      "Gas off; disconnect ignitor harness",
+      "Flame sensor should read 0 Ω continuity cold"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["igniter_check", "ignition_issue"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerGasValveCoilOhms",
+    "name": "Whirlpool Centennial Gas Valve Coils",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 500, "max": 1450 },
+      "warning": { "min": 400, "max": 1500 },
+      "critical": { "below": 50, "above": 2000 }
+    },
+    "typical": { "min": 550, "max": 1400 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §6-8 — 1–2: 1365±25; 1–3: 560±25; 4–5: 1220±50 Ω.",
+    "failureModes": [
+      "Open coil — no gas release on that leg",
+      "Weak coil — intermittent heat"
+    ],
+    "testingTips": [
+      "§5-3 uses wider bands; prefer §6-8 table at valve",
+      "Loop harness through strain relief after service"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["gas_valve_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolCentennialDryerTimerMotorOhms",
+    "name": "Whirlpool Centennial Timer Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2800, "max": 3200 },
+      "warning": { "min": 2500, "max": 3500 },
+      "critical": { "below": 500, "above": 5000 }
+    },
+    "typical": { "min": 2900, "max": 3100 },
+    "openCircuitCritical": true,
+    "purpose": "8178629 §6-4 — timer motor BU to PT-1: 3 kΩ (±2).",
+    "failureModes": [
+      "Open — timer won't advance",
+      "Good motor but no advance — timer cam or harness"
+    ],
+    "testingTips": [
+      "Remove wires from timer terminals before measurement",
+      "Use timer encoding table for contact continuity to BK"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_centennial_dryer"
+    },
+    "dmaTags": ["timer_issue", "hmi_check"]
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "id": "w8178629-flame-sensor",
+  "version": "1.0.0",
+  "title": "Flame Sensor Test",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "flame_sensor"
+  ],
+  "tags": [
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "Flame Sensor",
+    "pages": [
+      63
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_flame"
+    },
+    {
+      "id": "access_flame",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access flame sensor",
+      "body": "Disconnect wire connectors from flame sensor terminals.",
+      "sourceExcerpt": "Disconnect wire connectors from flame sensor terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "flame_continuity"
+    },
+    {
+      "id": "flame_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Flame sensor continuity",
+      "body": "Rx1 across flame sensor terminals: closed circuit (0 \u03a9).",
+      "sourceExcerpt": "Rx1 across flame sensor terminals: closed circuit (0 \u03a9).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "flame_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flame_verified"
+        },
+        {
+          "id": "flame_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flame_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace flame sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "flame_sensor",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_flame_sensor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace flame sensor",
+      "oemOutcome": "Replace flame sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "flame_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Flame sensor verified",
+      "oemOutcome": "Flame sensor shows continuity.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

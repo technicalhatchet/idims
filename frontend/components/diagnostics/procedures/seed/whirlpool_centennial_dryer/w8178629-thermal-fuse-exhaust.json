@@ -1,0 +1,205 @@
+{
+  "id": "w8178629-thermal-fuse-exhaust",
+  "version": "1.0.0",
+  "title": "Thermal Fuse & Exhaust Thermistor",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "thermal_fuse",
+    "exhaust_thermistor"
+  ],
+  "tags": [
+    "no_heat",
+    "thermistor",
+    "no_spin"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-2",
+    "oemTestTitle": "Thermal Fuse & Exhaust Thermistor",
+    "pages": [
+      62,
+      72
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_thermal"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_thermal"
+    },
+    {
+      "id": "access_thermal",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access thermal fuse & exhaust NTC",
+      "body": "Disconnect wires at component under test.",
+      "sourceExcerpt": "Disconnect wires at component under test.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_continuity"
+    },
+    {
+      "id": "fuse_continuity",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Thermal fuse continuity",
+      "body": "Rx1 across thermal fuse terminals: 0 \u03a9. Opens at 196\u00b0F (91\u00b0C).",
+      "sourceExcerpt": "Rx1 across thermal fuse terminals: 0 \u03a9. Opens at 196\u00b0F (91\u00b0C).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "exhaust_ntc"
+        },
+        {
+          "id": "fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace thermal fuse; clear vent.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_fuse",
+              "evidenceId": "confirm_thermal_fuse_open_thermal_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exhaust_ntc",
+      "order": 5,
+      "type": "measurement",
+      "title": "Exhaust thermistor resistance",
+      "body": "Rx100K at thermistor terminals. Use OEM R/T table (~12 k\u03a9 @ 70\u00b0F).",
+      "sourceExcerpt": "Rx100K at thermistor terminals. Use OEM R/T table (~12 k\u03a9 @ 70\u00b0F).",
+      "measurementKnowledgeId": "whirlpoolCentennialDryerExhaustThermistorKohm",
+      "testPoint": {
+        "connector": "Exhaust thermistor",
+        "pins": "terminals",
+        "label": "Exhaust thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermal_exhaust_verified"
+        },
+        {
+          "id": "ntc_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "ntc_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "ntc_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_fuse",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace thermal fuse",
+      "oemOutcome": "Replace thermal fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "oemOutcome": "Replace exhaust thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermal_exhaust_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Fuse & exhaust NTC OK",
+      "oemOutcome": "Thermal fuse and exhaust thermistor within spec.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178629-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}
