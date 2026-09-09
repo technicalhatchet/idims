@@ -589,7 +589,7 @@
       "platformId": "midea_rss",
       "templateId": "refrigerator",
       "seedDir": "midea_rss",
-      "label": "Midea/Insignia NS-RSS / NS-RTM side-by-side refrigerator",
+      "label": "Midea/Insignia NS-RSS26 side-by-side refrigerator",
       "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md",
       "procedureCatalog": "frontend/components/diagnostics/procedures/seed/midea_rss/procedureCatalog.json",
       "pipeline": {
@@ -597,6 +597,21 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_midea_rss_fridge_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_midea_rss_fridge_service_modes.py"
+      }
+    },
+    {
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "seedDir": "midea_rss",
+      "label": "Insignia NS-RTM18 top-freezer refrigerator",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/midea_rss/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_insignia_rtm18_fridge_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_insignia_rtm18_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_insignia_rtm18_fridge_service_modes.py"
       }
     },
     {

@@ -2,8 +2,8 @@
   "manualId": "MIDEA-RSS-FRIDGE",
   "platformId": "midea_rss",
   "templateId": "refrigerator",
-  "label": "Midea/Insignia NS-RSS / NS-RTM side-by-side refrigerator",
-  "notes": "E-family fault codes \u00a710.8; B3839 NTC \u00a79.4; VFD DZ120V1U \u00a711.2. Mandatory mode \u00a710.5.",
+  "label": "Midea/Insignia NS-RSS26 SxS + NS-RTM18 top-freezer (midea_rss)",
+  "notes": "MIDEA-RSS-FRIDGE: RSS26 \u00a710.8 E-family + VFD + ice maker. INSIGNIA-RTM18-FRIDGE: top-freezer \u00a79.6 subset E1/E2/E5/E6/E7 \u2014 reuses midearss sensor/comm seeds; test-mode bundle \u00a79.7. B3839 NTC shared. Models: NS-RSS*, NS-RTM*.",
   "plannedProcedures": [
     {
       "id": "midearss-rc-temp-sensor",
@@ -100,6 +100,82 @@
       "id": "midearss-vfd-inverter",
       "oemSection": "11.2",
       "title": "\u00a711.2: VFD inverter board fault LED",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "midearss-rc-temp-sensor",
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E1: Refrigerator chamber temperature sensor",
+      "status": "reused",
+      "reusedFrom": "MIDEA-RSS-FRIDGE",
+      "knowledgeIds": [
+        "mideaB3839ThermistorKohm"
+      ],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "midearss-fz-temp-sensor",
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E2: Freezing chamber temperature sensor",
+      "status": "reused",
+      "reusedFrom": "MIDEA-RSS-FRIDGE",
+      "knowledgeIds": [
+        "mideaB3839ThermistorKohm"
+      ],
+      "relatedCodes": [
+        "E2"
+      ]
+    },
+    {
+      "id": "midearss-fz-defrost-sensor",
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E5: Freezer defrost sensor",
+      "status": "reused",
+      "reusedFrom": "MIDEA-RSS-FRIDGE",
+      "knowledgeIds": [
+        "mideaB3839ThermistorKohm"
+      ],
+      "relatedCodes": [
+        "E5"
+      ]
+    },
+    {
+      "id": "midearss-communication",
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E6: Display \u2194 main communication",
+      "status": "reused",
+      "reusedFrom": "MIDEA-RSS-FRIDGE",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E6"
+      ]
+    },
+    {
+      "id": "midearss-ambient-sensor",
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E7: Ambient temperature sensor",
+      "status": "reused",
+      "reusedFrom": "MIDEA-RSS-FRIDGE",
+      "knowledgeIds": [
+        "mideaB3839ThermistorKohm"
+      ],
+      "relatedCodes": [
+        "E7"
+      ]
+    },
+    {
+      "id": "mideartm18-test-mode-entry",
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "oemSection": "9.7",
+      "title": "Insignia RTM18 \u2014 Test / forced defrost mode entry",
       "status": "generated",
       "relatedCodes": []
     }

@@ -467,24 +467,38 @@ BUNDLE_FILES = [f"{b['id']}.json" for b in BUNDLES]
 
 
 def write_catalog() -> None:
+    catalog_path = OUT / "procedureCatalog.json"
+    existing = json.loads(catalog_path.read_text(encoding="utf-8")) if catalog_path.is_file() else {}
+    rtm18_entries = [
+        entry
+        for entry in existing.get("plannedProcedures", [])
+        if entry.get("manualId") == "INSIGNIA-RTM18-FRIDGE"
+        or str(entry.get("id", "")).startswith("mideartm18-")
+    ]
+    rss_entries = [
+        {
+            "id": item["id"],
+            "manualId": SOURCE["manualId"],
+            "oemSection": item["source"]["oemTestNumber"],
+            "title": item["title"],
+            "status": "generated",
+            "relatedCodes": [t for t in item.get("tags", []) if t.startswith("E") and len(t) <= 3],
+        }
+        for item in PROCEDURES
+    ]
     catalog = {
         "manualId": SOURCE["manualId"],
         "platformId": PLATFORM,
         "templateId": "refrigerator",
-        "label": "Midea/Insignia NS-RSS / NS-RTM side-by-side refrigerator",
-        "notes": "E-family fault codes §10.8; B3839 NTC §9.4; VFD DZ120V1U §11.2. Mandatory mode §10.5.",
-        "plannedProcedures": [
-            {
-                "id": item["id"],
-                "oemSection": item["source"]["oemTestNumber"],
-                "title": item["title"],
-                "status": "generated",
-                "relatedCodes": [t for t in item.get("tags", []) if t.startswith("E") and len(t) <= 3],
-            }
-            for item in PROCEDURES
-        ],
+        "label": "Midea/Insignia NS-RSS26 SxS + NS-RTM18 top-freezer (midea_rss)",
+        "notes": (
+            "MIDEA-RSS-FRIDGE: RSS26 §10.8 E-family + VFD + ice maker. "
+            "INSIGNIA-RTM18-FRIDGE: top-freezer §9.6 subset E1/E2/E5/E6/E7 — reuses midearss sensor/comm seeds; "
+            "test-mode bundle §9.7. B3839 NTC shared. Models: NS-RSS*, NS-RTM*."
+        ),
+        "plannedProcedures": rss_entries + rtm18_entries,
     }
-    (OUT / "procedureCatalog.json").write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
+    catalog_path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
 
 
 def write_readme() -> None:

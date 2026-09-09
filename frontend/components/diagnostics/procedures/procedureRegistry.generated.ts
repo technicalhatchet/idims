@@ -13,6 +13,8 @@ import lg_lrmvs_bundles_lglrmvs_damper_test from './seed/lg_lrmvs/bundles/lglrmv
 import lg_lrmvs_bundles_lglrmvs_test_mode_entry from './seed/lg_lrmvs/bundles/lglrmvs-test-mode-entry.json';
 import lg_microwave_otr_bundles_lgotrmw_self_test_entry from './seed/lg_microwave_otr/bundles/lgotrmw-self-test-entry.json';
 import midea_rss_bundles_midearss_mandatory_mode_entry from './seed/midea_rss/bundles/midearss-mandatory-mode-entry.json';
+import midea_rss_bundles_mideartm18_test_mode_entry from './seed/midea_rss/bundles/mideartm18-test-mode-entry.json';
+import midea_rss_bundles_mideartm18_test_mode_entry from './seed/midea_rss/bundles/mideartm18-test-mode-entry.json';
 import midea_uz21_bundles_mideauz21_forced_defrost_entry from './seed/midea_uz21/bundles/mideauz21-forced-defrost-entry.json';
 import midea_uz21_bundles_mideauz21_test_mode_entry from './seed/midea_uz21/bundles/mideauz21-test-mode-entry.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-error-recall.json';
@@ -52,6 +54,7 @@ import whirlpool_connected_smart_gen3_bundles_w10785366a_laundry_service_diagnos
 import whirlpool_connected_smart_gen3_bundles_w10785366a_laundry_software_version_display from './seed/whirlpool_connected_smart_gen3/bundles/w10785366a-laundry-software-version-display.json';
 import whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11480208-service-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
+import whirlpool_dishwasher_ada_bundles_w11187658_service_mode_entry from './seed/whirlpool_dishwasher_ada/bundles/w11187658-service-mode-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test from './seed/whirlpool_duet_sport/bundles/w8178558-manual-diagnostic-test.json';
 import whirlpool_duet_sport_dryer_bundles_w8178559_diagnostic_entry from './seed/whirlpool_duet_sport_dryer/bundles/w8178559-diagnostic-entry.json';
@@ -91,6 +94,12 @@ import frigidaire_prmc_french_door_frigidaireprmc_fz_temp_sensor from './seed/fr
 import frigidaire_prmc_french_door_frigidaireprmc_manual_defrost from './seed/frigidaire_prmc_french_door/frigidaireprmc-manual-defrost.json';
 import frigidaire_prmc_french_door_frigidaireprmc_ui_communication from './seed/frigidaire_prmc_french_door/frigidaireprmc-ui-communication.json';
 import frigidaire_prmc_french_door_frigidaireprmc_vcz_temp_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-vcz-temp-sensor.json';
+import ge_gud27_stacked_gegud27_heater_thermostats_electric from './seed/ge_gud27_stacked/gegud27-heater-thermostats-electric.json';
+import ge_gud27_stacked_gegud27_no_heat_electric from './seed/ge_gud27_stacked/gegud27-no-heat-electric.json';
+import ge_gud27_stacked_gegud27_no_heat_gas from './seed/ge_gud27_stacked/gegud27-no-heat-gas.json';
+import ge_gud27_stacked_gegud27_no_tumble from './seed/ge_gud27_stacked/gegud27-no-tumble.json';
+import ge_gud27_stacked_gegud27_timer_not_advancing from './seed/ge_gud27_stacked/gegud27-timer-not-advancing.json';
+import ge_gud27_stacked_gegud27_vent_restriction from './seed/ge_gud27_stacked/gegud27-vent-restriction.json';
 import insignia_dishwasher_nsdwr3ss1_control_panel from './seed/insignia_dishwasher/nsdwr3ss1-control-panel.json';
 import insignia_dishwasher_nsdwr3ss1_display_comm from './seed/insignia_dishwasher/nsdwr3ss1-display-comm.json';
 import insignia_dishwasher_nsdwr3ss1_diverter from './seed/insignia_dishwasher/nsdwr3ss1-diverter.json';
@@ -423,6 +432,12 @@ import whirlpool_dishwasher_acu_w11633848_owi_sensor from './seed/whirlpool_dish
 import whirlpool_dishwasher_acu_w11633848_triac_fuse from './seed/whirlpool_dishwasher_acu/w11633848-triac-fuse.json';
 import whirlpool_dishwasher_acu_w11633848_wash_motor from './seed/whirlpool_dishwasher_acu/w11633848-wash-motor.json';
 import whirlpool_dishwasher_acu_w11794121_door_opening_system from './seed/whirlpool_dishwasher_acu/w11794121-door-opening-system.json';
+import whirlpool_dishwasher_ada_w11187658_drain_pump from './seed/whirlpool_dishwasher_ada/w11187658-drain-pump.json';
+import whirlpool_dishwasher_ada_w11187658_fill_valve from './seed/whirlpool_dishwasher_ada/w11187658-fill-valve.json';
+import whirlpool_dishwasher_ada_w11187658_heater from './seed/whirlpool_dishwasher_ada/w11187658-heater.json';
+import whirlpool_dishwasher_ada_w11187658_inlet_fill from './seed/whirlpool_dishwasher_ada/w11187658-inlet-fill.json';
+import whirlpool_dishwasher_ada_w11187658_overflow from './seed/whirlpool_dishwasher_ada/w11187658-overflow.json';
+import whirlpool_dishwasher_ada_w11187658_tub_thermistor from './seed/whirlpool_dishwasher_ada/w11187658-tub-thermistor.json';
 import whirlpool_duet_sport_w8178558_dispenser_motor from './seed/whirlpool_duet_sport/w8178558-dispenser-motor.json';
 import whirlpool_duet_sport_w8178558_door_lock from './seed/whirlpool_duet_sport/w8178558-door-lock.json';
 import whirlpool_duet_sport_w8178558_drain_pump from './seed/whirlpool_duet_sport/w8178558-drain-pump.json';
@@ -611,6 +626,7 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   lg_lrmvs_bundles_lglrmvs_test_mode_entry as ServiceModeBundle,
   lg_microwave_otr_bundles_lgotrmw_self_test_entry as ServiceModeBundle,
   midea_rss_bundles_midearss_mandatory_mode_entry as ServiceModeBundle,
+  midea_rss_bundles_mideartm18_test_mode_entry as ServiceModeBundle,
   midea_uz21_bundles_mideauz21_forced_defrost_entry as ServiceModeBundle,
   midea_uz21_bundles_mideauz21_test_mode_entry as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall as ServiceModeBundle,
@@ -650,6 +666,7 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_connected_smart_gen3_bundles_w10785366a_laundry_software_version_display as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_dishwasher_ada_bundles_w11187658_service_mode_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test as ServiceModeBundle,
   whirlpool_duet_sport_dryer_bundles_w8178559_diagnostic_entry as ServiceModeBundle,
@@ -691,6 +708,12 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   frigidaire_prmc_french_door_frigidaireprmc_manual_defrost as ServiceProcedureSeed,
   frigidaire_prmc_french_door_frigidaireprmc_ui_communication as ServiceProcedureSeed,
   frigidaire_prmc_french_door_frigidaireprmc_vcz_temp_sensor as ServiceProcedureSeed,
+  ge_gud27_stacked_gegud27_heater_thermostats_electric as ServiceProcedureSeed,
+  ge_gud27_stacked_gegud27_no_heat_electric as ServiceProcedureSeed,
+  ge_gud27_stacked_gegud27_no_heat_gas as ServiceProcedureSeed,
+  ge_gud27_stacked_gegud27_no_tumble as ServiceProcedureSeed,
+  ge_gud27_stacked_gegud27_timer_not_advancing as ServiceProcedureSeed,
+  ge_gud27_stacked_gegud27_vent_restriction as ServiceProcedureSeed,
   insignia_dishwasher_nsdwr3ss1_control_panel as ServiceProcedureSeed,
   insignia_dishwasher_nsdwr3ss1_display_comm as ServiceProcedureSeed,
   insignia_dishwasher_nsdwr3ss1_diverter as ServiceProcedureSeed,
@@ -1023,6 +1046,12 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_dishwasher_acu_w11633848_triac_fuse as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_wash_motor as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11794121_door_opening_system as ServiceProcedureSeed,
+  whirlpool_dishwasher_ada_w11187658_drain_pump as ServiceProcedureSeed,
+  whirlpool_dishwasher_ada_w11187658_fill_valve as ServiceProcedureSeed,
+  whirlpool_dishwasher_ada_w11187658_heater as ServiceProcedureSeed,
+  whirlpool_dishwasher_ada_w11187658_inlet_fill as ServiceProcedureSeed,
+  whirlpool_dishwasher_ada_w11187658_overflow as ServiceProcedureSeed,
+  whirlpool_dishwasher_ada_w11187658_tub_thermistor as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_dispenser_motor as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_door_lock as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_drain_pump as ServiceProcedureSeed,

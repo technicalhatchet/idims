@@ -35,7 +35,9 @@ Cross-reference: [SAMSUNG_REFRIGERATOR_SXS_EXTRACTION.md](./SAMSUNG_REFRIGERATOR
 | `mideaRssDefrostHeaterOhms` | RSS26 115 V 240 W (~55 Ω) | `defrost_circuit.defrost_heater_ohms` |
 | `mideaUz21DefrostHeaterOhms` | UZ21 115 V 320 W (~41 Ω) | `standalone_freezer` defrost heater |
 
-Platform: `midea_rss` (NS-RSS, NS-RTM) · `midea_uz21` (NS-UZ freezer)
+Platform: `midea_rss` (NS-RSS*, NS-RTM*) · `midea_uz21` (NS-UZ freezer)
+
+**RTM18 top-freezer:** see [INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md](./INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md) — delta manifest `INSIGNIA-RTM18-FRIDGE` reuses E1/E2/E5/E6/E7 seeds.
 
 ---
 
