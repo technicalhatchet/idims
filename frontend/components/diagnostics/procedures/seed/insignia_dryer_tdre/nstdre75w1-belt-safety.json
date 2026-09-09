@@ -1,0 +1,136 @@
+{
+  "id": "nstdre75w1-belt-safety",
+  "version": "1.0.0",
+  "title": "Belt safety switch",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "motor"
+  ],
+  "tags": [
+    "wont_start",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "belt-safety",
+    "oemTestTitle": "Belt safety switch",
+    "pages": [
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "belt_switch_access"
+    },
+    {
+      "id": "belt_switch_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Belt safety switch",
+      "body": "Disconnect power. Belt safety switch on motor/blower path.",
+      "sourceExcerpt": "Disconnect power. Belt safety switch on motor/blower path.",
+      "requiresInput": false,
+      "defaultNextStepId": "belt_lever_open"
+    },
+    {
+      "id": "belt_lever_open",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Lever open \u2014 < 1 \u03a9",
+      "body": "Belt lever in open (normal) position: resistance < 1 \u03a9.",
+      "sourceExcerpt": "Lever open: Resistance value < 1\u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "belt_open_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_lever_push"
+        },
+        {
+          "id": "belt_open_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch",
+          "terminal": true,
+          "oemOutcome": "Replace belt safety switch.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "belt_lever_push",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Lever pushed \u2014 open circuit",
+      "body": "Simulate belt-off (lever pushed): resistance \u221e \u03a9?",
+      "sourceExcerpt": "Lever push: Resistance value \u221e \u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "belt_push_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_verified"
+        },
+        {
+          "id": "belt_push_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch",
+          "terminal": true,
+          "oemOutcome": "Replace belt safety switch.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_belt_switch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace belt switch",
+      "oemOutcome": "Replace belt safety switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "belt_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Belt switch OK",
+      "oemOutcome": "Belt safety switch operates correctly.",
+      "requiresInput": false
+    }
+  ]
+}

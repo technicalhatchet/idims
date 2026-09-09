@@ -1,0 +1,132 @@
+{
+  "id": "nstdre75w1-humidity-sensor",
+  "version": "1.0.0",
+  "title": "Humidity sensor \u2014 E4 timed-dry fallback",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "E4",
+    "long_dry",
+    "moisture_sensor_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E4",
+    "oemTestTitle": "Humidity sensor error",
+    "pages": [
+      24,
+      25,
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "e4_symptom_check"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "e4_symptom_check"
+    },
+    {
+      "id": "e4_symptom_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "E4 behavior",
+      "body": "E4 logs at end of cycle: control runs timed drying without humidity sensor. Clothes may finish wet until code is reviewed.",
+      "sourceExcerpt": "Control runs whole cycle with timed drying; error logged at end.",
+      "requiresInput": false,
+      "defaultNextStepId": "bench_humidity_cn10"
+    },
+    {
+      "id": "bench_humidity_cn10",
+      "order": 4,
+      "type": "instruction",
+      "title": "Bench humidity sensor CN10",
+      "body": "Disconnect power. Humidity sensor at CN10 pins 1\u20134 (HUM). Check harness for damage at drum moisture bars.",
+      "sourceExcerpt": "Disconnect power. Humidity sensor at CN10 pins 1\u20134 (HUM). Check harness for damage at drum moisture bars.",
+      "requiresInput": false,
+      "defaultNextStepId": "humidity_continuity"
+    },
+    {
+      "id": "humidity_continuity",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Humidity sensor / harness continuity",
+      "body": "Does CN10 humidity circuit show continuity (not open) and bars are clean with no corrosion?",
+      "sourceExcerpt": "Does CN10 humidity circuit show continuity (not open) and bars are clean with no corrosion?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "humidity_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "humidity_verified"
+        },
+        {
+          "id": "humidity_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_humidity_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace humidity sensor assembly or CN10 harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_humidity_sensor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace humidity sensor",
+      "oemOutcome": "Replace humidity sensor at CN10; clean bars; retest auto-dry cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "humidity_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Humidity path verified",
+      "oemOutcome": "Humidity sensor and CN10 harness OK \u2014 E4 should not recur.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nstdre75w1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

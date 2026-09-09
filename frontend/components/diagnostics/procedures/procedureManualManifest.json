@@ -103,6 +103,36 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w11416805_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w11416805_service_modes.py"
       }
+    },
+    {
+      "manualId": "NS-TDRE75W1",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "seedDir": "insignia_dryer_tdre",
+      "label": "Insignia NS-TDRE75W1 / NS-TDRG75W1 vented dryer",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/insignia_dryer_tdre/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_nstdre75w1_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_nstdre75w1_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_nstdre75w1_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11416395",
+      "platformId": "whirlpool_mvw6200",
+      "templateId": "washer",
+      "seedDir": "whirlpool_mvw6200",
+      "label": "Maytag 4.8 cu ft PSC top-load washer (MVW6200, W11416395)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_mvw6200/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11416395_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11416395_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11416395_service_modes.py"
+      }
     }
   ]
 }

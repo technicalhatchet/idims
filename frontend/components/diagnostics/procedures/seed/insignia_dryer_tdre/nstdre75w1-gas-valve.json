@@ -1,0 +1,143 @@
+{
+  "id": "nstdre75w1-gas-valve",
+  "version": "1.0.0",
+  "title": "Gas valve coils",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "gas_valve"
+  ],
+  "tags": [
+    "no_heat",
+    "gas_valve_check"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "gas-valve",
+    "oemTestTitle": "Gas valve coil resistance",
+    "pages": [
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_gas_valve"
+    },
+    {
+      "id": "access_gas_valve",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access gas valve",
+      "body": "Disconnect power. Gas valve coil pairs: Valve1-2 = 1.2 k\u03a9, Valve1-3 = 0.5 k\u03a9, Valve4-5 = 1.2 k\u03a9.",
+      "sourceExcerpt": "Disconnect power. Gas valve coil pairs: Valve1-2 = 1.2 k\u03a9, Valve1-3 = 0.5 k\u03a9, Valve4-5 = 1.2 k\u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_coil_ohms"
+    },
+    {
+      "id": "valve_coil_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Gas valve coil resistance",
+      "body": "Measure each coil pair on gas valve. Infinity on any coil = replace valve.",
+      "sourceExcerpt": "Valve1-2: 1.2K\u03a9; Valve1-3: 0.5K\u03a9; Valve4-5: 1.2K\u03a9.",
+      "measurementKnowledgeId": "gasValveCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "1-2 / 1-3 / 4-5",
+        "label": "Gas valve coil resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_verified"
+        },
+        {
+          "id": "valve_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_valve",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace gas valve",
+      "oemOutcome": "Replace gas valve.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Gas valve verified",
+      "oemOutcome": "All coil pairs in spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

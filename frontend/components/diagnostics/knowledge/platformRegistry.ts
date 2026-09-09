@@ -24,6 +24,7 @@ export const PLATFORM_IDS = {
   INSIGNIA_DRYER_TDRE: 'insignia_dryer_tdre',
   WHIRLPOOL_CCU_DRYER: 'whirlpool_ccu_dryer',
   WHIRLPOOL_ACU_TL_DRYER: 'whirlpool_acu_tl_dryer',
+  WHIRLPOOL_MWV6200: 'whirlpool_mvw6200',
 } as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[keyof typeof PLATFORM_IDS];
@@ -37,6 +38,13 @@ export interface PlatformRule {
 }
 
 export const PLATFORM_RULES: PlatformRule[] = [
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_MWV6200,
+    label: 'Whirlpool/Maytag 4.8 cu ft PSC top-load (W11416395)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'washer',
+    modelPatterns: [/MVW62/i, /WTW62/i],
+  },
   {
     id: PLATFORM_IDS.WHIRLPOOL_TL_DD,
     label: 'Whirlpool/Maytag direct-drive top-load (W10864849)',
@@ -178,10 +186,10 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.INSIGNIA_DRYER_TDRE,
-    label: 'Insignia TDRE75 dryer (gas)',
+    label: 'Insignia TDRG75 dryer (gas)',
     manufacturers: ['Insignia'],
     templateId: 'gas_dryer',
-    modelPatterns: [/TDRE/i],
+    modelPatterns: [/TDRG/i, /TDRE/i],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT_DRYER,

@@ -1,0 +1,182 @@
+{
+  "id": "nstdre75w1-outlet-thermistor",
+  "version": "1.0.0",
+  "title": "Outlet NTC \u2014 service test 04 & bench",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "exhaust_thermistor"
+  ],
+  "tags": [
+    "E5",
+    "no_heat",
+    "thermistor_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "04",
+    "oemTestTitle": "NTC test (service mode screen 04)",
+    "pages": [
+      23,
+      24,
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_test_ntc"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "service_test_ntc"
+    },
+    {
+      "id": "service_test_ntc",
+      "order": 3,
+      "type": "instruction",
+      "title": "Service test \u2014 screen 04 NTC",
+      "body": "Enter service test mode (Time Adjust + and Wrinkle Care within 3s after Power; display shows St). Press Time Adjust + until screen 04. E5 displays on NTC fault; otherwise current outlet temp is shown.",
+      "sourceExcerpt": "Screen 04, NTC test. If NTC error, error code E5 will show up.",
+      "requiresInput": false,
+      "defaultNextStepId": "bench_outlet_ntc"
+    },
+    {
+      "id": "bench_outlet_ntc",
+      "order": 4,
+      "type": "instruction",
+      "title": "Bench outlet NTC at CN3",
+      "body": "Disconnect power. Outlet NTC at CN3 pins 1\u20132 (TEMP_OUT). Spec: ~50 k\u03a9 @ 77\u00b0F (40 k\u03a9 @ 86\u00b0F, 99 k\u03a9 @ 50\u00b0F).",
+      "sourceExcerpt": "Disconnect power. Outlet NTC at CN3 pins 1\u20132 (TEMP_OUT). Spec: ~50 k\u03a9 @ 77\u00b0F (40 k\u03a9 @ 86\u00b0F, 99 k\u03a9 @ 50\u00b0F).",
+      "requiresInput": false,
+      "defaultNextStepId": "outlet_ntc_ohms"
+    },
+    {
+      "id": "outlet_ntc_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Outlet NTC resistance",
+      "body": "Measure CN3 TEMP_OUT (pins 1\u20132) at room temperature.",
+      "sourceExcerpt": "Thermistor resistance 50K\u03a9 @ 77\u00b0F. If infinity, replace thermistor.",
+      "measurementKnowledgeId": "insigniaDryerOutletThermistorKohm",
+      "testPoint": {
+        "connector": "CN3",
+        "pins": "1-2",
+        "label": "Outlet NTC resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "outlet_ntc_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inspect_cn3_harness"
+        },
+        {
+          "id": "outlet_ntc_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "outlet_ntc_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "outlet_ntc_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_cn3_harness",
+      "order": 6,
+      "type": "instruction",
+      "title": "Inspect CN3 harness",
+      "body": "Verify CN3 harness between main PCB and outlet NTC. Repair opens/shorts; retest screen 04 in service mode.",
+      "sourceExcerpt": "Verify CN3 harness between main PCB and outlet NTC. Repair opens/shorts; retest screen 04 in service mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "outlet_ntc_verified"
+    },
+    {
+      "id": "replace_outlet_ntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace outlet NTC",
+      "oemOutcome": "Replace outlet temperature sensor and retest service mode 04.",
+      "requiresInput": false
+    },
+    {
+      "id": "outlet_ntc_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Outlet NTC verified",
+      "oemOutcome": "Bench reading in spec and/or service test 04 shows temp without E5.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nstdre75w1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

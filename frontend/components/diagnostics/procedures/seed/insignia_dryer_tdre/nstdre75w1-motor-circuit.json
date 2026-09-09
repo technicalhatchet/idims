@@ -1,0 +1,120 @@
+{
+  "id": "nstdre75w1-motor-circuit",
+  "version": "1.0.0",
+  "title": "Motor \u2014 belt switch & centrifugal",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "motor"
+  ],
+  "tags": [
+    "motor_check",
+    "wont_start",
+    "C9"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "motor",
+    "oemTestTitle": "Motor centrifugal switch",
+    "pages": [
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_centrifugal"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "motor_centrifugal"
+    },
+    {
+      "id": "motor_centrifugal",
+      "order": 3,
+      "type": "instruction",
+      "title": "Centrifugal switch (motor)",
+      "body": "Motor centrifugal contacts (1M\u20136M): start winding closes 1M\u20132M and 3M\u20135M; run winding closes 1M\u20132M, 3M\u20135M, and 5M\u20136M. Verify contacts with motor stopped vs drum spinning.",
+      "sourceExcerpt": "Centrifugal Switch (Motor) contact table.",
+      "requiresInput": false,
+      "defaultNextStepId": "belt_switch_precheck"
+    },
+    {
+      "id": "belt_switch_precheck",
+      "order": 4,
+      "type": "instruction",
+      "title": "Belt safety prerequisite",
+      "body": "Confirm belt safety switch passes (nstdre75w1-belt-safety) before condemning motor.",
+      "sourceExcerpt": "Confirm belt safety switch passes (nstdre75w1-belt-safety) before condemning motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_run_check"
+    },
+    {
+      "id": "motor_run_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Motor runs with belt on",
+      "body": "With belt installed and door closed, does motor start and drum turn?",
+      "sourceExcerpt": "With belt installed and door closed, does motor start and drum turn?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_runs",
+          "label": "Yes / runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified"
+        },
+        {
+          "id": "motor_no_run",
+          "label": "No / won't run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor"
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace motor assembly \u2014 centrifugal or winding fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Motor verified",
+      "oemOutcome": "Motor runs; belt safety and centrifugal logic OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nstdre75w1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

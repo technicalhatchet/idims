@@ -1,0 +1,46 @@
+{
+  "id": "nstdre75w1-service-test-entry",
+  "version": "1.0.0",
+  "platformId": "insignia_dryer_tdre",
+  "manualId": "NS-TDRE75W1",
+  "title": "NS-TDRE75W1 \u2014 Service test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter control-panel service test mode (St); step through screens 01\u201304 including NTC test.",
+  "tags": [
+    "service_diagnostic",
+    "error_code"
+  ],
+  "entryStepId": "prep_power",
+  "source": {
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "pages": [
+      23
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_power",
+      "order": 1,
+      "type": "instruction",
+      "title": "Door closed, power on",
+      "body": "Make sure the door is closed. Press Power so the unit is ready.",
+      "sourceExcerpt": "Make sure the door is closed, press [Power] button.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_mode_entry"
+    },
+    {
+      "id": "service_mode_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Service test entry",
+      "body": "Within 3 seconds after pressing Power, press Time Adjust + and Wrinkle Care at the same time. Display shows St. Press Time Adjust + to step: 01 software version, 02 knob lights, 03 key check, 04 NTC test (E5 on fault), 05 normal operation, Ed end.",
+      "sourceExcerpt": "Press [Time Adjust +] and [Wrinkle Care] at the same time within 3s after press [Power].",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

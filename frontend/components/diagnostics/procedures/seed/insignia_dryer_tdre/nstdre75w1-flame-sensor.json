@@ -1,0 +1,103 @@
+{
+  "id": "nstdre75w1-flame-sensor",
+  "version": "1.0.0",
+  "title": "Flame sensor \u2014 continuity",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "flame_sensor"
+  ],
+  "tags": [
+    "no_heat",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "flame-sensor",
+    "oemTestTitle": "Flame sensor resistance",
+    "pages": [
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_flame_sensor"
+    },
+    {
+      "id": "access_flame_sensor",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access flame sensor",
+      "body": "Disconnect power. Flame sensor on burner assembly.",
+      "sourceExcerpt": "Disconnect power. Flame sensor on burner assembly.",
+      "requiresInput": false,
+      "defaultNextStepId": "flame_sensor_continuity"
+    },
+    {
+      "id": "flame_sensor_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Flame sensor < 1 \u03a9",
+      "body": "Flame sensor resistance < 1 \u03a9 when clean. Infinity = replace flame sensor.",
+      "sourceExcerpt": "Flame sensor resistance < 1\u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "flame_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flame_verified"
+        },
+        {
+          "id": "flame_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flame_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace flame sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "flame_sensor",
+              "evidenceId": "confirm_flame_sensor_ol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_flame_sensor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace flame sensor",
+      "oemOutcome": "Replace flame sensor; clean burner area.",
+      "requiresInput": false
+    },
+    {
+      "id": "flame_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Flame sensor OK",
+      "oemOutcome": "Flame sensor continuity passes.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

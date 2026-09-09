@@ -2,6 +2,7 @@
 // Re-run after adding or removing procedure seed JSON files.
 
 
+import insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry from './seed/insignia_dryer_tdre/bundles/nstdre75w1-service-test-entry.json';
 import whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11416805-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
@@ -14,9 +15,25 @@ import whirlpool_fl_dd_bundles_w11169652_load_test_detergent_pump from './seed/w
 import whirlpool_fl_dd_bundles_w11169652_quick_service_cycle from './seed/whirlpool_fl_dd/bundles/w11169652-quick-service-cycle.json';
 import whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry from './seed/whirlpool_fl_dd/bundles/w11169652-service-diagnostic-entry.json';
 import whirlpool_fl_dd_bundles_w11169652_service_mode from './seed/whirlpool_fl_dd/bundles/w11169652-service-mode.json';
+import whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry from './seed/whirlpool_mvw6200/bundles/w11416395-service-diagnostic-entry.json';
+import whirlpool_mvw6200_bundles_w11416395_service_test_mode from './seed/whirlpool_mvw6200/bundles/w11416395-service-test-mode.json';
 import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w10864849-service-diagnostic-entry.json';
 import whirlpool_tl_dd_bundles_w10864849_service_test_mode from './seed/whirlpool_tl_dd/bundles/w10864849-service-test-mode.json';
 
+import insignia_dryer_tdre_nstdre75w1_belt_safety from './seed/insignia_dryer_tdre/nstdre75w1-belt-safety.json';
+import insignia_dryer_tdre_nstdre75w1_communication from './seed/insignia_dryer_tdre/nstdre75w1-communication.json';
+import insignia_dryer_tdre_nstdre75w1_door_switch from './seed/insignia_dryer_tdre/nstdre75w1-door-switch.json';
+import insignia_dryer_tdre_nstdre75w1_flame_sensor from './seed/insignia_dryer_tdre/nstdre75w1-flame-sensor.json';
+import insignia_dryer_tdre_nstdre75w1_gas_ignitor from './seed/insignia_dryer_tdre/nstdre75w1-gas-ignitor.json';
+import insignia_dryer_tdre_nstdre75w1_gas_valve from './seed/insignia_dryer_tdre/nstdre75w1-gas-valve.json';
+import insignia_dryer_tdre_nstdre75w1_heater_electric from './seed/insignia_dryer_tdre/nstdre75w1-heater-electric.json';
+import insignia_dryer_tdre_nstdre75w1_heater_gas from './seed/insignia_dryer_tdre/nstdre75w1-heater-gas.json';
+import insignia_dryer_tdre_nstdre75w1_hmi_test from './seed/insignia_dryer_tdre/nstdre75w1-hmi-test.json';
+import insignia_dryer_tdre_nstdre75w1_humidity_sensor from './seed/insignia_dryer_tdre/nstdre75w1-humidity-sensor.json';
+import insignia_dryer_tdre_nstdre75w1_motor_circuit from './seed/insignia_dryer_tdre/nstdre75w1-motor-circuit.json';
+import insignia_dryer_tdre_nstdre75w1_outlet_thermistor from './seed/insignia_dryer_tdre/nstdre75w1-outlet-thermistor.json';
+import insignia_dryer_tdre_nstdre75w1_thermal_cutoff from './seed/insignia_dryer_tdre/nstdre75w1-thermal-cutoff.json';
+import insignia_dryer_tdre_nstdre75w1_thermal_hi_limit from './seed/insignia_dryer_tdre/nstdre75w1-thermal-hi-limit.json';
 import whirlpool_acu_tl_dryer_w11416805_acu_power from './seed/whirlpool_acu_tl_dryer/w11416805-acu-power.json';
 import whirlpool_acu_tl_dryer_w11416805_door_switch from './seed/whirlpool_acu_tl_dryer/w11416805-door-switch.json';
 import whirlpool_acu_tl_dryer_w11416805_drum_light from './seed/whirlpool_acu_tl_dryer/w11416805-drum-light.json';
@@ -98,6 +115,16 @@ import whirlpool_fl_dd_w11169652_test_14_vent_baffle from './seed/whirlpool_fl_d
 import whirlpool_fl_dd_w11169652_test_15_dry_heater from './seed/whirlpool_fl_dd/w11169652-test-15-dry-heater.json';
 import whirlpool_fl_dd_w11169652_test_16_dry_temp_sensor from './seed/whirlpool_fl_dd/w11169652-test-16-dry-temp-sensor.json';
 import whirlpool_fl_dd_w11169652_test_17_dry_blower from './seed/whirlpool_fl_dd/w11169652-test-17-dry-blower.json';
+import whirlpool_mvw6200_w11416395_test_01_acu_power from './seed/whirlpool_mvw6200/w11416395-test-01-acu-power.json';
+import whirlpool_mvw6200_w11416395_test_02_valves from './seed/whirlpool_mvw6200/w11416395-test-02-valves.json';
+import whirlpool_mvw6200_w11416395_test_03_drive_system from './seed/whirlpool_mvw6200/w11416395-test-03-drive-system.json';
+import whirlpool_mvw6200_w11416395_test_03a_shifter from './seed/whirlpool_mvw6200/w11416395-test-03a-shifter.json';
+import whirlpool_mvw6200_w11416395_test_03b_motor from './seed/whirlpool_mvw6200/w11416395-test-03b-motor.json';
+import whirlpool_mvw6200_w11416395_test_04_hmi from './seed/whirlpool_mvw6200/w11416395-test-04-hmi.json';
+import whirlpool_mvw6200_w11416395_test_05_temp_thermistor from './seed/whirlpool_mvw6200/w11416395-test-05-temp-thermistor.json';
+import whirlpool_mvw6200_w11416395_test_06_water_level from './seed/whirlpool_mvw6200/w11416395-test-06-water-level.json';
+import whirlpool_mvw6200_w11416395_test_07_drain_pump from './seed/whirlpool_mvw6200/w11416395-test-07-drain-pump.json';
+import whirlpool_mvw6200_w11416395_test_08_lid_lock from './seed/whirlpool_mvw6200/w11416395-test-08-lid-lock.json';
 import whirlpool_tl_dd_w10864849_test_01_acu_power from './seed/whirlpool_tl_dd/w10864849-test-01-acu-power.json';
 import whirlpool_tl_dd_w10864849_test_02_valves from './seed/whirlpool_tl_dd/w10864849-test-02-valves.json';
 import whirlpool_tl_dd_w10864849_test_03_drive_system from './seed/whirlpool_tl_dd/w10864849-test-03-drive-system.json';
@@ -116,6 +143,7 @@ import whirlpool_tl_dd_w10864849_test_12_bulk_dispense from './seed/whirlpool_tl
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
+  insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry as ServiceModeBundle,
   whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
@@ -128,11 +156,27 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_fl_dd_bundles_w11169652_quick_service_cycle as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_service_mode as ServiceModeBundle,
+  whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_mvw6200_bundles_w11416395_service_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_test_mode as ServiceModeBundle,
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
+  insignia_dryer_tdre_nstdre75w1_belt_safety as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_communication as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_door_switch as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_flame_sensor as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_gas_ignitor as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_gas_valve as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_heater_electric as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_heater_gas as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_hmi_test as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_humidity_sensor as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_motor_circuit as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_outlet_thermistor as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_thermal_cutoff as ServiceProcedureSeed,
+  insignia_dryer_tdre_nstdre75w1_thermal_hi_limit as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_acu_power as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_door_switch as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_drum_light as ServiceProcedureSeed,
@@ -214,6 +258,16 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_fl_dd_w11169652_test_15_dry_heater as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_16_dry_temp_sensor as ServiceProcedureSeed,
   whirlpool_fl_dd_w11169652_test_17_dry_blower as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_01_acu_power as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_02_valves as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_03_drive_system as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_03a_shifter as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_03b_motor as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_04_hmi as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_05_temp_thermistor as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_06_water_level as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_07_drain_pump as ServiceProcedureSeed,
+  whirlpool_mvw6200_w11416395_test_08_lid_lock as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_02_valves as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_03_drive_system as ServiceProcedureSeed,

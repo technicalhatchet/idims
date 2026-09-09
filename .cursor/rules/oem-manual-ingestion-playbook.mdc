@@ -164,12 +164,87 @@ Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCED
 
 ---
 
+## Manual W11416395 — Maytag MVW6200 PSC top-load washer
+
+| Field | Value |
+|----|----|
+| platformId | `whirlpool_mvw6200` |
+| templateId | `washer` |
+| Models | `MVW62*`, `WTW62*` (6XXX = 4.8 cu ft) |
+| PDF | `service-manual-w11416395-revb mvw6200.pdf` |
+| Extraction | `WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md` |
+| Knowledge | batch18 |
+| Status | **Complete** — 10 TEST procedures + 2 service-mode bundles |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W11416395`
+
+### Procedure checklist
+
+| ID | OEM | Tags / codes |
+|----|-----|-----|
+| `w11416395-test-01-acu-power` | #1 | F1E1, F6E1, F7E1 |
+| `w11416395-test-02-valves` | #2 | F8E1, LF, F0E4 |
+| `w11416395-test-03-drive-system` | #3 | F7E3, F7E4, F7E6, F7E7 |
+| `w11416395-test-03a-shifter` | #3a | F7E3, F7E4 |
+| `w11416395-test-03b-motor` | #3b | F7E6, F7E7 |
+| `w11416395-test-04-hmi` | #4 | F2E1, F2E2, F6E1 |
+| `w11416395-test-05-temp-thermistor` | #5 | F3E3 |
+| `w11416395-test-06-water-level` | #6 | F3E2, F8E1, F8E3, F8E6 |
+| `w11416395-test-07-drain-pump` | #7 | F9E1, dr |
+| `w11416395-test-08-lid-lock` | #8 | F5E1, F5E3, F5E4 |
+
+**Bundles:** `w11416395-service-diagnostic-entry` (Key 1/2/3 × 3), `w11416395-service-test-mode` (Key 2 + START)
+
+**Do not** reuse `whirlpool_tl_dd` BPM specs (J1 motor 8–10 Ω, J2 valves 790–840 Ω) — MVW6200 = PSC motor J6 5–9.5 Ω, J8 valves 890–1090 Ω.
+
+**WO smoke:** MVW6200KW → `whirlpool_mvw6200`; F5E3 → `w11416395-test-08-lid-lock`.
+
+---
+
+## Manual NS-TDRE75W1 — Insignia TDRE/TDRG vented dryer
+
+| Field | Value |
+|----|----|
+| platformId | `insignia_dryer_tdre` |
+| templateId | `electric_dryer` + `gas_dryer` (TDRG model pattern) |
+| Models | `NS-TDRE75W1` (electric), `NS-TDRG75W1` (gas) |
+| PDF | `NS-TDRE75W1 Service Manual.pdf` |
+| Extraction | `INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md` |
+| Knowledge | batch9 |
+| Status | **Complete** — 14 procedures + 1 service-test bundle |
+
+**Pipeline:** `python backend/scripts/generate_nstdre75w1_procedure_seeds.py`
+
+### Procedure checklist
+
+| ID | Source | templateIds | Tags / codes |
+|----|-----|----|-----|
+| `nstdre75w1-outlet-thermistor` | Service test 04 + CN3 | both | E5, no_heat |
+| `nstdre75w1-humidity-sensor` | E4 + CN10 | both | E4, long_dry |
+| `nstdre75w1-communication` | C9 + CN9 | both | C9, hmi_check |
+| `nstdre75w1-heater-electric` | 20 Ω element | electric | no_heat |
+| `nstdre75w1-heater-gas` | Gas thermal path | gas | no_heat |
+| `nstdre75w1-thermal-cutoff` | Component §29–30 | both | no_heat |
+| `nstdre75w1-thermal-hi-limit` | Regulating + hi-limit | both | no_heat |
+| `nstdre75w1-gas-ignitor` | 40–400 Ω | gas | igniter_check |
+| `nstdre75w1-gas-valve` | Coil pairs | gas | gas_valve_check |
+| `nstdre75w1-flame-sensor` | < 1 Ω | gas | ignition_issue |
+| `nstdre75w1-door-switch` | COM–NO | both | door_switch_check |
+| `nstdre75w1-belt-safety` | Belt switch | both | motor_check |
+| `nstdre75w1-hmi-test` | Service test 02–03 | both | hmi_check |
+| `nstdre75w1-motor-circuit` | Centrifugal + run | both | motor_check |
+
+**Bundle:** `nstdre75w1-service-test-entry` (Time Adjust+ + Wrinkle Care within 3s after Power)
+
+**Deferred v1:** diagram crops, dedicated motor winding Ω knowledge, inlet NTC (manual lists TEMP_IN on CN3 but no separate fault code)
+
+---
+
 ## Next manual candidates (not started)
 
 Priority by field volume + extraction already done:
 
-1. **Insignia TDRE dryer** (`insignia_dryer_tdre`) — `INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md`
-2. **Whirlpool dishwasher ACU** — high call volume; extraction docs exist
+1. **Whirlpool dishwasher ACU** — high call volume; extraction docs exist
 
 Use family templates: copy W8178559/W10680150 generator structure for next MCE/CCU dryer manual; extend manifest, don't one-off forever.
 
