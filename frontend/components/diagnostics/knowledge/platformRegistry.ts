@@ -28,6 +28,7 @@ export const PLATFORM_IDS = {
   INSIGNIA_WASHER_CAP: 'insignia_washer_cap',
   INSIGNIA_WASHER_FREQ: 'insignia_washer_freq',
   WHIRLPOOL_DISHWASHER_ACU: 'whirlpool_dishwasher_acu',
+  WHIRLPOOL_DISHWASHER_ADA: 'whirlpool_dishwasher_ada',
   INSIGNIA_DISHWASHER: 'insignia_dishwasher',
   LG_DISHWASHER_LDT: 'lg_dishwasher_ldt',
   LG_DISHWASHER_LDT7808: 'lg_dishwasher_ldt7808',
@@ -41,6 +42,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_FREESTANDING_RANGE: 'whirlpool_freestanding_range',
   WHIRLPOOL_CONNECTED_SMART_GEN3: 'whirlpool_connected_smart_gen3',
   FRIGIDAIRE_PRMC_FRENCH_DOOR: 'frigidaire_prmc_french_door',
+  GE_GUD27_STACKED: 'ge_gud27_stacked',
 } as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[keyof typeof PLATFORM_IDS];
@@ -336,6 +338,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     modelPatterns: [/JDP/i],
   },
   {
+    id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ADA,
+    label: 'Whirlpool ADA built-in dishwasher (W11187658)',
+    manufacturers: ['Whirlpool'],
+    templateId: 'dishwasher',
+    modelPatterns: [/WDTA1/i, /WDT518/i, /WDT550/i, /WDF518/i, /WDF550/i, /WDF/i],
+  },
+  {
     id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,
     label: 'Whirlpool/Maytag/KitchenAid/JennAir ACU dishwasher',
     manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid', 'JennAir'],
@@ -486,6 +495,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
       /JGS/i, /JDG/i,
       /KSGB/i, /KSGG/i, /KSEB/i, /KSEG/i, /YKSE/i,
     ],
+  },
+  {
+    id: PLATFORM_IDS.GE_GUD27_STACKED,
+    label: 'GE 24/27 in unitized stacked laundry (GUD27)',
+    manufacturers: ['GE'],
+    templateId: 'stacked_laundry',
+    modelPatterns: [/GUD27/i],
   },
 ];
 

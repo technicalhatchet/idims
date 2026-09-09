@@ -1,0 +1,264 @@
+[
+  {
+    "id": "geGud27DryerHeaterElementOhms",
+    "name": "GE GUD27 Electric Dryer Heater Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 23.7, "max": 26 },
+      "warning": { "min": 20, "max": 30 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 23.7, "max": 26 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §34 — outer element and combined inner elements each 23.7–26 Ω at 240 VAC (~9 A each).",
+    "failureModes": [
+      "Open element — no heat; verify safety, inlet, outlet, and high-limit thermostats in series",
+      "Low resistance — shorted element"
+    ],
+    "testingTips": [
+      "Disconnect leads at heater assembly; drum removal required per wiring diagram p.77",
+      "Inner elements wired in parallel — measure combined inner path per diagram",
+      "Biased thermostats must be cool for continuity checks at heater"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["heating_element_check", "no_heat_issue"]
+  },
+  {
+    "id": "geGud27DryerMotorStartWindingOhms",
+    "name": "GE GUD27 Dryer Motor Start Winding",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2.98, "max": 3.3 },
+      "warning": { "min": 2.5, "max": 3.8 },
+      "critical": { "below": 0.5, "above": 8 }
+    },
+    "typical": { "min": 2.98, "max": 3.3 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §30 — start winding M6 to M4 at motor terminals.",
+    "failureModes": [
+      "Open start winding — motor hums, no tumble",
+      "Overload protector open — reads OL at run winding path"
+    ],
+    "testingTips": [
+      "Read start winding at motor M6–M4 with harness disconnected",
+      "Run winding: terminal 2 on start switch to NO on door switch"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["motor_check", "no_tumble_issue"]
+  },
+  {
+    "id": "geGud27DryerMotorRunWindingOhms",
+    "name": "GE GUD27 Dryer Motor Run Winding",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3.19, "max": 3.53 },
+      "warning": { "min": 2.8, "max": 4.0 },
+      "critical": { "below": 0.5, "above": 8 }
+    },
+    "typical": { "min": 3.19, "max": 3.53 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §30 — run winding from terminal 2 on start switch to NO terminal on door switch.",
+    "failureModes": [
+      "Open run winding or overload — no tumble",
+      "Centrifugal switch M1–M2 not closing — no heat on gas/electric heat path"
+    ],
+    "testingTips": [
+      "Door closed for run-winding path through door switch NO",
+      "Motor overload is internal — OL indicates motor replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["motor_check", "no_tumble_issue"]
+  },
+  {
+    "id": "geGud27DryerTimerMotorOhms",
+    "name": "GE GUD27 Dryer Timer Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2000, "max": 2800 },
+      "warning": { "min": 1500, "max": 3500 },
+      "critical": { "below": 500, "above": 5000 }
+    },
+    "typical": { "min": 2200, "max": 2600 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §24 — timer motor approximately 2.4 kΩ.",
+    "failureModes": [
+      "Open timer motor — timer will not advance on timed cycles",
+      "Timer motor OK but no advance on auto — check outlet thermostat and 4500 Ω advance resistor (electric)"
+    ],
+    "testingTips": [
+      "Disconnect timer wiring before bench measurement",
+      "Timer is intentionally ungrounded — disconnect power before access"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["timer_issue", "timer_not_advancing"]
+  },
+  {
+    "id": "geGud27DryerTimerAdvanceResistorOhms",
+    "name": "GE GUD27 Timer Voltage-Dropping Resistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 4000, "max": 5000 },
+      "warning": { "min": 3500, "max": 5500 },
+      "critical": { "below": 1000, "above": 8000 }
+    },
+    "typical": { "min": 4300, "max": 4700 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §25 — 4500 Ω resistor in series with timer motor on electric models; check timer contacts A to T in Off/Cool Down.",
+    "failureModes": [
+      "Open resistor — auto cycle timer stalls in heat portion",
+      "Resistor OK but no advance — outlet thermostat not opening or vent restriction"
+    ],
+    "testingTips": [
+      "Electric models only — resistor on control bracket with timer",
+      "Measure A to T with timer in Off or Cool Down position per service guide"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["timer_issue", "timer_not_advancing"]
+  },
+  {
+    "id": "geGud27DryerIgnitorOhms",
+    "name": "GE GUD27 Gas Dryer Ignitor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40, "max": 400 },
+      "warning": { "min": 30, "max": 500 },
+      "critical": { "below": 10, "above": 600 }
+    },
+    "typical": { "min": 50, "max": 300 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §39 — glo-bar ignitor approximately 40–400 Ω; max 4 A when energized.",
+    "failureModes": [
+      "Open ignitor — no ignition, no heat",
+      "Ignitor glows but no flame — flame detector or gas valve coils"
+    ],
+    "testingTips": [
+      "Handle ignitor carefully — fragile ceramic",
+      "Remove burner assembly to access ignitor on gas valve bracket"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["igniter_check", "ignition_issue", "no_heat_issue"]
+  },
+  {
+    "id": "geGud27GasValveSafetyCoilOhms",
+    "name": "GE GUD27 Gas Valve Safety + Booster Coils",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1800, "max": 2100 },
+      "warning": { "min": 1600, "max": 2300 },
+      "critical": { "below": 500, "above": 3000 }
+    },
+    "typical": { "min": 1900, "max": 2050 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §40 — safety coil ~1400 Ω + booster coil ~580 Ω in series path to open safety valve.",
+    "failureModes": [
+      "Open safety/booster path — ignitor glows, no gas release",
+      "Safety holds open alone once energized — test both coils"
+    ],
+    "testingTips": [
+      "Disconnect coil harness at gas valve",
+      "Both safety and booster coils required to open safety valve initially"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["gas_valve_check", "ignition_issue"]
+  },
+  {
+    "id": "geGud27GasValveMainCoilOhms",
+    "name": "GE GUD27 Gas Valve Main Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1200, "max": 1400 },
+      "warning": { "min": 1000, "max": 1600 },
+      "critical": { "below": 200, "above": 2000 }
+    },
+    "typical": { "min": 1250, "max": 1350 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §40 — main valve coil approximately 1300 Ω; bypassed by N.C. flame detector until heated.",
+    "failureModes": [
+      "Open main coil — flame lights briefly then shuts off",
+      "Flame detector stuck open — main coil never energizes properly"
+    ],
+    "testingTips": [
+      "Flame detector must be cool/closed for bench coil readings",
+      "Short burn ~1–2 min then valve closes — suspect flame detector or weak coils"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["gas_valve_check", "ignition_issue"]
+  },
+  {
+    "id": "geGud27LongVentBlowerMotorOhms",
+    "name": "GE GUD27 Long-Vent Blower Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 14.25, "max": 15.75 },
+      "warning": { "min": 12, "max": 18 },
+      "critical": { "below": 5, "above": 25 }
+    },
+    "typical": { "min": 14.5, "max": 15.5 },
+    "openCircuitCritical": true,
+    "purpose": "GUD27 §33 — long-vent blower motor in parallel with drive motor, approximately 14.25–15.75 Ω.",
+    "failureModes": [
+      "Open blower motor — poor airflow on long-vent models, long dry times",
+      "Motor OK but poor venting — inspect duct restriction"
+    ],
+    "testingTips": [
+      "Long-vent models only — blower motor parallel to drive motor",
+      "Rotate drive motor to access blower motor removal"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["stacked_laundry"],
+      "templates": ["stacked_laundry"],
+      "manufacturers": ["GE"],
+      "platformId": "ge_gud27_stacked"
+    },
+    "dmaTags": ["long_dry", "vent_restriction"]
+  }
+]

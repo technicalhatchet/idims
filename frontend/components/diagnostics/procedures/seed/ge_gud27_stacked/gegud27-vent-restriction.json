@@ -1,0 +1,246 @@
+{
+  "id": "gegud27-vent-restriction",
+  "version": "1.0.0",
+  "title": "Vent Restriction & Long Dry Time",
+  "platformId": "ge_gud27_stacked",
+  "componentIds": [
+    "exhaust",
+    "motor"
+  ],
+  "tags": [
+    "dryer_not_drying",
+    "long_dry",
+    "vent_restriction",
+    "timer_not_advancing"
+  ],
+  "source": {
+    "manualId": "GE-GUD27-STACKED",
+    "manualTitle": "GE 24/27 in Unitized Laundry Centers (GUD27ESS/GUD27GSS)",
+    "extractedTextFile": "backend/docs/manuals/gud27essmww-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "TS-14",
+    "oemTestTitle": "Venting, Drum Speed & Exhaust",
+    "pages": [
+      14,
+      16,
+      32,
+      60
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the laundry center or disconnect power before servicing the dryer section. Timer and start switch are intentionally ungrounded \u2014 shock risk if power is on during access.",
+      "sourceExcerpt": "Disconnect power before servicing. Timer may present electric shock during servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "lint_trap_vent"
+    },
+    {
+      "id": "lint_trap_vent",
+      "order": 2,
+      "type": "instruction",
+      "title": "Lint trap & vent run",
+      "body": "Clean lint screen. Inspect trap duct, external vent hood, and entire run for restriction or crushing.",
+      "sourceExcerpt": "Clean lint screen. Inspect trap duct, external vent hood, and entire run for restriction or crushing.",
+      "requiresInput": false,
+      "defaultNextStepId": "drum_speed"
+    },
+    {
+      "id": "drum_speed",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drum speed during operation",
+      "body": "Drum should tumble at normal speed. Static cling on small loads can stop tumble \u2014 add buffer items.",
+      "sourceExcerpt": "Drum should tumble at normal speed. Static cling on small loads can stop tumble \u2014 add buffer items.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "speed_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "exhaust_temp"
+        },
+        {
+          "id": "speed_low",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "belt_motor_check",
+          "terminal": true,
+          "oemOutcome": "Inspect belt, idler, and motor \u2014 run gegud27-no-tumble.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exhaust_temp",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Exhaust air temperature",
+      "body": "Restricted vent causes high exhaust temps, safety thermostat trips, and long dry times.",
+      "sourceExcerpt": "Restricted vent causes high exhaust temps, safety thermostat trips, and long dry times.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "exhaust_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "long_vent_motor"
+        },
+        {
+          "id": "exhaust_hot",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_vent",
+          "terminal": true,
+          "oemOutcome": "Clear vent restriction; verify outlet and safety thermostats reset.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "long_vent_motor",
+      "order": 5,
+      "type": "measurement",
+      "title": "Long-vent blower motor (if equipped)",
+      "body": "Long-vent models: blower motor in parallel with drive motor, 14.25\u201315.75 \u03a9.",
+      "sourceExcerpt": "Long-vent models: blower motor in parallel with drive motor, 14.25\u201315.75 \u03a9.",
+      "measurementKnowledgeId": "geGud27LongVentBlowerMotorOhms",
+      "testPoint": {
+        "connector": "Long-vent blower",
+        "pins": "motor",
+        "label": "Long-vent blower motor (if equipped)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lv_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "usage_factors"
+        },
+        {
+          "id": "lv_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lv_motor",
+          "terminal": true,
+          "oemOutcome": "Replace long-vent blower motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "lv_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lv_motor",
+          "terminal": true,
+          "oemOutcome": "Replace long-vent blower motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "lv_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lv_motor",
+          "terminal": true,
+          "oemOutcome": "Replace long-vent blower motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage_factors",
+      "order": 6,
+      "type": "instruction",
+      "title": "Customer usage factors",
+      "body": "Load size, bulky items, ambient temp, indoor venting, washer spin speed, and rinse temp affect dry time.",
+      "sourceExcerpt": "Load size, bulky items, ambient temp, indoor venting, washer spin speed, and rinse temp affect dry time.",
+      "requiresInput": false,
+      "defaultNextStepId": "vent_verified"
+    },
+    {
+      "id": "belt_motor_check",
+      "order": 7,
+      "type": "instruction",
+      "title": "Belt & motor",
+      "body": "Run gegud27-no-tumble if drum speed low.",
+      "sourceExcerpt": "Run gegud27-no-tumble if drum speed low.",
+      "requiresInput": false,
+      "defaultNextStepId": "vent_verified"
+    },
+    {
+      "id": "clear_vent",
+      "order": 8,
+      "type": "outcome",
+      "title": "Clear vent",
+      "oemOutcome": "Clear exhaust restriction and verify airflow.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lv_motor",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace blower motor",
+      "oemOutcome": "Replace long-vent blower motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "vent_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Vent path OK",
+      "oemOutcome": "Vent, drum speed, and exhaust within acceptable limits.",
+      "requiresInput": false
+    }
+  ]
+}

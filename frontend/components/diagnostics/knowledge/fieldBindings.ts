@@ -41,6 +41,10 @@ const STACKED_LAUNDRY_FIELD_KNOWLEDGE: Record<string, string> = {
   'washer_measurements.drain_pump_ohms': 'washerDrainPumpOhms',
   'dryer_measurements.supply_voltage': 'supplyVoltage240',
   'dryer_measurements.motor_ohms': 'dryerDrumMotorWindingOhms',
+  'dryer_measurements.ge_gud27_motor_start_ohms': 'geGud27DryerMotorStartWindingOhms',
+  'dryer_measurements.ge_gud27_motor_run_ohms': 'geGud27DryerMotorRunWindingOhms',
+  'dryer_measurements.ge_gud27_heater_ohms': 'geGud27DryerHeaterElementOhms',
+  'dryer_measurements.ge_gud27_timer_motor_ohms': 'geGud27DryerTimerMotorOhms',
   'dryer_measurements.thermal_fuse': 'dryerThermalFuseOhms',
   'dryer_measurements.exhaust_temp': 'dryerExhaustAirTemp',
 };

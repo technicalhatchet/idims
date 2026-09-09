@@ -1,0 +1,238 @@
+{
+  "id": "gegud27-no-heat-electric",
+  "version": "1.0.0",
+  "title": "No Heat \u2014 Electric Dryer Path",
+  "platformId": "ge_gud27_stacked",
+  "componentIds": [
+    "heating_element",
+    "supply"
+  ],
+  "tags": [
+    "no_heat",
+    "dryer_no_heat",
+    "heating_element_check",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "GE-GUD27-STACKED",
+    "manualTitle": "GE 24/27 in Unitized Laundry Centers (GUD27ESS/GUD27GSS)",
+    "extractedTextFile": "backend/docs/manuals/gud27essmww-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "TS-60",
+    "oemTestTitle": "Electric Dryer Troubleshooting \u2014 No Heat",
+    "pages": [
+      60,
+      77
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the laundry center or disconnect power before servicing the dryer section. Timer and start switch are intentionally ungrounded \u2014 shock risk if power is on during access.",
+      "sourceExcerpt": "Disconnect power before servicing. Timer may present electric shock during servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "confirm_electric"
+    },
+    {
+      "id": "confirm_electric",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Confirm electric dryer section",
+      "body": "GUD27ESSMWW / XUD27ESSMWW = electric heat. GUD27GSS = gas \u2014 use gas no-heat procedure instead.",
+      "sourceExcerpt": "GUD27ESSMWW / XUD27ESSMWW = electric heat. GUD27GSS = gas \u2014 use gas no-heat procedure instead.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "is_electric",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_240_both"
+        },
+        {
+          "id": "wrong_fuel",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "use_gas_procedure",
+          "terminal": true,
+          "oemOutcome": "Use gegud27-no-heat-gas for GUD27GSS gas dryer section.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supply_240_both",
+      "order": 3,
+      "type": "visual_check",
+      "title": "240 VAC at both supply legs",
+      "body": "At terminal block with power on: measure 240 VAC across both hot legs. Each leg to neutral ~120 VAC.",
+      "sourceExcerpt": "At terminal block with power on: measure 240 VAC across both hot legs. Each leg to neutral ~120 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heat_at_elements"
+        },
+        {
+          "id": "supply_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_supply",
+          "terminal": true,
+          "oemOutcome": "Correct 240 V supply or cord/terminal block fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heat_at_elements",
+      "order": 4,
+      "type": "visual_check",
+      "title": "240 VAC at both heater elements",
+      "body": "During heat call with drum running: verify 240 VAC present at heater element terminals per wiring diagram p.77.",
+      "sourceExcerpt": "During heat call with drum running: verify 240 VAC present at heater element terminals per wiring diagram p.77.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "voltage_at_heater",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermostat_operation"
+        },
+        {
+          "id": "no_voltage_heater",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "timer_motor_switch_path",
+          "terminal": true,
+          "oemOutcome": "Check motor switch M1\u2013M2, timer heat contacts, and heat selector per \u00a760 chart.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thermostat_operation",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Thermostat temperature operation",
+      "body": "Verify cycling thermostats open/close at rated temps (inlet 210\u00b0F, outlet 130\u00b0F, high-limit 315\u00b0F, safety 235\u00b0F).",
+      "sourceExcerpt": "Verify cycling thermostats open/close at rated temps (inlet 210\u00b0F, outlet 130\u00b0F, high-limit 315\u00b0F, safety 235\u00b0F).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "thermostats_cycle",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "element_resistance_check"
+        },
+        {
+          "id": "thermostat_fault",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermostats",
+          "terminal": true,
+          "oemOutcome": "Replace failed biased thermostat(s); clear vent if safety tripped.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element_resistance_check",
+      "order": 6,
+      "type": "instruction",
+      "title": "Element resistance",
+      "body": "Power off. Run gegud27-heater-thermostats-electric for outer/inner element \u03a9 and thermostat continuity.",
+      "sourceExcerpt": "Power off. Run gegud27-heater-thermostats-electric for outer/inner element \u03a9 and thermostat continuity.",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_path_verified"
+    },
+    {
+      "id": "timer_motor_switch_path",
+      "order": 7,
+      "type": "instruction",
+      "title": "Timer, motor switch, heat selector",
+      "body": "Verify timer B\u2013A / Y\u2013S heat contacts, motor centrifugal M1\u2013M2, and heat selector switch per \u00a762 timer chart.",
+      "sourceExcerpt": "Verify timer B\u2013A / Y\u2013S heat contacts, motor centrifugal M1\u2013M2, and heat selector switch per \u00a762 timer chart.",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_path_verified"
+    },
+    {
+      "id": "correct_supply",
+      "order": 8,
+      "type": "outcome",
+      "title": "Correct supply",
+      "oemOutcome": "Restore 240 VAC supply or replace cord/terminal block.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_thermostats",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace thermostats",
+      "oemOutcome": "Replace open biased thermostat(s).",
+      "requiresInput": false
+    },
+    {
+      "id": "use_gas_procedure",
+      "order": 10,
+      "type": "outcome",
+      "title": "Use gas procedure",
+      "oemOutcome": "Route to gegud27-no-heat-gas.",
+      "requiresInput": false
+    },
+    {
+      "id": "electric_path_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Electric heat path reviewed",
+      "oemOutcome": "Supply, voltage path, thermostats, and element checks complete per \u00a760.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "manualId": "GE-GUD27-STACKED",
+  "platformId": "ge_gud27_stacked",
+  "templateId": "stacked_laundry",
+  "label": "GE GUD27 unitized stacked laundry \u2014 dryer section (mechanical timer)",
+  "notes": "Dryer portion only. GUD27ESS/XUD27ESS = electric heat; GUD27GSS/XUD27GSS = gas. No display error codes \u2014 symptom/chip routing. Washer section not in v1 scope.",
+  "plannedProcedures": [
+    {
+      "id": "gegud27-no-heat-electric",
+      "oemSection": "TS-60",
+      "title": "No Heat \u2014 Electric Dryer Path",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "gegud27-heater-thermostats-electric",
+      "oemSection": "TS-34",
+      "title": "Heater Element & Thermostat Ohms",
+      "status": "generated",
+      "knowledgeIds": [
+        "geGud27DryerHeaterElementOhms",
+        "geGud27DryerHeaterElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "gegud27-no-heat-gas",
+      "oemSection": "TS-61",
+      "title": "No Heat \u2014 Gas Dryer Path",
+      "status": "generated",
+      "knowledgeIds": [
+        "geGud27DryerIgnitorOhms",
+        "geGud27GasValveSafetyCoilOhms",
+        "geGud27GasValveMainCoilOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "gegud27-no-tumble",
+      "oemSection": "TS-28",
+      "title": "No Tumble / Drum Not Turning",
+      "status": "generated",
+      "knowledgeIds": [
+        "geGud27DryerMotorStartWindingOhms",
+        "geGud27DryerMotorRunWindingOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "gegud27-timer-not-advancing",
+      "oemSection": "TS-62",
+      "title": "Timer Not Advancing",
+      "status": "generated",
+      "knowledgeIds": [
+        "geGud27DryerTimerAdvanceResistorOhms",
+        "geGud27DryerTimerMotorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "gegud27-vent-restriction",
+      "oemSection": "TS-14",
+      "title": "Vent Restriction & Long Dry Time",
+      "status": "generated",
+      "knowledgeIds": [
+        "geGud27LongVentBlowerMotorOhms"
+      ],
+      "relatedCodes": []
+    }
+  ]
+}
