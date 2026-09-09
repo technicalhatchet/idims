@@ -124,6 +124,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           platformId: 'insignia_dishwasher',
           manufacturers: [...INSIGNIA],
         },
+        { knowledgeId: 'lgDishwasherLdt7808HeaterOhms', platformId: 'lg_dishwasher_ldt7808' },
         { knowledgeId: 'dishwasherHeatingElementOhms', isDefault: true },
       ],
     },
@@ -135,12 +136,14 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           platformId: 'insignia_dishwasher',
           manufacturers: [...INSIGNIA],
         },
+        { knowledgeId: 'lgDishwasherLdt7808ThermistorOhms', platformId: 'lg_dishwasher_ldt7808' },
         { knowledgeId: 'dishwasherTubThermistorOhms', isDefault: true },
       ],
     },
     'motor_electrical.wash_motor_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuWashMotorOhms', platformId: 'whirlpool_dishwasher_acu' },
+        { knowledgeId: 'lgDishwasherLdt7808WashMotorOhms', platformId: 'lg_dishwasher_ldt7808' },
         { knowledgeId: 'dishwasherCirculationPumpOhms', isDefault: true },
       ],
     },
@@ -152,6 +155,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           platformId: 'insignia_dishwasher',
           manufacturers: [...INSIGNIA],
         },
+        { knowledgeId: 'lgDishwasherLdt7808DrainPumpOhms', platformId: 'lg_dishwasher_ldt7808' },
         { knowledgeId: 'dishwasherDrainPumpOhms', isDefault: true },
       ],
     },
@@ -163,6 +167,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           platformId: 'insignia_dishwasher',
           manufacturers: [...INSIGNIA],
         },
+        { knowledgeId: 'lgDishwasherLdt7808InletValveOhms', platformId: 'lg_dishwasher_ldt7808' },
         { knowledgeId: 'dishwasherWaterValveOhms', isDefault: true },
       ],
     },
@@ -334,6 +339,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolKaFdDefrostHeaterOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdDefrostHeaterOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'whirlpoolWrt311DefrostHeaterOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostHeaterOhms', platformId: 'whirlpool_wrt_top_mount' },
@@ -349,6 +355,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_thermostat': {
       candidates: [
+        { knowledgeId: 'whirlpoolKaFdDefrostBimetalOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdDefrostBimetalOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'whirlpoolWrt311DefrostBimetalOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostBimetalOhms', platformId: 'whirlpool_wrt_top_mount' },
@@ -360,6 +367,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_thermistor': {
       candidates: [
+        { knowledgeId: 'whirlpoolKaFdThermistorOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdThermistorOhms', platformId: 'whirlpool_jazz_french_door' },
         {
           knowledgeId: 'mideaB3839ThermistorKohm',
@@ -374,12 +382,14 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'compressor_sealed_system.run_winding_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolKaFdCompressorRunOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdCompressorRunOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'compressorRunWindingOhms', isDefault: true },
       ],
     },
     'compressor_sealed_system.start_winding_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolKaFdCompressorStartOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdCompressorStartOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'compressorRunWindingOhms', isDefault: true },
       ],

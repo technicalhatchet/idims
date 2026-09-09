@@ -3,6 +3,8 @@
 
 
 import insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry from './seed/insignia_dryer_tdre/bundles/nstdre75w1-service-test-entry.json';
+import lg_dishwasher_ldt7808_bundles_ldt7808_test_mode_entry from './seed/lg_dishwasher_ldt7808/bundles/ldt7808-test-mode-entry.json';
+import lg_dishwasher_ldt7808_bundles_ldt7808_water_supply_check from './seed/lg_dishwasher_ldt7808/bundles/ldt7808-water-supply-check.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-error-recall.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-smart-install-entry.json';
 import samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall from './seed/samsung_fl_dryer_dv6000/bundles/samsungdv6000-error-recall.json';
@@ -55,6 +57,7 @@ import whirlpool_freestanding_range_bundles_w11174814_maxwell_mrc_diagnostic_ent
 import whirlpool_freestanding_range_bundles_w11746350_service_diagnostic_entry from './seed/whirlpool_freestanding_range/bundles/w11746350-service-diagnostic-entry.json';
 import whirlpool_jazz_french_door_bundles_w10322959_forced_defrost_entry from './seed/whirlpool_jazz_french_door/bundles/w10322959-forced-defrost-entry.json';
 import whirlpool_jazz_french_door_bundles_w10322959_service_test_entry from './seed/whirlpool_jazz_french_door/bundles/w10322959-service-test-entry.json';
+import whirlpool_ka_french_door_bundles_w11509412_service_diagnostic_entry from './seed/whirlpool_ka_french_door/bundles/w11509412-service-diagnostic-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry from './seed/whirlpool_mvw6200/bundles/w11416395-service-diagnostic-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_test_mode from './seed/whirlpool_mvw6200/bundles/w11416395-service-test-mode.json';
 import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w10864849-service-diagnostic-entry.json';
@@ -82,6 +85,16 @@ import insignia_dryer_tdre_nstdre75w1_motor_circuit from './seed/insignia_dryer_
 import insignia_dryer_tdre_nstdre75w1_outlet_thermistor from './seed/insignia_dryer_tdre/nstdre75w1-outlet-thermistor.json';
 import insignia_dryer_tdre_nstdre75w1_thermal_cutoff from './seed/insignia_dryer_tdre/nstdre75w1-thermal-cutoff.json';
 import insignia_dryer_tdre_nstdre75w1_thermal_hi_limit from './seed/insignia_dryer_tdre/nstdre75w1-thermal-hi-limit.json';
+import lg_dishwasher_ldt7808_ldt7808_bubble_error from './seed/lg_dishwasher_ldt7808/ldt7808-bubble-error.json';
+import lg_dishwasher_ldt7808_ldt7808_drain_pump from './seed/lg_dishwasher_ldt7808/ldt7808-drain-pump.json';
+import lg_dishwasher_ldt7808_ldt7808_excess_fill from './seed/lg_dishwasher_ldt7808/ldt7808-excess-fill.json';
+import lg_dishwasher_ldt7808_ldt7808_hall_sensor from './seed/lg_dishwasher_ldt7808/ldt7808-hall-sensor.json';
+import lg_dishwasher_ldt7808_ldt7808_heater from './seed/lg_dishwasher_ldt7808/ldt7808-heater.json';
+import lg_dishwasher_ldt7808_ldt7808_inlet_valve from './seed/lg_dishwasher_ldt7808/ldt7808-inlet-valve.json';
+import lg_dishwasher_ldt7808_ldt7808_leak_float from './seed/lg_dishwasher_ldt7808/ldt7808-leak-float.json';
+import lg_dishwasher_ldt7808_ldt7808_thermistor from './seed/lg_dishwasher_ldt7808/ldt7808-thermistor.json';
+import lg_dishwasher_ldt7808_ldt7808_vario_valve from './seed/lg_dishwasher_ldt7808/ldt7808-vario-valve.json';
+import lg_dishwasher_ldt7808_ldt7808_wash_motor from './seed/lg_dishwasher_ldt7808/ldt7808-wash-motor.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-belt-cutoff.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-door-switch.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-gas-flame-sensor.json';
@@ -396,6 +409,19 @@ import whirlpool_jazz_french_door_w10322959_test_06_damper from './seed/whirlpoo
 import whirlpool_jazz_french_door_w10322959_test_07_ff_performance from './seed/whirlpool_jazz_french_door/w10322959-test-07-ff-performance.json';
 import whirlpool_jazz_french_door_w10322959_test_08_fz_performance from './seed/whirlpool_jazz_french_door/w10322959-test-08-fz-performance.json';
 import whirlpool_jazz_french_door_w10322959_test_09_defrost_interval from './seed/whirlpool_jazz_french_door/w10322959-test-09-defrost-interval.json';
+import whirlpool_ka_french_door_w11509412_test_01_fc_thermistor from './seed/whirlpool_ka_french_door/w11509412-test-01-fc-thermistor.json';
+import whirlpool_ka_french_door_w11509412_test_02_rc_thermistor from './seed/whirlpool_ka_french_door/w11509412-test-02-rc-thermistor.json';
+import whirlpool_ka_french_door_w11509412_test_03_evap_fan_damper from './seed/whirlpool_ka_french_door/w11509412-test-03-evap-fan-damper.json';
+import whirlpool_ka_french_door_w11509412_test_04_compressor from './seed/whirlpool_ka_french_door/w11509412-test-04-compressor.json';
+import whirlpool_ka_french_door_w11509412_test_06_defrost from './seed/whirlpool_ka_french_door/w11509412-test-06-defrost.json';
+import whirlpool_ka_french_door_w11509412_test_19_fill_tube_heater from './seed/whirlpool_ka_french_door/w11509412-test-19-fill-tube-heater.json';
+import whirlpool_ka_french_door_w11509412_test_36_ice_box_fan from './seed/whirlpool_ka_french_door/w11509412-test-36-ice-box-fan.json';
+import whirlpool_ka_french_door_w11509412_test_37_ice_box_thermistor from './seed/whirlpool_ka_french_door/w11509412-test-37-ice-box-thermistor.json';
+import whirlpool_ka_french_door_w11509412_test_45_ice_water_fill from './seed/whirlpool_ka_french_door/w11509412-test-45-ice-water-fill.json';
+import whirlpool_ka_french_door_w11509412_test_56_ice_maker_errors from './seed/whirlpool_ka_french_door/w11509412-test-56-ice-maker-errors.json';
+import whirlpool_ka_french_door_w11509412_test_57_ice_harvest from './seed/whirlpool_ka_french_door/w11509412-test-57-ice-harvest.json';
+import whirlpool_ka_french_door_w11509412_test_58_ice_heater_thermistor from './seed/whirlpool_ka_french_door/w11509412-test-58-ice-heater-thermistor.json';
+import whirlpool_ka_french_door_w11509412_test_59_ice_motor from './seed/whirlpool_ka_french_door/w11509412-test-59-ice-motor.json';
 import whirlpool_mvw6200_w11416395_test_01_acu_power from './seed/whirlpool_mvw6200/w11416395-test-01-acu-power.json';
 import whirlpool_mvw6200_w11416395_test_02_valves from './seed/whirlpool_mvw6200/w11416395-test-02-valves.json';
 import whirlpool_mvw6200_w11416395_test_03_drive_system from './seed/whirlpool_mvw6200/w11416395-test-03-drive-system.json';
@@ -464,6 +490,8 @@ import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry as ServiceModeBundle,
+  lg_dishwasher_ldt7808_bundles_ldt7808_test_mode_entry as ServiceModeBundle,
+  lg_dishwasher_ldt7808_bundles_ldt7808_water_supply_check as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry as ServiceModeBundle,
   samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall as ServiceModeBundle,
@@ -516,6 +544,7 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_freestanding_range_bundles_w11746350_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_jazz_french_door_bundles_w10322959_forced_defrost_entry as ServiceModeBundle,
   whirlpool_jazz_french_door_bundles_w10322959_service_test_entry as ServiceModeBundle,
+  whirlpool_ka_french_door_bundles_w11509412_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry as ServiceModeBundle,
@@ -545,6 +574,16 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   insignia_dryer_tdre_nstdre75w1_outlet_thermistor as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_thermal_cutoff as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_thermal_hi_limit as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_bubble_error as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_drain_pump as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_excess_fill as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_hall_sensor as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_heater as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_inlet_valve as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_leak_float as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_thermistor as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_vario_valve as ServiceProcedureSeed,
+  lg_dishwasher_ldt7808_ldt7808_wash_motor as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor as ServiceProcedureSeed,
@@ -859,6 +898,19 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_jazz_french_door_w10322959_test_07_ff_performance as ServiceProcedureSeed,
   whirlpool_jazz_french_door_w10322959_test_08_fz_performance as ServiceProcedureSeed,
   whirlpool_jazz_french_door_w10322959_test_09_defrost_interval as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_01_fc_thermistor as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_02_rc_thermistor as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_03_evap_fan_damper as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_04_compressor as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_06_defrost as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_19_fill_tube_heater as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_36_ice_box_fan as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_37_ice_box_thermistor as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_45_ice_water_fill as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_56_ice_maker_errors as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_57_ice_harvest as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_58_ice_heater_thermistor as ServiceProcedureSeed,
+  whirlpool_ka_french_door_w11509412_test_59_ice_motor as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_02_valves as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_03_drive_system as ServiceProcedureSeed,

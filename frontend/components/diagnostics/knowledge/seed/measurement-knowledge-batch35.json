@@ -1,0 +1,203 @@
+[
+  {
+    "id": "lgDishwasherLdt7808InletValveOhms",
+    "name": "LG LDT7808 Water Inlet Valve",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 23, "max": 27 },
+      "warning": { "min": 20, "max": 30 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 24, "max": 26 },
+    "openCircuitCritical": true,
+    "purpose": "Inlet solenoid coil — manual §7-1 IE (23~27 Ω) and §7-2 flowchart (25 Ω ±5%).",
+    "failureModes": [
+      "Open coil — IE / won't fill",
+      "Stuck open — excess fill / auto drain"
+    ],
+    "testingTips": [
+      "Verify water supply tap open and inlet screen clean before valve replacement",
+      "Disconnect power before bench ohms test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt7808"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "lgDishwasherLdt7808HallSensorOhms",
+    "name": "LG LDT7808 Fill Hall Sensor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8550, "max": 9450 },
+      "warning": { "min": 8000, "max": 10000 },
+      "critical": { "below": 1000, "above": 15000 }
+    },
+    "typical": { "min": 8800, "max": 9200 },
+    "openCircuitCritical": true,
+    "purpose": "Water-level hall sensor — manual §7-2 (9 kΩ ±5%).",
+    "failureModes": [
+      "Open — IE fill fault after valve checks",
+      "Out of range — replace hall sensor"
+    ],
+    "testingTips": [
+      "Verify air breaker impeller spins freely before hall sensor replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt7808"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "lgDishwasherLdt7808DrainPumpOhms",
+    "name": "LG LDT7808 Drain Pump",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 4, "max": 5 },
+      "warning": { "min": 3, "max": 7 },
+      "critical": { "below": 1, "above": 15 }
+    },
+    "typical": { "min": 4.2, "max": 4.8 },
+    "openCircuitCritical": true,
+    "purpose": "Drain pump winding — manual §7-2 drain flowchart (4~5 Ω).",
+    "failureModes": [
+      "Open — OE / won't drain",
+      "Impeller stuck — clean or replace drain motor"
+    ],
+    "testingTips": [
+      "Check filter, drain hose, and air gap before pump replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt7808"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "lgDishwasherLdt7808ThermistorOhms",
+    "name": "LG LDT7808 Tub Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8000, "max": 44000 },
+      "warning": { "min": 5000, "max": 60000 },
+      "critical": { "below": 500, "above": 100000 }
+    },
+    "typical": { "min": 10000, "max": 30000 },
+    "openCircuitCritical": true,
+    "purpose": "NTC tub thermistor — manual §7-2 thermal flowchart (8~44 kΩ).",
+    "failureModes": [
+      "Open — tE thermal error",
+      "Short — tE / HE heater path"
+    ],
+    "testingTips": [
+      "NTC value varies with tub temperature — note ambient when bench testing",
+      "Verify RD6 ↔ WH4 harness before thermistor replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt7808"
+    },
+    "dmaTags": ["thermistor_check"]
+  },
+  {
+    "id": "lgDishwasherLdt7808HeaterOhms",
+    "name": "LG LDT7808 Tub Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10.4, "max": 12.7 },
+      "warning": { "min": 9, "max": 14 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 11.0, "max": 12.1 },
+    "openCircuitCritical": true,
+    "purpose": "Wash heater element — manual §7-2 (11.54 Ω ±10%).",
+    "failureModes": [
+      "Open element — HE / no heat",
+      "Verify inlet water not above 185°F before heater replacement"
+    ],
+    "testingTips": [
+      "Disconnect power before element ohms at pump casing",
+      "Live heater voltage check: RL2 pin4 ↔ RL3 pin4 should read 120 VAC ±15%"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt7808"
+    },
+    "dmaTags": ["heating_element_check", "no_heat"]
+  },
+  {
+    "id": "lgDishwasherLdt7808WashMotorOhms",
+    "name": "LG LDT7808 Wash Motor (IDD)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 22.5, "max": 24.9 },
+      "warning": { "min": 20, "max": 28 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 23.2, "max": 24.2 },
+    "openCircuitCritical": true,
+    "purpose": "Inverter direct-drive wash motor — manual §7-2 (22.5~24.9 Ω at 20°C).",
+    "failureModes": [
+      "Open — motor error / pump casing assembly",
+      "Short 0~50 Ω between RD3 pins — replace main PCB"
+    ],
+    "testingTips": [
+      "Check impeller not locked before motor replacement",
+      "Measure RD3 housing connector pins individually after disconnect"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt7808"
+    },
+    "dmaTags": ["pump_check", "wash_issue"]
+  },
+  {
+    "id": "lgDishwasherLdt7808VarioMotorOhms",
+    "name": "LG LDT7808 Vario Diverter Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3800, "max": 4200 },
+      "warning": { "min": 3500, "max": 4500 },
+      "critical": { "below": 500, "above": 8000 }
+    },
+    "typical": { "min": 3900, "max": 4100 },
+    "openCircuitCritical": true,
+    "purpose": "Vario cam motor — VARIO ERROR when switch/cam fails; manual §7-2 (4 kΩ ±5%).",
+    "failureModes": [
+      "Open — VARIO ERROR, poor top-rack wash",
+      "Switch misposition — reassemble vario S/W before motor"
+    ],
+    "testingTips": [
+      "Remove 2 screws; verify vario switch and cam before motor replacement",
+      "Test mode Start ×7 loads vario valve — nE on display when vario fails"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_dishwasher_ldt7808"
+    },
+    "dmaTags": ["pump_check", "wash_issue", "vario_error"]
+  }
+]

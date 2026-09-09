@@ -30,6 +30,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_DISHWASHER_ACU: 'whirlpool_dishwasher_acu',
   INSIGNIA_DISHWASHER: 'insignia_dishwasher',
   LG_DISHWASHER_LDT: 'lg_dishwasher_ldt',
+  LG_DISHWASHER_LDT7808: 'lg_dishwasher_ldt7808',
   INSIGNIA_DRYER_TDRE: 'insignia_dryer_tdre',
   WHIRLPOOL_CCU_DRYER: 'whirlpool_ccu_dryer',
   WHIRLPOOL_CENTENNIAL_DRYER: 'whirlpool_centennial_dryer',
@@ -337,6 +338,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     manufacturers: ['Insignia'],
     templateId: 'dishwasher',
     modelPatterns: [/DWR/i],
+  },
+  {
+    id: PLATFORM_IDS.LG_DISHWASHER_LDT7808,
+    label: 'LG LDT7808 top-control dishwasher (QuadWash)',
+    manufacturers: ['LG'],
+    templateId: 'dishwasher',
+    modelPatterns: [/LDT7808/i, /LSDT9908/i],
   },
   {
     id: PLATFORM_IDS.LG_DISHWASHER_LDT,

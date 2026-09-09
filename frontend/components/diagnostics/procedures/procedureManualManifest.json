@@ -495,6 +495,21 @@
       }
     },
     {
+      "manualId": "W11509412",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_ka_french_door",
+      "label": "Whirlpool/KitchenAid ACU French door refrigerator (W11509412, ~27 cu ft)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_ka_french_door/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11509412_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11509412_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11509412_service_modes.py"
+      }
+    },
+    {
       "manualId": "W10322959",
       "platformId": "whirlpool_jazz_french_door",
       "templateId": "refrigerator",
@@ -537,6 +552,21 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_samsung_flexwash_washer_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_samsung_flexwash_washer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "LG-LDT7808-DISHWASHER",
+      "platformId": "lg_dishwasher_ldt7808",
+      "templateId": "dishwasher",
+      "seedDir": "lg_dishwasher_ldt7808",
+      "label": "LG LDT7808 top-control dishwasher (QuadWash / Vario)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/lg_dishwasher_ldt7808/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_ldt7808_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_ldt7808_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_ldt7808_service_modes.py"
       }
     }
   ]

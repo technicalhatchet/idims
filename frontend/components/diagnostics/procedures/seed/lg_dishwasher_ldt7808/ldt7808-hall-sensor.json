@@ -1,0 +1,185 @@
+{
+  "id": "ldt7808-hall-sensor",
+  "version": "1.0.0",
+  "title": "\u00a77-2: Hall Sensor (IE fill path)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "IE",
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-2-hall",
+    "oemTestTitle": "Hall sensor fill check",
+    "pages": [
+      49,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "air_breaker"
+    },
+    {
+      "id": "air_breaker",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Air breaker impeller spins?",
+      "body": "Verify air breaker impeller spins freely.",
+      "sourceExcerpt": "Verify air breaker impeller spins freely.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hall_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hall_ohms"
+        },
+        {
+          "id": "hall_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_air_breaker",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_air_breaker",
+      "order": 3,
+      "type": "instruction",
+      "title": "Replace air breaker",
+      "body": "Replace air breaker assembly.",
+      "sourceExcerpt": "Replace air breaker assembly.",
+      "requiresInput": false,
+      "defaultNextStepId": "air_breaker"
+    },
+    {
+      "id": "hall_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Hall sensor resistance",
+      "body": "Disconnect power. Measure hall sensor \u2014 manual spec 9 k\u03a9 \u00b15%.",
+      "sourceExcerpt": "The resistance is 9k\u03a9 \u00b15%",
+      "measurementKnowledgeId": "lgDishwasherLdt7808HallSensorOhms",
+      "testPoint": {
+        "connector": "Hall sensor",
+        "pins": "coil",
+        "label": "Hall sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hall_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hall_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "hall_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_hall",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "hall_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_hall",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "hall_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_hall",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hall_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Hall sensor verified",
+      "body": "Hall sensor within spec.",
+      "oemOutcome": "Hall sensor within spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hall",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace hall sensor",
+      "body": "Replace hall sensor.",
+      "oemOutcome": "Replace hall sensor.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "ldt7808-water-supply-check",
+      "modeKind": "load_test",
+      "attachAfterStepId": "air_breaker",
+      "continueToStepId": "air_breaker"
+    }
+  ]
+}

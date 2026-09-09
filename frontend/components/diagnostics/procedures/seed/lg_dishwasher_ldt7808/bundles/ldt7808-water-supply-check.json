@@ -1,0 +1,36 @@
+{
+  "id": "ldt7808-water-supply-check",
+  "version": "1.0.0",
+  "platformId": "lg_dishwasher_ldt7808",
+  "manualId": "LG-LDT7808-DISHWASHER",
+  "title": "LDT7808 \u2014 Water supply check (LQC mode)",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "LQC fill check: Power+Start, then Start \u00d75 for supply sound.",
+  "tags": [
+    "fill_issue",
+    "live_test"
+  ],
+  "entryStepId": "lqc_entry",
+  "source": {
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "pages": [
+      49
+    ]
+  },
+  "steps": [
+    {
+      "id": "lqc_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter LQC water check",
+      "body": "Press Power + Start. Press Start 5 times and listen for water supplying sound. Press Power to turn off.",
+      "sourceExcerpt": "How to Check Water supply (LQC Mode)",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

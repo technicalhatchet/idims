@@ -1,0 +1,283 @@
+{
+  "id": "ldt7808-wash-motor",
+  "version": "1.0.0",
+  "title": "\u00a77-1/7-2: Wash Motor (motor error)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "motor_error",
+    "wash_issue",
+    "pump_check"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-motor",
+    "oemTestTitle": "MOTOR ERROR",
+    "pages": [
+      47,
+      55,
+      61
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_closed"
+    },
+    {
+      "id": "door_closed",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door tightly closed?",
+      "body": "Verify door is tightly closed and door switch in latch handle operates.",
+      "sourceExcerpt": "Verify door is tightly closed and door switch in latch handle operates.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_wiring_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_wiring"
+        },
+        {
+          "id": "motor_wiring_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "circulation_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "close_door",
+      "order": 3,
+      "type": "instruction",
+      "title": "Close door",
+      "body": "Close door tightly and retest.",
+      "sourceExcerpt": "Close door tightly and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_closed"
+    },
+    {
+      "id": "motor_wiring",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Wash motor wiring connected?",
+      "body": "Verify washing motor and controller wiring connections.",
+      "sourceExcerpt": "Verify washing motor and controller wiring connections.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "impeller_locked_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "impeller_locked"
+        },
+        {
+          "id": "impeller_locked_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "circulation_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_motor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect motor wiring",
+      "body": "Check and reconnect wash motor harness.",
+      "sourceExcerpt": "Check and reconnect wash motor harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_wiring"
+    },
+    {
+      "id": "impeller_locked",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Wash impeller free?",
+      "body": "Verify washing pump impeller is not locked.",
+      "sourceExcerpt": "Verify washing pump impeller is not locked.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ohms"
+        },
+        {
+          "id": "motor_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_casing",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "circulation_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_casing",
+      "order": 7,
+      "type": "instruction",
+      "title": "Replace pump casing",
+      "body": "Replace pump casing assembly when impeller locked.",
+      "sourceExcerpt": "Replace pump casing assembly when impeller locked.",
+      "requiresInput": false,
+      "defaultNextStepId": "impeller_locked"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after test mode entry",
+      "body": "Test mode available (Power+Start, then Start 1\u20137 for component loads). Continue with bench checks below.",
+      "sourceExcerpt": "\u00a73-3 TEST MODE \u2014 component load verification.",
+      "requiresInput": false,
+      "order": 8,
+      "defaultNextStepId": "motor_ohms"
+    },
+    {
+      "id": "motor_ohms",
+      "order": 9,
+      "type": "measurement",
+      "title": "Wash motor resistance",
+      "body": "Disconnect RD3 connector. Measure wash motor \u2014 manual spec 22.5~24.9 \u03a9 at 20\u00b0C.",
+      "sourceExcerpt": "The resistance is 22.5~24.9\u03a9, at 20\u00b0C",
+      "measurementKnowledgeId": "lgDishwasherLdt7808WashMotorOhms",
+      "testPoint": {
+        "connector": "RD3",
+        "pins": "motor",
+        "label": "Wash motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "motor_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Wash motor verified",
+      "body": "Wash motor winding within spec.",
+      "oemOutcome": "Wash motor winding within spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace wash motor",
+      "body": "Replace washing pump/motor (pump casing assembly).",
+      "oemOutcome": "Replace washing pump/motor (pump casing assembly).",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "ldt7808-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

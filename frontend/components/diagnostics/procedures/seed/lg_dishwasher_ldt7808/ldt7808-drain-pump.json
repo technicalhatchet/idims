@@ -1,0 +1,239 @@
+{
+  "id": "ldt7808-drain-pump",
+  "version": "1.0.0",
+  "title": "\u00a77-1/7-2: Drain Pump (OE drain fault)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "OE",
+    "drain_issue",
+    "pump_check"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-OE",
+    "oemTestTitle": "DRAIN ERROR",
+    "pages": [
+      47,
+      50
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "filter_clear"
+    },
+    {
+      "id": "filter_clear",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Filter assembly clear?",
+      "body": "Clean filter assembly and verify drain hose, air gap, and knockout plug.",
+      "sourceExcerpt": "Clean filter assembly and verify drain hose, air gap, and knockout plug.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "impeller_free_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "impeller_free"
+        },
+        {
+          "id": "impeller_free_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clean_drain_path",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clean_drain_path",
+      "order": 3,
+      "type": "instruction",
+      "title": "Clear drain path",
+      "body": "Remove kink/block in drain hose; clean air gap; remove garbage disposal knockout plug.",
+      "sourceExcerpt": "Remove kink/block in drain hose; clean air gap; remove garbage disposal knockout plug.",
+      "requiresInput": false,
+      "defaultNextStepId": "filter_clear"
+    },
+    {
+      "id": "impeller_free",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Drain impeller free?",
+      "body": "Check drain motor impeller is not stuck.",
+      "sourceExcerpt": "Check drain motor impeller is not stuck.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_ohms"
+        },
+        {
+          "id": "pump_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_impeller",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_impeller",
+      "order": 5,
+      "type": "instruction",
+      "title": "Clear impeller",
+      "body": "Repair drain motor when impeller stuck; replace if error persists.",
+      "sourceExcerpt": "Repair drain motor when impeller stuck; replace if error persists.",
+      "requiresInput": false,
+      "defaultNextStepId": "impeller_free"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after test mode entry",
+      "body": "Test mode available (Power+Start, then Start 1\u20137 for component loads). Continue with bench checks below.",
+      "sourceExcerpt": "\u00a73-3 TEST MODE \u2014 component load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "pump_ohms"
+    },
+    {
+      "id": "pump_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Drain pump resistance",
+      "body": "Disconnect power. Measure drain pump winding \u2014 manual spec 4~5 \u03a9.",
+      "sourceExcerpt": "The resistance is 4~5\u03a9",
+      "measurementKnowledgeId": "lgDishwasherLdt7808DrainPumpOhms",
+      "testPoint": {
+        "connector": "YL3",
+        "pins": "pump",
+        "label": "Drain pump resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "pump_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Drain pump verified",
+      "body": "Drain pump winding within spec.",
+      "oemOutcome": "Drain pump winding within spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pump",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "body": "Replace drain motor / pump assembly.",
+      "oemOutcome": "Replace drain motor / pump assembly.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "ldt7808-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "id": "ldt7808-excess-fill",
+  "version": "1.0.0",
+  "title": "\u00a77-1: Excess Fill (inlet valve stuck open)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-EXCESS",
+    "oemTestTitle": "EXCESS ERROR",
+    "pages": [
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_leak"
+    },
+    {
+      "id": "valve_leak",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Inlet valve stuck open?",
+      "body": "Excess fill auto-drains. Check inlet valve for damage or stuck-open condition.",
+      "sourceExcerpt": "Excess fill auto-drains. Check inlet valve for damage or stuck-open condition.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pcb_check_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pcb_check"
+        },
+        {
+          "id": "pcb_check_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inlet_excess",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_inlet_excess",
+      "order": 3,
+      "type": "instruction",
+      "title": "Replace inlet valve",
+      "body": "Replace inlet valve.",
+      "sourceExcerpt": "Replace inlet valve.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_leak"
+    },
+    {
+      "id": "pcb_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Recent PCB replacement?",
+      "body": "If PCB was replaced and error persists, check hole sensor.",
+      "sourceExcerpt": "If PCB was replaced and error persists, check hole sensor.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "excess_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "excess_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "excess_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hole_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_hole_sensor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Replace hole sensor",
+      "body": "Replace hole sensor after PCB swap.",
+      "sourceExcerpt": "Replace hole sensor after PCB swap.",
+      "requiresInput": false,
+      "defaultNextStepId": "pcb_check"
+    },
+    {
+      "id": "excess_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Excess fill addressed",
+      "body": "Inlet valve and sensor path checked.",
+      "oemOutcome": "Inlet valve and sensor path checked.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "id": "ldt7808-heater",
+  "version": "1.0.0",
+  "title": "\u00a77-1/7-2: Wash Heater (HE heater error)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "HE",
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-HE",
+    "oemTestTitle": "HEATER ERROR",
+    "pages": [
+      47,
+      54
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "inlet_temp"
+    },
+    {
+      "id": "inlet_temp",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Inlet water temperature OK?",
+      "body": "Inlet water should not exceed 185\u00b0F. Adjust supply to ~120\u00b0F if very high.",
+      "sourceExcerpt": "Inlet water should not exceed 185\u00b0F. Adjust supply to ~120\u00b0F if very high.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_wiring_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_wiring"
+        },
+        {
+          "id": "heater_wiring_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_inlet_temp",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adjust_inlet_temp",
+      "order": 3,
+      "type": "instruction",
+      "title": "Adjust inlet temperature",
+      "body": "Reduce inlet water temperature to ~120\u00b0F and retest.",
+      "sourceExcerpt": "Reduce inlet water temperature to ~120\u00b0F and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "inlet_temp"
+    },
+    {
+      "id": "heater_wiring",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Heater harness connected?",
+      "body": "Verify RL2 pin4 \u2194 RL3 pin4 heater wiring to main PCB.",
+      "sourceExcerpt": "Verify RL2 pin4 \u2194 RL3 pin4 heater wiring to main PCB.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms"
+        },
+        {
+          "id": "heater_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_heater",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_heater",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect heater wiring",
+      "body": "Check and reconnect heater harness.",
+      "sourceExcerpt": "Check and reconnect heater harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_wiring"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after test mode entry",
+      "body": "Test mode available (Power+Start, then Start 1\u20137 for component loads). Continue with bench checks below.",
+      "sourceExcerpt": "\u00a73-3 TEST MODE \u2014 component load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Heater element resistance",
+      "body": "Disconnect power. Measure heater element \u2014 manual spec 11.54 \u03a9 \u00b110%.",
+      "sourceExcerpt": "Check the electric resistance of Heater.",
+      "measurementKnowledgeId": "lgDishwasherLdt7808HeaterOhms",
+      "testPoint": {
+        "connector": "Pump casing",
+        "pins": "heater",
+        "label": "Heater element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Heater verified",
+      "body": "Heater element within spec.",
+      "oemOutcome": "Heater element within spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace heater",
+      "body": "Replace pump casing assembly (heater).",
+      "oemOutcome": "Replace pump casing assembly (heater).",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "ldt7808-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

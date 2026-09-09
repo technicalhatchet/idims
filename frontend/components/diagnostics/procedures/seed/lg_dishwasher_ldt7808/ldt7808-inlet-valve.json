@@ -1,0 +1,289 @@
+{
+  "id": "ldt7808-inlet-valve",
+  "version": "1.0.0",
+  "title": "\u00a77-1/7-2: Inlet Valve (IE fill fault)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "IE",
+    "fill_issue",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-IE",
+    "oemTestTitle": "INLET ERROR",
+    "pages": [
+      47,
+      49,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "water_tap"
+    },
+    {
+      "id": "water_tap",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Water supply tap open?",
+      "body": "Verify the water supply tap is fully open and inlet hose is not kinked.",
+      "sourceExcerpt": "Verify the water supply tap is fully open and inlet hose is not kinked.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hose_ok"
+        },
+        {
+          "id": "hose_ok_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "open_tap",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "open_tap",
+      "order": 3,
+      "type": "instruction",
+      "title": "Open water supply",
+      "body": "Open the water supply tap and retest fill.",
+      "sourceExcerpt": "Open the water supply tap and retest fill.",
+      "requiresInput": false,
+      "defaultNextStepId": "water_tap"
+    },
+    {
+      "id": "hose_ok",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Inlet hose and pressure OK?",
+      "body": "Repair kinked hose if needed. Water pressure should be 20\u2013120 psi (140\u2013830 kPa).",
+      "sourceExcerpt": "Repair kinked hose if needed. Water pressure should be 20\u2013120 psi (140\u2013830 kPa).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "filter_clean_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "filter_clean"
+        },
+        {
+          "id": "filter_clean_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_hose",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_hose",
+      "order": 5,
+      "type": "instruction",
+      "title": "Repair inlet hose",
+      "body": "Repair or replace kinked inlet hose.",
+      "sourceExcerpt": "Repair or replace kinked inlet hose.",
+      "requiresInput": false,
+      "defaultNextStepId": "hose_ok"
+    },
+    {
+      "id": "filter_clean",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Inlet valve screen clean?",
+      "body": "Unscrew inlet hose at valve side. Clean filter of inlet valve if clogged.",
+      "sourceExcerpt": "Unscrew inlet hose at valve side. Clean filter of inlet valve if clogged.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_ohms"
+        },
+        {
+          "id": "valve_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clean_filter",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clean_filter",
+      "order": 7,
+      "type": "instruction",
+      "title": "Clean inlet screen",
+      "body": "Clean inlet valve filter and retest.",
+      "sourceExcerpt": "Clean inlet valve filter and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "filter_clean"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after test mode entry",
+      "body": "Test mode available (Power+Start, then Start 1\u20137 for component loads). Continue with bench checks below.",
+      "sourceExcerpt": "\u00a73-3 TEST MODE \u2014 component load verification.",
+      "requiresInput": false,
+      "order": 8,
+      "defaultNextStepId": "valve_ohms"
+    },
+    {
+      "id": "valve_ohms",
+      "order": 9,
+      "type": "measurement",
+      "title": "Inlet valve coil resistance",
+      "body": "Disconnect power. Measure inlet valve coil \u2014 manual spec 23~27 \u03a9.",
+      "sourceExcerpt": "Check the electric resistance of Inlet Valve. (23~27\u03a9)",
+      "measurementKnowledgeId": "lgDishwasherLdt7808InletValveOhms",
+      "testPoint": {
+        "connector": "Inlet valve",
+        "pins": "coil",
+        "label": "Inlet valve coil resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "valve_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "valve_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Inlet valve verified",
+      "body": "Inlet valve coil within spec. Check hall sensor if IE persists.",
+      "oemOutcome": "Inlet valve coil within spec. Check hall sensor if IE persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_valve",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace inlet valve",
+      "body": "Replace inlet valve assembly.",
+      "oemOutcome": "Replace inlet valve assembly.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "ldt7808-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    },
+    {
+      "bundleId": "ldt7808-water-supply-check",
+      "modeKind": "load_test",
+      "attachAfterStepId": "water_tap",
+      "continueToStepId": "water_tap"
+    }
+  ]
+}
