@@ -208,6 +208,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'gas_ignition.gas_valve_coils': {
       candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerGasValveCoilOhms', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerGasValveCoilOhms', platformId: 'whirlpool_duet_sport_dryer' },
         { knowledgeId: 'samsungFlBb8700DryerGasValve12Ohms', platformId: 'samsung_fl_dryer_bb8700' },
         { knowledgeId: 'gasValveCoilOhms', isDefault: true },
@@ -215,6 +216,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'motor_electrical.outlet_thermistor_kohm': {
       candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerExhaustThermistorKohm', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerExhaustThermistorKohm', platformId: 'whirlpool_duet_sport_dryer' },
         {
           knowledgeId: 'insigniaDryerOutletThermistorKohm',
