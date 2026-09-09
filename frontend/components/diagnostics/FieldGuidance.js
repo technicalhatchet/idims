@@ -1,5 +1,7 @@
 'use client';
 
+import { stripSectionSymbol } from './procedures/procedureDisplayLabels';
+
 function toneClasses(tone, isMobile) {
   if (tone === 'action') {
     return isMobile
@@ -16,7 +18,7 @@ export function FieldHelpText({ text, variant = 'mobile' }) {
   const isMobile = variant === 'mobile';
   return (
     <p className={`text-[11px] leading-snug mb-1.5 ${isMobile ? 'text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>
-      {text}
+      {stripSectionSymbol(text)}
     </p>
   );
 }
@@ -28,7 +30,7 @@ export function FieldRecommendationNote({ message, tone = 'tip', variant = 'mobi
     <p
       className={`text-[11px] leading-snug mt-2 rounded-lg border px-2.5 py-1.5 ${toneClasses(tone, isMobile)}`}
     >
-      {message}
+      {stripSectionSymbol(message)}
     </p>
   );
 }
@@ -45,7 +47,7 @@ export function SectionRecommendations({ recommendations = [], variant = 'mobile
           key={rec.id}
           className={`text-[11px] leading-snug rounded-lg border px-2.5 py-1.5 ${toneClasses(rec.tone, isMobile)}`}
         >
-          {rec.message}
+          {stripSectionSymbol(rec.message)}
         </p>
       ))}
     </div>

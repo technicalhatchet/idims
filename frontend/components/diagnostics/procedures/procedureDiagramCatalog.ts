@@ -104,42 +104,42 @@ const W8178558_ASSET_BASE = '/images/procedures/whirlpool_duet_sport';
 export const W8178558_DIAGRAMS: Record<string, ProcedureImage> = {
   'w8178558-ccu-pinout-figure4-5': {
     id: 'w8178558-ccu-pinout-figure4-5',
-    caption: 'CCU connector callouts (§4-5, manual p. 43)',
+    caption: 'CCU connector callouts (4-5, manual p. 43)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-ccu-pinout-figure4-5.png`,
   },
   'w8178558-inlet-valves-vch7': {
     id: 'w8178558-inlet-valves-vch7',
-    caption: 'Inlet valve solenoids — VCH7 (§5-1)',
+    caption: 'Inlet valve solenoids — VCH7 (5-1)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-inlet-valves-vch7.png`,
   },
   'w8178558-pressure-switch-pr6': {
     id: 'w8178558-pressure-switch-pr6',
-    caption: 'Pressure switch — PR6 (§5-2)',
+    caption: 'Pressure switch — PR6 (5-2)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-pressure-switch-pr6.png`,
   },
   'w8178558-dispenser-di6': {
     id: 'w8178558-dispenser-di6',
-    caption: 'Detergent dispenser — DI6 (§5-4)',
+    caption: 'Detergent dispenser — DI6 (5-4)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-dispenser-di6.png`,
   },
   'w8178558-door-dl3-ds2': {
     id: 'w8178558-door-dl3-ds2',
-    caption: 'Door lock DL3 & door switch DS2 (§5-5)',
+    caption: 'Door lock DL3 & door switch DS2 (5-5)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-door-dl3-ds2.png`,
   },
   'w8178558-drain-pump-dp2': {
     id: 'w8178558-drain-pump-dp2',
-    caption: 'Drain pump — DP2 (§5-6)',
+    caption: 'Drain pump — DP2 (5-6)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-drain-pump-dp2.png`,
   },
   'w8178558-heater-th2': {
     id: 'w8178558-heater-th2',
-    caption: 'Wash heater HE2 & temp sensor TH2 (§5-7)',
+    caption: 'Wash heater HE2 & temp sensor TH2 (5-7)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-heater-th2.png`,
   },
   'w8178558-motor-ms2-interlock': {
     id: 'w8178558-motor-ms2-interlock',
-    caption: 'Drive motor MS2 & interlock switch (§5-8)',
+    caption: 'Drive motor MS2 & interlock switch (5-8)',
     assetPath: `${W8178558_ASSET_BASE}/w8178558-motor-ms2-interlock.png`,
   },
 };

@@ -14,6 +14,7 @@ import {
 } from '../../../components/diagnostics/procedures/recommendServiceProcedures';
 import { parseProcedureErrorCodes } from '../../../components/diagnostics/procedures/parseProcedureErrorCodes';
 import { useProcedureRun } from '../../../components/diagnostics/procedures/useProcedureRun';
+import { formatOemTestLabel } from '../../../components/diagnostics/procedures/procedureDisplayLabels';
 import ProcedureStepView from '../../../components/diagnostics/procedures/ui/ProcedureStepView';
 
 const PROCEDURE_OPTIONS = getAllServiceProcedures();
@@ -54,8 +55,7 @@ const SMOKE_PRESETS = [
 ];
 
 function formatOemRef(oemTestNumber) {
-  if (!oemTestNumber) return '';
-  return String(oemTestNumber).includes('-') ? `§${oemTestNumber}` : `TEST #${oemTestNumber}`;
+  return formatOemTestLabel(oemTestNumber);
 }
 
 export default function SolomonProcedureDevPage() {

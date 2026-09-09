@@ -1,5 +1,9 @@
 import { resolveServiceProcedureSeed } from './resolveServiceModeBundle';
 import {
+  sanitizeServiceModeBundleLabels,
+  sanitizeServiceProcedureLabels,
+} from './procedureDisplayLabels';
+import {
   GENERATED_PROCEDURE_SEEDS,
   GENERATED_SERVICE_MODE_BUNDLES,
 } from './procedureRegistry.generated';
@@ -19,14 +23,16 @@ import type {
 // Re-export lookup options type from catalog consumers
 export type { ServiceModeLookupOptions } from './serviceModeCatalog';
 
-const SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [...GENERATED_SERVICE_MODE_BUNDLES];
+const SERVICE_MODE_BUNDLES: ServiceModeBundle[] = GENERATED_SERVICE_MODE_BUNDLES.map(
+  sanitizeServiceModeBundleLabels,
+);
 
 const BUNDLE_BY_ID = new Map(SERVICE_MODE_BUNDLES.map((bundle) => [bundle.id, bundle]));
 
 const PROCEDURE_SEEDS: ServiceProcedureSeed[] = [...GENERATED_PROCEDURE_SEEDS];
 
 const ALL_PROCEDURES: ServiceProcedure[] = PROCEDURE_SEEDS.map((seed) =>
-  resolveServiceProcedureSeed(seed, BUNDLE_BY_ID),
+  sanitizeServiceProcedureLabels(resolveServiceProcedureSeed(seed, BUNDLE_BY_ID)),
 );
 
 const PROCEDURE_BY_ID = new Map(ALL_PROCEDURES.map((procedure) => [procedure.id, procedure]));

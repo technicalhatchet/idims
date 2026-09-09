@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { ProcedureImage } from '../types';
+import { stripSectionSymbol } from '../procedureDisplayLabels';
 
 interface ProcedureStepImagesProps {
   images?: ProcedureImage[];
@@ -47,6 +48,7 @@ export default function ProcedureStepImages({ images }: ProcedureStepImagesProps
     validImages.length === 1 ? 'View OEM diagram' : `View OEM diagrams (${validImages.length})`;
   const current = validImages[index];
   const hasMultiple = validImages.length > 1;
+  const caption = stripSectionSymbol(current.caption);
 
   return (
     <>
@@ -75,7 +77,7 @@ export default function ProcedureStepImages({ images }: ProcedureStepImagesProps
                     {hasMultiple ? ` · ${index + 1} of ${validImages.length}` : ''}
                   </p>
                   <p className="mt-1 text-sm leading-snug text-[var(--solomon-text-primary)]">
-                    {current.caption}
+                    {caption}
                   </p>
                 </div>
                 <button
@@ -103,7 +105,7 @@ export default function ProcedureStepImages({ images }: ProcedureStepImagesProps
 
                 <img
                   src={current.assetPath}
-                  alt={current.caption}
+                  alt={caption}
                   className="max-h-full max-w-full object-contain bg-white/95"
                 />
 
