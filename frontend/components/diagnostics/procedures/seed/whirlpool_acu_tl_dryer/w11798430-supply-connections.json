@@ -1,0 +1,380 @@
+{
+  "id": "w11798430-supply-connections",
+  "version": "1.0.0",
+  "title": "TEST #2: Supply Connections",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "supply_issue",
+    "voltage_check"
+  ],
+  "source": {
+    "manualId": "W11798430",
+    "manualTitle": "Whirlpool 7.0 cu. ft. Gas & Electric Dryers Technical Manual (WED4100/WGD4100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11798430-revc wed4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2",
+    "oemTestTitle": "Supply Connections",
+    "pages": [
+      10,
+      11
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuel_variant"
+    },
+    {
+      "id": "fuel_variant",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Electric or gas dryer?",
+      "body": "WED/MED = electric single-element ~10 \u03a9; WGD/MGD = gas burner.",
+      "sourceExcerpt": "WED/MED = electric single-element ~10 \u03a9; WGD/MGD = gas burner.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuel_electric",
+          "label": "Electric",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_cover"
+        },
+        {
+          "id": "fuel_gas",
+          "label": "Gas",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "gas_cover"
+        }
+      ]
+    },
+    {
+      "id": "electric_cover",
+      "order": 3,
+      "type": "instruction",
+      "title": "Electric \u2014 terminal block",
+      "body": "Remove rear cover plate. Verify cord at terminal block.",
+      "sourceExcerpt": "Remove rear cover plate. Verify cord at terminal block.",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_n_block"
+    },
+    {
+      "id": "electric_n_block",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Neutral to terminal block center",
+      "body": "Continuity from plug N to center terminal block contact.",
+      "sourceExcerpt": "Continuity from plug N to center terminal block contact.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "en_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_l1_id"
+        },
+        {
+          "id": "en_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric_l1_id",
+      "order": 5,
+      "type": "instruction",
+      "title": "Identify L1 at block",
+      "body": "Note which plug terminal connects to left-most block contact (L1).",
+      "sourceExcerpt": "Note which plug terminal connects to left-most block contact (L1).",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_l1_p7"
+    },
+    {
+      "id": "electric_l1_p7",
+      "order": 6,
+      "type": "visual_check",
+      "title": "L1 plug to J7-3",
+      "body": "Continuity from L1 plug terminal to ACU J7-3 (black).",
+      "sourceExcerpt": "Continuity from L1 plug terminal to ACU J7-3 (black).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "el1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_n_p7"
+        },
+        {
+          "id": "el1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace harness or cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric_n_p7",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Neutral plug to J7-4",
+      "body": "Continuity from plug N to ACU J7-4 (white).",
+      "sourceExcerpt": "Continuity from plug N to ACU J7-4 (white).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "enp7_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_l2_motor"
+        },
+        {
+          "id": "enp7_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric_l2_motor",
+      "order": 8,
+      "type": "visual_check",
+      "title": "L2 to motor pin 2",
+      "body": "Continuity from L2 plug terminal to pin 2 (red) of motor connector.",
+      "sourceExcerpt": "Continuity from L2 plug terminal to pin 2 (red) of motor connector.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "el2_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "connectors_seated"
+        },
+        {
+          "id": "el2_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main harness or cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_cover",
+      "order": 3,
+      "type": "instruction",
+      "title": "Gas \u2014 cord to harness",
+      "body": "Verify power cord firmly connected to wire harness.",
+      "sourceExcerpt": "Verify power cord firmly connected to wire harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_n_p7"
+    },
+    {
+      "id": "gas_n_p7",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Gas \u2014 neutral to J7-4",
+      "body": "Continuity plug N to J7-4. Test cord neutral if open.",
+      "sourceExcerpt": "Continuity plug N to J7-4. Test cord neutral if open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gn_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_l1_p7"
+        },
+        {
+          "id": "gn_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_l1_p7",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Gas \u2014 L1 to J7-3",
+      "body": "Continuity L1 plug to J7-3.",
+      "sourceExcerpt": "Continuity L1 plug to J7-3.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gl1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "connectors_seated"
+        },
+        {
+          "id": "gl1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace cord or harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "connectors_seated",
+      "order": 9,
+      "type": "visual_check",
+      "title": "All ACU/UI connectors seated",
+      "body": "All harness connectors fully inserted; UI assembly seated in console.",
+      "sourceExcerpt": "All harness connectors fully inserted; UI assembly seated in console.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_verified"
+        },
+        {
+          "id": "conn_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_connectors",
+          "terminal": true,
+          "oemOutcome": "Reseat connectors and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_cord",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace power cord",
+      "oemOutcome": "Replace power cord.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_harness",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace main wire harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "reseat_connectors",
+      "order": 11,
+      "type": "outcome",
+      "title": "Reseat connectors",
+      "oemOutcome": "Reseat ACU/UI connectors; run Quick Diagnostic Test.",
+      "requiresInput": false
+    },
+    {
+      "id": "supply_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Supply verified",
+      "oemOutcome": "Cord, harness, and connector seating OK.",
+      "requiresInput": false
+    }
+  ]
+}

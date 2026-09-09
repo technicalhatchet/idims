@@ -114,7 +114,6 @@ import whirlpool_acu_tl_dryer_w11416805_thermal_fuse from './seed/whirlpool_acu_
 import whirlpool_acu_tl_dryer_w11416805_thermistors from './seed/whirlpool_acu_tl_dryer/w11416805-thermistors.json';
 import whirlpool_acu_tl_dryer_w11416805_water_valve from './seed/whirlpool_acu_tl_dryer/w11416805-water-valve.json';
 import whirlpool_acu_tl_dryer_w11798430_acu_power from './seed/whirlpool_acu_tl_dryer/w11798430-acu-power.json';
-import whirlpool_acu_tl_dryer_w11798430_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/w11798430-diagnostic-entry.json';
 import whirlpool_acu_tl_dryer_w11798430_door_switch from './seed/whirlpool_acu_tl_dryer/w11798430-door-switch.json';
 import whirlpool_acu_tl_dryer_w11798430_drum_light from './seed/whirlpool_acu_tl_dryer/w11798430-drum-light.json';
 import whirlpool_acu_tl_dryer_w11798430_gas_valve from './seed/whirlpool_acu_tl_dryer/w11798430-gas-valve.json';
@@ -391,7 +390,6 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_acu_tl_dryer_w11416805_thermistors as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_water_valve as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11798430_acu_power as ServiceProcedureSeed,
-  whirlpool_acu_tl_dryer_w11798430_diagnostic_entry as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11798430_door_switch as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11798430_drum_light as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11798430_gas_valve as ServiceProcedureSeed,

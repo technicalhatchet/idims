@@ -1,0 +1,119 @@
+{
+  "id": "w11798430-door-switch",
+  "version": "1.0.0",
+  "title": "TEST #6: Door Switch",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check",
+    "wont_start",
+    "no_spin"
+  ],
+  "source": {
+    "manualId": "W11798430",
+    "manualTitle": "Whirlpool 7.0 cu. ft. Gas & Electric Dryers Technical Manual (WED4100/WGD4100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11798430-revc wed4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Door Switch",
+    "pages": [
+      20
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_diag"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Mode entered. Use Service Diagnostics (HMI Test, Sensor Feedback, Diagnostic Cycle) as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "door_diag"
+    },
+    {
+      "id": "door_diag",
+      "order": 3,
+      "type": "instruction",
+      "title": "Door / drum light check",
+      "body": "Opening door should turn drum light on; closing turns it off. If not, continue bench test.",
+      "sourceExcerpt": "Opening door should turn drum light on; closing turns it off. If not, continue bench test.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_bench"
+    },
+    {
+      "id": "door_bench",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J7-3 to J7-5 bench check",
+      "body": "Power off. Door closed: 0\u20132 \u03a9 across J7-3 and J7-5. Open = OL.",
+      "sourceExcerpt": "Power off. Door closed: 0\u20132 \u03a9 across J7-3 and J7-5. Open = OL.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified"
+        },
+        {
+          "id": "door_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch; retest Quick Diagnostic.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Door switch verified",
+      "oemOutcome": "Door switch diagnostic and bench checks pass.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11798430-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}
