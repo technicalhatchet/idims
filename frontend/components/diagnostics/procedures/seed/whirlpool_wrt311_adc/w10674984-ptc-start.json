@@ -1,0 +1,140 @@
+{
+  "id": "w10674984-ptc-start",
+  "version": "1.0.0",
+  "title": "PTC start device (WRT311 / Embraco)",
+  "platformId": "whirlpool_wrt311_adc",
+  "componentIds": [
+    "start_device",
+    "compressor"
+  ],
+  "tags": [
+    "PTCOPEN",
+    "OL",
+    "compressor_wont_start"
+  ],
+  "source": {
+    "manualId": "W10674984",
+    "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+    "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "component",
+    "oemTestTitle": "PTC Start Device",
+    "pages": [
+      1,
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "cooldown"
+    },
+    {
+      "id": "cooldown",
+      "order": 2,
+      "type": "instruction",
+      "title": "Allow PTC cool-down",
+      "body": "Disconnect power. Allow ~10 min cool-down if compressor was recently run.",
+      "sourceExcerpt": "Disconnect power. Allow ~10 min cool-down if compressor was recently run.",
+      "requiresInput": false,
+      "defaultNextStepId": "ptc_ohms"
+    },
+    {
+      "id": "ptc_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "PTC cold resistance",
+      "body": "Unplug start module from Embraco compressor. ~5 \u03a9 cold per W10330404 PTC guidance.",
+      "sourceExcerpt": "Unplug start module from Embraco compressor. ~5 \u03a9 cold per W10330404 PTC guidance.",
+      "measurementKnowledgeId": "whirlpoolWrtPtcStartOhms",
+      "testPoint": {
+        "connector": "PTC start module",
+        "pins": "PTC terminals",
+        "label": "PTC cold resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ptc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "start_device",
+              "evidenceId": "ref_ms_wp_wrt_ptc_open"
+            }
+          ]
+        },
+        {
+          "id": "ptc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "start_device",
+              "evidenceId": "ref_ms_wp_wrt_ptc_open"
+            }
+          ]
+        },
+        {
+          "id": "ptc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "start_device",
+              "evidenceId": "ref_ms_wp_wrt_ptc_open"
+            }
+          ]
+        },
+        {
+          "id": "ptc_pass",
+          "label": "~3\u20138 \u03a9 cold",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ptc_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_ptc",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace start module",
+      "oemOutcome": "Replace PTC start module when open cold.",
+      "requiresInput": false
+    },
+    {
+      "id": "ptc_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "PTC verified",
+      "oemOutcome": "PTC cold resistance OK \u2014 check overload and ADC cooling output if won't start.",
+      "requiresInput": false
+    }
+  ]
+}

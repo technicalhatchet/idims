@@ -1,0 +1,149 @@
+{
+  "id": "w10674984-adc-cooling-voltage",
+  "version": "1.0.0",
+  "title": "ADC 2000 cooling output (P6\u2013P4)",
+  "platformId": "whirlpool_wrt311_adc",
+  "componentIds": [
+    "control_board",
+    "compressor"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_wont_start"
+  ],
+  "source": {
+    "manualId": "W10674984",
+    "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+    "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "adc-voltage",
+    "oemTestTitle": "Cooling Output P6 (WH) \u2013 P4 (OR)",
+    "pages": [
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermostat_calling"
+    },
+    {
+      "id": "thermostat_calling",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Thermostat calling for cooling",
+      "body": "Cold control must be ON and calling for cooling (compressor should run or attempt start). Verify P1 (BK) to P6 (WH) = 120 VAC constant when plugged in.",
+      "sourceExcerpt": "Cold control must be ON and calling for cooling (compressor should run or attempt start). Verify P1 (BK) to P6 (WH) = 120 VAC constant when plugged in.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "calling_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cooling_v"
+        },
+        {
+          "id": "not_calling",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_thermostat",
+          "terminal": true,
+          "oemOutcome": "Verify cold control ON and not in defrost pause \u2014 thermostat or ADC input issue."
+        }
+      ]
+    },
+    {
+      "id": "cooling_v",
+      "order": 3,
+      "type": "measurement",
+      "title": "ADC cooling output voltage",
+      "body": "Measure P6 (WH) to P4 (OR) \u2014 120 VAC to compressor, evap fan, and condenser fan when cooling.",
+      "sourceExcerpt": "Measure P6 (WH) to P4 (OR) \u2014 120 VAC to compressor, evap fan, and condenser fan when cooling.",
+      "measurementKnowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage",
+      "testPoint": {
+        "connector": "ADC 2000",
+        "pins": "P6 (WH) \u2013 P4 (OR)",
+        "label": "ADC cooling output voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cooling_v_low",
+          "label": "Low / no voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "adc_cooling_fault",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_wp_wrt311_adc_cooling_v"
+            }
+          ]
+        },
+        {
+          "id": "cooling_v_warn",
+          "label": "Marginal voltage",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "adc_cooling_fault",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_wp_wrt311_adc_cooling_v"
+            }
+          ]
+        },
+        {
+          "id": "cooling_v_pass",
+          "label": "~120 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cooling_v_ok"
+        }
+      ]
+    },
+    {
+      "id": "check_thermostat",
+      "order": 4,
+      "type": "outcome",
+      "title": "Check thermostat / inputs",
+      "oemOutcome": "Verify cold control, ADC constant input P1\u2013P6, and defrost not active.",
+      "requiresInput": false
+    },
+    {
+      "id": "adc_cooling_fault",
+      "order": 5,
+      "type": "outcome",
+      "title": "ADC cooling output fault",
+      "oemOutcome": "No P6\u2013P4 output when calling for cooling \u2014 ADC, thermostat, or harness before sealed system.",
+      "requiresInput": false
+    },
+    {
+      "id": "cooling_v_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Cooling output verified",
+      "oemOutcome": "120 VAC present at ADC cooling output \u2014 check PTC/compressor if still not cooling.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -488,6 +488,8 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'ice_maker_diagnostics.im_harness_fuse_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolWrtIceMakerThermalFuseOhms', platformId: 'whirlpool_wrt_top_mount' },
+        { knowledgeId: 'whirlpoolWrtIceMakerThermalFuseOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolModularIceMakerHarnessFuseOhms', platformId: 'whirlpool_modular_ice_maker' },
       ],
     },

@@ -1,0 +1,178 @@
+{
+  "id": "w10330404-defrost-heater",
+  "version": "1.0.0",
+  "title": "\u00a74-5: Defrost heater resistance",
+  "platformId": "whirlpool_wrt_top_mount",
+  "componentIds": [
+    "defrost_heater",
+    "heater"
+  ],
+  "tags": [
+    "RD",
+    "DF",
+    "frost_buildup",
+    "defrost_heater",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "W10330404",
+    "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+    "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-5",
+    "oemTestTitle": "Checking Defrost Heater",
+    "pages": [
+      47,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "access_heater",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access defrost heater",
+      "body": "Remove evaporator cover. Disconnect defrost heater wiring harness at the heater.",
+      "sourceExcerpt": "Remove evaporator cover. Disconnect defrost heater wiring harness at the heater.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Defrost heater resistance",
+      "body": "Measure across heater terminals. Example: ~30 \u03a9 installed, ~33 \u03a9 uninstalled (verify tech sheet).",
+      "sourceExcerpt": "Measure across heater terminals. Example: ~30 \u03a9 installed, ~33 \u03a9 uninstalled (verify tech sheet).",
+      "measurementKnowledgeId": "whirlpoolWrtDefrostHeaterOhms",
+      "testPoint": {
+        "connector": "defrost heater",
+        "pins": "heater terminals",
+        "label": "Defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_wp_wrt_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_wp_wrt_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_wp_wrt_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_pass",
+          "label": "~28\u201335 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sheath_check"
+        }
+      ]
+    },
+    {
+      "id": "sheath_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Heater sheath isolation",
+      "body": "One lead on heater wire, other on heater sheath \u2014 must read infinity (no short to ground).",
+      "sourceExcerpt": "One lead on heater wire, other on heater sheath \u2014 must read infinity (no short to ground).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sheath_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ok"
+        },
+        {
+          "id": "sheath_short",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace defrost heater \u2014 element shorted to sheath.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_wp_wrt_defrost_heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace defrost heater",
+      "oemOutcome": "Replace defrost heater when open, out of spec, or shorted to sheath.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Defrost heater verified",
+      "oemOutcome": "Defrost heater resistance and sheath isolation verified.",
+      "requiresInput": false
+    }
+  ]
+}

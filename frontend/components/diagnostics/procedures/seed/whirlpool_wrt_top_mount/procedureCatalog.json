@@ -1,0 +1,90 @@
+{
+  "manualId": "W10330404",
+  "platformId": "whirlpool_wrt_top_mount",
+  "templateId": "refrigerator",
+  "label": "Whirlpool / Maytag / Amana WRT top-mount refrigerator (W10330404)",
+  "notes": "Mechanical timer / ADC job aid \u2014 ~30 \u03a9 defrost heater, PTC ~5 \u03a9, IM harness fuse, shaded-pole cond fan ~700 \u03a9.",
+  "plannedProcedures": [
+    {
+      "id": "w10330404-defrost-heater",
+      "oemSection": "4-5",
+      "title": "\u00a74-5: Defrost heater resistance",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrtDefrostHeaterOhms"
+      ],
+      "relatedCodes": [
+        "RD",
+        "DF"
+      ]
+    },
+    {
+      "id": "w10330404-defrost-bimetal",
+      "oemSection": "4-8",
+      "title": "\u00a74-8: Defrost bimetal / terminator",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrtDefrostBimetalOhms"
+      ],
+      "relatedCodes": [
+        "DF"
+      ]
+    },
+    {
+      "id": "w10330404-defrost-timer",
+      "oemSection": "3-12",
+      "title": "\u00a73-12: Mechanical defrost timer contacts",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "DF",
+        "TIMER"
+      ]
+    },
+    {
+      "id": "w10330404-ptc-start",
+      "oemSection": "5-9",
+      "title": "\u00a75-9: PTC start device (cold)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrtPtcStartOhms"
+      ],
+      "relatedCodes": [
+        "PTCOPEN",
+        "OL"
+      ]
+    },
+    {
+      "id": "w10330404-condenser-fan",
+      "oemSection": "5-3",
+      "title": "\u00a75-3: Condenser fan motor (shaded pole)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrtCondenserFanOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10330404-ice-maker-fuse",
+      "oemSection": "6-2",
+      "title": "\u00a76-2: Ice maker harness thermal fuse",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrtIceMakerThermalFuseOhms"
+      ],
+      "relatedCodes": [
+        "IMFUSE"
+      ]
+    },
+    {
+      "id": "w10330404-compressor-windings",
+      "oemSection": "5-6",
+      "title": "\u00a75-6: Compressor winding identification",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "OL"
+      ]
+    }
+  ]
+}

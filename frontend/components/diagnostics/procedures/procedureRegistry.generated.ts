@@ -2,6 +2,7 @@
 // Re-run after adding or removing procedure seed JSON files.
 
 
+import frigidaire_prmc_french_door_bundles_frigidaireprmc_service_mode_entry from './seed/frigidaire_prmc_french_door/bundles/frigidaireprmc-service-mode-entry.json';
 import insignia_dishwasher_bundles_nsdwr3ss1_service_test_entry from './seed/insignia_dishwasher/bundles/nsdwr3ss1-service-test-entry.json';
 import insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry from './seed/insignia_dryer_tdre/bundles/nstdre75w1-service-test-entry.json';
 import insignia_washer_cap_bundles_insigniatwmcap_test_mode_entry from './seed/insignia_washer_cap/bundles/insigniatwmcap-test-mode-entry.json';
@@ -10,6 +11,7 @@ import lg_dishwasher_ldt7808_bundles_ldt7808_test_mode_entry from './seed/lg_dis
 import lg_dishwasher_ldt7808_bundles_ldt7808_water_supply_check from './seed/lg_dishwasher_ldt7808/bundles/ldt7808-water-supply-check.json';
 import lg_lrmvs_bundles_lglrmvs_damper_test from './seed/lg_lrmvs/bundles/lglrmvs-damper-test.json';
 import lg_lrmvs_bundles_lglrmvs_test_mode_entry from './seed/lg_lrmvs/bundles/lglrmvs-test-mode-entry.json';
+import lg_microwave_otr_bundles_lgotrmw_self_test_entry from './seed/lg_microwave_otr/bundles/lgotrmw-self-test-entry.json';
 import midea_rss_bundles_midearss_mandatory_mode_entry from './seed/midea_rss/bundles/midearss-mandatory-mode-entry.json';
 import midea_uz21_bundles_mideauz21_forced_defrost_entry from './seed/midea_uz21/bundles/mideauz21-forced-defrost-entry.json';
 import midea_uz21_bundles_mideauz21_test_mode_entry from './seed/midea_uz21/bundles/mideauz21-test-mode-entry.json';
@@ -78,7 +80,17 @@ import whirlpool_tl_dd_5100_bundles_w11416787_component_activation from './seed/
 import whirlpool_tl_dd_5100_bundles_w11416787_service_diagnostic_entry from './seed/whirlpool_tl_dd_5100/bundles/w11416787-service-diagnostic-entry.json';
 import whirlpool_tl_dd_6157_bundles_w11455152_automatic_test_mode from './seed/whirlpool_tl_dd_6157/bundles/w11455152-automatic-test-mode.json';
 import whirlpool_tl_dd_6157_bundles_w11455152_service_diagnostic_entry from './seed/whirlpool_tl_dd_6157/bundles/w11455152-service-diagnostic-entry.json';
+import whirlpool_wrt311_adc_bundles_w10674984_adc_defrost_test_entry from './seed/whirlpool_wrt311_adc/bundles/w10674984-adc-defrost-test-entry.json';
 
+import frigidaire_prmc_french_door_frigidaireprmc_ff_defrost_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-ff-defrost-sensor.json';
+import frigidaire_prmc_french_door_frigidaireprmc_ff_temp_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-ff-temp-sensor.json';
+import frigidaire_prmc_french_door_frigidaireprmc_ffim_self_test from './seed/frigidaire_prmc_french_door/frigidaireprmc-ffim-self-test.json';
+import frigidaire_prmc_french_door_frigidaireprmc_ffim_tray_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-ffim-tray-sensor.json';
+import frigidaire_prmc_french_door_frigidaireprmc_fz_defrost_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-fz-defrost-sensor.json';
+import frigidaire_prmc_french_door_frigidaireprmc_fz_temp_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-fz-temp-sensor.json';
+import frigidaire_prmc_french_door_frigidaireprmc_manual_defrost from './seed/frigidaire_prmc_french_door/frigidaireprmc-manual-defrost.json';
+import frigidaire_prmc_french_door_frigidaireprmc_ui_communication from './seed/frigidaire_prmc_french_door/frigidaireprmc-ui-communication.json';
+import frigidaire_prmc_french_door_frigidaireprmc_vcz_temp_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-vcz-temp-sensor.json';
 import insignia_dishwasher_nsdwr3ss1_control_panel from './seed/insignia_dishwasher/nsdwr3ss1-control-panel.json';
 import insignia_dishwasher_nsdwr3ss1_display_comm from './seed/insignia_dishwasher/nsdwr3ss1-display-comm.json';
 import insignia_dishwasher_nsdwr3ss1_diverter from './seed/insignia_dishwasher/nsdwr3ss1-diverter.json';
@@ -144,6 +156,18 @@ import lg_lrmvs_lglrmvs_icing_fan from './seed/lg_lrmvs/lglrmvs-icing-fan.json';
 import lg_lrmvs_lglrmvs_icing_sensor from './seed/lg_lrmvs/lglrmvs-icing-sensor.json';
 import lg_lrmvs_lglrmvs_sealed_system from './seed/lg_lrmvs/lglrmvs-sealed-system.json';
 import lg_lrmvs_lglrmvs_wifi_modem from './seed/lg_lrmvs/lglrmvs-wifi-modem.json';
+import lg_microwave_otr_lgotrmw_door_interlock from './seed/lg_microwave_otr/lgotrmw-door-interlock.json';
+import lg_microwave_otr_lgotrmw_humidity_sensor from './seed/lg_microwave_otr/lgotrmw-humidity-sensor.json';
+import lg_microwave_otr_lgotrmw_hv_capacitor from './seed/lg_microwave_otr/lgotrmw-hv-capacitor.json';
+import lg_microwave_otr_lgotrmw_hv_diode from './seed/lg_microwave_otr/lgotrmw-hv-diode.json';
+import lg_microwave_otr_lgotrmw_hv_fuse from './seed/lg_microwave_otr/lgotrmw-hv-fuse.json';
+import lg_microwave_otr_lgotrmw_hv_transformer from './seed/lg_microwave_otr/lgotrmw-hv-transformer.json';
+import lg_microwave_otr_lgotrmw_keypad from './seed/lg_microwave_otr/lgotrmw-keypad.json';
+import lg_microwave_otr_lgotrmw_line_power from './seed/lg_microwave_otr/lgotrmw-line-power.json';
+import lg_microwave_otr_lgotrmw_magnetron from './seed/lg_microwave_otr/lgotrmw-magnetron.json';
+import lg_microwave_otr_lgotrmw_no_heat from './seed/lg_microwave_otr/lgotrmw-no-heat.json';
+import lg_microwave_otr_lgotrmw_pcb_thermistor from './seed/lg_microwave_otr/lgotrmw-pcb-thermistor.json';
+import lg_microwave_otr_lgotrmw_turntable from './seed/lg_microwave_otr/lgotrmw-turntable.json';
 import midea_rss_midearss_ambient_sensor from './seed/midea_rss/midearss-ambient-sensor.json';
 import midea_rss_midearss_communication from './seed/midea_rss/midearss-communication.json';
 import midea_rss_midearss_fz_defrost_heater from './seed/midea_rss/midearss-fz-defrost-heater.json';
@@ -560,6 +584,11 @@ import whirlpool_tl_dd_6157_w11455152_test_04_hmi from './seed/whirlpool_tl_dd_6
 import whirlpool_tl_dd_6157_w11455152_test_05_water_level from './seed/whirlpool_tl_dd_6157/w11455152-test-05-water-level.json';
 import whirlpool_tl_dd_6157_w11455152_test_06_drain_pump from './seed/whirlpool_tl_dd_6157/w11455152-test-06-drain-pump.json';
 import whirlpool_tl_dd_6157_w11455152_test_07_lid_lock from './seed/whirlpool_tl_dd_6157/w11455152-test-07-lid-lock.json';
+import whirlpool_wrt311_adc_w10674984_adc_cooling_voltage from './seed/whirlpool_wrt311_adc/w10674984-adc-cooling-voltage.json';
+import whirlpool_wrt311_adc_w10674984_adc_heater_voltage from './seed/whirlpool_wrt311_adc/w10674984-adc-heater-voltage.json';
+import whirlpool_wrt311_adc_w10674984_defrost_bimetal from './seed/whirlpool_wrt311_adc/w10674984-defrost-bimetal.json';
+import whirlpool_wrt311_adc_w10674984_defrost_heater from './seed/whirlpool_wrt311_adc/w10674984-defrost-heater.json';
+import whirlpool_wrt311_adc_w10674984_ptc_start from './seed/whirlpool_wrt311_adc/w10674984-ptc-start.json';
 import whirlpool_wrt_top_mount_w10330404_compressor_windings from './seed/whirlpool_wrt_top_mount/w10330404-compressor-windings.json';
 import whirlpool_wrt_top_mount_w10330404_condenser_fan from './seed/whirlpool_wrt_top_mount/w10330404-condenser-fan.json';
 import whirlpool_wrt_top_mount_w10330404_defrost_bimetal from './seed/whirlpool_wrt_top_mount/w10330404-defrost-bimetal.json';
@@ -571,6 +600,7 @@ import whirlpool_wrt_top_mount_w10330404_ptc_start from './seed/whirlpool_wrt_to
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
+  frigidaire_prmc_french_door_bundles_frigidaireprmc_service_mode_entry as ServiceModeBundle,
   insignia_dishwasher_bundles_nsdwr3ss1_service_test_entry as ServiceModeBundle,
   insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry as ServiceModeBundle,
   insignia_washer_cap_bundles_insigniatwmcap_test_mode_entry as ServiceModeBundle,
@@ -579,6 +609,7 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   lg_dishwasher_ldt7808_bundles_ldt7808_water_supply_check as ServiceModeBundle,
   lg_lrmvs_bundles_lglrmvs_damper_test as ServiceModeBundle,
   lg_lrmvs_bundles_lglrmvs_test_mode_entry as ServiceModeBundle,
+  lg_microwave_otr_bundles_lgotrmw_self_test_entry as ServiceModeBundle,
   midea_rss_bundles_midearss_mandatory_mode_entry as ServiceModeBundle,
   midea_uz21_bundles_mideauz21_forced_defrost_entry as ServiceModeBundle,
   midea_uz21_bundles_mideauz21_test_mode_entry as ServiceModeBundle,
@@ -647,9 +678,19 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_tl_dd_5100_bundles_w11416787_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_tl_dd_6157_bundles_w11455152_automatic_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_6157_bundles_w11455152_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_wrt311_adc_bundles_w10674984_adc_defrost_test_entry as ServiceModeBundle,
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
+  frigidaire_prmc_french_door_frigidaireprmc_ff_defrost_sensor as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_ff_temp_sensor as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_ffim_self_test as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_ffim_tray_sensor as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_fz_defrost_sensor as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_fz_temp_sensor as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_manual_defrost as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_ui_communication as ServiceProcedureSeed,
+  frigidaire_prmc_french_door_frigidaireprmc_vcz_temp_sensor as ServiceProcedureSeed,
   insignia_dishwasher_nsdwr3ss1_control_panel as ServiceProcedureSeed,
   insignia_dishwasher_nsdwr3ss1_display_comm as ServiceProcedureSeed,
   insignia_dishwasher_nsdwr3ss1_diverter as ServiceProcedureSeed,
@@ -715,6 +756,18 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   lg_lrmvs_lglrmvs_icing_sensor as ServiceProcedureSeed,
   lg_lrmvs_lglrmvs_sealed_system as ServiceProcedureSeed,
   lg_lrmvs_lglrmvs_wifi_modem as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_door_interlock as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_humidity_sensor as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_hv_capacitor as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_hv_diode as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_hv_fuse as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_hv_transformer as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_keypad as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_line_power as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_magnetron as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_no_heat as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_pcb_thermistor as ServiceProcedureSeed,
+  lg_microwave_otr_lgotrmw_turntable as ServiceProcedureSeed,
   midea_rss_midearss_ambient_sensor as ServiceProcedureSeed,
   midea_rss_midearss_communication as ServiceProcedureSeed,
   midea_rss_midearss_fz_defrost_heater as ServiceProcedureSeed,
@@ -1131,6 +1184,11 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_tl_dd_6157_w11455152_test_05_water_level as ServiceProcedureSeed,
   whirlpool_tl_dd_6157_w11455152_test_06_drain_pump as ServiceProcedureSeed,
   whirlpool_tl_dd_6157_w11455152_test_07_lid_lock as ServiceProcedureSeed,
+  whirlpool_wrt311_adc_w10674984_adc_cooling_voltage as ServiceProcedureSeed,
+  whirlpool_wrt311_adc_w10674984_adc_heater_voltage as ServiceProcedureSeed,
+  whirlpool_wrt311_adc_w10674984_defrost_bimetal as ServiceProcedureSeed,
+  whirlpool_wrt311_adc_w10674984_defrost_heater as ServiceProcedureSeed,
+  whirlpool_wrt311_adc_w10674984_ptc_start as ServiceProcedureSeed,
   whirlpool_wrt_top_mount_w10330404_compressor_windings as ServiceProcedureSeed,
   whirlpool_wrt_top_mount_w10330404_condenser_fan as ServiceProcedureSeed,
   whirlpool_wrt_top_mount_w10330404_defrost_bimetal as ServiceProcedureSeed,

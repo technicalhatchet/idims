@@ -1,0 +1,151 @@
+{
+  "id": "w10330404-ptc-start",
+  "version": "1.0.0",
+  "title": "\u00a75-9: PTC start device (cold)",
+  "platformId": "whirlpool_wrt_top_mount",
+  "componentIds": [
+    "start_device",
+    "compressor"
+  ],
+  "tags": [
+    "PTCOPEN",
+    "OL",
+    "compressor_wont_start",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "W10330404",
+    "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+    "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-9",
+    "oemTestTitle": "PTC Thermistor Start Device",
+    "pages": [
+      63,
+      64
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "cooldown"
+    },
+    {
+      "id": "cooldown",
+      "order": 2,
+      "type": "instruction",
+      "title": "Allow PTC cool-down",
+      "body": "Disconnect power. Allow PTC to cool ~10 minutes if compressor was recently run \u2014 hot PTC reads open.",
+      "sourceExcerpt": "Disconnect power. Allow PTC to cool ~10 minutes if compressor was recently run \u2014 hot PTC reads open.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_ptc"
+    },
+    {
+      "id": "disconnect_ptc",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect start device",
+      "body": "Remove machine compartment cover. Unplug start module from compressor. Do not rapid-cycle during service.",
+      "sourceExcerpt": "Remove machine compartment cover. Unplug start module from compressor. Do not rapid-cycle during service.",
+      "requiresInput": false,
+      "defaultNextStepId": "ptc_ohms"
+    },
+    {
+      "id": "ptc_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "PTC cold resistance",
+      "body": "Measure PTC at room temperature \u2014 ~5 \u03a9 cold; rises to 100k\u03a9+ within 1\u20133 s when energized.",
+      "sourceExcerpt": "Measure PTC at room temperature \u2014 ~5 \u03a9 cold; rises to 100k\u03a9+ within 1\u20133 s when energized.",
+      "measurementKnowledgeId": "whirlpoolWrtPtcStartOhms",
+      "testPoint": {
+        "connector": "PTC start module",
+        "pins": "PTC terminals",
+        "label": "PTC cold resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ptc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "start_device",
+              "evidenceId": "ref_ms_wp_wrt_ptc_open"
+            }
+          ]
+        },
+        {
+          "id": "ptc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "start_device",
+              "evidenceId": "ref_ms_wp_wrt_ptc_open"
+            }
+          ]
+        },
+        {
+          "id": "ptc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "start_device",
+              "evidenceId": "ref_ms_wp_wrt_ptc_open"
+            }
+          ]
+        },
+        {
+          "id": "ptc_pass",
+          "label": "~3\u20138 \u03a9 cold",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ptc_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_ptc",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace start module",
+      "oemOutcome": "Replace PTC start module/assembly when open cold or compressor won't start after cool-down.",
+      "requiresInput": false
+    },
+    {
+      "id": "ptc_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "PTC verified",
+      "oemOutcome": "PTC cold resistance in range \u2014 check overload and compressor windings if still won't start.",
+      "requiresInput": false
+    }
+  ]
+}

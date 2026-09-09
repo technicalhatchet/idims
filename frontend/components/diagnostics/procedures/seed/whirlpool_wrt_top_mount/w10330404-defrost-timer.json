@@ -1,0 +1,140 @@
+{
+  "id": "w10330404-defrost-timer",
+  "version": "1.0.0",
+  "title": "\u00a73-12: Mechanical defrost timer contacts",
+  "platformId": "whirlpool_wrt_top_mount",
+  "componentIds": [
+    "defrost_timer",
+    "control_board"
+  ],
+  "tags": [
+    "DF",
+    "TIMER",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "W10330404",
+    "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+    "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-12",
+    "oemTestTitle": "Checking Defrost Timer",
+    "pages": [
+      38,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_timer"
+    },
+    {
+      "id": "access_timer",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access defrost timer",
+      "body": "Locate mechanical defrost timer (typically refrigerator compartment). Disconnect power before contact checks.",
+      "sourceExcerpt": "Locate mechanical defrost timer (typically refrigerator compartment). Disconnect power before contact checks.",
+      "requiresInput": false,
+      "defaultNextStepId": "timer_cool_contacts"
+    },
+    {
+      "id": "timer_cool_contacts",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Timer in cooling position \u2014 contacts 1\u20132 and 1\u20134",
+      "body": "With timer in cooling: pins 1\u20132 = 0 \u03a9; pins 1\u20134 = OL. Rotate timer shaft until it snaps into defrost and recheck.",
+      "sourceExcerpt": "With timer in cooling: pins 1\u20132 = 0 \u03a9; pins 1\u20134 = OL. Rotate timer shaft until it snaps into defrost and recheck.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cool_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "timer_defrost_contacts"
+        },
+        {
+          "id": "cool_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace defrost timer \u2014 cooling contacts failed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_timer",
+              "evidenceId": "ref_kw_wp_df"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "timer_defrost_contacts",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Timer in defrost position \u2014 contacts 1\u20132 and 1\u20134",
+      "body": "With timer in defrost: pins 1\u20132 = OL; pins 1\u20134 = 0 \u03a9. ~8 hr run / ~20 min defrost typical.",
+      "sourceExcerpt": "With timer in defrost: pins 1\u20132 = OL; pins 1\u20134 = 0 \u03a9. ~8 hr run / ~20 min defrost typical.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "defrost_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "timer_ok"
+        },
+        {
+          "id": "defrost_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace defrost timer \u2014 defrost contacts failed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_timer",
+              "evidenceId": "ref_kw_wp_df"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_timer",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace defrost timer",
+      "oemOutcome": "Replace mechanical defrost timer when contact states fail in cool or defrost.",
+      "requiresInput": false
+    },
+    {
+      "id": "timer_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Timer contacts verified",
+      "oemOutcome": "Defrost timer contact states verified in cool and defrost positions.",
+      "requiresInput": false
+    }
+  ]
+}

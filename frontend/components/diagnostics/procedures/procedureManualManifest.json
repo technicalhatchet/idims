@@ -630,6 +630,21 @@
       }
     },
     {
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "seedDir": "lg_microwave_otr",
+      "label": "LG LMHM2237BD over-the-range microwave",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/lg_microwave_otr/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_lg_lmhm2237_microwave_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_lg_lmhm2237_microwave_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_lg_lmhm2237_microwave_service_modes.py"
+      }
+    },
+    {
       "manualId": "W10330404",
       "platformId": "whirlpool_wrt_top_mount",
       "templateId": "refrigerator",
@@ -672,6 +687,21 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_w2225623_ice_maker_diagnostic_effects.py",
         "attachServiceModes": null
+      }
+    },
+    {
+      "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "seedDir": "frigidaire_prmc_french_door",
+      "label": "Frigidaire Professional PRMC French-door refrigerator",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/frigidaire_prmc_french_door/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_frigidaire_prmc_fridge_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_frigidaire_prmc_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_frigidaire_prmc_fridge_service_modes.py"
       }
     }
   ]
