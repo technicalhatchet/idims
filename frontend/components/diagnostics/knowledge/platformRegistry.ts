@@ -2,12 +2,15 @@ import type { MeasurementContext } from './types';
 import { expandOemModelVariants } from './whirlpoolOemRebadge';
 
 export const PLATFORM_IDS = {
+  WHIRLPOOL_TL_DD_5100: 'whirlpool_tl_dd_5100',
   WHIRLPOOL_TL_DD: 'whirlpool_tl_dd',
   WHIRLPOOL_FL_DD: 'whirlpool_fl_dd',
   WHIRLPOOL_DUET_SPORT: 'whirlpool_duet_sport',
   WHIRLPOOL_DUET_SPORT_DRYER: 'whirlpool_duet_sport_dryer',
   SAMSUNG_FLEXWASH: 'samsung_flexwash',
   SAMSUNG_SXS: 'samsung_sxs',
+  SAMSUNG_FL_WASHER_BB8700: 'samsung_fl_washer_bb8700',
+  SAMSUNG_FL_DRYER_BB8700: 'samsung_fl_dryer_bb8700',
   LG_LRMVS: 'lg_lrmvs',
   WHIRLPOOL_WRT_TOP_MOUNT: 'whirlpool_wrt_top_mount',
   WHIRLPOOL_WRT311_ADC: 'whirlpool_wrt311_adc',
@@ -46,6 +49,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     modelPatterns: [/MVW62/i, /WTW62/i],
   },
   {
+    id: PLATFORM_IDS.WHIRLPOOL_TL_DD_5100,
+    label: 'Whirlpool/Maytag 4.7/5.3 cu ft direct-drive top-load (W11416787)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'washer',
+    modelPatterns: [/WTW51/i, /MVW51/i],
+  },
+  {
     id: PLATFORM_IDS.WHIRLPOOL_TL_DD,
     label: 'Whirlpool/Maytag 3.8 cu ft PSC top-load (W11697231)',
     manufacturers: ['Whirlpool', 'Maytag'],
@@ -75,6 +85,27 @@ export const PLATFORM_RULES: PlatformRule[] = [
     manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
     templateId: 'washer',
     modelPatterns: [/WFW/i, /MHW/i, /CHW/i],
+  },
+  {
+    id: PLATFORM_IDS.SAMSUNG_FL_WASHER_BB8700,
+    label: 'Samsung front-load washer BB8700 family',
+    manufacturers: ['Samsung'],
+    templateId: 'washer',
+    modelPatterns: [/WF50BB/i, /WF53BB/i, /WF46BB/i, /WF50BG/i, /WF51CG/i],
+  },
+  {
+    id: PLATFORM_IDS.SAMSUNG_FL_DRYER_BB8700,
+    label: 'Samsung front-load electric dryer BB8700 (DVE)',
+    manufacturers: ['Samsung'],
+    templateId: 'electric_dryer',
+    modelPatterns: [/DVE53BB/i, /DVE50/i, /DVE46BB/i],
+  },
+  {
+    id: PLATFORM_IDS.SAMSUNG_FL_DRYER_BB8700,
+    label: 'Samsung front-load gas dryer BB8700 (DVG)',
+    manufacturers: ['Samsung'],
+    templateId: 'gas_dryer',
+    modelPatterns: [/DVG53BB/i, /DVG50/i, /DVG46BB/i, /DV53BB/i, /DV50/i],
   },
   {
     id: PLATFORM_IDS.SAMSUNG_FLEXWASH,

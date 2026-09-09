@@ -3,10 +3,16 @@
 
 
 import insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry from './seed/insignia_dryer_tdre/bundles/nstdre75w1-service-test-entry.json';
+import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-error-recall.json';
+import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-smart-install-entry.json';
+import samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-diagnostic-code-check.json';
+import samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-manual-check-mode.json';
+import samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-smart-install-entry.json';
 import whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11416805-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10881701-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w10881701-service-test-mode.json';
+import whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry from './seed/whirlpool_centennial_dryer/bundles/w8178629-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test from './seed/whirlpool_duet_sport/bundles/w8178558-manual-diagnostic-test.json';
@@ -23,6 +29,8 @@ import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/w
 import whirlpool_tl_dd_bundles_w10864849_service_test_mode from './seed/whirlpool_tl_dd/bundles/w10864849-service-test-mode.json';
 import whirlpool_tl_dd_bundles_w11697231_manual_test_mode from './seed/whirlpool_tl_dd/bundles/w11697231-manual-test-mode.json';
 import whirlpool_tl_dd_bundles_w11697231_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w11697231-service-diagnostic-entry.json';
+import whirlpool_tl_dd_5100_bundles_w11416787_component_activation from './seed/whirlpool_tl_dd_5100/bundles/w11416787-component-activation.json';
+import whirlpool_tl_dd_5100_bundles_w11416787_service_diagnostic_entry from './seed/whirlpool_tl_dd_5100/bundles/w11416787-service-diagnostic-entry.json';
 
 import insignia_dryer_tdre_nstdre75w1_belt_safety from './seed/insignia_dryer_tdre/nstdre75w1-belt-safety.json';
 import insignia_dryer_tdre_nstdre75w1_communication from './seed/insignia_dryer_tdre/nstdre75w1-communication.json';
@@ -38,6 +46,27 @@ import insignia_dryer_tdre_nstdre75w1_motor_circuit from './seed/insignia_dryer_
 import insignia_dryer_tdre_nstdre75w1_outlet_thermistor from './seed/insignia_dryer_tdre/nstdre75w1-outlet-thermistor.json';
 import insignia_dryer_tdre_nstdre75w1_thermal_cutoff from './seed/insignia_dryer_tdre/nstdre75w1-thermal-cutoff.json';
 import insignia_dryer_tdre_nstdre75w1_thermal_hi_limit from './seed/insignia_dryer_tdre/nstdre75w1-thermal-hi-limit.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-belt-cutoff.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-door-switch.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-gas-flame-sensor.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_ignitor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-gas-ignitor.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_valve from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-gas-valve.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_heater_electric from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-heater-electric.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_hmi from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-hmi.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_motor_circuit from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-motor-circuit.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_power from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-power.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermal_cutoff from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-thermal-cutoff.json';
+import samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermistor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-thermistor.json';
+import samsung_fl_washer_bb8700_samsungbb8700_communication from './seed/samsung_fl_washer_bb8700/samsungbb8700-communication.json';
+import samsung_fl_washer_bb8700_samsungbb8700_door_lock from './seed/samsung_fl_washer_bb8700/samsungbb8700-door-lock.json';
+import samsung_fl_washer_bb8700_samsungbb8700_drain_pump from './seed/samsung_fl_washer_bb8700/samsungbb8700-drain-pump.json';
+import samsung_fl_washer_bb8700_samsungbb8700_inlet_valves from './seed/samsung_fl_washer_bb8700/samsungbb8700-inlet-valves.json';
+import samsung_fl_washer_bb8700_samsungbb8700_motor_circuit from './seed/samsung_fl_washer_bb8700/samsungbb8700-motor-circuit.json';
+import samsung_fl_washer_bb8700_samsungbb8700_overflow from './seed/samsung_fl_washer_bb8700/samsungbb8700-overflow.json';
+import samsung_fl_washer_bb8700_samsungbb8700_power_supply from './seed/samsung_fl_washer_bb8700/samsungbb8700-power-supply.json';
+import samsung_fl_washer_bb8700_samsungbb8700_wash_heater from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-heater.json';
+import samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-thermistor.json';
+import samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor from './seed/samsung_fl_washer_bb8700/samsungbb8700-water-level-sensor.json';
 import whirlpool_acu_tl_dryer_w11416805_acu_power from './seed/whirlpool_acu_tl_dryer/w11416805-acu-power.json';
 import whirlpool_acu_tl_dryer_w11416805_door_switch from './seed/whirlpool_acu_tl_dryer/w11416805-door-switch.json';
 import whirlpool_acu_tl_dryer_w11416805_drum_light from './seed/whirlpool_acu_tl_dryer/w11416805-drum-light.json';
@@ -81,6 +110,17 @@ import whirlpool_ccu_dryer_w10881701_thermal_cutoff from './seed/whirlpool_ccu_d
 import whirlpool_ccu_dryer_w10881701_thermal_fuse from './seed/whirlpool_ccu_dryer/w10881701-thermal-fuse.json';
 import whirlpool_ccu_dryer_w10881701_thermistors from './seed/whirlpool_ccu_dryer/w10881701-thermistors.json';
 import whirlpool_ccu_dryer_w10881701_water_valve from './seed/whirlpool_ccu_dryer/w10881701-water-valve.json';
+import whirlpool_centennial_dryer_w8178629_door_switch from './seed/whirlpool_centennial_dryer/w8178629-door-switch.json';
+import whirlpool_centennial_dryer_w8178629_drive_motor from './seed/whirlpool_centennial_dryer/w8178629-drive-motor.json';
+import whirlpool_centennial_dryer_w8178629_electric_heater from './seed/whirlpool_centennial_dryer/w8178629-electric-heater.json';
+import whirlpool_centennial_dryer_w8178629_electric_tco_inlet from './seed/whirlpool_centennial_dryer/w8178629-electric-tco-inlet.json';
+import whirlpool_centennial_dryer_w8178629_flame_sensor from './seed/whirlpool_centennial_dryer/w8178629-flame-sensor.json';
+import whirlpool_centennial_dryer_w8178629_gas_coils from './seed/whirlpool_centennial_dryer/w8178629-gas-coils.json';
+import whirlpool_centennial_dryer_w8178629_gas_hilimit_cutoff from './seed/whirlpool_centennial_dryer/w8178629-gas-hilimit-cutoff.json';
+import whirlpool_centennial_dryer_w8178629_gas_ignitor from './seed/whirlpool_centennial_dryer/w8178629-gas-ignitor.json';
+import whirlpool_centennial_dryer_w8178629_supply_connections from './seed/whirlpool_centennial_dryer/w8178629-supply-connections.json';
+import whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust from './seed/whirlpool_centennial_dryer/w8178629-thermal-fuse-exhaust.json';
+import whirlpool_centennial_dryer_w8178629_timer_motor from './seed/whirlpool_centennial_dryer/w8178629-timer-motor.json';
 import whirlpool_dishwasher_acu_w11633848_acu_power from './seed/whirlpool_dishwasher_acu/w11633848-acu-power.json';
 import whirlpool_dishwasher_acu_w11633848_dc_fan from './seed/whirlpool_dishwasher_acu/w11633848-dc-fan.json';
 import whirlpool_dishwasher_acu_w11633848_dispenser from './seed/whirlpool_dishwasher_acu/w11633848-dispenser.json';
@@ -169,15 +209,32 @@ import whirlpool_tl_dd_w11697231_test_05_temp_thermistor from './seed/whirlpool_
 import whirlpool_tl_dd_w11697231_test_06_water_level from './seed/whirlpool_tl_dd/w11697231-test-06-water-level.json';
 import whirlpool_tl_dd_w11697231_test_07_drain_pump from './seed/whirlpool_tl_dd/w11697231-test-07-drain-pump.json';
 import whirlpool_tl_dd_w11697231_test_08_lid_lock from './seed/whirlpool_tl_dd/w11697231-test-08-lid-lock.json';
+import whirlpool_tl_dd_5100_w11416787_test_01_acu_power from './seed/whirlpool_tl_dd_5100/w11416787-test-01-acu-power.json';
+import whirlpool_tl_dd_5100_w11416787_test_02_valves from './seed/whirlpool_tl_dd_5100/w11416787-test-02-valves.json';
+import whirlpool_tl_dd_5100_w11416787_test_03_drive_system from './seed/whirlpool_tl_dd_5100/w11416787-test-03-drive-system.json';
+import whirlpool_tl_dd_5100_w11416787_test_03a_shifter from './seed/whirlpool_tl_dd_5100/w11416787-test-03a-shifter.json';
+import whirlpool_tl_dd_5100_w11416787_test_03b_motor from './seed/whirlpool_tl_dd_5100/w11416787-test-03b-motor.json';
+import whirlpool_tl_dd_5100_w11416787_test_04_hmi from './seed/whirlpool_tl_dd_5100/w11416787-test-04-hmi.json';
+import whirlpool_tl_dd_5100_w11416787_test_05_temp_thermistor from './seed/whirlpool_tl_dd_5100/w11416787-test-05-temp-thermistor.json';
+import whirlpool_tl_dd_5100_w11416787_test_06_water_level from './seed/whirlpool_tl_dd_5100/w11416787-test-06-water-level.json';
+import whirlpool_tl_dd_5100_w11416787_test_07_drain_recirc_pump from './seed/whirlpool_tl_dd_5100/w11416787-test-07-drain-recirc-pump.json';
+import whirlpool_tl_dd_5100_w11416787_test_08_lid_lock from './seed/whirlpool_tl_dd_5100/w11416787-test-08-lid-lock.json';
+import whirlpool_tl_dd_5100_w11416787_test_09_load_and_go from './seed/whirlpool_tl_dd_5100/w11416787-test-09-load-and-go.json';
 
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry as ServiceModeBundle,
+  samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall as ServiceModeBundle,
+  samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry as ServiceModeBundle,
+  samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check as ServiceModeBundle,
+  samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode as ServiceModeBundle,
+  samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry as ServiceModeBundle,
   whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_service_test_mode as ServiceModeBundle,
+  whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test as ServiceModeBundle,
@@ -194,6 +251,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_tl_dd_bundles_w10864849_service_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w11697231_manual_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w11697231_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_tl_dd_5100_bundles_w11416787_component_activation as ServiceModeBundle,
+  whirlpool_tl_dd_5100_bundles_w11416787_service_diagnostic_entry as ServiceModeBundle,
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
@@ -211,6 +270,27 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   insignia_dryer_tdre_nstdre75w1_outlet_thermistor as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_thermal_cutoff as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_thermal_hi_limit as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_ignitor as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_valve as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_heater_electric as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_hmi as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_motor_circuit as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_power as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermal_cutoff as ServiceProcedureSeed,
+  samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermistor as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_communication as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_door_lock as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_drain_pump as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_inlet_valves as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_motor_circuit as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_overflow as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_power_supply as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_wash_heater as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor as ServiceProcedureSeed,
+  samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_acu_power as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_door_switch as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_drum_light as ServiceProcedureSeed,
@@ -254,6 +334,17 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_ccu_dryer_w10881701_thermal_fuse as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10881701_thermistors as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10881701_water_valve as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_door_switch as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_drive_motor as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_electric_heater as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_electric_tco_inlet as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_flame_sensor as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_gas_coils as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_gas_hilimit_cutoff as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_gas_ignitor as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_supply_connections as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust as ServiceProcedureSeed,
+  whirlpool_centennial_dryer_w8178629_timer_motor as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_acu_power as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dc_fan as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dispenser as ServiceProcedureSeed,
@@ -342,4 +433,15 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_tl_dd_w11697231_test_06_water_level as ServiceProcedureSeed,
   whirlpool_tl_dd_w11697231_test_07_drain_pump as ServiceProcedureSeed,
   whirlpool_tl_dd_w11697231_test_08_lid_lock as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_01_acu_power as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_02_valves as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_03_drive_system as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_03a_shifter as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_03b_motor as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_04_hmi as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_05_temp_thermistor as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_06_water_level as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_07_drain_recirc_pump as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_08_lid_lock as ServiceProcedureSeed,
+  whirlpool_tl_dd_5100_w11416787_test_09_load_and_go as ServiceProcedureSeed,
 ];

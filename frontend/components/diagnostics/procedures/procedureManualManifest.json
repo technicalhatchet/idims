@@ -60,6 +60,21 @@
       }
     },
     {
+      "manualId": "W11416787",
+      "platformId": "whirlpool_tl_dd_5100",
+      "templateId": "washer",
+      "seedDir": "whirlpool_tl_dd_5100",
+      "label": "Whirlpool/Maytag 4.7/5.3 cu ft top-load washer (W11416787, direct drive)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_dd_5100/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11416787_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11416787_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11416787_service_modes.py"
+      }
+    },
+    {
       "manualId": "W11697231",
       "platformId": "whirlpool_tl_dd",
       "templateId": "washer",
@@ -162,6 +177,36 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_w11416395_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w11416395_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "platformId": "samsung_fl_washer_bb8700",
+      "templateId": "washer",
+      "seedDir": "samsung_fl_washer_bb8700",
+      "label": "Samsung FL washer BB8700 (WF50/53BB, WF51CG)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fl_washer_bb8700/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_fl_bb8700_washer_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_fl_bb8700_washer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_fl_bb8700_washer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-BB8700-DRYER",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "seedDir": "samsung_fl_dryer_bb8700",
+      "label": "Samsung FL dryer BB8700 (DVE/DVG 53/50BB)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fl_dryer_bb8700/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_fl_bb8700_dryer_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_fl_bb8700_dryer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_fl_bb8700_dryer_service_modes.py"
       }
     }
   ]
