@@ -1,0 +1,190 @@
+{
+  "id": "nsdwr3ss1-heater",
+  "version": "1.0.0",
+  "title": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "E3",
+    "no_heat",
+    "heating_element_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E3",
+    "oemTestTitle": "Heater failure",
+    "pages": [
+      23,
+      28
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "e3_symptom"
+    },
+    {
+      "id": "e3_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E3 behavior",
+      "body": "E3 logs when water temperature cannot reach the defined value within 90 minutes.",
+      "sourceExcerpt": "when the temperature cant reached the defined value after 90 minutes, the dishwasher will warning for E3.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "access_heater",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access heating element",
+      "body": "Remove bottom rack. Lay unit on back; remove base cover. Pull down nylon terminal covers and disconnect heater wires at PO1/PO2.",
+      "sourceExcerpt": "The heater has an approximate resistance value of 10-1s n",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Heater element resistance",
+      "body": "Measure across heating element terminals. Expect 10\u201315 \u03a9.",
+      "sourceExcerpt": "Measure across heating element terminals. Expect 10\u201315 \u03a9.",
+      "measurementKnowledgeId": "insigniaDishwasherHeaterOhms",
+      "testPoint": {
+        "connector": "PO1/PO2",
+        "pins": "heater terminals",
+        "label": "Heater element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_crit",
+          "label": "Replace heater \u2014 open element.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_verified",
+      "order": 6,
+      "type": "instruction",
+      "title": "Thermistor follow-up",
+      "body": "If E3 persists with good heater ohms, run tub thermistor test (nsdwr3ss1-tub-thermistor) and inspect PCB heater output.",
+      "sourceExcerpt": "If E3 persists with good heater ohms, run tub thermistor test (nsdwr3ss1-tub-thermistor) and inspect PCB heater output.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_path_ok"
+    },
+    {
+      "id": "replace_heater",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace heater",
+      "body": "Replace heating element; ensure O-ring retained at sump.",
+      "oemOutcome": "Replace heating element; ensure O-ring retained at sump.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_path_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Heater verified",
+      "body": "Heater 10\u201315 \u03a9 \u2014 verify thermistor and control if E3 remains.",
+      "oemOutcome": "Heater 10\u201315 \u03a9 \u2014 verify thermistor and control if E3 remains.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nsdwr3ss1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

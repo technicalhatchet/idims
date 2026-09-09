@@ -1,0 +1,169 @@
+{
+  "id": "nsdwr3ss1-fill-valve",
+  "version": "1.0.0",
+  "title": "Water inlet valve \u2014 ~1 k\u03a9",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "E1",
+    "fill_issue",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "inlet-valve",
+    "oemTestTitle": "Water inlet valve resistance",
+    "pages": [
+      19,
+      11
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_fill_valve"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_fill_valve"
+    },
+    {
+      "id": "access_fill_valve",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access inlet valve",
+      "body": "Remove kick board and lower front cover. Inlet valve on left front brace \u2014 disconnect 2 solenoid wires before ohms.",
+      "sourceExcerpt": "The water valve has an approximate resistance value of 1 Kn",
+      "requiresInput": false,
+      "defaultNextStepId": "fill_valve_ohms"
+    },
+    {
+      "id": "fill_valve_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Inlet solenoid resistance",
+      "body": "Measure across the two solenoid terminals. Expect ~1 k\u03a9.",
+      "sourceExcerpt": "Measure across the two solenoid terminals. Expect ~1 k\u03a9.",
+      "measurementKnowledgeId": "insigniaDishwasherFillValveOhms",
+      "testPoint": {
+        "connector": "Inlet valve",
+        "pins": "solenoid terminals",
+        "label": "Inlet solenoid resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fill_valve_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fill_valve_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "fill_valve_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve \u2014 open or out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "fill_valve_verified_crit",
+          "label": "Replace inlet valve \u2014 open or out of spec.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve \u2014 open or out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "fill_valve_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve \u2014 open or out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_fill_valve",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace inlet valve",
+      "body": "Replace water inlet valve; use new screw-type hose clamp per manual.",
+      "oemOutcome": "Replace water inlet valve; use new screw-type hose clamp per manual.",
+      "requiresInput": false
+    },
+    {
+      "id": "fill_valve_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Fill valve verified",
+      "body": "Inlet solenoid ~1 k\u03a9 \u2014 retest fill if E1 persists, check flow meter and PCB.",
+      "oemOutcome": "Inlet solenoid ~1 k\u03a9 \u2014 retest fill if E1 persists, check flow meter and PCB.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nsdwr3ss1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

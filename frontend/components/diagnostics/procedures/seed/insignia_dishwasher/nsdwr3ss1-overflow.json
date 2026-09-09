@@ -1,0 +1,176 @@
+{
+  "id": "nsdwr3ss1-overflow",
+  "version": "1.0.0",
+  "title": "E4 \u2014 Overflow / base pan",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "E4",
+    "leak_check",
+    "error_code",
+    "drain_issue"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E4",
+    "oemTestTitle": "Overflow / water flood",
+    "pages": [
+      28,
+      20,
+      21
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "e4_symptom"
+    },
+    {
+      "id": "e4_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E4 behavior",
+      "body": "E4 logs when water floods the bottom pan and the detective micro-switch moves.",
+      "sourceExcerpt": "the water flood into the bottom and result in the detective switch moves, the dishwasher will warning for E4.",
+      "requiresInput": false,
+      "defaultNextStepId": "e4_cause_checks"
+    },
+    {
+      "id": "e4_cause_checks",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Detergent, level, and leak source",
+      "body": "Check detergent type/amount, appliance level, and visible leak at door gasket, sump, or hoses.",
+      "sourceExcerpt": "Check detergent type/amount, appliance level, and visible leak at door gasket, sump, or hoses.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "causes_ok_yes",
+          "label": "No obvious cause",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "causes_ok"
+        },
+        {
+          "id": "causes_ok_no",
+          "label": "Cause found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_causes",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "causes_ok",
+      "order": 4,
+      "type": "instruction",
+      "title": "CN4 flood detection",
+      "body": "Inspect CN4 rinse-aid / flow meter / water-flood detection harness and base pan micro-switch.",
+      "sourceExcerpt": "Inspect CN4 rinse-aid / flow meter / water-flood detection harness and base pan micro-switch.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_after_overflow"
+    },
+    {
+      "id": "drain_after_overflow",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Drain pan and pump",
+      "body": "Remove standing water from base. Does drain pump run and remove water when commanded?",
+      "sourceExcerpt": "Remove standing water from base. Does drain pump run and remove water when commanded?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_runs_yes",
+          "label": "Drains",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_runs"
+        },
+        {
+          "id": "drain_runs_no",
+          "label": "Won't drain",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "run_drain_pump_test",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drain_runs",
+      "order": 6,
+      "type": "instruction",
+      "title": "Locate leak",
+      "body": "With pan dry, run a short fill cycle and inspect sump, door seal, air breaker, and hose clamps for leak source.",
+      "sourceExcerpt": "With pan dry, run a short fill cycle and inspect sump, door seal, air breaker, and hose clamps for leak source.",
+      "requiresInput": false,
+      "defaultNextStepId": "overflow_verified"
+    },
+    {
+      "id": "run_drain_pump_test",
+      "order": 7,
+      "type": "instruction",
+      "title": "Drain pump bench test",
+      "body": "Run nsdwr3ss1-drain-pump for 25\u201335 \u03a9 winding check and check valve.",
+      "sourceExcerpt": "Run nsdwr3ss1-drain-pump for 25\u201335 \u03a9 winding check and check valve.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_drain_if_needed"
+    },
+    {
+      "id": "correct_causes",
+      "order": 8,
+      "type": "outcome",
+      "title": "Correct installation",
+      "body": "Reduce detergent, level unit, or repair identified leak source.",
+      "oemOutcome": "Reduce detergent, level unit, or repair identified leak source.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_drain_if_needed",
+      "order": 9,
+      "type": "outcome",
+      "title": "Service drain path",
+      "body": "Replace drain pump or clear obstruction; dry base pan before retest.",
+      "oemOutcome": "Replace drain pump or clear obstruction; dry base pan before retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "overflow_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Overflow path checked",
+      "body": "Pan dry, flood switch reset, drain verified \u2014 retest for E4.",
+      "oemOutcome": "Pan dry, flood switch reset, drain verified \u2014 retest for E4.",
+      "requiresInput": false
+    }
+  ]
+}

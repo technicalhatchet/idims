@@ -1,0 +1,47 @@
+{
+  "id": "nsdwr3ss1-service-test-entry",
+  "version": "1.0.0",
+  "platformId": "insignia_dishwasher",
+  "manualId": "INSIGNIA-DWR3-DISHWASHER",
+  "title": "NS-DWR3SS1 \u2014 Service test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter service/factory test mode to verify dispenser and outputs (page 27 control layout).",
+  "tags": [
+    "service_diagnostic",
+    "error_code"
+  ],
+  "entryStepId": "prep_power",
+  "source": {
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "pages": [
+      27,
+      13
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_power",
+      "order": 1,
+      "type": "instruction",
+      "title": "Door closed, power ready",
+      "body": "Close the door. Press Power to wake the control (hold 3 seconds to turn on from standby).",
+      "sourceExcerpt": "Turn on / off the power by press and hold power for 3 seconds.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_mode_entry"
+    },
+    {
+      "id": "service_mode_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Service test entry",
+      "body": "Per factory-mode control layout (page 27): with power on, press Start/Cancel to enter service test. Use service test to verify detergent/rinse module operation (page 13). Press Start/Cancel to step tests.",
+      "sourceExcerpt": "Operation of the detergent/rinse module can be checked by using the service test mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "id": "nsdwr3ss1-tub-thermistor",
+  "version": "1.0.0",
+  "title": "Tub thermistor \u2014 E6/E7 NTC",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "E3",
+    "E6",
+    "E7",
+    "thermistor_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "thermistor",
+    "oemTestTitle": "Tub thermistor resistance",
+    "pages": [
+      22,
+      28
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_symptom"
+    },
+    {
+      "id": "ntc_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E6 / E7 behavior",
+      "body": "E6 = NTC open (thermal sensor cut). E7 = NTC short. Both may appear in factory mode; also affects E3 heat path.",
+      "sourceExcerpt": "E6 - thermal sensor cut. E7 - thermal sensor short.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_thermistor"
+    },
+    {
+      "id": "access_thermistor",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access tub thermistor",
+      "body": "Lay dishwasher on back; remove base cover. Thermistor on back of sump \u2014 disconnect harness before ohms.",
+      "sourceExcerpt": "R@25\u00b0C=10KQ\u00b12%; R@60\u00b0C=3011O\u00b12%.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_ohms"
+    },
+    {
+      "id": "thermistor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Tub thermistor resistance",
+      "body": "Measure at room temperature (~25\u00b0C). Expect 10 k\u03a9 \u00b12%.",
+      "sourceExcerpt": "Measure at room temperature (~25\u00b0C). Expect 10 k\u03a9 \u00b12%.",
+      "measurementKnowledgeId": "insigniaDishwasherTubThermistorOhms",
+      "testPoint": {
+        "connector": "Thermistor",
+        "pins": "harness terminals",
+        "label": "Tub thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "thermistor_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "thermistor_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "thermistor_verified_crit",
+          "label": "Replace thermistor \u2014 open or shorted.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "thermistor_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thermistor_verified",
+      "order": 5,
+      "type": "instruction",
+      "title": "Harness check",
+      "body": "Inspect thermistor harness for pin damage at PCB and sump. Repair opens before replacing PCB.",
+      "sourceExcerpt": "Inspect thermistor harness for pin damage at PCB and sump. Repair opens before replacing PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_path_ok"
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "body": "Replace tub thermistor; retain O-ring at sump.",
+      "oemOutcome": "Replace tub thermistor; retain O-ring at sump.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermistor_path_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Thermistor verified",
+      "body": "NTC in spec \u2014 if E6/E7/E3 persist, suspect PCB.",
+      "oemOutcome": "NTC in spec \u2014 if E6/E7/E3 persist, suspect PCB.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "id": "nsdwr3ss1-control-panel",
+  "version": "1.0.0",
+  "title": "E9 \u2014 Stuck button (>30 s)",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "E9",
+    "hmi_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E9",
+    "oemTestTitle": "Stuck button",
+    "pages": [
+      28,
+      11
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "e9_symptom"
+    },
+    {
+      "id": "e9_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E9 behavior",
+      "body": "E9 logs when any button is held longer than 30 seconds.",
+      "sourceExcerpt": "when some buttons have been pressed over 30 seconds, the dishwasher will warning for E9.",
+      "requiresInput": false,
+      "defaultNextStepId": "inspect_panel"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "inspect_panel"
+    },
+    {
+      "id": "inspect_panel",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Control panel / touchpad",
+      "body": "Inspect control panel for stuck, damaged, or moisture-swollen keys. Disconnect power and verify keys release freely.",
+      "sourceExcerpt": "Inspect control panel for stuck, damaged, or moisture-swollen keys. Disconnect power and verify keys release freely.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "panel_frees_yes",
+          "label": "Keys release",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "panel_frees"
+        },
+        {
+          "id": "panel_frees_no",
+          "label": "Stuck key",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_panel",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "panel_frees",
+      "order": 5,
+      "type": "instruction",
+      "title": "Retest operation",
+      "body": "Restore power. Press each touchpad key briefly \u2014 none should hold continuously.",
+      "sourceExcerpt": "Restore power. Press each touchpad key briefly \u2014 none should hold continuously.",
+      "requiresInput": false,
+      "defaultNextStepId": "panel_verified"
+    },
+    {
+      "id": "replace_control_panel",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace control panel",
+      "body": "Replace control panel assembly (UI board is bonded to panel).",
+      "oemOutcome": "Replace control panel assembly (UI board is bonded to panel).",
+      "requiresInput": false
+    },
+    {
+      "id": "panel_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Control panel verified",
+      "body": "No stuck keys \u2014 E9 should not return.",
+      "oemOutcome": "No stuck keys \u2014 E9 should not return.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nsdwr3ss1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

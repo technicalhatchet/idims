@@ -1,0 +1,154 @@
+{
+  "id": "nsdwr3ss1-display-comm",
+  "version": "1.0.0",
+  "title": "Ed \u2014 Display \u2194 main communication",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "user_interface",
+    "acu"
+  ],
+  "tags": [
+    "Ed",
+    "hmi_check",
+    "no_power",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Ed",
+    "oemTestTitle": "Display communication error",
+    "pages": [
+      28,
+      11
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "ed_symptom"
+    },
+    {
+      "id": "ed_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "Ed behavior",
+      "body": "Ed logs when the display board cannot receive or the main board cannot send for more than 20 seconds.",
+      "sourceExcerpt": "when the display board cant receive or the main board can't send signal over 20 seconds",
+      "requiresInput": false,
+      "defaultNextStepId": "inspect_cn2"
+    },
+    {
+      "id": "inspect_cn2",
+      "order": 3,
+      "type": "visual_check",
+      "title": "CN2 display harness seated",
+      "body": "Remove control panel. Is CN2 (display board) fully seated with no bent pins?",
+      "sourceExcerpt": "Remove control panel. Is CN2 (display board) fully seated with no bent pins?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cn2_seated_yes",
+          "label": "Seated",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn2_seated"
+        },
+        {
+          "id": "cn2_seated_no",
+          "label": "Loose or damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_cn2",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "user_interface"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cn2_seated",
+      "order": 4,
+      "type": "visual_check",
+      "title": "CN2 harness continuity",
+      "body": "With power off, verify continuity on harness between main PCB CN2 and display PCB (no opens).",
+      "sourceExcerpt": "With power off, verify continuity on harness between main PCB CN2 and display PCB (no opens).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_verified_yes",
+          "label": "Harness OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "user_interface",
+              "evidenceId": "eliminate_heater_ol_heating_element_ok"
+            }
+          ]
+        },
+        {
+          "id": "comm_verified_no",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_or_pcb",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_cn2",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat and retest",
+      "body": "Reseat CN2 and cycle progress indicator harness; restore power and verify display responds.",
+      "sourceExcerpt": "Reseat CN2 and cycle progress indicator harness; restore power and verify display responds.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_verified"
+    },
+    {
+      "id": "replace_display_or_pcb",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace display or PCB",
+      "body": "Replace display assembly or main PCB per failed path.",
+      "oemOutcome": "Replace display assembly or main PCB per failed path.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication verified",
+      "body": "CN2 path OK \u2014 Ed should not return.",
+      "oemOutcome": "CN2 path OK \u2014 Ed should not return.",
+      "requiresInput": false
+    }
+  ]
+}
