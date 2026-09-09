@@ -13,6 +13,7 @@ import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirl
 import whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10881701-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w10881701-service-test-mode.json';
 import whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry from './seed/whirlpool_centennial_dryer/bundles/w8178629-diagnostic-entry.json';
+import whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11480208-service-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test from './seed/whirlpool_duet_sport/bundles/w8178558-manual-diagnostic-test.json';
@@ -121,6 +122,14 @@ import whirlpool_centennial_dryer_w8178629_gas_ignitor from './seed/whirlpool_ce
 import whirlpool_centennial_dryer_w8178629_supply_connections from './seed/whirlpool_centennial_dryer/w8178629-supply-connections.json';
 import whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust from './seed/whirlpool_centennial_dryer/w8178629-thermal-fuse-exhaust.json';
 import whirlpool_centennial_dryer_w8178629_timer_motor from './seed/whirlpool_centennial_dryer/w8178629-timer-motor.json';
+import whirlpool_dishwasher_acu_w11480208_dc_fan from './seed/whirlpool_dishwasher_acu/w11480208-dc-fan.json';
+import whirlpool_dishwasher_acu_w11480208_diverter_motor from './seed/whirlpool_dishwasher_acu/w11480208-diverter-motor.json';
+import whirlpool_dishwasher_acu_w11480208_door_switch from './seed/whirlpool_dishwasher_acu/w11480208-door-switch.json';
+import whirlpool_dishwasher_acu_w11480208_drain_motor_vsm from './seed/whirlpool_dishwasher_acu/w11480208-drain-motor-vsm.json';
+import whirlpool_dishwasher_acu_w11480208_heater from './seed/whirlpool_dishwasher_acu/w11480208-heater.json';
+import whirlpool_dishwasher_acu_w11480208_interior_led from './seed/whirlpool_dishwasher_acu/w11480208-interior-led.json';
+import whirlpool_dishwasher_acu_w11480208_overfill_switch from './seed/whirlpool_dishwasher_acu/w11480208-overfill-switch.json';
+import whirlpool_dishwasher_acu_w11480208_wash_motor_vsm from './seed/whirlpool_dishwasher_acu/w11480208-wash-motor-vsm.json';
 import whirlpool_dishwasher_acu_w11633848_acu_power from './seed/whirlpool_dishwasher_acu/w11633848-acu-power.json';
 import whirlpool_dishwasher_acu_w11633848_dc_fan from './seed/whirlpool_dishwasher_acu/w11633848-dc-fan.json';
 import whirlpool_dishwasher_acu_w11633848_dispenser from './seed/whirlpool_dishwasher_acu/w11633848-dispenser.json';
@@ -235,6 +244,7 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_service_test_mode as ServiceModeBundle,
   whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry as ServiceModeBundle,
+  whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test as ServiceModeBundle,
@@ -345,6 +355,14 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_centennial_dryer_w8178629_supply_connections as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_timer_motor as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_dc_fan as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_diverter_motor as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_door_switch as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_drain_motor_vsm as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_heater as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_interior_led as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_overfill_switch as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11480208_wash_motor_vsm as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_acu_power as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dc_fan as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dispenser as ServiceProcedureSeed,

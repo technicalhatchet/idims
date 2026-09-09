@@ -1,0 +1,235 @@
+{
+  "id": "w11480208-drain-motor-vsm",
+  "version": "1.0.0",
+  "title": "\u00a73-19: Drain Motor (Variable Speed platform)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "F9E1",
+    "F9E2",
+    "F8E4",
+    "drain_issue",
+    "pump_check"
+  ],
+  "source": {
+    "manualId": "W11480208",
+    "manualTitle": "Whirlpool/JennAir/KitchenAid/Maytag 24\" Filtration Dishwasher",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11480208-revd WDT740SALB0-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-19",
+    "oemTestTitle": "Drain Motor with VSM",
+    "pages": [
+      61,
+      62
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_mechanical"
+    },
+    {
+      "id": "drain_mechanical",
+      "order": 2,
+      "type": "instruction",
+      "title": "Drain path mechanical check",
+      "body": "Verify drain hose, disposal plug, check valve, filter. Run Service Diagnostics drain interval first.",
+      "sourceExcerpt": "Verify drain hose, disposal plug, check valve, filter. Run Service Diagnostics drain interval first.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p5_drain_vsm"
+    },
+    {
+      "id": "disconnect_p5_drain_vsm",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P5",
+      "body": "Power off. Unplug P5 from control.",
+      "sourceExcerpt": "Power off. Unplug P5 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_motor_vsm_ohms"
+    },
+    {
+      "id": "drain_motor_vsm_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "VSM drain motor \u2014 P5 pins 5 & 6",
+      "body": "Ohms P5-5 to P5-6. W11480208 VSM spec 41\u201351 \u03a9. (SSM drain: P5-3 & P5-4 \u2014 use w11633848-drain-motor.)",
+      "sourceExcerpt": "Ohms P5-5 to P5-6. W11480208 VSM spec 41\u201351 \u03a9. (SSM drain: P5-3 & P5-4 \u2014 use w11633848-drain-motor.)",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "testPoint": {
+        "connector": "P5",
+        "pins": "5 & 6 (VSM drain)",
+        "label": "VSM drain motor \u2014 P5 pins 5 & 6"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p5_drain_vsm_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_p5_drain_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p5_drain_vsm_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_motor_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p5_drain_vsm_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_motor_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p5_drain_vsm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_motor_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p5_drain_vsm",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect P5 and restore power",
+      "body": "Reconnect P5. Restore power.",
+      "sourceExcerpt": "Reconnect P5. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_drain_vsm"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics should be available (1-2-3 entry, press Key #2, close door to start). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "live_drain_vsm"
+    },
+    {
+      "id": "live_drain_vsm",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Drain motor runs in Service Diagnostics?",
+      "body": "120 VAC at P5-5 and P5-6 during drain interval (motor connected).",
+      "sourceExcerpt": "120 VAC at P5-5 and P5-6 during drain interval (motor connected).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_vsm_verified_yes",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_vsm_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "drain_vsm_verified_no",
+          "label": "No run / no voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_drain_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_drain_motor_vsm",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace drain motor",
+      "body": "Replace drain pump if winding failed or impeller damaged.",
+      "oemOutcome": "Replace drain pump if winding failed or impeller damaged.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_drain_vsm",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Motor good but no AC output \u2014 replace control.",
+      "oemOutcome": "Motor good but no AC output \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "drain_vsm_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "VSM drain motor verified",
+      "body": "VSM drain motor verified.",
+      "oemOutcome": "VSM drain motor verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11480208-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

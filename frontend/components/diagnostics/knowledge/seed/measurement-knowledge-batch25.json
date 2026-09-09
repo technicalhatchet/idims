@@ -1,0 +1,118 @@
+[
+  {
+    "id": "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+    "name": "Whirlpool Filtration DW Diverter Motor (P6-4 & P6-6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1100, "max": 1400 },
+      "warning": { "min": 900, "max": 1800 },
+      "critical": { "below": 100, "above": 5000 }
+    },
+    "typical": { "min": 1150, "max": 1350 },
+    "openCircuitCritical": true,
+    "purpose": "Diverter valve motor — W11480208 §3-14 (filtration dishwasher).",
+    "failureModes": [
+      "Open winding — F9E1 / spray zone faults",
+      "Good ohms but no rotation — control TRIAC or door switch"
+    ],
+    "testingTips": [
+      "Measure at P6-4 and P6-6 with P6 unplugged from ACU",
+      "Confirm diverter disk installed before live Service Diagnostics test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "JennAir"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["wash_issue", "pump_check"]
+  },
+  {
+    "id": "whirlpoolDishwasherFiltrationDcFanOhms",
+    "name": "Whirlpool Filtration DW DC Fan Motor (P14)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 145000, "max": 185000 },
+      "warning": { "min": 120000, "max": 220000 },
+      "critical": { "below": 50000, "above": 500000 }
+    },
+    "typical": { "min": 150000, "max": 180000 },
+    "openCircuitCritical": true,
+    "purpose": "ProDry DC fan — W11480208 §3-20; live test expects 13 VDC ±5%.",
+    "failureModes": [
+      "Open winding — F10E3 / vent dry complaints",
+      "Good ohms but no spin — control DC drive"
+    ],
+    "testingTips": [
+      "Fan runs during Service Diagnostics step 4 on fan-equipped models",
+      "Do not confuse with legacy 31–41 kΩ fan spec (W11633848 platform)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "JennAir"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["hmi_check"]
+  },
+  {
+    "id": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+    "name": "Whirlpool Filtration DW Variable-Speed Wash Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 16, "max": 18 },
+      "warning": { "min": 14, "max": 22 },
+      "critical": { "below": 5, "above": 40 }
+    },
+    "typical": { "min": 16, "max": 18 },
+    "openCircuitCritical": true,
+    "purpose": "Variable-speed wash motor — W11480208 §3-17 (P5-1 & P5-2). No AC bench run test.",
+    "failureModes": [
+      "Open winding — wash motor fault with VSM platform",
+      "Good ohms — verify sump/filter; motor uses DC drive (no 120 VAC bench check)"
+    ],
+    "testingTips": [
+      "SSM models use 7–12 Ω on same pins — use w11633848-wash-motor for single-speed",
+      "Error code present when VSM fails; confirm motor type from tech sheet"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "JennAir"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["pump_check", "wash_issue"]
+  },
+  {
+    "id": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+    "name": "Whirlpool Filtration DW VSM Drain Motor (P5-5 & P5-6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 41, "max": 51 },
+      "warning": { "min": 35, "max": 60 },
+      "critical": { "below": 10, "above": 120 }
+    },
+    "typical": { "min": 43, "max": 49 },
+    "openCircuitCritical": true,
+    "purpose": "Drain motor on variable-speed wash platforms — W11480208 §3-19.",
+    "failureModes": [
+      "Open winding — won't drain on VSM models",
+      "SSM drain uses P5-3 & P5-4 (27–33 Ω) — see w11633848-drain-motor"
+    ],
+    "testingTips": [
+      "Check hose, disposal plug, and check valve before motor replacement",
+      "Intermittent lock-up — verify axial play at pump"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool", "Maytag", "KitchenAid", "JennAir"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  }
+]

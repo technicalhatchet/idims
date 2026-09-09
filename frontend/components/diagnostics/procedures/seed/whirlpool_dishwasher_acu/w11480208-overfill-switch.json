@@ -1,0 +1,279 @@
+{
+  "id": "w11480208-overfill-switch",
+  "version": "1.0.0",
+  "title": "\u00a73-13: Overfill Float Switch (P11)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "F6E4",
+    "F8E4",
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "W11480208",
+    "manualTitle": "Whirlpool/JennAir/KitchenAid/Maytag 24\" Filtration Dishwasher",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11480208-revd WDT740SALB0-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-13",
+    "oemTestTitle": "Overfill Switch Circuit",
+    "pages": [
+      55,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "overfill_prereq"
+    },
+    {
+      "id": "overfill_prereq",
+      "order": 2,
+      "type": "instruction",
+      "title": "Overfill prerequisites",
+      "body": "Inspect leak pan for water. Verify float moves freely. Empty pan if water present and find leak source before continuing.",
+      "sourceExcerpt": "Inspect leak pan for water. Verify float moves freely. Empty pan if water present and find leak source before continuing.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p11"
+    },
+    {
+      "id": "disconnect_p11",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P11",
+      "body": "Power off. Remove toe and outer door panels. Unplug P11 from control.",
+      "sourceExcerpt": "Power off. Remove toe and outer door panels. Unplug P11 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "float_down_ohms"
+    },
+    {
+      "id": "float_down_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Float down \u2014 P11 pins 6 & 7",
+      "body": "Float in normal (down) position with assembly installed: ohms P11-6 to P11-7. Expect 3 \u03a9 or less.",
+      "sourceExcerpt": "Float in normal (down) position with assembly installed: ohms P11-6 to P11-7. Expect 3 \u03a9 or less.",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "testPoint": {
+        "connector": "P11",
+        "pins": "6 & 7 (float down)",
+        "label": "Float down \u2014 P11 pins 6 & 7"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "float_up_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "float_up_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "float_up_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "repair_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_up_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "repair_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_up_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "repair_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "float_up_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Float up \u2014 P11 pins 6 & 7",
+      "body": "Raise Styrofoam floater (up position): expect open circuit between P11-6 and P11-7.",
+      "sourceExcerpt": "Raise Styrofoam floater (up position): expect open circuit between P11-6 and P11-7.",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "testPoint": {
+        "connector": "P11",
+        "pins": "6 & 7 (float up)",
+        "label": "Float up \u2014 P11 pins 6 & 7"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "float_up_pass",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "live_overfill_13v",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_up_fail",
+          "label": "Continuity with float up",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics should be available (1-2-3 entry, press Key #2, close door to start). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "live_overfill_13v"
+    },
+    {
+      "id": "live_overfill_13v",
+      "order": 7,
+      "type": "visual_check",
+      "title": "13 VDC at P11-6 & P11-7 (P11 unplugged)?",
+      "body": "Power on with P11 disconnected from board. DC volts P11-6 to P11-7 \u2014 expect 13 VDC.",
+      "sourceExcerpt": "Power on with P11 disconnected from board. DC volts P11-6 to P11-7 \u2014 expect 13 VDC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "overfill_verified_yes",
+          "label": "13 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "overfill_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "overfill_verified_no",
+          "label": "Missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_overfill",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_float_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair float harness",
+      "body": "Repair harness or connections to overfill switch.",
+      "oemOutcome": "Repair harness or connections to overfill switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_float_switch",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace float assembly",
+      "body": "Replace overfill/float switch assembly.",
+      "oemOutcome": "Replace overfill/float switch assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_overfill",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Float switch good but no 13 V supply \u2014 replace control.",
+      "oemOutcome": "Float switch good but no 13 V supply \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "overfill_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Overfill circuit verified",
+      "body": "Overfill float switch verified \u2014 reconnect P11 and retest.",
+      "oemOutcome": "Overfill float switch verified \u2014 reconnect P11 and retest.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11480208-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

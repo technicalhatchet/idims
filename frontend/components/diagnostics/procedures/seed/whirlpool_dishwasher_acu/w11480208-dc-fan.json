@@ -1,0 +1,231 @@
+{
+  "id": "w11480208-dc-fan",
+  "version": "1.0.0",
+  "title": "\u00a73-20: DC Fan Motor (ProDry)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "F10E3"
+  ],
+  "source": {
+    "manualId": "W11480208",
+    "manualTitle": "Whirlpool/JennAir/KitchenAid/Maytag 24\" Filtration Dishwasher",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11480208-revd WDT740SALB0-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-20",
+    "oemTestTitle": "DC Fan Motor",
+    "pages": [
+      62,
+      63
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_service_diag"
+    },
+    {
+      "id": "fan_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Fan in Service Diagnostics",
+      "body": "On fan-equipped models: DC fan runs during Service Diagnostics step 4. Skip if model has no fan.",
+      "sourceExcerpt": "On fan-equipped models: DC fan runs during Service Diagnostics step 4. Skip if model has no fan.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p14"
+    },
+    {
+      "id": "disconnect_p14",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P14",
+      "body": "Power off. Unplug P14 from control.",
+      "sourceExcerpt": "Power off. Unplug P14 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_ohms"
+    },
+    {
+      "id": "fan_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Fan motor \u2014 P14 pins 1 & 2",
+      "body": "Ohms between P14-1 and P14-2. W11480208 spec 145\u2013185 k\u03a9.",
+      "sourceExcerpt": "Ohms between P14-1 and P14-2. W11480208 spec 145\u2013185 k\u03a9.",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDcFanOhms",
+      "testPoint": {
+        "connector": "P14",
+        "pins": "1 & 2",
+        "label": "Fan motor \u2014 P14 pins 1 & 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p14_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_p14",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p14_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p14_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p14_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p14",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect P14 and restore power",
+      "body": "Reconnect P14. Restore power.",
+      "sourceExcerpt": "Reconnect P14. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_fan"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics should be available (1-2-3 entry, press Key #2, close door to start). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "live_fan"
+    },
+    {
+      "id": "live_fan",
+      "order": 7,
+      "type": "visual_check",
+      "title": "13 VDC and fan spins in Service Diagnostics?",
+      "body": "During fan interval: 13 VDC \u00b15% at P14-1 and P14-2; fan spins.",
+      "sourceExcerpt": "During fan interval: 13 VDC \u00b15% at P14-1 and P14-2; fan spins.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_verified_yes",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "fan_verified_no",
+          "label": "No spin / no voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_fan",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace fan assembly",
+      "body": "Replace DC fan motor assembly.",
+      "oemOutcome": "Replace DC fan motor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_fan",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Fan good but no DC drive \u2014 replace control.",
+      "oemOutcome": "Fan good but no DC drive \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "DC fan verified",
+      "body": "DC fan verified.",
+      "oemOutcome": "DC fan verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11480208-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

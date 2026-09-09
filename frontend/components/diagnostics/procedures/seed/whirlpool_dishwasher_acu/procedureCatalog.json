@@ -2,8 +2,8 @@
   "manualId": "W11633848",
   "platformId": "whirlpool_dishwasher_acu",
   "templateId": "dishwasher",
-  "label": "Amana & Whirlpool 24\" ACU dishwasher (W11633848)",
-  "notes": "\u00a73 component tests (not TEST # labels). Shared F#E# platform with W10751166.",
+  "label": "Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 + W11480208)",
+  "notes": "W11633848 Amana/Whirlpool 24\" + W11480208 filtration dishwasher (WDT740). Filtration manual uses P12 door, P11 overfill, P6 diverter, VSM motor pinouts. Shared fill/dispenser/OWI/diverter-sensor/SSM procedures from W11633848.",
   "plannedProcedures": [
     {
       "id": "w11633848-acu-power",
@@ -167,6 +167,109 @@
       "relatedCodes": [
         "F10E3"
       ]
+    },
+    {
+      "id": "w11480208-door-switch",
+      "oemSection": "3-8",
+      "title": "\u00a73-8: Door Switch Circuit (P12)",
+      "status": "generated",
+      "knowledgeIds": [
+        "dishwasherDoorLatchSwitchOhms",
+        "dishwasherDoorLatchSwitchOhms"
+      ],
+      "relatedCodes": [
+        "F5E1",
+        "F5E2"
+      ]
+    },
+    {
+      "id": "w11480208-heater",
+      "oemSection": "3-11",
+      "title": "\u00a73-11: Water Heating / Heat Dry",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F4E2",
+        "F4E3",
+        "F7E1",
+        "F7E2"
+      ]
+    },
+    {
+      "id": "w11480208-overfill-switch",
+      "oemSection": "3-13",
+      "title": "\u00a73-13: Overfill Float Switch (P11)",
+      "status": "generated",
+      "knowledgeIds": [
+        "dishwasherFloatSwitchOhms",
+        "dishwasherFloatSwitchOhms"
+      ],
+      "relatedCodes": [
+        "F6E4",
+        "F8E4"
+      ]
+    },
+    {
+      "id": "w11480208-diverter-motor",
+      "oemSection": "3-14",
+      "title": "\u00a73-14: Diverter Motor (P6)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationDiverterMotorOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "F10E5"
+      ]
+    },
+    {
+      "id": "w11480208-wash-motor-vsm",
+      "oemSection": "3-17",
+      "title": "\u00a73-17: Wash Motor (Variable Speed)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationVsmWashMotorOhms"
+      ],
+      "relatedCodes": [
+        "F4E3",
+        "F7E1"
+      ]
+    },
+    {
+      "id": "w11480208-drain-motor-vsm",
+      "oemSection": "3-19",
+      "title": "\u00a73-19: Drain Motor (Variable Speed platform)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationVsmDrainMotorOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "F9E2",
+        "F8E4"
+      ]
+    },
+    {
+      "id": "w11480208-dc-fan",
+      "oemSection": "3-20",
+      "title": "\u00a73-20: DC Fan Motor (ProDry)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationDcFanOhms"
+      ],
+      "relatedCodes": [
+        "F10E3"
+      ]
+    },
+    {
+      "id": "w11480208-interior-led",
+      "oemSection": "3-21",
+      "title": "\u00a73-21: Interior LED Lighting",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
     }
   ]
 }

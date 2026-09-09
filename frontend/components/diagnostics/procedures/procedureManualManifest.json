@@ -135,6 +135,21 @@
       }
     },
     {
+      "manualId": "W11480208",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "seedDir": "whirlpool_dishwasher_acu",
+      "label": "Whirlpool filtration dishwasher WDT740 (W11480208)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_dishwasher_acu/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11480208_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11480208_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11480208_service_modes.py"
+      }
+    },
+    {
       "manualId": "W11416805",
       "platformId": "whirlpool_acu_tl_dryer",
       "templateId": "electric_dryer",

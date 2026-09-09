@@ -977,31 +977,44 @@ BUNDLE_FILES = ["w11633848-service-diagnostic-entry.json"]
 
 
 def write_catalog() -> None:
+    w11633848_entries = [
+        {
+            "id": item["id"],
+            "oemSection": item["source"]["oemTestNumber"],
+            "title": item["title"],
+            "status": "generated",
+            "knowledgeIds": [
+                step["measurementKnowledgeId"]
+                for step in item["steps"]
+                if step.get("measurementKnowledgeId")
+            ],
+            "relatedCodes": [tag for tag in item.get("tags", []) if tag.startswith("F")],
+        }
+        for item in PROCEDURES
+    ]
+    catalog_path = OUT / "procedureCatalog.json"
+    existing = json.loads(catalog_path.read_text(encoding="utf-8")) if catalog_path.is_file() else {}
+    w11480208_entries = [
+        entry
+        for entry in existing.get("plannedProcedures", [])
+        if str(entry.get("id", "")).startswith("w11480208-")
+    ]
     catalog = {
         "manualId": "W11633848",
         "platformId": "whirlpool_dishwasher_acu",
         "templateId": "dishwasher",
-        "label": "Amana & Whirlpool 24\" ACU dishwasher (W11633848)",
-        "notes": "§3 component tests (not TEST # labels). Shared F#E# platform with W10751166.",
-        "plannedProcedures": [
-            {
-                "id": item["id"],
-                "oemSection": item["source"]["oemTestNumber"],
-                "title": item["title"],
-                "status": "generated",
-                "knowledgeIds": [
-                    step["measurementKnowledgeId"]
-                    for step in item["steps"]
-                    if step.get("measurementKnowledgeId")
-                ],
-                "relatedCodes": [tag for tag in item.get("tags", []) if tag.startswith("F")],
-            }
-            for item in PROCEDURES
-        ],
+        "label": 'Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 + W11480208)',
+        "notes": (
+            "W11633848 Amana/Whirlpool 24\" + W11480208 filtration dishwasher (WDT740). "
+            "Filtration manual uses P12 door, P11 overfill, P6 diverter, VSM motor pinouts."
+        ),
+        "plannedProcedures": w11633848_entries + w11480208_entries,
     }
-    path = OUT / "procedureCatalog.json"
-    path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
-    print(f"Wrote {path.name}")
+    catalog_path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
+    print(
+        f"Wrote {catalog_path.name} "
+        f"({len(w11633848_entries)} W11633848 + {len(w11480208_entries)} W11480208)"
+    )
 
 
 def write_readme() -> None:

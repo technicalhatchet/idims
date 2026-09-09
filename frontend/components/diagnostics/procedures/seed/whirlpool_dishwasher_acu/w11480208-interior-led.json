@@ -1,0 +1,160 @@
+{
+  "id": "w11480208-interior-led",
+  "version": "1.0.0",
+  "title": "\u00a73-21: Interior LED Lighting",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "W11480208",
+    "manualTitle": "Whirlpool/JennAir/KitchenAid/Maytag 24\" Filtration Dishwasher",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11480208-revd WDT740SALB0-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-21",
+    "oemTestTitle": "Interior LED Lighting",
+    "pages": [
+      63,
+      64
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "led_door_open"
+    },
+    {
+      "id": "led_door_open",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door-open LED check",
+      "body": "Open door \u2014 interior LED tubes should turn on for up to 10 minutes. Two LEDs wired in parallel; one can fail independently.",
+      "sourceExcerpt": "Open door \u2014 interior LED tubes should turn on for up to 10 minutes. Two LEDs wired in parallel; one can fail independently.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p9_led"
+    },
+    {
+      "id": "disconnect_p9_led",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P9",
+      "body": "Power off. Remove toe and outer door panels. Verify P9 seated. Disconnect P9 from control.",
+      "sourceExcerpt": "Power off. Remove toe and outer door panels. Verify P9 seated. Disconnect P9 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "led_diode_check"
+    },
+    {
+      "id": "led_diode_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Each LED passes diode check?",
+      "body": "Diode mode: numeric reading anode\u2192cathode; OL cathode\u2192anode on each LED tube.",
+      "sourceExcerpt": "Diode mode: numeric reading anode\u2192cathode; OL cathode\u2192anode on each LED tube.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "live_led_13v_yes",
+          "label": "Both LEDs OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_led_13v"
+        },
+        {
+          "id": "live_led_13v_no",
+          "label": "LED failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_led",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_led_13v",
+      "order": 5,
+      "type": "visual_check",
+      "title": "13 VDC at P9-2 & P9-4 (door open, P9 unplugged)?",
+      "body": "Power on, door open within 10 min window: 13 VDC between P9-2 and P9-4 with lights disconnected.",
+      "sourceExcerpt": "Power on, door open within 10 min window: 13 VDC between P9-2 and P9-4 with lights disconnected.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "led_verified_yes",
+          "label": "13 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "led_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "led_verified_no",
+          "label": "Missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_led",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_led",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace defective LED",
+      "body": "Replace failed LED tube individually and retest.",
+      "oemOutcome": "Replace failed LED tube individually and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_led",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "LEDs good but no 13 V output \u2014 replace control.",
+      "oemOutcome": "LEDs good but no 13 V output \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "led_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Interior LED verified",
+      "body": "Interior LED lighting verified.",
+      "oemOutcome": "Interior LED lighting verified.",
+      "requiresInput": false
+    }
+  ]
+}
