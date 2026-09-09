@@ -1,0 +1,259 @@
+{
+  "id": "w11697231-test-02-valves",
+  "version": "1.0.0",
+  "title": "TEST #2: Valves",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "water_valve_check",
+    "fill_issue",
+    "F8E1",
+    "F8E5",
+    "LF"
+  ],
+  "source": {
+    "manualId": "W11697231",
+    "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2",
+    "oemTestTitle": "Valves",
+    "pages": [
+      31,
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_live_precheck"
+    },
+    {
+      "id": "valve_live_precheck",
+      "order": 2,
+      "type": "instruction",
+      "title": "Manual Test valve pre-check",
+      "body": "In Manual Test Mode, run Cold and Hot Valve tests. Note any valve that fails to energize.",
+      "sourceExcerpt": "In Manual Test Mode, run Cold and Hot Valve tests. Note any valve that fails to energize.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_j9"
+    },
+    {
+      "id": "disconnect_j9",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect J9 at main control",
+      "body": "Unplug washer. Remove console. Disconnect J9 from main control.",
+      "sourceExcerpt": "Unplug washer. Remove console. Disconnect J9 from main control.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_ohms"
+    },
+    {
+      "id": "valve_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Valve coil resistance at J9",
+      "body": "Measure each coil across J9-4 (L1 common) and valve pin: Hot J9-1, Cold J9-5. Expect 890 \u03a9 to 1.3 k\u03a9.",
+      "sourceExcerpt": "Measure each coil across J9-4 (L1 common) and valve pin: Hot J9-1, Cold J9-5. Expect 890 \u03a9 to 1.3 k\u03a9.",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherInletValveOhms",
+      "testPoint": {
+        "connector": "J9",
+        "pins": "4 & valve pin",
+        "label": "Valve coil resistance at J9",
+        "pinDetails": [
+          {
+            "pin": "4",
+            "signal": "Valve common (L1)",
+            "wireColor": "BK/W",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "1",
+            "signal": "Hot valve",
+            "wireColor": "RD",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "5",
+            "signal": "Cold valve",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "valve_pass",
+          "label": "890 \u03a9\u20131.3 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_j9_power",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_j9_power",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect J9 and restore power",
+      "body": "Reconnect J9. Reassemble panels. Restore power for Manual Test Mode valve exercise.",
+      "sourceExcerpt": "Reconnect J9. Reassemble panels. Restore power for Manual Test Mode valve exercise.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_valves"
+    },
+    {
+      "id": "service_mode_before_test",
+      "type": "instruction",
+      "title": "Continue to Manual Test Mode",
+      "body": "You should now be in Service Diagnostic mode. Turn cycle selector to Spin + Done LEDs, then press START for Manual Test Mode load commands.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Manual Test Mode (Spin + Done, START).",
+      "requiresInput": false,
+      "order": 6
+    },
+    {
+      "id": "live_test_valves",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Valves energize in Manual Test Mode",
+      "body": "Toggle Cold/Hot valve tests in Manual Test Mode. Does each valve in question turn on?",
+      "sourceExcerpt": "Toggle Cold/Hot valve tests in Manual Test Mode. Does each valve in question turn on?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valves_run",
+          "label": "Valves operate",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valves_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "valves_no_run",
+          "label": "Ohms OK but valve does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_valves",
+          "terminal": true,
+          "oemOutcome": "Coils in range but no run \u2014 replace main control and calibrate.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_valve",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace valve assembly",
+      "oemOutcome": "Replace water valve assembly when coil tens of ohms outside 890 \u03a9\u20131.3 k\u03a9.",
+      "requiresInput": false
+    },
+    {
+      "id": "valves_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Valves verified",
+      "oemOutcome": "Valve resistance and Manual Test operation verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_valves",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Replace main control, calibrate, and run Automatic Test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11697231-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "valve_live_precheck",
+      "continueToStepId": "service_mode_before_test"
+    },
+    {
+      "bundleId": "w11697231-manual-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_test",
+      "continueToStepId": "live_test_valves"
+    }
+  ]
+}

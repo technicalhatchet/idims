@@ -21,6 +21,8 @@ import whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry from './seed
 import whirlpool_mvw6200_bundles_w11416395_service_test_mode from './seed/whirlpool_mvw6200/bundles/w11416395-service-test-mode.json';
 import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w10864849-service-diagnostic-entry.json';
 import whirlpool_tl_dd_bundles_w10864849_service_test_mode from './seed/whirlpool_tl_dd/bundles/w10864849-service-test-mode.json';
+import whirlpool_tl_dd_bundles_w11697231_manual_test_mode from './seed/whirlpool_tl_dd/bundles/w11697231-manual-test-mode.json';
+import whirlpool_tl_dd_bundles_w11697231_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w11697231-service-diagnostic-entry.json';
 
 import insignia_dryer_tdre_nstdre75w1_belt_safety from './seed/insignia_dryer_tdre/nstdre75w1-belt-safety.json';
 import insignia_dryer_tdre_nstdre75w1_communication from './seed/insignia_dryer_tdre/nstdre75w1-communication.json';
@@ -157,6 +159,16 @@ import whirlpool_tl_dd_w10864849_test_09_heater from './seed/whirlpool_tl_dd/w10
 import whirlpool_tl_dd_w10864849_test_10_service_leds from './seed/whirlpool_tl_dd/w10864849-test-10-service-leds.json';
 import whirlpool_tl_dd_w10864849_test_11_basket_light from './seed/whirlpool_tl_dd/w10864849-test-11-basket-light.json';
 import whirlpool_tl_dd_w10864849_test_12_bulk_dispense from './seed/whirlpool_tl_dd/w10864849-test-12-bulk-dispense.json';
+import whirlpool_tl_dd_w11697231_test_01_acu_power from './seed/whirlpool_tl_dd/w11697231-test-01-acu-power.json';
+import whirlpool_tl_dd_w11697231_test_02_valves from './seed/whirlpool_tl_dd/w11697231-test-02-valves.json';
+import whirlpool_tl_dd_w11697231_test_03_drive_system from './seed/whirlpool_tl_dd/w11697231-test-03-drive-system.json';
+import whirlpool_tl_dd_w11697231_test_03a_shifter from './seed/whirlpool_tl_dd/w11697231-test-03a-shifter.json';
+import whirlpool_tl_dd_w11697231_test_03b_motor from './seed/whirlpool_tl_dd/w11697231-test-03b-motor.json';
+import whirlpool_tl_dd_w11697231_test_04_console_indicators from './seed/whirlpool_tl_dd/w11697231-test-04-console-indicators.json';
+import whirlpool_tl_dd_w11697231_test_05_temp_thermistor from './seed/whirlpool_tl_dd/w11697231-test-05-temp-thermistor.json';
+import whirlpool_tl_dd_w11697231_test_06_water_level from './seed/whirlpool_tl_dd/w11697231-test-06-water-level.json';
+import whirlpool_tl_dd_w11697231_test_07_drain_pump from './seed/whirlpool_tl_dd/w11697231-test-07-drain-pump.json';
+import whirlpool_tl_dd_w11697231_test_08_lid_lock from './seed/whirlpool_tl_dd/w11697231-test-08-lid-lock.json';
 
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
@@ -180,6 +192,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_mvw6200_bundles_w11416395_service_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_test_mode as ServiceModeBundle,
+  whirlpool_tl_dd_bundles_w11697231_manual_test_mode as ServiceModeBundle,
+  whirlpool_tl_dd_bundles_w11697231_service_diagnostic_entry as ServiceModeBundle,
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
@@ -318,4 +332,14 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_tl_dd_w10864849_test_10_service_leds as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_11_basket_light as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_12_bulk_dispense as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_01_acu_power as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_02_valves as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_03_drive_system as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_03a_shifter as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_03b_motor as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_04_console_indicators as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_05_temp_thermistor as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_06_water_level as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_07_drain_pump as ServiceProcedureSeed,
+  whirlpool_tl_dd_w11697231_test_08_lid_lock as ServiceProcedureSeed,
 ];

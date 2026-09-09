@@ -2,8 +2,8 @@
   "manualId": "W10864849",
   "platformId": "whirlpool_tl_dd",
   "templateId": "washer",
-  "label": "Whirlpool & Maytag 6.2 cu ft direct-drive top-load washer",
-  "notes": "TEST #1\u201312 (+3a shifter / 3b motor). Service Diagnostic: 3 buttons \u00d7 3 within 8 sec; Service Test via 2nd button.",
+  "label": "Whirlpool/Maytag top-load washer (whirlpool_tl_dd)",
+  "notes": "W10864849 BPM direct-drive 6.2 cu ft (WTW95*/MVW95*) + W11697231 PSC 3.8 cu ft (WTW49*/MVW49*). Do not reuse \u03a9 specs or connector pinouts between manuals.",
   "plannedProcedures": [
     {
       "id": "w10864849-test-01-acu-power",
@@ -195,6 +195,139 @@
       ],
       "relatedCodes": [
         "F3E4"
+      ]
+    },
+    {
+      "id": "w11697231-test-01-acu-power",
+      "oemSection": "1",
+      "title": "TEST #1: Main Control",
+      "status": "generated",
+      "knowledgeIds": [
+        "supplyVoltage120",
+        "whirlpoolWtw4950WasherAcu12Vdc"
+      ],
+      "relatedCodes": [
+        "F1E1",
+        "F1E2"
+      ]
+    },
+    {
+      "id": "w11697231-test-02-valves",
+      "oemSection": "2",
+      "title": "TEST #2: Valves",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4950WasherInletValveOhms"
+      ],
+      "relatedCodes": [
+        "F8E1",
+        "F8E5",
+        "LF"
+      ]
+    },
+    {
+      "id": "w11697231-test-03-drive-system",
+      "oemSection": "3",
+      "title": "TEST #3: Drive System (pre-test)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F7E1",
+        "F7E5",
+        "F7E6",
+        "F7E7"
+      ]
+    },
+    {
+      "id": "w11697231-test-03a-shifter",
+      "oemSection": "3a",
+      "title": "TEST #3a: Drive System \u2014 Shifter",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4950WasherShifterOhms"
+      ],
+      "relatedCodes": [
+        "F7E5"
+      ]
+    },
+    {
+      "id": "w11697231-test-03b-motor",
+      "oemSection": "3b",
+      "title": "TEST #3b: Drive System \u2014 Motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4950WasherMotorWindingOhms",
+        "whirlpoolWtw4950WasherMotorWindingOhms"
+      ],
+      "relatedCodes": [
+        "F1E2",
+        "F7E6",
+        "F7E7"
+      ]
+    },
+    {
+      "id": "w11697231-test-04-console-indicators",
+      "oemSection": "4",
+      "title": "TEST #4: Console and Indicators",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1",
+        "F2E3"
+      ]
+    },
+    {
+      "id": "w11697231-test-05-temp-thermistor",
+      "oemSection": "5",
+      "title": "TEST #5: Temperature Thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4950WasherInletThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E2",
+        "F8E5"
+      ]
+    },
+    {
+      "id": "w11697231-test-06-water-level",
+      "oemSection": "6",
+      "title": "TEST #6: Water Level",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F3E1",
+        "F8E1",
+        "F8E3"
+      ]
+    },
+    {
+      "id": "w11697231-test-07-drain-pump",
+      "oemSection": "7",
+      "title": "TEST #7: Drain Pump",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4950WasherDrainPumpOhms",
+        "whirlpoolWtw4950WasherDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "dr"
+      ]
+    },
+    {
+      "id": "w11697231-test-08-lid-lock",
+      "oemSection": "8",
+      "title": "TEST #8: Lid Lock",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWtw4950WasherLidLockSolenoidOhms"
+      ],
+      "relatedCodes": [
+        "F5E1",
+        "F5E2",
+        "F5E3",
+        "F5E4"
       ]
     }
   ]

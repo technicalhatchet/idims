@@ -1,0 +1,158 @@
+{
+  "id": "w11697231-test-03-drive-system",
+  "version": "1.0.0",
+  "title": "TEST #3: Drive System (pre-test)",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check",
+    "F7E1",
+    "F7E5",
+    "F7E6",
+    "F7E7"
+  ],
+  "source": {
+    "manualId": "W11697231",
+    "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3",
+    "oemTestTitle": "Drive System",
+    "pages": [
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_service_diag"
+    },
+    {
+      "id": "enter_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Service Diagnostic and clear codes",
+      "body": "Activate Service Diagnostic mode. Retrieve and clear F7-E1, F7-E5, and motor speed codes if present.",
+      "sourceExcerpt": "Activate Service Diagnostic mode. Retrieve and clear F7-E1, F7-E5, and motor speed codes if present.",
+      "requiresInput": false,
+      "defaultNextStepId": "heavy_agitate_test"
+    },
+    {
+      "id": "heavy_agitate_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Heavy Agitate runs 15\u201320 sec",
+      "body": "Enter Manual Test Mode. Run Heavy Agitate. Does motor run after 15\u201320 seconds?",
+      "sourceExcerpt": "Enter Manual Test Mode. Run Heavy Agitate. Does motor run after 15\u201320 seconds?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "agitate_ok",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "spin_test"
+        },
+        {
+          "id": "agitate_fail",
+          "label": "Motor does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spin_test",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Spin test completes",
+      "body": "In Manual Test Mode, command spin. If motor hums briefly then stops (lid lock blinking), check Fault Code Display for shifter/basket speed errors.",
+      "sourceExcerpt": "In Manual Test Mode, command spin. If motor hums briefly then stops (lid lock blinking), check Fault Code Display for shifter/basket speed errors.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "spin_ok",
+          "label": "Spin OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drive_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "spin_fail",
+          "label": "Spin fails or hums out",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_shifter_motor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Continue to shifter or motor test",
+      "body": "Shifter-related (F7E5, basket speed) \u2192 TEST #3a Shifter. Motor circuit (F7E6, F7E7) \u2192 TEST #3b Motor.",
+      "sourceExcerpt": "Shifter-related (F7E5, basket speed) \u2192 TEST #3a Shifter. Motor circuit (F7E6, F7E7) \u2192 TEST #3b Motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "drive_deferred"
+    },
+    {
+      "id": "drive_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Drive system OK",
+      "oemOutcome": "Heavy Agitate and spin pass in Manual Test Mode.",
+      "requiresInput": false
+    },
+    {
+      "id": "drive_deferred",
+      "order": 7,
+      "type": "outcome",
+      "title": "Run TEST #3a or #3b",
+      "oemOutcome": "Proceed to w11697231-test-03a-shifter or w11697231-test-03b-motor per fault code.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11697231-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "enter_service_diag"
+    }
+  ]
+}

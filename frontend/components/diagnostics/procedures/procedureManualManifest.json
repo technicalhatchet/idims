@@ -60,6 +60,21 @@
       }
     },
     {
+      "manualId": "W11697231",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "seedDir": "whirlpool_tl_dd",
+      "label": "Whirlpool 3.8 cu ft PSC top-load washer (WTW4950, W11697231)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_dd/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11697231_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11697231_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11697231_service_modes.py"
+      }
+    },
+    {
       "manualId": "W10680150",
       "platformId": "whirlpool_ccu_dryer",
       "templateId": "electric_dryer",

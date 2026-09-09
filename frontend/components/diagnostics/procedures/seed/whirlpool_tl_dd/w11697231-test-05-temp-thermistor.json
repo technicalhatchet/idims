@@ -1,0 +1,174 @@
+{
+  "id": "w11697231-test-05-temp-thermistor",
+  "version": "1.0.0",
+  "title": "TEST #5: Temperature Thermistor",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "wash_ntc"
+  ],
+  "tags": [
+    "thermistor_check",
+    "F3E2",
+    "temp_fault",
+    "F8E5"
+  ],
+  "source": {
+    "manualId": "W11697231",
+    "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Temperature Thermistor",
+    "pages": [
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "cold_valve_test"
+    },
+    {
+      "id": "cold_valve_test",
+      "order": 2,
+      "type": "instruction",
+      "title": "Cold valve Manual Test",
+      "body": "Manual Test Mode: Cold valve test \u2014 cold water dispenses?",
+      "sourceExcerpt": "Manual Test Mode: Cold valve test \u2014 cold water dispenses?",
+      "requiresInput": false,
+      "defaultNextStepId": "hot_valve_test"
+    },
+    {
+      "id": "hot_valve_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "Hot valve Manual Test",
+      "body": "Hot valve test \u2014 hot water dispenses? Verify household hot supply if cold only.",
+      "sourceExcerpt": "Hot valve test \u2014 hot water dispenses? Verify household hot supply if cold only.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_j9_therm"
+    },
+    {
+      "id": "disconnect_j9_therm",
+      "order": 4,
+      "type": "instruction",
+      "title": "Disconnect J9",
+      "body": "Power off. Remove J9 from main control.",
+      "sourceExcerpt": "Power off. Remove J9 from main control.",
+      "requiresInput": false,
+      "defaultNextStepId": "therm_ohms"
+    },
+    {
+      "id": "therm_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Temperature thermistor J9-3 to J9-7",
+      "body": "Measure resistance at ambient. Compare to OEM R/T table in manual (~50 k\u03a9 @ 77\u00b0F / 25\u00b0C).",
+      "sourceExcerpt": "Measure resistance at ambient. Compare to OEM R/T table in manual (~50 k\u03a9 @ 77\u00b0F / 25\u00b0C).",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherInletThermistorOhms",
+      "testPoint": {
+        "connector": "J9",
+        "pins": "3 & 7",
+        "label": "Temperature thermistor J9-3 to J9-7",
+        "pinDetails": [
+          {
+            "pin": "3",
+            "signal": "Thermistor input",
+            "wireColor": "BLK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "7",
+            "signal": "Thermistor GND",
+            "wireColor": "BLK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "therm_ok",
+          "label": "In R/T table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu_therm",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_ntc",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+            }
+          ]
+        },
+        {
+          "id": "therm_bad",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace temperature thermistor assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_crit",
+          "label": "Short/critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace temperature thermistor assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace thermistor assembly",
+      "oemOutcome": "Thermistor open/short \u2014 replace temperature thermistor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_therm",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Thermistor good \u2014 replace main control, calibrate, and run Automatic Test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11697231-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "cold_valve_test"
+    }
+  ]
+}
