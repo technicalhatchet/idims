@@ -75,6 +75,21 @@
       }
     },
     {
+      "manualId": "W10881701",
+      "platformId": "whirlpool_ccu_dryer",
+      "templateId": "electric_dryer",
+      "seedDir": "whirlpool_ccu_dryer",
+      "label": "Whirlpool/Maytag 9.2 cu ft steam dryer (W10881701 WED9500)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10881701_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_ccu_dryer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10881701_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w10881701_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10881701_service_modes.py"
+      }
+    },
+    {
       "manualId": "W11633848",
       "platformId": "whirlpool_dishwasher_acu",
       "templateId": "dishwasher",

@@ -1,0 +1,203 @@
+{
+  "id": "w10881701-moisture-sensor",
+  "version": "1.0.0",
+  "title": "TEST #5: Moisture Sensor",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "long_dry",
+    "not_drying",
+    "F3E2",
+    "F3E7",
+    "steam_no_water"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Moisture Sensor",
+    "pages": [
+      18
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_moisture"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Key Activation, fault scroll, or Service Test as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_moisture"
+    },
+    {
+      "id": "access_moisture",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access moisture sensor harness",
+      "body": "Slide top back, remove front panel. Disconnect 3-wire moisture sensor below door opening. Remove J13 at ACU.",
+      "sourceExcerpt": "Slide top back, remove front panel. Disconnect 3-wire moisture sensor below door opening. Remove J13 at ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "j13_harness"
+    },
+    {
+      "id": "j13_harness",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J13 harness continuity",
+      "body": "Ohmmeter: continuity from J13 at ACU to moisture sensor connector.",
+      "sourceExcerpt": "Ohmmeter: continuity from J13 at ACU to moisture sensor connector.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "outer_contacts"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main wire harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outer_contacts",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Outermost contacts (with MOVs)",
+      "body": "Small resistance across outer contacts \u2192 clean metal strips; if still low, replace sensor harness.",
+      "sourceExcerpt": "Small resistance across outer contacts \u2192 clean metal strips; if still low, replace sensor harness.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "outer_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ground_isolation"
+        },
+        {
+          "id": "outer_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace moisture sensor harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ground_isolation",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Outer contacts to center ground",
+      "body": "Each outer contact to center terminal must read infinity (OL).",
+      "sourceExcerpt": "Each outer contact to center terminal must read infinity (OL).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ground_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "moisture_verified"
+        },
+        {
+          "id": "ground_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace moisture sensor harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outlet_ntc_ref",
+      "order": 7,
+      "type": "instruction",
+      "title": "Outlet thermistor follow-up",
+      "body": "If auto-dry still stops early after sensor OK, run TEST #4a outlet thermistor; then TEST #5a dryness level.",
+      "sourceExcerpt": "If auto-dry still stops early after sensor OK, run TEST #4a outlet thermistor; then TEST #5a dryness level.",
+      "requiresInput": false,
+      "defaultNextStepId": "moisture_verified"
+    },
+    {
+      "id": "replace_harness",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace harness/sensor",
+      "oemOutcome": "Replace moisture sensor harness or sensor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "moisture_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Moisture sensor verified",
+      "oemOutcome": "J13 harness and strip circuit bench checks pass.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10881701-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

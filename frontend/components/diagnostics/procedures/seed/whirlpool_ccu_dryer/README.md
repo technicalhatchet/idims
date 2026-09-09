@@ -1,34 +1,28 @@
-# Whirlpool CCU dryer (`whirlpool_ccu_dryer`) procedure seeds
+# Whirlpool CCU/ACU dryer (`whirlpool_ccu_dryer`) procedure seeds
 
-**Manual:** Service data sheet W10680150 — `whirlpool-electric-gas-dryers.pdf`  
-**Extraction:** [`DRYER_SERVICE_MANUAL_EXTRACTION.md`](../../knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md)  
-**Catalog:** [`procedureCatalog.json`](./procedureCatalog.json)  
-**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10680150`
+**Manuals:**
+- W10680150 — `whirlpool-electric-gas-dryers.pdf` — [DRYER_SERVICE_MANUAL_EXTRACTION.md](../../knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md)
+- W10881701 — `servicemanual-w10881701-l-91 wed9500.pdf` — [WHIRLPOOL_W10881701_DRYER_EXTRACTION.md](../../knowledge/pattern-catalog/WHIRLPOOL_W10881701_DRYER_EXTRACTION.md)
+
+**Catalog:** [`procedureCatalog.json`](./procedureCatalog.json)
+
+**Pipelines:**
+```bash
+python backend/scripts/run_procedure_manual_pipeline.py --manual W10680150
+python backend/scripts/run_procedure_manual_pipeline.py --manual W10881701
+```
 
 ## Scope
 
-Whirlpool/Maytag **CCU-era** dryers (WED/WGD/MED/MGD). **Not** Duet Sport 83/85 — those use `whirlpool_duet_sport_dryer`.
+Whirlpool/Maytag **CCU/ACU-era** dryers (WED/WGD/MED/MGD, including **WED95*/MED95*** steam). **Not** Duet Sport 83/85 — those use `whirlpool_duet_sport_dryer`. **Not** WED51* top-load — `whirlpool_acu_tl_dryer`.
 
-Dual-element electric heat ≤50 Ω (not Duet Sport 7–12 Ω single element). F3Ex/F4Ex error stack.
+Dual-element electric heat ≤50 Ω. Connector naming: W10680150 uses P*; W10881701 service manual uses J* (same functions).
 
-## TEST coverage (13 procedures)
+## TEST coverage
 
-| ID | OEM |
-|----|-----|
-| `w10680150-ccu-power` | TEST #1 |
-| `w10680150-supply-connections` | TEST #2 |
-| `w10680150-motor-circuit` | TEST #3 |
-| `w10680150-heater-electric` | TEST #4 (electric) |
-| `w10680150-heater-gas` | TEST #4 (gas orchestration) |
-| `w10680150-thermistors` | TEST #4a |
-| `w10680150-thermal-fuse` | TEST #4b |
-| `w10680150-thermal-cutoff` | TEST #4c |
-| `w10680150-gas-valve` | TEST #4d |
-| `w10680150-moisture-sensor` | TEST #5 |
-| `w10680150-dryness-adjust` | TEST #5a |
-| `w10680150-button-indicator` | TEST #6 |
-| `w10680150-door-switch` | TEST #7 |
+| Manual | Procedures | Bundles |
+|--------|------------|---------|
+| W10680150 | 13 (`w10680150-*`) TEST #1–#7 | `w10680150-diagnostic-entry` |
+| W10881701 | 16 (`w10881701-*`) TEST #1–#10 | `w10881701-diagnostic-entry`, `w10881701-service-test-mode` |
 
-Deferred: TEST #8 drum light, TEST #9 myst/steam valve.
-
-Bundle: `w10680150-diagnostic-entry` (3-button × 3 sequence, LCD Diagnostics Home).
+W10881701-only: drum LED (#8), water/steam valve (#9), UI service LEDs (#10).

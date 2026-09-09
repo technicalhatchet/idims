@@ -1,0 +1,162 @@
+{
+  "id": "w10881701-drum-led",
+  "version": "1.0.0",
+  "title": "TEST #8: Drum LED",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "drum_light"
+  ],
+  "tags": [
+    "drum_light_check",
+    "no_light"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Drum LED",
+    "pages": [
+      43
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_drum_led"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Key Activation, fault scroll, or Service Test as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_drum_led"
+    },
+    {
+      "id": "access_drum_led",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access drum LED circuit",
+      "body": "Remove console. Verify J6 drum LED connector seated at ACU.",
+      "sourceExcerpt": "Remove console. Verify J6 drum LED connector seated at ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_check"
+    },
+    {
+      "id": "harness_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Drum LED harness",
+      "body": "Check inline connections between drum LED and ACU J6.",
+      "sourceExcerpt": "Check inline connections between drum LED and ACU J6.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "j6_current"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace drum LED harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drum_light",
+              "evidenceId": "confirm_drum_light_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "j6_current",
+      "order": 5,
+      "type": "visual_check",
+      "title": "J6 driver current (150 mA)",
+      "body": "Unplug J6. Milliamps across J6 pins 1 & 3, power on, door open \u2014 expect ~150 mA if ACU driver OK.",
+      "sourceExcerpt": "Unplug J6. Milliamps across J6 pins 1 & 3, power on, door open \u2014 expect ~150 mA if ACU driver OK.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "current_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_led"
+        },
+        {
+          "id": "current_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 drum LED driver missing.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drum_light",
+              "evidenceId": "confirm_drum_light_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_harness",
+      "order": 6,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair drum LED harness or connections.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_led",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace drum LED",
+      "oemOutcome": "Replace drum LED assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU when 150 mA present but LED still dark.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10881701-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

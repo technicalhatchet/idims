@@ -5,6 +5,8 @@
 import insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry from './seed/insignia_dryer_tdre/bundles/nstdre75w1-service-test-entry.json';
 import whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11416805-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
+import whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10881701-diagnostic-entry.json';
+import whirlpool_ccu_dryer_bundles_w10881701_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w10881701-service-test-mode.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test from './seed/whirlpool_duet_sport/bundles/w8178558-manual-diagnostic-test.json';
@@ -61,6 +63,22 @@ import whirlpool_ccu_dryer_w10680150_supply_connections from './seed/whirlpool_c
 import whirlpool_ccu_dryer_w10680150_thermal_cutoff from './seed/whirlpool_ccu_dryer/w10680150-thermal-cutoff.json';
 import whirlpool_ccu_dryer_w10680150_thermal_fuse from './seed/whirlpool_ccu_dryer/w10680150-thermal-fuse.json';
 import whirlpool_ccu_dryer_w10680150_thermistors from './seed/whirlpool_ccu_dryer/w10680150-thermistors.json';
+import whirlpool_ccu_dryer_w10881701_acu_power from './seed/whirlpool_ccu_dryer/w10881701-acu-power.json';
+import whirlpool_ccu_dryer_w10881701_button_indicator from './seed/whirlpool_ccu_dryer/w10881701-button-indicator.json';
+import whirlpool_ccu_dryer_w10881701_door_switch from './seed/whirlpool_ccu_dryer/w10881701-door-switch.json';
+import whirlpool_ccu_dryer_w10881701_drum_led from './seed/whirlpool_ccu_dryer/w10881701-drum-led.json';
+import whirlpool_ccu_dryer_w10881701_dryness_adjust from './seed/whirlpool_ccu_dryer/w10881701-dryness-adjust.json';
+import whirlpool_ccu_dryer_w10881701_gas_valve from './seed/whirlpool_ccu_dryer/w10881701-gas-valve.json';
+import whirlpool_ccu_dryer_w10881701_heater_electric from './seed/whirlpool_ccu_dryer/w10881701-heater-electric.json';
+import whirlpool_ccu_dryer_w10881701_heater_gas from './seed/whirlpool_ccu_dryer/w10881701-heater-gas.json';
+import whirlpool_ccu_dryer_w10881701_moisture_sensor from './seed/whirlpool_ccu_dryer/w10881701-moisture-sensor.json';
+import whirlpool_ccu_dryer_w10881701_motor_circuit from './seed/whirlpool_ccu_dryer/w10881701-motor-circuit.json';
+import whirlpool_ccu_dryer_w10881701_service_leds from './seed/whirlpool_ccu_dryer/w10881701-service-leds.json';
+import whirlpool_ccu_dryer_w10881701_supply_connections from './seed/whirlpool_ccu_dryer/w10881701-supply-connections.json';
+import whirlpool_ccu_dryer_w10881701_thermal_cutoff from './seed/whirlpool_ccu_dryer/w10881701-thermal-cutoff.json';
+import whirlpool_ccu_dryer_w10881701_thermal_fuse from './seed/whirlpool_ccu_dryer/w10881701-thermal-fuse.json';
+import whirlpool_ccu_dryer_w10881701_thermistors from './seed/whirlpool_ccu_dryer/w10881701-thermistors.json';
+import whirlpool_ccu_dryer_w10881701_water_valve from './seed/whirlpool_ccu_dryer/w10881701-water-valve.json';
 import whirlpool_dishwasher_acu_w11633848_acu_power from './seed/whirlpool_dishwasher_acu/w11633848-acu-power.json';
 import whirlpool_dishwasher_acu_w11633848_dc_fan from './seed/whirlpool_dishwasher_acu/w11633848-dc-fan.json';
 import whirlpool_dishwasher_acu_w11633848_dispenser from './seed/whirlpool_dishwasher_acu/w11633848-dispenser.json';
@@ -146,6 +164,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry as ServiceModeBundle,
   whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
+  whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry as ServiceModeBundle,
+  whirlpool_ccu_dryer_bundles_w10881701_service_test_mode as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test as ServiceModeBundle,
@@ -204,6 +224,22 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_ccu_dryer_w10680150_thermal_cutoff as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_thermal_fuse as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_thermistors as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_acu_power as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_button_indicator as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_door_switch as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_drum_led as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_dryness_adjust as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_gas_valve as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_heater_electric as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_heater_gas as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_moisture_sensor as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_motor_circuit as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_service_leds as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_supply_connections as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_thermal_cutoff as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_thermal_fuse as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_thermistors as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10881701_water_valve as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_acu_power as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dc_fan as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dispenser as ServiceProcedureSeed,

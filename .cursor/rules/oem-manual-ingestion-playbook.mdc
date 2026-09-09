@@ -158,9 +158,52 @@ Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCED
 
 **Bundle:** `w10680150-diagnostic-entry` (3-button × 3, LCD Diagnostics Home) — attached to motor, moisture, thermistors, button, door, dryness
 
-**Deferred v1:** TEST #8 drum light, TEST #9 myst/steam valve, diagram crops (page 9 pinout)
+**Deferred v1:** diagram crops (page 9 pinout). Steam/drum-light tests → W10881701 manual.
 
 **Model routing:** WED83/85 and WGD83/85 → `whirlpool_duet_sport_dryer`; other WED/WGD/MED/MGD → CCU.
+
+---
+
+## Manual W10881701 — Whirlpool/Maytag 9.2 cu ft steam dryer (WED9500)
+
+| Field | Value |
+|----|----|
+| platformId | `whirlpool_ccu_dryer` |
+| templateId | `electric_dryer` + `gas_dryer` |
+| Models | `WED95*`, `MED95*`, `WGD95*`, `MGDB955*` |
+| PDF | `servicemanual-w10881701-l-91 wed9500.pdf` |
+| Extraction | `WHIRLPOOL_W10881701_DRYER_EXTRACTION.md` |
+| Knowledge | batch9 (+ `whirlpoolCcuDryerSteamValveOhms`) |
+| Status | **Complete** — 16 TEST procedures + 2 service-mode bundles |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10881701`
+
+### Procedure checklist (W10881701 — same platform, J* = P* pinouts)
+
+| ID | OEM | Tags / codes |
+|----|-----|-----|
+| `w10881701-acu-power` | #1 | F1E1, F1E3, F1E5, F6E2, F6E3 |
+| `w10881701-supply-connections` | #2 | F4E4 |
+| `w10881701-motor-circuit` | #3 | F7E6 path |
+| `w10881701-heater-electric` | #4 | F4E1, F4E2, no_heat |
+| `w10881701-heater-gas` | #4 gas | no_heat |
+| `w10881701-thermistors` | #4a | F3E1, F3E3 |
+| `w10881701-thermal-fuse` | #4b | no_heat |
+| `w10881701-thermal-cutoff` | #4c | no_heat |
+| `w10881701-gas-valve` | #4d | gas only |
+| `w10881701-moisture-sensor` | #5 | **F3E2**, F3E7 |
+| `w10881701-dryness-adjust` | #5a | long_dry |
+| `w10881701-button-indicator` | #6 | F2E1, F2E3–F2E5 |
+| `w10881701-door-switch` | #7 | door_switch_check |
+| `w10881701-drum-led` | #8 | drum_light_check |
+| `w10881701-water-valve` | #9 | steam_no_water, 510–590 Ω |
+| `w10881701-service-leds` | #10 | F6E2, F6E3, hmi_check |
+
+**Bundles:** `w10881701-diagnostic-entry` (3-button × 3), `w10881701-service-test-mode` (2nd button + START; water spray step 8)
+
+**Do not** reuse W11416805 TL pinouts or Duet Sport heater specs.
+
+**WO smoke:** WED9500 + Whirlpool → `whirlpool_ccu_dryer`; F3E2 → `w10881701-moisture-sensor`.
 
 ---
 

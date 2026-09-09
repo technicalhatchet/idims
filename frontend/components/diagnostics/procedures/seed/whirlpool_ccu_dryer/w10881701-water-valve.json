@@ -1,0 +1,281 @@
+{
+  "id": "w10881701-water-valve",
+  "version": "1.0.0",
+  "title": "TEST #9: Water Valve",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "steam_valve"
+  ],
+  "tags": [
+    "steam_no_water",
+    "steam_valve_check",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9",
+    "oemTestTitle": "Water Valve",
+    "pages": [
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_test_spray"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue water valve test",
+      "body": "Service Test Mode entered. Complete L1/L2/heater/airflow sequence or skip to step 8 for water spray verification.",
+      "sourceExcerpt": "Service Test Mode chart step 8 \u2014 verify water sprayed into drum.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "service_test_spray"
+    },
+    {
+      "id": "service_test_spray",
+      "order": 3,
+      "type": "instruction",
+      "title": "Service Test Mode spray check",
+      "body": "Enter Service Test Mode (2nd diagnostic button, then START). Skip to step 8 \u2014 verify water sprays into drum.",
+      "sourceExcerpt": "Enter Service Test Mode (2nd diagnostic button, then START). Skip to step 8 \u2014 verify water sprays into drum.",
+      "requiresInput": false,
+      "defaultNextStepId": "nozzle_check"
+    },
+    {
+      "id": "nozzle_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Nozzle residue (leak/over-spray)",
+      "body": "If leaking or over-spraying: remove drum nozzle, clean residue, reinstall with 7/16 in wrench.",
+      "sourceExcerpt": "If leaking or over-spraying: remove drum nozzle, clean residue, reinstall with 7/16 in wrench.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "nozzle_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_on"
+        },
+        {
+          "id": "nozzle_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clean_nozzle",
+          "terminal": true,
+          "oemOutcome": "Clean or replace drum water nozzle.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "steam_valve",
+              "evidenceId": "confirm_steam_valve_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supply_on",
+      "order": 5,
+      "type": "instruction",
+      "title": "Verify water supply",
+      "body": "Confirm fill hose connected and household water on.",
+      "sourceExcerpt": "Confirm fill hose connected and household water on.",
+      "requiresInput": false,
+      "defaultNextStepId": "j8_1_wired"
+    },
+    {
+      "id": "j8_1_wired",
+      "order": 6,
+      "type": "visual_check",
+      "title": "J8-1 water valve wire",
+      "body": "Red wire from water valve connected to ACU J8-1.",
+      "sourceExcerpt": "Red wire from water valve connected to ACU J8-1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wire_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_coil_ohms"
+        },
+        {
+          "id": "wire_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair water valve harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "steam_valve",
+              "evidenceId": "confirm_steam_valve_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "valve_coil_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Water valve coil J8-1 to J9-2",
+      "body": "Power off. Coil resistance 510\u2013590 \u03a9 (strip circuit). Open \u2192 replace valve assembly.",
+      "sourceExcerpt": "Power off. Coil resistance 510\u2013590 \u03a9 (strip circuit). Open \u2192 replace valve assembly.",
+      "measurementKnowledgeId": "whirlpoolCcuDryerSteamValveOhms",
+      "testPoint": {
+        "connector": "ACU water valve",
+        "pins": "J8-1 to J9-2",
+        "label": "Water valve coil J8-1 to J9-2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_verified"
+        },
+        {
+          "id": "valve_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace water valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "steam_valve",
+              "evidenceId": "confirm_steam_valve_bad"
+            }
+          ]
+        },
+        {
+          "id": "valve_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace water valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "steam_valve",
+              "evidenceId": "confirm_steam_valve_bad"
+            }
+          ]
+        },
+        {
+          "id": "valve_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace water valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "steam_valve",
+              "evidenceId": "confirm_steam_valve_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "valve_plumbing",
+      "order": 8,
+      "type": "instruction",
+      "title": "Valve plumbing check",
+      "body": "Remove back panel \u2014 verify hose and wires at valve; hose to drum nozzle connected.",
+      "sourceExcerpt": "Remove back panel \u2014 verify hose and wires at valve; hose to drum nozzle connected.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_acu"
+    },
+    {
+      "id": "clean_nozzle",
+      "order": 9,
+      "type": "outcome",
+      "title": "Service nozzle",
+      "oemOutcome": "Clean or replace drum water nozzle.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_harness",
+      "order": 10,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair water valve wiring to J8-1.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_valve",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace water valve",
+      "oemOutcome": "Replace water valve assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU when valve and plumbing OK but no spray.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_verified",
+      "order": 13,
+      "type": "outcome",
+      "title": "Water valve verified",
+      "oemOutcome": "Spray confirmed in Service Test Mode; coil in spec.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10881701-service-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "w10881701-service-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}
