@@ -75,6 +75,21 @@
       }
     },
     {
+      "manualId": "W11800233",
+      "platformId": "whirlpool_tl_dd_4100",
+      "templateId": "washer",
+      "seedDir": "whirlpool_tl_dd_4100",
+      "label": "Whirlpool/Maytag 4.0–4.3 cu ft ACU belt-drive top-load washer (WTW4100)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11800233_TL_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_dd_4100/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11800233_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11800233_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11800233_service_modes.py"
+      }
+    },
+    {
       "manualId": "W11697231",
       "platformId": "whirlpool_tl_dd",
       "templateId": "washer",
@@ -237,6 +252,21 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_w8178629_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w8178629_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11455152",
+      "platformId": "whirlpool_tl_dd_6157",
+      "templateId": "washer",
+      "seedDir": "whirlpool_tl_dd_6157",
+      "label": "Whirlpool/Maytag 5.3 cu ft PSC top-load washer (WTW6157, W11455152)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_dd_6157/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11455152_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11455152_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11455152_service_modes.py"
       }
     },
     {

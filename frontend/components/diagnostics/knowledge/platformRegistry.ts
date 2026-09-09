@@ -3,6 +3,7 @@ import { expandOemModelVariants } from './whirlpoolOemRebadge';
 
 export const PLATFORM_IDS = {
   WHIRLPOOL_TL_DD_5100: 'whirlpool_tl_dd_5100',
+  WHIRLPOOL_TL_DD_4100: 'whirlpool_tl_dd_4100',
   WHIRLPOOL_TL_DD: 'whirlpool_tl_dd',
   WHIRLPOOL_FL_DD: 'whirlpool_fl_dd',
   WHIRLPOOL_DUET_SPORT: 'whirlpool_duet_sport',
@@ -32,6 +33,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_CENTENNIAL_DRYER: 'whirlpool_centennial_dryer',
   WHIRLPOOL_ACU_TL_DRYER: 'whirlpool_acu_tl_dryer',
   WHIRLPOOL_MWV6200: 'whirlpool_mvw6200',
+  WHIRLPOOL_TL_DD_6157: 'whirlpool_tl_dd_6157',
 } as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[keyof typeof PLATFORM_IDS];
@@ -53,11 +55,25 @@ export const PLATFORM_RULES: PlatformRule[] = [
     modelPatterns: [/MVW62/i, /WTW62/i],
   },
   {
+    id: PLATFORM_IDS.WHIRLPOOL_TL_DD_6157,
+    label: 'Whirlpool/Maytag 5.3 cu ft PSC top-load (W11455152)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'washer',
+    modelPatterns: [/MVW61/i, /WTW61/i],
+  },
+  {
     id: PLATFORM_IDS.WHIRLPOOL_TL_DD_5100,
     label: 'Whirlpool/Maytag 4.7/5.3 cu ft direct-drive top-load (W11416787)',
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'washer',
     modelPatterns: [/WTW51/i, /MVW51/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_TL_DD_4100,
+    label: 'Whirlpool/Maytag 4.0–4.3 cu ft ACU belt-drive top-load (W11800233)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'washer',
+    modelPatterns: [/WTW41/i, /MVW41/i, /WTW40/i],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_TL_DD,

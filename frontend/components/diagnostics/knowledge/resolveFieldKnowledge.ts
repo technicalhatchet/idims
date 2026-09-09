@@ -24,6 +24,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'electrical_measurements.drive_motor_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherMotorWindingOhms', platformId: 'whirlpool_mvw6200' },
+        { knowledgeId: 'whirlpoolMvw6200WasherMotorWindingOhms', platformId: 'whirlpool_tl_dd_6157' },
         { knowledgeId: 'whirlpoolTlDdWasherMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherMotorOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherMotorOhms', platformId: 'whirlpool_fl_dd' },
@@ -41,6 +42,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'electrical_measurements.drain_pump_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherDrainPumpOhms', platformId: 'whirlpool_mvw6200' },
+        { knowledgeId: 'whirlpoolMvw6200WasherDrainPumpOhms', platformId: 'whirlpool_tl_dd_6157' },
         { knowledgeId: 'whirlpoolTlDdWasherDrainPumpOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDrainPumpOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherDrainPumpOhms', platformId: 'whirlpool_fl_dd' },
@@ -61,6 +63,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'electrical_measurements.inlet_valve_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherInletValveOhms', platformId: 'whirlpool_mvw6200' },
+        { knowledgeId: 'whirlpoolMvw6200WasherInletValveOhms', platformId: 'whirlpool_tl_dd_6157' },
         { knowledgeId: 'whirlpoolTlDdWasherInletValveOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherInletValveOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherInletValveOhms', platformId: 'whirlpool_fl_dd' },
@@ -93,6 +96,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'mechanical_controls.door_lock_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherLidLockSolenoidOhms', platformId: 'whirlpool_mvw6200' },
+        { knowledgeId: 'whirlpoolMvw6200WasherLidLockSolenoidOhms', platformId: 'whirlpool_tl_dd_6157' },
         { knowledgeId: 'whirlpoolTlDdWasherLidLockMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolFlWasherDoorLockSolenoidOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDoorLockSolenoidOhms', platformId: 'whirlpool_duet_sport' },
