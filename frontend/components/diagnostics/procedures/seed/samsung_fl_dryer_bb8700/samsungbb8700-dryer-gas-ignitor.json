@@ -1,0 +1,148 @@
+{
+  "id": "samsungbb8700-dryer-gas-ignitor",
+  "version": "1.0.0",
+  "title": "\u00a74-6: Gas igniter (101D)",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "componentIds": [
+    "igniter"
+  ],
+  "tags": [
+    "igniter_check",
+    "no_heat",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-6",
+    "oemTestTitle": "Igniter",
+    "pages": [
+      42
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "ignitor_access"
+    },
+    {
+      "id": "ignitor_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Igniter 101D",
+      "body": "Disconnect power. Do not touch igniter element.",
+      "sourceExcerpt": "Disconnect power. Do not touch igniter element.",
+      "requiresInput": false,
+      "defaultNextStepId": "ignitor_ohms"
+    },
+    {
+      "id": "ignitor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Igniter resistance",
+      "body": "Expected 40\u2013120 \u03a9.",
+      "sourceExcerpt": "Expected 40\u2013120 \u03a9.",
+      "measurementKnowledgeId": "samsungFlBb8700DryerIgnitorOhms",
+      "testPoint": {
+        "connector": "Igniter 101D",
+        "pins": "Terminals",
+        "label": "Igniter resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ign_pass",
+          "label": "40\u2013120 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_igniter_ol_igniter_ok",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ignitor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace igniter",
+      "oemOutcome": "Replace open or out-of-range igniter.",
+      "requiresInput": false
+    },
+    {
+      "id": "ignitor_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Igniter OK",
+      "oemOutcome": "Igniter in spec \u2014 verify gas supply and valve coils.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

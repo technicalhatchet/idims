@@ -28,6 +28,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolDuetSportWasherMotorOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherMotorOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashMotorOhms', platformId: 'samsung_flexwash' },
+        { knowledgeId: 'samsungFlBb8700WasherMotorOhms', platformId: 'samsung_fl_washer_bb8700' },
         {
           knowledgeId: 'insigniaWasherFreqDriveMotorOhms',
           platformId: 'insignia_washer_freq',
@@ -77,6 +78,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolDuetSportWasherHeaterOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherHeaterOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashHeaterOhms', platformId: 'samsung_flexwash' },
+        { knowledgeId: 'samsungFlBb8700WasherHeaterOhms', platformId: 'samsung_fl_washer_bb8700' },
       ],
     },
     'electrical_measurements.recirc_pump_ohms': {
@@ -91,6 +93,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolTlDdWasherLidLockMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolFlWasherDoorLockSolenoidOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDoorLockSolenoidOhms', platformId: 'whirlpool_duet_sport' },
+        { knowledgeId: 'samsungFlBb8700WasherDoorLockOhms', platformId: 'samsung_fl_washer_bb8700' },
         {
           knowledgeId: 'insigniaWasherCapDoorLockOhms',
           platformId: 'insignia_washer_cap',
@@ -155,6 +158,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
   electric_dryer: {
     'heat_circuit.heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerHeaterElementOhms', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerHeaterOhms', platformId: 'whirlpool_duet_sport_dryer' },
         { knowledgeId: 'whirlpoolAcuTlDryerHeaterOhms', platformId: 'whirlpool_acu_tl_dryer' },
         { knowledgeId: 'whirlpoolCcuDryerHeaterOhms', platformId: 'whirlpool_ccu_dryer' },
@@ -163,11 +167,13 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           platformId: 'insignia_dryer_tdre',
           manufacturers: [...INSIGNIA],
         },
+        { knowledgeId: 'samsungFlBb8700DryerHeaterOhms', platformId: 'samsung_fl_dryer_bb8700' },
         { knowledgeId: 'electricDryerHeatingElementOhms', isDefault: true },
       ],
     },
     'heat_circuit.outlet_thermistor_kohm': {
       candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerExhaustThermistorKohm', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerExhaustThermistorKohm', platformId: 'whirlpool_duet_sport_dryer' },
         {
           knowledgeId: 'insigniaDryerOutletThermistorKohm',
@@ -179,24 +185,31 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'motor_electrical.motor_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerMotorOhms', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerMotorOhms', platformId: 'whirlpool_duet_sport_dryer' },
         { knowledgeId: 'dryerDrumMotorWindingOhms', isDefault: true },
       ],
     },
     'motor_electrical.motor_circuit_ohms': {
-      candidates: [{ knowledgeId: 'dryerMotorCircuitOhms', isDefault: true }],
+      candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerMotorCircuitOhms', platformId: 'whirlpool_centennial_dryer' },
+        { knowledgeId: 'dryerMotorCircuitOhms', isDefault: true },
+      ],
     },
   },
   gas_dryer: {
     'gas_ignition.igniter_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerIgnitorOhms', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerIgnitorOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'samsungFlBb8700DryerIgnitorOhms', platformId: 'samsung_fl_dryer_bb8700' },
         { knowledgeId: 'hotSurfaceIgniterOhms', isDefault: true },
       ],
     },
     'gas_ignition.gas_valve_coils': {
       candidates: [
         { knowledgeId: 'whirlpoolDuetSportDryerGasValveCoilOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'samsungFlBb8700DryerGasValve12Ohms', platformId: 'samsung_fl_dryer_bb8700' },
         { knowledgeId: 'gasValveCoilOhms', isDefault: true },
       ],
     },
@@ -213,12 +226,16 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'motor_electrical.motor_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerMotorOhms', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerMotorOhms', platformId: 'whirlpool_duet_sport_dryer' },
         { knowledgeId: 'dryerDrumMotorWindingOhms', isDefault: true },
       ],
     },
     'motor_electrical.motor_circuit_ohms': {
-      candidates: [{ knowledgeId: 'dryerMotorCircuitOhms', isDefault: true }],
+      candidates: [
+        { knowledgeId: 'whirlpoolCentennialDryerMotorCircuitOhms', platformId: 'whirlpool_centennial_dryer' },
+        { knowledgeId: 'dryerMotorCircuitOhms', isDefault: true },
+      ],
     },
   },
   standalone_freezer: {

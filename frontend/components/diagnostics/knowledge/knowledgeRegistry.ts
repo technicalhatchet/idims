@@ -17,6 +17,8 @@ import batch16 from './seed/measurement-knowledge-batch16.json';
 import batch17 from './seed/measurement-knowledge-batch17.json';
 import batch18 from './seed/measurement-knowledge-batch18.json';
 import batch19 from './seed/measurement-knowledge-batch19.json';
+import batch20 from './seed/measurement-knowledge-batch20.json';
+import batch22 from './seed/measurement-knowledge-batch22.json';
 import refrigeratorElimination from './elimination/refrigerator.json';
 import dishwasherElimination from './elimination/dishwasher.json';
 import gasRangeElimination from './elimination/gas_range.json';
@@ -101,6 +103,8 @@ const ALL_ENTRIES: MeasurementKnowledgeDefinition[] = [
   ...(batch17 as MeasurementKnowledgeDefinition[]),
   ...(batch18 as MeasurementKnowledgeDefinition[]),
   ...(batch19 as MeasurementKnowledgeDefinition[]),
+  ...(batch20 as MeasurementKnowledgeDefinition[]),
+  ...(batch22 as MeasurementKnowledgeDefinition[]),
 ].map(normalizeKnowledgeEntry);
 
 const KNOWLEDGE_BY_ID = new Map<string, MeasurementKnowledgeDefinition>(

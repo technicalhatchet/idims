@@ -1,0 +1,147 @@
+{
+  "id": "samsungbb8700-drain-pump",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Drain / leakage (LC, LC1)",
+  "platformId": "samsung_fl_washer_bb8700",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "LC",
+    "LC1",
+    "drain_issue",
+    "leak_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Water Leakage Error LC",
+    "pages": [
+      47,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "leak_inspection"
+    },
+    {
+      "id": "leak_inspection",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Leak inspection",
+      "body": "Check base, hoses, valves, tub connections, and drain bellows for foreign material or leaks.",
+      "sourceExcerpt": "Check base, hoses, valves, tub connections, and drain bellows for foreign material or leaks.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "no_leak",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_motor_check"
+        },
+        {
+          "id": "repair_leak",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_leak_out",
+          "terminal": true,
+          "oemOutcome": "Repair leak source and clear drain bellows."
+        }
+      ]
+    },
+    {
+      "id": "drain_motor_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drain motor operation",
+      "body": "Verify drain motor/pump operates during natural drain. Clear bellows of wires/coins.",
+      "sourceExcerpt": "Verify drain motor/pump operates during natural drain. Clear bellows of wires/coins.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_verified"
+        },
+        {
+          "id": "replace_drain_pump",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump or motor when inoperative."
+        }
+      ]
+    },
+    {
+      "id": "repair_leak_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Repair leak path",
+      "oemOutcome": "Correct hose, valve, or tub leak; clear bellows obstruction.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pump_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Replace drain pump motor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "drain_verified"
+    },
+    {
+      "id": "drain_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Drain path OK",
+      "oemOutcome": "No leak; drain motor operates \u2014 retest LC.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungbb8700-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "drain_motor_check",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungbb8700-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "drain_verified"
+    }
+  ]
+}

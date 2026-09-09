@@ -26,6 +26,7 @@ export const PLATFORM_IDS = {
   LG_DISHWASHER_LDT: 'lg_dishwasher_ldt',
   INSIGNIA_DRYER_TDRE: 'insignia_dryer_tdre',
   WHIRLPOOL_CCU_DRYER: 'whirlpool_ccu_dryer',
+  WHIRLPOOL_CENTENNIAL_DRYER: 'whirlpool_centennial_dryer',
   WHIRLPOOL_ACU_TL_DRYER: 'whirlpool_acu_tl_dryer',
   WHIRLPOOL_MWV6200: 'whirlpool_mvw6200',
 } as const;
@@ -262,6 +263,28 @@ export const PLATFORM_RULES: PlatformRule[] = [
     manufacturers: ['Whirlpool', 'Maytag'],
     templateId: 'gas_dryer',
     modelPatterns: [/WGD51/i, /MGD51/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_CENTENNIAL_DRYER,
+    label: 'Whirlpool/Maytag Centennial timer+electronic dryer (8178629)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'electric_dryer',
+    modelPatterns: [
+      /MED55/i, /MGD55/i, /MED59/i, /MGD59/i,
+      /WED55/i, /WGD55/i, /WED59/i, /WGD59/i,
+      /WED4815/i, /WGD4815/i, /WED4915/i, /WGD4915/i,
+    ],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_CENTENNIAL_DRYER,
+    label: 'Whirlpool/Maytag Centennial timer+electronic dryer (8178629, gas)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'gas_dryer',
+    modelPatterns: [
+      /MED55/i, /MGD55/i, /MED59/i, /MGD59/i,
+      /WED55/i, /WGD55/i, /WED59/i, /WGD59/i,
+      /WED4815/i, /WGD4815/i, /WED4915/i, /WGD4915/i,
+    ],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_CCU_DRYER,

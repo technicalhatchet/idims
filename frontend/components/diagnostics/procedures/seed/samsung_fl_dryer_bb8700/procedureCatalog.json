@@ -1,0 +1,94 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "templateId": "electric_dryer",
+  "label": "Samsung FL dryer BB8700 (DVE/DVG 53/50BB)",
+  "notes": "Electric + gas via templateIds. Smart Install \u00a74-3, components \u00a74-6.",
+  "plannedProcedures": [
+    {
+      "id": "samsungbb8700-dryer-thermistor",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Thermistors (tC, tC5, HC)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungbb8700-dryer-door-switch",
+      "oemSection": "4-6",
+      "title": "\u00a74-1 / \u00a74-6: Door switch (dC, dF)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungbb8700-dryer-heater-electric",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Electric heater (5300 W)",
+      "status": "generated",
+      "templateIds": [
+        "electric_dryer"
+      ]
+    },
+    {
+      "id": "samsungbb8700-dryer-thermal-cutoff",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Thermal cutoff and hi-limit",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungbb8700-dryer-motor-circuit",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Motor centrifugal switch",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungbb8700-dryer-belt-cutoff",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Belt cut-off switch",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungbb8700-dryer-hmi",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Display / buttons (bC2)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungbb8700-dryer-power",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungbb8700-dryer-gas-valve",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Gas valve coils (25M01A)",
+      "status": "generated",
+      "templateIds": [
+        "gas_dryer"
+      ]
+    },
+    {
+      "id": "samsungbb8700-dryer-gas-ignitor",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Gas igniter (101D)",
+      "status": "generated",
+      "templateIds": [
+        "gas_dryer"
+      ]
+    },
+    {
+      "id": "samsungbb8700-dryer-gas-flame-sensor",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Radiant flame sensor (10RS)",
+      "status": "generated",
+      "templateIds": [
+        "gas_dryer"
+      ]
+    }
+  ]
+}

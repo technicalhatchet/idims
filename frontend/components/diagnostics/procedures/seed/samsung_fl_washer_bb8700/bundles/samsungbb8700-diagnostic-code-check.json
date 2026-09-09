@@ -1,0 +1,36 @@
+{
+  "id": "samsungbb8700-diagnostic-code-check",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_washer_bb8700",
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "title": "Samsung BB8700 \u2014 Diagnostic code display",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Review stored diagnostic codes (up to 7 digits) from Smart Install.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "dc_enter",
+  "source": {
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "pages": [
+      46
+    ]
+  },
+  "steps": [
+    {
+      "id": "dc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Diagnostic information display",
+      "body": "From AS: press ALARM OFF or SMART CONTROL \u2192 OPTION \u2192 jog dial CW. Or from CR display turn jog dial CW \u2014 up to 7 stored codes.",
+      "sourceExcerpt": "From AS: press ALARM OFF or SMART CONTROL \u2192 OPTION \u2192 jog dial CW. Or from CR display turn jog dial CW \u2014 up to 7 stored codes.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

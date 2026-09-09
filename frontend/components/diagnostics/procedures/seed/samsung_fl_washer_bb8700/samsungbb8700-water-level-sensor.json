@@ -1,0 +1,130 @@
+{
+  "id": "samsungbb8700-water-level-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Water level sensor (1C)",
+  "platformId": "samsung_fl_washer_bb8700",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "1C",
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Water Level Sensor 1C",
+    "pages": [
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "wls_hose"
+    },
+    {
+      "id": "wls_hose",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Level sensor hose",
+      "body": "Check hose to water level sensor \u2014 not folded, cut, or damaged. Verify correct material code sensor installed.",
+      "sourceExcerpt": "Check hose to water level sensor \u2014 not folded, cut, or damaged. Verify correct material code sensor installed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wls_frequency"
+        },
+        {
+          "id": "fix_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hose_out",
+          "terminal": true,
+          "oemOutcome": "Correct hose routing and sensor part."
+        }
+      ]
+    },
+    {
+      "id": "wls_frequency",
+      "order": 3,
+      "type": "instruction",
+      "title": "Frequency check",
+      "body": "Connect sensor and connector. Measure frequency on pink and orange wires \u2014 approx. 25.5 kHz with no load.",
+      "sourceExcerpt": "Connect sensor and connector. Measure frequency on pink and orange wires \u2014 approx. 25.5 kHz with no load.",
+      "requiresInput": false,
+      "defaultNextStepId": "wls_connector"
+    },
+    {
+      "id": "wls_connector",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Terminal connections",
+      "body": "Water level sensor terminals secure and correct sensor part number?",
+      "sourceExcerpt": "Water level sensor terminals secure and correct sensor part number?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wls_conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wls_verified"
+        },
+        {
+          "id": "replace_wls",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_wls_out",
+          "terminal": true,
+          "oemOutcome": "Replace water level sensor or repair connections."
+        }
+      ]
+    },
+    {
+      "id": "fix_hose_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Fix hose/sensor install",
+      "oemOutcome": "Correct hose and sensor installation.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_wls_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace level sensor",
+      "oemOutcome": "Replace water level sensor; replace PBA if fault persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "wls_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Level sensor OK",
+      "oemOutcome": "Frequency and connections verified.",
+      "requiresInput": false
+    }
+  ]
+}

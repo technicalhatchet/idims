@@ -1,0 +1,96 @@
+{
+  "id": "samsungbb8700-dryer-gas-flame-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-6: Radiant flame sensor (10RS)",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "componentIds": [
+    "flame_sensor"
+  ],
+  "tags": [
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-6",
+    "oemTestTitle": "Flame sensor",
+    "pages": [
+      41,
+      42
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "flame_sensor_access"
+    },
+    {
+      "id": "flame_sensor_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Radiant sensor 10RS",
+      "body": "120 V radiant sensor \u2014 verify harness and sensor seated at burner.",
+      "sourceExcerpt": "120 V radiant sensor \u2014 verify harness and sensor seated at burner.",
+      "requiresInput": false,
+      "defaultNextStepId": "flame_sensor_check"
+    },
+    {
+      "id": "flame_sensor_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Flame sense during heat",
+      "body": "During timed dry heat, does flame stay lit >20 min without HE/HC? Check terminal wiring if HC.",
+      "sourceExcerpt": "During timed dry heat, does flame stay lit >20 min without HE/HC? Check terminal wiring if HC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "flame_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flame_verified"
+        },
+        {
+          "id": "replace_flame_sensor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flame_sensor_out",
+          "terminal": true,
+          "oemOutcome": "Replace radiant flame sensor or repair harness."
+        }
+      ]
+    },
+    {
+      "id": "replace_flame_sensor_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace flame sensor",
+      "oemOutcome": "Replace 10RS radiant sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "flame_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Flame sense OK",
+      "oemOutcome": "Ignition and flame sense verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

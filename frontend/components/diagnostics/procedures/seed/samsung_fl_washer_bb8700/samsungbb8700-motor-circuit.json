@@ -1,0 +1,255 @@
+{
+  "id": "samsungbb8700-motor-circuit",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Washing motor (3C)",
+  "platformId": "samsung_fl_washer_bb8700",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "3C",
+    "motor_check",
+    "spin_issue",
+    "wont_spin"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Washing Motor Error 3C",
+    "pages": [
+      47,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_overload"
+    },
+    {
+      "id": "motor_overload",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Rule out overload (3E)",
+      "body": "Too much laundry can display 3E \u2014 redistribute load before motor diagnosis.",
+      "sourceExcerpt": "3E is displayed because overloading occurs.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_motor"
+        },
+        {
+          "id": "redistribute_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "redistribute_load_out",
+          "terminal": true,
+          "oemOutcome": "Redistribute load and retest."
+        }
+      ]
+    },
+    {
+      "id": "disconnect_motor",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect motor connector",
+      "body": "Disconnect motor harness. Inspect stator cover and coil for foreign material or damage.",
+      "sourceExcerpt": "Disconnect motor harness. Inspect stator cover and coil for foreign material or damage.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_ohms"
+    },
+    {
+      "id": "motor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Motor winding resistance",
+      "body": "Measure Blue-White, White-Red, and Red-Blue. Each pair should read ~15 \u03a9 (\u00a73). \u00a74-3 3C cites 6.0 \u03a9 @ 25\u00b0C at any two terminals \u2014 verify at connector.",
+      "sourceExcerpt": "Measure Blue-White, White-Red, and Red-Blue. Each pair should read ~15 \u03a9 (\u00a73). \u00a74-3 3C cites 6.0 \u03a9 @ 25\u00b0C at any two terminals \u2014 verify at connector.",
+      "measurementKnowledgeId": "samsungFlBb8700WasherMotorOhms",
+      "testPoint": {
+        "connector": "Motor",
+        "pins": "Blue-White, White-Red, Red-Blue",
+        "label": "Motor winding resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_pass",
+          "label": "~15 \u03a9 each pair",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_motor",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_motor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect motor \u2014 restore power",
+      "body": "Reconnect motor harness. Restore power for Smart Install manual check step 8 (dehydration/spin).",
+      "sourceExcerpt": "Reconnect motor harness. Restore power for Smart Install manual check step 8 (dehydration/spin).",
+      "requiresInput": false,
+      "defaultNextStepId": "live_motor_check"
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "live_motor_check"
+    },
+    {
+      "id": "live_motor_check",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Motor runs in manual check",
+      "body": "In Smart Install manual mode, advance to dehydration test. Does drum spin?",
+      "sourceExcerpt": "In Smart Install manual mode, advance to dehydration test. Does drum spin?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok"
+        },
+        {
+          "id": "suspect_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_pba_out",
+          "terminal": true,
+          "oemOutcome": "Motor ohms OK but no run \u2014 replace main PBA or check inverter comm (AC6)."
+        }
+      ]
+    },
+    {
+      "id": "redistribute_load_out",
+      "order": 8,
+      "type": "outcome",
+      "title": "Redistribute load",
+      "oemOutcome": "Correct load size and balance before condemning motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace motor when windings open or out of OEM range.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "Motor verified",
+      "oemOutcome": "Motor resistance and live spin verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_pba_out",
+      "order": 11,
+      "type": "outcome",
+      "title": "Suspect main/inverter PBA",
+      "oemOutcome": "Replace PBA after confirming motor and harness.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungbb8700-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_motor",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungbb8700-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "live_motor_check"
+    }
+  ]
+}

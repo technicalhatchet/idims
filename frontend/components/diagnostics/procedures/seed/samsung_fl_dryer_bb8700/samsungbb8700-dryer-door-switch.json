@@ -1,0 +1,132 @@
+{
+  "id": "samsungbb8700-dryer-door-switch",
+  "version": "1.0.0",
+  "title": "\u00a74-1 / \u00a74-6: Door switch (dC, dF)",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "dC",
+    "dF",
+    "door_switch_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-6",
+    "oemTestTitle": "Door switch",
+    "pages": [
+      35,
+      40
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_closed"
+    },
+    {
+      "id": "door_closed",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door fully closed",
+      "body": "Close door firmly. Check door sensor unit not loose.",
+      "sourceExcerpt": "Close door firmly. Check door sensor unit not loose.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_bench"
+        },
+        {
+          "id": "secure_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "secure_door_out",
+          "terminal": true,
+          "oemOutcome": "Secure door sensor harness and latch."
+        }
+      ]
+    },
+    {
+      "id": "door_switch_bench",
+      "order": 3,
+      "type": "instruction",
+      "title": "Door switch continuity",
+      "body": "Disconnect power. Door switch 125 V 10 A \u2014 measure OFF: open circuit; ON (door closed): closed circuit per \u00a74-6.",
+      "sourceExcerpt": "Disconnect power. Door switch 125 V 10 A \u2014 measure OFF: open circuit; ON (door closed): closed circuit per \u00a74-6.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_switch_test"
+    },
+    {
+      "id": "door_switch_test",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Switch toggles correctly?",
+      "body": "Resistance/continuity changes when door latched vs open?",
+      "sourceExcerpt": "Resistance/continuity changes when door latched vs open?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sw_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified"
+        },
+        {
+          "id": "replace_door_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly."
+        }
+      ]
+    },
+    {
+      "id": "secure_door_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Secure door assembly",
+      "oemOutcome": "Tighten door sensor and verify latch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_switch_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch when incorrect state (dF).",
+      "requiresInput": false
+    },
+    {
+      "id": "door_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Door switch OK",
+      "oemOutcome": "Door switch operates correctly.",
+      "requiresInput": false
+    }
+  ]
+}

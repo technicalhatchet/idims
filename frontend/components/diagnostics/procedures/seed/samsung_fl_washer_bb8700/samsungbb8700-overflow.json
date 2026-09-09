@@ -1,0 +1,94 @@
+{
+  "id": "samsungbb8700-overflow",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Overflow (OC)",
+  "platformId": "samsung_fl_washer_bb8700",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "OC",
+    "overflow"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Overflow Error OC",
+    "pages": [
+      45,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "oc_hose"
+    },
+    {
+      "id": "oc_hose",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Level sensor hose",
+      "body": "Inspect hose to water level sensor \u2014 torn, hole, or frozen. Defrost if winter.",
+      "sourceExcerpt": "Inspect hose to water level sensor \u2014 torn, hole, or frozen. Defrost if winter.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_intact",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_spin_retry"
+        },
+        {
+          "id": "repair_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_hose_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace level sensor hose; defrost if frozen."
+        }
+      ]
+    },
+    {
+      "id": "oc_spin_retry",
+      "order": 3,
+      "type": "instruction",
+      "title": "Restart after spin",
+      "body": "Restart cycle after spin. If OC remains, replace water level sensor.",
+      "sourceExcerpt": "Restart cycle after spin. If OC remains, replace water level sensor.",
+      "requiresInput": false,
+      "defaultNextStepId": "oc_verified"
+    },
+    {
+      "id": "repair_hose_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Repair hose",
+      "oemOutcome": "Correct hose damage or freezing condition.",
+      "requiresInput": false
+    },
+    {
+      "id": "oc_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Overflow resolved",
+      "oemOutcome": "OC cleared \u2014 monitor level sensor if recurrence.",
+      "requiresInput": false
+    }
+  ]
+}

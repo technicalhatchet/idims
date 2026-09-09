@@ -1,0 +1,46 @@
+{
+  "id": "samsungbb8700-dryer-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "title": "Samsung BB8700 dryer \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Temp + Option 7 s \u2192 AS; touch sensor and vent blockage tests.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "dsi_prep",
+  "source": {
+    "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt",
+    "pages": [
+      37
+    ]
+  },
+  "steps": [
+    {
+      "id": "dsi_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Empty drum",
+      "body": "Power on dryer. Drum empty.",
+      "sourceExcerpt": "Power on dryer. Drum empty.",
+      "requiresInput": false,
+      "defaultNextStepId": "dsi_enter"
+    },
+    {
+      "id": "dsi_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press and hold Temp + Option for 7 seconds until AS displays.",
+      "sourceExcerpt": "Press and hold Temp + Option for 7 seconds until AS displays.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

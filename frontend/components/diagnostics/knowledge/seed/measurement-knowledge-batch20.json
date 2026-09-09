@@ -1,0 +1,181 @@
+[
+  {
+    "id": "samsungFlBb8700DryerHeaterOhms",
+    "name": "Samsung FL BB8700 Electric Dryer Heater (5300 W)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 9.5, "max": 12.5 },
+      "warning": { "min": 8, "max": 14 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 10.5, "max": 11.5 },
+    "openCircuitCritical": true,
+    "purpose": "Single 240 V 5300 W element — R ≈ V²/P ≈ 10.9 Ω per §4-6.",
+    "failureModes": [
+      "Open element — no heat",
+      "Good ohms but no heat — thermistor, cutoff, or PCB"
+    ],
+    "testingTips": [
+      "Disconnect power and discharge before heater terminals",
+      "Verify thermal cutoff and hi-limit in series path"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_bb8700"
+    },
+    "dmaTags": ["no_heat", "HC"]
+  },
+  {
+    "id": "samsungFlBb8700DryerGasValve12Ohms",
+    "name": "Samsung FL BB8700 Gas Valve Coil 1–2",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1200, "max": 1500 },
+      "warning": { "min": 1100, "max": 1600 },
+      "critical": { "below": 200, "above": 2500 }
+    },
+    "typical": { "min": 1300, "max": 1400 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve 25M01A coil pair 1–2 — approx. 1365 Ω per §4-6.",
+    "failureModes": ["Open coil — no gas flow on that leg"],
+    "testingTips": ["Measure at valve harness disconnected from PCB"],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_bb8700"
+    },
+    "dmaTags": ["gas_valve_check", "no_heat"]
+  },
+  {
+    "id": "samsungFlBb8700DryerGasValve13Ohms",
+    "name": "Samsung FL BB8700 Gas Valve Coil 1–3",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 480, "max": 640 },
+      "warning": { "min": 400, "max": 720 },
+      "critical": { "below": 100, "above": 1200 }
+    },
+    "typical": { "min": 530, "max": 590 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve coil pair 1–3 — approx. 560 Ω per §4-6.",
+    "failureModes": ["Open coil — valve will not open fully"],
+    "testingTips": ["Compare all four valve coil pairs"],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_bb8700"
+    },
+    "dmaTags": ["gas_valve_check"]
+  },
+  {
+    "id": "samsungFlBb8700DryerGasValve45Ohms",
+    "name": "Samsung FL BB8700 Gas Valve Coil 4–5",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1200, "max": 1450 },
+      "warning": { "min": 1100, "max": 1550 },
+      "critical": { "below": 200, "above": 2500 }
+    },
+    "typical": { "min": 1280, "max": 1370 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve coil pair 4–5 — approx. 1325 Ω per §4-6.",
+    "failureModes": ["Open coil"],
+    "testingTips": [],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_bb8700"
+    },
+    "dmaTags": ["gas_valve_check"]
+  },
+  {
+    "id": "samsungFlBb8700DryerGasValve67Ohms",
+    "name": "Samsung FL BB8700 Gas Valve Coil 6–7",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 900, "max": 1100 },
+      "warning": { "min": 800, "max": 1200 },
+      "critical": { "below": 150, "above": 2000 }
+    },
+    "typical": { "min": 950, "max": 1050 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve coil pair 6–7 — approx. 1000 Ω per §4-6.",
+    "failureModes": ["Open coil"],
+    "testingTips": [],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_bb8700"
+    },
+    "dmaTags": ["gas_valve_check"]
+  },
+  {
+    "id": "samsungFlBb8700DryerIgnitorOhms",
+    "name": "Samsung FL BB8700 Gas Igniter (101D)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40, "max": 120 },
+      "warning": { "min": 30, "max": 150 },
+      "critical": { "below": 10, "above": 200 }
+    },
+    "typical": { "min": 50, "max": 100 },
+    "openCircuitCritical": true,
+    "purpose": "Hot-surface igniter 101D — 40–120 Ω per §4-6.",
+    "failureModes": [
+      "Open igniter — no ignition",
+      "Cracked igniter — glow but no flame"
+    ],
+    "testingTips": [
+      "Do not touch igniter element",
+      "Verify gas supply and valve coils if igniter glows"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_bb8700"
+    },
+    "dmaTags": ["igniter_check", "no_heat"]
+  },
+  {
+    "id": "samsungFlBb8700DryerHiLimitOhms",
+    "name": "Samsung FL BB8700 Hi-Limit Thermostat (60T21)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "warning": { "min": 0, "max": 2 },
+      "critical": { "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "Hi-limit thermostat 60T21 — less than 1 Ω when closed per §4-6.",
+    "failureModes": [
+      "Open at room temp — tripped hi-limit or cutoff",
+      "No heat with open thermal chain"
+    ],
+    "testingTips": [
+      "Allow dryer to cool before ohms if recently run",
+      "Check thermal cutoff in same path"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_dryer_bb8700"
+    },
+    "dmaTags": ["no_heat", "thermal_fuse_check"]
+  }
+]
