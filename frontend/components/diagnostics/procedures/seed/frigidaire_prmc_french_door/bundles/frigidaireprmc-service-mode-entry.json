@@ -1,0 +1,57 @@
+{
+  "id": "frigidaireprmc-service-mode-entry",
+  "version": "1.0.0",
+  "platformId": "frigidaire_prmc_french_door",
+  "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+  "title": "Frigidaire PRMC \u2014 System Diagnostic Mode",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Hold \u2212 and + for 10 s; navigate tests with +/\u2212; FREEZE BOOST toggles loads.",
+  "tags": [
+    "service_diagnostic",
+    "load_test",
+    "sensor_check"
+  ],
+  "entryStepId": "sm_enter",
+  "source": {
+    "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt",
+    "pages": [
+      1
+    ]
+  },
+  "steps": [
+    {
+      "id": "sm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter System Diagnostic Mode",
+      "body": "Press and hold \u2212 and + buttons for 10 seconds. First screens cycle all UI LEDs on, then off.",
+      "sourceExcerpt": "Press and hold \u2212 and + buttons for 10 seconds. First screens cycle all UI LEDs on, then off.",
+      "requiresInput": false,
+      "defaultNextStepId": "sm_navigate"
+    },
+    {
+      "id": "sm_navigate",
+      "order": 2,
+      "type": "instruction",
+      "title": "Navigate service tests",
+      "body": "Use +/\u2212 to advance through numbered tests. Press FREEZE BOOST to toggle load states on applicable tests.",
+      "sourceExcerpt": "Use +/\u2212 to advance through numbered tests. Press FREEZE BOOST to toggle load states on applicable tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "sm_exit"
+    },
+    {
+      "id": "sm_exit",
+      "order": 3,
+      "type": "instruction",
+      "title": "Exit service mode",
+      "body": "Press and hold \u2212 and + for 10 seconds, or wait for 10 minutes of inactivity, to return to normal operation.",
+      "sourceExcerpt": "Press and hold \u2212 and + for 10 seconds, or wait for 10 minutes of inactivity, to return to normal operation.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

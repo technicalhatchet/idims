@@ -31,6 +31,7 @@ export const PLATFORM_IDS = {
   INSIGNIA_DISHWASHER: 'insignia_dishwasher',
   LG_DISHWASHER_LDT: 'lg_dishwasher_ldt',
   LG_DISHWASHER_LDT7808: 'lg_dishwasher_ldt7808',
+  LG_MICROWAVE_OTR: 'lg_microwave_otr',
   INSIGNIA_DRYER_TDRE: 'insignia_dryer_tdre',
   WHIRLPOOL_CCU_DRYER: 'whirlpool_ccu_dryer',
   WHIRLPOOL_CENTENNIAL_DRYER: 'whirlpool_centennial_dryer',
@@ -39,6 +40,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_TL_DD_6157: 'whirlpool_tl_dd_6157',
   WHIRLPOOL_FREESTANDING_RANGE: 'whirlpool_freestanding_range',
   WHIRLPOOL_CONNECTED_SMART_GEN3: 'whirlpool_connected_smart_gen3',
+  FRIGIDAIRE_PRMC_FRENCH_DOOR: 'frigidaire_prmc_french_door',
 } as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[keyof typeof PLATFORM_IDS];
@@ -237,6 +239,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     templateId: 'refrigerator',
   },
   {
+    id: PLATFORM_IDS.FRIGIDAIRE_PRMC_FRENCH_DOOR,
+    label: 'Frigidaire Professional PRMC French-door (column evaporator)',
+    manufacturers: ['Frigidaire', 'Frigidaire Professional'],
+    templateId: 'refrigerator',
+    modelPatterns: [/PRMC/i, /FRMC/i],
+  },
+  {
     id: PLATFORM_IDS.WHIRLPOOL_WRT311_ADC,
     label: 'Whirlpool WRT311 ADC 2000 top-mount',
     manufacturers: ['Whirlpool', 'Maytag', 'Amana'],
@@ -352,6 +361,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     manufacturers: ['LG'],
     templateId: 'dishwasher',
     modelPatterns: [/LDT/i],
+  },
+  {
+    id: PLATFORM_IDS.LG_MICROWAVE_OTR,
+    label: 'LG over-the-range microwave (LMHM/LMVM)',
+    manufacturers: ['LG'],
+    templateId: 'microwave',
+    modelPatterns: [/LMHM/i, /LMVM/i],
   },
   {
     id: PLATFORM_IDS.INSIGNIA_DRYER_TDRE,

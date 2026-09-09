@@ -1,0 +1,96 @@
+{
+  "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+  "platformId": "frigidaire_prmc_french_door",
+  "templateId": "refrigerator",
+  "label": "Frigidaire Professional PRMC French-door refrigerator",
+  "notes": "Er t1\u2013t6 + Er CE; System Diagnostic Mode; FFIM self-test; manual defrost dF. Uses cabinetThermistorOhms.",
+  "plannedProcedures": [
+    {
+      "id": "frigidaireprmc-fz-temp-sensor",
+      "oemSection": "30",
+      "title": "Er t1: Freezer cabinet temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_t1",
+        "Er t1"
+      ]
+    },
+    {
+      "id": "frigidaireprmc-fz-defrost-sensor",
+      "oemSection": "39",
+      "title": "Er t2: Freezer evaporator defrost sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_t2",
+        "Er t2"
+      ]
+    },
+    {
+      "id": "frigidaireprmc-ff-temp-sensor",
+      "oemSection": "29",
+      "title": "Er t3: Fresh-food cabinet temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_t3",
+        "Er t3"
+      ]
+    },
+    {
+      "id": "frigidaireprmc-ff-defrost-sensor",
+      "oemSection": "31",
+      "title": "Er t4: Fresh-food evaporator defrost sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_t4",
+        "Er t4"
+      ]
+    },
+    {
+      "id": "frigidaireprmc-vcz-temp-sensor",
+      "oemSection": "32",
+      "title": "Er t5: VCZ (variable zone) temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_t5",
+        "Er t5"
+      ]
+    },
+    {
+      "id": "frigidaireprmc-ffim-tray-sensor",
+      "oemSection": "45",
+      "title": "Er t6: FFIM tray temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_t6",
+        "Er t6"
+      ]
+    },
+    {
+      "id": "frigidaireprmc-ui-communication",
+      "oemSection": "CE",
+      "title": "Er CE: Dispenser UI \u2194 main board communication",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_CE",
+        "Er CE"
+      ]
+    },
+    {
+      "id": "frigidaireprmc-manual-defrost",
+      "oemSection": "dF",
+      "title": "Manual defrost mode (dF)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "frigidaireprmc-ffim-self-test",
+      "oemSection": "FFIM-TEST",
+      "title": "FFIM twist-tray self-test (TEST button)",
+      "status": "generated",
+      "relatedCodes": [
+        "Er_t6",
+        "Er t6"
+      ]
+    }
+  ]
+}

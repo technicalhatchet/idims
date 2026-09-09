@@ -1,0 +1,233 @@
+{
+  "id": "frigidaireprmc-fz-defrost-sensor",
+  "version": "1.0.0",
+  "title": "Er t2: Freezer evaporator defrost sensor",
+  "platformId": "frigidaire_prmc_french_door",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "Er_t2",
+    "Er t2",
+    "thermistor",
+    "sensor_check",
+    "defrost",
+    "frost_buildup"
+  ],
+  "source": {
+    "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+    "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "39",
+    "oemTestTitle": "Service mode test 39: FRZ evaporator defrost sensor",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+      "sourceExcerpt": "Disconnect power cord before servicing this appliance.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_harness"
+    },
+    {
+      "id": "check_harness",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Harness and pin backouts",
+      "body": "Check freezer evaporator defrost sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+      "sourceExcerpt": "Check freezer evaporator defrost sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_mode_readout"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness when damaged or loose."
+        }
+      ]
+    },
+    {
+      "id": "repair_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Repair harness",
+      "body": "Repair wiring or reseat connector, then retest in service mode.",
+      "sourceExcerpt": "Repair wiring or reseat connector, then retest in service mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_mode_readout"
+    },
+    {
+      "id": "repair_harness_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair sensor harness and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+      "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks.",
+      "requiresInput": false,
+      "order": 5,
+      "defaultNextStepId": "service_mode_readout"
+    },
+    {
+      "id": "service_mode_readout",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Service mode test 39 readout",
+      "body": "In System Diagnostic Mode, navigate to test 39 (FRZ evaporator defrost sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+      "sourceExcerpt": "In System Diagnostic Mode, navigate to test 39 (FRZ evaporator defrost sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "readout_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms"
+        },
+        {
+          "id": "readout_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": true,
+          "oemOutcome": "OP/SH indicates open or shorted sensor circuit."
+        }
+      ]
+    },
+    {
+      "id": "sensor_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "FRZ evaporator defrost sensor resistance",
+      "body": "Power off. Measure FRZ evaporator defrost sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+      "sourceExcerpt": "Power off. Measure FRZ evaporator defrost sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+      "measurementKnowledgeId": "cabinetThermistorOhms",
+      "testPoint": {
+        "connector": "main control harness",
+        "pins": "FRZ evaporator defrost sensor",
+        "label": "FRZ evaporator defrost sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "defrost_thermistor_bad_component"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "defrost_thermistor_bad_component"
+            }
+          ]
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "defrost_thermistor_bad_component"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "5\u201316 k\u03a9 @ room temp",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace FRZ evaporator defrost sensor or harness when open, shorted, or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_pcb",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main control board when sensor and harness verified good but Er code persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "Sensor verified",
+      "oemOutcome": "FRZ evaporator defrost sensor resistance and harness verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "frigidaireprmc-service-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

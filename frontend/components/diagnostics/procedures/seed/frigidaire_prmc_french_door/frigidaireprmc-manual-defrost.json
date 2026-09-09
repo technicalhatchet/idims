@@ -1,0 +1,102 @@
+{
+  "id": "frigidaireprmc-manual-defrost",
+  "version": "1.0.0",
+  "title": "Manual defrost mode (dF)",
+  "platformId": "frigidaire_prmc_french_door",
+  "componentIds": [
+    "heater",
+    "main_control"
+  ],
+  "tags": [
+    "manual_defrost",
+    "defrost",
+    "frost_buildup"
+  ],
+  "source": {
+    "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+    "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "dF",
+    "oemTestTitle": "Manual Defrost",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+      "sourceExcerpt": "Disconnect power cord before servicing this appliance.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_df"
+    },
+    {
+      "id": "enter_df",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter manual defrost (dF)",
+      "body": "On main UI: hold + and Air Filter buttons for 10 seconds. Display shows dF while manual defrost is active.",
+      "sourceExcerpt": "On main UI: hold + and Air Filter buttons for 10 seconds. Display shows dF while manual defrost is active.",
+      "requiresInput": true,
+      "defaultNextStepId": "defrost_complete"
+    },
+    {
+      "id": "defrost_complete",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Defrost cycle effective?",
+      "body": "Allow manual defrost to run. Verify evaporator frost clears and compartment temperatures recover after dF completes and unit returns to normal operation.",
+      "sourceExcerpt": "Allow manual defrost to run. Verify evaporator frost clears and compartment temperatures recover after dF completes and unit returns to normal operation.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "defrost_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "defrost_resolved"
+        },
+        {
+          "id": "defrost_failed",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "continue_diagnostics",
+          "terminal": true,
+          "oemOutcome": "Manual defrost did not clear frost \u2014 continue component diagnostics.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "defrost_heater_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "defrost_resolved",
+      "order": 4,
+      "type": "outcome",
+      "title": "Manual defrost OK",
+      "oemOutcome": "Manual defrost completed \u2014 monitor temperatures.",
+      "requiresInput": false
+    },
+    {
+      "id": "continue_diagnostics",
+      "order": 5,
+      "type": "outcome",
+      "title": "Continue diagnostics",
+      "oemOutcome": "Frost or cooling fault remains \u2014 run Er t* sensor and heater service-mode tests.",
+      "requiresInput": false
+    }
+  ]
+}
