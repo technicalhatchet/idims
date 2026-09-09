@@ -1,0 +1,59 @@
+{
+  "id": "insigniatwmcap-pcb-failure",
+  "version": "1.0.0",
+  "title": "PCB failure \u2014 F2 / C9",
+  "platformId": "insignia_washer_cap",
+  "componentIds": [
+    "acu"
+  ],
+  "tags": [
+    "F2",
+    "C9",
+    "hmi_check",
+    "no_power",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-TWM-WASHER",
+    "manualTitle": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+    "extractedTextFile": "backend/docs/manuals/NS-TWM41WH8A insignia washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4.3",
+    "oemTestTitle": "PCB failed (F2 / C9)",
+    "pages": [
+      18
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "pcb_symptoms"
+    },
+    {
+      "id": "pcb_symptoms",
+      "order": 2,
+      "type": "instruction",
+      "title": "F2 / C9 behavior",
+      "body": "F2 or C9 indicates PCB failure. Test mode entry failure (lights not ON, display not 88, no beep) also points to PCB.",
+      "sourceExcerpt": "F2 or C9 indicates PCB failure. Test mode entry failure (lights not ON, display not 88, no beep) also points to PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_pcbs"
+    },
+    {
+      "id": "replace_pcbs",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace PCBs",
+      "oemOutcome": "Replace display PCB and/or power/main PCB per failed path.",
+      "requiresInput": false
+    }
+  ]
+}

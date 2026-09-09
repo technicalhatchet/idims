@@ -1,0 +1,255 @@
+{
+  "id": "insigniawmt41-level-sensor",
+  "version": "1.0.0",
+  "title": "Frequency level sensor \u2014 F8",
+  "platformId": "insignia_washer_freq",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "F8",
+    "fill_issue",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-WMT-WASHER",
+    "manualTitle": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-NS-WMT41WA5-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "F8",
+    "oemTestTitle": "Water level sensor fault",
+    "pages": [
+      54,
+      55
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "f8_define"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "FCt test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After FCt test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "f8_define"
+    },
+    {
+      "id": "f8_define",
+      "order": 3,
+      "type": "instruction",
+      "title": "F8 monitor window",
+      "body": "After power-on PCB monitors level sensor frequency for 5 s. <18 kHz or >30 kHz triggers F8.",
+      "sourceExcerpt": "After power-on PCB monitors level sensor frequency for 5 s. <18 kHz or >30 kHz triggers F8.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_f8"
+    },
+    {
+      "id": "harness_f8",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Level sensor harness",
+      "body": "Back panel: level sensor terminals properly inserted?",
+      "sourceExcerpt": "Back panel: level sensor terminals properly inserted?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_f8_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_freq_f8"
+        },
+        {
+          "id": "harness_f8_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_harness_f8",
+          "terminal": true,
+          "oemOutcome": "Reinsert level sensor connections.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "level_freq_f8",
+      "order": 5,
+      "type": "measurement",
+      "title": "Level sensor frequency (empty)",
+      "body": "Terminals 1\u20132, empty tub: 26.70\u00b10.3 kHz.",
+      "sourceExcerpt": "Terminals 1\u20132, empty tub: 26.70\u00b10.3 kHz.",
+      "measurementKnowledgeId": "insigniaWasherLevelSensorFrequency",
+      "testPoint": {
+        "connector": "Level sensor",
+        "pins": "1-2",
+        "label": "Level sensor frequency (empty)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "f8_crit_low",
+          "label": "Below 18 kHz",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_level_f8",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor \u2014 F8 fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "f8_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_level_f8",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "f8_pass",
+          "label": "26.4\u201327.0 kHz (empty)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inspect_pcb_f8",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "f8_crit_high",
+          "label": "Above 30 kHz",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_level_f8",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor \u2014 F8 fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_pcb_f8",
+      "order": 6,
+      "type": "visual_check",
+      "title": "PCB damage",
+      "body": "Main PCB damaged?",
+      "sourceExcerpt": "Main PCB damaged?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pcb_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "f8_verified"
+        },
+        {
+          "id": "pcb_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_f8",
+          "terminal": true,
+          "oemOutcome": "Replace main PCB.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_level_f8",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace level sensor",
+      "oemOutcome": "Replace frequency water level sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "reseat_harness_f8",
+      "order": 8,
+      "type": "outcome",
+      "title": "Reseat harness",
+      "oemOutcome": "Reseat level sensor harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pcb_f8",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace PCB",
+      "oemOutcome": "Replace main control PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "f8_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Level sensor verified",
+      "oemOutcome": "Frequency in spec and harness OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniawmt41-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

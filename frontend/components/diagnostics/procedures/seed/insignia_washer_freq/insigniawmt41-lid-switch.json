@@ -1,0 +1,199 @@
+{
+  "id": "insigniawmt41-lid-switch",
+  "version": "1.0.0",
+  "title": "Lid / door switch \u2014 E3",
+  "platformId": "insignia_washer_freq",
+  "componentIds": [
+    "lid_switch"
+  ],
+  "tags": [
+    "E3",
+    "lid_switch_check",
+    "door_switch_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-WMT-WASHER",
+    "manualTitle": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-NS-WMT41WA5-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E3",
+    "oemTestTitle": "Door left open",
+    "pages": [
+      55,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "lid_closed"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "FCt test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After FCt test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "lid_closed"
+    },
+    {
+      "id": "lid_closed",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Lid closed during operation",
+      "body": "Is the lid fully closed? E3 clears when lid is closed.",
+      "sourceExcerpt": "Is the lid fully closed? E3 clears when lid is closed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lid_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_magnet"
+        },
+        {
+          "id": "lid_open",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_lid",
+          "terminal": true,
+          "oemOutcome": "Close lid and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "lid_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_magnet",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door magnet / lid switch",
+      "body": "Door magnet switch operating? Impact switch parallel path OK?",
+      "sourceExcerpt": "Door magnet switch operating? Impact switch parallel path OK?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "magnet_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lid_harness"
+        },
+        {
+          "id": "magnet_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lid_switch",
+          "terminal": true,
+          "oemOutcome": "Replace lid switch or door magnet assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "lid_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lid_harness",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Lid switch harness",
+      "body": "Continuity on lid switch harness per OEM (ohm meter)?",
+      "sourceExcerpt": "Continuity on lid switch harness per OEM (ohm meter)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lid_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lid_verified"
+        },
+        {
+          "id": "lid_harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lid_harness",
+          "terminal": true,
+          "oemOutcome": "Replace lid switch harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "lid_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "close_lid",
+      "order": 6,
+      "type": "outcome",
+      "title": "Close lid",
+      "oemOutcome": "Close lid \u2014 E3 should clear.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lid_switch",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace lid switch",
+      "oemOutcome": "Replace door/lid switch assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lid_harness",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace lid switch wiring.",
+      "requiresInput": false
+    },
+    {
+      "id": "lid_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Lid switch verified",
+      "oemOutcome": "Lid switch path OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniawmt41-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

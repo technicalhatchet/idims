@@ -1,0 +1,203 @@
+{
+  "id": "insigniatwmcap-level-sensor",
+  "version": "1.0.0",
+  "title": "Capacitive level sensor \u2014 F8",
+  "platformId": "insignia_washer_cap",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "F8",
+    "fill_issue",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-TWM-WASHER",
+    "manualTitle": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+    "extractedTextFile": "backend/docs/manuals/NS-TWM41WH8A insignia washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4.5-E",
+    "oemTestTitle": "Water level sensor failure (F8)",
+    "pages": [
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "cap_note"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "cap_note"
+    },
+    {
+      "id": "cap_note",
+      "order": 3,
+      "type": "instruction",
+      "title": "Capacitance check",
+      "body": "Measure capacitance between terminals 1\u20132 and 2\u20133: expect 40\u201350 nF. Out of range = replace sensor.",
+      "sourceExcerpt": "Measure capacitance between terminals 1\u20132 and 2\u20133: expect 40\u201350 nF. Out of range = replace sensor.",
+      "requiresInput": false,
+      "defaultNextStepId": "level_ohms"
+    },
+    {
+      "id": "level_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Level sensor resistance (term 1\u20133)",
+      "body": "Resistance between terminals 1 and 3: 20\u201340 \u03a9.",
+      "sourceExcerpt": "Resistance between terminals 1 and 3: 20\u201340 \u03a9.",
+      "measurementKnowledgeId": "insigniaWasherCapLevelSensorOhms",
+      "testPoint": {
+        "connector": "Level sensor",
+        "pins": "1-3",
+        "label": "Level sensor resistance (term 1\u20133)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "f8_level_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_level_f8",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 open circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "f8_level_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_level_f8",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "f8_level_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_level_f8",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "f8_level_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "harness_f8"
+        }
+      ]
+    },
+    {
+      "id": "harness_f8",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Level sensor harness",
+      "body": "Harness and connections at level sensor seated with no damage?",
+      "sourceExcerpt": "Harness and connections at level sensor seated with no damage?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_f8_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "f8_verified"
+        },
+        {
+          "id": "harness_f8_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness_f8",
+          "terminal": true,
+          "oemOutcome": "Repair harness or connections.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_level_f8",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace level sensor",
+      "oemOutcome": "Replace capacitive water level sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_harness_f8",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace level sensor wiring harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "f8_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Level sensor verified",
+      "oemOutcome": "Sensor and harness OK \u2014 if F8 persists, replace PCBs.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniatwmcap-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

@@ -2,9 +2,17 @@
 // Re-run after adding or removing procedure seed JSON files.
 
 
+import insignia_dishwasher_bundles_nsdwr3ss1_service_test_entry from './seed/insignia_dishwasher/bundles/nsdwr3ss1-service-test-entry.json';
 import insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry from './seed/insignia_dryer_tdre/bundles/nstdre75w1-service-test-entry.json';
+import insignia_washer_cap_bundles_insigniatwmcap_test_mode_entry from './seed/insignia_washer_cap/bundles/insigniatwmcap-test-mode-entry.json';
+import insignia_washer_freq_bundles_insigniawmt41_test_mode_entry from './seed/insignia_washer_freq/bundles/insigniawmt41-test-mode-entry.json';
 import lg_dishwasher_ldt7808_bundles_ldt7808_test_mode_entry from './seed/lg_dishwasher_ldt7808/bundles/ldt7808-test-mode-entry.json';
 import lg_dishwasher_ldt7808_bundles_ldt7808_water_supply_check from './seed/lg_dishwasher_ldt7808/bundles/ldt7808-water-supply-check.json';
+import lg_lrmvs_bundles_lglrmvs_damper_test from './seed/lg_lrmvs/bundles/lglrmvs-damper-test.json';
+import lg_lrmvs_bundles_lglrmvs_test_mode_entry from './seed/lg_lrmvs/bundles/lglrmvs-test-mode-entry.json';
+import midea_rss_bundles_midearss_mandatory_mode_entry from './seed/midea_rss/bundles/midearss-mandatory-mode-entry.json';
+import midea_uz21_bundles_mideauz21_forced_defrost_entry from './seed/midea_uz21/bundles/mideauz21-forced-defrost-entry.json';
+import midea_uz21_bundles_mideauz21_test_mode_entry from './seed/midea_uz21/bundles/mideauz21-test-mode-entry.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-error-recall.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-smart-install-entry.json';
 import samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall from './seed/samsung_fl_dryer_dv6000/bundles/samsungdv6000-error-recall.json';
@@ -71,6 +79,15 @@ import whirlpool_tl_dd_5100_bundles_w11416787_service_diagnostic_entry from './s
 import whirlpool_tl_dd_6157_bundles_w11455152_automatic_test_mode from './seed/whirlpool_tl_dd_6157/bundles/w11455152-automatic-test-mode.json';
 import whirlpool_tl_dd_6157_bundles_w11455152_service_diagnostic_entry from './seed/whirlpool_tl_dd_6157/bundles/w11455152-service-diagnostic-entry.json';
 
+import insignia_dishwasher_nsdwr3ss1_control_panel from './seed/insignia_dishwasher/nsdwr3ss1-control-panel.json';
+import insignia_dishwasher_nsdwr3ss1_display_comm from './seed/insignia_dishwasher/nsdwr3ss1-display-comm.json';
+import insignia_dishwasher_nsdwr3ss1_diverter from './seed/insignia_dishwasher/nsdwr3ss1-diverter.json';
+import insignia_dishwasher_nsdwr3ss1_drain_pump from './seed/insignia_dishwasher/nsdwr3ss1-drain-pump.json';
+import insignia_dishwasher_nsdwr3ss1_fill_valve from './seed/insignia_dishwasher/nsdwr3ss1-fill-valve.json';
+import insignia_dishwasher_nsdwr3ss1_heater from './seed/insignia_dishwasher/nsdwr3ss1-heater.json';
+import insignia_dishwasher_nsdwr3ss1_inlet_fill from './seed/insignia_dishwasher/nsdwr3ss1-inlet-fill.json';
+import insignia_dishwasher_nsdwr3ss1_overflow from './seed/insignia_dishwasher/nsdwr3ss1-overflow.json';
+import insignia_dishwasher_nsdwr3ss1_tub_thermistor from './seed/insignia_dishwasher/nsdwr3ss1-tub-thermistor.json';
 import insignia_dryer_tdre_nstdre75w1_belt_safety from './seed/insignia_dryer_tdre/nstdre75w1-belt-safety.json';
 import insignia_dryer_tdre_nstdre75w1_communication from './seed/insignia_dryer_tdre/nstdre75w1-communication.json';
 import insignia_dryer_tdre_nstdre75w1_door_switch from './seed/insignia_dryer_tdre/nstdre75w1-door-switch.json';
@@ -85,6 +102,21 @@ import insignia_dryer_tdre_nstdre75w1_motor_circuit from './seed/insignia_dryer_
 import insignia_dryer_tdre_nstdre75w1_outlet_thermistor from './seed/insignia_dryer_tdre/nstdre75w1-outlet-thermistor.json';
 import insignia_dryer_tdre_nstdre75w1_thermal_cutoff from './seed/insignia_dryer_tdre/nstdre75w1-thermal-cutoff.json';
 import insignia_dryer_tdre_nstdre75w1_thermal_hi_limit from './seed/insignia_dryer_tdre/nstdre75w1-thermal-hi-limit.json';
+import insignia_washer_cap_insigniatwmcap_door_lock from './seed/insignia_washer_cap/insigniatwmcap-door-lock.json';
+import insignia_washer_cap_insigniatwmcap_drain_pump from './seed/insignia_washer_cap/insigniatwmcap-drain-pump.json';
+import insignia_washer_cap_insigniatwmcap_inlet_valves from './seed/insignia_washer_cap/insigniatwmcap-inlet-valves.json';
+import insignia_washer_cap_insigniatwmcap_level_sensor from './seed/insignia_washer_cap/insigniatwmcap-level-sensor.json';
+import insignia_washer_cap_insigniatwmcap_lid_switch from './seed/insignia_washer_cap/insigniatwmcap-lid-switch.json';
+import insignia_washer_cap_insigniatwmcap_load_sensing from './seed/insignia_washer_cap/insigniatwmcap-load-sensing.json';
+import insignia_washer_cap_insigniatwmcap_pcb_failure from './seed/insignia_washer_cap/insigniatwmcap-pcb-failure.json';
+import insignia_washer_cap_insigniatwmcap_unbalance from './seed/insignia_washer_cap/insigniatwmcap-unbalance.json';
+import insignia_washer_freq_insigniawmt41_drain_motor from './seed/insignia_washer_freq/insigniawmt41-drain-motor.json';
+import insignia_washer_freq_insigniawmt41_drive_motor from './seed/insignia_washer_freq/insigniawmt41-drive-motor.json';
+import insignia_washer_freq_insigniawmt41_impact_switch from './seed/insignia_washer_freq/insigniawmt41-impact-switch.json';
+import insignia_washer_freq_insigniawmt41_inlet_valves from './seed/insignia_washer_freq/insigniawmt41-inlet-valves.json';
+import insignia_washer_freq_insigniawmt41_level_sensor from './seed/insignia_washer_freq/insigniawmt41-level-sensor.json';
+import insignia_washer_freq_insigniawmt41_lid_switch from './seed/insignia_washer_freq/insigniawmt41-lid-switch.json';
+import insignia_washer_freq_insigniawmt41_unbalance from './seed/insignia_washer_freq/insigniawmt41-unbalance.json';
 import lg_dishwasher_ldt7808_ldt7808_bubble_error from './seed/lg_dishwasher_ldt7808/ldt7808-bubble-error.json';
 import lg_dishwasher_ldt7808_ldt7808_drain_pump from './seed/lg_dishwasher_ldt7808/ldt7808-drain-pump.json';
 import lg_dishwasher_ldt7808_ldt7808_excess_fill from './seed/lg_dishwasher_ldt7808/ldt7808-excess-fill.json';
@@ -95,6 +127,41 @@ import lg_dishwasher_ldt7808_ldt7808_leak_float from './seed/lg_dishwasher_ldt78
 import lg_dishwasher_ldt7808_ldt7808_thermistor from './seed/lg_dishwasher_ldt7808/ldt7808-thermistor.json';
 import lg_dishwasher_ldt7808_ldt7808_vario_valve from './seed/lg_dishwasher_ldt7808/ldt7808-vario-valve.json';
 import lg_dishwasher_ldt7808_ldt7808_wash_motor from './seed/lg_dishwasher_ldt7808/ldt7808-wash-motor.json';
+import lg_lrmvs_lglrmvs_condenser_fan from './seed/lg_lrmvs/lglrmvs-condenser-fan.json';
+import lg_lrmvs_lglrmvs_convert_sensor from './seed/lg_lrmvs/lglrmvs-convert-sensor.json';
+import lg_lrmvs_lglrmvs_display_communication from './seed/lg_lrmvs/lglrmvs-display-communication.json';
+import lg_lrmvs_lglrmvs_display_mode from './seed/lg_lrmvs/lglrmvs-display-mode.json';
+import lg_lrmvs_lglrmvs_ff_defrost_heater from './seed/lg_lrmvs/lglrmvs-ff-defrost-heater.json';
+import lg_lrmvs_lglrmvs_ff_defrost_sensor from './seed/lg_lrmvs/lglrmvs-ff-defrost-sensor.json';
+import lg_lrmvs_lglrmvs_ff_fan from './seed/lg_lrmvs/lglrmvs-ff-fan.json';
+import lg_lrmvs_lglrmvs_ff_sensor from './seed/lg_lrmvs/lglrmvs-ff-sensor.json';
+import lg_lrmvs_lglrmvs_fz_defrost_heater from './seed/lg_lrmvs/lglrmvs-fz-defrost-heater.json';
+import lg_lrmvs_lglrmvs_fz_defrost_sensor from './seed/lg_lrmvs/lglrmvs-fz-defrost-sensor.json';
+import lg_lrmvs_lglrmvs_fz_fan from './seed/lg_lrmvs/lglrmvs-fz-fan.json';
+import lg_lrmvs_lglrmvs_fz_sensor from './seed/lg_lrmvs/lglrmvs-fz-sensor.json';
+import lg_lrmvs_lglrmvs_ice_maker_electrical from './seed/lg_lrmvs/lglrmvs-ice-maker-electrical.json';
+import lg_lrmvs_lglrmvs_icing_fan from './seed/lg_lrmvs/lglrmvs-icing-fan.json';
+import lg_lrmvs_lglrmvs_icing_sensor from './seed/lg_lrmvs/lglrmvs-icing-sensor.json';
+import lg_lrmvs_lglrmvs_sealed_system from './seed/lg_lrmvs/lglrmvs-sealed-system.json';
+import lg_lrmvs_lglrmvs_wifi_modem from './seed/lg_lrmvs/lglrmvs-wifi-modem.json';
+import midea_rss_midearss_ambient_sensor from './seed/midea_rss/midearss-ambient-sensor.json';
+import midea_rss_midearss_communication from './seed/midea_rss/midearss-communication.json';
+import midea_rss_midearss_fz_defrost_heater from './seed/midea_rss/midearss-fz-defrost-heater.json';
+import midea_rss_midearss_fz_defrost_sensor from './seed/midea_rss/midearss-fz-defrost-sensor.json';
+import midea_rss_midearss_fz_temp_sensor from './seed/midea_rss/midearss-fz-temp-sensor.json';
+import midea_rss_midearss_high_temp_alarm from './seed/midea_rss/midearss-high-temp-alarm.json';
+import midea_rss_midearss_ice_maker_sensor from './seed/midea_rss/midearss-ice-maker-sensor.json';
+import midea_rss_midearss_ice_maker from './seed/midea_rss/midearss-ice-maker.json';
+import midea_rss_midearss_rc_defrost_sensor from './seed/midea_rss/midearss-rc-defrost-sensor.json';
+import midea_rss_midearss_rc_temp_sensor from './seed/midea_rss/midearss-rc-temp-sensor.json';
+import midea_rss_midearss_vfd_inverter from './seed/midea_rss/midearss-vfd-inverter.json';
+import midea_uz21_mideauz21_ambient_sensor from './seed/midea_uz21/mideauz21-ambient-sensor.json';
+import midea_uz21_mideauz21_communication from './seed/midea_uz21/mideauz21-communication.json';
+import midea_uz21_mideauz21_evap_fan from './seed/midea_uz21/mideauz21-evap-fan.json';
+import midea_uz21_mideauz21_fz_defrost_heater from './seed/midea_uz21/mideauz21-fz-defrost-heater.json';
+import midea_uz21_mideauz21_fz_defrost_sensor from './seed/midea_uz21/mideauz21-fz-defrost-sensor.json';
+import midea_uz21_mideauz21_fz_temp_sensor from './seed/midea_uz21/mideauz21-fz-temp-sensor.json';
+import midea_uz21_mideauz21_high_temp_alarm from './seed/midea_uz21/mideauz21-high-temp-alarm.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-belt-cutoff.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-door-switch.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-gas-flame-sensor.json';
@@ -489,9 +556,17 @@ import whirlpool_tl_dd_6157_w11455152_test_07_lid_lock from './seed/whirlpool_tl
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
+  insignia_dishwasher_bundles_nsdwr3ss1_service_test_entry as ServiceModeBundle,
   insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry as ServiceModeBundle,
+  insignia_washer_cap_bundles_insigniatwmcap_test_mode_entry as ServiceModeBundle,
+  insignia_washer_freq_bundles_insigniawmt41_test_mode_entry as ServiceModeBundle,
   lg_dishwasher_ldt7808_bundles_ldt7808_test_mode_entry as ServiceModeBundle,
   lg_dishwasher_ldt7808_bundles_ldt7808_water_supply_check as ServiceModeBundle,
+  lg_lrmvs_bundles_lglrmvs_damper_test as ServiceModeBundle,
+  lg_lrmvs_bundles_lglrmvs_test_mode_entry as ServiceModeBundle,
+  midea_rss_bundles_midearss_mandatory_mode_entry as ServiceModeBundle,
+  midea_uz21_bundles_mideauz21_forced_defrost_entry as ServiceModeBundle,
+  midea_uz21_bundles_mideauz21_test_mode_entry as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry as ServiceModeBundle,
   samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall as ServiceModeBundle,
@@ -560,6 +635,15 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
+  insignia_dishwasher_nsdwr3ss1_control_panel as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_display_comm as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_diverter as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_drain_pump as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_fill_valve as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_heater as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_inlet_fill as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_overflow as ServiceProcedureSeed,
+  insignia_dishwasher_nsdwr3ss1_tub_thermistor as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_belt_safety as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_communication as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_door_switch as ServiceProcedureSeed,
@@ -574,6 +658,21 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   insignia_dryer_tdre_nstdre75w1_outlet_thermistor as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_thermal_cutoff as ServiceProcedureSeed,
   insignia_dryer_tdre_nstdre75w1_thermal_hi_limit as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_door_lock as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_drain_pump as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_inlet_valves as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_level_sensor as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_lid_switch as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_load_sensing as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_pcb_failure as ServiceProcedureSeed,
+  insignia_washer_cap_insigniatwmcap_unbalance as ServiceProcedureSeed,
+  insignia_washer_freq_insigniawmt41_drain_motor as ServiceProcedureSeed,
+  insignia_washer_freq_insigniawmt41_drive_motor as ServiceProcedureSeed,
+  insignia_washer_freq_insigniawmt41_impact_switch as ServiceProcedureSeed,
+  insignia_washer_freq_insigniawmt41_inlet_valves as ServiceProcedureSeed,
+  insignia_washer_freq_insigniawmt41_level_sensor as ServiceProcedureSeed,
+  insignia_washer_freq_insigniawmt41_lid_switch as ServiceProcedureSeed,
+  insignia_washer_freq_insigniawmt41_unbalance as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_bubble_error as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_drain_pump as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_excess_fill as ServiceProcedureSeed,
@@ -584,6 +683,41 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   lg_dishwasher_ldt7808_ldt7808_thermistor as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_vario_valve as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_wash_motor as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_condenser_fan as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_convert_sensor as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_display_communication as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_display_mode as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_ff_defrost_heater as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_ff_defrost_sensor as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_ff_fan as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_ff_sensor as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_fz_defrost_heater as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_fz_defrost_sensor as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_fz_fan as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_fz_sensor as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_ice_maker_electrical as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_icing_fan as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_icing_sensor as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_sealed_system as ServiceProcedureSeed,
+  lg_lrmvs_lglrmvs_wifi_modem as ServiceProcedureSeed,
+  midea_rss_midearss_ambient_sensor as ServiceProcedureSeed,
+  midea_rss_midearss_communication as ServiceProcedureSeed,
+  midea_rss_midearss_fz_defrost_heater as ServiceProcedureSeed,
+  midea_rss_midearss_fz_defrost_sensor as ServiceProcedureSeed,
+  midea_rss_midearss_fz_temp_sensor as ServiceProcedureSeed,
+  midea_rss_midearss_high_temp_alarm as ServiceProcedureSeed,
+  midea_rss_midearss_ice_maker_sensor as ServiceProcedureSeed,
+  midea_rss_midearss_ice_maker as ServiceProcedureSeed,
+  midea_rss_midearss_rc_defrost_sensor as ServiceProcedureSeed,
+  midea_rss_midearss_rc_temp_sensor as ServiceProcedureSeed,
+  midea_rss_midearss_vfd_inverter as ServiceProcedureSeed,
+  midea_uz21_mideauz21_ambient_sensor as ServiceProcedureSeed,
+  midea_uz21_mideauz21_communication as ServiceProcedureSeed,
+  midea_uz21_mideauz21_evap_fan as ServiceProcedureSeed,
+  midea_uz21_mideauz21_fz_defrost_heater as ServiceProcedureSeed,
+  midea_uz21_mideauz21_fz_defrost_sensor as ServiceProcedureSeed,
+  midea_uz21_mideauz21_fz_temp_sensor as ServiceProcedureSeed,
+  midea_uz21_mideauz21_high_temp_alarm as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor as ServiceProcedureSeed,

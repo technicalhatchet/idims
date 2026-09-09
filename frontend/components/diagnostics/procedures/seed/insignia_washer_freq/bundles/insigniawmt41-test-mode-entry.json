@@ -1,0 +1,48 @@
+{
+  "id": "insigniawmt41-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "insignia_washer_freq",
+  "manualId": "INSIGNIA-WMT-WASHER",
+  "title": "WMT41 \u2014 FCt test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "My Cycle + Soil + Power within 10 s; FCt display; tests 1\u20134 for motor, spin, fuzzy weigh, inlet valves.",
+  "tags": [
+    "service_diagnostic",
+    "error_code"
+  ],
+  "entryStepId": "prep_empty",
+  "source": {
+    "manualTitle": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-NS-WMT41WA5-extracted.txt",
+    "pages": [
+      21,
+      22,
+      23
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_empty",
+      "order": 1,
+      "type": "instruction",
+      "title": "Prepare for test mode",
+      "body": "Empty tub. Within 10 s of power on/off, press My Cycle and Soil together, then Power.",
+      "sourceExcerpt": "Within 10 seconds press My Cycle and Soil together then Press Power.",
+      "requiresInput": false,
+      "defaultNextStepId": "test_mode_entry"
+    },
+    {
+      "id": "test_mode_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "FCt test mode",
+      "body": "Display shows FCt \u2014 if not, replace PCB. My Cycle = wash test (L1, 3 min); Temp = spin/clutch/pump; Water Level = fuzzy weighing; Soil = inlet valves + software version.",
+      "sourceExcerpt": "Digital shows FCt. My cycle = washing test; Temp = spinning test.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

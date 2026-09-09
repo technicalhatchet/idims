@@ -1,0 +1,165 @@
+{
+  "id": "insigniawmt41-unbalance",
+  "version": "1.0.0",
+  "title": "Imbalance \u2014 E4",
+  "platformId": "insignia_washer_freq",
+  "componentIds": [
+    "suspension"
+  ],
+  "tags": [
+    "E4",
+    "unbalance",
+    "spin_issue",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-WMT-WASHER",
+    "manualTitle": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-NS-WMT41WA5-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E4",
+    "oemTestTitle": "Imbalance error",
+    "pages": [
+      59,
+      60
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "load_balance"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "FCt test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After FCt test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "load_balance"
+    },
+    {
+      "id": "load_balance",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Load and leveling",
+      "body": "Laundry evenly distributed? Washer level on sturdy flat surface?",
+      "sourceExcerpt": "Laundry evenly distributed? Washer level on sturdy flat surface?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "suspension_rods"
+        },
+        {
+          "id": "load_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "redistribute_load",
+          "terminal": true,
+          "oemOutcome": "Redistribute load and level washer.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "suspension",
+              "evidenceId": "confirm_unbalance_load"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "suspension_rods",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Suspension rods",
+      "body": "All four suspension rods intact (not broken)?",
+      "sourceExcerpt": "All four suspension rods intact (not broken)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rods_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "impact_e4"
+        },
+        {
+          "id": "rods_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_rods",
+          "terminal": true,
+          "oemOutcome": "Replace broken suspension rod(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "suspension",
+              "evidenceId": "confirm_unbalance_load"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "impact_e4",
+      "order": 5,
+      "type": "instruction",
+      "title": "Impact / collision switch",
+      "body": "Impact switch failure can cause E4 \u2014 verify switch and linkage (see E5 procedure).",
+      "sourceExcerpt": "Impact switch failure can cause E4 \u2014 verify switch and linkage (see E5 procedure).",
+      "requiresInput": false,
+      "defaultNextStepId": "unbalance_verified"
+    },
+    {
+      "id": "redistribute_load",
+      "order": 6,
+      "type": "outcome",
+      "title": "Redistribute load",
+      "oemOutcome": "Balance laundry; open lid to reset E4 if needed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_rods",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace suspension",
+      "oemOutcome": "Replace broken suspension rod assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "unbalance_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Mechanical OK",
+      "oemOutcome": "Load and suspension OK \u2014 check impact switch and drive system.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniawmt41-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

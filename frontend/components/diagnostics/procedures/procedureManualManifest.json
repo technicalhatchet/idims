@@ -568,6 +568,66 @@
         "attachDiagnosticEffects": "backend/scripts/attach_ldt7808_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_ldt7808_service_modes.py"
       }
+    },
+    {
+      "manualId": "INSIGNIA-DWR3-DISHWASHER",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "seedDir": "insignia_dishwasher",
+      "label": "Insignia NS-DWR3SS1 top-control dishwasher",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/insignia_dishwasher/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_insignia_dwr3_dishwasher_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_insignia_dwr3_dishwasher_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_insignia_dwr3_dishwasher_service_modes.py"
+      }
+    },
+    {
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "seedDir": "midea_rss",
+      "label": "Midea/Insignia NS-RSS / NS-RTM side-by-side refrigerator",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/midea_rss/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_midea_rss_fridge_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_midea_rss_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_midea_rss_fridge_service_modes.py"
+      }
+    },
+    {
+      "manualId": "MIDEA-UZ21-FREEZER",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "seedDir": "midea_uz21",
+      "label": "Midea/Insignia NS-UZ upright freezer",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/midea_uz21/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_midea_uz21_freezer_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_midea_uz21_freezer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_midea_uz21_freezer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "LG-LRMVS-FRIDGE",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "seedDir": "lg_lrmvs",
+      "label": "LG LRMVS3006 InstaView 4-door refrigerator",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/lg_lrmvs/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_lg_lrmvs_fridge_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_lg_lrmvs_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_lg_lrmvs_fridge_service_modes.py"
+      }
     }
   ]
 }

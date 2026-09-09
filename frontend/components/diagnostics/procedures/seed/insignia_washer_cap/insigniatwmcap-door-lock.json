@@ -1,0 +1,237 @@
+{
+  "id": "insigniatwmcap-door-lock",
+  "version": "1.0.0",
+  "title": "Door lock actuator \u2014 Fd",
+  "platformId": "insignia_washer_cap",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "Fd",
+    "door_lock_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-TWM-WASHER",
+    "manualTitle": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+    "extractedTextFile": "backend/docs/manuals/NS-TWM41WH8A insignia washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4.5-F",
+    "oemTestTitle": "Door lock failure (Fd)",
+    "pages": [
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_harness"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "lock_harness"
+    },
+    {
+      "id": "lock_harness",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door lock harness",
+      "body": "Harness to door locker fully connected?",
+      "sourceExcerpt": "Harness to door locker fully connected?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lock_coil_ohms"
+        },
+        {
+          "id": "lock_harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_lock_harness",
+          "terminal": true,
+          "oemOutcome": "Repair door lock harness connections.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lock_coil_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Door lock coil (blue\u2013blue)",
+      "body": "Resistance between two blue wires: 50\u201380 \u03a9.",
+      "sourceExcerpt": "Resistance between two blue wires: 50\u201380 \u03a9.",
+      "measurementKnowledgeId": "insigniaWasherCapDoorLockOhms",
+      "testPoint": {
+        "connector": "Door locker",
+        "pins": "blue-blue",
+        "label": "Door lock coil (blue\u2013blue)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_coil_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 open circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_coil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_coil_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_coil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_switch_check"
+        }
+      ]
+    },
+    {
+      "id": "lock_switch_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Latch position switch (black wires)",
+      "body": "Bar extended: black pair open-circuit? Bar retracted: short-circuit? Wrong state = replace locker.",
+      "sourceExcerpt": "Bar extended: black pair open-circuit? Bar retracted: short-circuit? Wrong state = replace locker.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_switch_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lock_verified"
+        },
+        {
+          "id": "lock_switch_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_lock_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door lock \u2014 latch switch fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door_lock",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace door lock",
+      "oemOutcome": "Replace door lock actuator assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_lock_switch",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace door lock",
+      "oemOutcome": "Replace door lock \u2014 switch or coil fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_lock_harness",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair door lock wiring.",
+      "requiresInput": false
+    },
+    {
+      "id": "lock_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Door lock verified",
+      "oemOutcome": "Door lock in spec \u2014 if Fd persists, replace PCBs.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniatwmcap-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

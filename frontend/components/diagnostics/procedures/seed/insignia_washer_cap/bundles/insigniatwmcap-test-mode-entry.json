@@ -1,0 +1,47 @@
+{
+  "id": "insigniatwmcap-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "insignia_washer_cap",
+  "manualId": "INSIGNIA-TWM-WASHER",
+  "title": "TWM41/TWM35 \u2014 Control test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Soak + Extra Rinse + Power together; tests 2\u20135 for motor, spin/pump, inlet valves, auto-sensing.",
+  "tags": [
+    "service_diagnostic",
+    "error_code"
+  ],
+  "entryStepId": "prep_empty",
+  "source": {
+    "manualTitle": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+    "extractedTextFile": "backend/docs/manuals/NS-TWM41WH8A insignia washer service manual-extracted.txt",
+    "pages": [
+      16,
+      17
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_empty",
+      "order": 1,
+      "type": "instruction",
+      "title": "Empty tub before test mode",
+      "body": "Empty the drum (spin cycle or front service panel). Water level sensor must be installed.",
+      "sourceExcerpt": "Empty machine so no water left; water level sensor should be installed.",
+      "requiresInput": false,
+      "defaultNextStepId": "test_mode_entry"
+    },
+    {
+      "id": "test_mode_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter test mode",
+      "body": "Press Soak, Extra Rinse, and Power together. All lights and display ON then 6 beeps \u2014 any light off, display not 88, or no beep \u2192 replace PCB. Within 9 s: Soil Level = wash test (3 min); Temp = spin/pump test; Fabric Softener = inlet valve + version; Delay = auto-sensing.",
+      "sourceExcerpt": "Press Soak, Extra Rinse and Power together to enter test mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

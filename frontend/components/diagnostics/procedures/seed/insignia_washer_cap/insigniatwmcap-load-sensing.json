@@ -1,0 +1,120 @@
+{
+  "id": "insigniatwmcap-load-sensing",
+  "version": "1.0.0",
+  "title": "Load sensing / belt \u2014 F5 (TWM35)",
+  "platformId": "insignia_washer_cap",
+  "componentIds": [
+    "drive_belt"
+  ],
+  "tags": [
+    "F5",
+    "fill_issue",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-TWM-WASHER",
+    "manualTitle": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+    "extractedTextFile": "backend/docs/manuals/NS-TWM41WH8A insignia washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "F5",
+    "oemTestTitle": "Load sensing failed (F5)",
+    "pages": [
+      18,
+      19
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "f5_belt"
+    },
+    {
+      "id": "f5_belt",
+      "order": 2,
+      "type": "instruction",
+      "title": "Belt tension (F5)",
+      "body": "F5 on TWM35: load sensing failed \u2014 adjust belt tension per service manual. Verify drive belt not slipped.",
+      "sourceExcerpt": "F5 on TWM35: load sensing failed \u2014 adjust belt tension per service manual. Verify drive belt not slipped.",
+      "requiresInput": false,
+      "defaultNextStepId": "auto_sense_test"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "auto_sense_test"
+    },
+    {
+      "id": "auto_sense_test",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Test mode 5 \u2014 auto-sensing",
+      "body": "Enter test mode (Soak + Extra Rinse + Power). Within 9 s press Delay for auto-sensing test. Digital shows result within 3 s?",
+      "sourceExcerpt": "Enter test mode (Soak + Extra Rinse + Power). Within 9 s press Delay for auto-sensing test. Digital shows result within 3 s?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sense_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "f5_verified"
+        },
+        {
+          "id": "sense_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_f5",
+          "terminal": true,
+          "oemOutcome": "No display after 3 s \u2014 replace Power PCB.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_belt",
+              "evidenceId": "confirm_drive_belt_worn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_pcb_f5",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace PCB or belt",
+      "oemOutcome": "Adjust belt tension; replace Power PCB if auto-sense test fails.",
+      "requiresInput": false
+    },
+    {
+      "id": "f5_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Load sensing OK",
+      "oemOutcome": "Auto-sensing test displays result \u2014 F5 should not recur.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniatwmcap-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}
