@@ -1,0 +1,349 @@
+{
+  "id": "w11416805-thermistors",
+  "version": "1.0.0",
+  "title": "TEST #4a: Thermistors",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "exhaust_thermistor",
+    "inlet_thermistor"
+  ],
+  "tags": [
+    "thermistor",
+    "F3E1",
+    "F3E3",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "W11416805",
+    "manualTitle": "Whirlpool & Maytag ACU Top-Load Dryer Technical Manual (WED5100/WGD5100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416805-revb wed5100 wgd5100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4a",
+    "oemTestTitle": "Thermistors",
+    "pages": [
+      16,
+      17
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_j14"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Mode entered. Use Service Diagnostics (HMI Test, Sensor Feedback, Diagnostic Cycle) as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "disconnect_j14"
+    },
+    {
+      "id": "disconnect_j14",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect J14 at ACU",
+      "body": "Power off. Remove J14. Measure outlet thermistor at J14-3 to J14-6.",
+      "sourceExcerpt": "Power off. Remove J14. Measure outlet thermistor at J14-3 to J14-6.",
+      "requiresInput": false,
+      "defaultNextStepId": "outlet_ntc_ohms"
+    },
+    {
+      "id": "outlet_ntc_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Outlet (exhaust) thermistor",
+      "body": "~12 k\u03a9 @ 70\u00b0F; use OEM R/T table. Open/short per F3E1 thresholds.",
+      "sourceExcerpt": "~12 k\u03a9 @ 70\u00b0F; use OEM R/T table. Open/short per F3E1 thresholds.",
+      "measurementKnowledgeId": "dryerExhaustThermistorOhms",
+      "testPoint": {
+        "connector": "J14 outlet",
+        "pins": "J14-3 to J14-6",
+        "label": "Outlet (exhaust) thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "out_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inlet_fuel_variant"
+        },
+        {
+          "id": "out_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "out_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "out_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inlet_fuel_variant",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Electric or gas dryer?",
+      "body": "WED/MED = electric single-element ~10 \u03a9; WGD/MGD = gas burner.",
+      "sourceExcerpt": "WED/MED = electric single-element ~10 \u03a9; WGD/MGD = gas burner.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuel_electric",
+          "label": "Electric",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_ntc_electric"
+        },
+        {
+          "id": "fuel_gas",
+          "label": "Gas",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inlet_ntc_gas"
+        }
+      ]
+    },
+    {
+      "id": "inlet_ntc_electric",
+      "order": 6,
+      "type": "measurement",
+      "title": "Inlet thermistor (electric)",
+      "body": "On high-limit assembly at J14-1 to J14-2. Use electric dryer R/T table.",
+      "sourceExcerpt": "On high-limit assembly at J14-1 to J14-2. Use electric dryer R/T table.",
+      "measurementKnowledgeId": "dryerInletThermistorOhmsElectric",
+      "testPoint": {
+        "connector": "J14 inlet",
+        "pins": "J14-1 to J14-2",
+        "label": "Inlet thermistor (electric)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "in_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistors_verified"
+        },
+        {
+          "id": "in_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "in_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "in_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inlet_ntc_gas",
+      "order": 7,
+      "type": "measurement",
+      "title": "Inlet thermistor (gas)",
+      "body": "At drum inlet duct, J14-1 to J14-2. Use gas dryer R/T table.",
+      "sourceExcerpt": "At drum inlet duct, J14-1 to J14-2. Use gas dryer R/T table.",
+      "measurementKnowledgeId": "dryerInletThermistorOhmsGas",
+      "testPoint": {
+        "connector": "J14 inlet",
+        "pins": "J14-1 to J14-2",
+        "label": "Inlet thermistor (gas)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "in_gas_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistors_verified"
+        },
+        {
+          "id": "in_gas_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "in_gas_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "in_gas_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_outlet_ntc",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace outlet thermistor",
+      "oemOutcome": "Replace exhaust/outlet thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_inlet_ntc",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace inlet thermistor",
+      "oemOutcome": "Replace inlet thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermistors_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Thermistors verified",
+      "oemOutcome": "Inlet and outlet NTC within OEM tables.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416805-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

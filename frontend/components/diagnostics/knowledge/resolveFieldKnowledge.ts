@@ -152,6 +152,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'heat_circuit.heater_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolDuetSportDryerHeaterOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'whirlpoolAcuTlDryerHeaterOhms', platformId: 'whirlpool_acu_tl_dryer' },
         { knowledgeId: 'whirlpoolCcuDryerHeaterOhms', platformId: 'whirlpool_ccu_dryer' },
         {
           knowledgeId: 'insigniaDryerHeaterOhms',

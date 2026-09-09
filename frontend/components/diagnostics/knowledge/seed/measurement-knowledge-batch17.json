@@ -1,0 +1,60 @@
+[
+  {
+    "id": "whirlpoolAcuTlDryerHeaterOhms",
+    "name": "Whirlpool ACU Top-Load Dryer Element (Single)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8, "max": 12 },
+      "warning": { "min": 6, "max": 15 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 9, "max": 11 },
+    "openCircuitCritical": true,
+    "purpose": "Single heating element ~10 Ω from thermal cut-off red to heater red (W11416805 ACU top-load).",
+    "failureModes": [
+      "Open — no heat on electric",
+      "Short to ground — heat won't shut off"
+    ],
+    "testingTips": [
+      "Measure red wire at thermal cut-off to red wire at heater element",
+      "Not CCU dual-element ≤50 Ω — WED51* uses single ~10 Ω path"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_acu_tl_dryer"
+    },
+    "dmaTags": ["heating_element_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolAcuTlDryerSteamValveOhms",
+    "name": "Whirlpool ACU Top-Load Dryer Steam/Water Valve",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 510, "max": 590 },
+      "warning": { "min": 450, "max": 650 },
+      "critical": { "below": 400, "above": 700 }
+    },
+    "typical": { "min": 530, "max": 570 },
+    "openCircuitCritical": true,
+    "purpose": "Steam/water valve coil resistance ACU J8-1 (red) to J9-2 (L1) — TEST #9 on steam-capable models.",
+    "failureModes": [
+      "Open — no steam/water spray during cycle",
+      "Out of range — replace water valve assembly"
+    ],
+    "testingTips": [
+      "Power off before measuring at ACU connector",
+      "Verify water supply on before condemning valve"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_acu_tl_dryer"
+    },
+    "dmaTags": ["steam_valve_check"]
+  }
+]

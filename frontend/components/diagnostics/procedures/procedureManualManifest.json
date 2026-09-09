@@ -88,6 +88,21 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w11633848_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w11633848_service_modes.py"
       }
+    },
+    {
+      "manualId": "W11416805",
+      "platformId": "whirlpool_acu_tl_dryer",
+      "templateId": "electric_dryer",
+      "seedDir": "whirlpool_acu_tl_dryer",
+      "label": "Whirlpool/Maytag ACU top-load dryer (WED5100/WGD5100, W11416805)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416805_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_acu_tl_dryer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11416805_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11416805_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11416805_service_modes.py"
+      }
     }
   ]
 }

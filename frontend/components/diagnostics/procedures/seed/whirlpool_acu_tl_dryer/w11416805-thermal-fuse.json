@@ -1,0 +1,101 @@
+{
+  "id": "w11416805-thermal-fuse",
+  "version": "1.0.0",
+  "title": "TEST #4b: Thermal Fuse",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "thermal_fuse"
+  ],
+  "tags": [
+    "no_heat",
+    "thermal_fuse_check",
+    "no_spin"
+  ],
+  "source": {
+    "manualId": "W11416805",
+    "manualTitle": "Whirlpool & Maytag ACU Top-Load Dryer Technical Manual (WED5100/WGD5100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416805-revb wed5100 wgd5100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4b",
+    "oemTestTitle": "Thermal Fuse",
+    "pages": [
+      17
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_fuse"
+    },
+    {
+      "id": "access_fuse",
+      "order": 2,
+      "type": "instruction",
+      "title": "Locate thermal fuse",
+      "body": "Electric: in motor circuit. Gas: in gas valve circuit.",
+      "sourceExcerpt": "Electric: in motor circuit. Gas: in gas valve circuit.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_continuity"
+    },
+    {
+      "id": "fuse_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Thermal fuse continuity",
+      "body": "0 \u03a9 = good. Open = failed fuse \u2014 clear vent restriction before replace.",
+      "sourceExcerpt": "0 \u03a9 = good. Open = failed fuse \u2014 clear vent restriction before replace.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fuse_verified"
+        },
+        {
+          "id": "fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace thermal fuse.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_fuse",
+              "evidenceId": "confirm_thermal_fuse_open_thermal_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_fuse",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace thermal fuse",
+      "oemOutcome": "Replace thermal fuse; inspect vent path.",
+      "requiresInput": false
+    },
+    {
+      "id": "fuse_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Thermal fuse verified",
+      "oemOutcome": "Fuse shows continuity.",
+      "requiresInput": false
+    }
+  ]
+}

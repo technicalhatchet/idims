@@ -23,6 +23,7 @@ export const PLATFORM_IDS = {
   LG_DISHWASHER_LDT: 'lg_dishwasher_ldt',
   INSIGNIA_DRYER_TDRE: 'insignia_dryer_tdre',
   WHIRLPOOL_CCU_DRYER: 'whirlpool_ccu_dryer',
+  WHIRLPOOL_ACU_TL_DRYER: 'whirlpool_acu_tl_dryer',
 } as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[keyof typeof PLATFORM_IDS];
@@ -201,6 +202,20 @@ export const PLATFORM_RULES: PlatformRule[] = [
       /WED83/i, /WED85/i, /WGD83/i, /WGD85/i,
       /MED83/i, /MED85/i, /MGD83/i, /MGD85/i,
     ],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_ACU_TL_DRYER,
+    label: 'Whirlpool/Maytag ACU top-load dryer (W11416805)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'electric_dryer',
+    modelPatterns: [/WED51/i, /MED51/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_ACU_TL_DRYER,
+    label: 'Whirlpool/Maytag ACU top-load dryer (W11416805, gas)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'gas_dryer',
+    modelPatterns: [/WGD51/i, /MGD51/i],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_CCU_DRYER,

@@ -2,6 +2,7 @@
 // Re-run after adding or removing procedure seed JSON files.
 
 
+import whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11416805-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
@@ -16,6 +17,20 @@ import whirlpool_fl_dd_bundles_w11169652_service_mode from './seed/whirlpool_fl_
 import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w10864849-service-diagnostic-entry.json';
 import whirlpool_tl_dd_bundles_w10864849_service_test_mode from './seed/whirlpool_tl_dd/bundles/w10864849-service-test-mode.json';
 
+import whirlpool_acu_tl_dryer_w11416805_acu_power from './seed/whirlpool_acu_tl_dryer/w11416805-acu-power.json';
+import whirlpool_acu_tl_dryer_w11416805_door_switch from './seed/whirlpool_acu_tl_dryer/w11416805-door-switch.json';
+import whirlpool_acu_tl_dryer_w11416805_drum_light from './seed/whirlpool_acu_tl_dryer/w11416805-drum-light.json';
+import whirlpool_acu_tl_dryer_w11416805_gas_valve from './seed/whirlpool_acu_tl_dryer/w11416805-gas-valve.json';
+import whirlpool_acu_tl_dryer_w11416805_heater_electric from './seed/whirlpool_acu_tl_dryer/w11416805-heater-electric.json';
+import whirlpool_acu_tl_dryer_w11416805_heater_gas from './seed/whirlpool_acu_tl_dryer/w11416805-heater-gas.json';
+import whirlpool_acu_tl_dryer_w11416805_hmi from './seed/whirlpool_acu_tl_dryer/w11416805-hmi.json';
+import whirlpool_acu_tl_dryer_w11416805_moisture_sensor from './seed/whirlpool_acu_tl_dryer/w11416805-moisture-sensor.json';
+import whirlpool_acu_tl_dryer_w11416805_motor_circuit from './seed/whirlpool_acu_tl_dryer/w11416805-motor-circuit.json';
+import whirlpool_acu_tl_dryer_w11416805_supply_connections from './seed/whirlpool_acu_tl_dryer/w11416805-supply-connections.json';
+import whirlpool_acu_tl_dryer_w11416805_thermal_cutoff from './seed/whirlpool_acu_tl_dryer/w11416805-thermal-cutoff.json';
+import whirlpool_acu_tl_dryer_w11416805_thermal_fuse from './seed/whirlpool_acu_tl_dryer/w11416805-thermal-fuse.json';
+import whirlpool_acu_tl_dryer_w11416805_thermistors from './seed/whirlpool_acu_tl_dryer/w11416805-thermistors.json';
+import whirlpool_acu_tl_dryer_w11416805_water_valve from './seed/whirlpool_acu_tl_dryer/w11416805-water-valve.json';
 import whirlpool_ccu_dryer_w10680150_button_indicator from './seed/whirlpool_ccu_dryer/w10680150-button-indicator.json';
 import whirlpool_ccu_dryer_w10680150_ccu_power from './seed/whirlpool_ccu_dryer/w10680150-ccu-power.json';
 import whirlpool_ccu_dryer_w10680150_door_switch from './seed/whirlpool_ccu_dryer/w10680150-door-switch.json';
@@ -101,6 +116,7 @@ import whirlpool_tl_dd_w10864849_test_12_bulk_dispense from './seed/whirlpool_tl
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
+  whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
@@ -117,6 +133,20 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
+  whirlpool_acu_tl_dryer_w11416805_acu_power as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_door_switch as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_drum_light as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_gas_valve as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_heater_electric as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_heater_gas as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_hmi as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_moisture_sensor as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_motor_circuit as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_supply_connections as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_thermal_cutoff as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_thermal_fuse as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_thermistors as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11416805_water_valve as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_button_indicator as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_ccu_power as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_door_switch as ServiceProcedureSeed,
