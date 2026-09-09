@@ -23,6 +23,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.drive_motor_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolTlDdWasherMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherMotorOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherMotorOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashMotorOhms', platformId: 'samsung_flexwash' },
@@ -36,6 +37,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.drain_pump_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolTlDdWasherDrainPumpOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDrainPumpOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherDrainPumpOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashDrainPumpOhms', platformId: 'samsung_flexwash' },
@@ -53,6 +55,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.inlet_valve_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolTlDdWasherInletValveOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherInletValveOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherInletValveOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashInletValveOhms', platformId: 'samsung_flexwash' },
@@ -67,16 +70,21 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'electrical_measurements.wash_heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolTlDdWasherHeaterOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherHeaterOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherHeaterOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashHeaterOhms', platformId: 'samsung_flexwash' },
       ],
     },
     'electrical_measurements.recirc_pump_ohms': {
-      candidates: [{ knowledgeId: 'whirlpoolFlWasherRecircPumpOhms', platformId: 'whirlpool_fl_dd' }],
+      candidates: [
+        { knowledgeId: 'whirlpoolTlDdWasherRecircPumpOhms', platformId: 'whirlpool_tl_dd' },
+        { knowledgeId: 'whirlpoolFlWasherRecircPumpOhms', platformId: 'whirlpool_fl_dd' },
+      ],
     },
     'mechanical_controls.door_lock_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolTlDdWasherLidLockMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolFlWasherDoorLockSolenoidOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDoorLockSolenoidOhms', platformId: 'whirlpool_duet_sport' },
         {

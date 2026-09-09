@@ -2,6 +2,7 @@ import type { MeasurementContext } from './types';
 import { expandOemModelVariants } from './whirlpoolOemRebadge';
 
 export const PLATFORM_IDS = {
+  WHIRLPOOL_TL_DD: 'whirlpool_tl_dd',
   WHIRLPOOL_FL_DD: 'whirlpool_fl_dd',
   WHIRLPOOL_DUET_SPORT: 'whirlpool_duet_sport',
   WHIRLPOOL_DUET_SPORT_DRYER: 'whirlpool_duet_sport_dryer',
@@ -35,6 +36,13 @@ export interface PlatformRule {
 }
 
 export const PLATFORM_RULES: PlatformRule[] = [
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_TL_DD,
+    label: 'Whirlpool/Maytag direct-drive top-load (W10864849)',
+    manufacturers: ['Whirlpool', 'Maytag'],
+    templateId: 'washer',
+    modelPatterns: [/WTW/i, /MVW/i],
+  },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DUET_SPORT,
     label: 'Whirlpool/Maytag Duet Sport CCU/MCU front-load',

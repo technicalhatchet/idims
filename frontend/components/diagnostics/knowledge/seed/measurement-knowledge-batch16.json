@@ -1,0 +1,290 @@
+[
+  {
+    "id": "whirlpoolTlDdWasherInletValveOhms",
+    "name": "Whirlpool TL DD Inlet Valve Coil Resistance (J2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 790, "max": 840 },
+      "warning": { "min": 740, "max": 890 },
+      "critical": { "below": 50, "above": 1200 }
+    },
+    "typical": { "min": 800, "max": 830 },
+    "openCircuitCritical": true,
+    "purpose": "All solenoid coils on J2 valve harness — common J2-4 (White) to valve pin.",
+    "failureModes": [
+      "Open coil — no fill on that leg (F8E1 / LF)",
+      "Out of range — replace valve assembly"
+    ],
+    "testingTips": [
+      "W10864849 TEST #2 — Fabric Softener J2-4&7, Hot J2-4&9, Cold J2-4&10, Detergent J2-4&11, Fresh Fill J2-4&12",
+      "Live valve test via Service Test Mode function numbers 001–004"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherMotorOhms",
+    "name": "Whirlpool TL DD Motor Winding Resistance (J1)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8, "max": 10 },
+      "warning": { "min": 6, "max": 12 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 8.5, "max": 9.5 },
+    "openCircuitCritical": true,
+    "purpose": "Direct-drive BPM stator at ACU J1 and motor connector — pairs 1-3 and 3-4.",
+    "failureModes": [
+      "Open winding — F7E6 motor circuit open",
+      "Very low — shorted stator (F7E3 over current)"
+    ],
+    "testingTips": [
+      "W10864849 TEST #3b — measure at J1 then at drive motor connector 2-3 and 3-4",
+      "Locked rotor F7E9 — check impeller/basket friction before replacing drive"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["motor_check", "spin_issue", "agitate_issue"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherDrainPumpOhms",
+    "name": "Whirlpool TL DD Drain Pump Resistance (J4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 18, "max": 24 },
+      "warning": { "min": 15, "max": 28 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 19, "max": 22 },
+    "openCircuitCritical": true,
+    "purpose": "Drain pump winding at J4-1 (Neutral) and J4-3 (Drain Pump).",
+    "failureModes": [
+      "Open — F9E1 / dr long drain",
+      "Good ohms but no run — ACU relay or obstruction"
+    ],
+    "testingTips": [
+      "W10864849 TEST #7 — also verify at pump terminals after harness check",
+      "Service Test Mode drain pump toggle before bench ohms"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherRecircPumpOhms",
+    "name": "Whirlpool TL DD Recirculation Pump Resistance (J4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 26, "max": 32 },
+      "warning": { "min": 22, "max": 38 },
+      "critical": { "below": 8, "above": 60 }
+    },
+    "typical": { "min": 27, "max": 31 },
+    "openCircuitCritical": true,
+    "purpose": "Recirc pump winding at J4-1 and J4-5 (not on all models).",
+    "failureModes": [
+      "Open — no recirculation",
+      "Obstruction at tub sump under impeller"
+    ],
+    "testingTips": [
+      "W10864849 TEST #7 — recirc models only",
+      "Service Test Mode recirc function before replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["pump_check", "recirc_issue"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherLidLockMotorOhms",
+    "name": "Whirlpool TL DD Lid Lock Motor Winding (J6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 30, "max": 40 },
+      "warning": { "min": 25, "max": 45 },
+      "critical": { "below": 10, "above": 80 }
+    },
+    "typical": { "min": 33, "max": 37 },
+    "openCircuitCritical": true,
+    "purpose": "Lid lock motor winding J6-2 to J6-3 — 35 Ω ±5 per OEM table.",
+    "failureModes": [
+      "Open motor — F5E2 lock failure",
+      "Switch state wrong — replace lid lock mechanism"
+    ],
+    "testingTips": [
+      "W10864849 TEST #8 — also verify Home/Lock/Lid switch states at J6",
+      "Lid lock Service Test Mode before bench diagnosis"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["door_lock_check", "lid_lock"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherInletThermistorOhms",
+    "name": "Whirlpool TL DD Inlet Water Thermistor (J2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2100, "max": 32300 },
+      "warning": { "min": 1500, "max": 40000 },
+      "critical": { "below": 500, "above": 100000 }
+    },
+    "typical": { "min": 9000, "max": 11000 },
+    "openCircuitCritical": true,
+    "purpose": "Inlet thermistor at J2-1 (Rtn) and J2-2 — 10 kΩ @ 77°F (25°C); OEM R/T table to 149°F.",
+    "failureModes": [
+      "Open or short — F3E2 inlet water temperature fault",
+      "In range at valve but fault persists — replace ACU"
+    ],
+    "testingTips": [
+      "W10864849 TEST #5 — measure at ambient; compare to OEM kΩ table",
+      "Thermistor is part of valve assembly — replace valve when out of range"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["thermistor_check", "temp_fault"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherHeaterOhms",
+    "name": "Whirlpool TL DD Tub Heater Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 50 },
+      "warning": { "min": 3, "max": 80 },
+      "critical": { "below": 2, "above": 200 }
+    },
+    "typical": { "min": 10, "max": 30 },
+    "openCircuitCritical": true,
+    "purpose": "Tub heater element — OEM abnormal = infinite (open).",
+    "failureModes": [
+      "Open heater — F4E2 heater not turning on",
+      "Relay stuck — F4E1 heater stuck on"
+    ],
+    "testingTips": [
+      "W10864849 TEST #9 — heater on some models only",
+      "Service Test Mode function 017 toggle with water above impeller"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherBulkDispensePumpOhms",
+    "name": "Whirlpool TL DD Bulk Dispense Pump Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1485, "max": 1815 },
+      "warning": { "min": 1300, "max": 2000 },
+      "critical": { "below": 100, "above": 3000 }
+    },
+    "typical": { "min": 1550, "max": 1750 },
+    "openCircuitCritical": true,
+    "purpose": "Bulk dispense pump at extension harness — 1485–1815 Ω.",
+    "failureModes": [
+      "Open pump — F3E4 bulk dispense fault with REX comm issue",
+      "Good ohms but no flow — REX board or hoses"
+    ],
+    "testingTips": [
+      "W10864849 TEST #12 — verify J7 ACU↔REX and Rex J1–J3 first",
+      "Service Test Mode function 018 — detergent trickle after ~2 min"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["bulk_dispense", "dispenser_check"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherAcu5Vdc",
+    "name": "Whirlpool TL DD UI +5 VDC at J18",
+    "unit": "VDC",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 4.5, "max": 5.5 },
+      "warning": { "min": 4.0, "max": 6.0 },
+      "critical": { "below": 3.0, "above": 7.0 }
+    },
+    "typical": { "min": 4.8, "max": 5.2 },
+    "purpose": "UI supply at ACU J18-1 (+5 VDC) to J18-3 (Circuit Gnd) — diagnostic LED troubleshooting.",
+    "failureModes": [
+      "Missing +5 VDC with LED off — ACU or UI harness",
+      "LED on steady — micro failure on ACU"
+    ],
+    "testingTips": [
+      "W10864849 TEST #1 step 8 — disconnect J18 to isolate UI load",
+      "Do not short pins; use needle probes with connectors seated for other live checks"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["voltage_check", "hmi_check"]
+  },
+  {
+    "id": "whirlpoolTlDdWasherBasketLightVdc",
+    "name": "Whirlpool TL DD Basket Light Drive Voltage (J19)",
+    "unit": "VDC",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 2.5, "max": 5.2 },
+      "warning": { "min": 1.5, "max": 6.0 },
+      "critical": { "below": 0.5, "above": 7.0 }
+    },
+    "typical": { "min": 2.8, "max": 5.0 },
+    "purpose": "Basket light control at J19 — ~0.13 V lid closed; 2.8–5.0 V lid open.",
+    "failureModes": [
+      "Correct ACU voltage but no light — replace basket light",
+      "Wrong voltage — replace ACU"
+    ],
+    "testingTips": [
+      "W10864849 TEST #11 — measure J19-1 (+) to J19-2 (−) with lid open and closed",
+      "Basket light on some models only"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["drum_light_check", "basket_light"]
+  }
+]

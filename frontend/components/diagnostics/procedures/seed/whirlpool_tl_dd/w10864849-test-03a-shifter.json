@@ -1,0 +1,321 @@
+{
+  "id": "w10864849-test-03a-shifter",
+  "version": "1.0.0",
+  "title": "TEST #3a: Drive System \u2014 Shifter",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "shifter_check",
+    "F7E5",
+    "agitate_issue",
+    "spin_issue"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3a",
+    "oemTestTitle": "Drive System - Shifter",
+    "pages": [
+      33,
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "shifter_service_test"
+    },
+    {
+      "id": "shifter_service_test",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Spin and Agitate tests in Service Test Mode",
+      "body": "Lid closed and locked. Run Spin and Agitate under Service Test Mode. Did shifter engage for both?",
+      "sourceExcerpt": "Lid closed and locked. Run Spin and Agitate under Service Test Mode. Did shifter engage for both?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "st_fail",
+          "label": "Unsuccessful",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "motor_shifter_free",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "st_ok",
+          "label": "Both pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_shifter_free",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Motor and shifter turn independently",
+      "body": "Power off. Motor and shifter should turn independently. If locked together, shifter slider issue.",
+      "sourceExcerpt": "Power off. Motor and shifter should turn independently. If locked together, shifter slider issue.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "free_yes",
+          "label": "Turn freely / independently",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_j4"
+        },
+        {
+          "id": "free_no",
+          "label": "Locked together or bound",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_drive_slider",
+          "terminal": true,
+          "oemOutcome": "Replace drive \u2014 slider binds or motor/shifter locked.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j4",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J4 fully seated",
+      "body": "Verify J4 inserted fully at ACU.",
+      "sourceExcerpt": "Verify J4 inserted fully at ACU.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j4_ok",
+          "label": "J4 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_voltage"
+        },
+        {
+          "id": "j4_bad",
+          "label": "J4 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j4",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_j4",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat J4 and retest",
+      "body": "Reconnect J4 and repeat Service Test Spin/Agitate.",
+      "sourceExcerpt": "Reconnect J4 and repeat Service Test Spin/Agitate.",
+      "requiresInput": false,
+      "defaultNextStepId": "shifter_service_test"
+    },
+    {
+      "id": "shifter_voltage",
+      "order": 6,
+      "type": "instruction",
+      "title": "Live shifter voltage check",
+      "body": "Restore power. AC volts J4-1 (N) to J4-7 (L1). Command Spin ON or Agitate OFF in Service Test (motor stopped). Expect 120 VAC.",
+      "sourceExcerpt": "Restore power. AC volts J4-1 (N) to J4-7 (L1). Command Spin ON or Agitate OFF in Service Test (motor stopped). Expect 120 VAC.",
+      "requiresInput": false,
+      "defaultNextStepId": "shifter_vac_present"
+    },
+    {
+      "id": "shifter_vac_present",
+      "order": 7,
+      "type": "visual_check",
+      "title": "120 VAC at shifter when commanded",
+      "body": "Is 120 VAC present at J4-1 to J4-7 when shifter commanded?",
+      "sourceExcerpt": "Is 120 VAC present at J4-1 to J4-7 when shifter commanded?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vac_yes",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_continuity"
+        },
+        {
+          "id": "vac_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_shifter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harness_continuity",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Shifter harness continuity",
+      "body": "Power off. Tilt washer. Continuity J4-1 (White) to shifter pin 3 and J4-7 (Orange) to shifter pin 1.",
+      "sourceExcerpt": "Power off. Tilt washer. Continuity J4-1 (White) to shifter pin 3 and J4-7 (Orange) to shifter pin 1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "slider_check"
+        },
+        {
+          "id": "harness_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness",
+          "terminal": true,
+          "oemOutcome": "Replace lower washer harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slider_check",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Shifter slider moves freely",
+      "body": "Remove motor bolt, cover, stator, and shifter coil. Slider on shaft moves freely without rubbing?",
+      "sourceExcerpt": "Remove motor bolt, cover, stator, and shifter coil. Slider on shaft moves freely without rubbing?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "slider_ok",
+          "label": "Slider OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_shifter",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "slider_bad",
+          "label": "Binds or rubs",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_drive_slider",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shifter_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Shifter verified",
+      "oemOutcome": "Spin and Agitate service tests pass.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Restore harness continuity and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_drive_slider",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace drive",
+      "oemOutcome": "Replace drive assembly for slider or bind fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_shifter",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Shifter/mechanical OK but ACU does not drive shifter \u2014 replace main control.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10864849-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "shifter_service_test"
+    }
+  ]
+}

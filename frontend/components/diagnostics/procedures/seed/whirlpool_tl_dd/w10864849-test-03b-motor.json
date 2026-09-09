@@ -1,0 +1,533 @@
+{
+  "id": "w10864849-test-03b-motor",
+  "version": "1.0.0",
+  "title": "TEST #3b: Drive System \u2014 Motor",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check",
+    "F1E2",
+    "F7E2",
+    "F7E3",
+    "F7E4",
+    "F7E6",
+    "F7E7",
+    "F7E8",
+    "F7E9"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3b",
+    "oemTestTitle": "Drive System - Motor",
+    "pages": [
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_spin_tests"
+    },
+    {
+      "id": "motor_spin_tests",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Low/Mid/High spin in Service Test Mode",
+      "body": "Service Diagnostic active. Run Low, Mid, and High Speed Spin tests. Did any speed run?",
+      "sourceExcerpt": "Service Diagnostic active. Run Low, Mid, and High Speed Spin tests. Did any speed run?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "spin_tests_fail",
+          "label": "Failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "impeller_free",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "spin_tests_ok",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "impeller_free",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Impeller turns freely",
+      "body": "Power off. Impeller should turn freely and not be connected to basket.",
+      "sourceExcerpt": "Power off. Impeller should turn freely and not be connected to basket.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "imp_free",
+          "label": "Turns freely",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_j1"
+        },
+        {
+          "id": "imp_bind",
+          "label": "Does not turn freely",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_friction",
+          "terminal": true,
+          "oemOutcome": "Resolve mechanical friction or lockup before motor replacement.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j1",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J1 fully seated at ACU",
+      "body": "Verify J1 fully inserted.",
+      "sourceExcerpt": "Verify J1 fully inserted.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j1_ok",
+          "label": "J1 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "j1_motor_ohms"
+        },
+        {
+          "id": "j1_bad",
+          "label": "J1 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j1",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_j1",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat J1 and retest",
+      "body": "Reconnect J1 and repeat Service Test spin.",
+      "sourceExcerpt": "Reconnect J1 and repeat Service Test spin.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_spin_tests"
+    },
+    {
+      "id": "j1_motor_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Motor resistance at J1",
+      "body": "Ohms J1 1-3 and 3-4. Each expect 8\u201310 \u03a9. Much higher than 10 or less than 8 \u2192 step 10 path.",
+      "sourceExcerpt": "Ohms J1 1-3 and 3-4. Each expect 8\u201310 \u03a9. Much higher than 10 or less than 8 \u2192 step 10 path.",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+      "testPoint": {
+        "connector": "J1",
+        "pins": "1-3 & 3-4",
+        "label": "Motor resistance at J1",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "VS2",
+            "wireColor": "RD",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "VS1",
+            "wireColor": "BR",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "VS3",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j1_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drive_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "j1_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drive_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "j1_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drive_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "j1_pass",
+          "label": "8\u201310 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_harness_cont",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_harness_cont",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Motor harness continuity J1 to drive",
+      "body": "Tilt washer. Continuity all J1 pins to drive motor connector?",
+      "sourceExcerpt": "Tilt washer. Continuity all J1 pins to drive motor connector?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mh_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_connector_ohms"
+        },
+        {
+          "id": "mh_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness_motor",
+          "terminal": true,
+          "oemOutcome": "Replace lower washer harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_connector_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Motor resistance at drive connector",
+      "body": "Disconnect motor connector at drive. Measure 2-3 (R-BR) and 3-4 (BR-BK). Expect 8\u201310 \u03a9 each.",
+      "sourceExcerpt": "Disconnect motor connector at drive. Measure 2-3 (R-BR) and 3-4 (BR-BK). Expect 8\u201310 \u03a9 each.",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+      "testPoint": {
+        "connector": "Drive motor",
+        "pins": "2-3 & 3-4",
+        "label": "Motor resistance at drive connector"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drive_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drive_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drive_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_pass",
+          "label": "8\u201310 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_cover_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_cover_check",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Motor connection cover seated",
+      "body": "Remove shifter coil and stator. Motor electrical connection cover fully seated?",
+      "sourceExcerpt": "Remove shifter coil and stator. Motor electrical connection cover fully seated?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cover_ok",
+          "label": "Cover seated",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_drive_motor"
+        },
+        {
+          "id": "cover_bad",
+          "label": "Cover not seated",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "seat_cover",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "seat_cover",
+      "order": 10,
+      "type": "instruction",
+      "title": "Seat motor connection cover",
+      "body": "Fully seat cover, reassemble, and repeat Service Test.",
+      "sourceExcerpt": "Fully seat cover, reassemble, and repeat Service Test.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_spin_tests"
+    },
+    {
+      "id": "reconnect_motor_power",
+      "order": 11,
+      "type": "instruction",
+      "title": "Reconnect motor and restore power",
+      "body": "Reconnect motor harness. Reassemble. Restore power for Service Test spin.",
+      "sourceExcerpt": "Reconnect motor harness. Reassemble. Restore power for Service Test spin.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_motor_spin"
+    },
+    {
+      "id": "service_mode_before_test",
+      "type": "instruction",
+      "title": "Continue to Service Test Mode",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Service Test Mode load/function commands.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Service Test Mode (2nd entry button).",
+      "requiresInput": false,
+      "order": 12
+    },
+    {
+      "id": "live_test_motor_spin",
+      "order": 13,
+      "type": "visual_check",
+      "title": "Motor runs in Service Test Mode",
+      "body": "Command Low/Mid/High spin in Service Test Mode. Does motor run at commanded speed?",
+      "sourceExcerpt": "Command Low/Mid/High spin in Service Test Mode. Does motor run at commanded speed?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_runs",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "motor_no_run",
+          "label": "Does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_motor",
+          "terminal": true,
+          "oemOutcome": "Motor ohms OK but no run \u2014 replace ACU.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clear_friction",
+      "order": 14,
+      "type": "outcome",
+      "title": "Clear mechanical friction",
+      "oemOutcome": "Remove obstruction between basket/tub/impeller.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness_motor",
+      "order": 15,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Restore motor circuit continuity.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_drive_motor",
+      "order": 16,
+      "type": "outcome",
+      "title": "Replace drive",
+      "oemOutcome": "Motor windings open or out of range \u2014 replace drive assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 17,
+      "type": "outcome",
+      "title": "Motor verified",
+      "oemOutcome": "Motor resistance and Service Test rotation verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_motor",
+      "order": 18,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace main control when motor and harness test good but no run.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10864849-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_motor_power",
+      "continueToStepId": "service_mode_before_test"
+    },
+    {
+      "bundleId": "w10864849-service-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_test",
+      "continueToStepId": "live_test_motor_spin"
+    }
+  ]
+}

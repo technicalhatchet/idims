@@ -45,6 +45,21 @@
       }
     },
     {
+      "manualId": "W10864849",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "seedDir": "whirlpool_tl_dd",
+      "label": "Whirlpool & Maytag 6.2 cu ft direct-drive top-load washer",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10864849_TL_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_dd/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10864849_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w10864849_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10864849_service_modes.py"
+      }
+    },
+    {
       "manualId": "W10680150",
       "platformId": "whirlpool_ccu_dryer",
       "templateId": "electric_dryer",

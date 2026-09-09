@@ -1,0 +1,257 @@
+{
+  "id": "w10864849-test-09-heater",
+  "version": "1.0.0",
+  "title": "TEST #9: Heater Element",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "wash_heater"
+  ],
+  "tags": [
+    "heating_element_check",
+    "F4E1",
+    "F4E2",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9",
+    "oemTestTitle": "Heater Element",
+    "pages": [
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "access_heater",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access heater terminals",
+      "body": "Power off. Remove heater terminal cover. Verify connections.",
+      "sourceExcerpt": "Power off. Remove heater terminal cover. Verify connections.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Heater element resistance",
+      "body": "Measure heater element resistance. Abnormal = infinity (open).",
+      "sourceExcerpt": "Measure heater element resistance. Abnormal = infinity (open).",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherHeaterOhms",
+      "testPoint": {
+        "connector": "Heater",
+        "pins": "A & B",
+        "label": "Heater element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heat_ok",
+          "label": "Not open (in range)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_j5",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_heater",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "heat_open",
+          "label": "Infinite / open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heat_crit",
+          "label": "Short/critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j5",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J5 harness seated at ACU",
+      "body": "J5 to lower harness fully connected?",
+      "sourceExcerpt": "J5 to lower harness fully connected?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j5_ok",
+          "label": "J5 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_heater_power"
+        },
+        {
+          "id": "j5_bad",
+          "label": "J5 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j5",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "wash_heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_j5",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat J5",
+      "body": "Reconnect J5 harness.",
+      "sourceExcerpt": "Reconnect J5 harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "reconnect_heater_power"
+    },
+    {
+      "id": "reconnect_heater_power",
+      "order": 6,
+      "type": "instruction",
+      "title": "Restore power for heater test",
+      "body": "Reinstall cover. Restore power. Water above impeller; other loads off.",
+      "sourceExcerpt": "Reinstall cover. Restore power. Water above impeller; other loads off.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_heater"
+    },
+    {
+      "id": "service_mode_before_test",
+      "type": "instruction",
+      "title": "Continue to Service Test Mode",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Service Test Mode load/function commands.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Service Test Mode (2nd entry button).",
+      "requiresInput": false,
+      "order": 7
+    },
+    {
+      "id": "live_test_heater",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Heater toggles in Service Test Mode",
+      "body": "Service Test function 017 (Toggle Heater). Does heater energize?",
+      "sourceExcerpt": "Service Test function 017 (Toggle Heater). Does heater energize?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heat_run",
+          "label": "Heater on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_heater",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "heat_no_run",
+          "label": "No heat",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_heater",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace heater element",
+      "oemOutcome": "Element open \u2014 replace and verify torque on compression nut.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Heater verified",
+      "oemOutcome": "Heater resistance and Service Test toggle verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_heater",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Element good but no heat \u2014 replace main control.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10864849-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_heater_power",
+      "continueToStepId": "service_mode_before_test"
+    },
+    {
+      "bundleId": "w10864849-service-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_test",
+      "continueToStepId": "live_test_heater"
+    }
+  ]
+}
