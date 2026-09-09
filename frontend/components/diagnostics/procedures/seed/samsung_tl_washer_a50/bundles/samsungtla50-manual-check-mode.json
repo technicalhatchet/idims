@@ -1,0 +1,36 @@
+{
+  "id": "samsungtla50-manual-check-mode",
+  "version": "1.0.0",
+  "platformId": "samsung_tl_washer_a50",
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "title": "Samsung TL A50 \u2014 Manual check mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Manual Smart Install \u2014 press Spin to advance component tests.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "mc_enter",
+  "source": {
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "pages": [
+      28
+    ]
+  },
+  "steps": [
+    {
+      "id": "mc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter manual check",
+      "body": "From AS: press Spin. Spin advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door.",
+      "sourceExcerpt": "From AS: press Spin. Spin advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

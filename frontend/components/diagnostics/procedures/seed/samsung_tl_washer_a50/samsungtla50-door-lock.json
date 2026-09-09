@@ -1,0 +1,375 @@
+{
+  "id": "samsungtla50-door-lock",
+  "version": "1.0.0",
+  "title": "\u00a75-3: Door lock (DC, DC1, DC2)",
+  "platformId": "samsung_tl_washer_a50",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "dC",
+    "DC",
+    "DC1",
+    "DC2",
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-A50-WASHER",
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "Door Lock DC",
+    "pages": [
+      31,
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_closed"
+    },
+    {
+      "id": "door_closed",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door fully closed",
+      "body": "Ensure door closed with no laundry caught. Check door lock tray for debris.",
+      "sourceExcerpt": "Ensure door closed with no laundry caught. Check door lock tray for debris.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reed_ohms"
+        },
+        {
+          "id": "close_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door_out",
+          "terminal": true,
+          "oemOutcome": "Close door and clear debris from lock tray."
+        }
+      ]
+    },
+    {
+      "id": "reed_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Reed switch (White\u2013Green)",
+      "body": "Approx 0.2 \u03a9 at reed switch.",
+      "sourceExcerpt": "Approx 0.2 \u03a9 at reed switch.",
+      "measurementKnowledgeId": "samsungTlA50WasherDoorReedOhms",
+      "testPoint": {
+        "connector": "Reed SW",
+        "pins": "White-Green",
+        "label": "Reed switch (White\u2013Green)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reed_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_reed",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "reed_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_reed",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "reed_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_reed",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "reed_pass",
+          "label": "~0.2 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_motor_ohms",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lock_motor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Lock motor (Black\u2013Brown)",
+      "body": "33\u201346 \u03a9 at lock motor.",
+      "sourceExcerpt": "33\u201346 \u03a9 at lock motor.",
+      "measurementKnowledgeId": "samsungTlA50WasherDoorLockMotorOhms",
+      "testPoint": {
+        "connector": "Lock motor",
+        "pins": "Black-Brown",
+        "label": "Lock motor (Black\u2013Brown)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lm_pass",
+          "label": "33\u201346 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_contact_ohms",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lock_contact_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Lock/unlock contacts",
+      "body": "Lock White\u2013Red and Unlock White\u2013Blue \u2014 approx 0.2 \u03a9 in each state.",
+      "sourceExcerpt": "Lock White\u2013Red and Unlock White\u2013Blue \u2014 approx 0.2 \u03a9 in each state.",
+      "measurementKnowledgeId": "samsungTlA50WasherDoorLockContactOhms",
+      "testPoint": {
+        "connector": "Lock contacts",
+        "pins": "White-Red / White-Blue",
+        "label": "Lock/unlock contacts"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock_unit",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock_unit",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock_unit",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lc_pass",
+          "label": "~0.2 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "close_door_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Close door",
+      "oemOutcome": "Secure door and clear obstruction.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_reed",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace reed switch",
+      "oemOutcome": "Replace reed switch when open.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lock_motor",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace lock motor",
+      "oemOutcome": "Replace door lock motor when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lock_unit",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace lock switch unit",
+      "oemOutcome": "Replace door lock switch unit when contacts fail.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode \u2014 Spin advances steps per \u00a75-1.",
+      "requiresInput": false,
+      "order": 10,
+      "defaultNextStepId": "door_verified"
+    },
+    {
+      "id": "door_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Door circuit OK",
+      "oemOutcome": "Door lock circuit verified \u2014 inspect main PBA if code persists.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungtla50-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reed_ohms",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungtla50-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "door_verified"
+    }
+  ]
+}

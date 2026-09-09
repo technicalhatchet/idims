@@ -1,0 +1,84 @@
+{
+  "id": "samsungtla50-mems-sensor",
+  "version": "1.0.0",
+  "title": "\u00a75-3: MEMS sensor (8C)",
+  "platformId": "samsung_tl_washer_a50",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "8C",
+    "8C1",
+    "8C2"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-A50-WASHER",
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "MEMS PBA 8C",
+    "pages": [
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "mems_wiring"
+    },
+    {
+      "id": "mems_wiring",
+      "order": 2,
+      "type": "visual_check",
+      "title": "MEMS harness",
+      "body": "Check wire connections to MEMS PBA. Rule out disconnection.",
+      "sourceExcerpt": "Check wire connections to MEMS PBA. Rule out disconnection.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wiring_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_verified"
+        },
+        {
+          "id": "replace_mems",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_mems_out",
+          "terminal": true,
+          "oemOutcome": "Replace MEMS PBA."
+        }
+      ]
+    },
+    {
+      "id": "replace_mems_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace MEMS PBA",
+      "oemOutcome": "Replace MEMS PBA when wiring intact but 8C persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "mems_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "MEMS OK",
+      "oemOutcome": "MEMS connections verified.",
+      "requiresInput": false
+    }
+  ]
+}

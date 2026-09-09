@@ -1,0 +1,148 @@
+{
+  "id": "samsungtldv50-gas-flame-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Radiant flame sensor (10RS)",
+  "platformId": "samsung_tl_dryer_dv50",
+  "componentIds": [
+    "flame_sensor"
+  ],
+  "tags": [
+    "ignition_issue",
+    "flame_sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-DV50-DRYER",
+    "manualTitle": "Samsung Top-Load / Vented Dryer DV50R Family (DVE50R, DVG50R)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl dryer dv50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Flame sensor",
+    "pages": [
+      26,
+      27
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Before commencing with tests the appliance must be disconnected from the supply.",
+      "requiresInput": false,
+      "defaultNextStepId": "flame_sensor_access"
+    },
+    {
+      "id": "flame_sensor_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Radiant sensor 10RS",
+      "body": "120 V radiant sensor \u2014 verify harness seated. Resistance < 1 \u03a9 when flame present.",
+      "sourceExcerpt": "120 V radiant sensor \u2014 verify harness seated. Resistance < 1 \u03a9 when flame present.",
+      "requiresInput": false,
+      "defaultNextStepId": "flame_sensor_ohms"
+    },
+    {
+      "id": "flame_sensor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Flame sensor resistance",
+      "body": "At sensor \u2014 < 1 \u03a9 when flame present; replace if infinite.",
+      "sourceExcerpt": "At sensor \u2014 < 1 \u03a9 when flame present; replace if infinite.",
+      "measurementKnowledgeId": "samsungTlDv50DryerFlameSensorOhms",
+      "testPoint": {
+        "connector": "10RS",
+        "pins": "Terminals",
+        "label": "Flame sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fs_pass",
+          "label": "< 1 \u03a9 with flame",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "flame_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_flame_sensor_open_flame_sensor_ok",
+              "componentId": "flame_sensor"
+            }
+          ]
+        },
+        {
+          "id": "fs_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_flame_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_flame_sensor_open_flame_sensor_failed",
+              "componentId": "flame_sensor"
+            }
+          ]
+        },
+        {
+          "id": "fs_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_flame_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_flame_sensor_open_flame_sensor_failed",
+              "componentId": "flame_sensor"
+            }
+          ]
+        },
+        {
+          "id": "fs_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_flame_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_flame_sensor_open_flame_sensor_failed",
+              "componentId": "flame_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_flame_sensor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace flame sensor",
+      "oemOutcome": "Replace 10RS radiant sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "flame_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Flame sense OK",
+      "oemOutcome": "Ignition and flame sense verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

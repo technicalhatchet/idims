@@ -8,7 +8,12 @@ import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry f
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-diagnostic-code-check.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-manual-check-mode.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-smart-install-entry.json';
+import samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry from './seed/samsung_tl_dryer_dv50/bundles/samsungtldv50-smart-install-entry.json';
+import samsung_tl_washer_a50_bundles_samsungtla50_diagnostic_code_check from './seed/samsung_tl_washer_a50/bundles/samsungtla50-diagnostic-code-check.json';
+import samsung_tl_washer_a50_bundles_samsungtla50_manual_check_mode from './seed/samsung_tl_washer_a50/bundles/samsungtla50-manual-check-mode.json';
+import samsung_tl_washer_a50_bundles_samsungtla50_smart_install_entry from './seed/samsung_tl_washer_a50/bundles/samsungtla50-smart-install-entry.json';
 import whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11416805-diagnostic-entry.json';
+import whirlpool_acu_tl_dryer_bundles_w11798430_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11798430-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10881701-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w10881701-service-test-mode.json';
@@ -68,6 +73,32 @@ import samsung_fl_washer_bb8700_samsungbb8700_power_supply from './seed/samsung_
 import samsung_fl_washer_bb8700_samsungbb8700_wash_heater from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-heater.json';
 import samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-thermistor.json';
 import samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor from './seed/samsung_fl_washer_bb8700/samsungbb8700-water-level-sensor.json';
+import samsung_tl_dryer_dv50_samsungtldv50_belt_cutoff from './seed/samsung_tl_dryer_dv50/samsungtldv50-belt-cutoff.json';
+import samsung_tl_dryer_dv50_samsungtldv50_door_switch from './seed/samsung_tl_dryer_dv50/samsungtldv50-door-switch.json';
+import samsung_tl_dryer_dv50_samsungtldv50_gas_flame_sensor from './seed/samsung_tl_dryer_dv50/samsungtldv50-gas-flame-sensor.json';
+import samsung_tl_dryer_dv50_samsungtldv50_gas_ignitor from './seed/samsung_tl_dryer_dv50/samsungtldv50-gas-ignitor.json';
+import samsung_tl_dryer_dv50_samsungtldv50_gas_valve from './seed/samsung_tl_dryer_dv50/samsungtldv50-gas-valve.json';
+import samsung_tl_dryer_dv50_samsungtldv50_heater_electric from './seed/samsung_tl_dryer_dv50/samsungtldv50-heater-electric.json';
+import samsung_tl_dryer_dv50_samsungtldv50_hmi from './seed/samsung_tl_dryer_dv50/samsungtldv50-hmi.json';
+import samsung_tl_dryer_dv50_samsungtldv50_motor_circuit from './seed/samsung_tl_dryer_dv50/samsungtldv50-motor-circuit.json';
+import samsung_tl_dryer_dv50_samsungtldv50_power from './seed/samsung_tl_dryer_dv50/samsungtldv50-power.json';
+import samsung_tl_dryer_dv50_samsungtldv50_thermal_cutoff from './seed/samsung_tl_dryer_dv50/samsungtldv50-thermal-cutoff.json';
+import samsung_tl_dryer_dv50_samsungtldv50_thermistor from './seed/samsung_tl_dryer_dv50/samsungtldv50-thermistor.json';
+import samsung_tl_washer_a50_samsungtla50_clutch from './seed/samsung_tl_washer_a50/samsungtla50-clutch.json';
+import samsung_tl_washer_a50_samsungtla50_communication from './seed/samsung_tl_washer_a50/samsungtla50-communication.json';
+import samsung_tl_washer_a50_samsungtla50_door_lock from './seed/samsung_tl_washer_a50/samsungtla50-door-lock.json';
+import samsung_tl_washer_a50_samsungtla50_drain_pump from './seed/samsung_tl_washer_a50/samsungtla50-drain-pump.json';
+import samsung_tl_washer_a50_samsungtla50_hmi_check from './seed/samsung_tl_washer_a50/samsungtla50-hmi-check.json';
+import samsung_tl_washer_a50_samsungtla50_inlet_valves from './seed/samsung_tl_washer_a50/samsungtla50-inlet-valves.json';
+import samsung_tl_washer_a50_samsungtla50_leak_check from './seed/samsung_tl_washer_a50/samsungtla50-leak-check.json';
+import samsung_tl_washer_a50_samsungtla50_mems_sensor from './seed/samsung_tl_washer_a50/samsungtla50-mems-sensor.json';
+import samsung_tl_washer_a50_samsungtla50_motor_circuit from './seed/samsung_tl_washer_a50/samsungtla50-motor-circuit.json';
+import samsung_tl_washer_a50_samsungtla50_overflow from './seed/samsung_tl_washer_a50/samsungtla50-overflow.json';
+import samsung_tl_washer_a50_samsungtla50_power_supply from './seed/samsung_tl_washer_a50/samsungtla50-power-supply.json';
+import samsung_tl_washer_a50_samsungtla50_unbalance from './seed/samsung_tl_washer_a50/samsungtla50-unbalance.json';
+import samsung_tl_washer_a50_samsungtla50_wash_heater from './seed/samsung_tl_washer_a50/samsungtla50-wash-heater.json';
+import samsung_tl_washer_a50_samsungtla50_wash_thermistor from './seed/samsung_tl_washer_a50/samsungtla50-wash-thermistor.json';
+import samsung_tl_washer_a50_samsungtla50_water_level_sensor from './seed/samsung_tl_washer_a50/samsungtla50-water-level-sensor.json';
 import whirlpool_acu_tl_dryer_w11416805_acu_power from './seed/whirlpool_acu_tl_dryer/w11416805-acu-power.json';
 import whirlpool_acu_tl_dryer_w11416805_door_switch from './seed/whirlpool_acu_tl_dryer/w11416805-door-switch.json';
 import whirlpool_acu_tl_dryer_w11416805_drum_light from './seed/whirlpool_acu_tl_dryer/w11416805-drum-light.json';
@@ -82,6 +113,19 @@ import whirlpool_acu_tl_dryer_w11416805_thermal_cutoff from './seed/whirlpool_ac
 import whirlpool_acu_tl_dryer_w11416805_thermal_fuse from './seed/whirlpool_acu_tl_dryer/w11416805-thermal-fuse.json';
 import whirlpool_acu_tl_dryer_w11416805_thermistors from './seed/whirlpool_acu_tl_dryer/w11416805-thermistors.json';
 import whirlpool_acu_tl_dryer_w11416805_water_valve from './seed/whirlpool_acu_tl_dryer/w11416805-water-valve.json';
+import whirlpool_acu_tl_dryer_w11798430_acu_power from './seed/whirlpool_acu_tl_dryer/w11798430-acu-power.json';
+import whirlpool_acu_tl_dryer_w11798430_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/w11798430-diagnostic-entry.json';
+import whirlpool_acu_tl_dryer_w11798430_door_switch from './seed/whirlpool_acu_tl_dryer/w11798430-door-switch.json';
+import whirlpool_acu_tl_dryer_w11798430_drum_light from './seed/whirlpool_acu_tl_dryer/w11798430-drum-light.json';
+import whirlpool_acu_tl_dryer_w11798430_gas_valve from './seed/whirlpool_acu_tl_dryer/w11798430-gas-valve.json';
+import whirlpool_acu_tl_dryer_w11798430_heater_electric from './seed/whirlpool_acu_tl_dryer/w11798430-heater-electric.json';
+import whirlpool_acu_tl_dryer_w11798430_heater_gas from './seed/whirlpool_acu_tl_dryer/w11798430-heater-gas.json';
+import whirlpool_acu_tl_dryer_w11798430_hmi from './seed/whirlpool_acu_tl_dryer/w11798430-hmi.json';
+import whirlpool_acu_tl_dryer_w11798430_motor_circuit from './seed/whirlpool_acu_tl_dryer/w11798430-motor-circuit.json';
+import whirlpool_acu_tl_dryer_w11798430_supply_connections from './seed/whirlpool_acu_tl_dryer/w11798430-supply-connections.json';
+import whirlpool_acu_tl_dryer_w11798430_thermal_cutoff from './seed/whirlpool_acu_tl_dryer/w11798430-thermal-cutoff.json';
+import whirlpool_acu_tl_dryer_w11798430_thermal_fuse from './seed/whirlpool_acu_tl_dryer/w11798430-thermal-fuse.json';
+import whirlpool_acu_tl_dryer_w11798430_thermistors from './seed/whirlpool_acu_tl_dryer/w11798430-thermistors.json';
 import whirlpool_ccu_dryer_w10680150_button_indicator from './seed/whirlpool_ccu_dryer/w10680150-button-indicator.json';
 import whirlpool_ccu_dryer_w10680150_ccu_power from './seed/whirlpool_ccu_dryer/w10680150-ccu-power.json';
 import whirlpool_ccu_dryer_w10680150_door_switch from './seed/whirlpool_ccu_dryer/w10680150-door-switch.json';
@@ -239,7 +283,12 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry as ServiceModeBundle,
+  samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry as ServiceModeBundle,
+  samsung_tl_washer_a50_bundles_samsungtla50_diagnostic_code_check as ServiceModeBundle,
+  samsung_tl_washer_a50_bundles_samsungtla50_manual_check_mode as ServiceModeBundle,
+  samsung_tl_washer_a50_bundles_samsungtla50_smart_install_entry as ServiceModeBundle,
   whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry as ServiceModeBundle,
+  whirlpool_acu_tl_dryer_bundles_w11798430_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_service_test_mode as ServiceModeBundle,
@@ -301,6 +350,32 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fl_washer_bb8700_samsungbb8700_wash_heater as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_belt_cutoff as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_door_switch as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_gas_flame_sensor as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_gas_ignitor as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_gas_valve as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_heater_electric as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_hmi as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_motor_circuit as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_power as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_thermal_cutoff as ServiceProcedureSeed,
+  samsung_tl_dryer_dv50_samsungtldv50_thermistor as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_clutch as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_communication as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_door_lock as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_drain_pump as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_hmi_check as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_inlet_valves as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_leak_check as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_mems_sensor as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_motor_circuit as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_overflow as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_power_supply as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_unbalance as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_wash_heater as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_wash_thermistor as ServiceProcedureSeed,
+  samsung_tl_washer_a50_samsungtla50_water_level_sensor as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_acu_power as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_door_switch as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_drum_light as ServiceProcedureSeed,
@@ -315,6 +390,19 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_acu_tl_dryer_w11416805_thermal_fuse as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_thermistors as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_water_valve as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_acu_power as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_diagnostic_entry as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_door_switch as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_drum_light as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_gas_valve as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_heater_electric as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_heater_gas as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_hmi as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_motor_circuit as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_supply_connections as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_thermal_cutoff as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_thermal_fuse as ServiceProcedureSeed,
+  whirlpool_acu_tl_dryer_w11798430_thermistors as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_button_indicator as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_ccu_power as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_door_switch as ServiceProcedureSeed,

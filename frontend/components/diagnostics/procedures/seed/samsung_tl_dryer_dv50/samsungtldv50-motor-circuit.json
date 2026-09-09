@@ -1,0 +1,267 @@
+{
+  "id": "samsungtldv50-motor-circuit",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Motor windings and centrifugal switch",
+  "platformId": "samsung_tl_dryer_dv50",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-DV50-DRYER",
+    "manualTitle": "Samsung Top-Load / Vented Dryer DV50R Family (DVE50R, DVG50R)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl dryer dv50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Drive motor",
+    "pages": [
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Before commencing with tests the appliance must be disconnected from the supply.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_34"
+    },
+    {
+      "id": "service_mode_after_smart_install",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Smart Install entered. Continue with component checks below.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "motor_34"
+    },
+    {
+      "id": "motor_34",
+      "order": 3,
+      "type": "measurement",
+      "title": "Motor winding pin 3\u20134",
+      "body": "Expected 2.88 \u03a9.",
+      "sourceExcerpt": "Expected 2.88 \u03a9.",
+      "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+      "testPoint": {
+        "connector": "Motor",
+        "pins": "3-4",
+        "label": "Motor winding pin 3\u20134"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "m34_pass",
+          "label": "2.88 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_45",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "m34_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "m34_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "m34_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_45",
+      "order": 4,
+      "type": "measurement",
+      "title": "Motor winding pin 4\u20135",
+      "body": "Expected 3.5 \u03a9.",
+      "sourceExcerpt": "Expected 3.5 \u03a9.",
+      "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+      "testPoint": {
+        "connector": "Motor",
+        "pins": "4-5",
+        "label": "Motor winding pin 4\u20135"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "m45_pass",
+          "label": "3.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_run_test",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "m45_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "m45_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "m45_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_run_test",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Motor runs",
+      "body": "Restore power with belt on. Motor starts and drum rotates?",
+      "sourceExcerpt": "Restore power with belt on. Motor starts and drum rotates?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified"
+        },
+        {
+          "id": "replace_motor_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor_out",
+          "terminal": true,
+          "oemOutcome": "Replace motor assembly."
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace motor when windings open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace motor assembly when run test fails.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Motor OK",
+      "oemOutcome": "Motor windings and run verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungtldv50-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_smart_install"
+    }
+  ]
+}

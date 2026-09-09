@@ -165,6 +165,21 @@
       }
     },
     {
+      "manualId": "W11798430",
+      "platformId": "whirlpool_acu_tl_dryer",
+      "templateId": "electric_dryer",
+      "seedDir": "whirlpool_acu_tl_dryer",
+      "label": "Whirlpool 7.0 cu. ft. ACU top-load dryer (WED4100/WGD4100, W11798430)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11798430_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_acu_tl_dryer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11798430_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11798430_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11798430_service_modes.py"
+      }
+    },
+    {
       "manualId": "NS-TDRE75W1",
       "platformId": "insignia_dryer_tdre",
       "templateId": "electric_dryer",

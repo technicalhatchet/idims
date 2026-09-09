@@ -1,0 +1,503 @@
+[
+  {
+    "id": "samsungTlA50WasherMotorOhms",
+    "name": "Samsung TL A50 Washer Motor Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 17, "max": 22 },
+      "warning": { "min": 14, "max": 25 },
+      "critical": { "below": 5, "above": 35 }
+    },
+    "typical": { "min": 18.5, "max": 20 },
+    "openCircuitCritical": true,
+    "purpose": "Motor winding coil at any two of three motor terminals — 19.3 Ω @ 25°C per §5-3 3C.",
+    "failureModes": [
+      "Open winding — 3C motor error",
+      "Moisture or foreign material in stator"
+    ],
+    "testingTips": [
+      "Disconnect motor connector before ohms",
+      "Inspect motor cover stator and coil for damage",
+      "Smart Install manual check step 8 exercises dehydration/spin"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_washer_a50"
+    },
+    "dmaTags": ["motor_check", "spin_issue", "3C"]
+  },
+  {
+    "id": "samsungTlA50WasherInletValveOhms",
+    "name": "Samsung TL A50 Washer Inlet Valve Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 900, "max": 1100 },
+      "warning": { "min": 800, "max": 1200 },
+      "critical": { "below": 100, "above": 5000 }
+    },
+    "typical": { "min": 950, "max": 1050 },
+    "openCircuitCritical": true,
+    "purpose": "Water supply valve coil — 0.9–1.1 kΩ between valve terminals per §5-3 4C.",
+    "failureModes": [
+      "Open coil — 4C no fill",
+      "Frozen or blocked supply"
+    ],
+    "testingTips": [
+      "Disconnect power before measuring",
+      "Check valve filter for foreign material",
+      "Smart Install Co/Ho steps exercise valves"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_washer_a50"
+    },
+    "dmaTags": ["fill_issue", "4C", "water_valve_check"]
+  },
+  {
+    "id": "samsungTlA50WasherDrainPumpOhms",
+    "name": "Samsung TL A50 Washer Drain Pump Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 13.5, "max": 16.5 },
+      "warning": { "min": 12, "max": 18 },
+      "critical": { "below": 3, "above": 30 }
+    },
+    "typical": { "min": 14, "max": 16 },
+    "openCircuitCritical": true,
+    "purpose": "Drain pump motor — 13.5–16.5 Ω per §5-3 5C.",
+    "failureModes": [
+      "Open pump motor — 5C drain fault",
+      "Foreign material in pump housing"
+    ],
+    "testingTips": [
+      "Clear pump of debris before condemning motor",
+      "Check for frozen drain in winter"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_washer_a50"
+    },
+    "dmaTags": ["drain_issue", "5C"]
+  },
+  {
+    "id": "samsungTlA50WasherDoorReedOhms",
+    "name": "Samsung TL A50 Washer Door Reed Switch",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0.1, "max": 0.5 },
+      "warning": { "min": 0.05, "max": 1 },
+      "critical": { "above": 5 }
+    },
+    "typical": { "min": 0.15, "max": 0.25 },
+    "openCircuitCritical": true,
+    "purpose": "Reed switch White–Green — approx 0.2 Ω per §5-3 DC door check.",
+    "failureModes": [
+      "Open reed — dC door fault",
+      "Door not fully closed"
+    ],
+    "testingTips": [
+      "Verify door closed with no laundry caught",
+      "Check 120 V door circuit insulation"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_washer_a50"
+    },
+    "dmaTags": ["door_lock_check", "dC", "DC"]
+  },
+  {
+    "id": "samsungTlA50WasherDoorLockMotorOhms",
+    "name": "Samsung TL A50 Washer Door Lock Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 33, "max": 46 },
+      "warning": { "min": 28, "max": 52 },
+      "critical": { "below": 10, "above": 70 }
+    },
+    "typical": { "min": 36, "max": 44 },
+    "openCircuitCritical": true,
+    "purpose": "Door lock motor Black–Brown — 33–46 Ω per §5-3 DC.",
+    "failureModes": [
+      "Open lock motor — DC1/DC2",
+      "Lock switch unit not inserted or damaged"
+    ],
+    "testingTips": [
+      "Verify lock/unlock contact states",
+      "Replace lock switch unit if contacts fail"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_washer_a50"
+    },
+    "dmaTags": ["door_lock_check", "DC1", "DC2"]
+  },
+  {
+    "id": "samsungTlA50WasherDoorLockContactOhms",
+    "name": "Samsung TL A50 Washer Door Lock Contact",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0.1, "max": 0.5 },
+      "warning": { "min": 0.05, "max": 1 },
+      "critical": { "above": 5 }
+    },
+    "typical": { "min": 0.15, "max": 0.25 },
+    "openCircuitCritical": true,
+    "purpose": "Lock White–Red / Unlock White–Blue contacts — approx 0.2 Ω per §5-3 DC lock/unlock state.",
+    "failureModes": [
+      "Open lock contact — DC1/DC2",
+      "Defective door lock switch unit"
+    ],
+    "testingTips": [
+      "Measure in lock and unlock states",
+      "Confirm lock switch unit fully inserted"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_washer_a50"
+    },
+    "dmaTags": ["door_lock_check", "DC1", "DC2"]
+  },
+  {
+    "id": "samsungTlDv50DryerThermistor10KOhms",
+    "name": "Samsung TL DV50 Dryer Thermistor (10K)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 8000, "max": 12000 },
+      "warning": { "min": 5000, "max": 20000 },
+      "critical": { "below": 500, "above": 50000 }
+    },
+    "typical": { "min": 9500, "max": 10500 },
+    "openCircuitCritical": true,
+    "purpose": "Exhaust/inlet thermistor — 10 kΩ @ 25°C (77°F) per §4-4 electric thermistor table.",
+    "failureModes": [
+      "Open/shorted thermistor — tC / tC5",
+      "Restricted vent or clogged lint screen"
+    ],
+    "testingTips": [
+      "Clean lint screen and verify vent before condemning NTC",
+      "Compare thermistor1 and thermistor2 readings"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["thermistor_check", "tC", "tC5", "HC"]
+  },
+  {
+    "id": "samsungTlDv50DryerHeaterSingleOhms",
+    "name": "Samsung TL DV50 Dryer Heater (Single Element)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 9, "max": 11 },
+      "warning": { "min": 8, "max": 12 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 9.5, "max": 10.5 },
+    "openCircuitCritical": true,
+    "purpose": "Single 240 V 5300 W element — 10 Ω pin 1–3 per §4-4.",
+    "failureModes": [
+      "Open element — no heat / HC",
+      "Blown thermal fuse in heat path"
+    ],
+    "testingTips": [
+      "Disconnect power before heater ohms",
+      "Verify thermal cutoff chain if element OK"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["no_heat", "HC", "heating_element_check"]
+  },
+  {
+    "id": "samsungTlDv50DryerHeaterDualLowOhms",
+    "name": "Samsung TL DV50 Dryer Heater Dual (Pin 2-3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 12, "max": 14 },
+      "warning": { "min": 10, "max": 16 },
+      "critical": { "below": 3, "above": 25 }
+    },
+    "typical": { "min": 12.5, "max": 13.5 },
+    "openCircuitCritical": true,
+    "purpose": "Dual element 240 V 3700/1500 W — 13 Ω between pins 2–3 per §4-4.",
+    "failureModes": [
+      "Open low-watt element section",
+      "Thermal fuse open in heat path"
+    ],
+    "testingTips": [
+      "Also measure pin 1–2 (~34 Ω) on dual element",
+      "Identify single vs dual heater before measuring"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["no_heat", "HC"]
+  },
+  {
+    "id": "samsungTlDv50DryerHeaterDualHighOhms",
+    "name": "Samsung TL DV50 Dryer Heater Dual (Pin 1-2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 32, "max": 36 },
+      "warning": { "min": 28, "max": 40 },
+      "critical": { "below": 5, "above": 60 }
+    },
+    "typical": { "min": 33, "max": 35 },
+    "openCircuitCritical": true,
+    "purpose": "Dual element high section — 34 Ω between pins 1–2 per §4-4.",
+    "failureModes": [
+      "Open high-watt element section"
+    ],
+    "testingTips": [
+      "Measure both dual sections before replacing heater"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["no_heat", "HC"]
+  },
+  {
+    "id": "samsungTlDv50DryerMotorWinding34Ohms",
+    "name": "Samsung TL DV50 Dryer Motor Winding (Pin 3-4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2.6, "max": 3.1 },
+      "warning": { "min": 2.2, "max": 3.5 },
+      "critical": { "below": 0.5, "above": 8 }
+    },
+    "typical": { "min": 2.8, "max": 2.95 },
+    "openCircuitCritical": true,
+    "purpose": "Motor winding 2.88 Ω between pins 3–4 per §4-4 centrifugal switch table.",
+    "failureModes": [
+      "Open motor winding",
+      "Centrifugal switch not transitioning"
+    ],
+    "testingTips": [
+      "Also verify pin 4–5 (~3.5 Ω)",
+      "Check belt and belt cut-off switch"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["motor_check"]
+  },
+  {
+    "id": "samsungTlDv50DryerMotorWinding45Ohms",
+    "name": "Samsung TL DV50 Dryer Motor Winding (Pin 4-5)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3.2, "max": 3.8 },
+      "warning": { "min": 2.8, "max": 4.2 },
+      "critical": { "below": 0.5, "above": 10 }
+    },
+    "typical": { "min": 3.4, "max": 3.6 },
+    "openCircuitCritical": true,
+    "purpose": "Motor winding 3.5 Ω between pins 4–5 per §4-4.",
+    "failureModes": [
+      "Open motor winding"
+    ],
+    "testingTips": [
+      "Verify centrifugal contact states Start vs Run"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["motor_check"]
+  },
+  {
+    "id": "samsungTlDv50DryerIgnitorOhms",
+    "name": "Samsung TL DV50 Dryer Gas Igniter (101D)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40, "max": 400 },
+      "warning": { "min": 30, "max": 500 },
+      "critical": { "below": 10, "above": 1000 }
+    },
+    "typical": { "min": 80, "max": 200 },
+    "openCircuitCritical": true,
+    "purpose": "Gas igniter 101D — 40–400 Ω per §4-4.",
+    "failureModes": [
+      "Open igniter — no ignition",
+      "Cracked igniter element"
+    ],
+    "testingTips": [
+      "Do not touch igniter element",
+      "Verify gas supply on before live ignition test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["igniter_check", "no_heat", "ignition_issue"]
+  },
+  {
+    "id": "samsungTlDv50DryerGasValve12Ohms",
+    "name": "Samsung TL DV50 Dryer Gas Valve Coil (1-2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1200, "max": 1500 },
+      "warning": { "min": 1000, "max": 1600 },
+      "critical": { "below": 200, "above": 3000 }
+    },
+    "typical": { "min": 1320, "max": 1410 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve 25M01A coil pair 1–2 — approx 1365 Ω per §4-4.",
+    "failureModes": [
+      "Open gas valve coil"
+    ],
+    "testingTips": [
+      "Measure all four coil pairs on 25M01A",
+      "Shut off gas before servicing valve"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["gas_valve_check", "no_heat"]
+  },
+  {
+    "id": "samsungTlDv50DryerGasValve13Ohms",
+    "name": "Samsung TL DV50 Dryer Gas Valve Coil (1-3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 480, "max": 640 },
+      "warning": { "min": 400, "max": 750 },
+      "critical": { "below": 100, "above": 1500 }
+    },
+    "typical": { "min": 530, "max": 590 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve coil pair 1–3 — approx 560 Ω per §4-4.",
+    "failureModes": ["Open gas valve coil"],
+    "testingTips": ["Shut off gas supply before measurement"],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["gas_valve_check"]
+  },
+  {
+    "id": "samsungTlDv50DryerGasValve45Ohms",
+    "name": "Samsung TL DV50 Dryer Gas Valve Coil (4-5)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1200, "max": 1450 },
+      "warning": { "min": 1000, "max": 1600 },
+      "critical": { "below": 200, "above": 3000 }
+    },
+    "typical": { "min": 1280, "max": 1370 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve coil pair 4–5 — approx 1325 Ω per §4-4.",
+    "failureModes": ["Open gas valve coil"],
+    "testingTips": ["Shut off gas supply before measurement"],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["gas_valve_check"]
+  },
+  {
+    "id": "samsungTlDv50DryerGasValve67Ohms",
+    "name": "Samsung TL DV50 Dryer Gas Valve Coil (6-7)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 900, "max": 1100 },
+      "warning": { "min": 750, "max": 1250 },
+      "critical": { "below": 200, "above": 2500 }
+    },
+    "typical": { "min": 960, "max": 1040 },
+    "openCircuitCritical": true,
+    "purpose": "Gas valve coil pair 6–7 — approx 1000 Ω per §4-4.",
+    "failureModes": ["Open gas valve coil"],
+    "testingTips": ["Shut off gas supply before measurement"],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["gas_valve_check"]
+  },
+  {
+    "id": "samsungTlDv50DryerFlameSensorOhms",
+    "name": "Samsung TL DV50 Dryer Radiant Flame Sensor (10RS)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0.1, "max": 1 },
+      "warning": { "min": 0.05, "max": 2 },
+      "critical": { "above": 5 }
+    },
+    "typical": { "min": 0.2, "max": 0.8 },
+    "openCircuitCritical": true,
+    "purpose": "Radiant sensor 10RS — resistance < 1 Ω when flame present per §4-4 gas table.",
+    "failureModes": [
+      "Open radiant sensor — flame not sensed",
+      "Weak flame / vent restriction"
+    ],
+    "testingTips": [
+      "Measure at room temp for baseline; verify harness",
+      "Replace if infinite resistance at sensor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_tl_dryer_dv50"
+    },
+    "dmaTags": ["ignition_issue", "flame_sensor_check"]
+  }
+]

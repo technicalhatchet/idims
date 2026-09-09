@@ -1,0 +1,87 @@
+{
+  "id": "samsungtla50-power-supply",
+  "version": "1.0.0",
+  "title": "\u00a75-3: Power (UC, 9C1, 9C2)",
+  "platformId": "samsung_tl_washer_a50",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "UC",
+    "9C1",
+    "9C2",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-A50-WASHER",
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "Power Check UC",
+    "pages": [
+      34,
+      36
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "voltage_check"
+    },
+    {
+      "id": "voltage_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Supply voltage",
+      "body": "Verify operating voltage during Boil or Dry. Check for plug receptacle extension causing voltage drop.",
+      "sourceExcerpt": "Verify operating voltage during Boil or Dry. Check for plug receptacle extension causing voltage drop.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_verified"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct outlet and dedicated circuit."
+        }
+      ]
+    },
+    {
+      "id": "fix_supply_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Fix supply",
+      "oemOutcome": "Correct installation voltage and wiring.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Power OK",
+      "oemOutcome": "Supply verified \u2014 replace main PBA if UC/9C persists.",
+      "requiresInput": false
+    }
+  ]
+}

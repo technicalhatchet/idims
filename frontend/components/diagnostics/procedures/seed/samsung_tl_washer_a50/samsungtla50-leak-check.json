@@ -1,0 +1,123 @@
+{
+  "id": "samsungtla50-leak-check",
+  "version": "1.0.0",
+  "title": "\u00a75-3: Water leakage (LC, LC1)",
+  "platformId": "samsung_tl_washer_a50",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "LC",
+    "LC1",
+    "leak_check",
+    "drain_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-A50-WASHER",
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "Water Leakage LC",
+    "pages": [
+      33,
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "bellows_check"
+    },
+    {
+      "id": "bellows_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Drain bellows",
+      "body": "Check draining bellows for underwear, wires, coins. Remove alien substance.",
+      "sourceExcerpt": "Check draining bellows for underwear, wires, coins. Remove alien substance.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bellows_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_inspection"
+        },
+        {
+          "id": "clear_bellows",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_bellows_out",
+          "terminal": true,
+          "oemOutcome": "Clear bellows obstruction."
+        }
+      ]
+    },
+    {
+      "id": "leak_inspection",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Leak source",
+      "body": "Inspect tub connections, internal hoses, and drain motor for leaks.",
+      "sourceExcerpt": "Inspect tub connections, internal hoses, and drain motor for leaks.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "no_leak",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_verified"
+        },
+        {
+          "id": "repair_leak",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_leak_out",
+          "terminal": true,
+          "oemOutcome": "Repair leak path or replace drain motor."
+        }
+      ]
+    },
+    {
+      "id": "clear_bellows_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Clear bellows",
+      "oemOutcome": "Remove foreign material from drain bellows.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_leak_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Repair leak",
+      "oemOutcome": "Correct hose, tub, or pump leak.",
+      "requiresInput": false
+    },
+    {
+      "id": "leak_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Leak path OK",
+      "oemOutcome": "No leak found \u2014 retest LC.",
+      "requiresInput": false
+    }
+  ]
+}

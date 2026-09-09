@@ -1,0 +1,46 @@
+{
+  "id": "samsungtla50-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_tl_washer_a50",
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "title": "Samsung TL A50 \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Smart Install (AS) from Self Clean course for automatic/manual component checks.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "si_prep",
+  "source": {
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "pages": [
+      28
+    ]
+  },
+  "steps": [
+    {
+      "id": "si_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby \u2014 empty drum",
+      "body": "Washer standby. Drum empty. Set course to Self Clean.",
+      "sourceExcerpt": "Washer standby. Drum empty. Set course to Self Clean.",
+      "requiresInput": false,
+      "defaultNextStepId": "si_enter"
+    },
+    {
+      "id": "si_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press Start/Pause for 7 seconds. Display shows AS when Smart Install is active.",
+      "sourceExcerpt": "Standby \u2192 Self Clean \u2192 Start/Pause 7 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

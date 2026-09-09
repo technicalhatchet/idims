@@ -28,6 +28,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolDuetSportWasherMotorOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherMotorOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashMotorOhms', platformId: 'samsung_flexwash' },
+        { knowledgeId: 'samsungTlA50WasherMotorOhms', platformId: 'samsung_tl_washer_a50' },
         { knowledgeId: 'samsungFlBb8700WasherMotorOhms', platformId: 'samsung_fl_washer_bb8700' },
         {
           knowledgeId: 'insigniaWasherFreqDriveMotorOhms',
@@ -44,6 +45,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolDuetSportWasherDrainPumpOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherDrainPumpOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashDrainPumpOhms', platformId: 'samsung_flexwash' },
+        { knowledgeId: 'samsungTlA50WasherDrainPumpOhms', platformId: 'samsung_tl_washer_a50' },
         {
           knowledgeId: 'insigniaWasherCapDrainPumpOhms',
           platformId: 'insignia_washer_cap',
@@ -63,6 +65,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolDuetSportWasherInletValveOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherInletValveOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashInletValveOhms', platformId: 'samsung_flexwash' },
+        { knowledgeId: 'samsungTlA50WasherInletValveOhms', platformId: 'samsung_tl_washer_a50' },
         {
           knowledgeId: 'insigniaWasherCapInletValveOhms',
           platformId: 'insignia_washer_cap',
@@ -93,6 +96,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolTlDdWasherLidLockMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolFlWasherDoorLockSolenoidOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDoorLockSolenoidOhms', platformId: 'whirlpool_duet_sport' },
+        { knowledgeId: 'samsungTlA50WasherDoorLockMotorOhms', platformId: 'samsung_tl_washer_a50' },
         { knowledgeId: 'samsungFlBb8700WasherDoorLockOhms', platformId: 'samsung_fl_washer_bb8700' },
         {
           knowledgeId: 'insigniaWasherCapDoorLockOhms',
@@ -167,6 +171,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           platformId: 'insignia_dryer_tdre',
           manufacturers: [...INSIGNIA],
         },
+        { knowledgeId: 'samsungTlDv50DryerHeaterSingleOhms', platformId: 'samsung_tl_dryer_dv50' },
         { knowledgeId: 'samsungFlBb8700DryerHeaterOhms', platformId: 'samsung_fl_dryer_bb8700' },
         { knowledgeId: 'electricDryerHeatingElementOhms', isDefault: true },
       ],
@@ -202,6 +207,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolCentennialDryerIgnitorOhms', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerIgnitorOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'samsungTlDv50DryerIgnitorOhms', platformId: 'samsung_tl_dryer_dv50' },
         { knowledgeId: 'samsungFlBb8700DryerIgnitorOhms', platformId: 'samsung_fl_dryer_bb8700' },
         { knowledgeId: 'hotSurfaceIgniterOhms', isDefault: true },
       ],
@@ -210,6 +216,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolCentennialDryerGasValveCoilOhms', platformId: 'whirlpool_centennial_dryer' },
         { knowledgeId: 'whirlpoolDuetSportDryerGasValveCoilOhms', platformId: 'whirlpool_duet_sport_dryer' },
+        { knowledgeId: 'samsungTlDv50DryerGasValve12Ohms', platformId: 'samsung_tl_dryer_dv50' },
         { knowledgeId: 'samsungFlBb8700DryerGasValve12Ohms', platformId: 'samsung_fl_dryer_bb8700' },
         { knowledgeId: 'gasValveCoilOhms', isDefault: true },
       ],

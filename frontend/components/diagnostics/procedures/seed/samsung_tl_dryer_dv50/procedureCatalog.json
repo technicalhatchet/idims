@@ -1,0 +1,94 @@
+{
+  "manualId": "SAMSUNG-TL-DV50-DRYER",
+  "platformId": "samsung_tl_dryer_dv50",
+  "templateId": "electric_dryer",
+  "label": "Samsung TL dryer DV50R (DVE50R, DVG50R)",
+  "notes": "Electric + gas via templateIds. Smart Install \u00a74-2-7, components \u00a74-4. Separate from samsung_fl_dryer_bb8700.",
+  "plannedProcedures": [
+    {
+      "id": "samsungtldv50-thermistor",
+      "oemSection": "4-4",
+      "title": "\u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungtldv50-door-switch",
+      "oemSection": "4-4",
+      "title": "\u00a74-1 / \u00a74-4: Door switch (dC, dF)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungtldv50-heater-electric",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Electric heater",
+      "status": "generated",
+      "templateIds": [
+        "electric_dryer"
+      ]
+    },
+    {
+      "id": "samsungtldv50-thermal-cutoff",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Thermal cutoff and hi-limit",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungtldv50-motor-circuit",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Motor windings and centrifugal switch",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungtldv50-belt-cutoff",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Belt cut-off switch",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungtldv50-hmi",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Display / buttons (bC2)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungtldv50-power",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "status": "generated",
+      "templateIds": null
+    },
+    {
+      "id": "samsungtldv50-gas-valve",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Gas valve coils (25M01A)",
+      "status": "generated",
+      "templateIds": [
+        "gas_dryer"
+      ]
+    },
+    {
+      "id": "samsungtldv50-gas-ignitor",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Gas igniter (101D)",
+      "status": "generated",
+      "templateIds": [
+        "gas_dryer"
+      ]
+    },
+    {
+      "id": "samsungtldv50-gas-flame-sensor",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Radiant flame sensor (10RS)",
+      "status": "generated",
+      "templateIds": [
+        "gas_dryer"
+      ]
+    }
+  ]
+}
