@@ -37,6 +37,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_MWV6200: 'whirlpool_mvw6200',
   WHIRLPOOL_TL_DD_6157: 'whirlpool_tl_dd_6157',
   WHIRLPOOL_FREESTANDING_RANGE: 'whirlpool_freestanding_range',
+  WHIRLPOOL_CONNECTED_SMART_GEN3: 'whirlpool_connected_smart_gen3',
 } as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[keyof typeof PLATFORM_IDS];
@@ -50,6 +51,41 @@ export interface PlatformRule {
 }
 
 export const PLATFORM_RULES: PlatformRule[] = [
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_CONNECTED_SMART_GEN3,
+    label: 'Whirlpool Connected Smart Appliance Gen III (W10785366A smart layer)',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
+    templateId: 'washer',
+    modelPatterns: [/WTW8700/i, /MTW8700/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_CONNECTED_SMART_GEN3,
+    label: 'Whirlpool Connected Smart Appliance Gen III (W10785366A smart layer)',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
+    templateId: 'electric_dryer',
+    modelPatterns: [/WED8700/i, /MED8700/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_CONNECTED_SMART_GEN3,
+    label: 'Whirlpool Connected Smart Appliance Gen III (W10785366A smart layer)',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
+    templateId: 'gas_dryer',
+    modelPatterns: [/WGD8700/i, /MGD8700/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_CONNECTED_SMART_GEN3,
+    label: 'Whirlpool Connected Smart Appliance Gen III (W10785366A smart layer)',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
+    templateId: 'dishwasher',
+    modelPatterns: [/WDT995/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_CONNECTED_SMART_GEN3,
+    label: 'Whirlpool Connected Smart Appliance Gen III (W10785366A smart layer)',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
+    templateId: 'refrigerator',
+    modelPatterns: [/WRF989/i, /WRF995/i],
+  },
   {
     id: PLATFORM_IDS.WHIRLPOOL_MWV6200,
     label: 'Whirlpool/Maytag 4.8 cu ft PSC top-load (W11416395)',
@@ -396,22 +432,28 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_FREESTANDING_RANGE,
-    label: 'Whirlpool/Maytag/Amana freestanding range (electric)',
-    manufacturers: ['Whirlpool', 'Maytag', 'Amana'],
+    label: 'Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana freestanding range (electric)',
+    manufacturers: ['Whirlpool', 'Maytag', 'Amana', 'KitchenAid', 'Kenmore', 'JennAir', 'IKEA'],
     templateId: 'electric_range',
     modelPatterns: [
       /WFE/i, /YWFE/i, /MER/i, /AER/i, /AES/i, /WEC/i, /WEE/i, /WFC/i,
       /4KWFE/i, /4KMER/i, /ACR/i, /YACR/i, /IES/i, /YIES/i,
+      /KFE/i, /KFED/i, /KFG/i, /KFGG/i, /KFES/i, /KFEG/i, /YKFE/i,
+      /JES/i, /JIS/i,
+      /KSIB/i, /KSEB/i, /KSEG/i, /YKSE/i,
     ],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_FREESTANDING_RANGE,
-    label: 'Whirlpool/Maytag/Amana freestanding range (gas)',
-    manufacturers: ['Whirlpool', 'Maytag', 'Amana'],
+    label: 'Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana freestanding range (gas)',
+    manufacturers: ['Whirlpool', 'Maytag', 'Amana', 'KitchenAid', 'Kenmore', 'JennAir', 'IKEA'],
     templateId: 'gas_range',
     modelPatterns: [
       /WFG/i, /YWFG/i, /MGR/i, /AGR/i, /AGS/i, /WEG/i, /IGS/i, /YIGS/i,
       /4KWFG/i, /YIEL/i,
+      /KFG/i, /KFGG/i, /KFGS/i, /KSEG/i,
+      /JGS/i, /JDG/i,
+      /KSGB/i, /KSGG/i, /KSEB/i, /KSEG/i, /YKSE/i,
     ],
   },
 ];
@@ -426,6 +468,9 @@ const MAKE_ALIASES: Record<string, string> = {
   ge: 'GE',
   frigidaire: 'Frigidaire',
   amana: 'Amana',
+  kenmore: 'Kenmore',
+  jennair: 'JennAir',
+  ikea: 'IKEA',
 };
 
 export function normalizeMake(value: string | null | undefined): string | null {

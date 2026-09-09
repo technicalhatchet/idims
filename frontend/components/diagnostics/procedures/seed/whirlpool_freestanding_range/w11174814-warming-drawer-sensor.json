@@ -1,0 +1,155 @@
+{
+  "id": "w11174814-warming-drawer-sensor",
+  "version": "1.0.0",
+  "title": "Warming Drawer Temperature Sensor",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "temp_sensor"
+  ],
+  "tags": [
+    "F3E2",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "W11174814",
+    "manualTitle": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana Ranges (W11174814 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "RTD-WD",
+    "oemTestTitle": "Warming Drawer Temperature Sensor",
+    "pages": [
+      33,
+      34,
+      37,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "warming_drawer_rtd"
+    },
+    {
+      "id": "warming_drawer_rtd",
+      "order": 2,
+      "type": "measurement",
+      "title": "Warming drawer sensor resistance",
+      "body": "Power off. Disconnect P10 from control. Measure P10-3 to P10-4. Expect 1000\u20131200 \u03a9 at room temperature (same RTD spec as main oven sensor).",
+      "sourceExcerpt": "Power off. Disconnect P10 from control. Measure P10-3 to P10-4. Expect 1000\u20131200 \u03a9 at room temperature (same RTD spec as main oven sensor).",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeOvenSensorOhms",
+      "testPoint": {
+        "connector": "P10",
+        "pins": [
+          "3",
+          "4"
+        ],
+        "label": "Warming drawer sensor resistance",
+        "pinDetails": [
+          {
+            "pin": "3",
+            "signal": "Warming drawer RTD"
+          },
+          {
+            "pin": "4",
+            "signal": "Warming drawer RTD"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wd_rtd_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "wd_rtd_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "wd_rtd_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "wd_rtd_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wd_sensor_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "temp_sensor",
+              "evidenceId": "eliminate_temp_sensor_bad_temp_sensor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_wd_sensor",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace warming drawer sensor",
+      "oemOutcome": "Warming drawer RTD open, shorted, or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "wd_sensor_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Warming drawer sensor verified",
+      "oemOutcome": "Warming drawer RTD 1000\u20131200 \u03a9 at room temperature.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174814-maxwell-mrc-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "warming_drawer_rtd"
+    }
+  ]
+}

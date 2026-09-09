@@ -49,3 +49,22 @@ python backend/scripts/generate_w11174426_procedure_seeds.py
 ## WO smoke
 
 Whirlpool `WFE550S0HZ` or Maytag `MER6600F` → `whirlpool_freestanding_range`; F3E0 → oven-sensor proc; F5E1 → door-latch proc.
+
+## W11174814 delta procedures (5)
+
+| ID | Fuel | OEM focus |
+|----|------|-----------|
+| w11174814-warming-drawer-sensor | both | Warming drawer RTD F3E2 |
+| w11174814-warming-drawer-element | both | Warming drawer 15–20 Ω |
+| w11174814-gas-igniter | gas | Indigo bake/broil igniter 40–400 Ω |
+| w11174814-ceran-element | electric | Indigo ceran H1–H2 23–83 Ω |
+| w11174814-oven-light | both | Oven light 0–40 Ω |
+
+**Bundles:** `w11174814-maxwell-mrc-diagnostic-entry`, `w11174814-indigo-diagnostic-entry`
+
+**Extraction:** `WHIRLPOOL_W11174814_FREESTANDING_RANGE_EXTRACTION.md`
+
+```bash
+python backend/scripts/generate_w11174814_procedure_seeds.py
+```
+

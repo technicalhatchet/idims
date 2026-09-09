@@ -43,7 +43,11 @@ import whirlpool_fl_dd_bundles_w11169652_quick_service_cycle from './seed/whirlp
 import whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry from './seed/whirlpool_fl_dd/bundles/w11169652-service-diagnostic-entry.json';
 import whirlpool_fl_dd_bundles_w11169652_service_mode from './seed/whirlpool_fl_dd/bundles/w11169652-service-mode.json';
 import whirlpool_freestanding_range_bundles_w11174426_service_diagnostic_entry from './seed/whirlpool_freestanding_range/bundles/w11174426-service-diagnostic-entry.json';
+import whirlpool_freestanding_range_bundles_w11174814_indigo_diagnostic_entry from './seed/whirlpool_freestanding_range/bundles/w11174814-indigo-diagnostic-entry.json';
+import whirlpool_freestanding_range_bundles_w11174814_maxwell_mrc_diagnostic_entry from './seed/whirlpool_freestanding_range/bundles/w11174814-maxwell-mrc-diagnostic-entry.json';
 import whirlpool_freestanding_range_bundles_w11746350_service_diagnostic_entry from './seed/whirlpool_freestanding_range/bundles/w11746350-service-diagnostic-entry.json';
+import whirlpool_jazz_french_door_bundles_w10322959_forced_defrost_entry from './seed/whirlpool_jazz_french_door/bundles/w10322959-forced-defrost-entry.json';
+import whirlpool_jazz_french_door_bundles_w10322959_service_test_entry from './seed/whirlpool_jazz_french_door/bundles/w10322959-service-test-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry from './seed/whirlpool_mvw6200/bundles/w11416395-service-diagnostic-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_test_mode from './seed/whirlpool_mvw6200/bundles/w11416395-service-test-mode.json';
 import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w10864849-service-diagnostic-entry.json';
@@ -325,6 +329,11 @@ import whirlpool_freestanding_range_w11174426_hmi from './seed/whirlpool_freesta
 import whirlpool_freestanding_range_w11174426_infinite_switch from './seed/whirlpool_freestanding_range/w11174426-infinite-switch.json';
 import whirlpool_freestanding_range_w11174426_oven_sensor from './seed/whirlpool_freestanding_range/w11174426-oven-sensor.json';
 import whirlpool_freestanding_range_w11174426_surface_spark from './seed/whirlpool_freestanding_range/w11174426-surface-spark.json';
+import whirlpool_freestanding_range_w11174814_ceran_element from './seed/whirlpool_freestanding_range/w11174814-ceran-element.json';
+import whirlpool_freestanding_range_w11174814_gas_igniter from './seed/whirlpool_freestanding_range/w11174814-gas-igniter.json';
+import whirlpool_freestanding_range_w11174814_oven_light from './seed/whirlpool_freestanding_range/w11174814-oven-light.json';
+import whirlpool_freestanding_range_w11174814_warming_drawer_element from './seed/whirlpool_freestanding_range/w11174814-warming-drawer-element.json';
+import whirlpool_freestanding_range_w11174814_warming_drawer_sensor from './seed/whirlpool_freestanding_range/w11174814-warming-drawer-sensor.json';
 import whirlpool_freestanding_range_w11746350_acu_power from './seed/whirlpool_freestanding_range/w11746350-acu-power.json';
 import whirlpool_freestanding_range_w11746350_bake_element from './seed/whirlpool_freestanding_range/w11746350-bake-element.json';
 import whirlpool_freestanding_range_w11746350_bridge_element from './seed/whirlpool_freestanding_range/w11746350-bridge-element.json';
@@ -337,6 +346,16 @@ import whirlpool_freestanding_range_w11746350_oven_sensor from './seed/whirlpool
 import whirlpool_freestanding_range_w11746350_surface_spark from './seed/whirlpool_freestanding_range/w11746350-surface-spark.json';
 import whirlpool_freestanding_range_w11746350_thermal_fuse from './seed/whirlpool_freestanding_range/w11746350-thermal-fuse.json';
 import whirlpool_freestanding_range_w11746350_vent_fan from './seed/whirlpool_freestanding_range/w11746350-vent-fan.json';
+import whirlpool_jazz_french_door_w10322959_programming_mode from './seed/whirlpool_jazz_french_door/w10322959-programming-mode.json';
+import whirlpool_jazz_french_door_w10322959_test_01_defrost from './seed/whirlpool_jazz_french_door/w10322959-test-01-defrost.json';
+import whirlpool_jazz_french_door_w10322959_test_02_compressor from './seed/whirlpool_jazz_french_door/w10322959-test-02-compressor.json';
+import whirlpool_jazz_french_door_w10322959_test_03_evap_fan from './seed/whirlpool_jazz_french_door/w10322959-test-03-evap-fan.json';
+import whirlpool_jazz_french_door_w10322959_test_04_ff_thermistor from './seed/whirlpool_jazz_french_door/w10322959-test-04-ff-thermistor.json';
+import whirlpool_jazz_french_door_w10322959_test_05_fz_thermistor from './seed/whirlpool_jazz_french_door/w10322959-test-05-fz-thermistor.json';
+import whirlpool_jazz_french_door_w10322959_test_06_damper from './seed/whirlpool_jazz_french_door/w10322959-test-06-damper.json';
+import whirlpool_jazz_french_door_w10322959_test_07_ff_performance from './seed/whirlpool_jazz_french_door/w10322959-test-07-ff-performance.json';
+import whirlpool_jazz_french_door_w10322959_test_08_fz_performance from './seed/whirlpool_jazz_french_door/w10322959-test-08-fz-performance.json';
+import whirlpool_jazz_french_door_w10322959_test_09_defrost_interval from './seed/whirlpool_jazz_french_door/w10322959-test-09-defrost-interval.json';
 import whirlpool_mvw6200_w11416395_test_01_acu_power from './seed/whirlpool_mvw6200/w11416395-test-01-acu-power.json';
 import whirlpool_mvw6200_w11416395_test_02_valves from './seed/whirlpool_mvw6200/w11416395-test-02-valves.json';
 import whirlpool_mvw6200_w11416395_test_03_drive_system from './seed/whirlpool_mvw6200/w11416395-test-03-drive-system.json';
@@ -445,7 +464,11 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_service_mode as ServiceModeBundle,
   whirlpool_freestanding_range_bundles_w11174426_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_freestanding_range_bundles_w11174814_indigo_diagnostic_entry as ServiceModeBundle,
+  whirlpool_freestanding_range_bundles_w11174814_maxwell_mrc_diagnostic_entry as ServiceModeBundle,
   whirlpool_freestanding_range_bundles_w11746350_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_jazz_french_door_bundles_w10322959_forced_defrost_entry as ServiceModeBundle,
+  whirlpool_jazz_french_door_bundles_w10322959_service_test_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry as ServiceModeBundle,
@@ -729,6 +752,11 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_freestanding_range_w11174426_infinite_switch as ServiceProcedureSeed,
   whirlpool_freestanding_range_w11174426_oven_sensor as ServiceProcedureSeed,
   whirlpool_freestanding_range_w11174426_surface_spark as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174814_ceran_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174814_gas_igniter as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174814_oven_light as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174814_warming_drawer_element as ServiceProcedureSeed,
+  whirlpool_freestanding_range_w11174814_warming_drawer_sensor as ServiceProcedureSeed,
   whirlpool_freestanding_range_w11746350_acu_power as ServiceProcedureSeed,
   whirlpool_freestanding_range_w11746350_bake_element as ServiceProcedureSeed,
   whirlpool_freestanding_range_w11746350_bridge_element as ServiceProcedureSeed,
@@ -741,6 +769,16 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_freestanding_range_w11746350_surface_spark as ServiceProcedureSeed,
   whirlpool_freestanding_range_w11746350_thermal_fuse as ServiceProcedureSeed,
   whirlpool_freestanding_range_w11746350_vent_fan as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_programming_mode as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_01_defrost as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_02_compressor as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_03_evap_fan as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_04_ff_thermistor as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_05_fz_thermistor as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_06_damper as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_07_ff_performance as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_08_fz_performance as ServiceProcedureSeed,
+  whirlpool_jazz_french_door_w10322959_test_09_defrost_interval as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_02_valves as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_03_drive_system as ServiceProcedureSeed,

@@ -2,8 +2,8 @@
   "manualId": "W11746350",
   "platformId": "whirlpool_freestanding_range",
   "templateId": "electric_range",
-  "label": "Whirlpool/Maytag/Amana freestanding range (W11746350 + W11174426)",
-  "notes": "Shared platformId whirlpool_freestanding_range. W11746350 Copernicus Settings diagnostics; W11174426 LCX/LCC CANCEL\u00d72+START. Fuel-specific procedures use templateIds electric_range / gas_range.",
+  "label": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana freestanding range (W11746350 + W11174426 + W11174814)",
+  "notes": "Shared platformId whirlpool_freestanding_range. W11746350 Copernicus Settings diagnostics; W11174426 LCX/LCC CANCEL\u00d72+START; W11174814 Maxwell/MRC/Indigo multi-brand manual. Fuel-specific procedures use templateIds electric_range / gas_range.",
   "plannedProcedures": [
     {
       "id": "w11746350-acu-power",
@@ -287,6 +287,68 @@
         "gas_range"
       ],
       "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174814-warming-drawer-sensor",
+      "oemSection": "RTD-WD",
+      "title": "Warming Drawer Temperature Sensor",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeOvenSensorOhms"
+      ],
+      "relatedCodes": [
+        "F3E2"
+      ]
+    },
+    {
+      "id": "w11174814-warming-drawer-element",
+      "oemSection": "WD-Element",
+      "title": "Warming Drawer Element",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeWarmingDrawerElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174814-gas-igniter",
+      "oemSection": "Igniter",
+      "title": "Indigo Gas Oven Igniters (Bake / Broil)",
+      "status": "generated",
+      "templateIds": [
+        "gas_range"
+      ],
+      "knowledgeIds": [
+        "hotSurfaceIgniterOhms",
+        "hotSurfaceIgniterOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174814-ceran-element",
+      "oemSection": "Ceran",
+      "title": "Indigo Ceran Cooktop Element",
+      "status": "generated",
+      "templateIds": [
+        "electric_range"
+      ],
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeIndigoCeranOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11174814-oven-light",
+      "oemSection": "Light",
+      "title": "Oven Light Assembly",
+      "status": "generated",
+      "templateIds": null,
+      "knowledgeIds": [
+        "whirlpoolFreestandingRangeOvenLightOhms"
+      ],
       "relatedCodes": []
     }
   ]

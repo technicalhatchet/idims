@@ -277,7 +277,7 @@
     },
     "typical": { "min": 5, "max": 25 },
     "openCircuitCritical": true,
-    "purpose": "Oven incandescent light assembly — 0–40 Ω nominal per W11746350 and W11174426 charts.",
+    "purpose": "Oven incandescent light assembly — 0–40 Ω nominal per W11174814 / W11746350 / W11174426 charts.",
     "failureModes": [
       "Open (OL): burned-out bulb or bad socket",
       "Measure with light switch off and door closed for resistance check"
@@ -290,5 +290,59 @@
       "templates": []
     },
     "dmaTags": ["light_check"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeWarmingDrawerElementOhms",
+    "name": "Whirlpool Freestanding Warming Drawer Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 20 },
+      "warning": { "min": 12, "max": 25 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 16, "max": 19 },
+    "openCircuitCritical": true,
+    "purpose": "Warming drawer element — 15–20 Ω nominal per W11174814 Maxwell/MRC charts.",
+    "failureModes": [
+      "Open (OL): warming drawer element failed",
+      "Out of range: element or wiring fault"
+    ],
+    "testingTips": [
+      "Maxwell electric: P4-1 to W (P6-3); Maxwell gas: P1-4 to W; MRC electric: P4-2 to W",
+      "Measure with power off and leads disconnected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeIndigoCeranOhms",
+    "name": "Whirlpool Indigo Ceran Cooktop Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 23, "max": 83 },
+      "warning": { "min": 18, "max": 100 },
+      "critical": { "below": 5, "above": 150 }
+    },
+    "typical": { "min": 30, "max": 70 },
+    "openCircuitCritical": true,
+    "purpose": "Indigo control ceran surface element — 23–83 Ω nominal at H1–H2 per W11174814 §3-46.",
+    "failureModes": [
+      "Open (OL): element or limiter fault",
+      "Thermal limiter opens at 1100°F (593°C) — check limiter if element reads OL"
+    ],
+    "testingTips": [
+      "Measure H1 to H2 at element terminals with power off",
+      "Hot-surface indicator limiter closes at 150°F (66°C) — infinite when cold is normal for indicator switch"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "surface_burner"]
   }
 ]

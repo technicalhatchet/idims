@@ -463,6 +463,51 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w11174426_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w11174426_service_modes.py"
       }
+    },
+    {
+      "manualId": "W11174814",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "seedDir": "whirlpool_freestanding_range",
+      "label": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana freestanding range (W11174814)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174814_FREESTANDING_RANGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_freestanding_range/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11174814_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11174814_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11174814_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W10322959",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_jazz_french_door",
+      "label": "Whirlpool Jazz French door refrigerator (W10322959, 19–22 cu ft)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_jazz_french_door/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10322959_jazz_fridge_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w10322959_jazz_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10322959_jazz_fridge_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W10785366A",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "seedDir": "whirlpool_connected_smart_gen3",
+      "label": "Whirlpool Connected Smart Appliances Gen III (W10785366A smart layer)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_connected_smart_gen3/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10785366a_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w10785366a_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10785366a_service_modes.py"
+      }
     }
   ]
 }
