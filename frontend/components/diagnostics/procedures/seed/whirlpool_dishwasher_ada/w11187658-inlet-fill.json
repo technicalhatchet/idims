@@ -1,0 +1,166 @@
+{
+  "id": "w11187658-inlet-fill",
+  "version": "1.0.0",
+  "title": "E1 \u2014 Water inlet failure (4 min fill)",
+  "platformId": "whirlpool_dishwasher_ada",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "E1",
+    "fill_issue",
+    "error_code",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "W11187658",
+    "manualTitle": "Whirlpool 18\" & 24\" ADA Built-In Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Whirlpool Dishwasher Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E1",
+    "oemTestTitle": "Water inlet failure",
+    "pages": [
+      18,
+      32,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug dishwasher or disconnect power.",
+      "requiresInput": false,
+      "defaultNextStepId": "e1_symptom"
+    },
+    {
+      "id": "e1_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E1 behavior",
+      "body": "E1 displays when the flow meter cannot detect a correct fill after 4 minutes during the inlet step. Quick indicator flashes (SSD) or E1 on seven-segment display.",
+      "sourceExcerpt": "IF THE FLOW METER CAN'T DETECT A CORRECT FILL AFTER 4 MINUTES, E1 WILL BE DISPLAYED.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_checks"
+    },
+    {
+      "id": "supply_checks",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Water supply and installation",
+      "body": "Verify supply valve on, 20\u2013100 psi pressure, inlet screen clean, drain hose not siphoning, and dishwasher level.",
+      "sourceExcerpt": "1. CHECK THE WATER SUPPLY.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok_yes",
+          "label": "Supply OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_ok"
+        },
+        {
+          "id": "supply_ok_no",
+          "label": "Supply issue found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supply_ok",
+      "order": 4,
+      "type": "instruction",
+      "title": "Fill circuit inspection",
+      "body": "Power off. Access kick panel and control board cover. Inspect CN5 inlet harness, CN4 flow meter, pressure switch hose to sump, and drain path. Run fill-valve ohms (w11187658-fill-valve) and drain pump test if needed.",
+      "sourceExcerpt": "Power off. Access kick panel and control board cover. Inspect CN5 inlet harness, CN4 flow meter, pressure switch hose to sump, and drain path. Run fill-valve ohms (w11187658-fill-valve) and drain pump test if needed.",
+      "requiresInput": false,
+      "defaultNextStepId": "pressure_switch_check"
+    },
+    {
+      "id": "pressure_switch_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Pressure switch hose",
+      "body": "Pressure switch hose runs from switch on base bracket to sump. Hose kinked, disconnected, blocked, or leaking?",
+      "sourceExcerpt": "5. CHECK THE PRESSURE SWITCH.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pressure_hose_ok_yes",
+          "label": "Hose OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pressure_hose_ok"
+        },
+        {
+          "id": "pressure_hose_ok_no",
+          "label": "Hose fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_pressure_hose",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pressure_hose_ok",
+      "order": 6,
+      "type": "instruction",
+      "title": "Flow meter at CN4",
+      "body": "Inspect CN4 flow meter / thermistor / overflow harness for damage or poor connection at control board.",
+      "sourceExcerpt": "Inspect CN4 flow meter / thermistor / overflow harness for damage or poor connection at control board.",
+      "requiresInput": false,
+      "defaultNextStepId": "fill_path_verified"
+    },
+    {
+      "id": "fix_supply",
+      "order": 7,
+      "type": "outcome",
+      "title": "Correct supply issue",
+      "body": "Restore water supply, correct installation, and retest fill.",
+      "oemOutcome": "Restore water supply, correct installation, and retest fill.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_pressure_hose",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair pressure switch path",
+      "body": "Repair or replace pressure switch hose; verify switch seated on base bracket.",
+      "oemOutcome": "Repair or replace pressure switch hose; verify switch seated on base bracket.",
+      "requiresInput": false
+    },
+    {
+      "id": "fill_path_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Fill path verified",
+      "body": "Supply, inlet valve, flow meter, pressure switch, and drain prerequisites checked \u2014 retest for E1.",
+      "oemOutcome": "Supply, inlet valve, flow meter, pressure switch, and drain prerequisites checked \u2014 retest for E1.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -570,6 +570,21 @@
       }
     },
     {
+      "manualId": "W11187658",
+      "platformId": "whirlpool_dishwasher_ada",
+      "templateId": "dishwasher",
+      "seedDir": "whirlpool_dishwasher_ada",
+      "label": "Whirlpool ADA built-in dishwasher (18\"/24\")",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_dishwasher_ada/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11187658_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11187658_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11187658_service_modes.py"
+      }
+    },
+    {
       "manualId": "INSIGNIA-DWR3-DISHWASHER",
       "platformId": "insignia_dishwasher",
       "templateId": "dishwasher",

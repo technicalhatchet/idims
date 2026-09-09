@@ -119,6 +119,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'heat_water.heater_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuHeaterOhms', platformId: 'whirlpool_dishwasher_acu' },
+        { knowledgeId: 'whirlpoolDishwasherAdaHeaterOhms', platformId: 'whirlpool_dishwasher_ada' },
         {
           knowledgeId: 'insigniaDishwasherHeaterOhms',
           platformId: 'insignia_dishwasher',
@@ -131,6 +132,10 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'heat_water.thermistor': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuOwiThermistorOhms', platformId: 'whirlpool_dishwasher_acu' },
+        {
+          knowledgeId: 'insigniaDishwasherTubThermistorOhms',
+          platformId: 'whirlpool_dishwasher_ada',
+        },
         {
           knowledgeId: 'insigniaDishwasherTubThermistorOhms',
           platformId: 'insignia_dishwasher',
@@ -152,6 +157,10 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolDishwasherAcuDrainMotorOhms', platformId: 'whirlpool_dishwasher_acu' },
         {
           knowledgeId: 'insigniaDishwasherDrainPumpOhms',
+          platformId: 'whirlpool_dishwasher_ada',
+        },
+        {
+          knowledgeId: 'insigniaDishwasherDrainPumpOhms',
           platformId: 'insignia_dishwasher',
           manufacturers: [...INSIGNIA],
         },
@@ -162,6 +171,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'motor_electrical.inlet_valve_ohms': {
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuFillValveOhms', platformId: 'whirlpool_dishwasher_acu' },
+        { knowledgeId: 'whirlpoolDishwasherAdaFillValveOhms', platformId: 'whirlpool_dishwasher_ada' },
         {
           knowledgeId: 'insigniaDishwasherFillValveOhms',
           platformId: 'insignia_dishwasher',

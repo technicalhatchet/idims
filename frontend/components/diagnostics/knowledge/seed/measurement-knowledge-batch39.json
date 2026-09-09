@@ -1,0 +1,60 @@
+[
+  {
+    "id": "whirlpoolDishwasherAdaFillValveOhms",
+    "name": "Whirlpool ADA Dishwasher Water Inlet Valve",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 20, "max": 28 },
+      "warning": { "min": 16, "max": 35 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 22, "max": 26 },
+    "openCircuitCritical": true,
+    "purpose": "W11187658 inlet solenoid — ~24 Ω between CN5-1 and CN5-2 per service manual.",
+    "failureModes": [
+      "Open coil — E1 fill timeout",
+      "Harness open between CN5 and valve"
+    ],
+    "testingTips": [
+      "Unplug CN5 before ohms test",
+      "Verify supply, inlet screen, and anti-siphon drain routing"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool"],
+      "platformId": "whirlpool_dishwasher_ada"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue", "E1"]
+  },
+  {
+    "id": "whirlpoolDishwasherAdaHeaterOhms",
+    "name": "Whirlpool ADA Dishwasher Tub Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 12, "max": 16 },
+      "warning": { "min": 10, "max": 20 },
+      "critical": { "below": 3, "above": 30 }
+    },
+    "typical": { "min": 13, "max": 15 },
+    "openCircuitCritical": true,
+    "purpose": "W11187658 heating element — ~14 Ω between PO1/PO2 and CON1-1 (neutral).",
+    "failureModes": [
+      "Open element — E3 heater failure",
+      "Heater relay or harness fault"
+    ],
+    "testingTips": [
+      "Lay unit on back; remove drip pan for PO1/PO2 access",
+      "Run tub thermistor test if E3 persists with good heater ohms"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Whirlpool"],
+      "platformId": "whirlpool_dishwasher_ada"
+    },
+    "dmaTags": ["heating_element_check", "no_heat", "E3"]
+  }
+]

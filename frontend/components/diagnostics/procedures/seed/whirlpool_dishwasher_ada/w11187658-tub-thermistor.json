@@ -1,0 +1,173 @@
+{
+  "id": "w11187658-tub-thermistor",
+  "version": "1.0.0",
+  "title": "Tub thermistor \u2014 E6/E7 NTC",
+  "platformId": "whirlpool_dishwasher_ada",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "E3",
+    "E6",
+    "E7",
+    "thermistor_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "W11187658",
+    "manualTitle": "Whirlpool 18\" & 24\" ADA Built-In Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Whirlpool Dishwasher Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "thermistor",
+    "oemTestTitle": "Tub thermistor resistance",
+    "pages": [
+      36,
+      18
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug dishwasher or disconnect power.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_symptom"
+    },
+    {
+      "id": "ntc_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E6 / E7 behavior",
+      "body": "E6 = NTC open circuit (Light + Glass flash). E7 = NTC short (Light + Glass + Quick flash). Both affect E3 heat path.",
+      "sourceExcerpt": "TEMPERATURE SENSOR OPEN CIRCUIT, E6 WILL BE DISPLAYED.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_thermistor"
+    },
+    {
+      "id": "access_thermistor",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access tub thermistor",
+      "body": "Lay dishwasher on back; remove drip pan. Thermistor on back of sump \u2014 unplug CN4 before ohms.",
+      "sourceExcerpt": "77\u00b0 F (25\u00b0 C) \u2014 10k ohms",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_ohms"
+    },
+    {
+      "id": "thermistor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Tub thermistor resistance",
+      "body": "Measure between CN4-2 (GND) and CN4-7 (RE) at room temperature (~77\u00b0F). Expect 10 k\u03a9.",
+      "sourceExcerpt": "Measure between CN4-2 (GND) and CN4-7 (RE) at room temperature (~77\u00b0F). Expect 10 k\u03a9.",
+      "measurementKnowledgeId": "insigniaDishwasherTubThermistorOhms",
+      "testPoint": {
+        "connector": "CN4",
+        "pins": "CN4-2 / CN4-7",
+        "label": "Tub thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "thermistor_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "thermistor_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "thermistor_verified_crit",
+          "label": "Replace thermistor \u2014 open or shorted.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "thermistor_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thermistor_verified",
+      "order": 5,
+      "type": "instruction",
+      "title": "Harness check",
+      "body": "Inspect thermistor harness between CN4 and sump. Repair opens before replacing control board.",
+      "sourceExcerpt": "Inspect thermistor harness between CN4 and sump. Repair opens before replacing control board.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_path_ok"
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "body": "Replace tub thermistor assembly.",
+      "oemOutcome": "Replace tub thermistor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermistor_path_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Thermistor verified",
+      "body": "NTC in spec \u2014 if E6/E7/E3 persist, suspect control board.",
+      "oemOutcome": "NTC in spec \u2014 if E6/E7/E3 persist, suspect control board.",
+      "requiresInput": false
+    }
+  ]
+}
