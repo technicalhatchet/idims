@@ -1,0 +1,133 @@
+{
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "platformId": "lg_microwave_otr",
+  "templateId": "microwave",
+  "label": "LG LMHM2237BD over-the-range microwave",
+  "notes": "First microwave platform in procedure layer. Self-test \u00a76-3; interlock \u00a79-2; HV components \u00a710.",
+  "plannedProcedures": [
+    {
+      "id": "lgotrmw-pcb-thermistor",
+      "oemSection": "6-3-thermistor",
+      "title": "\u00a76-3: PCB Thermistor (F-1 / F-2)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F-1",
+        "F-2",
+        "F1",
+        "F2"
+      ]
+    },
+    {
+      "id": "lgotrmw-humidity-sensor",
+      "oemSection": "6-3-humidity",
+      "title": "\u00a76-3: Humidity Sensor (F-4)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F-4",
+        "F4"
+      ]
+    },
+    {
+      "id": "lgotrmw-door-interlock",
+      "oemSection": "9-2",
+      "title": "\u00a79-2: Door Interlock Switches",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveDoorInterlockSwitchOhms",
+        "microwaveDoorInterlockSwitchOhms",
+        "microwaveDoorInterlockSwitchOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-line-power",
+      "oemSection": "6-4-dead",
+      "title": "\u00a76-4: No Display / Dead Unit",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveLineFuseOhms",
+        "lgMicrowaveOtrNoiseFilterCoilOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-no-heat",
+      "oemSection": "6-4-no-heat",
+      "title": "\u00a76-4: No Heat / No Cook",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveThermalCutoutOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-hv-transformer",
+      "oemSection": "10-transformer",
+      "title": "\u00a710: High-Voltage Transformer",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgMicrowaveOtrHvTransformerPrimaryOhms",
+        "lgMicrowaveOtrHvTransformerSecondaryOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-hv-capacitor",
+      "oemSection": "10-capacitor",
+      "title": "\u00a710: High-Voltage Capacitor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-hv-diode",
+      "oemSection": "10-diode",
+      "title": "\u00a710: High-Voltage Diode",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveHVDiodeCheck"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-magnetron",
+      "oemSection": "10-magnetron",
+      "title": "\u00a710: Magnetron",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveMagnetronFilamentOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-hv-fuse",
+      "oemSection": "10-hv-fuse",
+      "title": "\u00a710: High-Voltage Fuse",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgMicrowaveOtrHvFuseOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-keypad",
+      "oemSection": "6-4-keypad",
+      "title": "\u00a76-4: Keypad Failure",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgotrmw-turntable",
+      "oemSection": "10-turntable",
+      "title": "\u00a710: Turntable Motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgMicrowaveOtrTurntableMotorOhms"
+      ],
+      "relatedCodes": []
+    }
+  ]
+}

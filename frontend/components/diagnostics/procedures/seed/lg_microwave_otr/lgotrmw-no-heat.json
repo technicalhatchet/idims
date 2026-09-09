@@ -1,0 +1,290 @@
+{
+  "id": "lgotrmw-no-heat",
+  "version": "1.0.0",
+  "title": "\u00a76-4: No Heat / No Cook",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "no_heat",
+    "magnetron_check",
+    "door_switch_check"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-4-no-heat",
+    "oemTestTitle": "No heat troubleshooting",
+    "pages": [
+      18,
+      21
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_cycle"
+    },
+    {
+      "id": "service_mode_before_self_test",
+      "type": "instruction",
+      "title": "Continue after self-test entry",
+      "body": "Self-test mode entered (Defrost weight/time 2 sec \u2192 TEST). Continue with fault interpretation below.",
+      "sourceExcerpt": "\u00a76-3 Self diagnosis \u2014 humidity sensor and PCB thermistor check.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "door_cycle"
+    },
+    {
+      "id": "door_cycle",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Unit operates after door open/close \u00d73?",
+      "body": "Repeat door open and close at least three times. Does product operate after power on?",
+      "sourceExcerpt": "Repeat door open and close at least three times. Does product operate after power on?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "thermal_cutout_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermal_cutout"
+        },
+        {
+          "id": "thermal_cutout_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_interlock_path",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_interlock_path",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run door interlock procedure",
+      "body": "Complete \u00a79-2 door interlock continuity and latch adjustment.",
+      "sourceExcerpt": "Complete \u00a79-2 door interlock continuity and latch adjustment.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_cycle"
+    },
+    {
+      "id": "thermal_cutout",
+      "order": 5,
+      "type": "measurement",
+      "title": "Thermal cutout continuity (TAB1\u2013TAB2)",
+      "body": "Continuity between TAB1 and TAB2 on thermal cutout.",
+      "sourceExcerpt": "Is there any beeping sound in the continuity test between TAB1 and TAB2?",
+      "measurementKnowledgeId": "microwaveThermalCutoutOhms",
+      "testPoint": {
+        "connector": "Thermal cutout",
+        "pins": "TAB1-TAB2",
+        "label": "Thermal cutout continuity (TAB1\u2013TAB2)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "latch_continuity_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "latch_continuity",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "thermal_cutout",
+              "evidenceId": "eliminate_thermal_cutout_open_thermal_cutout_ok"
+            }
+          ]
+        },
+        {
+          "id": "latch_continuity_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cutout",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_continuity_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cutout",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_continuity_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cutout",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_cutout",
+      "order": 6,
+      "type": "instruction",
+      "title": "Replace thermal cutout",
+      "body": "Replace open thermal cutout; verify vent path and fan.",
+      "sourceExcerpt": "Replace open thermal cutout; verify vent path and fan.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermal_cutout"
+    },
+    {
+      "id": "latch_continuity",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Latch board continuity (door closed)?",
+      "body": "With door closed and power off, continuity across latch board secondary switch.",
+      "sourceExcerpt": "With door closed and power off, continuity across latch board secondary switch.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "relay_voltage_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "relay_voltage"
+        },
+        {
+          "id": "relay_voltage_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_latch",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adjust_latch",
+      "order": 8,
+      "type": "instruction",
+      "title": "Adjust latch board",
+      "body": "Adjust latch board per \u00a79-1/9-2.",
+      "sourceExcerpt": "Adjust latch board per \u00a79-1/9-2.",
+      "requiresInput": false,
+      "defaultNextStepId": "latch_continuity"
+    },
+    {
+      "id": "relay_voltage",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Relay 2 voltage over 8 V during EZ-ON?",
+      "body": "While operating under EZ-ON start, is voltage across D35 over 8 V?",
+      "sourceExcerpt": "While operating under EZ-ON start, is voltage across D35 over 8 V?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "no_heat_hv_path_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "no_heat_hv_path",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "no_heat_hv_path_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_relay2",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_relay2",
+      "order": 10,
+      "type": "instruction",
+      "title": "Replace Relay 2",
+      "body": "Replace Relay 2 on PCB.",
+      "sourceExcerpt": "Replace Relay 2 on PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "relay_voltage"
+    },
+    {
+      "id": "no_heat_hv_path",
+      "order": 11,
+      "type": "outcome",
+      "title": "Continue HV component tests",
+      "body": "Door switches and relay OK \u2014 run HV transformer, capacitor, diode, magnetron, and HV fuse procedures (\u00a710).",
+      "oemOutcome": "Door switches and relay OK \u2014 run HV transformer, capacitor, diode, magnetron, and HV fuse procedures (\u00a710).",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lgotrmw-self-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_self_test"
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+{
+  "id": "lgotrmw-hv-transformer",
+  "version": "1.0.0",
+  "title": "\u00a710: High-Voltage Transformer",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "no_heat",
+    "magnetron_check",
+    "high_voltage_safety"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10-transformer",
+    "oemTestTitle": "HV transformer resistance",
+    "pages": [
+      30,
+      31
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "xformer_connector"
+    },
+    {
+      "id": "xformer_connector",
+      "order": 2,
+      "type": "visual_check",
+      "title": "HV transformer connector seated?",
+      "body": "Verify connector to HV transformer is connected.",
+      "sourceExcerpt": "Verify connector to HV transformer is connected.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "primary_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "primary_ohms"
+        },
+        {
+          "id": "primary_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_xformer",
+      "order": 3,
+      "type": "instruction",
+      "title": "Reseat transformer connector",
+      "body": "Reconnect HV transformer leads.",
+      "sourceExcerpt": "Reconnect HV transformer leads.",
+      "requiresInput": false,
+      "defaultNextStepId": "xformer_connector"
+    },
+    {
+      "id": "primary_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Transformer primary winding",
+      "body": "Remove leads. Primary winding 0.2\u20130.5 \u03a9 (Rx1).",
+      "sourceExcerpt": "Primary winding: 0.2 ~ 0.5 Ohm",
+      "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerPrimaryOhms",
+      "testPoint": {
+        "connector": "HV transformer",
+        "pins": "primary",
+        "label": "Transformer primary winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "secondary_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "secondary_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "secondary_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "secondary_ohms_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "secondary_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "secondary_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Transformer secondary winding",
+      "body": "Secondary winding 50\u2013120 \u03a9.",
+      "sourceExcerpt": "Secondary: 50 ~ 120 Ohm",
+      "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerSecondaryOhms",
+      "testPoint": {
+        "connector": "HV transformer",
+        "pins": "secondary",
+        "label": "Transformer secondary winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "filament_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "filament_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "filament_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "filament_ohms_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "filament_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "filament_ohms",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Filament winding ~0 \u03a9?",
+      "body": "Filament winding should read approximately 0 \u03a9.",
+      "sourceExcerpt": "Filament winding: 0 ohm",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "xformer_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "xformer_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "xformer_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_xformer",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace HV transformer",
+      "body": "Replace high-voltage transformer.",
+      "oemOutcome": "Replace high-voltage transformer.",
+      "requiresInput": false
+    },
+    {
+      "id": "xformer_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "HV transformer verified",
+      "body": "Transformer windings within OEM spec.",
+      "oemOutcome": "Transformer windings within OEM spec.",
+      "requiresInput": false
+    }
+  ]
+}

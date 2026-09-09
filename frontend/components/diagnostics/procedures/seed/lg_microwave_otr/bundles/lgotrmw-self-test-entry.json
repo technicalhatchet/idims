@@ -1,0 +1,42 @@
+{
+  "id": "lgotrmw-self-test-entry",
+  "version": "1.0.0",
+  "platformId": "lg_microwave_otr",
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "title": "LMHM2237 \u2014 Self-test mode entry (\u00a76-3)",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Humidity sensor and PCB thermistor self-diagnosis \u2014 F-1/F-2/F-4 or PASS.",
+  "tags": [
+    "F-1",
+    "F-2",
+    "F-4",
+    "F1",
+    "F2",
+    "F4",
+    "service_diagnostic"
+  ],
+  "entryStepId": "self_test_entry",
+  "source": {
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "pages": [
+      12,
+      13
+    ]
+  },
+  "steps": [
+    {
+      "id": "self_test_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter self-test mode",
+      "body": "Press Defrost weight/time for 2 seconds. Unit displays TEST and beeps once. The unit checks PCB humidity sensor and PCB thermistor for short or open. If faulted, unit beeps and displays F-1, F-2, or F-4. If normal, unit beeps and displays PASS. Press Clear to return to standby.",
+      "sourceExcerpt": "Press Defrost weight/time for 2 seconds , unit will display TEST",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

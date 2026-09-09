@@ -1,0 +1,178 @@
+{
+  "id": "lgotrmw-hv-diode",
+  "version": "1.0.0",
+  "title": "\u00a710: High-Voltage Diode",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "no_heat",
+    "hv_diode_check",
+    "high_voltage_safety"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10-diode",
+    "oemTestTitle": "HV diode check",
+    "pages": [
+      31,
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "diode_connector"
+    },
+    {
+      "id": "diode_connector",
+      "order": 2,
+      "type": "visual_check",
+      "title": "HV diode connector seated?",
+      "body": "Verify connector to HV diode assembly.",
+      "sourceExcerpt": "Verify connector to HV diode assembly.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "diode_check_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diode_check"
+        },
+        {
+          "id": "diode_check_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_diode",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_diode",
+      "order": 3,
+      "type": "instruction",
+      "title": "Reseat diode connector",
+      "body": "Reconnect HV diode leads.",
+      "sourceExcerpt": "Reconnect HV diode leads.",
+      "requiresInput": false,
+      "defaultNextStepId": "diode_connector"
+    },
+    {
+      "id": "diode_check",
+      "order": 4,
+      "type": "measurement",
+      "title": "HV diode forward / reverse",
+      "body": "Forward continuity (Rx1000) then reverse \u2014 reverse must be open.",
+      "sourceExcerpt": "Forward continuity (Rx1000) then reverse \u2014 reverse must be open.",
+      "measurementKnowledgeId": "microwaveHVDiodeCheck",
+      "testPoint": {
+        "connector": "HV diode",
+        "pins": "anode-cathode",
+        "label": "HV diode forward / reverse"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "diode_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "diode_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "diode_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_diode",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "diode_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_diode",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "diode_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_diode",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_diode",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace HV diode",
+      "body": "Replace high-voltage diode.",
+      "oemOutcome": "Replace high-voltage diode.",
+      "requiresInput": false
+    },
+    {
+      "id": "diode_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "HV diode verified",
+      "body": "Diode blocks in reverse direction.",
+      "oemOutcome": "Diode blocks in reverse direction.",
+      "requiresInput": false
+    }
+  ]
+}

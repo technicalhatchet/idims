@@ -1,0 +1,136 @@
+{
+  "id": "lgotrmw-hv-fuse",
+  "version": "1.0.0",
+  "title": "\u00a710: High-Voltage Fuse",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "line_fuse"
+  ],
+  "tags": [
+    "no_heat",
+    "fuse_check",
+    "high_voltage_safety"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10-hv-fuse",
+    "oemTestTitle": "HV fuse continuity",
+    "pages": [
+      32,
+      33
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "hv_fuse_ohms"
+    },
+    {
+      "id": "hv_fuse_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "HV fuse resistance",
+      "body": "Remove leads. HV fuse should read under 10 \u03a9.",
+      "sourceExcerpt": "Normal : under 10ohm",
+      "measurementKnowledgeId": "lgMicrowaveOtrHvFuseOhms",
+      "testPoint": {
+        "connector": "HV fuse",
+        "pins": "both ends",
+        "label": "HV fuse resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hv_fuse_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hv_fuse_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "line_fuse",
+              "evidenceId": "eliminate_fuse_open_line_fuse_ok"
+            }
+          ]
+        },
+        {
+          "id": "hv_fuse_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_hv_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_fuse_open_line_fuse_failed"
+            }
+          ]
+        },
+        {
+          "id": "hv_fuse_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_hv_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_fuse_open_line_fuse_failed"
+            }
+          ]
+        },
+        {
+          "id": "hv_fuse_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_hv_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_fuse_open_line_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_hv_fuse",
+      "order": 3,
+      "type": "instruction",
+      "title": "Replace HV fuse",
+      "body": "Replace blown HV fuse; inspect door switches and HV circuit before energizing.",
+      "sourceExcerpt": "Replace blown HV fuse; inspect door switches and HV circuit before energizing.",
+      "requiresInput": false,
+      "defaultNextStepId": "hv_fuse_ohms"
+    },
+    {
+      "id": "hv_fuse_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "HV fuse verified",
+      "body": "HV fuse continuity OK.",
+      "oemOutcome": "HV fuse continuity OK.",
+      "requiresInput": false
+    }
+  ]
+}

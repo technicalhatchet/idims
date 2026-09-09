@@ -1,0 +1,156 @@
+{
+  "id": "lgotrmw-pcb-thermistor",
+  "version": "1.0.0",
+  "title": "\u00a76-3: PCB Thermistor (F-1 / F-2)",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "thermal_cutout"
+  ],
+  "tags": [
+    "F-1",
+    "F-2",
+    "F1",
+    "F2",
+    "no_heat",
+    "thermistor_check"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-3-thermistor",
+    "oemTestTitle": "Self diagnosis \u2014 PCB thermistor",
+    "pages": [
+      12,
+      13
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "self_test_result"
+    },
+    {
+      "id": "service_mode_before_self_test",
+      "type": "instruction",
+      "title": "Continue after self-test entry",
+      "body": "Self-test mode entered (Defrost weight/time 2 sec \u2192 TEST). Continue with fault interpretation below.",
+      "sourceExcerpt": "\u00a76-3 Self diagnosis \u2014 humidity sensor and PCB thermistor check.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "self_test_result"
+    },
+    {
+      "id": "self_test_result",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Service test result for thermistor?",
+      "body": "Enter service test (Defrost weight/time 2 sec \u2192 TEST). Unit checks PCB thermistor and humidity sensor. Did display show F-1 (thermistor short) or F-2 (thermistor open)?",
+      "sourceExcerpt": "F-1 PCB thermistor short; F-2 PCB thermistor open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inspect_thermistor_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inspect_thermistor"
+        },
+        {
+          "id": "inspect_thermistor_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "thermistor_pass",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thermistor_pass",
+      "order": 4,
+      "type": "outcome",
+      "title": "Thermistor path verified",
+      "body": "Service test PASS \u2014 PCB thermistor circuit normal.",
+      "oemOutcome": "Service test PASS \u2014 PCB thermistor circuit normal.",
+      "requiresInput": false
+    },
+    {
+      "id": "inspect_thermistor",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Cabinet thermistor harness OK?",
+      "body": "Inspect cabinet thermistor and harness at PCB. Repair open/shorted harness if found.",
+      "sourceExcerpt": "Inspect cabinet thermistor and harness at PCB. Repair open/shorted harness if found.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_pcb_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_pcb"
+        },
+        {
+          "id": "replace_pcb_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "thermal_cutout"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_harness",
+      "order": 6,
+      "type": "instruction",
+      "title": "Repair thermistor harness",
+      "body": "Repair or replace thermistor harness and retest service mode.",
+      "sourceExcerpt": "Repair or replace thermistor harness and retest service mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "self_test_result"
+    },
+    {
+      "id": "replace_pcb",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace thermistor or PCB",
+      "body": "Replace cabinet thermistor or main PCB (EBR75341201) per fault.",
+      "oemOutcome": "Replace cabinet thermistor or main PCB (EBR75341201) per fault.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lgotrmw-self-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_self_test"
+    }
+  ]
+}
