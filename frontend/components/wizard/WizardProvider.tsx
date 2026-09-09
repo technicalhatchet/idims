@@ -16,6 +16,7 @@ import type {
   WizardStepLockArgs,
   WizardVariant,
 } from './types';
+import { resolveRecommendedWizardStepIndex } from './resolveRecommendedWizardStepIndex';
 
 function isStepHidden<TContext>(
   step: WizardStepDefinition<TContext>,
@@ -337,6 +338,25 @@ export function WizardProvider<TContext>({
     }
 
     const nextIndex = (() => {
+      const recommendedIndex = resolveRecommendedWizardStepIndex(
+        visibleSteps,
+        context as Parameters<typeof resolveRecommendedWizardStepIndex>[1],
+        visitedStepIds,
+        currentStepIndex,
+      );
+      if (
+        recommendedIndex >= 0
+        && recommendedIndex !== currentStepIndex
+        && !isStepLocked(
+          visibleSteps[recommendedIndex],
+          context,
+          visitedStepIds,
+          completedStepIds,
+        )
+      ) {
+        return recommendedIndex;
+      }
+
       for (let i = currentStepIndex + 1; i < visibleSteps.length; i += 1) {
         if (!isStepLocked(visibleSteps[i], context, visitedStepIds, completedStepIds)) return i;
       }

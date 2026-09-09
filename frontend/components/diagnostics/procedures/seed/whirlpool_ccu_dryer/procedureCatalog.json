@@ -1,0 +1,149 @@
+{
+  "manualId": "W10680150",
+  "platformId": "whirlpool_ccu_dryer",
+  "templateId": "electric_dryer",
+  "label": "Whirlpool/Maytag CCU electric & gas dryer (tech sheet W10680150)",
+  "notes": "Shared platformId for electric_dryer and gas_dryer. Duet Sport 83/85 prefixes use whirlpool_duet_sport_dryer instead.",
+  "plannedProcedures": [
+    {
+      "id": "w10680150-ccu-power",
+      "oemSection": "1",
+      "title": "TEST #1: CCU Power Check",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1",
+        "F6E1",
+        "F6E2"
+      ]
+    },
+    {
+      "id": "w10680150-supply-connections",
+      "oemSection": "2",
+      "title": "TEST #2: Supply Connections",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F4E4"
+      ]
+    },
+    {
+      "id": "w10680150-motor-circuit",
+      "oemSection": "3",
+      "title": "TEST #3: Motor Circuit",
+      "status": "generated",
+      "knowledgeIds": [
+        "dryerMotorCircuitOhms",
+        "dryerDrumMotorWindingOhms",
+        "dryerDrumMotorWindingOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10680150-heater-electric",
+      "oemSection": "4",
+      "title": "TEST #4: Heat System (electric)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCcuDryerHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F4E1"
+      ]
+    },
+    {
+      "id": "w10680150-heater-gas",
+      "oemSection": "4-gas",
+      "title": "TEST #4: Heat System (gas)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10680150-thermistors",
+      "oemSection": "4a",
+      "title": "TEST #4a: Thermistors",
+      "status": "generated",
+      "knowledgeIds": [
+        "dryerExhaustThermistorOhms",
+        "dryerInletThermistorOhmsElectric",
+        "dryerInletThermistorOhmsGas"
+      ],
+      "relatedCodes": [
+        "F3E1",
+        "F3E2",
+        "F3E3",
+        "F3E4",
+        "F3E5"
+      ]
+    },
+    {
+      "id": "w10680150-thermal-fuse",
+      "oemSection": "4b",
+      "title": "TEST #4b: Thermal Fuse",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10680150-thermal-cutoff",
+      "oemSection": "4c",
+      "title": "TEST #4c: Thermal Cut-Off",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10680150-gas-valve",
+      "oemSection": "4d",
+      "title": "TEST #4d: Gas Valve",
+      "status": "generated",
+      "knowledgeIds": [
+        "gasValveCoilOhms",
+        "gasValveCoilOhms",
+        "gasValveCoilOhms",
+        "hotSurfaceIgniterOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10680150-moisture-sensor",
+      "oemSection": "5",
+      "title": "TEST #5: Moisture Sensor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F3E6",
+        "F3E7"
+      ]
+    },
+    {
+      "id": "w10680150-dryness-adjust",
+      "oemSection": "5a",
+      "title": "TEST #5a: Customer Dryness Level",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10680150-button-indicator",
+      "oemSection": "6",
+      "title": "TEST #6: Buttons and Indicators",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1",
+        "F2E2",
+        "F2E3"
+      ]
+    },
+    {
+      "id": "w10680150-door-switch",
+      "oemSection": "7",
+      "title": "TEST #7: Door Switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

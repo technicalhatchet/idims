@@ -1,0 +1,382 @@
+{
+  "id": "w10680150-gas-valve",
+  "version": "1.0.0",
+  "title": "TEST #4d: Gas Valve",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "gas_valve",
+    "igniter"
+  ],
+  "tags": [
+    "no_heat",
+    "gas_valve_check",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "W10680150",
+    "manualTitle": "Whirlpool & Maytag CCU Electric/Gas Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/whirlpool-electric-gas-dryers-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4d",
+    "oemTestTitle": "Gas Valve",
+    "pages": [
+      17,
+      18
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_gas"
+    },
+    {
+      "id": "access_gas",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access gas valve & ignitor",
+      "body": "Gas off, power disconnected. Remove toe/back access as needed.",
+      "sourceExcerpt": "Gas off, power disconnected. Remove toe/back access as needed.",
+      "requiresInput": false,
+      "defaultNextStepId": "coil_1_2"
+    },
+    {
+      "id": "coil_1_2",
+      "order": 3,
+      "type": "measurement",
+      "title": "Coil terminals 1\u20132",
+      "body": "Spec 1400 \u00b1 70 \u03a9.",
+      "sourceExcerpt": "Spec 1400 \u00b1 70 \u03a9.",
+      "measurementKnowledgeId": "gasValveCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "1\u20132",
+        "label": "Coil terminals 1\u20132"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "c12_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_1_3"
+        },
+        {
+          "id": "c12_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "c12_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "c12_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coil_1_3",
+      "order": 4,
+      "type": "measurement",
+      "title": "Coil terminals 1\u20133",
+      "body": "Spec 570 \u00b1 28.5 \u03a9.",
+      "sourceExcerpt": "Spec 570 \u00b1 28.5 \u03a9.",
+      "measurementKnowledgeId": "gasValveCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "1\u20133",
+        "label": "Coil terminals 1\u20133"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "c13_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_4_5"
+        },
+        {
+          "id": "c13_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "c13_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "c13_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coil_4_5",
+      "order": 5,
+      "type": "measurement",
+      "title": "Coil terminals 4\u20135",
+      "body": "Spec 1300 \u00b1 65 \u03a9.",
+      "sourceExcerpt": "Spec 1300 \u00b1 65 \u03a9.",
+      "measurementKnowledgeId": "gasValveCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "4\u20135",
+        "label": "Coil terminals 4\u20135"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "c45_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_ohms"
+        },
+        {
+          "id": "c45_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "c45_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "c45_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ignitor_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Ignitor resistance",
+      "body": "Disconnect ignitor 2-pin connector. Spec 50\u2013500 \u03a9 cold.",
+      "sourceExcerpt": "Disconnect ignitor 2-pin connector. Spec 50\u2013500 \u03a9 cold.",
+      "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+      "testPoint": {
+        "connector": "Ignitor",
+        "pins": "2-pin",
+        "label": "Ignitor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ign_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "gas_valve_verified"
+        },
+        {
+          "id": "ign_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ign_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ign_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_coils",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace valve coils",
+      "oemOutcome": "Replace gas valve coil assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_ignitor",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ignitor",
+      "oemOutcome": "Replace gas ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "gas_valve_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Gas valve path verified",
+      "oemOutcome": "Coils and ignitor within spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

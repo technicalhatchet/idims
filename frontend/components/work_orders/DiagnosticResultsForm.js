@@ -63,6 +63,7 @@ import {
   listServiceProcedureCatalog,
   recommendServiceProcedures,
 } from '../diagnostics/procedures/recommendServiceProcedures';
+import { getServiceProcedure } from '../diagnostics/procedures/procedureRegistry';
 import { getErrorCodesFromDiagnosticFields } from '../diagnostics/procedures/parseProcedureErrorCodes';
 import { SOLOMON_INTERFACE } from '../solomon/solomonThemeTokens';
 import SolomonInsightPeekBanner from '../solomon/SolomonInsightPeekBanner';
@@ -72,6 +73,7 @@ import {
   hasSignificantIntelligenceChange,
 } from '../../utils/solomonInsightPeek';
 import { GUIDED_DIAGNOSTICS_LABEL } from '../../constants/workOrderNoteTypes';
+import { useUserRole } from '../../utils/auth0-helpers';
 import {
   formatDiagnosticVisitLabel,
   getDiagnosticTemplate,
@@ -113,6 +115,9 @@ export default function DiagnosticResultsForm({
   const wizardDefinition = getWizardDefinition(payload?.templateId);
   const templateOptions = listDiagnosticTemplates().map((t) => ({ value: t.id, label: t.label }));
   const isDiyAudience = audience === 'diy';
+  const { isTechnician } = useUserRole();
+  const useSolomonMobileStack = solomonMobileLayout
+    || (variant === 'mobile' && !readOnly);
   const draftKey = getDiagnosticDraftKey(workOrderId, draftNoteId);
   const draftRestoredRef = useRef(false);
   const [lastReadings, setLastReadings] = useState({});
@@ -405,19 +410,19 @@ export default function DiagnosticResultsForm({
   );
 
   const procedurePlatformBanner = useMemo(() => {
-    if (!resolvedPlatformId || !procedureCatalog.length) return null;
-    const manualId = procedureCatalog[0]?.procedure?.source?.manualId || null;
+    if (!resolvedPlatformId) return null;
+    const equipmentMake = measurementContext.equipmentMake || workOrder?.equipment_make || null;
+    const equipmentModel = measurementContext.equipmentModel || workOrder?.equipment_model || null;
+    if (!equipmentMake && !equipmentModel && !procedureCatalog.length) return null;
     return {
       platformId: resolvedPlatformId,
       platformLabel: getPlatformLabel(resolvedPlatformId) || resolvedPlatformId,
-      manualId,
-      procedureCount: procedureCatalog.length,
-      equipmentMake: measurementContext.equipmentMake || workOrder?.equipment_make || null,
-      equipmentModel: measurementContext.equipmentModel || workOrder?.equipment_model || null,
+      equipmentMake,
+      equipmentModel,
     };
   }, [
     resolvedPlatformId,
-    procedureCatalog,
+    procedureCatalog.length,
     measurementContext.equipmentMake,
     measurementContext.equipmentModel,
     workOrder?.equipment_make,
@@ -527,7 +532,7 @@ export default function DiagnosticResultsForm({
       } else {
         delete nextRuns[procedureId];
       }
-      const nextPayload = {
+      let nextPayload = {
         ...payloadRef.current,
         procedureRuns: nextRuns,
         activeProcedureId:
@@ -537,10 +542,24 @@ export default function DiagnosticResultsForm({
               ? null
               : payloadRef.current?.activeProcedureId || null,
       };
+
+      if (nextRunState?.status === 'completed' && !readOnly) {
+        const procedure = getServiceProcedure(procedureId);
+        const intel = intelligenceResultRef.current;
+        const topCategory = intel?.topCategories?.[0];
+        const fields = { ...(nextPayload.fields || {}) };
+        const rootCauseKey = 'diagnosis.root_cause';
+        if (!fields[rootCauseKey] && topCategory?.label) {
+          const procedureLabel = procedure?.title ? ` — ${procedure.title} verified` : '';
+          fields[rootCauseKey] = `${topCategory.label}${procedureLabel}`;
+          nextPayload = { ...nextPayload, fields };
+        }
+      }
+
       payloadRef.current = nextPayload;
       emitChange(nextPayload);
     },
-    [emitChange],
+    [emitChange, readOnly],
   );
 
   const handleActiveProcedureChange = useCallback(
@@ -555,9 +574,35 @@ export default function DiagnosticResultsForm({
     [emitChange],
   );
 
-  const showProcedurePanel = !readOnly
-    && !isDiyAudience
-    && procedureCatalog.length > 0;
+  const showOemSpecsSurface = !readOnly && Boolean(procedurePlatformBanner);
+  /** Tech roles: lead OEM test + optional catalog browse. DIY / non-tech: banner + Ω specs only. */
+  const showProcedureRunner = showOemSpecsSurface && isTechnician && procedureCatalog.length > 0;
+
+  const procedurePanelProps = useMemo(
+    () => ({
+      recommendations: showProcedureRunner ? procedureRecommendations : [],
+      catalog: showProcedureRunner ? procedureCatalog : [],
+      procedureRuns: payload?.procedureRuns || {},
+      activeProcedureId: payload?.activeProcedureId || null,
+      onProcedureRunChange: handleProcedureRunChange,
+      onActiveProcedureChange: handleActiveProcedureChange,
+      variant,
+      platformBanner: procedurePlatformBanner,
+      bannerOnly: !showProcedureRunner,
+      showCatalog: showProcedureRunner,
+    }),
+    [
+      showProcedureRunner,
+      procedureRecommendations,
+      procedureCatalog,
+      payload?.procedureRuns,
+      payload?.activeProcedureId,
+      handleProcedureRunChange,
+      handleActiveProcedureChange,
+      variant,
+      procedurePlatformBanner,
+    ],
+  );
 
   useEffect(() => {
     if (readOnly || payload?.autoNoteEdited || !intelligenceResult?.autoNoteBullets?.length) {
@@ -866,6 +911,28 @@ export default function DiagnosticResultsForm({
     [steps, readOnly, emitChange, visitedStepKeys, scheduleProgressSave],
   );
 
+  const jumpToStepKeyRef = useRef(handleJumpToStepKey);
+  jumpToStepKeyRef.current = handleJumpToStepKey;
+  const lastBridgedProcedureRef = useRef(null);
+
+  useEffect(() => {
+    if (readOnly) return;
+    const runs = payload?.procedureRuns || {};
+    const completedIds = Object.entries(runs)
+      .filter(([, run]) => run?.status === 'completed')
+      .map(([id]) => id);
+    if (!completedIds.length) return;
+
+    const lastCompleted = completedIds[completedIds.length - 1];
+    if (lastBridgedProcedureRef.current === lastCompleted) return;
+
+    lastBridgedProcedureRef.current = lastCompleted;
+    const recommendedStep = intelligenceResultRef.current?.recommendedStepKeys?.[0];
+    if (recommendedStep) {
+      jumpToStepKeyRef.current(recommendedStep);
+    }
+  }, [payload?.procedureRuns, readOnly, intelligenceResult?.recommendedStepKeys]);
+
   const handleWizardComplete = useCallback(async () => {
     let nextPayload = payloadRef.current;
     if (!readOnly) {
@@ -1080,7 +1147,7 @@ export default function DiagnosticResultsForm({
                   sticky={false}
                 />
 
-                {solomonMobileLayout && intelligenceResult ? (
+                {useSolomonMobileStack && intelligenceResult ? (
                   <SolomonLeadingHypothesisCard
                     intelligence={intelligenceResult}
                     onOpenReasoning={() => setReasoningSheetOpen(true)}
@@ -1095,17 +1162,10 @@ export default function DiagnosticResultsForm({
               </aside>
 
               <div className="min-w-0 space-y-2 md:col-start-2">
-                {showProcedurePanel ? (
+                {showOemSpecsSurface ? (
                   <SolomonProcedurePanel
-                    recommendations={procedureRecommendations}
-                    catalog={procedureCatalog}
-                    procedureRuns={payload?.procedureRuns || {}}
-                    activeProcedureId={payload?.activeProcedureId || null}
-                    onProcedureRunChange={handleProcedureRunChange}
-                    onActiveProcedureChange={handleActiveProcedureChange}
-                    variant={variant}
+                    {...procedurePanelProps}
                     density="compact"
-                    platformBanner={procedurePlatformBanner}
                   />
                 ) : null}
 
@@ -1136,7 +1196,7 @@ export default function DiagnosticResultsForm({
             </div>
           ) : (
             <>
-              {solomonMobileLayout && intelligenceResult ? (
+              {useSolomonMobileStack && intelligenceResult ? (
                 <SolomonLeadingHypothesisCard
                   intelligence={intelligenceResult}
                   onOpenReasoning={() => setReasoningSheetOpen(true)}
@@ -1145,17 +1205,8 @@ export default function DiagnosticResultsForm({
                 />
               ) : null}
 
-              {showProcedurePanel ? (
-                <SolomonProcedurePanel
-                  recommendations={procedureRecommendations}
-                  catalog={procedureCatalog}
-                  procedureRuns={payload?.procedureRuns || {}}
-                  activeProcedureId={payload?.activeProcedureId || null}
-                  onProcedureRunChange={handleProcedureRunChange}
-                  onActiveProcedureChange={handleActiveProcedureChange}
-                  variant={variant}
-                  platformBanner={procedurePlatformBanner}
-                />
+              {showOemSpecsSurface ? (
+                <SolomonProcedurePanel {...procedurePanelProps} />
               ) : null}
 
               <Wizard
@@ -1210,7 +1261,7 @@ export default function DiagnosticResultsForm({
           ) : null}
           */}
 
-          {routeDiff && !readOnly && !solomonMobileLayout ? (
+          {routeDiff && !readOnly && !useSolomonMobileStack ? (
             <div id="solomon-diagnostic-path-insight" className="scroll-mt-3">
               <ExplainRouteBanner
                 diff={routeDiff}
@@ -1244,7 +1295,7 @@ export default function DiagnosticResultsForm({
             </div>
           ) : null}
 
-          {solomonMobileLayout && intelligenceResult ? (
+          {useSolomonMobileStack && intelligenceResult ? (
             <SolomonReasoningSheet
               open={reasoningSheetOpen}
               onClose={() => setReasoningSheetOpen(false)}
@@ -1318,6 +1369,36 @@ export default function DiagnosticResultsForm({
             />
           )}
 
+          {showOemSpecsSurface ? (
+            <SolomonProcedurePanel {...procedurePanelProps} />
+          ) : null}
+
+          <Wizard
+            steps={steps}
+            context={wizardContext}
+            readOnly={readOnly}
+            variant={variant}
+            resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
+            initialStepId={wizardInitialStepId}
+            initialVisitedStepIds={wizardInitialVisitedStepIds}
+            onAutoSave={handleWizardAutoSave}
+            onStepChange={handleWizardStepChange}
+            onComplete={onSave ? () => void handleWizardComplete() : undefined}
+            completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
+            isCompleting={isSaving}
+            footerExtra={wizardFooterExtra}
+            headerTitle={
+              readOnly
+                ? undefined
+                : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
+            }
+            headerDescription={
+              readOnly
+                ? undefined
+                : 'Complete each step, generate service notes on Review, then save.'
+            }
+          />
+
           {eliminationResult && (
             <EliminationBanner result={eliminationResult} variant={variant} />
           )}
@@ -1360,45 +1441,6 @@ export default function DiagnosticResultsForm({
             variant={variant}
             title="Diagnostic Timeline"
             defaultExpanded={readOnly}
-          />
-
-          {showProcedurePanel ? (
-            <SolomonProcedurePanel
-              recommendations={procedureRecommendations}
-              catalog={procedureCatalog}
-              procedureRuns={payload?.procedureRuns || {}}
-              activeProcedureId={payload?.activeProcedureId || null}
-              onProcedureRunChange={handleProcedureRunChange}
-              onActiveProcedureChange={handleActiveProcedureChange}
-              variant={variant}
-              platformBanner={procedurePlatformBanner}
-            />
-          ) : null}
-
-          <Wizard
-            steps={steps}
-            context={wizardContext}
-            readOnly={readOnly}
-            variant={variant}
-            resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
-            initialStepId={wizardInitialStepId}
-            initialVisitedStepIds={wizardInitialVisitedStepIds}
-            onAutoSave={handleWizardAutoSave}
-            onStepChange={handleWizardStepChange}
-            onComplete={onSave ? () => void handleWizardComplete() : undefined}
-            completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
-            isCompleting={isSaving}
-            footerExtra={wizardFooterExtra}
-            headerTitle={
-              readOnly
-                ? undefined
-                : `${template.label} — ${GUIDED_DIAGNOSTICS_LABEL}`
-            }
-            headerDescription={
-              readOnly
-                ? undefined
-                : 'Complete each step, generate service notes on Review, then save.'
-            }
           />
         </>
       )}

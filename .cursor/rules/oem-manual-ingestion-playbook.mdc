@@ -133,20 +133,50 @@ Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCED
 
 ---
 
+## Manual W10680150 — CCU electric & gas dryer
+
+**Status:** generated (13 procedures + diagnostic-entry bundle)  
+**Platform:** `whirlpool_ccu_dryer` (electric_dryer + gas_dryer)  
+**Source:** `backend/docs/manuals/whirlpool-electric-gas-dryers.pdf`  
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10680150`
+
+| Procedure ID | OEM TEST | templateIds | Tags / codes |
+|--------------|----------|-------------|--------------|
+| `w10680150-ccu-power` | #1 | both | F1E1, F6E1, F6E2 |
+| `w10680150-supply-connections` | #2 | both | F4E4 |
+| `w10680150-motor-circuit` | #3 | both | dryerMotorCircuitOhms |
+| `w10680150-heater-electric` | #4 | electric_dryer only | whirlpoolCcuDryerHeaterOhms ≤50 Ω dual element |
+| `w10680150-heater-gas` | #4 gas | gas_dryer only | orchestration → gas-valve |
+| `w10680150-thermistors` | #4a | both | exhaust + inlet NTC |
+| `w10680150-thermal-fuse` | #4b | both | |
+| `w10680150-thermal-cutoff` | #4c | both | |
+| `w10680150-gas-valve` | #4d | gas_dryer only | gasValveCoilOhms, hotSurfaceIgniterOhms |
+| `w10680150-moisture-sensor` | #5 | both | |
+| `w10680150-dryness-adjust` | #5a | both | |
+| `w10680150-button-indicator` | #6 | both | F2E1–F2E3 |
+| `w10680150-door-switch` | #7 | both | door_switch_check |
+
+**Bundle:** `w10680150-diagnostic-entry` (3-button × 3, LCD Diagnostics Home) — attached to motor, moisture, thermistors, button, door, dryness
+
+**Deferred v1:** TEST #8 drum light, TEST #9 myst/steam valve, diagram crops (page 9 pinout)
+
+**Model routing:** WED83/85 and WGD83/85 → `whirlpool_duet_sport_dryer`; other WED/WGD/MED/MGD → CCU.
+
+---
+
 ## Next manual candidates (not started)
 
 Priority by field volume + extraction already done:
 
-1. **Whirlpool CCU dryer** (`whirlpool_ccu_dryer`) — `DRYER_SERVICE_MANUAL_EXTRACTION.md`; needs `templateIds` gas/electric split like W8178559
-2. **Insignia TDRE dryer** (`insignia_dryer_tdre`) — `INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md`
-3. **Whirlpool dishwasher ACU** — high call volume; extraction docs exist
+1. **Insignia TDRE dryer** (`insignia_dryer_tdre`) — `INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md`
+2. **Whirlpool dishwasher ACU** — high call volume; extraction docs exist
 
-Use family templates: copy W8178559 generator structure for next MCE/CCU dryer manual; extend manifest, don't one-off forever.
+Use family templates: copy W8178559/W10680150 generator structure for next MCE/CCU dryer manual; extend manifest, don't one-off forever.
 
 ---
 
 ## Fix order vs new manuals
 
-See `oem-procedure-layer-integration.mdc`. **Duet Sport washer+dryer ingestion is done.**
+See `oem-procedure-layer-integration.mdc`. **Duet Sport washer+dryer + CCU dryer ingestion done.**
 
-**Recommend next:** Phase 2 WO ungate **shipped** — field smoke-test on WO with make+model (e.g. WFW8300 Whirlpool washer, WED83 electric / WGD83 gas dryer). Then ingest **one** high-volume manual (CCU dryer) before more WO UX polish.
+**Field smoke-test:** WO OEM panel ungated — test with make+model (WFW8300 washer → Duet Sport; WED4815 → CCU electric).

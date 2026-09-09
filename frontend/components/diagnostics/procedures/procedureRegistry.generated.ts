@@ -2,6 +2,7 @@
 // Re-run after adding or removing procedure seed JSON files.
 
 
+import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test from './seed/whirlpool_duet_sport/bundles/w8178558-manual-diagnostic-test.json';
 import whirlpool_duet_sport_dryer_bundles_w8178559_diagnostic_entry from './seed/whirlpool_duet_sport_dryer/bundles/w8178559-diagnostic-entry.json';
@@ -12,6 +13,19 @@ import whirlpool_fl_dd_bundles_w11169652_quick_service_cycle from './seed/whirlp
 import whirlpool_fl_dd_bundles_w11169652_service_diagnostic_entry from './seed/whirlpool_fl_dd/bundles/w11169652-service-diagnostic-entry.json';
 import whirlpool_fl_dd_bundles_w11169652_service_mode from './seed/whirlpool_fl_dd/bundles/w11169652-service-mode.json';
 
+import whirlpool_ccu_dryer_w10680150_button_indicator from './seed/whirlpool_ccu_dryer/w10680150-button-indicator.json';
+import whirlpool_ccu_dryer_w10680150_ccu_power from './seed/whirlpool_ccu_dryer/w10680150-ccu-power.json';
+import whirlpool_ccu_dryer_w10680150_door_switch from './seed/whirlpool_ccu_dryer/w10680150-door-switch.json';
+import whirlpool_ccu_dryer_w10680150_dryness_adjust from './seed/whirlpool_ccu_dryer/w10680150-dryness-adjust.json';
+import whirlpool_ccu_dryer_w10680150_gas_valve from './seed/whirlpool_ccu_dryer/w10680150-gas-valve.json';
+import whirlpool_ccu_dryer_w10680150_heater_electric from './seed/whirlpool_ccu_dryer/w10680150-heater-electric.json';
+import whirlpool_ccu_dryer_w10680150_heater_gas from './seed/whirlpool_ccu_dryer/w10680150-heater-gas.json';
+import whirlpool_ccu_dryer_w10680150_moisture_sensor from './seed/whirlpool_ccu_dryer/w10680150-moisture-sensor.json';
+import whirlpool_ccu_dryer_w10680150_motor_circuit from './seed/whirlpool_ccu_dryer/w10680150-motor-circuit.json';
+import whirlpool_ccu_dryer_w10680150_supply_connections from './seed/whirlpool_ccu_dryer/w10680150-supply-connections.json';
+import whirlpool_ccu_dryer_w10680150_thermal_cutoff from './seed/whirlpool_ccu_dryer/w10680150-thermal-cutoff.json';
+import whirlpool_ccu_dryer_w10680150_thermal_fuse from './seed/whirlpool_ccu_dryer/w10680150-thermal-fuse.json';
+import whirlpool_ccu_dryer_w10680150_thermistors from './seed/whirlpool_ccu_dryer/w10680150-thermistors.json';
 import whirlpool_duet_sport_w8178558_dispenser_motor from './seed/whirlpool_duet_sport/w8178558-dispenser-motor.json';
 import whirlpool_duet_sport_w8178558_door_lock from './seed/whirlpool_duet_sport/w8178558-door-lock.json';
 import whirlpool_duet_sport_w8178558_drain_pump from './seed/whirlpool_duet_sport/w8178558-drain-pump.json';
@@ -57,6 +71,7 @@ import whirlpool_fl_dd_w11169652_test_17_dry_blower from './seed/whirlpool_fl_dd
 import type { ServiceModeBundle, ServiceProcedureSeed } from './types';
 
 export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
+  whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test as ServiceModeBundle,
   whirlpool_duet_sport_dryer_bundles_w8178559_diagnostic_entry as ServiceModeBundle,
@@ -69,6 +84,19 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
 ];
 
 export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
+  whirlpool_ccu_dryer_w10680150_button_indicator as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_ccu_power as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_door_switch as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_dryness_adjust as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_gas_valve as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_heater_electric as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_heater_gas as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_moisture_sensor as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_motor_circuit as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_supply_connections as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_thermal_cutoff as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_thermal_fuse as ServiceProcedureSeed,
+  whirlpool_ccu_dryer_w10680150_thermistors as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_dispenser_motor as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_door_lock as ServiceProcedureSeed,
   whirlpool_duet_sport_w8178558_drain_pump as ServiceProcedureSeed,

@@ -5,8 +5,8 @@ import DiagnosticReviewStep from './steps/DiagnosticReviewStep';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from './shared/createWizardDefinitionFromTemplate';
 import { isStepKeyEnabled } from './routing/routingEngine';
 import {
+  buildStepKeyToIdMap,
   formatPrerequisiteLockMessage,
-  getPrerequisiteStatus,
 } from './routing/prerequisiteEngine';
 import type {
   DiagnosticWizardContext,
@@ -62,14 +62,33 @@ function routingHidden(
   return (context) => !isStepKeyEnabled(context.routing, stepKey);
 }
 
+function titleForStepKey(definition: WizardDefinition, stepKey: string): string {
+  const reviewKey = definition.routing?.reviewStepKey || 'review';
+  if (stepKey === reviewKey) {
+    return definition.reviewStep?.title || 'Review & Save';
+  }
+  const step = definition.defaultSteps.find(
+    (s) => (s.stepKey || s.sectionId) === stepKey,
+  );
+  return step?.title || stepKey;
+}
+
 function prerequisiteLocked(
   stepKey: string,
   definition: WizardDefinition,
   reviewStepId: string,
 ): (args: WizardStepLockArgs<DiagnosticWizardContext>) => boolean {
-  return ({ visitedStepIds }) => {
-    const status = getPrerequisiteStatus(stepKey, definition, visitedStepIds, reviewStepId);
-    return !status.met;
+  return ({ visitedStepIds, context }) => {
+    const required = definition.routing?.prerequisites?.[stepKey] || [];
+    const activeRequired = required.filter((reqKey) => isStepKeyEnabled(context.routing, reqKey));
+    if (!activeRequired.length) return false;
+
+    const stepKeyToId = buildStepKeyToIdMap(definition, reviewStepId);
+    const missing = activeRequired.filter((reqKey) => {
+      const stepId = stepKeyToId[reqKey];
+      return stepId && !visitedStepIds.has(stepId);
+    });
+    return missing.length > 0;
   };
 }
 
@@ -78,10 +97,20 @@ function prerequisiteLockMessage(
   definition: WizardDefinition,
   reviewStepId: string,
 ): (args: WizardStepLockArgs<DiagnosticWizardContext>) => string | null {
-  return ({ visitedStepIds }) => {
-    const status = getPrerequisiteStatus(stepKey, definition, visitedStepIds, reviewStepId);
-    if (status.met) return null;
-    return formatPrerequisiteLockMessage(status.missingTitles);
+  return ({ visitedStepIds, context }) => {
+    const required = definition.routing?.prerequisites?.[stepKey] || [];
+    const activeRequired = required.filter((reqKey) => isStepKeyEnabled(context.routing, reqKey));
+    if (!activeRequired.length) return null;
+
+    const stepKeyToId = buildStepKeyToIdMap(definition, reviewStepId);
+    const missingTitles = activeRequired
+      .filter((reqKey) => {
+        const stepId = stepKeyToId[reqKey];
+        return stepId && !visitedStepIds.has(stepId);
+      })
+      .map((reqKey) => titleForStepKey(definition, reqKey));
+    if (!missingTitles.length) return null;
+    return formatPrerequisiteLockMessage(missingTitles);
   };
 }
 

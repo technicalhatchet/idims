@@ -43,6 +43,21 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w8178559_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w8178559_service_modes.py"
       }
+    },
+    {
+      "manualId": "W10680150",
+      "platformId": "whirlpool_ccu_dryer",
+      "templateId": "electric_dryer",
+      "seedDir": "whirlpool_ccu_dryer",
+      "label": "Whirlpool/Maytag CCU electric & gas dryer (tech sheet W10680150)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_ccu_dryer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10680150_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w10680150_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10680150_service_modes.py"
+      }
     }
   ]
 }

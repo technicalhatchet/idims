@@ -7,6 +7,7 @@ import {
 import { useProcedureRun } from '../diagnostics/procedures/useProcedureRun';
 import ProcedureStepView from '../diagnostics/procedures/ui/ProcedureStepView';
 import ProcedureRunReview from '../diagnostics/procedures/ui/ProcedureRunReview';
+import OemSpecsLoadedBanner from './OemSpecsLoadedBanner';
 import {
   SOLOMON_GLASS_PANEL_CLASS,
   SOLOMON_REFERENCE_EYEBROW_CLASS,
@@ -73,12 +74,6 @@ function ProcedureRunCard({
       >
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-[var(--solomon-text-primary)]">{procedure.title}</p>
-          <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-            {procedure.source.manualId}
-            {procedure.source.oemTestNumber
-              ? ` · ${String(procedure.source.oemTestNumber).includes('-') ? '§' : 'TEST #'}${procedure.source.oemTestNumber}`
-              : ''}
-          </p>
           {showReason && reason ? (
             <p className="mt-1 text-xs leading-relaxed text-[var(--solomon-text-secondary)]">{reason}</p>
           ) : null}
@@ -120,29 +115,23 @@ function ProcedureRunCard({
             </button>
           )}
 
-          {isComplete && runState ? (
-            <ProcedureRunReview
-              procedureId={procedure.id}
-              runState={runState}
-              defaultExpanded
+          {isRunning && currentStep ? (
+            <ProcedureStepView
+              step={currentStep}
+              stepIndex={stepIndex}
+              stepTotal={stepTotal}
+              measurementDraft={measurementDraft}
+              onMeasurementDraftChange={setMeasurementDraft}
+              onSubmitCheckpoint={submitCheckpoint}
+              onSubmitMeasurement={submitMeasurement}
+              onContinue={continueStep}
+              variant={variant}
+              isMobile={isMobile}
             />
           ) : null}
 
-          {isRunning && currentStep ? (
-            <div className={isMobile ? '' : SOLOMON_GLASS_PANEL_CLASS}>
-              <ProcedureStepView
-                step={currentStep}
-                stepIndex={stepIndex}
-                stepTotal={stepTotal}
-                measurementDraft={measurementDraft}
-                onMeasurementDraftChange={setMeasurementDraft}
-                onContinue={continueStep}
-                onCheckpoint={submitCheckpoint}
-                onSubmitMeasurement={submitMeasurement}
-                lastEvaluation={lastResult?.evaluation}
-                matchedBranch={lastResult?.matchedBranch}
-              />
-            </div>
+          {isComplete && lastResult ? (
+            <ProcedureRunReview result={lastResult} variant={variant} />
           ) : null}
         </div>
       ) : null}
@@ -160,6 +149,8 @@ export default function SolomonProcedurePanel({
   variant = 'mobile',
   density = 'default',
   platformBanner = null,
+  showCatalog = true,
+  bannerOnly = false,
 }) {
   const recommendedIds = useMemo(
     () => new Set(recommendations.map((item) => item.procedureId)),
@@ -169,9 +160,6 @@ export default function SolomonProcedurePanel({
     () => catalog.filter((item) => !recommendedIds.has(item.procedureId)),
     [catalog, recommendedIds],
   );
-  const manualId = catalog[0]?.procedure.source.manualId
-    || recommendations[0]?.procedure.source.manualId
-    || null;
 
   const [expandedId, setExpandedId] = useState(activeProcedureId || recommendations[0]?.procedureId || null);
   const [catalogOpen, setCatalogOpen] = useState(false);
@@ -198,56 +186,63 @@ export default function SolomonProcedurePanel({
     [onActiveProcedureChange, onProcedureRunChange],
   );
 
-  if (!recommendations.length && !catalog.length) return null;
+  if (!platformBanner && !recommendations.length && !catalog.length) return null;
 
-  const equipmentLabel = platformBanner?.equipmentMake && platformBanner?.equipmentModel
-    ? `${platformBanner.equipmentMake} ${platformBanner.equipmentModel}`
-    : null;
+  if (bannerOnly) {
+    return (
+      <OemSpecsLoadedBanner
+        platformLabel={platformBanner?.platformLabel}
+        equipmentMake={platformBanner?.equipmentMake}
+        equipmentModel={platformBanner?.equipmentModel}
+        compact={isCompact}
+      />
+    );
+  }
+
+  const hasRunnerContent = recommendations.length > 0 || (showCatalog && catalogOnly.length > 0);
+  if (!hasRunnerContent && platformBanner) {
+    return (
+      <OemSpecsLoadedBanner
+        platformLabel={platformBanner.platformLabel}
+        equipmentMake={platformBanner.equipmentMake}
+        equipmentModel={platformBanner.equipmentModel}
+        compact={isCompact}
+      />
+    );
+  }
 
   return (
     <section className={SOLOMON_GLASS_PANEL_CLASS}>
       {platformBanner ? (
-        <div
-          className={`rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/70 ${
-            isCompact ? 'mb-2 px-2.5 py-2' : 'mb-3 px-3 py-2.5'
-          }`}
-        >
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--solomon-text-muted)]">
-            OEM manual loaded
-          </p>
-          <p className={`font-medium text-[var(--solomon-text-primary)] ${isCompact ? 'mt-0.5 text-xs' : 'mt-1 text-sm'}`}>
-            {platformBanner.platformLabel}
-          </p>
-          <p className={`text-[var(--solomon-text-secondary)] ${isCompact ? 'mt-0.5 text-[11px]' : 'mt-1 text-xs'}`}>
-            {platformBanner.manualId ? `${platformBanner.manualId} · ` : ''}
-            {platformBanner.procedureCount} OEM test{platformBanner.procedureCount === 1 ? '' : 's'}
-            {equipmentLabel ? ` · ${equipmentLabel}` : ''}
-          </p>
-        </div>
+        <OemSpecsLoadedBanner
+          platformLabel={platformBanner.platformLabel}
+          equipmentMake={platformBanner.equipmentMake}
+          equipmentModel={platformBanner.equipmentModel}
+          compact={isCompact}
+          className={isCompact ? 'mb-2' : 'mb-3'}
+        />
       ) : null}
-
-      <p className={SOLOMON_REFERENCE_EYEBROW_CLASS}>OEM service procedures</p>
-      <p className={`text-[var(--solomon-text-secondary)] ${isCompact ? 'mt-1 text-xs' : 'mt-1.5 text-sm'}`}>
-        Platform-matched tests from the service manual — step through with wire colors and service mode entry.
-      </p>
 
       {recommendations.length ? (
-        <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-3'}`}>
-          {recommendations.map((recommendation) => (
-            <ProcedureRunCard
-              key={recommendation.procedureId}
-              recommendation={recommendation}
-              savedRunState={procedureRuns[recommendation.procedureId] || null}
-              isExpanded={expandedId === recommendation.procedureId}
-              onToggle={() => handleToggle(recommendation.procedureId)}
-              onRunStateChange={handleRunStateChange}
-              variant={variant}
-            />
-          ))}
-        </div>
+        <>
+          <p className={SOLOMON_REFERENCE_EYEBROW_CLASS}>Recommended OEM test</p>
+          <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-3'}`}>
+            {recommendations.map((recommendation) => (
+              <ProcedureRunCard
+                key={recommendation.procedureId}
+                recommendation={recommendation}
+                savedRunState={procedureRuns[recommendation.procedureId] || null}
+                isExpanded={expandedId === recommendation.procedureId}
+                onToggle={() => handleToggle(recommendation.procedureId)}
+                onRunStateChange={handleRunStateChange}
+                variant={variant}
+              />
+            ))}
+          </div>
+        </>
       ) : null}
 
-      {catalogOnly.length ? (
+      {showCatalog && catalogOnly.length ? (
         <div className={recommendations.length ? (isCompact ? 'mt-3' : 'mt-4') : (isCompact ? 'mt-2' : 'mt-3')}>
           {recommendations.length ? (
             <button
@@ -257,10 +252,10 @@ export default function SolomonProcedurePanel({
             >
               <div className="min-w-0">
                 <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
-                  All OEM tests{manualId ? ` (${manualId})` : ''}
+                  All OEM tests
                 </p>
                 <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-                  Browse {catalogOnly.length} manual tests
+                  Browse manual tests
                 </p>
               </div>
               <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
@@ -269,7 +264,7 @@ export default function SolomonProcedurePanel({
             </button>
           ) : (
             <p className="text-xs text-[var(--solomon-text-secondary)]">
-              {manualId ? `${manualId} · ` : ''}{catalogOnly.length} OEM tests
+              Manual tests available for this platform
             </p>
           )}
 
